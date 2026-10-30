@@ -308,7 +308,7 @@ import {
   DeviceServiceState,
   DeviceSession,
   DeviceShutdownInput,
-} from "./device.ts";
+} from "./device.vibe";
 import {
   ServerConfigStreamEvent,
   DesktopUpdateCommitInput,

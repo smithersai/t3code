@@ -1,22 +1,20 @@
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
-import * as SchemaTransformation from "effect/SchemaTransformation";
+import * as Effect from "effect/Effect"
+import * as Schema from "effect/Schema"
 
-import { ThreadId, TrimmedNonEmptyString, TrimmedString } from "./baseSchemas.ts";
+import { ThreadId, TrimmedNonEmptyString, TrimmedString } from "./baseSchemas.ts"
 
-export const DevicePlatform = Schema.Literals(["ios", "android"]);
-export type DevicePlatform = typeof DevicePlatform.Type;
+export schema DevicePlatform = "ios" | "android"
 
-export const DeviceHostId = TrimmedNonEmptyString.check(Schema.isMaxLength(128));
-export type DeviceHostId = typeof DeviceHostId.Type;
+export const DeviceHostId = TrimmedNonEmptyString.check(Schema.isMaxLength(128))
+export type DeviceHostId = typeof DeviceHostId.Type
 
-export const LOCAL_DEVICE_HOST_ID = "local" as DeviceHostId;
-export const LOCAL_DEVICE_HOST_LABEL = "This machine";
+export const LOCAL_DEVICE_HOST_ID = "local" as DeviceHostId
+export const LOCAL_DEVICE_HOST_LABEL = "This machine"
 
 const ConfiguredDeviceHostId = DeviceHostId.check(
   Schema.isPattern(/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/),
   Schema.makeFilter((id) => id !== "local" || "The local host id is reserved."),
-);
+)
 
 export const SshDeviceHostConfig = Schema.Struct({
   // Hosts saved before EAS hosts existed carry no kind.
@@ -26,8 +24,8 @@ export const SshDeviceHostConfig = Schema.Struct({
   target: TrimmedNonEmptyString.check(Schema.isPattern(/^[^\s-][^\s]*$/)),
   identityFile: Schema.optional(TrimmedNonEmptyString),
   port: Schema.optional(Schema.Int.check(Schema.isBetween({ minimum: 1, maximum: 65535 }))),
-});
-export type SshDeviceHostConfig = typeof SshDeviceHostConfig.Type;
+})
+export type SshDeviceHostConfig = typeof SshDeviceHostConfig.Type
 
 /**
  * Cloud simulators from EAS Simulator. Sessions bill the Expo account until
@@ -62,42 +60,41 @@ export const EasDeviceHostConfig = Schema.Struct({
   // EAS requires the idle limit to be smaller than the session limit.
   Schema.makeFilter(
     (host: { readonly idleMinutes: number; readonly maxSessionMinutes: number }) =>
-      host.idleMinutes < host.maxSessionMinutes ||
-      "Idle minutes must be smaller than session minutes.",
+      host.idleMinutes < host.maxSessionMinutes
+      || "Idle minutes must be smaller than session minutes.",
   ),
-);
-export type EasDeviceHostConfig = typeof EasDeviceHostConfig.Type;
+)
+export type EasDeviceHostConfig = typeof EasDeviceHostConfig.Type
 
-export type DeviceHostConfig = SshDeviceHostConfig | EasDeviceHostConfig;
+export type DeviceHostConfig = SshDeviceHostConfig | EasDeviceHostConfig
 
 const uniqueHostIds = Schema.makeFilter(
   (hosts: ReadonlyArray<{ readonly id: string }>) =>
-    new Set(hosts.map((host) => host.id)).size === hosts.length ||
-    "Device host ids must be unique.",
-);
+    new Set(hosts.map((host) => host.id)).size === hosts.length
+    || "Device host ids must be unique.",
+)
 
-export const SshDeviceHostConfigs = Schema.Array(SshDeviceHostConfig).check(uniqueHostIds);
+export const SshDeviceHostConfigs = Schema.Array(SshDeviceHostConfig).check(uniqueHostIds)
 
 /**
  * Kept apart from the SSH hosts in settings: servers and clients from before
  * EAS hosts decode `deviceHosts` as SSH hosts and would reject the whole file
  * or snapshot over one EAS entry.
  */
-export const EasDeviceHostConfigs = Schema.Array(EasDeviceHostConfig).check(uniqueHostIds);
+export const EasDeviceHostConfigs = Schema.Array(EasDeviceHostConfig).check(uniqueHostIds)
 
 export const DeviceEasAccountInput = Schema.Struct({
   /** A saved EAS host whose stored token is checked when no new token is given. */
   hostId: Schema.optional(DeviceHostId),
   accessToken: Schema.optional(TrimmedString),
-});
-export type DeviceEasAccountInput = typeof DeviceEasAccountInput.Type;
+})
+export type DeviceEasAccountInput = typeof DeviceEasAccountInput.Type
 
-export const DeviceEasAccount = Schema.Struct({
-  signedInAs: Schema.String,
-  credentialSource: Schema.Literals(["settings", "env", "eas-login"]),
-  apps: Schema.Array(Schema.Struct({ id: Schema.String, fullName: Schema.String })),
-});
-export type DeviceEasAccount = typeof DeviceEasAccount.Type;
+export schema DeviceEasAccount {
+  signedInAs: string
+  credentialSource: "settings" | "env" | "eas-login"
+  apps: ReadonlyArray<{ id: string; fullName: string }>
+}
 
 /** Checking an Expo credential failed; no device host is involved yet. */
 export class DeviceEasAccountError extends Schema.TaggedError<DeviceEasAccountError>()(
@@ -106,43 +103,40 @@ export class DeviceEasAccountError extends Schema.TaggedError<DeviceEasAccountEr
   { reason: Schema.String },
 ) {
   override get message(): string {
-    return this.reason;
+    return this.reason
   }
 }
 
-export const DeviceId = TrimmedNonEmptyString.check(Schema.isMaxLength(256));
-export type DeviceId = typeof DeviceId.Type;
+export const DeviceId = TrimmedNonEmptyString.check(Schema.isMaxLength(256))
+export type DeviceId = typeof DeviceId.Type
 
-export const DeviceSummary = Schema.Struct({
-  hostId: DeviceHostId,
-  id: DeviceId,
-  platform: DevicePlatform,
-  name: TrimmedNonEmptyString,
-  version: Schema.String,
-  booted: Schema.Boolean,
-  physical: Schema.Boolean,
-});
-export type DeviceSummary = typeof DeviceSummary.Type;
+export schema DeviceSummary {
+  hostId: DeviceHostId
+  id: DeviceId
+  platform: DevicePlatform
+  name: TrimmedNonEmptyString
+  version: string
+  booted: boolean
+  physical: boolean
+}
 
-export const DevicePlatformAvailability = Schema.Struct({
-  platform: DevicePlatform,
-  available: Schema.Boolean,
-  reason: Schema.optional(Schema.String),
-});
-export type DevicePlatformAvailability = typeof DevicePlatformAvailability.Type;
+export schema DevicePlatformAvailability {
+  platform: DevicePlatform
+  available: boolean
+  reason?: string
+}
 
 export const DeviceToolVersion = Schema.Struct({
   requiredVersion: Schema.String,
   installedVersions: Schema.Array(Schema.String),
   runningVersion: Schema.NullOr(Schema.String),
-});
-export type DeviceToolVersion = typeof DeviceToolVersion.Type;
+})
+export type DeviceToolVersion = typeof DeviceToolVersion.Type
 
-export const DeviceToolVersions = Schema.Struct({
-  hub: DeviceToolVersion,
-  agent: DeviceToolVersion,
-});
-export type DeviceToolVersions = typeof DeviceToolVersions.Type;
+export schema DeviceToolVersions {
+  hub: DeviceToolVersion
+  agent: DeviceToolVersion
+}
 
 const deviceHostSummaryFields = {
   id: DeviceHostId,
@@ -152,36 +146,26 @@ const deviceHostSummaryFields = {
   toolInspectionError: Schema.optional(Schema.String),
   hubInstalled: Schema.Boolean,
   agentDeviceInstalled: Schema.Boolean,
-};
+}
 const MachineDeviceHostSummary = Schema.Struct({
   ...deviceHostSummaryFields,
   kind: Schema.Literals(["local", "ssh"]),
-});
+})
 const EasDeviceHostSummary = Schema.Struct({
   ...deviceHostSummaryFields,
   kind: Schema.Literal("eas"),
-});
-export const DeviceHostSummary = Schema.Union([MachineDeviceHostSummary, EasDeviceHostSummary]);
-export type DeviceHostSummary = typeof DeviceHostSummary.Type;
+})
+export schema DeviceHostSummary = MachineDeviceHostSummary | EasDeviceHostSummary
 
-export const DeviceHostStatus = Schema.Literals([
-  "disabled",
-  "idle",
-  "installing",
-  "starting",
-  "ready",
-  "failed",
-]);
-export type DeviceHostStatus = typeof DeviceHostStatus.Type;
+export schema DeviceHostStatus = "disabled" | "idle" | "installing" | "starting" | "ready" | "failed"
 
-export const DeviceSession = Schema.Struct({
-  threadId: ThreadId,
-  hostId: DeviceHostId,
-  deviceId: DeviceId,
-  platform: DevicePlatform,
-  openedAt: Schema.String,
-});
-export type DeviceSession = typeof DeviceSession.Type;
+export schema DeviceSession {
+  threadId: ThreadId
+  hostId: DeviceHostId
+  deviceId: DeviceId
+  platform: DevicePlatform
+  openedAt: string
+}
 
 export const DeviceHostStatuses = Schema.Record(
   DeviceHostId,
@@ -190,7 +174,7 @@ export const DeviceHostStatuses = Schema.Record(
     detail: Schema.optional(Schema.String),
     androidDiscoveryIncomplete: Schema.optional(Schema.Boolean),
   }),
-);
+)
 
 const deviceServiceStateFields = {
   supportsHostRetry: Schema.optional(Schema.Boolean),
@@ -210,7 +194,7 @@ const deviceServiceStateFields = {
   agentAccessEnabled: Schema.Boolean,
   hubBasePath: Schema.String,
   revision: Schema.Int,
-};
+}
 
 /**
  * EAS host summaries travel as `easHosts`: clients from before EAS hosts
@@ -221,11 +205,11 @@ const DeviceServiceStateWire = Schema.Struct({
   ...deviceServiceStateFields,
   hosts: Schema.Array(MachineDeviceHostSummary),
   easHosts: Schema.optional(Schema.Array(EasDeviceHostSummary)),
-});
+})
 const DeviceServiceStateDecoded = Schema.Struct({
   ...deviceServiceStateFields,
   hosts: Schema.Array(DeviceHostSummary),
-});
+})
 
 export const DeviceServiceState = DeviceServiceStateWire.pipe(
   Schema.decodeTo(
@@ -249,22 +233,20 @@ export const DeviceServiceState = DeviceServiceStateWire.pipe(
       }),
     }),
   ),
-);
-export type DeviceServiceState = typeof DeviceServiceState.Type;
+)
+export type DeviceServiceState = typeof DeviceServiceState.Type
 
-export const DeviceListInput = Schema.Struct({
-  updateTool: Schema.optional(Schema.Literals(["hub", "agent"])),
-  inspectOnly: Schema.optional(Schema.Boolean),
-  retryHostId: Schema.optional(DeviceHostId),
-});
-export type DeviceListInput = typeof DeviceListInput.Type;
+export schema DeviceListInput {
+  updateTool?: "hub" | "agent"
+  inspectOnly?: boolean
+  retryHostId?: DeviceHostId
+}
 
-export const DeviceConfigureInput = Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
-  agentAccessEnabled: Schema.optional(Schema.Boolean),
-  onboardingCompleted: Schema.optional(Schema.Boolean),
-});
-export type DeviceConfigureInput = typeof DeviceConfigureInput.Type;
+export schema DeviceConfigureInput {
+  enabled?: boolean
+  agentAccessEnabled?: boolean
+  onboardingCompleted?: boolean
+}
 
 export const DeviceOpenInput = Schema.Struct({
   threadId: ThreadId,
@@ -273,8 +255,8 @@ export const DeviceOpenInput = Schema.Struct({
   platform: DevicePlatform,
   /** Boot the simulator or emulator when it is not running. Defaults to true. */
   boot: Schema.optional(Schema.Boolean),
-});
-export type DeviceOpenInput = typeof DeviceOpenInput.Type;
+})
+export type DeviceOpenInput = typeof DeviceOpenInput.Type
 
 export const DeviceCloseInput = Schema.Struct({
   hostId: Schema.optional(DeviceHostId),
@@ -283,38 +265,22 @@ export const DeviceCloseInput = Schema.Struct({
   deviceId: Schema.optional(DeviceId),
   /** Also shut the simulator or emulator down. Defaults to false. */
   shutdown: Schema.optional(Schema.Boolean),
-});
-export type DeviceCloseInput = typeof DeviceCloseInput.Type;
+})
+export type DeviceCloseInput = typeof DeviceCloseInput.Type
 
-export const DeviceShutdownInput = Schema.Struct({
-  hostId: Schema.optional(DeviceHostId),
-  deviceId: DeviceId,
-  platform: DevicePlatform,
-});
-export type DeviceShutdownInput = typeof DeviceShutdownInput.Type;
+export schema DeviceShutdownInput {
+  hostId?: DeviceHostId
+  deviceId: DeviceId
+  platform: DevicePlatform
+}
 
-export const DeviceAppearance = Schema.Literals(["light", "dark"]);
-export type DeviceAppearance = typeof DeviceAppearance.Type;
+export schema DeviceAppearance = "light" | "dark"
 
-export const DeviceTextSize = Schema.Literals(["small", "default", "large", "extra-large"]);
-export type DeviceTextSize = typeof DeviceTextSize.Type;
+export schema DeviceTextSize = "small" | "default" | "large" | "extra-large"
 
-export const DeviceColorFilter = Schema.Literals([
-  "none",
-  "grayscale",
-  "red-green",
-  "green-red",
-  "blue-yellow",
-]);
-export type DeviceColorFilter = typeof DeviceColorFilter.Type;
+export schema DeviceColorFilter = "none" | "grayscale" | "red-green" | "green-red" | "blue-yellow"
 
-export const DeviceOrientation = Schema.Literals([
-  "portrait",
-  "landscape_left",
-  "portrait_upside_down",
-  "landscape_right",
-]);
-export type DeviceOrientation = typeof DeviceOrientation.Type;
+export schema DeviceOrientation = "portrait" | "landscape_left" | "portrait_upside_down" | "landscape_right"
 
 export const DeviceSettings = Schema.Struct({
   appearance: Schema.optional(DeviceAppearance),
@@ -330,15 +296,14 @@ export const DeviceSettings = Schema.Struct({
   location: Schema.optional(
     Schema.NullOr(Schema.Struct({ latitude: Schema.Number, longitude: Schema.Number })),
   ),
-});
-export type DeviceSettings = typeof DeviceSettings.Type;
+})
+export type DeviceSettings = typeof DeviceSettings.Type
 
-export const DeviceForegroundApp = Schema.Struct({
-  id: Schema.String,
-  name: Schema.optional(Schema.String),
-  version: Schema.optional(Schema.String),
-});
-export type DeviceForegroundApp = typeof DeviceForegroundApp.Type;
+export schema DeviceForegroundApp {
+  id: string
+  name?: string
+  version?: string
+}
 
 export const DeviceDetail = Schema.Struct({
   hostId: DeviceHostId,
@@ -346,28 +311,26 @@ export const DeviceDetail = Schema.Struct({
   settings: DeviceSettings,
   foregroundApp: Schema.NullOr(DeviceForegroundApp),
   readAt: Schema.String,
-});
-export type DeviceDetail = typeof DeviceDetail.Type;
+})
+export type DeviceDetail = typeof DeviceDetail.Type
 
-export const DevicePermission = Schema.Literals([
-  "camera",
-  "microphone",
-  "photos",
-  "contacts",
-  "calendar",
-  "reminders",
-  "location",
-  "notifications",
-  "motion",
-  "media-library",
-  "faceid",
-]);
-export type DevicePermission = typeof DevicePermission.Type;
+export schema DevicePermission =
+  | "camera"
+  | "microphone"
+  | "photos"
+  | "contacts"
+  | "calendar"
+  | "reminders"
+  | "location"
+  | "notifications"
+  | "motion"
+  | "media-library"
+  | "faceid"
 
 const DeviceTarget = {
   hostId: Schema.optional(DeviceHostId),
   deviceId: DeviceId,
-};
+}
 
 export const DeviceActionInput = Schema.Union([
   Schema.Struct({
@@ -436,12 +399,12 @@ export const DeviceActionInput = Schema.Union([
     appId: TrimmedNonEmptyString,
     payload: Schema.Union([Schema.String, Schema.Record(Schema.String, Schema.Unknown)]),
   }),
-]);
-export type DeviceActionInput = typeof DeviceActionInput.Type;
-export type DeviceActionType = DeviceActionInput["type"];
+])
+export type DeviceActionInput = typeof DeviceActionInput.Type
+export type DeviceActionType = DeviceActionInput["type"]
 
-export const DeviceDetailInput = Schema.Struct(DeviceTarget);
-export type DeviceDetailInput = typeof DeviceDetailInput.Type;
+export const DeviceDetailInput = Schema.Struct(DeviceTarget)
+export type DeviceDetailInput = typeof DeviceDetailInput.Type
 
 export class DeviceHostUnavailableError extends Schema.TaggedError<DeviceHostUnavailableError>()(
   "DeviceHostUnavailableError",
@@ -454,7 +417,7 @@ export class DeviceHostUnavailableError extends Schema.TaggedError<DeviceHostUna
   },
 ) {
   override get message(): string {
-    return `${this.hostLabel ?? `Device host ${this.hostId}`} is unavailable: ${this.reason}`;
+    return `${this.hostLabel ?? `Device host ${this.hostId}`} is unavailable: ${this.reason}`
   }
 }
 
@@ -467,7 +430,7 @@ export class DevicePlatformUnavailableError extends Schema.TaggedError<DevicePla
   },
 ) {
   override get message(): string {
-    return `${this.platform} devices are unavailable on host ${this.hostId}: ${this.reason}`;
+    return `${this.platform} devices are unavailable on host ${this.hostId}: ${this.reason}`
   }
 }
 
@@ -479,7 +442,7 @@ export class DeviceNotFoundError extends Schema.TaggedError<DeviceNotFoundError>
   },
 ) {
   override get message(): string {
-    return `Device ${this.deviceId} was not found on host ${this.hostId}.`;
+    return `Device ${this.deviceId} was not found on host ${this.hostId}.`
   }
 }
 
@@ -494,11 +457,10 @@ export class DeviceBootError extends Schema.TaggedError<DeviceBootError>()("Devi
     const explanation = {
       disk_space: "There is not enough free disk space on the environment server.",
       timeout: "The device did not become ready in time.",
-      launch_failed:
-        "The simulator or emulator could not start. Check its configuration on the environment server.",
-    }[this.reason];
-    const summary = `Device ${this.deviceId} failed to boot: ${explanation}`;
-    return this.diagnostics ? `${summary}\n\n${this.diagnostics}` : summary;
+      launch_failed: "The simulator or emulator could not start. Check its configuration on the environment server.",
+    }[this.reason]
+    const summary = `Device ${this.deviceId} failed to boot: ${explanation}`
+    return this.diagnostics ? `${summary}\n\n${this.diagnostics}` : summary
   }
 }
 
@@ -524,8 +486,8 @@ export class DeviceOperationError extends Schema.TaggedError<DeviceOperationErro
       invalid_payload: "The device request could not be encoded.",
       settings_failed: "Could not read or save device settings.",
       hub_rejected: "The device hub could not complete the request.",
-    }[this.reason];
-    return `Device ${this.operation} failed: ${explanation}`;
+    }[this.reason]
+    return `Device ${this.operation} failed: ${explanation}`
   }
 }
 
@@ -540,27 +502,24 @@ export class DeviceActionUnavailableError extends Schema.TaggedError<DeviceActio
   override get message(): string {
     return this.reason === "helper_missing"
       ? `Device ${this.operation} requires a helper missing from this install. Set up device support again.`
-      : `Device ${this.operation} is not supported on ${this.platform}.`;
+      : `Device ${this.operation} is not supported on ${this.platform}.`
   }
 }
 
-export const DeviceError = Schema.Union([
-  DeviceHostUnavailableError,
-  DevicePlatformUnavailableError,
-  DeviceNotFoundError,
-  DeviceBootError,
-  DeviceOperationError,
-  DeviceActionUnavailableError,
-]);
-export type DeviceError = typeof DeviceError.Type;
+export schema DeviceError =
+  | DeviceHostUnavailableError
+  | DevicePlatformUnavailableError
+  | DeviceNotFoundError
+  | DeviceBootError
+  | DeviceOperationError
+  | DeviceActionUnavailableError
 
-export const DeviceToolListResult = Schema.Struct({
-  hostStatuses: DeviceHostStatuses,
-  hosts: Schema.Array(DeviceHostSummary),
-  devices: Schema.Array(DeviceSummary),
-  open: Schema.Array(Schema.Struct({ hostId: DeviceHostId, deviceId: DeviceId })),
-});
-export type DeviceToolListResult = typeof DeviceToolListResult.Type;
+export schema DeviceToolListResult {
+  hostStatuses: DeviceHostStatuses
+  hosts: ReadonlyArray<DeviceHostSummary>
+  devices: ReadonlyArray<DeviceSummary>
+  open: ReadonlyArray<{ hostId: DeviceHostId; deviceId: DeviceId }>
+}
 
 export const DeviceToolOpenInput = Schema.Struct({
   deviceId: Schema.optional(
@@ -576,18 +535,17 @@ export const DeviceToolOpenInput = Schema.Struct({
   hostId: Schema.optional(
     DeviceHostId.annotate({ description: "Host from `device_list`. Default local." }),
   ),
-});
-export type DeviceToolOpenInput = typeof DeviceToolOpenInput.Type;
+})
+export type DeviceToolOpenInput = typeof DeviceToolOpenInput.Type
 
-export const DeviceToolOpenResult = Schema.Struct({
-  device: DeviceSummary,
-  agentDevice: Schema.Struct({
-    command: Schema.String,
-    targetArgs: Schema.Array(Schema.String),
-  }),
-  quickStart: Schema.String,
-});
-export type DeviceToolOpenResult = typeof DeviceToolOpenResult.Type;
+export schema DeviceToolOpenResult {
+  device: DeviceSummary
+  agentDevice: {
+    command: string
+    targetArgs: ReadonlyArray<string>
+  }
+  quickStart: string
+}
 
 export const DeviceToolTargetInput = Schema.Struct({
   deviceId: Schema.optional(
@@ -596,19 +554,18 @@ export const DeviceToolTargetInput = Schema.Struct({
     }),
   ),
   hostId: Schema.optional(DeviceHostId),
-});
-export type DeviceToolTargetInput = typeof DeviceToolTargetInput.Type;
+})
+export type DeviceToolTargetInput = typeof DeviceToolTargetInput.Type
 
-export const DeviceToolScreenshotResult = Schema.Struct({
-  device: DeviceSummary,
-  screenshot: Schema.Struct({
-    mimeType: Schema.Literal("image/png"),
-    data: Schema.String,
-    width: Schema.Int,
-    height: Schema.Int,
-  }),
-});
-export type DeviceToolScreenshotResult = typeof DeviceToolScreenshotResult.Type;
+export schema DeviceToolScreenshotResult {
+  device: DeviceSummary
+  screenshot: {
+    mimeType: "image/png"
+    data: string
+    width: Schema.Int
+    height: Schema.Int
+  }
+}
 
 export const DeviceToolCloseInput = Schema.Struct({
   deviceId: Schema.optional(
@@ -622,8 +579,8 @@ export const DeviceToolCloseInput = Schema.Struct({
       description: "Also turn it off. Default false.",
     }),
   ),
-});
-export type DeviceToolCloseInput = typeof DeviceToolCloseInput.Type;
+})
+export type DeviceToolCloseInput = typeof DeviceToolCloseInput.Type
 
 export class DeviceToolUnavailableError extends Schema.TaggedError<DeviceToolUnavailableError>()(
   "DeviceToolUnavailableError",
@@ -633,27 +590,24 @@ export class DeviceToolUnavailableError extends Schema.TaggedError<DeviceToolUna
   },
 ) {
   override get message(): string {
-    return this.reason;
+    return this.reason
   }
 }
 
-export const DeviceToolError = Schema.Union([
-  DeviceToolUnavailableError,
-  DeviceHostUnavailableError,
-  DevicePlatformUnavailableError,
-  DeviceNotFoundError,
-  DeviceBootError,
-  DeviceOperationError,
-  DeviceActionUnavailableError,
-]);
-export type DeviceToolError = typeof DeviceToolError.Type;
+export schema DeviceToolError =
+  | DeviceToolUnavailableError
+  | DeviceHostUnavailableError
+  | DevicePlatformUnavailableError
+  | DeviceNotFoundError
+  | DeviceBootError
+  | DeviceOperationError
+  | DeviceActionUnavailableError
 
-export function deviceToolInstallMessage(name: string, tool: DeviceToolVersion | undefined) {
-  if (!tool) return `Installing ${name}…`;
-  const previous =
-    tool.runningVersion ??
-    [...tool.installedVersions].sort((a, b) => a.localeCompare(b, "en", { numeric: true })).at(-1);
+export function deviceToolInstallMessage(name: string, tool: DeviceToolVersion | undefined): infer _ {
+  if (!tool) return `Installing ${name}…`
+  const previous = tool.runningVersion
+    ?? [...tool.installedVersions].sort((a, b) => a.localeCompare(b, "en", { numeric: true })).at(-1)
   return previous && !tool.installedVersions.includes(tool.requiredVersion)
     ? `Updating ${name} from ${previous} to ${tool.requiredVersion}…`
-    : `Installing ${name} ${tool.requiredVersion}…`;
+    : `Installing ${name} ${tool.requiredVersion}…`
 }
