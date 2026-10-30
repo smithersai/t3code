@@ -51,7 +51,7 @@ export * from "./editor.vibe";
 export * from "./project.ts";
 export * from "./filesystem.ts";
 export * from "./agentSessions.vibe";
-export * from "./assets.ts";
+export * from "./assets.vibe";
 export * from "./review.vibe";
 export * from "./mcpApps.vibe";
 export * from "./browserImport.ts";
