@@ -1,30 +1,16 @@
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+import * as Schema from "effect/Schema"
 
-import {
-  EnvironmentId,
-  ForwardCompatibleOptional,
-  ProjectId,
-  ThreadId,
-  TrimmedNonEmptyString,
-} from "./baseSchemas.ts";
-import { SourceControlProviderKind } from "./sourceControl.vibe";
+import { EnvironmentId, ForwardCompatibleOptional, ProjectId, ThreadId, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { SourceControlProviderKind } from "./sourceControl.vibe"
 
-export const ORCHESTRATION_PROTOCOL_VERSION = 2;
-export const ORCHESTRATION_PROTOCOL_VERSION_TEXT = "2";
-export const ORCHESTRATION_PROTOCOL_QUERY_PARAM = "orchestrationProtocol";
-export const ORCHESTRATION_PROTOCOL_HEADER = "x-t3-orchestration-protocol";
+export const ORCHESTRATION_PROTOCOL_VERSION = 2
+export const ORCHESTRATION_PROTOCOL_VERSION_TEXT = "2"
+export const ORCHESTRATION_PROTOCOL_QUERY_PARAM = "orchestrationProtocol"
+export const ORCHESTRATION_PROTOCOL_HEADER = "x-t3-orchestration-protocol"
 
-export const ExecutionEnvironmentPlatformOs = Schema.Literals([
-  "darwin",
-  "linux",
-  "windows",
-  "unknown",
-]);
-export type ExecutionEnvironmentPlatformOs = typeof ExecutionEnvironmentPlatformOs.Type;
+export schema ExecutionEnvironmentPlatformOs = "darwin" | "linux" | "windows" | "unknown"
 
-export const ExecutionEnvironmentPlatformArch = Schema.Literals(["arm64", "x64", "other"]);
-export type ExecutionEnvironmentPlatformArch = typeof ExecutionEnvironmentPlatformArch.Type;
+export schema ExecutionEnvironmentPlatformArch = "arm64" | "x64" | "other"
 
 export const ENVIRONMENT_MACHINE_KINDS = [
   "server",
@@ -34,40 +20,31 @@ export const ENVIRONMENT_MACHINE_KINDS = [
   "laptop",
   "mac-mini",
   "mac-studio",
-] as const;
-export const EnvironmentMachineKind = Schema.Literals(ENVIRONMENT_MACHINE_KINDS);
-export type EnvironmentMachineKind = typeof EnvironmentMachineKind.Type;
-export const isEnvironmentMachineKind = Schema.is(EnvironmentMachineKind);
+] as const
+export const EnvironmentMachineKind = Schema.Literals(ENVIRONMENT_MACHINE_KINDS)
+export type EnvironmentMachineKind = typeof EnvironmentMachineKind.Type
+export const isEnvironmentMachineKind = Schema.is(EnvironmentMachineKind)
 
 export const ExecutionEnvironmentPlatform = Schema.Struct({
   os: ExecutionEnvironmentPlatformOs,
   arch: ExecutionEnvironmentPlatformArch,
   machine: ForwardCompatibleOptional(EnvironmentMachineKind),
-});
+})
 
 // Kept outside settings.ts to avoid an orchestration import cycle.
-export const ThreadEnvMode = Schema.Literals(["local", "worktree"]);
-export type ThreadEnvMode = typeof ThreadEnvMode.Type;
+export schema ThreadEnvMode = "local" | "worktree"
 
-export const WorktreeSubmodules = Schema.Literals(["recursive", "top-level", "none"]);
-export type WorktreeSubmodules = typeof WorktreeSubmodules.Type;
-export type ExecutionEnvironmentPlatform = typeof ExecutionEnvironmentPlatform.Type;
+export schema WorktreeSubmodules = "recursive" | "top-level" | "none"
+export type ExecutionEnvironmentPlatform = typeof ExecutionEnvironmentPlatform.Type
 
-export const ServerSelfUpdateMethod = Schema.Literals(["boot-service", "respawn", "desktop-app"]);
-export type ServerSelfUpdateMethod = typeof ServerSelfUpdateMethod.Type;
+export schema ServerSelfUpdateMethod = "boot-service" | "respawn" | "desktop-app"
 
-export const ServerInstallation = Schema.Union([
-  Schema.Struct({ kind: Schema.Literals(["npx", "pnpm-dlx", "bunx"]) }),
-  Schema.Struct({ kind: Schema.Literal("npm-global"), prefix: TrimmedNonEmptyString }),
-]);
-export type ServerInstallation = typeof ServerInstallation.Type;
+export schema ServerInstallation = { kind: "npx" | "pnpm-dlx" | "bunx" } | {
+  kind: "npm-global"
+  prefix: TrimmedNonEmptyString
+}
 
-export const ServerSelfUpdateCapability = Schema.Literals([
-  "boot-service",
-  "respawn",
-  "desktop-managed",
-]);
-export type ServerSelfUpdateCapability = typeof ServerSelfUpdateCapability.Type;
+export schema ServerSelfUpdateCapability = "boot-service" | "respawn" | "desktop-managed"
 
 export const ExecutionEnvironmentCapabilities = Schema.Struct({
   repositoryIdentity: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(false))),
@@ -150,8 +127,8 @@ export const ExecutionEnvironmentCapabilities = Schema.Struct({
   linkFence: Schema.optionalKey(Schema.Boolean),
   /** Server answers server.prepareTriage. */
   triage: Schema.optionalKey(Schema.Boolean),
-});
-export type ExecutionEnvironmentCapabilities = typeof ExecutionEnvironmentCapabilities.Type;
+})
+export type ExecutionEnvironmentCapabilities = typeof ExecutionEnvironmentCapabilities.Type
 
 export const ExecutionEnvironmentDescriptor = Schema.Struct({
   environmentId: EnvironmentId,
@@ -160,22 +137,21 @@ export const ExecutionEnvironmentDescriptor = Schema.Struct({
   serverVersion: TrimmedNonEmptyString,
   orchestrationProtocolVersion: Schema.optionalKey(Schema.Int),
   capabilities: ExecutionEnvironmentCapabilities,
-});
-export type ExecutionEnvironmentDescriptor = typeof ExecutionEnvironmentDescriptor.Type;
+})
+export type ExecutionEnvironmentDescriptor = typeof ExecutionEnvironmentDescriptor.Type
 
-export const RepositoryIdentityLocator = Schema.Struct({
-  source: Schema.Literal("git-remote"),
-  remoteName: TrimmedNonEmptyString,
-  remoteUrl: TrimmedNonEmptyString,
-});
-export type RepositoryIdentityLocator = typeof RepositoryIdentityLocator.Type;
+export schema RepositoryIdentityLocator {
+  source: "git-remote"
+  remoteName: TrimmedNonEmptyString
+  remoteUrl: TrimmedNonEmptyString
+}
 
 export const RepositoryOrigin = Schema.Struct({
   canonicalKey: TrimmedNonEmptyString,
   remoteUrl: Schema.optionalKey(TrimmedNonEmptyString),
   displayName: Schema.optionalKey(TrimmedNonEmptyString),
-});
-export type RepositoryOrigin = typeof RepositoryOrigin.Type;
+})
+export type RepositoryOrigin = typeof RepositoryOrigin.Type
 
 export const RepositoryIdentity = Schema.Struct({
   canonicalKey: TrimmedNonEmptyString,
@@ -188,27 +164,25 @@ export const RepositoryIdentity = Schema.Struct({
   owner: Schema.optionalKey(TrimmedNonEmptyString),
   name: Schema.optionalKey(TrimmedNonEmptyString),
   origin: Schema.optionalKey(RepositoryOrigin),
-});
-export type RepositoryIdentity = typeof RepositoryIdentity.Type;
+})
+export type RepositoryIdentity = typeof RepositoryIdentity.Type
 
 export function repositoryGroupingKeyOf(identity: RepositoryIdentity): string {
-  return identity.origin?.canonicalKey ?? identity.canonicalKey;
+  return identity.origin?.canonicalKey ?? identity.canonicalKey
 }
 
 export function repositoryGroupingDisplayNameOf(identity: RepositoryIdentity): string | undefined {
   return identity.origin
     ? (identity.origin.displayName ?? identity.origin.canonicalKey)
-    : identity.displayName;
+    : identity.displayName
 }
 
-export const ScopedProjectRef = Schema.Struct({
-  environmentId: EnvironmentId,
-  projectId: ProjectId,
-});
-export type ScopedProjectRef = typeof ScopedProjectRef.Type;
+export schema ScopedProjectRef {
+  environmentId: EnvironmentId
+  projectId: ProjectId
+}
 
-export const ScopedThreadRef = Schema.Struct({
-  environmentId: EnvironmentId,
-  threadId: ThreadId,
-});
-export type ScopedThreadRef = typeof ScopedThreadRef.Type;
+export schema ScopedThreadRef {
+  environmentId: EnvironmentId
+  threadId: ThreadId
+}

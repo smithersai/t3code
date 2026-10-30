@@ -10,7 +10,7 @@ import {
   ThreadId,
   TrimmedNonEmptyString,
 } from "./baseSchemas.ts";
-import { ModelSelection } from "./modelSelection.ts";
+import { ModelSelection } from "./modelSelection.vibe";
 import {
   OrchestrationV2Actor,
   OrchestrationV2CreationSource,

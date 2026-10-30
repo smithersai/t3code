@@ -11,8 +11,8 @@ import {
   ProviderItemId,
   TrimmedNonEmptyString,
 } from "./baseSchemas.ts";
-import { RepositoryIdentity, ThreadEnvMode } from "./environment.ts";
-import { ModelSelection } from "./modelSelection.ts";
+import { RepositoryIdentity, ThreadEnvMode } from "./environment.vibe";
+import { ModelSelection } from "./modelSelection.vibe";
 import type { OrchestrationV2StoredEvent } from "./orchestrationV2.ts";
 import { ProjectScript, StoredProjectIcon } from "./project.ts";
 

@@ -20,7 +20,7 @@ import {
   TrimmedString,
 } from "./baseSchemas.ts";
 import { UsageLimitSourceId } from "./usageLimitSourceId.vibe";
-import { EnvironmentMachineKind, ThreadEnvMode, WorktreeSubmodules } from "./environment.ts";
+import { EnvironmentMachineKind, ThreadEnvMode, WorktreeSubmodules } from "./environment.vibe";
 import { KeybindingShortcut } from "./keybindings.vibe";
 import {
   CustomModelSetting,
@@ -28,7 +28,7 @@ import {
   DEFAULT_TEXT_GENERATION_REASONING_EFFORT,
   ProviderOptionSelections,
 } from "./model.vibe";
-import { ModelSelection } from "./modelSelection.ts";
+import { ModelSelection } from "./modelSelection.vibe";
 import { ProjectScript, type ProjectMutation } from "./project.ts";
 import { DEFAULT_RUNTIME_MODE, RuntimeMode } from "./providerPolicy.vibe";
 import {
@@ -45,7 +45,7 @@ import {
   PreviewAppearancePreference,
   PreviewViewportSetting,
   PreviewZoomFactor,
-} from "./preview.ts";
+} from "./preview.vibe";
 import {
   ProviderInstanceConfig,
   ProviderInstanceId,
@@ -267,7 +267,7 @@ export {
   BROWSER_RECORDING_FRAME_RATES,
   BrowserRecordingFrameRate,
   DEFAULT_BROWSER_RECORDING_FRAME_RATE,
-} from "./preview.ts";
+} from "./preview.vibe";
 export const BrowserLinkTarget = Schema.Literals(["system", "app"]);
 export type BrowserLinkTarget = typeof BrowserLinkTarget.Type;
 export const DEFAULT_BROWSER_LINK_TARGET: BrowserLinkTarget = "system";
