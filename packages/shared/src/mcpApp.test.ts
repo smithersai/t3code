@@ -149,7 +149,7 @@ describe("tool metadata", () => {
 
 describe("mcpAppFromToolItem", () => {
   it("reads the app from both the stored output and its compact wire form", async () => {
-    const { compactDynamicToolOutput, mcpAppFromToolItem } = await import("./toolOutput.ts");
+    const { compactDynamicToolOutput, mcpAppFromToolItem } = await import("./toolOutput.vibe");
     const app = {
       attachmentId: "thread-1-abc-html",
       server: "weather",
@@ -163,7 +163,7 @@ describe("mcpAppFromToolItem", () => {
   });
 
   it("ignores a reference naming a server or tool other than the item's own", async () => {
-    const { mcpAppFromToolItem } = await import("./toolOutput.ts");
+    const { mcpAppFromToolItem } = await import("./toolOutput.vibe");
     const forged = {
       t3McpApp: {
         attachmentId: "thread-1-abc-html",
@@ -177,7 +177,7 @@ describe("mcpAppFromToolItem", () => {
   });
 
   it("keeps an app whose resource URI is longer than a name", async () => {
-    const { compactDynamicToolOutput } = await import("./toolOutput.ts");
+    const { compactDynamicToolOutput } = await import("./toolOutput.vibe");
     const resourceUri = `ui://weather/${"segment/".repeat(60)}dashboard`;
     const output = compactDynamicToolOutput({
       t3McpApp: {
@@ -191,7 +191,7 @@ describe("mcpAppFromToolItem", () => {
   });
 
   it("keeps the compact app reference within the wire budget", async () => {
-    const { compactDynamicToolOutput } = await import("./toolOutput.ts");
+    const { compactDynamicToolOutput } = await import("./toolOutput.vibe");
     const domains = Array.from(
       { length: 32 },
       (_, index) => `https://${"a".repeat(200)}${index}.test`,
