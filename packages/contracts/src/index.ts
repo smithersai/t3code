@@ -68,4 +68,4 @@ export * from "./resourceTelemetry.vibe";
 export * from "./rpc.ts";
 export * from "./worktreeSetup.vibe";
 export * from "./secretRequest.vibe";
-export * from "./clientRpcPermissions.ts";
+export * from "./clientRpcPermissions.vibe";
