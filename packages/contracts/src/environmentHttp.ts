@@ -43,7 +43,7 @@ import {
   ExecutionEnvironmentDescriptor,
   ORCHESTRATION_PROTOCOL_HEADER,
   ORCHESTRATION_PROTOCOL_VERSION_TEXT,
-} from "./environment.ts";
+} from "./environment.vibe";
 import {
   DpopFailureReason,
   AuthSessionId,

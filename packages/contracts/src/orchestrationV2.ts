@@ -54,7 +54,7 @@ import {
   OrchestrationGetTurnDiffInput,
   OrchestrationGetTurnDiffResult,
 } from "./checkpointDiff.ts";
-import { ModelSelection } from "./modelSelection.ts";
+import { ModelSelection } from "./modelSelection.vibe";
 import {
   ThreadLinkedPullRequest,
   ThreadPullRequestLink,

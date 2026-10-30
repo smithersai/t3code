@@ -290,7 +290,7 @@ import {
   PreviewResizeInput,
   PreviewAdjustInput,
   PreviewSessionSnapshot,
-} from "./preview.ts";
+} from "./preview.vibe";
 import {
   DeviceActionInput,
   DeviceCloseInput,

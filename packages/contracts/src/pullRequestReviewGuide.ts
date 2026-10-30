@@ -1,7 +1,7 @@
 import * as Schema from "effect/Schema";
 
 import { IsoDateTime, PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.ts";
-import { ModelSelection } from "./modelSelection.ts";
+import { ModelSelection } from "./modelSelection.vibe";
 
 export const PullRequestReviewGuideAttention = Schema.Struct({
   kind: Schema.Literals(["tradeoff", "contract", "product", "risk", "accessibility"]),

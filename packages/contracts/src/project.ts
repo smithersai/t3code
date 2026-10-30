@@ -1,7 +1,7 @@
 import * as Schema from "effect/Schema";
 import * as SchemaTransformation from "effect/SchemaTransformation";
-import { RepositoryIdentity, ThreadEnvMode } from "./environment.ts";
-import { ModelSelection } from "./modelSelection.ts";
+import { RepositoryIdentity, ThreadEnvMode } from "./environment.vibe";
+import { ModelSelection } from "./modelSelection.vibe";
 import {
   CommandId,
   ForwardCompatibleUnion,

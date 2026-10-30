@@ -8,7 +8,7 @@ import {
   PreviewViewportPresetId,
   PreviewViewportSetting,
   PreviewViewportSize,
-} from "./preview.ts";
+} from "./preview.vibe";
 import { ProviderInstanceId } from "./providerInstance.vibe";
 import { BrowserProfileId } from "./browserProfile.vibe";
 

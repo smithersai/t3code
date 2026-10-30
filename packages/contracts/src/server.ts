@@ -5,7 +5,7 @@ import {
   type EnvironmentMachineKind,
   ExecutionEnvironmentDescriptor,
   ServerSelfUpdateMethod,
-} from "./environment.ts";
+} from "./environment.vibe";
 import { AuthClientPresentationMetadata, ServerAuthDescriptor } from "./auth.ts";
 import {
   ForwardCompatibleArray,

@@ -13,7 +13,7 @@ import {
   PROVIDER_SEND_TURN_MAX_INPUT_CHARS,
   ChatAttachment,
 } from "./chatAttachment.ts";
-import { ModelSelection } from "./modelSelection.ts";
+import { ModelSelection } from "./modelSelection.vibe";
 import {
   ProviderApprovalDecision,
   ProviderApprovalPolicy,
