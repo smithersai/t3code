@@ -1,5 +1,5 @@
 import { OrchestrationMessageContext } from "./composerContext.ts";
-import { withRecordIdTable } from "./orchestrationV2IdTable.ts";
+import { withRecordIdTable } from "./orchestrationV2IdTable.vibe";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
