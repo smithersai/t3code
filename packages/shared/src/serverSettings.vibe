@@ -31,7 +31,7 @@ import {
   normalizeBackgroundActivitySettings,
   normalizeServerBackgroundActivitySettings,
   resolveBackgroundActivitySettings,
-} from "./backgroundActivitySettings.ts"
+} from "./backgroundActivitySettings.vibe"
 
 const ServerSettingsJson = fromLenientJson(ServerSettings)
 const decodeServerSettingsJson = Schema.decodeUnknownOption(ServerSettingsJson)

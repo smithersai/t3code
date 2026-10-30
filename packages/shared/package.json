@@ -144,8 +144,8 @@
       "import": "./src/serverSettings.vibe"
     },
     "./backgroundActivitySettings": {
-      "types": "./src/backgroundActivitySettings.ts",
-      "import": "./src/backgroundActivitySettings.ts"
+      "types": "./src/backgroundActivitySettings.d.vibe.ts",
+      "import": "./src/backgroundActivitySettings.vibe"
     },
     "./String": {
       "types": "./src/String.ts",

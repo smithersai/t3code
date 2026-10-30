@@ -8,7 +8,7 @@ import {
 } from "@t3tools/contracts";
 import * as Duration from "effect/Duration";
 import { describe, expect, it } from "vite-plus/test";
-import { resolveServerBackgroundActivitySettings } from "./backgroundActivitySettings.ts";
+import { resolveServerBackgroundActivitySettings } from "./backgroundActivitySettings.vibe";
 import { createModelSelection } from "./model.ts";
 import { resolveProjectScripts, projectScriptsInheritDefaults } from "./projectScripts.ts";
 import {
