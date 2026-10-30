@@ -6,7 +6,7 @@ import {
   encodeComposerContextFragment,
   encodeComposerContextClipboardHtml,
   decodeComposerContextClipboardHtml,
-} from "./composerContextClipboard.ts";
+} from "./composerContextClipboard.vibe";
 
 describe("composerContextClipboard", () => {
   it("preserves rich HTML while carrying context metadata", () => {
