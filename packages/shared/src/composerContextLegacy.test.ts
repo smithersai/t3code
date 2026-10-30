@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { upgradeLegacyContextMessage } from "./composerContextLegacy.ts";
+import { upgradeLegacyContextMessage } from "./composerContextLegacy.vibe";
 
 describe("upgradeLegacyContextMessage", () => {
   const review =

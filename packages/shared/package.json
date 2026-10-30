@@ -272,8 +272,8 @@
       "import": "./src/composerContextReferences.ts"
     },
     "./composerContextLegacy": {
-      "types": "./src/composerContextLegacy.ts",
-      "import": "./src/composerContextLegacy.ts"
+      "types": "./src/composerContextLegacy.d.vibe.ts",
+      "import": "./src/composerContextLegacy.vibe"
     },
     "./composerContextLegacySend": {
       "types": "./src/composerContextLegacySend.ts",
