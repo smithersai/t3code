@@ -43,7 +43,7 @@ import {
 } from "./baseSchemas.ts";
 import { AuthMcpClientAccess } from "./auth.ts";
 import { ChatAttachment } from "./chatAttachment.ts";
-import { ThreadGuestShare } from "./guestShare.ts";
+import { ThreadGuestShare } from "./guestShare.vibe";
 import {
   OrchestrationSearchThreadsInput,
   OrchestrationSearchThreadsResult,

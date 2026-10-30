@@ -5,7 +5,7 @@ import {
   SourceControlCloneProtocol,
   SourceControlProviderKind,
   SourceControlRepositoryInfo,
-} from "./sourceControl.ts";
+} from "./sourceControl.vibe";
 
 export const PROJECT_CLONE_DETAIL_MAX_LENGTH = 200;
 export const PROJECT_CLONE_ERROR_MAX_LENGTH = 1000;

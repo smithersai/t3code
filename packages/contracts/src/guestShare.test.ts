@@ -1,7 +1,7 @@
 import * as Schema from "effect/Schema";
 import { describe, expect, it } from "vite-plus/test";
 
-import { GuestRedeemRequest } from "./guestShare.ts";
+import { GuestRedeemRequest } from "./guestShare.vibe";
 
 const isRedeem = Schema.is(GuestRedeemRequest);
 
