@@ -124,8 +124,8 @@
       "import": "./src/terminalOutput.ts"
     },
     "./toolOutput": {
-      "types": "./src/toolOutput.ts",
-      "import": "./src/toolOutput.ts"
+      "types": "./src/toolOutput.d.vibe.ts",
+      "import": "./src/toolOutput.vibe"
     },
     "./htmlRender": {
       "types": "./src/htmlRender.ts",

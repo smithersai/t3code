@@ -5,7 +5,7 @@ import {
   MAX_TOOL_OUTPUT_IMAGES,
   toolOutputImages,
   toolOutputIndicatesFailure,
-} from "./toolOutput.ts";
+} from "./toolOutput.vibe";
 
 describe("compactDynamicToolOutput", () => {
   it("extracts IDs through the MCP result envelopes used by T3 summaries", () => {
