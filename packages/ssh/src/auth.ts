@@ -8,7 +8,7 @@ import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import * as PlatformError from "effect/PlatformError";
 
-import { SshPasswordPromptError } from "./errors.ts";
+import { SshPasswordPromptError } from "./errors.vibe";
 
 export interface SshPasswordRequest {
   readonly destination: string;

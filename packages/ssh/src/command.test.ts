@@ -8,7 +8,7 @@ import * as Stream from "effect/Stream";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
 
 import { parseSshResolveOutput, remoteStateKey, runSshCommand } from "./command.ts";
-import { SshCommandError } from "./errors.ts";
+import { SshCommandError } from "./errors.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const encoder = new TextEncoder();

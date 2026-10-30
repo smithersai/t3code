@@ -41,7 +41,7 @@ import {
   SshPairingError,
   SshPasswordPromptError,
   SshReadinessError,
-} from "./errors.ts";
+} from "./errors.vibe";
 
 const DEFAULT_REMOTE_PORT = 3773;
 const REMOTE_PORT_SCAN_WINDOW = 200;
