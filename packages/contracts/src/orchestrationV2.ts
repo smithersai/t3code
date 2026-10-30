@@ -63,7 +63,7 @@ import {
   ThreadPullRequestSnapshot,
   ThreadPullRequestStack,
   ThreadPullRequestWatch,
-} from "./threadPullRequest.ts";
+} from "./threadPullRequest.vibe";
 import {
   ProviderApprovalDecision,
   ProviderApprovalFullAccessOverride,

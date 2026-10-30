@@ -31,7 +31,7 @@ import {
   ThreadLinkedPullRequest,
   ThreadPullRequestKey,
   ThreadPullRequestLinkSource,
-} from "./threadPullRequest.ts";
+} from "./threadPullRequest.vibe";
 import { hasOnlyPairedSurrogates } from "./threadMetadataMcp.ts";
 import { ThreadTitleRegeneration } from "./threadTitle.ts";
 import {

@@ -7,7 +7,7 @@ import {
   ThreadId,
   TrimmedNonEmptyString,
 } from "./baseSchemas.ts";
-import { ThreadLinkedPullRequest } from "./threadPullRequest.ts";
+import { ThreadLinkedPullRequest } from "./threadPullRequest.vibe";
 import { ThreadTitleRegeneration } from "./threadTitle.ts";
 
 export function hasOnlyPairedSurrogates(value: string): boolean {

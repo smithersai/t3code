@@ -1,0 +1,138 @@
+import * as Schema from "effect/Schema"
+import { TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { ApprovalRequestId, EventId, IsoDateTime, ProviderItemId, ThreadId, TurnId } from "./baseSchemas.ts"
+import {
+  ChatAttachment,
+  getProviderAttachmentLimitError,
+  PROVIDER_SEND_TURN_MAX_INPUT_CHARS,
+} from "./chatAttachment.ts"
+import { ModelSelection } from "./modelSelection.vibe"
+import {
+  ProviderApprovalDecision,
+  ProviderApprovalPolicy,
+  ProviderInteractionMode,
+  ProviderRequestKind,
+  ProviderSandboxMode,
+  ProviderUserInputAnswers,
+  RuntimeMode,
+  UserInputAttachments,
+} from "./providerPolicy.vibe"
+import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe"
+
+const ProviderSessionStatus = Schema.Literals([
+  "connecting",
+  "ready",
+  "running",
+  "error",
+  "closed",
+])
+
+export schema ProviderSession {
+  provider: ProviderDriverKind
+  providerInstanceId?: ProviderInstanceId
+  status: ProviderSessionStatus
+  runtimeMode: RuntimeMode
+  cwd?: TrimmedNonEmptyString
+  model?: TrimmedNonEmptyString
+  threadId: ThreadId
+  resumeCursor?: Schema.Unknown
+  activeTurnId?: TurnId
+  createdAt: IsoDateTime
+  updatedAt: IsoDateTime
+  lastError?: TrimmedNonEmptyString
+}
+
+export schema ProviderSessionStartInput {
+  threadId: ThreadId
+  provider?: ProviderDriverKind
+  providerInstanceId?: ProviderInstanceId
+  cwd?: TrimmedNonEmptyString
+  title?: TrimmedNonEmptyString
+  modelSelection?: ModelSelection
+  resumeCursor?: Schema.Unknown
+  approvalPolicy?: ProviderApprovalPolicy
+  sandboxMode?: ProviderSandboxMode
+  runtimeMode: RuntimeMode
+}
+
+export const ProviderSendTurnInput = Schema.Struct({
+  threadId: ThreadId,
+  /** Internal recovery: permits empty turns only for adapters supporting promptless continuation. */
+  continuation: Schema.optional(Schema.Boolean),
+  input: Schema.optional(
+    TrimmedNonEmptyString.check(Schema.isMaxLength(PROVIDER_SEND_TURN_MAX_INPUT_CHARS)),
+  ),
+  attachments: Schema.optional(
+    Schema.Array(ChatAttachment).check(
+      Schema.makeFilter((attachments) => getProviderAttachmentLimitError(attachments) ?? true),
+    ),
+  ),
+  modelSelection: Schema.optional(ModelSelection),
+  interactionMode: Schema.optional(ProviderInteractionMode),
+})
+export type ProviderSendTurnInput = typeof ProviderSendTurnInput.Type
+
+export schema ProviderTurnStartResult {
+  threadId: ThreadId
+  turnId: TurnId
+  resumeCursor?: Schema.Unknown
+}
+
+export schema ProviderInterruptTurnInput {
+  threadId: ThreadId
+  turnId?: TurnId
+}
+
+export schema ProviderStopSessionInput {
+  threadId: ThreadId
+}
+
+export schema ProviderRespondToRequestInput {
+  threadId: ThreadId
+  requestId: ApprovalRequestId
+  decision: ProviderApprovalDecision
+}
+
+export schema ProviderRespondToUserInputInput {
+  threadId: ThreadId
+  requestId: ApprovalRequestId
+  answers: ProviderUserInputAnswers
+  attachmentsByQuestionId?: UserInputAttachments
+}
+
+export schema ProviderUploadFeedbackInput {
+  threadId: ThreadId
+  reason?: TrimmedNonEmptyString
+}
+
+export schema ProviderUploadFeedbackResult {
+  feedbackId: TrimmedNonEmptyString
+}
+
+const DefectField = Schema.Defect()
+export schema error ProviderUploadFeedbackError {
+  threadId: ThreadId
+  cause?: DefectField
+  override get message(): string {
+    return `Failed to upload feedback for thread ${this.threadId}.`
+  }
+}
+
+const ProviderEventKind = Schema.Literals(["session", "notification", "request", "error"])
+
+export schema ProviderEvent {
+  id: EventId
+  kind: ProviderEventKind
+  provider: ProviderDriverKind
+  providerInstanceId?: ProviderInstanceId
+  threadId: ThreadId
+  createdAt: IsoDateTime
+  method: TrimmedNonEmptyString
+  message?: TrimmedNonEmptyString
+  turnId?: TurnId
+  itemId?: ProviderItemId
+  requestId?: ApprovalRequestId
+  requestKind?: ProviderRequestKind
+  textDelta?: string
+  payload?: Schema.Unknown
+}
