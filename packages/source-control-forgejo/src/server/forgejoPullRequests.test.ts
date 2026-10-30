@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 
 import { repositoryNameFromRemoteUrl } from "./ForgejoSourceControlProvider.ts";
-import { ForgejoPullRequestSchema, toForgejoChangeRequest } from "./forgejoPullRequests.ts";
+import { ForgejoPullRequestSchema, toForgejoChangeRequest } from "./forgejoPullRequests.vibe";
 
 const decodeForgejoPullRequest = Schema.decodeEffect(ForgejoPullRequestSchema);
 
