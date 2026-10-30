@@ -82,8 +82,8 @@ import {
   ToolActivitySurface,
   ToolActivityIcon,
   ToolActivitySource,
-} from "./providerRuntime.ts";
-import { ThreadTokenUsageSnapshot } from "./providerRuntime.ts";
+} from "./providerRuntime.vibe";
+import { ThreadTokenUsageSnapshot } from "./providerRuntime.vibe";
 
 export const OrchestrationV2Actor = Schema.Literals(["user", "agent", "system"]);
 export type OrchestrationV2Actor = typeof OrchestrationV2Actor.Type;

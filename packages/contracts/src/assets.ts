@@ -7,7 +7,7 @@ import {
   PROVIDER_SEND_TURN_SUPPORTED_IMAGE_MIME_TYPES,
 } from "./chatAttachment.ts";
 import { ProjectFaviconPath } from "./project.ts";
-import { ToolActivityNativeAppReference } from "./providerRuntime.ts";
+import { ToolActivityNativeAppReference } from "./providerRuntime.vibe";
 
 const ASSET_PATH_MAX_LENGTH = 1024;
 
