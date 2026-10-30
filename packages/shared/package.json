@@ -40,8 +40,8 @@
       "import": "./src/mobileSourceMaps.ts"
     },
     "./model": {
-      "types": "./src/model.ts",
-      "import": "./src/model.ts"
+      "types": "./src/model.d.vibe.ts",
+      "import": "./src/model.vibe"
     },
     "./advertisedEndpoint": {
       "types": "./src/advertisedEndpoint.ts",
