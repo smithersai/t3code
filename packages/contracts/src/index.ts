@@ -28,7 +28,7 @@ export * from "./model.vibe";
 export * from "./keybindings.vibe";
 export * from "./server.ts";
 export * from "./settings.ts";
-export * from "./git.ts";
+export * from "./git.vibe";
 export * from "./vcs.ts";
 export * from "./sourceControl.vibe";
 export * from "./projectClone.ts";

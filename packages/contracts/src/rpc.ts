@@ -153,7 +153,7 @@ import {
   VcsStatusSubscriptionInput,
   VcsStatusResult,
   VcsStatusStreamEvent,
-} from "./git.ts";
+} from "./git.vibe";
 import {
   ReviewDiffFileContentsInput,
   ReviewDiffFileContentsResult,
