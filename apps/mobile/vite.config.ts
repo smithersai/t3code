@@ -2,6 +2,7 @@ import * as NodeModule from "node:module";
 import * as NodeURL from "node:url";
 import { defineConfig, normalizePath } from "vite-plus";
 import "vite-plus/test/config";
+import vibelang from "vibelang-vite";
 
 const reactTests = [
   "src/features/files/useFileTreeEntries.test.tsx",
@@ -44,6 +45,7 @@ const babel: {
 const babelConfig = require("./babel.config.js")({ cache: () => {} });
 
 export default defineConfig({
+  plugins: [vibelang()],
   test: {
     hookTimeout: 60_000,
     testTimeout: 60_000,

@@ -3,6 +3,7 @@ import { defaultInclude, defineConfig } from "vite-plus";
 
 import { isDesktopRuntimeExternalDependency } from "../../scripts/lib/desktop-external-packages.ts";
 import { loadRepoEnv } from "../../scripts/lib/public-config.ts";
+import vibelang from "vibelang-vite";
 
 const repoEnv = loadRepoEnv();
 
@@ -17,6 +18,7 @@ const publicConfigDefine = {
 };
 
 export default defineConfig({
+  plugins: [vibelang()],
   run: {
     tasks: {
       build: {

@@ -12,6 +12,7 @@ import {
   isExternalCliDependency,
   shouldBundleCliDependency,
 } from "../../scripts/lib/cli-external-packages.ts";
+import vibelang from "vibelang-vite";
 
 export { shouldBundleCliDependency };
 
@@ -72,6 +73,7 @@ const { run: _rootRunConfig, ...basePackageConfig } = baseConfig;
 export default mergeConfig(
   { ...basePackageConfig, test: baseTestConfig },
   defineConfig({
+    plugins: [vibelang()],
     run: {
       tasks: {
         build: {

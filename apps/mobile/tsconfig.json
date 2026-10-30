@@ -1,9 +1,12 @@
 {
   "extends": "expo/tsconfig.base.json",
   "compilerOptions": {
+    "allowArbitraryExtensions": true,
+    "rewriteRelativeImportExtensions": true,
     "allowImportingTsExtensions": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true
-  }
+  },
+  "vibelang": { "declarationSidecars": true }
 }

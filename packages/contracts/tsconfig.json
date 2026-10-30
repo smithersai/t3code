@@ -1,5 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
-  "compilerOptions": {},
-  "include": ["src"]
+  "compilerOptions": {
+    "rewriteRelativeImportExtensions": true
+  },
+  "include": ["src"],
+  "vibelang": { "declarationSidecars": true }
 }
