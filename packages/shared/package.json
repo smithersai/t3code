@@ -408,8 +408,8 @@
       "import": "./src/Array.ts"
     },
     "./orchestrationV2PendingBackgroundWork": {
-      "types": "./src/orchestrationV2PendingBackgroundWork.ts",
-      "import": "./src/orchestrationV2PendingBackgroundWork.ts"
+      "types": "./src/orchestrationV2PendingBackgroundWork.d.vibe.ts",
+      "import": "./src/orchestrationV2PendingBackgroundWork.vibe"
     },
     "./hostClassification": {
       "types": "./src/hostClassification.ts",

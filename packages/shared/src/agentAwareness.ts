@@ -6,7 +6,7 @@ import type {
 } from "@t3tools/contracts";
 import * as DateTime from "effect/DateTime";
 
-import { backgroundWorkHoldsCompletion } from "./orchestrationV2PendingBackgroundWork.ts";
+import { backgroundWorkHoldsCompletion } from "./orchestrationV2PendingBackgroundWork.vibe";
 
 export type AgentAwarenessPhase =
   | "starting"
