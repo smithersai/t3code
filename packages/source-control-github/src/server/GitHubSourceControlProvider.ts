@@ -68,7 +68,7 @@ import {
   PullRequestByNumber,
   PullRequestNode,
   PullRequestsByHead,
-} from "./sourceControlProvider.graphql.vibe";
+} from "./sourceControlProvider.graphql.ts";
 
 // Decode rows separately to isolate malformed PRs within shared documents.
 const LenientPullRequestsByHead = GraphQL.query(PullRequestsByHead.name, {
