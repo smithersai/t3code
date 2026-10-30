@@ -58,7 +58,7 @@ export * from "./browserImport.ts";
 export * from "./browserProfile.vibe";
 export * from "./device.vibe";
 export * from "./preview.vibe";
-export * from "./previewAutomation.ts";
+export * from "./previewAutomation.vibe";
 export * from "./previewCapture.vibe";
 export * from "./resourceTelemetry.ts";
 export * from "./usage.vibe";
