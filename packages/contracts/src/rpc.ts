@@ -127,7 +127,7 @@ import {
   WorktreeSetupCancelResult,
   WorktreeSetupStreamEvent,
   WorktreeSetupSubscribeInput,
-} from "./worktreeSetup.ts";
+} from "./worktreeSetup.vibe";
 import {
   GitActionProgressEvent,
   VcsSwitchRefInput,
@@ -349,7 +349,7 @@ import {
   ProviderConsumeResetCreditInput,
   ProviderConsumeResetCreditResult,
 } from "./providerUsageLimits.ts";
-import { UsagePricing, UsageReadError, UsageSummary, UsageSummaryInput } from "./usage.ts";
+import { UsagePricing, UsageReadError, UsageSummary, UsageSummaryInput } from "./usage.vibe";
 import {
   StorageCleanupReport,
   DatabaseStorageStatus,
