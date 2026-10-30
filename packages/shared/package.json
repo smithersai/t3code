@@ -256,8 +256,8 @@
       "import": "./src/composerInlineTokens.ts"
     },
     "./assistantCitations": {
-      "types": "./src/assistantCitations.ts",
-      "import": "./src/assistantCitations.ts"
+      "types": "./src/assistantCitations.d.vibe.ts",
+      "import": "./src/assistantCitations.vibe"
     },
     "./promptLinks": {
       "types": "./src/promptLinks.ts",
@@ -392,8 +392,8 @@
       "import": "./src/orchestrationV2BoundedSnapshot.ts"
     },
     "./orchestrationV2DedupedBodies": {
-      "types": "./src/orchestrationV2DedupedBodies.ts",
-      "import": "./src/orchestrationV2DedupedBodies.ts"
+      "types": "./src/orchestrationV2DedupedBodies.d.vibe.ts",
+      "import": "./src/orchestrationV2DedupedBodies.vibe"
     },
     "./orchestrationV2Timeline": {
       "types": "./src/orchestrationV2Timeline.ts",
