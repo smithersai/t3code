@@ -112,7 +112,7 @@ import {
   AttachmentCreateUploadUrlResult,
   AttachmentDeleteInput,
   AttachmentUploadSigningKeyError,
-} from "./assets.ts";
+} from "./assets.vibe";
 import {
   PersistChatAttachmentsError,
   PersistChatAttachmentsInput,
