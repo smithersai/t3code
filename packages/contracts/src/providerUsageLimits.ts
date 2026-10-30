@@ -6,8 +6,8 @@ import {
   NonNegativeInt,
   TrimmedNonEmptyString,
 } from "./baseSchemas.ts";
-import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.ts";
-import { UsageLimitSourceId } from "./usageLimitSourceId.ts";
+import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
+import { UsageLimitSourceId } from "./usageLimitSourceId.vibe";
 
 /** Stable per-provider ids let sparse updates merge with full probes. */
 export const ServerProviderUsageWindow = Schema.Struct({

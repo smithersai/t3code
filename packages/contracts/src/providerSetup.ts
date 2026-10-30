@@ -7,7 +7,7 @@ import {
   IsoDateTime,
   TrimmedNonEmptyString,
 } from "./baseSchemas.ts";
-import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.ts";
+import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
 
 export const ProviderSetupInput = Schema.Struct({
   instanceId: ProviderInstanceId,

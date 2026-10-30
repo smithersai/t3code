@@ -24,7 +24,7 @@ import {
   UserInputAttachments,
   RuntimeMode,
 } from "./providerPolicy.ts";
-import { ProviderInstanceId, ProviderDriverKind } from "./providerInstance.ts";
+import { ProviderInstanceId, ProviderDriverKind } from "./providerInstance.vibe";
 
 const ProviderSessionStatus = Schema.Literals([
   "connecting",
