@@ -12,7 +12,7 @@ import {
   type PullRequestProviderApi,
 } from "@t3tools/source-control-core/server/PullRequestProvider";
 import type { BitbucketPullRequest } from "./bitbucketPullRequestJson.ts";
-import { definition } from "../shared/definition.ts";
+import { definition } from "../shared/definition.vibe";
 
 const CAPABILITIES: PullRequestCapabilities = {
   diff: true,
