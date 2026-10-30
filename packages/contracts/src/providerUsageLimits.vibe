@@ -1,0 +1,116 @@
+import * as Schema from "effect/Schema"
+
+import { ForwardCompatibleArray, IsoDateTime, NonNegativeInt, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe"
+import { UsageLimitSourceId } from "./usageLimitSourceId.vibe"
+
+/** Stable per-provider ids let sparse updates merge with full probes. */
+export const ServerProviderUsageWindow = Schema.Struct({
+  id: TrimmedNonEmptyString,
+  kind: Schema.Literals(["session", "weekly", "monthly", "other"]),
+  label: TrimmedNonEmptyString,
+  usedPercent: Schema.Number.check(Schema.isBetween({ minimum: 0, maximum: 100 })),
+  resetsAt: Schema.optional(IsoDateTime),
+  windowDurationMins: Schema.optional(NonNegativeInt),
+})
+export type ServerProviderUsageWindow = typeof ServerProviderUsageWindow.Type
+
+export const ServerProviderResetCredits = Schema.Struct({
+  availableCount: NonNegativeInt,
+  nextExpiresAt: Schema.optional(IsoDateTime),
+  /** Pins hub redemption to the displayed credit, including retries from another client. */
+  nextCreditId: Schema.optional(TrimmedNonEmptyString),
+})
+export type ServerProviderResetCredits = typeof ServerProviderResetCredits.Type
+
+/** Clear bars for unavailable accounts; retain last good bars after a failed probe. */
+export const ServerProviderUsageLimits = Schema.Struct({
+  checkedAt: IsoDateTime,
+  windows: ForwardCompatibleArray(ServerProviderUsageWindow),
+  credentialFingerprint: Schema.optional(TrimmedNonEmptyString),
+  resetCredits: Schema.optional(ServerProviderResetCredits),
+  externalUsage: Schema.optional(
+    Schema.Struct({
+      label: TrimmedNonEmptyString,
+      url: TrimmedNonEmptyString,
+    }),
+  ),
+  unavailable: Schema.optional(
+    Schema.Struct({
+      reason: Schema.Literals(["unsupported", "probeFailed"]),
+      message: Schema.optional(TrimmedNonEmptyString),
+    }),
+  ),
+})
+export type ServerProviderUsageLimits = typeof ServerProviderUsageLimits.Type
+
+/** Partial updates merge windows by id; omitted windows remain unchanged. */
+export schema ProviderUsageLimitsUpdate {
+  windows: ReadonlyArray<ServerProviderUsageWindow>
+}
+
+export schema UsageLimitSourceAccount {
+  id: TrimmedNonEmptyString
+  driver: ProviderDriverKind
+  email?: TrimmedNonEmptyString
+  plan?: TrimmedNonEmptyString
+  workspaceId?: TrimmedNonEmptyString
+  usageLimits: ServerProviderUsageLimits
+}
+
+export const UsageLimitSourceSnapshot = Schema.Struct({
+  id: UsageLimitSourceId,
+  kind: Schema.Literal("cliproxy"),
+  label: TrimmedNonEmptyString,
+  checkedAt: IsoDateTime,
+  accounts: ForwardCompatibleArray(UsageLimitSourceAccount),
+  error: Schema.optional(TrimmedNonEmptyString),
+})
+export type UsageLimitSourceSnapshot = typeof UsageLimitSourceSnapshot.Type
+
+export const UsageLimitSourceSnapshots = ForwardCompatibleArray(UsageLimitSourceSnapshot)
+export type UsageLimitSourceSnapshots = typeof UsageLimitSourceSnapshots.Type
+
+export schema UsageLimitSourceConsumeResetCreditInput {
+  sourceId: UsageLimitSourceId
+  accountId: TrimmedNonEmptyString
+  creditId: TrimmedNonEmptyString
+}
+
+export schema ProviderConsumeResetCreditInput =
+  | { instanceId: ProviderInstanceId }
+  | UsageLimitSourceConsumeResetCreditInput
+
+export class UsageLimitSourceError extends Schema.TaggedError<UsageLimitSourceError>()(
+  "UsageLimitSourceError",
+  { detail: Schema.String },
+) {
+  override get message(): string {
+    return this.detail
+  }
+}
+
+export schema ProviderConsumeResetCreditOutcome = "reset" | "nothingToReset" | "noCredit" | "alreadyRedeemed"
+
+export schema ProviderConsumeResetCreditResult {
+  outcome: ProviderConsumeResetCreditOutcome
+  warning?: TrimmedNonEmptyString
+}
+
+export schema UsageLimitsReport {
+  createdAt: IsoDateTime
+  accounts: ReadonlyArray<{
+    id: TrimmedNonEmptyString
+    driver: ProviderDriverKind
+    label: TrimmedNonEmptyString
+    plan?: TrimmedNonEmptyString
+    email?: TrimmedNonEmptyString
+    sourceLabel?: TrimmedNonEmptyString
+    instanceId?: ProviderInstanceId
+    resetCreditInput?: ProviderConsumeResetCreditInput
+    displayName?: string
+    accentColor?: string
+    limits: ServerProviderUsageLimits
+  }>
+  notices: ReadonlyArray<string>
+}
