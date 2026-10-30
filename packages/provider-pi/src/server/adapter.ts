@@ -41,7 +41,7 @@ import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import { providerMessageTextWithAttachmentPaths } from "@t3tools/provider-core/server/attachmentPrompt";
 import { mcpToolPresentation } from "@t3tools/provider-core/server/mcpToolPresentation";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
-import { parsePiCompactCommand, type PiCompactCommand } from "./commands.ts";
+import { parsePiCompactCommand, type PiCompactCommand } from "./commands.vibe";
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
@@ -69,7 +69,7 @@ import {
   buildPiRpcLaunch,
   materializePiT3McpExtension,
   resolvePiLaunchArgs,
-} from "./mcpInjection.ts";
+} from "./mcpInjection.vibe";
 import { PI_FILE_CHANGE_TOOLS } from "./mcpExtensionSource.ts";
 
 export const PI_PROVIDER = ProviderDriverKind.make("pi");

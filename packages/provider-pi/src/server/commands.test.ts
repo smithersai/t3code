@@ -1,6 +1,6 @@
 import { expect, it } from "@effect/vitest";
 
-import { parsePiDiscoveredCommands } from "./commands.ts";
+import { parsePiDiscoveredCommands } from "./commands.vibe";
 
 it("maps current Pi skill metadata to T3's user and project skill scopes", () => {
   expect(
