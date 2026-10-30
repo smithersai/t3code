@@ -21,7 +21,7 @@ import {
   KeybindingValue,
   KeybindingWhen,
   ResolvedKeybindingsConfig,
-} from "./keybindings.ts";
+} from "./keybindings.vibe";
 import { EditorId, FileManagerRevealKind, RemoteOpenTarget } from "./editor.ts";
 import { ModelCapabilities, ProviderOptionDescriptor } from "./model.ts";
 import { RuntimeMode } from "./providerPolicy.ts";

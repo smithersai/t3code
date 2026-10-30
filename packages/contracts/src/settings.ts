@@ -21,7 +21,7 @@ import {
 } from "./baseSchemas.ts";
 import { UsageLimitSourceId } from "./usageLimitSourceId.vibe";
 import { EnvironmentMachineKind, ThreadEnvMode, WorktreeSubmodules } from "./environment.ts";
-import { KeybindingShortcut } from "./keybindings.ts";
+import { KeybindingShortcut } from "./keybindings.vibe";
 import {
   CustomModelSetting,
   DEFAULT_TEXT_GENERATION_MODEL,

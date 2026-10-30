@@ -161,7 +161,7 @@ import {
   ReviewDiffPreviewInput,
   ReviewDiffPreviewResult,
 } from "./review.ts";
-import { KeybindingsConfigError } from "./keybindings.ts";
+import { KeybindingsConfigError } from "./keybindings.vibe";
 import { OrchestrationSearchThreadsError } from "./threadSearch.ts";
 import {
   ProviderUploadFeedbackError,
