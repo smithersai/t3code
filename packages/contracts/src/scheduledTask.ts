@@ -16,7 +16,7 @@ import {
   OrchestrationV2CreationSource,
   OrchestrationV2ThreadLaunchWorkspaceStrategy,
 } from "./orchestrationV2.ts";
-import { ProviderInteractionMode, RuntimeMode } from "./providerPolicy.ts";
+import { ProviderInteractionMode, RuntimeMode } from "./providerPolicy.vibe";
 
 const TimeOfDay = TrimmedNonEmptyString.check(
   Schema.isPattern(/^([01]?\d|2[0-3]):([0-5]\d)$/),

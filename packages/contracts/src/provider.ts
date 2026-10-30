@@ -23,7 +23,7 @@ import {
   ProviderUserInputAnswers,
   UserInputAttachments,
   RuntimeMode,
-} from "./providerPolicy.ts";
+} from "./providerPolicy.vibe";
 import { ProviderInstanceId, ProviderDriverKind } from "./providerInstance.vibe";
 
 const ProviderSessionStatus = Schema.Literals([

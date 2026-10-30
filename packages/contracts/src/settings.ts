@@ -30,7 +30,7 @@ import {
 } from "./model.ts";
 import { ModelSelection } from "./modelSelection.ts";
 import { ProjectScript, type ProjectMutation } from "./project.ts";
-import { DEFAULT_RUNTIME_MODE, RuntimeMode } from "./providerPolicy.ts";
+import { DEFAULT_RUNTIME_MODE, RuntimeMode } from "./providerPolicy.vibe";
 import {
   BrowserProfile,
   BrowserProfileId,

@@ -1,0 +1,47 @@
+import { ChatFileAttachment, ChatImageAttachment, PROVIDER_SEND_TURN_MAX_ATTACHMENTS } from "./chatAttachment.ts"
+import * as Schema from "effect/Schema"
+
+import { TrimmedNonEmptyString } from "./baseSchemas.ts"
+
+export schema ProviderApprovalPolicy = "untrusted" | "on-failure" | "on-request" | "never"
+
+export schema ProviderSandboxMode = "read-only" | "workspace-write" | "danger-full-access"
+
+export schema RuntimeMode = "approval-required" | "auto-accept-edits" | "auto" | "full-access"
+export const DEFAULT_RUNTIME_MODE: RuntimeMode = "full-access"
+
+export schema ProviderInteractionMode = "default" | "plan"
+export const DEFAULT_PROVIDER_INTERACTION_MODE: ProviderInteractionMode = "default"
+
+export schema ProviderRequestKind = "command" | "file-read" | "file-change" | "mcp-elicitation" | "permission"
+
+export schema AssistantDeliveryMode = "buffered" | "streaming"
+
+export schema ProviderApprovalDecision = "accept" | "acceptForSession" | "acceptAlways" | "decline" | "cancel"
+
+// Why an approval reached the user although the thread runs with full access:
+// the user's own ask rule, or a check the provider enforces even when bypassed.
+export schema ProviderApprovalFullAccessOverride = "ask_rule" | "provider_check"
+
+export schema ProviderApprovalOption {
+  decision: ProviderApprovalDecision
+  label: TrimmedNonEmptyString
+  warning?: TrimmedNonEmptyString
+}
+
+export schema ProviderUserInputAnswers = Readonly<Record<string, Schema.Unknown>>
+
+export const UserInputAttachments = Schema.Record(
+  Schema.String,
+  Schema.Array(Schema.Union([ChatImageAttachment, ChatFileAttachment])).pipe(
+    Schema.check(Schema.isMaxLength(PROVIDER_SEND_TURN_MAX_ATTACHMENTS)),
+  ),
+)
+export type UserInputAttachments = typeof UserInputAttachments.Type
+
+export schema UserInputAttachmentAnswerPayload {
+  requestId: TrimmedNonEmptyString
+  questionTextById?: Readonly<Record<string, string>>
+  answers: ProviderUserInputAnswers
+  attachmentsByQuestionId: UserInputAttachments
+}

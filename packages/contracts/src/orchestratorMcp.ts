@@ -25,7 +25,7 @@ import {
   ScheduledTaskSchedule,
   ScheduledTaskUpsertSchedule,
 } from "./scheduledTask.ts";
-import { ProviderInteractionMode, ProviderRequestKind, RuntimeMode } from "./providerPolicy.ts";
+import { ProviderInteractionMode, ProviderRequestKind, RuntimeMode } from "./providerPolicy.vibe";
 import { PullRequestState } from "./pullRequest.ts";
 import {
   ThreadLinkedPullRequest,

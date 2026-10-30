@@ -24,7 +24,7 @@ import {
 } from "./keybindings.vibe";
 import { EditorId, FileManagerRevealKind, RemoteOpenTarget } from "./editor.vibe";
 import { ModelCapabilities, ProviderOptionDescriptor } from "./model.ts";
-import { RuntimeMode } from "./providerPolicy.ts";
+import { RuntimeMode } from "./providerPolicy.vibe";
 import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
 import { ServerProviderUsageLimits, UsageLimitSourceSnapshots } from "./providerUsageLimits.ts";
 import { ServerSettings } from "./settings.ts";
