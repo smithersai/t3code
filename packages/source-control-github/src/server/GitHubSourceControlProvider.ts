@@ -34,7 +34,7 @@ import * as GitHubGraphQlClient from "./gitHubGraphQlClient.ts";
 import {
   normalizeGitHubPullRequestRecord,
   type NormalizedGitHubPullRequestRecord,
-} from "./gitHubPullRequests.ts";
+} from "./gitHubPullRequests.vibe";
 import {
   gitHubApiHostForRemote,
   parseFetchRemotes,
@@ -68,7 +68,7 @@ import {
   PullRequestByNumber,
   PullRequestNode,
   PullRequestsByHead,
-} from "./sourceControlProvider.graphql.ts";
+} from "./sourceControlProvider.graphql.vibe";
 
 // Decode rows separately to isolate malformed PRs within shared documents.
 const LenientPullRequestsByHead = GraphQL.query(PullRequestsByHead.name, {
