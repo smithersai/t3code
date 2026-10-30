@@ -4,8 +4,8 @@
   "type": "module",
   "exports": {
     "./shared/definition": {
-      "types": "./src/shared/definition.ts",
-      "import": "./src/shared/definition.ts"
+      "types": "./src/shared/definition.d.vibe.ts",
+      "import": "./src/shared/definition.vibe"
     },
     "./server/driver": {
       "types": "./src/server/driver.ts",

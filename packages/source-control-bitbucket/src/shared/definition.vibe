@@ -1,10 +1,5 @@
-import {
-  makeProviderSettingsSchema,
-  SourceControlProviderKind,
-  TrimmedString,
-} from "@t3tools/contracts";
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+import { makeProviderSettingsSchema, SourceControlProviderKind, TrimmedString } from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
 import {
   changeRequestUrlBelow,
   defineSourceControl,
@@ -12,37 +7,36 @@ import {
   isChangeRequestOnProjectHost,
   parseChangeRequestPath,
   projectChangeRequestHost,
-} from "@t3tools/source-control-core/shared/definition";
-import { icon } from "./icon.ts";
+} from "@t3tools/source-control-core/shared/definition"
+import { icon } from "./icon.ts"
 
-const safeShellArgument = /^[A-Za-z0-9._/@+=,-]+$/;
-const repositoryName = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
+const safeShellArgument = /^[A-Za-z0-9._/@+=,-]+$/
+const repositoryName = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/
 
-const CHANGE_REQUEST_PATH = /^\/([^/]+\/[^/]+)\/pull-requests\/(\d+)(?:\/|$)/u;
+const CHANGE_REQUEST_PATH = /^\/([^/]+\/[^/]+)\/pull-requests\/(\d+)(?:\/|$)/u
 
-const KIND = SourceControlProviderKind.make("bitbucket");
+const KIND = SourceControlProviderKind.make("bitbucket")
 
 function isBitbucketHost(hostname: string): boolean {
-  const host = hostname.toLowerCase();
+  const host = hostname.toLowerCase()
   return (
-    host === "bitbucket.org" ||
-    host.endsWith(".bitbucket.org") ||
-    host.split(".").includes("bitbucket")
-  );
+    host === "bitbucket.org"
+    || host.endsWith(".bitbucket.org")
+    || host.split(".").includes("bitbucket")
+  )
 }
 
-const text = (annotations: Schema.Annotations.Key<string>) =>
+const text = (annotations: Schema.Annotations.Key<string>): infer _ =>
   TrimmedString.pipe(
     Schema.withDecodingDefault(Effect.succeed("")),
     Schema.annotateKey(annotations),
-  );
+  )
 
 export const settings = makeProviderSettingsSchema(
   {
     accessToken: text({
       title: "Access token",
-      description:
-        "Scoped to one repository, project, or workspace. Create it in that item's Bitbucket settings.",
+      description: "Scoped to one repository, project, or workspace. Create it in that item's Bitbucket settings.",
       settingsSecret: true,
       providerSettingsForm: { control: "password" },
     }),
@@ -60,8 +54,8 @@ export const settings = makeProviderSettingsSchema(
     }),
   },
   { order: ["accessToken", "email", "apiToken"] },
-);
-export type BitbucketSettings = typeof settings.Type;
+)
+export type BitbucketSettings = typeof settings.Type
 
 export const definition = defineSourceControl({
   kind: KIND,
@@ -93,9 +87,9 @@ export const definition = defineSourceControl({
   changeRequestActions: new Set(["merge", "close"] as const),
   // Bitbucket has no checkout CLI.
   checkoutCommand: ({ number, headBranch, headRepositoryNameWithOwner }) =>
-    headRepositoryNameWithOwner &&
-    repositoryName.test(headRepositoryNameWithOwner) &&
-    safeShellArgument.test(headBranch)
+    headRepositoryNameWithOwner
+      && repositoryName.test(headRepositoryNameWithOwner)
+      && safeShellArgument.test(headBranch)
       ? `git clone --single-branch --branch ${headBranch} https://bitbucket.org/${headRepositoryNameWithOwner}.git t3code-pr-${number}`
       : null,
   authorProfileUrl: () => null,
@@ -106,14 +100,14 @@ export const definition = defineSourceControl({
   recognizeRemote: ({ host, hostname }) =>
     hostname === "bitbucket.org" || hostname.split(".").includes("bitbucket")
       ? {
-          kind: KIND,
-          name: hostname === "bitbucket.org" ? "Bitbucket" : "Bitbucket Self-Hosted",
-          baseUrl: `https://${host}`,
-        }
+        kind: KIND,
+        name: hostname === "bitbucket.org" ? "Bitbucket" : "Bitbucket Self-Hosted",
+        baseUrl: `https://${host}`,
+      }
       : null,
   isChangeRequestInRepository: (identity, link) =>
     isChangeRequestInProjectRepository(projectChangeRequestHost(identity, KIND), identity, link),
   canReadChangeRequestOnHost: (identity, link) =>
     isChangeRequestOnProjectHost(projectChangeRequestHost(identity, KIND), identity, link),
   settings,
-});
+})

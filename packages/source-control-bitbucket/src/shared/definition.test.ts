@@ -1,7 +1,7 @@
 import { recognizeRemoteWith } from "@t3tools/source-control-core/shared/definition";
 import { describe, expect, it } from "vite-plus/test";
 
-import { definition } from "./definition.ts";
+import { definition } from "./definition.vibe";
 
 const parse = (url: string) => definition.parseChangeRequestUrl(new URL(url));
 
