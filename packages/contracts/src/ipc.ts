@@ -13,7 +13,7 @@ import { AuthAccessTokenResult, AuthSessionState, AuthWebSocketTicketResult } fr
 import { AdvertisedEndpoint } from "./remoteAccess.vibe";
 import { ExecutionEnvironmentDescriptor } from "./environment.ts";
 import { type ClientSettings, type QuitConfirmationMode, SnapShotShortcut } from "./settings.ts";
-import type { EditorId } from "./editor.ts";
+import type { EditorId } from "./editor.vibe";
 import type { PreviewForwardedShortcut } from "./keybindings.vibe";
 
 import type {

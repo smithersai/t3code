@@ -77,7 +77,7 @@ import {
   AcpRegistrySetProviderInput,
   AcpRegistrySetProviderResult,
 } from "./acpRegistry.ts";
-import { ExternalLauncherError, LaunchEditorInput } from "./editor.ts";
+import { ExternalLauncherError, LaunchEditorInput } from "./editor.vibe";
 import {
   AuthAccessStreamError,
   AuthAccessStreamEvent,
@@ -173,7 +173,7 @@ import {
   GuestShareCreateError,
   GuestShareCreateInput,
   GuestShareCreateResult,
-} from "./guestShare.ts";
+} from "./guestShare.vibe";
 import { PullRequestReviewGuideResult } from "./pullRequestReviewGuide.ts";
 import {
   PullRequestActionInput,
@@ -392,7 +392,7 @@ import {
   SourceControlRepositoryError,
   SourceControlRepositoryInfo,
   SourceControlRepositoryLookupInput,
-} from "./sourceControl.ts";
+} from "./sourceControl.vibe";
 import { VcsError } from "./vcs.ts";
 import { Project, ProjectMutation, ProjectMutationError } from "./project.ts";
 
