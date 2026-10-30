@@ -382,7 +382,7 @@ import {
   ProjectCloneStartInput,
   ProjectCloneStartResult,
   ProjectCloneSubscribeInput,
-} from "./projectClone.ts";
+} from "./projectClone.vibe";
 import {
   SourceControlCloneRepositoryInput,
   SourceControlCloneRepositoryResult,

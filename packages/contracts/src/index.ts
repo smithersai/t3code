@@ -31,7 +31,7 @@ export * from "./settings.ts";
 export * from "./git.vibe";
 export * from "./vcs.ts";
 export * from "./sourceControl.vibe";
-export * from "./projectClone.ts";
+export * from "./projectClone.vibe";
 export * from "./pullRequest.ts";
 export * from "./pullRequestReviewGuide.ts";
 export * from "./orchestrationDispatch.ts";
