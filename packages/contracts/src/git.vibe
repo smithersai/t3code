@@ -1,0 +1,457 @@
+import * as Effect from "effect/Effect"
+import * as Schema from "effect/Schema"
+import {
+  ForwardCompatibleOptional,
+  NonNegativeInt,
+  PositiveInt,
+  ProjectId,
+  ThreadId,
+  TrimmedNonEmptyString,
+} from "./baseSchemas.ts"
+import { SourceControlProviderError, SourceControlProviderInfo } from "./sourceControl.vibe"
+import { VcsDriverKind } from "./vcs.ts"
+
+const TrimmedNonEmptyStringSchema = TrimmedNonEmptyString
+const GitFilePath = Schema.String.check(Schema.isNonEmpty())
+const GIT_LIST_BRANCHES_MAX_LIMIT = 200
+
+export schema GitStackedAction = "commit" | "push" | "create_pr" | "commit_push" | "commit_push_pr"
+export schema GitActionProgressPhase = "branch" | "commit" | "push" | "pr"
+export schema GitActionProgressKind =
+  | "action_started"
+  | "phase_started"
+  | "hook_started"
+  | "hook_output"
+  | "hook_finished"
+  | "action_finished"
+  | "action_failed"
+export schema GitActionProgressStream = "stdout" | "stderr"
+const GitCommitStepStatus = Schema.Literals([
+  "created",
+  "skipped_no_changes",
+  "skipped_not_requested",
+])
+const GitPushStepStatus = Schema.Literals([
+  "pushed",
+  "skipped_not_requested",
+  "skipped_up_to_date",
+])
+const GitBranchStepStatus = Schema.Literals(["created", "skipped_not_requested"])
+const GitPrStepStatus = Schema.Literals(["created", "opened_existing", "skipped_not_requested"])
+const VcsStatusChangeRequestState = Schema.Literals(["open", "closed", "merged"])
+const GitPullRequestReference = TrimmedNonEmptyStringSchema
+const GitPullRequestState = Schema.Literals(["open", "closed", "merged"])
+const GitPreparePullRequestThreadMode = Schema.Literals(["local", "worktree"])
+export schema GitRunStackedActionToastRunAction {
+  kind: GitStackedAction
+}
+const GitRunStackedActionToastCta = Schema.Union([
+  Schema.Struct({
+    kind: Schema.Literal("none"),
+  }),
+  Schema.Struct({
+    kind: Schema.Literal("open_pr"),
+    label: TrimmedNonEmptyStringSchema,
+    url: Schema.String,
+  }),
+  Schema.Struct({
+    kind: Schema.Literal("run_action"),
+    label: TrimmedNonEmptyStringSchema,
+    action: GitRunStackedActionToastRunAction,
+  }),
+])
+export type GitRunStackedActionToastCta = typeof GitRunStackedActionToastCta.Type
+const GitRunStackedActionToast = Schema.Struct({
+  title: TrimmedNonEmptyStringSchema,
+  description: Schema.optional(TrimmedNonEmptyStringSchema),
+  cta: GitRunStackedActionToastCta,
+})
+export type GitRunStackedActionToast = typeof GitRunStackedActionToast.Type
+
+export const VcsRef = Schema.Struct({
+  name: TrimmedNonEmptyStringSchema,
+  isRemote: Schema.optional(Schema.Boolean),
+  remoteName: Schema.optional(TrimmedNonEmptyStringSchema),
+  // Full Git ref, for example refs/remotes/origin/feature.
+  upstreamRef: Schema.optional(TrimmedNonEmptyStringSchema),
+  current: Schema.Boolean,
+  isDefault: Schema.Boolean,
+  worktreePath: TrimmedNonEmptyStringSchema.pipe(Schema.NullOr),
+})
+export type VcsRef = typeof VcsRef.Type
+
+schema VcsWorktree {
+  path: TrimmedNonEmptyStringSchema
+  refName: TrimmedNonEmptyStringSchema
+}
+const GitResolvedPullRequest = Schema.Struct({
+  number: PositiveInt,
+  title: TrimmedNonEmptyStringSchema,
+  url: Schema.String,
+  baseBranch: TrimmedNonEmptyStringSchema,
+  headBranch: TrimmedNonEmptyStringSchema,
+  state: GitPullRequestState,
+})
+export type GitResolvedPullRequest = typeof GitResolvedPullRequest.Type
+
+export schema VcsStatusInput {
+  cwd: TrimmedNonEmptyStringSchema
+}
+
+export const VcsStatusSubscriptionInput = Schema.Struct({
+  ...VcsStatusInput.fields,
+  /** Passive observers receive cached remote status without retaining its refresh loop. */
+  includeRemote: Schema.optional(Schema.Boolean),
+})
+export type VcsStatusSubscriptionInput = typeof VcsStatusSubscriptionInput.Type
+
+export schema VcsPullInput {
+  cwd: TrimmedNonEmptyStringSchema
+}
+
+export const GitRunStackedActionInput = Schema.Struct({
+  actionId: TrimmedNonEmptyStringSchema,
+  cwd: TrimmedNonEmptyStringSchema,
+  action: GitStackedAction,
+  commitMessage: Schema.optional(TrimmedNonEmptyStringSchema.check(Schema.isMaxLength(10_000))),
+  featureBranch: Schema.optional(Schema.Boolean),
+  filePaths: Schema.optional(Schema.Array(GitFilePath).check(Schema.isMinLength(1))),
+  threadId: Schema.optional(ThreadId),
+  projectId: Schema.optional(ProjectId),
+})
+export type GitRunStackedActionInput = typeof GitRunStackedActionInput.Type
+
+export const VcsListRefsInput = Schema.Struct({
+  cwd: TrimmedNonEmptyStringSchema,
+  query: Schema.optional(TrimmedNonEmptyStringSchema.check(Schema.isMaxLength(256))),
+  cursor: Schema.optional(NonNegativeInt),
+  includeMatchingRemoteRefs: Schema.optional(Schema.Boolean),
+  refKind: Schema.optional(Schema.Literals(["all", "local", "remote"])),
+  refresh: Schema.optional(Schema.Boolean),
+  limit: Schema.optional(
+    PositiveInt.check(Schema.isLessThanOrEqualTo(GIT_LIST_BRANCHES_MAX_LIMIT)),
+  ),
+})
+export type VcsListRefsInput = typeof VcsListRefsInput.Type
+
+export const VcsCreateWorktreeInput = Schema.Struct({
+  cwd: TrimmedNonEmptyStringSchema,
+  refName: TrimmedNonEmptyStringSchema,
+  newRefName: Schema.optional(TrimmedNonEmptyStringSchema),
+  baseRefName: Schema.optional(TrimmedNonEmptyStringSchema),
+  path: Schema.NullOr(TrimmedNonEmptyStringSchema),
+})
+export type VcsCreateWorktreeInput = typeof VcsCreateWorktreeInput.Type
+
+export schema GitPullRequestRefInput {
+  cwd: TrimmedNonEmptyStringSchema
+  reference: GitPullRequestReference
+}
+
+export schema GitPreparePullRequestThreadInput {
+  cwd: TrimmedNonEmptyStringSchema
+  reference: GitPullRequestReference
+  mode: GitPreparePullRequestThreadMode
+  threadId?: ThreadId
+}
+
+export schema VcsRemoveWorktreeInput {
+  cwd: TrimmedNonEmptyStringSchema
+  path: TrimmedNonEmptyStringSchema
+  force?: boolean
+}
+
+export schema VcsCreateRefInput {
+  cwd: TrimmedNonEmptyStringSchema
+  refName: TrimmedNonEmptyStringSchema
+  switchRef?: boolean
+}
+
+export schema VcsCreateRefResult {
+  refName: TrimmedNonEmptyStringSchema
+}
+
+export schema VcsSwitchRefInput {
+  cwd: TrimmedNonEmptyStringSchema
+  refName: TrimmedNonEmptyStringSchema
+}
+
+export schema VcsInitInput {
+  cwd: TrimmedNonEmptyStringSchema
+  kind?: VcsDriverKind
+}
+
+const VcsStatusChangeRequest = Schema.Struct({
+  number: PositiveInt,
+  title: TrimmedNonEmptyStringSchema,
+  url: Schema.String,
+  baseRef: TrimmedNonEmptyStringSchema,
+  headRef: TrimmedNonEmptyStringSchema,
+  state: VcsStatusChangeRequestState,
+  isDraft: Schema.optional(Schema.Boolean),
+  updatedAt: Schema.optional(Schema.NullOr(Schema.String)),
+})
+
+const VcsStatusLocalShape = {
+  isRepo: Schema.Boolean,
+  sourceControlProvider: Schema.optional(SourceControlProviderInfo),
+  hasPrimaryRemote: Schema.Boolean,
+  isDefaultRef: Schema.Boolean,
+  refName: Schema.NullOr(TrimmedNonEmptyStringSchema),
+  hasWorkingTreeChanges: Schema.Boolean,
+  workingTree: Schema.Struct({
+    // Absolute worktree root on the environment that every files[].path is
+    // relative to. Absent when the server could not resolve it.
+    rootPath: Schema.optional(GitFilePath),
+    files: Schema.Array(
+      Schema.Struct({
+        path: GitFilePath,
+        insertions: NonNegativeInt,
+        deletions: NonNegativeInt,
+      }),
+    ),
+    insertions: NonNegativeInt,
+    deletions: NonNegativeInt,
+  }),
+  branchChanges: Schema.optional(
+    Schema.Struct({
+      baseRef: Schema.NullOr(TrimmedNonEmptyStringSchema),
+      insertions: NonNegativeInt,
+      deletions: NonNegativeInt,
+    }),
+  ),
+}
+
+const VcsStatusRemoteShape = {
+  hasUpstream: Schema.Boolean,
+  aheadCount: NonNegativeInt,
+  behindCount: NonNegativeInt,
+  aheadOfDefaultCount: Schema.optional(NonNegativeInt),
+  pr: Schema.NullOr(VcsStatusChangeRequest),
+}
+
+export const VcsStatusLocalResult = Schema.Struct(VcsStatusLocalShape)
+export type VcsStatusLocalResult = typeof VcsStatusLocalResult.Type
+
+export const VcsStatusRemoteResult = Schema.Struct(VcsStatusRemoteShape)
+export type VcsStatusRemoteResult = typeof VcsStatusRemoteResult.Type
+
+export const VcsStatusResult = Schema.Struct({
+  ...VcsStatusLocalShape,
+  ...VcsStatusRemoteShape,
+})
+export type VcsStatusResult = typeof VcsStatusResult.Type
+
+export const VcsStatusStreamEvent = Schema.Union([
+  Schema.TaggedStruct("snapshot", {
+    local: VcsStatusLocalResult,
+    remote: Schema.NullOr(VcsStatusRemoteResult),
+  }),
+  Schema.TaggedStruct("localUpdated", {
+    local: VcsStatusLocalResult,
+  }),
+  Schema.TaggedStruct("remoteUpdated", {
+    remote: Schema.NullOr(VcsStatusRemoteResult),
+  }),
+])
+export type VcsStatusStreamEvent = typeof VcsStatusStreamEvent.Type
+
+export const VcsListRefsResult = Schema.Struct({
+  isAtRepositoryRoot: Schema.optional(Schema.Boolean),
+  refs: Schema.Array(VcsRef),
+  isRepo: Schema.Boolean,
+  hasPrimaryRemote: Schema.Boolean,
+  nextCursor: NonNegativeInt.pipe(Schema.NullOr),
+  totalCount: NonNegativeInt,
+})
+export type VcsListRefsResult = typeof VcsListRefsResult.Type
+
+export schema VcsCreateWorktreeResult {
+  worktree: VcsWorktree
+}
+
+export schema GitResolvePullRequestResult {
+  pullRequest: GitResolvedPullRequest
+}
+
+export const GitPreparePullRequestThreadResult = Schema.Struct({
+  pullRequest: GitResolvedPullRequest,
+  branch: TrimmedNonEmptyStringSchema,
+  worktreePath: TrimmedNonEmptyStringSchema.pipe(Schema.NullOr),
+  /** False when local commits or edits prevented a reused worktree from reaching the PR head. */
+  isOnPullRequestHead: Schema.Boolean.pipe(Schema.withDecodingDefaultKey(Effect.succeed(true))),
+})
+export type GitPreparePullRequestThreadResult = typeof GitPreparePullRequestThreadResult.Type
+
+export const VcsSwitchRefResult = Schema.Struct({
+  refName: Schema.NullOr(TrimmedNonEmptyStringSchema),
+})
+export type VcsSwitchRefResult = typeof VcsSwitchRefResult.Type
+
+export schema GitRunStackedActionResult {
+  action: GitStackedAction
+  branch: {
+    status: GitBranchStepStatus
+    name?: TrimmedNonEmptyStringSchema
+  }
+  commit: {
+    status: GitCommitStepStatus
+    commitSha?: TrimmedNonEmptyStringSchema
+    subject?: TrimmedNonEmptyStringSchema
+  }
+  push: {
+    status: GitPushStepStatus
+    branch?: TrimmedNonEmptyStringSchema
+    upstreamBranch?: TrimmedNonEmptyStringSchema
+    setUpstream?: boolean
+  }
+  pr: {
+    status: GitPrStepStatus
+    url?: string
+    number?: PositiveInt
+    baseBranch?: TrimmedNonEmptyStringSchema
+    headBranch?: TrimmedNonEmptyStringSchema
+    title?: TrimmedNonEmptyStringSchema
+  }
+  toast: GitRunStackedActionToast
+}
+
+export const VcsPullResult = Schema.Struct({
+  status: Schema.Literals(["pulled", "skipped_up_to_date"]),
+  refName: TrimmedNonEmptyStringSchema,
+  upstreamRef: TrimmedNonEmptyStringSchema.pipe(Schema.NullOr),
+})
+export type VcsPullResult = typeof VcsPullResult.Type
+
+// Git stderr can echo credentials from argv and remote URLs. Only a fixed
+// reason reaches the error and its diagnostic suffix; newer, unknown reasons
+// decode as absent through GitCommandError.
+export schema GitCommandFailureReason =
+  | "authentication_failed"
+  | "branch_already_exists"
+  | "branch_checked_out_in_worktree"
+  | "config_locked"
+  | "host_key_unverified"
+  | "not_a_repository"
+  | "path_already_exists"
+  | "push_rejected_by_remote"
+  | "push_rejected_non_fast_forward"
+  | "ref_not_found"
+  | "remote_unreachable"
+  | "tag_would_be_clobbered"
+
+const GitCommandErrorReasonField = ForwardCompatibleOptional(GitCommandFailureReason)
+const DefectField = Schema.Defect()
+export schema error GitCommandError {
+  operation: string
+  command: string
+  cwd: string
+  argumentCount?: number
+  exitCode?: number
+  stdoutLength?: number
+  stderrLength?: number
+  outputLength?: number
+  reason: GitCommandErrorReasonField
+  detail: string
+  cause?: DefectField
+  override get message(): string {
+    const reason = this.reason === undefined ? "" : ` (${this.reason})`
+    return `Git command failed in ${this.operation} (${this.cwd}): ${this.detail}${reason}`
+  }
+}
+
+export schema error TextGenerationError {
+  operation: string
+  detail: string
+  cause?: DefectField
+  override get message(): string {
+    return `Text generation failed in ${this.operation}: ${this.detail}`
+  }
+}
+
+export schema error GitManagerError {
+  operation: string
+  cwd: string
+  detail: string
+  cause?: DefectField
+  override get message(): string {
+    return `Git manager failed in ${this.operation}: ${this.detail}`
+  }
+}
+
+const GitPullRequestMaterializationErrorHeadRepositoryField = Schema.NullOr(TrimmedNonEmptyStringSchema)
+export schema error GitPullRequestMaterializationError {
+  cwd: TrimmedNonEmptyStringSchema
+  pullRequestNumber: PositiveInt
+  headRepository: GitPullRequestMaterializationErrorHeadRepositoryField
+  headBranch: TrimmedNonEmptyStringSchema
+  localBranch: TrimmedNonEmptyStringSchema
+  cause: DefectField
+  override get message(): string {
+    return `Failed to materialize pull request #${this.pullRequestNumber} branch ${this.headBranch} as ${this.localBranch}.`
+  }
+}
+
+export schema GitManagerServiceError =
+  | GitManagerError
+  | GitPullRequestMaterializationError
+  | GitCommandError
+  | SourceControlProviderError
+  | TextGenerationError
+
+schema GitActionProgressBase {
+  actionId: TrimmedNonEmptyStringSchema
+  cwd: TrimmedNonEmptyStringSchema
+  action: GitStackedAction
+}
+
+const GitActionStartedEvent = Schema.Struct({
+  ...GitActionProgressBase.fields,
+  kind: Schema.Literal("action_started"),
+  phases: Schema.Array(GitActionProgressPhase),
+})
+const GitActionPhaseStartedEvent = Schema.Struct({
+  ...GitActionProgressBase.fields,
+  kind: Schema.Literal("phase_started"),
+  phase: GitActionProgressPhase,
+  label: TrimmedNonEmptyStringSchema,
+})
+const GitActionHookStartedEvent = Schema.Struct({
+  ...GitActionProgressBase.fields,
+  kind: Schema.Literal("hook_started"),
+  hookName: TrimmedNonEmptyStringSchema,
+})
+const GitActionHookOutputEvent = Schema.Struct({
+  ...GitActionProgressBase.fields,
+  kind: Schema.Literal("hook_output"),
+  hookName: Schema.NullOr(TrimmedNonEmptyStringSchema),
+  stream: GitActionProgressStream,
+  text: TrimmedNonEmptyStringSchema,
+})
+const GitActionHookFinishedEvent = Schema.Struct({
+  ...GitActionProgressBase.fields,
+  kind: Schema.Literal("hook_finished"),
+  hookName: TrimmedNonEmptyStringSchema,
+  exitCode: Schema.NullOr(Schema.Int),
+  durationMs: Schema.NullOr(NonNegativeInt),
+})
+const GitActionFinishedEvent = Schema.Struct({
+  ...GitActionProgressBase.fields,
+  kind: Schema.Literal("action_finished"),
+  result: GitRunStackedActionResult,
+})
+const GitActionFailedEvent = Schema.Struct({
+  ...GitActionProgressBase.fields,
+  kind: Schema.Literal("action_failed"),
+  phase: Schema.NullOr(GitActionProgressPhase),
+  message: TrimmedNonEmptyStringSchema,
+})
+
+export schema GitActionProgressEvent =
+  | GitActionStartedEvent
+  | GitActionPhaseStartedEvent
+  | GitActionHookStartedEvent
+  | GitActionHookOutputEvent
+  | GitActionHookFinishedEvent
+  | GitActionFinishedEvent
+  | GitActionFailedEvent

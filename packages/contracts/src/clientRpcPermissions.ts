@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import { GitPreparePullRequestThreadInput, GitRunStackedActionInput } from "./git.ts";
+import { GitPreparePullRequestThreadInput, GitRunStackedActionInput } from "./git.vibe";
 import {
   AuthAccessWriteScope,
   AuthOrchestrationOperateScope,
