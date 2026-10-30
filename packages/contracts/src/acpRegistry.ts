@@ -3,7 +3,7 @@ import * as Schema from "effect/Schema";
 
 import { ProjectId, ThreadId, TrimmedNonEmptyString, TrimmedString } from "./baseSchemas.ts";
 import { ProviderOptionDescriptor } from "./model.ts";
-import { ProviderInstanceId } from "./providerInstance.ts";
+import { ProviderInstanceId } from "./providerInstance.vibe";
 
 const AcpRegistryAgentId = TrimmedNonEmptyString.check(
   Schema.isMaxLength(128),

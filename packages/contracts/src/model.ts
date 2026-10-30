@@ -2,7 +2,7 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import * as SchemaTransformation from "effect/SchemaTransformation";
 import { TrimmedNonEmptyString } from "./baseSchemas.ts";
-import { ProviderDriverKind } from "./providerInstance.ts";
+import { ProviderDriverKind } from "./providerInstance.vibe";
 
 export const ProviderOptionDescriptorType = Schema.Literals(["select", "boolean"]);
 export type ProviderOptionDescriptorType = typeof ProviderOptionDescriptorType.Type;

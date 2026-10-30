@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
 import { IsoDateTime, NonNegativeInt, ProjectId, TrimmedNonEmptyString } from "./baseSchemas.ts";
-import { ProviderInstanceId } from "./providerInstance.ts";
+import { ProviderInstanceId } from "./providerInstance.vibe";
 
 export const AgentSessionSource = Schema.Literals(["claudeAgent", "codex"]);
 export type AgentSessionSource = typeof AgentSessionSource.Type;

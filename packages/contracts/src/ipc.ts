@@ -1,9 +1,9 @@
 import * as Schema from "effect/Schema";
-import type { PreviewCaptureFailureEncoded } from "./previewCapture.ts";
+import type { PreviewCaptureFailureEncoded } from "./previewCapture.vibe";
 
 import { SnapShotSource } from "./chatAttachment.ts";
 import { EnvironmentId, TrimmedNonEmptyString } from "./baseSchemas.ts";
-import { BrowserProfileId } from "./browserProfile.ts";
+import { BrowserProfileId } from "./browserProfile.vibe";
 import type {
   BrowserImportResult,
   BrowserImportSource,

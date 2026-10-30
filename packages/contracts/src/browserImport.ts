@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
 import { TrimmedNonEmptyString } from "./baseSchemas.ts";
-import { BrowserProfileId } from "./browserProfile.ts";
+import { BrowserProfileId } from "./browserProfile.vibe";
 
 const BROWSER_IMPORT_SOURCE_IDS = [
   "chrome",

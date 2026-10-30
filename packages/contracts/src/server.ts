@@ -25,7 +25,7 @@ import {
 import { EditorId, FileManagerRevealKind, RemoteOpenTarget } from "./editor.ts";
 import { ModelCapabilities, ProviderOptionDescriptor } from "./model.ts";
 import { RuntimeMode } from "./providerPolicy.ts";
-import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.ts";
+import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
 import { ServerProviderUsageLimits, UsageLimitSourceSnapshots } from "./providerUsageLimits.ts";
 import { ServerSettings } from "./settings.ts";
 

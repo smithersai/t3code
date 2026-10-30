@@ -7,7 +7,7 @@ import {
   ThreadId,
   TrimmedNonEmptyString,
 } from "./baseSchemas.ts";
-import { ProviderInstanceId } from "./providerInstance.ts";
+import { ProviderInstanceId } from "./providerInstance.vibe";
 
 export const BackgroundBooleanState = Schema.Literals(["true", "false", "unknown"]);
 export type BackgroundBooleanState = typeof BackgroundBooleanState.Type;

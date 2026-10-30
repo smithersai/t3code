@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
 import { TrimmedNonEmptyString } from "./baseSchemas.ts";
-import { ProviderInstanceId } from "./providerInstance.ts";
+import { ProviderInstanceId } from "./providerInstance.vibe";
 
 export const DEFAULT_TERMINAL_ID = "term-1";
 export const DEFAULT_MAX_TERMINAL_BUFFER_BYTES = 512 * 1024;

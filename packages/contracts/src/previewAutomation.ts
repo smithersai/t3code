@@ -9,8 +9,8 @@ import {
   PreviewViewportSetting,
   PreviewViewportSize,
 } from "./preview.ts";
-import { ProviderInstanceId } from "./providerInstance.ts";
-import { BrowserProfileId } from "./browserProfile.ts";
+import { ProviderInstanceId } from "./providerInstance.vibe";
+import { BrowserProfileId } from "./browserProfile.vibe";
 
 const BoundedUrl = Schema.String.check(Schema.isTrimmed())
   .check(Schema.isNonEmpty())

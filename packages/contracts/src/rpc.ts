@@ -168,7 +168,7 @@ import {
   ProviderUploadFeedbackInput,
   ProviderUploadFeedbackResult,
 } from "./provider.ts";
-import { ProviderInstanceId, ProviderInstanceMutation } from "./providerInstance.ts";
+import { ProviderInstanceId, ProviderInstanceMutation } from "./providerInstance.vibe";
 import {
   GuestShareCreateError,
   GuestShareCreateInput,

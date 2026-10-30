@@ -13,7 +13,7 @@ import {
   TrimmedNonEmptyString,
   TurnId,
 } from "./baseSchemas.ts";
-import { ProviderInstanceId, ProviderDriverKind } from "./providerInstance.ts";
+import { ProviderInstanceId, ProviderDriverKind } from "./providerInstance.vibe";
 import { ProviderUsageLimitsUpdate } from "./providerUsageLimits.ts";
 import { ProviderApprovalOption } from "./providerPolicy.ts";
 

@@ -4,7 +4,7 @@ import * as SchemaTransformation from "effect/SchemaTransformation";
 
 import { TrimmedNonEmptyString } from "./baseSchemas.ts";
 import { ProviderOptionSelections } from "./model.ts";
-import { ProviderInstanceId } from "./providerInstance.ts";
+import { ProviderInstanceId } from "./providerInstance.vibe";
 
 const ModelSelectionWire = Schema.Struct({
   instanceId: ProviderInstanceId,
