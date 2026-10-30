@@ -1,7 +1,7 @@
-import * as Schema from "effect/Schema";
-import { TrimmedNonEmptyString } from "./baseSchemas.ts";
-import { GitCommandError } from "./git.vibe";
-import { VcsError } from "./vcs.ts";
+import * as Schema from "effect/Schema"
+import { TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { GitCommandError } from "./git.vibe"
+import { VcsError } from "./vcs.ts"
 
 export const ReviewDiffPreviewInput = Schema.Struct({
   cwd: TrimmedNonEmptyString,
@@ -14,19 +14,18 @@ export const ReviewDiffPreviewInput = Schema.Struct({
       sourceKind: Schema.Literals(["working-tree", "branch-range"]),
     }),
   ),
-});
-export type ReviewDiffPreviewInput = typeof ReviewDiffPreviewInput.Type;
+})
+export type ReviewDiffPreviewInput = typeof ReviewDiffPreviewInput.Type
 
-export const ReviewDiffPreviewSourceKind = Schema.Literals(["working-tree", "branch-range"]);
-export type ReviewDiffPreviewSourceKind = typeof ReviewDiffPreviewSourceKind.Type;
+export schema ReviewDiffPreviewSourceKind = "working-tree" | "branch-range"
 
 export const ReviewDiffFileStat = Schema.Struct({
   path: Schema.String,
   previousPath: Schema.NullOr(Schema.String),
   additions: Schema.Number,
   deletions: Schema.Number,
-});
-export type ReviewDiffFileStat = typeof ReviewDiffFileStat.Type;
+})
+export type ReviewDiffFileStat = typeof ReviewDiffFileStat.Type
 
 export const ReviewDiffPreviewSource = Schema.Struct({
   id: TrimmedNonEmptyString,
@@ -38,8 +37,8 @@ export const ReviewDiffPreviewSource = Schema.Struct({
   diffHash: TrimmedNonEmptyString,
   truncated: Schema.Boolean,
   files: Schema.optionalKey(Schema.Array(ReviewDiffFileStat)),
-});
-export type ReviewDiffPreviewSource = typeof ReviewDiffPreviewSource.Type;
+})
+export type ReviewDiffPreviewSource = typeof ReviewDiffPreviewSource.Type
 
 export const ReviewDiffFileContentsInput = Schema.Struct({
   cwd: TrimmedNonEmptyString,
@@ -49,21 +48,18 @@ export const ReviewDiffFileContentsInput = Schema.Struct({
   headRef: Schema.NullOr(TrimmedNonEmptyString),
   oldPath: TrimmedNonEmptyString,
   newPath: TrimmedNonEmptyString,
-});
-export type ReviewDiffFileContentsInput = typeof ReviewDiffFileContentsInput.Type;
+})
+export type ReviewDiffFileContentsInput = typeof ReviewDiffFileContentsInput.Type
 
-export const ReviewDiffFileContentsResult = Schema.Struct({
-  oldContents: Schema.String,
-  newContents: Schema.String,
-});
-export type ReviewDiffFileContentsResult = typeof ReviewDiffFileContentsResult.Type;
+export schema ReviewDiffFileContentsResult {
+  oldContents: string
+  newContents: string
+}
 
-export const ReviewDiffPreviewResult = Schema.Struct({
-  cwd: TrimmedNonEmptyString,
-  generatedAt: Schema.DateTimeUtc,
-  sources: Schema.Array(ReviewDiffPreviewSource),
-});
-export type ReviewDiffPreviewResult = typeof ReviewDiffPreviewResult.Type;
+export schema ReviewDiffPreviewResult {
+  cwd: TrimmedNonEmptyString
+  generatedAt: Schema.DateTimeUtc
+  sources: ReadonlyArray<ReviewDiffPreviewSource>
+}
 
-export const ReviewDiffPreviewError = Schema.Union([VcsError, GitCommandError]);
-export type ReviewDiffPreviewError = typeof ReviewDiffPreviewError.Type;
+export schema ReviewDiffPreviewError = VcsError | GitCommandError
