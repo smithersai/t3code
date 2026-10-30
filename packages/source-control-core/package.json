@@ -28,8 +28,8 @@
       "import": "./src/server/mergeMessage.ts"
     },
     "./server/pullRequestChecks": {
-      "types": "./src/server/pullRequestChecks.ts",
-      "import": "./src/server/pullRequestChecks.ts"
+      "types": "./src/server/pullRequestChecks.d.vibe.ts",
+      "import": "./src/server/pullRequestChecks.vibe"
     },
     "./server/PullRequestProvider": {
       "types": "./src/server/PullRequestProvider.ts",
