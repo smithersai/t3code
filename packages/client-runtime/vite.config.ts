@@ -1,7 +1,9 @@
 import "vite-plus/test/config";
 import { defineConfig } from "vite-plus";
+import vibelang from "vibelang-vite";
 
 export default defineConfig({
+  plugins: [vibelang()],
   test: {
     environment: "node",
     include: ["src/**/*.test.ts"],

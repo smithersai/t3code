@@ -48,7 +48,7 @@
     "generate:highlights": "node scripts/generate-highlights.mts",
     "eas-build-on-success": "node scripts/upload-sourcemaps.mts build",
     "test": "vp test run --project unit --project react",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "vibelang --noEmit"
   },
   "dependencies": {
     "@clerk/expo": "catalog:",
@@ -137,7 +137,8 @@
     "remark-parse": "catalog:",
     "tailwind-merge": "^3.5.0",
     "unified": "catalog:",
-    "uniwind": "1.13.0"
+    "uniwind": "1.13.0",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11.tgz"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
@@ -151,7 +152,9 @@
     "babel-preset-expo": "~58.0.17",
     "jsdom": "^30.0.1",
     "tailwindcss": "^4.0.0",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11.tgz"
   },
   "enriched-markdown": {
     "enableMath": true,

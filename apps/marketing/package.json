@@ -17,6 +17,8 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@vercel/config": "^0.3.0",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11.tgz"
   }
 }

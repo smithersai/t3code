@@ -1,29 +1,33 @@
-{
-  "$schema": "https://unpkg.com/knip@6/schema.json",
+import vibelang from "vibelang/knip";
+
+// Knip reads .vibe files through VibeLang's compiler. The declaration
+// sidecars vibelang writes beside them, x.d.vibe.ts, are its output.
+const config = {
+  $schema: "https://unpkg.com/knip@6/schema.json",
   // Exported types are part of our contracts even before they have consumers.
-  "rules": { "types": "off", "nsTypes": "off" },
+  rules: { types: "off", nsTypes: "off" },
   // These executables are supplied by the OS or installed separately from npm.
-  "ignoreBinaries": ["eas", "file", "mkfifo", "pkill", "pkg-config", "plutil", "sips"],
-  "workspaces": {
+  ignoreBinaries: ["eas", "file", "mkfifo", "pkill", "pkg-config", "plutil", "sips"],
+  workspaces: {
     ".": {
       // Keep vendored reference repositories outside the root project.
-      "project": ["*.{js,mjs,cjs,ts,mts,cts}", ".github/**/*.cjs"],
-      "entry": [
+      project: ["*.{js,mjs,cjs,ts,mts,cts}", ".github/**/*.cjs"],
+      entry: [
         // CodeRabbit loads its configuration by filename.
         ".coderabbit.config.ts",
         ".github/scripts/thread-transfer-report.cjs",
       ],
-      "vite": { "entry": [".github/**/*.test.cjs"] },
-      "vitest": { "entry": [".github/**/*.test.cjs"] },
+      vite: { entry: [".github/**/*.test.cjs"] },
+      vitest: { entry: [".github/**/*.test.cjs"] },
     },
-    "scripts": {
+    scripts: {
       // Knip loads its preprocessor through a CLI option; native verification and
       // worktree setup (from t3.json) run directly. release-desktop.yml bundles the
       // Windows verify script with esbuild through a path knip does not trace,
       // electron-builder loads the macOS signer by path, and mobile-e2e.ts runs
       // agent-device's CLI by path. release-desktop.yml runs the desktop launch
       // check through xvfb-run, which knip does not trace.
-      "entry": [
+      entry: [
         // These fixture scripts are injected into a browser page by path.
         "fixtures/*/*.js",
         "knip-schemas.ts",
@@ -33,15 +37,15 @@
         "smoke-desktop-app.ts",
         "verify-windows-desktop-artifact.ts",
       ],
-      "ignoreDependencies": ["agent-device", "esbuild"],
+      ignoreDependencies: ["agent-device", "esbuild"],
       // The `t3` npm package's files: copied into the package, never imported.
       // knip-schemas.test.ts writes a throwaway project to .knip-test-*, which a
       // knip run beside it in check:changed must not report.
-      "ignore": ["npm-launcher/**", ".knip-test-*/**"],
+      ignore: ["npm-launcher/**", ".knip-test-*/**"],
     },
     "apps/server": {
       // Vite+ pack entries and the launcher used by installed background services.
-      "entry": [
+      entry: [
         "src/bin.ts!",
         "src/claude-history-worker.ts!",
         "scripts/cli.ts",
@@ -54,16 +58,16 @@
         "graphql.config.ts",
       ],
       // The generated operations export every selection's class.
-      "ignoreIssues": { "**/*.graphql.ts": ["exports", "types", "namespaceMembers"] },
+      ignoreIssues: { "**/*.graphql.ts": ["exports", "types", "namespaceMembers"] },
       // Keep the transitive Effect runtime pinned for standalone npm installs.
       // The Vite+ web build prerequisite.
       // Native and disk-loaded provider packages stay external to the bundle; the
       // CLI archive and desktop sidecar stage them from this manifest.
-      "ignoreDependencies": ["@effect/platform-node-shared", "@t3tools/web", "@napi-rs/keyring"],
+      ignoreDependencies: ["@effect/platform-node-shared", "@t3tools/web", "@napi-rs/keyring"],
     },
     "apps/desktop": {
       // Electron loads these bundles by filename rather than importing them.
-      "entry": [
+      entry: [
         "gnome-extension/extension.js!",
         "src/electron/WindowsForegroundFocusWorker.ts!",
         "src/snapShot/GlobalShiftShortcutWorker.ts!",
@@ -80,24 +84,24 @@
       ],
       // The injected runtime resolves Playwright by string; release tooling runs
       // electron-builder from this workspace, outside its package scripts.
-      "ignoreDependencies": ["playwright-core", "electron-builder"],
+      ignoreDependencies: ["playwright-core", "electron-builder"],
     },
     "apps/web": {
       // Worktree setup (scripts/setup-worktree.ts) runs this directly, and evidence
       // fixtures run under node.
-      "entry": ["scripts/warm-dep-cache.ts", "test/fixtures/**/*.mjs"],
+      entry: ["scripts/warm-dep-cache.ts", "test/fixtures/**/*.mjs"],
       // UI component modules are copied and adapted as cohesive sets. Keep their
       // named subcomponents even before they have callers; the file audit still
       // reports an entire component module when nothing imports it.
-      "ignoreIssues": { "src/components/ui/*.tsx": ["exports", "nsExports", "duplicates"] },
+      ignoreIssues: { "src/components/ui/*.tsx": ["exports", "nsExports", "duplicates"] },
     },
     "apps/marketing": {
       // `astro check` runs from the typecheck task in vite.config.ts, which knip does not read.
-      "ignoreDependencies": ["@astrojs/check"],
+      ignoreDependencies: ["@astrojs/check"],
     },
     "apps/mobile": {
       // Expo loads plugins and the fingerprint config by string; Metro embeds the browser entry in the native WebView.
-      "entry": [
+      entry: [
         "index.ts!",
         "fingerprint.config.js",
         "plugins/*.cjs",
@@ -106,7 +110,7 @@
         "src/features/browser/preview-stream.browser.ts!",
       ],
       // Fonts are configured as asset paths; Expo autolinks the native packages.
-      "ignoreDependencies": [
+      ignoreDependencies: [
         "@expo-google-fonts/dm-sans",
         "@t3tools/mobile-highlights-native",
         "@t3tools/mobile-review-diff-native",
@@ -115,12 +119,12 @@
     },
     "apps/mobile/modules/t3-source-text": {
       // React Native codegen discovers component specifications by filename.
-      "entry": ["src/*NativeComponent.ts!"],
+      entry: ["src/*NativeComponent.ts!"],
     },
     "infra/task-cache": {
-      "ignore": ["vendor/**"],
+      ignore: ["vendor/**"],
       // The bootstrap and Vite+ hook are loaded by shell/package configuration.
-      "entry": [
+      entry: [
         "alchemy.run.ts!",
         "scripts/install.ts",
         "scripts/install-ci.ts",
@@ -131,27 +135,33 @@
       ],
     },
     "infra/relay": {
-      "entry": ["alchemy.run.ts!", "src/persistence/schema.ts!"],
+      entry: ["alchemy.run.ts!", "src/persistence/schema.ts!"],
     },
     "packages/*": {
       // These workspace packages are private to this monorepo.
-      "includeEntryExports": true,
+      includeEntryExports: true,
     },
     "packages/effect-acp": {
-      "includeEntryExports": true,
-      "entry": ["test/fixtures/*.ts"],
+      includeEntryExports: true,
+      entry: ["test/fixtures/*.ts"],
       // Generated upstream protocol definitions are retained as a complete set.
-      "ignoreIssues": { "src/_generated/**": ["exports", "types"] },
+      ignoreIssues: { "src/_generated/**": ["exports", "types"] },
     },
     "packages/effect-codex-app-server": {
-      "includeEntryExports": true,
-      "entry": ["test/fixtures/*.ts"],
-      "ignoreIssues": { "src/_generated/**": ["exports", "types"] },
+      includeEntryExports: true,
+      entry: ["test/fixtures/*.ts"],
+      ignoreIssues: { "src/_generated/**": ["exports", "types"] },
     },
     "packages/source-control-github": {
       // graphqlgen reads its config; the generated operations export every selection's class.
-      "entry": ["graphql.config.ts", "scripts/measure-pr-preview.ts"],
-      "ignoreIssues": { "**/*.graphql.ts": ["exports", "types", "namespaceMembers"] },
+      entry: ["graphql.config.ts", "scripts/measure-pr-preview.ts"],
+      ignoreIssues: { "**/*.graphql.ts": ["exports", "types", "namespaceMembers"] },
     },
   },
-}
+} as { ignore?: string | string[] };
+
+export default {
+  ...config,
+  compilers: { vibe: vibelang },
+  ignore: [...[config.ignore ?? []].flat(), "**/*.d.vibe.ts"],
+};
