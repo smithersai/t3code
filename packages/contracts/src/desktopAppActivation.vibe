@@ -1,0 +1,46 @@
+import * as Schema from "effect/Schema"
+
+import { ProjectId, ThreadId, TrimmedNonEmptyString } from "./baseSchemas.ts"
+
+export const DESKTOP_APP_ACTIVATION_PROTOCOL_VERSION = 1 as const
+
+export schema DesktopAppActivationPlatform = "darwin" | "linux" | "win32"
+
+export const DesktopAppActivationRequest = Schema.Struct({
+  version: Schema.Literal(DESKTOP_APP_ACTIVATION_PROTOCOL_VERSION),
+  requestId: TrimmedNonEmptyString,
+  type: Schema.Literal("open-workspace"),
+  workspaceRoot: TrimmedNonEmptyString,
+  platform: DesktopAppActivationPlatform,
+})
+export type DesktopAppActivationRequest = typeof DesktopAppActivationRequest.Type
+
+export schema DesktopAppActivationErrorCode =
+  | "invalid-request"
+  | "renderer-unavailable"
+  | "environment-unavailable"
+  | "platform-mismatch"
+  | "project-create-failed"
+  | "thread-open-failed"
+  | "request-timeout"
+  | "internal-error"
+
+export const DesktopAppActivationSuccess = Schema.Struct({
+  version: Schema.Literal(DESKTOP_APP_ACTIVATION_PROTOCOL_VERSION),
+  requestId: TrimmedNonEmptyString,
+  ok: Schema.Literal(true),
+  projectId: ProjectId,
+  threadId: ThreadId,
+})
+export type DesktopAppActivationSuccess = typeof DesktopAppActivationSuccess.Type
+
+export const DesktopAppActivationFailure = Schema.Struct({
+  version: Schema.Literal(DESKTOP_APP_ACTIVATION_PROTOCOL_VERSION),
+  requestId: TrimmedNonEmptyString,
+  ok: Schema.Literal(false),
+  code: DesktopAppActivationErrorCode,
+  message: TrimmedNonEmptyString,
+})
+export type DesktopAppActivationFailure = typeof DesktopAppActivationFailure.Type
+
+export schema DesktopAppActivationResponse = DesktopAppActivationSuccess | DesktopAppActivationFailure

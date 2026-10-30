@@ -10,7 +10,7 @@ import type {
   BrowserImportSourceId,
 } from "./browserImport.ts";
 import { AuthAccessTokenResult, AuthSessionState, AuthWebSocketTicketResult } from "./auth.ts";
-import { AdvertisedEndpoint } from "./remoteAccess.ts";
+import { AdvertisedEndpoint } from "./remoteAccess.vibe";
 import { ExecutionEnvironmentDescriptor } from "./environment.ts";
 import { type ClientSettings, type QuitConfirmationMode, SnapShotShortcut } from "./settings.ts";
 import type { EditorId } from "./editor.ts";
@@ -19,7 +19,7 @@ import type { PreviewForwardedShortcut } from "./keybindings.vibe";
 import type {
   DesktopAppActivationRequest,
   DesktopAppActivationResponse,
-} from "./desktopAppActivation.ts";
+} from "./desktopAppActivation.vibe";
 
 export interface ContextMenuItem<T extends string = string> {
   id: T;
