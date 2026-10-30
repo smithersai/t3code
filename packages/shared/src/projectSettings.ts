@@ -14,7 +14,7 @@ import {
   type WorktreeCleanupRules,
 } from "@t3tools/contracts";
 import { normalizeProjectPathForComparison } from "./path.ts";
-import { fallbackTextGenerationModelSelection } from "./serverSettings.ts";
+import { fallbackTextGenerationModelSelection } from "./serverSettings.vibe";
 
 export type ProjectSettingSource = "environment" | "project" | "t3.json";
 
