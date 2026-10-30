@@ -17,7 +17,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import { buildPiRpcLaunch, resolvePiLaunchArgs } from "./mcpInjection.ts";
+import { buildPiRpcLaunch, resolvePiLaunchArgs } from "./mcpInjection.vibe";
 import {
   makePiRpcConnection,
   PiRpcError,
@@ -41,12 +41,12 @@ import {
 import {
   EMPTY_PI_MODEL_CAPABILITIES,
   thinkingCapabilitiesForPiModel,
-} from "./thinkingCapabilities.ts";
+} from "./thinkingCapabilities.vibe";
 import {
   parsePiDiscoveredCommands,
   withPiBuiltinSlashCommands,
   type PiDiscoveredCommands,
-} from "./commands.ts";
+} from "./commands.vibe";
 
 const PI_PRESENTATION = {
   displayName: "Pi",
