@@ -7,7 +7,7 @@ import * as Stream from "effect/Stream";
 import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import { FxSettings } from "../settings.ts";
+import { FxSettings } from "../settings.vibe";
 import { checkFxProviderStatus } from "./status.ts";
 
 const encoder = new TextEncoder();

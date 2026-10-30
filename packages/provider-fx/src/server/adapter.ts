@@ -1,7 +1,7 @@
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { resolveSelfInvocation, type SelfInvocation } from "@t3tools/shared/nodeRuntime";
 import { type OrchestrationV2ProviderCapabilities } from "@t3tools/contracts";
-import { FxSettings } from "../settings.ts";
+import { FxSettings } from "../settings.vibe";
 import type * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import type * as FileSystem from "effect/FileSystem";

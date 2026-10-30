@@ -1,5 +1,5 @@
 import { type ServerProviderAuth, type ServerProviderModel } from "@t3tools/contracts";
-import type { FxSettings } from "../settings.ts";
+import type { FxSettings } from "../settings.vibe";
 import { createModelCapabilities } from "@t3tools/shared/model";
 import { resolveSpawnCommand } from "@t3tools/shared/shell";
 import * as DateTime from "effect/DateTime";
