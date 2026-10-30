@@ -17,7 +17,7 @@ export * from "./terminal.vibe";
 export * from "./provider.ts";
 export * from "./providerInstance.vibe";
 export * from "./providerSetup.ts";
-export * from "./providerRuntime.ts";
+export * from "./providerRuntime.vibe";
 export * from "./providerUsageLimits.vibe";
 export * from "./usageLimitSourceId.vibe";
 export * from "./providerPolicy.vibe";
