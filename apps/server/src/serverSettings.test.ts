@@ -30,6 +30,7 @@ import * as SqlitePersistence from "./persistence/Sqlite.ts";
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite";
 import * as ServerSettingsModule from "./serverSettings.ts";
 import { resolveProviderInstanceTerminalEnvironment } from "./terminal/Manager.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const decodeServerSettings = Schema.decodeUnknownEffect(ServerSettings);
 const decodeServerSettingsJson = Schema.decodeUnknownEffect(Schema.fromJsonString(ServerSettings));
@@ -93,7 +94,7 @@ const recordProviderUsage = (provider: string, instanceId: string | null = provi
     `;
   });
 
-it.layer(NodeServices.layer)("server settings", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("server settings", (it) => {
   it.effect("serializes concurrent model preference edits without cancelling duplicate adds", () =>
     Effect.gen(function* () {
       const service = yield* ServerSettingsModule.ServerSettingsService;

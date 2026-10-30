@@ -1,6 +1,6 @@
 import { ProviderDriverKind } from "@t3tools/contracts";
 import { OpenCodeSettings } from "../settings.ts";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";

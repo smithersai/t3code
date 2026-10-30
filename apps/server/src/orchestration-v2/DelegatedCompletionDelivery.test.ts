@@ -47,9 +47,10 @@ import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
 import * as ProviderTurnStartServiceTestkit from "./ProviderTurnStartService.testkit.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerPlatformTest = Layer.merge(
-  NodeServices.layer,
+  Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
   Layer.mock(SourceControlProviderRegistry.SourceControlProviderRegistry)({
     resolveLink: () => Effect.die("unused title link"),
   }),

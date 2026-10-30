@@ -8,7 +8,7 @@ import {
 } from "@t3tools/contracts";
 import { isSvgAttachment } from "@t3tools/shared/image";
 import * as Clock from "effect/Clock";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";

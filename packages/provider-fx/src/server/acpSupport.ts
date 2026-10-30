@@ -7,7 +7,7 @@ import {
 } from "@t3tools/contracts";
 import type { FxSettings } from "../settings.ts";
 import { getModelSelectionStringOptionValue } from "@t3tools/shared/model";
-import type * as Crypto from "effect/Crypto";
+import type * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Scope from "effect/Scope";

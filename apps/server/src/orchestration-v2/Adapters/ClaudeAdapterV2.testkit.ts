@@ -17,7 +17,7 @@ import {
   type ProviderReplayTranscript,
 } from "@t3tools/contracts";
 import * as Cause from "effect/Cause";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
@@ -1015,7 +1015,7 @@ function layerClaudeProviderAdapterRegistryReplay(
   const layerServerConfig = Layer.effect(
     ServerConfig.ServerConfig,
     makeReplayServerConfig(transcript.scenario).pipe(Effect.orDie),
-  ).pipe(Layer.provide(NodeServices.layer));
+  ).pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
   return Layer.unwrap(
     writeReplayTaskOutputFiles(transcript).pipe(
       Effect.orDie,
@@ -1030,14 +1030,14 @@ function layerClaudeProviderAdapterRegistryReplay(
           },
         }),
       ),
-      Effect.provide(NodeServices.layer),
+      Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     ),
   ).pipe(
     Layer.provide(
       Layer.mergeAll(
         layerClaudeAgentSdkReplay(transcript, options),
         IdAllocator.layer,
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         layerServerConfig,
       ),
     ),
@@ -1603,7 +1603,7 @@ async function recordClaudeStreamingQuery(input: {
           Crypto.Crypto.pipe(
             Effect.flatMap((crypto) => crypto.randomUUIDv4()),
             Effect.filterOrFail(ClaudeAdapterV2.isClaudePromptUuid),
-            Effect.provide(NodeServices.layer),
+            Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
           ),
         ),
       });

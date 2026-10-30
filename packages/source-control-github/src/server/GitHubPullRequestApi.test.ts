@@ -1,5 +1,4 @@
 import * as NodeServices from "@effect/platform-node/NodeServices";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import { afterEach, assert, expect, it, vi } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Deferred from "effect/Deferred";
@@ -21,6 +20,7 @@ import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSour
 import * as GitHubPullRequestApi from "./GitHubPullRequestApi.ts";
 import * as GitHubPullRequestProvider from "./GitHubPullRequestProvider.ts";
 import { KnownWorkflowRuns } from "./gitHubConditionalChecks.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown));
 
@@ -179,7 +179,7 @@ const layer = it.layer(
         invalidate: () => Effect.void,
       }),
     ),
-    Layer.provide(NodeCrypto.layer),
+    Layer.provide(Crypto.layerWebCrypto),
     Layer.provide(TestSourceControlHost.layer()),
     Layer.provide(NodeServices.layer),
   ),

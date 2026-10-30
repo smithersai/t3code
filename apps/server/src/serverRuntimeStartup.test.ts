@@ -1,5 +1,4 @@
 import { assert, it } from "@effect/vitest";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import {
   DEFAULT_SERVER_SETTINGS,
   ProjectId,
@@ -46,6 +45,7 @@ import * as ServerLifecycleEvents from "./serverLifecycleEvents.ts";
 import * as ServerSettings from "./serverSettings.ts";
 import * as ServerSecretStore from "./auth/ServerSecretStore.ts";
 import * as AnalyticsService from "./telemetry/AnalyticsService.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 it.effect.each([
   "disabled-codex",
@@ -69,7 +69,7 @@ it.effect.each([
       };
       const imports = { importedThreadCount: 0, importedMessageCount: 0 };
       const dependencies = Layer.mergeAll(
-        NodeCrypto.layer,
+        Crypto.layerWebCrypto,
         Path.layer,
         Layer.mock(ServerConfig.ServerConfig)({
           ...(yield* ServerConfig.deriveServerPaths("/bootstrap-project", undefined).pipe(

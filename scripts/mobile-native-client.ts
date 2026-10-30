@@ -6,7 +6,7 @@ import * as Clock from "effect/Clock";
 import * as Console from "effect/Console";
 import * as Context from "effect/Context";
 import * as DateTime from "effect/DateTime";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";
@@ -17,6 +17,7 @@ import * as Stream from "effect/Stream";
 import { Argument, Command, Flag } from "effect/cli";
 import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
+import * as Layer from "effect/Layer";
 
 export type NativePlatform = "ios" | "android";
 const NativeClientRecord = Schema.Struct({ fingerprint: Schema.String, binary: Schema.String });
@@ -1207,7 +1208,7 @@ if (import.meta.main) {
         ),
     }),
     Effect.scoped,
-    Effect.provide([NodeServices.layer, FetchHttpClient.layer]),
+    Effect.provide([Layer.merge(NodeServices.layer, Crypto.layerWebCrypto), FetchHttpClient.layer]),
     NodeRuntime.runMain,
   );
 }

@@ -1,5 +1,5 @@
 import type { SourceControlProviderKind } from "@t3tools/contracts";
-import type * as Crypto from "effect/Crypto";
+import type * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import type * as FileSystem from "effect/FileSystem";
 import type { HttpClient, HttpClientError, HttpClientResponse } from "effect/http";

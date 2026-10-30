@@ -15,6 +15,7 @@ import * as Schema from "effect/Schema";
 import * as DesktopConfig from "../app/DesktopConfig.ts";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
 import * as DesktopClientSettings from "./DesktopClientSettings.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const clientSettings: ClientSettings = {
   ...DEFAULT_CLIENT_SETTINGS,
@@ -88,13 +89,16 @@ function layer(baseDir: string) {
     runningUnderArm64Translation: false,
   }).pipe(
     Layer.provide(
-      Layer.mergeAll(NodeServices.layer, DesktopConfig.layerTest({ T3CODE_HOME: baseDir })),
+      Layer.mergeAll(
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        DesktopConfig.layerTest({ T3CODE_HOME: baseDir }),
+      ),
     ),
   );
 
   return DesktopClientSettings.layer.pipe(
     Layer.provideMerge(layerEnvironment),
-    Layer.provideMerge(NodeServices.layer),
+    Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
 }
 
@@ -107,7 +111,7 @@ const withClientSettings = <A, E, R>(
       prefix: "t3-desktop-client-settings-test-",
     });
     return yield* effect.pipe(Effect.provide(layer(baseDir)));
-  }).pipe(Effect.provide(NodeServices.layer), Effect.scoped);
+  }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)), Effect.scoped);
 
 describe("DesktopClientSettings", () => {
   it.effect("saves through a symlinked client settings file without replacing the link", () =>

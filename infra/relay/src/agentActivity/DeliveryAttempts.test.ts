@@ -1,10 +1,10 @@
-import * as NodeCryptoLayer from "@effect/platform-node/NodeCrypto";
 import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
 import * as RelayDb from "../db.ts";
 import * as DeliveryAttempts from "./DeliveryAttempts.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 describe("DeliveryAttempts", () => {
   it.effect("reports completed source jobs when the durable claim already exists", () => {
@@ -50,7 +50,7 @@ describe("DeliveryAttempts", () => {
     }).pipe(
       Effect.provide(
         DeliveryAttempts.layer.pipe(
-          Layer.provide(NodeCryptoLayer.layer),
+          Layer.provide(Crypto.layerWebCrypto),
           Layer.provide(Layer.succeed(RelayDb.RelayDb, fakeDb)),
         ),
       ),
@@ -100,7 +100,7 @@ describe("DeliveryAttempts", () => {
     }).pipe(
       Effect.provide(
         DeliveryAttempts.layer.pipe(
-          Layer.provide(NodeCryptoLayer.layer),
+          Layer.provide(Crypto.layerWebCrypto),
           Layer.provide(Layer.succeed(RelayDb.RelayDb, fakeDb)),
         ),
       ),
@@ -162,7 +162,7 @@ describe("DeliveryAttempts", () => {
     }).pipe(
       Effect.provide(
         DeliveryAttempts.layer.pipe(
-          Layer.provide(NodeCryptoLayer.layer),
+          Layer.provide(Crypto.layerWebCrypto),
           Layer.provide(Layer.succeed(RelayDb.RelayDb, fakeDb)),
         ),
       ),

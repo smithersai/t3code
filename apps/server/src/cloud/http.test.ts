@@ -36,6 +36,7 @@ import * as CloudLink from "./CloudLink.ts";
 import * as ConnectHttp from "./http.ts";
 import * as ConnectReachability from "./ConnectReachability.ts";
 import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const DESKTOP_BOOTSTRAP_TOKEN = "test-desktop-bootstrap-token";
 const NON_LOOPBACK_ORIGIN = "http://172.24.162.233:3773";
@@ -106,7 +107,7 @@ const layerLinkProofRoutes = HttpApiBuilder.layer(LinkProofTestApi).pipe(
   Layer.provideMerge(ServerSecretStore.layer),
   Layer.provide(layerConfig),
   Layer.provideMerge(HttpPlatform.layer.pipe(Layer.provideMerge(Etag.layerWeak))),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 const withLinkProofClient = async (

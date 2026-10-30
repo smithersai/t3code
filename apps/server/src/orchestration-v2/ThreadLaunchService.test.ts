@@ -9,7 +9,6 @@ import * as ServerConfig from "../config.ts";
 import { createPendingAttachmentId, resolveAttachmentPath } from "../attachmentStore.ts";
 import * as ThreadMessageIntake from "./ThreadMessageIntake.ts";
 import { assert, it, vi } from "@effect/vitest";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import {
   ChatAttachmentId,
   ComposerContextId,
@@ -65,6 +64,7 @@ import * as ThreadTitleRegeneration from "./ThreadTitleRegenerationService.ts";
 import * as ProviderReplayHarness from "./testkit/ProviderReplayHarness.ts";
 import * as RemoteDelegation from "../peer/RemoteDelegation.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const projectId = ProjectId.make("project:launch-test");
 const otherProjectId = ProjectId.make("project:launch-other");
@@ -320,7 +320,7 @@ it.effect.each(
       Layer.provide(
         Layer.mergeAll(
           harness.layer,
-          NodeCrypto.layer,
+          Crypto.layerWebCrypto,
           Scheduler.layer,
           Layer.mock(SecretRequests.SecretRequests)({}),
           Layer.mock(RemoteDelegation.RemoteDelegation)({}),
@@ -386,7 +386,7 @@ it.effect(
       Layer.provide(
         Layer.mergeAll(
           harness.layer,
-          NodeCrypto.layer,
+          Crypto.layerWebCrypto,
           Scheduler.layer,
           Layer.mock(SecretRequests.SecretRequests)({}),
         ),
@@ -423,7 +423,7 @@ it.effect("runs a thread-bound automation on the provider the thread uses now", 
     Layer.provide(
       Layer.mergeAll(
         harness.layer,
-        NodeCrypto.layer,
+        Crypto.layerWebCrypto,
         Scheduler.layer,
         Layer.mock(SecretRequests.SecretRequests)({}),
       ),
@@ -886,7 +886,7 @@ function scratchHarness() {
     Layer.provide(
       Layer.mergeAll(
         harness.layer,
-        NodeCrypto.layer,
+        Crypto.layerWebCrypto,
         Scheduler.layer,
         Layer.mock(SecretRequests.SecretRequests)({}),
       ),
@@ -1104,7 +1104,7 @@ it.effect.each(["stable", "upstream/release"])(
       Effect.provide(
         GitVcsDriver.layer.pipe(
           Layer.provide(ServerConfig.layerTest(process.cwd(), { prefix: "launch-remote-git-" })),
-          Layer.provideMerge(NodeServices.layer),
+          Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         ),
       ),
     ),
@@ -1811,7 +1811,11 @@ it.effect("creates a strong provider-thread mapping for an imported native sessi
 it.effect("shared intake preserves durable attachment bytes after a lost launch result", () => {
   const harness = makeHarness();
   const layerFiles = ServerConfig.layerTest(process.cwd(), { prefix: "t3-message-intake-" }).pipe(
-    Layer.provideMerge(DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer))),
+    Layer.provideMerge(
+      DocumentText.layer.pipe(
+        Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+      ),
+    ),
   );
   return Effect.gen(function* () {
     const config = yield* ServerConfig.ServerConfig;
@@ -2228,7 +2232,11 @@ it.effect.each([
 it.effect("replays an accepted send after the project disables the instance", () => {
   const harness = makeHarness();
   const layerFiles = ServerConfig.layerTest(process.cwd(), { prefix: "t3-send-retry-" }).pipe(
-    Layer.provideMerge(DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer))),
+    Layer.provideMerge(
+      DocumentText.layer.pipe(
+        Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+      ),
+    ),
   );
   return Effect.gen(function* () {
     const launches = yield* ThreadLaunch.ThreadLaunchService;

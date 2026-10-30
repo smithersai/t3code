@@ -16,6 +16,7 @@ import * as DesktopConfig from "../app/DesktopConfig.ts";
 import * as DesktopNetworkInterfaces from "./DesktopNetworkInterfaces.ts";
 import * as DesktopServerExposure from "./DesktopServerExposure.ts";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const encoder = new TextEncoder();
 
@@ -79,7 +80,10 @@ function layerEnvironmentFor(baseDir: string, env: Record<string, string | undef
     runningUnderArm64Translation: false,
   }).pipe(
     Layer.provide(
-      Layer.mergeAll(NodeServices.layer, DesktopConfig.layerTest({ T3CODE_HOME: baseDir, ...env })),
+      Layer.mergeAll(
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        DesktopConfig.layerTest({ T3CODE_HOME: baseDir, ...env }),
+      ),
     ),
   );
 }
@@ -139,7 +143,7 @@ const withHarness = <A, E, R>(
         }),
       ),
     );
-  }).pipe(Effect.provide(NodeServices.layer), Effect.scoped);
+  }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)), Effect.scoped);
 
 describe("DesktopServerExposure", () => {
   it.effect("uses cached Tailscale identity to exclude another VPN's pairing address", () => {

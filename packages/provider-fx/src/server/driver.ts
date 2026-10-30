@@ -1,7 +1,7 @@
 import { TextGenerationError } from "@t3tools/contracts";
 import { FxSettings } from "../settings.ts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import type * as Crypto from "effect/Crypto";
+import type * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";

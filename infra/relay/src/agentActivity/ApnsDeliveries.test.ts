@@ -3,7 +3,6 @@ import type {
   RelayAgentActivityAggregateState,
   RelayAgentActivityState,
 } from "@t3tools/contracts/relay";
-import * as NodeCryptoLayer from "@effect/platform-node/NodeCrypto";
 import { describe, expect, it } from "@effect/vitest";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Effect's Crypto has no generateKeyPairSync.
 import * as NodeCrypto from "node:crypto";
@@ -25,6 +24,7 @@ import * as AgentActivityRows from "./AgentActivityRows.ts";
 import * as ApnsDeliveries from "./ApnsDeliveries.ts";
 import * as ApnsClient from "./ApnsClient.ts";
 import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const config = RelayConfiguration.RelayConfiguration.of({
   relayIssuer: "https://relay.example.test",
@@ -164,7 +164,7 @@ function layerFor(input: {
   return ApnsDeliveries.layer.pipe(
     Layer.provide(ApnsClient.layer),
     Layer.provide(ApnsProviderTokens.layer),
-    Layer.provide(ApnsDeliveryQueue.layer.pipe(Layer.provide(NodeCryptoLayer.layer))),
+    Layer.provide(ApnsDeliveryQueue.layer.pipe(Layer.provide(Crypto.layerWebCrypto))),
     Layer.provide(
       Layer.mergeAll(
         Layer.succeed(AgentActivityRows.AgentActivityRows, {

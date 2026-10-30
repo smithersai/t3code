@@ -102,7 +102,7 @@ export const servePeer = <E, R>(
         Layer.provide(AuthHttp.layerAuthenticatedAuth),
       ),
       tools.pipe(
-        Layer.provideMerge(McpHttpServer.layerMcpTransport),
+        McpHttpServer.withMcpTransport,
         Layer.provide(
           Layer.mock(McpSessionRegistry.McpSessionRegistry)({
             // @effect-diagnostics-next-line effectSucceedWithVoid:off - This optional result requires undefined, not the wider void type.

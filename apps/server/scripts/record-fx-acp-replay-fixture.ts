@@ -31,6 +31,7 @@ import { ORCHESTRATOR_REPLAY_FIXTURES } from "../src/orchestration-v2/testkit/fi
 import { materializeFixtureInput } from "../src/orchestration-v2/testkit/fixtures/shared.ts";
 import { runOrchestratorV2Scenario } from "../src/orchestration-v2/testkit/OrchestratorScenario.ts";
 import * as ProviderReplayHarness from "../src/orchestration-v2/testkit/ProviderReplayHarness.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const wallClock = Clock.Clock.defaultValue();
 const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown));
@@ -398,8 +399,10 @@ const recordScenario = Effect.fn("recordFxScenario")(function* (fixtureName: str
   ).pipe(
     Layer.provide(
       Layer.mergeAll(
-        TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer)),
-        NodeServices.layer,
+        TestProviderHost.layer().pipe(
+          Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+        ),
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         IdAllocator.layer,
       ),
     ),
@@ -520,5 +523,5 @@ if (scenarios.length === 0) {
 await Effect.runPromise(
   Effect.forEach(scenarios, (name) => Effect.scoped(recordScenario(name)), {
     discard: true,
-  }).pipe(Effect.provide(NodeServices.layer)),
+  }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );

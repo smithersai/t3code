@@ -35,6 +35,7 @@ import * as ServerSettings from "../serverSettings.ts";
 import * as TerminalManager from "./Manager.ts";
 import { terminalOutputStream } from "./OutputProtocol.ts";
 import * as PtyAdapter from "@t3tools/shared/PtyAdapter";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("effect/SynchronizedRef", async (importOriginal) => {
   const original = await importOriginal<typeof SynchronizedRef>();
@@ -412,7 +413,10 @@ it("bounds long partial lines and joins surrogate pairs across chunk boundaries"
 });
 
 it.layer(
-  Layer.merge(NodeServices.layer, ProcessRunner.layer.pipe(Layer.provide(NodeServices.layer))),
+  Layer.merge(
+    Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+    ProcessRunner.layer.pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
+  ),
   { excludeTestServices: true },
 )("TerminalManager", (it) => {
   it.effect("spawns lazily and reuses running terminal per thread", () =>

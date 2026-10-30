@@ -9,6 +9,7 @@ import * as Tracer from "effect/Tracer";
 import * as DesktopConfig from "../app/DesktopConfig.ts";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
 import * as DesktopAppSettings from "./DesktopAppSettings.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const DesktopSettingsPatch = Schema.Struct({
   linuxPasswordStore: Schema.optionalKey(
@@ -52,7 +53,10 @@ function layerEnvironment(baseDir: string, appVersion = "0.0.17") {
     runningUnderArm64Translation: false,
   }).pipe(
     Layer.provide(
-      Layer.mergeAll(NodeServices.layer, DesktopConfig.layerTest({ T3CODE_HOME: baseDir })),
+      Layer.mergeAll(
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        DesktopConfig.layerTest({ T3CODE_HOME: baseDir }),
+      ),
     ),
   );
 }
@@ -74,11 +78,11 @@ const withSettings = <A, E, R>(
       Effect.provide(
         DesktopAppSettings.layer.pipe(
           Layer.provideMerge(layerEnvironment(baseDir, options?.appVersion)),
-          Layer.provideMerge(NodeServices.layer),
+          Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         ),
       ),
     );
-  }).pipe(Effect.provide(NodeServices.layer), Effect.scoped);
+  }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)), Effect.scoped);
 
 function writeSettingsPatch(patch: typeof DesktopSettingsPatch.Type) {
   return Effect.gen(function* () {

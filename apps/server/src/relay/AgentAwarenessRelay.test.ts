@@ -1,5 +1,4 @@
 import { assert, describe, it } from "@effect/vitest";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import {
   EnvironmentId,
   EventId,
@@ -39,6 +38,7 @@ import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as AgentAwarenessRelay from "./AgentAwarenessRelay.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const THREAD_ID = ThreadId.make("relay-thread");
 const SECOND_THREAD_ID = ThreadId.make("relay-thread-2");
@@ -283,7 +283,7 @@ const makeTestRelay = Effect.fnUntraced(function* (
         }),
     }),
     Effect.provideService(FetchHttpClient.Fetch, fetch),
-    Effect.provide(NodeCrypto.layer),
+    Effect.provide(Crypto.layerWebCrypto),
   );
   return { relay, secrets, secretReads, currentShell, shellReads, publications, catchUp };
 });

@@ -11,7 +11,7 @@ import {
   type ServerProviderSlashCommand,
 } from "@t3tools/contracts";
 import { AcpRegistrySettings } from "../settings.ts";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Deferred from "effect/Deferred";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";

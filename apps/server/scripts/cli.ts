@@ -22,6 +22,8 @@ import {
   ServerCliDevelopmentIconTargetMissingError,
   ServerCliExecutableImportError,
 } from "./cliErrors.ts";
+import * as Layer from "effect/Layer";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const RepoRoot = Effect.service(Path.Path).pipe(
   Effect.flatMap((path) => path.fromFileUrl(new URL("../../..", import.meta.url))),
@@ -35,7 +37,7 @@ const runCommand = Effect.fn("runCommand")(function* (command: ChildProcess.Stan
   if (exitCode !== 0) {
     return yield* new ServerCliCommandExitError({
       command: command.command,
-      args: command.args,
+      args: command.args.map(String),
       cwd: command.options.cwd,
       exitCode,
     });
@@ -212,6 +214,9 @@ const cli = Command.make("cli").pipe(
 
 Command.run(cli, { version: "0.0.0" }).pipe(
   Effect.scoped,
-  Effect.provide([Logger.layer([Logger.consolePretty()]), NodeServices.layer]),
+  Effect.provide([
+    Logger.layer([Logger.consolePretty()]),
+    Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+  ]),
   NodeRuntime.runMain,
 );

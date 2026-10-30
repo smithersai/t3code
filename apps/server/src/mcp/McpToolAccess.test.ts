@@ -192,6 +192,7 @@ export const refusedAtCompileTime = () => {
 
 const probeServer = (threads: Layer.Layer<ThreadManagement.ThreadManagementService>) =>
   McpHttpServer.toolkitRegistration(ProbeToolkit, layerProbeHandlers).pipe(
+    Layer.provide(McpHttpServer.layerCallerInvocation),
     Layer.provideMerge(McpServer.McpServer.layer),
     Layer.provideMerge(threads),
   );
@@ -392,6 +393,7 @@ const linkedProbeServer = McpHttpServer.toolkitRegistration(
     writes_environment: McpToolAccess.writesEnvironment(ranHere),
   }),
 ).pipe(
+  Layer.provide(McpHttpServer.layerCallerInvocation),
   Layer.provideMerge(McpServer.McpServer.layer),
   Layer.provideMerge(
     Layer.mock(ThreadManagement.ThreadManagementService)({

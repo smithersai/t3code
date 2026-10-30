@@ -5,7 +5,7 @@ import {
 } from "@t3tools/contracts";
 import { CursorSettings } from "../settings.ts";
 import * as Effect from "effect/Effect";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";

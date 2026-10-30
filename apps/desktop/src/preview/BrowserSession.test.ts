@@ -32,6 +32,7 @@ vi.mock("electron", () => ({
 
 import * as ElectronDialog from "../electron/ElectronDialog.ts";
 import * as BrowserSession from "./BrowserSession.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const { showMessageBox } = vi.hoisted(() => ({
   showMessageBox: vi.fn<
@@ -46,7 +47,7 @@ const layerDialog = Layer.succeed(ElectronDialog.ElectronDialog, {
   showErrorBox: () => Effect.void,
 });
 const layer = BrowserSession.layer.pipe(
-  Layer.provide(Layer.merge(NodeServices.layer, layerDialog)),
+  Layer.provide(Layer.mergeAll(NodeServices.layer, Crypto.layerWebCrypto, layerDialog)),
 );
 
 describe("BrowserSession", () => {

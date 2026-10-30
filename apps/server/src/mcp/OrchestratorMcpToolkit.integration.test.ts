@@ -50,6 +50,7 @@ import * as McpInvocationContext from "./McpInvocationContext.ts";
 import * as PeerForwarding from "../peer/PeerForwarding.ts";
 import * as PeerLinkRequests from "../peer/PeerLinkRequests.ts";
 import * as PeerLinks from "../peer/PeerLinks.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerOrchestratorToolkit = McpHttpServer.layerOrchestratorToolkit.pipe(
   Layer.provide(Layer.mock(ThreadLaunchService.ThreadLaunchService)({})),
@@ -92,24 +93,25 @@ const delegatedTaskStatusTranscriptFile = new URL(
   import.meta.url,
 );
 
-const readDelegatedTaskStatusTranscript = Effect.fn("readDelegatedTaskStatusTranscript")(function* (
-  followupResult: string,
-) {
-  const fs = yield* FileSystem.FileSystem;
-  const text = yield* fs.readFileString(
-    decodeURIComponent(delegatedTaskStatusTranscriptFile.pathname),
-  );
-  const transcript = yield* decodeProviderReplayNdjson(
-    text.replaceAll(queuedFollowupResult, followupResult),
-  );
-  // The recording ends when the recorder closes the app-server while the parent
-  // turn is still open. This test keeps acting as that parent afterwards, and
-  // replaying the exit would kill the shared process and fail the parent run.
-  return {
-    ...transcript,
-    entries: transcript.entries.filter((entry) => entry.type !== "runtime_exit"),
-  };
-}, Effect.provide(NodeServices.layer));
+const readDelegatedTaskStatusTranscript = Effect.fn("readDelegatedTaskStatusTranscript")(
+  function* (followupResult: string) {
+    const fs = yield* FileSystem.FileSystem;
+    const text = yield* fs.readFileString(
+      decodeURIComponent(delegatedTaskStatusTranscriptFile.pathname),
+    );
+    const transcript = yield* decodeProviderReplayNdjson(
+      text.replaceAll(queuedFollowupResult, followupResult),
+    );
+    // The recording ends when the recorder closes the app-server while the parent
+    // turn is still open. This test keeps acting as that parent afterwards, and
+    // replaying the exit would kill the shared process and fail the parent run.
+    return {
+      ...transcript,
+      entries: transcript.entries.filter((entry) => entry.type !== "runtime_exit"),
+    };
+  },
+  Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+);
 
 function makeProviderSnapshot(input: {
   readonly instanceId: ProviderInstanceId;
@@ -229,6 +231,7 @@ describe("orchestrator MCP toolkit", () => {
           }),
         ]);
         const layerTest = layerOrchestratorToolkit.pipe(
+          Layer.provide(McpHttpServer.layerCallerInvocation),
           Layer.provideMerge(McpServer.McpServer.layer),
           Layer.provideMerge(layerOrchestration),
           Layer.provide(
@@ -250,7 +253,7 @@ describe("orchestrator MCP toolkit", () => {
             ),
           ),
           Layer.provide(Layer.mock(RemoteDelegation.RemoteDelegation)({})),
-          Layer.provide(NodeServices.layer),
+          Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         );
 
         yield* Effect.gen(function* () {

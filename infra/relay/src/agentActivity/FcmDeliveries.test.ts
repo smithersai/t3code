@@ -1,7 +1,6 @@
 import { EnvironmentId, ThreadId } from "@t3tools/contracts";
 import type { RelayAgentActivityState } from "@t3tools/contracts/relay";
 import { describe, expect, it } from "@effect/vitest";
-import * as NodeCryptoLayer from "@effect/platform-node/NodeCrypto";
 import * as Effect from "effect/Effect";
 import * as DateTime from "effect/DateTime";
 import * as Layer from "effect/Layer";
@@ -21,6 +20,7 @@ import * as FcmClient from "./FcmClient.ts";
 import * as FcmDeliveries from "./FcmDeliveries.ts";
 import { androidActivityData, fitFcmData } from "./fcmPayloads.ts";
 import { makeAggregateState } from "./agentActivityAggregate.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const aggregateFor = (states: ReadonlyArray<RelayAgentActivityState>) =>
   makeAggregateState({ activeStates: states, terminalState: null, nowMs: 0 })!;
@@ -98,7 +98,7 @@ function harness() {
     deliveryFailure: null as FcmClient.FcmClientError | null,
   };
   const layerServices = Layer.mergeAll(
-    NodeCryptoLayer.layer,
+    Crypto.layerWebCrypto,
     Layer.succeed(RelayConfiguration.RelayConfiguration, config),
     Layer.succeed(FcmDeliveryQueueSender.FcmDeliveryQueueSender, {
       send: (job) =>

@@ -1,4 +1,3 @@
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import { afterEach, beforeEach, describe, expect, it, vi } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -10,6 +9,7 @@ import type * as SourceControlHost from "@t3tools/source-control-core/server/Sou
 import { applyServerSettingsPatch } from "@t3tools/shared/serverSettings";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 import * as GitHubCredentials from "./GitHubCredentials.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const TOKEN_VARIABLES = [
   "GH_TOKEN",
@@ -61,7 +61,7 @@ function harness(
         process: { run },
       }),
     ),
-    Layer.provide(NodeCrypto.layer),
+    Layer.provide(Crypto.layerWebCrypto),
   );
   return { layer, calls };
 }

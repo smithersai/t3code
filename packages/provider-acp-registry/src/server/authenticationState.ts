@@ -1,6 +1,6 @@
 import type { ProviderInstanceEnvironment, ProviderInstanceId } from "@t3tools/contracts";
 import type { AcpRegistrySettings } from "../settings.ts";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Hex from "effect/encoding/Hex";
 import * as FileSystem from "effect/FileSystem";

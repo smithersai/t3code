@@ -1,7 +1,7 @@
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { ORCHESTRATION_PROTOCOL_VERSION } from "@t3tools/contracts";
 import { expect, it } from "@effect/vitest";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -73,7 +73,7 @@ const makeServerConfig = Effect.fn(function* (baseDir: string) {
   } satisfies ServerConfig.ServerConfig["Service"];
 });
 
-it.layer(NodeServices.layer)("ServerEnvironmentLive", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("ServerEnvironmentLive", (it) => {
   it.effect("publishes proven install ownership only for manually updated servers", () =>
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;

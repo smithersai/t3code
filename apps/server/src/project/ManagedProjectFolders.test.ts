@@ -27,6 +27,7 @@ import * as ProjectFaviconResolver from "./ProjectFaviconResolver.ts";
 import * as ProjectService from "./ProjectService.ts";
 import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.ts";
 import * as ManagedProjectFolders from "./ManagedProjectFolders.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerGitWorkflow = (vcsProcess?: Layer.Layer<VcsProcess.VcsProcess>) =>
   GitWorkflow.layer.pipe(
@@ -76,7 +77,7 @@ const layer = (baseDir: string, options?: HarnessOptions) =>
     Layer.provideMerge(SqlitePersistence.layerMemory),
     Layer.provideMerge(ServerSettings.layerTest()),
     Layer.provideMerge(ServerConfig.layerTest(baseDir, baseDir)),
-    Layer.provideMerge(NodeServices.layer),
+    Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
 
 const withScratch = <A, E>(
@@ -96,7 +97,7 @@ const withScratch = <A, E>(
     const fileSystem = yield* FileSystem.FileSystem;
     const baseDir = yield* fileSystem.makeTempDirectoryScoped({ prefix: "t3-managed-folders-" });
     return yield* body({ baseDir }).pipe(Effect.provide(layer(baseDir, options)));
-  }).pipe(Effect.scoped, Effect.provide(NodeServices.layer));
+  }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
 
 const git = (cwd: string, args: ReadonlyArray<string>) =>
   ProcessRunner.ProcessRunner.pipe(
@@ -124,7 +125,7 @@ it.effect("offers nothing when the data dir sits inside a Git checkout", () =>
       const failure = yield* Effect.flip(scratch.ensureScratchProject);
       assert.equal(failure._tag, "ScratchUnavailableError");
     }).pipe(Effect.provide(layer(baseDir)));
-  }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+  }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 it.effect("offers a Scratch folder when Git is not installed", () =>

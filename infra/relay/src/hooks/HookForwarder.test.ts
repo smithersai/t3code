@@ -2,7 +2,6 @@ import * as NodeHttpPlatform from "@effect/platform-node/NodeHttpPlatform";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Effect's Crypto has no generateKeyPairSync.
 import * as NodeCrypto from "node:crypto";
-import * as EffectNodeCrypto from "@effect/platform-node/NodeCrypto";
 import { describe, expect, it } from "@effect/vitest";
 import { RelayApi } from "@t3tools/contracts/relay";
 import * as Deferred from "effect/Deferred";
@@ -33,6 +32,7 @@ import { RELAY_HOOK_DELIVERY_TYP, verifyRelayJwt } from "@t3tools/shared/relayJw
 import * as HeldHooks from "./HeldHooks.ts";
 import * as HookInbox from "./HookInbox.ts";
 import type { HeldHook } from "./HookInboxStore.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const mintKeys = NodeCrypto.generateKeyPairSync("ed25519", {
   privateKeyEncoding: { format: "pem", type: "pkcs8" },
@@ -143,7 +143,7 @@ function makeHarness(options: Harness = {}) {
               return true;
             }),
         }),
-        EffectNodeCrypto.layer,
+        Crypto.layerWebCrypto,
         Layer.succeed(HookForwarder.HookRateLimiter, {
           allowHook: (key) =>
             Effect.sync(() => {
@@ -160,7 +160,11 @@ function makeHarness(options: Harness = {}) {
     Layer.mergeAll(
       HttpApiBuilder.layer(HttpApi.make("RelayApi").add(RelayApi.groups.hooks)).pipe(
         Layer.provide(HookForwarder.layerApi.pipe(Layer.provide(layerForwarder))),
-        Layer.provide([NodeServices.layer, NodeHttpPlatform.layer, Etag.layerWeak]),
+        Layer.provide([
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          NodeHttpPlatform.layer,
+          Etag.layerWeak,
+        ]),
       ),
       RelayHttpApi.layerNotFoundRoute,
       RelayHttpApi.layerCors,

@@ -28,6 +28,7 @@ import type * as VcsDriver from "./VcsDriver.ts";
 import * as VcsDriverRegistry from "./VcsDriverRegistry.ts";
 import * as VcsProcess from "./VcsProcess.ts";
 import { runVcsDriverContractSuite } from "./testing/VcsDriverContractHarness.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerServerConfig = ServerConfig.layerTest(process.cwd(), {
   prefix: "t3-git-vcs-contract-",
@@ -35,11 +36,11 @@ const layerServerConfig = ServerConfig.layerTest(process.cwd(), {
 const layerGitContract = Layer.mergeAll(GitVcsDriver.layerVcs, GitVcsDriver.layer).pipe(
   Layer.provide(layerServerConfig),
   Layer.provideMerge(VcsProcess.layer),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 const layerGitCaptureContract = Layer.merge(
   layerGitContract,
-  ProcessRunner.layer.pipe(Layer.provide(NodeServices.layer)),
+  ProcessRunner.layer.pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 const runGit = (cwd: string, args: ReadonlyArray<string>) =>
@@ -986,7 +987,10 @@ const vcsProcessSpawning = (command: string) =>
     Effect.map(VcsProcess.make, (vcsProcess) =>
       VcsProcess.VcsProcess.of({ run: (input) => vcsProcess.run({ ...input, command }) }),
     ),
-  ).pipe(Layer.provide(ProcessRunner.layer), Layer.provideMerge(NodeServices.layer));
+  ).pipe(
+    Layer.provide(ProcessRunner.layer),
+    Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+  );
 
 it.effect("GitVcsDriver treats a missing git executable as outside any repository", () =>
   Effect.gen(function* () {
@@ -999,7 +1003,7 @@ it.effect("GitVcsDriver treats a missing git executable as outside any repositor
 
     assert.strictEqual(yield* driver.isInsideWorkTree(cwd), false);
     assert.strictEqual(yield* driver.detectRepository(cwd), null);
-  }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+  }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 it.effect.skipIf(HostProcess.Platform.defaultValue() === "win32")(
@@ -1017,7 +1021,7 @@ it.effect.skipIf(HostProcess.Platform.defaultValue() === "win32")(
       assert.strictEqual(error._tag, "VcsProcessSpawnError");
       const detectionError = yield* driver.detectRepository(process.cwd()).pipe(Effect.flip);
       assert.strictEqual(detectionError._tag, "VcsProcessSpawnError");
-    }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 const gitCommandCount = (operation: string, outcome: string) =>
@@ -1070,7 +1074,7 @@ it.effect("GitVcsDriver meters each git command once under its operation", () =>
     assert.strictEqual(timing.count, 2);
     assert.strictEqual(timing.sum, 500);
   }).pipe(
-    Effect.provide(NodeServices.layer),
+    Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Effect.provideService(Metric.MetricRegistry, new Map()),
   ),
 );
@@ -1094,7 +1098,7 @@ it.effect("GitVcsDriver counts an allowed non-zero exit as a success", () =>
     assert.strictEqual(timing.count, 1);
     assert.strictEqual(timing.sum, 250);
   }).pipe(
-    Effect.provide(NodeServices.layer),
+    Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Effect.provideService(Metric.MetricRegistry, new Map()),
   ),
 );
@@ -1115,7 +1119,7 @@ it.effect("GitVcsDriver counts a failed git command as a failure", () =>
     assert.strictEqual(timing.count, 1);
     assert.strictEqual(timing.sum, 250);
   }).pipe(
-    Effect.provide(NodeServices.layer),
+    Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Effect.provideService(Metric.MetricRegistry, new Map()),
   ),
 );
@@ -1180,7 +1184,7 @@ it.effect("git metrics finalize cancellation without exposing arbitrary operatio
     assert.strictEqual(timing.count, 1);
     assert.strictEqual(timing.sum, 250);
   }).pipe(
-    Effect.provide(NodeServices.layer),
+    Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Effect.provideService(Metric.MetricRegistry, new Map()),
   ),
 );
@@ -1236,7 +1240,7 @@ it.effect("git metrics count fsync fallback and transient retry subprocesses sep
     assert.strictEqual(timing.count, 3);
     assert.strictEqual(timing.sum, 750);
   }).pipe(
-    Effect.provide(NodeServices.layer),
+    Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Effect.provideService(Metric.MetricRegistry, new Map()),
   ),
 );

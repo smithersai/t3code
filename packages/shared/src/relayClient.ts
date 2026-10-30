@@ -6,7 +6,7 @@ import type {
 } from "@t3tools/contracts";
 import * as Config from "effect/Config";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "./Crypto.ts";
 import * as Data from "effect/Data";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";

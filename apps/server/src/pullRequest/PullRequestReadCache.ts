@@ -3,7 +3,7 @@ import * as Clock from "effect/Clock";
 import * as Equal from "effect/Equal";
 import * as Hash from "effect/Hash";
 import { PullRequestOperationError, PullRequestUnavailableError } from "@t3tools/contracts";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Hex from "effect/encoding/Hex";
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";

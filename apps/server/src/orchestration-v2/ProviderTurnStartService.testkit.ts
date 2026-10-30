@@ -1,5 +1,6 @@
 import { SourceControlProviderError, SourceControlProviderKind } from "@t3tools/contracts";
 import * as NodeServices from "@effect/platform-node/NodeServices";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as ServerConfig from "../config.ts";
 import * as GitManager from "../git/GitManager.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
@@ -58,5 +59,5 @@ export const layerRealGit = GitWorkflow.layer.pipe(
   Layer.provideMerge(GitVcsDriver.layer),
   Layer.provideMerge(VcsProcess.layer),
   Layer.provideMerge(ServerConfig.layerTest(process.cwd(), { prefix: "t3-recreate-" })),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );

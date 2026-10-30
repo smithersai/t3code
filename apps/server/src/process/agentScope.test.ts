@@ -11,7 +11,7 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
-import { ChildProcess, ChildProcessSpawner } from "effect/process";
+import { ChildProcess, ChildProcessSpawner, CommandLine } from "effect/process";
 
 import * as ServerConfig from "../config.ts";
 import { makeCodexAppServerSpawnCommand } from "../orchestration-v2/Adapters/CodexAdapterV2.ts";
@@ -125,11 +125,17 @@ const withFakeSystemd = <A, E>(
     ),
   );
 
-const unitOf = (launch: { readonly args: ReadonlyArray<string> }) =>
-  launch.args.find((arg) => arg.startsWith("--unit="))?.slice("--unit=".length) ?? "";
+const unitOf = (launch: { readonly args: ReadonlyArray<CommandLine.Word> }) =>
+  launch.args
+    .map(String)
+    .find((arg) => arg.startsWith("--unit="))
+    ?.slice("--unit=".length) ?? "";
 
-const sliceOf = (launch: { readonly args: ReadonlyArray<string> }) =>
-  launch.args.find((arg) => arg.startsWith("--slice="))?.slice("--slice=".length) ?? "";
+const sliceOf = (launch: { readonly args: ReadonlyArray<CommandLine.Word> }) =>
+  launch.args
+    .map(String)
+    .find((arg) => arg.startsWith("--slice="))
+    ?.slice("--slice=".length) ?? "";
 
 /** An active scope as systemd and the kernel report it, with the agent itself gone. */
 const exitedAgent = (

@@ -49,6 +49,7 @@ import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as AnalyticsService from "../telemetry/AnalyticsService.ts";
 import * as GuestShareService from "./GuestShareService.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const instanceId = ProviderInstanceId.make("codex");
 const adapter = {
@@ -104,7 +105,10 @@ const layerCleanup = Layer.effect(
         ),
     };
   }),
-).pipe(Layer.provide(layerConfig), Layer.provide(NodeServices.layer));
+).pipe(
+  Layer.provide(layerConfig),
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+);
 class RecordedAnalytics extends Context.Service<
   RecordedAnalytics,
   Ref.Ref<ReadonlyArray<Readonly<Record<string, unknown>>>>
@@ -137,7 +141,7 @@ const layerTest = GuestShareService.layer.pipe(
   Layer.provideMerge(layerAnalytics),
   Layer.provide(ServerSecretStore.layer),
   Layer.provideMerge(layerConfig),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 const threadId = ThreadId.make("thread:guest-share-service");

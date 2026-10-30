@@ -9,7 +9,7 @@ import {
   ThreadId,
   type OrchestrationV2ThreadShell,
 } from "@t3tools/contracts";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 
 import type { OrchestratorV2Error } from "../orchestration-v2/Orchestrator.ts";

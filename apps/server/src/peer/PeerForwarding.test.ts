@@ -1,6 +1,5 @@
 import * as DocumentText from "../provider/DocumentText.ts";
 import { NodeHttpServer } from "@effect/platform-node";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import {
   EnvironmentId,
@@ -40,6 +39,7 @@ import * as PeerForwarding from "./PeerForwarding.ts";
 import * as PeerLinks from "./PeerLinks.ts";
 import * as PeerLinkRequests from "./PeerLinkRequests.ts";
 import { descriptorOf, layerLinkingEnvironment, linkTo, servePeer } from "./PeerLinks.testkit.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const laptop = descriptorOf("environment-laptop", "Laptop");
 const box = descriptorOf("environment-box", "Box");
@@ -208,8 +208,12 @@ const serveBox = (seen: Ref.Ref<Seen>, linkSession: Ref.Ref<string>) =>
       McpHttpServer.layerProjectRegistration,
       McpHttpServer.layerThreadToolkit,
     ).pipe(
-      Layer.provide(DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer))),
-      Layer.provide(NodeCrypto.layer),
+      Layer.provide(
+        DocumentText.layer.pipe(
+          Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+        ),
+      ),
+      Layer.provide(Crypto.layerWebCrypto),
       Layer.provide(boxThreads(seen, linkSession)),
       Layer.provide(Layer.mock(ThreadSearch.ThreadSearch)({})),
       Layer.provide(boxLaunches(seen)),
@@ -220,10 +224,10 @@ const serveBox = (seen: Ref.Ref<Seen>, linkSession: Ref.Ref<string>) =>
       Layer.provide(boxProjects(seen)),
       Layer.provide(
         ServerConfig.layerTest(process.cwd(), { prefix: "t3-peer-forwarding-box-" }).pipe(
-          Layer.provide(NodeServices.layer),
+          Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         ),
       ),
-      Layer.provide(NodeServices.layer),
+      Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       Layer.provide(Layer.mock(ProviderRegistry.ProviderRegistry)({})),
       Layer.provide(Layer.mock(ProviderAdapterRegistry.ProviderAdapterRegistryV2)({})),
       Layer.provide(Layer.mock(ScheduledTaskService.ScheduledTaskService)({})),
@@ -260,7 +264,12 @@ const makeLaptop = Effect.gen(function* () {
     McpHttpServer.layerProjectRegistration,
     McpHttpServer.layerThreadToolkit,
   ).pipe(
-    Layer.provide(DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer))),
+    Layer.provide(
+      DocumentText.layer.pipe(
+        Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+      ),
+    ),
+    Layer.provide(McpHttpServer.layerCallerInvocation),
     Layer.provideMerge(McpServer.McpServer.layer),
     Layer.provide(Layer.mock(ThreadSearch.ThreadSearch)({})),
     Layer.provide(Layer.mock(ThreadLaunch.ThreadLaunchService)({})),
@@ -271,13 +280,13 @@ const makeLaptop = Effect.gen(function* () {
     Layer.provide(Layer.mock(SourceControlRepositoryService.SourceControlRepositoryService)({})),
     Layer.provide(
       ServerConfig.layerTest(process.cwd(), { prefix: "t3-peer-forwarding-laptop-" }).pipe(
-        Layer.provide(NodeServices.layer),
+        Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       ),
     ),
-    Layer.provide(NodeServices.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Layer.provide(PeerForwarding.layer),
     Layer.provide(Layer.succeedContext(linking)),
-    Layer.provide(NodeCrypto.layer),
+    Layer.provide(Crypto.layerWebCrypto),
     Layer.provideMerge(
       Layer.mock(ThreadManagement.ThreadManagementService)({
         getThreadShell: (threadId) =>
@@ -422,7 +431,7 @@ it.effect("an agent here works on a linked environment's threads within its own 
         `delegated-tasks.stop ${boxThread}`,
       ]);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("keeps a forwarded wait short and its retries scoped to the caller", () =>
@@ -474,7 +483,7 @@ it.effect("keeps a forwarded wait short and its retries scoped to the caller", (
       expect(other).not.toBe(first);
       expect(first).not.toContain("same-key");
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("launches in a linked environment with the caller's modes, retry-safe", () =>
@@ -527,7 +536,7 @@ it.effect("launches in a linked environment with the caller's modes, retry-safe"
       expect(yield* Ref.get(b.bearers)).toEqual([]);
       expect((yield* Ref.get(seen)).launches).toHaveLength(2);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("brings a repository to a linked environment, only through full access", () =>
@@ -577,7 +586,7 @@ it.effect("brings a repository to a linked environment, only through full access
       expect((yield* Ref.get(seen)).clones).toHaveLength(1);
       expect((yield* Ref.get(seen)).projects).toHaveLength(1);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("runs any tool that takes a linked environment there", () =>
@@ -612,7 +621,7 @@ it.effect("runs any tool that takes a linked environment there", () =>
         runtimeMode: "full-access",
       });
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("refuses what a linked environment cannot take before anything leaves", () =>
@@ -684,5 +693,5 @@ it.effect("refuses what a linked environment cannot take before anything leaves"
       }
       expect(yield* Ref.get(b.bearers)).toEqual([]);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );

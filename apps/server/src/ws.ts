@@ -1,6 +1,6 @@
 import { OrchestrationDispatchCommandError } from "@t3tools/contracts";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Orchestrator from "./orchestration-v2/Orchestrator.ts";
 import * as PeerLinkRequests from "./peer/PeerLinkRequests.ts";
 import * as PeerLinks from "./peer/PeerLinks.ts";
@@ -268,6 +268,7 @@ import {
 import * as AgentSessionScanner from "./project/AgentSessionScanner.ts";
 import * as AgentSessionImporter from "./project/AgentSessionImporter.ts";
 import * as UsageLimitSources from "./usage/UsageLimitSources.ts";
+import * as RequestUrl from "./RequestUrl.ts";
 
 const CONFIG_DISCOVERY_TIMEOUT = Duration.seconds(5);
 const isProviderUploadFeedbackError = Schema.is(ProviderUploadFeedbackError);
@@ -649,7 +650,7 @@ function shouldUseBoundedThreadSnapshot(input: {
 function readClientConnectionOrigin(
   request: HttpServerRequest.HttpServerRequest,
 ): OrchestrationClientOrigin {
-  const url = HttpServerRequest.toURL(request);
+  const url = RequestUrl.toURL(request);
   if (Option.isNone(url)) {
     return {};
   }
@@ -665,7 +666,7 @@ function readClientConnectionOrigin(
 
 // Keep telemetry per socket; several client types can connect simultaneously.
 function readClientAnalyticsProps(request: HttpServerRequest.HttpServerRequest) {
-  const url = HttpServerRequest.toURL(request);
+  const url = RequestUrl.toURL(request);
   if (Option.isNone(url)) {
     return {};
   }
@@ -715,7 +716,7 @@ function readClientAnalyticsProps(request: HttpServerRequest.HttpServerRequest) 
 function readClientOwners(
   request: HttpServerRequest.HttpServerRequest,
 ): ReadonlyArray<TelemetryOwner> {
-  const url = HttpServerRequest.toURL(request);
+  const url = RequestUrl.toURL(request);
   if (Option.isNone(url)) {
     return [];
   }
@@ -3330,7 +3331,7 @@ export const layer = Layer.unwrap(
       "/ws",
       Effect.gen(function* () {
         const request = yield* HttpServerRequest.HttpServerRequest;
-        const requestUrl = HttpServerRequest.toURL(request);
+        const requestUrl = RequestUrl.toURL(request);
         if (Option.isNone(requestUrl) || !hasCompatibleOrchestrationProtocol(requestUrl.value)) {
           return HttpServerResponse.jsonUnsafe(
             {

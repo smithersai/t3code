@@ -1,5 +1,4 @@
 import * as Scheduler from "../scheduling/Scheduler.ts";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import { expect, it } from "@effect/vitest";
 import { ScheduledTaskUpsertInput } from "@t3tools/contracts";
 import * as DateTime from "effect/DateTime";
@@ -14,13 +13,14 @@ import * as SecretRequests from "../secrets/SecretRequests.ts";
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as ScheduledTaskService from "./ScheduledTaskService.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const decodeUpsertInput = Schema.decodeUnknownEffect(ScheduledTaskUpsertInput);
 
 it.effect("rejects a stale form save after deletion while preserving explicit-id creates", () =>
   Effect.gen(function* () {
     const layerDependencies = Layer.mergeAll(
-      NodeCrypto.layer,
+      Crypto.layerWebCrypto,
       Scheduler.layer,
       Layer.mock(ThreadLaunchService.ThreadLaunchService)({}),
       Layer.mock(ManagedProjectFolders.ManagedProjectFolders)({
@@ -67,7 +67,7 @@ it.effect("preserves a due run when a save only pads the scheduled hour", () =>
     yield* TestClock.setTime(DateTime.toEpochMillis(dueAt) - 1_000);
 
     const layerDependencies = Layer.mergeAll(
-      NodeCrypto.layer,
+      Crypto.layerWebCrypto,
       Scheduler.layer,
       Layer.mock(ThreadLaunchService.ThreadLaunchService)({}),
       Layer.mock(ManagedProjectFolders.ManagedProjectFolders)({
@@ -121,7 +121,7 @@ it.effect("keeps the task list order when a toggle or edit rewrites updated_at",
   Effect.gen(function* () {
     yield* TestClock.setTime(Date.parse("2026-07-01T09:00:00.000Z"));
     const layerDependencies = Layer.mergeAll(
-      NodeCrypto.layer,
+      Crypto.layerWebCrypto,
       Scheduler.layer,
       Layer.mock(ThreadLaunchService.ThreadLaunchService)({}),
       Layer.mock(ManagedProjectFolders.ManagedProjectFolders)({

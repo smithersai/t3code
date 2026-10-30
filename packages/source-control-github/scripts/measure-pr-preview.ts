@@ -16,6 +16,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 import * as GitHubPullRequestApi from "../src/server/GitHubPullRequestApi.ts";
 import * as GitHubPullRequestProvider from "../src/server/GitHubPullRequestProvider.ts";
 import * as GitHubRest from "../src/server/GitHubRest.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const [repository, ...numbers] = process.argv.slice(2);
 if (!repository || numbers.length === 0 || numbers.some((number) => !/^\d+$/.test(number))) {
@@ -96,7 +97,7 @@ const sourceControlHost = Layer.unwrap(
       },
     });
   }),
-).pipe(Layer.provideMerge(NodeServices.layer));
+).pipe(Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
 
 const services = GitHubPullRequestApi.layer.pipe(
   Layer.provideMerge(GitHubRest.layerWithDependencies),

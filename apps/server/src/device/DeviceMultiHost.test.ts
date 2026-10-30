@@ -2,13 +2,13 @@ import { expect, it } from "@effect/vitest";
 import { ThreadId } from "@t3tools/contracts";
 import * as Deferred from "effect/Deferred";
 import * as Fiber from "effect/Fiber";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as Effect from "effect/Effect";
 import { HttpClient, HttpClientResponse } from "effect/http";
 import * as ServerSettings from "../serverSettings.ts";
 import * as DeviceHost from "./DeviceHost.ts";
 import { makeDeviceHubOperations } from "./DeviceHubOperations.ts";
 import * as DeviceService from "./DeviceService.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 it.effect("keeps hosts independent when serials collide and another host fails", () =>
   Effect.gen(function* () {
@@ -93,7 +93,7 @@ it.effect("keeps hosts independent when serials collide and another host fails",
         order.push("write finished");
         return "/host-config.json";
       }),
-    ).pipe(Effect.provide(NodeCrypto.layer));
+    ).pipe(Effect.provide(Crypto.layerWebCrypto));
     expect(yield* service.agentReadinessIfSupported("b")).not.toBeNull();
     const listed = yield* service.list;
     expect(listed.devices.map((device) => device.hostId).sort()).toEqual(["a", "b"]);

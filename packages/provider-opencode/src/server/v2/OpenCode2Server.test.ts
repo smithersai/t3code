@@ -17,6 +17,7 @@ import * as OpenCodeRuntime from "../OpenCodeRuntime.ts";
 import * as OpenCodeServerLedger from "../OpenCodeServerLedger.ts";
 import * as OpenCode2Client from "./OpenCode2Client.ts";
 import * as OpenCode2Server from "./OpenCode2Server.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 // Shapes and content types observed on `opencode serve` 2.0.18 (pid and port replaced). 1.x
 // answers /api/info with its web UI: 200 text/html.
@@ -111,7 +112,7 @@ describe("OpenCode2Server error details", () => {
         Layer.mergeAll(
           OpenCode2Client.layer.pipe(Layer.provide(httpClient)),
           OpenCodeRuntime.layer.pipe(Layer.provide(OpenCodeServerLedger.layerTest)),
-        ).pipe(Layer.provideMerge(NodeServices.layer)),
+        ).pipe(Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
       ),
     );
 
@@ -213,7 +214,14 @@ describe("OpenCode2Server spawned server", () => {
         Layer.mergeAll(
           OpenCode2Client.layer,
           OpenCodeRuntime.layer.pipe(Layer.provide(OpenCodeServerLedger.layerTest)),
-        ).pipe(Layer.provideMerge(Layer.mergeAll(NodeServices.layer, FetchHttpClient.layer))),
+        ).pipe(
+          Layer.provideMerge(
+            Layer.mergeAll(
+              Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+              FetchHttpClient.layer,
+            ),
+          ),
+        ),
       ),
     ),
   );

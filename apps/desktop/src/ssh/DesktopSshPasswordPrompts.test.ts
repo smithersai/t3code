@@ -9,6 +9,7 @@ import type * as Electron from "electron";
 import * as ElectronWindow from "../electron/ElectronWindow.ts";
 import { SSH_PASSWORD_PROMPT_CHANNEL } from "../ipc/channels.ts";
 import * as DesktopSshPasswordPrompts from "./DesktopSshPasswordPrompts.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 interface SentMessage {
   readonly channel: string;
@@ -107,7 +108,7 @@ function layerElectronWindow(window: ReturnType<typeof makeTestWindow>["window"]
 function layer(window: ReturnType<typeof makeTestWindow>["window"]) {
   return DesktopSshPasswordPrompts.layer({ passwordPromptTimeoutMs: 1_000 }).pipe(
     Layer.provide(layerElectronWindow(window)),
-    Layer.provide(NodeServices.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Layer.provideMerge(TestClock.layer()),
   );
 }

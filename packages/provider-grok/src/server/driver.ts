@@ -1,6 +1,6 @@
 import { ProviderDriverKind } from "@t3tools/contracts";
 import { GrokSettings } from "../settings.ts";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";

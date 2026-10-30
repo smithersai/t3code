@@ -19,6 +19,7 @@ import * as Schema from "effect/Schema";
 import * as DpopProofs from "../auth/DpopProofs.ts";
 import * as RelayConfiguration from "../Config.ts";
 import * as EnvironmentPublishSignatures from "./EnvironmentPublishSignatures.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const keyPair = NodeCrypto.generateKeyPairSync("ed25519", {
   privateKeyEncoding: { format: "pem", type: "pkcs8" },
@@ -98,7 +99,7 @@ function layer(replay?: Partial<DpopProofs.DpopProofReplay["Service"]>) {
         }),
       ),
     ),
-    Layer.provideMerge(NodeServices.layer),
+    Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
 }
 

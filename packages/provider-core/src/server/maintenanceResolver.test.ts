@@ -6,7 +6,7 @@ import * as NodeOS from "node:os";
 import * as NodePath from "node:path";
 import { ProviderDriverKind, ProviderInstanceId, type ServerProvider } from "@t3tools/contracts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
@@ -34,6 +34,7 @@ import {
   type ProviderMaintenanceCapabilities,
 } from "./maintenanceResolver.ts";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
+import * as Layer from "effect/Layer";
 
 const driver = (value: string) => ProviderDriverKind.make(value);
 // Shell stubs use POSIX paths; Windows temp paths cannot split on colon.
@@ -125,7 +126,7 @@ function stdoutSpawner(
   });
 }
 
-it.layer(NodeServices.layer)("providerMaintenance", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("providerMaintenance", (it) => {
   it.effect("prefers the installer's own latest version over the npm registry", () =>
     resolveLatestProviderVersion({ ...manualPackageTool, latestVersion: "1.2.0" }).pipe(
       Effect.provide(ProviderLatestVersions.layer),

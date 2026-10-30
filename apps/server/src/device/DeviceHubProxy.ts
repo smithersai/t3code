@@ -6,6 +6,7 @@ import * as Option from "effect/Option";
 import {
   HttpClient,
   HttpClientRequest,
+  HttpMethod,
   HttpRouter,
   HttpServerRequest,
   HttpServerResponse,
@@ -16,6 +17,7 @@ import * as NodeSocket from "@effect/platform-node/NodeSocket";
 import { authenticateMediaRequest } from "../auth/http.ts";
 import * as DeviceService from "./DeviceService.ts";
 import { repeatStillFrame } from "./mjpegStillFrame.ts";
+import * as RequestUrl from "../RequestUrl.ts";
 
 const ALLOWED_PATHS: ReadonlyArray<RegExp> = [
   /^\/api\/devices$/,
@@ -114,6 +116,9 @@ const proxyHttp = Effect.fn("DeviceHubProxy.proxyHttp")(function* (
 ) {
   const httpClient = HttpClient.withScope(yield* HttpClient.HttpClient);
   const method = request.method;
+  if (!HttpMethod.isHttpMethod(method)) {
+    return HttpServerResponse.empty({ status: 405 });
+  }
   const upstreamRequest = HttpClientRequest.make(method)(upstreamUrl).pipe(
     HttpClientRequest.setHeaders({
       ...forwardHeaders(request, new URL(upstreamUrl).origin),
@@ -155,7 +160,7 @@ const proxyHttp = Effect.fn("DeviceHubProxy.proxyHttp")(function* (
 
 const handler = Effect.gen(function* () {
   const request = yield* HttpServerRequest.HttpServerRequest;
-  const url = HttpServerRequest.toURL(request);
+  const url = RequestUrl.toURL(request);
   if (Option.isNone(url)) {
     return HttpServerResponse.text("Bad Request", { status: 400 });
   }

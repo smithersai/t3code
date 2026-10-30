@@ -16,6 +16,7 @@ import * as DesktopSavedEnvironments from "../settings/DesktopSavedEnvironments.
 import * as DesktopConfig from "./DesktopConfig.ts";
 import * as DesktopConnectionCatalogStore from "./DesktopConnectionCatalogStore.ts";
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const textDecoder = new TextDecoder();
 const textEncoder = new TextEncoder();
@@ -53,7 +54,10 @@ function layerFor(
   baseDir: string,
   encryptionAvailable = true,
   failDecrypt: Ref.Ref<boolean> | null = null,
-  fileSystemLayer: Layer.Layer<FileSystem.FileSystem> = NodeServices.layer,
+  fileSystemLayer: Layer.Layer<FileSystem.FileSystem> = Layer.merge(
+    NodeServices.layer,
+    Crypto.layerWebCrypto,
+  ),
 ) {
   const layerEnvironment = DesktopEnvironment.layer({
     dirname: "/repo/apps/desktop/src",
@@ -67,14 +71,17 @@ function layerFor(
     runningUnderArm64Translation: false,
   }).pipe(
     Layer.provide(
-      Layer.mergeAll(NodeServices.layer, DesktopConfig.layerTest({ T3CODE_HOME: baseDir })),
+      Layer.mergeAll(
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        DesktopConfig.layerTest({ T3CODE_HOME: baseDir }),
+      ),
     ),
   );
   const layerSafeStorage = layerSafeStorageFor(encryptionAvailable, failDecrypt);
   const layerDependencies = Layer.mergeAll(
     layerEnvironment,
     layerSafeStorage,
-    NodeServices.layer,
+    Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
     fileSystemLayer,
   );
   const layerSavedEnvironments = DesktopSavedEnvironments.layer.pipe(
@@ -97,7 +104,7 @@ const withStore = <A, E, R>(
       prefix: "t3-desktop-connection-catalog-test-",
     });
     return yield* effect.pipe(Effect.provide(layerFor(baseDir, encryptionAvailable)));
-  }).pipe(Effect.provide(NodeServices.layer), Effect.scoped);
+  }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)), Effect.scoped);
 
 describe("DesktopConnectionCatalogStore", () => {
   it.effect("persists, reads, and clears an encrypted connection catalog", () =>
@@ -299,6 +306,6 @@ describe("DesktopConnectionCatalogStore", () => {
       assert.notEqual(error.message, decryptError.message);
       yield* Ref.set(failDecrypt, false);
       assert.deepStrictEqual(yield* store.get, Option.some('{"schemaVersion":1,"targets":[]}'));
-    }).pipe(Effect.provide(NodeServices.layer), Effect.scoped),
+    }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)), Effect.scoped),
   );
 });

@@ -29,6 +29,7 @@ import * as ProviderReplayHarness from "./ProviderReplayHarness.ts";
 import { runOrchestratorV2Scenario } from "./OrchestratorScenario.ts";
 import { checkpointWorkspace } from "@t3tools/provider-testing/replayWorkspace";
 import { readProviderReplayTranscript } from "@t3tools/provider-testing/replayTranscript";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const SCENARIO = "claude_background_subagent_after_root";
 const SESSION_ID = "cca274e4-25ae-4171-b972-bbb31118517e";
@@ -158,7 +159,7 @@ const runRestart = Effect.fn("runRestart")(function* (input: {
   const phase2Steps = materialized.steps.slice(firstIdle + 1);
   const { harness, assertComplete } = makeClaudeRestartReplayHarness(transcript);
   const layerDatabase = SqlitePersistence.layerFromPath(path.join(tempDir, "state.sqlite")).pipe(
-    Layer.provide(NodeServices.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
   const snapshotPath = path.join(tempDir, "restart-state.sqlite");
   const scenario = (name: string, steps: typeof materialized.steps) => ({
@@ -217,7 +218,7 @@ const runRestart = Effect.fn("runRestart")(function* (input: {
     ),
   );
   const snapshotDatabase = SqlitePersistence.layerFromPath(snapshotPath).pipe(
-    Layer.provide(NodeServices.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
   const settled = projectionFor(before, SCENARIO);
   assert.equal(settled.runs[0]?.status, "completed");
@@ -292,7 +293,9 @@ describe("restart-cancelled background work", () => {
           ]);
         }).pipe(
           provideDeterministicTestRuntime,
-          Effect.provide(Layer.merge(IdAllocator.layer, NodeServices.layer)),
+          Effect.provide(
+            Layer.merge(IdAllocator.layer, Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+          ),
         ),
       ),
   );

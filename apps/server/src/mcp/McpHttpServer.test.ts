@@ -38,6 +38,7 @@ import * as PreviewAutomationBroker from "./PreviewAutomationBroker.ts";
 import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.ts";
 import { PreviewToolkit } from "./toolkits/preview/tools.ts";
 import { ProjectToolkit } from "./toolkits/project/tools.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const environmentId = EnvironmentId.make("environment-mcp-test");
 const threadId = ThreadId.make("thread-mcp-test");
@@ -68,13 +69,15 @@ const client = McpSchema.McpServerClient.of({
   getClient: Effect.die("unused"),
 });
 const layerTest = McpHttpServer.layerPreviewToolkit.pipe(
+  Layer.provide(McpHttpServer.layerCallerInvocation),
   Layer.provideMerge(McpServer.McpServer.layer),
   Layer.provideMerge(McpToolAccessTestkit.liveThreadsLayer),
   Layer.provideMerge(PreviewAutomationBroker.layer),
   Layer.provideMerge(ServerConfig.layerTest(process.cwd(), { prefix: "t3-mcp-http-server-test-" })),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 const layerPullRequestsTest = McpHttpServer.layerPullRequestsToolkit.pipe(
+  Layer.provide(McpHttpServer.layerCallerInvocation),
   Layer.provideMerge(McpServer.McpServer.layer),
   Layer.provideMerge(McpToolAccessTestkit.liveThreadsLayer),
   Layer.provide(
@@ -83,7 +86,7 @@ const layerPullRequestsTest = McpHttpServer.layerPullRequestsToolkit.pipe(
       Layer.mock(PullRequestReviewGuideService.PullRequestReviewGuideService)({}),
       Layer.mock(Orchestrator.OrchestratorV2)({}),
       Layer.mock(ProjectionStore.ProjectionStoreV2)({}),
-      NodeServices.layer,
+      Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
     ),
   ),
 );
@@ -163,13 +166,14 @@ const layerRecordingTools = (calls: Array<unknown>) => {
       t3_project_update: record,
     }),
   ).pipe(
+    Layer.provide(McpHttpServer.layerCallerInvocation),
     Layer.provideMerge(McpServer.McpServer.layer),
     Layer.provide(
       Layer.mergeAll(
         McpToolAccessTestkit.liveThreadsLayer,
         Layer.mock(OrchestratorMcpService.OrchestratorMcpService)({}),
         Layer.mock(ProjectService.ProjectService)({}),
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
       ),
     ),
   );
@@ -737,7 +741,7 @@ it.effect("terminates HTTP MCP sessions with DELETE", () =>
       });
       expect(reusedSessionResponse.status).toBe(404);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("admits provider and OAuth client credentials and points only clients at OAuth", () =>
@@ -786,9 +790,8 @@ it.effect("admits provider and OAuth client credentials and points only clients 
           ),
         }),
       ).pipe(
-        Layer.provideMerge(
-          McpHttpServer.layerMcpTransport.pipe(Layer.provide(ServerSettings.layerTest())),
-        ),
+        McpHttpServer.withMcpTransport,
+        Layer.provide(ServerSettings.layerTest()),
         Layer.provide(
           Layer.mock(McpSessionRegistry.McpSessionRegistry)({
             resolve: (token) =>
@@ -860,7 +863,7 @@ it.effect("admits provider and OAuth client credentials and points only clients 
       expect(deadProvider.status).toBe(401);
       expect(deadProvider.headers["www-authenticate"]).toBe('Bearer error="invalid_token"');
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("hides tools for links and refuses another environment while the beta is off", () =>
@@ -903,11 +906,8 @@ it.effect("hides tools for links and refuses another environment while the beta 
           where: McpToolAccess.reads(() => Effect.succeed({ ranIn: "here" })),
         }),
       ).pipe(
-        Layer.provideMerge(
-          McpHttpServer.layerMcpTransport.pipe(
-            Layer.provide(Layer.succeedContext(settingsContext)),
-          ),
-        ),
+        McpHttpServer.withMcpTransport,
+        Layer.provide(Layer.succeedContext(settingsContext)),
         Layer.provide(McpToolAccessTestkit.liveThreadsLayer),
         Layer.provide(
           Layer.mock(McpSessionRegistry.McpSessionRegistry)({
@@ -984,7 +984,7 @@ it.effect("hides tools for links and refuses another environment while the beta 
         content: [{ text: expect.stringContaining("cannot reach linked environments") }],
       });
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("lists pull request watch tools only to threads that are not delegated children", () =>
@@ -1011,9 +1011,8 @@ it.effect("lists pull request watch tools only to threads that are not delegated
         ["childToken", scopeFor("childToken", true)],
       ]);
       const serverLayer = McpHttpServer.layerPullRequestsToolkit.pipe(
-        Layer.provideMerge(
-          McpHttpServer.layerMcpTransport.pipe(Layer.provide(ServerSettings.layerTest())),
-        ),
+        McpHttpServer.withMcpTransport,
+        Layer.provide(ServerSettings.layerTest()),
         Layer.provide(
           Layer.mock(McpSessionRegistry.McpSessionRegistry)({
             resolve: (token) => Effect.succeed(scopes.get(token)),
@@ -1026,7 +1025,7 @@ it.effect("lists pull request watch tools only to threads that are not delegated
             Layer.mock(PullRequestReviewGuideService.PullRequestReviewGuideService)({}),
             Layer.mock(Orchestrator.OrchestratorV2)({}),
             Layer.mock(ProjectionStore.ProjectionStoreV2)({}),
-            NodeServices.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
           ),
         ),
       );
@@ -1073,7 +1072,7 @@ it.effect("lists pull request watch tools only to threads that are not delegated
       expect(childTools).not.toContain("watch_pull_request");
       expect(childTools).not.toContain("unwatch_pull_request");
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect(
@@ -1118,9 +1117,8 @@ it.effect(
             ),
           }),
         ).pipe(
-          Layer.provideMerge(
-            McpHttpServer.layerMcpTransport.pipe(Layer.provide(ServerSettings.layerTest())),
-          ),
+          McpHttpServer.withMcpTransport,
+          Layer.provide(ServerSettings.layerTest()),
           Layer.provide(McpToolAccessTestkit.liveThreadsLayer),
           Layer.provide(
             Layer.mock(McpSessionRegistry.McpSessionRegistry)({
@@ -1219,5 +1217,5 @@ it.effect(
         expect(yield* start("auto/default/extra")).toBe(400);
         expect(yield* start("root/default")).toBe(400);
       }),
-    ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+    ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );

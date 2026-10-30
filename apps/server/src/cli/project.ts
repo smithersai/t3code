@@ -8,7 +8,7 @@ import {
   ProjectId,
 } from "@t3tools/contracts";
 import * as Console from "effect/Console";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";

@@ -14,6 +14,8 @@ import * as PtyAdapter from "@t3tools/shared/PtyAdapter";
 import { makeAcpRegistryAuth } from "./auth.ts";
 import * as AcpRegistrySupport from "./AcpRegistrySupport.ts";
 import type * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
+import * as Layer from "effect/Layer";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const decodeSettings = Schema.decodeSync(AcpRegistrySettings);
 const instanceId = ProviderInstanceId.make("acp-auth-test");
@@ -230,7 +232,7 @@ it.effect("keeps local credentials separate from a matching registry agent ID", 
       owner: "provider",
       key: "acp:local:test-agent",
     });
-  }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+  }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 it.effect(
@@ -264,7 +266,7 @@ it.effect(
       assert.deepEqual(h.closed, [1, 2]);
       yield* h.controller.logout(Effect.void);
       assert.deepEqual(h.changed, [true, false]);
-    }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 it.effect(
@@ -308,7 +310,7 @@ it.effect(
       yield* h.phase("succeeded");
       assert.deepEqual(h.started, [3]);
       assert.deepEqual(h.changed, [true]);
-    }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 it.effect("cancels the login PTY and rejects further terminal input", () =>
@@ -329,7 +331,7 @@ it.effect("cancels the login PTY and rejects further terminal input", () =>
       }).pipe(Effect.result))._tag,
       "Failure",
     );
-  }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+  }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 it.effect("does not report authentication when post-login verification fails", () =>
@@ -343,5 +345,5 @@ it.effect("does not report authentication when post-login verification fails", (
     yield* h.phase("failed");
     assert.deepEqual(h.changed, []);
     assert.isTrue(h.killed());
-  }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+  }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );

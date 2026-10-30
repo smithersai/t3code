@@ -18,6 +18,7 @@ import * as ServerConfig from "../config.ts";
 import * as TextGeneration from "./TextGeneration.ts";
 import { makeGrokTextGeneration } from "@t3tools/provider-grok/testing";
 import { execScriptSource, writeFakeCli } from "@t3tools/provider-testing/fakeCli";
+import * as Crypto from "@t3tools/shared/Crypto";
 const decodeGrokSettings = Schema.decodeSync(GrokSettings);
 
 const __dirname = NodePath.dirname(NodeURL.fileURLToPath(import.meta.url));
@@ -25,7 +26,7 @@ const mockAgentPath = NodePath.join(__dirname, "../provider/testFixtures/grok-te
 
 const layerGrokTextGenerationTest = ServerConfig.ServerConfig.layerTest(process.cwd(), {
   prefix: "t3code-grok-text-generation-test-",
-}).pipe(Layer.provideMerge(NodeServices.layer));
+}).pipe(Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
 
 function makeAcpGrokWrapper(dir: string, env: Record<string, string>): string {
   return writeFakeCli({

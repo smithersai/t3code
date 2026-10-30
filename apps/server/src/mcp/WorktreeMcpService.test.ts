@@ -34,6 +34,7 @@ import * as ServerSettings from "../serverSettings.ts";
 import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.ts";
 import type * as McpInvocationContext from "./McpInvocationContext.ts";
 import * as WorktreeMcpService from "./WorktreeMcpService.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const environmentId = EnvironmentId.make("environment-worktree-test");
 const threadId = ThreadId.make("thread-worktree-test");
@@ -318,7 +319,7 @@ const makeHarness = (options: HarnessOptions = {}) => {
         Layer.mock(VcsStatusBroadcaster.VcsStatusBroadcaster)({
           refreshStatus,
         } satisfies Partial<VcsStatusBroadcaster.VcsStatusBroadcaster["Service"]>),
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
       ),
     ),
   );
@@ -445,7 +446,7 @@ describe("t3_worktree_handoff", () => {
       Effect.provide(
         GitVcsDriver.layer.pipe(
           Layer.provide(ServerConfig.layerTest(process.cwd(), { prefix: "handoff-remote-git-" })),
-          Layer.provideMerge(NodeServices.layer),
+          Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         ),
       ),
     ),

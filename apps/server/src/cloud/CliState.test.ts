@@ -18,6 +18,7 @@ import {
   RELAY_ISSUER_SECRET,
   RELAY_URL_SECRET,
 } from "./config.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const persistedCloudLinkSecrets = [
   CLOUD_LINKED_USER_ID,
@@ -39,7 +40,7 @@ const layerTest = () =>
     ),
   );
 
-it.layer(NodeServices.layer)("CliState", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("CliState", (it) => {
   it.effect("persists desired exposure and clears provisioned relay state", () =>
     Effect.gen(function* () {
       const secrets = yield* ServerSecretStore.ServerSecretStore;

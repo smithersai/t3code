@@ -1,7 +1,7 @@
 import type { ToolActivityNativeAppReference } from "@t3tools/contracts";
 import * as Cache from "effect/Cache";
 import * as Cause from "effect/Cause";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";

@@ -21,6 +21,7 @@ import { describe, expect } from "vite-plus/test";
 
 import { makeCli } from "../binCli.ts";
 import { PersistedServerRuntimeState } from "../serverRuntimeState.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const liveProcess = Effect.acquireRelease(
   Effect.promise(async () => {
@@ -44,7 +45,7 @@ const runCli = (args: ReadonlyArray<string>, env: Record<string, string> = {}) =
   Command.runWith(makeCli(), { version: "0.0.0" })(args).pipe(
     Effect.provide(
       Layer.mergeAll(
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         NetService.layer,
         ConfigProvider.layer(ConfigProvider.fromEnv({ env })),
       ),
