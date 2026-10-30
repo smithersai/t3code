@@ -200,8 +200,8 @@
       "import": "./src/relayUrl.ts"
     },
     "./relayJwt": {
-      "types": "./src/relayJwt.ts",
-      "import": "./src/relayJwt.ts"
+      "types": "./src/relayJwt.d.vibe.ts",
+      "import": "./src/relayJwt.vibe"
     },
     "./oauthScope": {
       "types": "./src/oauthScope.ts",
