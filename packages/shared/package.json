@@ -12,8 +12,8 @@
       "import": "./src/authScopeOptions.ts"
     },
     "./orchestrationV2ThreadError": {
-      "types": "./src/orchestrationV2ThreadError.ts",
-      "import": "./src/orchestrationV2ThreadError.ts"
+      "types": "./src/orchestrationV2ThreadError.d.vibe.ts",
+      "import": "./src/orchestrationV2ThreadError.vibe"
     },
     "./delimitedPreview": {
       "types": "./src/delimitedPreview.ts",
@@ -48,8 +48,8 @@
       "import": "./src/advertisedEndpoint.ts"
     },
     "./agentAwareness": {
-      "types": "./src/agentAwareness.ts",
-      "import": "./src/agentAwareness.ts"
+      "types": "./src/agentAwareness.d.vibe.ts",
+      "import": "./src/agentAwareness.vibe"
     },
     "./git": {
       "types": "./src/git.ts",
@@ -160,8 +160,8 @@
       "import": "./src/projectSettings.ts"
     },
     "./t3ProjectFile": {
-      "types": "./src/t3ProjectFile.ts",
-      "import": "./src/t3ProjectFile.ts"
+      "types": "./src/t3ProjectFile.d.vibe.ts",
+      "import": "./src/t3ProjectFile.vibe"
     },
     "./orchestrationTiming": {
       "types": "./src/orchestrationTiming.ts",
