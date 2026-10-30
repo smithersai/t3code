@@ -76,8 +76,8 @@
       "import": "./src/otelEnvironment.ts"
     },
     "./httpObservability": {
-      "types": "./src/httpObservability.ts",
-      "import": "./src/httpObservability.ts"
+      "types": "./src/httpObservability.d.vibe.ts",
+      "import": "./src/httpObservability.vibe"
     },
     "./editor": {
       "types": "./src/editor.ts",
@@ -136,8 +136,8 @@
       "import": "./src/favicon.ts"
     },
     "./Struct": {
-      "types": "./src/Struct.ts",
-      "import": "./src/Struct.ts"
+      "types": "./src/Struct.d.vibe.ts",
+      "import": "./src/Struct.vibe"
     },
     "./serverSettings": {
       "types": "./src/serverSettings.ts",
@@ -236,8 +236,8 @@
       "import": "./src/keybindings.ts"
     },
     "./threadTranscript": {
-      "types": "./src/threadTranscript.ts",
-      "import": "./src/threadTranscript.ts"
+      "types": "./src/threadTranscript.d.vibe.ts",
+      "import": "./src/threadTranscript.vibe"
     },
     "./paletteSearch": {
       "types": "./src/paletteSearch.ts",
