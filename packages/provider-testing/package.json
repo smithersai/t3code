@@ -12,12 +12,12 @@
       "import": "./src/replayGate.ts"
     },
     "./replayTranscript": {
-      "types": "./src/replayTranscript.ts",
-      "import": "./src/replayTranscript.ts"
+      "types": "./src/replayTranscript.d.vibe.ts",
+      "import": "./src/replayTranscript.vibe"
     },
     "./replayWorkspace": {
-      "types": "./src/replayWorkspace.ts",
-      "import": "./src/replayWorkspace.ts"
+      "types": "./src/replayWorkspace.d.vibe.ts",
+      "import": "./src/replayWorkspace.vibe"
     },
     "./TestProviderHost": {
       "types": "./src/TestProviderHost.ts",
