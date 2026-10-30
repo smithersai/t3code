@@ -10,7 +10,7 @@ import {
   readMcpAppCsp,
   readMcpAppReference,
   readMcpAppResourceUri,
-} from "./mcpApp.ts";
+} from "./mcpApp.vibe";
 
 describe("mcpAppContentSecurityPolicy", () => {
   it("blocks the network and T3's own origin when the app declares nothing", () => {

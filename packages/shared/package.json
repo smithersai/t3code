@@ -492,8 +492,8 @@
       "import": "./src/inlineSkills.ts"
     },
     "./mcpApp": {
-      "types": "./src/mcpApp.ts",
-      "import": "./src/mcpApp.ts"
+      "types": "./src/mcpApp.d.vibe.ts",
+      "import": "./src/mcpApp.vibe"
     },
     "./atomicWrite": {
       "types": "./src/atomicWrite.ts",
