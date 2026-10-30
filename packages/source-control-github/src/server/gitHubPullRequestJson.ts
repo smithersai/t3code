@@ -47,7 +47,7 @@ import {
   PullRequestList,
   PullRequestRow,
   PullRequestSearch,
-} from "./pullRequestListings.graphql.vibe";
+} from "./pullRequestListings.graphql.ts";
 import type {
   ActorAvatars,
   CheckContext,
