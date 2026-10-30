@@ -14,7 +14,7 @@ import * as GitHubRest from "./GitHubRest.ts";
 import * as GitHubGraphQlClient from "./gitHubGraphQlClient.ts";
 import { decodePullRequestStacksJson, toCanWrite } from "./gitHubPullRequestJson.ts";
 import { cascadeRebaseStack } from "./githubStackRebase.ts";
-import { StackActionsGraphQLGroup } from "./stackActions.graphql.ts";
+import { StackActionsGraphQLGroup } from "./stackActions.graphql.vibe";
 
 const stackErrorIdentity = {
   repository: Schema.String,
