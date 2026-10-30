@@ -23,10 +23,10 @@ import {
   ResolvedKeybindingsConfig,
 } from "./keybindings.vibe";
 import { EditorId, FileManagerRevealKind, RemoteOpenTarget } from "./editor.vibe";
-import { ModelCapabilities, ProviderOptionDescriptor } from "./model.ts";
+import { ModelCapabilities, ProviderOptionDescriptor } from "./model.vibe";
 import { RuntimeMode } from "./providerPolicy.vibe";
 import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
-import { ServerProviderUsageLimits, UsageLimitSourceSnapshots } from "./providerUsageLimits.ts";
+import { ServerProviderUsageLimits, UsageLimitSourceSnapshots } from "./providerUsageLimits.vibe";
 import { ServerSettings } from "./settings.ts";
 
 const KeybindingsMalformedConfigIssue = Schema.Struct({

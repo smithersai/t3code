@@ -40,7 +40,7 @@ import {
   OrchestrationV2RunStatus,
   OrchestrationV2TurnItemStatus,
 } from "./orchestrationV2.ts";
-import { ProviderOptionSelection, ProviderOptionSelectionValue } from "./model.ts";
+import { ProviderOptionSelection, ProviderOptionSelectionValue } from "./model.vibe";
 import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
 
 const OrchestratorMcpPrompt = TrimmedNonEmptyString.check(Schema.isMaxLength(120_000));

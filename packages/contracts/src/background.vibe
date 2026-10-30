@@ -1,35 +1,19 @@
-import * as Schema from "effect/Schema";
+import * as Schema from "effect/Schema"
 
-import {
-  AuthSessionId,
-  EnvironmentId,
-  RpcClientId,
-  ThreadId,
-  TrimmedNonEmptyString,
-} from "./baseSchemas.ts";
-import { ProviderInstanceId } from "./providerInstance.vibe";
+import { AuthSessionId, EnvironmentId, RpcClientId, ThreadId, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { ProviderInstanceId } from "./providerInstance.vibe"
 
-export const BackgroundBooleanState = Schema.Literals(["true", "false", "unknown"]);
-export type BackgroundBooleanState = typeof BackgroundBooleanState.Type;
+export schema BackgroundBooleanState = "true" | "false" | "unknown"
 
-export const HostPowerThermalState = Schema.Literals([
-  "unknown",
-  "nominal",
-  "fair",
-  "serious",
-  "critical",
-]);
-export type HostPowerThermalState = typeof HostPowerThermalState.Type;
+export schema HostPowerThermalState = "unknown" | "nominal" | "fair" | "serious" | "critical"
 
-export const HostPowerSource = Schema.Literals([
-  "unknown",
-  "node-macos-shell",
-  "node-macos-native",
-  "node-linux",
-  "node-windows",
-  "electron-main",
-]);
-export type HostPowerSource = typeof HostPowerSource.Type;
+export schema HostPowerSource =
+  | "unknown"
+  | "node-macos-shell"
+  | "node-macos-native"
+  | "node-linux"
+  | "node-windows"
+  | "electron-main"
 
 export const HostPowerSnapshot = Schema.Struct({
   source: HostPowerSource,
@@ -42,8 +26,8 @@ export const HostPowerSnapshot = Schema.Struct({
   thermalState: HostPowerThermalState,
   stale: Schema.Boolean,
   updatedAt: Schema.DateTimeUtc,
-});
-export type HostPowerSnapshot = typeof HostPowerSnapshot.Type;
+})
+export type HostPowerSnapshot = typeof HostPowerSnapshot.Type
 
 export const BackgroundScope = Schema.Union([
   Schema.Struct({ type: Schema.Literal("server-config") }),
@@ -55,14 +39,13 @@ export const BackgroundScope = Schema.Union([
   Schema.Struct({ type: Schema.Literal("git-refs"), cwd: Schema.String }),
   Schema.Struct({ type: Schema.Literal("diagnostics") }),
   Schema.Struct({ type: Schema.Literal("thread"), threadId: ThreadId }),
-]);
-export type BackgroundScope = typeof BackgroundScope.Type;
+])
+export type BackgroundScope = typeof BackgroundScope.Type
 
-export const ClientKind = Schema.Literals(["web", "desktop-renderer", "mobile", "unknown"]);
-export type ClientKind = typeof ClientKind.Type;
+export schema ClientKind = "web" | "desktop-renderer" | "mobile" | "unknown"
 
-export const ClientActivityClientId = TrimmedNonEmptyString.check(Schema.isMaxLength(128));
-export type ClientActivityClientId = typeof ClientActivityClientId.Type;
+export const ClientActivityClientId = TrimmedNonEmptyString.check(Schema.isMaxLength(128))
+export type ClientActivityClientId = typeof ClientActivityClientId.Type
 
 export const ClientActivityReportInput = Schema.Struct({
   environmentId: Schema.optionalKey(EnvironmentId),
@@ -78,8 +61,8 @@ export const ClientActivityReportInput = Schema.Struct({
   scopes: Schema.Array(BackgroundScope),
   ttlMs: Schema.optionalKey(Schema.Number),
   observedAt: Schema.DateTimeUtc,
-});
-export type ClientActivityReportInput = typeof ClientActivityReportInput.Type;
+})
+export type ClientActivityReportInput = typeof ClientActivityReportInput.Type
 
 export const ClientActivityLease = Schema.Struct({
   sessionId: AuthSessionId,
@@ -96,15 +79,14 @@ export const ClientActivityLease = Schema.Struct({
   scopes: Schema.Array(BackgroundScope),
   updatedAt: Schema.DateTimeUtc,
   expiresAt: Schema.DateTimeUtc,
-});
-export type ClientActivityLease = typeof ClientActivityLease.Type;
+})
+export type ClientActivityLease = typeof ClientActivityLease.Type
 
-export const BackgroundPolicySnapshot = Schema.Struct({
-  hostPower: HostPowerSnapshot,
-  leases: Schema.Array(ClientActivityLease),
-  activeForegroundLeaseCount: Schema.Number,
-  activeScopeKeys: Schema.Array(Schema.String),
-  shouldRunOpportunisticWork: Schema.Boolean,
-  updatedAt: Schema.DateTimeUtc,
-});
-export type BackgroundPolicySnapshot = typeof BackgroundPolicySnapshot.Type;
+export schema BackgroundPolicySnapshot {
+  hostPower: HostPowerSnapshot
+  leases: ReadonlyArray<ClientActivityLease>
+  activeForegroundLeaseCount: number
+  activeScopeKeys: ReadonlyArray<string>
+  shouldRunOpportunisticWork: boolean
+  updatedAt: Schema.DateTimeUtc
+}

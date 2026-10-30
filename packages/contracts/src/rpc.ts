@@ -87,7 +87,7 @@ import {
   BackgroundPolicySnapshot,
   ClientActivityReportInput,
   HostPowerSnapshot,
-} from "./background.ts";
+} from "./background.vibe";
 import {
   FilesystemGetMetadataInput,
   FilesystemGetMetadataResult,
@@ -348,7 +348,7 @@ import {
   UsageLimitSourceError,
   ProviderConsumeResetCreditInput,
   ProviderConsumeResetCreditResult,
-} from "./providerUsageLimits.ts";
+} from "./providerUsageLimits.vibe";
 import { UsagePricing, UsageReadError, UsageSummary, UsageSummaryInput } from "./usage.vibe";
 import {
   StorageCleanupReport,

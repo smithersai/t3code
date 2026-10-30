@@ -2,7 +2,7 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 
 import { ProjectId, ThreadId, TrimmedNonEmptyString, TrimmedString } from "./baseSchemas.ts";
-import { ProviderOptionDescriptor } from "./model.ts";
+import { ProviderOptionDescriptor } from "./model.vibe";
 import { ProviderInstanceId } from "./providerInstance.vibe";
 
 const AcpRegistryAgentId = TrimmedNonEmptyString.check(
