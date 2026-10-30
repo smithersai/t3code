@@ -76,7 +76,7 @@ import {
   RuntimeMode,
 } from "./providerPolicy.vibe";
 import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
-import { OrchestrationProjectShell } from "./orchestrationProject.ts";
+import { OrchestrationProjectShell } from "./orchestrationProject.vibe";
 import {
   TurnTokenUsage,
   ToolActivitySurface,

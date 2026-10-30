@@ -160,7 +160,7 @@ import {
   ReviewDiffPreviewError,
   ReviewDiffPreviewInput,
   ReviewDiffPreviewResult,
-} from "./review.ts";
+} from "./review.vibe";
 import { KeybindingsConfigError } from "./keybindings.vibe";
 import { OrchestrationSearchThreadsError } from "./threadSearch.ts";
 import {
@@ -174,7 +174,7 @@ import {
   GuestShareCreateInput,
   GuestShareCreateResult,
 } from "./guestShare.vibe";
-import { PullRequestReviewGuideResult } from "./pullRequestReviewGuide.ts";
+import { PullRequestReviewGuideResult } from "./pullRequestReviewGuide.vibe";
 import {
   PullRequestActionInput,
   PullRequestActivity,

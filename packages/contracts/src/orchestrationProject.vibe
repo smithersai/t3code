@@ -1,9 +1,9 @@
-import * as Schema from "effect/Schema";
+import * as Schema from "effect/Schema"
 
-import { IsoDateTime, ProjectId, TrimmedNonEmptyString } from "./baseSchemas.ts";
-import { RepositoryIdentity, ThreadEnvMode } from "./environment.vibe";
-import { ModelSelection } from "./modelSelection.vibe";
-import { ProjectScript, ReceivedProjectIcon } from "./project.ts";
+import { IsoDateTime, ProjectId, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { RepositoryIdentity, ThreadEnvMode } from "./environment.vibe"
+import { ModelSelection } from "./modelSelection.vibe"
+import { ProjectScript, ReceivedProjectIcon } from "./project.ts"
 
 export const OrchestrationProjectShell = Schema.Struct({
   id: ProjectId,
@@ -19,5 +19,5 @@ export const OrchestrationProjectShell = Schema.Struct({
   scripts: Schema.Array(ProjectScript),
   createdAt: IsoDateTime,
   updatedAt: IsoDateTime,
-});
-export type OrchestrationProjectShell = typeof OrchestrationProjectShell.Type;
+})
+export type OrchestrationProjectShell = typeof OrchestrationProjectShell.Type

@@ -32,7 +32,7 @@ import {
   ThreadPullRequestKey,
   ThreadPullRequestLinkSource,
 } from "./threadPullRequest.vibe";
-import { hasOnlyPairedSurrogates } from "./threadMetadataMcp.ts";
+import { hasOnlyPairedSurrogates } from "./threadMetadataMcp.vibe";
 import { ThreadTitleRegeneration } from "./threadTitle.ts";
 import {
   OrchestrationV2Actor,
