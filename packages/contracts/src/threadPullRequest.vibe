@@ -1,28 +1,20 @@
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+import * as Schema from "effect/Schema"
 
-import {
-  IsoDateTime,
-  NonNegativeInt,
-  PositiveInt,
-  ProjectId,
-  TrimmedNonEmptyString,
-} from "./baseSchemas.ts";
+import { IsoDateTime, NonNegativeInt, PositiveInt, ProjectId, TrimmedNonEmptyString } from "./baseSchemas.ts"
 import {
   PullRequestActor,
   PullRequestChecksState,
   PullRequestMergeability,
   PullRequestReviewDecision,
   PullRequestState,
-} from "./pullRequest.ts";
+} from "./pullRequest.ts"
 
-export const ThreadLinkedPullRequest = Schema.Struct({
-  projectId: ProjectId,
-  repository: TrimmedNonEmptyString,
-  number: PositiveInt,
-  url: TrimmedNonEmptyString,
-});
-export type ThreadLinkedPullRequest = typeof ThreadLinkedPullRequest.Type;
+export schema ThreadLinkedPullRequest {
+  projectId: ProjectId
+  repository: TrimmedNonEmptyString
+  number: PositiveInt
+  url: TrimmedNonEmptyString
+}
 
 /** stack-dismissed hides an unlinked native member and prevents sync from re-adding it. */
 export const ThreadPullRequestLinkSource = Schema.Literals([
@@ -31,8 +23,8 @@ export const ThreadPullRequestLinkSource = Schema.Literals([
   "agent",
   "stack",
   "stack-dismissed",
-]);
-export type ThreadPullRequestLinkSource = typeof ThreadPullRequestLinkSource.Type;
+])
+export type ThreadPullRequestLinkSource = typeof ThreadPullRequestLinkSource.Type
 
 export const ThreadPullRequestSnapshot = Schema.Struct({
   state: PullRequestState,
@@ -51,33 +43,30 @@ export const ThreadPullRequestSnapshot = Schema.Struct({
   reviewDecision: Schema.optional(Schema.NullOr(PullRequestReviewDecision)),
   checksState: Schema.optional(Schema.NullOr(PullRequestChecksState)),
   mergeability: Schema.optional(PullRequestMergeability),
-});
-export type ThreadPullRequestSnapshot = typeof ThreadPullRequestSnapshot.Type;
+})
+export type ThreadPullRequestSnapshot = typeof ThreadPullRequestSnapshot.Type
 
-export const ThreadPullRequestStackLayer = Schema.Struct({
-  number: PositiveInt,
-  headBranch: TrimmedNonEmptyString,
-  state: PullRequestState,
-});
-export type ThreadPullRequestStackLayer = typeof ThreadPullRequestStackLayer.Type;
+export schema ThreadPullRequestStackLayer {
+  number: PositiveInt
+  headBranch: TrimmedNonEmptyString
+  state: PullRequestState
+}
 
 /** Layers run bottom to top. */
-export const ThreadPullRequestStack = Schema.Struct({
-  kind: Schema.Literal("native"),
-  id: TrimmedNonEmptyString,
-  number: PositiveInt,
-  url: TrimmedNonEmptyString,
-  base: TrimmedNonEmptyString,
-  layers: Schema.Array(ThreadPullRequestStackLayer),
-});
-export type ThreadPullRequestStack = typeof ThreadPullRequestStack.Type;
+export schema ThreadPullRequestStack {
+  kind: "native"
+  id: TrimmedNonEmptyString
+  number: PositiveInt
+  url: TrimmedNonEmptyString
+  base: TrimmedNonEmptyString
+  layers: ReadonlyArray<ThreadPullRequestStackLayer>
+}
 
-export const ThreadPullRequestKey = Schema.Struct({
-  host: TrimmedNonEmptyString,
-  repository: TrimmedNonEmptyString,
-  number: PositiveInt,
-});
-export type ThreadPullRequestKey = typeof ThreadPullRequestKey.Type;
+export schema ThreadPullRequestKey {
+  host: TrimmedNonEmptyString
+  repository: TrimmedNonEmptyString
+  number: PositiveInt
+}
 
 export const ThreadPullRequestWatch = Schema.Struct({
   startedAt: IsoDateTime,
@@ -100,8 +89,8 @@ export const ThreadPullRequestWatch = Schema.Struct({
    * none did. Null once either happened; absent on watches saved before it existed.
    */
   checksAwaitedSince: Schema.optional(Schema.NullOr(IsoDateTime)),
-});
-export type ThreadPullRequestWatch = typeof ThreadPullRequestWatch.Type;
+})
+export type ThreadPullRequestWatch = typeof ThreadPullRequestWatch.Type
 
 export const ThreadPullRequestLink = Schema.Struct({
   ...ThreadPullRequestKey.fields,
@@ -115,5 +104,5 @@ export const ThreadPullRequestLink = Schema.Struct({
   watch: Schema.optional(ThreadPullRequestWatch),
   /** Resume from the ended watch to avoid duplicate notifications. */
   endedWatch: Schema.optional(ThreadPullRequestWatch),
-});
-export type ThreadPullRequestLink = typeof ThreadPullRequestLink.Type;
+})
+export type ThreadPullRequestLink = typeof ThreadPullRequestLink.Type
