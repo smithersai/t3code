@@ -2,13 +2,13 @@ import {
   extractClaudeSubagentUpdate,
   extractClaudeSubagentSessionEvent,
   isClaudeProvisionalSubagentTool,
-} from "./claudeAcp.ts";
+} from "./claudeAcp.vibe";
 import {
   normalizeDevinSessionUpdate,
   normalizeDevinToolCall,
   extractDevinSubagentUpdate,
 } from "./devinAcp.ts";
-import { extractDroidElicitationForm } from "./droidAcp.ts";
+import { extractDroidElicitationForm } from "./droidAcp.vibe";
 import {
   copilotClientCapabilitiesMeta,
   extractCopilotSubagentUpdate,
