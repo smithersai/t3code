@@ -112,8 +112,8 @@
       "import": "./src/schemaJson.ts"
     },
     "./schemaYaml": {
-      "types": "./src/schemaYaml.ts",
-      "import": "./src/schemaYaml.ts"
+      "types": "./src/schemaYaml.d.vibe.ts",
+      "import": "./src/schemaYaml.vibe"
     },
     "./toolActivity": {
       "types": "./src/toolActivity.ts",
@@ -352,8 +352,8 @@
       "import": "./src/httpReadiness.ts"
     },
     "./devHome": {
-      "types": "./src/devHome.ts",
-      "import": "./src/devHome.ts"
+      "types": "./src/devHome.d.vibe.ts",
+      "import": "./src/devHome.vibe"
     },
     "./devProxy": {
       "types": "./src/devProxy.ts",
