@@ -1,4 +1,4 @@
-import { EasDeviceHostConfigs, SshDeviceHostConfigs } from "./device.ts";
+import { EasDeviceHostConfigs, SshDeviceHostConfigs } from "./device.vibe";
 import {
   AuthOrchestrationOperateScope,
   AuthSettingsWriteScope,
