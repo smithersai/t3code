@@ -4,13 +4,8 @@
  *
  * @module provider-fx/settings
  */
-import {
-  CustomModelSetting,
-  makeBinaryPathSetting,
-  makeProviderSettingsSchema,
-} from "@t3tools/contracts";
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+import { CustomModelSetting, makeBinaryPathSetting, makeProviderSettingsSchema } from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
 
 export const FxSettings = makeProviderSettingsSchema(
   {
@@ -33,5 +28,5 @@ export const FxSettings = makeProviderSettingsSchema(
   {
     order: ["binaryPath"],
   },
-);
-export type FxSettings = typeof FxSettings.Type;
+)
+export type FxSettings = typeof FxSettings.Type

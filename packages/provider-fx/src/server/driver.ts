@@ -1,5 +1,5 @@
 import { TextGenerationError } from "@t3tools/contracts";
-import { FxSettings } from "../settings.ts";
+import { FxSettings } from "../settings.vibe";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import type * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
