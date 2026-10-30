@@ -26,7 +26,7 @@ export * from "./chatAttachment.ts";
 export * from "./checkpointDiff.ts";
 export * from "./model.vibe";
 export * from "./keybindings.vibe";
-export * from "./server.ts";
+export * from "./server.vibe";
 export * from "./settings.ts";
 export * from "./git.vibe";
 export * from "./vcs.ts";

@@ -336,7 +336,7 @@ import {
   ServerSignalProcessResult,
   ServerUpsertKeybindingInput,
   ServerUpsertKeybindingResult,
-} from "./server.ts";
+} from "./server.vibe";
 import {
   HostResourcesSnapshot,
   ResourceTelemetryHistory,

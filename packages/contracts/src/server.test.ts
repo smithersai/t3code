@@ -8,7 +8,7 @@ import {
   ServerObservability,
   ServerProvider,
   ServerProviders,
-} from "./server.ts";
+} from "./server.vibe";
 import { ServerSettings } from "./settings.ts";
 
 const decodeServerProvider = Schema.decodeUnknownSync(ServerProvider);
