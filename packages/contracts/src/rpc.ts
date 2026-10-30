@@ -373,7 +373,7 @@ import {
   ScheduledTaskSetEnabledInput,
   ScheduledTaskUpsertInput,
   ScheduledTaskMutationResult,
-} from "./scheduledTask.ts";
+} from "./scheduledTask.vibe";
 import { SecretRequestAnswerInput, SecretRequestError } from "./secretRequest.vibe";
 import {
   ProjectCloneActionInput,
