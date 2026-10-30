@@ -74,7 +74,7 @@ import {
   UserInputAttachments,
   UserInputAttachmentAnswerPayload,
   RuntimeMode,
-} from "./providerPolicy.ts";
+} from "./providerPolicy.vibe";
 import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
 import { OrchestrationProjectShell } from "./orchestrationProject.ts";
 import {

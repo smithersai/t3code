@@ -103,7 +103,7 @@ import {
   AgentSessionScanInput,
   AgentSessionScanResult,
   AgentSessionScanError,
-} from "./agentSessions.ts";
+} from "./agentSessions.vibe";
 import {
   AssetAccessError,
   AssetCreateUrlInput,
@@ -269,7 +269,7 @@ import {
   TerminalRestartInput,
   TerminalSessionSnapshot,
   TerminalWriteInput,
-} from "./terminal.ts";
+} from "./terminal.vibe";
 import {
   DiscoveredLocalServerList,
   ConfiguredLocalServerUrls,
