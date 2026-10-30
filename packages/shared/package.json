@@ -140,8 +140,8 @@
       "import": "./src/Struct.vibe"
     },
     "./serverSettings": {
-      "types": "./src/serverSettings.ts",
-      "import": "./src/serverSettings.ts"
+      "types": "./src/serverSettings.d.vibe.ts",
+      "import": "./src/serverSettings.vibe"
     },
     "./backgroundActivitySettings": {
       "types": "./src/backgroundActivitySettings.ts",

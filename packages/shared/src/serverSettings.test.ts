@@ -21,7 +21,7 @@ import {
   resolveSourceControlWriterModelSelection,
   resolveProjectAgentBrowserAccess,
   resolveProjectAutoPull,
-} from "./serverSettings.ts";
+} from "./serverSettings.vibe";
 
 const FOLDED_SERVER_SETTINGS = { ...DEFAULT_SERVER_SETTINGS, projectSettingsFolded: true };
 
