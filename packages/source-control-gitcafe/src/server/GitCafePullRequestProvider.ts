@@ -19,7 +19,7 @@ import {
 
 import * as GitCafeApi from "./GitCafeApi.ts";
 import * as GitCafeHosts from "./gitCafeHosts.ts";
-import * as Json from "./gitCafePullRequestJson.ts";
+import * as Json from "./gitCafePullRequestJson.vibe";
 import { definition } from "../shared/definition.ts";
 
 const CAPABILITIES: PullRequestCapabilities = {

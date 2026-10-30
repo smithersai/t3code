@@ -1,12 +1,10 @@
-import { quoteGitPatchPath } from "@t3tools/shared/gitPatchPath";
-import { sortChecks } from "@t3tools/source-control-core/server/pullRequestChecks";
-import * as DateTime from "effect/DateTime";
-import * as Schema from "effect/Schema";
+import { quoteGitPatchPath } from "@t3tools/shared/gitPatchPath"
+import { sortChecks } from "@t3tools/source-control-core/server/pullRequestChecks"
+import * as Schema from "effect/Schema"
 import {
   IsoDateTime,
   NonNegativeInt,
   PositiveInt,
-  TrimmedNonEmptyString,
   type PullRequestActor,
   type PullRequestCheck,
   type PullRequestChecksState,
@@ -16,13 +14,14 @@ import {
   type PullRequestReviewerCandidate,
   type PullRequestReviewThread,
   type PullRequestViewerPermissions,
-} from "@t3tools/contracts";
+  TrimmedNonEmptyString,
+} from "@t3tools/contracts"
 import type {
   ProviderChangeRequest,
   ProviderChangeRequestActivity,
   ProviderChangeRequestStack,
   ProviderDiffSlice,
-} from "@t3tools/source-control-core/server/PullRequestProvider";
+} from "@t3tools/source-control-core/server/PullRequestProvider"
 
 const Actor = Schema.Union([
   Schema.Struct({
@@ -46,10 +45,10 @@ const Actor = Schema.Union([
     ),
   }),
   Schema.Struct({ kind: Schema.Literal("unavailable"), actorId: Schema.String }),
-]);
-type Actor = typeof Actor.Type;
+])
+type Actor = typeof Actor.Type
 
-const PullState = Schema.Literals(["open", "closed", "merged"]);
+const PullState = Schema.Literals(["open", "closed", "merged"])
 
 export const GitCafePull = Schema.Struct({
   id: TrimmedNonEmptyString,
@@ -70,13 +69,13 @@ export const GitCafePull = Schema.Struct({
       Schema.Struct({ name: TrimmedNonEmptyString, color: Schema.NullOr(Schema.String) }),
     ),
   ),
-});
-export type GitCafePull = typeof GitCafePull.Type;
+})
+export type GitCafePull = typeof GitCafePull.Type
 
 export const GitCafePulls = Schema.Struct({
   items: Schema.Array(GitCafePull),
   next: Schema.NullOr(Schema.String),
-});
+})
 
 export const GitCafePullDetail = Schema.Struct({
   ...GitCafePull.fields,
@@ -98,17 +97,17 @@ export const GitCafePullDetail = Schema.Struct({
     edit: Schema.Boolean,
     moderate: Schema.Boolean,
   }),
-});
-export type GitCafePullDetail = typeof GitCafePullDetail.Type;
+})
+export type GitCafePullDetail = typeof GitCafePullDetail.Type
 
-const CommentCapabilities = Schema.Struct({
-  edit: Schema.Boolean,
-  hide: Schema.Boolean,
-  unhide: Schema.Boolean,
-  delete: Schema.Boolean,
-  resolve: Schema.Boolean,
-  unresolve: Schema.Boolean,
-});
+schema CommentCapabilities {
+  edit: boolean
+  hide: boolean
+  unhide: boolean
+  delete: boolean
+  resolve: boolean
+  unresolve: boolean
+}
 
 const GitCafeComment = Schema.Struct({
   id: TrimmedNonEmptyString,
@@ -124,13 +123,13 @@ const GitCafeComment = Schema.Struct({
   commitOid: Schema.NullOr(Schema.String),
   resolvedAt: Schema.NullOr(IsoDateTime),
   capabilities: Schema.optional(CommentCapabilities),
-});
-type GitCafeComment = typeof GitCafeComment.Type;
+})
+type GitCafeComment = typeof GitCafeComment.Type
 
 export const GitCafeComments = Schema.Struct({
   items: Schema.Array(GitCafeComment),
   next: Schema.NullOr(Schema.String),
-});
+})
 
 export const GitCafeReviews = Schema.Struct({
   items: Schema.Array(
@@ -144,7 +143,7 @@ export const GitCafeReviews = Schema.Struct({
     }),
   ),
   next: Schema.NullOr(Schema.String),
-});
+})
 
 export const GitCafeCommits = Schema.Struct({
   items: Schema.Array(
@@ -153,7 +152,7 @@ export const GitCafeCommits = Schema.Struct({
   truncated: Schema.Boolean,
   next: Schema.NullOr(Schema.String),
   headOid: Schema.String,
-});
+})
 
 export const GitCafeLabels = Schema.Struct({
   items: Schema.Array(
@@ -165,13 +164,13 @@ export const GitCafeLabels = Schema.Struct({
     }),
   ),
   next: Schema.NullOr(Schema.String),
-});
+})
 
 /** A pull request's reviewers and its reviewer candidates, each actor under its id. */
 export const GitCafeActorEntries = Schema.Struct({
   items: Schema.Array(Schema.Struct({ id: TrimmedNonEmptyString, actor: Actor })),
   next: Schema.NullOr(Schema.String),
-});
+})
 
 export const GitCafeReactions = Schema.Struct({
   items: Schema.Array(
@@ -190,7 +189,7 @@ export const GitCafeReactions = Schema.Struct({
     }),
   ),
   next: Schema.NullOr(Schema.String),
-});
+})
 
 const GitCafeStack = Schema.Struct({
   id: TrimmedNonEmptyString,
@@ -208,10 +207,10 @@ const GitCafeStack = Schema.Struct({
       position: PositiveInt,
     }),
   ),
-});
-export type GitCafeStack = typeof GitCafeStack.Type;
+})
+export type GitCafeStack = typeof GitCafeStack.Type
 
-export const GitCafeStackEnvelope = Schema.Struct({ stack: Schema.NullOr(GitCafeStack) });
+export const GitCafeStackEnvelope = Schema.Struct({ stack: Schema.NullOr(GitCafeStack) })
 
 const GitCafeDiffFile = Schema.Struct({
   path: TrimmedNonEmptyString,
@@ -247,14 +246,14 @@ const GitCafeDiffFile = Schema.Struct({
       }),
     ),
   ),
-});
-export type GitCafeDiffFile = typeof GitCafeDiffFile.Type;
-export const GitCafeDiffFiles = Schema.Array(GitCafeDiffFile);
+})
+export type GitCafeDiffFile = typeof GitCafeDiffFile.Type
+export const GitCafeDiffFiles = Schema.Array(GitCafeDiffFile)
 
 export const GitCafeDiff = Schema.Struct({
   items: GitCafeDiffFiles,
   truncated: Schema.optional(Schema.Boolean),
-});
+})
 
 export const GitCafeChecks = Schema.Struct({
   items: Schema.Array(
@@ -270,7 +269,7 @@ export const GitCafeChecks = Schema.Struct({
     }),
   ),
   next: Schema.NullOr(Schema.String),
-});
+})
 
 /** A user search answer and a collaborator page carry the same fields a picker shows. */
 export const GitCafePeople = Schema.Struct({
@@ -282,7 +281,7 @@ export const GitCafePeople = Schema.Struct({
     }),
   ),
   next: Schema.NullOr(Schema.String),
-});
+})
 
 export function toPeople(
   people: typeof GitCafePeople.Type,
@@ -292,27 +291,27 @@ export function toPeople(
     login: person.handle,
     name: person.displayName ?? null,
     avatarUrl: person.avatarUrl == null ? null : new URL(person.avatarUrl, `https://${host}`).href,
-  }));
+  }))
 }
 
 interface RepositoryOnHost {
-  readonly repository: string;
-  readonly host: string;
+  readonly repository: string
+  readonly host: string
 }
 
 function toActor(actor: Actor, host: string): PullRequestActor | null {
-  if (actor.kind === "unavailable") return null;
+  if (actor.kind === "unavailable") return null
   return {
     login: actor.kind === "local" ? actor.handle : actor.login,
     name: actor.kind === "local" ? actor.displayName : null,
     // A mirrored GitHub account says it is a bot by its account type, not its login.
-    ...((actor.kind === "local" && actor.bot === true) ||
-    (actor.kind === "github" && actor.accountType === "bot")
+    ...((actor.kind === "local" && actor.bot === true)
+        || (actor.kind === "github" && actor.accountType === "bot")
       ? { isBot: true }
       : {}),
     // GitCafe serves its own avatars by path, so a relative one is read against the host.
     avatarUrl: actor.avatarUrl === null ? null : new URL(actor.avatarUrl, `https://${host}`).href,
-  };
+  }
 }
 
 export function toReviewers(
@@ -320,33 +319,33 @@ export function toReviewers(
   host: string,
 ): ReadonlyArray<PullRequestActor> {
   return (pull.reviewers ?? []).flatMap(({ actor }) => {
-    const reviewer = toActor(actor, host);
-    return reviewer === null ? [] : [reviewer];
-  });
+    const reviewer = toActor(actor, host)
+    return reviewer === null ? [] : [reviewer]
+  })
 }
 
 export function toReviewerCandidates(
   candidates: typeof GitCafeActorEntries.Type,
   input: {
-    readonly requested: ReadonlySet<string>;
-    readonly authorActorId: string;
-    readonly host: string;
+    readonly requested: ReadonlySet<string>
+    readonly authorActorId: string
+    readonly host: string
   },
 ): ReadonlyArray<PullRequestReviewerCandidate> {
   return candidates.items.flatMap(({ id, actor }) => {
-    const reviewer = id === input.authorActorId ? null : toActor(actor, input.host);
+    const reviewer = id === input.authorActorId ? null : toActor(actor, input.host)
     return reviewer === null
       ? []
-      : [{ ...reviewer, id, kind: "user" as const, isRequested: input.requested.has(id) }];
-  });
+      : [{ ...reviewer, id, kind: "user" as const, isRequested: input.requested.has(id) }]
+  })
 }
 
 function reviewerLogins(actor: Actor, host: string): ReadonlyArray<string> {
-  const reviewer = toActor(actor, host);
-  if (reviewer === null) return [];
+  const reviewer = toActor(actor, host)
+  if (reviewer === null) return []
   return actor.kind === "github" && actor.linkedProfile
     ? [reviewer.login, actor.linkedProfile.handle]
-    : [reviewer.login];
+    : [reviewer.login]
 }
 
 export function toChangeRequest(
@@ -367,33 +366,31 @@ export function toChangeRequest(
     deletions: 0,
     createdAt: pull.createdAt,
     updatedAt: pull.updatedAt,
-    reviewRequestLogins: (pull.reviewers ?? []).flatMap(({ actor }) =>
-      reviewerLogins(actor, target.host),
-    ),
+    reviewRequestLogins: (pull.reviewers ?? []).flatMap(({ actor }) => reviewerLogins(actor, target.host)),
     labels: (pull.labels ?? []).map(({ name, color }) => ({ name, color })),
-  };
+  }
 }
 
 function isViewerAuthor(detail: GitCafePullDetail): boolean {
-  const viewer = detail.viewerActorId;
-  if (viewer == null) return false;
-  const { author } = detail;
+  const viewer = detail.viewerActorId
+  if (viewer == null) return false
+  const { author } = detail
   return (
-    author.actorId === viewer ||
-    (author.kind === "github" && author.linkedProfile?.actorId === viewer)
-  );
+    author.actorId === viewer
+    || (author.kind === "github" && author.linkedProfile?.actorId === viewer)
+  )
 }
 
 export function toViewerPermissions(detail: GitCafePullDetail): PullRequestViewerPermissions {
-  const { comment, edit, review, merge, moderate } = detail.capabilities;
-  const open = comment && (detail.lockedAt == null || moderate);
+  const { comment, edit, review, merge, moderate } = detail.capabilities
+  const open = comment && (detail.lockedAt == null || moderate)
   return {
     actions: [
       ...(edit && detail.state === "open"
         ? ([detail.draft ? "ready" : "draft", "close"] as const)
         : edit && detail.state === "closed"
-          ? (["reopen"] as const)
-          : []),
+        ? (["reopen"] as const)
+        : []),
       ...(merge && detail.state === "open" && !detail.draft ? (["merge"] as const) : []),
     ],
     stackRebase: merge,
@@ -403,14 +400,14 @@ export function toViewerPermissions(detail: GitCafePullDetail): PullRequestViewe
     verdicts: !review
       ? []
       : isViewerAuthor(detail)
-        ? ["comment"]
-        : ["approve", "request-changes", "comment"],
+      ? ["comment"]
+      : ["approve", "request-changes", "comment"],
     requestReviewers: edit && detail.state === "open",
     labels: edit && detail.state === "open",
     editChangeRequest: edit,
     // GitCafe's only branch update moves a whole stack.
     updateMethods: [],
-  };
+  }
 }
 
 const REACTIONS: Readonly<Record<string, PullRequestReactionContent>> = {
@@ -422,7 +419,7 @@ const REACTIONS: Readonly<Record<string, PullRequestReactionContent>> = {
   "❤": "heart",
   "🚀": "rocket",
   "👀": "eyes",
-};
+}
 
 export const REACTION_EMOJI: Readonly<Record<PullRequestReactionContent, string>> = {
   "thumbs-up": "👍",
@@ -433,51 +430,52 @@ export const REACTION_EMOJI: Readonly<Record<PullRequestReactionContent, string>
   heart: "❤️",
   rocket: "🚀",
   eyes: "👀",
-};
-
-export function reactionContent(emoji: string): PullRequestReactionContent | undefined {
-  return REACTIONS[emoji.replaceAll("\uFE0F", "")];
 }
 
-function toReactions(data: typeof GitCafeReactions.Type, host: string) {
-  const reactions: Array<PullRequestReaction> = [];
-  const byComment = new Map<string, Array<PullRequestReaction>>();
+export function reactionContent(emoji: string): PullRequestReactionContent | undefined {
+  return REACTIONS[emoji.replaceAll("\uFE0F", "")]
+}
+
+function toReactions(data: typeof GitCafeReactions.Type, host: string): infer _ {
+  const reactions: Array<PullRequestReaction> = []
+  const byComment = new Map<string, Array<PullRequestReaction>>()
   for (const item of data.items) {
-    const content = item.emoji.kind === "unicode" ? reactionContent(item.emoji.value) : undefined;
-    if (content === undefined) continue;
+    const content = item.emoji.kind === "unicode" ? reactionContent(item.emoji.value) : undefined
+    if (content === undefined) continue
     const reaction: PullRequestReaction = {
       content,
       count: item.count,
       actors: item.reactors.flatMap((actor) => {
-        const reactor = toActor(actor, host);
-        return reactor === null ? [] : [reactor.login];
+        const reactor = toActor(actor, host)
+        return reactor === null ? [] : [reactor.login]
       }),
       viewerHasReacted: item.viewerReactionId !== null,
-    };
-    if (item.subject.kind === "pull_request") reactions.push(reaction);
-    else if (item.subject.kind === "pull_request_comment")
-      byComment.set(item.subject.id, [...(byComment.get(item.subject.id) ?? []), reaction]);
+    }
+    if (item.subject.kind === "pull_request") reactions.push(reaction)
+    else if (item.subject.kind === "pull_request_comment") {
+      byComment.set(item.subject.id, [...(byComment.get(item.subject.id) ?? []), reaction])
+    }
   }
-  return { reactions, byComment };
+  return { reactions, byComment }
 }
 
 const REVIEW_STATES = {
   approve: "approved",
   request_changes: "changes_requested",
   comment: "commented",
-} as const;
+} as const
 
 export function toActivity(input: {
-  readonly comments: typeof GitCafeComments.Type;
-  readonly reviews: typeof GitCafeReviews.Type;
-  readonly commits: typeof GitCafeCommits.Type;
-  readonly reactions?: typeof GitCafeReactions.Type;
-  readonly headOid?: string;
-  readonly host: string;
+  readonly comments: typeof GitCafeComments.Type
+  readonly reviews: typeof GitCafeReviews.Type
+  readonly commits: typeof GitCafeCommits.Type
+  readonly reactions?: typeof GitCafeReactions.Type
+  readonly headOid?: string
+  readonly host: string
 }): ProviderChangeRequestActivity {
-  const { host } = input;
-  const reactions = input.reactions === undefined ? undefined : toReactions(input.reactions, host);
-  const remark = (comment: GitCafeComment) => ({
+  const { host } = input
+  const reactions = input.reactions === undefined ? undefined : toReactions(input.reactions, host)
+  const remark = (comment: GitCafeComment): infer _ => ({
     id: comment.id,
     author: toActor(comment.author, host),
     body: comment.body ?? "",
@@ -485,37 +483,36 @@ export function toActivity(input: {
     url: null,
     ...(comment.capabilities === undefined ? {} : { canEdit: comment.capabilities.edit }),
     ...(reactions === undefined ? {} : { reactions: reactions.byComment.get(comment.id) ?? [] }),
-  });
-  const ordered = input.comments.items.toSorted((a, b) => a.createdAt.localeCompare(b.createdAt));
-  const groups = new Map<string, Array<GitCafeComment>>();
+  })
+  const ordered = input.comments.items.toSorted((a, b) => a.createdAt.localeCompare(b.createdAt))
+  const groups = new Map<string, Array<GitCafeComment>>()
   for (const comment of ordered) {
-    if (!comment.path || comment.line === null || comment.line < 1 || comment.side === null)
-      continue;
-    groups.set(comment.threadId, [...(groups.get(comment.threadId) ?? []), comment]);
+    if (!comment.path || comment.line === null || comment.line < 1 || comment.side === null) {
+      continue
+    }
+    groups.set(comment.threadId, [...(groups.get(comment.threadId) ?? []), comment])
   }
   const reviewThreads = [...groups.values()].map((group): PullRequestReviewThread => {
-    const first = group[0]!;
-    const latest = group.at(-1)!;
-    const root = group.find((comment) => comment.id === comment.threadId);
+    const first = group[0]!
+    const latest = group.at(-1)!
+    const root = group.find((comment) => comment.id === comment.threadId)
     return {
       id: first.threadId,
       path: first.path!,
       line: first.line,
       side: first.side!,
       isResolved: root?.resolvedAt != null,
-      isOutdated:
-        input.headOid !== undefined &&
-        latest.commitOid !== null &&
-        latest.commitOid !== input.headOid,
+      isOutdated: input.headOid !== undefined
+        && latest.commitOid !== null
+        && latest.commitOid !== input.headOid,
       comments: group.map(remark),
       ...(root?.capabilities === undefined
         ? {}
         : {
-            canResolve:
-              root.resolvedAt === null ? root.capabilities.resolve : root.capabilities.unresolve,
-          }),
-    };
-  });
+          canResolve: root.resolvedAt === null ? root.capabilities.resolve : root.capabilities.unresolve,
+        }),
+    }
+  })
   const comments: Array<PullRequestComment> = [
     ...ordered.map((comment) => ({
       ...remark(comment),
@@ -533,7 +530,7 @@ export function toActivity(input: {
       path: null,
       reviewState: review.dismissedAt !== null ? "dismissed" : REVIEW_STATES[review.verdict],
     })),
-  ];
+  ]
   return {
     comments: comments.toSorted((a, b) => a.createdAt.localeCompare(b.createdAt)),
     commentCount: input.comments.items.length + input.reviews.items.length,
@@ -545,7 +542,7 @@ export function toActivity(input: {
       committedDate: DateTime.formatIso(DateTime.makeUnsafe(commit.time * 1_000)),
     })),
     ...(reactions === undefined ? {} : { reactions: reactions.reactions }),
-  };
+  }
 }
 
 export function toStack(stack: GitCafeStack, target: RepositoryOnHost): ProviderChangeRequestStack {
@@ -564,111 +561,110 @@ export function toStack(stack: GitCafeStack, target: RepositoryOnHost): Provider
         isDraft: member.draft,
         ...(member.headOid === undefined ? {} : { headSha: member.headOid }),
       })),
-  };
+  }
 }
 
-function isEOFMarker(origin: string | undefined) {
-  return origin === "=" || origin === ">" || origin === "<";
+function isEOFMarker(origin: string | undefined): infer _ {
+  return origin === "=" || origin === ">" || origin === "<"
 }
 
 export function toDiff(diff: typeof GitCafeDiff.Type): ProviderDiffSlice {
-  const chunks: Array<string> = [];
-  const omittedFileStats: Array<{ path: string; additions: number; deletions: number }> = [];
+  const chunks: Array<string> = []
+  const omittedFileStats: Array<{ mutable path: string; mutable additions: number; mutable deletions: number }> = []
   for (const file of diff.items) {
-    const oldPath = file.oldPath ?? file.path;
-    const a = quoteGitPatchPath(`a/${oldPath}`);
-    const b = quoteGitPatchPath(`b/${file.path}`);
-    const before = file.status === "added" ? "/dev/null" : a;
-    const after = file.status === "deleted" ? "/dev/null" : b;
-    const mode = file.isSubmodule ? "160000" : "100644";
-    const lines = [`diff --git ${a} ${b}`];
-    if (file.status === "added") lines.push(`new file mode ${mode}`);
-    if (file.status === "deleted") lines.push(`deleted file mode ${mode}`);
+    const oldPath = file.oldPath ?? file.path
+    const a = quoteGitPatchPath(`a/${oldPath}`)
+    const b = quoteGitPatchPath(`b/${file.path}`)
+    const before = file.status === "added" ? "/dev/null" : a
+    const after = file.status === "deleted" ? "/dev/null" : b
+    const mode = file.isSubmodule ? "160000" : "100644"
+    const lines = [`diff --git ${a} ${b}`]
+    if (file.status === "added") lines.push(`new file mode ${mode}`)
+    if (file.status === "deleted") lines.push(`deleted file mode ${mode}`)
     if (file.status === "renamed" || file.status === "copied") {
-      const action = file.status === "renamed" ? "rename" : "copy";
-      const hasChanges =
-        (file.hunks?.length ?? 0) > 0 ||
-        (file.additions ?? 0) > 0 ||
-        (file.deletions ?? 0) > 0 ||
-        file.binary ||
-        file.tooLarge ||
-        file.hunksOmitted;
+      const action = file.status === "renamed" ? "rename" : "copy"
+      const hasChanges = (file.hunks?.length ?? 0) > 0
+        || (file.additions ?? 0) > 0
+        || (file.deletions ?? 0) > 0
+        || file.binary
+        || file.tooLarge
+        || file.hunksOmitted
       // GitCafe has no similarity score; Pierre needs this header to retain rename metadata.
       lines.push(
         `similarity index ${hasChanges ? 0 : 100}%`,
         `${action} from ${quoteGitPatchPath(oldPath)}`,
         `${action} to ${quoteGitPatchPath(file.path)}`,
-      );
+      )
     }
     if (file.binary) {
-      lines.push(`Binary files ${before} and ${after} differ`);
+      lines.push(`Binary files ${before} and ${after} differ`)
     } else if (file.tooLarge || file.hunksOmitted) {
       omittedFileStats.push({
         path: file.path,
         additions: file.additions ?? 0,
         deletions: file.deletions ?? 0,
-      });
+      })
     } else if (file.isSubmodule) {
-      const hasOld = file.status !== "added" && file.oldOid !== undefined;
-      const hasNew = file.status !== "deleted" && file.newOid !== undefined;
-      lines.push(`--- ${before}`, `+++ ${after}`);
-      lines.push(`@@ -${hasOld ? "1" : "0,0"} +${hasNew ? "1" : "0,0"} @@`);
-      if (hasOld) lines.push(`-Subproject commit ${file.oldOid}`);
-      if (hasNew) lines.push(`+Subproject commit ${file.newOid}`);
+      const hasOld = file.status !== "added" && file.oldOid !== undefined
+      const hasNew = file.status !== "deleted" && file.newOid !== undefined
+      lines.push(`--- ${before}`, `+++ ${after}`)
+      lines.push(`@@ -${hasOld ? "1" : "0,0"} +${hasNew ? "1" : "0,0"} @@`)
+      if (hasOld) lines.push(`-Subproject commit ${file.oldOid}`)
+      if (hasNew) lines.push(`+Subproject commit ${file.newOid}`)
     } else {
-      const hunks = file.hunks ?? [];
-      if (hunks.length > 0) lines.push(`--- ${before}`, `+++ ${after}`);
+      const hunks = file.hunks ?? []
+      if (hunks.length > 0) lines.push(`--- ${before}`, `+++ ${after}`)
       for (const hunk of hunks) {
-        lines.push(`@@ -${hunk.oldStart},${hunk.oldLines} +${hunk.newStart},${hunk.newLines} @@`);
+        lines.push(`@@ -${hunk.oldStart},${hunk.oldLines} +${hunk.newStart},${hunk.newLines} @@`)
         for (const [index, line] of hunk.lines.entries()) {
           if (isEOFMarker(line.origin)) {
-            lines.push("\\ No newline at end of file");
+            lines.push("\\ No newline at end of file")
           } else {
-            lines.push(`${line.origin}${line.content.replace(/\n$/u, "")}`);
+            lines.push(`${line.origin}${line.content.replace(/\n$/u, "")}`)
             if (
-              ["+", "-", " "].includes(line.origin) &&
-              !line.content.endsWith("\n") &&
-              !isEOFMarker(hunk.lines[index + 1]?.origin)
+              ["+", "-", " "].includes(line.origin)
+              && !line.content.endsWith("\n")
+              && !isEOFMarker(hunk.lines[index + 1]?.origin)
             ) {
-              lines.push("\\ No newline at end of file");
+              lines.push("\\ No newline at end of file")
             }
           }
         }
       }
     }
-    chunks.push(lines.join("\n"));
+    chunks.push(lines.join("\n"))
   }
   return {
     patch: chunks.length === 0 ? "" : `${chunks.join("\n")}\n`,
     truncated: diff.truncated === true || omittedFileStats.length > 0,
     nextCursor: null,
     ...(omittedFileStats.length === 0 ? {} : { omittedFileStats }),
-  };
-}
-
-function checkStatus(check: (typeof GitCafeChecks.Type.items)[number]): PullRequestCheck["status"] {
-  if (check.status !== "completed") return "pending";
-  switch (check.conclusion) {
-    case "success":
-      return "success";
-    case "neutral":
-      return "neutral";
-    case "skipped":
-      return "skipped";
-    case "cancelled":
-      return "cancelled";
-    case "action_required":
-      return "action-required";
-    default:
-      return "failure";
   }
 }
 
-type GitCafeCheck = (typeof GitCafeChecks.Type.items)[number];
+function checkStatus(check: (typeof GitCafeChecks.Type.items)[number]): PullRequestCheck["status"] {
+  if (check.status !== "completed") return "pending"
+  switch (check.conclusion) {
+    case "success":
+      return "success"
+    case "neutral":
+      return "neutral"
+    case "skipped":
+      return "skipped"
+    case "cancelled":
+      return "cancelled"
+    case "action_required":
+      return "action-required"
+    default:
+      return "failure"
+  }
+}
+
+type GitCafeCheck = (typeof GitCafeChecks.Type.items)[number]
 
 /** A check run's id, which grows with each run. Commit statuses (`status:…`) carry no such order. */
 function runOrder(check: GitCafeCheck): bigint | null {
-  return check.id != null && /^\d+$/u.test(check.id) ? BigInt(check.id) : null;
+  return check.id != null && /^\d+$/u.test(check.id) ? BigInt(check.id) : null
 }
 
 /**
@@ -678,22 +674,22 @@ function runOrder(check: GitCafeCheck): bigint | null {
  * name, so a run only replaces runs from the same provider and GitHub app.
  */
 export function toChecks(checks: typeof GitCafeChecks.Type): ReadonlyArray<PullRequestCheck> {
-  const kept: Array<GitCafeCheck> = [];
-  const newestByKey = new Map<string, { index: number; order: bigint }>();
+  const kept: Array<GitCafeCheck> = []
+  const newestByKey = new Map<string, { mutable index: number; mutable order: bigint }>()
   for (const check of checks.items) {
-    const order = runOrder(check);
+    const order = runOrder(check)
     if (order === null) {
-      kept.push(check);
-      continue;
+      kept.push(check)
+      continue
     }
-    const key = JSON.stringify([check.provider ?? null, check.githubApp ?? null, check.name]);
-    const newest = newestByKey.get(key);
+    const key = JSON.stringify([check.provider ?? null, check.githubApp ?? null, check.name])
+    const newest = newestByKey.get(key)
     if (newest === undefined) {
-      newestByKey.set(key, { index: kept.length, order });
-      kept.push(check);
+      newestByKey.set(key, { index: kept.length, order })
+      kept.push(check)
     } else if (order > newest.order) {
-      kept[newest.index] = check;
-      newest.order = order;
+      kept[newest.index] = check
+      newest.order = order
     }
   }
   return sortChecks(
@@ -703,14 +699,14 @@ export function toChecks(checks: typeof GitCafeChecks.Type): ReadonlyArray<PullR
       description: check.summary,
       url: check.detailsUrl,
     })),
-  );
+  )
 }
 
 export function checksStateOf(
   checks: ReadonlyArray<PullRequestCheck>,
 ): PullRequestChecksState | null {
-  const statuses = new Set(checks.map((check) => check.status));
-  if (statuses.has("failure") || statuses.has("cancelled")) return "failing";
-  if (statuses.has("pending") || statuses.has("action-required")) return "pending";
-  return statuses.has("success") ? "passing" : null;
+  const statuses = new Set(checks.map((check) => check.status))
+  if (statuses.has("failure") || statuses.has("cancelled")) return "failing"
+  if (statuses.has("pending") || statuses.has("action-required")) return "pending"
+  return statuses.has("success") ? "passing" : null
 }
