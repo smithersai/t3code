@@ -1,0 +1,45 @@
+export error SshHostDiscoveryError {
+  message: string
+  cause: unknown
+}
+
+export error SshInvalidTargetError {
+  message: string
+}
+
+export error SshCommandError {
+  message: string
+  command: readonly string[]
+  exitCode: number | null
+  stderr: string
+  stdout?: string
+  cause?: unknown
+}
+
+export error SshLaunchError {
+  message: string
+  stdout: string
+  cause?: unknown
+}
+
+export error SshPairingError {
+  message: string
+  stdout: string
+  cause?: unknown
+}
+
+export error SshHttpBridgeError {
+  message: string
+  status?: number
+  cause?: unknown
+}
+
+export error SshReadinessError {
+  message: string
+  cause?: unknown
+}
+
+export error SshPasswordPromptError {
+  message: string
+  cause?: unknown
+}
