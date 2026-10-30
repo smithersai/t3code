@@ -19,7 +19,7 @@ import {
   dedupeSnapshotBodies,
   restoreSnapshotBodies,
   restoreSubagentBodies,
-} from "./orchestrationV2DedupedBodies.ts";
+} from "./orchestrationV2DedupedBodies.vibe";
 
 const THREAD = ThreadId.make("thread:bodies");
 const PARENT = ThreadId.make("thread:bodies-parent");
