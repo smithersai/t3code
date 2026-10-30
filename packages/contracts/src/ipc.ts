@@ -14,7 +14,7 @@ import { AdvertisedEndpoint } from "./remoteAccess.ts";
 import { ExecutionEnvironmentDescriptor } from "./environment.ts";
 import { type ClientSettings, type QuitConfirmationMode, SnapShotShortcut } from "./settings.ts";
 import type { EditorId } from "./editor.ts";
-import type { PreviewForwardedShortcut } from "./keybindings.ts";
+import type { PreviewForwardedShortcut } from "./keybindings.vibe";
 
 import type {
   DesktopAppActivationRequest,
