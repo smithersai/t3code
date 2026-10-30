@@ -343,7 +343,7 @@ import {
   ResourceTelemetryHistoryInput,
   ResourceTelemetryRetryResult,
   ResourceTelemetrySnapshot,
-} from "./resourceTelemetry.ts";
+} from "./resourceTelemetry.vibe";
 import {
   UsageLimitSourceError,
   ProviderConsumeResetCreditInput,
