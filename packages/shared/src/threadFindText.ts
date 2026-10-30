@@ -20,7 +20,7 @@ import {
   inlineCodeFilePathCandidate,
   resolveMarkdownFileLinkTarget,
 } from "./markdownLinks.ts";
-import { upgradeLegacyContextMessage } from "./composerContextLegacy.ts";
+import { upgradeLegacyContextMessage } from "./composerContextLegacy.vibe";
 import { parseComposerContextHref } from "./composerContextReferences.ts";
 import { assistantCitationLabel, parseAssistantCitationHref } from "./assistantCitations.vibe";
 import type { OrchestrationV2ConversationMessage } from "@t3tools/contracts";
