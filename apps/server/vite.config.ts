@@ -73,7 +73,7 @@ const { run: _rootRunConfig, ...basePackageConfig } = baseConfig;
 export default mergeConfig(
   { ...basePackageConfig, test: baseTestConfig },
   defineConfig({
-    plugins: [vibelang()],
+    plugins: [vibelang({ register: true })],
     run: {
       tasks: {
         build: {

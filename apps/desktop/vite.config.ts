@@ -18,7 +18,7 @@ const publicConfigDefine = {
 };
 
 export default defineConfig({
-  plugins: [vibelang()],
+  plugins: [vibelang({ register: true })],
   run: {
     tasks: {
       build: {

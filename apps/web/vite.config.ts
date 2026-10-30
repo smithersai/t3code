@@ -266,7 +266,7 @@ export default defineConfig(() => {
     },
     assetsInclude: ["**/*.wasm"],
     plugins: [
-      vibelang(),
+      vibelang({ register: true }),
       devCompressionPlugin(),
       chunkCycleGuardPlugin(),
       builtDev

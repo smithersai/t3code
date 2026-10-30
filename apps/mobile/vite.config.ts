@@ -45,7 +45,7 @@ const babel: {
 const babelConfig = require("./babel.config.js")({ cache: () => {} });
 
 export default defineConfig({
-  plugins: [vibelang()],
+  plugins: [vibelang({ register: true })],
   test: {
     hookTimeout: 60_000,
     testTimeout: 60_000,

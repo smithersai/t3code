@@ -3,7 +3,7 @@ import { defineConfig } from "vite-plus";
 import vibelang from "vibelang-vite";
 
 export default defineConfig({
-  plugins: [vibelang()],
+  plugins: [vibelang({ register: true })],
   test: {
     environment: "node",
     include: ["src/**/*.test.ts"],
