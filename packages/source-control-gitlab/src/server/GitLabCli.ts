@@ -18,7 +18,7 @@ import * as SourceControlHost from "@t3tools/source-control-core/server/SourceCo
 import {
   decodeGitLabMergeRequestJson,
   decodeGitLabMergeRequestListJson,
-} from "./gitLabMergeRequests.ts";
+} from "./gitLabMergeRequests.vibe";
 import type * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider";
 
 const DEFAULT_TIMEOUT_MS = 30_000;
