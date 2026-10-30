@@ -12584,7 +12584,7 @@ packages:
       vite: '>=7 <9'
 
   vibelang@file:.vibelang-toolchain/vibelang-0.0.11.tgz:
-    resolution: {integrity: sha512-ViXOPzK0B+pYYEZvbjLFbiIagmH2xE8c1Spysk6ar3RVVrYwQHjHswtBS6jPeDiVCGwtN0sxCaOA/dBfLi514w==, tarball: file:.vibelang-toolchain/vibelang-0.0.11.tgz}
+    resolution: {integrity: sha512-sqn5ANQlRl+2+JC91FLz0yJPHi5I8wL/01+KthRh1qTRhFYC1j5HmC4LTPwlOIhpAUACIGNL31Y5dgcUy9KExw==, tarball: file:.vibelang-toolchain/vibelang-0.0.11.tgz}
     version: 0.0.11
     engines: {node: ^22.22.3 || >=24.11.1}
     hasBin: true
