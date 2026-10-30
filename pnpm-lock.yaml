@@ -411,6 +411,9 @@ importers:
       vibelang:
         specifier: file:./.vibelang-toolchain/vibelang-0.0.11.tgz
         version: file:.vibelang-toolchain/vibelang-0.0.11.tgz
+      vibelang-unplugin:
+        specifier: file:./.vibelang-toolchain/vibelang-unplugin-0.0.11.tgz
+        version: file:.vibelang-toolchain/vibelang-unplugin-0.0.11.tgz(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(rolldown@1.2.13)(terser@5.48.0)(unrun@0.2.39)(vibelang@file:.vibelang-toolchain/vibelang-0.0.11.tgz)(yaml@2.9.0)
       vibelang-vite:
         specifier: file:./.vibelang-toolchain/vibelang-vite-0.0.11.tgz
         version: file:.vibelang-toolchain/vibelang-vite-0.0.11.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11.tgz)
@@ -816,6 +819,9 @@ importers:
       '@effect/vitest':
         specifier: 4.1.0
         version: 4.1.0(patch_hash=258df65fa0f6949d56e55835d6c3a0c547b09066f28b66c84178002f0503434e)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(effect@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
+      '@expo/metro-config':
+        specifier: 58.0.14
+        version: 58.0.14(patch_hash=90fa980e8b6480631fb2fbb04559834e3c612db40c550cd828f11be297d8d760)(@tsc-rs/typescript@0.8.0)(bufferutil@4.1.0)(expo@58.0.14)(supports-color@8.1.1)(utf-8-validate@6.0.6)
       '@pierre/trees':
         specifier: 1.0.0-beta.6
         version: 1.0.0-beta.6(@pierre/theme@2.0.0)(@shikijs/themes@4.2.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(shiki@4.2.0)
@@ -12424,6 +12430,39 @@ packages:
     resolution: {integrity: sha512-0Mqk3AT2TZCXWKdcoaufeXNukv2mTrEZExeXlHIOZXdqYoHHr4n51pymnwV8x2BOVxwXbK2HLlI7usrqMpycdg==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
+  unplugin@3.4.0:
+    resolution: {integrity: sha512-9skdIFlCsPdFV7wUfZxNsFInlW+7nJmGu2gkTu0OUhF56aXGsHab9x52/QhdJ4lC7ZDPWTxbiC4ANqVlsuaW3w==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    peerDependencies:
+      '@farmfe/core': '*'
+      '@rsbuild/core': '*'
+      '@rspack/core': '*'
+      bun-types-no-globals: '*'
+      esbuild: '*'
+      rolldown: '*'
+      rollup: '*'
+      unloader: '*'
+      webpack: '*'
+    peerDependenciesMeta:
+      '@farmfe/core':
+        optional: true
+      '@rsbuild/core':
+        optional: true
+      '@rspack/core':
+        optional: true
+      bun-types-no-globals:
+        optional: true
+      esbuild:
+        optional: true
+      rolldown:
+        optional: true
+      rollup:
+        optional: true
+      unloader:
+        optional: true
+      webpack:
+        optional: true
+
   unrun@0.2.39:
     resolution: {integrity: sha512-h9FxYVpztY/wwq+bauLOh6Y3CWu2IVeRLq5lxzneBiIU9Tn86OGp9xiQrGhnYspAmg5dzdY0Cc8+Y70kuTARCg==}
     engines: {node: '>=20.19.0'}
@@ -12574,6 +12613,13 @@ packages:
         optional: true
       '@effect/platform-node':
         optional: true
+
+  vibelang-unplugin@file:.vibelang-toolchain/vibelang-unplugin-0.0.11.tgz:
+    resolution: {integrity: sha512-WKfClG68lJ7XtpwqcLa1OZW881GeRBKkqfVlcsKbq8+QRc8XCuLfjR+nPs5cPxj6HJIrWtGzdoccggBVOau6+Q==, tarball: file:.vibelang-toolchain/vibelang-unplugin-0.0.11.tgz}
+    version: 0.0.11
+    engines: {node: ^22.22.3 || >=24.11.1}
+    peerDependencies:
+      vibelang: 0.0.11
 
   vibelang-vite@file:.vibelang-toolchain/vibelang-vite-0.0.11.tgz:
     resolution: {integrity: sha512-zOIwr+f6asOQQWgBRJovUc79U2EbJc6PfD+1VDv0NVJYKEIltCs2QzkJjQGaGOhzWxpJmclr67akccdksWb94Q==, tarball: file:.vibelang-toolchain/vibelang-vite-0.0.11.tgz}
@@ -23312,6 +23358,37 @@ snapshots:
       picomatch: 4.0.7
       webpack-virtual-modules: 0.6.2
 
+  unplugin@3.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(rolldown@1.2.13)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0):
+    dependencies:
+      '@jridgewell/remapping': 2.3.5
+      picomatch: 4.0.7
+      vite: '@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0)'
+      webpack-virtual-modules: 0.6.2
+    optionalDependencies:
+      esbuild: 0.28.2
+      rolldown: 1.2.13
+    transitivePeerDependencies:
+      - '@arethetypeswrong/core'
+      - '@types/node'
+      - '@typescript/native-preview'
+      - '@vitejs/devtools'
+      - '@volar/typescript'
+      - '@vue/language-core'
+      - jiti
+      - less
+      - publint
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - terser
+      - tsx
+      - typescript
+      - unplugin-unused
+      - unrun
+      - vue-tsc
+      - yaml
+
   unrun@0.2.39:
     dependencies:
       rolldown: 1.0.0-rc.17
@@ -23397,6 +23474,41 @@ snapshots:
       effect: 4.1.0
     optionalDependencies:
       '@effect/platform-node': 4.1.0(bufferutil@4.1.0)(effect@4.1.0)(redis@6.2.1)(utf-8-validate@6.0.6)
+
+  vibelang-unplugin@file:.vibelang-toolchain/vibelang-unplugin-0.0.11.tgz(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(rolldown@1.2.13)(terser@5.48.0)(unrun@0.2.39)(vibelang@file:.vibelang-toolchain/vibelang-0.0.11.tgz)(yaml@2.9.0):
+    dependencies:
+      unplugin: 3.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(rolldown@1.2.13)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0)
+      vibelang: file:.vibelang-toolchain/vibelang-0.0.11.tgz
+    transitivePeerDependencies:
+      - '@arethetypeswrong/core'
+      - '@farmfe/core'
+      - '@rsbuild/core'
+      - '@rspack/core'
+      - '@types/node'
+      - '@typescript/native-preview'
+      - '@vitejs/devtools'
+      - '@volar/typescript'
+      - '@vue/language-core'
+      - bun-types-no-globals
+      - esbuild
+      - jiti
+      - less
+      - publint
+      - rolldown
+      - rollup
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - terser
+      - tsx
+      - typescript
+      - unloader
+      - unplugin-unused
+      - unrun
+      - vue-tsc
+      - webpack
+      - yaml
 
   vibelang-vite@file:.vibelang-toolchain/vibelang-vite-0.0.11.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11.tgz):
     dependencies:

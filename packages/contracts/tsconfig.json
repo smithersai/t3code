@@ -4,5 +4,5 @@
     "rewriteRelativeImportExtensions": true
   },
   "include": ["src"],
-  "vibelang": { "declarationSidecars": true }
+  "vibelang": { "declarationSidecars": true, "trustedPackages": ["@t3tools/*"] }
 }

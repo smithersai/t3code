@@ -63,6 +63,7 @@
     "typescript": "catalog:",
     "typescript-eslint": "^8.69.0",
     "vibelang": "file:./.vibelang-toolchain/vibelang-0.0.11.tgz",
+    "vibelang-unplugin": "file:./.vibelang-toolchain/vibelang-unplugin-0.0.11.tgz",
     "vibelang-vite": "file:./.vibelang-toolchain/vibelang-vite-0.0.11.tgz",
     "vite-plus": "catalog:"
   },

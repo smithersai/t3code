@@ -21,12 +21,7 @@ const config = {
       vitest: { entry: [".github/**/*.test.cjs"] },
     },
     scripts: {
-      // Knip loads its preprocessor through a CLI option; native verification and
-      // worktree setup (from t3.json) run directly. release-desktop.yml bundles the
-      // Windows verify script with esbuild through a path knip does not trace,
-      // electron-builder loads the macOS signer by path, and mobile-e2e.ts runs
-      // agent-device's CLI by path. release-desktop.yml runs the desktop launch
-      // check through xvfb-run, which knip does not trace.
+      // Loaded by path or through a CLI option, which knip does not trace.
       entry: [
         // These fixture scripts are injected into a browser page by path.
         "fixtures/*/*.js",
@@ -163,5 +158,14 @@ const config = {
 export default {
   ...config,
   compilers: { vibe: vibelang },
-  ignore: [...[config.ignore ?? []].flat(), "**/*.d.vibe.ts"],
+  ignore: [...[config.ignore ?? []].flat(), "**/*.d.vibe.ts", ".vibelang/**"],
+  ignoreDependencies: [
+    ...[config.ignoreDependencies ?? []].flat(),
+    "vibelang",
+    "vibelang-vite",
+    "vibelang-unplugin",
+    "vibelang-runtime",
+    "eslint",
+    "typescript-eslint",
+  ],
 };

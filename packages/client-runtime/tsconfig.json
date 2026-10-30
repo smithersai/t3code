@@ -4,5 +4,5 @@
   },
   "extends": "../../tsconfig.base.json",
   "include": ["src"],
-  "vibelang": { "declarationSidecars": true }
+  "vibelang": { "declarationSidecars": true, "trustedPackages": ["@t3tools/*"] }
 }
