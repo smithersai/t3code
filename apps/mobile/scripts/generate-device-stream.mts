@@ -1,3 +1,4 @@
+import vibelang from "vibelang-vite";
 import * as NodeFSP from "node:fs/promises";
 import * as NodePath from "node:path";
 import * as NodeURL from "node:url";
@@ -9,6 +10,7 @@ async function generateWebViewScript(feature: string, name: string) {
   const stem = `${name.toLowerCase()}-stream`;
   const result = await build({
     configFile: false,
+    plugins: [vibelang({ project: NodePath.join(mobileRoot, "tsconfig.json") })],
     logLevel: "silent",
     build: {
       write: false,

@@ -5,5 +5,5 @@
     "types": ["node"]
   },
   "include": ["src"],
-  "vibelang": { "declarationSidecars": true }
+  "vibelang": { "declarationSidecars": true, "trustedPackages": ["@t3tools/*"] }
 }

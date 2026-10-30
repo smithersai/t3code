@@ -8,5 +8,5 @@
     "erasableSyntaxOnly": false
   },
   "include": ["alchemy.run.ts", "src/**/*.ts", "scripts/**/*.ts", "types/**/*.d.ts"],
-  "vibelang": { "declarationSidecars": true }
+  "vibelang": { "declarationSidecars": true, "trustedPackages": ["@t3tools/*"] }
 }

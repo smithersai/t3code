@@ -16,8 +16,8 @@
       "import": "./src/replayTranscript.vibe"
     },
     "./replayWorkspace": {
-      "types": "./src/replayWorkspace.d.vibe.ts",
-      "import": "./src/replayWorkspace.vibe"
+      "types": "./src/replayWorkspace.ts",
+      "import": "./src/replayWorkspace.ts"
     },
     "./TestProviderHost": {
       "types": "./src/TestProviderHost.ts",

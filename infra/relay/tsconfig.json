@@ -7,5 +7,5 @@
     "types": ["@cloudflare/workers-types", "node"]
   },
   "include": ["alchemy.run.ts", "scripts/**/*.ts", "src/**/*.ts"],
-  "vibelang": { "declarationSidecars": true }
+  "vibelang": { "declarationSidecars": true, "trustedPackages": ["@t3tools/*"] }
 }

@@ -157,6 +157,8 @@ export default defineConfig({
   },
   fmt: {
     ignorePatterns: [
+      ".vibelang/**",
+      "**/*.d.vibe.ts",
       ".repos/**",
       "infra/task-cache/vendor/**",
       // Macroscope requires one glob per line; Markdown formatting corrupts it.
@@ -191,6 +193,8 @@ export default defineConfig({
   },
   lint: {
     ignorePatterns: [
+      ".vibelang/**",
+      "**/*.d.vibe.ts",
       ".repos",
       ".repos/**",
       "infra/task-cache/vendor/**",

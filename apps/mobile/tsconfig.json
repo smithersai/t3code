@@ -8,5 +8,5 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true
   },
-  "vibelang": { "declarationSidecars": true }
+  "vibelang": { "declarationSidecars": true, "trustedPackages": ["@t3tools/*"] }
 }

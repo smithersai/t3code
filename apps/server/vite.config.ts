@@ -1,3 +1,4 @@
+import vibelangRolldown from "vibelang-unplugin/rolldown";
 import "vite-plus/test/config";
 import { defineConfig, mergeConfig } from "vite-plus";
 
@@ -84,6 +85,7 @@ export default mergeConfig(
       },
     },
     pack: {
+      plugins: [vibelangRolldown()],
       // SEA embeds one entry; expose the history worker as a hidden subcommand.
       entry: packExecutable ? ["src/bin.ts"] : ["src/bin.ts", "src/claude-history-worker.ts"],
       outDir: packExecutable ? "dist-exe" : "dist",
