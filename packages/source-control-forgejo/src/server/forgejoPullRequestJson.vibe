@@ -1,6 +1,4 @@
-import * as Schema from "effect/Schema";
-import * as DateTime from "effect/DateTime";
-import * as Option from "effect/Option";
+import * as Schema from "effect/Schema"
 import type {
   PullRequestActor,
   PullRequestCheck,
@@ -10,21 +8,21 @@ import type {
   PullRequestReaction,
   PullRequestReactionContent,
   PullRequestReviewThread,
-} from "@t3tools/contracts";
-import type { ProviderChangeRequest } from "@t3tools/source-control-core/server/PullRequestProvider";
-import { dedupeChecks } from "@t3tools/source-control-core/server/pullRequestChecks";
+} from "@t3tools/contracts"
+import type { ProviderChangeRequest } from "@t3tools/source-control-core/server/PullRequestProvider"
+import { dedupeChecks } from "@t3tools/source-control-core/server/pullRequestChecks"
 
 export const ForgejoUser = Schema.Struct({
   login: Schema.String,
   full_name: Schema.optional(Schema.NullOr(Schema.String)),
   avatar_url: Schema.optional(Schema.NullOr(Schema.String)),
-});
+})
 export const ForgejoLabel = Schema.Struct({
   id: Schema.Int,
   name: Schema.String,
   color: Schema.optional(Schema.NullOr(Schema.String)),
   description: Schema.optional(Schema.NullOr(Schema.String)),
-});
+})
 export const ForgejoRepository = Schema.Struct({
   full_name: Schema.String,
   permissions: Schema.optional(Schema.Struct({ push: Schema.Boolean, admin: Schema.Boolean })),
@@ -34,12 +32,12 @@ export const ForgejoRepository = Schema.Struct({
   allow_rebase: Schema.optional(Schema.Boolean),
   allow_rebase_update: Schema.optional(Schema.Boolean),
   default_delete_branch_after_merge: Schema.optional(Schema.Boolean),
-});
+})
 const Branch = Schema.Struct({
   ref: Schema.String,
   sha: Schema.String,
   repo: Schema.NullOr(ForgejoRepository),
-});
+})
 export const ForgejoPullRequest = Schema.Struct({
   number: Schema.Int,
   title: Schema.String,
@@ -64,7 +62,7 @@ export const ForgejoPullRequest = Schema.Struct({
   comments: Schema.optional(Schema.Int),
   labels: Schema.NullOr(Schema.Array(ForgejoLabel)),
   requested_reviewers: Schema.optional(Schema.NullOr(Schema.Array(ForgejoUser))),
-});
+})
 export const ForgejoComment = Schema.Struct({
   id: Schema.Int,
   body: Schema.String,
@@ -72,7 +70,7 @@ export const ForgejoComment = Schema.Struct({
   created_at: Schema.String,
   updated_at: Schema.optional(Schema.NullOr(Schema.String)),
   html_url: Schema.optional(Schema.String),
-});
+})
 export const ForgejoReview = Schema.Struct({
   id: Schema.Int,
   body: Schema.String,
@@ -81,7 +79,7 @@ export const ForgejoReview = Schema.Struct({
   submitted_at: Schema.String,
   html_url: Schema.optional(Schema.String),
   comments_count: Schema.Int,
-});
+})
 export const ForgejoReviewComment = Schema.Struct({
   ...ForgejoComment.fields,
   path: Schema.String,
@@ -90,7 +88,7 @@ export const ForgejoReviewComment = Schema.Struct({
   commit_id: Schema.String,
   original_commit_id: Schema.String,
   resolver: Schema.NullOr(ForgejoUser),
-});
+})
 export const ForgejoCommit = Schema.Struct({
   sha: Schema.String,
   author: Schema.NullOr(ForgejoUser),
@@ -102,32 +100,32 @@ export const ForgejoCommit = Schema.Struct({
   stats: Schema.optional(
     Schema.NullOr(Schema.Struct({ additions: Schema.Int, deletions: Schema.Int })),
   ),
-});
+})
 export const ForgejoStatus = Schema.Struct({
   context: Schema.String,
   status: Schema.String,
   description: Schema.NullOr(Schema.String),
   target_url: Schema.NullOr(Schema.String),
   updated_at: Schema.String,
-});
+})
 export const ForgejoReaction = Schema.Struct({
   content: Schema.String,
   user: Schema.NullOr(ForgejoUser),
-});
+})
 
 export function forgejoActor(
   user: typeof ForgejoUser.Type | null | undefined,
 ): PullRequestActor | null {
   return user?.login
     ? { login: user.login, name: user.full_name || null, avatarUrl: user.avatar_url || null }
-    : null;
+    : null
 }
 
 function toIsoUtc(value: string): string {
-  return Option.match(DateTime.make(value), { onNone: () => value, onSome: DateTime.formatIso });
+  return Option.match(DateTime.make(value), { onNone: () => value, onSome: DateTime.formatIso })
 }
 
-export function forgejoChangeRequest(pr: typeof ForgejoPullRequest.Type) {
+export function forgejoChangeRequest(pr: typeof ForgejoPullRequest.Type): infer _ {
   return {
     number: pr.number,
     title: pr.title,
@@ -148,12 +146,12 @@ export function forgejoChangeRequest(pr: typeof ForgejoPullRequest.Type) {
     mergedAt: pr.merged_at === null ? null : toIsoUtc(pr.merged_at),
     reviewRequestLogins: (pr.requested_reviewers ?? []).map((user) => user.login),
     labels: (pr.labels ?? []).map((label) => ({ name: label.name, color: label.color ?? null })),
-  } satisfies ProviderChangeRequest;
+  } satisfies ProviderChangeRequest
 }
 
 export function forgejoComment(comment: typeof ForgejoComment.Type): PullRequestComment {
-  const createdAt = toIsoUtc(comment.created_at);
-  const editedAt = comment.updated_at == null ? undefined : toIsoUtc(comment.updated_at);
+  const createdAt = toIsoUtc(comment.created_at)
+  const editedAt = comment.updated_at == null ? undefined : toIsoUtc(comment.updated_at)
   return {
     id: String(comment.id),
     kind: "issue-comment",
@@ -164,7 +162,7 @@ export function forgejoComment(comment: typeof ForgejoComment.Type): PullRequest
     url: comment.html_url || null,
     path: null,
     reviewState: null,
-  };
+  }
 }
 
 export function forgejoReview(review: typeof ForgejoReview.Type): PullRequestComment {
@@ -176,20 +174,19 @@ export function forgejoReview(review: typeof ForgejoReview.Type): PullRequestCom
     createdAt: toIsoUtc(review.submitted_at),
     url: review.html_url || null,
     path: null,
-    reviewState:
-      review.state === "REQUEST_CHANGES"
-        ? "CHANGES_REQUESTED"
-        : review.state === "COMMENT"
-          ? "COMMENTED"
-          : review.state,
-  };
+    reviewState: review.state === "REQUEST_CHANGES"
+      ? "CHANGES_REQUESTED"
+      : review.state === "COMMENT"
+      ? "COMMENTED"
+      : review.state,
+  }
 }
 
 export function forgejoReviewThread(
   comment: typeof ForgejoReviewComment.Type,
 ): PullRequestReviewThread {
-  const oldSide = comment.position === 0 && comment.original_position > 0;
-  const line = oldSide ? comment.original_position : comment.position;
+  const oldSide = comment.position === 0 && comment.original_position > 0
+  const line = oldSide ? comment.original_position : comment.position
   return {
     id: String(comment.id),
     path: comment.path,
@@ -198,11 +195,11 @@ export function forgejoReviewThread(
     isResolved: comment.resolver !== null,
     isOutdated: false,
     comments: [forgejoComment(comment)],
-  };
+  }
 }
 
 export function forgejoCommit(commit: typeof ForgejoCommit.Type): PullRequestCommit {
-  const author = forgejoActor(commit.author);
+  const author = forgejoActor(commit.author)
   return {
     oid: commit.sha,
     messageHeadline: commit.commit.message.split("\n")[0] ?? "",
@@ -211,7 +208,7 @@ export function forgejoCommit(commit: typeof ForgejoCommit.Type): PullRequestCom
     ...(commit.stats
       ? { additions: commit.stats.additions, deletions: commit.stats.deletions }
       : {}),
-  };
+  }
 }
 
 // Forgejo Actions reports a job that did not run as `skipped` and a cancelled one as `failure`,
@@ -220,16 +217,16 @@ export function forgejoCommit(commit: typeof ForgejoCommit.Type): PullRequestCom
 function forgejoCheckStatus(state: string): PullRequestCheckStatus {
   switch (state) {
     case "success":
-      return "success";
+      return "success"
     case "failure":
     case "error":
-      return "failure";
+      return "failure"
     case "skipped":
-      return "skipped";
+      return "skipped"
     case "warning":
-      return "neutral";
+      return "neutral"
     default:
-      return "pending";
+      return "pending"
   }
 }
 
@@ -250,7 +247,7 @@ export function forgejoChecks(
         status: forgejoCheckStatus(status.status),
       },
     })),
-  );
+  )
 }
 
 export const FORGEJO_REACTIONS: Record<PullRequestReactionContent, string> = {
@@ -262,24 +259,24 @@ export const FORGEJO_REACTIONS: Record<PullRequestReactionContent, string> = {
   heart: "heart",
   rocket: "rocket",
   eyes: "eyes",
-};
+}
 export function forgejoReactions(
   reactions: ReadonlyArray<typeof ForgejoReaction.Type>,
   viewer: string,
 ): ReadonlyArray<PullRequestReaction> {
   return Object.entries(FORGEJO_REACTIONS).flatMap(([content, emoji]) => {
-    const matching = reactions.filter((reaction) => reaction.content === emoji);
+    const matching = reactions.filter((reaction) => reaction.content === emoji)
     return matching.length === 0
       ? []
       : [
-          {
-            content: content as PullRequestReactionContent,
-            count: matching.length,
-            actors: matching.flatMap((reaction) =>
-              reaction.user?.login && reaction.user.login !== viewer ? [reaction.user.login] : [],
-            ),
-            viewerHasReacted: matching.some((reaction) => reaction.user?.login === viewer),
-          },
-        ];
-  });
+        {
+          content: content as PullRequestReactionContent,
+          count: matching.length,
+          actors: matching.flatMap((reaction) =>
+            reaction.user?.login && reaction.user.login !== viewer ? [reaction.user.login] : []
+          ),
+          viewerHasReacted: matching.some((reaction) => reaction.user?.login === viewer),
+        },
+      ]
+  })
 }

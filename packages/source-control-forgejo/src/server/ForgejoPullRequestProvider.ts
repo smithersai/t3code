@@ -32,7 +32,7 @@ import {
   forgejoCommit,
   forgejoChecks,
   forgejoReactions,
-} from "./forgejoPullRequestJson.ts";
+} from "./forgejoPullRequestJson.vibe";
 import { ForgejoBranchStatusChecks, markRequiredForgejoChecks } from "./forgejoRequiredChecks.vibe";
 import { definition } from "../shared/definition.ts";
 
