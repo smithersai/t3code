@@ -15,7 +15,7 @@ import {
   McpAppToolInfo,
   McpAppToolInfoInput,
   McpAppUpdateModelContextInput,
-} from "./mcpApps.ts";
+} from "./mcpApps.vibe";
 import {
   PeerLink,
   PeerLinkCreateInput,
@@ -374,7 +374,7 @@ import {
   ScheduledTaskUpsertInput,
   ScheduledTaskMutationResult,
 } from "./scheduledTask.ts";
-import { SecretRequestAnswerInput, SecretRequestError } from "./secretRequest.ts";
+import { SecretRequestAnswerInput, SecretRequestError } from "./secretRequest.vibe";
 import {
   ProjectCloneActionInput,
   ProjectCloneActionResult,

@@ -1,0 +1,43 @@
+import * as Schema from "effect/Schema"
+
+import { TrimmedNonEmptyString } from "./baseSchemas.ts"
+
+export schema AdvertisedEndpointProviderKind = "core" | "private-network" | "tunnel" | "manual"
+
+export schema AdvertisedEndpointReachability = "loopback" | "lan" | "private-network" | "public"
+
+export schema AdvertisedEndpointHostedHttpsCompatibility =
+  | "compatible"
+  | "mixed-content-blocked"
+  | "requires-configuration"
+  | "unknown"
+
+export schema AdvertisedEndpointStatus = "available" | "unavailable" | "unknown"
+
+export schema AdvertisedEndpointSource = "desktop-core" | "desktop-addon" | "server" | "user"
+
+export schema AdvertisedEndpointProvider {
+  id: TrimmedNonEmptyString
+  label: TrimmedNonEmptyString
+  kind: AdvertisedEndpointProviderKind
+  isAddon: boolean
+}
+
+export schema AdvertisedEndpointCompatibility {
+  hostedHttpsApp: AdvertisedEndpointHostedHttpsCompatibility
+  desktopApp: "compatible" | "unknown"
+}
+
+export schema AdvertisedEndpoint {
+  id: TrimmedNonEmptyString
+  label: TrimmedNonEmptyString
+  provider: AdvertisedEndpointProvider
+  httpBaseUrl: TrimmedNonEmptyString
+  wsBaseUrl: TrimmedNonEmptyString
+  reachability: AdvertisedEndpointReachability
+  compatibility: AdvertisedEndpointCompatibility
+  source: AdvertisedEndpointSource
+  status: AdvertisedEndpointStatus
+  isDefault?: boolean
+  description?: TrimmedNonEmptyString
+}
