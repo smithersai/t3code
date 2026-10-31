@@ -1,8 +1,7 @@
-import { Cause as Cause_1, Option as Option_1, Result as Result_1 } from "effect";
 import * as Cause from "effect/Cause";
+import * as DateTime from "effect/DateTime";
 import * as Option from "effect/Option";
 import * as Result from "effect/Result";
-import * as DateTime from "effect/DateTime";
 import * as Schema from "effect/Schema";
 export interface NormalizedGitHubPullRequestRecord {
     readonly number: number;
@@ -15,7 +14,7 @@ export interface NormalizedGitHubPullRequestRecord {
     readonly isDraft?: boolean;
     readonly closedAt?: string | null;
     readonly mergedAt?: string | null;
-    readonly updatedAt: Option_1.Option<DateTime.Utc>;
+    readonly updatedAt: Option.Option<DateTime.Utc>;
     readonly isCrossRepository?: boolean;
     readonly headRepositoryNameWithOwner?: string | null;
     readonly headRepositoryOwnerLogin?: string | null;
@@ -42,5 +41,5 @@ declare const GitHubPullRequestSchema: Schema.Struct<{
     }>>>;
 }>;
 export declare function normalizeGitHubPullRequestRecord(raw: Schema.Schema.Type<typeof GitHubPullRequestSchema>): NormalizedGitHubPullRequestRecord;
-export declare function decodeGitHubPullRequestListJson(raw: string): Result_1.Result<ReadonlyArray<NormalizedGitHubPullRequestRecord>, Cause_1.Cause<Schema.SchemaError>>;
+export declare function decodeGitHubPullRequestListJson(raw: string): Result.Result<ReadonlyArray<NormalizedGitHubPullRequestRecord>, Cause.Cause<Schema.SchemaError>>;
 export {};
