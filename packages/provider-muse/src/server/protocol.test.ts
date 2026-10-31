@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { museApprovalChoices } from "./protocol.ts";
+import { museApprovalChoices } from "./protocol.vibe";
 
 describe("Muse approval choices", () => {
   it("keeps denied and abort separate when Muse offers both", () => {

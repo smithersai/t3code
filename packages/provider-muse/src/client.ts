@@ -1,7 +1,7 @@
 import { ProviderDriverKind } from "@t3tools/contracts";
 import { defineProviderClient } from "@t3tools/provider-core/client";
 
-import { MuseSettings } from "./settings.ts";
+import { MuseSettings } from "./settings.vibe";
 
 export const museClient = defineProviderClient({
   driverKind: ProviderDriverKind.make("muse"),

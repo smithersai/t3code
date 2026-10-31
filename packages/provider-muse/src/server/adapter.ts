@@ -23,7 +23,7 @@ import {
   type ServerProviderModel,
   type ThreadId,
 } from "@t3tools/contracts";
-import type { MuseSettings } from "../settings.ts";
+import type { MuseSettings } from "../settings.vibe";
 import { AgentScope } from "@t3tools/shared/AgentScope";
 import { getModelSelectionStringOptionValue } from "@t3tools/shared/model";
 import * as Cause from "effect/Cause";
@@ -60,8 +60,8 @@ import {
   museApprovalDecision,
   museApprovalOptions,
   type MuseItem,
-} from "./protocol.ts";
-import { isMuseUsageLimitFailure, museUsageLimitResetAt } from "./usageLimits.ts";
+} from "./protocol.vibe";
+import { isMuseUsageLimitFailure, museUsageLimitResetAt } from "./usageLimits.vibe";
 import {
   createMuseSdkHostEffect,
   museApprovalMode,

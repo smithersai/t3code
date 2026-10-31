@@ -10,10 +10,10 @@ import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 import { it } from "@effect/vitest";
 import { describe, expect, vi } from "vite-plus/test";
-import { MuseSettings } from "../settings.ts";
+import { MuseSettings } from "../settings.vibe";
 import * as MuseSdk from "./sdk.ts";
 import * as MuseUsageHome from "./MuseUsageHome.ts";
-import { museUsageFormat, museUsageReader } from "./usage.ts";
+import { museUsageFormat, museUsageReader } from "./usage.vibe";
 
 vi.mock("./sdk.ts", { spy: true });
 

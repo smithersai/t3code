@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@effect/vitest";
 
-import type { MuseSubscriptionUsage } from "./protocol.ts";
-import { isMuseUsageLimitFailure, museUsageLimitResetAt } from "./usageLimits.ts";
+import type { MuseSubscriptionUsage } from "./protocol.vibe";
+import { isMuseUsageLimitFailure, museUsageLimitResetAt } from "./usageLimits.vibe";
 
 const usage = {
   observedAtMs: 1791447762610,

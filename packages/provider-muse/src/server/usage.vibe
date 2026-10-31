@@ -1,21 +1,18 @@
-import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
-import * as Path from "effect/Path";
-import * as Schema from "effect/Schema";
+import * as Path from "effect/Path"
 
-import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";
-import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion";
+import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment"
+import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion"
 import {
+  type ProviderUsageReader,
   tokenCount,
   totalTokens,
-  type ProviderUsageReader,
   type TranscriptUsageFormat,
   type UsageRecord,
-} from "@t3tools/provider-core/server/usage";
-import * as HostProcess from "@t3tools/shared/HostProcess";
-import type { MuseSettings } from "../settings.ts";
-import { makeMuseEnvironment } from "./sdk.ts";
-import * as MuseUsageHome from "./MuseUsageHome.ts";
+} from "@t3tools/provider-core/server/usage"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+import type { MuseSettings } from "../settings.vibe"
+import { makeMuseEnvironment } from "./sdk.ts"
+import * as MuseUsageHome from "./MuseUsageHome.ts"
 
 const Entry = Schema.Struct({
   schema_version: Schema.Literal(1),
@@ -45,26 +42,26 @@ const Entry = Schema.Struct({
       }),
     }),
   }),
-});
-const decodeEntry = Schema.decodeUnknownOption(Entry);
+})
+const decodeEntry = Schema.decodeUnknownOption(Entry)
 
 function parseRecord(parsed: unknown): readonly UsageRecord[] {
-  const decoded = decodeEntry(parsed);
-  if (Option.isNone(decoded)) return [];
-  const entry = decoded.value;
-  if (!Number.isSafeInteger(entry.recorded_at) || entry.recorded_at < 0) return [];
-  const { event } = entry.payload;
-  const { usage } = event;
-  const input = tokenCount(usage.input_tokens);
+  const decoded = decodeEntry(parsed)
+  if (Option.isNone(decoded)) return []
+  const entry = decoded.value
+  if (!Number.isSafeInteger(entry.recorded_at) || entry.recorded_at < 0) return []
+  const { event } = entry.payload
+  const { usage } = event
+  const input = tokenCount(usage.input_tokens)
   const cachedInputTokens = Math.min(
     input,
     tokenCount(usage.cache_read_tokens ?? usage.cached_input_tokens ?? usage.cached_tokens),
-  );
+  )
   const cacheCreationTokens = Math.min(
     input - cachedInputTokens,
     tokenCount(usage.cache_write_tokens),
-  );
-  const outputTokens = tokenCount(usage.output_tokens);
+  )
+  const outputTokens = tokenCount(usage.output_tokens)
   const totals = {
     // Muse's cache counters are subsets of input; reasoning is a subset of output.
     uncachedInputTokens: input - cachedInputTokens - cacheCreationTokens,
@@ -72,8 +69,8 @@ function parseRecord(parsed: unknown): readonly UsageRecord[] {
     cacheCreationTokens,
     outputTokens,
     reasoningTokens: Math.min(outputTokens, tokenCount(usage.reasoning_tokens)),
-  };
-  if (totalTokens(totals) === 0) return [];
+  }
+  if (totalTokens(totals) === 0) return []
   return [
     {
       provider: "muse",
@@ -87,7 +84,7 @@ function parseRecord(parsed: unknown): readonly UsageRecord[] {
       // identifies the inference even when the enclosing envelope has a new ID.
       dedupeKey: JSON.stringify(["muse", entry.payload.source_run_record_id ?? entry.id]),
     },
-  ];
+  ]
 }
 
 export const museUsageFormat: TranscriptUsageFormat<unknown> = {
@@ -101,18 +98,18 @@ export const museUsageFormat: TranscriptUsageFormat<unknown> = {
     stream: { kind: true, id: true },
     payload: { source_run_record_id: true, event: { kind: true, model: true, usage: true } },
   },
-  usageMarkers: ['"model_completed"', '"automated_review_completed"'],
+  usageMarkers: ["\"model_completed\"", "\"automated_review_completed\""],
   parseLine: (line) => {
-    let parsed: unknown;
+    let parsed: unknown
     try {
-      parsed = JSON.parse(line);
+      parsed = JSON.parse(line)
     } catch {
-      return [];
+      return []
     }
-    return parseRecord(parsed);
+    return parseRecord(parsed)
   },
   parseProjected: parseRecord,
-};
+}
 
 export const museUsageReader: ProviderUsageReader<
   MuseSettings,
@@ -121,20 +118,24 @@ export const museUsageReader: ProviderUsageReader<
   kind: "transcripts",
   provider: "muse",
   format: museUsageFormat,
-  directories: Effect.fn("museUsageReader.directories")(function* ({ config, environment }) {
-    const path = yield* Path.Path;
-    const home = yield* HostProcess.HomeDirectory;
-    const usageHome = yield* MuseUsageHome.MuseUsageHome;
-    const processEnvironment = yield* mergeProviderInstanceEnvironment(
-      Object.entries(environment).flatMap(([name, value]) =>
-        value === undefined ? [] : [{ name, value, sensitive: false }],
-      ),
-      yield* HostProcess.Environment,
-    );
-    const museHome = yield* usageHome.resolve({
-      binaryPath: expandHomePath(config?.binaryPath ?? "muse", home),
-      environment: makeMuseEnvironment(processEnvironment),
-    });
-    return museHome ? [{ dir: path.join(museHome, "sessions"), fileName: "session.jsonl" }] : [];
-  }),
-};
+  directories: effect ({ config, environment }) =>
+    try withSpan(
+      effect {
+        const path = try Path.Path()
+        const home = try HostProcess.HomeDirectory()
+        const usageHome = try MuseUsageHome.MuseUsageHome()
+        const processEnvironment = try mergeProviderInstanceEnvironment(
+          Object.entries(environment).flatMap(([name, value]) =>
+            value === undefined ? [] : [{ name, value, sensitive: false }]
+          ),
+          try HostProcess.Environment(),
+        )
+        const museHome = try usageHome.resolve({
+          binaryPath: expandHomePath(config?.binaryPath ?? "muse", home),
+          environment: makeMuseEnvironment(processEnvironment),
+        })
+        return museHome ? [{ dir: path.join(museHome, "sessions"), fileName: "session.jsonl" }] : []
+      },
+      "museUsageReader.directories",
+    ),
+}

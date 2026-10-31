@@ -1,11 +1,6 @@
 // Shared with the client settings form; keep schema code browser-safe.
-import {
-  CustomModelSetting,
-  makeBinaryPathSetting,
-  makeProviderSettingsSchema,
-} from "@t3tools/contracts";
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+import { CustomModelSetting, makeBinaryPathSetting, makeProviderSettingsSchema } from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
 
 export const MuseSettings = makeProviderSettingsSchema(
   {
@@ -16,8 +11,7 @@ export const MuseSettings = makeProviderSettingsSchema(
     binaryPath: makeBinaryPathSetting("muse").pipe(
       Schema.annotateKey({
         title: "Binary path",
-        description:
-          "Path to the Muse Code binary on this environment. Sign in with muse login on that host.",
+        description: "Path to the Muse Code binary on this environment. Sign in with muse login on that host.",
         providerSettingsForm: { placeholder: "muse", clearWhenEmpty: "omit" },
       }),
     ),
@@ -27,5 +21,5 @@ export const MuseSettings = makeProviderSettingsSchema(
     ),
   },
   { order: ["binaryPath"] },
-);
-export type MuseSettings = typeof MuseSettings.Type;
+)
+export type MuseSettings = typeof MuseSettings.Type
