@@ -46,7 +46,7 @@ export * from "./threadMetadataMcp.vibe";
 export * from "./threadPullRequest.vibe";
 export * from "./threadSearch.vibe";
 export * from "./threadTitle.ts";
-export * from "./t3ProjectFile.ts";
+export * from "./t3ProjectFile.vibe";
 export * from "./editor.vibe";
 export * from "./project.ts";
 export * from "./filesystem.ts";
