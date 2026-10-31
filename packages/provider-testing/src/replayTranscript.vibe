@@ -91,11 +91,11 @@ const decodeReplayRecord = Schema.decodeUnknownSync(
 )
 const decodeTranscript = Schema.decodeUnknownSync(ProviderReplayTranscript)
 
-function parseReplayRecord(
+effect function parseReplayRecord(
   line: string,
   lineNumber: number,
 ): ProviderReplayNdjsonRecord!ProviderReplayNdjsonLineParseError {
-  return Effect.try({
+  return try Effect.try({
     try: () => decodeReplayRecord(line),
     catch: (cause) =>
       new ProviderReplayNdjsonLineParseError({
@@ -113,7 +113,7 @@ function metadataFromHeader(
   return metadata
 }
 
-export function decodeProviderReplayNdjson(
+export effect function decodeProviderReplayNdjson(
   input: string,
   fallbackMetadata?: ProviderReplayTranscriptMetadata,
 ): ProviderReplayTranscript!ProviderReplayNdjsonParseError {
@@ -126,7 +126,7 @@ export function decodeProviderReplayNdjson(
     throw new ProviderReplayNdjsonEmptyError()
   }
 
-  const firstRecord = parseReplayRecord(lines[0]!.line, lines[0]!.lineNumber)
+  const firstRecord = try parseReplayRecord(lines[0]!.line, lines[0]!.lineNumber)
   const metadata = firstRecord.type === "transcript_start" ? metadataFromHeader(firstRecord) : fallbackMetadata
 
   if (!metadata) {
@@ -139,7 +139,7 @@ export function decodeProviderReplayNdjson(
   }
 
   for (const { line, lineNumber } of lines.slice(1)) {
-    const record = parseReplayRecord(line, lineNumber)
+    const record = try parseReplayRecord(line, lineNumber)
     if (record.type === "transcript_start") {
       throw new ProviderReplayNdjsonLineParseError({
         lineNumber,
@@ -157,12 +157,15 @@ export function decodeProviderReplayNdjson(
 }
 
 /** Use Path to resolve Windows drive/UNC fixture URLs into native paths. */
-export const readProviderReplayTranscript = (
+export const readProviderReplayTranscript = effect (
   file: URL,
 ) =>
-  withSpan(() => {
-    const fs = FileSystem()
-    const path = Path()
-    const text = fs.readFileString(path.fromFileUrl(file))
-    return decodeProviderReplayNdjson(text)
-  }, "readProviderReplayTranscript")
+  try withSpan(
+    effect {
+      const fs = try FileSystem()
+      const path = try Path()
+      const text = try fs.readFileString(try path.fromFileUrl(file))
+      return try decodeProviderReplayNdjson(text)
+    },
+    "readProviderReplayTranscript",
+  )

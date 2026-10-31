@@ -224,19 +224,27 @@ function piT3McpExtensionDestPath(cacheDir: string): string {
   return `${cacheDir.replace(/\\/g, "/")}/${PI_T3_MCP_EXTENSION_FILENAME}`
 }
 
-export const materializePiT3McpExtension = (
+export const materializePiT3McpExtension = effect (
   cacheDir: string,
 ) =>
-  withSpan(() => {
-    const fs = FileSystem()
-    fs.makeDirectory(cacheDir, { recursive: true })
-    const dest = piT3McpExtensionDestPath(cacheDir)
-    const existing = Effect.orElseSucceed(() => fs.readFileString(dest), () => "")
-    if (existing !== PI_T3_MCP_EXTENSION_SOURCE) {
-      fs.writeFileString(dest, PI_T3_MCP_EXTENSION_SOURCE)
-    }
-    return dest
-  }, "materializePiT3McpExtension")
+  try withSpan(
+    effect {
+      const fs = try FileSystem()
+      try fs.makeDirectory(cacheDir, { recursive: true })
+      const dest = piT3McpExtensionDestPath(cacheDir)
+      const existing = try Effect.orElseSucceed(
+        effect {
+          return try fs.readFileString(dest)
+        },
+        () => "",
+      )
+      if (existing !== PI_T3_MCP_EXTENSION_SOURCE) {
+        try fs.writeFileString(dest, PI_T3_MCP_EXTENSION_SOURCE)
+      }
+      return dest
+    },
+    "materializePiT3McpExtension",
+  )
 
 export function buildPiRpcLaunch(input: {
   readonly launchArgs: ReadonlyArray<string>

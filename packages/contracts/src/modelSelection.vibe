@@ -21,7 +21,7 @@ export const ModelSelection = ModelSelectionSource.pipe(
   Schema.decodeTo(
     ModelSelectionWire,
     SchemaTransformation.transformEffect({
-      decode: (raw) => {
+      decode: effect (raw) => {
         const instanceIdSource = raw.instanceId !== undefined
           ? raw.instanceId
           : typeof raw.provider === "string"
@@ -34,7 +34,7 @@ export const ModelSelection = ModelSelectionSource.pipe(
         if (raw.options !== undefined) base.options = raw.options
         return base as typeof ModelSelectionWire.Encoded
       },
-      encode: (value) => {
+      encode: effect (value) => {
         const base: Record<string, unknown> = {
           instanceId: value.instanceId,
           model: value.model,

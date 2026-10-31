@@ -31,8 +31,8 @@ function formatYamlParseError(error: unknown): string {
 }
 
 function parseYaml<E extends string>(options?: YamlParseOptions): SchemaGetter.Getter<unknown, E> {
-  return SchemaGetter.transformEffect((input: E) =>
-    Effect.try({
+  return SchemaGetter.transformEffect(effect (input: E) =>
+    try Effect.try({
       try: () => parseYamlString(input, options) as unknown,
       catch: (error) => new SchemaIssue.InvalidValue({ message: formatYamlParseError(error) }),
     })
@@ -40,8 +40,8 @@ function parseYaml<E extends string>(options?: YamlParseOptions): SchemaGetter.G
 }
 
 function stringifyYaml(options?: YamlStringifyOptions): SchemaGetter.Getter<string, unknown> {
-  return SchemaGetter.transformEffect((input: unknown) =>
-    Effect.try({
+  return SchemaGetter.transformEffect(effect (input: unknown) =>
+    try Effect.try({
       try: () => stringifyYamlValue(input, options),
       catch: () => new SchemaIssue.InvalidValue({ message: "Failed to stringify YAML." }),
     })
