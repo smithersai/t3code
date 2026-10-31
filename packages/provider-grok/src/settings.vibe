@@ -1,10 +1,5 @@
-import {
-  CustomModelSetting,
-  makeBinaryPathSetting,
-  makeProviderSettingsSchema,
-} from "@t3tools/contracts";
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+import { CustomModelSetting, makeBinaryPathSetting, makeProviderSettingsSchema } from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
 
 export const GrokSettings = makeProviderSettingsSchema(
   {
@@ -27,5 +22,5 @@ export const GrokSettings = makeProviderSettingsSchema(
   {
     order: ["binaryPath"],
   },
-);
-export type GrokSettings = typeof GrokSettings.Type;
+)
+export type GrokSettings = typeof GrokSettings.Type

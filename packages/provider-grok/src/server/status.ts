@@ -6,7 +6,7 @@ import {
   type ServerProviderModel,
   type ServerProviderSlashCommand,
 } from "@t3tools/contracts";
-import type { GrokSettings } from "../settings.ts";
+import type { GrokSettings } from "../settings.vibe";
 import type * as EffectAcpSchema from "effect-acp/compat";
 import { causeErrorTag } from "@t3tools/shared/observability";
 import * as Crypto from "@t3tools/shared/Crypto";
