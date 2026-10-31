@@ -108,8 +108,8 @@
       "import": "./src/KeyedLock.vibe"
     },
     "./schemaJson": {
-      "types": "./src/schemaJson.ts",
-      "import": "./src/schemaJson.ts"
+      "types": "./src/schemaJson.d.vibe.ts",
+      "import": "./src/schemaJson.vibe"
     },
     "./schemaYaml": {
       "types": "./src/schemaYaml.vibe",
