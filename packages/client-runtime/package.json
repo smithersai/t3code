@@ -40,7 +40,7 @@
       "default": "./src/preview/serverBrowserStream.ts"
     },
     "./worktree-setup": {
-      "types": "./src/worktreeSetup.d.vibe.ts",
+      "types": "./src/worktreeSetup.vibe",
       "default": "./src/worktreeSetup.vibe"
     },
     "./load-balancing": {
@@ -64,11 +64,11 @@
       "default": "./src/secretRequest.ts"
     },
     "./link-request": {
-      "types": "./src/linkRequest.d.vibe.ts",
+      "types": "./src/linkRequest.vibe",
       "default": "./src/linkRequest.vibe"
     },
     "./scheduled-task-webhook": {
-      "types": "./src/scheduledTaskWebhook.d.vibe.ts",
+      "types": "./src/scheduledTaskWebhook.vibe",
       "default": "./src/scheduledTaskWebhook.vibe"
     },
     "./connection": {
@@ -112,7 +112,7 @@
       "default": "./src/operations/index.ts"
     },
     "./operations/projects": {
-      "types": "./src/operations/projects.d.vibe.ts",
+      "types": "./src/operations/projects.vibe",
       "default": "./src/operations/projects.vibe"
     },
     "./platform": {
@@ -196,7 +196,7 @@
       "default": "./src/state/itemSupport.ts"
     },
     "./state/models": {
-      "types": "./src/state/models.d.vibe.ts",
+      "types": "./src/state/models.vibe",
       "default": "./src/state/models.vibe"
     },
     "./state/orchestration": {
@@ -284,7 +284,7 @@
       "default": "./src/state/usageAccess.ts"
     },
     "./state/shared-settings": {
-      "types": "./src/state/sharedSettings.d.vibe.ts",
+      "types": "./src/state/sharedSettings.vibe",
       "default": "./src/state/sharedSettings.vibe"
     },
     "./state/shell": {
@@ -308,7 +308,7 @@
       "default": "./src/state/subagentDisplay.ts"
     },
     "./state/subagentRuntime": {
-      "types": "./src/state/subagentRuntime.d.vibe.ts",
+      "types": "./src/state/subagentRuntime.vibe",
       "default": "./src/state/subagentRuntime.vibe"
     },
     "./state/thread-sort": {
@@ -320,15 +320,15 @@
       "default": "./src/state/threadInbox.ts"
     },
     "./state/thread-relationships": {
-      "types": "./src/state/threadRelationships.d.vibe.ts",
+      "types": "./src/state/threadRelationships.vibe",
       "default": "./src/state/threadRelationships.vibe"
     },
     "./state/thread-checkpoints": {
-      "types": "./src/state/threadCheckpoints.d.vibe.ts",
+      "types": "./src/state/threadCheckpoints.vibe",
       "default": "./src/state/threadCheckpoints.vibe"
     },
     "./state/thread-execution": {
-      "types": "./src/state/threadExecution.d.vibe.ts",
+      "types": "./src/state/threadExecution.vibe",
       "default": "./src/state/threadExecution.vibe"
     },
     "./state/thread-requests": {
@@ -344,7 +344,7 @@
       "default": "./src/state/composerDispatch.ts"
     },
     "./state/thread-subagents": {
-      "types": "./src/state/threadSubagents.d.vibe.ts",
+      "types": "./src/state/threadSubagents.vibe",
       "default": "./src/state/threadSubagents.vibe"
     },
     "./state/thread-undo": {
@@ -352,7 +352,7 @@
       "default": "./src/state/threadUndo.ts"
     },
     "./state/thread-settled": {
-      "types": "./src/state/threadSettled.d.vibe.ts",
+      "types": "./src/state/threadSettled.vibe",
       "default": "./src/state/threadSettled.vibe"
     },
     "./state/thread-search": {
@@ -472,7 +472,7 @@
       "default": "./src/reviewGuideTour.ts"
     },
     "./state/query-persistence": {
-      "types": "./src/state/queryPersistence.d.vibe.ts",
+      "types": "./src/state/queryPersistence.vibe",
       "default": "./src/state/queryPersistence.vibe"
     },
     "./pull-request-markdown": {

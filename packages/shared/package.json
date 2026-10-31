@@ -12,7 +12,7 @@
       "import": "./src/authScopeOptions.ts"
     },
     "./orchestrationV2ThreadError": {
-      "types": "./src/orchestrationV2ThreadError.d.vibe.ts",
+      "types": "./src/orchestrationV2ThreadError.vibe",
       "import": "./src/orchestrationV2ThreadError.vibe"
     },
     "./delimitedPreview": {
@@ -40,7 +40,7 @@
       "import": "./src/mobileSourceMaps.ts"
     },
     "./model": {
-      "types": "./src/model.d.vibe.ts",
+      "types": "./src/model.vibe",
       "import": "./src/model.vibe"
     },
     "./advertisedEndpoint": {
@@ -48,7 +48,7 @@
       "import": "./src/advertisedEndpoint.ts"
     },
     "./agentAwareness": {
-      "types": "./src/agentAwareness.d.vibe.ts",
+      "types": "./src/agentAwareness.vibe",
       "import": "./src/agentAwareness.vibe"
     },
     "./git": {
@@ -76,7 +76,7 @@
       "import": "./src/otelEnvironment.ts"
     },
     "./httpObservability": {
-      "types": "./src/httpObservability.d.vibe.ts",
+      "types": "./src/httpObservability.vibe",
       "import": "./src/httpObservability.vibe"
     },
     "./editor": {
@@ -104,7 +104,7 @@
       "import": "./src/KeyedCoalescingWorker.ts"
     },
     "./KeyedLock": {
-      "types": "./src/KeyedLock.d.vibe.ts",
+      "types": "./src/KeyedLock.vibe",
       "import": "./src/KeyedLock.vibe"
     },
     "./schemaJson": {
@@ -112,7 +112,7 @@
       "import": "./src/schemaJson.ts"
     },
     "./schemaYaml": {
-      "types": "./src/schemaYaml.d.vibe.ts",
+      "types": "./src/schemaYaml.vibe",
       "import": "./src/schemaYaml.vibe"
     },
     "./toolActivity": {
@@ -124,7 +124,7 @@
       "import": "./src/terminalOutput.ts"
     },
     "./toolOutput": {
-      "types": "./src/toolOutput.d.vibe.ts",
+      "types": "./src/toolOutput.vibe",
       "import": "./src/toolOutput.vibe"
     },
     "./htmlRender": {
@@ -136,15 +136,15 @@
       "import": "./src/favicon.ts"
     },
     "./Struct": {
-      "types": "./src/Struct.d.vibe.ts",
+      "types": "./src/Struct.vibe",
       "import": "./src/Struct.vibe"
     },
     "./serverSettings": {
-      "types": "./src/serverSettings.d.vibe.ts",
+      "types": "./src/serverSettings.vibe",
       "import": "./src/serverSettings.vibe"
     },
     "./backgroundActivitySettings": {
-      "types": "./src/backgroundActivitySettings.d.vibe.ts",
+      "types": "./src/backgroundActivitySettings.vibe",
       "import": "./src/backgroundActivitySettings.vibe"
     },
     "./String": {
@@ -160,7 +160,7 @@
       "import": "./src/projectSettings.ts"
     },
     "./t3ProjectFile": {
-      "types": "./src/t3ProjectFile.d.vibe.ts",
+      "types": "./src/t3ProjectFile.vibe",
       "import": "./src/t3ProjectFile.vibe"
     },
     "./orchestrationTiming": {
@@ -188,7 +188,7 @@
       "import": "./src/dpopCommon.ts"
     },
     "./telemetryId": {
-      "types": "./src/telemetryId.d.vibe.ts",
+      "types": "./src/telemetryId.vibe",
       "import": "./src/telemetryId.vibe"
     },
     "./relayAuth": {
@@ -200,7 +200,7 @@
       "import": "./src/relayUrl.ts"
     },
     "./relayJwt": {
-      "types": "./src/relayJwt.d.vibe.ts",
+      "types": "./src/relayJwt.vibe",
       "import": "./src/relayJwt.vibe"
     },
     "./oauthScope": {
@@ -236,7 +236,7 @@
       "import": "./src/keybindings.ts"
     },
     "./threadTranscript": {
-      "types": "./src/threadTranscript.d.vibe.ts",
+      "types": "./src/threadTranscript.vibe",
       "import": "./src/threadTranscript.vibe"
     },
     "./paletteSearch": {
@@ -256,7 +256,7 @@
       "import": "./src/composerInlineTokens.ts"
     },
     "./assistantCitations": {
-      "types": "./src/assistantCitations.d.vibe.ts",
+      "types": "./src/assistantCitations.vibe",
       "import": "./src/assistantCitations.vibe"
     },
     "./promptLinks": {
@@ -264,7 +264,7 @@
       "import": "./src/promptLinks.ts"
     },
     "./threadLinks": {
-      "types": "./src/threadLinks.d.vibe.ts",
+      "types": "./src/threadLinks.vibe",
       "import": "./src/threadLinks.vibe"
     },
     "./composerContextReferences": {
@@ -272,7 +272,7 @@
       "import": "./src/composerContextReferences.ts"
     },
     "./composerContextLegacy": {
-      "types": "./src/composerContextLegacy.d.vibe.ts",
+      "types": "./src/composerContextLegacy.vibe",
       "import": "./src/composerContextLegacy.vibe"
     },
     "./composerContextLegacySend": {
@@ -280,7 +280,7 @@
       "import": "./src/composerContextLegacySend.ts"
     },
     "./composerContextClipboard": {
-      "types": "./src/composerContextClipboard.d.vibe.ts",
+      "types": "./src/composerContextClipboard.vibe",
       "import": "./src/composerContextClipboard.vibe"
     },
     "./terminalLabels": {
@@ -332,7 +332,7 @@
       "import": "./src/nodeRuntime.ts"
     },
     "./AgentScope": {
-      "types": "./src/AgentScope.d.vibe.ts",
+      "types": "./src/AgentScope.vibe",
       "import": "./src/AgentScope.vibe"
     },
     "./HostProcess": {
@@ -352,7 +352,7 @@
       "import": "./src/httpReadiness.ts"
     },
     "./devHome": {
-      "types": "./src/devHome.d.vibe.ts",
+      "types": "./src/devHome.vibe",
       "import": "./src/devHome.vibe"
     },
     "./devProxy": {
@@ -368,7 +368,7 @@
       "import": "./src/usageFormat.ts"
     },
     "./usageLimits": {
-      "types": "./src/usageLimits.d.vibe.ts",
+      "types": "./src/usageLimits.vibe",
       "import": "./src/usageLimits.vibe"
     },
     "./desktopAppControl": {
@@ -392,7 +392,7 @@
       "import": "./src/orchestrationV2BoundedSnapshot.ts"
     },
     "./orchestrationV2DedupedBodies": {
-      "types": "./src/orchestrationV2DedupedBodies.d.vibe.ts",
+      "types": "./src/orchestrationV2DedupedBodies.vibe",
       "import": "./src/orchestrationV2DedupedBodies.vibe"
     },
     "./orchestrationV2Timeline": {
@@ -408,7 +408,7 @@
       "import": "./src/Array.ts"
     },
     "./orchestrationV2PendingBackgroundWork": {
-      "types": "./src/orchestrationV2PendingBackgroundWork.d.vibe.ts",
+      "types": "./src/orchestrationV2PendingBackgroundWork.vibe",
       "import": "./src/orchestrationV2PendingBackgroundWork.vibe"
     },
     "./hostClassification": {
@@ -492,11 +492,11 @@
       "import": "./src/inlineSkills.ts"
     },
     "./mcpApp": {
-      "types": "./src/mcpApp.d.vibe.ts",
+      "types": "./src/mcpApp.vibe",
       "import": "./src/mcpApp.vibe"
     },
     "./atomicWrite": {
-      "types": "./src/atomicWrite.d.vibe.ts",
+      "types": "./src/atomicWrite.vibe",
       "import": "./src/atomicWrite.vibe"
     },
     "./mcpResponsePayloads": {
@@ -516,7 +516,7 @@
       "import": "./src/cloneUrl.ts"
     },
     "./Crypto": {
-      "types": "./src/Crypto.d.vibe.ts",
+      "types": "./src/Crypto.vibe",
       "import": "./src/Crypto.vibe"
     }
   },

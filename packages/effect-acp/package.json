@@ -16,11 +16,11 @@
       "import": "./src/schema.ts"
     },
     "./compat": {
-      "types": "./src/compat.d.vibe.ts",
+      "types": "./src/compat.vibe",
       "import": "./src/compat.vibe"
     },
     "./rpc": {
-      "types": "./src/rpc.d.vibe.ts",
+      "types": "./src/rpc.vibe",
       "import": "./src/rpc.vibe"
     },
     "./protocol": {

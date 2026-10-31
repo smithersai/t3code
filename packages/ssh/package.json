@@ -16,7 +16,7 @@
       "import": "./src/config.ts"
     },
     "./errors": {
-      "types": "./src/errors.d.vibe.ts",
+      "types": "./src/errors.vibe",
       "import": "./src/errors.vibe"
     },
     "./tunnel": {
