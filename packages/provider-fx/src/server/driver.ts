@@ -9,7 +9,7 @@ import * as Schema from "effect/Schema";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import type * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
-import { type FxAdapterV2DriverEnv, makeFxAdapterV2Driver } from "./adapter.ts";
+import { type FxAdapterV2DriverEnv, makeFxAdapterV2Driver } from "./adapter.vibe";
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors";
 import {
   buildInitialFxProviderSnapshot,
