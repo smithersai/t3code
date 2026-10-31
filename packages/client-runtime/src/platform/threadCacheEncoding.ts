@@ -6,7 +6,7 @@ import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 
-import { StoredOrchestrationThreadSnapshot } from "./orchestrationCache.ts";
+import { StoredOrchestrationThreadSnapshot } from "./orchestrationCache.vibe";
 
 // Keep the full format for web/desktop; older clients discard compact records.
 export const COMPACT_THREAD_CACHE_SCHEMA_VERSION = 6 as const;

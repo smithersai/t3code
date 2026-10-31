@@ -2,7 +2,7 @@ import { OrchestrationV2ThreadShellJson } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 
-import { StoredOrchestrationShellSnapshot } from "./orchestrationCache.ts";
+import { StoredOrchestrationShellSnapshot } from "./orchestrationCache.vibe";
 
 const ROWS_PER_CHUNK = 32;
 

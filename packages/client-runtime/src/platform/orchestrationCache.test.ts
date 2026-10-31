@@ -10,7 +10,7 @@ import {
   StoredOrchestrationShellSnapshot,
   StoredOrchestrationThreadSnapshot,
   decodeOrDiscardOrchestrationCache,
-} from "./orchestrationCache.ts";
+} from "./orchestrationCache.vibe";
 import {
   v2Now,
   v2Projection,
