@@ -49,7 +49,7 @@ import {
   findAuthenticatedGitHubAccount,
   parseGitHubAuthStatus,
   type GitHubAuthStatusAccount,
-} from "./gitHubAuthStatus.ts";
+} from "./gitHubAuthStatus.vibe";
 import * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider";
 import {
   combinedAuthOutput,

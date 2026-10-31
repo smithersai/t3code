@@ -20,7 +20,7 @@ import * as GitHubRest from "./GitHubRest.ts";
 import * as GitHubRequestPolicy from "./GitHubRequestPolicy.ts";
 import * as GitHubCredentials from "./GitHubCredentials.ts";
 import * as GitHubQuota from "./GitHubQuota.ts";
-import { parseGitHubAuthStatus } from "./gitHubAuthStatus.ts";
+import { parseGitHubAuthStatus } from "./gitHubAuthStatus.vibe";
 import * as GitHubSourceControlProvider from "./GitHubSourceControlProvider.ts";
 
 const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown));
