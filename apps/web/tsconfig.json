@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "moduleSuffixes": ["", ".d.vibe"],
     "rewriteRelativeImportExtensions": true,
     "composite": true,
     "module": "Preserve",
@@ -37,5 +38,5 @@
     "../../scripts/lib/public-config.ts",
     "../../scripts/lib/third-party-licenses.ts"
   ],
-  "vibelang": { "trustedPackages": ["@t3tools/*"] }
+  "vibelang": { "trustedPackages": ["@t3tools/*", "react", "react-dom", "tailwind-merge", "clsx"] }
 }
