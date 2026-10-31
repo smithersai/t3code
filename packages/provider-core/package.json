@@ -24,8 +24,8 @@
       "import": "./src/server/auth.ts"
     },
     "./server/collectStreamText": {
-      "types": "./src/server/collectStreamText.ts",
-      "import": "./src/server/collectStreamText.ts"
+      "types": "./src/server/collectStreamText.vibe",
+      "import": "./src/server/collectStreamText.vibe"
     },
     "./server/driver": {
       "types": "./src/server/driver.ts",
@@ -108,8 +108,8 @@
       "import": "./src/server/ProviderAdapter.ts"
     },
     "./server/providerAuthFlow": {
-      "types": "./src/server/providerAuthFlow.ts",
-      "import": "./src/server/providerAuthFlow.ts"
+      "types": "./src/server/providerAuthFlow.vibe",
+      "import": "./src/server/providerAuthFlow.vibe"
     },
     "./server/ProviderContinuationRequests": {
       "types": "./src/server/ProviderContinuationRequests.vibe",
@@ -120,12 +120,12 @@
       "import": "./src/server/ProviderEventLoggers.ts"
     },
     "./server/ProviderHost": {
-      "types": "./src/server/ProviderHost.ts",
-      "import": "./src/server/ProviderHost.ts"
+      "types": "./src/server/ProviderHost.vibe",
+      "import": "./src/server/ProviderHost.vibe"
     },
     "./server/ProviderLatestVersions": {
-      "types": "./src/server/ProviderLatestVersions.ts",
-      "import": "./src/server/ProviderLatestVersions.ts"
+      "types": "./src/server/ProviderLatestVersions.vibe",
+      "import": "./src/server/ProviderLatestVersions.vibe"
     },
     "./server/randomUuid": {
       "types": "./src/server/randomUuid.ts",

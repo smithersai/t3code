@@ -1,0 +1,506 @@
+import {
+  ProviderSetupError,
+  type ProviderAuthInteraction,
+  type ProviderAuthMethod,
+  type ProviderAuthResponse,
+  type ProviderAuthState,
+  type ProviderInstanceId,
+} from "@t3tools/contracts"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Effect from "effect/Effect"
+import * as Scope from "effect/Scope"
+
+import type * as ProviderAuth from "./auth.ts"
+
+export interface ProviderAuthFlowContext {
+  readonly flowId: string
+  readonly expiresAt: number
+  readonly returnUrl?: string
+  readonly callbackMode?: "server" | "client"
+  readonly setInteraction: (
+    interaction: ProviderAuthInteraction,
+    respond?: (response: ProviderAuthResponse) => void!ProviderSetupError,
+    complete?: (callbackUrl: string) => void!ProviderSetupError,
+  ) => void!!
+  readonly verifying: void!!
+}
+
+const isSetupError = Schema.is(ProviderSetupError)
+
+const failureMessage = (cause: Cause<ProviderSetupError>): string => {
+  const error = Cause.findErrorOption(cause)
+  return Option.isSome(error) && isSetupError(error.value)
+    ? error.value.detail
+    : "Sign-in failed. Start again."
+}
+
+interface Flow {
+  readonly id: string
+  readonly owner: string
+  readonly expiresAt: number
+  mutable complete?: ((callbackUrl: string) => void!ProviderSetupError) | undefined
+  mutable fiber?: Fiber<void>
+  mutable responseFiber?: Fiber<void, ProviderSetupError>
+  mutable respond:
+    | ((response: ProviderAuthResponse) => void!ProviderSetupError)
+    | undefined
+}
+
+export const make = effect (options: {
+  readonly instanceId: ProviderInstanceId
+  readonly credentialBinding: NonNullable<ProviderAuth.ProviderAuthController["credentialBinding"]>
+  readonly methods: ReadonlyArray<ProviderAuthMethod>!ProviderSetupError
+  readonly defaultMethodId?: string
+  readonly refreshMethodsAfterAuth?: boolean
+  /** Fail with ProviderSetupError containing safe text for the user, never native token data. */
+  readonly authenticate: (
+    methodId: string,
+    context: ProviderAuthFlowContext,
+  ) => void!ProviderSetupError!Scope.Scope
+  readonly logout: void | string!ProviderSetupError
+  readonly timeoutMs?: number
+}): ProviderAuth.ProviderAuthController!never!(Crypto.Crypto | Scope.Scope) =>
+  try withSpan(
+    effect {
+      const scope = try Scope.Scope()
+      const crypto = try Crypto.Crypto()
+      const lock = try Semaphore.make(1)
+      const timeoutMs = options.timeoutMs ?? 300_000
+      const empty: ProviderAuthState = {
+        instanceId: options.instanceId,
+        phase: "idle",
+        flowId: null,
+        authorizationUrl: null,
+        expiresAt: null,
+        message: null,
+        interaction: null,
+        credentialOwner: options.credentialBinding.owner,
+      }
+      const snapshot = try SubscriptionRef.make({ owner: null as string | null, state: empty })
+      let active: Flow | undefined
+      let operation: "idle" | "auth" | "stopping" | "closed" = "idle"
+      const sessions = new Set<Scope.Closeable>()
+      const stopOwnedSessions = effect {
+        for concurrent (const session of Array.from(sessions)) {
+          try Scope.close(session, Exit.void)
+        }
+      }
+      const publish = effect (flow: Flow, patch: Partial<ProviderAuthState>) => {
+        if (active === flow) {
+          try SubscriptionRef.update(snapshot, (current) => ({
+            owner: flow.owner,
+            state: { ...current.state, ...patch },
+          }))
+        }
+      }
+      const requireFlow = effect (owner: string, id: string): Flow!ProviderSetupError => {
+        if (
+          operation !== "auth" || !active || active.owner !== owner || active.id !== id
+          || (try Clock.currentTimeMillis) >= active.expiresAt
+        ) {
+          throw new ProviderSetupError({
+            instanceId: options.instanceId,
+            operation: "respond",
+            detail: "This sign-in is no longer active in this client.",
+          })
+        }
+        return active
+      }
+      const refreshMethods = effect {
+        return effect {
+          const methods = try options.methods
+          try SubscriptionRef.update(snapshot, (current) => ({
+            ...current,
+            state: { ...current.state, methods },
+          }))
+        } catch effect (error) => {
+          try SubscriptionRef.update(snapshot, (current) => ({
+            ...current,
+            state: { ...current.state, methods: current.state.methods ?? [], message: error.detail },
+          }))
+        }
+      }
+      try Effect.forkIn(refreshMethods, scope)
+
+      const controller: ProviderAuth.ProviderAuthController = {
+        credentialBinding: options.credentialBinding,
+        adoptCredentials: effect (update, stopSessions) =>
+          try withSpan(
+            effect {
+              uninterruptible {
+                try lock.withPermit(effect {
+                  if (operation !== "idle") {
+                    throw new ProviderSetupError({
+                      instanceId: options.instanceId,
+                      operation: "import",
+                      detail: "Finish or cancel the existing sign-in first.",
+                    })
+                  }
+                  operation = "stopping"
+                })
+                const result = try exit(effect {
+                  try stopOwnedSessions
+                  try stopSessions
+                  try update
+                  try refreshMethods
+                })
+                const state: ProviderAuthState = {
+                  ...empty,
+                  methods: snapshot.value.state.methods ?? [],
+                  phase: Exit.isSuccess(result) ? "succeeded" : "failed",
+                  message: Exit.isSuccess(result) ? null : failureMessage(result.cause),
+                }
+                try lock.withPermit(effect {
+                  try SubscriptionRef.set(snapshot, { owner: null, state })
+                  operation = "idle"
+                })
+                if (Exit.isFailure(result)) try Effect.failCause(result.cause)
+                return state
+              }
+            },
+            "providerAuthFlow.adoptCredentials",
+          ),
+        refreshMethods,
+        invalidate: effect {
+          try lock.withPermit(effect {
+            if (operation !== "idle") return
+            try stopOwnedSessions
+            try SubscriptionRef.set(snapshot, {
+              owner: null,
+              state: {
+                ...empty,
+                methods: snapshot.value.state.methods ?? [],
+                message: "This provider's shared sign-in changed.",
+              },
+            })
+          })
+        },
+        isChangingCredentials: effect {
+          return operation !== "idle"
+        },
+        // restore is a program transformer passed into the fork; a block would execute the task here.
+        withAccess: effect (task) =>
+          try Effect.uninterruptibleMask(effect (restore) => {
+            const parent = try Scope.Scope()
+            const child = try lock.withPermit(effect {
+              if (operation !== "idle") {
+                throw new ProviderSetupError({
+                  instanceId: options.instanceId,
+                  operation: "session",
+                  detail: "Provider sign-in is changing. Try again after it finishes.",
+                })
+              }
+              const child = try Scope.make()
+              sessions.add(child)
+              try Scope.addFinalizer(
+                child,
+                effect {
+                  sessions.delete(child)
+                },
+              )
+              try Scope.addFinalizer(parent, Scope.close(child, Exit.void))
+              return child
+            })
+            const forkTask = effect {
+              provide Scope.Scope = child {
+                return try Effect.forkIn(restore(task), child)
+              }
+            }
+            const fiber = try forkTask
+            return try Effect.onExit(
+              effect {
+                const result = try restore(Fiber.await(fiber))
+                return try result
+              },
+              effect (result) => {
+                if (Exit.isFailure(result)) try Scope.close(child, Exit.void)
+              },
+            )
+          }),
+        start: effect (owner, stopSessions = Effect.void, selectedMethodId, returnUrl, callbackMode) =>
+          try lock.withPermit(effect {
+            uninterruptible {
+              if (operation === "auth" && active?.owner === owner) return snapshot.value.state
+              if (operation !== "idle") {
+                throw new ProviderSetupError({
+                  instanceId: options.instanceId,
+                  operation: "start",
+                  detail: "Provider setup is already in progress.",
+                })
+              }
+              const id = crypto.randomUUIDv4() catch effect () => {
+                throw new ProviderSetupError({
+                  instanceId: options.instanceId,
+                  operation: "start",
+                  detail: "Could not start sign-in. Try again.",
+                })
+              }
+              const flow: Flow = {
+                id,
+                owner,
+                expiresAt: (try Clock.currentTimeMillis) + timeoutMs,
+                respond: undefined,
+              }
+              active = flow
+              operation = "auth"
+              const state: ProviderAuthState = {
+                ...empty,
+                methods: snapshot.value.state.methods ?? [],
+                phase: "starting",
+                flowId: id,
+                expiresAt: DateTime.formatIso(DateTime.makeUnsafe(flow.expiresAt)),
+                message: "Starting sign-in.",
+              }
+              try SubscriptionRef.set(snapshot, { owner, state })
+              flow.fiber = try Effect.forkIn(
+                effect {
+                  interruptible {
+                    const result = try exit(Effect.timeoutOrElse(
+                      Effect.scoped(effect {
+                        const methods = try options.methods
+                        try publish(flow, { methods })
+                        const methodId = selectedMethodId ?? options.defaultMethodId ?? methods[0]?.id
+                        if (!methodId || !methods.some((method) => method.id === methodId)) {
+                          throw new ProviderSetupError({
+                            instanceId: options.instanceId,
+                            operation: "start",
+                            detail: "The provider did not advertise this sign-in method.",
+                          })
+                        }
+                        try Effect.ensuring(stopSessions, stopOwnedSessions)
+                        try options.authenticate(methodId, {
+                          flowId: id,
+                          expiresAt: flow.expiresAt,
+                          ...(returnUrl ? { returnUrl } : {}),
+                          ...(callbackMode ? { callbackMode } : {}),
+                          // Terminal sign-in updates this for every output chunk within the auth operation.
+                          setInteraction: effect (interaction, respond, complete) => {
+                            if (active !== flow) return
+                            flow.respond = respond
+                            flow.complete = complete
+                            try publish(flow, {
+                              phase: "waiting",
+                              interaction,
+                              authorizationUrl: interaction.type === "browser" || interaction.type === "deviceCode"
+                                ? interaction.url
+                                : null,
+                              message: "Complete sign-in to continue.",
+                            })
+                          },
+                          verifying: effect {
+                            flow.respond = undefined
+                            flow.complete = undefined
+                            try publish(flow, {
+                              phase: "verifying",
+                              interaction: null,
+                              authorizationUrl: null,
+                              message: "Checking provider sign-in.",
+                            })
+                          },
+                        })
+                      }),
+                      {
+                        duration: timeoutMs,
+                        orElse: effect () => {
+                          throw new ProviderSetupError({
+                            instanceId: options.instanceId,
+                            operation: "start",
+                            detail: "Sign-in expired. Start again.",
+                          })
+                        },
+                      },
+                    ))
+                    const finishing = try lock.withPermit(effect {
+                      if (active !== flow) return false
+                      operation = "stopping"
+                      return true
+                    })
+                    if (!finishing) return
+                    if (flow.responseFiber) try Fiber.interrupt(flow.responseFiber)
+                    try lock.withPermit(effect {
+                      if (active !== flow) return
+                      if (options.refreshMethodsAfterAuth) try refreshMethods
+                      try publish(flow, {
+                        phase: Exit.isSuccess(result) ? "succeeded" : "failed",
+                        interaction: null,
+                        authorizationUrl: null,
+                        expiresAt: null,
+                        message: Exit.isSuccess(result)
+                          ? "Sign-in complete."
+                          : failureMessage(result.cause),
+                      })
+                      active = undefined
+                      operation = "idle"
+                    })
+                  }
+                },
+                scope,
+              )
+              return state
+            }
+          }),
+        respond: effect (owner, input) => {
+          uninterruptible {
+            const { flow, fiber, ready } = try lock.withPermit(effect {
+              const flow = try requireFlow(owner, input.flowId)
+              const interaction = snapshot.value.state.interaction
+              if (
+                !interaction || interaction.id !== input.interactionId
+                || interaction.type !== input.response.type || !flow.respond
+              ) {
+                throw new ProviderSetupError({
+                  instanceId: options.instanceId,
+                  operation: "respond",
+                  detail: "This sign-in interaction is no longer available.",
+                })
+              }
+              if (flow.responseFiber) {
+                throw new ProviderSetupError({
+                  instanceId: options.instanceId,
+                  operation: "respond",
+                  detail: "A sign-in response is already in progress.",
+                })
+              }
+              const ready = try Deferred.make<void>()
+              const callback = flow.respond
+              const fiber = try Effect.forkIn(
+                effect {
+                  interruptible {
+                    try Deferred.await(ready)
+                    try callback(input.response)
+                  }
+                },
+                scope,
+              )
+              flow.responseFiber = fiber
+              return { flow, fiber, ready }
+            })
+            try Deferred.succeed(ready, undefined)
+            restore {
+              try Effect.ensuring(
+                Effect.onInterrupt(Fiber.join(fiber), effect () => {
+                  try Fiber.interrupt(fiber)
+                }),
+                lock.withPermit(effect {
+                  if (flow.responseFiber === fiber) delete flow.responseFiber
+                }),
+              )
+            }
+            return snapshot.value.state
+          }
+        },
+        complete: effect (owner, input) =>
+          try lock.withPermit(effect {
+            const flow = try requireFlow(owner, input.flowId)
+            const interaction = snapshot.value.state.interaction
+            if (
+              snapshot.value.state.phase !== "waiting" || interaction?.type !== "browser"
+              || !interaction.acceptsCallback || !flow.complete
+            ) {
+              throw new ProviderSetupError({
+                instanceId: options.instanceId,
+                operation: "complete",
+                detail: "This sign-in does not accept a redirect URL.",
+              })
+            }
+            try flow.complete(input.callbackUrl)
+            return snapshot.value.state
+          }),
+        cancel: effect (owner, id) =>
+          try withSpan(
+            effect {
+              uninterruptible {
+                const flow = try lock.withPermit(effect {
+                  const flow = try requireFlow(owner, id)
+                  try publish(flow, {
+                    phase: "cancelled",
+                    interaction: null,
+                    authorizationUrl: null,
+                    expiresAt: null,
+                    message: "Sign-in cancelled.",
+                  })
+                  active = undefined
+                  operation = "stopping"
+                  return flow
+                })
+                if (flow.responseFiber) try Fiber.interrupt(flow.responseFiber)
+                if (flow.fiber) try Fiber.interrupt(flow.fiber)
+                operation = "idle"
+                return snapshot.value.state
+              }
+            },
+            "providerAuthFlow.cancel",
+          ),
+        logout: effect (stopSessions) =>
+          try withSpan(
+            effect {
+              uninterruptible {
+                const flow = try lock.withPermit(effect {
+                  if (operation !== "idle" && operation !== "auth") {
+                    throw new ProviderSetupError({
+                      instanceId: options.instanceId,
+                      operation: "logout",
+                      detail: "Provider setup is already stopping.",
+                    })
+                  }
+                  operation = "stopping"
+                  const flow = active
+                  active = undefined
+                  return flow
+                })
+                const result = try exit(effect {
+                  if (flow?.responseFiber) try Fiber.interrupt(flow.responseFiber)
+                  if (flow?.fiber) try Fiber.interrupt(flow.fiber)
+                  try Effect.ensuring(stopSessions, stopOwnedSessions)
+                  const message = try options.logout
+                  if (options.refreshMethodsAfterAuth) try refreshMethods
+                  return message
+                })
+                const state: ProviderAuthState = {
+                  ...empty,
+                  methods: snapshot.value.state.methods ?? [],
+                  phase: Exit.isSuccess(result) ? "idle" : "failed",
+                  message: Exit.isSuccess(result)
+                    ? (result.value ?? "Signed out.")
+                    : "Could not sign out. Try again.",
+                }
+                try lock.withPermit(effect {
+                  try SubscriptionRef.set(snapshot, { owner: null, state })
+                  operation = "idle"
+                })
+                if (Exit.isFailure(result)) try Effect.failCause(result.cause)
+                return state
+              }
+            },
+            "providerAuthFlow.logout",
+          ),
+        subscribe: (owner): infer _ =>
+          SubscriptionRef.changes(snapshot).pipe(
+            Stream.map((current) =>
+              current.owner === null || current.owner === owner
+                ? current.state
+                : {
+                  ...current.state,
+                  flowId: null,
+                  authorizationUrl: null,
+                  interaction: null,
+                  expiresAt: null,
+                  message: active
+                    ? "Sign-in is in progress in another client."
+                    : current.state.message,
+                }
+            ),
+          ),
+      }
+      try Effect.addFinalizer(effect () => {
+        operation = "closed"
+        const flow = active
+        active = undefined
+        if (flow?.responseFiber) try Fiber.interrupt(flow.responseFiber)
+        if (flow?.fiber) try Fiber.interrupt(flow.fiber)
+        // Settings rebuild instances; admitted sessions sharing this binding retain their own scopes.
+      })
+      return controller
+    },
+    "ProviderAuthFlow.make",
+  )

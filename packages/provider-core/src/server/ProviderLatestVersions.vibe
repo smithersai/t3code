@@ -1,0 +1,69 @@
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+
+const FOUND_TTL = Duration.hours(1)
+const MISSING_TTL = Duration.minutes(1)
+
+interface Entry {
+  readonly expiresAt: number
+  readonly version: string | null
+}
+
+export service ProviderLatestVersions {
+  static readonly key = "@t3tools/provider-core/server/ProviderLatestVersions"
+  cached: <E, R>(
+    key: string,
+    lookup: string | null!E!R,
+    options?: { readonly fresh?: boolean },
+  ) => string | null!E!R
+  invalidate: (key: string) => void!!
+}
+
+export const make = effect (
+  seed: Iterable<readonly [key: string, version: string | null]> | undefined = [],
+) =>
+  try withSpan(
+    effect {
+      const entries = try Ref.make(
+        new Map<string, Entry>(
+          Array.from(seed, ([key, version]) => [key, { version, expiresAt: Number.MAX_SAFE_INTEGER }]),
+        ),
+      )
+      return ProviderLatestVersions.of({
+        cached: effect (key, lookup, options) =>
+          try withSpan(
+            effect {
+              const now = DateTime.toEpochMillis(try DateTime.now)
+              const existing = (try Ref.get(entries)).get(key)
+              if (!options?.fresh && existing && existing.expiresAt > now) return existing.version
+              // Replacing or invalidating this entry retires any lookup still in flight.
+              const pending = { version: null, expiresAt: 0 }
+              try Ref.update(entries, (current) => new Map(current).set(key, pending))
+              const version = try lookup
+              const ttl = version === null ? MISSING_TTL : FOUND_TTL
+              try Ref.update(entries, (current) =>
+                current.get(key) === pending
+                  ? new Map(current).set(key, { version, expiresAt: now + Duration.toMillis(ttl) })
+                  : current)
+              return version
+            },
+            "ProviderLatestVersions.cached",
+          ),
+        invalidate: effect (key) =>
+          try withSpan(
+            effect {
+              try Ref.update(entries, (current) => {
+                const next = new Map(current)
+                next.delete(key)
+                return next
+              })
+            },
+            "ProviderLatestVersions.invalidate",
+          ),
+      })
+    },
+    "ProviderLatestVersions.make",
+  )
+
+export const layer = Layer.effect(ProviderLatestVersions, make())
