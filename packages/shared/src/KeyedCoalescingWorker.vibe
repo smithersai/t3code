@@ -1,0 +1,89 @@
+import * as Scope from "effect/Scope"
+import * as Effect from "effect/Effect"
+import * as TxQueue from "effect/TxQueue"
+import * as TxRef from "effect/TxRef"
+
+export interface KeyedCoalescingWorker<K, V> {
+  readonly enqueue: (key: K, value: V) => void!!
+  readonly drainKey: (key: K) => void!!
+}
+
+interface KeyedCoalescingWorkerState<K, V> {
+  readonly latestByKey: Map<K, V>
+  readonly queuedKeys: Set<K>
+  readonly activeKeys: Set<K>
+}
+
+export const makeKeyedCoalescingWorker = effect <K, V, E, R>(options: {
+  readonly merge: (current: V, next: V) => V
+  readonly process: (key: K, value: V) => void!E!R
+}): KeyedCoalescingWorker<K, V>!never!Scope.Scope | R =>
+  try withSpan(
+    effect {
+      const queue = try Effect.acquireRelease(TxQueue.unbounded<K>(), TxQueue.shutdown)
+      const stateRef = try TxRef.make<KeyedCoalescingWorkerState<K, V>>({
+        latestByKey: new Map(),
+        queuedKeys: new Set(),
+        activeKeys: new Set(),
+      })
+      const completeKey = effect (key: K): void!! => {
+        try Effect.tx(effect {
+          const shouldRequeue = try TxRef.modify(stateRef, (state) => {
+            const activeKeys = new Set(state.activeKeys)
+            activeKeys.delete(key)
+            if (state.latestByKey.has(key) && !state.queuedKeys.has(key)) {
+              const queuedKeys = new Set(state.queuedKeys)
+              queuedKeys.add(key)
+              return [true, { ...state, activeKeys, queuedKeys }] as const
+            }
+            return [false, { ...state, activeKeys }] as const
+          })
+          if (shouldRequeue) try TxQueue.offer(queue, key)
+        })
+      }
+      const consume = effect {
+        const key = try TxQueue.take(queue)
+        const item = try Effect.tx(TxRef.modify(stateRef, (state) => {
+          const queuedKeys = new Set(state.queuedKeys)
+          queuedKeys.delete(key)
+          const value = state.latestByKey.get(key)
+          if (value === undefined) return [null, { ...state, queuedKeys }] as const
+          const latestByKey = new Map(state.latestByKey)
+          latestByKey.delete(key)
+          const activeKeys = new Set(state.activeKeys)
+          activeKeys.add(key)
+          return [{ key, value } as const, { ...state, latestByKey, queuedKeys, activeKeys }] as const
+        }))
+        if (item !== null) {
+          try Effect.ensuring(Effect.ignoreCause(options.process(item.key, item.value)), completeKey(item.key))
+        }
+      }
+      try Effect.forkScoped(Effect.forever(consume))
+      const enqueue: KeyedCoalescingWorker<K, V>["enqueue"] = effect (key, value) => {
+        try Effect.tx(effect {
+          const shouldOffer = try TxRef.modify(stateRef, (state) => {
+            const latestByKey = new Map(state.latestByKey)
+            const existing = latestByKey.get(key)
+            latestByKey.set(key, existing === undefined ? value : options.merge(existing, value))
+            if (state.queuedKeys.has(key) || state.activeKeys.has(key)) {
+              return [false, { ...state, latestByKey }] as const
+            }
+            const queuedKeys = new Set(state.queuedKeys)
+            queuedKeys.add(key)
+            return [true, { ...state, latestByKey, queuedKeys }] as const
+          })
+          if (shouldOffer) try TxQueue.offer(queue, key)
+        })
+      }
+      const drainKey: KeyedCoalescingWorker<K, V>["drainKey"] = effect (key) => {
+        try Effect.tx(effect {
+          const state = try TxRef.get(stateRef)
+          if (state.latestByKey.has(key) || state.queuedKeys.has(key) || state.activeKeys.has(key)) {
+            try Effect.txRetry
+          }
+        })
+      }
+      return { enqueue, drainKey } satisfies KeyedCoalescingWorker<K, V>
+    },
+    "KeyedCoalescingWorker.makeKeyedCoalescingWorker",
+  )
