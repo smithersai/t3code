@@ -12,7 +12,7 @@ export * from "./desktopBootstrap.vibe";
 export * from "./desktopBrowser.vibe";
 export * from "./desktopAppActivation.vibe";
 export * from "./remoteAccess.vibe";
-export * from "./ipc.ts";
+export * from "./ipc.vibe";
 export * from "./terminal.vibe";
 export * from "./provider.vibe";
 export * from "./providerInstance.vibe";
