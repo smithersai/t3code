@@ -11,7 +11,7 @@ import {
   enrichMuseSnapshot,
   museMaintenance,
   parseMuseVersion,
-} from "./maintenance.ts";
+} from "./maintenance.vibe";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import { makeManualOnlyProviderMaintenanceCapabilities } from "@t3tools/provider-core/server/maintenanceResolver";
 

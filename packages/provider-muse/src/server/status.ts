@@ -8,7 +8,7 @@ import * as Result from "effect/Result";
 import * as ChildProcess from "effect/process/ChildProcess";
 
 import { createMuseSdkHost, makeMuseEnvironment } from "./sdk.ts";
-import { parseMuseVersion } from "./maintenance.ts";
+import { parseMuseVersion } from "./maintenance.vibe";
 import { discoverMuseModels, museModelCapabilities } from "./modelCatalog.ts";
 import {
   buildServerProvider,
