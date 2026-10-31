@@ -6,7 +6,7 @@ import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
 import { type ProviderSetupError, TextGenerationError } from "@t3tools/contracts";
-import type { CursorSettings } from "../settings.ts";
+import type { CursorSettings } from "../settings.vibe";
 
 import * as TextGenerationOperations from "@t3tools/provider-core/server/textGenerationOperations";
 import { cursorSdkModelSelection } from "./sdkModel.ts";

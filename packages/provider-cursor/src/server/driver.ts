@@ -3,7 +3,7 @@ import {
   ProviderSetupError,
   type ServerProviderModel,
 } from "@t3tools/contracts";
-import { CursorSettings } from "../settings.ts";
+import { CursorSettings } from "../settings.vibe";
 import * as Effect from "effect/Effect";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as FileSystem from "effect/FileSystem";

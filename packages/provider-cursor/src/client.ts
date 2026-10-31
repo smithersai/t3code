@@ -1,7 +1,7 @@
 import { ProviderDriverKind } from "@t3tools/contracts";
 import { defineProviderClient } from "@t3tools/provider-core/client";
 
-import { CursorSettings } from "./settings.ts";
+import { CursorSettings } from "./settings.vibe";
 
 export const cursorClient = defineProviderClient({
   driverKind: ProviderDriverKind.make("cursor"),

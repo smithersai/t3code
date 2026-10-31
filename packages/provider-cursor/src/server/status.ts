@@ -6,7 +6,7 @@ import type {
   ServerProviderModel,
   ServerProviderState,
 } from "@t3tools/contracts";
-import type { CursorSettings } from "../settings.ts";
+import type { CursorSettings } from "../settings.vibe";
 import { createModelCapabilities } from "@t3tools/shared/model";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";

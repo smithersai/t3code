@@ -1,6 +1,6 @@
 import type { RunResult } from "@cursor/sdk";
 import { ProviderInstanceId, TextGenerationError } from "@t3tools/contracts";
-import { CursorSettings } from "../settings.ts";
+import { CursorSettings } from "../settings.vibe";
 import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
