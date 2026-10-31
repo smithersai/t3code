@@ -1445,7 +1445,7 @@ jobs:
           DISCORD_MENTION_ROLE_ID: ${{ secrets.DISCORD_RELEASE_NIGHTLY_ROLE_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_RELEASE_WEBHOOK_URL }}
         run: |
-          node --import vibelang/register scripts/notify-discord-release.ts prerelease \
+          node scripts/notify-discord-release.ts prerelease \
             --role-id "$DISCORD_MENTION_ROLE_ID" \
             --release-name "${{ needs.preflight.outputs.release_name }}" \
             --release-version "${{ needs.preflight.outputs.version }}" \
@@ -1460,7 +1460,7 @@ jobs:
           DISCORD_MENTION_ROLE_ID: ${{ secrets.DISCORD_RELEASE_LATEST_ROLE_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_RELEASE_WEBHOOK_URL }}
         run: |
-          node --import vibelang/register scripts/notify-discord-release.ts latest \
+          node scripts/notify-discord-release.ts latest \
             --role-id "$DISCORD_MENTION_ROLE_ID" \
             --release-name "${{ needs.preflight.outputs.release_name }}" \
             --release-version "${{ needs.preflight.outputs.version }}" \
