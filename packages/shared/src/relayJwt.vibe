@@ -49,12 +49,12 @@ function normalizePem(value: string): string {
   return value.replace(/\\n/gu, "\n").trim()
 }
 
-export function signRelayJwt(input: {
+export effect function signRelayJwt(input: {
   readonly privateKey: string
   readonly typ: string
   readonly payload: JWTPayload
 }): string!RelayJwtError {
-  return Effect.tryPromise({
+  return try Effect.tryPromise({
     try: async () => {
       const key = await importPKCS8(normalizePem(input.privateKey), "EdDSA")
       return new SignJWT(input.payload)
@@ -65,7 +65,7 @@ export function signRelayJwt(input: {
   })
 }
 
-export function verifyRelayJwt(input: {
+export effect function verifyRelayJwt(input: {
   readonly publicKey: string
   readonly token: string
   readonly typ: string
@@ -74,7 +74,7 @@ export function verifyRelayJwt(input: {
   readonly nowEpochSeconds: number
   readonly maxTokenAge?: string | number
 }): JWTPayload!RelayJwtError {
-  return Effect.tryPromise({
+  return try Effect.tryPromise({
     try: async () => {
       const key = await importSPKI(normalizePem(input.publicKey), "EdDSA")
       const verified = await jwtVerify(input.token, key, {

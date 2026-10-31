@@ -22,46 +22,58 @@ const pointsAtLinkedWorktree = (gitFileContents: string, path: Path.Path): boole
   return segments.length >= 3 && segments.at(-2) === "worktrees"
 }
 
-export const resolveGitWorktreePath = (
+export const resolveGitWorktreePath = effect (
   cwd: string,
 ): string | undefined!never!FileSystem.FileSystem | Path.Path =>
-  withSpan(() => {
-    const fileSystem = FileSystem()
-    const path = Path()
+  try withSpan(
+    effect {
+      const fileSystem = try FileSystem()
+      const path = try Path()
 
-    let directory = path.resolve(cwd)
-    for (;;) {
-      const gitPath = path.join(directory, ".git")
-      const info = Effect.option(() => fileSystem.stat(gitPath))
-      if (Option.isSome(info)) {
-        if (info.value.type !== "File") {
+      let directory = path.resolve(cwd)
+      for (;;) {
+        const gitPath = path.join(directory, ".git")
+        const info = try Effect.option(effect {
+          return try fileSystem.stat(gitPath)
+        })
+        if (Option.isSome(info)) {
+          if (info.value.type !== "File") {
+            return undefined
+          }
+          const contents = try Effect.orElseSucceed(
+            effect {
+              return try fileSystem
+                .readFileString(gitPath)
+            },
+            () => "",
+          )
+          return pointsAtLinkedWorktree(contents, path) ? directory : undefined
+        }
+        const parent = path.dirname(directory)
+        if (parent === directory) {
           return undefined
         }
-        const contents = Effect.orElseSucceed(() =>
-          fileSystem
-            .readFileString(gitPath), () => "")
-        return pointsAtLinkedWorktree(contents, path) ? directory : undefined
+        directory = parent
       }
-      const parent = path.dirname(directory)
-      if (parent === directory) {
-        return undefined
-      }
-      directory = parent
-    }
-  }, "devHome.resolveGitWorktreePath")
+    },
+    "devHome.resolveGitWorktreePath",
+  )
 
 /**
  * Deliberately does not require the directory to exist yet: falling back
  * because it is missing would send callers at the shared home.
  */
-export const resolveWorktreeT3Home = (
+export const resolveWorktreeT3Home = effect (
   cwd: string,
 ): string | undefined!never!FileSystem.FileSystem | Path.Path =>
-  withSpan(() => {
-    const worktreePath = resolveGitWorktreePath(cwd)
-    if (worktreePath === undefined) {
-      return undefined
-    }
-    const path = Path()
-    return path.join(worktreePath, ".t3")
-  }, "devHome.resolveWorktreeT3Home")
+  try withSpan(
+    effect {
+      const worktreePath = try resolveGitWorktreePath(cwd)
+      if (worktreePath === undefined) {
+        return undefined
+      }
+      const path = try Path()
+      return path.join(worktreePath, ".t3")
+    },
+    "devHome.resolveWorktreeT3Home",
+  )

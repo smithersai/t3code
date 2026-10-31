@@ -48,8 +48,8 @@ const ProviderOptionSelectionsFromLegacyObject = LegacyProviderOptionSelectionsO
   Schema.decodeTo(
     Schema.Array(ProviderOptionSelection),
     SchemaTransformation.transformEffect({
-      decode: (record) => coerceLegacyOptionsObjectToArray(record),
-      encode: (selections) => canonicalSelectionsToLegacyObject(selections),
+      decode: effect (record) => coerceLegacyOptionsObjectToArray(record),
+      encode: effect (selections) => canonicalSelectionsToLegacyObject(selections),
     }),
   ),
 )
