@@ -8,7 +8,7 @@ import {
   type ConnectionRoute,
 } from "./catalog.ts";
 import { pullRequestRoutingConnectionKey } from "./pullRequestRoutingPermissions.ts";
-import { BearerConnectionTarget, RelayConnectionTarget } from "./model.ts";
+import { BearerConnectionTarget, RelayConnectionTarget } from "./model.vibe";
 import {
   connectionRouteId,
   connectionRouteKind,

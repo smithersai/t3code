@@ -2,7 +2,7 @@ import type { OrchestrationV2ProjectedTurnItem } from "@t3tools/contracts";
 import { describe, expect, it } from "@effect/vitest";
 import * as DateTime from "effect/DateTime";
 
-import { v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.ts";
+import { v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.vibe";
 import { mergeOlderHistoryIntoProjection } from "./threadHistoryMerge.ts";
 import { applyOrchestrationV2ProjectionEvent } from "./orchestrationV2Projection.ts";
 

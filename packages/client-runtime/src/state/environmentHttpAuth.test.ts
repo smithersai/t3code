@@ -28,7 +28,7 @@ import {
   RelayConnectionTarget,
   type PreparedConnection,
   type PreparedHttpAuthorization,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import * as ManagedRelay from "../relay/managedRelay.ts";
 import { type RemoteEnvironmentRequestError } from "../rpc/http.ts";
 import * as RpcHttp from "../rpc/http.ts";
@@ -40,7 +40,7 @@ import { fetchEnvironmentThreadTranscript } from "./threadTranscriptHttp.ts";
 import { fetchEnvironmentBoundedThreadSnapshot } from "./boundedThreadSnapshotHttp.ts";
 import * as BoundedThreadSnapshotHttp from "./boundedThreadSnapshotHttp.ts";
 import { fetchEnvironmentThreadHistoryPage } from "./threadHistoryHttp.ts";
-import { v2Projection } from "./orchestrationV2TestFixtures.ts";
+import { v2Projection } from "./orchestrationV2TestFixtures.vibe";
 
 const encodeThreadSnapshot = Schema.encodeSync(OrchestrationV2ThreadDetailSnapshot);
 const encodeBoundedSnapshot = Schema.encodeSync(OrchestrationV2ThreadBoundedSnapshot);

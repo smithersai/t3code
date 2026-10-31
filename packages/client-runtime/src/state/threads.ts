@@ -26,7 +26,7 @@ import { Atom } from "effect/reactivity";
 
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
 import * as EnvironmentRegistry from "../connection/registry.ts";
-import { connectionProjectionPhase } from "../connection/model.ts";
+import { connectionProjectionPhase } from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as ConnectionWakeups from "../connection/wakeups.ts";
 import * as Persistence from "../platform/persistence.ts";
@@ -53,7 +53,7 @@ import {
   EMPTY_ENVIRONMENT_THREAD_STATE,
   type EnvironmentThreadState,
   type EnvironmentThreadStatus,
-} from "./threadState.ts";
+} from "./threadState.vibe";
 
 function statusWithoutLiveData(
   data: Option.Option<OrchestrationV2ThreadProjection>,
@@ -1064,4 +1064,4 @@ export * from "./threadDetail.ts";
 export * from "./threadFamilies.ts";
 export * from "./olderSettledThreads.ts";
 export * from "./threadShell.ts";
-export * from "./threadState.ts";
+export * from "./threadState.vibe";

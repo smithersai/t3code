@@ -12,11 +12,11 @@ import * as DateTime from "effect/DateTime";
 import * as Option from "effect/Option";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
-import { v2Now, v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.ts";
+import { v2Now, v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.vibe";
 import { applyOrchestrationV2ProjectionEvent } from "./orchestrationV2Projection.ts";
 import { createEnvironmentThreadDetailAtoms, sameThreadStructure } from "./threadDetail.ts";
 import { mergeOlderHistoryIntoProjection } from "./threadHistoryMerge.ts";
-import { EMPTY_ENVIRONMENT_THREAD_STATE } from "./threadState.ts";
+import { EMPTY_ENVIRONMENT_THREAD_STATE } from "./threadState.vibe";
 
 const later = DateTime.makeUnsafe("2026-06-20T00:00:01.000Z");
 

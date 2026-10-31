@@ -18,7 +18,7 @@ import {
 } from "@t3tools/shared/paletteSearch";
 import { threadSearchPullRequests } from "@t3tools/shared/threadPullRequests";
 
-import type { EnvironmentThreadShell } from "./models.ts";
+import type { EnvironmentThreadShell } from "./models.vibe";
 import { getThreadSortTimestamp } from "./threadSort.ts";
 
 // When this client last sent an open per thread, by its own clock: a server

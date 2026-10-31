@@ -19,7 +19,7 @@ import {
   PrimaryConnectionTarget,
   RelayConnectionTarget,
   SshConnectionTarget,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import {
   PullRequestRoutingPermissions,
   makePullRequestRoutingPermissions,

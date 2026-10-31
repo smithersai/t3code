@@ -25,7 +25,7 @@ import {
   type NetworkStatus,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "./model.ts";
+} from "./model.vibe";
 import * as RpcSession from "../rpc/session.ts";
 import { safeErrorLogAttributes } from "../errors/safeLog.ts";
 import { NETWORK_BLOCKING_HINT } from "../errors/network.ts";

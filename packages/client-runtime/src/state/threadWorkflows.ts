@@ -6,7 +6,7 @@ import {
 } from "@t3tools/contracts";
 import { copySorted } from "@t3tools/shared/Array";
 
-import type { ThreadStructure } from "./models.ts";
+import type { ThreadStructure } from "./models.vibe";
 
 type Projection = ThreadStructure;
 type Run = Projection["runs"][number];

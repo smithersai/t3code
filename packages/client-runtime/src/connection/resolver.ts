@@ -41,8 +41,8 @@ import type {
   PrimaryConnectionTarget,
   RelayConnectionTarget,
   SshConnectionTarget,
-} from "./model.ts";
-import { ConnectionBlockedError, type ConnectionAttemptError } from "./model.ts";
+} from "./model.vibe";
+import { ConnectionBlockedError, type ConnectionAttemptError } from "./model.vibe";
 import * as ConnectionProfileStore from "./profileStore.ts";
 import {
   appendOrchestrationProtocol,

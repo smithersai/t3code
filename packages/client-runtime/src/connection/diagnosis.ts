@@ -10,7 +10,7 @@ import type {
   ConnectionFailureCause,
   ConnectionHop,
   SupervisorConnectionState,
-} from "./model.ts";
+} from "./model.vibe";
 
 export type ConnectionHopResult = "ok" | "failed" | "unchecked";
 

@@ -1,11 +1,11 @@
-import { EnvironmentId } from "@t3tools/contracts";
-import { RelayEnvironmentEndpointFailure } from "@t3tools/contracts/relay";
-import * as Schema from "effect/Schema";
+import { EnvironmentId } from "@t3tools/contracts"
+import { RelayEnvironmentEndpointFailure } from "@t3tools/contracts/relay"
+import * as Schema from "effect/Schema"
 
 const ConnectionTargetBase = {
   environmentId: EnvironmentId,
   label: Schema.String,
-};
+}
 
 export class PrimaryConnectionTarget extends Schema.TaggedClass<PrimaryConnectionTarget>()(
   "PrimaryConnectionTarget",
@@ -39,47 +39,32 @@ export class SshConnectionTarget extends Schema.TaggedClass<SshConnectionTarget>
   },
 ) {}
 
-export const ConnectionTarget = Schema.Union([
-  PrimaryConnectionTarget,
-  BearerConnectionTarget,
-  RelayConnectionTarget,
-  SshConnectionTarget,
-]);
-export type ConnectionTarget = typeof ConnectionTarget.Type;
+export schema ConnectionTarget =
+  | PrimaryConnectionTarget
+  | BearerConnectionTarget
+  | RelayConnectionTarget
+  | SshConnectionTarget
 
-export const PersistedConnectionTarget = Schema.Union([
-  BearerConnectionTarget,
-  RelayConnectionTarget,
-  SshConnectionTarget,
-]);
-export type PersistedConnectionTarget = typeof PersistedConnectionTarget.Type;
+export schema PersistedConnectionTarget = BearerConnectionTarget | RelayConnectionTarget | SshConnectionTarget
 
-export type ConnectionTargetKind = ConnectionTarget["_tag"];
+export type ConnectionTargetKind = ConnectionTarget["_tag"]
 
-export type NetworkStatus = "unknown" | "offline" | "online";
+export type NetworkStatus = "unknown" | "offline" | "online"
 
-export const ConnectionTransientReason = Schema.Literals([
-  "network",
-  "timeout",
-  "transport",
-  "endpoint-unavailable",
-  "relay-unavailable",
-  "remote-unavailable",
-  "session-pending",
-]);
-export type ConnectionTransientReason = typeof ConnectionTransientReason.Type;
+export schema ConnectionTransientReason =
+  | "network"
+  | "timeout"
+  | "transport"
+  | "endpoint-unavailable"
+  | "relay-unavailable"
+  | "remote-unavailable"
+  | "session-pending"
 
-export const ConnectionBlockedReason = Schema.Literals([
-  "authentication",
-  "configuration",
-  "permission",
-  "unsupported",
-]);
-export type ConnectionBlockedReason = typeof ConnectionBlockedReason.Type;
+export schema ConnectionBlockedReason = "authentication" | "configuration" | "permission" | "unsupported"
 
 /** A part of the path to an environment: this device, T3 Connect, the host's tunnel, or T3 Code on the host. */
-export const ConnectionHop = Schema.Literals(["device", "relay", "tunnel", "server"]);
-export type ConnectionHop = typeof ConnectionHop.Type;
+export const ConnectionHop = Schema.Literals(["device", "relay", "tunnel", "server"])
+export type ConnectionHop = typeof ConnectionHop.Type
 
 /** The relay's endpoint failures plus the causes the client can name from other errors. */
 export const ConnectionFailureCause = Schema.Literals([
@@ -89,8 +74,8 @@ export const ConnectionFailureCause = Schema.Literals([
   "relay_error",
   "tunnel_pending",
   "tunnel_not_enabled",
-]);
-export type ConnectionFailureCause = typeof ConnectionFailureCause.Type;
+])
+export type ConnectionFailureCause = typeof ConnectionFailureCause.Type
 
 /**
  * Where and why a failure happened, when the code that saw it knows. See
@@ -102,7 +87,7 @@ const ConnectionFailureFields = {
   via: Schema.optionalKey(Schema.Literals(["relay", "direct"])),
   failureCause: Schema.optionalKey(ConnectionFailureCause),
   httpStatus: Schema.optionalKey(Schema.Number),
-};
+}
 
 export class ConnectionTransientError extends Schema.TaggedError<ConnectionTransientError>()(
   "ConnectionTransientError",
@@ -114,7 +99,7 @@ export class ConnectionTransientError extends Schema.TaggedError<ConnectionTrans
   },
 ) {
   override get message(): string {
-    return this.detail;
+    return this.detail
   }
 }
 
@@ -130,32 +115,32 @@ export class ConnectionBlockedError extends Schema.TaggedError<ConnectionBlocked
   },
 ) {
   override get message(): string {
-    return this.detail;
+    return this.detail
   }
 }
 
-export type ConnectionAttemptError = ConnectionTransientError | ConnectionBlockedError;
+export type ConnectionAttemptError = ConnectionTransientError | ConnectionBlockedError
 
-export const DPOP_ACCESS_TOKEN_REFRESH_SKEW_MS = 60_000;
+export const DPOP_ACCESS_TOKEN_REFRESH_SKEW_MS = 60_000
 
 export type PreparedHttpAuthorization =
   | {
-      readonly _tag: "Bearer";
-      readonly token: string;
-    }
+    readonly _tag: "Bearer"
+    readonly token: string
+  }
   | {
-      readonly _tag: "Dpop";
-      readonly accessToken: string;
-      readonly expiresAtEpochMs: number;
-    };
+    readonly _tag: "Dpop"
+    readonly accessToken: string
+    readonly expiresAtEpochMs: number
+  }
 
 export interface PreparedConnection {
-  readonly environmentId: EnvironmentId;
-  readonly label: string;
-  readonly httpBaseUrl: string;
-  readonly socketUrl: string;
-  readonly httpAuthorization: PreparedHttpAuthorization | null;
-  readonly target: ConnectionTarget;
+  readonly environmentId: EnvironmentId
+  readonly label: string
+  readonly httpBaseUrl: string
+  readonly socketUrl: string
+  readonly httpAuthorization: PreparedHttpAuthorization | null
+  readonly target: ConnectionTarget
 }
 
 export type SupervisorConnectionPhase =
@@ -164,36 +149,36 @@ export type SupervisorConnectionPhase =
   | "connecting"
   | "backoff"
   | "connected"
-  | "blocked";
+  | "blocked"
 
-export type ConnectionAttemptStage = "preparing" | "opening" | "synchronizing";
+export type ConnectionAttemptStage = "preparing" | "opening" | "synchronizing"
 
 export interface SupervisorConnectionState {
-  readonly desired: boolean;
-  readonly network: NetworkStatus;
-  readonly phase: SupervisorConnectionPhase;
-  readonly stage: ConnectionAttemptStage | null;
-  readonly attempt: number;
-  readonly generation: number;
-  readonly lastFailure: ConnectionAttemptError | null;
-  readonly retryAt: number | null;
+  readonly desired: boolean
+  readonly network: NetworkStatus
+  readonly phase: SupervisorConnectionPhase
+  readonly stage: ConnectionAttemptStage | null
+  readonly attempt: number
+  readonly generation: number
+  readonly lastFailure: ConnectionAttemptError | null
+  readonly retryAt: number | null
 }
 
-export type ConnectionProjectionPhase = "disconnected" | "synchronizing" | "ready";
+export type ConnectionProjectionPhase = "disconnected" | "synchronizing" | "ready"
 
 export function connectionProjectionPhase(
   state: SupervisorConnectionState,
 ): ConnectionProjectionPhase {
   switch (state.phase) {
     case "connecting":
-      return "synchronizing";
+      return "synchronizing"
     case "connected":
-      return "ready";
+      return "ready"
     case "available":
     case "offline":
     case "backoff":
     case "blocked":
-      return "disconnected";
+      return "disconnected"
   }
 }
 
@@ -206,4 +191,4 @@ export const AVAILABLE_CONNECTION_STATE: SupervisorConnectionState = Object.free
   generation: 0,
   lastFailure: null,
   retryAt: null,
-});
+})

@@ -11,12 +11,12 @@ import { HttpClient, HttpClientResponse } from "effect/http";
 import { describe, test } from "vite-plus/test";
 
 import { issueRemoteWebSocketTicket } from "./authorization/remote.ts";
-import { PrimaryConnectionTarget } from "./connection/model.ts";
+import { PrimaryConnectionTarget } from "./connection/model.vibe";
 import { fetchRemoteEnvironmentDescriptor } from "./environment/descriptor.ts";
 import type { RemoteEnvironmentRequestError } from "./rpc/http.ts";
 import { fetchEnvironmentThreadSnapshot } from "./state/threadSnapshotHttp.ts";
 import { applyOrchestrationV2ProjectionEvent } from "./state/orchestrationV2Projection.ts";
-import { v2Projection, v2Now } from "./state/orchestrationV2TestFixtures.ts";
+import { v2Projection, v2Now } from "./state/orchestrationV2TestFixtures.vibe";
 
 const timestamp = "2026-09-01T00:00:00.000Z";
 const runOptions = { warmupTime: 1_000, time: 1_500 };

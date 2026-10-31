@@ -10,7 +10,7 @@ import {
   resolveMergeBackTargetThreadId,
   walkThreadRelationships,
   threadRelationshipRowStatus,
-} from "./threadRelationships.ts";
+} from "./threadRelationships.vibe";
 
 describe("thread relationships", () => {
   it.each([

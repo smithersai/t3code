@@ -6,7 +6,7 @@ import * as Layer from "effect/Layer";
 import type * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
-import type { ConnectionAttemptError } from "../connection/model.ts";
+import type { ConnectionAttemptError } from "../connection/model.vibe";
 
 export class RemoteDpopAccessToken extends Schema.Class<RemoteDpopAccessToken>(
   "@t3tools/client-runtime/authorization/RemoteDpopAccessToken",

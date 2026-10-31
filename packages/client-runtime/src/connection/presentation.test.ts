@@ -12,7 +12,7 @@ import {
   ConnectionTransientError,
   RelayConnectionTarget,
   type SupervisorConnectionState,
-} from "./model.ts";
+} from "./model.vibe";
 import {
   environmentMcpUrl,
   presentEnvironmentConnection,

@@ -29,7 +29,7 @@ import {
   PrimaryConnectionTarget,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as Persistence from "../platform/persistence.ts";

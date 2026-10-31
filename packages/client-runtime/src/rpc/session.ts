@@ -31,16 +31,16 @@ import type {
   ConnectionAttemptError,
   ConnectionTransientError,
   PreparedConnection,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import {
   ConnectionBlockedError,
   ConnectionTransientError as ConnectionTransientErrorClass,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import {
   applyServerConfigProjection,
   type ServerConfigProjection,
   withoutEnvironmentThemes,
-} from "../state/serverConfigProjection.ts";
+} from "../state/serverConfigProjection.vibe";
 import { environmentMismatchError } from "../connection/errors.ts";
 
 const SOCKET_OPEN_TIMEOUT = "15 seconds";

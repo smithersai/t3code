@@ -12,7 +12,7 @@ import type {
 } from "@t3tools/contracts";
 import * as DateTime from "effect/DateTime";
 import type { AtomCommandResult } from "./runtime.ts";
-import type { ThreadStructure, ThreadStructureVisibleTurnItem } from "./models.ts";
+import type { ThreadStructure, ThreadStructureVisibleTurnItem } from "./models.vibe";
 
 export type ApprovalResponder = (
   requestId: RuntimeRequestId,

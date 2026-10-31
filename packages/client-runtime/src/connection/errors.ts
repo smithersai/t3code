@@ -8,7 +8,7 @@ import {
   ConnectionBlockedError,
   type ConnectionAttemptError,
   ConnectionTransientError,
-} from "./model.ts";
+} from "./model.vibe";
 
 export function profileMissingError(connectionId: string): ConnectionBlockedError {
   return new ConnectionBlockedError({

@@ -28,12 +28,12 @@ import {
   ConnectionTransientError,
   PrimaryConnectionTarget,
   type PreparedConnection,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as Persistence from "../platform/persistence.ts";
 import * as RpcSession from "./session.ts";
 import { makeEnvironmentServerConfigState } from "../state/server.ts";
-import { applyServerConfigProjection } from "../state/serverConfigProjection.ts";
+import { applyServerConfigProjection } from "../state/serverConfigProjection.vibe";
 
 type SocketEventType = "open" | "message" | "close" | "error";
 type SocketEvent = {

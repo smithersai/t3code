@@ -2,7 +2,7 @@ import type { ServerConfig } from "@t3tools/contracts";
 import * as Option from "effect/Option";
 
 import type { ConnectionCatalogEntry } from "./catalog.ts";
-import type { ConnectionTarget, SupervisorConnectionState } from "./model.ts";
+import type { ConnectionTarget, SupervisorConnectionState } from "./model.vibe";
 import { connectionRouteId, connectionRoutes, routeHttpBaseUrl } from "./routes.ts";
 
 export type EnvironmentConnectionPhase =

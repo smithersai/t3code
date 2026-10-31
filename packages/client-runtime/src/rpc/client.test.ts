@@ -22,7 +22,7 @@ import {
   PrimaryConnectionTarget,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as RpcSession from "../rpc/session.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";

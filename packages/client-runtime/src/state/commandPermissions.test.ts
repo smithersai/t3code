@@ -30,7 +30,7 @@ import { Atom, AtomRegistry, AsyncResult } from "effect/reactivity";
 import { EnvironmentRegistry } from "../connection/registry.ts";
 import { createCommandPermissions } from "./commandPermissions.ts";
 import { createEnvironmentRpcCommand } from "./runtime.ts";
-import { AVAILABLE_CONNECTION_STATE } from "../connection/model.ts";
+import { AVAILABLE_CONNECTION_STATE } from "../connection/model.vibe";
 import { createPeerLinkEnvironmentAtoms } from "./peerLinks.ts";
 
 vi.mock("./session.ts", () => ({

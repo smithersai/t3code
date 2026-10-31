@@ -10,7 +10,7 @@ import {
   AVAILABLE_CONNECTION_STATE,
   type ConnectionAttemptError,
   type SupervisorConnectionState,
-} from "./model.ts";
+} from "./model.vibe";
 import { ManagedRelayRequestFailedError } from "../relay/managedRelay.ts";
 import { RemoteEnvironmentAuthFetchError } from "../rpc/http.ts";
 

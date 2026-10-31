@@ -2,7 +2,7 @@ import type { ServerConfig, ServerConfigStreamEvent } from "@t3tools/contracts";
 import * as Option from "effect/Option";
 import { describe, expect, it } from "vite-plus/test";
 
-import { applyServerConfigProjection, reuseUnchanged } from "./serverConfigProjection.ts";
+import { applyServerConfigProjection, reuseUnchanged } from "./serverConfigProjection.vibe";
 
 describe("reuseUnchanged", () => {
   const provider = (checkedAt: string, skills: ReadonlyArray<string>) => ({

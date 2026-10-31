@@ -9,7 +9,7 @@ import {
 import { describe, expect, it, vi } from "vite-plus/test";
 import { AsyncResult } from "effect/reactivity";
 import * as Cause from "effect/Cause";
-import { v2Now, v2Projection } from "./orchestrationV2TestFixtures.ts";
+import { v2Now, v2Projection } from "./orchestrationV2TestFixtures.vibe";
 import {
   createQuestionHistoryProjector,
   derivePendingThreadRequests,

@@ -17,7 +17,7 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
-import { findErrorTraceId } from "../errors/errorTrace.ts";
+import { findErrorTraceId } from "../errors/errorTrace.vibe";
 import * as ManagedRelay from "./managedRelay.ts";
 import { relayProtectedErrorMessage } from "./errorPresentation.ts";
 

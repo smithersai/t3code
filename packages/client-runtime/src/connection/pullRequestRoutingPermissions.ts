@@ -8,7 +8,7 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
 import type { ConnectionCatalogEntry } from "./catalog.ts";
-import { ConnectionBlockedError, type ConnectionAttemptError } from "./model.ts";
+import { ConnectionBlockedError, type ConnectionAttemptError } from "./model.vibe";
 
 export const PullRequestRoutingPermission = Schema.Literals(["off", "read", "read-write"]);
 export type PullRequestRoutingPermission = typeof PullRequestRoutingPermission.Type;

@@ -7,7 +7,7 @@ import type {
 import { formatModelSlugName, resolveSelectableModel } from "@t3tools/shared/model";
 import { fileBasename } from "@t3tools/shared/path";
 import { resolveModelShortName } from "../providerClients.ts";
-import { isTerminalSubagentStatus } from "./subagentRuntime.ts";
+import { isTerminalSubagentStatus } from "./subagentRuntime.vibe";
 
 export function subagentGroupSummary(
   members: ReadonlyArray<{ readonly status: OrchestrationV2TurnItemStatus }>,

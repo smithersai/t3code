@@ -28,7 +28,7 @@ import {
   ConnectionBlockedError,
   SshConnectionTarget,
   type ConnectionAttemptError,
-} from "./model.ts";
+} from "./model.vibe";
 import * as Persistence from "../platform/persistence.ts";
 import * as EnvironmentRegistry from "./registry.ts";
 import { orchestrationProtocolCompatibilityError } from "./compatibility.ts";

@@ -8,7 +8,10 @@ import {
 import * as Option from "effect/Option";
 import { AsyncResult, Atom } from "effect/reactivity";
 
-import { AVAILABLE_CONNECTION_STATE, type SupervisorConnectionState } from "../connection/model.ts";
+import {
+  AVAILABLE_CONNECTION_STATE,
+  type SupervisorConnectionState,
+} from "../connection/model.vibe";
 import {
   connectionCatalogDisplayUrl,
   presentEnvironmentConnection,

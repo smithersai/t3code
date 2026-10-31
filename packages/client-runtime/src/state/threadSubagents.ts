@@ -2,7 +2,7 @@ import * as DateTime from "effect/DateTime";
 import type { OrchestrationV2Subagent, OrchestrationV2ThreadProjection } from "@t3tools/contracts";
 import { copySorted } from "@t3tools/shared/Array";
 
-import { isActiveSubagentStatus, isTerminalSubagentStatus } from "./subagentRuntime.ts";
+import { isActiveSubagentStatus, isTerminalSubagentStatus } from "./subagentRuntime.vibe";
 import { resolveActiveThreadRun } from "./threadWorkflows.ts";
 
 type Projection = OrchestrationV2ThreadProjection;

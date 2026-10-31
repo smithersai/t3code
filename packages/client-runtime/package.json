@@ -196,8 +196,8 @@
       "default": "./src/state/itemSupport.ts"
     },
     "./state/models": {
-      "types": "./src/state/models.ts",
-      "default": "./src/state/models.ts"
+      "types": "./src/state/models.d.vibe.ts",
+      "default": "./src/state/models.vibe"
     },
     "./state/orchestration": {
       "types": "./src/state/orchestration.ts",
@@ -308,8 +308,8 @@
       "default": "./src/state/subagentDisplay.ts"
     },
     "./state/subagentRuntime": {
-      "types": "./src/state/subagentRuntime.ts",
-      "default": "./src/state/subagentRuntime.ts"
+      "types": "./src/state/subagentRuntime.d.vibe.ts",
+      "default": "./src/state/subagentRuntime.vibe"
     },
     "./state/thread-sort": {
       "types": "./src/state/threadSort.ts",
@@ -320,8 +320,8 @@
       "default": "./src/state/threadInbox.ts"
     },
     "./state/thread-relationships": {
-      "types": "./src/state/threadRelationships.ts",
-      "default": "./src/state/threadRelationships.ts"
+      "types": "./src/state/threadRelationships.d.vibe.ts",
+      "default": "./src/state/threadRelationships.vibe"
     },
     "./state/thread-checkpoints": {
       "types": "./src/state/threadCheckpoints.ts",
@@ -472,8 +472,8 @@
       "default": "./src/reviewGuideTour.ts"
     },
     "./state/query-persistence": {
-      "types": "./src/state/queryPersistence.ts",
-      "default": "./src/state/queryPersistence.ts"
+      "types": "./src/state/queryPersistence.d.vibe.ts",
+      "default": "./src/state/queryPersistence.vibe"
     },
     "./pull-request-markdown": {
       "types": "./src/pullRequestMarkdown.ts",

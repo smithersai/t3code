@@ -23,7 +23,7 @@ import {
   isUnsupportedWindowsProjectPath,
   resolveProjectPathForDispatch,
 } from "../state/projects.ts";
-import type { EnvironmentProject } from "../state/models.ts";
+import type { EnvironmentProject } from "../state/models.vibe";
 import { sourceControlClients } from "../sourceControlClients.ts";
 import type { SourceControlDefinition } from "../sourceControlClients.ts";
 
