@@ -368,8 +368,8 @@
       "import": "./src/usageFormat.ts"
     },
     "./usageLimits": {
-      "types": "./src/usageLimits.ts",
-      "import": "./src/usageLimits.ts"
+      "types": "./src/usageLimits.d.vibe.ts",
+      "import": "./src/usageLimits.vibe"
     },
     "./desktopAppControl": {
       "types": "./src/desktopAppControl.ts",
