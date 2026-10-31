@@ -209,7 +209,7 @@ jobs:
           cat "$config_path" >> "$GITHUB_ENV"
 
       - name: Align package versions to release version
-        run: node scripts/update-release-package-versions.ts "${{ inputs.version }}"
+        run: node --import vibelang/register scripts/update-release-package-versions.ts "${{ inputs.version }}"
 
       # The artifact root is `apps/` (upload-artifact keeps the least common
       # ancestor of its paths), so extracting into `apps` restores
@@ -257,7 +257,7 @@ jobs:
         run: |
           brand=production
           if [[ "${{ inputs.version }}" =~ -nightly\.[0-9]{8}\.[0-9]+$ ]]; then brand=nightly; fi
-          node scripts/apply-web-brand-assets.ts "$brand" apps/server/dist/client
+          node --import vibelang/register scripts/apply-web-brand-assets.ts "$brand" apps/server/dist/client
 
       # Setup Vite+ selects the exact engines.node version from package.json.
       # Native builds embed that executable; cross-target builds download the
@@ -269,7 +269,7 @@ jobs:
           # The executable bundles the server again, so it needs the same stamp
           # as release.yml's JS bundle.
           T3CODE_TELEMETRY_CHANNEL: ${{ github.repository == 'pingdotgg/t3code' && inputs.release_channel || 'dev' }}
-        run: node apps/server/scripts/cli.ts build-exe --verbose ${{ inputs.platform == 'win' && format('--target win-{0}', inputs.arch) || '' }}
+        run: node --import vibelang/register apps/server/scripts/cli.ts build-exe --verbose ${{ inputs.platform == 'win' && format('--target win-{0}', inputs.arch) || '' }}
 
       - name: Import macOS signing certificate for the CLI archive
         if: inputs.cli_archive && inputs.platform == 'mac'
@@ -335,7 +335,7 @@ jobs:
             printf '%s' "$APPLE_API_KEY" > "$key_path"
             export APPLE_API_KEY="$key_path"
           fi
-          node scripts/build-cli-archive.ts \
+          node --import vibelang/register scripts/build-cli-archive.ts \
             --platform "${{ inputs.platform }}" \
             --arch "${{ inputs.arch }}" \
             --version "${{ inputs.version }}" \
@@ -345,7 +345,7 @@ jobs:
       - name: Smoke-test CLI archive
         if: inputs.cli_archive && inputs.verify_runner == ''
         shell: bash
-        run: node scripts/smoke-cli-archive.ts --archive release-cli/* --expect-version "${{ inputs.version }}"
+        run: node --import vibelang/register scripts/smoke-cli-archive.ts --archive release-cli/* --expect-version "${{ inputs.version }}"
 
       - name: Upload CLI archive
         if: inputs.cli_archive
@@ -531,7 +531,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          check=(node scripts/smoke-desktop-app.ts --artifacts-dir "$RUNNER_TEMP/desktop-launch-check")
+          check=(node --import vibelang/register scripts/smoke-desktop-app.ts --artifacts-dir "$RUNNER_TEMP/desktop-launch-check")
           if [[ "${{ inputs.platform }}" == "mac" ]]; then
             mount="$RUNNER_TEMP/desktop-launch-dmg"
             hdiutil attach -nobrowse -readonly -mountpoint "$mount" "$(ls "$GITHUB_WORKSPACE"/release/*.dmg)"

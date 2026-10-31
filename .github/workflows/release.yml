@@ -150,7 +150,7 @@ jobs:
           if [[ "${GITHUB_EVENT_NAME}" == "schedule" || ( "${GITHUB_EVENT_NAME}" == "workflow_dispatch" && "${DISPATCH_CHANNEL:-preview}" == "nightly" ) ]]; then
             nightly_date="$(date -u -d "$NIGHTLY_DATE" +%Y%m%d)"
 
-            node scripts/resolve-nightly-release.ts \
+            node --import vibelang/register scripts/resolve-nightly-release.ts \
               --date "$nightly_date" \
               --run-number "$NIGHTLY_RUN_NUMBER" \
               --sha "$NIGHTLY_SHA" \
@@ -171,7 +171,7 @@ jobs:
             # installs can ever be offered one.
             nightly_date="$(date -u -d "$NIGHTLY_DATE" +%Y%m%d)"
 
-            node scripts/resolve-nightly-release.ts \
+            node --import vibelang/register scripts/resolve-nightly-release.ts \
               --channel preview \
               --date "$nightly_date" \
               --run-number "$NIGHTLY_RUN_NUMBER" \
@@ -216,7 +216,7 @@ jobs:
       - id: previous_tag
         name: Resolve previous release tag
         run: |
-          node scripts/resolve-previous-release-tag.ts \
+          node --import vibelang/register scripts/resolve-previous-release-tag.ts \
             --channel "${{ steps.release_meta.outputs.release_channel }}" \
             --current-tag "${{ steps.release_meta.outputs.tag }}" \
             --github-output
@@ -348,7 +348,7 @@ jobs:
       - name: Boot the built web client
         run: |
           vp run --filter @t3tools/web build
-          node apps/web/scripts/verify-built-boot.ts
+          node --import vibelang/register apps/web/scripts/verify-built-boot.ts
 
   # Server test files run one at a time, so more small runners beat fewer big ones.
   test_server:
@@ -558,7 +558,7 @@ jobs:
           cat "$config_path" >> "$GITHUB_ENV"
 
       - name: Align package versions to release version
-        run: node scripts/update-release-package-versions.ts "${{ needs.preflight.outputs.version }}"
+        run: node --import vibelang/register scripts/update-release-package-versions.ts "${{ needs.preflight.outputs.version }}"
 
       - uses: ./.github/actions/setup-apt-mirrors
 
@@ -859,7 +859,7 @@ jobs:
           for x64_manifest in release-assets/*-mac-x64.yml; do
             arm64_manifest="${x64_manifest%-x64.yml}.yml"
             if [[ -f "$arm64_manifest" ]]; then
-              node scripts/merge-update-manifests.ts --platform mac "$arm64_manifest" "$x64_manifest"
+              node --import vibelang/register scripts/merge-update-manifests.ts --platform mac "$arm64_manifest" "$x64_manifest"
               rm -f "$x64_manifest"
             fi
           done
@@ -872,7 +872,7 @@ jobs:
             arm64_manifest="${x64_manifest%-x64.yml}-arm64.yml"
             merged_manifest="${x64_manifest%-win-x64.yml}.yml"
             if [[ -f "$arm64_manifest" ]]; then
-              node scripts/merge-update-manifests.ts --platform win "$x64_manifest" "$arm64_manifest" "$merged_manifest"
+              node --import vibelang/register scripts/merge-update-manifests.ts --platform win "$x64_manifest" "$arm64_manifest" "$merged_manifest"
               rm -f "$x64_manifest" "$arm64_manifest"
             else
               mv "$x64_manifest" "$merged_manifest"
@@ -988,11 +988,11 @@ jobs:
               - --filter=@t3tools/scripts...
 
       - name: Build the npm launcher
-        run: node scripts/build-npm-launcher.ts --version "${{ needs.preflight.outputs.version }}" --output-dir npm-packages
+        run: node --import vibelang/register scripts/build-npm-launcher.ts --version "${{ needs.preflight.outputs.version }}" --output-dir npm-packages
 
       - name: Publish the npm launcher
         run: |
-          if ! node apps/server/scripts/cli.ts publish --packages-dir npm-packages --tag "${{ needs.preflight.outputs.cli_dist_tag }}" --provenance --verbose; then
+          if ! node --import vibelang/register apps/server/scripts/cli.ts publish --packages-dir npm-packages --tag "${{ needs.preflight.outputs.cli_dist_tag }}" --provenance --verbose; then
             echo "::error::npm publish failed. Make sure package t3 has a trusted publisher registered for .github/workflows/release.yml (see docs/operations/release.md)." >&2
             exit 1
           fi
@@ -1066,7 +1066,7 @@ jobs:
           cat "$config_path" >> "$GITHUB_ENV"
 
       - name: Align package versions to release version
-        run: node scripts/update-release-package-versions.ts "${{ needs.preflight.outputs.version }}"
+        run: node --import vibelang/register scripts/update-release-package-versions.ts "${{ needs.preflight.outputs.version }}"
 
       - name: Refresh release lockfile
         run: vp install --lockfile-only --ignore-scripts
@@ -1360,7 +1360,7 @@ jobs:
         name: Update version strings
         env:
           RELEASE_VERSION: ${{ needs.preflight.outputs.version }}
-        run: node scripts/update-release-package-versions.ts "$RELEASE_VERSION" --github-output
+        run: node --import vibelang/register scripts/update-release-package-versions.ts "$RELEASE_VERSION" --github-output
 
       - name: Format package.json files
         if: steps.update_versions.outputs.changed == 'true'
@@ -1445,7 +1445,7 @@ jobs:
           DISCORD_MENTION_ROLE_ID: ${{ secrets.DISCORD_RELEASE_NIGHTLY_ROLE_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_RELEASE_WEBHOOK_URL }}
         run: |
-          node scripts/notify-discord-release.ts prerelease \
+          node --import vibelang/register scripts/notify-discord-release.ts prerelease \
             --role-id "$DISCORD_MENTION_ROLE_ID" \
             --release-name "${{ needs.preflight.outputs.release_name }}" \
             --release-version "${{ needs.preflight.outputs.version }}" \
@@ -1460,7 +1460,7 @@ jobs:
           DISCORD_MENTION_ROLE_ID: ${{ secrets.DISCORD_RELEASE_LATEST_ROLE_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_RELEASE_WEBHOOK_URL }}
         run: |
-          node scripts/notify-discord-release.ts latest \
+          node --import vibelang/register scripts/notify-discord-release.ts latest \
             --role-id "$DISCORD_MENTION_ROLE_ID" \
             --release-name "${{ needs.preflight.outputs.release_name }}" \
             --release-version "${{ needs.preflight.outputs.version }}" \
