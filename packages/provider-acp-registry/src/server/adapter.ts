@@ -16,7 +16,7 @@ import {
 } from "./copilotAcp.ts";
 import { defaultInstanceIdForDriver, ProviderDriverKind } from "@t3tools/contracts";
 import { readCustomModelEntries } from "@t3tools/shared/model";
-import { AcpRegistrySettings } from "../settings.ts";
+import { AcpRegistrySettings } from "../settings.vibe";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { resolveSelfInvocation, type SelfInvocation } from "@t3tools/shared/nodeRuntime";
 import * as Crypto from "@t3tools/shared/Crypto";

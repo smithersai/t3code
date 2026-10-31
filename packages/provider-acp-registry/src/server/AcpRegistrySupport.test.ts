@@ -5,7 +5,7 @@ import {
   ProviderDriverKind,
   ProviderInstanceId,
 } from "@t3tools/contracts";
-import { AcpRegistrySettings } from "../settings.ts";
+import { AcpRegistrySettings } from "../settings.vibe";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { SpawnExecutableResolution } from "@t3tools/shared/shell";
 import * as Deferred from "effect/Deferred";

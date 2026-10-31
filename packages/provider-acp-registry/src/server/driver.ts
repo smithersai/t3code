@@ -7,7 +7,7 @@ import {
   type ServerProvider,
   type ServerProviderModel,
 } from "@t3tools/contracts";
-import { AcpRegistrySettings } from "../settings.ts";
+import { AcpRegistrySettings } from "../settings.vibe";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { createModelCapabilities } from "@t3tools/shared/model";
 import * as Clock from "effect/Clock";

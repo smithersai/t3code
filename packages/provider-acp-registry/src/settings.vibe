@@ -1,9 +1,7 @@
-import { TrimmedString, makeProviderSettingsSchema } from "@t3tools/contracts";
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+import { makeProviderSettingsSchema, TrimmedString } from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
 
-export const AcpRegistryDistributionPreference = Schema.Literals(["auto", "binary", "npx", "uvx"]);
-export type AcpRegistryDistributionPreference = typeof AcpRegistryDistributionPreference.Type;
+export schema AcpRegistryDistributionPreference = "auto" | "binary" | "npx" | "uvx"
 
 export const AcpRegistrySettings = makeProviderSettingsSchema(
   {
@@ -49,8 +47,7 @@ export const AcpRegistrySettings = makeProviderSettingsSchema(
       Schema.withDecodingDefault(Effect.succeed("")),
       Schema.annotateKey({
         title: "Authentication method",
-        description:
-          "Optional ACP authentication method ID. By default, the first agent-managed method is selected.",
+        description: "Optional ACP authentication method ID. By default, the first agent-managed method is selected.",
         providerSettingsForm: { placeholder: "auto", clearWhenEmpty: "omit" },
       }),
     ),
@@ -66,5 +63,5 @@ export const AcpRegistrySettings = makeProviderSettingsSchema(
   {
     order: ["source", "agentId", "commandPath", "authMethodId"],
   },
-);
-export type AcpRegistrySettings = typeof AcpRegistrySettings.Type;
+)
+export type AcpRegistrySettings = typeof AcpRegistrySettings.Type
