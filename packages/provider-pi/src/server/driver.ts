@@ -1,6 +1,6 @@
 // User-wide ~/.pi/agent state makes continuation identity use default instance grouping.
 import { ProviderDriverKind, type ServerProvider } from "@t3tools/contracts";
-import { PiSettings } from "../settings.ts";
+import { PiSettings } from "../settings.vibe";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";

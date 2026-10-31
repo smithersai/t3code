@@ -1,7 +1,7 @@
 import { ProviderDriverKind } from "@t3tools/contracts";
 import { defineProviderClient } from "@t3tools/provider-core/client";
 
-import { PiSettings } from "./settings.ts";
+import { PiSettings } from "./settings.vibe";
 
 export const piClient = defineProviderClient({
   driverKind: ProviderDriverKind.make("pi"),
