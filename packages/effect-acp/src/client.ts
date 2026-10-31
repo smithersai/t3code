@@ -13,7 +13,7 @@ import * as RpcMessage from "effect/rpc/RpcMessage";
 import * as RpcServer from "effect/rpc/RpcServer";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import * as AcpError from "./errors.ts";
+import * as AcpError from "./errors.vibe";
 import * as AcpProtocol from "./protocol.ts";
 import * as AcpRpcs from "./rpc.vibe";
 import * as AcpSchema from "./compat.vibe";

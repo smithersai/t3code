@@ -4,7 +4,7 @@ import * as Schema from "effect/Schema";
 import { RpcClientError } from "effect/rpc";
 
 import * as AcpSchema from "../_generated/schema.gen.ts";
-import * as AcpError from "../errors.ts";
+import * as AcpError from "../errors.vibe";
 const isError = Schema.is(AcpSchema.Error);
 const isAcpError = Schema.is(AcpError.AcpError);
 
