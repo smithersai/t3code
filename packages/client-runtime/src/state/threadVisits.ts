@@ -4,7 +4,7 @@ import { Atom } from "effect/reactivity";
 
 import { parseThreadKey, threadKey } from "./entities.ts";
 import { type AtomCommand, runAtomCommand } from "./runtime.ts";
-import { claimThreadOpen } from "./threadSearch.ts";
+import { claimThreadOpen } from "./threadSearch.vibe";
 import type { VisitThreadInput } from "./threadCommands.ts";
 
 // During an active turn the thread's updatedAt advances several times per

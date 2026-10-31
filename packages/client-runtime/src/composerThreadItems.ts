@@ -7,7 +7,7 @@ import type {
 import { foldSearchQuery, rankSearchItems, scoreThreadSearch } from "@t3tools/shared/paletteSearch";
 
 import type { EnvironmentThreadShell } from "./state/models.vibe";
-import { threadSearchSubject, type ThreadSearchShell } from "./state/threadSearch.ts";
+import { threadSearchSubject, type ThreadSearchShell } from "./state/threadSearch.vibe";
 
 const COMPOSER_THREAD_RESULT_LIMIT = 5;
 

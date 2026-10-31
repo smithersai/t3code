@@ -3,7 +3,7 @@ import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 import { expect, it, vi } from "vite-plus/test";
 
 import type { VisitThreadInput } from "./threadCommands.ts";
-import { claimThreadOpen } from "./threadSearch.ts";
+import { claimThreadOpen } from "./threadSearch.vibe";
 import { createThreadVisitTracker, VISIT_DISPATCH_THROTTLE_MS } from "./threadVisits.ts";
 
 const environmentId = EnvironmentId.make("env-visits");
