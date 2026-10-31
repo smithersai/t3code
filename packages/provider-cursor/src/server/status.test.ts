@@ -12,7 +12,7 @@ import {
   buildCursorProviderSnapshot,
   checkCursorProviderStatus,
 } from "./status.ts";
-import * as CursorSdkCatalog from "./CursorSdkCatalog.ts";
+import * as CursorSdkCatalog from "./CursorSdkCatalog.vibe";
 import { CursorSdkError } from "./sdk.ts";
 
 const decodeCursorSettings = Schema.decodeSync(CursorSettingsSchema);
