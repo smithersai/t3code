@@ -324,8 +324,8 @@
       "default": "./src/state/threadRelationships.vibe"
     },
     "./state/thread-checkpoints": {
-      "types": "./src/state/threadCheckpoints.vibe",
-      "default": "./src/state/threadCheckpoints.vibe"
+      "types": "./src/state/threadCheckpoints.ts",
+      "default": "./src/state/threadCheckpoints.ts"
     },
     "./state/thread-execution": {
       "types": "./src/state/threadExecution.vibe",
@@ -344,8 +344,8 @@
       "default": "./src/state/composerDispatch.ts"
     },
     "./state/thread-subagents": {
-      "types": "./src/state/threadSubagents.vibe",
-      "default": "./src/state/threadSubagents.vibe"
+      "types": "./src/state/threadSubagents.ts",
+      "default": "./src/state/threadSubagents.ts"
     },
     "./state/thread-undo": {
       "types": "./src/state/threadUndo.ts",
