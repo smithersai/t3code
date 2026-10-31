@@ -30,7 +30,7 @@
     "playwright-core": "1.60.0",
     "react-grab": "^0.1.32",
     "tldts": "catalog:",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11.tgz"
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11-144ebc4c7ea9.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
@@ -39,8 +39,8 @@
     "cross-env": "^10.1.0",
     "electron-builder": "26.16.1",
     "tailwindcss": "^4.0.0",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-2deb9b78f8e1.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-a2b67ac4484b.tgz",
     "vite-plus": "catalog:"
   },
   "productName": "T3 Code (Beta)"

@@ -62,9 +62,9 @@
     "knip": "6.34.0",
     "typescript": "catalog:",
     "typescript-eslint": "^8.69.0",
-    "vibelang": "file:./.vibelang-toolchain/vibelang-0.0.11.tgz",
+    "vibelang": "file:./.vibelang-toolchain/vibelang-0.0.11-2deb9b78f8e1.tgz",
     "vibelang-unplugin": "file:./.vibelang-toolchain/vibelang-unplugin-0.0.11.tgz",
-    "vibelang-vite": "file:./.vibelang-toolchain/vibelang-vite-0.0.11.tgz",
+    "vibelang-vite": "file:./.vibelang-toolchain/vibelang-vite-0.0.11-a2b67ac4484b.tgz",
     "vite-plus": "catalog:"
   },
   "engines": {
