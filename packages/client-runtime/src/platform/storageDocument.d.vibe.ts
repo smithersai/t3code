@@ -2,7 +2,7 @@ import { EnvironmentId } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
 import { type ConnectionRegistration } from "../connection/catalog.vibe";
 import { PersistedConnectionTarget } from "../connection/model.vibe";
-import * as TokenStore from "../authorization/tokenStore.js";
+import * as TokenStore from "../authorization/tokenStore.vibe";
 export declare const StoredConnectionCredential: Schema.Struct<{
     readonly connectionId: Schema.String;
     readonly credential: Schema.Union<readonly [typeof import("../connection/catalog.vibe").BearerConnectionCredential]>;

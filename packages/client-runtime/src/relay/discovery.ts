@@ -18,10 +18,10 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 
 import * as ManagedRelay from "./managedRelay.ts";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
-import * as Connectivity from "../connection/connectivity.ts";
+import * as Connectivity from "../connection/connectivity.vibe";
 import { mapManagedRelayError } from "../connection/errors.ts";
 import { ConnectionBlockedError, type ConnectionAttemptError } from "../connection/model.vibe";
-import * as ConnectionWakeups from "../connection/wakeups.ts";
+import * as ConnectionWakeups from "../connection/wakeups.vibe";
 
 export type RelayEnvironmentAvailability = "checking" | "online" | "offline" | "error";
 

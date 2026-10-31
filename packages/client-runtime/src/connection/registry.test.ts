@@ -22,7 +22,7 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
 import * as ClientCapabilities from "../platform/capabilities.vibe";
-import * as TokenStore from "../authorization/tokenStore.ts";
+import * as TokenStore from "../authorization/tokenStore.vibe";
 import {
   BearerConnectionCredential,
   BearerConnectionProfile,
@@ -37,7 +37,7 @@ import {
   type ConnectionCredential,
   type ConnectionProfile,
 } from "./catalog.vibe";
-import * as Connectivity from "./connectivity.ts";
+import * as Connectivity from "./connectivity.vibe";
 import * as ConnectionCredentialStore from "./credentialStore.vibe";
 import * as ConnectionDriver from "./driver.ts";
 import type { RouteCheck } from "./driver.ts";
@@ -63,7 +63,7 @@ import {
 } from "./pullRequestRoutingPermissions.ts";
 import * as RpcSession from "../rpc/session.ts";
 import * as EnvironmentSupervisor from "./supervisor.ts";
-import * as ConnectionWakeups from "./wakeups.ts";
+import * as ConnectionWakeups from "./wakeups.vibe";
 import { watchDiscoveredCompatibility } from "./layer.ts";
 import * as RelayEnvironmentDiscovery from "../relay/discovery.ts";
 import type { RelayEnvironmentStatusResponse } from "@t3tools/contracts/relay";

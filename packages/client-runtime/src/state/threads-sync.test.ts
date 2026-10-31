@@ -36,7 +36,7 @@ import {
   type PreparedConnection,
   type SupervisorConnectionState,
 } from "../connection/model.vibe";
-import * as ConnectionWakeups from "../connection/wakeups.ts";
+import * as ConnectionWakeups from "../connection/wakeups.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as Persistence from "../platform/persistence.ts";
 import {

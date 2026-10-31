@@ -4,7 +4,7 @@ import * as Schema from "effect/Schema";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 
-import * as TokenStore from "../authorization/tokenStore.ts";
+import * as TokenStore from "../authorization/tokenStore.vibe";
 import {
   BearerConnectionCredential,
   BearerConnectionProfile,

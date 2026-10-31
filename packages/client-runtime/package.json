@@ -160,8 +160,8 @@
       "default": "./src/webhookAddress.ts"
     },
     "./queued-run-edit": {
-      "types": "./src/queuedRunEdit.ts",
-      "default": "./src/queuedRunEdit.ts"
+      "types": "./src/queuedRunEdit.vibe",
+      "default": "./src/queuedRunEdit.vibe"
     },
     "./clock": {
       "types": "./src/clock.ts",
