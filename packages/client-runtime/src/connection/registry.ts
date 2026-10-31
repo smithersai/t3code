@@ -26,7 +26,7 @@ import {
 } from "./catalog.vibe";
 import * as ConnectionCredentialStore from "./credentialStore.vibe";
 import * as ConnectionProfileStore from "./profileStore.vibe";
-import * as Connectivity from "./connectivity.ts";
+import * as Connectivity from "./connectivity.vibe";
 import type {
   ConnectionAttemptError,
   ConnectionTarget,
@@ -38,7 +38,7 @@ import { ConnectionBlockedError } from "./model.vibe";
 import * as Persistence from "../platform/persistence.ts";
 import * as EnvironmentSupervisor from "./supervisor.ts";
 import * as ConnectionDriver from "./driver.ts";
-import * as ConnectionWakeups from "./wakeups.ts";
+import * as ConnectionWakeups from "./wakeups.vibe";
 import {
   PullRequestRoutingPermissions,
   pullRequestRoutingConnectionKey,

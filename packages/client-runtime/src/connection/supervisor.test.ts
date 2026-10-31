@@ -11,14 +11,14 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as TestClock from "effect/testing/TestClock";
 
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
-import * as TokenStore from "../authorization/tokenStore.ts";
+import * as TokenStore from "../authorization/tokenStore.vibe";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as ManagedRelay from "../relay/managedRelay.ts";
 import * as RpcHttp from "../rpc/http.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
 import { fetchEnvironmentSessionState } from "../state/session.ts";
 import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.vibe";
-import * as Connectivity from "./connectivity.ts";
+import * as Connectivity from "./connectivity.vibe";
 import * as ConnectionDriver from "./driver.ts";
 import { BearerConnectionProfile } from "./catalog.vibe";
 import {
@@ -36,7 +36,7 @@ import {
 import * as RpcSession from "../rpc/session.ts";
 import { presentConnectionState } from "./presentation.ts";
 import * as EnvironmentSupervisor from "./supervisor.ts";
-import * as ConnectionWakeups from "./wakeups.ts";
+import * as ConnectionWakeups from "./wakeups.vibe";
 import { connectionRouteId, entryWithRoutes, isLearned, mergeLearnedRoutes } from "./routes.ts";
 
 const TARGET = new PrimaryConnectionTarget({

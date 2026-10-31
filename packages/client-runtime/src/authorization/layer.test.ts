@@ -14,7 +14,7 @@ import * as ManagedRelay from "../relay/managedRelay.ts";
 import * as RpcHttp from "../rpc/http.ts";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as RemoteEnvironmentAuthorization from "./service.ts";
-import * as TokenStore from "./tokenStore.ts";
+import * as TokenStore from "./tokenStore.vibe";
 
 const ENVIRONMENT_ID = EnvironmentId.make("environment-1");
 const ENDPOINT = {

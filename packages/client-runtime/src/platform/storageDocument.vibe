@@ -4,7 +4,7 @@ import * as Schema from "effect/Schema"
 
 import { ConnectionCredential, ConnectionProfile, type ConnectionRegistration } from "../connection/catalog.vibe"
 import { type ConnectionTarget, PersistedConnectionTarget } from "../connection/model.vibe"
-import * as TokenStore from "../authorization/tokenStore.ts"
+import * as TokenStore from "../authorization/tokenStore.vibe"
 import { StoredPullRequestRoutingPermission } from "../connection/pullRequestRoutingPermissions.ts"
 
 export schema StoredConnectionCredential {

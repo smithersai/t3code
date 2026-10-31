@@ -16,7 +16,7 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as Tracer from "effect/Tracer";
 
 import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.vibe";
-import * as Connectivity from "./connectivity.ts";
+import * as Connectivity from "./connectivity.vibe";
 import * as ConnectionDriver from "./driver.ts";
 import {
   type ConnectionAttemptError,
@@ -29,7 +29,7 @@ import {
 import * as RpcSession from "../rpc/session.ts";
 import { safeErrorLogAttributes } from "../errors/safeLog.ts";
 import { NETWORK_BLOCKING_HINT } from "../errors/network.ts";
-import * as ConnectionWakeups from "./wakeups.ts";
+import * as ConnectionWakeups from "./wakeups.vibe";
 import {
   connectionRouteId,
   connectionRouteKind,

@@ -21,7 +21,7 @@ import {
   BearerConnectionRegistration,
   PrimaryConnectionRegistration,
 } from "./catalog.vibe";
-import * as Connectivity from "./connectivity.ts";
+import * as Connectivity from "./connectivity.vibe";
 import * as ConnectionCredentialStore from "./credentialStore.vibe";
 import * as ConnectionDriver from "./driver.ts";
 import {
@@ -37,7 +37,7 @@ import {
 } from "./onboarding.ts";
 import * as EnvironmentRegistry from "./registry.ts";
 import * as ConnectionProfileStore from "./profileStore.vibe";
-import * as ConnectionWakeups from "./wakeups.ts";
+import * as ConnectionWakeups from "./wakeups.vibe";
 
 const layerClientPresentation = Layer.succeed(
   ClientCapabilities.ClientPresentation,

@@ -15,9 +15,9 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 
 import * as ManagedRelay from "./managedRelay.ts";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
-import * as Connectivity from "../connection/connectivity.ts";
+import * as Connectivity from "../connection/connectivity.vibe";
 import { ConnectionBlockedError, type NetworkStatus } from "../connection/model.vibe";
-import * as ConnectionWakeups from "../connection/wakeups.ts";
+import * as ConnectionWakeups from "../connection/wakeups.vibe";
 import * as RelayEnvironmentDiscovery from "./discovery.ts";
 import { NETWORK_BLOCKING_HINT } from "../errors/network.ts";
 

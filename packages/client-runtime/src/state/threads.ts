@@ -28,7 +28,7 @@ import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import { connectionProjectionPhase } from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import * as ConnectionWakeups from "../connection/wakeups.ts";
+import * as ConnectionWakeups from "../connection/wakeups.vibe";
 import * as Persistence from "../platform/persistence.ts";
 import { runCachePersistence } from "./cachePersistence.ts";
 import * as ManagedRelay from "../relay/managedRelay.ts";

@@ -22,7 +22,7 @@ import { AsyncResult, Atom } from "effect/reactivity";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import { connectionProjectionPhase } from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import * as ConnectionWakeups from "../connection/wakeups.ts";
+import * as ConnectionWakeups from "../connection/wakeups.vibe";
 import { safeErrorLogAttributes } from "../errors/safeLog.ts";
 import * as Persistence from "../platform/persistence.ts";
 import { runCachePersistence } from "./cachePersistence.ts";

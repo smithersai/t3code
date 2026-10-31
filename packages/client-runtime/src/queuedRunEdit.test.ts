@@ -8,7 +8,7 @@ import {
   queuedRunEditBlockedReason,
   resolveQueuedEditExit,
   type QueuedRunStatus,
-} from "./queuedRunEdit.ts";
+} from "./queuedRunEdit.vibe";
 
 const RUN = RunId.make("run-1");
 const queued = (status = "queued"): ReadonlyArray<QueuedRunStatus> => [{ id: RUN, status }];
