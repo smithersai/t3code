@@ -25,7 +25,7 @@ import {
   type AzureDevOpsIteration,
   type AzureDevOpsPullRequest,
   type AzureDevOpsRepositoryLocation,
-} from "./azureDevOpsPullRequestJson.ts";
+} from "./azureDevOpsPullRequestJson.vibe";
 import type { ProviderListCursor } from "@t3tools/source-control-core/server/PullRequestProvider";
 
 export class AzureDevOpsPullRequestReadError extends Schema.TaggedError<AzureDevOpsPullRequestReadError>()(

@@ -15,7 +15,7 @@ import {
   MAX_FILE_DIFF_EDITS,
   parseAzureDevOpsDiffCursor,
 } from "./azureDevOpsDiff.ts";
-import type { AzureDevOpsChangeEntry } from "./azureDevOpsPullRequestJson.ts";
+import type { AzureDevOpsChangeEntry } from "./azureDevOpsPullRequestJson.vibe";
 
 const ITERATION = { id: 3, headCommit: "head", mergeBaseCommit: "base" };
 
