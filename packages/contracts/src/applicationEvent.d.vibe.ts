@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import type { OrchestrationV2StoredEvent } from "./orchestrationV2.js";
+import type { OrchestrationV2StoredEvent } from "./orchestrationV2.vibe";
 export declare const OrchestrationClientOrigin: Schema.Struct<{
     readonly surface: Schema.optional<Schema.Literals<readonly ["web", "desktop", "mobile", "cli"]>>;
     readonly appVersion: Schema.optional<Schema.decodeTo<Schema.String, Schema.String, never, never>>;
