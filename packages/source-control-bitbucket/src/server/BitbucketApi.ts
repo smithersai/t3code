@@ -26,7 +26,7 @@ import {
   BitbucketPullRequestSchema,
   normalizeBitbucketPullRequestRecord,
   type NormalizedBitbucketPullRequestRecord,
-} from "./bitbucketPullRequests.ts";
+} from "./bitbucketPullRequests.vibe";
 import { collectUint8StreamText } from "@t3tools/provider-core/server/collectStreamText";
 import * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider";
 import * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost";

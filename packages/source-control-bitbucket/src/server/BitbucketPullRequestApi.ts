@@ -39,7 +39,7 @@ import {
   type BitbucketDiffStat,
   type BitbucketPullRequest,
   type BitbucketRawComment,
-} from "./bitbucketPullRequestJson.ts";
+} from "./bitbucketPullRequestJson.vibe";
 import type { ProviderListCursor } from "@t3tools/source-control-core/server/PullRequestProvider";
 
 export class BitbucketPullRequestReadError extends Schema.TaggedError<BitbucketPullRequestReadError>()(

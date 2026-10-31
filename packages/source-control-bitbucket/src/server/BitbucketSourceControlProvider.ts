@@ -5,7 +5,7 @@ import * as Schema from "effect/Schema";
 import { SourceControlProviderError, type ChangeRequest } from "@t3tools/contracts";
 
 import * as BitbucketApi from "./BitbucketApi.ts";
-import type { NormalizedBitbucketPullRequestRecord } from "./bitbucketPullRequests.ts";
+import type { NormalizedBitbucketPullRequestRecord } from "./bitbucketPullRequests.vibe";
 import * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider";
 import type { SourceControlApiDiscoverySpec } from "@t3tools/source-control-core/server/discovery";
 
