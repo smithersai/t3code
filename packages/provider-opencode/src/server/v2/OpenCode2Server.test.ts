@@ -14,8 +14,8 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import { describe } from "vite-plus/test";
 
 import * as OpenCodeRuntime from "../OpenCodeRuntime.ts";
-import * as OpenCodeServerLedger from "../OpenCodeServerLedger.ts";
-import * as OpenCode2Client from "./OpenCode2Client.ts";
+import * as OpenCodeServerLedger from "../OpenCodeServerLedger.vibe";
+import * as OpenCode2Client from "./OpenCode2Client.vibe";
 import * as OpenCode2Server from "./OpenCode2Server.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

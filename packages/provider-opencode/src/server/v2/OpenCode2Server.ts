@@ -10,7 +10,7 @@ import * as HttpClientError from "effect/http/HttpClientError";
 
 import * as OpenCodeRuntime from "../OpenCodeRuntime.ts";
 import * as OpenCodeServerOwner from "../OpenCodeServerOwner.ts";
-import * as OpenCode2Client from "./OpenCode2Client.ts";
+import * as OpenCode2Client from "./OpenCode2Client.vibe";
 
 const INFO_TIMEOUT = "5 seconds";
 
