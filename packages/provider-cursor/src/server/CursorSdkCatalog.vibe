@@ -1,0 +1,97 @@
+import type { SDKModel, SDKUser } from "@cursor/sdk"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Schema from "effect/Schema"
+
+import { AuthenticationError, Cursor, CursorSdkError } from "./sdk.ts"
+
+export interface CursorSdkCatalogSnapshot {
+  readonly user: SDKUser
+  readonly models: ReadonlyArray<SDKModel>
+}
+
+const CursorSdkCatalogErrorCauseField = Schema.Defect()
+export schema error CursorSdkCatalogError {
+  authenticationFailure: boolean
+  cause: CursorSdkCatalogErrorCauseField
+  override get message(): string {
+    return this.authenticationFailure
+      ? "Cursor SDK authentication failed."
+      : "Cursor SDK catalog request failed."
+  }
+  get planRequired(): boolean {
+    return this.cause instanceof CursorSdkError && this.cause.code === "plan_required"
+  }
+}
+
+export service CursorSdkCatalog {
+  static readonly key = "@t3tools/provider-cursor/server/CursorSdkCatalog"
+  read: (
+    apiKey: string,
+  ) => CursorSdkCatalogSnapshot!CursorSdkCatalogError
+}
+
+function isAuthenticationFailure(cause: unknown): boolean {
+  return (
+    cause instanceof AuthenticationError
+    || (cause instanceof CursorSdkError && cause.status === 401)
+  )
+}
+
+export interface CursorSdkCatalogProbes {
+  readonly readUser: (apiKey: string) => SDKUser!CursorSdkCatalogError
+  readonly readModels: (
+    apiKey: string,
+  ) => ReadonlyArray<SDKModel>!CursorSdkCatalogError
+}
+
+// tryPromise receives the SDK's plain Promise callback.
+const sdkRequest = effect <A>(tryRequest: () => Promise<A>) =>
+  try Effect.tryPromise({
+    try: tryRequest,
+    catch: (cause) =>
+      new CursorSdkCatalogError({
+        authenticationFailure: isAuthenticationFailure(cause),
+        cause,
+      }),
+  })
+
+const liveProbes: CursorSdkCatalogProbes = {
+  readUser: (apiKey) => sdkRequest(() => Cursor.me({ apiKey })),
+  readModels: (apiKey) => sdkRequest(() => Cursor.models.list({ apiKey })),
+}
+
+export const makeCursorSdkCatalog = effect (
+  probes: CursorSdkCatalogProbes | undefined = liveProbes,
+) =>
+  try withSpan(
+    effect {
+      const modelCache = try Cache.makeWith(probes.readModels, {
+        capacity: 32,
+        timeToLive: (exit): Duration.Duration =>
+          Exit.isSuccess(exit) && exit.value.length > 0 ? Duration.minutes(30) : Duration.zero,
+      })
+      return CursorSdkCatalog.of({
+        read: effect (apiKey) =>
+          try withSpan(
+            effect {
+              return try all({
+                user: probes.readUser(apiKey),
+                models: Cache.get(modelCache, apiKey),
+              }, { concurrency: "unbounded" })
+            },
+            "CursorSdkCatalog.read",
+          ),
+      })
+    },
+    "CursorSdkCatalog.make",
+  )
+
+export const layer = Layer.effect(CursorSdkCatalog, makeCursorSdkCatalog())
+
+export function layerTest(
+  read: CursorSdkCatalog["Service"]["read"],
+): Layer.Layer<CursorSdkCatalog> {
+  return Layer.succeed(CursorSdkCatalog, CursorSdkCatalog.of({ read }))
+}

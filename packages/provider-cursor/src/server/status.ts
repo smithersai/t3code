@@ -21,7 +21,7 @@ import {
   providerModelsFromSettings,
   type ServerProviderDraft,
 } from "@t3tools/provider-core/server/snapshotProbe";
-import * as CursorSdkCatalog from "./CursorSdkCatalog.ts";
+import * as CursorSdkCatalog from "./CursorSdkCatalog.vibe";
 
 const CURSOR_PRESENTATION = {
   displayName: "Cursor",
