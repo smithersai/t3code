@@ -10,7 +10,7 @@ import * as Fiber from "effect/Fiber";
 import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
 
-import { makeCursorAuth, type CursorAuthOptions } from "./auth.ts";
+import { makeCursorAuth, type CursorAuthOptions } from "./auth.vibe";
 import { InMemoryCredentialStore } from "./sdk.ts";
 import * as Layer from "effect/Layer";
 import * as Crypto from "@t3tools/shared/Crypto";

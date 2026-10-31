@@ -10,7 +10,7 @@ import type { CursorSettings } from "../settings.vibe";
 
 import * as TextGenerationOperations from "@t3tools/provider-core/server/textGenerationOperations";
 import { cursorSdkModelSelection } from "./sdkModel.ts";
-import type { CursorAuth } from "./auth.ts";
+import type { CursorAuth } from "./auth.vibe";
 import * as CursorSdk from "./CursorSdk.ts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 

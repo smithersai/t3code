@@ -1,0 +1,473 @@
+import type { SdkCredentialStore, SdkLoginOptions, SdkLoginResult } from "@cursor/sdk"
+import { ProviderSetupError, type ProviderAuthState, type ProviderInstanceId } from "@t3tools/contracts"
+import * as Cause from "effect/Cause"
+import * as Clock from "effect/Clock"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as DateTime from "effect/DateTime"
+import * as Effect from "effect/Effect"
+import * as Exit from "effect/Exit"
+import * as Fiber from "effect/Fiber"
+import * as Option from "effect/Option"
+import * as Queue from "effect/Queue"
+import * as Scope from "effect/Scope"
+import * as Semaphore from "effect/Semaphore"
+import * as Stream from "effect/Stream"
+import * as SubscriptionRef from "effect/SubscriptionRef"
+
+import { Cursor, InMemoryCredentialStore } from "./sdk.ts"
+import type { ProviderAuthController } from "@t3tools/provider-core/server/auth"
+
+const AUTH_TIMEOUT_MS = 300_000
+
+interface AuthFlow {
+  readonly id: string
+  readonly owner: string
+  mutable fiber?: Fiber.Fiber<void>
+}
+
+export interface CursorAuth {
+  readonly controller: ProviderAuthController
+  readonly readApiKey: string | undefined!ProviderSetupError!
+  readonly requireApiKey: string!ProviderSetupError!
+  readonly usesApiKey: boolean
+  readonly withAccess: <A, E, R>(
+    task: A!E!R,
+  ) => A!E | ProviderSetupError!R | Scope.Scope
+}
+
+export interface CursorAuthOptions {
+  readonly instanceId: ProviderInstanceId
+  readonly displayName: string
+  readonly enabled: boolean
+  readonly apiKey?: string
+  readonly store: SdkCredentialStore
+  readonly credentialBinding?: NonNullable<ProviderAuthController["credentialBinding"]>
+  readonly onChanged: (signedIn: boolean) => void!ProviderSetupError!
+  readonly login?: (options: SdkLoginOptions) => Promise<SdkLoginResult>
+}
+
+export const makeCursorAuth = effect (options: CursorAuthOptions) =>
+  try withSpan(
+    effect {
+      const scope = try Scope.Scope
+      const crypto = try Crypto.Crypto
+      const lock = try Semaphore.make(1)
+      const configuredKey = options.apiKey?.trim() || undefined
+      const emptyState: ProviderAuthState = {
+        instanceId: options.instanceId,
+        phase: "idle",
+        flowId: null,
+        authorizationUrl: null,
+        expiresAt: null,
+        message: null,
+      }
+      const snapshot = try SubscriptionRef.make({ owner: null as string | null, state: emptyState })
+      let active: AuthFlow | undefined
+      let operation: "idle" | "login" | "stopping" | "closed" = "idle"
+      const sessions = new Set<Scope.Closeable>()
+      const publish = effect (flow: AuthFlow, patch: Partial<ProviderAuthState>) => {
+        try SubscriptionRef.update(snapshot, (current) => ({
+          owner: flow.owner,
+          state: { ...current.state, ...patch },
+        }))
+      }
+      const readApiKey = effect {
+        if (configuredKey) return configuredKey
+        // tryPromise's callbacks are plain SDK Promise calls.
+        const credentials = try Effect.tryPromise({
+          try: () => options.store.load(),
+          catch: (cause) =>
+            new ProviderSetupError({
+              instanceId: options.instanceId,
+              operation: "credentials",
+              detail: "Could not read the Cursor sign-in. Try signing in again.",
+              cause,
+            }),
+        })
+        const now = try Clock.currentTimeMillis
+        return credentials
+            && (credentials.apiKeyExpiresAtMs === undefined || credentials.apiKeyExpiresAtMs > now)
+          ? credentials.apiKey
+          : undefined
+      }
+      const requireApiKey = effect {
+        if (operation !== "idle") {
+          throw new ProviderSetupError({
+            instanceId: options.instanceId,
+            operation: "credentials",
+            detail: "Cursor sign-in or sign-out is in progress. Try again after it finishes.",
+          })
+        }
+        const apiKey = try readApiKey
+        if (!apiKey) {
+          throw new ProviderSetupError({
+            instanceId: options.instanceId,
+            operation: "credentials",
+            detail: "Sign in with Cursor or add CURSOR_API_KEY in provider settings.",
+          })
+        }
+        return apiKey
+      }
+
+      // restore(task) must be passed unrun to the child; a restore block cannot cross its effect block.
+      const withAccess: CursorAuth["withAccess"] = effect (task) =>
+        try Effect.uninterruptibleMask(effect (restore) => {
+          const parent = try Scope.Scope
+          const child = try lock.withPermits(1)(effect {
+            if (operation !== "idle") {
+              throw new ProviderSetupError({
+                instanceId: options.instanceId,
+                operation: "session",
+                detail: "Cursor sign-in or sign-out is in progress. Try again after it finishes.",
+              })
+            }
+            const child = try Scope.make()
+            sessions.add(child)
+            try Scope.addFinalizer(
+              child,
+              effect {
+                sessions.delete(child)
+              },
+            )
+            try Scope.addFinalizer(parent, Scope.close(child, Exit.void))
+            return child
+          })
+          const forkTask = effect {
+            provide Scope.Scope = child {
+              return try Effect.forkIn(restore(task), child)
+            }
+          }
+          const fiber = try forkTask
+          return try Effect.onExit(
+            effect {
+              const result = try restore(Fiber.await(fiber))
+              return try result
+            },
+            effect (result) => {
+              if (Exit.isFailure(result)) try Scope.close(child, Exit.void)
+            },
+          )
+        })
+      const stopSessionsWithCredentials = effect {
+        for concurrent (const session of Array.from(sessions)) {
+          try Scope.close(session, Exit.void)
+        }
+      }
+
+      const runLogin = effect (flow: AuthFlow, stopSessions: void!ProviderSetupError) =>
+        try withSpan(
+          effect {
+            const result = try exit(Effect.timeoutOrElse(
+              Effect.scoped(effect {
+                try Effect.ensuring(stopSessions, stopSessionsWithCredentials)
+                // SDK writes into memory first; a cancelled login must never persist a late result.
+                const pendingStore = new InMemoryCredentialStore()
+                const urls = try Queue.unbounded<string>()
+                try Effect.forkScoped(Effect.forever(effect {
+                  const authorizationUrl = try Queue.take(urls)
+                  try lock.withPermits(1)(effect {
+                    if (active !== flow) return
+                    try publish(flow, {
+                      phase: "waiting",
+                      authorizationUrl,
+                      message: "Open the Cursor sign-in page and finish signing in. This page updates automatically.",
+                    })
+                  })
+                }))
+                try Effect.tryPromise({
+                  try: (signal) =>
+                    (options.login ?? Cursor.auth.login)({
+                      openBrowser: false,
+                      store: pendingStore,
+                      signal,
+                      apiKeyName: `T3 Code - ${options.displayName}`,
+                      onLoginUrl: (authorizationUrl): void => {
+                        if (active === flow) Queue.offerUnsafe(urls, authorizationUrl)
+                      },
+                    }),
+                  catch: (cause) =>
+                    new ProviderSetupError({
+                      instanceId: options.instanceId,
+                      operation: "start",
+                      detail: "Cursor sign-in failed. Start sign-in again.",
+                      cause,
+                    }),
+                })
+                // Commit and publish together: interrupting the SDK Promise cannot undo a late write.
+                try lock.withPermits(1)(effect {
+                  uninterruptible {
+                    if (active !== flow) return
+                    try publish(flow, {
+                      phase: "verifying",
+                      authorizationUrl: null,
+                      message: "Checking Cursor sign-in.",
+                    })
+                    try Effect.tryPromise({
+                      try: async () => {
+                        const credentials = await pendingStore.load()
+                        if (!credentials) throw new Error("Cursor login did not return credentials")
+                        await options.store.save(credentials)
+                      },
+                      catch: (cause) =>
+                        new ProviderSetupError({
+                          instanceId: options.instanceId,
+                          operation: "start",
+                          detail: "Could not save the Cursor sign-in. Try again.",
+                          cause,
+                        }),
+                    })
+                    const verified = try exit(options.onChanged(true))
+                    if (Exit.isFailure(verified)) {
+                      try Effect.tryPromise({
+                        try: () => options.store.clear(),
+                        catch: (cause) =>
+                          new ProviderSetupError({
+                            instanceId: options.instanceId,
+                            operation: "start",
+                            detail: "Could not clear the rejected Cursor sign-in. Try signing out.",
+                            cause,
+                          }),
+                      })
+                      return try Effect.failCause(verified.cause)
+                    }
+                    active = undefined
+                    operation = "idle"
+                    try publish(flow, {
+                      phase: "succeeded",
+                      authorizationUrl: null,
+                      expiresAt: null,
+                      message: "Signed in with Cursor.",
+                    })
+                  }
+                })
+              }),
+              {
+                duration: AUTH_TIMEOUT_MS,
+                orElse: effect () => {
+                  throw new ProviderSetupError({
+                    instanceId: options.instanceId,
+                    operation: "start",
+                    detail: "Cursor sign-in expired. Start sign-in again.",
+                  })
+                },
+              },
+            ))
+            try lock.withPermits(1)(effect {
+              if (active !== flow) return
+              active = undefined
+              operation = "idle"
+              try publish(flow, {
+                phase: Exit.isSuccess(result) ? "succeeded" : "failed",
+                authorizationUrl: null,
+                expiresAt: null,
+                message: Exit.isSuccess(result)
+                  ? "Signed in with Cursor."
+                  : Cause.findErrorOption(result.cause).map((error) => error.detail)
+                    .getOrElse(() => "Cursor sign-in failed or expired. Start sign-in again."),
+              })
+            })
+          },
+          "CursorAuth.runLogin",
+        )
+
+      const requireFlow = effect (owner: string, id: string, name: string) =>
+        try withSpan(
+          effect {
+            if (!active || active.owner !== owner || active.id !== id) {
+              throw new ProviderSetupError({
+                instanceId: options.instanceId,
+                operation: name,
+                detail: "This sign-in is no longer active in this client.",
+              })
+            }
+            return active
+          },
+          "CursorAuth.requireFlow",
+        )
+
+      const controller: ProviderAuthController = {
+        credentialBinding: options.credentialBinding ?? { owner: "t3", key: `cursor:${options.instanceId}` },
+        isChangingCredentials: effect {
+          return operation !== "idle"
+        },
+        start: effect (owner, stopSessions = Effect.void) =>
+          try lock.withPermits(1)(effect {
+            uninterruptible {
+              if (!options.enabled) {
+                throw new ProviderSetupError({
+                  instanceId: options.instanceId,
+                  operation: "start",
+                  detail: "Enable Cursor before signing in.",
+                })
+              }
+              if (configuredKey) {
+                throw new ProviderSetupError({
+                  instanceId: options.instanceId,
+                  operation: "start",
+                  detail: "Remove CURSOR_API_KEY from this provider's environment before using browser sign-in.",
+                })
+              }
+              if (active?.owner === owner && operation === "login") return snapshot.value.state
+              if (operation !== "idle") {
+                throw new ProviderSetupError({
+                  instanceId: options.instanceId,
+                  operation: "start",
+                  detail: "Cursor setup is already in progress.",
+                })
+              }
+              const id = crypto.randomUUIDv4() catch effect (cause) => {
+                throw new ProviderSetupError({
+                  instanceId: options.instanceId,
+                  operation: "start",
+                  detail: "Could not start Cursor sign-in. Try again.",
+                  cause,
+                })
+              }
+              const expiresAt = DateTime.formatIso(DateTime.makeUnsafe(
+                (try Clock.currentTimeMillis) + AUTH_TIMEOUT_MS,
+              ))
+              const flow: AuthFlow = { id, owner }
+              active = flow
+              operation = "login"
+              const state: ProviderAuthState = {
+                ...emptyState,
+                phase: "starting",
+                flowId: id,
+                expiresAt,
+                message: "Starting Cursor sign-in.",
+              }
+              try SubscriptionRef.set(snapshot, { owner, state })
+              flow.fiber = try Effect.forkIn(
+                effect {
+                  interruptible {
+                    try runLogin(flow, stopSessions)
+                  }
+                },
+                scope,
+              )
+              return state
+            }
+          }),
+        complete: effect () => {
+          throw new ProviderSetupError({
+            instanceId: options.instanceId,
+            operation: "complete",
+            detail: "Finish signing in on the Cursor website. No redirect URL is needed.",
+          })
+        },
+        cancel: effect (owner, id) => {
+          uninterruptible {
+            const flow = try lock.withPermits(1)(effect {
+              const flow = try requireFlow(owner, id, "cancel")
+              active = undefined
+              operation = "stopping"
+              try publish(flow, {
+                phase: "cancelled",
+                authorizationUrl: null,
+                expiresAt: null,
+                message: "Cursor sign-in was cancelled.",
+              })
+              return flow
+            })
+            if (flow.fiber) try Fiber.interrupt(flow.fiber)
+            operation = "idle"
+            return snapshot.value.state
+          }
+        },
+        logout: effect (stopSessions) => {
+          uninterruptible {
+            const flow = try lock.withPermits(1)(effect {
+              if (configuredKey) {
+                throw new ProviderSetupError({
+                  instanceId: options.instanceId,
+                  operation: "logout",
+                  detail: "Remove CURSOR_API_KEY from this provider's environment to disconnect it.",
+                })
+              }
+              if (operation !== "idle" && operation !== "login") {
+                throw new ProviderSetupError({
+                  instanceId: options.instanceId,
+                  operation: "logout",
+                  detail: "Cursor setup is already stopping.",
+                })
+              }
+              operation = "stopping"
+              const flow = active
+              active = undefined
+              return flow
+            })
+            const result = try exit(effect {
+              if (flow?.fiber) try Fiber.interrupt(flow.fiber)
+              try Effect.ensuring(stopSessions, stopSessionsWithCredentials)
+              try Effect.tryPromise({
+                try: () => options.store.clear(),
+                catch: (cause) =>
+                  new ProviderSetupError({
+                    instanceId: options.instanceId,
+                    operation: "logout",
+                    detail: "Could not clear the Cursor sign-in. Try again.",
+                    cause,
+                  }),
+              })
+              try options.onChanged(false)
+            })
+            operation = "idle"
+            const state: ProviderAuthState = {
+              ...emptyState,
+              phase: Exit.isSuccess(result) ? "idle" : "failed",
+              message: Exit.isSuccess(result) ? "Signed out of Cursor." : "Cursor sign-out failed. Try again.",
+            }
+            try SubscriptionRef.set(snapshot, { owner: null, state })
+            if (Exit.isFailure(result)) return try Effect.failCause(result.cause)
+            return state
+          }
+        },
+        subscribe: (owner): ReturnType<ProviderAuthController["subscribe"]> =>
+          SubscriptionRef.changes(snapshot).map((current) => {
+            const state = {
+              ...current.state,
+              credentialOwner: "t3" as const,
+              methods: [{
+                id: "browser",
+                name: "Sign in with Cursor",
+                description: null,
+                type: "agent" as const,
+              }],
+              interaction: current.state.phase === "waiting" && current.state.authorizationUrl && current.state.flowId
+                ? {
+                  type: "browser" as const,
+                  id: current.state.flowId,
+                  url: current.state.authorizationUrl,
+                  requiresConsent: false,
+                }
+                : null,
+            }
+            if (current.owner === null || current.owner === owner) return state
+            return {
+              ...state,
+              interaction: null,
+              flowId: null,
+              authorizationUrl: null,
+              expiresAt: null,
+              message: active ? "Sign-in is in progress in another client." : current.state.message,
+            }
+          }),
+        isLogoutPrompt: (text, hasAttachments): boolean => !hasAttachments && text.trim() === "/logout",
+      }
+      try Effect.addFinalizer(effect () => {
+        operation = "closed"
+        const flow = active
+        active = undefined
+        if (flow?.fiber) try Fiber.interrupt(flow.fiber)
+        try stopSessionsWithCredentials
+      })
+      return {
+        controller,
+        readApiKey,
+        requireApiKey,
+        withAccess,
+        usesApiKey: configuredKey !== undefined,
+      } satisfies CursorAuth
+    },
+    "makeCursorAuth",
+  )

@@ -33,7 +33,7 @@ import {
   type ProviderSnapshotSettings,
 } from "@t3tools/provider-core/server/snapshotSettings";
 import { probeCursorSkills } from "./skills.ts";
-import { makeCursorAuth } from "./auth.ts";
+import { makeCursorAuth } from "./auth.vibe";
 import * as CursorCredentialStore from "./credentialStore.ts";
 import * as CursorAgentSdk from "./CursorAgentSdk.ts";
 import * as CursorSdk from "./CursorSdk.ts";
