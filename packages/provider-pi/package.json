@@ -29,14 +29,14 @@
     "@t3tools/provider-core": "workspace:*",
     "@t3tools/shared": "workspace:*",
     "effect": "catalog:",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11-c838030582d5.tgz"
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11-956814eb1e95.tgz"
   },
   "devDependencies": {
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
     "@t3tools/provider-testing": "workspace:*",
     "@types/node": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-909723830fba.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-b9d250df199d.tgz",
     "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-a2b67ac4484b.tgz",
     "vite-plus": "catalog:"
   }
