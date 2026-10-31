@@ -33,7 +33,7 @@ import {
   registerConnectionInCatalog,
   removeConnectionFromCatalog,
   setConnectionEnabledInCatalog,
-} from "./storageDocument.ts";
+} from "./storageDocument.vibe";
 
 const decodeConnectionCatalogDocument = Schema.decodeUnknownEffect(ConnectionCatalogDocument);
 

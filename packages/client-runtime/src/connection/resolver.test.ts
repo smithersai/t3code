@@ -19,14 +19,14 @@ import {
   type ConnectionCredential,
   type ConnectionProfile,
 } from "./catalog.vibe";
-import * as ConnectionCredentialStore from "./credentialStore.ts";
+import * as ConnectionCredentialStore from "./credentialStore.vibe";
 import {
   ConnectionTransientError,
   PrimaryConnectionTarget,
   SshConnectionTarget,
   type ConnectionTarget,
 } from "./model.vibe";
-import * as ConnectionProfileStore from "./profileStore.ts";
+import * as ConnectionProfileStore from "./profileStore.vibe";
 import * as RpcHttp from "../rpc/http.ts";
 import {
   PullRequestRoutingPermissions,

@@ -1,21 +1,16 @@
-import { EnvironmentId } from "@t3tools/contracts";
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+import { EnvironmentId } from "@t3tools/contracts"
+import * as Effect from "effect/Effect"
+import * as Schema from "effect/Schema"
 
-import {
-  type ConnectionRegistration,
-  ConnectionCredential,
-  ConnectionProfile,
-} from "../connection/catalog.vibe";
-import { type ConnectionTarget, PersistedConnectionTarget } from "../connection/model.vibe";
-import * as TokenStore from "../authorization/tokenStore.ts";
-import { StoredPullRequestRoutingPermission } from "../connection/pullRequestRoutingPermissions.ts";
+import { ConnectionCredential, ConnectionProfile, type ConnectionRegistration } from "../connection/catalog.vibe"
+import { type ConnectionTarget, PersistedConnectionTarget } from "../connection/model.vibe"
+import * as TokenStore from "../authorization/tokenStore.ts"
+import { StoredPullRequestRoutingPermission } from "../connection/pullRequestRoutingPermissions.ts"
 
-export const StoredConnectionCredential = Schema.Struct({
-  connectionId: Schema.String,
-  credential: ConnectionCredential,
-});
-export type StoredConnectionCredential = typeof StoredConnectionCredential.Type;
+export schema StoredConnectionCredential {
+  connectionId: string
+  credential: ConnectionCredential
+}
 
 export const ConnectionCatalogDocument = Schema.Struct({
   schemaVersion: Schema.Literal(1),
@@ -29,8 +24,8 @@ export const ConnectionCatalogDocument = Schema.Struct({
   disabledEnvironmentIds: Schema.Array(EnvironmentId).pipe(
     Schema.withDecodingDefaultKey(Effect.succeed([])),
   ),
-});
-export type ConnectionCatalogDocument = typeof ConnectionCatalogDocument.Type;
+})
+export type ConnectionCatalogDocument = typeof ConnectionCatalogDocument.Type
 
 export const EMPTY_CONNECTION_CATALOG_DOCUMENT: ConnectionCatalogDocument = Object.freeze({
   schemaVersion: 1,
@@ -39,15 +34,15 @@ export const EMPTY_CONNECTION_CATALOG_DOCUMENT: ConnectionCatalogDocument = Obje
   credentials: [],
   remoteDpopTokens: [],
   disabledEnvironmentIds: [],
-});
+})
 
 export function replaceCatalogValue<A>(
   values: ReadonlyArray<A>,
   key: (value: A) => string,
   next: A,
 ): ReadonlyArray<A> {
-  const nextKey = key(next);
-  return [...values.filter((value) => key(value) !== nextKey), next];
+  const nextKey = key(next)
+  return [...values.filter((value) => key(value) !== nextKey), next]
 }
 
 export function removeCatalogValue<A>(
@@ -55,31 +50,31 @@ export function removeCatalogValue<A>(
   key: (value: A) => string,
   removedKey: string,
 ): ReadonlyArray<A> {
-  return values.filter((value) => key(value) !== removedKey);
+  return values.filter((value) => key(value) !== removedKey)
 }
 
 function connectionIdOf(target: ConnectionTarget): string | null {
   switch (target._tag) {
     case "PrimaryConnectionTarget":
     case "RelayConnectionTarget":
-      return null;
+      return null
     case "BearerConnectionTarget":
     case "SshConnectionTarget":
-      return target.connectionId;
+      return target.connectionId
   }
 }
 
 function routeKey(target: ConnectionTarget): string {
-  return connectionIdOf(target) ?? target._tag;
+  return connectionIdOf(target) ?? target._tag
 }
 
 function removeRouteMetadata(
   document: ConnectionCatalogDocument,
   removed: ReadonlyArray<ConnectionTarget>,
 ): ConnectionCatalogDocument {
-  const connectionIds = new Set(removed.flatMap((target) => connectionIdOf(target) ?? []));
-  const relayRemoved = removed.some((target) => target._tag === "RelayConnectionTarget");
-  const environmentIds = new Set(removed.map((target) => target.environmentId));
+  const connectionIds = new Set(removed.flatMap((target) => connectionIdOf(target) ?? []))
+  const relayRemoved = removed.some((target) => target._tag === "RelayConnectionTarget")
+  const environmentIds = new Set(removed.map((target) => target.environmentId))
   return {
     ...document,
     profiles: document.profiles.filter((value) => !connectionIds.has(value.connectionId)),
@@ -87,14 +82,14 @@ function removeRouteMetadata(
     remoteDpopTokens: relayRemoved
       ? document.remoteDpopTokens.filter((value) => !environmentIds.has(value.environmentId))
       : document.remoteDpopTokens,
-  };
+  }
 }
 
 export function catalogRoutes(
   document: ConnectionCatalogDocument,
   environmentId: EnvironmentId,
 ): ReadonlyArray<PersistedConnectionTarget> {
-  return document.targets.filter((target) => target.environmentId === environmentId);
+  return document.targets.filter((target) => target.environmentId === environmentId)
 }
 
 /**
@@ -107,21 +102,20 @@ export function setRoutesInCatalog(
   environmentId: EnvironmentId,
   routes: ReadonlyArray<PersistedConnectionTarget>,
 ): ConnectionCatalogDocument {
-  const kept = new Set(routes.map(routeKey));
+  const kept = new Set(routes.map(routeKey))
   const dropped = catalogRoutes(document, environmentId).filter(
     (target) => !kept.has(routeKey(target)),
-  );
-  const firstIndex = document.targets.findIndex((target) => target.environmentId === environmentId);
-  const others = document.targets.filter((target) => target.environmentId !== environmentId);
-  const insertAt =
-    firstIndex === -1
-      ? others.length
-      : document.targets.slice(0, firstIndex).filter((t) => t.environmentId !== environmentId)
-          .length;
+  )
+  const firstIndex = document.targets.findIndex((target) => target.environmentId === environmentId)
+  const others = document.targets.filter((target) => target.environmentId !== environmentId)
+  const insertAt = firstIndex === -1
+    ? others.length
+    : document.targets.slice(0, firstIndex).filter((t) => t.environmentId !== environmentId)
+      .length
   return {
     ...removeRouteMetadata(document, dropped),
     targets: [...others.slice(0, insertAt), ...routes, ...others.slice(insertAt)],
-  };
+  }
 }
 
 export function registerConnectionInCatalog(
@@ -129,11 +123,11 @@ export function registerConnectionInCatalog(
   registration: ConnectionRegistration,
   routes: ReadonlyArray<PersistedConnectionTarget> = [registration.target],
 ): ConnectionCatalogDocument {
-  const next = setRoutesInCatalog(document, registration.target.environmentId, routes);
+  const next = setRoutesInCatalog(document, registration.target.environmentId, routes)
 
   switch (registration._tag) {
     case "RelayConnectionRegistration":
-      return next;
+      return next
     case "BearerConnectionRegistration":
     case "SshConnectionRegistration":
       return {
@@ -147,7 +141,7 @@ export function registerConnectionInCatalog(
           connectionId: registration.target.connectionId,
           credential: registration.credential,
         }),
-      };
+      }
   }
 }
 
@@ -155,7 +149,7 @@ export function removeConnectionFromCatalog(
   document: ConnectionCatalogDocument,
   environmentId: EnvironmentId,
 ): ConnectionCatalogDocument {
-  const next = setRoutesInCatalog(document, environmentId, []);
+  const next = setRoutesInCatalog(document, environmentId, [])
   return {
     ...next,
     remoteDpopTokens: removeCatalogValue(
@@ -171,11 +165,11 @@ export function removeConnectionFromCatalog(
     ...(next.githubRoutingPermissions === undefined
       ? {}
       : {
-          githubRoutingPermissions: next.githubRoutingPermissions.filter(
-            (permission) => permission.environmentId !== environmentId,
-          ),
-        }),
-  };
+        githubRoutingPermissions: next.githubRoutingPermissions.filter(
+          (permission) => permission.environmentId !== environmentId,
+        ),
+      }),
+  }
 }
 
 export function setConnectionEnabledInCatalog(
@@ -183,16 +177,16 @@ export function setConnectionEnabledInCatalog(
   environmentId: EnvironmentId,
   enabled: boolean,
 ): ConnectionCatalogDocument {
-  const registered = document.targets.some((target) => target.environmentId === environmentId);
+  const registered = document.targets.some((target) => target.environmentId === environmentId)
   const without = removeCatalogValue(
     document.disabledEnvironmentIds,
     (value) => value,
     environmentId,
-  );
+  )
   return {
     ...document,
     disabledEnvironmentIds: registered && !enabled ? [...without, environmentId] : without,
-  };
+  }
 }
 
 export function putRemoteDpopTokenInCatalog(
@@ -200,11 +194,10 @@ export function putRemoteDpopTokenInCatalog(
   token: TokenStore.RemoteDpopAccessToken,
 ): ConnectionCatalogDocument {
   const registered = document.targets.some(
-    (target) =>
-      target._tag === "RelayConnectionTarget" && target.environmentId === token.environmentId,
-  );
+    (target) => target._tag === "RelayConnectionTarget" && target.environmentId === token.environmentId,
+  )
   if (!registered) {
-    return document;
+    return document
   }
   return {
     ...document,
@@ -213,5 +206,5 @@ export function putRemoteDpopTokenInCatalog(
       (value) => value.environmentId,
       token,
     ),
-  };
+  }
 }

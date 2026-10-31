@@ -7,7 +7,7 @@ import {
   getCloneDirectoryName,
   getDefaultCloneUrl,
   normalizePastedCloneUrl,
-} from "./projects.ts";
+} from "./projects.vibe";
 import type { EnvironmentProject } from "../state/models.vibe";
 
 describe("add project shared logic", () => {

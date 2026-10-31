@@ -21,7 +21,7 @@ import {
   SshConnectionProfile,
   SshConnectionRegistration,
 } from "./catalog.vibe";
-import * as ConnectionCredentialStore from "./credentialStore.ts";
+import * as ConnectionCredentialStore from "./credentialStore.vibe";
 import { mapRemoteEnvironmentError } from "./errors.ts";
 import {
   BearerConnectionTarget,

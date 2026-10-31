@@ -1,7 +1,7 @@
 export * from "./catalog.vibe";
 export * from "./diagnosis.vibe";
 export * as Connectivity from "./connectivity.ts";
-export * as CredentialStore from "./credentialStore.ts";
+export * as CredentialStore from "./credentialStore.vibe";
 export { type ConnectionDriverProgress, type EnvironmentConnectionLease } from "./driver.ts";
 export * from "./errors.ts";
 export * from "./pullRequestRoutingPermissions.ts";
@@ -10,7 +10,7 @@ export * as Connection from "./layer.ts";
 export * from "./model.vibe";
 export * as ConnectionOnboarding from "./onboarding.ts";
 export * from "./presentation.ts";
-export * as ProfileStore from "./profileStore.ts";
+export * as ProfileStore from "./profileStore.vibe";
 export * from "./routes.ts";
 export { type RouteCheck } from "./driver.ts";
 export * as EnvironmentRegistry from "./registry.ts";

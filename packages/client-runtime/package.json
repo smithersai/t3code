@@ -64,8 +64,8 @@
       "default": "./src/secretRequest.ts"
     },
     "./link-request": {
-      "types": "./src/linkRequest.ts",
-      "default": "./src/linkRequest.ts"
+      "types": "./src/linkRequest.d.vibe.ts",
+      "default": "./src/linkRequest.vibe"
     },
     "./scheduled-task-webhook": {
       "types": "./src/scheduledTaskWebhook.d.vibe.ts",
@@ -112,8 +112,8 @@
       "default": "./src/operations/index.ts"
     },
     "./operations/projects": {
-      "types": "./src/operations/projects.ts",
-      "default": "./src/operations/projects.ts"
+      "types": "./src/operations/projects.d.vibe.ts",
+      "default": "./src/operations/projects.vibe"
     },
     "./platform": {
       "types": "./src/platform/index.ts",
@@ -284,8 +284,8 @@
       "default": "./src/state/usageAccess.ts"
     },
     "./state/shared-settings": {
-      "types": "./src/state/sharedSettings.ts",
-      "default": "./src/state/sharedSettings.ts"
+      "types": "./src/state/sharedSettings.d.vibe.ts",
+      "default": "./src/state/sharedSettings.vibe"
     },
     "./state/shell": {
       "types": "./src/state/shell.ts",
@@ -328,8 +328,8 @@
       "default": "./src/state/threadCheckpoints.vibe"
     },
     "./state/thread-execution": {
-      "types": "./src/state/threadExecution.ts",
-      "default": "./src/state/threadExecution.ts"
+      "types": "./src/state/threadExecution.d.vibe.ts",
+      "default": "./src/state/threadExecution.vibe"
     },
     "./state/thread-requests": {
       "types": "./src/state/threadRequests.ts",
@@ -352,8 +352,8 @@
       "default": "./src/state/threadUndo.ts"
     },
     "./state/thread-settled": {
-      "types": "./src/state/threadSettled.ts",
-      "default": "./src/state/threadSettled.ts"
+      "types": "./src/state/threadSettled.d.vibe.ts",
+      "default": "./src/state/threadSettled.vibe"
     },
     "./state/thread-search": {
       "types": "./src/state/threadSearch.ts",
