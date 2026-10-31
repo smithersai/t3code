@@ -8,16 +8,16 @@
       "import": "./src/client.ts"
     },
     "./settings": {
-      "types": "./src/settings.ts",
-      "import": "./src/settings.ts"
+      "types": "./src/settings.d.vibe.ts",
+      "import": "./src/settings.vibe"
     },
     "./server": {
       "types": "./src/server.ts",
       "import": "./src/server.ts"
     },
     "./server/usage": {
-      "types": "./src/server/usage.ts",
-      "import": "./src/server/usage.ts"
+      "types": "./src/server/usage.d.vibe.ts",
+      "import": "./src/server/usage.vibe"
     },
     "./testing": {
       "types": "./src/testing.ts",

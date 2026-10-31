@@ -13,7 +13,7 @@ import {
   type OrchestrationV2ProviderCapabilities,
   type RuntimeMode,
 } from "@t3tools/contracts";
-import { GrokSettings } from "../settings.ts";
+import { GrokSettings } from "../settings.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
