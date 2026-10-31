@@ -24,8 +24,8 @@ import {
   SshConnectionProfile,
   connectionRegistrationCatalogEntry,
 } from "./catalog.vibe";
-import * as ConnectionCredentialStore from "./credentialStore.ts";
-import * as ConnectionProfileStore from "./profileStore.ts";
+import * as ConnectionCredentialStore from "./credentialStore.vibe";
+import * as ConnectionProfileStore from "./profileStore.vibe";
 import * as Connectivity from "./connectivity.ts";
 import type {
   ConnectionAttemptError,

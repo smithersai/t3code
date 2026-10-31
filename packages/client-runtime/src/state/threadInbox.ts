@@ -1,7 +1,7 @@
 // @effect-diagnostics globalTimers:off - Shelf placement timers run in web and native clients, outside an Effect runtime.
 import { threadRuntimeIsActive, type EnvironmentThreadShell } from "./models.vibe";
 import { toSortableTimestamp } from "./threadSort.ts";
-import { effectiveSnoozed } from "./threadSettled.ts";
+import { effectiveSnoozed } from "./threadSettled.vibe";
 
 type WorkingThreadInput = Pick<
   EnvironmentThreadShell,

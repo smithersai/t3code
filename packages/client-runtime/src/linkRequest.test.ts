@@ -14,7 +14,7 @@ import {
   linkRequestFailureMessage,
   linkRequestInitialMachine,
   rankMachinesByHint,
-} from "./linkRequest.ts";
+} from "./linkRequest.vibe";
 
 const item = {
   id: TurnItemId.make("turn-item:link-request:1"),

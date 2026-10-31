@@ -23,7 +23,7 @@ import {
   type ConnectionCatalogEntry,
   SshConnectionProfile,
 } from "./catalog.vibe";
-import * as ConnectionCredentialStore from "./credentialStore.ts";
+import * as ConnectionCredentialStore from "./credentialStore.vibe";
 import {
   credentialMissingError,
   environmentMismatchError,
@@ -43,7 +43,7 @@ import type {
   SshConnectionTarget,
 } from "./model.vibe";
 import { ConnectionBlockedError, type ConnectionAttemptError } from "./model.vibe";
-import * as ConnectionProfileStore from "./profileStore.ts";
+import * as ConnectionProfileStore from "./profileStore.vibe";
 import {
   appendOrchestrationProtocol,
   orchestrationProtocolCompatibilityError,

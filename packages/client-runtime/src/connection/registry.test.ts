@@ -38,7 +38,7 @@ import {
   type ConnectionProfile,
 } from "./catalog.vibe";
 import * as Connectivity from "./connectivity.ts";
-import * as ConnectionCredentialStore from "./credentialStore.ts";
+import * as ConnectionCredentialStore from "./credentialStore.vibe";
 import * as ConnectionDriver from "./driver.ts";
 import type { RouteCheck } from "./driver.ts";
 import { connectionRouteId, connectionRouteKind } from "./routes.ts";
@@ -54,7 +54,7 @@ import {
   type SupervisorConnectionState,
 } from "./model.vibe";
 import * as Persistence from "../platform/persistence.ts";
-import * as ConnectionProfileStore from "./profileStore.ts";
+import * as ConnectionProfileStore from "./profileStore.vibe";
 import * as EnvironmentRegistry from "./registry.ts";
 import {
   PullRequestRoutingPermissions,

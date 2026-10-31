@@ -33,7 +33,7 @@ import {
 } from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import { SshConnectionProfile, type ConnectionCatalogEntry } from "../connection/catalog.vibe";
-import * as ConnectionProfileStore from "../connection/profileStore.ts";
+import * as ConnectionProfileStore from "../connection/profileStore.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
 import type { RpcSession } from "../rpc/session.ts";

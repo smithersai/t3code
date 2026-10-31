@@ -22,7 +22,7 @@ import {
   pullRequestRoutingConnectionKey,
 } from "../connection/pullRequestRoutingPermissions.ts";
 import type { ConnectionCatalogEntry } from "../connection/catalog.vibe";
-import * as ConnectionProfileStore from "../connection/profileStore.ts";
+import * as ConnectionProfileStore from "../connection/profileStore.vibe";
 import type { RpcSession } from "../rpc/session.ts";
 import {
   requestGuarded as request,

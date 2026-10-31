@@ -1,0 +1,18 @@
+import * as Context from "effect/Context"
+import type * as Effect from "effect/Effect"
+import type * as Option from "effect/Option"
+
+import type { ConnectionProfile } from "./catalog.vibe"
+import type { ConnectionAttemptError } from "./model.vibe"
+
+export service ConnectionProfileStore: {
+    readonly get: (
+      connectionId: string,
+    ) => Option.Option<ConnectionProfile>!ConnectionAttemptError;
+    readonly put: (profile: ConnectionProfile) => void!ConnectionAttemptError;
+    readonly remove: (connectionId: string) => void!ConnectionAttemptError;
+  } {
+  static override readonly key = "@t3tools/client-runtime/connection/profileStore/ConnectionProfileStore"
+}
+
+export const make = (service: ConnectionProfileStore["Service"]): infer _ => ConnectionProfileStore.of(service)
