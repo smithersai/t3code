@@ -12,7 +12,7 @@ import * as RpcServer from "effect/rpc/RpcServer";
 
 import * as AcpSchema from "./schema.ts";
 import { AGENT_METHODS, CLIENT_METHODS } from "./_generated/meta.gen.ts";
-import * as AcpError from "./errors.ts";
+import * as AcpError from "./errors.vibe";
 import * as AcpProtocol from "./protocol.ts";
 import * as AcpRpcs from "./rpc.vibe";
 import {

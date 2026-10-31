@@ -28,8 +28,8 @@
       "import": "./src/protocol.ts"
     },
     "./errors": {
-      "types": "./src/errors.ts",
-      "import": "./src/errors.ts"
+      "types": "./src/errors.vibe",
+      "import": "./src/errors.vibe"
     },
     "./schema-v1": {
       "types": "./src/_generated/schema-v1.gen.ts",

@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as PlatformError from "effect/PlatformError";
 import { ChildProcessSpawner } from "effect/process";
 
-import * as AcpError from "../errors.ts";
+import * as AcpError from "../errors.vibe";
 import { makeTerminationError } from "./stdio.ts";
 
 describe("ACP child process termination", () => {
