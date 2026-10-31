@@ -43,7 +43,7 @@ import {
   ORCHESTRATION_THREAD_CACHE_SCHEMA_VERSION,
   StoredOrchestrationThreadSnapshot,
   decodeOrDiscardOrchestrationCache,
-} from "../platform/orchestrationCache.ts";
+} from "../platform/orchestrationCache.vibe";
 import * as RpcSession from "../rpc/session.ts";
 import { v2Now, v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.vibe";
 import { onThreadRequestsResolved, type ThreadRequestsResolved } from "./threadRequests.ts";
