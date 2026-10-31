@@ -152,8 +152,8 @@
       "import": "./src/server/snapshotSettings.ts"
     },
     "./server/subagentProjection": {
-      "types": "./src/server/subagentProjection.ts",
-      "import": "./src/server/subagentProjection.ts"
+      "types": "./src/server/subagentProjection.d.vibe.ts",
+      "import": "./src/server/subagentProjection.vibe"
     },
     "./server/textGeneration": {
       "types": "./src/server/textGeneration.ts",
