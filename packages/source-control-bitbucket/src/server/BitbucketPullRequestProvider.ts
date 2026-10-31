@@ -11,7 +11,7 @@ import {
   type ProviderChangeRequestDetail,
   type PullRequestProviderApi,
 } from "@t3tools/source-control-core/server/PullRequestProvider";
-import type { BitbucketPullRequest } from "./bitbucketPullRequestJson.ts";
+import type { BitbucketPullRequest } from "./bitbucketPullRequestJson.vibe";
 import { definition } from "../shared/definition.vibe";
 
 const CAPABILITIES: PullRequestCapabilities = {
