@@ -9,7 +9,7 @@ import type * as Scope from "effect/Scope";
 import type { SourceControlDefinition } from "../shared/definition.ts";
 
 import type { SourceControlProviderDiscoverySpec } from "./discovery.ts";
-import type { PullRequestProviderApi } from "./PullRequestProvider.ts";
+import type { PullRequestProviderApi } from "./PullRequestProvider.vibe";
 import type * as SourceControlHost from "./SourceControlHost.ts";
 import type * as SourceControlProvider from "./SourceControlProvider.ts";
 import type * as SourceControlRateLimit from "./SourceControlRateLimit.ts";
