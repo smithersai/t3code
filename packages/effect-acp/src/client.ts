@@ -15,8 +15,8 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import * as AcpError from "./errors.ts";
 import * as AcpProtocol from "./protocol.ts";
-import * as AcpRpcs from "./rpc.ts";
-import * as AcpSchema from "./compat.ts";
+import * as AcpRpcs from "./rpc.vibe";
+import * as AcpSchema from "./compat.vibe";
 import * as AcpSchemaV1 from "./_generated/schema-v1.gen.ts";
 import * as AcpSchemaV2 from "./_generated/schema.gen.ts";
 import { AGENT_METHODS, CLIENT_METHODS } from "./_generated/meta.gen.ts";

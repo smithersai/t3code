@@ -21,7 +21,7 @@ import * as AcpClient from "./client.ts";
 import * as AcpSchema from "./_generated/schema.gen.ts";
 import * as AcpSchemaV1 from "./_generated/schema-v1.gen.ts";
 import * as AcpError from "./errors.ts";
-import type * as AcpCompat from "./compat.ts";
+import type * as AcpCompat from "./compat.vibe";
 import type * as AcpProtocol from "./protocol.ts";
 import {
   encodeJsonl,
@@ -187,7 +187,7 @@ it.layer(NodeServices.layer)("effect-acp client", (it) => {
   it.effect("retains only transformed session updates in raw notifications and handlers", () =>
     Effect.gen(function* () {
       const { stdio, input } = yield* makeInMemoryStdio();
-      const delivered = yield* Deferred.make<import("./compat.ts").SessionNotification>();
+      const delivered = yield* Deferred.make<import("./compat.vibe").SessionNotification>();
       const imageData = "A".repeat(1_048_576);
       const normalized = {
         sessionId: "session-1",
@@ -195,7 +195,7 @@ it.layer(NodeServices.layer)("effect-acp client", (it) => {
           sessionUpdate: "agent_message_chunk",
           content: { type: "text", text: "Image data omitted." },
         },
-      } satisfies import("./compat.ts").SessionNotification;
+      } satisfies import("./compat.vibe").SessionNotification;
       let transformCalls = 0;
       const acp = yield* AcpClient.make(stdio, {
         transformSessionUpdate: (notification) => {
