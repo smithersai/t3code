@@ -1,9 +1,9 @@
-import * as Schema from "effect/Schema";
+import * as Schema from "effect/Schema"
 
-import { GuestShareId, IsoDateTime, TrimmedNonEmptyString } from "./baseSchemas.ts";
-import { ThreadGuestMessage } from "./guestShare.vibe";
-import { OrchestrationV2ThreadStreamItem } from "./orchestrationV2.ts";
-import { ProviderDriverKind } from "./providerInstance.vibe";
+import { GuestShareId, IsoDateTime, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { ThreadGuestMessage } from "./guestShare.vibe"
+import { OrchestrationV2ThreadStreamItem } from "./orchestrationV2.ts"
+import { ProviderDriverKind } from "./providerInstance.vibe"
 
 // This lives apart from guestShare.ts because orchestrationV2.ts imports that file.
 
@@ -16,18 +16,17 @@ export const GuestThreadModel = Schema.Struct({
   name: TrimmedNonEmptyString,
   shortName: Schema.optional(TrimmedNonEmptyString),
   subProvider: Schema.optional(TrimmedNonEmptyString),
-});
-export type GuestThreadModel = typeof GuestThreadModel.Type;
+})
+export type GuestThreadModel = typeof GuestThreadModel.Type
 
-export const GuestShareView = Schema.Struct({
-  shareId: GuestShareId,
-  title: Schema.String,
-  guestName: TrimmedNonEmptyString,
-  expiresAt: IsoDateTime,
-  messages: Schema.Array(ThreadGuestMessage),
-  model: GuestThreadModel,
-});
-export type GuestShareView = typeof GuestShareView.Type;
+export schema GuestShareView {
+  shareId: GuestShareId
+  title: string
+  guestName: TrimmedNonEmptyString
+  expiresAt: IsoDateTime
+  messages: ReadonlyArray<ThreadGuestMessage>
+  model: GuestThreadModel
+}
 
 /**
  * The shared thread as the owner's client gets it: `thread` carries the same stream items the
@@ -38,5 +37,5 @@ export const GuestStreamEvent = Schema.Union([
   Schema.Struct({ type: Schema.Literal("view"), view: GuestShareView }),
   Schema.Struct({ type: Schema.Literal("thread"), item: OrchestrationV2ThreadStreamItem }),
   Schema.Struct({ type: Schema.Literal("ended") }),
-]);
-export type GuestStreamEvent = typeof GuestStreamEvent.Type;
+])
+export type GuestStreamEvent = typeof GuestStreamEvent.Type
