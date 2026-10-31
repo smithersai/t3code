@@ -38,7 +38,7 @@ export * from "./orchestrationDispatch.vibe";
 export * from "./orchestrationProject.vibe";
 export * from "./orchestrationV2.ts";
 export * from "./guestShare.vibe";
-export * from "./guestStream.vibe";
+export * from "./guestStream.ts";
 export * from "./applicationEvent.vibe";
 export * from "./orchestratorMcp.vibe";
 export * from "./peerLink.ts";
