@@ -32,8 +32,8 @@
       "import": "./src/server/pullRequestChecks.vibe"
     },
     "./server/PullRequestProvider": {
-      "types": "./src/server/PullRequestProvider.ts",
-      "import": "./src/server/PullRequestProvider.ts"
+      "types": "./src/server/PullRequestProvider.d.vibe.ts",
+      "import": "./src/server/PullRequestProvider.vibe"
     },
     "./server/SourceControlHost": {
       "types": "./src/server/SourceControlHost.ts",
