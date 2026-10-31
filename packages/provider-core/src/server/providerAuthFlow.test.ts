@@ -15,7 +15,7 @@ import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
 
-import * as ProviderAuthFlow from "./providerAuthFlow.ts";
+import * as ProviderAuthFlow from "./providerAuthFlow.vibe";
 import * as Layer from "effect/Layer";
 import * as Crypto from "@t3tools/shared/Crypto";
 

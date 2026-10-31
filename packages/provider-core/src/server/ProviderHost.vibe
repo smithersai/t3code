@@ -1,0 +1,50 @@
+import type { BackgroundScope, ChatAttachment, ServerSettings, ServerSettingsError } from "@t3tools/contracts"
+import * as Context from "effect/Context"
+import type * as Effect from "effect/Effect"
+import type * as Option from "effect/Option"
+import type * as Scope from "effect/Scope"
+import type * as Stream from "effect/Stream"
+
+import type { ProviderCredentialError } from "./errors.vibe"
+
+export interface ProviderHostPaths {
+  readonly cwd: string
+  readonly baseDir: string
+  readonly stateDir: string
+  readonly providerStatusCacheDir: string
+  /** Where chat attachments are stored; agents that sandbox file reads must be granted it. */
+  readonly attachmentsDir: string
+}
+
+export interface ProviderCredentials {
+  /** Instances whose bindings are equal share these credentials. */
+  readonly binding: { readonly owner: "t3"; readonly key: string }
+  readonly get: Option.Option<Uint8Array>!ProviderCredentialError
+  readonly set: (credentials: Uint8Array) => void!ProviderCredentialError
+  readonly remove: void!ProviderCredentialError
+}
+
+export class ProviderHost extends Context.Service<
+  ProviderHost,
+  {
+    readonly paths: ProviderHostPaths
+    readonly settings: {
+      readonly get: ServerSettings!ServerSettingsError
+      /** Runs `use` on a settings snapshot that no settings write can change until it finishes. */
+      readonly withSnapshot: <A, E, R>(
+        use: (settings: ServerSettings) => A!E!R,
+      ) => A!E | ServerSettingsError!R
+      readonly changes: Stream.Stream<ServerSettings>
+      /** Changes buffered from the moment the scoped subscription is acquired. */
+      readonly subscribe: Stream.Stream<ServerSettings>!never!Scope.Scope
+    }
+    readonly shouldRunBackgroundWork: (scope: BackgroundScope) => boolean!!
+    /** Absolute attachment path, or null if the ID does not resolve inside attachmentsDir. */
+    readonly resolveAttachmentPath: (attachment: ChatAttachment) => string | null
+    readonly resolveExtractedTextPath?: (path: string) => string | undefined!!
+    readonly credentials: (
+      namespace: string,
+      bindingId: string,
+    ) => ProviderCredentials!!
+  }
+>()("@t3tools/provider-core/server/ProviderHost") {}

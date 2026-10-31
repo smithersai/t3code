@@ -30,8 +30,8 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import { collectUint8StreamText } from "./collectStreamText.ts";
-import * as ProviderLatestVersions from "./ProviderLatestVersions.ts";
+import { collectUint8StreamText } from "./collectStreamText.vibe";
+import * as ProviderLatestVersions from "./ProviderLatestVersions.vibe";
 
 const LATEST_VERSION_TIMEOUT_MS = 4_000;
 const PROBE_TIMEOUT_MS = 10_000;

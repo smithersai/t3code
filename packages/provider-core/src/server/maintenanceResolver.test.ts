@@ -14,7 +14,7 @@ import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
 import * as HttpClient from "effect/http/HttpClient";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
-import * as ProviderLatestVersions from "./ProviderLatestVersions.ts";
+import * as ProviderLatestVersions from "./ProviderLatestVersions.vibe";
 import {
   createProviderVersionAdvisory,
   makeTargetedProviderUpdateAction,

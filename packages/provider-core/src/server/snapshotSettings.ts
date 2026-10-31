@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Equal from "effect/Equal";
 import * as Stream from "effect/Stream";
 
-import * as ProviderHost from "./ProviderHost.ts";
+import * as ProviderHost from "./ProviderHost.vibe";
 
 export interface ProviderSnapshotSettings<Settings> {
   readonly provider: Settings;
