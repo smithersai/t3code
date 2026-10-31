@@ -356,8 +356,8 @@
       "default": "./src/state/threadSettled.vibe"
     },
     "./state/thread-search": {
-      "types": "./src/state/threadSearch.ts",
-      "default": "./src/state/threadSearch.ts"
+      "types": "./src/state/threadSearch.vibe",
+      "default": "./src/state/threadSearch.vibe"
     },
     "./state/thread-visits": {
       "types": "./src/state/threadVisits.ts",

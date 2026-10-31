@@ -5,7 +5,7 @@ import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import { EnvironmentQueryStore, persistQuery } from "./queryPersistence.vibe";
 
-import { persistPullRequestStats } from "./pullRequestStatsPersistence.ts";
+import { persistPullRequestStats } from "./pullRequestStatsPersistence.vibe";
 
 const env = EnvironmentId.make("one");
 const other = EnvironmentId.make("two");

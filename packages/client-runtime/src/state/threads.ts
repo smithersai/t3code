@@ -1050,7 +1050,7 @@ export function createEnvironmentThreadStateAtoms<R, E>(
   };
 }
 
-export * from "./archivedThreads.ts";
+export * from "./archivedThreads.vibe";
 export * from "./checkpointDiff.ts";
 export * as BoundedThreadSnapshotLoader from "./boundedThreadSnapshotHttp.ts";
 export * as ThreadHistoryController from "./threadHistoryController.ts";
