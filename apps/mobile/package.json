@@ -138,7 +138,7 @@
     "tailwind-merge": "^3.5.0",
     "unified": "catalog:",
     "uniwind": "1.13.0",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11.tgz"
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11-144ebc4c7ea9.tgz"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
@@ -154,8 +154,8 @@
     "jsdom": "^30.0.1",
     "tailwindcss": "^4.0.0",
     "typescript": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11.tgz"
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-2deb9b78f8e1.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-a2b67ac4484b.tgz"
   },
   "enriched-markdown": {
     "enableMath": true,
