@@ -10,7 +10,7 @@ import * as Stdio from "effect/Stdio";
 import * as Stream from "effect/Stream";
 
 import * as CodexClient from "./client.ts";
-import * as CodexError from "./errors.ts";
+import * as CodexError from "./errors.vibe";
 
 export const CodexAppServerReplayEntry = Schema.Union([
   Schema.Struct({

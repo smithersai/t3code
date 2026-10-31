@@ -1,7 +1,7 @@
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 
-import * as CodexError from "../errors.ts";
+import * as CodexError from "../errors.vibe";
 
 export const JsonRpcId = Schema.Union([Schema.Number, Schema.String]);
 
