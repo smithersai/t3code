@@ -11,8 +11,8 @@ import {
   type AcpRegistrySearchResult,
   type AcpRegistryDistribution as AcpRegistryDistributionKind,
 } from "@t3tools/contracts";
-import type { AcpRegistryDistributionPreference } from "../settings.ts";
-import type { AcpRegistrySettings } from "../settings.ts";
+import type { AcpRegistryDistributionPreference } from "../settings.vibe";
+import type { AcpRegistrySettings } from "../settings.vibe";
 import { cliArchiveTarCommand } from "@t3tools/shared/cliRelease";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import {
