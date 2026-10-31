@@ -12,8 +12,8 @@
       "import": "./src/modelShortName.ts"
     },
     "./server/adapterDriver": {
-      "types": "./src/server/adapterDriver.ts",
-      "import": "./src/server/adapterDriver.ts"
+      "types": "./src/server/adapterDriver.d.vibe.ts",
+      "import": "./src/server/adapterDriver.vibe"
     },
     "./server/attachmentPrompt": {
       "types": "./src/server/attachmentPrompt.d.vibe.ts",
@@ -112,8 +112,8 @@
       "import": "./src/server/providerAuthFlow.ts"
     },
     "./server/ProviderContinuationRequests": {
-      "types": "./src/server/ProviderContinuationRequests.ts",
-      "import": "./src/server/ProviderContinuationRequests.ts"
+      "types": "./src/server/ProviderContinuationRequests.d.vibe.ts",
+      "import": "./src/server/ProviderContinuationRequests.vibe"
     },
     "./server/ProviderEventLoggers": {
       "types": "./src/server/ProviderEventLoggers.ts",
