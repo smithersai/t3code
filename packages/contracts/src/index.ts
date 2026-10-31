@@ -40,7 +40,7 @@ export * from "./orchestrationV2.ts";
 export * from "./guestShare.vibe";
 export * from "./guestStream.ts";
 export * from "./applicationEvent.vibe";
-export * from "./orchestratorMcp.ts";
+export * from "./orchestratorMcp.vibe";
 export * from "./peerLink.ts";
 export * from "./threadMetadataMcp.vibe";
 export * from "./threadPullRequest.vibe";
