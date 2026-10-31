@@ -2,7 +2,7 @@ import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
 import type * as Option from "effect/Option";
 
-import type { ConnectionCredential } from "./catalog.ts";
+import type { ConnectionCredential } from "./catalog.vibe";
 import type { ConnectionAttemptError } from "./model.vibe";
 
 export class ConnectionCredentialStore extends Context.Service<

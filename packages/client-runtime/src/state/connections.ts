@@ -6,7 +6,7 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 import { AsyncResult, Atom } from "effect/reactivity";
 
 import * as EnvironmentRegistry from "../connection/registry.ts";
-import type { ConnectionCatalogEntry } from "../connection/catalog.ts";
+import type { ConnectionCatalogEntry } from "../connection/catalog.vibe";
 import { AVAILABLE_CONNECTION_STATE } from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import {

@@ -1,20 +1,20 @@
-import { DesktopSshEnvironmentTargetSchema, EnvironmentId } from "@t3tools/contracts";
-import * as Option from "effect/Option";
-import * as Schema from "effect/Schema";
+import { DesktopSshEnvironmentTargetSchema, EnvironmentId } from "@t3tools/contracts"
+import * as Option from "effect/Option"
+import * as Schema from "effect/Schema"
 
 import {
   BearerConnectionTarget,
+  type ConnectionTarget,
   PrimaryConnectionTarget,
   RelayConnectionTarget,
   SshConnectionTarget,
-  type ConnectionTarget,
-} from "./model.vibe";
+} from "./model.vibe"
 
 const ConnectionProfileBase = {
   connectionId: Schema.String,
   environmentId: EnvironmentId,
   label: Schema.String,
-};
+}
 
 export class BearerConnectionProfile extends Schema.TaggedClass<BearerConnectionProfile>()(
   "BearerConnectionProfile",
@@ -40,21 +40,20 @@ export class SshConnectionProfile extends Schema.TaggedClass<SshConnectionProfil
   },
 ) {}
 
-export const ConnectionProfile = Schema.Union([BearerConnectionProfile, SshConnectionProfile]);
-export type ConnectionProfile = typeof ConnectionProfile.Type;
+export schema ConnectionProfile = BearerConnectionProfile | SshConnectionProfile
 
 export interface ConnectionRoute {
-  readonly target: ConnectionTarget;
-  readonly profile: Option.Option<ConnectionProfile>;
+  readonly target: ConnectionTarget
+  readonly profile: Option.Option<ConnectionProfile>
 }
 
 export interface ConnectionCatalogEntry {
-  readonly target: ConnectionTarget;
-  readonly profile: Option.Option<ConnectionProfile>;
-  readonly alternateRoutes?: ReadonlyArray<ConnectionRoute>;
-  readonly enabled: boolean;
-  readonly unsupportedReason?: string;
-  readonly serverUpdateRequired?: boolean;
+  readonly target: ConnectionTarget
+  readonly profile: Option.Option<ConnectionProfile>
+  readonly alternateRoutes?: ReadonlyArray<ConnectionRoute>
+  readonly enabled: boolean
+  readonly unsupportedReason?: string
+  readonly serverUpdateRequired?: boolean
 }
 
 export class BearerConnectionCredential extends Schema.TaggedClass<BearerConnectionCredential>()(
@@ -64,8 +63,8 @@ export class BearerConnectionCredential extends Schema.TaggedClass<BearerConnect
   },
 ) {}
 
-export const ConnectionCredential = Schema.Union([BearerConnectionCredential]);
-export type ConnectionCredential = typeof ConnectionCredential.Type;
+export const ConnectionCredential = Schema.Union([BearerConnectionCredential])
+export type ConnectionCredential = typeof ConnectionCredential.Type
 
 export class PrimaryConnectionRegistration extends Schema.TaggedClass<PrimaryConnectionRegistration>()(
   "PrimaryConnectionRegistration",
@@ -100,12 +99,10 @@ export class SshConnectionRegistration extends Schema.TaggedClass<SshConnectionR
   },
 ) {}
 
-export const ConnectionRegistration = Schema.Union([
-  RelayConnectionRegistration,
-  BearerConnectionRegistration,
-  SshConnectionRegistration,
-]);
-export type ConnectionRegistration = typeof ConnectionRegistration.Type;
+export schema ConnectionRegistration =
+  | RelayConnectionRegistration
+  | BearerConnectionRegistration
+  | SshConnectionRegistration
 
 /**
  * The primary stays on same-origin cookie auth
@@ -116,8 +113,8 @@ export type ConnectionRegistration = typeof ConnectionRegistration.Type;
 export const PlatformConnectionRegistration = Schema.Union([
   PrimaryConnectionRegistration,
   BearerConnectionRegistration,
-]);
-export type PlatformConnectionRegistration = typeof PlatformConnectionRegistration.Type;
+])
+export type PlatformConnectionRegistration = typeof PlatformConnectionRegistration.Type
 
 export function connectionRegistrationCatalogEntry(
   registration: ConnectionRegistration | PrimaryConnectionRegistration,
@@ -129,13 +126,13 @@ export function connectionRegistrationCatalogEntry(
         target: registration.target,
         profile: Option.none(),
         enabled: true,
-      };
+      }
     case "BearerConnectionRegistration":
     case "SshConnectionRegistration":
       return {
         target: registration.target,
         profile: Option.some(registration.profile),
         enabled: true,
-      };
+      }
   }
 }

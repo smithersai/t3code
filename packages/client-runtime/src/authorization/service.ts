@@ -24,7 +24,7 @@ import {
 } from "../connection/model.vibe";
 import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.ts";
 import { environmentEndpointUrl } from "../environment/endpoint.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as ManagedRelay from "../relay/managedRelay.ts";
 import * as TokenStore from "./tokenStore.ts";
 import * as Clock from "effect/Clock";

@@ -13,11 +13,11 @@ import {
   getUserQueuedThreadRuns,
   type ThreadQueueWorkflowState,
 } from "./threadWorkflows.ts";
-import { deriveThreadTurnSubagents, type ThreadTurnSubagents } from "./threadSubagents.ts";
+import { deriveThreadTurnSubagents, type ThreadTurnSubagents } from "./threadSubagents.vibe";
 import {
   deriveThreadCheckpointSummaries,
   type ThreadCheckpointSummary,
-} from "./threadCheckpoints.ts";
+} from "./threadCheckpoints.vibe";
 import type {
   EnvironmentThread,
   EnvironmentThreadStructure,

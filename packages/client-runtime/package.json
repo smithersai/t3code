@@ -40,8 +40,8 @@
       "default": "./src/preview/serverBrowserStream.ts"
     },
     "./worktree-setup": {
-      "types": "./src/worktreeSetup.ts",
-      "default": "./src/worktreeSetup.ts"
+      "types": "./src/worktreeSetup.d.vibe.ts",
+      "default": "./src/worktreeSetup.vibe"
     },
     "./load-balancing": {
       "types": "./src/load-balancing.ts",
@@ -68,8 +68,8 @@
       "default": "./src/linkRequest.ts"
     },
     "./scheduled-task-webhook": {
-      "types": "./src/scheduledTaskWebhook.ts",
-      "default": "./src/scheduledTaskWebhook.ts"
+      "types": "./src/scheduledTaskWebhook.d.vibe.ts",
+      "default": "./src/scheduledTaskWebhook.vibe"
     },
     "./connection": {
       "types": "./src/connection/index.ts",
@@ -324,8 +324,8 @@
       "default": "./src/state/threadRelationships.vibe"
     },
     "./state/thread-checkpoints": {
-      "types": "./src/state/threadCheckpoints.ts",
-      "default": "./src/state/threadCheckpoints.ts"
+      "types": "./src/state/threadCheckpoints.d.vibe.ts",
+      "default": "./src/state/threadCheckpoints.vibe"
     },
     "./state/thread-execution": {
       "types": "./src/state/threadExecution.ts",
@@ -344,8 +344,8 @@
       "default": "./src/state/composerDispatch.ts"
     },
     "./state/thread-subagents": {
-      "types": "./src/state/threadSubagents.ts",
-      "default": "./src/state/threadSubagents.ts"
+      "types": "./src/state/threadSubagents.d.vibe.ts",
+      "default": "./src/state/threadSubagents.vibe"
     },
     "./state/thread-undo": {
       "types": "./src/state/threadUndo.ts",

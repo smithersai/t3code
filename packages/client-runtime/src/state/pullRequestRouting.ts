@@ -21,7 +21,7 @@ import {
   PullRequestRoutingPermissions,
   pullRequestRoutingConnectionKey,
 } from "../connection/pullRequestRoutingPermissions.ts";
-import type { ConnectionCatalogEntry } from "../connection/catalog.ts";
+import type { ConnectionCatalogEntry } from "../connection/catalog.vibe";
 import * as ConnectionProfileStore from "../connection/profileStore.ts";
 import type { RpcSession } from "../rpc/session.ts";
 import {

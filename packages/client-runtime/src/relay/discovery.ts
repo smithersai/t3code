@@ -17,7 +17,7 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
 import * as ManagedRelay from "./managedRelay.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as Connectivity from "../connection/connectivity.ts";
 import { mapManagedRelayError } from "../connection/errors.ts";
 import { ConnectionBlockedError, type ConnectionAttemptError } from "../connection/model.vibe";

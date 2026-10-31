@@ -20,7 +20,7 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import { Atom, AtomRegistry } from "effect/reactivity";
 
-import type { ConnectionCatalogEntry } from "../connection/catalog.ts";
+import type { ConnectionCatalogEntry } from "../connection/catalog.vibe";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import {
   AVAILABLE_CONNECTION_STATE,

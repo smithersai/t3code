@@ -13,7 +13,7 @@ import { hashTelemetryId } from "@t3tools/shared/telemetryId";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import { environmentEndpointUrl } from "../environment/endpoint.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
 import {
   executeEnvironmentHttpRequest,
   makeEnvironmentHttpApiGroupClient,

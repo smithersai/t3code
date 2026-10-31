@@ -11,7 +11,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import { bootstrapRemoteBearerSession } from "../authorization/remote.ts";
 import { deriveWsBaseUrl, normalizeHttpBaseUrl } from "../environment/endpoint.ts";
 import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
 import {
   BearerConnectionCredential,
   BearerConnectionProfile,
@@ -20,7 +20,7 @@ import {
   type ConnectionCredential,
   SshConnectionProfile,
   SshConnectionRegistration,
-} from "./catalog.ts";
+} from "./catalog.vibe";
 import * as ConnectionCredentialStore from "./credentialStore.ts";
 import { mapRemoteEnvironmentError } from "./errors.ts";
 import {

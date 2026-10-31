@@ -16,13 +16,13 @@ import {
   readClientOwnerParams,
 } from "../authorization/remote.ts";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
 import {
   BearerConnectionCredential,
   BearerConnectionProfile,
   type ConnectionCatalogEntry,
   SshConnectionProfile,
-} from "./catalog.ts";
+} from "./catalog.vibe";
 import * as ConnectionCredentialStore from "./credentialStore.ts";
 import {
   credentialMissingError,

@@ -3,7 +3,7 @@ import { EnvironmentId, type ServerConfig } from "@t3tools/contracts";
 import * as Option from "effect/Option";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
-import type { ConnectionCatalogEntry } from "../connection/catalog.ts";
+import type { ConnectionCatalogEntry } from "../connection/catalog.vibe";
 import { AVAILABLE_CONNECTION_STATE, PrimaryConnectionTarget } from "../connection/model.vibe";
 import {
   createEnvironmentPresentationAtoms,

@@ -1,4 +1,4 @@
-export * as ClientCapabilities from "./capabilities.ts";
+export * as ClientCapabilities from "./capabilities.vibe";
 export * as Persistence from "./persistence.ts";
 // Flat so consumers' inferred types can name it.
 export { ConnectionPersistenceError } from "./persistence.ts";

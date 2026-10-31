@@ -12,15 +12,15 @@ import * as TestClock from "effect/testing/TestClock";
 
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
 import * as TokenStore from "../authorization/tokenStore.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as ManagedRelay from "../relay/managedRelay.ts";
 import * as RpcHttp from "../rpc/http.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
 import { fetchEnvironmentSessionState } from "../state/session.ts";
-import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.ts";
+import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.vibe";
 import * as Connectivity from "./connectivity.ts";
 import * as ConnectionDriver from "./driver.ts";
-import { BearerConnectionProfile } from "./catalog.ts";
+import { BearerConnectionProfile } from "./catalog.vibe";
 import {
   BearerConnectionTarget,
   ConnectionBlockedError,
