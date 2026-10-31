@@ -32,7 +32,7 @@ import type {
   AzureDevOpsIteration,
   AzureDevOpsPullRequest,
   AzureDevOpsRepositoryLocation,
-} from "./azureDevOpsPullRequestJson.ts";
+} from "./azureDevOpsPullRequestJson.vibe";
 import { definition } from "../shared/definition.ts";
 
 /** Each file pays for two Python startups. */

@@ -3,7 +3,7 @@ import { assert, it } from "@effect/vitest";
 import * as Option from "effect/Option";
 import { ChildProcessSpawner } from "effect/process";
 
-import * as AzureDevOpsSourceControlProvider from "./AzureDevOpsSourceControlProvider.ts";
+import * as AzureDevOpsSourceControlProvider from "./AzureDevOpsSourceControlProvider.vibe";
 
 const { parseAuth } = AzureDevOpsSourceControlProvider.discovery;
 

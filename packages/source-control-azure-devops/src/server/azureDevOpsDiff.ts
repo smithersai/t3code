@@ -1,7 +1,7 @@
 import { quoteGitPatchPath } from "@t3tools/shared/gitPatchPath";
 import { structuredPatch } from "diff";
 
-import type { AzureDevOpsChangeEntry } from "./azureDevOpsPullRequestJson.ts";
+import type { AzureDevOpsChangeEntry } from "./azureDevOpsPullRequestJson.vibe";
 
 /** Pin the iteration to prevent pushes from renumbering files during pagination. */
 export interface AzureDevOpsDiffCursor {
