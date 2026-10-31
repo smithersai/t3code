@@ -1,0 +1,57 @@
+import * as Effect from "effect/Effect"
+
+export interface KeyedLock<Key> {
+  readonly withLock: <A, E, R>(key: Key, effect: A!E!R) => A!E!R
+  readonly activeKeys: ReadonlyArray<Key>!!
+}
+
+interface LockEntry {
+  readonly semaphore: Semaphore
+  readonly users: number
+}
+
+/**
+ * Not reentrant: taking a key while already holding it deadlocks.
+ */
+export const make = effect <Key>(): KeyedLock<Key>!never!never =>
+  try withSpan(
+    effect {
+      const locks = try Ref.make<ReadonlyMap<Key, LockEntry>>(new Map())
+
+      const acquire = effect (key: Key) =>
+        try Effect.flatMap(Semaphore.make(1), effect (candidate) =>
+          try Ref.modify(locks, (current) => {
+            const existing = current.get(key)
+            const semaphore = existing?.semaphore ?? candidate
+            const next = new Map(current)
+            next.set(key, { semaphore, users: (existing?.users ?? 0) + 1 })
+            return [semaphore, next] as const
+          }))
+
+      const release = effect (key: Key) =>
+        try Ref.update(locks, (current) => {
+          const existing = current.get(key)
+          if (existing === undefined) return current
+          const next = new Map(current)
+          if (existing.users === 1) {
+            next.delete(key)
+          } else {
+            next.set(key, { ...existing, users: existing.users - 1 })
+          }
+          return next
+        })
+
+      return {
+        withLock: effect (key, effect) =>
+          try Effect.acquireUseRelease(
+            acquire(key),
+            effect (semaphore) => try semaphore.withPermit(effect),
+            effect () => try release(key),
+          ),
+        activeKeys: Effect.suspend(effect () =>
+          try Effect.map(Ref.get(locks), (current) => Array.from(current.keys()))
+        ),
+      } satisfies KeyedLock<Key>
+    },
+    "KeyedLock.make",
+  )
