@@ -202,7 +202,7 @@
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-2deb9b78f8e1.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-3ee099e972e9.tgz",
     "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-a2b67ac4484b.tgz",
     "vite-plus": "catalog:"
   }
