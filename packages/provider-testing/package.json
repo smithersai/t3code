@@ -12,7 +12,7 @@
       "import": "./src/replayGate.ts"
     },
     "./replayTranscript": {
-      "types": "./src/replayTranscript.d.vibe.ts",
+      "types": "./src/replayTranscript.vibe",
       "import": "./src/replayTranscript.vibe"
     },
     "./replayWorkspace": {

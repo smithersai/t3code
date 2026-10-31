@@ -4,11 +4,11 @@
   "type": "module",
   "exports": {
     "./shared/definition": {
-      "types": "./src/shared/definition.d.vibe.ts",
+      "types": "./src/shared/definition.vibe",
       "import": "./src/shared/definition.vibe"
     },
     "./server/driver": {
-      "types": "./src/server/driver.d.vibe.ts",
+      "types": "./src/server/driver.vibe",
       "import": "./src/server/driver.vibe"
     }
   },

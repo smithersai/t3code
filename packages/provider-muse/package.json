@@ -8,7 +8,7 @@
       "import": "./src/client.ts"
     },
     "./settings": {
-      "types": "./src/settings.d.vibe.ts",
+      "types": "./src/settings.vibe",
       "import": "./src/settings.vibe"
     },
     "./server": {
@@ -16,7 +16,7 @@
       "import": "./src/server.ts"
     },
     "./server/usage": {
-      "types": "./src/server/usage.d.vibe.ts",
+      "types": "./src/server/usage.vibe",
       "import": "./src/server/usage.vibe"
     },
     "./testing": {

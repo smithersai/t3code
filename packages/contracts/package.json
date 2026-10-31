@@ -12,7 +12,7 @@
       "import": "./src/index.ts"
     },
     "./settings": {
-      "types": "./src/settings.d.vibe.ts",
+      "types": "./src/settings.vibe",
       "import": "./src/settings.vibe"
     },
     "./relay": {

@@ -4,7 +4,7 @@
   "type": "module",
   "exports": {
     "./fakeSourceControlDriver": {
-      "types": "./src/fakeSourceControlDriver.d.vibe.ts",
+      "types": "./src/fakeSourceControlDriver.vibe",
       "import": "./src/fakeSourceControlDriver.vibe"
     },
     "./TestSourceControlHost": {

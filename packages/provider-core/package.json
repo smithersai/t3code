@@ -12,11 +12,11 @@
       "import": "./src/modelShortName.ts"
     },
     "./server/adapterDriver": {
-      "types": "./src/server/adapterDriver.d.vibe.ts",
+      "types": "./src/server/adapterDriver.vibe",
       "import": "./src/server/adapterDriver.vibe"
     },
     "./server/attachmentPrompt": {
-      "types": "./src/server/attachmentPrompt.d.vibe.ts",
+      "types": "./src/server/attachmentPrompt.vibe",
       "import": "./src/server/attachmentPrompt.vibe"
     },
     "./server/auth": {
@@ -32,7 +32,7 @@
       "import": "./src/server/driver.ts"
     },
     "./server/errors": {
-      "types": "./src/server/errors.d.vibe.ts",
+      "types": "./src/server/errors.vibe",
       "import": "./src/server/errors.vibe"
     },
     "./server/failure": {
@@ -40,7 +40,7 @@
       "import": "./src/server/failure.ts"
     },
     "./server/handoffBudget": {
-      "types": "./src/server/handoffBudget.d.vibe.ts",
+      "types": "./src/server/handoffBudget.vibe",
       "import": "./src/server/handoffBudget.vibe"
     },
     "./server/IdAllocator": {
@@ -112,7 +112,7 @@
       "import": "./src/server/providerAuthFlow.ts"
     },
     "./server/ProviderContinuationRequests": {
-      "types": "./src/server/ProviderContinuationRequests.d.vibe.ts",
+      "types": "./src/server/ProviderContinuationRequests.vibe",
       "import": "./src/server/ProviderContinuationRequests.vibe"
     },
     "./server/ProviderEventLoggers": {
@@ -152,7 +152,7 @@
       "import": "./src/server/snapshotSettings.ts"
     },
     "./server/subagentProjection": {
-      "types": "./src/server/subagentProjection.d.vibe.ts",
+      "types": "./src/server/subagentProjection.vibe",
       "import": "./src/server/subagentProjection.vibe"
     },
     "./server/textGeneration": {
@@ -164,15 +164,15 @@
       "import": "./src/server/textGenerationOperations.ts"
     },
     "./server/textGenerationPolicy": {
-      "types": "./src/server/textGenerationPolicy.d.vibe.ts",
+      "types": "./src/server/textGenerationPolicy.vibe",
       "import": "./src/server/textGenerationPolicy.vibe"
     },
     "./server/textGenerationPrompts": {
-      "types": "./src/server/textGenerationPrompts.d.vibe.ts",
+      "types": "./src/server/textGenerationPrompts.vibe",
       "import": "./src/server/textGenerationPrompts.vibe"
     },
     "./server/textGenerationUtils": {
-      "types": "./src/server/textGenerationUtils.d.vibe.ts",
+      "types": "./src/server/textGenerationUtils.vibe",
       "import": "./src/server/textGenerationUtils.vibe"
     },
     "./server/threadTitleContext": {

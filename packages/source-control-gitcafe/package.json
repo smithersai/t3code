@@ -8,7 +8,7 @@
       "import": "./src/shared/definition.ts"
     },
     "./server/driver": {
-      "types": "./src/server/driver.d.vibe.ts",
+      "types": "./src/server/driver.vibe",
       "import": "./src/server/driver.vibe"
     }
   },
