@@ -14,7 +14,7 @@ import { issueRemoteWebSocketTicket } from "./authorization/remote.ts";
 import { PrimaryConnectionTarget } from "./connection/model.vibe";
 import { fetchRemoteEnvironmentDescriptor } from "./environment/descriptor.ts";
 import type { RemoteEnvironmentRequestError } from "./rpc/http.ts";
-import { fetchEnvironmentThreadSnapshot } from "./state/threadSnapshotHttp.ts";
+import { fetchEnvironmentThreadSnapshot } from "./state/threadSnapshotHttp.vibe";
 import { applyOrchestrationV2ProjectionEvent } from "./state/orchestrationV2Projection.ts";
 import { v2Projection, v2Now } from "./state/orchestrationV2TestFixtures.vibe";
 
