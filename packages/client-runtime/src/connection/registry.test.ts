@@ -21,7 +21,7 @@ import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
-import * as ClientCapabilities from "../platform/capabilities.ts";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as TokenStore from "../authorization/tokenStore.ts";
 import {
   BearerConnectionCredential,
@@ -36,7 +36,7 @@ import {
   SshConnectionRegistration,
   type ConnectionCredential,
   type ConnectionProfile,
-} from "./catalog.ts";
+} from "./catalog.vibe";
 import * as Connectivity from "./connectivity.ts";
 import * as ConnectionCredentialStore from "./credentialStore.ts";
 import * as ConnectionDriver from "./driver.ts";

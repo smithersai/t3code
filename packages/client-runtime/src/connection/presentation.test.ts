@@ -6,7 +6,7 @@ import {
   BearerConnectionProfile,
   type ConnectionCatalogEntry,
   type ConnectionRoute,
-} from "./catalog.ts";
+} from "./catalog.vibe";
 import {
   BearerConnectionTarget,
   ConnectionTransientError,

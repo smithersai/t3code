@@ -7,7 +7,7 @@ import * as Scope from "effect/Scope";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as HttpClient from "effect/http/HttpClient";
 
-import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.ts";
+import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.vibe";
 import type {
   ConnectionAttemptError,
   ConnectionAttemptStage,

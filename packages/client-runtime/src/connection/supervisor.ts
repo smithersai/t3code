@@ -15,7 +15,7 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as Tracer from "effect/Tracer";
 
-import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.ts";
+import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.vibe";
 import * as Connectivity from "./connectivity.ts";
 import * as ConnectionDriver from "./driver.ts";
 import {

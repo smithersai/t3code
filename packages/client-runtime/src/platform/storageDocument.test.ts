@@ -12,7 +12,7 @@ import {
   RelayConnectionRegistration,
   SshConnectionProfile,
   SshConnectionRegistration,
-} from "../connection/catalog.ts";
+} from "../connection/catalog.vibe";
 import {
   BearerConnectionTarget,
   ConnectionTransientError,

@@ -1,7 +1,7 @@
 import * as Context from "effect/Context";
 import type * as Stream from "effect/Stream";
 
-import type { PlatformConnectionRegistration } from "../connection/catalog.ts";
+import type { PlatformConnectionRegistration } from "../connection/catalog.vibe";
 
 export class PlatformConnectionSource extends Context.Service<
   PlatformConnectionSource,

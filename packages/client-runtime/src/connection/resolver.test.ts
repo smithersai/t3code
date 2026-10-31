@@ -10,7 +10,7 @@ import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
 
 import * as ConnectionResolver from "./resolver.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
 import {
   BearerConnectionCredential,
@@ -18,7 +18,7 @@ import {
   SshConnectionProfile,
   type ConnectionCredential,
   type ConnectionProfile,
-} from "./catalog.ts";
+} from "./catalog.vibe";
 import * as ConnectionCredentialStore from "./credentialStore.ts";
 import {
   ConnectionTransientError,

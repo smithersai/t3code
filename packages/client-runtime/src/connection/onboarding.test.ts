@@ -12,7 +12,7 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
 import * as RpcHttp from "../rpc/http.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as Persistence from "../platform/persistence.ts";
 import { fetchRemoteSessionState } from "../authorization/remote.ts";
 import {
@@ -20,7 +20,7 @@ import {
   BearerConnectionProfile,
   BearerConnectionRegistration,
   PrimaryConnectionRegistration,
-} from "./catalog.ts";
+} from "./catalog.vibe";
 import * as Connectivity from "./connectivity.ts";
 import * as ConnectionCredentialStore from "./credentialStore.ts";
 import * as ConnectionDriver from "./driver.ts";

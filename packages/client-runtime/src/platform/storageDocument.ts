@@ -6,7 +6,7 @@ import {
   type ConnectionRegistration,
   ConnectionCredential,
   ConnectionProfile,
-} from "../connection/catalog.ts";
+} from "../connection/catalog.vibe";
 import { type ConnectionTarget, PersistedConnectionTarget } from "../connection/model.vibe";
 import * as TokenStore from "../authorization/tokenStore.ts";
 import { StoredPullRequestRoutingPermission } from "../connection/pullRequestRoutingPermissions.ts";

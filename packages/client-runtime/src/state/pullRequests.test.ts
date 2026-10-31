@@ -32,7 +32,7 @@ import {
   type SupervisorConnectionState,
 } from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.ts";
-import { SshConnectionProfile, type ConnectionCatalogEntry } from "../connection/catalog.ts";
+import { SshConnectionProfile, type ConnectionCatalogEntry } from "../connection/catalog.vibe";
 import * as ConnectionProfileStore from "../connection/profileStore.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";

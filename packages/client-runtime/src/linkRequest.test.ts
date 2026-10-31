@@ -3,7 +3,7 @@ import type { RelayEnvironmentStatusResponse } from "@t3tools/contracts/relay";
 import * as Option from "effect/Option";
 import { describe, expect, it } from "vite-plus/test";
 
-import { BearerConnectionProfile } from "./connection/catalog.ts";
+import { BearerConnectionProfile } from "./connection/catalog.vibe";
 import { BearerConnectionTarget, RelayConnectionTarget } from "./connection/model.vibe";
 import type { EnvironmentPresentation } from "./connection/presentation.ts";
 import type { RelayDiscoveredEnvironment } from "./relay/discovery.ts";

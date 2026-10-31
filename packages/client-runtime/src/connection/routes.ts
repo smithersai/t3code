@@ -11,7 +11,7 @@ import {
   BearerConnectionProfile,
   type ConnectionCatalogEntry,
   type ConnectionRoute,
-} from "./catalog.ts";
+} from "./catalog.vibe";
 import { BearerConnectionTarget, type ConnectionTarget } from "./model.vibe";
 
 export type ConnectionRouteKind =

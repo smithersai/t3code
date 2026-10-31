@@ -14,7 +14,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Socket from "effect/socket/Socket";
 
-import type { ConnectionCatalogEntry } from "./catalog.ts";
+import type { ConnectionCatalogEntry } from "./catalog.vibe";
 import { orchestrationProtocolCompatibilityError } from "./compatibility.ts";
 import { PrimaryConnectionTarget } from "./model.vibe";
 import { describeOutdatedHost, updateOutdatedHost } from "./outdatedHostUpdate.ts";
