@@ -6,5 +6,5 @@
     "lib": ["ESNext", "esnext.disposable"]
   },
   "include": ["src"],
-  "vibelang": { "declarationSidecars": true, "trustedPackages": ["@t3tools/*"] }
+  "vibelang": { "trustedPackages": ["@t3tools/*"] }
 }
