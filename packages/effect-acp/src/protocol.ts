@@ -1,4 +1,4 @@
-import type * as AcpCompat from "./compat.ts";
+import type * as AcpCompat from "./compat.vibe";
 import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Deferred from "effect/Deferred";
