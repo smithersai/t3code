@@ -5,34 +5,35 @@ import type {
   MessageId,
   OrchestrationV2ThreadProjection,
   RunId,
-} from "@t3tools/contracts"
-import * as DateTime from "effect/DateTime"
+} from "@t3tools/contracts";
+import * as DateTime from "effect/DateTime";
 
 export interface ThreadCheckpointSummary {
-  readonly checkpointId?: CheckpointId
-  readonly scopeId?: CheckpointScopeId
-  readonly runId: RunId
-  readonly checkpointTurnCount: number
-  readonly checkpointRef: CheckpointRef
-  readonly status: "ready" | "missing" | "error" | "stale"
+  readonly checkpointId?: CheckpointId;
+  readonly scopeId?: CheckpointScopeId;
+  readonly runId: RunId;
+  readonly checkpointTurnCount: number;
+  readonly checkpointRef: CheckpointRef;
+  readonly status: "ready" | "missing" | "error" | "stale";
   readonly files: ReadonlyArray<{
-    readonly path: string
-    readonly kind: string
-    readonly additions: number
-    readonly deletions: number
-  }>
-  readonly assistantMessageId: MessageId | null
-  readonly completedAt: string
+    readonly path: string;
+    readonly kind: string;
+    readonly additions: number;
+    readonly deletions: number;
+  }>;
+  readonly assistantMessageId: MessageId | null;
+  readonly completedAt: string;
 }
 
 export function deriveThreadCheckpointSummaries(
   projection: Pick<OrchestrationV2ThreadProjection, "checkpoints" | "messages">,
 ): ReadonlyArray<ThreadCheckpointSummary> {
   return projection.checkpoints.flatMap((checkpoint) => {
-    if (checkpoint.appRunOrdinal === null || checkpoint.runId === null) return []
-    const assistantMessageId = projection.messages.findLast(
-      (message) => message.runId === checkpoint.runId && message.role === "assistant",
-    )?.id ?? null
+    if (checkpoint.appRunOrdinal === null || checkpoint.runId === null) return [];
+    const assistantMessageId =
+      projection.messages.findLast(
+        (message) => message.runId === checkpoint.runId && message.role === "assistant",
+      )?.id ?? null;
     return [
       {
         checkpointId: checkpoint.id,
@@ -45,6 +46,6 @@ export function deriveThreadCheckpointSummaries(
         assistantMessageId,
         completedAt: DateTime.formatIso(checkpoint.capturedAt),
       },
-    ]
-  })
+    ];
+  });
 }
