@@ -17,7 +17,7 @@ import * as DateTime from "effect/DateTime";
 import { usageLimitBlockedRun } from "@t3tools/shared/orchestrationV2ThreadError";
 import { describe, expect, it } from "vite-plus/test";
 
-import { v2Projection } from "./orchestrationV2TestFixtures.ts";
+import { v2Projection } from "./orchestrationV2TestFixtures.vibe";
 import {
   deriveReportedModelSelection,
   deriveLatestThreadRun,

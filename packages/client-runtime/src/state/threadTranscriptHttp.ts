@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import type * as Option from "effect/Option";
 
 import type { RemoteEnvironmentAuthorization } from "../authorization/service.ts";
-import type { PreparedConnection } from "../connection/model.ts";
+import type { PreparedConnection } from "../connection/model.vibe";
 import type { ManagedRelayDpopSigner } from "../relay/managedRelay.ts";
 import {
   executeAuthenticatedEnvironmentHttpRequest,

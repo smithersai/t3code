@@ -28,7 +28,7 @@ import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { persistPullRequestStats } from "./pullRequestStatsPersistence.ts";
-import { persistQuery } from "./queryPersistence.ts";
+import { persistQuery } from "./queryPersistence.vibe";
 import * as Option from "effect/Option";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";

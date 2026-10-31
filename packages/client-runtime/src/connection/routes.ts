@@ -12,7 +12,7 @@ import {
   type ConnectionCatalogEntry,
   type ConnectionRoute,
 } from "./catalog.ts";
-import { BearerConnectionTarget, type ConnectionTarget } from "./model.ts";
+import { BearerConnectionTarget, type ConnectionTarget } from "./model.vibe";
 
 export type ConnectionRouteKind =
   | "relay"

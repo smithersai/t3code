@@ -33,8 +33,8 @@ import type {
   NetworkStatus,
   PersistedConnectionTarget,
   SupervisorConnectionState,
-} from "./model.ts";
-import { ConnectionBlockedError } from "./model.ts";
+} from "./model.vibe";
+import { ConnectionBlockedError } from "./model.vibe";
 import * as Persistence from "../platform/persistence.ts";
 import * as EnvironmentSupervisor from "./supervisor.ts";
 import * as ConnectionDriver from "./driver.ts";

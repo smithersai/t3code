@@ -52,7 +52,7 @@ import {
   type ConnectionTarget,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "./model.ts";
+} from "./model.vibe";
 import * as Persistence from "../platform/persistence.ts";
 import * as ConnectionProfileStore from "./profileStore.ts";
 import * as EnvironmentRegistry from "./registry.ts";
@@ -68,7 +68,7 @@ import { watchDiscoveredCompatibility } from "./layer.ts";
 import * as RelayEnvironmentDiscovery from "../relay/discovery.ts";
 import type { RelayEnvironmentStatusResponse } from "@t3tools/contracts/relay";
 import { runDesktopCommitWithReconnectObserver } from "../state/server.ts";
-import { v2ShellSnapshot } from "../state/orchestrationV2TestFixtures.ts";
+import { v2ShellSnapshot } from "../state/orchestrationV2TestFixtures.vibe";
 
 const TARGET = new PrimaryConnectionTarget({
   environmentId: EnvironmentId.make("environment-1"),

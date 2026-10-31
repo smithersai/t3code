@@ -27,13 +27,13 @@ import {
   PrimaryConnectionTarget,
   type NetworkStatus,
   type PreparedConnection,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as Persistence from "../platform/persistence.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
 import type { RpcSession } from "../rpc/session.ts";
 import { createEnvironmentThreadDetailAtoms } from "./threadDetail.ts";
-import { v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.ts";
+import { v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.vibe";
 import * as ThreadHistoryController from "./threadHistoryController.ts";
 import { createEnvironmentThreadStateAtoms, type EnvironmentThreadState } from "./threads.ts";
 import * as ThreadSnapshotLoader from "./threadSnapshotHttp.ts";

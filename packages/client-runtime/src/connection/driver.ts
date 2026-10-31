@@ -12,8 +12,8 @@ import type {
   ConnectionAttemptError,
   ConnectionAttemptStage,
   PreparedConnection,
-} from "./model.ts";
-import { ConnectionTransientError } from "./model.ts";
+} from "./model.vibe";
+import { ConnectionTransientError } from "./model.vibe";
 import * as ConnectionResolver from "./resolver.ts";
 import {
   connectionRoutes,

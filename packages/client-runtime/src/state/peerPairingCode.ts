@@ -12,7 +12,7 @@ import type { Atom } from "effect/reactivity";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
-import type { PreparedConnection } from "../connection/model.ts";
+import type { PreparedConnection } from "../connection/model.vibe";
 import type { EnvironmentRegistry } from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as ManagedRelay from "../relay/managedRelay.ts";

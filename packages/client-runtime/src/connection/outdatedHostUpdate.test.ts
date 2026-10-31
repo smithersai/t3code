@@ -16,7 +16,7 @@ import * as Socket from "effect/socket/Socket";
 
 import type { ConnectionCatalogEntry } from "./catalog.ts";
 import { orchestrationProtocolCompatibilityError } from "./compatibility.ts";
-import { PrimaryConnectionTarget } from "./model.ts";
+import { PrimaryConnectionTarget } from "./model.vibe";
 import { describeOutdatedHost, updateOutdatedHost } from "./outdatedHostUpdate.ts";
 import * as EnvironmentRegistry from "./registry.ts";
 import * as ConnectionResolver from "./resolver.ts";

@@ -12,8 +12,8 @@ import {
 import * as DateTime from "effect/DateTime";
 import { describe, expect, it } from "vite-plus/test";
 
-import { presentThreadShell, resolveThreadWorkingStartedAt } from "./models.ts";
-import { v2Projection, v2ThreadShell } from "./orchestrationV2TestFixtures.ts";
+import { presentThreadShell, resolveThreadWorkingStartedAt } from "./models.vibe";
+import { v2Projection, v2ThreadShell } from "./orchestrationV2TestFixtures.vibe";
 import { deriveLatestThreadRun, deriveThreadRuntime } from "./threadExecution.ts";
 import { isThreadWorking } from "./threadInbox.ts";
 import { derivePendingThreadRequests } from "./threadRequests.ts";

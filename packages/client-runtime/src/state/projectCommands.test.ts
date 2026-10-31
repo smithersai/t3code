@@ -21,12 +21,12 @@ import * as Schema from "effect/Schema";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as Stream from "effect/Stream";
 import { Atom, AtomRegistry, AsyncResult } from "effect/reactivity";
-import { AVAILABLE_CONNECTION_STATE } from "../connection/model.ts";
+import { AVAILABLE_CONNECTION_STATE } from "../connection/model.vibe";
 
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import type { RpcSession } from "../rpc/session.ts";
-import type { EnvironmentProject } from "./models.ts";
+import type { EnvironmentProject } from "./models.vibe";
 import { createProjectEnvironmentAtoms } from "./projectCommands.ts";
 
 const decodeReadFileInput = Schema.decodeUnknownSync(ProjectReadFileInput);

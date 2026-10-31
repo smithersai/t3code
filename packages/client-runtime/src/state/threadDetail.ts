@@ -25,8 +25,8 @@ import type {
   ThreadStructureThread,
   ThreadStructureTurnItem,
   ThreadStructureVisibleTurnItem,
-} from "./models.ts";
-import { EMPTY_ENVIRONMENT_THREAD_STATE, type EnvironmentThreadState } from "./threadState.ts";
+} from "./models.vibe";
+import { EMPTY_ENVIRONMENT_THREAD_STATE, type EnvironmentThreadState } from "./threadState.vibe";
 import {
   createQuestionHistoryProjector,
   derivePendingThreadRequests,

@@ -28,7 +28,7 @@ import {
   BearerConnectionTarget,
   ConnectionBlockedError,
   PrimaryConnectionTarget,
-} from "./model.ts";
+} from "./model.vibe";
 import * as Onboarding from "./onboarding.ts";
 import {
   prepareBearerConnectionUpdate,

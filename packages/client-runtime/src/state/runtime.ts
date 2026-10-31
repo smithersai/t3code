@@ -1,7 +1,7 @@
-import type { QueryPersistence } from "./queryPersistence.ts";
+import type { QueryPersistence } from "./queryPersistence.vibe";
 import { createCommandPermissions } from "./commandPermissions.ts";
 import { followStreamInEnvironment } from "./environmentStreams.ts";
-import { reuseUnchanged } from "./serverConfigProjection.ts";
+import { reuseUnchanged } from "./serverConfigProjection.vibe";
 export { runStreamInEnvironment, followStreamInEnvironment } from "./environmentStreams.ts";
 import {
   type ClientGuardedRpcTag,
@@ -17,7 +17,7 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
-import type { ConnectionAttemptError, SupervisorConnectionState } from "../connection/model.ts";
+import type { ConnectionAttemptError, SupervisorConnectionState } from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import {
   type EnvironmentRpcInput,

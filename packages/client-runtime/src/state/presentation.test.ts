@@ -4,7 +4,7 @@ import * as Option from "effect/Option";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
 import type { ConnectionCatalogEntry } from "../connection/catalog.ts";
-import { AVAILABLE_CONNECTION_STATE, PrimaryConnectionTarget } from "../connection/model.ts";
+import { AVAILABLE_CONNECTION_STATE, PrimaryConnectionTarget } from "../connection/model.vibe";
 import {
   createEnvironmentPresentationAtoms,
   createEnvironmentSummaryAtoms,

@@ -32,7 +32,7 @@ import {
   type ThreadRuntimeSummary,
   type ThreadStructure,
   type ThreadStructureRuntime,
-} from "./models.ts";
+} from "./models.vibe";
 import { formatSubagentDisplayTitle } from "./subagentDisplay.ts";
 
 const ACTIVITY_RUN_STATUSES = new Set(["preparing", "starting", "running", "waiting"]);

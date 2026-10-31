@@ -58,9 +58,9 @@ import {
   reuseUnchanged,
   type ServerConfigProjection,
   withoutEnvironmentThemes,
-} from "./serverConfigProjection.ts";
+} from "./serverConfigProjection.vibe";
 
-export type { ServerConfigProjection } from "./serverConfigProjection.ts";
+export type { ServerConfigProjection } from "./serverConfigProjection.vibe";
 
 export type ServerUpdateStage = "downloading" | "installing" | "resuming";
 

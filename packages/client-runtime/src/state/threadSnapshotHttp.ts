@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
-import type { PreparedConnection } from "../connection/model.ts";
+import type { PreparedConnection } from "../connection/model.vibe";
 import * as ManagedRelay from "../relay/managedRelay.ts";
 import type { RemoteEnvironmentRequestError } from "../rpc/http.ts";
 import {

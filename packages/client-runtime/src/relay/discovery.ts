@@ -20,7 +20,7 @@ import * as ManagedRelay from "./managedRelay.ts";
 import * as ClientCapabilities from "../platform/capabilities.ts";
 import * as Connectivity from "../connection/connectivity.ts";
 import { mapManagedRelayError } from "../connection/errors.ts";
-import { ConnectionBlockedError, type ConnectionAttemptError } from "../connection/model.ts";
+import { ConnectionBlockedError, type ConnectionAttemptError } from "../connection/model.vibe";
 import * as ConnectionWakeups from "../connection/wakeups.ts";
 
 export type RelayEnvironmentAvailability = "checking" | "online" | "offline" | "error";

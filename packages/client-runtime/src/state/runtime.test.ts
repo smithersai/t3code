@@ -28,13 +28,13 @@ import {
   PrimaryConnectionTarget,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import { EnvironmentRpcUnavailableError } from "../rpc/client.ts";
 import type * as RpcSession from "../rpc/session.ts";
 import { createPreviewEnvironmentAtoms } from "./preview.ts";
-import type { QueryPersistence } from "./queryPersistence.ts";
+import type { QueryPersistence } from "./queryPersistence.vibe";
 import { createTerminalEnvironmentAtoms } from "./terminal.ts";
 import {
   createAtomCommandScheduler,

@@ -30,7 +30,7 @@ import {
   AVAILABLE_CONNECTION_STATE,
   PrimaryConnectionTarget,
   type PreparedConnection,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as Persistence from "../platform/persistence.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
@@ -55,7 +55,7 @@ import {
   waitForDesktopUpdateTarget,
   runDesktopCommitWithReconnectObserver,
 } from "./server.ts";
-import { applyServerConfigProjection } from "./serverConfigProjection.ts";
+import { applyServerConfigProjection } from "./serverConfigProjection.vibe";
 
 const CONFIG = {
   availableEditors: [],

@@ -8,8 +8,8 @@ import type {
 } from "@t3tools/contracts";
 import { Atom } from "effect/reactivity";
 
-import type { EnvironmentProject } from "./models.ts";
-import { scopeProject } from "./models.ts";
+import type { EnvironmentProject } from "./models.vibe";
+import { scopeProject } from "./models.vibe";
 import { isScratchProject } from "./projects.ts";
 import { type EnvironmentCatalogState, enabledEnvironmentIds } from "./connections.ts";
 import { arrayElementsEqual, parseProjectKey, projectKey, projectRefsEqual } from "./entities.ts";

@@ -1,7 +1,7 @@
 // @effect-diagnostics globalDate:off -- UI snooze presets use local calendar boundaries and Intl labels.
 import * as DateTime from "effect/DateTime";
 
-import type { EnvironmentThreadShell, PendingSubagentRequest } from "./models.ts";
+import type { EnvironmentThreadShell, PendingSubagentRequest } from "./models.vibe";
 
 interface SettlementRunLike {
   readonly turnId?: unknown;

@@ -20,7 +20,7 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 import { AsyncResult, Atom } from "effect/reactivity";
 
 import * as EnvironmentRegistry from "../connection/registry.ts";
-import { connectionProjectionPhase } from "../connection/model.ts";
+import { connectionProjectionPhase } from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as ConnectionWakeups from "../connection/wakeups.ts";
 import { safeErrorLogAttributes } from "../errors/safeLog.ts";
@@ -35,7 +35,7 @@ import {
   mergeShellSnapshotProjects,
   reuseUnchangedThreadShells,
   sameThreadPullRequests,
-} from "./shellReducer.ts";
+} from "./shellReducer.vibe";
 import { type EnvironmentCatalogState, enabledEnvironmentIds } from "./connections.ts";
 import { followStreamInEnvironment } from "./runtime.ts";
 
@@ -638,9 +638,9 @@ export function createEnvironmentShellAtoms<R, E>(
   };
 }
 
-export * from "./models.ts";
+export * from "./models.vibe";
 export * from "./shellCommands.ts";
-export * from "./shellReducer.ts";
+export * from "./shellReducer.vibe";
 export * from "./shellPullRequests.ts";
 export * as ShellSnapshotLoader from "./shellSnapshotHttp.ts";
 export * from "./snapshots.ts";

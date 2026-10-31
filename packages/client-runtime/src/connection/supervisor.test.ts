@@ -32,7 +32,7 @@ import {
   type NetworkStatus,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "./model.ts";
+} from "./model.vibe";
 import * as RpcSession from "../rpc/session.ts";
 import { presentConnectionState } from "./presentation.ts";
 import * as EnvironmentSupervisor from "./supervisor.ts";

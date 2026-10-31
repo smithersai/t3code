@@ -8,7 +8,7 @@ import {
   RelayConnectionTarget,
   SshConnectionTarget,
   type ConnectionTarget,
-} from "./model.ts";
+} from "./model.vibe";
 
 const ConnectionProfileBase = {
   connectionId: Schema.String,

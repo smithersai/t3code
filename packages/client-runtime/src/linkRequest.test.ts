@@ -4,7 +4,7 @@ import * as Option from "effect/Option";
 import { describe, expect, it } from "vite-plus/test";
 
 import { BearerConnectionProfile } from "./connection/catalog.ts";
-import { BearerConnectionTarget, RelayConnectionTarget } from "./connection/model.ts";
+import { BearerConnectionTarget, RelayConnectionTarget } from "./connection/model.vibe";
 import type { EnvironmentPresentation } from "./connection/presentation.ts";
 import type { RelayDiscoveredEnvironment } from "./relay/discovery.ts";
 import {

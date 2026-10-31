@@ -25,7 +25,7 @@ import {
   PrimaryConnectionTarget,
   SshConnectionTarget,
   type ConnectionTarget,
-} from "./model.ts";
+} from "./model.vibe";
 import * as ConnectionProfileStore from "./profileStore.ts";
 import * as RpcHttp from "../rpc/http.ts";
 import {

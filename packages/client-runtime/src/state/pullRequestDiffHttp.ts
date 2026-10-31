@@ -11,7 +11,7 @@ import * as Schema from "effect/Schema";
 import { HttpClient } from "effect/http";
 
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
-import type { PreparedConnection } from "../connection/model.ts";
+import type { PreparedConnection } from "../connection/model.vibe";
 import * as ManagedRelay from "../relay/managedRelay.ts";
 import { type RemoteEnvironmentRequestError } from "../rpc/http.ts";
 import { executeAuthenticatedEnvironmentHttpRequest } from "./environmentHttpAuth.ts";

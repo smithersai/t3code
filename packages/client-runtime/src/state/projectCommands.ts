@@ -19,7 +19,7 @@ import {
   request,
   requestGuarded,
 } from "../rpc/client.ts";
-import type { EnvironmentProject } from "./models.ts";
+import type { EnvironmentProject } from "./models.vibe";
 import {
   createAtomCommandScheduler,
   createEnvironmentCommand,

@@ -9,7 +9,7 @@ import { AsyncResult, Atom } from "effect/reactivity";
 
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
 import * as EnvironmentRegistry from "../connection/registry.ts";
-import type { PreparedConnection } from "../connection/model.ts";
+import type { PreparedConnection } from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as ManagedRelay from "../relay/managedRelay.ts";
 import type { RemoteEnvironmentRequestError } from "../rpc/http.ts";

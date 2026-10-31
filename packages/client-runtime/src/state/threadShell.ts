@@ -10,8 +10,8 @@ import { isProviderNativeSubagentThread, OrchestrationV2ThreadShell } from "@t3t
 import * as Schema from "effect/Schema";
 import { Atom } from "effect/reactivity";
 
-import type { EnvironmentThreadShell, PendingSubagentRequest } from "./models.ts";
-import { presentThreadShell, threadRuntimeIsActive } from "./models.ts";
+import type { EnvironmentThreadShell, PendingSubagentRequest } from "./models.vibe";
+import { presentThreadShell, threadRuntimeIsActive } from "./models.vibe";
 import { type EnvironmentCatalogState, enabledEnvironmentIds } from "./connections.ts";
 import {
   arrayElementsEqual,

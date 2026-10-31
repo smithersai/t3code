@@ -9,7 +9,7 @@ import { withRelayClientTracing } from "@t3tools/shared/relayTracing";
 import { FetchHttpClient, type HttpMethod } from "effect/http";
 
 import type { RemoteEnvironmentAuthorization } from "../authorization/service.ts";
-import type { PreparedConnection, PreparedHttpAuthorization } from "../connection/model.ts";
+import type { PreparedConnection, PreparedHttpAuthorization } from "../connection/model.vibe";
 import type { ManagedRelayDpopSigner } from "../relay/managedRelay.ts";
 import {
   executeEnvironmentHttpRequest,

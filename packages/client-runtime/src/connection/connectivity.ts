@@ -3,7 +3,7 @@ import type * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
 
-import type { NetworkStatus } from "./model.ts";
+import type { NetworkStatus } from "./model.vibe";
 
 export class Connectivity extends Context.Service<
   Connectivity,

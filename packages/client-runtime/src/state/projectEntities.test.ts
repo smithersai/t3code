@@ -3,9 +3,9 @@ import { Atom, AtomRegistry } from "effect/reactivity";
 import * as Option from "effect/Option";
 import { describe, expect, it } from "vite-plus/test";
 
-import { PrimaryConnectionTarget } from "../connection/model.ts";
+import { PrimaryConnectionTarget } from "../connection/model.vibe";
 import { createEnvironmentProjectAtoms } from "./projectEntities.ts";
-import { v2Project, v2ShellSnapshot } from "./orchestrationV2TestFixtures.ts";
+import { v2Project, v2ShellSnapshot } from "./orchestrationV2TestFixtures.vibe";
 
 const environmentId = EnvironmentId.make("local");
 const remoteEnvironmentId = EnvironmentId.make("remote");

@@ -21,7 +21,7 @@ import {
   ConnectionBlockedError,
   ConnectionTransientError,
   type ConnectionAttemptError,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.ts";
 import { environmentEndpointUrl } from "../environment/endpoint.ts";
 import * as ClientCapabilities from "../platform/capabilities.ts";
@@ -42,7 +42,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import {
   DPOP_ACCESS_TOKEN_REFRESH_SKEW_MS,
   type PreparedHttpAuthorization,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 
 export interface AuthorizedRemoteEnvironment {
   readonly environmentId: EnvironmentId;

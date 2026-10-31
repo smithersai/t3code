@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 
-import { PrimaryConnectionTarget, type PreparedConnection } from "../connection/model.ts";
+import { PrimaryConnectionTarget, type PreparedConnection } from "../connection/model.vibe";
 import * as RpcHttp from "../rpc/http.ts";
 import * as BoundedThreadSnapshotHttp from "./boundedThreadSnapshotHttp.ts";
 import * as ThreadSnapshotLoader from "./threadSnapshotHttp.ts";
