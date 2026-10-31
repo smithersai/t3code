@@ -16,8 +16,8 @@
       "import": "./src/settings.vibe"
     },
     "./relay": {
-      "types": "./src/relay.ts",
-      "import": "./src/relay.ts"
+      "types": "./src/relay.d.vibe.ts",
+      "import": "./src/relay.vibe"
     }
   },
   "scripts": {

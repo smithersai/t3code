@@ -1,4 +1,3 @@
-import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 
 import { ProjectId, ThreadId, TrimmedNonEmptyString, TrimmedString } from "./baseSchemas.ts";
@@ -41,11 +40,9 @@ export function resolveOfficialAcpRegistryIconUrl(icon: string | null | undefine
   }
 }
 
-export const AcpRegistryDistribution = Schema.Literals(["binary", "npx", "uvx"]);
-export type AcpRegistryDistribution = typeof AcpRegistryDistribution.Type;
+export schema AcpRegistryDistribution = "binary" | "npx" | "uvx"
 
-export const AcpRegistryIntegrity = Schema.Literals(["sha256", "registry"]);
-export type AcpRegistryIntegrity = typeof AcpRegistryIntegrity.Type;
+export schema AcpRegistryIntegrity = "sha256" | "registry"
 
 export const ACP_REGISTRY_MAX_AGENTS = 512;
 
@@ -79,10 +76,9 @@ export const AcpRegistrySearchResult = Schema.Struct({
 });
 export type AcpRegistrySearchResult = typeof AcpRegistrySearchResult.Type;
 
-export const AcpRegistryPrepareInput = Schema.Struct({
-  agentId: AcpRegistryAgentId,
-});
-export type AcpRegistryPrepareInput = typeof AcpRegistryPrepareInput.Type;
+export schema AcpRegistryPrepareInput {
+  agentId: AcpRegistryAgentId
+}
 
 export const AcpRegistryPrepareResult = Schema.Struct({
   agentId: AcpRegistryAgentId,
@@ -92,18 +88,14 @@ export const AcpRegistryPrepareResult = Schema.Struct({
 });
 export type AcpRegistryPrepareResult = typeof AcpRegistryPrepareResult.Type;
 
-export const AcpRegistryManagedBinaryUninstallInput = Schema.Struct({
-  agentId: AcpRegistryAgentId,
-});
-export type AcpRegistryManagedBinaryUninstallInput =
-  typeof AcpRegistryManagedBinaryUninstallInput.Type;
+export schema AcpRegistryManagedBinaryUninstallInput {
+  agentId: AcpRegistryAgentId
+}
 
-export const AcpRegistryManagedBinaryUninstallResult = Schema.Struct({
-  agentId: AcpRegistryAgentId,
-  removed: Schema.Boolean,
-});
-export type AcpRegistryManagedBinaryUninstallResult =
-  typeof AcpRegistryManagedBinaryUninstallResult.Type;
+export schema AcpRegistryManagedBinaryUninstallResult {
+  agentId: AcpRegistryAgentId
+  removed: boolean
+}
 
 const AcpRegistryProbeText = TrimmedNonEmptyString.check(Schema.isMaxLength(256));
 const AcpRegistryProbeDescription = Schema.NullOr(Schema.String.check(Schema.isMaxLength(1_024)));
@@ -128,16 +120,14 @@ export const AcpRegistryUrlAuthAction = Schema.Struct({
 });
 export type AcpRegistryUrlAuthAction = typeof AcpRegistryUrlAuthAction.Type;
 
-export const AcpRegistryAcceptUrlAuthInput = Schema.Struct({
-  instanceId: ProviderInstanceId,
-  elicitationId: AcpRegistryProbeText,
-});
-export type AcpRegistryAcceptUrlAuthInput = typeof AcpRegistryAcceptUrlAuthInput.Type;
+export schema AcpRegistryAcceptUrlAuthInput {
+  instanceId: ProviderInstanceId
+  elicitationId: AcpRegistryProbeText
+}
 
-export const AcpRegistryAcceptUrlAuthResult = Schema.Struct({
-  accepted: Schema.Boolean,
-});
-export type AcpRegistryAcceptUrlAuthResult = typeof AcpRegistryAcceptUrlAuthResult.Type;
+export schema AcpRegistryAcceptUrlAuthResult {
+  accepted: boolean
+}
 
 const AcpRegistrySessionId = TrimmedNonEmptyString.check(Schema.isMaxLength(1_024));
 const AcpRegistrySessionPath = TrimmedNonEmptyString.check(Schema.isMaxLength(4_096));
@@ -192,8 +182,7 @@ export const AcpRegistryDeleteSessionInput = Schema.Struct({
 });
 export type AcpRegistryDeleteSessionInput = typeof AcpRegistryDeleteSessionInput.Type;
 
-export const AcpRegistryDeleteSessionResult = Schema.Struct({ deleted: Schema.Literal(true) });
-export type AcpRegistryDeleteSessionResult = typeof AcpRegistryDeleteSessionResult.Type;
+export schema AcpRegistryDeleteSessionResult { deleted: true }
 
 const AcpRegistryProviderId = TrimmedNonEmptyString.check(Schema.isMaxLength(256));
 const AcpRegistryProviderProtocol = TrimmedNonEmptyString.check(Schema.isMaxLength(64));
@@ -238,8 +227,7 @@ export const AcpRegistrySetProviderInput = Schema.Struct({
 });
 export type AcpRegistrySetProviderInput = typeof AcpRegistrySetProviderInput.Type;
 
-export const AcpRegistrySetProviderResult = Schema.Struct({ configured: Schema.Literal(true) });
-export type AcpRegistrySetProviderResult = typeof AcpRegistrySetProviderResult.Type;
+export schema AcpRegistrySetProviderResult { configured: true }
 
 export const AcpRegistryDisableProviderInput = Schema.Struct({
   instanceId: ProviderInstanceId,
@@ -248,25 +236,21 @@ export const AcpRegistryDisableProviderInput = Schema.Struct({
 });
 export type AcpRegistryDisableProviderInput = typeof AcpRegistryDisableProviderInput.Type;
 
-export const AcpRegistryDisableProviderResult = Schema.Struct({ disabled: Schema.Literal(true) });
-export type AcpRegistryDisableProviderResult = typeof AcpRegistryDisableProviderResult.Type;
+export schema AcpRegistryDisableProviderResult { disabled: true }
 
-export const AcpRegistryLogoutInput = Schema.Struct({
-  instanceId: ProviderInstanceId,
-});
-export type AcpRegistryLogoutInput = typeof AcpRegistryLogoutInput.Type;
+export schema AcpRegistryLogoutInput {
+  instanceId: ProviderInstanceId
+}
 
-export const AcpRegistryLogoutResult = Schema.Struct({
-  loggedOut: Schema.Literal(true),
-});
-export type AcpRegistryLogoutResult = typeof AcpRegistryLogoutResult.Type;
+export schema AcpRegistryLogoutResult {
+  loggedOut: true
+}
 
-export const AcpRegistryProbeModel = Schema.Struct({
-  id: AcpRegistryProbeText,
-  name: AcpRegistryProbeText,
-  description: AcpRegistryProbeDescription,
-});
-export type AcpRegistryProbeModel = typeof AcpRegistryProbeModel.Type;
+export schema AcpRegistryProbeModel {
+  id: AcpRegistryProbeText
+  name: AcpRegistryProbeText
+  description: AcpRegistryProbeDescription
+}
 
 export const AcpRegistryProbeResult = Schema.Struct({
   instanceId: ProviderInstanceId,
@@ -299,33 +283,7 @@ export const AcpRegistryProbeResult = Schema.Struct({
 });
 export type AcpRegistryProbeResult = typeof AcpRegistryProbeResult.Type;
 
-export const AcpRegistryOperationErrorReason = Schema.Literals([
-  "agent_not_configured",
-  "agent_not_found",
-  "archive_invalid",
-  "authentication_failed",
-  "checksum_mismatch",
-  "download_failed",
-  "install_failed",
-  "instance_not_found",
-  "logout_unsupported",
-  "logout_failed",
-  "probe_failed",
-  "project_not_found",
-  "registry_unavailable",
-  "runner_unavailable",
-  "session_import_failed",
-  "session_delete_unsupported",
-  "session_delete_failed",
-  "session_list_unsupported",
-  "session_resume_unsupported",
-  "providers_unsupported",
-  "providers_list_failed",
-  "provider_configuration_failed",
-  "unsupported_distribution",
-  "unsupported_platform",
-]);
-export type AcpRegistryOperationErrorReason = typeof AcpRegistryOperationErrorReason.Type;
+export schema AcpRegistryOperationErrorReason = "agent_not_configured" | "agent_not_found" | "archive_invalid" | "authentication_failed" | "checksum_mismatch" | "download_failed" | "install_failed" | "instance_not_found" | "logout_unsupported" | "logout_failed" | "probe_failed" | "project_not_found" | "registry_unavailable" | "runner_unavailable" | "session_import_failed" | "session_delete_unsupported" | "session_delete_failed" | "session_list_unsupported" | "session_resume_unsupported" | "providers_unsupported" | "providers_list_failed" | "provider_configuration_failed" | "unsupported_distribution" | "unsupported_platform"
 
 export class AcpRegistryOperationError extends Schema.TaggedError<AcpRegistryOperationError>()(
   "AcpRegistryOperationError",

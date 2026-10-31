@@ -1,4 +1,4 @@
-import { OrchestrationMessageContext } from "./composerContext.ts";
+import { OrchestrationMessageContext } from "./composerContext.vibe";
 import { withRecordIdTable } from "./orchestrationV2IdTable.vibe";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
@@ -42,7 +42,7 @@ import {
   TurnItemId,
 } from "./baseSchemas.ts";
 import { AuthMcpClientAccess } from "./auth.ts";
-import { ChatAttachment } from "./chatAttachment.ts";
+import { ChatAttachment } from "./chatAttachment.vibe";
 import { ThreadGuestShare } from "./guestShare.vibe";
 import {
   OrchestrationSearchThreadsInput,

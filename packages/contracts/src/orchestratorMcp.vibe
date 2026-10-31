@@ -20,10 +20,10 @@ import {
 } from "./baseSchemas.ts"
 import { ScheduledTaskRunStatus, ScheduledTaskSchedule, ScheduledTaskUpsertSchedule } from "./scheduledTask.vibe"
 import { ProviderInteractionMode, ProviderRequestKind, RuntimeMode } from "./providerPolicy.vibe"
-import { PullRequestState } from "./pullRequest.ts"
+import { PullRequestState } from "./pullRequest.vibe"
 import { ThreadLinkedPullRequest, ThreadPullRequestKey, ThreadPullRequestLinkSource } from "./threadPullRequest.vibe"
 import { hasOnlyPairedSurrogates } from "./threadMetadataMcp.vibe"
-import { ThreadTitleRegeneration } from "./threadTitle.ts"
+import { ThreadTitleRegeneration } from "./threadTitle.vibe"
 import {
   OrchestrationV2Actor,
   OrchestrationV2CreationSource,

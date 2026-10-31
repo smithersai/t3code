@@ -2,7 +2,7 @@ import * as Schema from "effect/Schema"
 
 import { CommandId, IsoDateTime, NonNegativeInt, ThreadId, TrimmedNonEmptyString } from "./baseSchemas.ts"
 import { ThreadLinkedPullRequest } from "./threadPullRequest.vibe"
-import { ThreadTitleRegeneration } from "./threadTitle.ts"
+import { ThreadTitleRegeneration } from "./threadTitle.vibe"
 
 export function hasOnlyPairedSurrogates(value: string): boolean {
   for (let index = 0; index < value.length; index += 1) {

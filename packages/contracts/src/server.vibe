@@ -1,6 +1,6 @@
 import * as Effect from "effect/Effect"
 import * as Schema from "effect/Schema"
-import { AcpRegistryUrlAuthAction } from "./acpRegistry.ts"
+import { AcpRegistryUrlAuthAction } from "./acpRegistry.vibe"
 import { type EnvironmentMachineKind, ExecutionEnvironmentDescriptor, ServerSelfUpdateMethod } from "./environment.vibe"
 import { AuthClientPresentationMetadata, ServerAuthDescriptor } from "./auth.ts"
 import {

@@ -47,7 +47,7 @@ export declare const ThreadGuestMessage: Schema.Struct<{
                     readonly height: Schema.Int;
                 }>;
                 readonly truncated: Schema.Boolean;
-                readonly root: Schema.Codec<import("./chatAttachment.js").SnapShotAccessibilityNode, import("./chatAttachment.js").SnapShotAccessibilityNode, never, never>;
+                readonly root: Schema.Codec<import("./chatAttachment.vibe").SnapShotAccessibilityNode, import("./chatAttachment.vibe").SnapShotAccessibilityNode, never, never>;
             }>]>>;
             readonly appIdentifier: Schema.optional<Schema.decodeTo<Schema.String, Schema.String, never, never>>;
             readonly appIconDataUrl: Schema.optional<Schema.decodeTo<Schema.String, Schema.String, never, never>>;
@@ -106,7 +106,7 @@ export declare const ThreadGuestShare: Schema.Struct<{
                         readonly height: Schema.Int;
                     }>;
                     readonly truncated: Schema.Boolean;
-                    readonly root: Schema.Codec<import("./chatAttachment.js").SnapShotAccessibilityNode, import("./chatAttachment.js").SnapShotAccessibilityNode, never, never>;
+                    readonly root: Schema.Codec<import("./chatAttachment.vibe").SnapShotAccessibilityNode, import("./chatAttachment.vibe").SnapShotAccessibilityNode, never, never>;
                 }>]>>;
                 readonly appIdentifier: Schema.optional<Schema.decodeTo<Schema.String, Schema.String, never, never>>;
                 readonly appIconDataUrl: Schema.optional<Schema.decodeTo<Schema.String, Schema.String, never, never>>;
@@ -173,7 +173,7 @@ export declare const GuestShareCreateResult: Schema.Struct<{
                             readonly height: Schema.Int;
                         }>;
                         readonly truncated: Schema.Boolean;
-                        readonly root: Schema.Codec<import("./chatAttachment.js").SnapShotAccessibilityNode, import("./chatAttachment.js").SnapShotAccessibilityNode, never, never>;
+                        readonly root: Schema.Codec<import("./chatAttachment.vibe").SnapShotAccessibilityNode, import("./chatAttachment.vibe").SnapShotAccessibilityNode, never, never>;
                     }>]>>;
                     readonly appIdentifier: Schema.optional<Schema.decodeTo<Schema.String, Schema.String, never, never>>;
                     readonly appIconDataUrl: Schema.optional<Schema.decodeTo<Schema.String, Schema.String, never, never>>;

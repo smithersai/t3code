@@ -32,24 +32,17 @@ export const FilesystemBrowseInput = Schema.Struct({
 });
 export type FilesystemBrowseInput = typeof FilesystemBrowseInput.Type;
 
-export const FilesystemBrowseEntry = Schema.Struct({
-  name: TrimmedNonEmptyString,
-  fullPath: TrimmedNonEmptyString,
-});
-export type FilesystemBrowseEntry = typeof FilesystemBrowseEntry.Type;
+export schema FilesystemBrowseEntry {
+  name: TrimmedNonEmptyString
+  fullPath: TrimmedNonEmptyString
+}
 
-export const FilesystemBrowseResult = Schema.Struct({
-  parentPath: TrimmedNonEmptyString,
-  entries: Schema.Array(FilesystemBrowseEntry),
-});
-export type FilesystemBrowseResult = typeof FilesystemBrowseResult.Type;
+export schema FilesystemBrowseResult {
+  parentPath: TrimmedNonEmptyString
+  entries: ReadonlyArray<FilesystemBrowseEntry>
+}
 
-export const FilesystemBrowseFailure = Schema.Literals([
-  "windows_path_unsupported",
-  "current_project_required",
-  "read_directory_failed",
-]);
-export type FilesystemBrowseFailure = typeof FilesystemBrowseFailure.Type;
+export schema FilesystemBrowseFailure = "windows_path_unsupported" | "current_project_required" | "read_directory_failed"
 
 function decodedFilesystemBrowseErrorMessage(props: object): string | undefined {
   if (!("message" in props)) return undefined;

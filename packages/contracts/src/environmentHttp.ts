@@ -63,7 +63,7 @@ import {
   PullRequestDiffResult,
   PullRequestOperationError,
   PullRequestUnavailableError,
-} from "./pullRequest.ts";
+} from "./pullRequest.vibe";
 import {
   RelayCloudEnvironmentHealthRequest,
   RelayCloudMintCredentialRequest,
@@ -72,7 +72,7 @@ import {
   RelayEnvironmentLinkProof,
   RelayEnvironmentMintResponse,
   RelayLinkProofRequest,
-} from "./relay.ts";
+} from "./relay.vibe";
 
 const OptionalBearerHeaders = Schema.Struct({
   authorization: Schema.optionalKey(Schema.String),

@@ -7,7 +7,7 @@ import {
   PullRequestMergeability,
   PullRequestReviewDecision,
   PullRequestState,
-} from "./pullRequest.ts"
+} from "./pullRequest.vibe"
 
 export schema ThreadLinkedPullRequest {
   projectId: ProjectId
