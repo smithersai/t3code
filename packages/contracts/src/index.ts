@@ -54,7 +54,7 @@ export * from "./agentSessions.vibe";
 export * from "./assets.vibe";
 export * from "./review.vibe";
 export * from "./mcpApps.vibe";
-export * from "./browserImport.ts";
+export * from "./browserImport.vibe";
 export * from "./browserProfile.vibe";
 export * from "./device.vibe";
 export * from "./preview.vibe";

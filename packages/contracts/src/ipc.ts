@@ -8,7 +8,7 @@ import type {
   BrowserImportResult,
   BrowserImportSource,
   BrowserImportSourceId,
-} from "./browserImport.ts";
+} from "./browserImport.vibe";
 import { AuthAccessTokenResult, AuthSessionState, AuthWebSocketTicketResult } from "./auth.ts";
 import { AdvertisedEndpoint } from "./remoteAccess.vibe";
 import { ExecutionEnvironmentDescriptor } from "./environment.vibe";
