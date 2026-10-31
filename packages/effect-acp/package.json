@@ -39,7 +39,7 @@
   "scripts": {
     "typecheck": "vibelang --noEmit",
     "test": "vp test run --config ../../vite.config.ts --dir .",
-    "generate": "node scripts/generate.ts"
+    "generate": "node --import vibelang/register scripts/generate.ts"
   },
   "dependencies": {
     "effect": "catalog:",

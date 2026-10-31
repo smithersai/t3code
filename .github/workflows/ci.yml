@@ -348,7 +348,7 @@ jobs:
       - name: Boot the built web client
         run: |
           vp run --filter @t3tools/web build
-          node apps/web/scripts/verify-built-boot.ts
+          node --import vibelang/register apps/web/scripts/verify-built-boot.ts
 
   # apps/server sets `fileParallelism: false`, so its test files run strictly
   # one at a time. Sharding spreads them over separate runners instead of
@@ -561,7 +561,7 @@ jobs:
           task-cache-read-token: ${{ secrets.T3_TASK_CACHE_READ_TOKEN }}
 
       - name: Exercise release-only workflow steps
-        run: node scripts/release-smoke.ts
+        run: node --import vibelang/register scripts/release-smoke.ts
 
   # Branch protection requires this job by its name, `Check`. It fails when any
   # other job fails, is cancelled, or is skipped without a reason, so splitting

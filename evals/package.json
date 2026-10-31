@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "mcp-tool-use": "node --env-file-if-exists=../.env mcp-tool-use/run.ts",
-    "mcp-tool-use:trim-capture": "node mcp-tool-use/trim-capture.ts",
-    "thread-titles": "node --env-file-if-exists=../.env thread-titles/run.ts",
+    "mcp-tool-use": "node --import vibelang/register --env-file-if-exists=../.env mcp-tool-use/run.ts",
+    "mcp-tool-use:trim-capture": "node --import vibelang/register mcp-tool-use/trim-capture.ts",
+    "thread-titles": "node --import vibelang/register --env-file-if-exists=../.env thread-titles/run.ts",
     "typecheck": "tsc --noEmit",
     "test": "vp test run --config ../vite.config.ts --dir ."
   },
