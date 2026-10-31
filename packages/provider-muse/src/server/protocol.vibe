@@ -1,7 +1,7 @@
-import type { ProviderApprovalDecision } from "@t3tools/contracts";
-import * as Schema from "effect/Schema";
+import type { ProviderApprovalDecision } from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
 
-const NonEmptyString = Schema.String.check(Schema.isMinLength(1));
+const NonEmptyString = Schema.String.check(Schema.isMinLength(1))
 
 const MuseUsage = Schema.Struct({
   inputTokens: Schema.Int.check(Schema.isGreaterThanOrEqualTo(0)),
@@ -10,7 +10,7 @@ const MuseUsage = Schema.Struct({
   reasoningTokens: Schema.Int.check(Schema.isGreaterThanOrEqualTo(0)),
   cacheReadTokens: Schema.optional(Schema.Int.check(Schema.isGreaterThanOrEqualTo(0))),
   cacheWriteTokens: Schema.optional(Schema.Int.check(Schema.isGreaterThanOrEqualTo(0))),
-});
+})
 
 export const MuseItem = Schema.Struct({
   entryId: Schema.optional(Schema.String),
@@ -58,8 +58,8 @@ export const MuseItem = Schema.Struct({
   outcome: Schema.optional(Schema.String),
   trigger: Schema.optional(Schema.String),
   reason: Schema.optional(Schema.String),
-});
-export type MuseItem = typeof MuseItem.Type;
+})
+export type MuseItem = typeof MuseItem.Type
 
 export const MuseSessionResult = Schema.Struct({
   session: Schema.Struct({
@@ -80,8 +80,8 @@ export const MuseSessionResult = Schema.Struct({
       ),
     }),
   ),
-});
-export const MuseTurnStartResult = Schema.Struct({ turnId: NonEmptyString });
+})
+export const MuseTurnStartResult = Schema.Struct({ turnId: NonEmptyString })
 
 export const MuseApproval = Schema.Struct({
   approvalId: NonEmptyString,
@@ -111,43 +111,38 @@ export const MuseApproval = Schema.Struct({
     host: Schema.optional(Schema.String),
     target: Schema.optional(Schema.String),
   }),
-});
-export type MuseApproval = typeof MuseApproval.Type;
+})
+export type MuseApproval = typeof MuseApproval.Type
 
-export const MuseUserInput = Schema.Struct({
-  userInputId: NonEmptyString,
-  sessionId: NonEmptyString,
-  turnId: NonEmptyString,
-  questions: Schema.Array(
-    Schema.Struct({
-      id: NonEmptyString,
-      header: Schema.String,
-      question: Schema.String,
-      options: Schema.Array(
-        Schema.Struct({ label: Schema.String, description: Schema.optional(Schema.String) }),
-      ),
-      selection: Schema.Struct({
-        mode: Schema.Literals(["single", "multiple"]),
-        minSelections: Schema.optional(Schema.Int),
-        maxSelections: Schema.optional(Schema.Int),
-      }),
-    }),
-  ),
-});
-export type MuseUserInput = typeof MuseUserInput.Type;
+export schema MuseUserInput {
+  userInputId: NonEmptyString
+  sessionId: NonEmptyString
+  turnId: NonEmptyString
+  questions: ReadonlyArray<{
+    id: NonEmptyString
+    header: string
+    question: string
+    options: ReadonlyArray<{ label: string; description?: string }>
+    selection: {
+      mode: "single" | "multiple"
+      minSelections?: Schema.Int
+      maxSelections?: Schema.Int
+    }
+  }>
+}
 
 export const MuseTokenUsageEvent = Schema.Struct({
   turnId: NonEmptyString,
   promptTokens: Schema.Int.check(Schema.isGreaterThanOrEqualTo(0)),
   usage: MuseUsage,
-});
+})
 export const MuseContextUsage = Schema.Struct({
   usedTokens: Schema.Int.check(Schema.isGreaterThanOrEqualTo(0)),
   windowTokens: Schema.optional(Schema.Int.check(Schema.isGreaterThan(0))),
-});
+})
 export const MuseTodoList = Schema.Struct({
   items: Schema.Array(Schema.Struct({ text: Schema.String, status: Schema.String })),
-});
+})
 export const MuseTurnCompleted = Schema.Struct({
   turnId: NonEmptyString,
   terminal: NonEmptyString,
@@ -159,13 +154,13 @@ export const MuseTurnCompleted = Schema.Struct({
     }),
   ),
   usage: Schema.optional(MuseUsage),
-});
+})
 /** The latest instant a JavaScript Date holds; formatting a later one throws. */
-export const LATEST_DATE_MS = 8.64e15;
+export const LATEST_DATE_MS = 8.64e15
 const DateMillis = Schema.Finite.check(
   Schema.isGreaterThan(0),
   Schema.isLessThanOrEqualTo(LATEST_DATE_MS),
-);
+)
 /** Latest response subscription windows; verbatim Meta percentages may exceed 100. */
 export const MuseSubscriptionUsage = Schema.Struct({
   observedAtMs: DateMillis,
@@ -179,72 +174,72 @@ export const MuseSubscriptionUsage = Schema.Struct({
     usedPercent: Schema.Finite.check(Schema.isGreaterThanOrEqualTo(0)),
     resetsAtMs: DateMillis,
   }),
-});
-export type MuseSubscriptionUsage = typeof MuseSubscriptionUsage.Type;
+})
+export type MuseSubscriptionUsage = typeof MuseSubscriptionUsage.Type
 export const MuseTurnRetryScheduled = Schema.Struct({
   turnId: NonEmptyString,
   nextAttempt: Schema.Int.check(Schema.isGreaterThan(0)),
   maxAttempts: Schema.Int.check(Schema.isGreaterThan(0)),
   reason: NonEmptyString,
   retryDelayMs: Schema.Finite.check(Schema.isGreaterThanOrEqualTo(0)),
-});
+})
 export const MuseCompactResult = Schema.Struct({
   status: Schema.String,
   reason: Schema.optional(Schema.String),
-});
+})
 
-export const MuseItemEvent = Schema.Struct({ item: MuseItem });
+export const MuseItemEvent = Schema.Struct({ item: MuseItem })
 export const MuseDelta = Schema.Struct({
   itemId: NonEmptyString,
   delta: Schema.String,
   field: Schema.optional(Schema.String),
-});
+})
 
 export function museApprovalDecision(
   choice: Pick<MuseApproval["availableChoices"][number], "decision" | "scope">,
 ): ProviderApprovalDecision | undefined {
   switch (choice.decision) {
     case "approved":
-      return "accept";
+      return "accept"
     case "approvedForSession":
-      return "acceptForSession";
+      return "acceptForSession"
     case "approvedPolicyAmendment":
       return choice.scope === "session"
         ? "acceptForSession"
         : choice.scope === "localPersistent"
-          ? "acceptAlways"
-          : undefined;
+        ? "acceptAlways"
+        : undefined
     case "denied":
     case "deniedPolicyAmendment":
-      return "decline";
+      return "decline"
     case "abort":
-      return "cancel";
+      return "cancel"
     default:
-      return undefined;
+      return undefined
   }
 }
 
 /** Shell approvals offer abort instead of denied; decline falls back to abort. */
-export function museApprovalChoices(approval: Pick<MuseApproval, "availableChoices">) {
-  const choices = new Map<ProviderApprovalDecision, MuseApproval["availableChoices"][number]>();
-  const rank = (choice: MuseApproval["availableChoices"][number]) =>
-    (choice.scope === "once" ? 0 : choice.scope === "session" ? 2 : 4) +
-    (choice.decision.endsWith("PolicyAmendment") ? 1 : 0);
+export function museApprovalChoices(approval: Pick<MuseApproval, "availableChoices">): infer _ {
+  const choices = new Map<ProviderApprovalDecision, MuseApproval["availableChoices"][number]>()
+  const rank = (choice: MuseApproval["availableChoices"][number]): number =>
+    (choice.scope === "once" ? 0 : choice.scope === "session" ? 2 : 4)
+    + (choice.decision.endsWith("PolicyAmendment") ? 1 : 0)
   for (const choice of approval.availableChoices) {
-    const decision = museApprovalDecision(choice);
-    if (!decision) continue;
-    const previous = choices.get(decision);
-    if (!previous || rank(choice) < rank(previous)) choices.set(decision, choice);
+    const decision = museApprovalDecision(choice)
+    if (!decision) continue
+    const previous = choices.get(decision)
+    if (!previous || rank(choice) < rank(previous)) choices.set(decision, choice)
   }
-  const abort = choices.get("cancel");
-  if (!choices.has("decline") && abort) choices.set("decline", abort);
-  return choices;
+  const abort = choices.get("cancel")
+  if (!choices.has("decline") && abort) choices.set("decline", abort)
+  return choices
 }
 
-export function museApprovalOptions(approval: Pick<MuseApproval, "availableChoices">) {
-  const choices = museApprovalChoices(approval);
-  const declineChoiceId = choices.get("decline")?.choiceId;
+export function museApprovalOptions(approval: Pick<MuseApproval, "availableChoices">): infer _ {
+  const choices = museApprovalChoices(approval)
+  const declineChoiceId = choices.get("decline")?.choiceId
   return [...choices]
     .filter(([decision, choice]) => decision !== "cancel" || choice.choiceId !== declineChoiceId)
-    .map(([decision, choice]) => ({ decision, label: choice.label }));
+    .map(([decision, choice]) => ({ decision, label: choice.label }))
 }

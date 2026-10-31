@@ -2,7 +2,7 @@ import type { OrchestrationV2TurnItem, OrchestrationV2TurnItemStatus } from "@t3
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
-import type { MuseItem } from "./protocol.ts";
+import type { MuseItem } from "./protocol.vibe";
 
 const decodeToolArgs = Schema.decodeUnknownSync(
   Schema.fromJsonString(Schema.Record(Schema.String, Schema.Unknown)),
