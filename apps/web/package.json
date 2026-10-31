@@ -104,7 +104,7 @@
     "oxc-transform-react": "~0.152.0",
     "playwright": "1.60.0",
     "tailwindcss": "^4.0.0",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-3ee099e972e9.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-81549116d5ee.tgz",
     "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-a2b67ac4484b.tgz",
     "vite": "catalog:",
     "vite-plus": "catalog:"

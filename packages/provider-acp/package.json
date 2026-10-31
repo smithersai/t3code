@@ -57,7 +57,7 @@
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
     "effect-acp": "workspace:*",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-3ee099e972e9.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-81549116d5ee.tgz",
     "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-a2b67ac4484b.tgz",
     "vite-plus": "catalog:"
   }
