@@ -47,13 +47,13 @@ import { ThreadGuestShare } from "./guestShare.vibe";
 import {
   OrchestrationSearchThreadsInput,
   OrchestrationSearchThreadsResult,
-} from "./threadSearch.ts";
+} from "./threadSearch.vibe";
 import {
   OrchestrationGetFullThreadDiffInput,
   OrchestrationGetFullThreadDiffResult,
   OrchestrationGetTurnDiffInput,
   OrchestrationGetTurnDiffResult,
-} from "./checkpointDiff.ts";
+} from "./checkpointDiff.vibe";
 import { ModelSelection } from "./modelSelection.vibe";
 import {
   ThreadLinkedPullRequest,
