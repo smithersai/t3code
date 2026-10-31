@@ -9,10 +9,9 @@ import {
 } from "./baseSchemas.ts";
 import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
 
-export const ProviderSetupInput = Schema.Struct({
-  instanceId: ProviderInstanceId,
-});
-export type ProviderSetupInput = typeof ProviderSetupInput.Type;
+export schema ProviderSetupInput {
+  instanceId: ProviderInstanceId
+}
 
 export const CodexAuthCallbackInput = Schema.Struct({
   authorizationUrl: Schema.String.check(Schema.isMaxLength(16_384)),
@@ -107,13 +106,12 @@ export const ProviderAuthStartInput = Schema.Struct({
 });
 export type ProviderAuthStartInput = typeof ProviderAuthStartInput.Type;
 
-export const ProviderAuthRespondInput = Schema.Struct({
-  instanceId: ProviderInstanceId,
-  flowId: SetupOperationId,
-  interactionId: SetupOperationId,
-  response: ProviderAuthResponse,
-});
-export type ProviderAuthRespondInput = typeof ProviderAuthRespondInput.Type;
+export schema ProviderAuthRespondInput {
+  instanceId: ProviderInstanceId
+  flowId: SetupOperationId
+  interactionId: SetupOperationId
+  response: ProviderAuthResponse
+}
 
 export const ProviderAuthState = Schema.Struct({
   instanceId: ProviderInstanceId,
@@ -146,11 +144,10 @@ export const ProviderAuthCompleteInput = Schema.Struct({
 });
 export type ProviderAuthCompleteInput = typeof ProviderAuthCompleteInput.Type;
 
-export const ProviderAuthCancelInput = Schema.Struct({
-  instanceId: ProviderInstanceId,
-  flowId: SetupOperationId,
-});
-export type ProviderAuthCancelInput = typeof ProviderAuthCancelInput.Type;
+export schema ProviderAuthCancelInput {
+  instanceId: ProviderInstanceId
+  flowId: SetupOperationId
+}
 
 const ByteCount = Schema.Int.check(Schema.isGreaterThanOrEqualTo(0));
 
@@ -177,22 +174,18 @@ export const ProviderInstallState = Schema.Struct({
 });
 export type ProviderInstallState = typeof ProviderInstallState.Type;
 
-export const ProviderInstallCancelInput = Schema.Struct({
-  instanceId: ProviderInstanceId,
-  operationId: SetupOperationId,
-});
-export type ProviderInstallCancelInput = typeof ProviderInstallCancelInput.Type;
+export schema ProviderInstallCancelInput {
+  instanceId: ProviderInstanceId
+  operationId: SetupOperationId
+}
 
+const ProviderSetupErrorCauseField = Schema.Defect()
 /** Safe setup failure text. Never include OAuth codes, URLs, or native token data. */
-export class ProviderSetupError extends Schema.TaggedError<ProviderSetupError>()(
-  "ProviderSetupError",
-  {
-    instanceId: ProviderInstanceId,
-    operation: Schema.String,
-    detail: Schema.String,
-    cause: Schema.optional(Schema.Defect()),
-  },
-) {
+export schema error ProviderSetupError {
+  instanceId: ProviderInstanceId
+  operation: string
+  detail: string
+  cause?: ProviderSetupErrorCauseField
   override get message(): string {
     return this.detail;
   }
@@ -244,8 +237,4 @@ export const ChatGptHandoffInput = Schema.Struct({
   profile: Schema.NullOr(ChatGptReconnectProfile),
 });
 export type ChatGptHandoffInput = typeof ChatGptHandoffInput.Type;
-export const ChatGptHandoffState = Schema.Union([
-  Schema.Struct({ phase: Schema.Literal("auth"), state: ProviderAuthState }),
-  Schema.Struct({ phase: Schema.Literal("finished"), profile: ChatGptTransferredProfile }),
-]);
-export type ChatGptHandoffState = typeof ChatGptHandoffState.Type;
+export schema ChatGptHandoffState = { phase: "auth"; state: ProviderAuthState } | { phase: "finished"; profile: ChatGptTransferredProfile }

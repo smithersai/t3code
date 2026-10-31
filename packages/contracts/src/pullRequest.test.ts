@@ -6,7 +6,7 @@ import {
   PullRequestDetail,
   PullRequestListResult,
   resolvePullRequestAuthorFilter,
-} from "./pullRequest.ts";
+} from "./pullRequest.vibe";
 
 const decodeDetail = Schema.decodeUnknownSync(Schema.toCodecJson(PullRequestDetail));
 

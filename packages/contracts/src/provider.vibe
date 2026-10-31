@@ -5,7 +5,7 @@ import {
   ChatAttachment,
   getProviderAttachmentLimitError,
   PROVIDER_SEND_TURN_MAX_INPUT_CHARS,
-} from "./chatAttachment.ts"
+} from "./chatAttachment.vibe"
 import { ModelSelection } from "./modelSelection.vibe"
 import {
   ProviderApprovalDecision,

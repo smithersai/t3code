@@ -41,24 +41,24 @@ export const SNAP_SHOT_ACCESSIBLE_TEXT_MAX_CHARS = 32_000;
 export const SNAP_SHOT_ACCESSIBILITY_MAX_NODES = 10_000;
 export const SNAP_SHOT_ACCESSIBILITY_MAX_SERIALIZED_CHARS = 32_000;
 
-const SnapShotAccessibilityBounds = Schema.Struct({
-  x: NonNegativeInt,
-  y: NonNegativeInt,
-  width: PositiveInt,
-  height: PositiveInt,
-});
+schema SnapShotAccessibilityBounds {
+  x: NonNegativeInt
+  y: NonNegativeInt
+  width: PositiveInt
+  height: PositiveInt
+}
 
-const SnapShotAccessibilityState = Schema.Struct({
-  active: Schema.optional(Schema.Boolean),
-  busy: Schema.optional(Schema.Boolean),
-  checked: Schema.optional(Schema.Literals(["on", "off", "mixed"])),
-  editable: Schema.optional(Schema.Boolean),
-  enabled: Schema.optional(Schema.Boolean),
-  expanded: Schema.optional(Schema.Boolean),
-  focused: Schema.optional(Schema.Boolean),
-  selected: Schema.optional(Schema.Boolean),
-  visible: Schema.optional(Schema.Boolean),
-});
+schema SnapShotAccessibilityState {
+  active?: boolean
+  busy?: boolean
+  checked?: "on" | "off" | "mixed"
+  editable?: boolean
+  enabled?: boolean
+  expanded?: boolean
+  focused?: boolean
+  selected?: boolean
+  visible?: boolean
+}
 
 export interface SnapShotAccessibilityNode {
   readonly role: string;
@@ -198,12 +198,7 @@ export const UploadChatImageAttachment = Schema.Struct({
 });
 export type UploadChatImageAttachment = typeof UploadChatImageAttachment.Type;
 
-export const ChatAttachment = Schema.Union([
-  ChatImageAttachment,
-  ChatFileAttachment,
-  ChatUnknownAttachment,
-]);
-export type ChatAttachment = typeof ChatAttachment.Type;
+export schema ChatAttachment = ChatImageAttachment | ChatFileAttachment | ChatUnknownAttachment
 
 export function getProviderAttachmentLimitError(
   attachments: ReadonlyArray<Pick<ChatAttachment, "type" | "mimeType" | "sizeBytes">>,
@@ -234,15 +229,12 @@ export const PersistChatAttachmentsInput = Schema.Struct({
 });
 export type PersistChatAttachmentsInput = typeof PersistChatAttachmentsInput.Type;
 
-export const PersistChatAttachmentsResult = Schema.Struct({
-  attachments: Schema.Array(ChatAttachment),
-});
-export type PersistChatAttachmentsResult = typeof PersistChatAttachmentsResult.Type;
+export schema PersistChatAttachmentsResult {
+  attachments: ReadonlyArray<ChatAttachment>
+}
 
-export class PersistChatAttachmentsError extends Schema.TaggedError<PersistChatAttachmentsError>()(
-  "PersistChatAttachmentsError",
-  {
-    message: Schema.String,
-    cause: Schema.optional(Schema.Defect()),
-  },
-) {}
+const PersistChatAttachmentsErrorCauseField = Schema.Defect()
+export schema error PersistChatAttachmentsError {
+  message: string
+  cause?: PersistChatAttachmentsErrorCauseField
+}

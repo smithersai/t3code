@@ -25,14 +25,14 @@ import {
   PeerLinkRequestAnswerInput,
   PeerLinkRequestError,
   PeerLinkSummary,
-} from "./peerLink.ts";
+} from "./peerLink.vibe";
 import {
   ChatGptReconnectProfileInput,
   ChatGptReconnectProfile,
   ChatGptImportProfileInput,
   ChatGptHandoffInput,
   ChatGptHandoffState,
-} from "./providerSetup.ts";
+} from "./providerSetup.vibe";
 import * as Schema from "effect/Schema";
 import * as Rpc from "effect/rpc/Rpc";
 import * as RpcGroup from "effect/rpc/RpcGroup";
@@ -50,7 +50,7 @@ import {
   ProviderInstallState,
   ProviderSetupError,
   ProviderSetupInput,
-} from "./providerSetup.ts";
+} from "./providerSetup.vibe";
 
 import {
   AcpRegistryAcceptUrlAuthInput,
@@ -76,7 +76,7 @@ import {
   AcpRegistrySearchResult,
   AcpRegistrySetProviderInput,
   AcpRegistrySetProviderResult,
-} from "./acpRegistry.ts";
+} from "./acpRegistry.vibe";
 import { ExternalLauncherError, LaunchEditorInput } from "./editor.vibe";
 import {
   AuthAccessStreamError,
@@ -94,7 +94,7 @@ import {
   FilesystemBrowseInput,
   FilesystemBrowseResult,
   FilesystemBrowseError,
-} from "./filesystem.ts";
+} from "./filesystem.vibe";
 import {
   AgentSessionImportInput,
   AgentSessionImportProjectChangedError,
@@ -117,7 +117,7 @@ import {
   PersistChatAttachmentsError,
   PersistChatAttachmentsInput,
   PersistChatAttachmentsResult,
-} from "./chatAttachment.ts";
+} from "./chatAttachment.vibe";
 import {
   OrchestrationGetFullThreadDiffError,
   OrchestrationGetTurnDiffError,
@@ -216,7 +216,7 @@ import {
   PullRequestThreadResolutionInput,
   PullRequestUnavailableError,
   PullRequestUpdateInput,
-} from "./pullRequest.ts";
+} from "./pullRequest.vibe";
 import {
   RelayClientInstallFailedError,
   RelayClientInstallProgressEventSchema,

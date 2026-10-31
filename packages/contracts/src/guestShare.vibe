@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { ChatAttachment } from "./chatAttachment.ts"
+import { ChatAttachment } from "./chatAttachment.vibe"
 import {
   GuestMessageId,
   GuestShareId,

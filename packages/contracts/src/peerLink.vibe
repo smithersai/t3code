@@ -53,8 +53,7 @@ export type PeerLinkCreateInput = typeof PeerLinkCreateInput.Type;
 export const PeerLinkRemoveInput = Schema.Struct({ environmentId: EnvironmentId });
 export type PeerLinkRemoveInput = typeof PeerLinkRemoveInput.Type;
 
-export const PeerLinkRemoveResult = Schema.Struct({ removed: Schema.Boolean });
-export type PeerLinkRemoveResult = typeof PeerLinkRemoveResult.Type;
+export schema PeerLinkRemoveResult { removed: boolean }
 
 /** Why linking or calling a peer failed, in words a user can act on. */
 export class PeerLinkError extends Schema.TaggedError<PeerLinkError>()("PeerLinkError", {

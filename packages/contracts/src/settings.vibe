@@ -41,7 +41,7 @@ import {
   PreviewZoomFactor,
 } from "./preview.vibe"
 import { ProviderDriverKind, ProviderInstanceConfig, ProviderInstanceId } from "./providerInstance.vibe"
-import { PullRequestMergeMethod } from "./pullRequest.ts"
+import { PullRequestMergeMethod } from "./pullRequest.vibe"
 
 export schema TimestampFormat = "locale" | "12-hour" | "24-hour"
 const DEFAULT_TIMESTAMP_FORMAT: TimestampFormat = "locale"
