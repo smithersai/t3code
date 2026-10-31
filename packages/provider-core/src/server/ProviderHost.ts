@@ -10,7 +10,7 @@ import type * as Option from "effect/Option";
 import type * as Scope from "effect/Scope";
 import type * as Stream from "effect/Stream";
 
-import type { ProviderCredentialError } from "./errors.ts";
+import type { ProviderCredentialError } from "./errors.vibe";
 
 export interface ProviderHostPaths {
   readonly cwd: string;
