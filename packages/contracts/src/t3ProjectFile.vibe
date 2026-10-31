@@ -1,7 +1,7 @@
 import * as Schema from "effect/Schema"
 
 import { ThreadEnvMode, WorktreeSubmodules } from "./environment.vibe"
-import { ProjectScriptIcon } from "./project.ts"
+import { ProjectScriptIcon } from "./project.vibe"
 import type { ProjectScopedServerSettingKey, ServerSettings } from "./settings.vibe"
 
 export const T3_PROJECT_FILE_NAME = "t3.json"

@@ -1,7 +1,7 @@
-import * as Schema from "effect/Schema";
+import * as Schema from "effect/Schema"
 
-import { AuthMcpClientAccess } from "./auth.ts";
-import { EnvironmentId, ThreadId, TrimmedNonEmptyString, TurnItemId } from "./baseSchemas.ts";
+import { AuthMcpClientAccess } from "./auth.vibe"
+import { EnvironmentId, ThreadId, TrimmedNonEmptyString, TurnItemId } from "./baseSchemas.ts"
 
 /**
  * A link from this environment to another one (the peer). This environment
@@ -19,18 +19,18 @@ export const PeerLink = Schema.Struct({
   expiresAt: Schema.DateTimeUtc,
   lastReachedAt: Schema.NullOr(Schema.DateTimeUtc),
   lastError: Schema.NullOr(Schema.String),
-});
-export type PeerLink = typeof PeerLink.Type;
+})
+export type PeerLink = typeof PeerLink.Type
 
 /** Whether a link can be used now, as worked out when it is listed. */
-export const PeerLinkStatus = Schema.Literals(["reachable", "unreachable", "expired"]);
-export type PeerLinkStatus = typeof PeerLinkStatus.Type;
+export const PeerLinkStatus = Schema.Literals(["reachable", "unreachable", "expired"])
+export type PeerLinkStatus = typeof PeerLinkStatus.Type
 
 export const PeerLinkSummary = Schema.Struct({
   ...PeerLink.fields,
   status: PeerLinkStatus,
-});
-export type PeerLinkSummary = typeof PeerLinkSummary.Type;
+})
+export type PeerLinkSummary = typeof PeerLinkSummary.Type
 
 export const PeerLinkCreateInput = Schema.Struct({
   /** Where the peer answers: an https, Tailscale, LAN or loopback base URL. */
@@ -47,11 +47,11 @@ export const PeerLinkCreateInput = Schema.Struct({
   expectedEnvironmentId: Schema.optionalKey(EnvironmentId),
   /** What the user calls that environment, to name it when it cannot be reached. */
   expectedLabel: Schema.optionalKey(TrimmedNonEmptyString),
-});
-export type PeerLinkCreateInput = typeof PeerLinkCreateInput.Type;
+})
+export type PeerLinkCreateInput = typeof PeerLinkCreateInput.Type
 
-export const PeerLinkRemoveInput = Schema.Struct({ environmentId: EnvironmentId });
-export type PeerLinkRemoveInput = typeof PeerLinkRemoveInput.Type;
+export const PeerLinkRemoveInput = Schema.Struct({ environmentId: EnvironmentId })
+export type PeerLinkRemoveInput = typeof PeerLinkRemoveInput.Type
 
 export schema PeerLinkRemoveResult { removed: boolean }
 
@@ -96,22 +96,22 @@ export const PeerLinkRequestAnswerInput = Schema.Struct({
     Schema.Struct({ type: Schema.Literal("use-existing"), environmentId: EnvironmentId }),
     Schema.Struct({ type: Schema.Literal("decline") }),
   ]),
-});
-export type PeerLinkRequestAnswerInput = typeof PeerLinkRequestAnswerInput.Type;
+})
+export type PeerLinkRequestAnswerInput = typeof PeerLinkRequestAnswerInput.Type
 
 const PEER_LINK_REQUEST_FAILURE_MESSAGES = {
   load_failed: "Could not load the link request.",
   not_found: "This link request no longer exists.",
   already_answered: "This link request was already answered.",
   record_failed: "Could not update the link request.",
-} as const;
+} as const
 
 export const PeerLinkRequestFailureReason = Schema.Literals(
   Object.keys(PEER_LINK_REQUEST_FAILURE_MESSAGES) as Array<
     keyof typeof PEER_LINK_REQUEST_FAILURE_MESSAGES
   >,
-);
-export type PeerLinkRequestFailureReason = typeof PeerLinkRequestFailureReason.Type;
+)
+export type PeerLinkRequestFailureReason = typeof PeerLinkRequestFailureReason.Type
 
 /**
  * Answering a link request failed before anything was linked. A link the
@@ -125,6 +125,6 @@ export class PeerLinkRequestError extends Schema.TaggedError<PeerLinkRequestErro
   },
 ) {
   override get message(): string {
-    return PEER_LINK_REQUEST_FAILURE_MESSAGES[this.reason];
+    return PEER_LINK_REQUEST_FAILURE_MESSAGES[this.reason]
   }
 }

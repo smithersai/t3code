@@ -2,7 +2,7 @@ import * as Schema from "effect/Schema";
 import type { PreviewCaptureFailureEncoded } from "./previewCapture.vibe";
 import { EnvironmentId } from "./baseSchemas.js";
 import type { BrowserImportResult, BrowserImportSource, BrowserImportSourceId } from "./browserImport.vibe";
-import { AuthAccessTokenResult, AuthSessionState, AuthWebSocketTicketResult } from "./auth.js";
+import { AuthAccessTokenResult, AuthSessionState, AuthWebSocketTicketResult } from "./auth.vibe";
 import { AdvertisedEndpoint } from "./remoteAccess.vibe";
 import { ExecutionEnvironmentDescriptor } from "./environment.vibe";
 import { type ClientSettings, type QuitConfirmationMode, SnapShotShortcut } from "./settings.vibe";

@@ -4,7 +4,7 @@ import {
   AuthOrchestrationOperateScope,
   AuthProvidersManageScope,
   AuthSettingsWriteScope,
-} from "./auth.ts"
+} from "./auth.vibe"
 import * as Effect from "effect/Effect"
 import * as Duration from "effect/Duration"
 import * as Schema from "effect/Schema"
@@ -27,7 +27,7 @@ import {
   ProviderOptionSelections,
 } from "./model.vibe"
 import { ModelSelection } from "./modelSelection.vibe"
-import { type ProjectMutation, ProjectScript } from "./project.ts"
+import { type ProjectMutation, ProjectScript } from "./project.vibe"
 import { DEFAULT_RUNTIME_MODE, RuntimeMode } from "./providerPolicy.vibe"
 import { BrowserProfile, BrowserProfileId, DEFAULT_BROWSER_PROFILE_ID } from "./browserProfile.vibe"
 import {

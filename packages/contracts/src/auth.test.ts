@@ -10,7 +10,7 @@ import {
   authScopeResponse,
   AuthSessionState,
   sessionGrantsScope,
-} from "./auth.ts";
+} from "./auth.vibe";
 
 describe("authorization grants", () => {
   it("decodes legacy review credentials without offering them in new grants", () => {

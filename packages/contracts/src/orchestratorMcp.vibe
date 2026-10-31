@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { AuthMcpClientAccess } from "./auth.ts"
+import { AuthMcpClientAccess } from "./auth.vibe"
 import {
   ContextTransferId,
   EnvironmentId,

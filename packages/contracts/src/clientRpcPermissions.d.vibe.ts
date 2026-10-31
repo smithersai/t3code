@@ -1,4 +1,4 @@
-import { type AuthEnvironmentScope } from "./auth.js";
+import { type AuthEnvironmentScope } from "./auth.vibe";
 /** Incremental client enforcement; the server still authorizes every request. */
 export declare const CLIENT_GUARDED_RPC_SCOPES: {
     readonly "preview.close": "preview:operate";

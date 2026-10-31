@@ -1,8 +1,8 @@
-import { type AuthEnvironmentScope } from "./auth.js";
+import { type AuthEnvironmentScope } from "./auth.vibe";
 import * as Duration from "effect/Duration";
 import * as Schema from "effect/Schema";
 import { ProjectId } from "./baseSchemas.js";
-import { type ProjectMutation } from "./project.js";
+import { type ProjectMutation } from "./project.vibe";
 import { PreviewViewportSetting } from "./preview.vibe";
 import { ProviderInstanceConfig, ProviderInstanceId } from "./providerInstance.vibe";
 export declare const TimestampFormat: Schema.Literals<readonly ["locale", "12-hour", "24-hour"]>;

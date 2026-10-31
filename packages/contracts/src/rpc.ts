@@ -82,7 +82,7 @@ import {
   AuthAccessStreamError,
   AuthAccessStreamEvent,
   EnvironmentAuthorizationError,
-} from "./auth.ts";
+} from "./auth.vibe";
 import {
   BackgroundPolicySnapshot,
   ClientActivityReportInput,
@@ -254,7 +254,7 @@ import {
   ProjectWriteFileError,
   ProjectWriteFileInput,
   ProjectWriteFileResult,
-} from "./project.ts";
+} from "./project.vibe";
 import {
   TerminalAttachInput,
   TerminalObserveInput,
@@ -394,7 +394,7 @@ import {
   SourceControlRepositoryLookupInput,
 } from "./sourceControl.vibe";
 import { VcsError } from "./vcs.ts";
-import { Project, ProjectMutation, ProjectMutationError } from "./project.ts";
+import { Project, ProjectMutation, ProjectMutationError } from "./project.vibe";
 
 export const WS_METHODS = {
   projectsList: "projects.list",
