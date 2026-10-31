@@ -7,4 +7,4 @@ export {
   type MuseSdkHost,
   type MuseSdkHostOptions,
 } from "./server/sdk.ts";
-export { parseMuseVersion } from "./server/maintenance.ts";
+export { parseMuseVersion } from "./server/maintenance.vibe";

@@ -20,7 +20,7 @@ import * as ProviderContinuationRequests from "@t3tools/provider-core/server/Pro
 import { checkMuseProviderStatus, makePendingMuseProvider } from "./status.ts";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider";
-import { enrichMuseSnapshot, latestMuseVersion, museMaintenance } from "./maintenance.ts";
+import { enrichMuseSnapshot, latestMuseVersion, museMaintenance } from "./maintenance.vibe";
 import { makeMuseEnvironment } from "./sdk.ts";
 import { museUsageReader } from "./usage.vibe";
 import type * as MuseUsageHome from "./MuseUsageHome.ts";
