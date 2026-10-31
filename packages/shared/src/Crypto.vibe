@@ -9,6 +9,8 @@ import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as PlatformError from "effect/PlatformError"
 
+import * as Digest from "effect/crypto/Digest"
+
 const TypeId = "~@t3tools/shared/Crypto"
 
 export type DigestAlgorithm = "SHA-1" | "SHA-256" | "SHA-384" | "SHA-512"
@@ -123,17 +125,33 @@ export const make = (impl: {
   })
 }
 
-const webCryptoDigest = effect (algorithm: DigestAlgorithm, data: Uint8Array) =>
-  try Effect.tryPromise({
-    try: async () => new Uint8Array(await globalThis.crypto.subtle.digest(algorithm, new Uint8Array(data))),
-    catch: (cause) =>
-      PlatformError.systemError({
+const digestAlgorithms: Readonly<Record<DigestAlgorithm, Digest.Algorithm>> = {
+  "SHA-1": Digest.sha1,
+  "SHA-256": Digest.sha256,
+  "SHA-384": Digest.sha384,
+  "SHA-512": Digest.sha512,
+}
+
+const webCryptoDigest = effect (algorithm: DigestAlgorithm, data: Uint8Array) => {
+  return try Effect.catchDefect(
+    effect {
+      // Freeze input at execution; invalid/detached buffers keep the legacy failure channel.
+      const bytes = new Uint8Array(data)
+      provide Digest.layerWebCrypto {
+        const digest = try Digest.Digest
+        return try digest.digest(digestAlgorithms[algorithm], bytes)
+      }
+    },
+    effect (cause) => {
+      throw PlatformError.systemError({
         _tag: "Unknown",
         module: "Crypto",
         method: "digest",
         cause,
-      }),
-  })
+      })
+    },
+  )
+}
 
 /** The service over the platform's WebCrypto, which Node, Bun and browsers provide. */
 export const layerWebCrypto: Layer.Layer<Crypto> = Layer.sync(
