@@ -104,8 +104,8 @@
       "import": "./src/KeyedCoalescingWorker.ts"
     },
     "./KeyedLock": {
-      "types": "./src/KeyedLock.ts",
-      "import": "./src/KeyedLock.ts"
+      "types": "./src/KeyedLock.d.vibe.ts",
+      "import": "./src/KeyedLock.vibe"
     },
     "./schemaJson": {
       "types": "./src/schemaJson.ts",
@@ -264,8 +264,8 @@
       "import": "./src/promptLinks.ts"
     },
     "./threadLinks": {
-      "types": "./src/threadLinks.ts",
-      "import": "./src/threadLinks.ts"
+      "types": "./src/threadLinks.d.vibe.ts",
+      "import": "./src/threadLinks.vibe"
     },
     "./composerContextReferences": {
       "types": "./src/composerContextReferences.ts",
@@ -332,8 +332,8 @@
       "import": "./src/nodeRuntime.ts"
     },
     "./AgentScope": {
-      "types": "./src/AgentScope.ts",
-      "import": "./src/AgentScope.ts"
+      "types": "./src/AgentScope.d.vibe.ts",
+      "import": "./src/AgentScope.vibe"
     },
     "./HostProcess": {
       "types": "./src/HostProcess.ts",
@@ -496,8 +496,8 @@
       "import": "./src/mcpApp.vibe"
     },
     "./atomicWrite": {
-      "types": "./src/atomicWrite.ts",
-      "import": "./src/atomicWrite.ts"
+      "types": "./src/atomicWrite.d.vibe.ts",
+      "import": "./src/atomicWrite.vibe"
     },
     "./mcpResponsePayloads": {
       "types": "./src/mcpResponsePayloads.ts",
@@ -516,8 +516,8 @@
       "import": "./src/cloneUrl.ts"
     },
     "./Crypto": {
-      "types": "./src/Crypto.ts",
-      "import": "./src/Crypto.ts"
+      "types": "./src/Crypto.d.vibe.ts",
+      "import": "./src/Crypto.vibe"
     }
   },
   "scripts": {

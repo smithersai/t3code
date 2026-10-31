@@ -1,0 +1,93 @@
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Path from "effect/Path"
+import type * as PlatformError from "effect/PlatformError"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+import { resolveSymlinkTarget } from "@t3tools/shared/symlink"
+
+/** Windows open-file locks block renames; the same codes can mean permanent denial, so bound retries. */
+export const isWindowsRenameLock = (error: PlatformError.PlatformError): infer _ => {
+  const code = (error.reason.cause as NodeJS.ErrnoException | undefined)?.code
+  return code === "EBUSY" || code === "EPERM" || code === "EACCES"
+}
+
+// Bound denial delays to about two seconds because settings saves hold their write lock.
+const LOCKED_RENAME_RETRIES = 20
+const LOCKED_RENAME_RETRY_DELAY = "100 millis"
+
+/** Resolves symlink targets before renaming so writes preserve the link. */
+export const writeFileStringAtomically = effect (input: {
+  readonly filePath: string
+  readonly contents: string
+}) =>
+  try Effect.scoped(
+    effect {
+      const fs = try FileSystem.FileSystem()
+      const path = try Path.Path()
+      const platform = try HostProcess.Platform()
+      const targetPath = try resolveSymlinkTarget(input.filePath)
+      const targetDirectory = path.dirname(targetPath)
+
+      try fs.makeDirectory(targetDirectory, { recursive: true })
+      // Cleanup failure must not fail a write that already landed.
+      const tempDirectory = try Effect.acquireRelease(
+        effect {
+          return try fs.makeTempDirectory({
+            directory: targetDirectory,
+            prefix: `${path.basename(targetPath)}.`,
+          })
+        },
+        effect (directory) =>
+          try Effect.ignore(
+            effect {
+              return try fs.remove(directory, { recursive: true })
+            },
+            { log: true },
+          ),
+      )
+      const tempPath = path.join(tempDirectory, "contents.tmp")
+
+      try fs.writeFileString(tempPath, input.contents)
+      if (platform !== "win32") return try fs.rename(tempPath, targetPath)
+
+      // Stop retrying if another save changes the target; read-only targets also return permanent EPERM.
+      const targetVersion = effect () =>
+        try Effect.option(effect {
+          return try Effect.catchIf(
+            effect {
+              return try Effect.map(
+                effect {
+                  return try fs.stat(targetPath)
+                },
+                (info) => ({
+                  id: `${Option.getOrUndefined(info.ino)}:${info.size}:${Option.getOrUndefined(info.mtime)?.getTime()}`,
+                  readOnly: (info.mode & 0o200) === 0,
+                }),
+              )
+            },
+            (error) => error.reason._tag === "NotFound",
+            effect () => ({ id: "missing", readOnly: false }),
+          )
+        })
+      const before = try targetVersion()
+      const firstAttempt = try Effect.result(effect {
+        return try fs.rename(tempPath, targetPath)
+      })
+      if (Result.isSuccess(firstAttempt)) return
+      const lockError = firstAttempt.failure
+      if (!isWindowsRenameLock(lockError) || Option.isNone(before) || before.value.readOnly) {
+        throw lockError
+      }
+      for (let retry = 0; retry < LOCKED_RENAME_RETRIES; retry += 1) {
+        try Effect.sleep(LOCKED_RENAME_RETRY_DELAY)
+        const current = try targetVersion()
+        if (Option.isNone(current) || current.value.id !== before.value.id) break
+        const attempt = try Effect.result(effect {
+          return try fs.rename(tempPath, targetPath)
+        })
+        if (Result.isSuccess(attempt)) return
+        if (!isWindowsRenameLock(attempt.failure)) throw attempt.failure
+      }
+      throw lockError
+    },
+  )
