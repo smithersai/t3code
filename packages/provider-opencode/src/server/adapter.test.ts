@@ -16,7 +16,7 @@ import {
   type OrchestrationV2ProviderThread,
   type OrchestrationV2ProviderTurn,
 } from "@t3tools/contracts";
-import { OpenCodeSettings } from "../settings.ts";
+import { OpenCodeSettings } from "../settings.vibe";
 import * as Effect from "effect/Effect";
 import * as Clock from "effect/Clock";
 import * as DateTime from "effect/DateTime";

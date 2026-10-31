@@ -13,7 +13,7 @@ import * as Path from "effect/Path";
 import type * as PlatformError from "effect/PlatformError";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import type { OpenCodeSettings } from "../settings.ts";
+import type { OpenCodeSettings } from "../settings.vibe";
 
 function object(value: unknown): Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value)

@@ -5,9 +5,8 @@ import {
   makeProviderSettingsSchema,
   secretSetting,
   TrimmedString,
-} from "@t3tools/contracts";
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+} from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
 
 export const OpenCodeSettings = makeProviderSettingsSchema(
   {
@@ -57,5 +56,5 @@ export const OpenCodeSettings = makeProviderSettingsSchema(
   {
     order: ["binaryPath", "serverUrl", "serverPassword"],
   },
-);
-export type OpenCodeSettings = typeof OpenCodeSettings.Type;
+)
+export type OpenCodeSettings = typeof OpenCodeSettings.Type
