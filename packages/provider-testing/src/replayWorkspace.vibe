@@ -1,0 +1,96 @@
+import * as NodeServices from "@effect/platform-node/NodeServices"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Path from "effect/Path"
+import * as PlatformError from "effect/PlatformError"
+import * as Schema from "effect/Schema"
+import * as ChildProcess from "effect/process/ChildProcess"
+import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner"
+
+schema error ReplayFixtureGitCommandError {
+  command: string
+  exitCode: number
+
+  override get message(): string {
+    return `${this.command} failed with exit ${this.exitCode}.`
+  }
+}
+
+effect function runGit(
+  cwd: string,
+  args: ReadonlyArray<string>,
+): void!(ReplayFixtureGitCommandError | PlatformError.PlatformError)!ChildProcessSpawner.ChildProcessSpawner {
+  const spawner = try ChildProcessSpawner.ChildProcessSpawner()
+  const exitCode = try spawner.exitCode(ChildProcess.make("git", args, { cwd }))
+  if (Number(exitCode) !== 0) {
+    throw new ReplayFixtureGitCommandError({
+      command: `git ${args.join(" ")}`,
+      exitCode: Number(exitCode),
+    })
+  }
+}
+
+export type ReplayWorkspaceFiles = Readonly<Record<string, string>>
+
+effect function makeCheckpointWorkspaceEffect(
+  fixtureName: string,
+  files: ReplayWorkspaceFiles = {},
+) {
+  return try withSpan(
+    effect {
+      const fs = try FileSystem.FileSystem()
+      const path = try Path.Path()
+      const cwd = try fs.makeTempDirectory({
+        prefix: `t3-orchestrator-v2-${fixtureName}-`,
+      })
+      try runGit(cwd, ["init"])
+      try runGit(cwd, ["config", "user.name", "T3 Code Test"])
+      try runGit(cwd, ["config", "user.email", "t3code-test@example.com"])
+      try fs.writeFileString(path.join(cwd, "README.md"), `# ${fixtureName}\n`)
+      for (const [relativePath, contents] of Object.entries(files)) {
+        const filePath = path.join(cwd, relativePath)
+        try fs.makeDirectory(path.dirname(filePath), { recursive: true })
+        try fs.writeFileString(filePath, contents)
+      }
+      try runGit(cwd, ["add", "README.md", ...Object.keys(files)])
+      try runGit(cwd, ["commit", "-m", "initial"])
+      return cwd
+    },
+    "makeCheckpointWorkspace",
+  )
+}
+
+effect function removeCheckpointWorkspaceEffect(cwd: string) {
+  return try withSpan(
+    effect {
+      const fs = try FileSystem.FileSystem()
+      try fs.remove(cwd, { recursive: true })
+    },
+    "removeCheckpointWorkspace",
+  )
+}
+
+export const checkpointWorkspace = effect (
+  fixtureName: string,
+  files?: ReplayWorkspaceFiles,
+) => {
+  provide NodeServices.layer {
+    return try Effect.acquireRelease(
+      makeCheckpointWorkspaceEffect(fixtureName, files),
+      effect (cwd) => {
+        try Effect.orDie(removeCheckpointWorkspaceEffect(cwd))
+      },
+    )
+  }
+}
+
+export async function makeCheckpointWorkspace(
+  fixtureName: string,
+  files?: ReplayWorkspaceFiles,
+): Promise<string> {
+  return await Effect.runPromise(effect {
+    provide NodeServices.layer {
+      return try makeCheckpointWorkspaceEffect(fixtureName, files)
+    }
+  })
+}
