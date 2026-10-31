@@ -4,9 +4,8 @@ import {
   makeBinaryPathSetting,
   makeProviderSettingsSchema,
   TrimmedString,
-} from "@t3tools/contracts";
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+} from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
 
 export const PiSettings = makeProviderSettingsSchema(
   {
@@ -37,5 +36,5 @@ export const PiSettings = makeProviderSettingsSchema(
   {
     order: ["binaryPath", "launchArgs"],
   },
-);
-export type PiSettings = typeof PiSettings.Type;
+)
+export type PiSettings = typeof PiSettings.Type

@@ -22,7 +22,7 @@ import {
   type ProviderInstanceId,
   type OrchestrationV2ProviderTurnTokenUsage,
 } from "@t3tools/contracts";
-import { PiSettings } from "../settings.ts";
+import { PiSettings } from "../settings.vibe";
 import * as Cause from "effect/Cause";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";

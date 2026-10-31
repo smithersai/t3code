@@ -13,7 +13,7 @@ import {
   type UsageRecord,
 } from "@t3tools/provider-core/server/usage";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import type { PiSettings } from "../settings.ts";
+import type { PiSettings } from "../settings.vibe";
 
 const PiScanState = Schema.Struct({ sessionId: Schema.mutableKey(Schema.String) });
 const Usage = Schema.Struct({
