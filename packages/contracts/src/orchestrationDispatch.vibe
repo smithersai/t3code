@@ -1,0 +1,11 @@
+import * as Schema from "effect/Schema"
+
+import { TrimmedNonEmptyString } from "./baseSchemas.ts"
+
+const DefectField = Schema.Defect()
+const OrchestrationDispatchCommandErrorBootstrapThreadDispositionField = Schema.Literals(["deleted", "not-created"])
+export schema error OrchestrationDispatchCommandError {
+  message: TrimmedNonEmptyString
+  cause?: DefectField
+  bootstrapThreadDisposition?: OrchestrationDispatchCommandErrorBootstrapThreadDispositionField
+}

@@ -5,7 +5,7 @@ import {
   OrchestrationV2SearchThreadsInput,
   OrchestrationV2SearchThreadsResult,
 } from "./orchestrationV2.ts";
-import { OrchestrationDispatchCommandError } from "./orchestrationDispatch.ts";
+import { OrchestrationDispatchCommandError } from "./orchestrationDispatch.vibe";
 import {
   McpAppCallToolInput,
   McpAppCallToolResult,
@@ -121,7 +121,7 @@ import {
 import {
   OrchestrationGetFullThreadDiffError,
   OrchestrationGetTurnDiffError,
-} from "./checkpointDiff.ts";
+} from "./checkpointDiff.vibe";
 import {
   WorktreeSetupCancelInput,
   WorktreeSetupCancelResult,
@@ -162,7 +162,7 @@ import {
   ReviewDiffPreviewResult,
 } from "./review.vibe";
 import { KeybindingsConfigError } from "./keybindings.vibe";
-import { OrchestrationSearchThreadsError } from "./threadSearch.ts";
+import { OrchestrationSearchThreadsError } from "./threadSearch.vibe";
 import {
   ProviderUploadFeedbackError,
   ProviderUploadFeedbackInput,
@@ -221,7 +221,7 @@ import {
   RelayClientInstallFailedError,
   RelayClientInstallProgressEventSchema,
   RelayClientStatusSchema,
-} from "./relayClient.ts";
+} from "./relayClient.vibe";
 import {
   ORCHESTRATION_V2_WS_METHODS,
   OrchestrationGetWorkflowScriptError,
