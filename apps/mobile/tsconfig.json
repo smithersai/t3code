@@ -1,6 +1,7 @@
 {
   "extends": "expo/tsconfig.base.json",
   "compilerOptions": {
+    "moduleSuffixes": ["", ".d.vibe"],
     "allowArbitraryExtensions": true,
     "rewriteRelativeImportExtensions": true,
     "allowImportingTsExtensions": true,
@@ -8,5 +9,5 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true
   },
-  "vibelang": { "trustedPackages": ["@t3tools/*"] }
+  "vibelang": { "trustedPackages": ["@t3tools/*", "react", "react-dom", "tailwind-merge", "clsx"] }
 }

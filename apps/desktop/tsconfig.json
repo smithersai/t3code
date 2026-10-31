@@ -1,11 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "moduleSuffixes": ["", ".d.vibe"],
     "rewriteRelativeImportExtensions": true,
     "composite": true,
     "types": ["node", "electron"],
     "lib": ["ESNext", "DOM", "esnext.disposable"]
   },
   "include": ["src", "vite.config.ts", "../../scripts/lib"],
-  "vibelang": { "trustedPackages": ["@t3tools/*"] }
+  "vibelang": { "trustedPackages": ["@t3tools/*", "react", "react-dom", "tailwind-merge", "clsx"] }
 }
