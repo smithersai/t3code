@@ -356,7 +356,7 @@ import {
   ServerSettings,
   ServerSettingsError,
   ServerSettingsPatch,
-} from "./settings.ts";
+} from "./settings.vibe";
 import {
   ScheduledTaskDeleteInput,
   ScheduledTaskDeleteResult,

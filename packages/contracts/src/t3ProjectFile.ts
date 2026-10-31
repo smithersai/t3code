@@ -3,7 +3,7 @@ import * as SchemaTransformation from "effect/SchemaTransformation";
 
 import { ThreadEnvMode, WorktreeSubmodules } from "./environment.vibe";
 import { ProjectScriptIcon } from "./project.ts";
-import type { ProjectScopedServerSettingKey, ServerSettings } from "./settings.ts";
+import type { ProjectScopedServerSettingKey, ServerSettings } from "./settings.vibe";
 
 export const T3_PROJECT_FILE_NAME = "t3.json";
 

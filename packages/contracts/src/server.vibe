@@ -18,7 +18,7 @@ import { ModelCapabilities, ProviderOptionDescriptor } from "./model.vibe"
 import { RuntimeMode } from "./providerPolicy.vibe"
 import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe"
 import { ServerProviderUsageLimits, UsageLimitSourceSnapshots } from "./providerUsageLimits.vibe"
-import { ServerSettings } from "./settings.ts"
+import { ServerSettings } from "./settings.vibe"
 
 schema KeybindingsMalformedConfigIssue {
   kind: "keybindings.malformed-config"

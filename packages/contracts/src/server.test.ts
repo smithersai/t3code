@@ -9,7 +9,7 @@ import {
   ServerProvider,
   ServerProviders,
 } from "./server.vibe";
-import { ServerSettings } from "./settings.ts";
+import { ServerSettings } from "./settings.vibe";
 
 const decodeServerProvider = Schema.decodeUnknownSync(ServerProvider);
 const decodeServerProviders = Schema.decodeUnknownSync(ServerProviders);
