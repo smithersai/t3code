@@ -24,8 +24,8 @@
       "import": "./src/replay.ts"
     },
     "./errors": {
-      "types": "./src/errors.ts",
-      "import": "./src/errors.ts"
+      "types": "./src/errors.vibe",
+      "import": "./src/errors.vibe"
     }
   },
   "scripts": {

@@ -55,7 +55,7 @@ import {
 import * as AcpRegistrySupport from "./AcpRegistrySupport.ts";
 import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.ts";
 import * as AcpRegistryAuth from "./auth.ts";
-import * as AcpRegistryAuthenticationState from "./authenticationState.ts";
+import * as AcpRegistryAuthenticationState from "./authenticationState.vibe";
 
 const DRIVER_KIND = ProviderDriverKind.make("acpRegistry");
 const decodeSettings = Schema.decodeSync(AcpRegistrySettings);

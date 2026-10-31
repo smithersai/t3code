@@ -10,7 +10,7 @@ import * as TestClock from "effect/testing/TestClock";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it } from "@effect/vitest";
 
-import * as CodexError from "./errors.ts";
+import * as CodexError from "./errors.vibe";
 import * as CodexProtocol from "./protocol.ts";
 import { makeInMemoryStdio } from "./_internal/stdio.ts";
 const encodeUnknownJsonString = Schema.encodeUnknownSync(Schema.fromJsonString(Schema.Unknown));

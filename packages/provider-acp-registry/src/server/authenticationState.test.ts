@@ -6,7 +6,7 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Schema from "effect/Schema";
 
-import { makeAcpRegistryAuthenticationState } from "./authenticationState.ts";
+import { makeAcpRegistryAuthenticationState } from "./authenticationState.vibe";
 import * as Layer from "effect/Layer";
 import * as Crypto from "@t3tools/shared/Crypto";
 

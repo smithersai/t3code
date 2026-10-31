@@ -1,0 +1,86 @@
+import type { ProviderInstanceEnvironment, ProviderInstanceId } from "@t3tools/contracts"
+import type { AcpRegistrySettings } from "../settings.vibe"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Path from "effect/Path"
+import * as Hex from "effect/encoding/Hex"
+
+import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite"
+
+const decodeState = Schema.decodeUnknownEffect(
+  Schema.fromJsonString(Schema.Struct({ binding: Schema.String, authenticated: Schema.Boolean })),
+)
+const encodeJson = Schema.encodeEffect(Schema.fromJsonString(Schema.Unknown))
+const hash = effect (value: unknown) =>
+  try withSpan(
+    effect {
+      const crypto = try Crypto.Crypto()
+      const json = try Effect.orDie(encodeJson(value))
+      const digest = try Effect.orDie(crypto.digest("SHA-256", new TextEncoder().encode(json)))
+      return Hex.encode(digest)
+    },
+    "AcpRegistryAuthenticationState.hash",
+  )
+
+export const makeAcpRegistryAuthenticationState = effect (input: {
+  readonly cacheDir: string
+  readonly instanceId: ProviderInstanceId
+  readonly settings: AcpRegistrySettings
+  readonly environment: ProviderInstanceEnvironment
+  readonly processEnvironment: NodeJS.ProcessEnv
+}) =>
+  try withSpan(
+    effect {
+      const fs = try FileSystem.FileSystem()
+      const path = try Path.Path()
+      const filePath = path.join(input.cacheDir, `acp-auth-${try hash(input.instanceId)}.json`)
+      // Cosmetic settings and model discovery do not change the account binding.
+      const binding = try hash({
+        ...(input.settings.source === "local"
+          ? { source: "local", commandArgs: input.settings.commandArgs }
+          : {}),
+        agentId: input.settings.agentId,
+        commandPath: input.settings.commandPath,
+        distribution: input.settings.distribution,
+        authMethodId: input.settings.authMethodId,
+        environment: [...input.environment].toSorted((a, b) => a.name.localeCompare(b.name)),
+        profiles: [
+          "HOME",
+          "XDG_CONFIG_HOME",
+          "XDG_DATA_HOME",
+          "XDG_STATE_HOME",
+          "APPDATA",
+          "LOCALAPPDATA",
+        ].map((name) => input.processEnvironment[name] ?? null),
+      })
+      const saved = try (effect {
+        const text = try fs.readFileString(filePath)
+        return try decodeState(text)
+      } catch effect () => undefined)
+      const confirmed = try Ref.make(saved?.binding === binding && saved.authenticated)
+      const lock = try Semaphore.make(1)
+      const persist = effect (authenticated: boolean) => {
+        provide FileSystem.FileSystem = fs, Path.Path = path {
+          try (writeFileStringAtomically({
+            filePath,
+            contents: JSON.stringify({ binding, authenticated }),
+          }) catch effect () => {
+            try logWarning("Could not save ACP sign-in confirmation.")
+          })
+        }
+      }
+      if (saved && saved.binding !== binding) try persist(false)
+      return {
+        get: effect {
+          return try Ref.get(confirmed)
+        },
+        set: effect (authenticated: boolean) =>
+          try lock.withPermit(effect {
+            try Ref.set(confirmed, authenticated)
+            try persist(authenticated)
+          }),
+      }
+    },
+    "makeAcpRegistryAuthenticationState",
+  )

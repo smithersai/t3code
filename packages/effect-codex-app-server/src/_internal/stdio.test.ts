@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as PlatformError from "effect/PlatformError";
 import { ChildProcessSpawner } from "effect/process";
 
-import * as CodexError from "../errors.ts";
+import * as CodexError from "../errors.vibe";
 import { makeTerminationError } from "./stdio.ts";
 
 describe("Codex App Server child process termination", () => {

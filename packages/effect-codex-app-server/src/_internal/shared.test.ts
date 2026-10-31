@@ -2,7 +2,7 @@ import { assert, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 
-import * as CodexError from "../errors.ts";
+import * as CodexError from "../errors.vibe";
 import * as Shared from "./shared.ts";
 
 const decodeNestedNumberPayload = Schema.decodeUnknownEffect(
