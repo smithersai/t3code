@@ -30,7 +30,7 @@ import {
   type ServerProviderModel,
   type ThreadId,
 } from "@t3tools/contracts";
-import { CursorSettings } from "../settings.ts";
+import { CursorSettings } from "../settings.vibe";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";

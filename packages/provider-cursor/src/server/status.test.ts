@@ -2,8 +2,8 @@ import type { SDKModel } from "@cursor/sdk";
 import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { CursorSettings } from "../settings.ts";
-import { CursorSettings as CursorSettingsSchema } from "../settings.ts";
+import type { CursorSettings } from "../settings.vibe";
+import { CursorSettings as CursorSettingsSchema } from "../settings.vibe";
 import { createModelCapabilities } from "@t3tools/shared/model";
 
 import {

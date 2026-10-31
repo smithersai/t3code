@@ -1,6 +1,5 @@
-import { CustomModelSetting, makeProviderSettingsSchema, TrimmedString } from "@t3tools/contracts";
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+import { CustomModelSetting, makeProviderSettingsSchema, TrimmedString } from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
 
 export const CursorSettings = makeProviderSettingsSchema(
   {
@@ -23,5 +22,5 @@ export const CursorSettings = makeProviderSettingsSchema(
   {
     order: [],
   },
-);
-export type CursorSettings = typeof CursorSettings.Type;
+)
+export type CursorSettings = typeof CursorSettings.Type
