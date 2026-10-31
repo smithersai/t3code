@@ -22,6 +22,7 @@ import { loadRepoEnv } from "../../scripts/lib/public-config";
 import { thirdPartyLicensesPlugin } from "../../scripts/lib/third-party-licenses";
 import { tailwindPlugins } from "./vite/tailwind";
 import { warmBundledDevPlugin } from "./vite/warmBundledDev";
+import vibelang from "vibelang-vite";
 
 const repoEnv = loadRepoEnv();
 Object.assign(process.env, repoEnv);
@@ -265,6 +266,7 @@ export default defineConfig(() => {
     },
     assetsInclude: ["**/*.wasm"],
     plugins: [
+      vibelang({ register: true }),
       devCompressionPlugin(),
       chunkCycleGuardPlugin(),
       builtDev

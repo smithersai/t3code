@@ -20,6 +20,7 @@ import * as WorkspacePaths from "./WorkspacePaths.ts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
 import { vi } from "vite-plus/test";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("node:fs/promises", async (importOriginal) => {
   const actual = await importOriginal<typeof NodeFSP>();
@@ -50,7 +51,7 @@ const layerTest = Layer.empty.pipe(
       prefix: "t3-workspace-files-test-",
     }),
   ),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 const makeTempDir = Effect.gen(function* () {

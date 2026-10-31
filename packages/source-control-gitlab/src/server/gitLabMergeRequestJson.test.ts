@@ -10,7 +10,7 @@ import {
   decodeMergeRequestListJson,
   decodeNotesJson,
   decodeOwnAwardIdJson,
-} from "./gitLabMergeRequestJson.ts";
+} from "./gitLabMergeRequestJson.vibe";
 
 function listJson(entries: ReadonlyArray<Record<string, unknown>>): string {
   return JSON.stringify(

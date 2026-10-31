@@ -22,6 +22,7 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import * as AcpRegistrySupport from "./AcpRegistrySupport.ts";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const registryUrl = "https://registry.test/registry.json";
 const archiveUrl = "https://registry.test/example-agent.bin";
@@ -56,8 +57,10 @@ function layerResolver(
   environment: NodeJS.ProcessEnv = process.env,
 ) {
   return Layer.mergeAll(
-    NodeServices.layer,
-    TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer)),
+    Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+    TestProviderHost.layer().pipe(
+      Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+    ),
     Layer.succeed(HostProcess.Platform, "linux"),
     Layer.succeed(HostProcess.Architecture, "x64"),
     Layer.succeed(HostProcess.Environment, environment),
@@ -746,8 +749,10 @@ describe("AcpRegistrySupport", () => {
       Effect.scoped,
       Effect.provide(
         Layer.mergeAll(
-          NodeServices.layer,
-          TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer)),
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          TestProviderHost.layer().pipe(
+            Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+          ),
         ),
       ),
       Effect.provideService(HostProcess.Platform, "linux"),
@@ -1590,6 +1595,6 @@ describe("acpRegistryManagedBinaryDirectories", () => {
         architecture: "x64",
       });
       expect(missing).toEqual([]);
-    }).pipe(Effect.provide(NodeServices.layer), Effect.scoped),
+    }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)), Effect.scoped),
   );
 });

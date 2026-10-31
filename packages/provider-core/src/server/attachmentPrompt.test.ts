@@ -7,7 +7,7 @@ import {
 import { assert, describe, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 
-import { providerMessageTextWithAttachmentPaths } from "./attachmentPrompt.ts";
+import { providerMessageTextWithAttachmentPaths } from "./attachmentPrompt.vibe";
 
 const document = ChatFileAttachment.make({
   id: ChatAttachmentId.make("file-document"),

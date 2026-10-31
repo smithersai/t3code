@@ -1,7 +1,7 @@
 import * as Cause from "effect/Cause";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
@@ -76,9 +76,10 @@ import {
 } from "./toolkits/device/tools.ts";
 import * as HtmlHandlers from "./toolkits/html/handlers.ts";
 import { HtmlPreviewTool, HtmlPreviewToolkit, HtmlRenderToolkit } from "./toolkits/html/tools.ts";
+import * as RequestUrl from "../RequestUrl.ts";
 
 const mcpResourceMetadataUrl = (request: HttpServerRequest.HttpServerRequest) =>
-  HttpServerRequest.toURL(request).pipe(
+  RequestUrl.toURL(request).pipe(
     Option.map((url) => `${url.origin}/.well-known/oauth-protected-resource/mcp`),
   );
 
@@ -1031,11 +1032,25 @@ const withAdvertisedSchemas = Effect.fn("McpHttpServer.withAdvertisedSchemas")(f
 });
 
 /**
- * `McpServer.toolkit` asks for every service its tools declare when it
- * registers them, but the auth middleware provides `McpInvocationContext` to
- * each request instead. Registration must not get one: the services it
- * captures would replace the request's.
+ * Gives each request the services its registration was built with: handlers read
+ * them per request, which only MCP middleware meets. `McpInvocationContext` is
+ * left to the auth middleware through the transport.
  */
+const layerRegistrationServices = <S>() =>
+  McpServer.middleware<{ provides: S }>()(
+    Effect.map(
+      Effect.context<S>(),
+      (services) =>
+        (effect: Effect.Effect<McpServer.MiddlewareSuccess, McpSchema.McpErrorBase, S>) =>
+          Effect.provide(effect, services),
+    ),
+  ).layer;
+
+type RegistrationServices<R> = Exclude<
+  McpServer.McpRequest.Only<"Requires", R>,
+  McpInvocationContext.McpInvocationContext
+>;
+
 export const toolkitRegistration = <Tools extends Record<string, Tool.Any>, EX, RX>(
   toolkit: Toolkit.Toolkit<Tools>,
   handlers: McpToolAccess.HandlersLayer<Tools, EX, RX>,
@@ -1045,13 +1060,12 @@ export const toolkitRegistration = <Tools extends Record<string, Tool.Any>, EX, 
       withAdvertisedSchemas(toolkit, McpServer.registerToolkit(decodeAsAdvertised(toolkit))),
     ),
   ).pipe(Layer.provide(McpServer.McpServer.layer));
-  // @effect-diagnostics-next-line unsafeEffectTypeAssertion:off - the auth middleware provides it per request.
-  const registered = registration as Layer.Layer<
-    never,
-    never,
-    Exclude<Layer.Services<typeof registration>, McpInvocationContext.McpInvocationContext>
-  >;
-  return registered.pipe(Layer.provide(McpToolAccess.HandlersLayer.layer(handlers)));
+  return registration.pipe(
+    Layer.provide(
+      layerRegistrationServices<RegistrationServices<Layer.Services<typeof registration>>>(),
+    ),
+    Layer.provide(McpToolAccess.HandlersLayer.layer(handlers)),
+  );
 };
 
 const imageToolRegistration = <Tools extends Record<string, Tool.Any>, A, E, R, EX, RX>(
@@ -1059,6 +1073,7 @@ const imageToolRegistration = <Tools extends Record<string, Tool.Any>, A, E, R, 
   handlers: McpToolAccess.HandlersLayer<Tools, EX, RX>,
 ) =>
   Layer.effectDiscard(withToolAnalytics(register)).pipe(
+    Layer.provide(layerRegistrationServices<RegistrationServices<R>>()),
     Layer.provide(McpToolAccess.HandlersLayer.layer(handlers)),
   );
 
@@ -1131,13 +1146,33 @@ export const layerDeviceToolkit = Layer.mergeAll(
   layerDeviceScreenshotRegistration,
 );
 
-export const layerMcpTransport = McpServer.layerHttp({
-  name: "T3 Code",
-  version: packageJson.version,
-  path: "/mcp",
-  protocols: [McpProtocol.v2025_06_18],
-  allowSessionTermination: true,
-}).pipe(Layer.provide(layerMcpAuthMiddleware));
+/** Serves `registrations` at `/mcp`; the auth middleware gives their requests `McpInvocationContext`. */
+export const withMcpTransport = <A, E, R>(registrations: Layer.Layer<A, E, R>) =>
+  McpServer.layerHttp({
+    name: "T3 Code",
+    version: packageJson.version,
+    path: "/mcp",
+    protocols: [McpProtocol.v2025_06_18],
+    allowSessionTermination: true,
+    registrations,
+  }).pipe(Layer.provide(layerMcpAuthMiddleware));
+
+export const layerMcpTransport = withMcpTransport(Layer.empty);
+
+/** For tests that call tools through `McpServer.callTool` with `McpInvocationContext` around the call. */
+export const layerCallerInvocation = McpServer.middleware<{
+  provides: McpInvocationContext.McpInvocationContext;
+}>()((effect) =>
+  Effect.serviceOption(McpInvocationContext.McpInvocationContext).pipe(
+    Effect.flatMap(
+      Option.match({
+        onNone: () => Effect.die("An MCP tool was called without McpInvocationContext."),
+        onSome: (invocation) =>
+          Effect.provideService(effect, McpInvocationContext.McpInvocationContext, invocation),
+      }),
+    ),
+  ),
+).layer;
 
 /** Every tool the T3 MCP server advertises. AgentContextBudget.test.ts measures this set. */
 export const layerTools = Layer.mergeAll(
@@ -1154,4 +1189,4 @@ export const layerTools = Layer.mergeAll(
   layerHtmlToolkit,
 );
 
-export const layer = layerTools.pipe(Layer.provideMerge(layerMcpTransport));
+export const layer = withMcpTransport(layerTools);

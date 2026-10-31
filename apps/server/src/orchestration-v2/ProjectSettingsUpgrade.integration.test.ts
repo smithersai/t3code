@@ -28,6 +28,7 @@ import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
 import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts";
 import * as RuntimeLayer from "./runtimeLayer.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const projectId = ProjectId.make("project:upgrade");
 const icon = { kind: "emoji", emoji: "🦊" } as const;
@@ -116,7 +117,7 @@ const unusedEnrichment = {
 
 const layerRuntime = (dbPath: string) => {
   const layerPlatform = Layer.merge(
-    NodeServices.layer,
+    Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
     Layer.mock(SourceControlProviderRegistry.SourceControlProviderRegistry)({
       resolveLink: () => Effect.die("unused"),
     }),
@@ -190,5 +191,5 @@ it.live("keeps project settings through the V2 migrations and the first V2 boot"
         assert.equal(project._tag, "Some");
       }).pipe(Effect.provide(layerRuntime(dbPath)));
     }),
-  ).pipe(Effect.provide(NodeServices.layer)),
+  ).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );

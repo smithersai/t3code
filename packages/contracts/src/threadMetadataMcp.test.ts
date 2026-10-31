@@ -1,7 +1,7 @@
 import { assert, describe, it } from "@effect/vitest";
 import * as Schema from "effect/Schema";
 
-import { ThreadMetadataMcpUpdateInput } from "./threadMetadataMcp.ts";
+import { ThreadMetadataMcpUpdateInput } from "./threadMetadataMcp.vibe";
 
 const decodeUpdate = Schema.decodeUnknownSync(ThreadMetadataMcpUpdateInput);
 

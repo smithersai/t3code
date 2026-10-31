@@ -3,7 +3,7 @@ import { ProviderInstanceId, ProviderThreadId } from "@t3tools/contracts";
 import {
   backgroundWorkHoldsCompletion,
   derivePendingBackgroundWork,
-} from "./orchestrationV2PendingBackgroundWork.ts";
+} from "./orchestrationV2PendingBackgroundWork.vibe";
 
 describe("backgroundWorkHoldsCompletion", () => {
   it.each([

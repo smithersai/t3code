@@ -21,6 +21,7 @@ import * as EnvironmentAuth from "./EnvironmentAuth.ts";
 
 import * as ServerSecretStore from "./ServerSecretStore.ts";
 import * as SessionStore from "./SessionStore.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const TEST_SERVER_PORT = 13_773;
 
@@ -107,7 +108,7 @@ const makeDpopKey = () => {
   };
 };
 
-it.layer(NodeServices.layer)("EnvironmentAuth.layer", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("EnvironmentAuth.layer", (it) => {
   it.effect("uses the reusable dev cookie without overriding a normal scoped cookie", () =>
     Effect.gen(function* () {
       const serverAuth = yield* EnvironmentAuth.EnvironmentAuth;

@@ -8,8 +8,8 @@
       "import": "./src/client.ts"
     },
     "./settings": {
-      "types": "./src/settings.ts",
-      "import": "./src/settings.ts"
+      "types": "./src/settings.d.vibe.ts",
+      "import": "./src/settings.vibe"
     },
     "./server": {
       "types": "./src/server.ts",
@@ -21,7 +21,7 @@
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vibelang --noEmit",
     "test": "vp test run --config ../../vite.config.ts --dir ."
   },
   "dependencies": {
@@ -29,13 +29,16 @@
     "@t3tools/provider-acp": "workspace:*",
     "@t3tools/provider-core": "workspace:*",
     "@t3tools/shared": "workspace:*",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11.tgz"
   },
   "devDependencies": {
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
     "effect-acp": "workspace:*",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11.tgz",
     "vite-plus": "catalog:"
   }
 }

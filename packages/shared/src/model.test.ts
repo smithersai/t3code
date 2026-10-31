@@ -11,7 +11,7 @@ import {
   getProviderOptionDescriptors,
   readCustomModelEntries,
   modelSelectionsEqual,
-} from "./model.ts";
+} from "./model.vibe";
 
 const codexCaps: ModelCapabilities = createModelCapabilities({
   optionDescriptors: [

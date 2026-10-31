@@ -1,4 +1,5 @@
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime";
+import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
@@ -67,6 +68,10 @@ const command = Command.make("task-cache").pipe(
 );
 
 Command.run(command, { version: "1.0.0" }).pipe(
-  Effect.provide(WriterRegistry.layer.pipe(Layer.provideMerge(NodeServices.layer))),
+  Effect.provide(
+    WriterRegistry.layer.pipe(
+      Layer.provideMerge(Layer.merge(NodeServices.layer, NodeCrypto.layer)),
+    ),
+  ),
   NodeRuntime.runMain,
 );

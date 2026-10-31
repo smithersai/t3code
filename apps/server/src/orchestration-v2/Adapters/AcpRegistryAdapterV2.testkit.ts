@@ -26,6 +26,7 @@ import {
   makeAcpRegistryAdapterV2,
 } from "@t3tools/provider-acp-registry/testing";
 import * as AcpRegistrySupport from "@t3tools/provider-acp-registry/server/AcpRegistrySupport";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const REPLAY_SETTINGS = Schema.decodeSync(AcpRegistrySettings)({
   agentId: "replay-agent",
@@ -36,7 +37,9 @@ function layerAcpRegistryProviderAdapterRegistryReplay(
   transcript: AcpReplayTranscript,
   options: { readonly replayGate?: ProviderReplayGate } = {},
 ) {
-  const layerHost = TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer));
+  const layerHost = TestProviderHost.layer().pipe(
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+  );
 
   return ProviderAdapterRegistry.layerFromAdaptersEffect(
     Effect.gen(function* () {
@@ -74,7 +77,7 @@ function layerAcpRegistryProviderAdapterRegistryReplay(
     Layer.provide(
       Layer.mergeAll(
         layerHost,
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         IdAllocator.layer,
         Layer.mock(AcpRegistrySupport.AcpRegistryCatalog)({
           resolve: () => Effect.die("ACP registry resolver must not run during replay"),

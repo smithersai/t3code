@@ -8,7 +8,8 @@ import * as Stream from "effect/Stream";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
 
 import { parseSshResolveOutput, remoteStateKey, runSshCommand } from "./command.ts";
-import { SshCommandError } from "./errors.ts";
+import { SshCommandError } from "./errors.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const encoder = new TextEncoder();
 
@@ -51,7 +52,7 @@ describe("ssh command", () => {
   it.effect("passes an option-shaped alias to ssh as the destination", () => {
     const spawned: Array<ReadonlyArray<string>> = [];
     const spawner = ChildProcessSpawner.make((command) => {
-      if (ChildProcess.isStandardCommand(command)) spawned.push(command.args);
+      if (ChildProcess.isStandardCommand(command)) spawned.push(command.args.map(String));
       return Effect.succeed(makeFailedProcess({ stdout: "", stderr: "bad hostname\n" }));
     });
     return runSshCommand(
@@ -64,7 +65,7 @@ describe("ssh command", () => {
       }),
       Effect.provide(
         Layer.merge(
-          NodeServices.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
           Layer.succeed(ChildProcessSpawner.ChildProcessSpawner, spawner),
         ),
       ),
@@ -92,7 +93,7 @@ describe("ssh command", () => {
         }),
         "326264c4f08c8a0c",
       );
-    }).pipe(Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
   );
 
   it.live.each([
@@ -140,7 +141,7 @@ describe("ssh command", () => {
           ? `[truncated]\n${redacted.slice(-4_000)}`
           : `${redacted.slice(0, 4_000)}\n[truncated]`,
       );
-    }).pipe(Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
   );
 
   it.effect("redacts credentials from stdout in non-zero command failures", () => {
@@ -148,7 +149,10 @@ describe("ssh command", () => {
       Effect.succeed(makeFailedProcess({ stdout: '{"credential":"pairing-secret"}\n' })),
     );
     const layerSpawner = Layer.succeed(ChildProcessSpawner.ChildProcessSpawner, spawner);
-    const layerProcess = Layer.mergeAll(NodeServices.layer, layerSpawner);
+    const layerProcess = Layer.mergeAll(
+      Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+      layerSpawner,
+    );
 
     return Effect.gen(function* () {
       const result = yield* Effect.result(

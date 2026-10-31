@@ -9,8 +9,10 @@ import * as AcpErrors from "effect-acp/errors";
 
 import type * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import { makeAcpNativeLoggerFactory } from "./nativeLogging.ts";
+import * as Layer from "effect/Layer";
+import * as Crypto from "@t3tools/shared/Crypto";
 
-const nodeServicesIt = it.layer(NodeServices.layer);
+const nodeServicesIt = it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto));
 const encodeUnknownJson = Schema.encodeUnknownSync(Schema.fromJsonString(Schema.Unknown));
 
 nodeServicesIt("ACP native logging", (it) => {

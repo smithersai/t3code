@@ -10,7 +10,7 @@ import * as Path from "effect/Path";
 import * as PlatformError from "effect/PlatformError";
 import * as TestClock from "effect/testing/TestClock";
 
-import { writeFileStringAtomically } from "./atomicWrite.ts";
+import { writeFileStringAtomically } from "./atomicWrite.vibe";
 import * as HostProcess from "./HostProcess.ts";
 
 it.layer(NodeServices.layer)("writeFileStringAtomically", (it) => {

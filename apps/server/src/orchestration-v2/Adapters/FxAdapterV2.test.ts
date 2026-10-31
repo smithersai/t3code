@@ -33,12 +33,15 @@ import {
   makeAcpReplayCompletenessAssertion,
   makeAcpReplayRuntime,
 } from "./AcpAdapterV2.testkit.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const testLayer = Layer.mergeAll(
-  NodeServices.layer,
+  Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
   IdAllocator.layer,
   McpProviderSessions.layer,
-  TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer)),
+  TestProviderHost.layer().pipe(
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+  ),
 );
 
 const SESSION_ID = "fx-session-01";

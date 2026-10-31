@@ -1,7 +1,7 @@
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { expect, it } from "@effect/vitest";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 import * as Hex from "effect/encoding/Hex";
@@ -19,6 +19,7 @@ import { HttpClient, HttpClientResponse } from "effect/http";
 
 import * as AntigravityInstallation from "./AntigravityInstallation.ts";
 import { type AntigravityReleaseAsset } from "./antigravityRelease.ts";
+import * as Layer from "effect/Layer";
 
 const serverContents = "antigravity runtime\n";
 const harnessContents = "local harness\n";
@@ -233,562 +234,574 @@ const expectPreviousRelease = Effect.fn("test.expectPreviousAntigravityRelease")
   expect((yield* installation.state).installedVersion).toBe(previousVersion);
 });
 
-it.layer(NodeServices.layer)("Antigravity installation", (it) => {
-  it.effect("reports missing Node before downloading the standalone provider runtime", () =>
-    Effect.gen(function* () {
-      const { installation, requests, validations } = yield* makeHarness();
-      yield* installation.start;
-      expect(yield* terminalState(installation)).toMatchObject({
-        phase: "failed",
-        message: expect.stringContaining("Install Node.js"),
-      });
-      expect(requests).toEqual([]);
-      expect(validations).toEqual([]);
-    }).pipe(Effect.provideService(HostProcess.IsExecutable, true)),
-  );
-
-  it.effect("verifies both files before activating a streamed download", () =>
-    Effect.gen(function* () {
-      const enteredValidation = yield* Deferred.make<void>();
-      const finishValidation = yield* Deferred.make<void>();
-      const { installation, fs, path, validations, requests, stagingReleased } = yield* makeHarness(
-        {
-          previous: true,
-          validate: () =>
-            Deferred.succeed(enteredValidation, undefined).pipe(
-              Effect.andThen(Deferred.await(finishValidation)),
-            ),
-        },
-      );
-      const initial = yield* installation.changes.pipe(
-        Stream.runHead,
-        Effect.map(Option.getOrThrow),
-      );
-      expect(initial).toMatchObject({ phase: "idle", installedVersion: previousVersion });
-      const started = yield* installation.start;
-      expect(started).toMatchObject({ phase: "downloading", downloadedBytes: 0 });
-      yield* Deferred.await(enteredValidation);
-      yield* expectPreviousRelease(installation);
-      const validation = validations[0];
-      expect(validation?.version).toBe("fixture-new");
-      if (!validation) return yield* Effect.die("Expected runtime validation.");
-      expect(yield* fs.readFileString(validation.executable.executablePath)).toBe(serverContents);
-      expect(yield* fs.readFileString(validation.executable.harnessPath)).toBe(harnessContents);
-
-      yield* Deferred.succeed(finishValidation, undefined);
-      expect(yield* terminalState(installation)).toMatchObject({
-        phase: "succeeded",
-        operationId: started.operationId,
-        downloadedBytes: completeArchive.byteLength,
-        installedVersion: "fixture-new",
-      });
-      yield* Deferred.await(stagingReleased);
-      const selected = yield* installation.resolve();
-      expect(selected).toMatchObject({ source: "managed", version: "fixture-new" });
-      expect(path.dirname(selected.harnessPath)).toBe(path.dirname(selected.executablePath));
-      expect(yield* fs.readFileString(selected.executablePath)).toBe(serverContents);
-      expect(yield* fs.readFileString(selected.harnessPath)).toBe(harnessContents);
-      expect(yield* fs.readDirectory(path.join(installation.managedDirectory, "versions"))).toEqual(
-        expect.arrayContaining([previousReleaseId, (yield* releaseAsset()).sha256]),
-      );
-      expect(requests).toEqual([(yield* releaseAsset()).url]);
-    }),
-  );
-
-  it.effect("accepts an encoded Content-Length when the body is compressed", () =>
-    Effect.gen(function* () {
-      // dl.google.com reports the gzip-encoded size; byte and hash checks use the decoded stream.
-      const { installation, validations } = yield* makeHarness({
-        contentLength: completeArchive.byteLength - 1_000,
-        contentEncoding: "gzip",
-      });
-      yield* installation.start;
-      const state = yield* terminalState(installation);
-      expect(state.phase).toBe("succeeded");
-      expect(validations).toHaveLength(1);
-    }),
-  );
-
-  it.effect.each([
-    { name: "checksum mismatch", completeAsset: { sha256: "2".repeat(64) } },
-    { name: "short download", archive: completeArchive.subarray(0, -1), completeAsset: {} },
-    {
-      name: "oversized download",
-      archive: Buffer.concat([completeArchive, Buffer.from("extra")]),
-      completeAsset: {},
-    },
-    { name: "wrong Content-Length", contentLength: completeArchive.byteLength + 1 },
-    { name: "missing harness", archive: Buffer.from(zipFixtures.missingHarness, "base64") },
-    { name: "duplicate executable", archive: Buffer.from(zipFixtures.duplicate, "base64") },
-    { name: "path traversal", archive: Buffer.from(zipFixtures.traversal, "base64") },
-    { name: "symbolic link", archive: Buffer.from(zipFixtures.symlink, "base64") },
-    { name: "oversized member", archive: Buffer.from(zipFixtures.oversizedMember, "base64") },
-  ])("rejects $name before runtime validation", ({ completeAsset, ...options }) =>
-    Effect.gen(function* () {
-      const asset =
-        completeAsset === undefined ? undefined : { ...(yield* releaseAsset()), ...completeAsset };
-      const { installation, validations, stagingReleased, fs, path } = yield* makeHarness({
-        ...options,
-        ...(asset === undefined ? {} : { asset }),
-        previous: true,
-      });
-      yield* installation.start;
-      const state = yield* terminalState(installation);
-      expect(state.phase).toBe("failed");
-      expect(state.message).toBeTruthy();
-      expect(validations).toEqual([]);
-      yield* Deferred.await(stagingReleased);
-      yield* expectPreviousRelease(installation);
-      expect(yield* fs.readDirectory(path.join(installation.managedDirectory, "versions"))).toEqual(
-        [previousReleaseId],
-      );
-    }),
-  );
-
-  it.effect.each(["download", "extract", "active pointer"] as const)(
-    "preserves the old runtime after an ENOSPC error during %s",
-    (stage) =>
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))(
+  "Antigravity installation",
+  (it) => {
+    it.effect("reports missing Node before downloading the standalone provider runtime", () =>
       Effect.gen(function* () {
-        const fs = yield* FileSystem.FileSystem;
-        const noSpace = PlatformError.systemError({
-          _tag: "Unknown",
-          module: "FileSystem",
-          method: "write",
-          description: "ENOSPC: no space left on device",
+        const { installation, requests, validations } = yield* makeHarness();
+        yield* installation.start;
+        expect(yield* terminalState(installation)).toMatchObject({
+          phase: "failed",
+          message: expect.stringContaining("Install Node.js"),
         });
-        const fileSystem = FileSystem.FileSystem.of({
-          ...fs,
-          sink: (target, options) =>
-            (stage === "download" && target.endsWith("download.zip")) ||
-            (stage === "extract" && target.endsWith(executableName))
-              ? fs.sink(target, options).pipe(Sink.mapInputEffect(() => Effect.fail(noSpace)))
-              : fs.sink(target, options),
-          writeFileString: (target, content, options) =>
-            stage === "active pointer" && target.endsWith("contents.tmp")
-              ? Effect.fail(noSpace)
-              : fs.writeFileString(target, content, options),
+        expect(requests).toEqual([]);
+        expect(validations).toEqual([]);
+      }).pipe(Effect.provideService(HostProcess.IsExecutable, true)),
+    );
+
+    it.effect("verifies both files before activating a streamed download", () =>
+      Effect.gen(function* () {
+        const enteredValidation = yield* Deferred.make<void>();
+        const finishValidation = yield* Deferred.make<void>();
+        const { installation, fs, path, validations, requests, stagingReleased } =
+          yield* makeHarness({
+            previous: true,
+            validate: () =>
+              Deferred.succeed(enteredValidation, undefined).pipe(
+                Effect.andThen(Deferred.await(finishValidation)),
+              ),
+          });
+        const initial = yield* installation.changes.pipe(
+          Stream.runHead,
+          Effect.map(Option.getOrThrow),
+        );
+        expect(initial).toMatchObject({ phase: "idle", installedVersion: previousVersion });
+        const started = yield* installation.start;
+        expect(started).toMatchObject({ phase: "downloading", downloadedBytes: 0 });
+        yield* Deferred.await(enteredValidation);
+        yield* expectPreviousRelease(installation);
+        const validation = validations[0];
+        expect(validation?.version).toBe("fixture-new");
+        if (!validation) return yield* Effect.die("Expected runtime validation.");
+        expect(yield* fs.readFileString(validation.executable.executablePath)).toBe(serverContents);
+        expect(yield* fs.readFileString(validation.executable.harnessPath)).toBe(harnessContents);
+
+        yield* Deferred.succeed(finishValidation, undefined);
+        expect(yield* terminalState(installation)).toMatchObject({
+          phase: "succeeded",
+          operationId: started.operationId,
+          downloadedBytes: completeArchive.byteLength,
+          installedVersion: "fixture-new",
         });
-        const { installation, stagingReleased, path } = yield* makeHarness({
-          previous: true,
-          fileSystem,
+        yield* Deferred.await(stagingReleased);
+        const selected = yield* installation.resolve();
+        expect(selected).toMatchObject({ source: "managed", version: "fixture-new" });
+        expect(path.dirname(selected.harnessPath)).toBe(path.dirname(selected.executablePath));
+        expect(yield* fs.readFileString(selected.executablePath)).toBe(serverContents);
+        expect(yield* fs.readFileString(selected.harnessPath)).toBe(harnessContents);
+        expect(
+          yield* fs.readDirectory(path.join(installation.managedDirectory, "versions")),
+        ).toEqual(expect.arrayContaining([previousReleaseId, (yield* releaseAsset()).sha256]));
+        expect(requests).toEqual([(yield* releaseAsset()).url]);
+      }),
+    );
+
+    it.effect("accepts an encoded Content-Length when the body is compressed", () =>
+      Effect.gen(function* () {
+        // dl.google.com reports the gzip-encoded size; byte and hash checks use the decoded stream.
+        const { installation, validations } = yield* makeHarness({
+          contentLength: completeArchive.byteLength - 1_000,
+          contentEncoding: "gzip",
         });
         yield* installation.start;
-        expect((yield* terminalState(installation)).phase).toBe("failed");
-        yield* Deferred.await(stagingReleased);
-        yield* expectPreviousRelease(installation);
-        expect(
-          (yield* fs.readDirectory(path.join(installation.managedDirectory, "versions"))).some(
-            (name) => name.startsWith(".install-"),
-          ),
-        ).toBe(false);
-        expect(yield* fs.readDirectory(installation.managedDirectory)).toEqual([
-          "active.json",
-          "versions",
-        ]);
+        const state = yield* terminalState(installation);
+        expect(state.phase).toBe("succeeded");
+        expect(validations).toHaveLength(1);
       }),
-  );
+    );
 
-  it.effect.each(["downloading", "extracting", "verifying"] as const)(
-    "cancels during %s and waits for open resources to close",
-    (phase) =>
+    it.effect.each([
+      { name: "checksum mismatch", completeAsset: { sha256: "2".repeat(64) } },
+      { name: "short download", archive: completeArchive.subarray(0, -1), completeAsset: {} },
+      {
+        name: "oversized download",
+        archive: Buffer.concat([completeArchive, Buffer.from("extra")]),
+        completeAsset: {},
+      },
+      { name: "wrong Content-Length", contentLength: completeArchive.byteLength + 1 },
+      { name: "missing harness", archive: Buffer.from(zipFixtures.missingHarness, "base64") },
+      { name: "duplicate executable", archive: Buffer.from(zipFixtures.duplicate, "base64") },
+      { name: "path traversal", archive: Buffer.from(zipFixtures.traversal, "base64") },
+      { name: "symbolic link", archive: Buffer.from(zipFixtures.symlink, "base64") },
+      { name: "oversized member", archive: Buffer.from(zipFixtures.oversizedMember, "base64") },
+    ])("rejects $name before runtime validation", ({ completeAsset, ...options }) =>
       Effect.gen(function* () {
-        const fs = yield* FileSystem.FileSystem;
-        const entered = yield* Deferred.make<void>();
-        const release = yield* Deferred.make<void>();
-        const interrupted = yield* Deferred.make<void>();
-        const barrier = Deferred.succeed(entered, undefined).pipe(
-          Effect.andThen(Deferred.await(release)),
-          Effect.onInterrupt(() => Deferred.succeed(interrupted, undefined)),
-        );
-        const { installation, stagingReleased, path, validations } = yield* makeHarness({
+        const asset =
+          completeAsset === undefined
+            ? undefined
+            : { ...(yield* releaseAsset()), ...completeAsset };
+        const { installation, validations, stagingReleased, fs, path } = yield* makeHarness({
+          ...options,
+          ...(asset === undefined ? {} : { asset }),
           previous: true,
-          body:
-            phase === "downloading"
-              ? Stream.concat(
-                  Stream.make(completeArchive.subarray(0, 31)),
-                  Stream.fromEffect(barrier.pipe(Effect.as(completeArchive.subarray(31)))),
-                )
-              : undefined,
-          validate: phase === "verifying" ? () => barrier : undefined,
-          fileSystem: FileSystem.FileSystem.of({
-            ...fs,
-            sink: (target, options) =>
-              phase === "extracting" && target.endsWith(executableName)
-                ? fs
-                    .sink(target, options)
-                    .pipe(
-                      Sink.mapInputEffect((chunk: Uint8Array) => barrier.pipe(Effect.as(chunk))),
-                    )
-                : fs.sink(target, options),
-          }),
         });
-        const started = yield* installation.start;
-        yield* Deferred.await(entered);
-        expect((yield* installation.state).phase).toBe(phase);
-        expect(
-          (yield* installation.cancel(started.operationId ?? "missing-operation-id")).phase,
-        ).toBe("cancelled");
-        yield* Deferred.await(interrupted);
+        yield* installation.start;
+        const state = yield* terminalState(installation);
+        expect(state.phase).toBe("failed");
+        expect(state.message).toBeTruthy();
+        expect(validations).toEqual([]);
         yield* Deferred.await(stagingReleased);
         yield* expectPreviousRelease(installation);
-        expect(validations).toHaveLength(phase === "verifying" ? 1 : 0);
         expect(
           yield* fs.readDirectory(path.join(installation.managedDirectory, "versions")),
         ).toEqual([previousReleaseId]);
       }),
-  );
+    );
 
-  it.effect.each([
-    { name: "the committed install", restart: false },
-    { name: "a newer install", restart: true },
-  ])("does not fail $name when old pointer cleanup fails", (testCase) =>
-    Effect.gen(function* () {
-      const fs = yield* FileSystem.FileSystem;
-      const cleanupStarted = yield* Deferred.make<void>();
-      const releaseCleanup = yield* Deferred.make<void>();
-      const nextValidationStarted = yield* Deferred.make<void>();
-      const releaseNextValidation = yield* Deferred.make<void>();
-      const firstWorker = yield* Deferred.make<Fiber.Fiber<unknown, unknown>>();
-      const cleanupError = PlatformError.systemError({
-        _tag: "PermissionDenied",
-        module: "FileSystem",
-        method: "remove",
-        description: "EPERM: pointer temp directory is in use",
-      });
-      let firstPointer = true;
-      let validationCount = 0;
-      const { installation, stagingReleased } = yield* makeHarness({
-        previous: true,
-        validate: () => {
-          validationCount += 1;
-          return validationCount === 2
-            ? Deferred.succeed(nextValidationStarted, undefined).pipe(
-                Effect.andThen(Deferred.await(releaseNextValidation)),
-              )
-            : Effect.void;
-        },
-        fileSystem: FileSystem.FileSystem.of({
-          ...fs,
-          makeTempDirectoryScoped: (settings) => {
-            if (settings?.prefix !== "active.json." || !firstPointer) {
-              return fs.makeTempDirectoryScoped(settings);
-            }
-            firstPointer = false;
-            return Effect.fiber.pipe(
-              Effect.tap((worker) => Deferred.succeed(firstWorker, worker)),
-              Effect.andThen(
-                Effect.acquireRelease(fs.makeTempDirectory(settings), () =>
-                  Deferred.succeed(cleanupStarted, undefined).pipe(
-                    Effect.andThen(Deferred.await(releaseCleanup)),
-                    Effect.andThen(Effect.die(cleanupError)),
-                  ),
-                ),
-              ),
-            );
-          },
-        }),
-      });
-      yield* Effect.gen(function* () {
-        const first = yield* installation.start;
-        yield* Deferred.await(cleanupStarted);
-        expect(yield* installation.state).toMatchObject({
-          operationId: first.operationId,
-          phase: "succeeded",
-          installedVersion: "fixture-new",
-        });
-        const current = testCase.restart ? yield* installation.start : first;
-        if (testCase.restart) yield* Deferred.await(nextValidationStarted);
-
-        yield* Deferred.succeed(releaseCleanup, undefined);
-        yield* Fiber.await(yield* Deferred.await(firstWorker));
-        yield* Deferred.await(stagingReleased);
-        expect(yield* installation.state).toMatchObject({
-          operationId: current.operationId,
-          phase: testCase.restart ? "verifying" : "succeeded",
-          installedVersion: "fixture-new",
-        });
-        expect((yield* installation.resolve()).version).toBe("fixture-new");
-
-        yield* Deferred.succeed(releaseNextValidation, undefined);
-        expect(yield* terminalState(installation)).toMatchObject({
-          operationId: current.operationId,
-          phase: "succeeded",
-          installedVersion: "fixture-new",
-        });
-      }).pipe(
-        Effect.ensuring(
-          Deferred.succeed(releaseCleanup, undefined).pipe(
-            Effect.andThen(Deferred.succeed(releaseNextValidation, undefined)),
-          ),
-        ),
-      );
-    }),
-  );
-
-  it.effect(
-    "shares one install across callers and keeps it alive after the caller scope closes",
-    () =>
-      Effect.gen(function* () {
-        const entered = yield* Deferred.make<void>();
-        const release = yield* Deferred.make<void>();
-        const { installation, requests, stagingReleased } = yield* makeHarness({
-          body: Stream.fromEffect(
-            Deferred.succeed(entered, undefined).pipe(
-              Effect.andThen(Deferred.await(release)),
-              Effect.as(completeArchive),
+    it.effect.each(["download", "extract", "active pointer"] as const)(
+      "preserves the old runtime after an ENOSPC error during %s",
+      (stage) =>
+        Effect.gen(function* () {
+          const fs = yield* FileSystem.FileSystem;
+          const noSpace = PlatformError.systemError({
+            _tag: "Unknown",
+            module: "FileSystem",
+            method: "write",
+            description: "ENOSPC: no space left on device",
+          });
+          const fileSystem = FileSystem.FileSystem.of({
+            ...fs,
+            sink: (target, options) =>
+              (stage === "download" && target.endsWith("download.zip")) ||
+              (stage === "extract" && target.endsWith(executableName))
+                ? fs.sink(target, options).pipe(Sink.mapInputEffect(() => Effect.fail(noSpace)))
+                : fs.sink(target, options),
+            writeFileString: (target, content, options) =>
+              stage === "active pointer" && target.endsWith("contents.tmp")
+                ? Effect.fail(noSpace)
+                : fs.writeFileString(target, content, options),
+          });
+          const { installation, stagingReleased, path } = yield* makeHarness({
+            previous: true,
+            fileSystem,
+          });
+          yield* installation.start;
+          expect((yield* terminalState(installation)).phase).toBe("failed");
+          yield* Deferred.await(stagingReleased);
+          yield* expectPreviousRelease(installation);
+          expect(
+            (yield* fs.readDirectory(path.join(installation.managedDirectory, "versions"))).some(
+              (name) => name.startsWith(".install-"),
             ),
-          ),
-        });
-        const callerScope = yield* Scope.make();
-        const started = yield* installation.start.pipe(Scope.provide(callerScope));
-        yield* Deferred.await(entered);
-        yield* Scope.close(callerScope, Exit.void);
-        const concurrent = yield* Effect.all([installation.start, installation.start], {
-          concurrency: "unbounded",
-        });
-        expect(concurrent.map((state) => state.operationId)).toEqual([
-          started.operationId,
-          started.operationId,
-        ]);
-        expect(
-          yield* installation.changes.pipe(Stream.runHead, Effect.map(Option.getOrThrow)),
-        ).toMatchObject({ phase: "downloading", operationId: started.operationId });
-        yield* Deferred.succeed(release, undefined);
-        expect((yield* terminalState(installation)).phase).toBe("succeeded");
-        yield* Deferred.await(stagingReleased);
+          ).toBe(false);
+          expect(yield* fs.readDirectory(installation.managedDirectory)).toEqual([
+            "active.json",
+            "versions",
+          ]);
+        }),
+    );
 
-        const next = yield* installation.start;
-        expect(next.operationId).not.toBe(started.operationId);
-        expect(
-          yield* installation
-            .cancel(started.operationId ?? "missing-operation-id")
-            .pipe(Effect.flip),
-        ).toMatchObject({ operation: "cancel" });
-        expect((yield* terminalState(installation)).phase).toBe("succeeded");
-        expect(requests).toHaveLength(1);
-      }),
-  );
+    it.effect.each(["downloading", "extracting", "verifying"] as const)(
+      "cancels during %s and waits for open resources to close",
+      (phase) =>
+        Effect.gen(function* () {
+          const fs = yield* FileSystem.FileSystem;
+          const entered = yield* Deferred.make<void>();
+          const release = yield* Deferred.make<void>();
+          const interrupted = yield* Deferred.make<void>();
+          const barrier = Deferred.succeed(entered, undefined).pipe(
+            Effect.andThen(Deferred.await(release)),
+            Effect.onInterrupt(() => Deferred.succeed(interrupted, undefined)),
+          );
+          const { installation, stagingReleased, path, validations } = yield* makeHarness({
+            previous: true,
+            body:
+              phase === "downloading"
+                ? Stream.concat(
+                    Stream.make(completeArchive.subarray(0, 31)),
+                    Stream.fromEffect(barrier.pipe(Effect.as(completeArchive.subarray(31)))),
+                  )
+                : undefined,
+            validate: phase === "verifying" ? () => barrier : undefined,
+            fileSystem: FileSystem.FileSystem.of({
+              ...fs,
+              sink: (target, options) =>
+                phase === "extracting" && target.endsWith(executableName)
+                  ? fs
+                      .sink(target, options)
+                      .pipe(
+                        Sink.mapInputEffect((chunk: Uint8Array) => barrier.pipe(Effect.as(chunk))),
+                      )
+                  : fs.sink(target, options),
+            }),
+          });
+          const started = yield* installation.start;
+          yield* Deferred.await(entered);
+          expect((yield* installation.state).phase).toBe(phase);
+          expect(
+            (yield* installation.cancel(started.operationId ?? "missing-operation-id")).phase,
+          ).toBe("cancelled");
+          yield* Deferred.await(interrupted);
+          yield* Deferred.await(stagingReleased);
+          yield* expectPreviousRelease(installation);
+          expect(validations).toHaveLength(phase === "verifying" ? 1 : 0);
+          expect(
+            yield* fs.readDirectory(path.join(installation.managedDirectory, "versions")),
+          ).toEqual([previousReleaseId]);
+        }),
+    );
 
-  // The mocked Linux PATH walk needs POSIX paths; Windows temp paths contain colons.
-  it.effect.skipIf(HostProcess.Platform.defaultValue() === "win32")(
-    "honors explicit paths and reports invalid overrides without falling back",
-    () =>
+    it.effect.each([
+      { name: "the committed install", restart: false },
+      { name: "a newer install", restart: true },
+    ])("does not fail $name when old pointer cleanup fails", (testCase) =>
       Effect.gen(function* () {
         const fs = yield* FileSystem.FileSystem;
-        const path = yield* Path.Path;
-        const baseDir = yield* fs
-          .makeTempDirectoryScoped({ prefix: "t3-agy-path-test-" })
-          .pipe(Effect.flatMap((directory) => fs.realPath(directory)));
-        const externalDirectory = path.join(baseDir, "external");
-        const externalExecutable = path.join(externalDirectory, executableName);
-        const externalHarness = path.join(externalDirectory, harnessName);
-        yield* fs.makeDirectory(externalDirectory);
-        yield* fs.writeFileString(externalExecutable, "external server", { mode: 0o755 });
-        yield* fs.writeFileString(externalHarness, "external harness", { mode: 0o755 });
-        const { installation } = yield* makeHarness({
-          baseDir,
-          path: externalDirectory,
+        const cleanupStarted = yield* Deferred.make<void>();
+        const releaseCleanup = yield* Deferred.make<void>();
+        const nextValidationStarted = yield* Deferred.make<void>();
+        const releaseNextValidation = yield* Deferred.make<void>();
+        const firstWorker = yield* Deferred.make<Fiber.Fiber<unknown, unknown>>();
+        const cleanupError = PlatformError.systemError({
+          _tag: "PermissionDenied",
+          module: "FileSystem",
+          method: "remove",
+          description: "EPERM: pointer temp directory is in use",
+        });
+        let firstPointer = true;
+        let validationCount = 0;
+        const { installation, stagingReleased } = yield* makeHarness({
           previous: true,
-        });
-        yield* expectPreviousRelease(installation);
-        expect(yield* installation.resolve(undefined, { PATH: externalDirectory })).toMatchObject({
-          source: "managed",
-          version: previousVersion,
-        });
-        expect(yield* installation.resolve(externalExecutable)).toMatchObject({
-          executablePath: externalExecutable,
-          source: "override",
-          managedVersionDirectory: null,
-        });
-        expect(yield* installation.resolve(executableName)).toMatchObject({
-          source: "override",
-        });
-        yield* fs.remove(externalHarness);
-        expect(yield* installation.resolve(externalExecutable).pipe(Effect.flip)).toMatchObject({
-          operation: "resolve",
-        });
-        expect(
-          yield* installation.resolve(path.join(baseDir, "missing")).pipe(Effect.flip),
-        ).toMatchObject({
-          operation: "resolve",
-        });
-        yield* expectPreviousRelease(installation);
-        yield* fs.writeFileString(externalHarness, "external harness", { mode: 0o755 });
-        yield* installation.remove();
-        expect(yield* installation.resolve()).toMatchObject({
-          source: "path",
-          executablePath: externalExecutable,
-        });
-        const isolated = yield* makeHarness({ baseDir });
-        expect(yield* isolated.installation.resolve().pipe(Effect.flip)).toMatchObject({
-          operation: "resolve",
-        });
-        expect(
-          yield* isolated.installation.resolve(undefined, { PATH: externalDirectory }),
-        ).toMatchObject({
-          source: "path",
-          executablePath: externalExecutable,
-        });
-        expect(
-          yield* isolated.installation.resolve(executableName, { PATH: externalDirectory }),
-        ).toMatchObject({ source: "override", executablePath: externalExecutable });
-      }),
-  );
-
-  it.effect("keeps leased releases available while new sessions resolve the new release", () =>
-    Effect.gen(function* () {
-      const { installation, fs, stagingReleased } = yield* makeHarness({ previous: true });
-      const processScope = yield* Scope.make();
-      const oldExecutable = yield* installation.acquire().pipe(Scope.provide(processScope));
-      yield* installation.start;
-      expect((yield* terminalState(installation)).phase).toBe("succeeded");
-      yield* Deferred.await(stagingReleased);
-      const current = yield* installation.resolve();
-      expect(current.version).toBe("fixture-new");
-      expect(current.executablePath).not.toBe(oldExecutable.executablePath);
-      expect(yield* fs.readFileString(oldExecutable.executablePath)).toBe(serverContents);
-      expect(yield* installation.remove().pipe(Effect.flip)).toMatchObject({ operation: "remove" });
-      yield* Scope.close(processScope, Exit.void);
-      yield* installation.remove();
-      expect(yield* fs.exists(installation.managedDirectory)).toBe(false);
-    }),
-  );
-
-  it.effect(
-    "removes an incomplete active release before reinstalling without a PATH fallback",
-    () =>
-      Effect.gen(function* () {
-        const { installation, baseDir, fs, path } = yield* makeHarness({ previous: true });
-        const previous = yield* installation.resolve();
-        yield* fs.remove(previous.harnessPath);
-        const externalDirectory = path.join(baseDir, "external");
-        yield* fs.makeDirectory(externalDirectory);
-        yield* fs.writeFileString(path.join(externalDirectory, executableName), "external server", {
-          mode: 0o755,
-        });
-        yield* fs.writeFileString(path.join(externalDirectory, harnessName), "external harness", {
-          mode: 0o755,
-        });
-        const restarted = yield* makeHarness({ baseDir, path: externalDirectory });
-        expect(yield* restarted.installation.state).toMatchObject({
-          phase: "failed",
-          installedVersion: null,
-          canRemove: true,
-        });
-        expect(yield* restarted.installation.resolve().pipe(Effect.flip)).toMatchObject({
-          operation: "resolve",
-        });
-        yield* restarted.installation.remove();
-        expect(yield* restarted.installation.state).toMatchObject({
-          phase: "idle",
-          canRemove: false,
-        });
-        expect(yield* fs.exists(installation.managedDirectory)).toBe(false);
-        yield* restarted.installation.start;
-        expect(yield* terminalState(restarted.installation)).toMatchObject({
-          phase: "succeeded",
-          installedVersion: "fixture-new",
-          canRemove: true,
-        });
-        yield* Deferred.await(restarted.stagingReleased);
-        expect((yield* restarted.installation.resolve()).source).toBe("managed");
-      }),
-  );
-
-  it.effect(
-    "blocks removal of custom managed paths and leaves external executables and profiles intact",
-    () =>
-      Effect.gen(function* () {
-        const { installation, fs, path, baseDir } = yield* makeHarness({ previous: true });
-        const managed = yield* installation.resolve();
-        const externalDirectory = path.join(baseDir, "external");
-        const profileDirectory = path.join(baseDir, "providers", "antigravity", "profile");
-        yield* fs.makeDirectory(externalDirectory);
-        yield* fs.makeDirectory(profileDirectory, { recursive: true });
-        const externalExecutable = path.join(externalDirectory, executableName);
-        const externalHarness = path.join(externalDirectory, harnessName);
-        const profilePath = path.join(profileDirectory, "preferences.json");
-        yield* fs.writeFileString(externalExecutable, "external server", { mode: 0o755 });
-        yield* fs.writeFileString(externalHarness, "external harness", { mode: 0o755 });
-        yield* fs.writeFileString(profilePath, "{}");
-        expect(
-          yield* installation.remove([managed.executablePath]).pipe(Effect.flip),
-        ).toMatchObject({
-          operation: "remove",
-        });
-        yield* expectPreviousRelease(installation);
-        yield* installation.remove([externalExecutable]);
-        expect(yield* installation.state).toMatchObject({
-          phase: "idle",
-          operationId: null,
-          installedVersion: null,
-        });
-        expect(yield* fs.readFileString(externalExecutable)).toBe("external server");
-        expect(yield* fs.readFileString(externalHarness)).toBe("external harness");
-        expect(yield* fs.readFileString(profilePath)).toBe("{}");
-      }),
-  );
-
-  it.effect(
-    "reuses an immutable Windows release and preserves the pointer when rename is denied",
-    () =>
-      Effect.gen(function* () {
-        const fs = yield* FileSystem.FileSystem;
-        const path = yield* Path.Path;
-        const archive = Buffer.from(zipFixtures.windows, "base64");
-        const asset = yield* releaseAsset(archive, "win32");
-        let denyPointerRename = true;
-        const renameTargets: string[] = [];
-        const { installation, requests, validations } = yield* makeHarness({
-          previous: true,
-          platform: "win32",
-          archive,
+          validate: () => {
+            validationCount += 1;
+            return validationCount === 2
+              ? Deferred.succeed(nextValidationStarted, undefined).pipe(
+                  Effect.andThen(Deferred.await(releaseNextValidation)),
+                )
+              : Effect.void;
+          },
           fileSystem: FileSystem.FileSystem.of({
             ...fs,
-            rename: (source, target) => {
-              renameTargets.push(target);
-              return denyPointerRename
-                ? Effect.fail(
-                    PlatformError.systemError({
-                      _tag: "PermissionDenied",
-                      module: "FileSystem",
-                      method: "rename",
-                      pathOrDescriptor: target,
-                      description: "EPERM: file is in use",
-                    }),
-                  )
-                : fs.rename(source, target);
+            makeTempDirectoryScoped: (settings) => {
+              if (settings?.prefix !== "active.json." || !firstPointer) {
+                return fs.makeTempDirectoryScoped(settings);
+              }
+              firstPointer = false;
+              return Effect.fiber.pipe(
+                Effect.tap((worker) => Deferred.succeed(firstWorker, worker)),
+                Effect.andThen(
+                  Effect.acquireRelease(fs.makeTempDirectory(settings), () =>
+                    Deferred.succeed(cleanupStarted, undefined).pipe(
+                      Effect.andThen(Deferred.await(releaseCleanup)),
+                      Effect.andThen(Effect.die(cleanupError)),
+                    ),
+                  ),
+                ),
+              );
             },
           }),
         });
-        yield* writeRelease(installation.managedDirectory, asset, false);
-        yield* installation.start;
-        expect((yield* terminalState(installation)).phase).toBe("failed");
-        yield* expectPreviousRelease(installation);
-        expect(renameTargets).toEqual([path.join(installation.managedDirectory, "active.json")]);
+        yield* Effect.gen(function* () {
+          const first = yield* installation.start;
+          yield* Deferred.await(cleanupStarted);
+          expect(yield* installation.state).toMatchObject({
+            operationId: first.operationId,
+            phase: "succeeded",
+            installedVersion: "fixture-new",
+          });
+          const current = testCase.restart ? yield* installation.start : first;
+          if (testCase.restart) yield* Deferred.await(nextValidationStarted);
 
-        denyPointerRename = false;
+          yield* Deferred.succeed(releaseCleanup, undefined);
+          yield* Fiber.await(yield* Deferred.await(firstWorker));
+          yield* Deferred.await(stagingReleased);
+          expect(yield* installation.state).toMatchObject({
+            operationId: current.operationId,
+            phase: testCase.restart ? "verifying" : "succeeded",
+            installedVersion: "fixture-new",
+          });
+          expect((yield* installation.resolve()).version).toBe("fixture-new");
+
+          yield* Deferred.succeed(releaseNextValidation, undefined);
+          expect(yield* terminalState(installation)).toMatchObject({
+            operationId: current.operationId,
+            phase: "succeeded",
+            installedVersion: "fixture-new",
+          });
+        }).pipe(
+          Effect.ensuring(
+            Deferred.succeed(releaseCleanup, undefined).pipe(
+              Effect.andThen(Deferred.succeed(releaseNextValidation, undefined)),
+            ),
+          ),
+        );
+      }),
+    );
+
+    it.effect(
+      "shares one install across callers and keeps it alive after the caller scope closes",
+      () =>
+        Effect.gen(function* () {
+          const entered = yield* Deferred.make<void>();
+          const release = yield* Deferred.make<void>();
+          const { installation, requests, stagingReleased } = yield* makeHarness({
+            body: Stream.fromEffect(
+              Deferred.succeed(entered, undefined).pipe(
+                Effect.andThen(Deferred.await(release)),
+                Effect.as(completeArchive),
+              ),
+            ),
+          });
+          const callerScope = yield* Scope.make();
+          const started = yield* installation.start.pipe(Scope.provide(callerScope));
+          yield* Deferred.await(entered);
+          yield* Scope.close(callerScope, Exit.void);
+          const concurrent = yield* Effect.all([installation.start, installation.start], {
+            concurrency: "unbounded",
+          });
+          expect(concurrent.map((state) => state.operationId)).toEqual([
+            started.operationId,
+            started.operationId,
+          ]);
+          expect(
+            yield* installation.changes.pipe(Stream.runHead, Effect.map(Option.getOrThrow)),
+          ).toMatchObject({ phase: "downloading", operationId: started.operationId });
+          yield* Deferred.succeed(release, undefined);
+          expect((yield* terminalState(installation)).phase).toBe("succeeded");
+          yield* Deferred.await(stagingReleased);
+
+          const next = yield* installation.start;
+          expect(next.operationId).not.toBe(started.operationId);
+          expect(
+            yield* installation
+              .cancel(started.operationId ?? "missing-operation-id")
+              .pipe(Effect.flip),
+          ).toMatchObject({ operation: "cancel" });
+          expect((yield* terminalState(installation)).phase).toBe("succeeded");
+          expect(requests).toHaveLength(1);
+        }),
+    );
+
+    // The mocked Linux PATH walk needs POSIX paths; Windows temp paths contain colons.
+    it.effect.skipIf(HostProcess.Platform.defaultValue() === "win32")(
+      "honors explicit paths and reports invalid overrides without falling back",
+      () =>
+        Effect.gen(function* () {
+          const fs = yield* FileSystem.FileSystem;
+          const path = yield* Path.Path;
+          const baseDir = yield* fs
+            .makeTempDirectoryScoped({ prefix: "t3-agy-path-test-" })
+            .pipe(Effect.flatMap((directory) => fs.realPath(directory)));
+          const externalDirectory = path.join(baseDir, "external");
+          const externalExecutable = path.join(externalDirectory, executableName);
+          const externalHarness = path.join(externalDirectory, harnessName);
+          yield* fs.makeDirectory(externalDirectory);
+          yield* fs.writeFileString(externalExecutable, "external server", { mode: 0o755 });
+          yield* fs.writeFileString(externalHarness, "external harness", { mode: 0o755 });
+          const { installation } = yield* makeHarness({
+            baseDir,
+            path: externalDirectory,
+            previous: true,
+          });
+          yield* expectPreviousRelease(installation);
+          expect(yield* installation.resolve(undefined, { PATH: externalDirectory })).toMatchObject(
+            {
+              source: "managed",
+              version: previousVersion,
+            },
+          );
+          expect(yield* installation.resolve(externalExecutable)).toMatchObject({
+            executablePath: externalExecutable,
+            source: "override",
+            managedVersionDirectory: null,
+          });
+          expect(yield* installation.resolve(executableName)).toMatchObject({
+            source: "override",
+          });
+          yield* fs.remove(externalHarness);
+          expect(yield* installation.resolve(externalExecutable).pipe(Effect.flip)).toMatchObject({
+            operation: "resolve",
+          });
+          expect(
+            yield* installation.resolve(path.join(baseDir, "missing")).pipe(Effect.flip),
+          ).toMatchObject({
+            operation: "resolve",
+          });
+          yield* expectPreviousRelease(installation);
+          yield* fs.writeFileString(externalHarness, "external harness", { mode: 0o755 });
+          yield* installation.remove();
+          expect(yield* installation.resolve()).toMatchObject({
+            source: "path",
+            executablePath: externalExecutable,
+          });
+          const isolated = yield* makeHarness({ baseDir });
+          expect(yield* isolated.installation.resolve().pipe(Effect.flip)).toMatchObject({
+            operation: "resolve",
+          });
+          expect(
+            yield* isolated.installation.resolve(undefined, { PATH: externalDirectory }),
+          ).toMatchObject({
+            source: "path",
+            executablePath: externalExecutable,
+          });
+          expect(
+            yield* isolated.installation.resolve(executableName, { PATH: externalDirectory }),
+          ).toMatchObject({ source: "override", executablePath: externalExecutable });
+        }),
+    );
+
+    it.effect("keeps leased releases available while new sessions resolve the new release", () =>
+      Effect.gen(function* () {
+        const { installation, fs, stagingReleased } = yield* makeHarness({ previous: true });
+        const processScope = yield* Scope.make();
+        const oldExecutable = yield* installation.acquire().pipe(Scope.provide(processScope));
         yield* installation.start;
         expect((yield* terminalState(installation)).phase).toBe("succeeded");
-        expect((yield* installation.resolve()).version).toBe("fixture-new");
-        expect(requests).toEqual([]);
-        expect(validations).toHaveLength(2);
-        expect(renameTargets).toEqual([
-          path.join(installation.managedDirectory, "active.json"),
-          path.join(installation.managedDirectory, "active.json"),
-        ]);
+        yield* Deferred.await(stagingReleased);
+        const current = yield* installation.resolve();
+        expect(current.version).toBe("fixture-new");
+        expect(current.executablePath).not.toBe(oldExecutable.executablePath);
+        expect(yield* fs.readFileString(oldExecutable.executablePath)).toBe(serverContents);
+        expect(yield* installation.remove().pipe(Effect.flip)).toMatchObject({
+          operation: "remove",
+        });
+        yield* Scope.close(processScope, Exit.void);
+        yield* installation.remove();
+        expect(yield* fs.exists(installation.managedDirectory)).toBe(false);
       }),
-  );
+    );
 
-  it.effect("reports unsupported hosts without downloading or changing state", () =>
-    Effect.gen(function* () {
-      const { installation, requests } = yield* makeHarness({ asset: null, platform: "darwin" });
-      expect(yield* installation.start.pipe(Effect.flip)).toMatchObject({ operation: "start" });
-      expect(yield* installation.resolve().pipe(Effect.flip)).toMatchObject({
-        operation: "resolve",
-      });
-      expect(yield* installation.state).toMatchObject({ phase: "idle", operationId: null });
-      expect(requests).toEqual([]);
-    }),
-  );
-});
+    it.effect(
+      "removes an incomplete active release before reinstalling without a PATH fallback",
+      () =>
+        Effect.gen(function* () {
+          const { installation, baseDir, fs, path } = yield* makeHarness({ previous: true });
+          const previous = yield* installation.resolve();
+          yield* fs.remove(previous.harnessPath);
+          const externalDirectory = path.join(baseDir, "external");
+          yield* fs.makeDirectory(externalDirectory);
+          yield* fs.writeFileString(
+            path.join(externalDirectory, executableName),
+            "external server",
+            {
+              mode: 0o755,
+            },
+          );
+          yield* fs.writeFileString(path.join(externalDirectory, harnessName), "external harness", {
+            mode: 0o755,
+          });
+          const restarted = yield* makeHarness({ baseDir, path: externalDirectory });
+          expect(yield* restarted.installation.state).toMatchObject({
+            phase: "failed",
+            installedVersion: null,
+            canRemove: true,
+          });
+          expect(yield* restarted.installation.resolve().pipe(Effect.flip)).toMatchObject({
+            operation: "resolve",
+          });
+          yield* restarted.installation.remove();
+          expect(yield* restarted.installation.state).toMatchObject({
+            phase: "idle",
+            canRemove: false,
+          });
+          expect(yield* fs.exists(installation.managedDirectory)).toBe(false);
+          yield* restarted.installation.start;
+          expect(yield* terminalState(restarted.installation)).toMatchObject({
+            phase: "succeeded",
+            installedVersion: "fixture-new",
+            canRemove: true,
+          });
+          yield* Deferred.await(restarted.stagingReleased);
+          expect((yield* restarted.installation.resolve()).source).toBe("managed");
+        }),
+    );
+
+    it.effect(
+      "blocks removal of custom managed paths and leaves external executables and profiles intact",
+      () =>
+        Effect.gen(function* () {
+          const { installation, fs, path, baseDir } = yield* makeHarness({ previous: true });
+          const managed = yield* installation.resolve();
+          const externalDirectory = path.join(baseDir, "external");
+          const profileDirectory = path.join(baseDir, "providers", "antigravity", "profile");
+          yield* fs.makeDirectory(externalDirectory);
+          yield* fs.makeDirectory(profileDirectory, { recursive: true });
+          const externalExecutable = path.join(externalDirectory, executableName);
+          const externalHarness = path.join(externalDirectory, harnessName);
+          const profilePath = path.join(profileDirectory, "preferences.json");
+          yield* fs.writeFileString(externalExecutable, "external server", { mode: 0o755 });
+          yield* fs.writeFileString(externalHarness, "external harness", { mode: 0o755 });
+          yield* fs.writeFileString(profilePath, "{}");
+          expect(
+            yield* installation.remove([managed.executablePath]).pipe(Effect.flip),
+          ).toMatchObject({
+            operation: "remove",
+          });
+          yield* expectPreviousRelease(installation);
+          yield* installation.remove([externalExecutable]);
+          expect(yield* installation.state).toMatchObject({
+            phase: "idle",
+            operationId: null,
+            installedVersion: null,
+          });
+          expect(yield* fs.readFileString(externalExecutable)).toBe("external server");
+          expect(yield* fs.readFileString(externalHarness)).toBe("external harness");
+          expect(yield* fs.readFileString(profilePath)).toBe("{}");
+        }),
+    );
+
+    it.effect(
+      "reuses an immutable Windows release and preserves the pointer when rename is denied",
+      () =>
+        Effect.gen(function* () {
+          const fs = yield* FileSystem.FileSystem;
+          const path = yield* Path.Path;
+          const archive = Buffer.from(zipFixtures.windows, "base64");
+          const asset = yield* releaseAsset(archive, "win32");
+          let denyPointerRename = true;
+          const renameTargets: string[] = [];
+          const { installation, requests, validations } = yield* makeHarness({
+            previous: true,
+            platform: "win32",
+            archive,
+            fileSystem: FileSystem.FileSystem.of({
+              ...fs,
+              rename: (source, target) => {
+                renameTargets.push(target);
+                return denyPointerRename
+                  ? Effect.fail(
+                      PlatformError.systemError({
+                        _tag: "PermissionDenied",
+                        module: "FileSystem",
+                        method: "rename",
+                        pathOrDescriptor: target,
+                        description: "EPERM: file is in use",
+                      }),
+                    )
+                  : fs.rename(source, target);
+              },
+            }),
+          });
+          yield* writeRelease(installation.managedDirectory, asset, false);
+          yield* installation.start;
+          expect((yield* terminalState(installation)).phase).toBe("failed");
+          yield* expectPreviousRelease(installation);
+          expect(renameTargets).toEqual([path.join(installation.managedDirectory, "active.json")]);
+
+          denyPointerRename = false;
+          yield* installation.start;
+          expect((yield* terminalState(installation)).phase).toBe("succeeded");
+          expect((yield* installation.resolve()).version).toBe("fixture-new");
+          expect(requests).toEqual([]);
+          expect(validations).toHaveLength(2);
+          expect(renameTargets).toEqual([
+            path.join(installation.managedDirectory, "active.json"),
+            path.join(installation.managedDirectory, "active.json"),
+          ]);
+        }),
+    );
+
+    it.effect("reports unsupported hosts without downloading or changing state", () =>
+      Effect.gen(function* () {
+        const { installation, requests } = yield* makeHarness({ asset: null, platform: "darwin" });
+        expect(yield* installation.start.pipe(Effect.flip)).toMatchObject({ operation: "start" });
+        expect(yield* installation.resolve().pipe(Effect.flip)).toMatchObject({
+          operation: "resolve",
+        });
+        expect(yield* installation.state).toMatchObject({ phase: "idle", operationId: null });
+        expect(requests).toEqual([]);
+      }),
+    );
+  },
+);

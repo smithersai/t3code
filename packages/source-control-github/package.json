@@ -8,12 +8,12 @@
       "import": "./src/shared/definition.ts"
     },
     "./server/driver": {
-      "types": "./src/server/driver.ts",
-      "import": "./src/server/driver.ts"
+      "types": "./src/server/driver.d.vibe.ts",
+      "import": "./src/server/driver.vibe"
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vibelang --noEmit",
     "test": "vp test run --config ../../vite.config.ts --dir .",
     "generate": "graphqlgen"
   },
@@ -22,7 +22,8 @@
     "@t3tools/provider-core": "workspace:*",
     "@t3tools/shared": "workspace:*",
     "@t3tools/source-control-core": "workspace:*",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11.tgz"
   },
   "devDependencies": {
     "@effect/graphql-generator": "catalog:",
@@ -30,6 +31,8 @@
     "@effect/vitest": "catalog:",
     "@t3tools/source-control-testing": "workspace:*",
     "@types/node": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11.tgz",
     "vite-plus": "catalog:"
   }
 }

@@ -1,9 +1,9 @@
 import * as Schema from "effect/Schema";
 
 import { GuestShareId, IsoDateTime, TrimmedNonEmptyString } from "./baseSchemas.ts";
-import { ThreadGuestMessage } from "./guestShare.ts";
+import { ThreadGuestMessage } from "./guestShare.vibe";
 import { OrchestrationV2ThreadStreamItem } from "./orchestrationV2.ts";
-import { ProviderDriverKind } from "./providerInstance.ts";
+import { ProviderDriverKind } from "./providerInstance.vibe";
 
 // This lives apart from guestShare.ts because orchestrationV2.ts imports that file.
 

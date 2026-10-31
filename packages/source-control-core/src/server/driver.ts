@@ -1,5 +1,5 @@
 import type { SourceControlProviderKind } from "@t3tools/contracts";
-import type * as Crypto from "effect/Crypto";
+import type * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import type * as FileSystem from "effect/FileSystem";
 import type { HttpClient, HttpClientError, HttpClientResponse } from "effect/http";
@@ -9,7 +9,7 @@ import type * as Scope from "effect/Scope";
 import type { SourceControlDefinition } from "../shared/definition.ts";
 
 import type { SourceControlProviderDiscoverySpec } from "./discovery.ts";
-import type { PullRequestProviderApi } from "./PullRequestProvider.ts";
+import type { PullRequestProviderApi } from "./PullRequestProvider.vibe";
 import type * as SourceControlHost from "./SourceControlHost.ts";
 import type * as SourceControlProvider from "./SourceControlProvider.ts";
 import type * as SourceControlRateLimit from "./SourceControlRateLimit.ts";

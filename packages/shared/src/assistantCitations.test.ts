@@ -17,7 +17,7 @@ import {
   renderAssistantCitationsAsText,
   serializeAssistantCitation,
   withAssistantCitationComment,
-} from "./assistantCitations.ts";
+} from "./assistantCitations.vibe";
 
 const citation: AssistantCitation = {
   version: 1,

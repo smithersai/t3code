@@ -28,12 +28,12 @@
       "import": "./src/server/mergeMessage.ts"
     },
     "./server/pullRequestChecks": {
-      "types": "./src/server/pullRequestChecks.ts",
-      "import": "./src/server/pullRequestChecks.ts"
+      "types": "./src/server/pullRequestChecks.d.vibe.ts",
+      "import": "./src/server/pullRequestChecks.vibe"
     },
     "./server/PullRequestProvider": {
-      "types": "./src/server/PullRequestProvider.ts",
-      "import": "./src/server/PullRequestProvider.ts"
+      "types": "./src/server/PullRequestProvider.d.vibe.ts",
+      "import": "./src/server/PullRequestProvider.vibe"
     },
     "./server/SourceControlHost": {
       "types": "./src/server/SourceControlHost.ts",
@@ -49,17 +49,20 @@
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vibelang --noEmit",
     "test": "vp test run --config ../../vite.config.ts --dir ."
   },
   "dependencies": {
     "@t3tools/contracts": "workspace:*",
     "@t3tools/shared": "workspace:*",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11.tgz",
     "vite-plus": "catalog:"
   }
 }

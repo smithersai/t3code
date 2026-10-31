@@ -16,6 +16,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 import * as HostProcess from "./HostProcess.ts";
 
 import * as RelayClient from "./relayClient.ts";
+import * as Crypto from "./Crypto.vibe";
 
 // POSIX exec-bit checks do not apply on NTFS.
 const windowsHost = HostProcess.Platform.defaultValue() === "win32";
@@ -85,7 +86,9 @@ const writeExecutable = (filePath: string, contents = "cloudflared") =>
   });
 
 type RelayClientTestServices =
-  | Layer.Success<ReturnType<typeof layerHostRuntime> | typeof NodeServices.layer>
+  | Layer.Success<
+      ReturnType<typeof layerHostRuntime> | typeof NodeServices.layer | typeof Crypto.layerWebCrypto
+    >
   | HttpClient.HttpClient
   | ChildProcessSpawner.ChildProcessSpawner;
 
@@ -137,7 +140,7 @@ const testReleaseAsset = {
 
 const layerInstallRuntime = (platform: NodeJS.Platform) =>
   Layer.mergeAll(
-    NodeServices.layer,
+    Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
     layerHttpClient(testBinary),
     layerSpawner([]),
     layerHostRuntime({ PATH: "" }, platform),
@@ -174,7 +177,7 @@ describe("RelayClient", () => {
       Effect.scoped,
       Effect.provide(
         Layer.mergeAll(
-          NodeServices.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
           layerHttpClient(new Uint8Array()),
           layerSpawner([]),
           layerHostRuntime({ PATH: "" }),
@@ -205,7 +208,7 @@ describe("RelayClient", () => {
       Effect.scoped,
       Effect.provide(
         Layer.mergeAll(
-          NodeServices.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
           layerHttpClient(new Uint8Array()),
           layerSpawner([]),
           layerHostRuntime({ PATH: "" }),
@@ -263,7 +266,7 @@ describe("RelayClient", () => {
       Effect.scoped,
       Effect.provide(
         Layer.mergeAll(
-          NodeServices.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
           layerHttpClient(new TextEncoder().encode("test-binary")),
           layerSpawner([]),
           layerHostRuntime({ PATH: "" }),
@@ -322,7 +325,7 @@ describe("RelayClient", () => {
         Effect.scoped,
         Effect.provide(
           Layer.mergeAll(
-            NodeServices.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
             layerHttpClient(new TextEncoder().encode("test-cloudflared-binary")),
             layerSpawner([]),
             layerHostRuntime(),
@@ -358,7 +361,7 @@ describe("RelayClient", () => {
       Effect.scoped,
       Effect.provide(
         Layer.mergeAll(
-          NodeServices.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
           layerHttpClient(new TextEncoder().encode("tampered")),
           layerSpawner([]),
           layerHostRuntime(),
@@ -393,7 +396,7 @@ describe("RelayClient", () => {
       Effect.scoped,
       Effect.provide(
         Layer.mergeAll(
-          NodeServices.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
           layerHttpClient(bytes),
           layerSpawner(commands),
           layerHostRuntime(),
@@ -465,7 +468,7 @@ describe("RelayClient", () => {
       Effect.scoped,
       Effect.provide(
         Layer.mergeAll(
-          NodeServices.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
           layerHttpClient(new Uint8Array()),
           layerSpawner([]),
           layerHostRuntime(configEnv, platform),
@@ -489,7 +492,7 @@ describe("RelayClient", () => {
         Effect.scoped,
         Effect.provide(
           Layer.mergeAll(
-            NodeServices.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
             layerHttpClient(new Uint8Array()),
             layerSpawner([], options.versions),
             layerHostRuntime({ PATH: "" }),

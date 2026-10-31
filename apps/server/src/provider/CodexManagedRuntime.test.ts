@@ -22,6 +22,7 @@ import * as CodexInstallation from "./CodexInstallation.ts";
 import { makeCodexManagedRuntime } from "./CodexManagedRuntime.ts";
 import * as ProviderCredentialStore from "./ProviderCredentialStore.ts";
 import { codexAppServerArgs } from "./codexLaunchArgs.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const encodeJson = Schema.encodeEffect(Schema.fromJsonString(Schema.Unknown));
 const decodeSettings = Schema.decodeSync(CodexSettings);
@@ -271,7 +272,7 @@ it.live.each(
       Effect.provide(
         ServerConfig.layerTest(process.cwd(), {
           prefix: "t3-managed-runtime-",
-        }).pipe(Layer.provideMerge(NodeServices.layer)),
+        }).pipe(Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
       ),
     ),
 );

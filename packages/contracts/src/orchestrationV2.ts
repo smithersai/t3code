@@ -1,5 +1,5 @@
 import { OrchestrationMessageContext } from "./composerContext.ts";
-import { withRecordIdTable } from "./orchestrationV2IdTable.ts";
+import { withRecordIdTable } from "./orchestrationV2IdTable.vibe";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
@@ -43,18 +43,18 @@ import {
 } from "./baseSchemas.ts";
 import { AuthMcpClientAccess } from "./auth.ts";
 import { ChatAttachment } from "./chatAttachment.ts";
-import { ThreadGuestShare } from "./guestShare.ts";
+import { ThreadGuestShare } from "./guestShare.vibe";
 import {
   OrchestrationSearchThreadsInput,
   OrchestrationSearchThreadsResult,
-} from "./threadSearch.ts";
+} from "./threadSearch.vibe";
 import {
   OrchestrationGetFullThreadDiffInput,
   OrchestrationGetFullThreadDiffResult,
   OrchestrationGetTurnDiffInput,
   OrchestrationGetTurnDiffResult,
-} from "./checkpointDiff.ts";
-import { ModelSelection } from "./modelSelection.ts";
+} from "./checkpointDiff.vibe";
+import { ModelSelection } from "./modelSelection.vibe";
 import {
   ThreadLinkedPullRequest,
   ThreadPullRequestLink,
@@ -63,7 +63,7 @@ import {
   ThreadPullRequestSnapshot,
   ThreadPullRequestStack,
   ThreadPullRequestWatch,
-} from "./threadPullRequest.ts";
+} from "./threadPullRequest.vibe";
 import {
   ProviderApprovalDecision,
   ProviderApprovalFullAccessOverride,
@@ -74,16 +74,16 @@ import {
   UserInputAttachments,
   UserInputAttachmentAnswerPayload,
   RuntimeMode,
-} from "./providerPolicy.ts";
-import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.ts";
-import { OrchestrationProjectShell } from "./orchestrationProject.ts";
+} from "./providerPolicy.vibe";
+import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
+import { OrchestrationProjectShell } from "./orchestrationProject.vibe";
 import {
   TurnTokenUsage,
   ToolActivitySurface,
   ToolActivityIcon,
   ToolActivitySource,
-} from "./providerRuntime.ts";
-import { ThreadTokenUsageSnapshot } from "./providerRuntime.ts";
+} from "./providerRuntime.vibe";
+import { ThreadTokenUsageSnapshot } from "./providerRuntime.vibe";
 
 export const OrchestrationV2Actor = Schema.Literals(["user", "agent", "system"]);
 export type OrchestrationV2Actor = typeof OrchestrationV2Actor.Type;

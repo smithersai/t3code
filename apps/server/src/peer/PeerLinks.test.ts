@@ -32,6 +32,7 @@ import {
   type ServedPeer,
 } from "./PeerLinks.testkit.ts";
 import * as PeerMcpClient from "./PeerMcpClient.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 /** What B's probe saw: the calling client and the modes it may start work with. */
 const Probe = Schema.Struct({ caller: Schema.String, modes: Schema.String });
@@ -108,7 +109,7 @@ const linkedSessions = (b: ServedPeer) => b.linkedSessions;
 
 /** Another environment on a socket of its own, answering as `descriptor`. */
 const serveApart = (descriptor: ExecutionEnvironmentDescriptor) =>
-  Layer.build(Layer.fresh(NodeHttpServer.layerTest)).pipe(
+  Layer.build(Layer.fresh(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))).pipe(
     Effect.flatMap((server) => serveB(descriptor).pipe(Effect.provideContext(server))),
   );
 
@@ -154,7 +155,7 @@ it.effect("links with a pairing code, and the peer holds its agents to the limit
       const notFound = yield* probe(a, undefined, "refuse").pipe(Effect.flip);
       expect(notFound).toMatchObject({ code: "thread_not_found", message: "No such thread." });
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect(
@@ -191,7 +192,7 @@ it.effect(
         yield* b.settings.updateSettings({ linkedEnvironmentsEnabled: true });
         expect(yield* probe(a)).toEqual({ caller: "T3 Code · Laptop", modes: "auto/default" });
       }),
-    ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+    ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("a link whose row cannot be stored keeps none of its token", () =>
@@ -231,7 +232,7 @@ it.effect("a link whose row cannot be stored keeps none of its token", () =>
       expect(failed.reason).toBe("storage");
       expect(yield* Ref.get(held)).toEqual(new Set());
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("two links racing to one peer leave the stored access matching the token", () =>
@@ -257,7 +258,7 @@ it.effect("two links racing to one peer leave the stored access matching the tok
         stored!.access === "read-only" ? "approval-required/default" : "full-access/default",
       );
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 /** A bare HTTP server on a socket of its own, answering with `handle`. */
@@ -266,7 +267,7 @@ const serveRaw = <E, R>(
     request: HttpServerRequest.HttpServerRequest,
   ) => Effect.Effect<HttpServerResponse.HttpServerResponse, E, R>,
 ) =>
-  Layer.build(Layer.fresh(NodeHttpServer.layerTest)).pipe(
+  Layer.build(Layer.fresh(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))).pipe(
     Effect.flatMap((server) =>
       Effect.gen(function* () {
         yield* HttpServer.serve(Effect.flatMap(HttpServerRequest.HttpServerRequest, handle)).pipe(
@@ -315,7 +316,7 @@ it.effect("never follows a peer's redirect with the pairing code", () =>
       expect(yield* Ref.get(received)).toEqual([]);
       expect(yield* a.links.list).toEqual([]);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("never sends a link's token to an address that stops answering as that peer", () =>
@@ -336,7 +337,7 @@ it.effect("never sends a link's token to an address that stops answering as that
       expect(yield* Ref.get(b.bearers)).toEqual([]);
       expect((yield* a.links.list).map((link) => link.status)).toEqual(["unreachable"]);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("reads one stored link without asking the peer", () =>
@@ -353,7 +354,7 @@ it.effect("reads one stored link without asking the peer", () =>
       expect(Option.isNone(yield* a.links.get(laptop.environmentId))).toBe(true);
       expect(yield* Ref.get(b.probes)).toBe(0);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("tells the agent to link again once the peer revokes the link or it expires", () =>
@@ -410,7 +411,7 @@ it.effect("tells the agent to link again once the peer revokes the link or it ex
       expect(expired.message).toContain("expired");
       expect(yield* Ref.get(b.bearers)).toEqual([]);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect(
@@ -461,7 +462,7 @@ it.effect(
         // Neither attempt spent the pairing code on a session.
         expect(yield* linkedSessions(b)).toEqual([]);
       }),
-    ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+    ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect(
@@ -486,7 +487,7 @@ it.effect(
         expect(yield* Ref.get(impostor.bearers)).toEqual([]);
         expect((yield* linkedSessions(b)).length).toBe(1);
       }),
-    ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+    ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("linking a picked machine that answers nowhere names it and links nothing", () =>
@@ -524,5 +525,5 @@ it.effect("linking a picked machine that answers nowhere names it and links noth
       expect(refused.message).toContain("could not reach Box");
       expect(refused.message).toContain("plain http");
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );

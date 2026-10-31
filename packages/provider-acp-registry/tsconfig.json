@@ -1,8 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "rewriteRelativeImportExtensions": true,
     "types": ["node"],
     "lib": ["ESNext", "esnext.disposable"]
   },
-  "include": ["src"]
+  "include": ["src"],
+  "vibelang": { "declarationSidecars": true, "trustedPackages": ["@t3tools/*"] }
 }

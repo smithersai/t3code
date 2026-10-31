@@ -1,6 +1,5 @@
 import * as DocumentText from "../provider/DocumentText.ts";
 import { NodeHttpServer } from "@effect/platform-node";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import {
   CommandId,
@@ -63,6 +62,7 @@ import * as PeerLinks from "./PeerLinks.ts";
 import { descriptorOf, layerLinkingEnvironment, linkTo, servePeer } from "./PeerLinks.testkit.ts";
 import * as RemoteDelegation from "./RemoteDelegation.ts";
 import * as PeerLinkRequests from "./PeerLinkRequests.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 // The laptop's agent delegates a task to the box through a link. The box is
 // its real /mcp behind real OAuth, with one thread the test finishes; the
@@ -463,8 +463,12 @@ const boxToolkitLayer = (thread: BoxThread) => {
     McpHttpServer.layerOrchestratorToolkit,
     McpHttpServer.layerProjectRegistration,
   ).pipe(
-    Layer.provide(DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer))),
-    Layer.provide(NodeCrypto.layer),
+    Layer.provide(
+      DocumentText.layer.pipe(
+        Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+      ),
+    ),
+    Layer.provide(Crypto.layerWebCrypto),
     Layer.provide(layerBoxThreads),
     Layer.provide(layerBoxLaunches),
     Layer.provide(Layer.mock(RemoteDelegation.RemoteDelegation)({})),
@@ -478,7 +482,7 @@ const boxToolkitLayer = (thread: BoxThread) => {
     Layer.provide(Layer.mock(SourceControlRepositoryService.SourceControlRepositoryService)({})),
     Layer.provide(
       ServerConfig.layerTest(process.cwd(), { prefix: "t3-remote-delegation-box-" }).pipe(
-        Layer.provide(NodeServices.layer),
+        Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       ),
     ),
     Layer.provide(Layer.mock(ProviderRegistry.ProviderRegistry)({})),
@@ -497,7 +501,7 @@ const boxToolkitLayer = (thread: BoxThread) => {
     ),
     Layer.provide(Layer.mock(SecretRequests.SecretRequests)({})),
     Layer.provide(ServerSettings.layerTest()),
-    Layer.provide(NodeServices.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
 };
 
@@ -560,6 +564,7 @@ const makeLaptop = (
       Layer.provideMerge(Layer.merge(layerOrchestrator, ServerSettings.layerTest())),
     );
     const layerHere = McpHttpServer.layerOrchestratorToolkit.pipe(
+      Layer.provide(McpHttpServer.layerCallerInvocation),
       Layer.provideMerge(McpServer.McpServer.layer),
       Layer.provideMerge(
         RemoteDelegation.layer.pipe(
@@ -588,7 +593,7 @@ const makeLaptop = (
       ),
       Layer.provide(Layer.succeedContext(linking)),
       Layer.provide(Layer.mock(PeerLinkRequests.PeerLinkRequests)({})),
-      Layer.provide(NodeCrypto.layer),
+      Layer.provide(Crypto.layerWebCrypto),
       Layer.provideMerge(layerThreads),
       Layer.provide(Layer.mock(ProviderRegistry.ProviderRegistry)({})),
       Layer.provide(Layer.mock(ProviderAdapterRegistry.ProviderAdapterRegistryV2)({})),
@@ -841,7 +846,7 @@ it.effect("a task delegated to the box wakes the laptop's parent when it ends th
         summary: "All 412 tests pass on the box.",
       });
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect(
@@ -887,7 +892,7 @@ it.effect(
           result: "All 412 tests pass on the box.",
         });
       }),
-    ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+    ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("a task named only by environment inherits the parent's model, within the link", () =>
@@ -925,7 +930,7 @@ it.effect("a task named only by environment inherits the parent's model, within 
       });
       expect(broader.isError).toBe(true);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("refuses worktree isolation for a task there before launching anything", () =>
@@ -950,7 +955,7 @@ it.effect("refuses worktree isolation for a task there before launching anything
       expect(JSON.stringify(result.content)).toContain("isolation");
       expect(yield* Ref.get(thread.launched)).toBeNull();
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("follows an open task again after the laptop restarts", () =>
@@ -983,7 +988,7 @@ it.effect("follows an open task again after the laptop restarts", () =>
       const task = yield* taskResult(after, delegated.taskId);
       expect(task).toMatchObject({ status: "completed", result: "Finished while you were away." });
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("fails the task when the box revokes the link, and cancel interrupts it there", () =>
@@ -1044,7 +1049,7 @@ it.effect("fails the task when the box revokes the link, and cancel interrupts i
         "The linked environment no longer accepts this link. It may have been revoked there; link it again.",
       );
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("a task's result is its own run's whole last reply, not a later run's", () =>
@@ -1087,7 +1092,7 @@ it.effect("a task's result is its own run's whole last reply, not a later run's"
       expect(waits.length).toBeGreaterThan(0);
       expect(waits.every((runId) => runId === boxRunId)).toBe(true);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("a task whose thread there waits on its own task ends with the answer after it", () =>
@@ -1123,7 +1128,7 @@ it.effect("a task whose thread there waits on its own task ends with the answer 
         result: "The review found two issues; both are fixed.",
       });
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("the same key from another provider session is another task", () =>
@@ -1158,7 +1163,7 @@ it.effect("the same key from another provider session is another task", () =>
       expect(second.remoteChild.threadId).not.toBe(first.remoteChild.threadId);
       expect((yield* a.orchestrator.getThreadProjection(parentThreadId)).subagents).toHaveLength(2);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect.each([null, "Working before the provider failed."])(
@@ -1197,7 +1202,7 @@ it.effect.each([null, "Working before the provider failed."])(
         );
         expect(Option.isSome(offered)).toBe(true);
       }),
-    ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+    ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect.each([false, true])(
@@ -1230,7 +1235,7 @@ it.effect.each([false, true])(
         });
         expect(yield* Ref.get(thread.waitedFor)).toEqual([boxRunId]);
       }),
-    ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+    ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("keeps a successful remote reply despite an error item in the run's activity", () =>
@@ -1255,7 +1260,7 @@ it.effect("keeps a successful remote reply despite an error item in the run's ac
         result: "Recovered and completed the task.",
       });
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("fails the task when its thread there is gone, or the link here is", () =>
@@ -1293,7 +1298,7 @@ it.effect("fails the task when its thread there is gone, or the link here is", (
       expect(unlinked?.status).toBe("failed");
       expect(unlinked?.result).toContain("not linked to");
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("cancel ends the task here even when the link is gone", () =>
@@ -1321,7 +1326,7 @@ it.effect("cancel ends the task here even when the link is gone", () =>
       expect(task?.result).toContain("could not be stopped in Box");
       expect(yield* Ref.get(thread.interrupted)).toBe(0);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("a parent stopped while the task's result is read still stops its thread there", () =>
@@ -1356,7 +1361,7 @@ it.effect("a parent stopped while the task's result is read still stops its thre
       yield* Deferred.await(thread.interruptedOnce);
       expect(yield* Ref.get(thread.stops)).toContain("thread.stop");
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("a stop the box refuses because the parent was lowered ends instead of retrying", () =>
@@ -1406,7 +1411,7 @@ it.effect("a stop the box refuses because the parent was lowered ends instead of
       expect(yield* Ref.get(thread.stops)).toEqual([]);
       expect(yield* a.projections.getOpenRemoteDelegatedTasks).toEqual([]);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("stopping the parent stops its task there", () =>
@@ -1437,7 +1442,7 @@ it.effect("stopping the parent stops its task there", () =>
       yield* Deferred.await(thread.interruptedOnce);
       expect(yield* Ref.get(thread.interrupted)).toBe(1);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 /** A follower retry schedule the test steps: each failed attempt is offered, then waits for `retry`. */
@@ -1529,7 +1534,7 @@ it.effect("stopping the parent stops follow-up work on a task there that has its
       expect(yield* stoppedThere(a, delegated.taskId, 2)).toMatchObject({ status: "completed" });
       expect(yield* Ref.get(thread.interrupted)).toBe(2);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("a delayed Stop acknowledgement leaves a newer Stop owed", () =>
@@ -1579,7 +1584,7 @@ it.effect("a delayed Stop acknowledgement leaves a newer Stop owed", () =>
       expect(yield* Ref.get(thread.interrupted)).toBe(2);
       expect(yield* a.projections.getOpenRemoteDelegatedTasks).toEqual([]);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("a Stop on a task that has its result reaches there after a restart", () =>
@@ -1619,7 +1624,7 @@ it.effect("a Stop on a task that has its result reaches there after a restart", 
       expect(yield* stoppedThere(after, delegated.taskId)).toMatchObject({ status: "completed" });
       expect(yield* Ref.get(thread.stops)).toEqual(["thread.stop", "delegated-tasks"]);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("a parent stopped while the box is unreachable still stops its task there", () =>
@@ -1657,7 +1662,7 @@ it.effect("a parent stopped while the box is unreachable still stops its task th
       yield* Deferred.await(thread.interruptedOnce);
       expect(yield* Ref.get(thread.interrupted)).toBe(1);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("a task cancelled while the box is unreachable is stopped there after a restart", () =>
@@ -1697,7 +1702,7 @@ it.effect("a task cancelled while the box is unreachable is stopped there after 
       // The result here is still the cancel's.
       expect(yield* taskResult(after, delegated.taskId)).toMatchObject({ status: "cancelled" });
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("a task whose thread there has no run ends with its last reply", () =>
@@ -1724,7 +1729,7 @@ it.effect("a task whose thread there has no run ends with its last reply", () =>
       // One look, not a loop.
       expect(yield* Ref.get(thread.waitedFor)).toEqual([undefined]);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );
 
 it.effect("a local task runs in this thread's project", () =>
@@ -1744,5 +1749,5 @@ it.effect("a local task runs in this thread's project", () =>
       expect(result.isError).toBe(true);
       expect(JSON.stringify(result.content)).toContain("invalid_request");
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest)),
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto))),
 );

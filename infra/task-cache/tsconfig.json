@@ -1,10 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "rewriteRelativeImportExtensions": true,
     "allowJs": true,
     "lib": ["ESNext", "DOM"],
     "types": ["node"],
     "erasableSyntaxOnly": false
   },
-  "include": ["alchemy.run.ts", "src/**/*.ts", "scripts/**/*.ts", "types/**/*.d.ts"]
+  "include": ["alchemy.run.ts", "src/**/*.ts", "scripts/**/*.ts", "types/**/*.d.ts"],
+  "vibelang": { "declarationSidecars": true, "trustedPackages": ["@t3tools/*"] }
 }

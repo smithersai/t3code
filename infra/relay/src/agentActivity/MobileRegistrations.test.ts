@@ -3,7 +3,6 @@ import type {
   RelayDeviceRegistrationRequest,
 } from "@t3tools/contracts/relay";
 import type { SignedApnsDeliveryJob } from "./apnsDeliveryJobs.ts";
-import * as NodeCryptoLayer from "@effect/platform-node/NodeCrypto";
 import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -33,6 +32,7 @@ import * as ApnsClient from "./ApnsClient.ts";
 import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
 import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.ts";
 import * as MobileRegistrations from "./MobileRegistrations.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const device: RelayDeviceRegistrationRequest = {
   deviceId: "device-1" as RelayDeviceRegistrationRequest["deviceId"],
@@ -166,7 +166,7 @@ function layerRegistrationReplay(input: {
         Layer.provide(ApnsClient.layer.pipe(Layer.provide(ApnsProviderTokens.layer))),
       ),
     ),
-    Layer.provide(ApnsDeliveryQueue.layer.pipe(Layer.provide(NodeCryptoLayer.layer))),
+    Layer.provide(ApnsDeliveryQueue.layer.pipe(Layer.provide(Crypto.layerWebCrypto))),
     Layer.provide(
       Layer.mergeAll(
         Layer.succeed(Devices.Devices, input.devices),

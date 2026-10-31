@@ -7,8 +7,8 @@ import type {
 } from "@t3tools/contracts";
 import type * as Effect from "effect/Effect";
 
-import type { TextGenerationPolicy } from "./textGenerationPolicy.ts";
-import type { ThreadTitleForkSource } from "./textGenerationPrompts.ts";
+import type { TextGenerationPolicy } from "./textGenerationPolicy.vibe";
+import type { ThreadTitleForkSource } from "./textGenerationPrompts.vibe";
 
 export interface CommitMessageGenerationInput {
   cwd: string;

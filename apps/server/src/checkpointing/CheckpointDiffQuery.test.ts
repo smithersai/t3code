@@ -1,4 +1,3 @@
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it, vi } from "@effect/vitest";
 import { CheckpointRef, CheckpointScopeId, RunId, ThreadId } from "@t3tools/contracts";
@@ -16,6 +15,7 @@ import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as CheckpointDiffQuery from "./CheckpointDiffQuery.ts";
 import * as CheckpointStore from "./CheckpointStore.ts";
 import { CheckpointRefUnavailableError, CheckpointTurnRangeUnavailableError } from "./Errors.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const threadId = ThreadId.make("thread:checkpoint-diff-v2");
 const firstRunId = RunId.make("run:checkpoint-diff-v2:1");
@@ -64,7 +64,7 @@ function layerFor(input: {
         }),
       ),
     ),
-    Layer.provideMerge(NodeCrypto.layer),
+    Layer.provideMerge(Crypto.layerWebCrypto),
   );
 }
 
@@ -190,14 +190,16 @@ it.effect.each([false, true])(
   },
 );
 
-const layerVcsProcess = VcsProcess.layer.pipe(Layer.provide(NodeServices.layer));
+const layerVcsProcess = VcsProcess.layer.pipe(
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+);
 const layerStore = CheckpointStore.layer.pipe(
   Layer.provide(VcsDriverRegistry.layer.pipe(Layer.provide(layerVcsProcess))),
-  Layer.provide(NodeServices.layer),
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 const layerTest = Layer.merge(layerStore, layerVcsProcess).pipe(
-  Layer.provideMerge(NodeServices.layer),
-  Layer.provideMerge(NodeCrypto.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+  Layer.provideMerge(Crypto.layerWebCrypto),
 );
 
 it.effect("shares the turn and full-thread diff budget across real Git batches", () =>

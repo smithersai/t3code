@@ -7,7 +7,7 @@ import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import * as PlatformError from "effect/PlatformError";
 
-import { SshHostDiscoveryError } from "./errors.ts";
+import { SshHostDiscoveryError } from "./errors.vibe";
 
 const NO_HOSTS: ReadonlyArray<string> = [] as const;
 

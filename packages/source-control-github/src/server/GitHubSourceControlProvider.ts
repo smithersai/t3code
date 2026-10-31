@@ -34,7 +34,7 @@ import * as GitHubGraphQlClient from "./gitHubGraphQlClient.ts";
 import {
   normalizeGitHubPullRequestRecord,
   type NormalizedGitHubPullRequestRecord,
-} from "./gitHubPullRequests.ts";
+} from "./gitHubPullRequests.vibe";
 import {
   gitHubApiHostForRemote,
   parseFetchRemotes,
@@ -49,7 +49,7 @@ import {
   findAuthenticatedGitHubAccount,
   parseGitHubAuthStatus,
   type GitHubAuthStatusAccount,
-} from "./gitHubAuthStatus.ts";
+} from "./gitHubAuthStatus.vibe";
 import * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider";
 import {
   combinedAuthOutput,

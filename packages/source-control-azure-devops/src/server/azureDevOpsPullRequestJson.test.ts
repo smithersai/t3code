@@ -8,7 +8,7 @@ import {
   decodePullRequestJson,
   decodePullRequestListJson,
   decodeThreadsJson,
-} from "./azureDevOpsPullRequestJson.ts";
+} from "./azureDevOpsPullRequestJson.vibe";
 
 const REST_URL =
   "https://dev.azure.com/acme/_apis/git/repositories/6f9c9b7f-0000-0000-0000-000000000000/pullRequests/42";

@@ -9,7 +9,7 @@ import {
   decodeRepositoryPermissionJson,
   decodeStatusesJson,
   decodeViewerJson,
-} from "./bitbucketPullRequestJson.ts";
+} from "./bitbucketPullRequestJson.vibe";
 
 function pullRequest(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {

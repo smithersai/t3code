@@ -14,7 +14,7 @@ import {
   type SourceControlCliDiscoverySpec,
   type SourceControlManagedCliDiscoverySpec,
 } from "@t3tools/source-control-core/server/discovery";
-import { ForgejoPullRequestSchema, toForgejoChangeRequest } from "./forgejoPullRequests.ts";
+import { ForgejoPullRequestSchema, toForgejoChangeRequest } from "./forgejoPullRequests.vibe";
 
 const isForgejoCliError = Schema.is(ForgejoCli.ForgejoCliError);
 

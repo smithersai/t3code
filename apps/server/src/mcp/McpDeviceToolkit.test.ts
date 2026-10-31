@@ -17,6 +17,7 @@ import * as ProjectService from "../project/ProjectService.ts";
 import * as McpHttpServer from "./McpHttpServer.ts";
 import * as McpInvocationContext from "./McpInvocationContext.ts";
 import * as McpToolAccessTestkit from "./McpToolAccess.testkit.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const environmentId = EnvironmentId.make("environment-device-test");
 const threadId = ThreadId.make("thread-device-test");
@@ -144,12 +145,13 @@ const layerDeviceServiceMock = Layer.mock(DeviceService.DeviceService)({
 });
 
 const layerTest = McpHttpServer.layerDeviceToolkit.pipe(
+  Layer.provide(McpHttpServer.layerCallerInvocation),
   Layer.provideMerge(McpServer.McpServer.layer),
   Layer.provideMerge(McpToolAccessTestkit.liveThreadsLayer),
   Layer.provideMerge(layerDeviceServiceMock),
   Layer.provide(layerProjectsMock),
   Layer.provide(ServerConfig.layerTest(process.cwd(), { prefix: "t3-mcp-device-toolkit-test-" })),
-  Layer.provide(NodeServices.layer),
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 it.effect("registers the device tools and returns the screenshot as image content", () =>
@@ -222,6 +224,7 @@ it.effect("rejects unavailable agent access before booting or opening a device",
     Effect.scoped,
     Effect.provide(
       McpHttpServer.layerDeviceToolkit.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
         Layer.provideMerge(McpToolAccessTestkit.liveThreadsLayer),
         Layer.provide(layerUnavailable),
@@ -229,7 +232,7 @@ it.effect("rejects unavailable agent access before booting or opening a device",
         Layer.provide(
           ServerConfig.layerTest(process.cwd(), { prefix: "t3-mcp-device-toolkit-test-" }),
         ),
-        Layer.provide(NodeServices.layer),
+        Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       ),
     ),
   );

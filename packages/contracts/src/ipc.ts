@@ -1,25 +1,25 @@
 import * as Schema from "effect/Schema";
-import type { PreviewCaptureFailureEncoded } from "./previewCapture.ts";
+import type { PreviewCaptureFailureEncoded } from "./previewCapture.vibe";
 
 import { SnapShotSource } from "./chatAttachment.ts";
 import { EnvironmentId, TrimmedNonEmptyString } from "./baseSchemas.ts";
-import { BrowserProfileId } from "./browserProfile.ts";
+import { BrowserProfileId } from "./browserProfile.vibe";
 import type {
   BrowserImportResult,
   BrowserImportSource,
   BrowserImportSourceId,
-} from "./browserImport.ts";
+} from "./browserImport.vibe";
 import { AuthAccessTokenResult, AuthSessionState, AuthWebSocketTicketResult } from "./auth.ts";
-import { AdvertisedEndpoint } from "./remoteAccess.ts";
-import { ExecutionEnvironmentDescriptor } from "./environment.ts";
-import { type ClientSettings, type QuitConfirmationMode, SnapShotShortcut } from "./settings.ts";
-import type { EditorId } from "./editor.ts";
-import type { PreviewForwardedShortcut } from "./keybindings.ts";
+import { AdvertisedEndpoint } from "./remoteAccess.vibe";
+import { ExecutionEnvironmentDescriptor } from "./environment.vibe";
+import { type ClientSettings, type QuitConfirmationMode, SnapShotShortcut } from "./settings.vibe";
+import type { EditorId } from "./editor.vibe";
+import type { PreviewForwardedShortcut } from "./keybindings.vibe";
 
 import type {
   DesktopAppActivationRequest,
   DesktopAppActivationResponse,
-} from "./desktopAppActivation.ts";
+} from "./desktopAppActivation.vibe";
 
 export interface ContextMenuItem<T extends string = string> {
   id: T;

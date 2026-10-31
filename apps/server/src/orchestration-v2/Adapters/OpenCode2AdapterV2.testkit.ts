@@ -30,6 +30,7 @@ import {
   OpenCodeReplayTranscriptDecodeError,
 } from "./OpenCodeAdapterV2.testkit.ts";
 import * as OpenCode2Adapter from "@t3tools/provider-opencode/server/v2/adapter";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 export const OPENCODE2_HTTP_PROTOCOL = "opencode2-http.sse" as const;
 const BASE_URL = "http://opencode2.replay";
@@ -250,7 +251,9 @@ const makeReplayAdapter = (
     );
   });
 
-const layerReplayHost = TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer));
+const layerReplayHost = TestProviderHost.layer().pipe(
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+);
 
 const layerReplayHostWithAttachments = (
   attachmentsDir: string,
@@ -278,7 +281,15 @@ function layerRegistry(
     makeReplayAdapter(transcript, { external: true, ...options }).pipe(
       Effect.map((adapter) => ProviderAdapterRegistry.layerFromAdapters([adapter])),
     ),
-  ).pipe(Layer.provide(Layer.mergeAll(layerReplayHost, IdAllocator.layer, NodeServices.layer)));
+  ).pipe(
+    Layer.provide(
+      Layer.mergeAll(
+        layerReplayHost,
+        IdAllocator.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+      ),
+    ),
+  );
 }
 
 export const openCode2ReplayRuntime = (
@@ -328,7 +339,7 @@ export const openCode2ReplayRuntime = (
               options.resolveExtractedTextPath,
             ),
         IdAllocator.layer,
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
       ),
     ),
   );

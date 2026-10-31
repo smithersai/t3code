@@ -1,7 +1,7 @@
 import { ComposerContextId, type ComposerContextRecord } from "@t3tools/contracts";
 import { describe, expect, it } from "vite-plus/test";
 
-import { upgradeLegacyContextMessage } from "./composerContextLegacy.ts";
+import { upgradeLegacyContextMessage } from "./composerContextLegacy.vibe";
 import { formatComposerContextReference } from "./composerContextReferences.ts";
 import { serializeLegacyContextMessage } from "./composerContextLegacySend.ts";
 

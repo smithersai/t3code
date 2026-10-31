@@ -4,8 +4,8 @@
   "type": "module",
   "exports": {
     "./fakeSourceControlDriver": {
-      "types": "./src/fakeSourceControlDriver.ts",
-      "import": "./src/fakeSourceControlDriver.ts"
+      "types": "./src/fakeSourceControlDriver.d.vibe.ts",
+      "import": "./src/fakeSourceControlDriver.vibe"
     },
     "./TestSourceControlHost": {
       "types": "./src/TestSourceControlHost.ts",
@@ -13,16 +13,19 @@
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "vibelang --noEmit"
   },
   "dependencies": {
     "@effect/platform-node": "catalog:",
     "@t3tools/contracts": "workspace:*",
     "@t3tools/shared": "workspace:*",
     "@t3tools/source-control-core": "workspace:*",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11.tgz"
   },
   "devDependencies": {
-    "@types/node": "catalog:"
+    "@types/node": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11.tgz"
   }
 }

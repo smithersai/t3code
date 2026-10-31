@@ -1,7 +1,7 @@
 import * as Schema from "effect/Schema";
 import { describe, expect, it } from "vite-plus/test";
 
-import { fromYaml } from "./schemaYaml.ts";
+import { fromYaml } from "./schemaYaml.vibe";
 
 describe("schemaYaml helpers", () => {
   it("reports malformed YAML with safe structural diagnostics", () => {

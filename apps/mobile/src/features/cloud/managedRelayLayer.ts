@@ -1,7 +1,7 @@
 import { ManagedRelay } from "@t3tools/client-runtime/relay";
 import { RelayMobileClientId } from "@t3tools/contracts/relay";
 import * as Cache from "effect/Cache";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

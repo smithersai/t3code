@@ -5,7 +5,7 @@ import {
   OrchestrationV2SearchThreadsInput,
   OrchestrationV2SearchThreadsResult,
 } from "./orchestrationV2.ts";
-import { OrchestrationDispatchCommandError } from "./orchestrationDispatch.ts";
+import { OrchestrationDispatchCommandError } from "./orchestrationDispatch.vibe";
 import {
   McpAppCallToolInput,
   McpAppCallToolResult,
@@ -15,7 +15,7 @@ import {
   McpAppToolInfo,
   McpAppToolInfoInput,
   McpAppUpdateModelContextInput,
-} from "./mcpApps.ts";
+} from "./mcpApps.vibe";
 import {
   PeerLink,
   PeerLinkCreateInput,
@@ -77,7 +77,7 @@ import {
   AcpRegistrySetProviderInput,
   AcpRegistrySetProviderResult,
 } from "./acpRegistry.ts";
-import { ExternalLauncherError, LaunchEditorInput } from "./editor.ts";
+import { ExternalLauncherError, LaunchEditorInput } from "./editor.vibe";
 import {
   AuthAccessStreamError,
   AuthAccessStreamEvent,
@@ -87,7 +87,7 @@ import {
   BackgroundPolicySnapshot,
   ClientActivityReportInput,
   HostPowerSnapshot,
-} from "./background.ts";
+} from "./background.vibe";
 import {
   FilesystemGetMetadataInput,
   FilesystemGetMetadataResult,
@@ -103,7 +103,7 @@ import {
   AgentSessionScanInput,
   AgentSessionScanResult,
   AgentSessionScanError,
-} from "./agentSessions.ts";
+} from "./agentSessions.vibe";
 import {
   AssetAccessError,
   AssetCreateUrlInput,
@@ -112,7 +112,7 @@ import {
   AttachmentCreateUploadUrlResult,
   AttachmentDeleteInput,
   AttachmentUploadSigningKeyError,
-} from "./assets.ts";
+} from "./assets.vibe";
 import {
   PersistChatAttachmentsError,
   PersistChatAttachmentsInput,
@@ -121,13 +121,13 @@ import {
 import {
   OrchestrationGetFullThreadDiffError,
   OrchestrationGetTurnDiffError,
-} from "./checkpointDiff.ts";
+} from "./checkpointDiff.vibe";
 import {
   WorktreeSetupCancelInput,
   WorktreeSetupCancelResult,
   WorktreeSetupStreamEvent,
   WorktreeSetupSubscribeInput,
-} from "./worktreeSetup.ts";
+} from "./worktreeSetup.vibe";
 import {
   GitActionProgressEvent,
   VcsSwitchRefInput,
@@ -153,28 +153,28 @@ import {
   VcsStatusSubscriptionInput,
   VcsStatusResult,
   VcsStatusStreamEvent,
-} from "./git.ts";
+} from "./git.vibe";
 import {
   ReviewDiffFileContentsInput,
   ReviewDiffFileContentsResult,
   ReviewDiffPreviewError,
   ReviewDiffPreviewInput,
   ReviewDiffPreviewResult,
-} from "./review.ts";
-import { KeybindingsConfigError } from "./keybindings.ts";
-import { OrchestrationSearchThreadsError } from "./threadSearch.ts";
+} from "./review.vibe";
+import { KeybindingsConfigError } from "./keybindings.vibe";
+import { OrchestrationSearchThreadsError } from "./threadSearch.vibe";
 import {
   ProviderUploadFeedbackError,
   ProviderUploadFeedbackInput,
   ProviderUploadFeedbackResult,
-} from "./provider.ts";
-import { ProviderInstanceId, ProviderInstanceMutation } from "./providerInstance.ts";
+} from "./provider.vibe";
+import { ProviderInstanceId, ProviderInstanceMutation } from "./providerInstance.vibe";
 import {
   GuestShareCreateError,
   GuestShareCreateInput,
   GuestShareCreateResult,
-} from "./guestShare.ts";
-import { PullRequestReviewGuideResult } from "./pullRequestReviewGuide.ts";
+} from "./guestShare.vibe";
+import { PullRequestReviewGuideResult } from "./pullRequestReviewGuide.vibe";
 import {
   PullRequestActionInput,
   PullRequestActivity,
@@ -221,7 +221,7 @@ import {
   RelayClientInstallFailedError,
   RelayClientInstallProgressEventSchema,
   RelayClientStatusSchema,
-} from "./relayClient.ts";
+} from "./relayClient.vibe";
 import {
   ORCHESTRATION_V2_WS_METHODS,
   OrchestrationGetWorkflowScriptError,
@@ -269,7 +269,7 @@ import {
   TerminalRestartInput,
   TerminalSessionSnapshot,
   TerminalWriteInput,
-} from "./terminal.ts";
+} from "./terminal.vibe";
 import {
   DiscoveredLocalServerList,
   ConfiguredLocalServerUrls,
@@ -290,7 +290,7 @@ import {
   PreviewResizeInput,
   PreviewAdjustInput,
   PreviewSessionSnapshot,
-} from "./preview.ts";
+} from "./preview.vibe";
 import {
   DeviceActionInput,
   DeviceCloseInput,
@@ -308,7 +308,7 @@ import {
   DeviceServiceState,
   DeviceSession,
   DeviceShutdownInput,
-} from "./device.ts";
+} from "./device.vibe";
 import {
   ServerConfigStreamEvent,
   DesktopUpdateCommitInput,
@@ -336,27 +336,27 @@ import {
   ServerSignalProcessResult,
   ServerUpsertKeybindingInput,
   ServerUpsertKeybindingResult,
-} from "./server.ts";
+} from "./server.vibe";
 import {
   HostResourcesSnapshot,
   ResourceTelemetryHistory,
   ResourceTelemetryHistoryInput,
   ResourceTelemetryRetryResult,
   ResourceTelemetrySnapshot,
-} from "./resourceTelemetry.ts";
+} from "./resourceTelemetry.vibe";
 import {
   UsageLimitSourceError,
   ProviderConsumeResetCreditInput,
   ProviderConsumeResetCreditResult,
-} from "./providerUsageLimits.ts";
-import { UsagePricing, UsageReadError, UsageSummary, UsageSummaryInput } from "./usage.ts";
+} from "./providerUsageLimits.vibe";
+import { UsagePricing, UsageReadError, UsageSummary, UsageSummaryInput } from "./usage.vibe";
 import {
   StorageCleanupReport,
   DatabaseStorageStatus,
   ServerSettings,
   ServerSettingsError,
   ServerSettingsPatch,
-} from "./settings.ts";
+} from "./settings.vibe";
 import {
   ScheduledTaskDeleteInput,
   ScheduledTaskDeleteResult,
@@ -373,8 +373,8 @@ import {
   ScheduledTaskSetEnabledInput,
   ScheduledTaskUpsertInput,
   ScheduledTaskMutationResult,
-} from "./scheduledTask.ts";
-import { SecretRequestAnswerInput, SecretRequestError } from "./secretRequest.ts";
+} from "./scheduledTask.vibe";
+import { SecretRequestAnswerInput, SecretRequestError } from "./secretRequest.vibe";
 import {
   ProjectCloneActionInput,
   ProjectCloneActionResult,
@@ -382,7 +382,7 @@ import {
   ProjectCloneStartInput,
   ProjectCloneStartResult,
   ProjectCloneSubscribeInput,
-} from "./projectClone.ts";
+} from "./projectClone.vibe";
 import {
   SourceControlCloneRepositoryInput,
   SourceControlCloneRepositoryResult,
@@ -392,7 +392,7 @@ import {
   SourceControlRepositoryError,
   SourceControlRepositoryInfo,
   SourceControlRepositoryLookupInput,
-} from "./sourceControl.ts";
+} from "./sourceControl.vibe";
 import { VcsError } from "./vcs.ts";
 import { Project, ProjectMutation, ProjectMutationError } from "./project.ts";
 

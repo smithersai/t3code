@@ -1,5 +1,4 @@
 import { NodeHttpServer } from "@effect/platform-node";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import {
   CommandId,
@@ -65,6 +64,7 @@ import {
   type ServedPeer,
 } from "./PeerLinks.testkit.ts";
 import * as RemoteDelegation from "./RemoteDelegation.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 // The laptop's agent asks the user to link the box. The laptop is its real
 // orchestrator and toolkit; the box is its real descriptor and MCP OAuth on a
@@ -152,12 +152,13 @@ const makeLaptop = Effect.gen(function* () {
     Layer.provideMerge(Layer.merge(layerOrchestrator, ServerSettings.layerTest())),
   );
   const layerHere = McpHttpServer.layerOrchestratorToolkit.pipe(
+    Layer.provide(McpHttpServer.layerCallerInvocation),
     Layer.provideMerge(McpServer.McpServer.layer),
     Layer.provideMerge(PeerLinkRequests.layer),
     Layer.provide(Layer.mock(PeerForwarding.PeerForwarding)({})),
     Layer.provide(Layer.mock(RemoteDelegation.RemoteDelegation)({})),
     Layer.provide(Layer.succeedContext(linking)),
-    Layer.provide(NodeCrypto.layer),
+    Layer.provide(Crypto.layerWebCrypto),
     Layer.provideMerge(layerThreads),
     Layer.provide(Layer.mock(ProviderRegistry.ProviderRegistry)({})),
     Layer.provide(Layer.mock(ProviderAdapterRegistry.ProviderAdapterRegistryV2)({})),
@@ -168,10 +169,10 @@ const makeLaptop = Effect.gen(function* () {
     Layer.provide(Layer.mock(GitVcsDriver.GitVcsDriver)({})),
     Layer.provide(
       ServerConfig.layerTest(process.cwd(), { prefix: "t3-peer-link-requests-" }).pipe(
-        Layer.provide(NodeServices.layer),
+        Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       ),
     ),
-    Layer.provide(NodeServices.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Layer.fresh,
   );
   const here = yield* Layer.build(layerHere);
@@ -453,7 +454,7 @@ const withBoth = <A, E, R>(body: (a: Laptop, b: ServedPeer) => Effect.Effect<A, 
       const a = yield* makeLaptop;
       return yield* body(a, b);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest));
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto)));
 
 it.live("the agent asks without waiting, and the user links the box after its turn ended", () =>
   withBoth((a, b) =>
@@ -725,7 +726,9 @@ it.live("a slow machine holds up only its own card's answer", () =>
         // A machine that takes the descriptor request and answers when the test says.
         const reached = yield* Deferred.make<void>();
         const release = yield* Deferred.make<void>();
-        const slow = yield* Layer.build(Layer.fresh(NodeHttpServer.layerTest));
+        const slow = yield* Layer.build(
+          Layer.fresh(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto)),
+        );
         const server = Context.get(slow, HttpServer.HttpServer);
         yield* server.serve(
           Deferred.succeed(reached, undefined).pipe(

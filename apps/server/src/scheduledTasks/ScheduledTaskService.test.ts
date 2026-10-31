@@ -1,7 +1,6 @@
 import * as Scheduler from "../scheduling/Scheduler.ts";
 import * as NodeUtil from "node:util";
 
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import { assert, it } from "@effect/vitest";
 import {
   ProjectId,
@@ -29,6 +28,7 @@ import * as SecretRequests from "../secrets/SecretRequests.ts";
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as ScheduledTaskService from "./ScheduledTaskService.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const isScheduledTaskError = Schema.is(ScheduledTaskError);
 
@@ -208,7 +208,7 @@ it.effect(
                 }),
                 Layer.mock(ThreadManagementService.ThreadManagementService)({}),
                 Layer.mock(SecretRequests.SecretRequests)({}),
-                NodeCrypto.layer,
+                Crypto.layerWebCrypto,
                 Scheduler.layer,
               ),
             ),
@@ -305,7 +305,7 @@ it.effect(
                 }),
                 Layer.mock(ThreadManagementService.ThreadManagementService)({}),
                 Layer.mock(SecretRequests.SecretRequests)({}),
-                NodeCrypto.layer,
+                Crypto.layerWebCrypto,
                 Scheduler.layer,
               ),
             ),
@@ -359,7 +359,7 @@ it.effect("thread cleanup notifies subscribers and a finishing run cannot recrea
             namedProjectsRoot: "/projects",
             isScratchProject: () => Effect.succeed(false),
           }),
-          NodeCrypto.layer,
+          Crypto.layerWebCrypto,
           Scheduler.layer,
         ),
       ),

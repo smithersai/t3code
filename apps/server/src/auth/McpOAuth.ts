@@ -19,7 +19,7 @@ import {
 import { encodeOAuthScope } from "@t3tools/shared/oauthScope";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
@@ -40,6 +40,7 @@ import {
   signPayload,
   timingSafeEqualBase64Url,
 } from "./utils.ts";
+import * as RequestUrl from "../RequestUrl.ts";
 
 // Request-derived origins support loopback, Tailscale and tunnels.
 // Signed client metadata keeps unauthenticated registration stateless.
@@ -62,7 +63,7 @@ export interface McpOAuthUrls {
 }
 
 export const requestUrls = (request: HttpServerRequest.HttpServerRequest): McpOAuthUrls => {
-  const origin = Option.match(HttpServerRequest.toURL(request), {
+  const origin = Option.match(RequestUrl.toURL(request), {
     onNone: () => "http://localhost",
     onSome: (url) => url.origin,
   });

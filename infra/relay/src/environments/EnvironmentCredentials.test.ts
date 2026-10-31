@@ -1,4 +1,3 @@
-import * as NodeCryptoLayer from "@effect/platform-node/NodeCrypto";
 import { describe, expect, it } from "@effect/vitest";
 import { PgDialect } from "drizzle-orm/pg-core";
 import * as Effect from "effect/Effect";
@@ -7,6 +6,7 @@ import * as Layer from "effect/Layer";
 import * as RelayDb from "../db.ts";
 import { relayEnvironmentCredentials } from "../persistence/schema.ts";
 import * as EnvironmentCredentials from "./EnvironmentCredentials.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 describe("EnvironmentCredentials", () => {
   it.effect("does not retain credential tokens when lookup persistence fails", () => {
@@ -49,7 +49,7 @@ describe("EnvironmentCredentials", () => {
     }).pipe(
       Effect.provide(
         EnvironmentCredentials.layer.pipe(
-          Layer.provide(NodeCryptoLayer.layer),
+          Layer.provide(Crypto.layerWebCrypto),
           Layer.provide(Layer.succeed(RelayDb.RelayDb, fakeDb)),
         ),
       ),
@@ -133,7 +133,7 @@ describe("EnvironmentCredentials", () => {
       }).pipe(
         Effect.provide(
           EnvironmentCredentials.layer.pipe(
-            Layer.provide(NodeCryptoLayer.layer),
+            Layer.provide(Crypto.layerWebCrypto),
             Layer.provide(Layer.succeed(RelayDb.RelayDb, fakeDb)),
           ),
         ),
@@ -195,7 +195,7 @@ describe("EnvironmentCredentials", () => {
     }).pipe(
       Effect.provide(
         EnvironmentCredentials.layer.pipe(
-          Layer.provide(NodeCryptoLayer.layer),
+          Layer.provide(Crypto.layerWebCrypto),
           Layer.provide(Layer.succeed(RelayDb.RelayDb, fakeDb)),
         ),
       ),

@@ -19,20 +19,20 @@ import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http";
 import { sanitizeBranchFragment } from "@t3tools/shared/git";
 import { isSshRemoteUrl } from "@t3tools/shared/sourceControl";
 import { recognizeRemoteWith } from "@t3tools/source-control-core/shared/definition";
-import { definition } from "../shared/definition.ts";
+import { definition } from "../shared/definition.vibe";
 
 import {
   BitbucketPullRequestListSchema,
   BitbucketPullRequestSchema,
   normalizeBitbucketPullRequestRecord,
   type NormalizedBitbucketPullRequestRecord,
-} from "./bitbucketPullRequests.ts";
+} from "./bitbucketPullRequests.vibe";
 import { collectUint8StreamText } from "@t3tools/provider-core/server/collectStreamText";
 import * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider";
 import * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost";
 import { readSourceControlHostSettings } from "@t3tools/source-control-core/shared/definition";
 
-import * as BitbucketClient from "../shared/definition.ts";
+import * as BitbucketClient from "../shared/definition.vibe";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
 
 const DEFAULT_API_BASE_URL = "https://api.bitbucket.org/2.0";

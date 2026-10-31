@@ -1,0 +1,11 @@
+import * as Schema from "effect/Schema"
+
+export schema TextGenerationPolicyKind = "default" | "conventional_commits" | "repo_conventions" | "custom"
+
+export schema TextGenerationPolicy {
+  kind: TextGenerationPolicyKind
+  commitInstructions?: string
+  changeRequestInstructions?: string
+  branchInstructions?: string
+  inferRepositoryConventions: boolean
+}

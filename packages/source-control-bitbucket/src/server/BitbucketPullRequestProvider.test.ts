@@ -7,7 +7,7 @@ import * as SourceControlRateLimit from "@t3tools/source-control-core/server/Sou
 
 import * as BitbucketApi from "./BitbucketApi.ts";
 import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.ts";
-import { decodePullRequestJson } from "./bitbucketPullRequestJson.ts";
+import { decodePullRequestJson } from "./bitbucketPullRequestJson.vibe";
 import {
   bitbucketProviderFailure,
   bitbucketViewerPermissions,

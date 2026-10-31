@@ -1,5 +1,4 @@
 import * as DocumentText from "../../provider/DocumentText.ts";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { expect, it } from "@effect/vitest";
 import {
@@ -69,6 +68,7 @@ const declaredFailure = (result: McpSchema.CallToolResult) => {
   return result.isError === true && text?.type === "text" ? JSON.parse(text.text) : undefined;
 };
 import { htmlRenderFromToolItem } from "@t3tools/shared/toolOutput";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const decodeMcpAttachmentInput = Schema.decodeUnknownEffect(McpAttachmentInput);
 const decodeThreadReadResult = Schema.decodeUnknownEffect(OrchestratorMcpThreadReadResult);
@@ -126,8 +126,9 @@ it.effect("checks capability through the production registration", () =>
   }).pipe(
     Effect.provide(
       layerThreadToolkit.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
-        Layer.provide(NodeCrypto.layer),
+        Layer.provide(Crypto.layerWebCrypto),
         Layer.provide(McpToolAccessTestkit.liveThreadsLayer),
       ),
     ),
@@ -161,8 +162,9 @@ it.effect("an answered question reports already answered instead of not found", 
   }).pipe(
     Effect.provide(
       layerThreadToolkit.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
-        Layer.provide(NodeCrypto.layer),
+        Layer.provide(Crypto.layerWebCrypto),
         Layer.provide(
           Layer.mock(ThreadManagement.ThreadManagementService)({
             getThreadShell: () => Effect.succeed(shell),
@@ -272,11 +274,16 @@ it.effect("returns an HTML render reference that Codex and Claude tool rows both
   }).pipe(
     Effect.provide(
       McpHttpServer.layerHtmlToolkit.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
         Layer.provide(McpProviderSessions.layer),
         Layer.provide(PreviewBrowser.layer),
         Layer.provide(ServerConfig.layerTest(process.cwd(), { prefix: "t3-mcp-html-render-" })),
-        Layer.provide(DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer))),
+        Layer.provide(
+          DocumentText.layer.pipe(
+            Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+          ),
+        ),
         Layer.provide(FetchHttpClient.layer),
         Layer.provide(
           Layer.mock(ThreadManagement.ThreadManagementService)({
@@ -320,8 +327,9 @@ it.effect("records only failed calls of tools that hand off no work", () => {
   }).pipe(
     Effect.provide(
       layerThreadToolkit.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
-        Layer.provide(NodeCrypto.layer),
+        Layer.provide(Crypto.layerWebCrypto),
         Layer.provide(
           Layer.mock(ThreadManagement.ThreadManagementService)({
             getThreadShell: (id) => Effect.succeed(McpToolAccessTestkit.liveThreadShell(id)),
@@ -367,8 +375,9 @@ it.effect("keeps unexpected handler defects private through the production regis
   }).pipe(
     Effect.provide(
       layerThreadToolkit.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
-        Layer.provide(NodeCrypto.layer),
+        Layer.provide(Crypto.layerWebCrypto),
         Layer.provide(
           Layer.mock(ThreadManagement.ThreadManagementService)({
             getThreadShell: () => Effect.die(new Error("private-storage-path")),
@@ -485,8 +494,9 @@ it.effect("a client caller targets any thread within its ceiling and cannot act 
   }).pipe(
     Effect.provide(
       layerThreadToolkit.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
-        Layer.provide(NodeCrypto.layer),
+        Layer.provide(Crypto.layerWebCrypto),
         Layer.provide(
           Layer.mock(ThreadManagement.ThreadManagementService)({
             getThreadShell: (id) =>
@@ -545,8 +555,9 @@ it.effect("a read-only client reads threads and is refused every write before it
   }).pipe(
     Effect.provide(
       layerThreadToolkit.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
-        Layer.provide(NodeCrypto.layer),
+        Layer.provide(Crypto.layerWebCrypto),
         Layer.provide(
           Layer.mock(ThreadManagement.ThreadManagementService)({
             getThreadShell: () =>
@@ -598,8 +609,9 @@ it.effect("refuses act-as-caller tools to a client caller", () =>
   }).pipe(
     Effect.provide(
       layerOrchestratorToolkit.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
-        Layer.provide(NodeCrypto.layer),
+        Layer.provide(Crypto.layerWebCrypto),
         Layer.provide(Layer.mock(ThreadManagement.ThreadManagementService)({})),
         Layer.provide(ServerSettings.layerTest()),
         Layer.provide(Layer.mock(ProviderRegistry.ProviderRegistry)({})),
@@ -643,8 +655,9 @@ it.effect("a caller cannot rewrite a scheduled task that runs above its own mode
   }).pipe(
     Effect.provide(
       layerOrchestratorToolkit.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
-        Layer.provide(NodeCrypto.layer),
+        Layer.provide(Crypto.layerWebCrypto),
         Layer.provide(Layer.mock(ThreadManagement.ThreadManagementService)({})),
         Layer.provide(ServerSettings.layerTest()),
         Layer.provide(Layer.mock(ProviderRegistry.ProviderRegistry)({})),
@@ -722,8 +735,9 @@ it.effect.each(["t3_thread_interrupt", "t3_workflow_stop"])(
     }).pipe(
       Effect.provide(
         layerOrchestratorToolkit.pipe(
+          Layer.provide(McpHttpServer.layerCallerInvocation),
           Layer.provideMerge(McpServer.McpServer.layer),
-          Layer.provide(NodeCrypto.layer),
+          Layer.provide(Crypto.layerWebCrypto),
           Layer.provide(
             Layer.mock(ThreadManagement.ThreadManagementService)({
               getThreadShell: () =>
@@ -830,8 +844,9 @@ it.effect("discovers workflow stop targets and requires orchestration capability
   }).pipe(
     Effect.provide(
       layerOrchestratorToolkit.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
-        Layer.provide(NodeCrypto.layer),
+        Layer.provide(Crypto.layerWebCrypto),
         Layer.provide(
           Layer.mock(ThreadManagement.ThreadManagementService)({
             getThreadShell: (id) => Effect.succeed(McpToolAccessTestkit.liveThreadShell(id)),
@@ -904,11 +919,16 @@ it.effect("only the caller that prepared a pending upload can discard it", () =>
   }).pipe(
     Effect.provide(
       McpHttpServer.layerAttachmentToolkit.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
         Layer.provide(McpToolAccessTestkit.liveThreadsLayer),
         Layer.provide(ServerSecretStore.layer),
         Layer.provide(ServerConfig.layerTest(process.cwd(), { prefix: "t3-mcp-attachment-" })),
-        Layer.provide(DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer))),
+        Layer.provide(
+          DocumentText.layer.pipe(
+            Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+          ),
+        ),
       ),
     ),
   ),

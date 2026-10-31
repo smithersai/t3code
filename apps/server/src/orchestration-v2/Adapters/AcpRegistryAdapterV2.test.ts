@@ -56,12 +56,15 @@ import {
   acpRegistryPromptFailure,
   acpRegistryProbeResult,
 } from "@t3tools/provider-acp-registry/testing";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const decodeAcpRegistryAdapterSettings = Schema.decodeUnknownEffect(
   AcpRegistryAdapterV2Driver.configSchema,
 );
 
-const layerHost = TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer));
+const layerHost = TestProviderHost.layer().pipe(
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+);
 
 const layerRegistry = Layer.succeed(
   HttpClient.HttpClient,
@@ -104,7 +107,7 @@ const layerInjectedRuntimeCatalog = Layer.mock(AcpRegistrySupport.AcpRegistryCat
 });
 
 const layerTest = Layer.mergeAll(
-  NodeServices.layer,
+  Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
   IdAllocator.layer,
   McpProviderSessions.layer,
   layerHost,

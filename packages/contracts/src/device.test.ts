@@ -5,8 +5,8 @@ import {
   EasDeviceHostConfig,
   EasDeviceHostConfigs,
   SshDeviceHostConfigs,
-} from "./device.ts";
-import { secretSettingsFields } from "./settings.ts";
+} from "./device.vibe";
+import { secretSettingsFields } from "./settings.vibe";
 
 const decodeSshHosts = Schema.decodeUnknownSync(SshDeviceHostConfigs);
 const decodeEas = Schema.decodeUnknownSync(EasDeviceHostConfigs);

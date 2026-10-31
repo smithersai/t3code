@@ -14,6 +14,7 @@ import * as CloudflareApiPause from "./CloudflareApiPause.ts";
 import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.ts";
 import * as ManagedEndpointProvider from "./ManagedEndpointProvider.ts";
 import * as ManagedTunnelLimits from "./ManagedTunnelLimits.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const config = RelayConfiguration.RelayConfiguration.of({
   relayIssuer: "https://relay.example.test",
@@ -356,7 +357,7 @@ function layerProvider(
   tunnelLimits = makeTunnelLimits(),
 ) {
   return ManagedEndpointProvider.layer.pipe(
-    Layer.provideMerge(NodeServices.layer),
+    Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Layer.provide(RelayConfiguration.layer(config)),
     Layer.provide(ManagedEndpointProvider.layerTunnelClient(tunnelClient)),
     Layer.provide(ManagedEndpointProvider.layerDnsClient(dnsClient)),
@@ -742,7 +743,7 @@ describe("ManagedEndpointProvider", () => {
         {} as Cloudflare.DNS.ReadWriteDnsClient,
         {} as Alchemy.BaseRuntimeContext,
       ).pipe(
-        Layer.provideMerge(NodeServices.layer),
+        Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         Layer.provide(RelayConfiguration.layer(config)),
         Layer.provide(
           Layer.succeed(ManagedEndpointAllocations.ManagedEndpointAllocations, makeAllocations()),

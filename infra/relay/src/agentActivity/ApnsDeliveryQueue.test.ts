@@ -1,4 +1,3 @@
-import * as NodeCryptoLayer from "@effect/platform-node/NodeCrypto";
 import { describe, expect, it } from "@effect/vitest";
 import * as Alchemy from "alchemy";
 import * as Cloudflare from "@alchemy.run/cloudflare";
@@ -8,6 +7,7 @@ import * as Redacted from "effect/Redacted";
 
 import * as RelayConfiguration from "../Config.ts";
 import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const config: RelayConfiguration.RelayConfiguration["Service"] = {
   relayIssuer: "https://relay.example.com",
@@ -41,7 +41,7 @@ describe("ApnsDeliveryQueue", () => {
     };
     const runtimeContext = {} as Alchemy.BaseRuntimeContext;
     const layer = ApnsDeliveryQueue.layerCloudflareQueues(sender, runtimeContext).pipe(
-      Layer.provide(NodeCryptoLayer.layer),
+      Layer.provide(Crypto.layerWebCrypto),
       Layer.provide(RelayConfiguration.layer(config)),
     );
 

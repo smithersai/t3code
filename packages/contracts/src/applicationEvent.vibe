@@ -1,0 +1,108 @@
+import * as Schema from "effect/Schema"
+
+import {
+  ApprovalRequestId,
+  ClientSurface,
+  CommandId,
+  EventId,
+  IsoDateTime,
+  NonNegativeInt,
+  ProjectId,
+  ProviderItemId,
+  TrimmedNonEmptyString,
+} from "./baseSchemas.ts"
+import { RepositoryIdentity, ThreadEnvMode } from "./environment.vibe"
+import { ModelSelection } from "./modelSelection.vibe"
+import type { OrchestrationV2StoredEvent } from "./orchestrationV2.ts"
+import { ProjectScript, StoredProjectIcon } from "./project.ts"
+
+export schema OrchestrationClientOrigin {
+  surface?: ClientSurface
+  appVersion?: TrimmedNonEmptyString
+}
+
+export schema ApplicationEventMetadata {
+  deferredTurn?: boolean
+  providerTurnId?: TrimmedNonEmptyString
+  providerItemId?: ProviderItemId
+  adapterKey?: TrimmedNonEmptyString
+  requestId?: ApprovalRequestId
+  ingestedAt?: IsoDateTime
+  origin?: OrchestrationClientOrigin
+}
+
+export const ApplicationProjectCreatedPayload = Schema.Struct({
+  projectId: ProjectId,
+  title: TrimmedNonEmptyString,
+  workspaceRoot: TrimmedNonEmptyString,
+  repositoryIdentity: Schema.optional(Schema.NullOr(RepositoryIdentity)),
+  defaultModelSelection: Schema.NullOr(ModelSelection),
+  defaultThreadEnvMode: Schema.optional(Schema.NullOr(ThreadEnvMode)),
+  faviconPath: Schema.optional(Schema.NullOr(TrimmedNonEmptyString)),
+  projectIcon: Schema.optional(Schema.NullOr(StoredProjectIcon)),
+  scripts: Schema.Array(ProjectScript),
+  createdAt: IsoDateTime,
+  updatedAt: IsoDateTime,
+})
+export type ApplicationProjectCreatedPayload = typeof ApplicationProjectCreatedPayload.Type
+
+export const ApplicationProjectMetaUpdatedPayload = Schema.Struct({
+  projectId: ProjectId,
+  title: Schema.optional(TrimmedNonEmptyString),
+  workspaceRoot: Schema.optional(TrimmedNonEmptyString),
+  repositoryIdentity: Schema.optional(Schema.NullOr(RepositoryIdentity)),
+  defaultModelSelection: Schema.optional(Schema.NullOr(ModelSelection)),
+  // Absent = leave unchanged; null = clear the override.
+  defaultThreadEnvMode: Schema.optional(Schema.NullOr(ThreadEnvMode)),
+  autoPull: Schema.optional(Schema.Boolean),
+  faviconPath: Schema.optional(Schema.NullOr(TrimmedNonEmptyString)),
+  projectIcon: Schema.optional(Schema.NullOr(StoredProjectIcon)),
+  scripts: Schema.optional(Schema.Array(ProjectScript)),
+  updatedAt: IsoDateTime,
+})
+export type ApplicationProjectMetaUpdatedPayload = typeof ApplicationProjectMetaUpdatedPayload.Type
+
+export schema ApplicationProjectDeletedPayload {
+  projectId: ProjectId
+  deletedAt: IsoDateTime
+}
+
+const ApplicationProjectEventBaseFields = {
+  sequence: NonNegativeInt,
+  eventId: EventId,
+  aggregateKind: Schema.Literal("project"),
+  aggregateId: ProjectId,
+  occurredAt: IsoDateTime,
+  commandId: Schema.NullOr(CommandId),
+  causationEventId: Schema.NullOr(EventId),
+  correlationId: Schema.NullOr(CommandId),
+  metadata: ApplicationEventMetadata,
+} as const
+
+export const ApplicationProjectCreatedEvent = Schema.Struct({
+  ...ApplicationProjectEventBaseFields,
+  type: Schema.Literal("project.created"),
+  payload: ApplicationProjectCreatedPayload,
+})
+export type ApplicationProjectCreatedEvent = typeof ApplicationProjectCreatedEvent.Type
+
+export const ApplicationProjectMetaUpdatedEvent = Schema.Struct({
+  ...ApplicationProjectEventBaseFields,
+  type: Schema.Literal("project.meta-updated"),
+  payload: ApplicationProjectMetaUpdatedPayload,
+})
+export type ApplicationProjectMetaUpdatedEvent = typeof ApplicationProjectMetaUpdatedEvent.Type
+
+export const ApplicationProjectDeletedEvent = Schema.Struct({
+  ...ApplicationProjectEventBaseFields,
+  type: Schema.Literal("project.deleted"),
+  payload: ApplicationProjectDeletedPayload,
+})
+export type ApplicationProjectDeletedEvent = typeof ApplicationProjectDeletedEvent.Type
+
+export schema ApplicationProjectEvent =
+  | ApplicationProjectCreatedEvent
+  | ApplicationProjectMetaUpdatedEvent
+  | ApplicationProjectDeletedEvent
+
+export type ApplicationStoredEvent = ApplicationProjectEvent | OrchestrationV2StoredEvent

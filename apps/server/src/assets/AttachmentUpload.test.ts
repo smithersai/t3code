@@ -29,10 +29,15 @@ import {
   storeAttachmentUpload,
   validateAttachmentUploadToken,
 } from "./AttachmentUpload.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerTest = ServerSecretStore.layer.pipe(
   Layer.provideMerge(ServerConfig.layerTest(process.cwd(), { prefix: "t3-attachment-upload-" })),
-  Layer.provideMerge(DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer))),
+  Layer.provideMerge(
+    DocumentText.layer.pipe(
+      Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+    ),
+  ),
 );
 
 const uploadInput = {

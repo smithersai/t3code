@@ -61,6 +61,7 @@ import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.t
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as GitManager from "./GitManager.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 /** A change request the fake host reports. Omitted fields read as an open, undated request. */
 type FakeChangeRequest = Omit<ChangeRequest, "provider" | "state" | "updatedAt"> & {
@@ -614,7 +615,7 @@ function makeManager(input?: {
             const args =
               command._tag === "StandardCommand" &&
               NodePath.parse(command.command).name.toLowerCase() === "git"
-                ? command.args
+                ? command.args.map(String)
                 : null;
             if (args !== null) gitCommands?.push(args.join(" "));
             if (args === null || gitSpawnGate === undefined || !gitSpawnGate.matches(args)) {
@@ -632,7 +633,7 @@ function makeManager(input?: {
               );
           });
         }),
-      ).pipe(Layer.provide(NodeServices.layer))
+      ).pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)))
     : Layer.empty;
   const gitVcsDriver = input?.gitConfigReads
     ? Layer.effect(
@@ -653,7 +654,7 @@ function makeManager(input?: {
   const layerVcsDriver = (watchesGitSpawns ? Layer.fresh(gitVcsDriver) : gitVcsDriver).pipe(
     Layer.provide(layerGitDriverSpawner),
     Layer.provideMerge(VcsProcess.layer),
-    Layer.provideMerge(NodeServices.layer),
+    Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Layer.provideMerge(layerServerConfig),
   );
   const layerSourceControlRegistry = Layer.effect(
@@ -695,7 +696,7 @@ function makeManager(input?: {
   ).pipe(
     Layer.provideMerge(layerSourceControlRegistry),
     Layer.provideMerge(layerVcsDriver),
-    Layer.provideMerge(NodeServices.layer),
+    Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
   const layerStores = Layer.merge(ProjectionStore.layer, ProjectStore.layer).pipe(
     Layer.provideMerge(SqlitePersistence.layerMemory),
@@ -719,7 +720,7 @@ const asThreadId = (threadId: string) => threadId as ThreadId;
 const layerGitManagerTest = GitVcsDriver.layer.pipe(
   Layer.provide(ServerConfig.layerTest(process.cwd(), { prefix: "t3-git-manager-test-" })),
   Layer.provideMerge(VcsProcess.layer),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 it.layer(layerGitManagerTest)("GitManager", (it) => {

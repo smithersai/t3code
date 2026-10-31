@@ -312,8 +312,13 @@ const makeFakePi: Effect.Effect<FakePi> = Effect.gen(function* () {
     Effect.sync(() => {
       if (ChildProcess.isStandardCommand(command)) {
         lastSpawn = {
-          args: command.args,
-          env: command.options.env ?? {},
+          args: command.args.map(String),
+          env: Object.fromEntries(
+            Object.entries(command.options.env ?? {}).map(([key, value]) => [
+              key,
+              value === undefined ? undefined : String(value),
+            ]),
+          ),
         };
       }
       return ChildProcessSpawner.makeHandle({

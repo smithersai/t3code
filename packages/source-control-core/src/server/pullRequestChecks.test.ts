@@ -1,7 +1,7 @@
 import type { PullRequestCheck, PullRequestCheckStatus } from "@t3tools/contracts";
 import { describe, expect, it } from "vite-plus/test";
 
-import { dedupeChecks } from "./pullRequestChecks.ts";
+import { dedupeChecks } from "./pullRequestChecks.vibe";
 
 function entry(
   name: string,

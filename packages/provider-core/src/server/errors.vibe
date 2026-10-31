@@ -1,0 +1,22 @@
+import { ProviderDriverKind, ProviderInstanceId } from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
+
+const DefectField = Schema.Defect()
+export schema error ProviderDriverError {
+  driver: ProviderDriverKind
+  instanceId: ProviderInstanceId
+  detail: string
+  cause?: DefectField
+  override get message(): string {
+    return `Provider driver '${this.driver}' failed to create instance '${this.instanceId}': ${this.detail}`
+  }
+}
+
+const ProviderCredentialErrorOperationField = Schema.Literals(["get", "set", "remove"])
+export schema error ProviderCredentialError {
+  operation: ProviderCredentialErrorOperationField
+  cause: DefectField
+  override get message(): string {
+    return `Could not ${this.operation} stored provider credentials.`
+  }
+}

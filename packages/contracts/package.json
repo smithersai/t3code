@@ -12,8 +12,8 @@
       "import": "./src/index.ts"
     },
     "./settings": {
-      "types": "./src/settings.ts",
-      "import": "./src/settings.ts"
+      "types": "./src/settings.d.vibe.ts",
+      "import": "./src/settings.vibe"
     },
     "./relay": {
       "types": "./src/relay.ts",
@@ -21,14 +21,17 @@
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vibelang --noEmit",
     "test": "vp test run --config ../../vite.config.ts --dir ."
   },
   "dependencies": {
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11.tgz",
     "vite-plus": "catalog:"
   }
 }

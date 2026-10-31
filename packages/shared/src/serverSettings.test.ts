@@ -8,8 +8,8 @@ import {
 } from "@t3tools/contracts";
 import * as Duration from "effect/Duration";
 import { describe, expect, it } from "vite-plus/test";
-import { resolveServerBackgroundActivitySettings } from "./backgroundActivitySettings.ts";
-import { createModelSelection } from "./model.ts";
+import { resolveServerBackgroundActivitySettings } from "./backgroundActivitySettings.vibe";
+import { createModelSelection } from "./model.vibe";
 import { resolveProjectScripts, projectScriptsInheritDefaults } from "./projectScripts.ts";
 import {
   applyServerSettingsPatch,
@@ -21,7 +21,7 @@ import {
   resolveSourceControlWriterModelSelection,
   resolveProjectAgentBrowserAccess,
   resolveProjectAutoPull,
-} from "./serverSettings.ts";
+} from "./serverSettings.vibe";
 
 const FOLDED_SERVER_SETTINGS = { ...DEFAULT_SERVER_SETTINGS, projectSettingsFolded: true };
 

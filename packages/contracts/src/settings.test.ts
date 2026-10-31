@@ -2,7 +2,7 @@ import { describe, expect, it } from "vite-plus/test";
 import * as Schema from "effect/Schema";
 
 import { type CommandId, ProjectId } from "./baseSchemas.ts";
-import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.ts";
+import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
 import {
   ClientSettingsSchema,
   ClientSettingsPatch,
@@ -17,7 +17,7 @@ import {
   ServerSettings,
   ServerSettingsPatch,
   withIdleCompaction,
-} from "./settings.ts";
+} from "./settings.vibe";
 
 const decodeClientSettings = Schema.decodeUnknownSync(ClientSettingsSchema);
 const decodeClientSettingsPatch = Schema.decodeUnknownSync(ClientSettingsPatch);

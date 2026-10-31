@@ -1,0 +1,89 @@
+import * as Schema from "effect/Schema"
+
+import { ThreadId, TrimmedNonEmptyString, TurnItemId } from "./baseSchemas.ts"
+
+// The producing tool call restricts each app to its source server.
+const McpAppTarget = {
+  threadId: ThreadId,
+  itemId: TurnItemId,
+}
+
+export const McpAppCallToolInput = Schema.Struct({
+  ...McpAppTarget,
+  name: TrimmedNonEmptyString,
+  arguments: Schema.Record(Schema.String, Schema.Unknown),
+})
+export type McpAppCallToolInput = typeof McpAppCallToolInput.Type
+
+export schema McpAppCallToolResult {
+  content: ReadonlyArray<Schema.Unknown>
+  structuredContent?: Schema.Unknown
+  isError?: boolean
+  _meta?: Schema.Unknown
+}
+
+export const McpAppToolInfoInput = Schema.Struct({
+  ...McpAppTarget,
+  name: TrimmedNonEmptyString,
+})
+export type McpAppToolInfoInput = typeof McpAppToolInfoInput.Type
+
+export schema McpAppToolInfo {
+  callable: boolean
+  readOnly: boolean
+  title?: string
+  tool?: Schema.Unknown
+}
+
+export const McpAppReadResourceInput = Schema.Struct({
+  ...McpAppTarget,
+  uri: TrimmedNonEmptyString,
+})
+export type McpAppReadResourceInput = typeof McpAppReadResourceInput.Type
+
+export schema McpAppReadResourceResult {
+  contents: ReadonlyArray<Schema.Unknown>
+}
+
+/** Replaces prior context; no content clears it. */
+export const McpAppUpdateModelContextInput = Schema.Struct({
+  ...McpAppTarget,
+  conversationThreadId: ThreadId,
+  content: Schema.optional(Schema.Array(Schema.Unknown)),
+  structuredContent: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+})
+export type McpAppUpdateModelContextInput = typeof McpAppUpdateModelContextInput.Type
+
+export schema McpAppRequestErrorReason =
+  | "not-an-app"
+  | "provider-unsupported"
+  | "session-stopped"
+  | "tool-not-callable"
+  | "unsupported-content"
+  | "request-failed"
+
+export class McpAppRequestError extends Schema.TaggedError<McpAppRequestError>()(
+  "McpAppRequestError",
+  {
+    threadId: ThreadId,
+    reason: McpAppRequestErrorReason,
+    cause: Schema.optional(Schema.Defect()),
+  },
+) {
+  override get message(): string {
+    switch (this.reason) {
+      case "not-an-app":
+        return "This tool call has no MCP app."
+      case "provider-unsupported":
+        return "This thread's provider cannot run MCP app requests."
+      case "session-stopped":
+        return "The app's thread is not running. Send a message in the thread that created it to use the app again."
+      case "tool-not-callable":
+        return "This app cannot call that tool."
+      case "unsupported-content":
+        return "Only text and structured content are supported."
+      case "request-failed":
+        return "The app's MCP server request failed."
+    }
+  }
+}

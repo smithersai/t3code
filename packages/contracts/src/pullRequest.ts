@@ -12,7 +12,7 @@ import {
   ThreadId,
   TrimmedNonEmptyString,
 } from "./baseSchemas.ts";
-import { SourceControlProviderKind } from "./sourceControl.ts";
+import { SourceControlProviderKind } from "./sourceControl.vibe";
 
 export const PullRequestInvolvement = Schema.Literals(["all", "reviewing", "authored"]);
 export type PullRequestInvolvement = typeof PullRequestInvolvement.Type;

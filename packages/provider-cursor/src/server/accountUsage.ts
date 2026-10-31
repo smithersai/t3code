@@ -1,5 +1,5 @@
 import type { UsageRecord } from "@t3tools/provider-core/server/usage";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Base64Url from "effect/encoding/Base64Url";

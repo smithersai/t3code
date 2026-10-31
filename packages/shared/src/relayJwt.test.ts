@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@effect/vitest";
 
-import { RelayJwtError } from "./relayJwt.ts";
+import { RelayJwtError } from "./relayJwt.vibe";
 
 describe("relayJwt", () => {
   it("extracts stable diagnostic codes without copying cause text into the error message", () => {
