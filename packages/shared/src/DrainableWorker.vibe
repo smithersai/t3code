@@ -1,0 +1,60 @@
+import * as Cause from "effect/Cause"
+import * as Scope from "effect/Scope"
+import * as Effect from "effect/Effect"
+import * as TxQueue from "effect/TxQueue"
+import * as TxRef from "effect/TxRef"
+
+export interface DrainableWorker<A> {
+  readonly enqueue: (item: A) => void!!
+  readonly drain: void!!
+}
+
+/**
+ * A finalizer shuts down the queue and drops queued items, so `drain` resolves after the scope
+ * closes instead of waiting on them. An item that fails or dies is logged and skipped; the worker
+ * keeps processing later items and `drain` still resolves.
+ */
+export const makeDrainableWorker = effect <A, E, R>(
+  process: (item: A) => void!E!R,
+): DrainableWorker<A>!never!Scope.Scope | R =>
+  try withSpan(
+    effect {
+      const outstanding = try TxRef.make(0)
+      const queue = try Effect.acquireRelease(TxQueue.unbounded<A>(), effect (queue) => {
+        // Uncount only dropped items; a running item uncounts itself even during scope shutdown.
+        try Effect.tx(effect {
+          const dropped = try TxQueue.clear(queue)
+          try TxRef.update(outstanding, (n) => n - dropped.length)
+          try TxQueue.shutdown(queue)
+        })
+      })
+      const consume = effect {
+        const item = try TxQueue.take(queue)
+        // The block defers construction too: a throwing process becomes this item's defect.
+        try Effect.ensuring(
+          Effect.catchCause(
+            effect {
+              try process(item)
+            },
+            effect (cause) => {
+              if (!Cause.hasInterruptsOnly(cause)) try logError("DrainableWorker item failed", cause)
+            },
+          ),
+          TxRef.update(outstanding, (n) => n - 1),
+        )
+      }
+      try Effect.forkScoped(Effect.forever(consume))
+      const drain: DrainableWorker<A>["drain"] = Effect.tx(effect {
+        const count = try TxRef.get(outstanding)
+        if (count > 0) try Effect.txRetry
+      })
+      const enqueue = effect (element: A): boolean!never!never =>
+        try Effect.tx(effect {
+          const offered = try TxQueue.offer(queue, element)
+          if (offered) try TxRef.update(outstanding, (n) => n + 1)
+          return offered
+        })
+      return { enqueue, drain } satisfies DrainableWorker<A>
+    },
+    "DrainableWorker.makeDrainableWorker",
+  )

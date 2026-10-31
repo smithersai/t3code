@@ -96,12 +96,12 @@
       "import": "./src/Net.ts"
     },
     "./DrainableWorker": {
-      "types": "./src/DrainableWorker.ts",
-      "import": "./src/DrainableWorker.ts"
+      "types": "./src/DrainableWorker.vibe",
+      "import": "./src/DrainableWorker.vibe"
     },
     "./KeyedCoalescingWorker": {
-      "types": "./src/KeyedCoalescingWorker.ts",
-      "import": "./src/KeyedCoalescingWorker.ts"
+      "types": "./src/KeyedCoalescingWorker.vibe",
+      "import": "./src/KeyedCoalescingWorker.vibe"
     },
     "./KeyedLock": {
       "types": "./src/KeyedLock.vibe",
