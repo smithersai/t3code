@@ -93,7 +93,7 @@ import {
   makeAcpClientTerminals,
   resolveEmbeddedTerminalContent,
   type AcpClientTerminals,
-} from "./clientTerminals.ts";
+} from "./clientTerminals.vibe";
 import { ACP_EMPTY_OPTION_VALUE, ACP_SESSION_MODE_OPTION_ID } from "./sessionConfig.ts";
 import * as AcpSessionRuntime from "./AcpSessionRuntime.ts";
 import {

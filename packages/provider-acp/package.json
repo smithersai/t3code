@@ -16,8 +16,8 @@
       "import": "./src/server/clientPolicy.ts"
     },
     "./server/clientTerminals": {
-      "types": "./src/server/clientTerminals.ts",
-      "import": "./src/server/clientTerminals.ts"
+      "types": "./src/server/clientTerminals.vibe",
+      "import": "./src/server/clientTerminals.vibe"
     },
     "./server/mcpOverAcpBridge": {
       "types": "./src/server/mcpOverAcpBridge.ts",
