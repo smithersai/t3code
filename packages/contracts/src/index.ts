@@ -27,7 +27,7 @@ export * from "./checkpointDiff.vibe";
 export * from "./model.vibe";
 export * from "./keybindings.vibe";
 export * from "./server.vibe";
-export * from "./settings.ts";
+export * from "./settings.vibe";
 export * from "./git.vibe";
 export * from "./vcs.ts";
 export * from "./sourceControl.vibe";

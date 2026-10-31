@@ -12,8 +12,8 @@
       "import": "./src/index.ts"
     },
     "./settings": {
-      "types": "./src/settings.ts",
-      "import": "./src/settings.ts"
+      "types": "./src/settings.d.vibe.ts",
+      "import": "./src/settings.vibe"
     },
     "./relay": {
       "types": "./src/relay.ts",

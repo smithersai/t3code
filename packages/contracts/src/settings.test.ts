@@ -17,7 +17,7 @@ import {
   ServerSettings,
   ServerSettingsPatch,
   withIdleCompaction,
-} from "./settings.ts";
+} from "./settings.vibe";
 
 const decodeClientSettings = Schema.decodeUnknownSync(ClientSettingsSchema);
 const decodeClientSettingsPatch = Schema.decodeUnknownSync(ClientSettingsPatch);
