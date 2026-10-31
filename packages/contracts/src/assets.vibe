@@ -6,7 +6,7 @@ import {
   PROVIDER_SEND_TURN_MAX_IMAGE_BYTES,
   PROVIDER_SEND_TURN_SUPPORTED_IMAGE_MIME_TYPES,
 } from "./chatAttachment.vibe"
-import { ProjectFaviconPath } from "./project.ts"
+import { ProjectFaviconPath } from "./project.vibe"
 import { ToolActivityNativeAppReference } from "./providerRuntime.vibe"
 
 const ASSET_PATH_MAX_LENGTH = 1024

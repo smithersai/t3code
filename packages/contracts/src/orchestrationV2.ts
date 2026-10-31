@@ -41,7 +41,7 @@ import {
   TrimmedNonEmptyString,
   TurnItemId,
 } from "./baseSchemas.ts";
-import { AuthMcpClientAccess } from "./auth.ts";
+import { AuthMcpClientAccess } from "./auth.vibe";
 import { ChatAttachment } from "./chatAttachment.vibe";
 import { ThreadGuestShare } from "./guestShare.vibe";
 import {

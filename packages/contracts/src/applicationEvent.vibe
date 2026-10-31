@@ -14,7 +14,7 @@ import {
 import { RepositoryIdentity, ThreadEnvMode } from "./environment.vibe"
 import { ModelSelection } from "./modelSelection.vibe"
 import type { OrchestrationV2StoredEvent } from "./orchestrationV2.ts"
-import { ProjectScript, StoredProjectIcon } from "./project.ts"
+import { ProjectScript, StoredProjectIcon } from "./project.vibe"
 
 export schema OrchestrationClientOrigin {
   surface?: ClientSurface

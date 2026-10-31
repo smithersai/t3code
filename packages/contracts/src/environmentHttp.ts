@@ -38,7 +38,7 @@ import {
   AuthWebSocketTicketParams,
   AuthWebSocketTicketResult,
   ServerAuthSessionMethod,
-} from "./auth.ts";
+} from "./auth.vibe";
 import {
   ExecutionEnvironmentDescriptor,
   ORCHESTRATION_PROTOCOL_HEADER,
@@ -57,7 +57,7 @@ import {
   OrchestrationV2ThreadHistoryPage,
   OrchestrationV2ThreadTranscript,
 } from "./orchestrationV2.ts";
-import { Project, ProjectMutation, ProjectSnapshot } from "./project.ts";
+import { Project, ProjectMutation, ProjectSnapshot } from "./project.vibe";
 import {
   PullRequestDiffInput,
   PullRequestDiffResult,

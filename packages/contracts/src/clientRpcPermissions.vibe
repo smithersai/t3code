@@ -8,7 +8,7 @@ import {
   AuthSettingsWriteScope,
   AuthSourceControlWriteScope,
   AuthTerminalOperateScope,
-} from "./auth.ts"
+} from "./auth.vibe"
 import { ORCHESTRATION_V2_WS_METHODS } from "./orchestrationV2.ts"
 import { WS_METHODS } from "./rpc.ts"
 
