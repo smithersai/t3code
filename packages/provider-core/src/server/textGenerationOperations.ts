@@ -12,7 +12,7 @@ import {
   buildPrContentPrompt,
   buildReviewGuidePrompt,
   buildThreadTitlePrompt,
-} from "./textGenerationPrompts.ts";
+} from "./textGenerationPrompts.vibe";
 import {
   sanitizeCommitSubject,
   sanitizePrTitle,
