@@ -16,8 +16,8 @@
       "import": "./src/server/adapterDriver.ts"
     },
     "./server/attachmentPrompt": {
-      "types": "./src/server/attachmentPrompt.ts",
-      "import": "./src/server/attachmentPrompt.ts"
+      "types": "./src/server/attachmentPrompt.d.vibe.ts",
+      "import": "./src/server/attachmentPrompt.vibe"
     },
     "./server/auth": {
       "types": "./src/server/auth.ts",
@@ -172,8 +172,8 @@
       "import": "./src/server/textGenerationPrompts.ts"
     },
     "./server/textGenerationUtils": {
-      "types": "./src/server/textGenerationUtils.ts",
-      "import": "./src/server/textGenerationUtils.ts"
+      "types": "./src/server/textGenerationUtils.d.vibe.ts",
+      "import": "./src/server/textGenerationUtils.vibe"
     },
     "./server/threadTitleContext": {
       "types": "./src/server/threadTitleContext.ts",

@@ -17,7 +17,7 @@ import {
   sanitizeCommitSubject,
   sanitizePrTitle,
   sanitizeThreadTitle,
-} from "./textGenerationUtils.ts";
+} from "./textGenerationUtils.vibe";
 
 export type Operation = keyof ProviderTextGeneration;
 

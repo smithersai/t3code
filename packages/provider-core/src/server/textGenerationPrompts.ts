@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import { limitTitleMessage } from "./threadTitleContext.ts";
 import type { BranchNamingOptions, ChatAttachment } from "@t3tools/contracts";
 
-import { limitSection } from "./textGenerationUtils.ts";
+import { limitSection } from "./textGenerationUtils.vibe";
 import type { ReviewGuideStackLayer } from "./textGeneration.ts";
 import type { TextGenerationPolicy } from "@t3tools/provider-core/server/textGenerationPolicy";
 
