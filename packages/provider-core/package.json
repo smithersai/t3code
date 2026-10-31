@@ -168,8 +168,8 @@
       "import": "./src/server/textGenerationPolicy.vibe"
     },
     "./server/textGenerationPrompts": {
-      "types": "./src/server/textGenerationPrompts.ts",
-      "import": "./src/server/textGenerationPrompts.ts"
+      "types": "./src/server/textGenerationPrompts.d.vibe.ts",
+      "import": "./src/server/textGenerationPrompts.vibe"
     },
     "./server/textGenerationUtils": {
       "types": "./src/server/textGenerationUtils.d.vibe.ts",
