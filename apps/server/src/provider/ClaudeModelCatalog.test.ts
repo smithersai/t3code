@@ -13,7 +13,7 @@ import {
   resolveClaudeModelSlug,
   resolveClaudeUpdateRequiredModels,
   scopeClaudeModelCatalog,
-} from "./ClaudeModelCatalog.ts";
+} from "./ClaudeModelCatalog.vibe";
 
 const manifest = (): ModelManifestData => ({
   version: 1,

@@ -155,7 +155,7 @@ import {
   getClaudeCatalogModelCapabilities,
   resolveClaudeModelSlug,
   scopeClaudeModelCatalog,
-} from "../../provider/ClaudeModelCatalog.ts";
+} from "../../provider/ClaudeModelCatalog.vibe";
 import {
   boundProviderEventForLogging,
   shouldPersistProviderEvent,

@@ -17,9 +17,9 @@ import { HttpClient, HttpClientResponse } from "effect/http";
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite";
 import { ServerConfig } from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import { hasValidClaudeManifestAdapters } from "./ClaudeModelManifest.ts";
+import { hasValidClaudeManifestAdapters } from "./ClaudeModelManifest.vibe";
 import bundledManifestJson from "./model-manifest.json" with { type: "json" };
-import { ProviderCompatibilityPolicy } from "./providerCompatibility.ts";
+import { ProviderCompatibilityPolicy } from "./providerCompatibility.vibe";
 import * as ModelCatalog from "@t3tools/provider-core/server/ModelCatalog";
 
 const MODEL_MANIFEST_URL =

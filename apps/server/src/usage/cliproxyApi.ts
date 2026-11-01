@@ -14,7 +14,7 @@ import * as Schema from "effect/Schema";
 import { HttpClient, HttpClientError, HttpClientRequest, HttpClientResponse } from "effect/http";
 
 import { codexPlanLabel } from "../provider/CodexProvider.ts";
-import { codexRateLimitsToLimits } from "../provider/codexUsageLimits.ts";
+import { codexRateLimitsToLimits } from "../provider/codexUsageLimits.vibe";
 import { claudeUsageResponseToLimits } from "../provider/claudeUsageLimits.ts";
 import { makeUnavailableUsageLimits } from "@t3tools/provider-core/server/usageLimits";
 

@@ -20,7 +20,7 @@ import {
   applyProviderCompatibility,
   ProviderCompatibilityPolicy,
   resolveProviderCompatibility,
-} from "./providerCompatibility.ts";
+} from "./providerCompatibility.vibe";
 
 const driver = ProviderDriverKind.make("codex");
 const policy: ProviderCompatibilityPolicy = {

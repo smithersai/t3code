@@ -26,7 +26,7 @@ import {
   mergeCodexRateLimits,
   codexUsageLimitResetAt,
   type CodexRateLimitSnapshot,
-} from "../../provider/codexUsageLimits.ts";
+} from "../../provider/codexUsageLimits.vibe";
 import {
   CodexSettings,
   defaultInstanceIdForDriver,
@@ -106,7 +106,7 @@ import { buildCodexAdditionalContext } from "../../provider/CodexDeveloperInstru
 import {
   describeMcpElicitation,
   toMcpElicitationResponse,
-} from "../../provider/CodexMcpElicitation.ts";
+} from "../../provider/CodexMcpElicitation.vibe";
 import {
   materializeCodexShadowHome,
   resolveCodexHomeLayout,
