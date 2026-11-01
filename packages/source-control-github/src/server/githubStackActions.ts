@@ -12,7 +12,7 @@ import * as Schema from "effect/Schema";
 
 import * as GitHubRest from "./GitHubRest.ts";
 import * as GitHubGraphQlClient from "./gitHubGraphQlClient.ts";
-import { decodePullRequestStacksJson, toCanWrite } from "./gitHubPullRequestJson.ts";
+import { decodePullRequestStacksJson, toCanWrite } from "./gitHubPullRequestJson.vibe";
 import { cascadeRebaseStack } from "./githubStackRebase.ts";
 import { StackActionsGraphQLGroup } from "./stackActions.graphql.ts";
 

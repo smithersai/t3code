@@ -28,7 +28,7 @@ import type {
   GitHubRepositoryAccess,
   GitHubViewerAccess,
   GitHubWorkflowRunApproval,
-} from "./gitHubPullRequestJson.ts";
+} from "./gitHubPullRequestJson.vibe";
 import { definition } from "../shared/definition.ts";
 
 const CAPABILITIES: PullRequestCapabilities = {

@@ -11,9 +11,9 @@ import * as GitHubPullRequestApi from "./GitHubPullRequestApi.ts";
 import type {
   GitHubPullRequestCore,
   GitHubPullRequestSearchItem,
-} from "./gitHubPullRequestJson.ts";
+} from "./gitHubPullRequestJson.vibe";
 import { gitHubViewerPermissions, loginAvatarUrl, make } from "./GitHubPullRequestProvider.ts";
-import type { GitHubReviewThreadComments } from "./gitHubPullRequestJson.ts";
+import type { GitHubReviewThreadComments } from "./gitHubPullRequestJson.vibe";
 
 const coreFields = {
   reviewRequestTeams: [],

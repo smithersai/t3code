@@ -9,7 +9,7 @@ import { PositiveInt, type PullRequestChecks } from "@t3tools/contracts";
 
 import * as GitHubRest from "./GitHubRest.ts";
 import * as GitHubRequestPolicy from "./GitHubRequestPolicy.ts";
-import type { GitHubPullRequestDetail } from "./gitHubPullRequestJson.ts";
+import type { GitHubPullRequestDetail } from "./gitHubPullRequestJson.vibe";
 import type { GitHubPullRequestApiError } from "./GitHubPullRequestApi.ts";
 import type { ProviderRepositoryRef } from "@t3tools/source-control-core/server/PullRequestProvider";
 
