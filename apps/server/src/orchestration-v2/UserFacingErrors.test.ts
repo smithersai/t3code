@@ -8,7 +8,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 import { SqlError, classifySqliteError } from "effect/sql/SqlError";
 
 import { toPersistenceSqlError } from "../persistence/Errors.ts";
-import { userFacingDispatchErrorMessage } from "./UserFacingErrors.ts";
+import { userFacingDispatchErrorMessage } from "./UserFacingErrors.vibe";
 
 describe("userFacingDispatchErrorMessage", () => {
   it.effect("explains a real database open failure through dispatch and persistence wrappers", () =>

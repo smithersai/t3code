@@ -27,7 +27,7 @@ import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
 import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts";
-import * as RuntimeLayer from "./runtimeLayer.ts";
+import * as RuntimeLayer from "./runtimeLayer.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const projectId = ProjectId.make("project:upgrade");
