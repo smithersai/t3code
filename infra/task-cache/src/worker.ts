@@ -8,7 +8,7 @@ import * as Redacted from "effect/Redacted";
 import * as HttpServerResponse from "effect/http/HttpServerResponse";
 import * as Admission from "./Admission.ts";
 import * as Cache from "./Cache.ts";
-import * as Cleanup from "./Cleanup.ts";
+import * as Cleanup from "./Cleanup.vibe";
 import * as NativeClients from "./NativeClients.ts";
 import * as Savings from "./Savings.ts";
 import type { ProtocolBindings } from "./protocolTypes.ts";
