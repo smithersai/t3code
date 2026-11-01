@@ -39,8 +39,8 @@
     "cross-env": "^10.1.0",
     "electron-builder": "26.16.1",
     "tailwindcss": "^4.0.0",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-b597854696e2.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-f8e51b377e05.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-044a296a9a21.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-2ab28ec60787.tgz",
     "vite-plus": "catalog:"
   },
   "productName": "T3 Code (Beta)"
