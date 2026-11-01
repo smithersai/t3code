@@ -8,7 +8,7 @@ import { TextGenerationError } from "@t3tools/contracts";
 import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.ts";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
-import * as ThreadTitleLinks from "./ThreadTitleLinks.ts";
+import * as ThreadTitleLinks from "./ThreadTitleLinks.vibe";
 
 export type {
   BranchNameGenerationInput,

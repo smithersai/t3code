@@ -9,7 +9,7 @@ import * as Option from "effect/Option";
 import type * as Path from "effect/Path";
 import type * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
-import { SCAN_CACHE_FILE_NAME } from "./usage/usageScanCache.ts";
+import { SCAN_CACHE_FILE_NAME } from "./usage/usageScanCache.vibe";
 import { TestClock } from "effect/testing";
 import * as SqlClient from "effect/sql/SqlClient";
 import {

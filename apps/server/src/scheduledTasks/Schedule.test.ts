@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@effect/vitest";
 import * as DateTime from "effect/DateTime";
 
-import { isSameSchedule, nextScheduledRunAt } from "./Schedule.ts";
+import { isSameSchedule, nextScheduledRunAt } from "./Schedule.vibe";
 
 describe("scheduled task schedule calculation", () => {
   it("skips to the next matching fixed-time weekday", () => {
