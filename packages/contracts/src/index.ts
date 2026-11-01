@@ -32,7 +32,7 @@ export * from "./git.vibe";
 export * from "./vcs.ts";
 export * from "./sourceControl.vibe";
 export * from "./projectClone.vibe";
-export * from "./pullRequest.vibe";
+export * from "./pullRequest.ts";
 export * from "./pullRequestReviewGuide.vibe";
 export * from "./orchestrationDispatch.vibe";
 export * from "./orchestrationProject.vibe";

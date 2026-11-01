@@ -216,7 +216,7 @@ import {
   PullRequestThreadResolutionInput,
   PullRequestUnavailableError,
   PullRequestUpdateInput,
-} from "./pullRequest.vibe";
+} from "./pullRequest.ts";
 import {
   RelayClientInstallFailedError,
   RelayClientInstallProgressEventSchema,
