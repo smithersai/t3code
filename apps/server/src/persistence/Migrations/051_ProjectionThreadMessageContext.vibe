@@ -1,0 +1,20 @@
+import * as SqlClient from "effect/sql/SqlClient"
+import * as Effect from "effect/Effect"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+  const columns = try Effect.suspend(() =>
+    sql<{ readonly name: string }>`
+    PRAGMA table_info(projection_thread_messages)
+  `
+  )
+
+  if (!columns.some((column) => column.name === "context_json")) {
+    try Effect.suspend(() =>
+      sql`
+      ALTER TABLE projection_thread_messages
+      ADD COLUMN context_json TEXT
+    `
+    )
+  }
+}

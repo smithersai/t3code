@@ -1,0 +1,38 @@
+import * as Effect from "effect/Effect"
+import * as SqlClient from "effect/sql/SqlClient"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+
+  try Effect.suspend(() =>
+    sql`
+    CREATE INDEX orchestration_events_v2_created_threads_idx
+    ON orchestration_events(stream_id)
+    WHERE application_event_version = 2
+      AND aggregate_kind = 'thread'
+      AND event_type = 'thread.created'
+  `
+  )
+  try Effect.suspend(() =>
+    sql`
+    CREATE INDEX orchestration_v2_projection_runs_recovery_idx
+    ON orchestration_v2_projection_runs(status, thread_id)
+    WHERE status IN ('queued', 'preparing', 'starting', 'running', 'waiting')
+  `
+  )
+  try Effect.suspend(() =>
+    sql`
+    CREATE INDEX orchestration_v2_projection_requests_recovery_idx
+    ON orchestration_v2_projection_runtime_requests(thread_id)
+    WHERE status = 'pending'
+  `
+  )
+  try Effect.suspend(() =>
+    sql`
+    CREATE INDEX orchestration_v2_projection_turn_items_recovery_idx
+    ON orchestration_v2_projection_turn_items(thread_id)
+    WHERE type IN ('command_execution', 'dynamic_tool', 'subagent')
+      AND status IN ('pending', 'running', 'waiting')
+  `
+  )
+}
