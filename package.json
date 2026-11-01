@@ -62,9 +62,9 @@
     "knip": "6.34.0",
     "typescript": "catalog:",
     "typescript-eslint": "^8.69.0",
-    "vibelang": "file:./.vibelang-toolchain/vibelang-0.0.11-044a296a9a21.tgz",
-    "vibelang-unplugin": "file:./.vibelang-toolchain/vibelang-unplugin-0.0.11-7e3b05c3f55f.tgz",
-    "vibelang-vite": "file:./.vibelang-toolchain/vibelang-vite-0.0.11-2ab28ec60787.tgz",
+    "vibelang": "file:./.vibelang-toolchain/vibelang-0.0.11-a2f113b9682c.tgz",
+    "vibelang-unplugin": "file:./.vibelang-toolchain/vibelang-unplugin-0.0.11-b1f589ac4581.tgz",
+    "vibelang-vite": "file:./.vibelang-toolchain/vibelang-vite-0.0.11-e3281f083c35.tgz",
     "vite-plus": "catalog:"
   },
   "engines": {
