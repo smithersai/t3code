@@ -1,0 +1,55 @@
+import type {
+  ChatGptReconnectProfile,
+  ChatGptTransferredProfile,
+  ProviderAuthRespondInput,
+  ProviderAuthState,
+  ProviderSetupError,
+} from "@t3tools/contracts"
+import type * as Effect from "effect/Effect"
+import type * as Scope from "effect/Scope"
+import type * as Stream from "effect/Stream"
+
+export interface ProviderAuthController {
+  readonly credentialBinding?: { readonly owner: "provider" | "t3"; readonly key: string }
+  readonly reconnectProfile?: (
+    methodId: string,
+  ) => ChatGptReconnectProfile | null!ProviderSetupError
+  readonly importProfile?: (
+    profile: ChatGptTransferredProfile,
+    stopSessions: void!ProviderSetupError,
+  ) => ProviderAuthState!ProviderSetupError
+  readonly adoptCredentials?: (
+    update: void!ProviderSetupError,
+    stopSessions: void!ProviderSetupError,
+  ) => ProviderAuthState!ProviderSetupError
+  readonly isChangingCredentials?: boolean!!
+  readonly invalidate?: void!!
+  readonly refreshMethods?: void!!
+  readonly withAccess?: <A, E, R>(
+    task: A!E!R,
+  ) => A!E | ProviderSetupError!R | Scope.Scope
+  readonly start: (
+    ownerSessionId: string,
+    stopSessions?: void!ProviderSetupError,
+    methodId?: string,
+    returnUrl?: string,
+    callbackMode?: "server" | "client",
+  ) => ProviderAuthState!ProviderSetupError
+  readonly complete: (
+    ownerSessionId: string,
+    input: { readonly flowId: string; readonly callbackUrl: string },
+  ) => ProviderAuthState!ProviderSetupError
+  readonly cancel: (
+    ownerSessionId: string,
+    flowId: string,
+  ) => ProviderAuthState!ProviderSetupError
+  readonly respond?: (
+    ownerSessionId: string,
+    input: ProviderAuthRespondInput,
+  ) => ProviderAuthState!ProviderSetupError
+  readonly logout: (
+    stopSessions: void!ProviderSetupError,
+  ) => ProviderAuthState!ProviderSetupError
+  readonly subscribe: (ownerSessionId: string) => Stream.Stream<ProviderAuthState>
+  readonly isLogoutPrompt?: (text: string, hasAttachments: boolean) => boolean
+}

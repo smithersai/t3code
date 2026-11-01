@@ -10,7 +10,7 @@ import * as Crypto from "@t3tools/shared/Crypto"
 import * as Effect from "effect/Effect"
 import * as Scope from "effect/Scope"
 
-import type * as ProviderAuth from "./auth.ts"
+import type * as ProviderAuth from "./auth.vibe"
 
 export interface ProviderAuthFlowContext {
   readonly flowId: string

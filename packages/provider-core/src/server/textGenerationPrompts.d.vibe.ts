@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
 import type { BranchNamingOptions, ChatAttachment } from "@t3tools/contracts";
-import type { ReviewGuideStackLayer } from "./textGeneration.js";
+import type { ReviewGuideStackLayer } from "./textGeneration.vibe";
 import type { TextGenerationPolicy } from "@t3tools/provider-core/server/textGenerationPolicy";
 export interface CommitMessagePromptInput {
     branch: string | null;

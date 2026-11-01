@@ -5,7 +5,7 @@ import { type ChatAttachment, type ModelSelection, TextGenerationError } from "@
 import { formatGeneratedBranchName, sanitizeFeatureBranchName } from "@t3tools/shared/git";
 import { extractJsonObject } from "@t3tools/shared/schemaJson";
 
-import type { ProviderTextGeneration } from "./textGeneration.ts";
+import type { ProviderTextGeneration } from "./textGeneration.vibe";
 import {
   buildBranchNamePrompt,
   buildCommitMessagePrompt,
