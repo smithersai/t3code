@@ -1,25 +1,24 @@
-import * as Cause from "effect/Cause";
-import * as DateTime from "effect/DateTime";
-import * as Exit from "effect/Exit";
-import * as Option from "effect/Option";
-import * as Result from "effect/Result";
-import * as Schema from "effect/Schema";
-import { PositiveInt, TrimmedNonEmptyString } from "@t3tools/contracts";
-import { decodeJsonResult } from "@t3tools/shared/schemaJson";
+import * as Cause from "effect/Cause"
+import * as DateTime from "effect/DateTime"
+import * as Option from "effect/Option"
+import * as Result from "effect/Result"
+import * as Schema from "effect/Schema"
+import { PositiveInt, TrimmedNonEmptyString } from "@t3tools/contracts"
+import { decodeJsonResult } from "@t3tools/shared/schemaJson"
 
 export interface NormalizedAzureDevOpsPullRequestRecord {
-  readonly number: number;
-  readonly title: string;
-  readonly url: string;
-  readonly baseRefName: string;
-  readonly headRefName: string;
-  readonly headSha?: string;
-  readonly state: "open" | "closed" | "merged";
-  readonly isDraft?: boolean;
-  readonly isCrossRepository: boolean;
-  readonly closedAt?: string | null;
-  readonly mergedAt?: string | null;
-  readonly updatedAt: Option.Option<DateTime.Utc>;
+  readonly number: number
+  readonly title: string
+  readonly url: string
+  readonly baseRefName: string
+  readonly headRefName: string
+  readonly headSha?: string
+  readonly state: "open" | "closed" | "merged"
+  readonly isDraft?: boolean
+  readonly isCrossRepository: boolean
+  readonly closedAt?: string | null
+  readonly mergedAt?: string | null
+  readonly updatedAt: Option.Option<DateTime.Utc>
 }
 
 const AzureDevOpsPullRequestSchema = Schema.Struct({
@@ -58,92 +57,92 @@ const AzureDevOpsPullRequestSchema = Schema.Struct({
       ),
     }),
   ),
-});
+})
 
 function trimOptionalString(value: string | null | undefined): string | null {
-  const trimmed = value?.trim() ?? "";
-  return trimmed.length > 0 ? trimmed : null;
+  const trimmed = value?.trim() ?? ""
+  return trimmed.length > 0 ? trimmed : null
 }
 
 function normalizeRefName(refName: string): string {
-  return refName.trim().replace(/^refs\/heads\//, "");
+  return refName.trim().replace(/^refs\/heads\//, "")
 }
 
 function normalizeAzureDevOpsPullRequestState(status: string): "open" | "closed" | "merged" {
   switch (status.trim().toLowerCase()) {
     case "completed":
-      return "merged";
+      return "merged"
     case "abandoned":
-      return "closed";
+      return "closed"
     default:
-      return "open";
+      return "open"
   }
 }
 
 function encodeAzureDevOpsPathSegment(segment: string): string {
-  return encodeURIComponent(segment);
+  return encodeURIComponent(segment)
 }
 
 function azureDevOpsOrganizationBaseFromRestApiUrl(
   value: string | null | undefined,
 ): string | null {
-  const rawUrl = trimOptionalString(value);
+  const rawUrl = trimOptionalString(value)
   if (!rawUrl) {
-    return null;
+    return null
   }
 
   try {
-    const url = new URL(rawUrl);
-    const hostname = url.hostname.toLowerCase();
-    const pathSegments = url.pathname.split("/").filter((segment) => segment.length > 0);
-    const isAzureRestUrl = pathSegments.some((segment) => segment.toLowerCase() === "_apis");
+    const url = new URL(rawUrl)
+    const hostname = url.hostname.toLowerCase()
+    const pathSegments = url.pathname.split("/").filter((segment) => segment.length > 0)
+    const isAzureRestUrl = pathSegments.some((segment) => segment.toLowerCase() === "_apis")
     if (!isAzureRestUrl) {
-      return null;
+      return null
     }
 
     if (hostname === "dev.azure.com") {
-      const organization = pathSegments[0];
-      return organization ? `${url.origin}/${organization}` : null;
+      const organization = pathSegments[0]
+      return organization ? `${url.origin}/${organization}` : null
     }
 
     if (hostname.endsWith(".visualstudio.com")) {
-      return url.origin;
+      return url.origin
     }
 
-    return null;
+    return null
   } catch {
-    return null;
+    return null
   }
 }
 
 export function azureDevOpsPullRequestWebUrl(input: {
-  readonly pullRequestId: number;
-  readonly webLink?: string | null | undefined;
-  readonly repositoryWebUrl?: string | null | undefined;
-  readonly restApiUrl?: string | null | undefined;
-  readonly projectName?: string | null | undefined;
-  readonly repositoryName?: string | null | undefined;
+  readonly pullRequestId: number
+  readonly webLink?: string | null | undefined
+  readonly repositoryWebUrl?: string | null | undefined
+  readonly restApiUrl?: string | null | undefined
+  readonly projectName?: string | null | undefined
+  readonly repositoryName?: string | null | undefined
 }): string {
-  const webLink = trimOptionalString(input.webLink);
+  const webLink = trimOptionalString(input.webLink)
   if (webLink) {
-    return webLink;
+    return webLink
   }
 
-  const repositoryWebUrl = trimOptionalString(input.repositoryWebUrl);
+  const repositoryWebUrl = trimOptionalString(input.repositoryWebUrl)
   if (repositoryWebUrl) {
-    return `${repositoryWebUrl.replace(/\/+$/, "")}/pullrequest/${input.pullRequestId}`;
+    return `${repositoryWebUrl.replace(/\/+$/, "")}/pullrequest/${input.pullRequestId}`
   }
 
-  const organizationBase = azureDevOpsOrganizationBaseFromRestApiUrl(input.restApiUrl);
-  const projectName = trimOptionalString(input.projectName);
-  const repositoryName = trimOptionalString(input.repositoryName);
+  const organizationBase = azureDevOpsOrganizationBaseFromRestApiUrl(input.restApiUrl)
+  const projectName = trimOptionalString(input.projectName)
+  const repositoryName = trimOptionalString(input.repositoryName)
   if (organizationBase && projectName && repositoryName) {
-    const encodedProjectName = encodeAzureDevOpsPathSegment(projectName);
-    const encodedRepositoryName = encodeAzureDevOpsPathSegment(repositoryName);
-    return `${organizationBase}/${encodedProjectName}/_git/${encodedRepositoryName}/pullrequest/${input.pullRequestId}`;
+    const encodedProjectName = encodeAzureDevOpsPathSegment(projectName)
+    const encodedRepositoryName = encodeAzureDevOpsPathSegment(repositoryName)
+    return `${organizationBase}/${encodedProjectName}/_git/${encodedRepositoryName}/pullrequest/${input.pullRequestId}`
   }
 
-  return trimOptionalString(input.restApiUrl) ?? "";
+  return trimOptionalString(input.restApiUrl) ?? ""
 }
 
 function normalizeAzureDevOpsPullRequestUrl(
@@ -156,18 +155,18 @@ function normalizeAzureDevOpsPullRequestUrl(
     restApiUrl: raw.url,
     projectName: raw.repository?.project?.name,
     repositoryName: raw.repository?.name,
-  });
+  })
 }
 
 function normalizeAzureDevOpsPullRequestRecord(
   raw: Schema.Schema.Type<typeof AzureDevOpsPullRequestSchema>,
 ): NormalizedAzureDevOpsPullRequestRecord {
-  const state = normalizeAzureDevOpsPullRequestState(raw.status);
-  const headSha = trimOptionalString(raw.lastMergeSourceCommit?.commitId);
+  const state = normalizeAzureDevOpsPullRequestState(raw.status)
+  const headSha = trimOptionalString(raw.lastMergeSourceCommit?.commitId)
   const terminalAt = Option.match(raw.closedDate ?? Option.none(), {
-    onNone: () => null,
+    onNone: (): infer _ => null,
     onSome: DateTime.formatIso,
-  });
+  })
   return {
     number: raw.pullRequestId,
     title: raw.title,
@@ -180,15 +179,14 @@ function normalizeAzureDevOpsPullRequestRecord(
     isCrossRepository: raw.forkSource != null,
     closedAt: state === "closed" ? terminalAt : null,
     mergedAt: state === "merged" ? terminalAt : null,
-    updatedAt: (raw.closedDate ?? Option.none()).pipe(
-      Option.orElse(() => raw.creationDate ?? Option.none()),
-    ),
-  };
+    updatedAt: (raw.closedDate ?? Option.none())
+      .orElse(() => raw.creationDate ?? Option.none()),
+  }
 }
 
-const decodeAzureDevOpsPullRequestList = decodeJsonResult(Schema.Array(Schema.Unknown));
-const decodeAzureDevOpsPullRequest = decodeJsonResult(AzureDevOpsPullRequestSchema);
-const decodeAzureDevOpsPullRequestEntry = Schema.decodeUnknownExit(AzureDevOpsPullRequestSchema);
+const decodeAzureDevOpsPullRequestList = decodeJsonResult(Schema.Array(Schema.Unknown))
+const decodeAzureDevOpsPullRequest = decodeJsonResult(AzureDevOpsPullRequestSchema)
+const decodeAzureDevOpsPullRequestEntry = Schema.decodeUnknownExit(AzureDevOpsPullRequestSchema)
 
 export function decodeAzureDevOpsPullRequestListJson(
   raw: string,
@@ -196,27 +194,27 @@ export function decodeAzureDevOpsPullRequestListJson(
   ReadonlyArray<NormalizedAzureDevOpsPullRequestRecord>,
   Cause.Cause<Schema.SchemaError>
 > {
-  const result = decodeAzureDevOpsPullRequestList(raw);
+  const result = decodeAzureDevOpsPullRequestList(raw)
   if (Result.isSuccess(result)) {
-    const pullRequests: NormalizedAzureDevOpsPullRequestRecord[] = [];
+    const pullRequests: NormalizedAzureDevOpsPullRequestRecord[] = []
     for (const entry of result.success) {
-      const decodedEntry = decodeAzureDevOpsPullRequestEntry(entry);
+      const decodedEntry = decodeAzureDevOpsPullRequestEntry(entry)
       if (Exit.isFailure(decodedEntry)) {
-        continue;
+        continue
       }
-      pullRequests.push(normalizeAzureDevOpsPullRequestRecord(decodedEntry.value));
+      pullRequests.push(normalizeAzureDevOpsPullRequestRecord(decodedEntry.value))
     }
-    return Result.succeed(pullRequests);
+    return Result.succeed(pullRequests)
   }
-  return Result.fail(result.failure);
+  return Result.fail(result.failure)
 }
 
 export function decodeAzureDevOpsPullRequestJson(
   raw: string,
 ): Result.Result<NormalizedAzureDevOpsPullRequestRecord, Cause.Cause<Schema.SchemaError>> {
-  const result = decodeAzureDevOpsPullRequest(raw);
+  const result = decodeAzureDevOpsPullRequest(raw)
   if (Result.isSuccess(result)) {
-    return Result.succeed(normalizeAzureDevOpsPullRequestRecord(result.success));
+    return Result.succeed(normalizeAzureDevOpsPullRequestRecord(result.success))
   }
-  return Result.fail(result.failure);
+  return Result.fail(result.failure)
 }
