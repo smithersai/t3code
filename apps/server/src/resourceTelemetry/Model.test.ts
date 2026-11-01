@@ -8,7 +8,7 @@ import { describe, expect, it } from "@effect/vitest";
 import * as DateTime from "effect/DateTime";
 import * as Option from "effect/Option";
 
-import { emptyTelemetryCounters, mergeProcesses, type MergeProcessesResult } from "./Model.ts";
+import { emptyTelemetryCounters, mergeProcesses, type MergeProcessesResult } from "./Model.vibe";
 
 const SERVER_PID = 100;
 const BASE_TIME_MS = DateTime.toEpochMillis(DateTime.makeUnsafe("2026-06-17T12:00:00.000Z"));

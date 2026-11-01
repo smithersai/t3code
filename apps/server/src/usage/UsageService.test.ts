@@ -50,7 +50,7 @@ import { totalTokens, type UsageRecord } from "@t3tools/provider-core/server/usa
 import * as UsageService from "./UsageService.ts";
 import * as MuseSdk from "../../../../packages/provider-muse/src/server/sdk.ts";
 import { MuseUsageHome } from "@t3tools/provider-muse/server";
-import { encodeScanCache, SCAN_CACHE_FILE_NAME } from "./usageScanCache.ts";
+import { encodeScanCache, SCAN_CACHE_FILE_NAME } from "./usageScanCache.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("node:fs/promises", { spy: true });
