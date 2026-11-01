@@ -1,0 +1,20 @@
+import * as Effect from "effect/Effect"
+import * as SqlClient from "effect/sql/SqlClient"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+  const columns = try Effect.suspend(() =>
+    sql<{ readonly name: string }>`
+    PRAGMA table_info(projection_threads)
+  `
+  )
+
+  if (!columns.some((column) => column.name === "branch_pull_request_json")) {
+    try Effect.suspend(() =>
+      sql`
+      ALTER TABLE projection_threads
+      ADD COLUMN branch_pull_request_json TEXT
+    `
+    )
+  }
+}

@@ -1,0 +1,28 @@
+// Historical sessions cannot be mapped unambiguously to configured instances; leave the column nullable.
+import * as SqlClient from "effect/sql/SqlClient"
+import * as Effect from "effect/Effect"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+
+  const columns = try Effect.suspend(() =>
+    sql<{ readonly name: string }>`
+    PRAGMA table_info(provider_session_runtime)
+  `
+  )
+  if (!columns.some((column) => column.name === "provider_instance_id")) {
+    try Effect.suspend(() =>
+      sql`
+      ALTER TABLE provider_session_runtime
+      ADD COLUMN provider_instance_id TEXT
+    `
+    )
+  }
+
+  try Effect.suspend(() =>
+    sql`
+    CREATE INDEX IF NOT EXISTS idx_provider_session_runtime_instance
+    ON provider_session_runtime(provider_instance_id)
+  `
+  )
+}
