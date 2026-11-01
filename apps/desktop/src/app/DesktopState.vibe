@@ -1,0 +1,28 @@
+import * as Layer from "effect/Layer"
+import * as Ref from "effect/Ref"
+import * as SubscriptionRef from "effect/SubscriptionRef"
+
+import type { BackendStartupFailure } from "../backend/DesktopBackendManager.ts"
+
+/** Startup health of the primary local backend, read by the startup recovery window. */
+export type PrimaryBackendStartup =
+  | { readonly _tag: "Starting" }
+  | { readonly _tag: "Ready" }
+  | ({ readonly _tag: "Failing" } & BackendStartupFailure)
+
+export service DesktopState {
+  static readonly key = "@t3tools/desktop/app/DesktopState"
+  backendReady: Ref.Ref<boolean>
+  quitting: Ref.Ref<boolean>
+  primaryBackendStartup: SubscriptionRef.SubscriptionRef<PrimaryBackendStartup>
+}
+
+const make = effect {
+  return try Effect.all({
+    backendReady: Ref.make(false),
+    quitting: Ref.make(false),
+    primaryBackendStartup: SubscriptionRef.make<PrimaryBackendStartup>({ _tag: "Starting" }),
+  })
+}
+
+export const layer = Layer.effect(DesktopState, make)

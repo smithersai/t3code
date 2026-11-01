@@ -7,7 +7,7 @@ import * as Schema from "effect/Schema";
 import * as DesktopEnvironment from "../../app/DesktopEnvironment.ts";
 import * as DesktopLifecycle from "../../app/DesktopLifecycle.ts";
 import * as DesktopShutdown from "../../app/DesktopShutdown.ts";
-import * as DesktopState from "../../app/DesktopState.ts";
+import * as DesktopState from "../../app/DesktopState.vibe";
 import * as ElectronApp from "../../electron/ElectronApp.ts";
 import * as ElectronDialog from "../../electron/ElectronDialog.ts";
 import * as ElectronTheme from "../../electron/ElectronTheme.ts";
