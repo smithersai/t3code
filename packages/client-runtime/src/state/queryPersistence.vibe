@@ -35,7 +35,7 @@ export function persistQuery<A, I>(schema: Schema.Codec<A, I>): QueryPersistence
           if (store === null) return Option.none<A>()
           const stored = try store.load(environmentId, key)
           if (Option.isNone(stored)) return Option.none<A>()
-          return Effect.asSome(Schema.decodeEffect(codec)(stored.value)) catch Effect.succeedNone()
+          return Effect.asSome(Schema.decodeEffect(codec)(stored.value)) catch () => Option.none()
         },
         "queryPersistence.load",
       ),
@@ -47,7 +47,7 @@ export function persistQuery<A, I>(schema: Schema.Codec<A, I>): QueryPersistence
             if (store === null) return
             const payload = try Schema.encodeEffect(codec)(value)
             try store.save(environmentId, key, payload)
-          })()) catch Effect.logWarning("Offline query cache save failed")
+          })()) catch effect () => try Effect.logWarning("Offline query cache save failed")
         },
         "queryPersistence.save",
       ),
