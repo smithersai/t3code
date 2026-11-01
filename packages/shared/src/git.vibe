@@ -5,24 +5,22 @@ import type {
   VcsStatusRemoteResult,
   VcsStatusResult,
   VcsStatusStreamEvent,
-} from "@t3tools/contracts";
-import * as Arr from "effect/Array";
-import * as Result from "effect/Result";
+} from "@t3tools/contracts"
+import * as Arr from "effect/Array"
 
-export const WORKTREE_BRANCH_PREFIX = "t3";
-const TEMP_WORKTREE_HEX_TOKEN = "[0-9a-f]{8}";
-const TEMP_WORKTREE_UUID_V4_TOKEN =
-  "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}";
+export const WORKTREE_BRANCH_PREFIX = "t3"
+const TEMP_WORKTREE_HEX_TOKEN = "[0-9a-f]{8}"
+const TEMP_WORKTREE_UUID_V4_TOKEN = "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}"
 const TEMP_WORKTREE_BRANCH_PATTERN = new RegExp(
   `^(?:${WORKTREE_BRANCH_PREFIX}[-/]${TEMP_WORKTREE_HEX_TOKEN}|t3code(?:[-/]${TEMP_WORKTREE_HEX_TOKEN}|\\/${TEMP_WORKTREE_UUID_V4_TOKEN}))$`,
-);
+)
 
 export function sanitizeBranchFragment(raw: string): string {
   const normalized = raw
     .trim()
     .toLowerCase()
     .replace(/['"`]/g, "")
-    .replace(/^[./\s_-]+|[./\s_-]+$/g, "");
+    .replace(/^[./\s_-]+|[./\s_-]+$/g, "")
 
   const branchFragment = normalized
     .replace(/[^a-z0-9/_-]+/g, "-")
@@ -30,72 +28,72 @@ export function sanitizeBranchFragment(raw: string): string {
     .replace(/-+/g, "-")
     .replace(/^[./_-]+|[./_-]+$/g, "")
     .slice(0, 64)
-    .replace(/[./_-]+$/g, "");
+    .replace(/[./_-]+$/g, "")
 
-  return branchFragment.length > 0 ? branchFragment : "update";
+  return branchFragment.length > 0 ? branchFragment : "update"
 }
 
 export function formatGeneratedBranchName(raw: string, naming?: BranchNamingOptions): string {
-  if (naming?.mode === "custom") return raw.trim();
-  const branch = sanitizeBranchFragment(raw);
-  if (naming?.mode !== "static") return branch;
+  if (naming?.mode === "custom") return raw.trim()
+  const branch = sanitizeBranchFragment(raw)
+  if (naming?.mode !== "static") return branch
   const prefix = naming.prefix
     .split("/")
     .map((part) =>
       part
         .replace(/[^a-zA-Z0-9_-]+/g, "-")
         .replace(/-+/g, "-")
-        .replace(/^-+|-+$/g, ""),
+        .replace(/^-+|-+$/g, "")
     )
     .filter(Boolean)
-    .join("/");
-  return prefix ? `${prefix}/${branch}` : branch;
+    .join("/")
+  return prefix ? `${prefix}/${branch}` : branch
 }
 
 export function sanitizeFeatureBranchName(raw: string): string {
-  const sanitized = sanitizeBranchFragment(raw);
-  return sanitized.includes("/") ? sanitized : `feature/${sanitized}`;
+  const sanitized = sanitizeBranchFragment(raw)
+  return sanitized.includes("/") ? sanitized : `feature/${sanitized}`
 }
 
-const AUTO_FEATURE_BRANCH_FALLBACK = "feature/update";
+const AUTO_FEATURE_BRANCH_FALLBACK = "feature/update"
 
 export function resolveAutoFeatureBranchName(
   existingBranchNames: readonly string[],
   preferredBranch?: string,
 ): string {
-  const preferred = preferredBranch?.trim();
+  const preferred = preferredBranch?.trim()
   const resolvedBase = sanitizeFeatureBranchName(
     preferred && preferred.length > 0 ? preferred : AUTO_FEATURE_BRANCH_FALLBACK,
-  );
-  const existingNames = existingBranchNames.map((refName) => refName.toLowerCase());
-  const existingRefs = new Set(existingNames);
-  const parts = resolvedBase.split("/");
-  let resolved = "";
+  )
+  const existingNames = existingBranchNames.map((refName) => refName.toLowerCase())
+  const existingRefs = new Set(existingNames)
+  const parts = resolvedBase.split("/")
+  let resolved = ""
 
   for (const [index, part] of parts.entries()) {
-    const base = resolved ? `${resolved}/${part}` : part;
-    let candidate = base;
-    let suffix = 2;
+    const base = resolved ? `${resolved}/${part}` : part
+    let candidate = base
+    let suffix = 2
     while (
-      existingRefs.has(candidate) ||
-      (index === parts.length - 1 &&
-        existingNames.some((refName) => refName.startsWith(`${candidate}/`)))
+      existingRefs.has(candidate)
+      || (index === parts.length - 1
+        && existingNames.some((refName) => refName.startsWith(`${candidate}/`)))
     ) {
-      candidate = `${base}-${suffix}`;
-      suffix += 1;
+      candidate = `${base}-${suffix}`
+      suffix += 1
     }
-    resolved = candidate;
+    resolved = candidate
   }
 
-  return resolved;
+  return resolved
 }
 
 export function deriveLocalBranchNameFromRemoteRef(branchName: string): string {
-  const firstSeparatorIndex = branchName.indexOf("/");
+  const firstSeparatorIndex = branchName.indexOf("/")
   if (firstSeparatorIndex <= 0 || firstSeparatorIndex === branchName.length - 1) {
-    return branchName;
+    return branchName
   }
-  return branchName.slice(firstSeparatorIndex + 1);
+  return branchName.slice(firstSeparatorIndex + 1)
 }
 
 export function buildTemporaryWorktreeBranchName(
@@ -104,20 +102,20 @@ export function buildTemporaryWorktreeBranchName(
   const token = randomHex(4)
     .toLowerCase()
     .replace(/[^0-9a-f]/g, "")
-    .slice(0, 8);
-  return `${WORKTREE_BRANCH_PREFIX}/${token}`;
+    .slice(0, 8)
+  return `${WORKTREE_BRANCH_PREFIX}/${token}`
 }
 
 /** Flatten temporary t3/<hex> refs because an existing t3 branch blocks nested refs. */
 export function flattenTemporaryWorktreeBranchName(refName: string): string {
-  const normalized = refName.trim().toLowerCase();
-  const tokenStart = normalized.search(/[-/]/) + 1;
-  const token = normalized.slice(tokenStart, tokenStart + 8);
-  return `${WORKTREE_BRANCH_PREFIX}-${token}`;
+  const normalized = refName.trim().toLowerCase()
+  const tokenStart = normalized.search(/[-/]/) + 1
+  const token = normalized.slice(tokenStart, tokenStart + 8)
+  return `${WORKTREE_BRANCH_PREFIX}-${token}`
 }
 
 export function isTemporaryWorktreeBranch(refName: string): boolean {
-  return TEMP_WORKTREE_BRANCH_PATTERN.test(refName.trim().toLowerCase());
+  return TEMP_WORKTREE_BRANCH_PATTERN.test(refName.trim().toLowerCase())
 }
 
 function lowerCaseRemote(value: string): string {
@@ -125,7 +123,7 @@ function lowerCaseRemote(value: string): string {
     .trim()
     .replace(/\/+$/g, "")
     .replace(/\.git$/i, "")
-    .toLowerCase();
+    .toLowerCase()
 }
 
 /**
@@ -135,27 +133,27 @@ function lowerCaseRemote(value: string): string {
 export function parseGitRemoteRepository(
   value: string,
 ): { readonly host: string; readonly path: string } | null {
-  const normalized = lowerCaseRemote(value);
+  const normalized = lowerCaseRemote(value)
 
   if (/^(?:ssh|https?|git):\/\//i.test(normalized)) {
     try {
-      const url = new URL(normalized);
-      const repositorySegments = url.pathname.split("/").filter((segment) => segment.length > 0);
+      const url = new URL(normalized)
+      const repositorySegments = url.pathname.split("/").filter((segment) => segment.length > 0)
       if (url.hostname && repositorySegments.length > 1) {
-        return { host: url.hostname, path: repositorySegments.join("/") };
+        return { host: url.hostname, path: repositorySegments.join("/") }
       }
     } catch {
-      return null;
+      return null
     }
   }
 
   // A userless one-letter prefix is a Windows drive, not an SCP host.
   const scpStyleHostAndPath = /^[a-z]:/i.test(normalized)
     ? null
-    : /^(?:[a-zA-Z0-9._-]+@)?([^@:/\\\s]+):\/?([^/\s]+(?:\/[^/\s]+)+)$/i.exec(normalized);
-  const scpHost = scpStyleHostAndPath?.[1];
-  const scpPath = scpStyleHostAndPath?.[2];
-  return scpHost && scpPath ? { host: scpHost, path: scpPath } : null;
+    : /^(?:[a-zA-Z0-9._-]+@)?([^@:/\\\s]+):\/?([^/\s]+(?:\/[^/\s]+)+)$/i.exec(normalized)
+  const scpHost = scpStyleHostAndPath?.[1]
+  const scpPath = scpStyleHostAndPath?.[2]
+  return scpHost && scpPath ? { host: scpHost, path: scpPath } : null
 }
 
 /**
@@ -164,131 +162,129 @@ export function parseGitRemoteRepository(
  * `repositoryKeyFromRemote` rewrite this, so persisted keys come from that, not from here.
  */
 export function normalizeGitRemoteUrl(value: string): string {
-  const repository = parseGitRemoteRepository(value);
-  return repository === null ? lowerCaseRemote(value) : `${repository.host}/${repository.path}`;
+  const repository = parseGitRemoteRepository(value)
+  return repository === null ? lowerCaseRemote(value) : `${repository.host}/${repository.path}`
 }
 
 function parseGitConfigValue(raw: string): string {
-  let out = "";
-  let quoted = false;
+  let out = ""
+  let quoted = false
   for (let index = 0; index < raw.length; index += 1) {
-    const char = raw[index]!;
+    const char = raw[index]!
     if (char === "\\" && index + 1 < raw.length) {
-      out += raw[index + 1];
-      index += 1;
-      continue;
+      out += raw[index + 1]
+      index += 1
+      continue
     }
-    if (char === '"') {
-      quoted = !quoted;
-      continue;
+    if (char === "\"") {
+      quoted = !quoted
+      continue
     }
-    if (!quoted && (char === "#" || char === ";")) break;
-    out += char;
+    if (!quoted && (char === "#" || char === ";")) break
+    out += char
   }
-  return out.trim();
+  return out.trim()
 }
 
 export function isBareGitConfig(configText: string): boolean {
-  let inCore = false;
-  let bare = false;
+  let inCore = false
+  let bare = false
   for (const rawLine of configText.split(/\r?\n/)) {
-    let line = rawLine.trim();
+    let line = rawLine.trim()
     // Git accepts the first setting on the section header's own line.
-    const header = /^\[\s*([^\]]*?)\s*\](.*)$/.exec(line);
+    const header = /^\[\s*([^\]]*?)\s*\](.*)$/.exec(line)
     if (header !== null) {
-      inCore = header[1]!.toLowerCase() === "core";
-      line = header[2]!.trim();
+      inCore = header[1]!.toLowerCase() === "core"
+      line = header[2]!.trim()
     }
-    if (!inCore) continue;
-    const match = /^bare\s*(?:=(.*)|[#;].*)?$/i.exec(line);
-    if (match === null) continue;
-    const value = match[1] === undefined ? "true" : parseGitConfigValue(match[1]).toLowerCase();
-    bare = value === "true" || value === "yes" || value === "on" || value === "1";
+    if (!inCore) continue
+    const match = /^bare\s*(?:=(.*)|[#;].*)?$/i.exec(line)
+    if (match === null) continue
+    const value = match[1] === undefined ? "true" : parseGitConfigValue(match[1]).toLowerCase()
+    bare = value === "true" || value === "yes" || value === "on" || value === "1"
   }
-  return bare;
+  return bare
 }
 
 export function parseOriginUrlFromGitConfig(configText: string): string | null {
-  let section: string | null = null;
-  let originUrl: string | null = null;
-  let firstRemoteUrl: string | null = null;
-  const joined = configText.replace(/\\\r?\n[ \t]*/g, "");
+  let section: string | null = null
+  let originUrl: string | null = null
+  let firstRemoteUrl: string | null = null
+  const joined = configText.replace(/\\\r?\n[ \t]*/g, "")
   for (const rawLine of joined.split(/\r?\n/)) {
-    const line = rawLine.trim();
-    if (line.length === 0 || line.startsWith("#") || line.startsWith(";")) continue;
+    const line = rawLine.trim()
+    if (line.length === 0 || line.startsWith("#") || line.startsWith(";")) continue
     // Git preserves case in quoted remote subsections but lowercases legacy dotted ones.
-    const header = /^\[\s*remote(?:\s+"([^"]+)"|\.([^\]\s]+))\s*\](?:\s*[#;].*)?$/i.exec(line);
+    const header = /^\[\s*remote(?:\s+"([^"]+)"|\.([^\]\s]+))\s*\](?:\s*[#;].*)?$/i.exec(line)
     if (header) {
-      section = header[1] ?? header[2]?.toLowerCase() ?? null;
-      continue;
+      section = header[1] ?? header[2]?.toLowerCase() ?? null
+      continue
     }
     if (line.startsWith("[")) {
-      section = null;
-      continue;
+      section = null
+      continue
     }
-    if (section === null) continue;
-    const match = /^url\s*=\s*(.*)$/i.exec(line);
-    if (!match) continue;
-    const url = parseGitConfigValue(match[1] ?? "");
-    if (url.length === 0) continue;
+    if (section === null) continue
+    const match = /^url\s*=\s*(.*)$/i.exec(line)
+    if (!match) continue
+    const url = parseGitConfigValue(match[1] ?? "")
+    if (url.length === 0) continue
     if (section === "origin") {
-      originUrl ??= url;
+      originUrl ??= url
     } else {
-      firstRemoteUrl ??= url;
+      firstRemoteUrl ??= url
     }
   }
-  return originUrl ?? firstRemoteUrl;
+  return originUrl ?? firstRemoteUrl
 }
 
 function deriveLocalBranchNameCandidatesFromRemoteRef(
   branchName: string,
   remoteName?: string,
 ): ReadonlyArray<string> {
-  const candidates = new Set<string>();
-  const firstSlashCandidate = deriveLocalBranchNameFromRemoteRef(branchName);
+  const candidates = new Set<string>()
+  const firstSlashCandidate = deriveLocalBranchNameFromRemoteRef(branchName)
   if (firstSlashCandidate.length > 0) {
-    candidates.add(firstSlashCandidate);
+    candidates.add(firstSlashCandidate)
   }
 
   if (remoteName) {
-    const remotePrefix = `${remoteName}/`;
+    const remotePrefix = `${remoteName}/`
     if (branchName.startsWith(remotePrefix) && branchName.length > remotePrefix.length) {
-      candidates.add(branchName.slice(remotePrefix.length));
+      candidates.add(branchName.slice(remotePrefix.length))
     }
   }
 
-  return [...candidates];
+  return [...candidates]
 }
 
 // Replace only Git-rejected whitespace; nonbreaking spaces are valid ref characters.
 export function sanitizeNewRefName(rawName: string): string {
-  return rawName.trim().replace(/[ \t\n\r\f\v]+/g, "-");
+  return rawName.trim().replace(/[ \t\n\r\f\v]+/g, "-")
 }
 
 export function dedupeRemoteBranchesWithLocalMatches(
   refs: ReadonlyArray<VcsRef>,
 ): ReadonlyArray<VcsRef> {
   const localBranchNames = new Set(
-    Arr.filterMap(refs, (refName) =>
-      refName.isRemote ? Result.failVoid : Result.succeed(refName.name),
-    ),
-  );
+    Arr.filterMap(refs, (refName) => refName.isRemote ? Result.failVoid : Result.succeed(refName.name)),
+  )
 
   return refs.filter((refName) => {
     if (!refName.isRemote) {
-      return true;
+      return true
     }
 
     if (refName.remoteName !== "origin") {
-      return true;
+      return true
     }
 
     const localBranchCandidates = deriveLocalBranchNameCandidatesFromRemoteRef(
       refName.name,
       refName.remoteName,
-    );
-    return !localBranchCandidates.some((candidate) => localBranchNames.has(candidate));
-  });
+    )
+    return !localBranchCandidates.some((candidate) => localBranchNames.has(candidate))
+  })
 }
 
 const EMPTY_GIT_STATUS_REMOTE: VcsStatusRemoteResult = {
@@ -297,7 +293,7 @@ const EMPTY_GIT_STATUS_REMOTE: VcsStatusRemoteResult = {
   behindCount: 0,
   aheadOfDefaultCount: 0,
   pr: null,
-};
+}
 
 export function mergeGitStatusParts(
   local: VcsStatusLocalResult,
@@ -306,7 +302,7 @@ export function mergeGitStatusParts(
   return {
     ...local,
     ...(remote ?? EMPTY_GIT_STATUS_REMOTE),
-  };
+  }
 }
 
 function toRemoteStatusPart(status: VcsStatusResult): VcsStatusRemoteResult {
@@ -318,7 +314,7 @@ function toRemoteStatusPart(status: VcsStatusResult): VcsStatusRemoteResult {
       ? {}
       : { aheadOfDefaultCount: status.aheadOfDefaultCount }),
     pr: status.pr,
-  };
+  }
 }
 
 function toLocalStatusPart(status: VcsStatusResult): VcsStatusLocalResult {
@@ -333,7 +329,7 @@ function toLocalStatusPart(status: VcsStatusResult): VcsStatusLocalResult {
     hasWorkingTreeChanges: status.hasWorkingTreeChanges,
     workingTree: status.workingTree,
     ...(status.branchChanges ? { branchChanges: status.branchChanges } : {}),
-  };
+  }
 }
 
 export function applyGitStatusStreamEvent(
@@ -342,9 +338,9 @@ export function applyGitStatusStreamEvent(
 ): VcsStatusResult {
   switch (event._tag) {
     case "snapshot":
-      return mergeGitStatusParts(event.local, event.remote);
+      return mergeGitStatusParts(event.local, event.remote)
     case "localUpdated":
-      return mergeGitStatusParts(event.local, current ? toRemoteStatusPart(current) : null);
+      return mergeGitStatusParts(event.local, current ? toRemoteStatusPart(current) : null)
     case "remoteUpdated":
       if (current === null) {
         return mergeGitStatusParts(
@@ -357,8 +353,8 @@ export function applyGitStatusStreamEvent(
             workingTree: { files: [], insertions: 0, deletions: 0 },
           },
           event.remote,
-        );
+        )
       }
-      return mergeGitStatusParts(toLocalStatusPart(current), event.remote);
+      return mergeGitStatusParts(toLocalStatusPart(current), event.remote)
   }
 }

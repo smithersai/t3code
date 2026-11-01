@@ -2,7 +2,7 @@
 
 import type { OrchestrationV2ThreadOpens } from "@t3tools/contracts";
 
-import { WORKTREE_BRANCH_PREFIX } from "./git.ts";
+import { WORKTREE_BRANCH_PREFIX } from "./git.vibe";
 
 const ALPHANUMERIC = /[\p{L}\p{N}]/u;
 const LOWERCASE = /\p{Ll}/u;
