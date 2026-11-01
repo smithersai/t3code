@@ -1,7 +1,4 @@
-import * as Effect from "effect/Effect";
-import { Argument, Command } from "effect/cli";
-
-import { runClaudeHistoryWorker } from "../claudeHistoryWorker.ts";
+import { runClaudeHistoryWorker } from "../claudeHistoryWorker.ts"
 
 /** Single-executable builds lack Node, so they use this subcommand instead of claudeHistoryWorker.mjs. */
 export const claudeHistoryCommand = Command.make("__claude-history", {
@@ -16,7 +13,7 @@ export const claudeHistoryCommand = Command.make("__claude-history", {
         method,
         sessionId,
         options._tag === "Some" ? options.value : undefined,
-      ),
-    ),
+      )
+    )
   ),
-);
+)
