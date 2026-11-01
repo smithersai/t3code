@@ -475,7 +475,7 @@ const decodePendingMetadata = Schema.decodeUnknownEffect(
   Schema.fromJsonString(DesktopPendingSnapShot),
 );
 
-import { SnapShotTransition, snapShotAnimationDisplayBounds } from "./SnapShotTransition.ts";
+import { SnapShotTransition, snapShotAnimationDisplayBounds } from "./SnapShotTransition.vibe";
 const layerTest = (
   platform: NodeJS.Platform,
   fileSystemOverrides: Parameters<typeof FileSystem.layerNoop>[0] = {},

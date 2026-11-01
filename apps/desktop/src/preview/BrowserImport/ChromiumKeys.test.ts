@@ -16,7 +16,7 @@ import {
   resolveChromiumKeys,
   unwrapWindowsDpapiKey,
 } from "./ChromiumKeys.ts";
-import { LinuxBrowserSecretPath } from "./LinuxBrowserSecret.ts";
+import { LinuxBrowserSecretPath } from "./LinuxBrowserSecret.vibe";
 
 const { getPassword } = vi.hoisted(() => ({ getPassword: vi.fn<() => string | null>() }));
 

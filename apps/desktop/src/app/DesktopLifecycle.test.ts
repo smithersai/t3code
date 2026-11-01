@@ -13,7 +13,7 @@ import * as ElectronWindow from "../electron/ElectronWindow.ts";
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
 import * as DesktopLifecycle from "./DesktopLifecycle.ts";
 import * as DesktopShutdown from "./DesktopShutdown.ts";
-import * as DesktopState from "./DesktopState.ts";
+import * as DesktopState from "./DesktopState.vibe";
 import * as DesktopWindow from "../window/DesktopWindow.ts";
 
 function layerElectronApp(

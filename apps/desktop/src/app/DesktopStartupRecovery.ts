@@ -16,7 +16,7 @@ import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
 import type { BackendStartupFailure } from "../backend/DesktopBackendManager.ts";
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
 import * as DesktopObservability from "./DesktopObservability.ts";
-import * as DesktopState from "./DesktopState.ts";
+import * as DesktopState from "./DesktopState.vibe";
 
 const RELEASES_URL = "https://github.com/pingdotgg/t3code/releases";
 const LAST_STARTED_VERSION_FILE = "desktop-last-started-version";

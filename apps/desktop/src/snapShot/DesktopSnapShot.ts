@@ -72,7 +72,7 @@ import {
   type RegionSnapShotPool,
   type RegionSnapShotSource,
 } from "./RegionSnapShot.ts";
-import { type SnapShotAnimationDestination, SnapShotTransition } from "./SnapShotTransition.ts";
+import { type SnapShotAnimationDestination, SnapShotTransition } from "./SnapShotTransition.vibe";
 import {
   type AccessibilityProcessPool,
   makeSnapShotAccessibilityProcessPool,

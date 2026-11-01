@@ -1,0 +1,45 @@
+import { DesktopCliCommandStateSchema } from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
+
+import * as DesktopCliCommand from "../../app/DesktopCliCommand.ts"
+import * as IpcChannels from "../channels.ts"
+import { makeIpcMethod } from "../DesktopIpc.ts"
+
+export const getCliCommandState = makeIpcMethod({
+  channel: IpcChannels.CLI_COMMAND_GET_STATE_CHANNEL,
+  payload: Schema.Void,
+  result: DesktopCliCommandStateSchema,
+  handler: effect () =>
+    try withSpan(
+      effect {
+        return try (try DesktopCliCommand.DesktopCliCommand).state
+      },
+      "desktop.ipc.cliCommand.getState",
+    ),
+})
+
+export const installCliCommand = makeIpcMethod({
+  channel: IpcChannels.CLI_COMMAND_INSTALL_CHANNEL,
+  payload: Schema.Void,
+  result: DesktopCliCommandStateSchema,
+  handler: effect () =>
+    try withSpan(
+      effect {
+        return try (try DesktopCliCommand.DesktopCliCommand).install
+      },
+      "desktop.ipc.cliCommand.install",
+    ),
+})
+
+export const uninstallCliCommand = makeIpcMethod({
+  channel: IpcChannels.CLI_COMMAND_UNINSTALL_CHANNEL,
+  payload: Schema.Void,
+  result: DesktopCliCommandStateSchema,
+  handler: effect () =>
+    try withSpan(
+      effect {
+        return try (try DesktopCliCommand.DesktopCliCommand).uninstall
+      },
+      "desktop.ipc.cliCommand.uninstall",
+    ),
+})

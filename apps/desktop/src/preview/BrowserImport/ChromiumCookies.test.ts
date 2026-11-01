@@ -14,7 +14,7 @@ import {
   readChromiumCookies,
 } from "./ChromiumCookies.ts";
 import { ChromiumKeyError } from "./ChromiumKeys.ts";
-import { LinuxBrowserSecretPath } from "./LinuxBrowserSecret.ts";
+import { LinuxBrowserSecretPath } from "./LinuxBrowserSecret.vibe";
 import { cookieScope } from "./CookieDatabase.ts";
 
 const encryptChromium = (

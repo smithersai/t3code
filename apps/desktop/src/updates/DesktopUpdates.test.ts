@@ -16,7 +16,7 @@ import * as ElectronUpdater from "../electron/ElectronUpdater.ts";
 import * as DesktopBackendPool from "../backend/DesktopBackendPool.ts";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as DesktopState from "../app/DesktopState.ts";
+import * as DesktopState from "../app/DesktopState.vibe";
 import * as DesktopUpdates from "./DesktopUpdates.ts";
 import { flushCallbacks, makeHarness } from "./updatesTestHarness.ts";
 

@@ -9,7 +9,7 @@ import * as Layer from "effect/Layer";
 import * as Electron from "electron";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
-import * as DesktopEarlyElectronStartup from "./DesktopEarlyElectronStartup.ts";
+import * as DesktopEarlyElectronStartup from "./DesktopEarlyElectronStartup.vibe";
 import { resolveDesktopAppBranding } from "./DesktopEnvironment.ts";
 import { renderUrlHandlerDesktopEntry } from "./DesktopLinuxUrlHandler.ts";
 import * as ElectronProtocol from "../electron/ElectronProtocol.ts";

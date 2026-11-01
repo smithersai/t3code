@@ -1,0 +1,37 @@
+import { ClientSettingsSchema } from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
+
+import * as DesktopClientSettings from "../../settings/DesktopClientSettings.ts"
+import * as DesktopSnapShot from "../../snapShot/DesktopSnapShot.ts"
+import * as IpcChannels from "../channels.ts"
+import * as DesktopIpc from "../DesktopIpc.ts"
+
+export const getClientSettings = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.GET_CLIENT_SETTINGS_CHANNEL,
+  payload: Schema.Void,
+  result: Schema.NullOr(ClientSettingsSchema),
+  handler: effect () =>
+    try withSpan(
+      effect {
+        const clientSettings = try DesktopClientSettings.DesktopClientSettings
+        return Option.getOrNull(try clientSettings.get)
+      },
+      "desktop.ipc.clientSettings.get",
+    ),
+})
+
+export const setClientSettings = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.SET_CLIENT_SETTINGS_CHANNEL,
+  payload: ClientSettingsSchema,
+  result: Schema.Void,
+  handler: effect (settings) =>
+    try withSpan(
+      effect {
+        const clientSettings = try DesktopClientSettings.DesktopClientSettings
+        const snapShot = try DesktopSnapShot.DesktopSnapShot
+        try clientSettings.set(settings)
+        try snapShot.configure(settings)
+      },
+      "desktop.ipc.clientSettings.set",
+    ),
+})

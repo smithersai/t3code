@@ -5,12 +5,12 @@ import * as Layer from "effect/Layer";
 import * as DesktopEnvironment from "../../app/DesktopEnvironment.ts";
 import * as DesktopLifecycle from "../../app/DesktopLifecycle.ts";
 import * as DesktopShutdown from "../../app/DesktopShutdown.ts";
-import * as DesktopState from "../../app/DesktopState.ts";
+import * as DesktopState from "../../app/DesktopState.vibe";
 import * as ElectronApp from "../../electron/ElectronApp.ts";
 import * as ElectronTheme from "../../electron/ElectronTheme.ts";
 import * as DesktopAppSettings from "../../settings/DesktopAppSettings.ts";
 import * as DesktopWindow from "../../window/DesktopWindow.ts";
-import { getLocalEnvironmentEnabled, setLocalEnvironmentEnabled } from "./localEnvironment.ts";
+import { getLocalEnvironmentEnabled, setLocalEnvironmentEnabled } from "./localEnvironment.vibe";
 
 const layerUnusedLifecycleRuntime = Layer.mergeAll(
   DesktopShutdown.layer,
