@@ -5,7 +5,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 import {
   indexedMessageCondition,
   indexedMessageText,
-} from "../../orchestration-v2/messageSearchIndex.ts";
+} from "../../orchestration-v2/messageSearchIndex.vibe";
 
 /**
  * Trigrams match 3+ character substrings without a scan, ignoring case and accents.
