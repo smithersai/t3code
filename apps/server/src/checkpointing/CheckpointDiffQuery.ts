@@ -22,7 +22,7 @@ import {
   CheckpointTurnRangeUnavailableError,
   CheckpointWorkspacePathMissingError,
   type CheckpointServiceError,
-} from "./Errors.ts";
+} from "./Errors.vibe";
 import * as CheckpointStore from "./CheckpointStore.ts";
 import { isGitImport, parseTurnDiffFilesFromNumstat, type TurnDiffFileSummary } from "./Diffs.ts";
 
