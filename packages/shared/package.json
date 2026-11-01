@@ -52,8 +52,8 @@
       "import": "./src/agentAwareness.vibe"
     },
     "./git": {
-      "types": "./src/git.ts",
-      "import": "./src/git.ts"
+      "types": "./src/git.d.vibe.ts",
+      "import": "./src/git.vibe"
     },
     "./sourceControl": {
       "types": "./src/sourceControl.ts",
@@ -184,8 +184,8 @@
       "import": "./src/desktopBootstrapToken.ts"
     },
     "./dpopCommon": {
-      "types": "./src/dpopCommon.ts",
-      "import": "./src/dpopCommon.ts"
+      "types": "./src/dpopCommon.d.vibe.ts",
+      "import": "./src/dpopCommon.vibe"
     },
     "./telemetryId": {
       "types": "./src/telemetryId.vibe",

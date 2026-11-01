@@ -5,8 +5,8 @@ import * as Option from "effect/Option";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 
-import { DpopPublicJwk as DpopPublicJwkSchema, normalizeDpopHtu } from "./dpopCommon.ts";
-import type { DpopPublicJwk as DpopPublicJwkType } from "./dpopCommon.ts";
+import { DpopPublicJwk as DpopPublicJwkSchema, normalizeDpopHtu } from "./dpopCommon.vibe";
+import type { DpopPublicJwk as DpopPublicJwkType } from "./dpopCommon.vibe";
 import { stableStringify } from "./relaySigning.ts";
 
 const DPOP_TYP = "dpop+jwt";
