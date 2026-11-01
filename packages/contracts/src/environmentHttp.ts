@@ -63,7 +63,7 @@ import {
   PullRequestDiffResult,
   PullRequestOperationError,
   PullRequestUnavailableError,
-} from "./pullRequest.vibe";
+} from "./pullRequest.ts";
 import {
   RelayCloudEnvironmentHealthRequest,
   RelayCloudMintCredentialRequest,

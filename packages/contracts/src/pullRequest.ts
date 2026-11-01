@@ -14,13 +14,21 @@ import {
 } from "./baseSchemas.ts";
 import { SourceControlProviderKind } from "./sourceControl.vibe";
 
-export schema PullRequestInvolvement = "all" | "reviewing" | "authored"
+export const PullRequestInvolvement = Schema.Literals(["all", "reviewing", "authored"]);
+export type PullRequestInvolvement = typeof PullRequestInvolvement.Type;
 
-export schema PullRequestState = "open" | "closed" | "merged"
+export const PullRequestState = Schema.Literals(["open", "closed", "merged"]);
+export type PullRequestState = typeof PullRequestState.Type;
 
-export schema PullRequestListState = "all" | "open" | "closed" | "merged"
+export const PullRequestListState = Schema.Literals(["all", "open", "closed", "merged"]);
+export type PullRequestListState = typeof PullRequestListState.Type;
 
-export schema PullRequestReviewDecision = "approved" | "changes-requested" | "review-required"
+export const PullRequestReviewDecision = Schema.Literals([
+  "approved",
+  "changes-requested",
+  "review-required",
+]);
+export type PullRequestReviewDecision = typeof PullRequestReviewDecision.Type;
 
 const PullRequestQualifierValue = TrimmedNonEmptyString.check(Schema.isMaxLength(200));
 const PullRequestQualifierValues = Schema.Array(PullRequestQualifierValue).check(
@@ -40,17 +48,35 @@ export const PullRequestListFilters = Schema.Struct({
 });
 export type PullRequestListFilters = typeof PullRequestListFilters.Type;
 
-export schema PullRequestChecksState = "passing" | "failing" | "pending"
+export const PullRequestChecksState = Schema.Literals(["passing", "failing", "pending"]);
+export type PullRequestChecksState = typeof PullRequestChecksState.Type;
 
-export schema PullRequestMergeability = "mergeable" | "conflicting" | "unknown"
+export const PullRequestMergeability = Schema.Literals(["mergeable", "conflicting", "unknown"]);
+export type PullRequestMergeability = typeof PullRequestMergeability.Type;
 
-export schema PullRequestMergeMethod = "merge" | "squash" | "rebase"
+export const PullRequestMergeMethod = Schema.Literals(["merge", "squash", "rebase"]);
+export type PullRequestMergeMethod = typeof PullRequestMergeMethod.Type;
 
-export schema PullRequestAction = "merge" | "ready" | "draft" | "close" | "reopen" | "delete-branch" | "update-branch" | "enable-auto-merge" | "disable-auto-merge" | "revert" | "approve-workflows"
+export const PullRequestAction = Schema.Literals([
+  "merge",
+  "ready",
+  "draft",
+  "close",
+  "reopen",
+  "delete-branch",
+  "update-branch",
+  "enable-auto-merge",
+  "disable-auto-merge",
+  "revert",
+  "approve-workflows",
+]);
+export type PullRequestAction = typeof PullRequestAction.Type;
 
-export schema PullRequestUpdateMethod = "merge" | "rebase"
+export const PullRequestUpdateMethod = Schema.Literals(["merge", "rebase"]);
+export type PullRequestUpdateMethod = typeof PullRequestUpdateMethod.Type;
 
-export schema PullRequestBaseComparison = "up-to-date" | "behind" | "unknown"
+export const PullRequestBaseComparison = Schema.Literals(["up-to-date", "behind", "unknown"]);
+export type PullRequestBaseComparison = typeof PullRequestBaseComparison.Type;
 
 export const PullRequestActor = Schema.Struct({
   isBot: Schema.optional(Schema.Boolean),
@@ -66,7 +92,16 @@ export const PullRequestLabel = Schema.Struct({
 });
 export type PullRequestLabel = typeof PullRequestLabel.Type;
 
-export schema PullRequestCheckStatus = "pending" | "action-required" | "success" | "failure" | "skipped" | "neutral" | "cancelled"
+export const PullRequestCheckStatus = Schema.Literals([
+  "pending",
+  "action-required",
+  "success",
+  "failure",
+  "skipped",
+  "neutral",
+  "cancelled",
+]);
+export type PullRequestCheckStatus = typeof PullRequestCheckStatus.Type;
 
 export const PullRequestCheck = Schema.Struct({
   name: TrimmedNonEmptyString,
@@ -77,7 +112,17 @@ export const PullRequestCheck = Schema.Struct({
 });
 export type PullRequestCheck = typeof PullRequestCheck.Type;
 
-export schema PullRequestReactionContent = "thumbs-up" | "thumbs-down" | "laugh" | "hooray" | "confused" | "heart" | "rocket" | "eyes"
+export const PullRequestReactionContent = Schema.Literals([
+  "thumbs-up",
+  "thumbs-down",
+  "laugh",
+  "hooray",
+  "confused",
+  "heart",
+  "rocket",
+  "eyes",
+]);
+export type PullRequestReactionContent = typeof PullRequestReactionContent.Type;
 
 export const PullRequestReaction = Schema.Struct({
   content: PullRequestReactionContent,
@@ -88,7 +133,12 @@ export const PullRequestReaction = Schema.Struct({
 });
 export type PullRequestReaction = typeof PullRequestReaction.Type;
 
-export schema PullRequestCommentKind = "issue-comment" | "review-comment" | "review"
+export const PullRequestCommentKind = Schema.Literals([
+  "issue-comment",
+  "review-comment",
+  "review",
+]);
+export type PullRequestCommentKind = typeof PullRequestCommentKind.Type;
 
 export const PullRequestComment = Schema.Struct({
   id: TrimmedNonEmptyString,
@@ -105,9 +155,11 @@ export const PullRequestComment = Schema.Struct({
 });
 export type PullRequestComment = typeof PullRequestComment.Type;
 
-export schema PullRequestDiffSide = "left" | "right"
+export const PullRequestDiffSide = Schema.Literals(["left", "right"]);
+export type PullRequestDiffSide = typeof PullRequestDiffSide.Type;
 
-export schema PullRequestReviewVerdict = "comment" | "approve" | "request-changes"
+export const PullRequestReviewVerdict = Schema.Literals(["comment", "approve", "request-changes"]);
+export type PullRequestReviewVerdict = typeof PullRequestReviewVerdict.Type;
 
 export const PullRequestThreadComment = Schema.Struct({
   id: TrimmedNonEmptyString,
@@ -136,7 +188,8 @@ export const PullRequestReviewThread = Schema.Struct({
 });
 export type PullRequestReviewThread = typeof PullRequestReviewThread.Type;
 
-export schema PullRequestReviewerKind = "user" | "team"
+export const PullRequestReviewerKind = Schema.Literals(["user", "team"]);
+export type PullRequestReviewerKind = typeof PullRequestReviewerKind.Type;
 
 export const PullRequestReviewerCandidate = Schema.Struct({
   ...PullRequestActor.fields,
@@ -146,10 +199,11 @@ export const PullRequestReviewerCandidate = Schema.Struct({
 });
 export type PullRequestReviewerCandidate = typeof PullRequestReviewerCandidate.Type;
 
-export schema PullRequestReviewerCandidateList {
-  candidates: ReadonlyArray<PullRequestReviewerCandidate>
-  truncated: boolean
-}
+export const PullRequestReviewerCandidateList = Schema.Struct({
+  candidates: Schema.Array(PullRequestReviewerCandidate),
+  truncated: Schema.Boolean,
+});
+export type PullRequestReviewerCandidateList = typeof PullRequestReviewerCandidateList.Type;
 
 export const PullRequestLabelCandidate = Schema.Struct({
   ...PullRequestLabel.fields,
@@ -158,19 +212,21 @@ export const PullRequestLabelCandidate = Schema.Struct({
 });
 export type PullRequestLabelCandidate = typeof PullRequestLabelCandidate.Type;
 
-export schema PullRequestLabelCandidateList {
-  candidates: ReadonlyArray<PullRequestLabelCandidate>
-  truncated: boolean
-}
+export const PullRequestLabelCandidateList = Schema.Struct({
+  candidates: Schema.Array(PullRequestLabelCandidate),
+  truncated: Schema.Boolean,
+});
+export type PullRequestLabelCandidateList = typeof PullRequestLabelCandidateList.Type;
 
-export schema PullRequestCommit {
-  oid: TrimmedNonEmptyString
-  messageHeadline: string
-  committedDate: IsoDateTime
-  additions?: NonNegativeInt
-  deletions?: NonNegativeInt
-  authors?: ReadonlyArray<PullRequestActor>
-}
+export const PullRequestCommit = Schema.Struct({
+  oid: TrimmedNonEmptyString,
+  messageHeadline: Schema.String,
+  committedDate: IsoDateTime,
+  additions: Schema.optional(NonNegativeInt),
+  deletions: Schema.optional(NonNegativeInt),
+  authors: Schema.optional(Schema.Array(PullRequestActor)),
+});
+export type PullRequestCommit = typeof PullRequestCommit.Type;
 
 export const PullRequestReviewCapabilities = Schema.Struct({
   inlineComment: Schema.Boolean,
@@ -185,17 +241,20 @@ export const PullRequestReviewCapabilities = Schema.Struct({
 });
 export type PullRequestReviewCapabilities = typeof PullRequestReviewCapabilities.Type;
 
-export schema PullRequestEditCapabilities {
-  changeRequest: boolean
-  comment: boolean
-}
+export const PullRequestEditCapabilities = Schema.Struct({
+  changeRequest: Schema.Boolean,
+  comment: Schema.Boolean,
+});
+export type PullRequestEditCapabilities = typeof PullRequestEditCapabilities.Type;
 
-export schema PullRequestReviewerCapabilities {
-  request: boolean
-  listCandidates: boolean
-}
+export const PullRequestReviewerCapabilities = Schema.Struct({
+  request: Schema.Boolean,
+  listCandidates: Schema.Boolean,
+});
+export type PullRequestReviewerCapabilities = typeof PullRequestReviewerCapabilities.Type;
 
-export schema PullRequestViewedFilesStore = "host" | "environment"
+export const PullRequestViewedFilesStore = Schema.Literals(["host", "environment"]);
+export type PullRequestViewedFilesStore = typeof PullRequestViewedFilesStore.Type;
 
 export const PullRequestCapabilities = Schema.Struct({
   diff: Schema.Boolean,
@@ -239,18 +298,20 @@ export const PullRequestViewerPermissions = Schema.Struct({
 });
 export type PullRequestViewerPermissions = typeof PullRequestViewerPermissions.Type;
 
-export schema PullRequestMergeCapabilities {
-  merge: boolean
-  squash: boolean
-  rebase: boolean
-}
+export const PullRequestMergeCapabilities = Schema.Struct({
+  merge: Schema.Boolean,
+  squash: Schema.Boolean,
+  rebase: Schema.Boolean,
+});
+export type PullRequestMergeCapabilities = typeof PullRequestMergeCapabilities.Type;
 
-export schema PullRequestStackMembership {
-  number: PositiveInt
-  position: PositiveInt
-  size: PositiveInt
-  base: TrimmedNonEmptyString
-}
+export const PullRequestStackMembership = Schema.Struct({
+  number: PositiveInt,
+  position: PositiveInt,
+  size: PositiveInt,
+  base: TrimmedNonEmptyString,
+});
+export type PullRequestStackMembership = typeof PullRequestStackMembership.Type;
 
 export const PullRequestListEntry = Schema.Struct({
   stack: Schema.optional(PullRequestStackMembership),
@@ -340,25 +401,28 @@ export const PullRequestRef = Schema.Struct({
 });
 export type PullRequestRef = typeof PullRequestRef.Type;
 
-export schema PullRequestRoutingIdentityInput {
-  host: TrimmedNonEmptyString
-}
+export const PullRequestRoutingIdentityInput = Schema.Struct({
+  host: TrimmedNonEmptyString,
+});
+export type PullRequestRoutingIdentityInput = typeof PullRequestRoutingIdentityInput.Type;
 
-export schema PullRequestRoutingIdentityResult {
-  accountId: TrimmedNonEmptyString
-  host: TrimmedNonEmptyString
-  provider: SourceControlProviderKind
-  viewer: TrimmedNonEmptyString
-}
+export const PullRequestRoutingIdentityResult = Schema.Struct({
+  accountId: TrimmedNonEmptyString,
+  host: TrimmedNonEmptyString,
+  provider: SourceControlProviderKind,
+  viewer: TrimmedNonEmptyString,
+});
+export type PullRequestRoutingIdentityResult = typeof PullRequestRoutingIdentityResult.Type;
 
-export schema PullRequestRoutingResult {
-  accountId: TrimmedNonEmptyString
-  host: TrimmedNonEmptyString
-  provider: SourceControlProviderKind
-  viewer: TrimmedNonEmptyString
-  projectTitle: TrimmedNonEmptyString
-  workspaceRoot: TrimmedNonEmptyString
-}
+export const PullRequestRoutingResult = Schema.Struct({
+  accountId: TrimmedNonEmptyString,
+  host: TrimmedNonEmptyString,
+  provider: SourceControlProviderKind,
+  viewer: TrimmedNonEmptyString,
+  projectTitle: TrimmedNonEmptyString,
+  workspaceRoot: TrimmedNonEmptyString,
+});
+export type PullRequestRoutingResult = typeof PullRequestRoutingResult.Type;
 
 export const PullRequestLinkedThreadsResult = Schema.Struct({
   threads: Schema.Array(
@@ -412,20 +476,23 @@ export const PullRequestSummary = Schema.Struct({
 });
 export type PullRequestSummary = typeof PullRequestSummary.Type;
 
-export schema PullRequestStack {
-  id: TrimmedNonEmptyString
-  number: PositiveInt
-  url: TrimmedNonEmptyString
-  base: TrimmedNonEmptyString
-  layers: ReadonlyArray<{
-    number: PositiveInt
-    title?: string
-    isDraft?: boolean
-    headSha?: TrimmedNonEmptyString
-    headBranch: TrimmedNonEmptyString
-    state: PullRequestState
-  }>
-}
+export const PullRequestStack = Schema.Struct({
+  id: TrimmedNonEmptyString,
+  number: PositiveInt,
+  url: TrimmedNonEmptyString,
+  base: TrimmedNonEmptyString,
+  layers: Schema.Array(
+    Schema.Struct({
+      number: PositiveInt,
+      title: Schema.optional(Schema.String),
+      isDraft: Schema.optional(Schema.Boolean),
+      headSha: Schema.optional(TrimmedNonEmptyString),
+      headBranch: TrimmedNonEmptyString,
+      state: PullRequestState,
+    }),
+  ),
+});
+export type PullRequestStack = typeof PullRequestStack.Type;
 
 export const PullRequestDiffStat = Schema.Struct({
   projectId: ProjectId,
@@ -441,11 +508,13 @@ export const PullRequestListStatsInput = Schema.Struct({
 });
 export type PullRequestListStatsInput = typeof PullRequestListStatsInput.Type;
 
-export schema PullRequestListStatsResult {
-  stats: ReadonlyArray<PullRequestDiffStat>
-}
+export const PullRequestListStatsResult = Schema.Struct({
+  stats: Schema.Array(PullRequestDiffStat),
+});
+export type PullRequestListStatsResult = typeof PullRequestListStatsResult.Type;
 
-export schema PullRequestFilterOptionKind = "labels" | "authors"
+export const PullRequestFilterOptionKind = Schema.Literals(["labels", "authors"]);
+export type PullRequestFilterOptionKind = typeof PullRequestFilterOptionKind.Type;
 
 /** Scoped like `PullRequestListInput`, so the options come from the repositories it lists. */
 export const PullRequestFilterOptionsInput = Schema.Struct({
@@ -457,26 +526,29 @@ export const PullRequestFilterOptionsInput = Schema.Struct({
 });
 export type PullRequestFilterOptionsInput = typeof PullRequestFilterOptionsInput.Type;
 
-export schema PullRequestFilterOptions {
-  labels: ReadonlyArray<PullRequestLabel>
-  authors: ReadonlyArray<PullRequestActor>
-  truncated: boolean
-}
+export const PullRequestFilterOptions = Schema.Struct({
+  labels: Schema.Array(PullRequestLabel),
+  authors: Schema.Array(PullRequestActor),
+  truncated: Schema.Boolean,
+});
+export type PullRequestFilterOptions = typeof PullRequestFilterOptions.Type;
 
 /**
  * A separate request rather than a flag on the reads, so an explicit "refresh" one person
  * presses is the only thing that spends host requests — every ordinary read shares.
  */
-export schema PullRequestInvalidateInput {
-  reference?: PullRequestRef
-  filesViewedOnly?: boolean
-}
+export const PullRequestInvalidateInput = Schema.Struct({
+  reference: Schema.optional(PullRequestRef),
+  filesViewedOnly: Schema.optional(Schema.Boolean),
+});
+export type PullRequestInvalidateInput = typeof PullRequestInvalidateInput.Type;
 
-export schema PullRequestReportStateInput {
-  reference: PullRequestRef
-  state: PullRequestState
-  isDraft?: boolean
-}
+export const PullRequestReportStateInput = Schema.Struct({
+  reference: PullRequestRef,
+  state: PullRequestState,
+  isDraft: Schema.optional(Schema.Boolean),
+});
+export type PullRequestReportStateInput = typeof PullRequestReportStateInput.Type;
 
 export const PullRequestDetail = Schema.Struct({
   provider: SourceControlProviderKind,
@@ -520,11 +592,12 @@ export const PullRequestDetail = Schema.Struct({
 });
 export type PullRequestDetail = typeof PullRequestDetail.Type;
 
-export schema PullRequestChecks {
-  observedAt?: Schema.Finite
-  state: PullRequestState
-  checks: ReadonlyArray<PullRequestCheck>
-}
+export const PullRequestChecks = Schema.Struct({
+  observedAt: Schema.optional(Schema.Finite),
+  state: PullRequestState,
+  checks: Schema.Array(PullRequestCheck),
+});
+export type PullRequestChecks = typeof PullRequestChecks.Type;
 
 export const PullRequestActivity = Schema.Struct({
   author: Schema.optional(Schema.NullOr(PullRequestActor)),
@@ -555,11 +628,12 @@ export const PullRequestDiffInput = Schema.Struct({
 });
 export type PullRequestDiffInput = typeof PullRequestDiffInput.Type;
 
-export schema PullRequestOmittedFileStat {
-  path: TrimmedNonEmptyString
-  additions: number
-  deletions: number
-}
+export const PullRequestOmittedFileStat = Schema.Struct({
+  path: TrimmedNonEmptyString,
+  additions: Schema.Number,
+  deletions: Schema.Number,
+});
+export type PullRequestOmittedFileStat = typeof PullRequestOmittedFileStat.Type;
 
 export const PullRequestDiffResult = Schema.Struct({
   patch: Schema.String,
@@ -579,21 +653,24 @@ export const PullRequestDiffFileContentsInput = Schema.Struct({
 });
 export type PullRequestDiffFileContentsInput = typeof PullRequestDiffFileContentsInput.Type;
 
-export schema PullRequestDiffFileContentsResult {
-  oldContents: string
-  newContents: string
-}
+export const PullRequestDiffFileContentsResult = Schema.Struct({
+  oldContents: Schema.String,
+  newContents: Schema.String,
+});
+export type PullRequestDiffFileContentsResult = typeof PullRequestDiffFileContentsResult.Type;
 
 const MAX_FILE_PATH_LENGTH = 4096;
 // Preserve filename whitespace so viewed marks match host paths.
 const FilePath = Schema.String.check(Schema.isNonEmpty(), Schema.isMaxLength(MAX_FILE_PATH_LENGTH));
 
-export schema PullRequestFileViewedState = "unviewed" | "viewed" | "dismissed"
+export const PullRequestFileViewedState = Schema.Literals(["unviewed", "viewed", "dismissed"]);
+export type PullRequestFileViewedState = typeof PullRequestFileViewedState.Type;
 
-export schema PullRequestFileViewed {
-  path: FilePath
-  state: PullRequestFileViewedState
-}
+export const PullRequestFileViewed = Schema.Struct({
+  path: FilePath,
+  state: PullRequestFileViewedState,
+});
+export type PullRequestFileViewed = typeof PullRequestFileViewed.Type;
 
 export const PullRequestFilesViewedResult = Schema.Struct({
   /** Only the files the host reported a state for. A file missing from this list is unviewed. */
@@ -602,10 +679,10 @@ export const PullRequestFilesViewedResult = Schema.Struct({
 });
 export type PullRequestFilesViewedResult = typeof PullRequestFilesViewedResult.Type;
 
-schema PullRequestLineCount {
-  additions: NonNegativeInt
-  deletions: NonNegativeInt
-}
+const PullRequestLineCount = Schema.Struct({
+  additions: NonNegativeInt,
+  deletions: NonNegativeInt,
+});
 
 /**
  * A change's line counts split by what the changed files are, judged from their paths. Null when
@@ -639,10 +716,11 @@ export const PullRequestSetFilesViewedInput = Schema.Struct({
 });
 export type PullRequestSetFilesViewedInput = typeof PullRequestSetFilesViewedInput.Type;
 
-export schema PullRequestStackHead {
-  number: PositiveInt
-  headSha: TrimmedNonEmptyString
-}
+export const PullRequestStackHead = Schema.Struct({
+  number: PositiveInt,
+  headSha: TrimmedNonEmptyString,
+});
+export type PullRequestStackHead = typeof PullRequestStackHead.Type;
 
 export const PullRequestActionInput = Schema.Struct({
   /** Native stack scope; only send to environments advertising pullRequestStackActions. */
@@ -680,18 +758,23 @@ export const PullRequestCommentUpdateInput = Schema.Struct({
 });
 export type PullRequestCommentUpdateInput = typeof PullRequestCommentUpdateInput.Type;
 
-export schema PullRequestReviewPosition = {
-  kind: "added"
-  newLine: PositiveInt
-} | {
-  kind: "deleted"
-  oldLine: PositiveInt
-} | {
-  kind: "context"
-  oldLine: PositiveInt
-  newLine: PositiveInt
-  side: PullRequestDiffSide
-}
+export const PullRequestReviewPosition = Schema.Union([
+  Schema.Struct({
+    kind: Schema.Literal("added"),
+    newLine: PositiveInt,
+  }),
+  Schema.Struct({
+    kind: Schema.Literal("deleted"),
+    oldLine: PositiveInt,
+  }),
+  Schema.Struct({
+    kind: Schema.Literal("context"),
+    oldLine: PositiveInt,
+    newLine: PositiveInt,
+    side: PullRequestDiffSide,
+  }),
+]);
+export type PullRequestReviewPosition = typeof PullRequestReviewPosition.Type;
 
 export const PullRequestReviewCommentDraft = Schema.Struct({
   path: TrimmedNonEmptyString,
