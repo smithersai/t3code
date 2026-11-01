@@ -14,7 +14,7 @@ import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as CheckpointDiffQuery from "./CheckpointDiffQuery.ts";
 import * as CheckpointStore from "./CheckpointStore.ts";
-import { CheckpointRefUnavailableError, CheckpointTurnRangeUnavailableError } from "./Errors.ts";
+import { CheckpointRefUnavailableError, CheckpointTurnRangeUnavailableError } from "./Errors.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const threadId = ThreadId.make("thread:checkpoint-diff-v2");
