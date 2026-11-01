@@ -28,7 +28,7 @@ import {
   resolveClaudeCatalogEffort,
   resolveClaudeModelSlug,
   scopeClaudeModelCatalog,
-} from "../provider/ClaudeModelCatalog.ts";
+} from "../provider/ClaudeModelCatalog.vibe";
 import {
   hasClaudeManagedMcpConfig,
   makeClaudeEnvironment,

@@ -1,0 +1,26 @@
+import { AuthOrchestrationReadScope, EnvironmentHttpApi } from "@t3tools/contracts"
+
+import { annotateEnvironmentRequest, requireEnvironmentScope } from "../auth/http.ts"
+import { traceLocalHandlerWork } from "../cloud/traceRelayRequest.ts"
+import * as PullRequestService from "./PullRequestService.ts"
+
+// Large patches benefit from HTTP compression and flow control.
+export const layer = HttpApiBuilder.group(
+  EnvironmentHttpApi,
+  "pullRequests",
+  effect (handlers) => {
+    const pullRequests = try PullRequestService.PullRequestService
+    return handlers.handle(
+      "diff",
+      effect (args) =>
+        try withSpan(
+          effect {
+            try annotateEnvironmentRequest(args.endpoint.name)
+            try requireEnvironmentScope(AuthOrchestrationReadScope)
+            return try (pullRequests.diff(args.payload) |> traceLocalHandlerWork(%))
+          },
+          "environment.pullRequests.diff",
+        ),
+    )
+  },
+)
