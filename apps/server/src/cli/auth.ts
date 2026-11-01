@@ -15,7 +15,7 @@ import {
   formatSessionList,
 } from "../cliAuthFormat.ts";
 import * as ServerConfig from "../config.ts";
-import { authScopesFlag } from "./authScopes.ts";
+import { authScopesFlag } from "./authScopes.vibe";
 import {
   authLocationFlags,
   type CliAuthLocationFlags,

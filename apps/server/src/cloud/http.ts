@@ -18,7 +18,7 @@ import { requireEnvironmentScope } from "../auth/http.ts";
 import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
 import * as CloudLink from "./CloudLink.ts";
 import * as ConnectReachability from "./ConnectReachability.ts";
-import type { RelayRequestError } from "./relayResponse.ts";
+import type { RelayRequestError } from "./relayResponse.vibe";
 import { traceRelayRequest } from "./traceRelayRequest.ts";
 
 const CLOUD_CREDENTIAL_RESPONSE_HEADERS = {

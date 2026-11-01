@@ -104,7 +104,7 @@ import {
   relayRequestError,
   type RelayRequestError,
   shouldRetryRelayRequest,
-} from "./relayResponse.ts";
+} from "./relayResponse.vibe";
 import {
   hasBoundedCloudProofLifetime,
   hasExactScope,

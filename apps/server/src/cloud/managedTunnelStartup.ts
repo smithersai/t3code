@@ -5,7 +5,7 @@ import * as Effect from "effect/Effect";
 import * as Schedule from "effect/Schedule";
 import * as Semaphore from "effect/Semaphore";
 
-import { isRelayUnavailable, relayRetryAfterMillis } from "./relayResponse.ts";
+import { isRelayUnavailable, relayRetryAfterMillis } from "./relayResponse.vibe";
 
 // Relinking revoked environments is the user's choice; startup takes no action.
 export type ManagedTunnelRegistrationResult =

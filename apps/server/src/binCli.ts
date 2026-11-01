@@ -8,7 +8,7 @@ import * as CliError from "effect/cli/CliError";
 
 import * as NetService from "@t3tools/shared/Net";
 import packageJson from "../package.json" with { type: "json" };
-import { acpMcpBridgeCommand, acpMcpCallCommand } from "./cli/acpMcpBridge.ts";
+import { acpMcpBridgeCommand, acpMcpCallCommand } from "./cli/acpMcpBridge.vibe";
 import { authCommand } from "./cli/auth.ts";
 import { environmentCommand } from "./cli/environment.ts";
 import { appCommand } from "./cli/app.ts";
@@ -24,7 +24,7 @@ import { runDefaultServerCommand, serveCommand, startCommand } from "./cli/serve
 import { updateCommand } from "./cli/update.ts";
 import { uninstallCommand } from "./cli/uninstall.ts";
 import { serviceLauncherCommand } from "./cli/serviceLauncher.ts";
-import { claudeHistoryCommand } from "./cli/claudeHistory.ts";
+import { claudeHistoryCommand } from "./cli/claudeHistory.vibe";
 import { sshHelperCommand } from "./cli/sshHelper.ts";
 import { serviceCommand } from "./cli/service.ts";
 import { servicePreflightCommand } from "./cli/servicePreflight.ts";

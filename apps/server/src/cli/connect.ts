@@ -35,7 +35,7 @@ import * as BootService from "../cloud/bootService.ts";
 import * as CliState from "../cloud/CliState.ts";
 import * as CliTokenManager from "../cloud/CliTokenManager.ts";
 import { formatReachabilityFailure } from "../cloud/ConnectReachability.ts";
-import { filterRelayResponse } from "../cloud/relayResponse.ts";
+import { filterRelayResponse } from "../cloud/relayResponse.vibe";
 import {
   CLOUD_LINK_REVOKED,
   CLOUD_LINKED_USER_ID,
