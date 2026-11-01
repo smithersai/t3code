@@ -91,7 +91,7 @@ import {
 import {
   DispatchModeLimit,
   type DispatchModeRefusal,
-} from "../orchestration-v2/DispatchModeLimit.ts";
+} from "../orchestration-v2/DispatchModeLimit.vibe";
 import { runOutcome } from "../orchestration-v2/RestartBackgroundNote.ts";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
 import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";

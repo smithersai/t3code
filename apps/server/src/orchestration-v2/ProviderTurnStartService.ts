@@ -33,7 +33,7 @@ import * as ProviderAuthService from "../provider/ProviderAuthService.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import { makeIsManagedWorktreePath } from "../worktreesDirectory.ts";
 import * as EventSink from "./EventSink.ts";
-import * as ContextHandoffService from "./ContextHandoffService.ts";
+import * as ContextHandoffService from "./ContextHandoffService.vibe";
 import {
   DEFAULT_HANDOFF_TOKEN_CAP,
   handoffTokenCapConfig,
