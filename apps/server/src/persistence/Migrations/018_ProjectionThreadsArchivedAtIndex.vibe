@@ -1,0 +1,13 @@
+import * as Effect from "effect/Effect"
+import * as SqlClient from "effect/sql/SqlClient"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+
+  try Effect.suspend(() =>
+    sql`
+    CREATE INDEX IF NOT EXISTS idx_projection_threads_project_archived_at
+    ON projection_threads(project_id, archived_at)
+  `
+  )
+}

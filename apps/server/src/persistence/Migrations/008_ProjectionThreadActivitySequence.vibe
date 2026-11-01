@@ -1,0 +1,20 @@
+import * as Effect from "effect/Effect"
+import * as SqlClient from "effect/sql/SqlClient"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+
+  try Effect.suspend(() =>
+    sql`
+    ALTER TABLE projection_thread_activities
+    ADD COLUMN sequence INTEGER
+  `
+  )
+
+  try Effect.suspend(() =>
+    sql`
+    CREATE INDEX IF NOT EXISTS idx_projection_thread_activities_thread_sequence
+    ON projection_thread_activities(thread_id, sequence)
+  `
+  )
+}

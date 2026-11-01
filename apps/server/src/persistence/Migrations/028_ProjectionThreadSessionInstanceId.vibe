@@ -1,0 +1,27 @@
+import * as SqlClient from "effect/sql/SqlClient"
+import * as Effect from "effect/Effect"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+
+  const columns = try Effect.suspend(() =>
+    sql<{ readonly name: string }>`
+    PRAGMA table_info(projection_thread_sessions)
+  `
+  )
+  if (!columns.some((column) => column.name === "provider_instance_id")) {
+    try Effect.suspend(() =>
+      sql`
+      ALTER TABLE projection_thread_sessions
+      ADD COLUMN provider_instance_id TEXT
+    `
+    )
+  }
+
+  try Effect.suspend(() =>
+    sql`
+    CREATE INDEX IF NOT EXISTS idx_projection_thread_sessions_instance
+    ON projection_thread_sessions(provider_instance_id)
+  `
+  )
+}
