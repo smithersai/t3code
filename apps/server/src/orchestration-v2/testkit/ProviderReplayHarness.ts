@@ -26,7 +26,7 @@ import * as CheckpointService from "../CheckpointService.ts";
 import * as CheckpointRollbackService from "../CheckpointRollbackService.ts";
 import * as CommandPolicy from "../CommandPolicy.ts";
 import * as CommandReceiptStore from "../CommandReceiptStore.ts";
-import * as ContextHandoffService from "../ContextHandoffService.ts";
+import * as ContextHandoffService from "../ContextHandoffService.vibe";
 import * as EffectOutbox from "../EffectOutbox.ts";
 import * as EffectWorker from "../EffectWorker.ts";
 import * as EventSink from "../EventSink.ts";
@@ -55,8 +55,8 @@ import * as ThreadTitleRegenerationService from "../ThreadTitleRegenerationServi
 import * as RuntimePolicy from "../RuntimePolicy.ts";
 import * as TurnItemPositionStore from "../TurnItemPositionStore.ts";
 import * as RuntimeRequestService from "../RuntimeRequestService.ts";
-import * as ThreadCommandExecutor from "../ThreadCommandExecutor.ts";
-import * as ThreadForkService from "../ThreadForkService.ts";
+import * as ThreadCommandExecutor from "../ThreadCommandExecutor.vibe";
+import * as ThreadForkService from "../ThreadForkService.vibe";
 import {
   runOrchestratorV2Scenario,
   type OrchestratorV2ScenarioStepError,

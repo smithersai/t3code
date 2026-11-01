@@ -15,7 +15,7 @@ import * as Schema from "effect/Schema";
 import { McpSchema, McpServer, Tool, Toolkit } from "effect/ai";
 
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import { DispatchModeLimit } from "../orchestration-v2/DispatchModeLimit.ts";
+import { DispatchModeLimit } from "../orchestration-v2/DispatchModeLimit.vibe";
 import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.ts";
 import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.ts";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";

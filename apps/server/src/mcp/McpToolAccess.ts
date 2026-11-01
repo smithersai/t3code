@@ -19,7 +19,7 @@ import type { Tool, Toolkit } from "effect/ai";
 import {
   DispatchModeLimit,
   type DispatchModeRefusal,
-} from "../orchestration-v2/DispatchModeLimit.ts";
+} from "../orchestration-v2/DispatchModeLimit.vibe";
 import * as PeerForwarding from "../peer/PeerForwarding.ts";
 import { assertNotLinked, assertSameLink, callerLinkOrigin } from "./linkOrigin.ts";
 import * as McpInvocationContext from "./McpInvocationContext.ts";

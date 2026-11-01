@@ -42,7 +42,7 @@ import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import {
   DispatchModeLimit,
   type DispatchModeRefusal,
-} from "../orchestration-v2/DispatchModeLimit.ts";
+} from "../orchestration-v2/DispatchModeLimit.vibe";
 import {
   OrchestratorProjectionError,
   OrchestratorThreadAboveModeLimitError,

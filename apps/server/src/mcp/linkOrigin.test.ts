@@ -24,7 +24,7 @@ import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.ts";
 import { makeSubagentChildThread } from "@t3tools/provider-core/server/subagentProjection";
-import * as ThreadForkService from "../orchestration-v2/ThreadForkService.ts";
+import * as ThreadForkService from "../orchestration-v2/ThreadForkService.vibe";
 import * as ThreadLaunch from "../orchestration-v2/ThreadLaunchService.ts";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
