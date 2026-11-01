@@ -2,7 +2,7 @@ import { ProviderSetupError, type ProviderAuthInteraction, type ProviderAuthMeth
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Scope from "effect/Scope";
-import type * as ProviderAuth from "./auth.js";
+import type * as ProviderAuth from "./auth.vibe";
 export interface ProviderAuthFlowContext {
     readonly flowId: string;
     readonly expiresAt: number;

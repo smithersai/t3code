@@ -20,24 +20,24 @@
       "import": "./src/server/attachmentPrompt.vibe"
     },
     "./server/auth": {
-      "types": "./src/server/auth.ts",
-      "import": "./src/server/auth.ts"
+      "types": "./src/server/auth.d.vibe.ts",
+      "import": "./src/server/auth.vibe"
     },
     "./server/collectStreamText": {
       "types": "./src/server/collectStreamText.vibe",
       "import": "./src/server/collectStreamText.vibe"
     },
     "./server/driver": {
-      "types": "./src/server/driver.ts",
-      "import": "./src/server/driver.ts"
+      "types": "./src/server/driver.d.vibe.ts",
+      "import": "./src/server/driver.vibe"
     },
     "./server/errors": {
       "types": "./src/server/errors.vibe",
       "import": "./src/server/errors.vibe"
     },
     "./server/failure": {
-      "types": "./src/server/failure.ts",
-      "import": "./src/server/failure.ts"
+      "types": "./src/server/failure.d.vibe.ts",
+      "import": "./src/server/failure.vibe"
     },
     "./server/handoffBudget": {
       "types": "./src/server/handoffBudget.vibe",
@@ -56,8 +56,8 @@
       "import": "./src/server/instanceIdentity.ts"
     },
     "./server/maintenance": {
-      "types": "./src/server/maintenance.ts",
-      "import": "./src/server/maintenance.ts"
+      "types": "./src/server/maintenance.d.vibe.ts",
+      "import": "./src/server/maintenance.vibe"
     },
     "./server/maintenanceResolver": {
       "types": "./src/server/maintenanceResolver.ts",
@@ -140,8 +140,8 @@
       "import": "./src/server/selectionTransition.ts"
     },
     "./server/snapshot": {
-      "types": "./src/server/snapshot.ts",
-      "import": "./src/server/snapshot.ts"
+      "types": "./src/server/snapshot.d.vibe.ts",
+      "import": "./src/server/snapshot.vibe"
     },
     "./server/snapshotProbe": {
       "types": "./src/server/snapshotProbe.ts",
@@ -156,8 +156,8 @@
       "import": "./src/server/subagentProjection.vibe"
     },
     "./server/textGeneration": {
-      "types": "./src/server/textGeneration.ts",
-      "import": "./src/server/textGeneration.ts"
+      "types": "./src/server/textGeneration.d.vibe.ts",
+      "import": "./src/server/textGeneration.vibe"
     },
     "./server/textGenerationOperations": {
       "types": "./src/server/textGenerationOperations.ts",
@@ -180,8 +180,8 @@
       "import": "./src/server/threadTitleContext.ts"
     },
     "./server/usage": {
-      "types": "./src/server/usage.ts",
-      "import": "./src/server/usage.ts"
+      "types": "./src/server/usage.d.vibe.ts",
+      "import": "./src/server/usage.vibe"
     },
     "./server/usageLimits": {
       "types": "./src/server/usageLimits.ts",

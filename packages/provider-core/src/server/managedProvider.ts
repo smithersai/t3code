@@ -17,7 +17,7 @@ import * as Semaphore from "effect/Semaphore";
 
 import * as ProviderHost from "./ProviderHost.vibe";
 import { applyUsageLimitsUpdate, resolveUsageLimitsAfterProbe } from "./usageLimits.ts";
-import type { ManagedServerProvider } from "./snapshot.ts";
+import type { ManagedServerProvider } from "./snapshot.vibe";
 
 interface ProviderSnapshotState {
   readonly snapshot: ServerProvider;
