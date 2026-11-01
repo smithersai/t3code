@@ -1,6 +1,6 @@
 import { defineSourceControlDriver, withOwnServices } from "@t3tools/source-control-core/server/driver"
 
-import { definition } from "../shared/definition.ts"
+import { definition } from "../shared/definition.vibe"
 
 import * as GitCafeApi from "./GitCafeApi.ts"
 import * as GitCafeCredentials from "./GitCafeCredentials.ts"
