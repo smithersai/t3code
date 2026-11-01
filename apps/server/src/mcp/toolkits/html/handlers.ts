@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as HtmlRender from "../../../htmlRender/HtmlRender.ts";
 import * as McpInvocationContext from "../../McpInvocationContext.ts";
 import * as McpToolAccess from "../../McpToolAccess.ts";
-import { HtmlPreviewToolkit, HtmlRenderToolkit, type HtmlToolkit } from "./tools.ts";
+import { HtmlPreviewToolkit, HtmlRenderToolkit, type HtmlToolkit } from "./tools.vibe";
 
 const INVALID_PAGE_ERRORS = new Set([
   "HtmlRenderImagesNotFoundError",

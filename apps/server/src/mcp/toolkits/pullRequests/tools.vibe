@@ -9,29 +9,28 @@ import {
   ThreadPullRequestLinkSource,
   TrimmedNonEmptyString,
   ThreadId,
-} from "@t3tools/contracts";
-import * as Schema from "effect/Schema";
-import * as McpSchema from "effect/ai/McpSchema";
-import * as Tool from "effect/ai/Tool";
-import * as Toolkit from "effect/ai/Toolkit";
+} from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
+import * as Tool from "effect/ai/Tool"
+import * as Toolkit from "effect/ai/Toolkit"
 
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
-import * as Orchestrator from "../../../orchestration-v2/Orchestrator.ts";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
-import * as ProjectService from "../../../project/ProjectService.ts";
-import * as PullRequestReviewGuideService from "../../../pullRequest/PullRequestReviewGuideService.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.ts"
+import * as Orchestrator from "../../../orchestration-v2/Orchestrator.ts"
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts"
+import * as ProjectService from "../../../project/ProjectService.ts"
+import * as PullRequestReviewGuideService from "../../../pullRequest/PullRequestReviewGuideService.ts"
 
 const dependencies = [
   McpInvocationContext.McpInvocationContext,
   ThreadManagementService.ThreadManagementService,
   Orchestrator.OrchestratorV2,
   ProjectService.ProjectService,
-];
+]
 
 const guideDependencies = [
   ...dependencies,
   PullRequestReviewGuideService.PullRequestReviewGuideService,
-];
+]
 
 export const PullRequestTargetInput = Schema.Struct({
   environmentId: OrchestratorMcpEnvironmentTarget,
@@ -56,187 +55,156 @@ export const PullRequestTargetInput = Schema.Struct({
       description: "Default: this project's host.",
     }),
   ),
-});
-export type PullRequestTargetInput = typeof PullRequestTargetInput.Type;
+})
+export type PullRequestTargetInput = typeof PullRequestTargetInput.Type
 
-export class PullRequestUrlInvalidError extends Schema.TaggedError<PullRequestUrlInvalidError>()(
-  "PullRequestUrlInvalidError",
-  {},
-) {
+export schema error PullRequestUrlInvalidError {
   override get message(): string {
-    return "This is not a recognised pull request URL. Pass repository and number instead.";
+    return "This is not a recognised pull request URL. Pass repository and number instead."
   }
 }
 
-export class PullRequestTargetIncompleteError extends Schema.TaggedError<PullRequestTargetIncompleteError>()(
-  "PullRequestTargetIncompleteError",
-  {},
-) {
+export schema error PullRequestTargetIncompleteError {
   override get message(): string {
-    return "Pass either url, or both repository and number.";
+    return "Pass either url, or both repository and number."
   }
 }
 
-export class PullRequestHostRequiredError extends Schema.TaggedError<PullRequestHostRequiredError>()(
-  "PullRequestHostRequiredError",
-  {},
-) {
+export schema error PullRequestHostRequiredError {
   override get message(): string {
-    return "This thread's project has no recognised remote. Pass host or url.";
+    return "This thread's project has no recognised remote. Pass host or url."
   }
 }
 
-export class PullRequestUrlUnavailableError extends Schema.TaggedError<PullRequestUrlUnavailableError>()(
-  "PullRequestUrlUnavailableError",
-  {},
-) {
+export schema error PullRequestUrlUnavailableError {
   override get message(): string {
-    return "This thread's project is on a host with no known pull request URL shape. Pass url.";
+    return "This thread's project is on a host with no known pull request URL shape. Pass url."
   }
 }
 
-export class PullRequestThreadRequiredError extends Schema.TaggedError<PullRequestThreadRequiredError>()(
-  "PullRequestThreadRequiredError",
-  {},
-) {
+export schema error PullRequestThreadRequiredError {
   override get message(): string {
-    return "Pass threadId: this MCP client is not running inside a T3 thread.";
+    return "Pass threadId: this MCP client is not running inside a T3 thread."
   }
 }
 
-export class PullRequestThreadNotFoundError extends Schema.TaggedError<PullRequestThreadNotFoundError>()(
-  "PullRequestThreadNotFoundError",
-  { threadId: Schema.String },
-) {
+export schema error PullRequestThreadNotFoundError {
+  threadId: string
   override get message(): string {
-    return `Thread ${this.threadId} was not found.`;
+    return `Thread ${this.threadId} was not found.`
   }
 }
 
-export class PullRequestLinkFailedError extends Schema.TaggedError<PullRequestLinkFailedError>()(
-  "PullRequestLinkFailedError",
-  { cause: Schema.Defect() },
-) {
+const PullRequestLinkFailedErrorCauseField = Schema.Defect()
+export schema error PullRequestLinkFailedError {
+  cause: PullRequestLinkFailedErrorCauseField
   override get message(): string {
-    return "Could not link the pull request.";
+    return "Could not link the pull request."
   }
 }
 
-export class PullRequestUnlinkFailedError extends Schema.TaggedError<PullRequestUnlinkFailedError>()(
-  "PullRequestUnlinkFailedError",
-  { cause: Schema.Defect() },
-) {
+const PullRequestUnlinkFailedErrorCauseField = Schema.Defect()
+export schema error PullRequestUnlinkFailedError {
+  cause: PullRequestUnlinkFailedErrorCauseField
   override get message(): string {
-    return "Could not unlink the pull request.";
+    return "Could not unlink the pull request."
   }
 }
 
-export class PullRequestWatchFailedError extends Schema.TaggedError<PullRequestWatchFailedError>()(
-  "PullRequestWatchFailedError",
-  { cause: Schema.Defect() },
-) {
+const PullRequestWatchFailedErrorCauseField = Schema.Defect()
+export schema error PullRequestWatchFailedError {
+  cause: PullRequestWatchFailedErrorCauseField
   override get message(): string {
-    return "Could not change whether the pull request is watched.";
+    return "Could not change whether the pull request is watched."
   }
 }
 
-export class PullRequestNotOpenError extends Schema.TaggedError<PullRequestNotOpenError>()(
-  "PullRequestNotOpenError",
-  { state: Schema.String },
-) {
+export schema error PullRequestNotOpenError {
+  state: string
   override get message(): string {
-    return `The pull request is ${this.state}, so there is nothing to watch.`;
+    return `The pull request is ${this.state}, so there is nothing to watch.`
   }
 }
 
-export class PullRequestWatchFromSubagentError extends Schema.TaggedError<PullRequestWatchFromSubagentError>()(
-  "PullRequestWatchFromSubagentError",
-  {},
-) {
+export schema error PullRequestWatchFromSubagentError {
   override get message(): string {
-    return "This thread is a subagent, so it cannot watch pull requests. Its parent thread owns the pull request: finish your task and report back instead.";
+    return "This thread is a subagent, so it cannot watch pull requests. Its parent thread owns the pull request: finish your task and report back instead."
   }
 }
 
-export class PullRequestListFailedError extends Schema.TaggedError<PullRequestListFailedError>()(
-  "PullRequestListFailedError",
-  { cause: Schema.Defect() },
-) {
+const PullRequestListFailedErrorCauseField = Schema.Defect()
+export schema error PullRequestListFailedError {
+  cause: PullRequestListFailedErrorCauseField
   override get message(): string {
-    return "Could not list the pull request.";
+    return "Could not list the pull request."
   }
 }
 
-export class PullRequestProjectNotFoundError extends Schema.TaggedError<PullRequestProjectNotFoundError>()(
-  "PullRequestProjectNotFoundError",
-  { repository: Schema.String },
-) {
+export schema error PullRequestProjectNotFoundError {
+  repository: string
   override get message(): string {
-    return `No project in this environment is a checkout of ${this.repository}, so its pull requests cannot be read here. Add one with t3_project_create.`;
+    return `No project in this environment is a checkout of ${this.repository}, so its pull requests cannot be read here. Add one with t3_project_create.`
   }
 }
 
-export class PullRequestGuideFailedError extends Schema.TaggedError<PullRequestGuideFailedError>()(
-  "PullRequestGuideFailedError",
-  { detail: Schema.String, cause: Schema.optional(Schema.Defect()) },
-) {
+const PullRequestGuideFailedErrorCauseField = Schema.Defect()
+export schema error PullRequestGuideFailedError {
+  detail: string
+  cause?: PullRequestGuideFailedErrorCauseField
   override get message(): string {
-    return this.detail;
+    return this.detail
   }
 }
 
-export const PullRequestToolError = Schema.Union([
-  OrchestratorMcpFailure,
-  McpCapabilityUnavailableError,
-  PullRequestUrlInvalidError,
-  PullRequestTargetIncompleteError,
-  PullRequestHostRequiredError,
-  PullRequestUrlUnavailableError,
-  PullRequestThreadRequiredError,
-  PullRequestThreadNotFoundError,
-  PullRequestLinkFailedError,
-  PullRequestUnlinkFailedError,
-  PullRequestListFailedError,
-  PullRequestWatchFailedError,
-  PullRequestNotOpenError,
-  PullRequestWatchFromSubagentError,
-  PullRequestProjectNotFoundError,
-  PullRequestGuideFailedError,
-]);
-export type PullRequestToolError = typeof PullRequestToolError.Type;
+export schema PullRequestToolError =
+  | OrchestratorMcpFailure
+  | McpCapabilityUnavailableError
+  | PullRequestUrlInvalidError
+  | PullRequestTargetIncompleteError
+  | PullRequestHostRequiredError
+  | PullRequestUrlUnavailableError
+  | PullRequestThreadRequiredError
+  | PullRequestThreadNotFoundError
+  | PullRequestLinkFailedError
+  | PullRequestUnlinkFailedError
+  | PullRequestListFailedError
+  | PullRequestWatchFailedError
+  | PullRequestNotOpenError
+  | PullRequestWatchFromSubagentError
+  | PullRequestProjectNotFoundError
+  | PullRequestGuideFailedError
 
 const PullRequestIdentity = {
   host: Schema.String,
   repository: Schema.String,
   number: Schema.Int,
   url: Schema.String,
-};
+}
 
 /** A delegated child's report is how its parent learns the PR, so the link result asks for it. */
 export const CHILD_PULL_REQUEST_REPORT_NEXT =
-  "End your reply with: PR <full URL>, head <SHA>, checks and reviews <state>.";
+  "End your reply with: PR <full URL>, head <SHA>, checks and reviews <state>."
 
 export const LinkPullRequestResult = Schema.Struct({
   ...PullRequestIdentity,
   alreadyLinked: Schema.Boolean,
   next: Schema.optional(Schema.String),
-});
-export type LinkPullRequestResult = typeof LinkPullRequestResult.Type;
+})
+export type LinkPullRequestResult = typeof LinkPullRequestResult.Type
 
-export const UnlinkPullRequestResult = Schema.Struct({
-  host: Schema.String,
-  repository: Schema.String,
-  number: Schema.Int,
-  wasLinked: Schema.Boolean,
-});
-export type UnlinkPullRequestResult = typeof UnlinkPullRequestResult.Type;
+export schema UnlinkPullRequestResult {
+  host: string
+  repository: string
+  number: Schema.Int
+  wasLinked: boolean
+}
 
 export const WatchPullRequestResult = Schema.Struct({
   ...PullRequestIdentity,
   watching: Schema.Boolean,
   wasWatching: Schema.Boolean,
-});
-export type WatchPullRequestResult = typeof WatchPullRequestResult.Type;
+})
+export type WatchPullRequestResult = typeof WatchPullRequestResult.Type
 
 export const ThreadPullRequestEntry = Schema.Struct({
   ...PullRequestIdentity,
@@ -255,8 +223,8 @@ export const ThreadPullRequestEntry = Schema.Struct({
       size: Schema.Int,
     }),
   ),
-});
-export type ThreadPullRequestEntry = typeof ThreadPullRequestEntry.Type;
+})
+export type ThreadPullRequestEntry = typeof ThreadPullRequestEntry.Type
 
 export const ListThreadPullRequestsResult = Schema.Struct({
   pullRequests: Schema.Array(ThreadPullRequestEntry),
@@ -267,8 +235,8 @@ export const ListThreadPullRequestsResult = Schema.Struct({
       numbers: Schema.Array(Schema.Int),
     }),
   ),
-});
-export type ListThreadPullRequestsResult = typeof ListThreadPullRequestsResult.Type;
+})
+export type ListThreadPullRequestsResult = typeof ListThreadPullRequestsResult.Type
 
 const LinkPullRequestTool = Tool.make("link_pull_request", {
   description: "Link a PR to this thread. T3 shows its status and settles the thread on merge.",
@@ -281,11 +249,10 @@ const LinkPullRequestTool = Tool.make("link_pull_request", {
   .annotate(Tool.Readonly, false)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
-  .annotate(Tool.OpenWorld, false);
+  .annotate(Tool.OpenWorld, false)
 
 const UnlinkPullRequestTool = Tool.make("unlink_pull_request", {
-  description:
-    "Remove a PR link from this thread. Succeeds with `wasLinked=false` when it was not linked.",
+  description: "Remove a PR link from this thread. Succeeds with `wasLinked=false` when it was not linked.",
   parameters: PullRequestTargetInput,
   success: UnlinkPullRequestResult,
   failure: PullRequestToolError,
@@ -295,7 +262,7 @@ const UnlinkPullRequestTool = Tool.make("unlink_pull_request", {
   .annotate(Tool.Readonly, false)
   .annotate(Tool.Destructive, true)
   .annotate(Tool.Idempotent, true)
-  .annotate(Tool.OpenWorld, false);
+  .annotate(Tool.OpenWorld, false)
 
 const ListThreadPullRequestsTool = Tool.make("list_thread_pull_requests", {
   description:
@@ -312,7 +279,7 @@ const ListThreadPullRequestsTool = Tool.make("list_thread_pull_requests", {
   .annotate(Tool.Readonly, true)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
-  .annotate(Tool.OpenWorld, false);
+  .annotate(Tool.OpenWorld, false)
 
 const WatchPullRequestTool = Tool.make("watch_pull_request", {
   description:
@@ -327,7 +294,7 @@ const WatchPullRequestTool = Tool.make("watch_pull_request", {
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
   .annotate(Tool.OpenWorld, false)
-  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenFromSubagents);
+  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenFromSubagents)
 
 const UnwatchPullRequestTool = Tool.make("unwatch_pull_request", {
   description: "Stop watching a PR for this thread. It stays linked.",
@@ -341,14 +308,14 @@ const UnwatchPullRequestTool = Tool.make("unwatch_pull_request", {
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
   .annotate(Tool.OpenWorld, false)
-  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenFromSubagents);
+  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenFromSubagents)
 
 const GuideTarget = Schema.Struct({
   url: PullRequestTargetInput.fields.url,
   repository: PullRequestTargetInput.fields.repository,
   number: PullRequestTargetInput.fields.number,
   host: PullRequestTargetInput.fields.host,
-});
+})
 
 const GuideOutcome = Schema.Struct({
   ...PullRequestIdentity,
@@ -356,12 +323,11 @@ const GuideOutcome = Schema.Struct({
     description: "started: a run began. running: joined a run for this head. failed: see detail.",
   }),
   detail: Schema.NullOr(Schema.String),
-});
+})
 
-export const WritePullRequestGuidesResult = Schema.Struct({
-  guides: Schema.Array(GuideOutcome),
-});
-export type WritePullRequestGuidesResult = typeof WritePullRequestGuidesResult.Type;
+export schema WritePullRequestGuidesResult {
+  guides: ReadonlyArray<GuideOutcome>
+}
 
 export const ReadPullRequestGuideResult = Schema.Struct({
   ...PullRequestIdentity,
@@ -371,8 +337,8 @@ export const ReadPullRequestGuideResult = Schema.Struct({
   stale: Schema.Boolean.annotate({
     description: "True when the PR head moved after the guide was written.",
   }),
-});
-export type ReadPullRequestGuideResult = typeof ReadPullRequestGuideResult.Type;
+})
+export type ReadPullRequestGuideResult = typeof ReadPullRequestGuideResult.Type
 
 const WritePullRequestGuidesTool = Tool.make("write_pull_request_guides", {
   description:
@@ -389,11 +355,10 @@ const WritePullRequestGuidesTool = Tool.make("write_pull_request_guides", {
   .annotate(Tool.Readonly, false)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, false)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
 
 const ReadPullRequestGuideTool = Tool.make("read_pull_request_guide", {
-  description:
-    "Read a PR's stored review guide and run state. `guide` is null when none exists. Never starts a run.",
+  description: "Read a PR's stored review guide and run state. `guide` is null when none exists. Never starts a run.",
   parameters: Schema.Struct({
     environmentId: OrchestratorMcpEnvironmentTarget,
     ...GuideTarget.fields,
@@ -406,7 +371,7 @@ const ReadPullRequestGuideTool = Tool.make("read_pull_request_guide", {
   .annotate(Tool.Readonly, true)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
 
 export const PullRequestsToolkit = Toolkit.make(
   LinkPullRequestTool,
@@ -416,4 +381,4 @@ export const PullRequestsToolkit = Toolkit.make(
   UnwatchPullRequestTool,
   WritePullRequestGuidesTool,
   ReadPullRequestGuideTool,
-);
+)

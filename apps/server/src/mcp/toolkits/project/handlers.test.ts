@@ -31,7 +31,7 @@ import * as VcsProcess from "../../../vcs/VcsProcess.ts";
 import * as McpInvocationContext from "../../McpInvocationContext.ts";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import * as ProjectHandlers from "./handlers.ts";
-import { ProjectToolkit } from "./tools.ts";
+import { ProjectToolkit } from "./tools.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const clientLaunchHarness = (input: {

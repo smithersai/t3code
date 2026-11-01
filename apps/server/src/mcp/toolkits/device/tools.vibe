@@ -7,25 +7,24 @@ import {
   DeviceToolOpenResult,
   DeviceToolScreenshotResult,
   DeviceToolTargetInput,
-} from "@t3tools/contracts";
-import * as Schema from "effect/Schema";
-import * as FileSystem from "effect/FileSystem";
-import * as Path from "effect/Path";
-import * as ServerConfig from "../../../config.ts";
-import { Tool, Toolkit } from "effect/ai";
+} from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
+import * as FileSystem from "effect/FileSystem"
+import * as Path from "effect/Path"
+import * as ServerConfig from "../../../config.ts"
 
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
-import * as DeviceService from "../../../device/DeviceService.ts";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
-import * as ProjectService from "../../../project/ProjectService.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.ts"
+import * as DeviceService from "../../../device/DeviceService.ts"
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts"
+import * as ProjectService from "../../../project/ProjectService.ts"
 
 const dependencies = [
   McpInvocationContext.McpInvocationContext,
   ThreadManagementService.ThreadManagementService,
   DeviceService.DeviceService,
-];
+]
 
-const DeviceToolFailure = Schema.Union([DeviceToolError, OrchestratorMcpFailure]);
+const DeviceToolFailure = Schema.Union([DeviceToolError, OrchestratorMcpFailure])
 
 const DeviceListTool = Tool.make("device_list", {
   description:
@@ -45,7 +44,7 @@ const DeviceListTool = Tool.make("device_list", {
   .annotate(Tool.Readonly, true)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
-  .annotate(Tool.OpenWorld, false);
+  .annotate(Tool.OpenWorld, false)
 
 const DeviceOpenTool = Tool.make("device_open", {
   description:
@@ -66,11 +65,10 @@ const DeviceOpenTool = Tool.make("device_open", {
   .annotate(Tool.Readonly, false)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
 
 export const DeviceScreenshotTool = Tool.make("device_screenshot", {
-  description:
-    "Get a PNG of an open device's screen. For taps and text, use the `agent-device` CLI.",
+  description: "Get a PNG of an open device's screen. For taps and text, use the `agent-device` CLI.",
   parameters: DeviceToolTargetInput,
   success: DeviceToolScreenshotResult,
   failure: DeviceToolFailure,
@@ -80,11 +78,10 @@ export const DeviceScreenshotTool = Tool.make("device_screenshot", {
   .annotate(Tool.Readonly, true)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
 
 const DeviceCloseTool = Tool.make("device_close", {
-  description:
-    "Remove a device from this thread's Device panel. `shutdown=true` also turns it off.",
+  description: "Remove a device from this thread's Device panel. `shutdown=true` also turns it off.",
   parameters: DeviceToolCloseInput,
   success: Schema.Record(Schema.String, Schema.Never),
   failure: DeviceToolFailure,
@@ -94,15 +91,15 @@ const DeviceCloseTool = Tool.make("device_close", {
   .annotate(Tool.Readonly, false)
   .annotate(Tool.Destructive, true)
   .annotate(Tool.Idempotent, true)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
 
-export const DeviceStandardToolkit = Toolkit.make(DeviceListTool, DeviceOpenTool, DeviceCloseTool);
+export const DeviceStandardToolkit = Toolkit.make(DeviceListTool, DeviceOpenTool, DeviceCloseTool)
 
-export const DeviceScreenshotToolkit = Toolkit.make(DeviceScreenshotTool);
+export const DeviceScreenshotToolkit = Toolkit.make(DeviceScreenshotTool)
 
 export const DeviceToolkit = Toolkit.make(
   DeviceListTool,
   DeviceOpenTool,
   DeviceScreenshotTool,
   DeviceCloseTool,
-);
+)

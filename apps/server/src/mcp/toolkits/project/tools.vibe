@@ -1,4 +1,4 @@
-import { McpAttachmentInput } from "../attachment/input.ts";
+import { McpAttachmentInput } from "../attachment/input.vibe"
 import {
   NonNegativeInt,
   ModelSelection,
@@ -19,21 +19,20 @@ import {
   OrchestratorMcpFailure,
   SourceControlCloneRepositoryInput,
   SourceControlCloneRepositoryResult,
-} from "@t3tools/contracts";
-import * as FileSystem from "effect/FileSystem";
-import * as DocumentText from "../../../provider/DocumentText.ts";
-import * as ServerConfig from "../../../config.ts";
-import * as ServerSettings from "../../../serverSettings.ts";
-import * as ThreadLaunchService from "../../../orchestration-v2/ThreadLaunchService.ts";
-import * as Crypto from "@t3tools/shared/Crypto";
-import * as Schema from "effect/Schema";
-import { Tool, Toolkit } from "effect/ai";
-import * as ProjectService from "../../../project/ProjectService.ts";
-import * as ManagedProjectFolders from "../../../project/ManagedProjectFolders.ts";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
-import * as SourceControlRepositoryService from "../../../sourceControl/SourceControlRepositoryService.ts";
-import * as GitVcsDriver from "../../../vcs/GitVcsDriver.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+} from "@t3tools/contracts"
+import * as FileSystem from "effect/FileSystem"
+import * as DocumentText from "../../../provider/DocumentText.ts"
+import * as ServerConfig from "../../../config.ts"
+import * as ServerSettings from "../../../serverSettings.ts"
+import * as ThreadLaunchService from "../../../orchestration-v2/ThreadLaunchService.ts"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Schema from "effect/Schema"
+import * as ProjectService from "../../../project/ProjectService.ts"
+import * as ManagedProjectFolders from "../../../project/ManagedProjectFolders.ts"
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts"
+import * as SourceControlRepositoryService from "../../../sourceControl/SourceControlRepositoryService.ts"
+import * as GitVcsDriver from "../../../vcs/GitVcsDriver.ts"
+import * as McpInvocationContext from "../../McpInvocationContext.ts"
 
 const shared = {
   success: Project,
@@ -45,7 +44,7 @@ const shared = {
     ProjectService.ProjectService,
     Crypto.Crypto,
   ],
-};
+}
 const ProjectListTool = Tool.make("t3_project_list", {
   ...shared,
   description: "List projects. Pages can shift.",
@@ -60,7 +59,7 @@ const ProjectListTool = Tool.make("t3_project_list", {
   }),
 })
   .annotate(Tool.Readonly, true)
-  .annotate(Tool.Destructive, false);
+  .annotate(Tool.Destructive, false)
 const ProjectReadTool = Tool.make("t3_project_read", {
   ...shared,
   description: "Read one project: workspace and saved scripts.",
@@ -70,7 +69,7 @@ const ProjectReadTool = Tool.make("t3_project_read", {
   }),
 })
   .annotate(Tool.Readonly, true)
-  .annotate(Tool.Destructive, false);
+  .annotate(Tool.Destructive, false)
 const ProjectCreateTool = Tool.make("t3_project_create", {
   ...shared,
   description:
@@ -82,7 +81,7 @@ const ProjectCreateTool = Tool.make("t3_project_create", {
   }),
   success: Schema.Struct({ ...Project.fields, commitError: Schema.optional(Schema.String) }),
   dependencies: [...shared.dependencies, ManagedProjectFolders.ManagedProjectFolders],
-}).annotate(Tool.Destructive, true);
+}).annotate(Tool.Destructive, true)
 const ProjectUpdateTool = Tool.make("t3_project_update", {
   ...shared,
   description: "Update one project's settings. Omitted fields are unchanged.",
@@ -91,7 +90,7 @@ const ProjectUpdateTool = Tool.make("t3_project_update", {
     projectId: ProjectId,
     ...ProjectUpdatePayload.fields,
   }),
-}).annotate(Tool.Destructive, true);
+}).annotate(Tool.Destructive, true)
 const ProjectDeleteTool = Tool.make("t3_project_delete", {
   ...shared,
   description: "Delete one project. Nonempty needs `force: true`. Folder on disk stays.",
@@ -100,7 +99,7 @@ const ProjectDeleteTool = Tool.make("t3_project_delete", {
     projectId: ProjectId,
     force: Schema.optionalKey(Schema.Boolean),
   }),
-}).annotate(Tool.Destructive, true);
+}).annotate(Tool.Destructive, true)
 const ProjectCloneTool = Tool.make("t3_project_clone", {
   ...shared,
   description:
@@ -116,7 +115,7 @@ const ProjectCloneTool = Tool.make("t3_project_clone", {
   ],
 })
   .annotate(Tool.Destructive, true)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
 const ThreadLaunchTool = Tool.make("t3_thread_launch", {
   ...shared,
   description:
@@ -126,8 +125,7 @@ const ThreadLaunchTool = Tool.make("t3_thread_launch", {
     projectId: Schema.optional(ProjectId),
     scratch: Schema.optional(
       Schema.Boolean.annotate({
-        description:
-          "No project: a new Scratch folder. Not with `projectId` or `workspaceStrategy`.",
+        description: "No project: a new Scratch folder. Not with `projectId` or `workspaceStrategy`.",
       }),
     ),
     title: TrimmedNonEmptyString,
@@ -170,7 +168,7 @@ const ThreadLaunchTool = Tool.make("t3_thread_launch", {
   ],
 })
   .annotate(Tool.Destructive, true)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
 
 export const ProjectToolkit = Toolkit.make(
   ThreadLaunchTool,
@@ -180,4 +178,4 @@ export const ProjectToolkit = Toolkit.make(
   ProjectUpdateTool,
   ProjectDeleteTool,
   ProjectCloneTool,
-);
+)
