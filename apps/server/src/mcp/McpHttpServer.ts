@@ -42,40 +42,40 @@ import { advertisedJsonSchema } from "./advertisedJsonSchema.ts";
 import * as McpInvocationContext from "./McpInvocationContext.ts";
 import * as McpToolAccess from "./McpToolAccess.ts";
 import * as OrchestratorMcpService from "./OrchestratorMcpService.ts";
-import { PreviewControlsToolkit } from "./toolkits/previewControls/tools.ts";
-import * as PreviewControlsHandlers from "./toolkits/previewControls/handlers.ts";
-import { EnvironmentToolkit } from "./toolkits/environment/tools.ts";
+import { PreviewControlsToolkit } from "./toolkits/previewControls/tools.vibe";
+import * as PreviewControlsHandlers from "./toolkits/previewControls/handlers.vibe";
+import { EnvironmentToolkit } from "./toolkits/environment/tools.vibe";
 import * as EnvironmentHandlers from "./toolkits/environment/handlers.ts";
-import { ProjectToolkit } from "./toolkits/project/tools.ts";
+import { ProjectToolkit } from "./toolkits/project/tools.vibe";
 import * as ProjectHandlers from "./toolkits/project/handlers.ts";
-import { AttachmentToolkit } from "./toolkits/attachment/tools.ts";
+import { AttachmentToolkit } from "./toolkits/attachment/tools.vibe";
 import * as AttachmentHandlers from "./toolkits/attachment/handlers.ts";
-import { ThreadToolkit } from "./toolkits/thread/tools.ts";
+import { ThreadToolkit } from "./toolkits/thread/tools.vibe";
 import * as ThreadHandlers from "./toolkits/thread/handlers.ts";
 import * as ThreadMetadataMcpService from "./ThreadMetadataMcpService.ts";
 import * as McpSessionRegistry from "./McpSessionRegistry.ts";
 import * as PreviewAutomationBroker from "./PreviewAutomationBroker.ts";
-import * as OrchestratorHandlers from "./toolkits/orchestrator/handlers.ts";
-import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.ts";
+import * as OrchestratorHandlers from "./toolkits/orchestrator/handlers.vibe";
+import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.vibe";
 import * as PreviewHandlers from "./toolkits/preview/handlers.ts";
 import {
   PreviewSnapshotTool,
   PreviewSnapshotToolkit,
   PreviewStandardToolkit,
-} from "./toolkits/preview/tools.ts";
-import * as WorktreeHandlers from "./toolkits/worktree/handlers.ts";
-import { WorktreeToolkit } from "./toolkits/worktree/tools.ts";
+} from "./toolkits/preview/tools.vibe";
+import * as WorktreeHandlers from "./toolkits/worktree/handlers.vibe";
+import { WorktreeToolkit } from "./toolkits/worktree/tools.vibe";
 import * as WorktreeMcpService from "./WorktreeMcpService.ts";
 import * as PullRequestsHandlers from "./toolkits/pullRequests/handlers.ts";
-import { PullRequestsToolkit } from "./toolkits/pullRequests/tools.ts";
+import { PullRequestsToolkit } from "./toolkits/pullRequests/tools.vibe";
 import * as DeviceHandlers from "./toolkits/device/handlers.ts";
 import {
   DeviceScreenshotTool,
   DeviceScreenshotToolkit,
   DeviceStandardToolkit,
-} from "./toolkits/device/tools.ts";
+} from "./toolkits/device/tools.vibe";
 import * as HtmlHandlers from "./toolkits/html/handlers.ts";
-import { HtmlPreviewTool, HtmlPreviewToolkit, HtmlRenderToolkit } from "./toolkits/html/tools.ts";
+import { HtmlPreviewTool, HtmlPreviewToolkit, HtmlRenderToolkit } from "./toolkits/html/tools.vibe";
 import * as RequestUrl from "../RequestUrl.ts";
 
 const mcpResourceMetadataUrl = (request: HttpServerRequest.HttpServerRequest) =>

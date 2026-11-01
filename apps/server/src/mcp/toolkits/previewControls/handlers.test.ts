@@ -19,8 +19,8 @@ import * as McpInvocationContext from "../../McpInvocationContext.ts";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import * as McpToolAccessTestkit from "../../McpToolAccess.testkit.ts";
 import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.ts";
-import * as PreviewControlsHandlers from "./handlers.ts";
-import { PreviewControlsToolkit } from "./tools.ts";
+import * as PreviewControlsHandlers from "./handlers.vibe";
+import { PreviewControlsToolkit } from "./tools.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 it.effect.each([

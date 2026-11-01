@@ -23,7 +23,7 @@ import * as Effect from "effect/Effect";
 import * as TestClock from "effect/testing/TestClock";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
-import { McpAttachmentInput } from "./attachment/input.ts";
+import { McpAttachmentInput } from "./attachment/input.vibe";
 import { McpSchema, McpServer } from "effect/ai";
 import { FetchHttpClient } from "effect/http";
 

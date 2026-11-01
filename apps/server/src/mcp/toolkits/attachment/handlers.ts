@@ -12,7 +12,7 @@ import * as Claims from "../../../orchestration-v2/AttachmentClaims.ts";
 import * as ThreadMessageIntake from "../../../orchestration-v2/ThreadMessageIntake.ts";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import { newCommandId, readThread, unavailable } from "../../threadAccess.ts";
-import { AttachmentToolkit } from "./tools.ts";
+import { AttachmentToolkit } from "./tools.vibe";
 
 export function resolveAttachmentReferences(
   requested: ReadonlyArray<ChatAttachment>,

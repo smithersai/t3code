@@ -47,7 +47,7 @@ import {
   PullRequestsToolkit,
   type ThreadPullRequestEntry,
   CHILD_PULL_REQUEST_REPORT_NEXT,
-} from "./tools.ts";
+} from "./tools.vibe";
 
 interface ResolvedTarget {
   readonly host: string;

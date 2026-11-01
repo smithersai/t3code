@@ -35,9 +35,9 @@ import * as McpInvocationContext from "./McpInvocationContext.ts";
 import * as McpSessionRegistry from "./McpSessionRegistry.ts";
 import * as OrchestratorMcpService from "./OrchestratorMcpService.ts";
 import * as PreviewAutomationBroker from "./PreviewAutomationBroker.ts";
-import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.ts";
-import { PreviewToolkit } from "./toolkits/preview/tools.ts";
-import { ProjectToolkit } from "./toolkits/project/tools.ts";
+import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.vibe";
+import { PreviewToolkit } from "./toolkits/preview/tools.vibe";
+import { ProjectToolkit } from "./toolkits/project/tools.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const environmentId = EnvironmentId.make("environment-mcp-test");

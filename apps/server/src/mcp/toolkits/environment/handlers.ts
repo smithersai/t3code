@@ -6,7 +6,7 @@ import * as Settings from "../../../serverSettings.ts";
 import * as McpInvocationContext from "../../McpInvocationContext.ts";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import { readCaller, unavailable } from "../../threadAccess.ts";
-import { EnvironmentToolkit } from "./tools.ts";
+import { EnvironmentToolkit } from "./tools.vibe";
 
 export function preferences(settings: ServerSettings) {
   const {

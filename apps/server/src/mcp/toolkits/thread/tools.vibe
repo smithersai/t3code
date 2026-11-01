@@ -19,15 +19,14 @@ import {
   RunId,
   NonNegativeInt,
   ProjectId,
-} from "@t3tools/contracts";
-import * as Crypto from "@t3tools/shared/Crypto";
-import * as Schema from "effect/Schema";
-import { Tool, Toolkit } from "effect/ai";
+} from "@t3tools/contracts"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Schema from "effect/Schema"
 
-import * as ThreadSearch from "../../../orchestration-v2/ThreadSearch.ts";
-import * as ScheduledTaskService from "../../../scheduledTasks/ScheduledTaskService.ts";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as ThreadSearch from "../../../orchestration-v2/ThreadSearch.ts"
+import * as ScheduledTaskService from "../../../scheduledTasks/ScheduledTaskService.ts"
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts"
+import * as McpInvocationContext from "../../McpInvocationContext.ts"
 
 const ThreadOrganizeTool = Tool.make("t3_thread_organize", {
   description:
@@ -61,7 +60,7 @@ const ThreadOrganizeTool = Tool.make("t3_thread_organize", {
   ],
 })
   .annotate(Tool.Title, "Organize a thread")
-  .annotate(Tool.Destructive, true);
+  .annotate(Tool.Destructive, true)
 
 const commandTool = {
   success: OrchestrationV2DispatchCommandResult,
@@ -72,13 +71,13 @@ const commandTool = {
     ThreadManagementService.ThreadManagementService,
     Crypto.Crypto,
   ],
-};
-const queueEntry = Schema.Struct({
-  queuedRunId: RunId,
-  text: Schema.String,
-  truncated: Schema.Boolean,
-});
-const QUEUE_READ_ACTIONS = ["list", "read"] as const;
+}
+schema queueEntry {
+  queuedRunId: RunId
+  text: string
+  truncated: boolean
+}
+const QUEUE_READ_ACTIONS = ["list", "read"] as const
 const QueueTool = Tool.make("t3_queue", {
   ...commandTool,
   description:
@@ -105,24 +104,22 @@ const QueueTool = Tool.make("t3_queue", {
     queueEntry,
     OrchestrationV2DispatchCommandResult,
   ]),
-}).annotate(Tool.Destructive, true);
+}).annotate(Tool.Destructive, true)
 
-const question = Schema.Struct({
-  id: Schema.String,
-  header: Schema.String,
-  question: Schema.String,
-  options: Schema.Array(
-    Schema.Struct({
-      label: Schema.String,
-      description: Schema.String,
-      value: Schema.optional(Schema.String),
-    }),
-  ),
-  multiSelect: Schema.optional(Schema.Boolean),
-  allowCustomAnswer: Schema.optional(Schema.Boolean),
-  initialAnswer: Schema.optional(Schema.String),
-  required: Schema.optional(Schema.Boolean),
-});
+schema question {
+  id: string
+  header: string
+  question: string
+  options: ReadonlyArray<{
+    label: string
+    description: string
+    value?: string
+  }>
+  multiSelect?: boolean
+  allowCustomAnswer?: boolean
+  initialAnswer?: string
+  required?: boolean
+}
 const PendingRequestTool = Tool.make("t3_pending_request", {
   ...commandTool,
   description:
@@ -141,14 +138,14 @@ const PendingRequestTool = Tool.make("t3_pending_request", {
   ]),
 })
   .annotate(Tool.Destructive, true)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
 
-const threadConfiguration = Schema.Struct({
-  threadId: ThreadId,
-  modelSelection: ModelSelection,
-  runtimeMode: RuntimeMode,
-  interactionMode: ProviderInteractionMode,
-});
+schema threadConfiguration {
+  threadId: ThreadId
+  modelSelection: ModelSelection
+  runtimeMode: RuntimeMode
+  interactionMode: ProviderInteractionMode
+}
 const ThreadConfigureTool = Tool.make("t3_thread_configure", {
   ...commandTool,
   description:
@@ -159,7 +156,7 @@ const ThreadConfigureTool = Tool.make("t3_thread_configure", {
     modelSelection: Schema.optional(ModelSelection),
   }),
   success: Schema.Union([threadConfiguration, OrchestrationV2DispatchCommandResult]),
-}).annotate(Tool.Destructive, true);
+}).annotate(Tool.Destructive, true)
 
 const ThreadTransferTool = Tool.make("t3_thread_transfer", {
   ...commandTool,
@@ -186,7 +183,7 @@ const ThreadTransferTool = Tool.make("t3_thread_transfer", {
       ),
     }),
   ]),
-}).annotate(Tool.Destructive, true);
+}).annotate(Tool.Destructive, true)
 
 const ThreadSearchTool = Tool.make("t3_thread_search", {
   ...commandTool,
@@ -213,7 +210,7 @@ const ThreadSearchTool = Tool.make("t3_thread_search", {
   dependencies: [...commandTool.dependencies, ThreadSearch.ThreadSearch],
 })
   .annotate(Tool.Readonly, true)
-  .annotate(Tool.Destructive, false);
+  .annotate(Tool.Destructive, false)
 
 const ScheduledTaskRunTool = Tool.make("run_scheduled_task_now", {
   ...commandTool,
@@ -233,7 +230,7 @@ const ScheduledTaskRunTool = Tool.make("run_scheduled_task_now", {
   dependencies: [...commandTool.dependencies, ScheduledTaskService.ScheduledTaskService],
 })
   .annotate(Tool.Destructive, true)
-  .annotate(Tool.OpenWorld, true);
+  .annotate(Tool.OpenWorld, true)
 
 export const ThreadToolkit = Toolkit.make(
   ScheduledTaskRunTool,
@@ -243,4 +240,4 @@ export const ThreadToolkit = Toolkit.make(
   ThreadOrganizeTool,
   PendingRequestTool,
   QueueTool,
-);
+)

@@ -21,7 +21,7 @@ import * as McpInvocationContext from "../../McpInvocationContext.ts";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import { liveThreadShell } from "../../McpToolAccess.testkit.ts";
 import * as EnvironmentHandlers from "./handlers.ts";
-import { EnvironmentToolkit } from "./tools.ts";
+import { EnvironmentToolkit } from "./tools.vibe";
 
 const environmentId = EnvironmentId.make("environment:preferences");
 const threadId = ThreadId.make("thread:preferences");
