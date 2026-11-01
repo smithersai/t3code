@@ -28,8 +28,8 @@
     "@effect/vitest": "catalog:",
     "@t3tools/source-control-testing": "workspace:*",
     "@types/node": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-b597854696e2.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-f8e51b377e05.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-044a296a9a21.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-2ab28ec60787.tgz",
     "vite-plus": "catalog:"
   }
 }
