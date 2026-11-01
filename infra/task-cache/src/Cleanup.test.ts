@@ -5,7 +5,7 @@ import * as Effect from "effect/Effect";
 import { expect, it } from "@effect/vitest";
 import { cleanup } from "../vendor/vite-plus-remote-cache-cloudflare/src/database.ts";
 import * as Cache from "./Cache.ts";
-import * as Cleanup from "./Cleanup.ts";
+import * as Cleanup from "./Cleanup.vibe";
 
 it.effect("cleans three full disjoint batches within the D1 invocation budget", () =>
   Effect.gen(function* () {
