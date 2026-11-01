@@ -1,4 +1,4 @@
-import * as Schema from "effect/Schema";
+import * as Schema from "effect/Schema"
 
 import {
   IsoDateTime,
@@ -8,38 +8,38 @@ import {
   ThreadId,
   TrimmedNonEmptyString,
   TrimmedString,
-} from "./baseSchemas.ts";
+} from "./baseSchemas.ts"
 
-export const PROVIDER_SEND_TURN_MAX_INPUT_CHARS = 120_000;
-export const PROVIDER_SEND_TURN_MAX_ATTACHMENTS = 100;
-export const PROVIDER_SEND_TURN_MAX_IMAGE_BYTES = 10 * 1024 * 1024;
-const PROVIDER_SEND_TURN_MAX_TOTAL_IMAGE_BYTES = 80 * 1024 * 1024;
-export const PROVIDER_SEND_TURN_MAX_FILE_BYTES = 50 * 1024 * 1024;
+export const PROVIDER_SEND_TURN_MAX_INPUT_CHARS = 120_000
+export const PROVIDER_SEND_TURN_MAX_ATTACHMENTS = 100
+export const PROVIDER_SEND_TURN_MAX_IMAGE_BYTES = 10 * 1024 * 1024
+const PROVIDER_SEND_TURN_MAX_TOTAL_IMAGE_BYTES = 80 * 1024 * 1024
+export const PROVIDER_SEND_TURN_MAX_FILE_BYTES = 50 * 1024 * 1024
 export const PROVIDER_SEND_TURN_SUPPORTED_IMAGE_MIME_TYPES = [
   "image/gif",
   "image/jpeg",
   "image/png",
   "image/webp",
-] as const;
+] as const
 const PROVIDER_SEND_TURN_SUPPORTED_IMAGE_MIME_TYPE_SET = new Set<string>(
   PROVIDER_SEND_TURN_SUPPORTED_IMAGE_MIME_TYPES,
-);
+)
 
 export function isProviderSendTurnSupportedImageMimeType(mimeType: string): boolean {
-  return PROVIDER_SEND_TURN_SUPPORTED_IMAGE_MIME_TYPE_SET.has(mimeType.toLowerCase());
+  return PROVIDER_SEND_TURN_SUPPORTED_IMAGE_MIME_TYPE_SET.has(mimeType.toLowerCase())
 }
-const PROVIDER_SEND_TURN_MAX_IMAGE_DATA_URL_CHARS = 14_000_000;
-const CHAT_ATTACHMENT_ID_MAX_CHARS = 128;
+const PROVIDER_SEND_TURN_MAX_IMAGE_DATA_URL_CHARS = 14_000_000
+const CHAT_ATTACHMENT_ID_MAX_CHARS = 128
 
 export const ChatAttachmentId = TrimmedNonEmptyString.check(
   Schema.isMaxLength(CHAT_ATTACHMENT_ID_MAX_CHARS),
   Schema.isPattern(/^[a-z0-9_-]+$/i),
-);
-export type ChatAttachmentId = typeof ChatAttachmentId.Type;
+)
+export type ChatAttachmentId = typeof ChatAttachmentId.Type
 
-export const SNAP_SHOT_ACCESSIBLE_TEXT_MAX_CHARS = 32_000;
-export const SNAP_SHOT_ACCESSIBILITY_MAX_NODES = 10_000;
-export const SNAP_SHOT_ACCESSIBILITY_MAX_SERIALIZED_CHARS = 32_000;
+export const SNAP_SHOT_ACCESSIBLE_TEXT_MAX_CHARS = 32_000
+export const SNAP_SHOT_ACCESSIBILITY_MAX_NODES = 10_000
+export const SNAP_SHOT_ACCESSIBILITY_MAX_SERIALIZED_CHARS = 32_000
 
 schema SnapShotAccessibilityBounds {
   x: NonNegativeInt
@@ -61,14 +61,14 @@ schema SnapShotAccessibilityState {
 }
 
 export interface SnapShotAccessibilityNode {
-  readonly role: string;
-  readonly name?: string;
-  readonly value?: string;
-  readonly description?: string;
-  readonly bounds: typeof SnapShotAccessibilityBounds.Type | null;
-  readonly state?: typeof SnapShotAccessibilityState.Type;
-  readonly actions?: Array<string>;
-  readonly children: Array<SnapShotAccessibilityNode>;
+  readonly role: string
+  readonly name?: string
+  readonly value?: string
+  readonly description?: string
+  readonly bounds: typeof SnapShotAccessibilityBounds.Type | null
+  readonly state?: typeof SnapShotAccessibilityState.Type
+  readonly actions?: Array<string>
+  readonly children: Array<SnapShotAccessibilityNode>
 }
 
 export const SnapShotAccessibilityNode: Schema.Codec<SnapShotAccessibilityNode> = Schema.Struct({
@@ -88,7 +88,7 @@ export const SnapShotAccessibilityNode: Schema.Codec<SnapShotAccessibilityNode> 
       Schema.suspend((): Schema.Codec<SnapShotAccessibilityNode> => SnapShotAccessibilityNode),
     ),
   ).check(Schema.isMaxLength(SNAP_SHOT_ACCESSIBILITY_MAX_NODES)),
-});
+})
 
 const SnapShotAccessibilityWire = Schema.Union([
   Schema.Struct({
@@ -103,28 +103,28 @@ const SnapShotAccessibilityWire = Schema.Union([
     truncated: Schema.Boolean,
     root: SnapShotAccessibilityNode,
   }),
-]);
+])
 
 export const SnapShotAccessibility = SnapShotAccessibilityWire.check(
   Schema.makeFilter((accessibility: typeof SnapShotAccessibilityWire.Type) => {
-    if (accessibility.format === "flat-text") return undefined;
-    let nodes = 0;
-    const stack = [accessibility.root];
+    if (accessibility.format === "flat-text") return undefined
+    let nodes = 0
+    const stack = [accessibility.root]
     while (stack.length > 0) {
-      const node = stack.pop()!;
-      nodes += 1;
+      const node = stack.pop()!
+      nodes += 1
       if (nodes > SNAP_SHOT_ACCESSIBILITY_MAX_NODES) {
-        return `Accessibility trees must not exceed ${SNAP_SHOT_ACCESSIBILITY_MAX_NODES} nodes.`;
+        return `Accessibility trees must not exceed ${SNAP_SHOT_ACCESSIBILITY_MAX_NODES} nodes.`
       }
-      stack.push(...node.children);
+      stack.push(...node.children)
     }
     return (
-      JSON.stringify(accessibility).length <= SNAP_SHOT_ACCESSIBILITY_MAX_SERIALIZED_CHARS ||
-      `Accessibility trees must not exceed ${SNAP_SHOT_ACCESSIBILITY_MAX_SERIALIZED_CHARS} serialized characters.`
-    );
+      JSON.stringify(accessibility).length <= SNAP_SHOT_ACCESSIBILITY_MAX_SERIALIZED_CHARS
+      || `Accessibility trees must not exceed ${SNAP_SHOT_ACCESSIBILITY_MAX_SERIALIZED_CHARS} serialized characters.`
+    )
   }),
-);
-export type SnapShotAccessibility = typeof SnapShotAccessibility.Type;
+)
+export type SnapShotAccessibility = typeof SnapShotAccessibility.Type
 
 export const SnapShotSource = Schema.Struct({
   kind: Schema.Literal("snap-shot"),
@@ -142,8 +142,8 @@ export const SnapShotSource = Schema.Struct({
       Schema.isPattern(/^data:image\/png;base64,/i),
     ),
   ),
-});
-export type SnapShotSource = typeof SnapShotSource.Type;
+})
+export type SnapShotSource = typeof SnapShotSource.Type
 
 export const ChatImageAttachment = Schema.Struct({
   type: Schema.Literal("image"),
@@ -152,11 +152,11 @@ export const ChatImageAttachment = Schema.Struct({
   mimeType: TrimmedNonEmptyString.check(Schema.isMaxLength(100), Schema.isPattern(/^image\//i)),
   sizeBytes: NonNegativeInt.check(Schema.isLessThanOrEqualTo(PROVIDER_SEND_TURN_MAX_IMAGE_BYTES)),
   source: Schema.optional(SnapShotSource),
-});
-export type ChatImageAttachment = typeof ChatImageAttachment.Type;
+})
+export type ChatImageAttachment = typeof ChatImageAttachment.Type
 
-export const PastedTextAttachmentSource = Schema.TaggedStruct("pasted-text", {});
-export type PastedTextAttachmentSource = typeof PastedTextAttachmentSource.Type;
+export const PastedTextAttachmentSource = Schema.TaggedStruct("pasted-text", {})
+export type PastedTextAttachmentSource = typeof PastedTextAttachmentSource.Type
 
 export const ChatFileAttachment = Schema.Struct({
   type: Schema.Literal("file"),
@@ -169,8 +169,8 @@ export const ChatFileAttachment = Schema.Struct({
   ),
   /** Keep path-only so agents inspect selectively without consuming the context folding preserves. */
   source: Schema.optional(PastedTextAttachmentSource),
-});
-export type ChatFileAttachment = typeof ChatFileAttachment.Type;
+})
+export type ChatFileAttachment = typeof ChatFileAttachment.Type
 
 /** Accepts unknown attachment types for older readers; malformed known types must fail their own schema. */
 export const ChatUnknownAttachment = Schema.Struct({
@@ -182,8 +182,8 @@ export const ChatUnknownAttachment = Schema.Struct({
   name: TrimmedNonEmptyString.check(Schema.isMaxLength(255)),
   mimeType: TrimmedNonEmptyString.check(Schema.isMaxLength(100)),
   sizeBytes: NonNegativeInt,
-});
-export type ChatUnknownAttachment = typeof ChatUnknownAttachment.Type;
+})
+export type ChatUnknownAttachment = typeof ChatUnknownAttachment.Type
 
 export const UploadChatImageAttachment = Schema.Struct({
   id: Schema.optional(ChatAttachmentId),
@@ -195,8 +195,8 @@ export const UploadChatImageAttachment = Schema.Struct({
     Schema.isMaxLength(PROVIDER_SEND_TURN_MAX_IMAGE_DATA_URL_CHARS),
   ),
   source: Schema.optional(SnapShotSource),
-});
-export type UploadChatImageAttachment = typeof UploadChatImageAttachment.Type;
+})
+export type UploadChatImageAttachment = typeof UploadChatImageAttachment.Type
 
 export schema ChatAttachment = ChatImageAttachment | ChatFileAttachment | ChatUnknownAttachment
 
@@ -204,30 +204,30 @@ export function getProviderAttachmentLimitError(
   attachments: ReadonlyArray<Pick<ChatAttachment, "type" | "mimeType" | "sizeBytes">>,
 ): string | undefined {
   if (attachments.length > PROVIDER_SEND_TURN_MAX_ATTACHMENTS) {
-    return `You can attach up to ${PROVIDER_SEND_TURN_MAX_ATTACHMENTS} files per message or question response.`;
+    return `You can attach up to ${PROVIDER_SEND_TURN_MAX_ATTACHMENTS} files per message or question response.`
   }
   const imageBytes = attachments.reduce(
     (total, attachment) =>
-      total +
-      (attachment.type === "image" || isProviderSendTurnSupportedImageMimeType(attachment.mimeType)
+      total
+      + (attachment.type === "image" || isProviderSendTurnSupportedImageMimeType(attachment.mimeType)
         ? attachment.sizeBytes
         : 0),
     0,
-  );
+  )
   if (imageBytes > PROVIDER_SEND_TURN_MAX_TOTAL_IMAGE_BYTES) {
-    return "Images can total up to 80 MiB per message or question response. Use smaller images or send fewer at once.";
+    return "Images can total up to 80 MiB per message or question response. Use smaller images or send fewer at once."
   }
 }
 
-export const UploadChatAttachment = Schema.Union([UploadChatImageAttachment]);
-export type UploadChatAttachment = typeof UploadChatAttachment.Type;
+export const UploadChatAttachment = Schema.Union([UploadChatImageAttachment])
+export type UploadChatAttachment = typeof UploadChatAttachment.Type
 
 export const PersistChatAttachmentsInput = Schema.Struct({
   threadId: ThreadId,
   messageId: MessageId,
   attachments: Schema.Array(UploadChatAttachment),
-});
-export type PersistChatAttachmentsInput = typeof PersistChatAttachmentsInput.Type;
+})
+export type PersistChatAttachmentsInput = typeof PersistChatAttachmentsInput.Type
 
 export schema PersistChatAttachmentsResult {
   attachments: ReadonlyArray<ChatAttachment>

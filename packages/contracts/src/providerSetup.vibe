@@ -1,4 +1,4 @@
-import * as Schema from "effect/Schema";
+import * as Schema from "effect/Schema"
 
 import {
   EnvironmentId,
@@ -6,8 +6,8 @@ import {
   ForwardCompatibleOptional,
   IsoDateTime,
   TrimmedNonEmptyString,
-} from "./baseSchemas.ts";
-import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
+} from "./baseSchemas.ts"
+import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe"
 
 export schema ProviderSetupInput {
   instanceId: ProviderInstanceId
@@ -19,17 +19,17 @@ export const CodexAuthCallbackInput = Schema.Struct({
   environmentId: EnvironmentId,
   instanceId: ProviderInstanceId,
   flowId: TrimmedNonEmptyString.check(Schema.isMaxLength(128)),
-});
-export type CodexAuthCallbackInput = typeof CodexAuthCallbackInput.Type;
+})
+export type CodexAuthCallbackInput = typeof CodexAuthCallbackInput.Type
 export const CodexAuthCallbackState = Schema.Union([
   Schema.Struct({ phase: Schema.Literal("ready") }),
   Schema.Struct({
     phase: Schema.Literal("finished"),
     callbackUrl: Schema.String.check(Schema.isMaxLength(16_384)),
   }),
-]);
+])
 
-const SetupOperationId = TrimmedNonEmptyString.check(Schema.isMaxLength(128));
+const SetupOperationId = TrimmedNonEmptyString.check(Schema.isMaxLength(128))
 
 export const ProviderAuthMethod = Schema.Struct({
   id: SetupOperationId,
@@ -37,8 +37,8 @@ export const ProviderAuthMethod = Schema.Struct({
   name: TrimmedNonEmptyString,
   description: Schema.NullOr(Schema.String),
   type: Schema.Literals(["agent", "terminal", "credentials"]),
-});
-export type ProviderAuthMethod = typeof ProviderAuthMethod.Type;
+})
+export type ProviderAuthMethod = typeof ProviderAuthMethod.Type
 
 export const ProviderAuthInteraction = Schema.Union([
   Schema.Struct({
@@ -71,8 +71,8 @@ export const ProviderAuthInteraction = Schema.Union([
       }),
     ).check(Schema.isMaxLength(16)),
   }),
-]);
-export type ProviderAuthInteraction = typeof ProviderAuthInteraction.Type;
+])
+export type ProviderAuthInteraction = typeof ProviderAuthInteraction.Type
 
 export const ProviderAuthResponse = Schema.Union([
   Schema.Struct({
@@ -95,16 +95,16 @@ export const ProviderAuthResponse = Schema.Union([
       Schema.isMaxProperties(16),
     ),
   }),
-]);
-export type ProviderAuthResponse = typeof ProviderAuthResponse.Type;
+])
+export type ProviderAuthResponse = typeof ProviderAuthResponse.Type
 
 export const ProviderAuthStartInput = Schema.Struct({
   instanceId: ProviderInstanceId,
   methodId: Schema.optionalKey(SetupOperationId),
   returnUrl: Schema.optionalKey(Schema.String),
   callbackMode: Schema.optionalKey(Schema.Literals(["server", "client"])),
-});
-export type ProviderAuthStartInput = typeof ProviderAuthStartInput.Type;
+})
+export type ProviderAuthStartInput = typeof ProviderAuthStartInput.Type
 
 export schema ProviderAuthRespondInput {
   instanceId: ProviderInstanceId
@@ -134,22 +134,22 @@ export const ProviderAuthState = Schema.Struct({
   ),
   interaction: ForwardCompatibleOptional(Schema.NullOr(ProviderAuthInteraction)),
   credentialOwner: ForwardCompatibleOptional(Schema.Literals(["provider", "t3"])),
-});
-export type ProviderAuthState = typeof ProviderAuthState.Type;
+})
+export type ProviderAuthState = typeof ProviderAuthState.Type
 
 export const ProviderAuthCompleteInput = Schema.Struct({
   instanceId: ProviderInstanceId,
   flowId: SetupOperationId,
   callbackUrl: TrimmedNonEmptyString.check(Schema.isMaxLength(16_384)),
-});
-export type ProviderAuthCompleteInput = typeof ProviderAuthCompleteInput.Type;
+})
+export type ProviderAuthCompleteInput = typeof ProviderAuthCompleteInput.Type
 
 export schema ProviderAuthCancelInput {
   instanceId: ProviderInstanceId
   flowId: SetupOperationId
 }
 
-const ByteCount = Schema.Int.check(Schema.isGreaterThanOrEqualTo(0));
+const ByteCount = Schema.Int.check(Schema.isGreaterThanOrEqualTo(0))
 
 export const ProviderInstallState = Schema.Struct({
   driver: ProviderDriverKind,
@@ -171,8 +171,8 @@ export const ProviderInstallState = Schema.Struct({
   source: Schema.optionalKey(Schema.NullOr(Schema.Literals(["managed", "local"]))),
   canRemove: Schema.Boolean,
   message: Schema.NullOr(Schema.String),
-});
-export type ProviderInstallState = typeof ProviderInstallState.Type;
+})
+export type ProviderInstallState = typeof ProviderInstallState.Type
 
 export schema ProviderInstallCancelInput {
   instanceId: ProviderInstanceId
@@ -187,7 +187,7 @@ export schema error ProviderSetupError {
   detail: string
   cause?: ProviderSetupErrorCauseField
   override get message(): string {
-    return this.detail;
+    return this.detail
   }
 }
 
@@ -203,8 +203,8 @@ export const ChatGptReconnectProfile = Schema.Struct({
   connectionLabel: Schema.optionalKey(Schema.String),
   sharingEnabled: Schema.optionalKey(Schema.Boolean),
   idTokenHint: Schema.optionalKey(Schema.String.check(Schema.isMaxLength(16_384))),
-});
-export type ChatGptReconnectProfile = typeof ChatGptReconnectProfile.Type;
+})
+export type ChatGptReconnectProfile = typeof ChatGptReconnectProfile.Type
 export const ChatGptTransferredProfile = Schema.Struct({
   registration: ChatGptReconnectProfile,
   credentials: Schema.Struct({
@@ -219,22 +219,25 @@ export const ChatGptTransferredProfile = Schema.Struct({
     subject: Schema.String,
     email: Schema.NullOr(Schema.String),
   }),
-});
-export type ChatGptTransferredProfile = typeof ChatGptTransferredProfile.Type;
+})
+export type ChatGptTransferredProfile = typeof ChatGptTransferredProfile.Type
 export const ChatGptReconnectProfileInput = Schema.Struct({
   instanceId: ProviderInstanceId,
   methodId: Schema.String,
-});
+})
 export const ChatGptImportProfileInput = Schema.Struct({
   instanceId: ProviderInstanceId,
   profile: ChatGptTransferredProfile,
-});
+})
 export const ChatGptHandoffInput = Schema.Struct({
   instanceId: ProviderInstanceId,
   environmentId: EnvironmentId,
   attemptId: Schema.String.check(Schema.isMaxLength(128)),
   returnUrl: Schema.String.check(Schema.isMaxLength(4_096)),
   profile: Schema.NullOr(ChatGptReconnectProfile),
-});
-export type ChatGptHandoffInput = typeof ChatGptHandoffInput.Type;
-export schema ChatGptHandoffState = { phase: "auth"; state: ProviderAuthState } | { phase: "finished"; profile: ChatGptTransferredProfile }
+})
+export type ChatGptHandoffInput = typeof ChatGptHandoffInput.Type
+export schema ChatGptHandoffState = { phase: "auth"; state: ProviderAuthState } | {
+  phase: "finished"
+  profile: ChatGptTransferredProfile
+}
