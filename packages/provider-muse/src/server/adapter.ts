@@ -89,7 +89,7 @@ import {
   subagentThreadTitle,
 } from "@t3tools/provider-core/server/subagentProjection";
 import { turnScopedSelectionTransition } from "@t3tools/provider-core/server/selectionTransition";
-import { museItemStatus, museToolPresentation } from "./itemPresentation.ts";
+import { museItemStatus, museToolPresentation } from "./itemPresentation.vibe";
 
 const MUSE_PROVIDER = ProviderDriverKind.make("muse");
 const isOpenSessionError = Schema.is(ProviderAdapter.ProviderAdapterOpenSessionError);
