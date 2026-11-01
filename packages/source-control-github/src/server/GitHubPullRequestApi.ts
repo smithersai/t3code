@@ -109,7 +109,7 @@ import {
   type GitHubReviewThreadPage,
   type GitHubViewerAccess,
   IMMEDIATELY_MERGEABLE,
-} from "./gitHubPullRequestJson.ts";
+} from "./gitHubPullRequestJson.vibe";
 import type {
   ProviderChangeRequestSummary,
   ProviderListCursor,
