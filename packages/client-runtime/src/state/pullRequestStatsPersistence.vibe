@@ -16,11 +16,13 @@ export function persistPullRequestStats(): QueryPersistence<PullRequestListStats
     load: effect (environmentId, key) =>
       try withSpan(
         effect {
-          const [, input] = try Schema.decodeEffect(requestKey)(key)
-          const rows = try Effect.forEach(input.refs, effect (ref) => try row.load(environmentId, statKey(ref)))
-          const stats = rows.flatMap((value) => (Option.isSome(value) ? [value.value] : []))
-          return stats.length ? Option.some({ stats }) : Option.none()
-        } catch effect () => Option.none(),
+          return (effect {
+            const [, input] = try Schema.decodeEffect(requestKey)(key)
+            const rows = try Effect.forEach(input.refs, effect (ref) => try row.load(environmentId, statKey(ref)))
+            const stats = rows.flatMap((value) => (Option.isSome(value) ? [value.value] : []))
+            return stats.length ? Option.some({ stats }) : Option.none()
+          }) catch effect () => Option.none()
+        },
         "pullRequestStatsPersistence.load",
       ),
     save: effect (environmentId, key, result) =>
