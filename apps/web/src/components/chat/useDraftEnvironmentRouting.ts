@@ -1,6 +1,6 @@
 import { useLoadBalancedEnvironment } from "../../hooks/useLoadBalancedEnvironment";
 import { useLogicalProjectEnvironments } from "../../hooks/useLogicalProjectEnvironments";
-import { useScratchProject } from "../../hooks/useScratchProject";
+import { useScratchProject } from "../../hooks/useScratchProject.vibe";
 import { useStableCallback } from "../../hooks/useStableCallback";
 import {
   type EnvironmentId,

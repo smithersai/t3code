@@ -6,9 +6,12 @@ import { AsyncResult, Atom } from "effect/reactivity";
 import { createContext, type ReactNode, useContext } from "react";
 
 import { useEnvironments, usePrimaryEnvironmentId } from "../../state/environments";
-import { getProjectFileQueryAtom, optimisticFileAtom } from "../files/projectFilesQueryState";
+import { getProjectFileQueryAtom, optimisticFileAtom } from "../files/projectFilesQueryState.vibe";
 import { useSettingsProjectGroups } from "./useSettingsProjectGroups";
-import { resolveScopedSettingsTargets, selectScopedSettingsEnvironments } from "./scopedSettings";
+import {
+  resolveScopedSettingsTargets,
+  selectScopedSettingsEnvironments,
+} from "./scopedSettings.vibe";
 import { resolveSettingsScope, type SettingsScopeSearch } from "./settingsScope";
 import { selectSingleEnvironmentScope } from "./settingsScopeAxis";
 

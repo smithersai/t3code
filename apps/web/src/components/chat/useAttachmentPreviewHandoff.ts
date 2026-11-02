@@ -3,7 +3,7 @@ import { useAtomValue } from "@effect/atom-react";
 import { type Dispatch, type SetStateAction, useEffect } from "react";
 import { selectHandoffImageResources } from "../../session-logic.vibe";
 import type { useQuietThreadVisibleTurnItems } from "../../state/entities";
-import { useAssetUrls } from "../../assets/assetUrls";
+import { useAssetUrls } from "../../assets/assetUrls.vibe";
 import {
   dropOptimisticHandoff,
   loadedHandoffMessageIdsAtom,

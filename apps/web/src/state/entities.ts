@@ -29,7 +29,7 @@ import type { ThreadCheckpointSummary } from "@t3tools/client-runtime/state/thre
 import { Atom } from "effect/reactivity";
 import { appAtomRegistry } from "../rpc/atomRegistry";
 import { environmentProjects } from "./projects";
-import { environmentPresentations } from "./presentation";
+import { environmentPresentations } from "./presentation.vibe";
 import { environmentServerConfigsAtom } from "./server";
 import {
   allEnvironmentProjectSnapshotsReadyAtom,

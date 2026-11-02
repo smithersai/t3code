@@ -8,7 +8,7 @@ import { resolveDiscoveredServerUrl } from "~/browser/browserTargetResolver";
 import type { BrowserSettingsReadError, OpenPreviewMutation } from "~/browser/openFileInPreview";
 import { recordVisitForThread } from "~/browserHistoryStore";
 import { useRightPanelStore } from "~/rightPanelStore";
-import { openPreviewSession } from "./openPreviewSession";
+import { openPreviewSession } from "./openPreviewSession.vibe";
 import { previewRuntimeFor } from "~/browser/previewRuntime";
 
 export async function openDiscoveredPort<E>(input: {

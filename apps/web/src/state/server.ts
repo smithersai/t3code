@@ -22,7 +22,7 @@ import { mergeWithDefaultKeybindings } from "@t3tools/shared/keybindings";
 import * as Option from "effect/Option";
 import { AsyncResult, Atom } from "effect/reactivity";
 
-import { isConnectedWithConfig } from "../components/settings/scopedSettings";
+import { isConnectedWithConfig } from "../components/settings/scopedSettings.vibe";
 import { environmentCatalog } from "../connection/catalog";
 import { connectionAtomRuntime } from "../connection/runtime";
 import { environmentAtomList } from "./environmentAtomList";

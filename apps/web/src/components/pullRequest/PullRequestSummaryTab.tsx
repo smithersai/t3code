@@ -69,7 +69,7 @@ import {
   visibleBody,
   type PullRequestConversationItem,
   type PullRequestFinding,
-} from "./pullRequestDetail.logic";
+} from "./pullRequestDetail.logic.vibe";
 import {
   canEditPullRequestChangeRequest,
   canEditPullRequestComment,

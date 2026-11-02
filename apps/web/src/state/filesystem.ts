@@ -5,7 +5,7 @@ import {
 import type { EnvironmentId } from "@t3tools/contracts";
 
 import { connectionAtomRuntime } from "../connection/runtime";
-import { useEnvironmentPresentation } from "./presentation";
+import { useEnvironmentPresentation } from "./presentation.vibe";
 import { useEnvironmentQuery } from "./query";
 import { environmentSession } from "./session";
 

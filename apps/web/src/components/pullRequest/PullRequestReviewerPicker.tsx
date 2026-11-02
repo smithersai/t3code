@@ -14,7 +14,7 @@ import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime"
 import { toastManager } from "../ui/toast";
 import { PullRequestCandidatePicker } from "./PullRequestCandidatePicker";
 import { PullRequestActorLabel } from "./pullRequestPresentation";
-import { readableFailure } from "./pullRequestDetail.logic";
+import { readableFailure } from "./pullRequestDetail.logic.vibe";
 
 function matches(candidate: PullRequestReviewerCandidate, query: string): boolean {
   if (query.length === 0) return true;

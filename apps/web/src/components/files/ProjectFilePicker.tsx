@@ -14,7 +14,7 @@ import {
   getProjectFilePickerMatches,
   PROJECT_FILE_PICKER_RESULT_LIMIT,
 } from "./ProjectFilePicker.logic";
-import { useProjectFilePickerQuery } from "./projectFilesQueryState";
+import { useProjectFilePickerQuery } from "./projectFilesQueryState.vibe";
 
 interface ProjectFilePickerProps {
   readonly setOpen: (open: boolean) => void;

@@ -1,7 +1,7 @@
 import type { EditorId, EnvironmentId, ResolvedKeybindingsConfig } from "@t3tools/contracts";
 import { useEffect } from "react";
 
-import { usePreferredEditor } from "../../editorPreferences";
+import { usePreferredEditor } from "../../editorPreferences.vibe";
 import { editorLabelForPlatform } from "../../editorLabels";
 import { isOpenFavoriteEditorShortcut } from "../../keybindings";
 import { announce } from "../../lib/announce";

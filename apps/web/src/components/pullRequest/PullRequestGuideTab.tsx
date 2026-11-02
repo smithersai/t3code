@@ -10,7 +10,7 @@ import { Spinner } from "../ui/spinner";
 import type { ExcerptCommenting } from "./guide/GuideExcerpt";
 import { GuideProseContext } from "./guide/GuideProse";
 import { GuideTour } from "./guide/GuideTour";
-import { useReviewGuideWriter } from "./guide/useReviewGuideWriter";
+import { useReviewGuideWriter } from "./guide/useReviewGuideWriter.vibe";
 import {
   nextPendingReviewCommentId,
   pullRequestReviewKey,

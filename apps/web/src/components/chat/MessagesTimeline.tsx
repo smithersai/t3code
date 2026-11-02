@@ -92,7 +92,7 @@ import {
   TimelineRowActivityCtx,
   type WorkGroupViewState,
   type TimelineRow,
-} from "./timelineRowContext";
+} from "./timelineRowContext.vibe";
 import { TimelineRowTimestamp, ActivityShimmerOverlay } from "./TimelineRowParts";
 import {
   WorkGroupSection,

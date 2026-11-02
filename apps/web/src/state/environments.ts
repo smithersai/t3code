@@ -14,7 +14,7 @@ import {
   environmentPresentations,
   environmentSummaries,
   useEnvironmentPresentation,
-} from "./presentation";
+} from "./presentation.vibe";
 import { primaryEnvironmentIdAtom } from "./primaryEnvironment";
 import { relayEnvironmentDiscovery } from "./relay";
 import { usePreparedConnection } from "./session";

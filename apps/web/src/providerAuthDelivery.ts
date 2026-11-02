@@ -3,7 +3,7 @@ import { readCodexAuthDelivery } from "@t3tools/shared/codexAuthHandoff";
 
 import { toastManager } from "./components/ui/toast";
 import { appAtomRegistry } from "./rpc/atomRegistry";
-import { environmentPresentations } from "./state/presentation";
+import { environmentPresentations } from "./state/presentation.vibe";
 import { serverEnvironment } from "./state/server";
 
 type ProviderAuthDelivery = NonNullable<ReturnType<typeof readCodexAuthDelivery>>;

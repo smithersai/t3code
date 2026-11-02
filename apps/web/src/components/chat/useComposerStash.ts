@@ -26,7 +26,7 @@ import {
   usePromptStashStore,
 } from "../../promptStashStore";
 import { type PendingUserInput } from "../../session-logic.vibe";
-import { type ReviewCommentContext } from "../../reviewCommentContext";
+import { type ReviewCommentContext } from "../../reviewCommentContext.vibe";
 import { collapseExpandedComposerCursor } from "../../composer-logic";
 import { compressImageForStash } from "../../lib/imageCompression";
 import { formatInlineContextReference } from "~/lib/composerContextReferences";

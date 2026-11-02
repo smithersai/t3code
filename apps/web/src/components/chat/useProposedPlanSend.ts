@@ -39,7 +39,7 @@ import {
   type makeThreadErrorSetter,
   waitForStartedServerThread,
 } from "../ChatView.logic";
-import { draftSendState } from "./chatViewSend";
+import { draftSendState } from "./chatViewSend.vibe";
 import type { useLocalDispatchState } from "./useLocalDispatchState";
 import type { useTimelineFollow } from "./useTimelineFollow";
 

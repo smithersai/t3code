@@ -23,7 +23,7 @@ import {
 import * as DateTime from "effect/DateTime";
 import { useId, useImperativeHandle, useRef, useState, type ReactNode, type Ref } from "react";
 
-import { useAssetUrls } from "../../assets/assetUrls";
+import { useAssetUrls } from "../../assets/assetUrls.vibe";
 import { threadEnvironment } from "../../state/threads";
 import { useQuietThreadShell, useThreadProjection } from "../../state/entities";
 import { useAtomCommand } from "../../state/use-atom-command";

@@ -22,7 +22,7 @@ import * as Option from "effect/Option";
 
 import { cn } from "../../lib/utils";
 import { ensureLocalApi } from "../../localApi";
-import { useOpenInPreferredEditor } from "../../editorPreferences";
+import { useOpenInPreferredEditor } from "../../editorPreferences.vibe";
 import { useRelativeTimeState } from "../../hooks/useRelativeTimeState";
 import { useEnvironmentQuery } from "../../state/query";
 import { serverEnvironment } from "../../state/server";

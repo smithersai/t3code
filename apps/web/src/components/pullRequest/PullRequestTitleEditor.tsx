@@ -14,7 +14,7 @@ import { toastManager } from "../ui/toast";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
 import { PullRequestDetailTitleRow } from "./PullRequestDetailLayout";
 import { PullRequestEditButton } from "./PullRequestEditButton";
-import { readableFailure } from "./pullRequestDetail.logic";
+import { readableFailure } from "./pullRequestDetail.logic.vibe";
 import { canEditPullRequestChangeRequest } from "@t3tools/client-runtime/pull-request-editing";
 
 /** The pull request title, which the reader can rename in place when the host allows it. */

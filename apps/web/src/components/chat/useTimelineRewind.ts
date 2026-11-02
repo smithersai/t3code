@@ -30,8 +30,8 @@ import { assetEnvironment } from "../../state/assets";
 import { readEnvironmentScope } from "../../state/session";
 import { useAtomCommand } from "../../state/use-atom-command";
 import { useOrchestrationCommand } from "../../state/use-orchestration-command";
-import { useAtomQueryRunner } from "../../state/use-atom-query-runner";
-import { rewindToMessage } from "./chatViewSend";
+import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe";
+import { rewindToMessage } from "./chatViewSend.vibe";
 import { makeThreadErrorSetter } from "../ChatView.logic";
 interface TimelineRewindInput {
   readonly environmentId: EnvironmentId;

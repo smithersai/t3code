@@ -138,7 +138,7 @@ import {
   type PullRequestFinding,
   shouldRefreshPullRequestActivity,
   stripPullRequestHandoffReferences,
-} from "./pullRequestDetail.logic";
+} from "./pullRequestDetail.logic.vibe";
 import { resolvePickableEnvironments } from "./pullRequestProjectAssignment.logic";
 import { PullRequestChecksPopover } from "./PullRequestChecksPopover";
 import {
@@ -153,7 +153,7 @@ import {
 } from "./pullRequestPresentation";
 import { PullRequestGuideTab } from "./PullRequestGuideTab";
 import { guideRunKey, useGuideRunStore } from "./guide/guideRunStore";
-import { useReviewGuideWriter } from "./guide/useReviewGuideWriter";
+import { useReviewGuideWriter } from "./guide/useReviewGuideWriter.vibe";
 
 const actionFailureLabels = (term: string): Record<PullRequestAction, string> => ({
   merge: `Could not merge this ${term}`,

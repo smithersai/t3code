@@ -59,7 +59,7 @@ import * as ThreadUndo from "./threadUndo";
 import { showThreadUndoNotice } from "./showThreadUndoNotice";
 import { useAtomCommand } from "../state/use-atom-command";
 import { useOrchestrationCommand } from "../state/use-orchestration-command";
-import { useAtomQueryRunner } from "../state/use-atom-query-runner";
+import { useAtomQueryRunner } from "../state/use-atom-query-runner.vibe";
 
 export class ThreadArchiveBlockedError extends Schema.TaggedError<ThreadArchiveBlockedError>()(
   "ThreadArchiveBlockedError",

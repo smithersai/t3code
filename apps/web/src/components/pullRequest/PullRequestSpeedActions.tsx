@@ -9,7 +9,7 @@ import { useUiStateStore } from "~/uiStateStore";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
-import { resolvePullRequestMergeMethod } from "./pullRequestDetail.logic";
+import { resolvePullRequestMergeMethod } from "./pullRequestDetail.logic.vibe";
 import { PullRequestGlyph } from "./pullRequestIcons";
 import { pullRequestQuickActions, type EnvironmentPullRequestEntry } from "./pullRequestList.logic";
 import {

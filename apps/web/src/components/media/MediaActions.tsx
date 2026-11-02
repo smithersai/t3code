@@ -26,7 +26,7 @@ import { appAtomRegistry } from "../../rpc/atomRegistry";
 import { assetEnvironment } from "../../state/assets";
 import { useEnvironmentQuery } from "../../state/query";
 import { environmentSession, readPreparedConnection } from "../../state/session";
-import { useAtomQueryRunner } from "../../state/use-atom-query-runner";
+import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
 import { downloadMedia, readMediaPng } from "./mediaContent";

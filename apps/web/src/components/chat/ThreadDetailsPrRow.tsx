@@ -41,7 +41,7 @@ import {
   resolvePullRequestMergeMethod,
   allowedPullRequestMergeMethods,
   resolveThreadPanelPullRequestAction,
-} from "../pullRequest/pullRequestDetail.logic";
+} from "../pullRequest/pullRequestDetail.logic.vibe";
 import { PullRequestChecksPopover } from "../pullRequest/PullRequestChecksPopover";
 import {
   pullRequestChecksState,

@@ -14,7 +14,7 @@ import {
   resolveBrowserLinkTargetPreference,
   resolveLinkTarget,
 } from "./browserLinkTarget";
-import { BrowserSettingsReadError, openUrlInPreview } from "./openFileInPreview";
+import { BrowserSettingsReadError, openUrlInPreview } from "./openFileInPreview.vibe";
 
 const NO_MODIFIER = { metaKey: false, ctrlKey: false } as const;
 

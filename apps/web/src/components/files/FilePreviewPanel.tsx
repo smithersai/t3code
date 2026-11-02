@@ -125,7 +125,7 @@ import {
   getProjectFileQueryAtom,
   setProjectFileQueryData,
   useProjectFileQuery,
-} from "./projectFilesQueryState";
+} from "./projectFilesQueryState.vibe";
 
 const NO_FILE_REVISION_ATOM = Atom.make(null);
 

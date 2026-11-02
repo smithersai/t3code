@@ -32,7 +32,7 @@ import ChatMarkdown from "../ChatMarkdown";
 import { ChatMarkdownAssetImage } from "./ChatMarkdownMedia";
 import { ChevronRightIcon, CircleAlertIcon, XIcon, RotateCcwIcon } from "lucide-react";
 import { Button, InlineButton } from "../ui/button";
-import { useAssetUrls } from "../../assets/assetUrls";
+import { useAssetUrls } from "../../assets/assetUrls.vibe";
 import { useThreadShell } from "../../state/entities";
 import {
   threadReadLabelPrefix,
@@ -51,7 +51,7 @@ import {
   TimelineRowActivityCtx,
   WorkGroupViewCtx,
   type TimelineWorkEntry,
-} from "./timelineRowContext";
+} from "./timelineRowContext.vibe";
 import { MESSAGE_HEADING_LEVEL, TimelineRowTimestamp } from "./TimelineRowParts";
 import {
   failedToolIconClassName,

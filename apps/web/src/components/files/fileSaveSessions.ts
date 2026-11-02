@@ -10,7 +10,7 @@ import { FileSaveCoordinator } from "./fileSaveCoordinator";
 import {
   confirmProjectFileQueryData,
   getUnsavedProjectFileQueryData,
-} from "./projectFilesQueryState";
+} from "./projectFilesQueryState.vibe";
 
 export interface FileSaveTarget {
   readonly environmentId: EnvironmentId;

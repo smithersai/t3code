@@ -29,7 +29,7 @@ import {
   MenuTrigger,
 } from "../ui/menu";
 import { ProjectActionsList } from "./ProjectActionsList";
-import { useProjectScriptSettings } from "./useProjectScriptSettings";
+import { useProjectScriptSettings } from "./useProjectScriptSettings.vibe";
 import { SettingsRow, SettingsSection } from "./settingsLayout";
 import { useSettingsScope } from "./SettingsScopeContext";
 

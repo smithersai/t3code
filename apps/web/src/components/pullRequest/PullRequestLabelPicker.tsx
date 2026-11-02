@@ -9,7 +9,7 @@ import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime"
 
 import { toastManager } from "../ui/toast";
 import { PullRequestCandidatePicker } from "./PullRequestCandidatePicker";
-import { readableFailure } from "./pullRequestDetail.logic";
+import { readableFailure } from "./pullRequestDetail.logic.vibe";
 import { pullRequestLabelColor } from "./pullRequestList.logic";
 
 function matches(candidate: PullRequestLabelCandidate, query: string): boolean {

@@ -23,7 +23,7 @@ import {
   scopedSettingsSource,
   type ProjectOverrideEntry,
   type ScopedSettingsPatch,
-} from "./scopedSettings.ts"
+} from "./scopedSettings.vibe"
 
 export function useScopedSettings<T = UnifiedSettings>(
   selector?: (settings: UnifiedSettings) => T,
