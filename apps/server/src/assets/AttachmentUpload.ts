@@ -35,7 +35,7 @@ import {
 } from "../auth/utils.ts";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as ServerConfig from "../config.ts";
-import { inferImageExtension } from "../imageMime.ts";
+import { inferImageExtension } from "../imageMime.vibe";
 import * as DocumentText from "../provider/DocumentText.ts";
 
 export const ATTACHMENT_UPLOAD_ROUTE_PREFIX = "/api/attachments/upload";

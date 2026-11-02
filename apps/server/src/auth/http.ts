@@ -36,7 +36,7 @@ import * as SessionStore from "./SessionStore.ts";
 import { traceAuthenticatedRelayRequest, traceRelayRequest } from "../cloud/traceRelayRequest.ts";
 import { deriveAuthClientMetadata } from "./utils.ts";
 import { verifyRequestDpopProof } from "./dpop.ts";
-import * as RequestUrl from "../RequestUrl.ts";
+import * as RequestUrl from "../RequestUrl.vibe";
 
 const CREDENTIAL_RESPONSE_HEADERS = {
   "cache-control": "no-store",

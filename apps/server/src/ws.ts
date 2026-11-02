@@ -18,7 +18,7 @@ import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";
 import * as Result from "effect/Result";
 import * as Stream from "effect/Stream";
-import { rpcInitialItems } from "./rpcInitialItems.ts";
+import { rpcInitialItems } from "./rpcInitialItems.vibe";
 import { subscribeChatGptHandoff } from "./provider/CodexChatGptHandoff.ts";
 import { subscribeCodexAuthCallback } from "./provider/CodexAuthCallback.ts";
 import {
@@ -199,7 +199,7 @@ import {
   chatAttachmentStableKey,
   createDeterministicAttachmentId,
 } from "./attachmentStore.ts";
-import { parseBase64DataUrl } from "./imageMime.ts";
+import { parseBase64DataUrl } from "./imageMime.vibe";
 import { deletePendingAttachment, issueAttachmentUploadUrl } from "./assets/AttachmentUpload.ts";
 import * as PortScanner from "./preview/PortScanner.ts";
 import * as WorkspaceEntries from "./workspace/WorkspaceEntries.ts";
@@ -268,7 +268,7 @@ import {
 import * as AgentSessionScanner from "./project/AgentSessionScanner.ts";
 import * as AgentSessionImporter from "./project/AgentSessionImporter.ts";
 import * as UsageLimitSources from "./usage/UsageLimitSources.ts";
-import * as RequestUrl from "./RequestUrl.ts";
+import * as RequestUrl from "./RequestUrl.vibe";
 
 const CONFIG_DISCOVERY_TIMEOUT = Duration.seconds(5);
 const isProviderUploadFeedbackError = Schema.is(ProviderUploadFeedbackError);

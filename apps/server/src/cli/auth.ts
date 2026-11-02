@@ -13,7 +13,7 @@ import {
   formatIssuedSession,
   formatPairingCredentialList,
   formatSessionList,
-} from "../cliAuthFormat.ts";
+} from "../cliAuthFormat.vibe";
 import * as ServerConfig from "../config.ts";
 import { authScopesFlag } from "./authScopes.vibe";
 import {

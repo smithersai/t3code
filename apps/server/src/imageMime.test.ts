@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { inferImageExtension, parseBase64DataUrl } from "./imageMime.ts";
+import { inferImageExtension, parseBase64DataUrl } from "./imageMime.vibe";
 
 describe("imageMime", () => {
   it("parses base64 data URL with mime parameters", () => {

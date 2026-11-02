@@ -17,7 +17,7 @@ import * as NodeSocket from "@effect/platform-node/NodeSocket";
 import { authenticateMediaRequest } from "../auth/http.ts";
 import * as DeviceService from "./DeviceService.ts";
 import { repeatStillFrame } from "./mjpegStillFrame.ts";
-import * as RequestUrl from "../RequestUrl.ts";
+import * as RequestUrl from "../RequestUrl.vibe";
 
 const ALLOWED_PATHS: ReadonlyArray<RegExp> = [
   /^\/api\/devices$/,

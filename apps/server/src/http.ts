@@ -54,7 +54,7 @@ import {
   browserApiCorsAllowedMethods,
   DESKTOP_RENDERER_ORIGINS,
 } from "./httpCors.ts";
-import * as RequestUrl from "./RequestUrl.ts";
+import * as RequestUrl from "./RequestUrl.vibe";
 
 const OTLP_TRACES_PROXY_PATH = "/api/observability/v1/traces";
 const LOOPBACK_HOSTNAMES = new Set(["127.0.0.1", "::1", "localhost"]);
