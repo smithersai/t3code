@@ -117,7 +117,7 @@ import {
   resolveMultipleModelTargets,
   prepareTurnAttachments,
   restoreComposerDraft,
-} from "./chatViewSend.vibe";
+} from "./chatViewSend";
 import type {
   EnvironmentProject,
   EnvironmentThreadShell,
