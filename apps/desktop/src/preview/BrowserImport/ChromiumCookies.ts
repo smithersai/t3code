@@ -24,7 +24,7 @@ import {
   snapshotCookieDatabase,
   type CookieReadResult,
   type ImportedCookie,
-} from "./CookieDatabase.ts";
+} from "./CookieDatabase.vibe";
 
 /** OSCrypt's CBC mode uses a fixed IV of 16 spaces rather than a per-record one. */
 const AES_CBC_IV = Buffer.alloc(16, 0x20);

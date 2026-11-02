@@ -77,7 +77,7 @@ import {
   type AccessibilityProcessPool,
   makeSnapShotAccessibilityProcessPool,
 } from "./SnapShotAccessibilityProcess.ts";
-import * as MacPermissions from "../permissions/MacPermissions.ts";
+import * as MacPermissions from "../permissions/MacPermissions.vibe";
 import { MAC_PERMISSION_SETTINGS_URLS } from "../permissions/MacPermission.ts";
 import { showWindowsCaptureOverlay } from "./WindowsCaptureFeedback.ts";
 

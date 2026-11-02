@@ -1,4 +1,4 @@
-import * as MacPermissions from "../permissions/MacPermissions.ts";
+import * as MacPermissions from "../permissions/MacPermissions.vibe";
 import { assert, it } from "@effect/vitest";
 import {
   DEFAULT_CLIENT_SETTINGS,

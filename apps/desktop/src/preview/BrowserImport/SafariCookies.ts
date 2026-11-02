@@ -3,7 +3,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as PlatformError from "effect/PlatformError";
 import * as Schema from "effect/Schema";
 
-import { cookieScope, type ImportedCookie } from "./CookieDatabase.ts";
+import { cookieScope, type ImportedCookie } from "./CookieDatabase.vibe";
 
 /** Safari's timestamps count seconds from 2001-01-01, not the UNIX epoch. */
 const APPLE_EPOCH_OFFSET_SECONDS = 978_307_200;

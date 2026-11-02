@@ -15,7 +15,7 @@ import {
 } from "./ChromiumCookies.ts";
 import { ChromiumKeyError } from "./ChromiumKeys.ts";
 import { LinuxBrowserSecretPath } from "./LinuxBrowserSecret.vibe";
-import { cookieScope } from "./CookieDatabase.ts";
+import { cookieScope } from "./CookieDatabase.vibe";
 
 const encryptChromium = (
   prefix: "v10" | "v11",
