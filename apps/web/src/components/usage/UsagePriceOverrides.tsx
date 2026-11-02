@@ -6,7 +6,7 @@ import { AsyncResult, Atom } from "effect/reactivity";
 import { useRef, useState } from "react";
 
 import { cn } from "../../lib/utils";
-import { environmentPresentations } from "../../state/presentation";
+import { environmentPresentations } from "../../state/presentation.vibe";
 import { serverEnvironment } from "../../state/server";
 import { environmentSession, readEnvironmentScope } from "../../state/session";
 import { useAtomCommand } from "../../state/use-atom-command";

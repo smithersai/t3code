@@ -42,7 +42,7 @@ import {
   handoffPrompt,
   handoffReviewComments,
   readableFailure,
-} from "./pullRequestDetail.logic";
+} from "./pullRequestDetail.logic.vibe";
 import { pullRequestEntryKey, type EnvironmentPullRequestEntry } from "./pullRequestList.logic";
 
 export function usePullRequestDefaultMergeMethodResolver(

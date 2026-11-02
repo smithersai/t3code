@@ -85,7 +85,7 @@ import { environmentServerConfigsAtom } from "../../state/server";
 import { threadEnvironment } from "../../state/threads";
 import { runMobileComposerTransition } from "./draftHeroTransition";
 import { useClientSettingsHydrated, useEnvironmentSettings } from "../../hooks/useSettings";
-import { environmentPresentations } from "../../state/presentation";
+import { environmentPresentations } from "../../state/presentation.vibe";
 import {
   approvalRedirectNotice,
   loadBalancingSendWarning,
@@ -117,7 +117,7 @@ import {
   resolveMultipleModelTargets,
   prepareTurnAttachments,
   restoreComposerDraft,
-} from "./chatViewSend";
+} from "./chatViewSend.vibe";
 import type {
   EnvironmentProject,
   EnvironmentThreadShell,

@@ -25,7 +25,7 @@ import {
 import { MAX_TERMINALS_PER_GROUP } from "../../types";
 import { type RightPanelSurface, useRightPanelStore } from "../../rightPanelStore";
 import { isPreviewSupportedInRuntime } from "../../previewStateStore";
-import { openUrlInPreview } from "../../browser/openFileInPreview";
+import { openUrlInPreview } from "../../browser/openFileInPreview.vibe";
 import { resolveDiscoveredServerUrl } from "../../browser/browserTargetResolver";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 import { confirmTerminalClose } from "../../lib/terminalCloseConfirm";

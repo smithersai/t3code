@@ -99,7 +99,7 @@ import {
 import { UnifiedSettings } from "@t3tools/contracts/settings";
 
 const isElementContextDetails = Schema.is(ElementContextDetails);
-import { ReviewCommentContextSchema, type ReviewCommentContext } from "./reviewCommentContext";
+import { ReviewCommentContextSchema, type ReviewCommentContext } from "./reviewCommentContext.vibe";
 const isRuntimeMode = Schema.is(RuntimeMode);
 const isProviderDriverKind = Schema.is(ProviderDriverKind);
 const isReviewCommentContext = Schema.is(ReviewCommentContextSchema);

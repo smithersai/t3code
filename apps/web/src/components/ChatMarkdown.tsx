@@ -125,7 +125,7 @@ import {
   PreferredEditorEnvironmentRequiredError,
   useOpenInPreferredEditor,
   usePreferredEditor,
-} from "../editorPreferences";
+} from "../editorPreferences.vibe";
 import { openInEditorMenuLabel } from "../editorLabels";
 import { resolveDiffThemeName } from "../lib/diffRendering";
 import { RenderErrorBoundary } from "./RenderErrorBoundary";
@@ -160,7 +160,7 @@ import {
 } from "../state/session";
 import { previewEnvironment } from "../state/preview";
 import { useAtomCommand } from "../state/use-atom-command";
-import { useAtomQueryRunner } from "../state/use-atom-query-runner";
+import { useAtomQueryRunner } from "../state/use-atom-query-runner.vibe";
 import { projectEnvironment } from "../state/projects";
 import { filesystemEnvironment } from "../state/filesystem";
 import {
@@ -183,7 +183,7 @@ import {
   openUrlInPreview,
   BrowserPreviewUnavailableError,
   BrowserSettingsReadError,
-} from "../browser/openFileInPreview";
+} from "../browser/openFileInPreview.vibe";
 import { resolveLinkTarget } from "../browser/browserLinkTarget";
 import { PullRequestLinkPreview } from "./pullRequest/PullRequestLinkPreview";
 import { MarkdownCodeBlock, SuspenseShikiCodeBlock } from "./chat/MarkdownCodeBlock";

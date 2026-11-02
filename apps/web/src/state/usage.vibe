@@ -14,7 +14,7 @@ import { useState } from "react"
 
 import { mergeUsage, type EnvironmentUsage, type MergedUsage } from "@t3tools/shared/usageMerge"
 import { appAtomRegistry } from "../rpc/atomRegistry.ts"
-import { environmentPresentations } from "./presentation.ts"
+import { environmentPresentations } from "./presentation.vibe"
 import { serverEnvironment } from "./server.ts"
 import { environmentSession, readEnvironmentScope } from "./session.ts"
 

@@ -1,9 +1,9 @@
 import type { EnvironmentId, ProjectId } from "@t3tools/contracts";
 
-import type { OpenPreviewMutation } from "./browser/openFileInPreview";
+import type { OpenPreviewMutation } from "./browser/openFileInPreview.vibe";
 import type { ClosedView, ClosedViewEntry } from "./closedViewStore";
 import type { PullRequestListPreferences } from "./components/pullRequest/pullRequestListPreferences";
-import { openPreviewSession } from "./components/preview/openPreviewSession";
+import { openPreviewSession } from "./components/preview/openPreviewSession.vibe";
 import {
   type RightPanelSurface,
   type ThreadRightPanelState,

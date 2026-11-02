@@ -21,7 +21,7 @@ import { scopedThreadKey } from "@t3tools/client-runtime/environment";
 import { ATTACHMENT_ONLY_BOOTSTRAP_PROMPT } from "@t3tools/shared/composerContextReferences";
 import { Atom } from "effect/reactivity";
 import type { RefObject } from "react";
-import { useAssetUrls } from "../../assets/assetUrls";
+import { useAssetUrls } from "../../assets/assetUrls.vibe";
 import {
   DraftId,
   useComposerDraftStore,
@@ -39,7 +39,7 @@ import {
 import { buildMessageContext } from "../../lib/composerContextRecords";
 import { readFileAsDataUrl } from "../../lib/imageCompression";
 import type { TerminalContextDraft } from "../../lib/terminalContext";
-import type { ReviewCommentContext } from "../../reviewCommentContext";
+import type { ReviewCommentContext } from "../../reviewCommentContext.vibe";
 import { appAtomRegistry } from "../../rpc/atomRegistry";
 import { environmentServerConfigsAtom } from "../../state/server";
 import {

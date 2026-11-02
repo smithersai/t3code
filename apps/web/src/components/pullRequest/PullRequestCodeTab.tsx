@@ -46,7 +46,7 @@ import { useLocalStorage } from "~/hooks/useLocalStorage";
 import { useClientSettings, updateClientSettings } from "~/hooks/useSettings";
 import { useRenderedAppearance } from "~/hooks/useTheme";
 import { areAllDiffFilesCollapsed } from "~/lib/diffCollapse";
-import { pullRequestFindingKey, type PullRequestFinding } from "./pullRequestDetail.logic";
+import { pullRequestFindingKey, type PullRequestFinding } from "./pullRequestDetail.logic.vibe";
 import {
   canEditPullRequestComment,
   canResolvePullRequestThread,

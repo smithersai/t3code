@@ -7,7 +7,7 @@ import { useEffect, useEffectEvent } from "react";
 
 import { connectionAtomRuntime } from "../connection/runtime";
 import { useEnvironments } from "./environments";
-import { environmentPresentations } from "./presentation";
+import { environmentPresentations } from "./presentation.vibe";
 import { relayEnvironmentDiscovery } from "./relay";
 import { useEnvironmentQuery } from "./query";
 import { useEnvironmentsWithScope } from "./session";

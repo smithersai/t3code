@@ -1,6 +1,6 @@
 import { scopeProjectRef } from "@t3tools/client-runtime/environment";
 import { requestCustomSnooze } from "../components/CustomSnoozeDialog";
-import { openGuestShareDialog } from "../components/chat/guestShareDialogState";
+import { openGuestShareDialog } from "../components/chat/guestShareDialogState.vibe";
 import {
   type AtomCommandResult,
   isAtomCommandInterrupted,

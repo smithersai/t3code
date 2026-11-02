@@ -389,7 +389,7 @@ export default defineConfig(() => {
         },
       },
     },
-    worker: { format: "es" },
+    worker: { plugins: () => [vibelang()], format: "es" },
     test: {
       projects: [
         defineProject(unitTestProject),

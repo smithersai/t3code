@@ -41,7 +41,7 @@ import { ActOnEnvironmentPicker, type PerformPullRequestAction } from "./PullReq
 import {
   PULL_REQUEST_MERGE_METHOD_LABELS,
   pullRequestActionMenuHasGroup,
-} from "./pullRequestDetail.logic";
+} from "./pullRequestDetail.logic.vibe";
 import { PullRequestGlyph } from "./pullRequestIcons";
 import type { PickableEnvironment } from "./pullRequestProjectAssignment.logic";
 import { PullRequestThreadLinks } from "./PullRequestThreadLinks";

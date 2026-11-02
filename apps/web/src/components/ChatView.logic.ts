@@ -94,7 +94,7 @@ import { serializeLegacyContextMessage } from "@t3tools/shared/composerContextLe
 import type { ComposerDispatchMode } from "@t3tools/client-runtime/state/composer-dispatch";
 import type { DraftThreadEnvMode } from "../composerDraftStore";
 import { collapseExpandedComposerCursor, type ComposerSubmissionIntent } from "../composer-logic";
-import type { ReviewCommentContext } from "../reviewCommentContext";
+import type { ReviewCommentContext } from "../reviewCommentContext.vibe";
 import { derivePhase, type TimelineEntry } from "../session-logic.vibe";
 import type { PreviewMiniPlayerSource } from "../previewMiniPlayerStore";
 import type { DesktopPreviewOverlay } from "../previewStateStore";

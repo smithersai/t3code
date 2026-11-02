@@ -8,7 +8,7 @@ import { DownloadIcon } from "lucide-react";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 import { useRemoveClonedProject } from "../../hooks/useRemoveClonedProject";
 import { sourceControlEnvironment } from "../../state/sourceControl";
-import { useProjectClone } from "../../state/projectClones";
+import { useProjectClone } from "../../state/projectClones.vibe";
 import {
   projectCloneDisplayName,
   projectCloneProgressSummary,

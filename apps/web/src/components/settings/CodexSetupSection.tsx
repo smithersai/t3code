@@ -28,7 +28,7 @@ import {
 
 import { ensureLocalApi } from "../../localApi";
 import { useEnvironmentHttpBaseUrl } from "../../state/environments";
-import { environmentPresentations } from "../../state/presentation";
+import { environmentPresentations } from "../../state/presentation.vibe";
 import { primaryEnvironmentIdAtom } from "../../state/primaryEnvironment";
 import { useEnvironmentQuery } from "../../state/query";
 import { serverEnvironment } from "../../state/server";
@@ -44,7 +44,7 @@ import { OpenAI } from "../Icons";
 import { RedactedSensitiveText } from "./RedactedSensitiveText";
 import { SettingsRow } from "./settingsLayout";
 import { AddCodexAccountDialog } from "./AddCodexAccountDialog";
-import { getOnboardingProviderState } from "../../onboarding/providerReadiness.logic";
+import { getOnboardingProviderState } from "../../onboarding/providerReadiness.logic.vibe";
 import { getProviderSummary } from "./providerStatus";
 import {
   settleAuthorizationPage,

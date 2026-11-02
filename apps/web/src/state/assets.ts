@@ -8,7 +8,7 @@ import { connectionAtomRuntime } from "../connection/runtime";
 import { projectFaviconCache } from "../assets/projectFaviconCache";
 import { isElectron } from "../env";
 import { primaryEnvironmentIdAtom } from "./primaryEnvironment";
-import { environmentProjectClonesAtom } from "./projectClones";
+import { environmentProjectClonesAtom } from "./projectClones.vibe";
 import { environmentSession } from "./session";
 
 const localMediaEnvironment = Atom.make((get) => {

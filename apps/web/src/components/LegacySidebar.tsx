@@ -137,7 +137,7 @@ import { useDesktopUpdateState } from "../state/desktopUpdate";
 import { useThreadActions } from "../hooks/useThreadActions";
 import { projectEnvironment } from "../state/projects";
 import { threadEnvironment, useEnvironmentThread } from "../state/threads";
-import { readUnloadedThreadCount } from "../state/olderSettledShelf";
+import { readUnloadedThreadCount } from "../state/olderSettledShelf.vibe";
 import { useEnvironment, useEnvironments, usePrimaryEnvironmentId } from "../state/environments";
 import { buildThreadRouteParams, resolveActiveThreadRouteRef } from "../threadRoutes";
 import { stackedThreadToast, toastManager } from "./ui/toast";
@@ -221,7 +221,7 @@ import { useClientSettings, updateClientSettings } from "~/hooks/useSettings";
 import { primaryServerKeybindingsAtom } from "../state/server";
 import { appAtomRegistry } from "../rpc/atomRegistry";
 import { canShareWithGuestAtom } from "./chat/guestShareAvailability";
-import { openGuestShareDialog } from "./chat/guestShareDialogState";
+import { openGuestShareDialog } from "./chat/guestShareDialogState.vibe";
 import {
   derivePhysicalProjectKey,
   deriveProjectGroupingOverrideKey,

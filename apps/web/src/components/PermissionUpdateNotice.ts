@@ -5,7 +5,7 @@ import { Atom } from "effect/reactivity";
 
 import { getLocalStorageItem, setLocalStorageItem } from "../hooks/useLocalStorage";
 import { appAtomRegistry } from "../rpc/atomRegistry";
-import { environmentSummaries } from "../state/presentation";
+import { environmentSummaries } from "../state/presentation.vibe";
 import { environmentSession } from "../state/session";
 import { toastManager } from "./ui/toast";
 

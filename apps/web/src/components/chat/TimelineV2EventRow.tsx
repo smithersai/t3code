@@ -20,7 +20,7 @@ import {
 } from "./V2LifecycleRow";
 import { LinkRequestCard } from "./LinkRequestCard";
 import { SecretRequestCard } from "./SecretRequestCard";
-import { TimelineRowCtx, type TimelineRow } from "./timelineRowContext";
+import { TimelineRowCtx, type TimelineRow } from "./timelineRowContext.vibe";
 import { v2EventPresentation, subagentGroupTiming } from "./TimelineV2EventRow.logic.vibe";
 
 export function V2EventTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "event" }> }) {

@@ -35,7 +35,7 @@ import { AdvancedSettings } from "./AdvancedSettings";
 import { FoldedSettingsSection } from "./FoldedSettingsSection";
 import { SettingsScopeNotice } from "./SettingsScopeNotice";
 import { SettingsGroup } from "./SettingsGroup";
-import type { ScopedSettingsTarget } from "./scopedSettings";
+import type { ScopedSettingsTarget } from "./scopedSettings.vibe";
 import { useSettingsScope } from "./SettingsScopeContext";
 import { searchableSetting } from "./settingsSearch";
 import {

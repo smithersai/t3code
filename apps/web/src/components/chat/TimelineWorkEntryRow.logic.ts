@@ -3,7 +3,7 @@ import { resolveWorkEntryToolPresentation } from "@t3tools/client-runtime/work-l
 import { isJavaScriptReplTool } from "@t3tools/shared/toolActivity";
 import { toolGroupAction } from "./MessagesTimeline.logic.vibe";
 import { formatWorkspaceRelativePath } from "../../filePathDisplay";
-import { type TimelineWorkEntry, type TimelineRow } from "./timelineRowContext";
+import { type TimelineWorkEntry, type TimelineRow } from "./timelineRowContext.vibe";
 import { type WorkEntryIconName } from "./TimelineToolActivityIcon";
 
 export function toolGroupSummaryIconName(

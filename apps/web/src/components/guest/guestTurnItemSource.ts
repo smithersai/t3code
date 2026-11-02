@@ -18,7 +18,7 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { Atom } from "effect/reactivity";
 
-import type { TurnItemSource } from "../chat/timelineRowContext";
+import type { TurnItemSource } from "../chat/timelineRowContext.vibe";
 
 /** What an expanded guest row says when it cannot read the item. */
 class GuestItemReadError extends Data.TaggedError("GuestItemReadError")<{

@@ -17,7 +17,7 @@ import {
   PersistentThreadTerminalPanel,
   type PersistentThreadTerminalPanelProps,
 } from "../PersistentThreadTerminals";
-import { pullRequestPanelContext } from "../pullRequest/pullRequestDetail.logic";
+import { pullRequestPanelContext } from "../pullRequest/pullRequestDetail.logic.vibe";
 import { PullRequestDetailPanel } from "../pullRequest/PullRequestDetailPanel";
 import { PullRequestDetailGhost } from "../pullRequest/PullRequestGhosts";
 import { PullRequestsUnavailableState } from "../pullRequest/PullRequestsUnavailableState";

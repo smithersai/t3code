@@ -36,7 +36,7 @@ import {
   WorkGroupViewCtx,
   type TimelineWorkEntry,
   type TimelineRow,
-} from "./timelineRowContext";
+} from "./timelineRowContext.vibe";
 import { TimelineRowTimestamp, ActivityShimmerOverlay } from "./TimelineRowParts";
 import {
   failedToolIconClassName,
