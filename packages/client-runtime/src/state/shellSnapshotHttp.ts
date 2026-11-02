@@ -17,7 +17,7 @@ import {
 import {
   decodeShellSnapshotDeferringPullRequests,
   type DeferredShellSnapshot,
-} from "./shellPullRequests.ts";
+} from "./shellPullRequests.vibe";
 
 // On timeout the socket asks the same server for the same full snapshot, so a
 // short deadline only throws the first build away. The socket fallback is for

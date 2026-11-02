@@ -34,7 +34,7 @@ import {
   type SupervisorConnectionState,
 } from "./model.vibe";
 import * as RpcSession from "../rpc/session.ts";
-import { presentConnectionState } from "./presentation.ts";
+import { presentConnectionState } from "./presentation.vibe";
 import * as EnvironmentSupervisor from "./supervisor.ts";
 import * as ConnectionWakeups from "./wakeups.vibe";
 import { connectionRouteId, entryWithRoutes, isLearned, mergeLearnedRoutes } from "./routes.ts";

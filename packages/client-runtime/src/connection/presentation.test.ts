@@ -17,7 +17,7 @@ import {
   environmentMcpUrl,
   presentEnvironmentConnection,
   presentConnectionState,
-} from "./presentation.ts";
+} from "./presentation.vibe";
 
 const TARGET = new BearerConnectionTarget({
   environmentId: EnvironmentId.make("environment-1"),

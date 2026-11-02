@@ -10,7 +10,7 @@ import { Atom } from "effect/reactivity";
 import type {
   EnvironmentConnectionPhase,
   EnvironmentConnectionPresentation,
-} from "../connection/presentation.ts";
+} from "../connection/presentation.vibe";
 import type { EnvironmentRegistry } from "../connection/registry.ts";
 import {
   canNavigateUp,

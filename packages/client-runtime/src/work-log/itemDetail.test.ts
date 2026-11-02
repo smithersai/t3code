@@ -2,7 +2,7 @@ import { describe, expect, it } from "vite-plus/test";
 import { ThreadId, TurnItemId, type OrchestrationV2TurnItem } from "@t3tools/contracts";
 import * as DateTime from "effect/DateTime";
 
-import { turnItemOutputImages, turnItemOutputText } from "./itemDetail.ts";
+import { turnItemOutputImages, turnItemOutputText } from "./itemDetail.vibe";
 
 function toolItem(output: unknown): OrchestrationV2TurnItem {
   return {

@@ -27,10 +27,7 @@
       "types": "./src/handoff.ts",
       "default": "./src/handoff.ts"
     },
-    "./device/stream": {
-      "types": "./src/device/stream.ts",
-      "default": "./src/device/stream.ts"
-    },
+    "./device/stream": "./src/device/stream.ts",
     "./device/hub-access": {
       "types": "./src/device/hubAccess.ts",
       "default": "./src/device/hubAccess.ts"
@@ -47,17 +44,14 @@
       "types": "./src/load-balancing.ts",
       "default": "./src/load-balancing.ts"
     },
-    "./project-favicon-cache": {
-      "types": "./src/projectFaviconCache.ts",
-      "default": "./src/projectFaviconCache.ts"
-    },
+    "./project-favicon-cache": "./src/projectFaviconCache.ts",
     "./user-message": {
       "types": "./src/userMessage.ts",
       "default": "./src/userMessage.ts"
     },
     "./prompt-links": {
-      "types": "./src/promptLinks.ts",
-      "default": "./src/promptLinks.ts"
+      "types": "./src/promptLinks.d.vibe.ts",
+      "default": "./src/promptLinks.vibe"
     },
     "./secret-request": {
       "types": "./src/secretRequest.ts",
@@ -119,10 +113,7 @@
       "types": "./src/platform/index.ts",
       "default": "./src/platform/index.ts"
     },
-    "./providerSkills": {
-      "types": "./src/providerSkills.ts",
-      "default": "./src/providerSkills.ts"
-    },
+    "./providerSkills": "./src/providerSkills.ts",
     "./providerUpdateRequiredModels": {
       "types": "./src/providerUpdateRequiredModels.ts",
       "default": "./src/providerUpdateRequiredModels.ts"
@@ -139,17 +130,11 @@
       "types": "./src/relay/index.ts",
       "default": "./src/relay/index.ts"
     },
-    "./state/auth": {
-      "types": "./src/state/auth.ts",
-      "default": "./src/state/auth.ts"
-    },
-    "./state/assets": {
-      "types": "./src/state/assets.ts",
-      "default": "./src/state/assets.ts"
-    },
+    "./state/auth": "./src/state/auth.ts",
+    "./state/assets": "./src/state/assets.ts",
     "./state/attachments": {
-      "types": "./src/state/attachments.ts",
-      "default": "./src/state/attachments.ts"
+      "types": "./src/state/attachments.d.vibe.ts",
+      "default": "./src/state/attachments.vibe"
     },
     "./text-paste": {
       "types": "./src/textPaste.ts",
@@ -171,21 +156,12 @@
       "types": "./src/delayedStatus.ts",
       "default": "./src/delayedStatus.ts"
     },
-    "./state/connections": {
-      "types": "./src/state/connections.ts",
-      "default": "./src/state/connections.ts"
-    },
-    "./state/entities": {
-      "types": "./src/state/entities.ts",
-      "default": "./src/state/entities.ts"
-    },
-    "./state/filesystem": {
-      "types": "./src/state/filesystem.ts",
-      "default": "./src/state/filesystem.ts"
-    },
+    "./state/connections": "./src/state/connections.ts",
+    "./state/entities": "./src/state/entities.ts",
+    "./state/filesystem": "./src/state/filesystem.ts",
     "./state/git": {
-      "types": "./src/state/git.ts",
-      "default": "./src/state/git.ts"
+      "types": "./src/state/git.d.vibe.ts",
+      "default": "./src/state/git.vibe"
     },
     "./state/command-output": {
       "types": "./src/state/commandOutput.ts",
@@ -199,37 +175,19 @@
       "types": "./src/state/models.vibe",
       "default": "./src/state/models.vibe"
     },
-    "./state/orchestration": {
-      "types": "./src/state/orchestration.ts",
-      "default": "./src/state/orchestration.ts"
-    },
+    "./state/orchestration": "./src/state/orchestration.ts",
     "./state/orchestration-v2-projection": {
       "types": "./src/state/orchestrationV2Projection.ts",
       "default": "./src/state/orchestrationV2Projection.ts"
     },
-    "./state/presentation": {
-      "types": "./src/state/presentation.ts",
-      "default": "./src/state/presentation.ts"
-    },
-    "./state/device": {
-      "types": "./src/state/device.ts",
-      "default": "./src/state/device.ts"
-    },
-    "./state/deviceHubAccess": {
-      "types": "./src/state/deviceHubAccess.ts",
-      "default": "./src/state/deviceHubAccess.ts"
-    },
-    "./state/peerLinks": {
-      "types": "./src/state/peerLinks.ts",
-      "default": "./src/state/peerLinks.ts"
-    },
-    "./state/peerPairingCode": {
-      "types": "./src/state/peerPairingCode.ts",
-      "default": "./src/state/peerPairingCode.ts"
-    },
+    "./state/presentation": "./src/state/presentation.ts",
+    "./state/device": "./src/state/device.ts",
+    "./state/deviceHubAccess": "./src/state/deviceHubAccess.ts",
+    "./state/peerLinks": "./src/state/peerLinks.ts",
+    "./state/peerPairingCode": "./src/state/peerPairingCode.ts",
     "./state/preview": {
-      "types": "./src/state/preview.ts",
-      "default": "./src/state/preview.ts"
+      "types": "./src/state/preview.d.vibe.ts",
+      "default": "./src/state/preview.vibe"
     },
     "./state/projects": {
       "types": "./src/state/projects.ts",
@@ -239,46 +197,25 @@
       "types": "./src/state/providerInstanceDisplay.ts",
       "default": "./src/state/providerInstanceDisplay.ts"
     },
-    "./state/pull-requests": {
-      "types": "./src/state/pullRequests.ts",
-      "default": "./src/state/pullRequests.ts"
-    },
+    "./state/pull-requests": "./src/state/pullRequests.ts",
     "./state/project-grouping": {
       "types": "./src/state/projectGrouping.ts",
       "default": "./src/state/projectGrouping.ts"
     },
-    "./state/relay": {
-      "types": "./src/state/relayDiscovery.ts",
-      "default": "./src/state/relayDiscovery.ts"
-    },
-    "./state/review": {
-      "types": "./src/state/review.ts",
-      "default": "./src/state/review.ts"
-    },
-    "./state/runtime": {
-      "types": "./src/state/runtime.ts",
-      "default": "./src/state/runtime.ts"
-    },
+    "./state/relay": "./src/state/relayDiscovery.ts",
+    "./state/review": "./src/state/review.ts",
+    "./state/runtime": "./src/state/runtime.ts",
     "./state/usage": {
-      "types": "./src/state/usage.ts",
-      "default": "./src/state/usage.ts"
+      "types": "./src/state/usage.d.vibe.ts",
+      "default": "./src/state/usage.vibe"
     },
     "./state/usage-progress": {
       "types": "./src/state/usageProgress.ts",
       "default": "./src/state/usageProgress.ts"
     },
-    "./state/server": {
-      "types": "./src/state/server.ts",
-      "default": "./src/state/server.ts"
-    },
-    "./state/outdatedServerUpdate": {
-      "types": "./src/state/outdatedServerUpdate.ts",
-      "default": "./src/state/outdatedServerUpdate.ts"
-    },
-    "./state/session": {
-      "types": "./src/state/session.ts",
-      "default": "./src/state/session.ts"
-    },
+    "./state/server": "./src/state/server.ts",
+    "./state/outdatedServerUpdate": "./src/state/outdatedServerUpdate.ts",
+    "./state/session": "./src/state/session.ts",
     "./state/usage-access": {
       "types": "./src/state/usageAccess.ts",
       "default": "./src/state/usageAccess.ts"
@@ -287,22 +224,10 @@
       "types": "./src/state/sharedSettings.vibe",
       "default": "./src/state/sharedSettings.vibe"
     },
-    "./state/shell": {
-      "types": "./src/state/shell.ts",
-      "default": "./src/state/shell.ts"
-    },
-    "./state/source-control": {
-      "types": "./src/state/sourceControl.ts",
-      "default": "./src/state/sourceControl.ts"
-    },
-    "./state/terminal": {
-      "types": "./src/state/terminal.ts",
-      "default": "./src/state/terminal.ts"
-    },
-    "./state/threads": {
-      "types": "./src/state/threads.ts",
-      "default": "./src/state/threads.ts"
-    },
+    "./state/shell": "./src/state/shell.ts",
+    "./state/source-control": "./src/state/sourceControl.ts",
+    "./state/terminal": "./src/state/terminal.ts",
+    "./state/threads": "./src/state/threads.ts",
     "./state/subagent-display": {
       "types": "./src/state/subagentDisplay.ts",
       "default": "./src/state/subagentDisplay.ts"
@@ -324,17 +249,14 @@
       "default": "./src/state/threadRelationships.vibe"
     },
     "./state/thread-checkpoints": {
-      "types": "./src/state/threadCheckpoints.ts",
-      "default": "./src/state/threadCheckpoints.ts"
+      "types": "./src/state/threadCheckpoints.d.vibe.ts",
+      "default": "./src/state/threadCheckpoints.vibe"
     },
     "./state/thread-execution": {
       "types": "./src/state/threadExecution.vibe",
       "default": "./src/state/threadExecution.vibe"
     },
-    "./state/thread-requests": {
-      "types": "./src/state/threadRequests.ts",
-      "default": "./src/state/threadRequests.ts"
-    },
+    "./state/thread-requests": "./src/state/threadRequests.ts",
     "./state/thread-workflows": {
       "types": "./src/state/threadWorkflows.ts",
       "default": "./src/state/threadWorkflows.ts"
@@ -344,8 +266,8 @@
       "default": "./src/state/composerDispatch.ts"
     },
     "./state/thread-subagents": {
-      "types": "./src/state/threadSubagents.ts",
-      "default": "./src/state/threadSubagents.ts"
+      "types": "./src/state/threadSubagents.d.vibe.ts",
+      "default": "./src/state/threadSubagents.vibe"
     },
     "./state/thread-undo": {
       "types": "./src/state/threadUndo.ts",
@@ -359,25 +281,19 @@
       "types": "./src/state/threadSearch.vibe",
       "default": "./src/state/threadSearch.vibe"
     },
-    "./state/thread-visits": {
-      "types": "./src/state/threadVisits.ts",
-      "default": "./src/state/threadVisits.ts"
-    },
+    "./state/thread-visits": "./src/state/threadVisits.ts",
     "./state/turn-item-presentation": {
       "types": "./src/state/turnItemPresentation.ts",
       "default": "./src/state/turnItemPresentation.ts"
     },
-    "./state/vcs": {
-      "types": "./src/state/vcs.ts",
-      "default": "./src/state/vcs.ts"
-    },
+    "./state/vcs": "./src/state/vcs.ts",
     "./work-log/user-input": {
       "types": "./src/work-log/userInput.ts",
       "default": "./src/work-log/userInput.ts"
     },
     "./work-log/item-detail": {
-      "types": "./src/work-log/itemDetail.ts",
-      "default": "./src/work-log/itemDetail.ts"
+      "types": "./src/work-log/itemDetail.d.vibe.ts",
+      "default": "./src/work-log/itemDetail.vibe"
     },
     "./work-log/presentation": {
       "types": "./src/work-log/presentation.ts",
@@ -455,13 +371,10 @@
       "types": "./src/diffCount.ts",
       "default": "./src/diffCount.ts"
     },
-    "./mcp-apps": {
-      "types": "./src/mcpApps/host.ts",
-      "default": "./src/mcpApps/host.ts"
-    },
+    "./mcp-apps": "./src/mcpApps/host.ts",
     "./state/mcp-apps": {
-      "types": "./src/state/mcpApps.ts",
-      "default": "./src/state/mcpApps.ts"
+      "types": "./src/state/mcpApps.d.vibe.ts",
+      "default": "./src/state/mcpApps.vibe"
     },
     "./source-control-clients": {
       "types": "./src/sourceControlClients.ts",

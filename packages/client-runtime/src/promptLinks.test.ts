@@ -14,7 +14,7 @@ import {
   findPromptLinkProjects,
   pickPromptLinkPullRequestThread,
   resolvePromptLinkModelSelection,
-} from "./promptLinks.ts";
+} from "./promptLinks.vibe";
 
 const identity = (canonicalKey: string, origin?: string): RepositoryIdentity => ({
   canonicalKey,

@@ -9,7 +9,7 @@ import {
 } from "@t3tools/contracts";
 import * as DateTime from "effect/DateTime";
 
-import { deriveThreadTurnSubagents, resolveSubagentPillSegment } from "./threadSubagents.ts";
+import { deriveThreadTurnSubagents, resolveSubagentPillSegment } from "./threadSubagents.vibe";
 
 const at = (iso: string) => DateTime.makeUnsafe(iso);
 

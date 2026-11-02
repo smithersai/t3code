@@ -19,7 +19,7 @@ import {
   type EnvironmentConnectionPresentation,
   type EnvironmentPresentation,
   type EnvironmentServerConfig,
-} from "../connection/presentation.ts";
+} from "../connection/presentation.vibe";
 import { type EnvironmentCatalogState, enabledEnvironmentIds } from "./connections.ts";
 import { hasRelayRoute } from "../connection/routes.ts";
 

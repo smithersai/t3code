@@ -9,7 +9,7 @@ import {
   type ServerConfig,
 } from "@t3tools/contracts"
 
-import type { EnvironmentPresentation } from "./connection/presentation.ts"
+import type { EnvironmentPresentation } from "./connection/presentation.vibe"
 import { connectionRoutes, routeHttpBaseUrl } from "./connection/routes.ts"
 import type { RelayDiscoveredEnvironment } from "./relay/discovery.ts"
 

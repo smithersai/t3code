@@ -1,4 +1,4 @@
-import type { EnvironmentConnectionPhase } from "../connection/presentation.ts";
+import type { EnvironmentConnectionPhase } from "../connection/presentation.vibe";
 import type { CommandId, EnvironmentId, ProjectId, ProjectMutation, ServerConfig, SourceControlDiscoveryResult, SourceControlRepositoryInfo } from "@t3tools/contracts";
 import { SourceControlProviderKind } from "@t3tools/contracts";
 import type { EnvironmentProject } from "../state/models.vibe";
