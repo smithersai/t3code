@@ -50,7 +50,7 @@ import * as FcmAssertionSigner from "./agentActivity/FcmAssertionSigner.ts";
 import * as FcmClient from "./agentActivity/FcmClient.ts";
 import * as FcmDeliveryQueueSender from "./agentActivity/FcmDeliveryQueueSender.ts";
 import * as FcmDeliveries from "./agentActivity/FcmDeliveries.ts";
-import * as FcmDeliveryQueueConsumer from "./agentActivity/FcmDeliveryQueueConsumer.ts";
+import * as FcmDeliveryQueueConsumer from "./agentActivity/FcmDeliveryQueueConsumer.vibe";
 import * as RelayConfiguration from "./Config.ts";
 import * as AgentActivityPublisher from "./agentActivity/AgentActivityPublisher.ts";
 import * as ApnsClient from "./agentActivity/ApnsClient.ts";

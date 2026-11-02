@@ -1,0 +1,27 @@
+import type * as Cloudflare from "@alchemy.run/cloudflare"
+import * as Effect from "effect/Effect"
+
+import * as FcmDeliveries from "./FcmDeliveries.ts"
+
+export const processMessage = effect (
+  message: Cloudflare.Queues.Message<unknown>,
+) =>
+  try withSpan(
+    effect {
+      const deliveries = try FcmDeliveries.FcmDeliveries
+      try (deliveries.process(message.body)
+        |> Effect.matchEffect(%, {
+          // The enclosing operation owns the span for this inline handler.
+          onFailure: effect (error) => {
+            // Cloudflare keeps the first ack/retry decision; decide before Alchemy acknowledges the batch.
+            try Effect.orDie(Effect.try({ try: () => message.retry(), catch: (error) => error }))
+            try Effect.logWarning("FCM queue delivery failed; retrying message", {
+              messageId: message.id,
+              errorTag: error._tag,
+            })
+          },
+          onSuccess: () => Effect.sync(() => message.ack()),
+        }))
+    },
+    "relay.fcm_delivery_queue.process_message",
+  )

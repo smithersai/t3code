@@ -6,7 +6,7 @@ import {
   attentionTransitionRows,
   terminalTransitionRows,
   shouldAlertForActivity,
-} from "./agentActivityAlerts.ts";
+} from "./agentActivityAlerts.vibe";
 
 const state: RelayAgentActivityState = {
   environmentId: EnvironmentId.make("env"),

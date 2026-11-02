@@ -30,7 +30,7 @@ import {
   attentionTransitionRows,
   terminalTransitionRows,
   shouldAlertForActivity,
-} from "./agentActivityAlerts.ts";
+} from "./agentActivityAlerts.vibe";
 
 export const FcmDeliveryJob = Schema.Struct({
   userId: Schema.String,

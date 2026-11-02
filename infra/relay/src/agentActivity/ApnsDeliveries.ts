@@ -50,12 +50,12 @@ import {
   alertForTerminalAggregate,
   rowPhasesChanged,
   shouldAlertForActivity,
-} from "./agentActivityAlerts.ts";
+} from "./agentActivityAlerts.vibe";
 export {
   alertForAttentionTransition,
   alertForNewlyTerminal,
   alertForTerminalAggregate,
-} from "./agentActivityAlerts.ts";
+} from "./agentActivityAlerts.vibe";
 
 const MIN_LIVE_ACTIVITY_UPDATE_INTERVAL_MS = 15_000;
 const FRESHLY_ARMED_GRACE_MS = 2 * 60 * 1_000;

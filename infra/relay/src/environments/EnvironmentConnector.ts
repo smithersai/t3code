@@ -43,7 +43,7 @@ import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientError from "effect/http/HttpClientError";
 
-import { diagnoseEndpointFailure } from "./endpointFailure.ts";
+import { diagnoseEndpointFailure } from "./endpointFailure.vibe";
 import * as EnvironmentLinks from "./EnvironmentLinks.ts";
 import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.ts";
 import * as RelayConfiguration from "../Config.ts";
