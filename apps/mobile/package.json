@@ -154,7 +154,7 @@
     "jsdom": "^30.0.1",
     "tailwindcss": "^4.0.0",
     "typescript": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-bdbd1cef681f.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz",
     "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz"
   },
   "enriched-markdown": {
