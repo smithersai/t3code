@@ -9680,4 +9680,4 @@ export declare const StoredOrchestrationThreadSnapshot: Schema.Struct<{
         }>;
     }>;
 }>;
-export declare function decodeOrDiscardOrchestrationCache<A, E, R, E2, R2>(decode: Effect.Effect<Option.Option<A>, E, R>, discard: Effect.Effect<void, E2, R2>): Effect.Effect<Option.Option<A>, E2, (R | R2)>;
+export declare function decodeOrDiscardOrchestrationCache<A, E, R, E2, R2>(decode: Effect.Effect<Option.Option<A>, E, R>, discard: Effect.Effect<void, E2, R2>): Effect.Effect<Option.Option<A>, E2, R | R2>;

@@ -1,6 +1,6 @@
 import type { OrchestrationV2ThreadProjection } from "@t3tools/contracts";
 import * as Option from "effect/Option";
-import { type ThreadHistoryMeta } from "./threadHistoryMerge.js";
+import { type ThreadHistoryMeta } from "./threadHistoryMerge.ts";
 export type EnvironmentThreadStatus = "empty" | "cached" | "synchronizing" | "live" | "deleted";
 export interface EnvironmentThreadState {
     readonly data: Option.Option<OrchestrationV2ThreadProjection>;

@@ -1,11 +1,11 @@
 import { OrchestratorMcpFailure } from "@t3tools/contracts";
-import * as PeerForwarding from "../../../peer/PeerForwarding.js";
-import * as PeerLinkRequests from "../../../peer/PeerLinkRequests.js";
-import * as PeerLinks from "../../../peer/PeerLinks.js";
-import * as McpInvocationContext from "../../McpInvocationContext.js";
-import * as McpToolAccess from "../../McpToolAccess.js";
-import * as OrchestratorMcpService from "../../OrchestratorMcpService.js";
-import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.js";
+import * as PeerForwarding from "../../../peer/PeerForwarding.ts";
+import * as PeerLinkRequests from "../../../peer/PeerLinkRequests.ts";
+import * as PeerLinks from "../../../peer/PeerLinks.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpToolAccess from "../../McpToolAccess.ts";
+import * as OrchestratorMcpService from "../../OrchestratorMcpService.ts";
+import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.ts";
 export declare const layer: McpToolAccess.HandlersLayer<{
     readonly create_threads: import("effect/ai/Tool").Tool<"create_threads", {
         readonly parameters: import("effect/Schema").Struct<{
@@ -46,7 +46,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly delegate_task: import("effect/ai/Tool").Tool<"delegate_task", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly task: import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>;
@@ -110,7 +110,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly delete_scheduled_task: import("effect/ai/Tool").Tool<"delete_scheduled_task", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly environmentId: import("effect/Schema").optional<import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "EnvironmentId">>;
@@ -122,7 +122,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly list_scheduled_tasks: import("effect/ai/Tool").Tool<"list_scheduled_tasks", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly environmentId: import("effect/Schema").optional<import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "EnvironmentId">>;
@@ -177,7 +177,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly orchestrator_capabilities: import("effect/ai/Tool").Tool<"orchestrator_capabilities", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly environmentId: import("effect/Schema").optional<import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "EnvironmentId">>;
@@ -225,7 +225,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly request_secret: import("effect/ai/Tool").Tool<"request_secret", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly label: import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>;
@@ -246,7 +246,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>]>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly schedule_task: import("effect/ai/Tool").Tool<"schedule_task", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly environmentId: import("effect/Schema").optional<import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "EnvironmentId">>;
@@ -374,7 +374,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly t3_background_wait: import("effect/ai/Tool").Tool<"t3_background_wait", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly taskIds: import("effect/Schema").$Array<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>>;
@@ -386,7 +386,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly t3_environment_link: import("effect/ai/Tool").Tool<"t3_environment_link", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly environmentId: import("effect/Schema").optional<import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "EnvironmentId">>;
@@ -412,7 +412,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>]>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | PeerLinkRequests.PeerLinkRequests | PeerLinks.PeerLinks | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | PeerLinkRequests.PeerLinkRequests | PeerLinks.PeerLinks | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly t3_environment_links: import("effect/ai/Tool").Tool<"t3_environment_links", {
         readonly parameters: import("effect/ai/Tool").EmptyParams;
         readonly success: import("effect/Schema").Struct<{
@@ -429,7 +429,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | PeerForwarding.PeerForwarding | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | PeerForwarding.PeerForwarding | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly t3_environment_unlink: import("effect/ai/Tool").Tool<"t3_environment_unlink", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly environmentId: import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "EnvironmentId">;
@@ -440,7 +440,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | PeerLinkRequests.PeerLinkRequests | PeerLinks.PeerLinks | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | PeerLinkRequests.PeerLinkRequests | PeerLinks.PeerLinks | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly t3_thread_interrupt: import("effect/ai/Tool").Tool<"t3_thread_interrupt", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly environmentId: import("effect/Schema").optional<import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "EnvironmentId">>;
@@ -457,7 +457,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly t3_thread_list: import("effect/ai/Tool").Tool<"t3_thread_list", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly environmentId: import("effect/Schema").optional<import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "EnvironmentId">>;
@@ -514,7 +514,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly t3_thread_read: import("effect/ai/Tool").Tool<"t3_thread_read", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly environmentId: import("effect/Schema").optional<import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "EnvironmentId">>;
@@ -609,7 +609,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly t3_thread_send: import("effect/ai/Tool").Tool<"t3_thread_send", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly environmentId: import("effect/Schema").optional<import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "EnvironmentId">>;
@@ -629,7 +629,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly t3_thread_update: import("effect/ai/Tool").Tool<"t3_thread_update", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly threadId: import("effect/Schema").optional<import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "ThreadId">>;
@@ -658,7 +658,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService | ThreadMetadataMcpService.ThreadMetadataMcpService>;
+    }, McpInvocationContext.McpInvocationContext | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService | ThreadMetadataMcpService.ThreadMetadataMcpService>;
     readonly t3_thread_wait: import("effect/ai/Tool").Tool<"t3_thread_wait", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly environmentId: import("effect/Schema").optional<import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "EnvironmentId">>;
@@ -680,7 +680,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly t3_workflow_stop: import("effect/ai/Tool").Tool<"t3_workflow_stop", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly threadId: import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "ThreadId">;
@@ -690,7 +690,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         readonly success: import("effect/Schema").Struct<{}>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly task_cancel: import("effect/ai/Tool").Tool<"task_cancel", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly taskId: import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "NodeId">;
@@ -703,7 +703,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly task_status: import("effect/ai/Tool").Tool<"task_status", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly taskId: import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "NodeId">;
@@ -745,5 +745,5 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, McpInvocationContext.McpInvocationContext | OrchestratorMcpService.OrchestratorMcpService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
 }, never, never>;

@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     INSERT OR IGNORE INTO projection_pending_approvals (
       request_id,
@@ -41,7 +41,7 @@ export default effect {
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     WITH latest_resolutions AS (
       SELECT
@@ -93,7 +93,7 @@ export default effect {
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     WITH latest_response_events AS (
       SELECT
@@ -145,7 +145,7 @@ export default effect {
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     WITH latest_stale_failures AS (
       SELECT
@@ -191,7 +191,7 @@ export default effect {
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     UPDATE projection_threads
     SET

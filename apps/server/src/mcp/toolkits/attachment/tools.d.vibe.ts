@@ -3,11 +3,11 @@ import { OrchestratorMcpFailure } from "@t3tools/contracts";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as FileSystem from "effect/FileSystem";
 import * as Schema from "effect/Schema";
-import * as ServerSecretStore from "../../../auth/ServerSecretStore.js";
-import * as ServerConfig from "../../../config.js";
-import * as DocumentText from "../../../provider/DocumentText.js";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.js";
-import * as McpInvocationContext from "../../McpInvocationContext.js";
+import * as ServerSecretStore from "../../../auth/ServerSecretStore.ts";
+import * as ServerConfig from "../../../config.ts";
+import * as DocumentText from "../../../provider/DocumentText.ts";
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.ts";
 export declare const AttachmentToolkit: Toolkit.Toolkit<{
     readonly t3_attachment_discard: Tool.Tool<"t3_attachment_discard", {
         readonly parameters: Schema.Struct<{

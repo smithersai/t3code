@@ -21,4 +21,4 @@ export declare const make: (options: {
     readonly authenticate: (methodId: string, context: ProviderAuthFlowContext) => Effect.Effect<void, ProviderSetupError, Scope.Scope>;
     readonly logout: Effect.Effect<void | string, ProviderSetupError>;
     readonly timeoutMs?: number;
-}) => Effect.Effect<ProviderAuth.ProviderAuthController, never, (Crypto.Crypto | Scope.Scope)>;
+}) => Effect.Effect<ProviderAuth.ProviderAuthController, never, Crypto.Crypto | Scope.Scope>;

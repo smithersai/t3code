@@ -1,5 +1,5 @@
 import type { ExecutionEnvironmentCapabilities, ServerSettings, ServerSettingsPatch } from "@t3tools/contracts";
-import type { EnvironmentConnectionPhase } from "../connection/presentation.js";
+import type { EnvironmentConnectionPhase } from "../connection/presentation.ts";
 declare const SHARED_SERVER_SETTING_KEYS: readonly ["continueThreadsAfterServerUpdate", "sidebarAutoSettleAfterDays", "sidebarAutoSettleOnMerge", "autoResumeLimitedThreads", "snoozeLimitedThreads", "newWorktreesStartFromOrigin", "sourceControlWritingStyle", "textGenerationModelSelection"];
 export type SharedServerSettingKey = (typeof SHARED_SERVER_SETTING_KEYS)[number];
 export declare function splitSharedServerPatch(patch: ServerSettingsPatch): {

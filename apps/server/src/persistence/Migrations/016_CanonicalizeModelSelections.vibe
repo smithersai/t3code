@@ -4,14 +4,14 @@ import * as SqlClient from "effect/sql/SqlClient"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     ALTER TABLE projection_projects
     ADD COLUMN default_model_selection_json TEXT
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     UPDATE projection_projects
     SET default_model_selection_json = CASE
@@ -30,14 +30,14 @@ export default effect {
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     ALTER TABLE projection_threads
     ADD COLUMN model_selection_json TEXT
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     UPDATE projection_threads
     SET model_selection_json = json_object(
@@ -61,21 +61,21 @@ export default effect {
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     ALTER TABLE projection_projects
     DROP COLUMN default_model
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     ALTER TABLE projection_threads
     DROP COLUMN model
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     UPDATE orchestration_events
     SET payload_json = CASE
@@ -161,7 +161,7 @@ export default effect {
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     UPDATE orchestration_events
     SET payload_json = json_remove(
@@ -236,7 +236,7 @@ export default effect {
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     UPDATE orchestration_events
     SET payload_json = json_set(

@@ -1,9 +1,9 @@
 import { OrchestratorMcpFailure } from "@t3tools/contracts";
-import * as GitWorkflow from "../../../git/GitWorkflowService.js";
-import * as Project from "../../../project/ProjectService.js";
-import * as McpInvocationContext from "../../McpInvocationContext.js";
-import * as McpToolAccess from "../../McpToolAccess.js";
-import * as WorktreeMcpService from "../../WorktreeMcpService.js";
+import * as GitWorkflow from "../../../git/GitWorkflowService.ts";
+import * as Project from "../../../project/ProjectService.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpToolAccess from "../../McpToolAccess.ts";
+import * as WorktreeMcpService from "../../WorktreeMcpService.ts";
 export declare const layer: McpToolAccess.HandlersLayer<{
     readonly t3_worktree_handoff: import("effect/ai/Tool").Tool<"t3_worktree_handoff", {
         readonly parameters: import("effect/Schema").Struct<{
@@ -43,7 +43,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: import("effect/Schema").Union<readonly [typeof import("@t3tools/contracts").WorktreeMcpFailure, typeof OrchestratorMcpFailure]>;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService | WorktreeMcpService.WorktreeMcpService>;
+    }, McpInvocationContext.McpInvocationContext | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService | WorktreeMcpService.WorktreeMcpService>;
     readonly t3_worktree_list: import("effect/ai/Tool").Tool<"t3_worktree_list", {
         readonly parameters: import("effect/Schema").Struct<{
             readonly environmentId: import("effect/Schema").optional<import("effect/Schema").brand<import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>, "EnvironmentId">>;
@@ -72,7 +72,7 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: typeof OrchestratorMcpFailure;
         readonly failureMode: "return";
-    }, GitWorkflow.GitWorkflowService | McpInvocationContext.McpInvocationContext | Project.ProjectService | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService>;
+    }, GitWorkflow.GitWorkflowService | McpInvocationContext.McpInvocationContext | Project.ProjectService | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService>;
     readonly t3_worktree_status: import("effect/ai/Tool").Tool<"t3_worktree_status", {
         readonly parameters: import("effect/ai/Tool").EmptyParams;
         readonly success: import("effect/Schema").Struct<{
@@ -84,5 +84,5 @@ export declare const layer: McpToolAccess.HandlersLayer<{
         }>;
         readonly failure: import("effect/Schema").Union<readonly [typeof import("@t3tools/contracts").WorktreeMcpFailure, typeof OrchestratorMcpFailure]>;
         readonly failureMode: "return";
-    }, McpInvocationContext.McpInvocationContext | import("../../../orchestration-v2/ThreadManagementService.js").ThreadManagementService | WorktreeMcpService.WorktreeMcpService>;
+    }, McpInvocationContext.McpInvocationContext | import("../../../orchestration-v2/ThreadManagementService.ts").ThreadManagementService | WorktreeMcpService.WorktreeMcpService>;
 }, never, never>;

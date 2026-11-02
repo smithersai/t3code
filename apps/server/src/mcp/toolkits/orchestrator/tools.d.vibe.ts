@@ -1,13 +1,13 @@
 import { Tool, Toolkit } from "effect/ai";
 import { OrchestratorMcpFailure } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.js";
-import * as PeerForwarding from "../../../peer/PeerForwarding.js";
-import * as PeerLinkRequests from "../../../peer/PeerLinkRequests.js";
-import * as PeerLinks from "../../../peer/PeerLinks.js";
-import * as McpInvocationContext from "../../McpInvocationContext.js";
-import * as OrchestratorMcpService from "../../OrchestratorMcpService.js";
-import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.js";
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
+import * as PeerForwarding from "../../../peer/PeerForwarding.ts";
+import * as PeerLinkRequests from "../../../peer/PeerLinkRequests.ts";
+import * as PeerLinks from "../../../peer/PeerLinks.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as OrchestratorMcpService from "../../OrchestratorMcpService.ts";
+import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.ts";
 export declare const OrchestratorToolkit: Toolkit.Toolkit<{
     readonly create_threads: Tool.Tool<"create_threads", {
         readonly parameters: Schema.Struct<{

@@ -18,7 +18,7 @@
     "@astrojs/check": "^0.9.10",
     "@vercel/config": "^0.3.0",
     "typescript": "~6.0.3",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-a2f113b9682c.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-e3281f083c35.tgz"
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-bdbd1cef681f.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz"
   }
 }

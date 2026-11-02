@@ -1,7 +1,7 @@
 import { type AuthEnvironmentScope } from "./auth.vibe";
 import * as Duration from "effect/Duration";
 import * as Schema from "effect/Schema";
-import { ProjectId } from "./baseSchemas.js";
+import { ProjectId } from "./baseSchemas.ts";
 import { type ProjectMutation } from "./project.vibe";
 import { PreviewViewportSetting } from "./preview.vibe";
 import { ProviderInstanceConfig, ProviderInstanceId } from "./providerInstance.vibe";

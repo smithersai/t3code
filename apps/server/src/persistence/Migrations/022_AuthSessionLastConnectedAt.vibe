@@ -4,14 +4,14 @@ import * as SqlClient from "effect/sql/SqlClient"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  const sessionColumns = try Effect.suspend(() =>
+  const sessionColumns = try Effect.suspend(effect () =>
     sql<{ readonly name: string }>`
     PRAGMA table_info(auth_sessions)
   `
   )
 
   if (!sessionColumns.some((column) => column.name === "last_connected_at")) {
-    try Effect.suspend(() =>
+    try Effect.suspend(effect () =>
       sql`
       ALTER TABLE auth_sessions
       ADD COLUMN last_connected_at TEXT

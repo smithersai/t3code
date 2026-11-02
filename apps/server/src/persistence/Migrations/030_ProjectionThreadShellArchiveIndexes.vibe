@@ -4,14 +4,14 @@ import * as SqlClient from "effect/sql/SqlClient"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     CREATE INDEX IF NOT EXISTS idx_projection_threads_shell_active
     ON projection_threads(deleted_at, archived_at, project_id, created_at, thread_id)
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     CREATE INDEX IF NOT EXISTS idx_projection_threads_shell_archived
     ON projection_threads(deleted_at, archived_at, project_id, thread_id)

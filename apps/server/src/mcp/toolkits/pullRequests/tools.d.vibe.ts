@@ -2,11 +2,11 @@ import { McpCapabilityUnavailableError, OrchestratorMcpFailure } from "@t3tools/
 import * as Schema from "effect/Schema";
 import * as Tool from "effect/ai/Tool";
 import * as Toolkit from "effect/ai/Toolkit";
-import * as McpInvocationContext from "../../McpInvocationContext.js";
-import * as Orchestrator from "../../../orchestration-v2/Orchestrator.js";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.js";
-import * as ProjectService from "../../../project/ProjectService.js";
-import * as PullRequestReviewGuideService from "../../../pullRequest/PullRequestReviewGuideService.js";
+import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as Orchestrator from "../../../orchestration-v2/Orchestrator.ts";
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
+import * as ProjectService from "../../../project/ProjectService.ts";
+import * as PullRequestReviewGuideService from "../../../pullRequest/PullRequestReviewGuideService.ts";
 export declare const PullRequestTargetInput: Schema.Struct<{
     readonly environmentId: Schema.optional<Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "EnvironmentId">>;
     readonly threadId: Schema.optional<Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "ThreadId">>;

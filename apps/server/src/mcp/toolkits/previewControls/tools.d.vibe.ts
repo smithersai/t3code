@@ -1,10 +1,10 @@
 import { Tool, Toolkit } from "effect/ai";
 import { OrchestratorMcpFailure } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.js";
-import * as PreviewManager from "../../../preview/Manager.js";
-import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.js";
-import * as McpInvocationContext from "../../McpInvocationContext.js";
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
+import * as PreviewManager from "../../../preview/Manager.ts";
+import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.ts";
 export declare const PreviewControlsToolkit: Toolkit.Toolkit<{
     readonly t3_preview_close: Tool.Tool<"t3_preview_close", {
         readonly parameters: Schema.Struct<{

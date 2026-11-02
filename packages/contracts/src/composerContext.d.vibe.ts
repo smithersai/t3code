@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import { ForwardCompatibleArray } from "./baseSchemas.js";
+import { ForwardCompatibleArray } from "./baseSchemas.ts";
 /** Image and file records reference `ChatAttachment` ids, never bytes. */
 export declare const COMPOSER_CONTEXT_KINDS: readonly ["image", "file", "terminal", "element", "preview-annotation", "review-comment", "mention", "skill", "thread", "environment"];
 export type KnownComposerContextKind = (typeof COMPOSER_CONTEXT_KINDS)[number];

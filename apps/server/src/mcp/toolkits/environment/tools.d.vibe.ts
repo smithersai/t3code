@@ -1,11 +1,11 @@
 import { Tool, Toolkit } from "effect/ai";
 import { OrchestratorMcpFailure } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
-import * as ServerEnvironment from "../../../environment/ServerEnvironment.js";
-import * as ThreadCommandExecutor from "../../../orchestration-v2/ThreadCommandExecutor.js";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.js";
-import * as Settings from "../../../serverSettings.js";
-import * as McpInvocationContext from "../../McpInvocationContext.js";
+import * as ServerEnvironment from "../../../environment/ServerEnvironment.ts";
+import * as ThreadCommandExecutor from "../../../orchestration-v2/ThreadCommandExecutor.ts";
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
+import * as Settings from "../../../serverSettings.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.ts";
 export declare const EnvironmentToolkit: Toolkit.Toolkit<{
     readonly t3_environment_preferences_update: Tool.Tool<"t3_environment_preferences_update", {
         readonly parameters: Schema.Struct<{

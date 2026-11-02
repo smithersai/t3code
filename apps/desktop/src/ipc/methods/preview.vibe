@@ -38,19 +38,21 @@ export const installPreviewEventForwarding = effect () =>
     effect {
       const electronWindow = try ElectronWindow.ElectronWindow
       const manager = try PreviewManager.PreviewManager
-      try manager.subscribeStateChanges((tabId, state) =>
-        electronWindow.sendAll(IpcChannels.PREVIEW_STATE_CHANGE_CHANNEL, tabId, state)
+      try manager.subscribeStateChanges(effect (tabId, state) =>
+        try electronWindow.sendAll(IpcChannels.PREVIEW_STATE_CHANGE_CHANNEL, tabId, state)
       )
-      try manager.subscribeRecordingFrames((frame) =>
-        electronWindow.sendAll(IpcChannels.PREVIEW_RECORDING_FRAME_CHANNEL, frame)
+      try manager.subscribeRecordingFrames(effect (frame) =>
+        try electronWindow.sendAll(IpcChannels.PREVIEW_RECORDING_FRAME_CHANNEL, frame)
       )
-      try manager.subscribeRecordingInputs((event) =>
-        electronWindow.sendAll(IpcChannels.PREVIEW_RECORDING_INPUT_CHANNEL, event)
+      try manager.subscribeRecordingInputs(effect (event) =>
+        try electronWindow.sendAll(IpcChannels.PREVIEW_RECORDING_INPUT_CHANNEL, event)
       )
-      try manager.subscribePointerEvents((event) =>
-        electronWindow.sendAll(IpcChannels.PREVIEW_POINTER_EVENT_CHANNEL, event)
+      try manager.subscribePointerEvents(effect (event) =>
+        try electronWindow.sendAll(IpcChannels.PREVIEW_POINTER_EVENT_CHANNEL, event)
       )
-      try manager.subscribeOpenLinks((event) => electronWindow.sendAll(IpcChannels.PREVIEW_OPEN_LINK_CHANNEL, event))
+      try manager.subscribeOpenLinks(effect (event) =>
+        try electronWindow.sendAll(IpcChannels.PREVIEW_OPEN_LINK_CHANNEL, event)
+      )
     },
     "desktop.ipc.preview.installEventForwarding",
   )
@@ -148,37 +150,37 @@ const tabMethod = (
 const goBack = tabMethod(
   IpcChannels.PREVIEW_GO_BACK_CHANNEL,
   "desktop.ipc.preview.goBack",
-  (manager, tabId) => manager.goBack(tabId),
+  effect (manager, tabId) => try manager.goBack(tabId),
 )
 const goForward = tabMethod(
   IpcChannels.PREVIEW_GO_FORWARD_CHANNEL,
   "desktop.ipc.preview.goForward",
-  (manager, tabId) => manager.goForward(tabId),
+  effect (manager, tabId) => try manager.goForward(tabId),
 )
 const refresh = tabMethod(
   IpcChannels.PREVIEW_REFRESH_CHANNEL,
   "desktop.ipc.preview.refresh",
-  (manager, tabId) => manager.refresh(tabId),
+  effect (manager, tabId) => try manager.refresh(tabId),
 )
 const zoomIn = tabMethod(
   IpcChannels.PREVIEW_ZOOM_IN_CHANNEL,
   "desktop.ipc.preview.zoomIn",
-  (manager, tabId) => manager.zoomIn(tabId),
+  effect (manager, tabId) => try manager.zoomIn(tabId),
 )
 const zoomOut = tabMethod(
   IpcChannels.PREVIEW_ZOOM_OUT_CHANNEL,
   "desktop.ipc.preview.zoomOut",
-  (manager, tabId) => manager.zoomOut(tabId),
+  effect (manager, tabId) => try manager.zoomOut(tabId),
 )
 const resetZoom = tabMethod(
   IpcChannels.PREVIEW_RESET_ZOOM_CHANNEL,
   "desktop.ipc.preview.resetZoom",
-  (manager, tabId) => manager.resetZoom(tabId),
+  effect (manager, tabId) => try manager.resetZoom(tabId),
 )
 const hardReload = tabMethod(
   IpcChannels.PREVIEW_HARD_RELOAD_CHANNEL,
   "desktop.ipc.preview.hardReload",
-  (manager, tabId) => manager.hardReload(tabId),
+  effect (manager, tabId) => try manager.hardReload(tabId),
 )
 const setZoomFactor = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.PREVIEW_SET_ZOOM_FACTOR_CHANNEL,
@@ -222,12 +224,12 @@ const setAudioMuted = DesktopIpc.makeIpcMethod({
 const openDevTools = tabMethod(
   IpcChannels.PREVIEW_OPEN_DEVTOOLS_CHANNEL,
   "desktop.ipc.preview.openDevTools",
-  (manager, tabId) => manager.openDevTools(tabId),
+  effect (manager, tabId) => try manager.openDevTools(tabId),
 )
 const cancelPickElement = tabMethod(
   IpcChannels.PREVIEW_CANCEL_PICK_ELEMENT_CHANNEL,
   "desktop.ipc.preview.cancelPickElement",
-  (manager, tabId) => manager.cancelPickElement(tabId),
+  effect (manager, tabId) => try manager.cancelPickElement(tabId),
 )
 export const startRecording = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.PREVIEW_RECORDING_START_CHANNEL,
@@ -245,8 +247,8 @@ export const startRecording = DesktopIpc.makeIpcMethod({
           showMousePresses: value.browserRecordingShowMousePresses,
         }))
         return manager
-          .startRecording(tabId, Option.getOrUndefined(options)) catch (error) =>
-            Effect.succeed(normalizeCaptureFailure(error, "recording-start"))
+          .startRecording(tabId, Option.getOrUndefined(options)) catch effect (error) =>
+            try Effect.succeed(normalizeCaptureFailure(error, "recording-start"))
       },
       "desktop.ipc.preview.startRecording",
     ),
@@ -254,17 +256,17 @@ export const startRecording = DesktopIpc.makeIpcMethod({
 const stopRecording = tabMethod(
   IpcChannels.PREVIEW_RECORDING_STOP_CHANNEL,
   "desktop.ipc.preview.stopRecording",
-  (manager, tabId) => manager.stopRecording(tabId),
+  effect (manager, tabId) => try manager.stopRecording(tabId),
 )
 const openPictureInPicture = tabMethod(
   IpcChannels.PREVIEW_PICTURE_IN_PICTURE_OPEN_CHANNEL,
   "desktop.ipc.preview.openPictureInPicture",
-  (manager, tabId) => manager.openPictureInPicture(tabId),
+  effect (manager, tabId) => try manager.openPictureInPicture(tabId),
 )
 const closePictureInPicture = tabMethod(
   IpcChannels.PREVIEW_PICTURE_IN_PICTURE_CLOSE_CHANNEL,
   "desktop.ipc.preview.closePictureInPicture",
-  (manager, tabId) => manager.closePictureInPicture(tabId),
+  effect (manager, tabId) => try manager.closePictureInPicture(tabId),
 )
 const clearCookies = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.PREVIEW_CLEAR_COOKIES_CHANNEL,
@@ -405,7 +407,8 @@ export const captureScreenshot = DesktopIpc.makeIpcMethod({
       effect {
         const manager = try PreviewManager.PreviewManager
         return manager
-          .captureScreenshot(tabId) catch (error) => Effect.succeed(normalizeCaptureFailure(error, "screenshot"))
+          .captureScreenshot(tabId) catch effect (error) =>
+            try Effect.succeed(normalizeCaptureFailure(error, "screenshot"))
       },
       "desktop.ipc.preview.captureScreenshot",
     ),

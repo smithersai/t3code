@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     DELETE FROM projection_pending_approvals
     WHERE NOT EXISTS (
@@ -17,7 +17,7 @@ export default effect {
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     UPDATE projection_threads
     SET pending_approval_count = COALESCE((

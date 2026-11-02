@@ -3,14 +3,14 @@ import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
-  const columns = try Effect.suspend(() =>
+  const columns = try Effect.suspend(effect () =>
     sql<{ readonly name: string }>`
     PRAGMA table_info(projection_threads)
   `
   )
 
   if (!columns.some((column) => column.name === "settled_override")) {
-    try Effect.suspend(() =>
+    try Effect.suspend(effect () =>
       sql`
       ALTER TABLE projection_threads
       ADD COLUMN settled_override TEXT
@@ -19,7 +19,7 @@ export default effect {
   }
 
   if (!columns.some((column) => column.name === "settled_at")) {
-    try Effect.suspend(() =>
+    try Effect.suspend(effect () =>
       sql`
       ALTER TABLE projection_threads
       ADD COLUMN settled_at TEXT

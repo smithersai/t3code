@@ -4,14 +4,14 @@ import * as SqlClient from "effect/sql/SqlClient"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     ALTER TABLE projection_turns
     ADD COLUMN source_proposed_plan_thread_id TEXT
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     ALTER TABLE projection_turns
     ADD COLUMN source_proposed_plan_id TEXT

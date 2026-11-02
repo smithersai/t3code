@@ -4,14 +4,14 @@ import * as SqlClient from "effect/sql/SqlClient"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     ALTER TABLE projection_threads
     ADD COLUMN runtime_mode TEXT NOT NULL DEFAULT 'full-access'
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     UPDATE projection_threads
     SET runtime_mode = 'full-access'

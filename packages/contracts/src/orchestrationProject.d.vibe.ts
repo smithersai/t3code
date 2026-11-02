@@ -52,7 +52,7 @@ export declare const OrchestrationProjectShell: Schema.Struct<{
         readonly kind: Schema.Literal<"monogram">;
         readonly text: Schema.decodeTo<Schema.String, Schema.String, never, never>;
         readonly color: Schema.Literals<readonly ["gray", "red", "orange", "amber", "yellow", "lime", "green", "emerald", "teal", "cyan", "sky", "blue", "indigo", "violet", "purple", "fuchsia", "pink", "rose"]>;
-    }>]>>>, import("./baseSchemas.js").ForwardCompatibleUnion<readonly [Schema.Struct<{
+    }>]>>>, import("./baseSchemas.ts").ForwardCompatibleUnion<readonly [Schema.Struct<{
         readonly kind: Schema.Literal<"lucide">;
         readonly name: Schema.decodeTo<Schema.String, Schema.String, never, never>;
         readonly color: Schema.Literals<readonly ["gray", "red", "orange", "amber", "yellow", "lime", "green", "emerald", "teal", "cyan", "sky", "blue", "indigo", "violet", "purple", "fuchsia", "pink", "rose"]>;

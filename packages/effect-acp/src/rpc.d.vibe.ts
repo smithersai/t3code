@@ -1,8 +1,8 @@
 import * as Rpc from "effect/rpc/Rpc";
 import * as RpcGroup from "effect/rpc/RpcGroup";
 import * as Schema from "effect/Schema";
-import * as AcpSchema from "./_generated/schema.gen.js";
-import * as AcpSchemaV1 from "./_generated/schema-v1.gen.js";
+import * as AcpSchema from "./_generated/schema.gen.ts";
+import * as AcpSchemaV1 from "./_generated/schema-v1.gen.ts";
 export declare const V1_AGENT_METHODS: {
     readonly authenticate: "authenticate";
     readonly logout: "logout";

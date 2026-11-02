@@ -3,11 +3,11 @@ import { OrchestratorMcpFailure } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
-import * as ServerConfig from "../../../config.js";
-import * as McpInvocationContext from "../../McpInvocationContext.js";
-import * as DeviceService from "../../../device/DeviceService.js";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.js";
-import * as ProjectService from "../../../project/ProjectService.js";
+import * as ServerConfig from "../../../config.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as DeviceService from "../../../device/DeviceService.ts";
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
+import * as ProjectService from "../../../project/ProjectService.ts";
 export declare const DeviceScreenshotTool: Tool.Tool<"device_screenshot", {
     readonly parameters: Schema.Struct<{
         readonly deviceId: Schema.optional<Schema.decodeTo<Schema.String, Schema.String, never, never>>;
