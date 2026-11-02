@@ -8,7 +8,7 @@ import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import type * as Cloudflare from "@alchemy.run/cloudflare";
-import * as FcmDeliveryQueueConsumer from "./FcmDeliveryQueueConsumer.ts";
+import * as FcmDeliveryQueueConsumer from "./FcmDeliveryQueueConsumer.vibe";
 
 import * as RelayConfiguration from "../Config.ts";
 import * as RelayDb from "../db.ts";

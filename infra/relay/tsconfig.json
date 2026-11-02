@@ -6,6 +6,13 @@
     "lib": ["ES2023", "WebWorker"],
     "types": ["@cloudflare/workers-types", "node"]
   },
-  "include": ["alchemy.run.ts", "scripts/**/*.ts", "src/**/*.ts"],
+  "include": [
+    "alchemy.run.ts",
+    "alchemy.run.vibe",
+    "scripts/**/*.ts",
+    "scripts/**/*.vibe",
+    "src/**/*.ts",
+    "src/**/*.vibe"
+  ],
   "vibelang": { "trustedPackages": ["@t3tools/*"] }
 }
