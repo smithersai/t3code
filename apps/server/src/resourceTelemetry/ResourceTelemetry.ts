@@ -28,14 +28,14 @@ import {
   mergeProcesses,
   type ProcessState,
   type TelemetryCounters,
-} from "./Model.vibe";
+} from "./Model.ts";
 import * as NativeTelemetryClient from "./NativeTelemetryClient.ts";
 import * as ResourceAttribution from "./ResourceAttribution.ts";
 import {
   buildResourceTelemetryHistory,
   normalizeResourceTelemetryHistoryInput,
   type ResourceTelemetryHistoryWithLegacyBuckets,
-} from "./ResourceTelemetryHistory.vibe";
+} from "./ResourceTelemetryHistory.ts";
 import { subscribeBeforeSnapshot } from "../utils/subscribeBeforeSnapshot.ts";
 
 export class ResourceTelemetryRefreshFailed extends Schema.TaggedError<ResourceTelemetryRefreshFailed>()(

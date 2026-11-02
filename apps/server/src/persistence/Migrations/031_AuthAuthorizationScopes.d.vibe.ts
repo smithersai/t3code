@@ -1,3 +1,5 @@
-export default _default;
+import * as Effect from "effect/Effect";
+import * as SqlClient from "effect/sql/SqlClient";
 /** Role-bearing credentials and sessions cannot safely receive new capabilities implicitly. */
-declare function _default(): void;
+declare const _default: Effect.Effect<void, import("effect/sql/SqlError").SqlError, SqlClient.SqlClient>;
+export default _default;
