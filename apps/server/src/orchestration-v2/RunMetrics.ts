@@ -9,7 +9,7 @@ import type * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Metric from "effect/Metric";
 
-import { normalizeModelMetricLabel } from "../observability/Attributes.ts";
+import { normalizeModelMetricLabel } from "../observability/Attributes.vibe";
 import {
   metricAttributes,
   runDuration,
