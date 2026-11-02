@@ -40,7 +40,7 @@ import {
   signPayload,
   timingSafeEqualBase64Url,
 } from "./utils.ts";
-import * as RequestUrl from "../RequestUrl.ts";
+import * as RequestUrl from "../RequestUrl.vibe";
 
 // Request-derived origins support loopback, Tailscale and tunnels.
 // Signed client metadata keeps unauthenticated registration stateless.

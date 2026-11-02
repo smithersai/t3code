@@ -17,7 +17,7 @@ import {
   type ServerAuthInternalError,
 } from "./EnvironmentAuth.ts";
 import * as ServerSecretStore from "./ServerSecretStore.ts";
-import * as RequestUrl from "../RequestUrl.ts";
+import * as RequestUrl from "../RequestUrl.vibe";
 
 export const DPOP_REPLAY_MARKER_PREFIX = "dpop-proof-";
 
