@@ -28,7 +28,7 @@
     "postject": "1.0.0-alpha.6",
     "typescript": "catalog:",
     "typescript-legacy": "npm:typescript@~6.0.3",
-    "vibelang": "file:../.vibelang-toolchain/vibelang-0.0.11-316a192f4c8a.tgz",
+    "vibelang": "file:../.vibelang-toolchain/vibelang-0.0.11-240046f82a40.tgz",
     "vite-plus": "catalog:"
   }
 }

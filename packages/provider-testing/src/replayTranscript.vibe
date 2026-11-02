@@ -162,8 +162,8 @@ export const readProviderReplayTranscript = effect (
 ) =>
   try withSpan(
     effect {
-      const fs = try FileSystem()
-      const path = try Path()
+      const fs = try FileSystem.FileSystem
+      const path = try Path.Path
       const text = try fs.readFileString(try path.fromFileUrl(file))
       return try decodeProviderReplayNdjson(text)
     },

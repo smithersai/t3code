@@ -62,8 +62,8 @@ export const make = effect (options: {
 }): ProviderAuth.ProviderAuthController!never!(Crypto.Crypto | Scope.Scope) =>
   try withSpan(
     effect {
-      const scope = try Scope.Scope()
-      const crypto = try Crypto.Crypto()
+      const scope = try Scope.Scope
+      const crypto = try Crypto.Crypto
       const lock = try Semaphore.make(1)
       const timeoutMs = options.timeoutMs ?? 300_000
       const empty: ProviderAuthState = {
@@ -181,7 +181,7 @@ export const make = effect (options: {
         // restore is a program transformer passed into the fork; a block would execute the task here.
         withAccess: effect (task) =>
           try Effect.uninterruptibleMask(effect (restore) => {
-            const parent = try Scope.Scope()
+            const parent = try Scope.Scope
             const child = try lock.withPermit(effect {
               if (operation !== "idle") {
                 throw new ProviderSetupError({

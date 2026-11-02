@@ -39,7 +39,7 @@ function toChangeRequest(summary: NormalizedBitbucketPullRequestRecord): ChangeR
 }
 
 export const make = effect {
-  const bitbucket = try BitbucketApi.BitbucketApi()
+  const bitbucket = try BitbucketApi.BitbucketApi
 
   return SourceControlProvider.SourceControlProvider.of({
     kind: SourceControlProviderKind.make("bitbucket"),
@@ -198,7 +198,7 @@ export const make = effect {
 }
 
 export const makeDiscovery = effect {
-  const bitbucket = try BitbucketApi.BitbucketApi()
+  const bitbucket = try BitbucketApi.BitbucketApi
 
   return {
     type: "api",

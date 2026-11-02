@@ -27,8 +27,8 @@ export const resolveGitWorktreePath = effect (
 ): string | undefined!never!FileSystem.FileSystem | Path.Path =>
   try withSpan(
     effect {
-      const fileSystem = try FileSystem()
-      const path = try Path()
+      const fileSystem = try FileSystem.FileSystem
+      const path = try Path.Path
 
       let directory = path.resolve(cwd)
       for (;;) {
@@ -72,7 +72,7 @@ export const resolveWorktreeT3Home = effect (
       if (worktreePath === undefined) {
         return undefined
       }
-      const path = try Path()
+      const path = try Path.Path
       return path.join(worktreePath, ".t3")
     },
     "devHome.resolveWorktreeT3Home",

@@ -147,7 +147,7 @@ export const makeAcpClientTerminals = effect (
 ): AcpClientTerminals!never!ChildProcessSpawner.ChildProcessSpawner =>
   try withSpan(
     effect {
-      const spawner = try ChildProcessSpawner.ChildProcessSpawner()
+      const spawner = try ChildProcessSpawner.ChildProcessSpawner
       const forceKillAfter = options.forceKillAfter ?? "5 seconds"
       const creationPermit = try Semaphore.make(1)
       const terminals = new Map<string, ManagedAcpTerminal>()

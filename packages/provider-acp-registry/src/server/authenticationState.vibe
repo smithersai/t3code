@@ -15,7 +15,7 @@ const encodeJson = Schema.encodeEffect(Schema.fromJsonString(Schema.Unknown))
 const hash = effect (value: unknown) =>
   try withSpan(
     effect {
-      const crypto = try Crypto.Crypto()
+      const crypto = try Crypto.Crypto
       const json = try Effect.orDie(encodeJson(value))
       const digest = try Effect.orDie(crypto.digest("SHA-256", new TextEncoder().encode(json)))
       return Hex.encode(digest)
@@ -32,8 +32,8 @@ export const makeAcpRegistryAuthenticationState = effect (input: {
 }) =>
   try withSpan(
     effect {
-      const fs = try FileSystem.FileSystem()
-      const path = try Path.Path()
+      const fs = try FileSystem.FileSystem
+      const path = try Path.Path
       const filePath = path.join(input.cacheDir, `acp-auth-${try hash(input.instanceId)}.json`)
       // Cosmetic settings and model discovery do not change the account binding.
       const binding = try hash({

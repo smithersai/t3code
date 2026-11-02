@@ -20,7 +20,7 @@ export const processMessage = effect (
               errorTag: error._tag,
             })
           },
-          onSuccess: () => Effect.sync(() => message.ack()),
+          onSuccess: effect () => try Effect.sync(() => message.ack()),
         }))
     },
     "relay.fcm_delivery_queue.process_message",

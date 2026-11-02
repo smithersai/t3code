@@ -20,7 +20,7 @@ effect function runGit(
   cwd: string,
   args: ReadonlyArray<string>,
 ): void!(ReplayFixtureGitCommandError | PlatformError.PlatformError)!ChildProcessSpawner.ChildProcessSpawner {
-  const spawner = try ChildProcessSpawner.ChildProcessSpawner()
+  const spawner = try ChildProcessSpawner.ChildProcessSpawner
   const exitCode = try spawner.exitCode(ChildProcess.make("git", args, { cwd }))
   if (Number(exitCode) !== 0) {
     throw new ReplayFixtureGitCommandError({
@@ -38,8 +38,8 @@ effect function makeCheckpointWorkspaceEffect(
 ) {
   return try withSpan(
     effect {
-      const fs = try FileSystem.FileSystem()
-      const path = try Path.Path()
+      const fs = try FileSystem.FileSystem
+      const path = try Path.Path
       const cwd = try fs.makeTempDirectory({
         prefix: `t3-orchestrator-v2-${fixtureName}-`,
       })
@@ -63,7 +63,7 @@ effect function makeCheckpointWorkspaceEffect(
 effect function removeCheckpointWorkspaceEffect(cwd: string) {
   return try withSpan(
     effect {
-      const fs = try FileSystem.FileSystem()
+      const fs = try FileSystem.FileSystem
       try fs.remove(cwd, { recursive: true })
     },
     "removeCheckpointWorkspace",
