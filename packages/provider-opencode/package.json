@@ -64,7 +64,7 @@
     "@effect/vitest": "catalog:",
     "@t3tools/provider-testing": "workspace:*",
     "@types/node": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz",
     "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz",
     "vite-plus": "catalog:"
   }

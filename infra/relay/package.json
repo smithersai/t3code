@@ -37,7 +37,7 @@
     "@types/node": "catalog:",
     "drizzle-kit": "1.0.0-rc.5-ab785fc",
     "typescript": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz",
     "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz",
     "vite": "catalog:",
     "vite-plus": "catalog:"

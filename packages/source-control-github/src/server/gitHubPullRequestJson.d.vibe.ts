@@ -3,10 +3,10 @@ import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 import { GraphQL } from "effect/graphql";
 import type { PullRequestStackMembership, PullRequestActor, PullRequestPreview, PullRequestCheck, PullRequestChecksState, PullRequestComment, PullRequestCommit, PullRequestFileViewedState, PullRequestLabel, PullRequestMergeCapabilities, PullRequestMergeMethod, PullRequestOmittedFileStat, PullRequestMergeability, PullRequestReaction, PullRequestReactionContent, PullRequestReviewCommentDraft, PullRequestReviewDecision, PullRequestReviewThread, PullRequestReviewVerdict, PullRequestReviewerCandidateList, PullRequestReviewerKind, PullRequestLabelCandidateList, PullRequestState, PullRequestThreadComment } from "@t3tools/contracts";
-import type * as GitHubSchema from "../../schema/github.graphql.js";
-import type { PullRequestSummaryRepositoryPullRequestPullRequest as SummarizedPullRequest, PullRequestWatchFingerprintRepositoryPullRequestPullRequest as WatchedPullRequest } from "./pullRequestBatches.graphql.js";
-import type { ActorAvatars, LabelCandidates, PullRequestActivity, PullRequestCommitStats, PullRequestCheckContexts, PullRequestCore, PullRequestFilesViewed, PullRequestFileStats, PullRequestHeads, PullRequestPreview as PullRequestPreviewQuery, PullRequestSubject, RepositoryAuthors, RepositoryLabels, ReviewerCandidates, ViewerPermissions } from "./pullRequestReads.graphql.js";
-import type { ReviewDismissals, ReviewThreadComments, ReviewThreads } from "./pullRequestReviews.graphql.js";
+import type * as GitHubSchema from "../../schema/github.graphql.ts";
+import type { PullRequestSummaryRepositoryPullRequestPullRequest as SummarizedPullRequest, PullRequestWatchFingerprintRepositoryPullRequestPullRequest as WatchedPullRequest } from "./pullRequestBatches.graphql.ts";
+import type { ActorAvatars, LabelCandidates, PullRequestActivity, PullRequestCommitStats, PullRequestCheckContexts, PullRequestCore, PullRequestFilesViewed, PullRequestFileStats, PullRequestHeads, PullRequestPreview as PullRequestPreviewQuery, PullRequestSubject, RepositoryAuthors, RepositoryLabels, ReviewerCandidates, ViewerPermissions } from "./pullRequestReads.graphql.ts";
+import type { ReviewDismissals, ReviewThreadComments, ReviewThreads } from "./pullRequestReviews.graphql.ts";
 /** Check runs use status/conclusion; commit statuses use a single state. */
 interface CheckFields {
     readonly name?: string | null | undefined;
