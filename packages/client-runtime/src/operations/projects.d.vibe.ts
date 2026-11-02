@@ -1,8 +1,8 @@
-import type { EnvironmentConnectionPhase } from "../connection/presentation.js";
+import type { EnvironmentConnectionPhase } from "../connection/presentation.ts";
 import type { CommandId, EnvironmentId, ProjectId, ProjectMutation, ServerConfig, SourceControlDiscoveryResult, SourceControlRepositoryInfo } from "@t3tools/contracts";
 import { SourceControlProviderKind } from "@t3tools/contracts";
 import type { EnvironmentProject } from "../state/models.vibe";
-import type { SourceControlDefinition } from "../sourceControlClients.js";
+import type { SourceControlDefinition } from "../sourceControlClients.ts";
 export type AddProjectRemoteSource = SourceControlProviderKind | "url";
 export declare function canCreateProjectInEnvironment(connectionPhase: EnvironmentConnectionPhase | null | undefined): boolean;
 export declare function availableScratchWorkspaceRoot(connectionPhase: EnvironmentConnectionPhase | null | undefined, serverConfig: Pick<ServerConfig, "scratchWorkspaceRoot"> | null | undefined): string | null;

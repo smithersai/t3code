@@ -1,4 +1,4 @@
-import type { GitHubSettings } from "../shared/definition.js";
+import type { GitHubSettings } from "../shared/definition.ts";
 export interface GitHubAuthStatusAccount {
     readonly host: string;
     readonly account: string;

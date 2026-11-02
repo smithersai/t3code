@@ -58,8 +58,8 @@ const sdkRequest = effect <A>(tryRequest: () => Promise<A>) =>
   })
 
 const liveProbes: CursorSdkCatalogProbes = {
-  readUser: (apiKey) => sdkRequest(() => Cursor.me({ apiKey })),
-  readModels: (apiKey) => sdkRequest(() => Cursor.models.list({ apiKey })),
+  readUser: effect (apiKey) => try sdkRequest(() => Cursor.me({ apiKey })),
+  readModels: effect (apiKey) => try sdkRequest(() => Cursor.models.list({ apiKey })),
 }
 
 export const makeCursorSdkCatalog = effect (

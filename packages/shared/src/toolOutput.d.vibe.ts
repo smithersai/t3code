@@ -1,4 +1,4 @@
-import { type HtmlRenderReference } from "./htmlRender.js";
+import { type HtmlRenderReference } from "./htmlRender.ts";
 import { MCP_APP_OUTPUT_KEY, type McpAppReference } from "./mcpApp.vibe";
 interface CompactToolOutput {
     isError?: true;

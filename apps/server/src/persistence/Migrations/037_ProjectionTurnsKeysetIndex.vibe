@@ -4,7 +4,7 @@ import * as SqlClient from "effect/sql/SqlClient"
 /** Keyset pagination needs both requested_at and turn_id indexed to avoid sorting all turns before LIMIT. */
 export default effect {
   const sql = try SqlClient.SqlClient
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     CREATE INDEX IF NOT EXISTS idx_projection_turns_thread_keyset
     ON projection_turns(thread_id, requested_at, turn_id)

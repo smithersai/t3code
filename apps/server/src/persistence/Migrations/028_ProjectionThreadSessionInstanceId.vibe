@@ -4,13 +4,13 @@ import * as Effect from "effect/Effect"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  const columns = try Effect.suspend(() =>
+  const columns = try Effect.suspend(effect () =>
     sql<{ readonly name: string }>`
     PRAGMA table_info(projection_thread_sessions)
   `
   )
   if (!columns.some((column) => column.name === "provider_instance_id")) {
-    try Effect.suspend(() =>
+    try Effect.suspend(effect () =>
       sql`
       ALTER TABLE projection_thread_sessions
       ADD COLUMN provider_instance_id TEXT
@@ -18,7 +18,7 @@ export default effect {
     )
   }
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     CREATE INDEX IF NOT EXISTS idx_projection_thread_sessions_instance
     ON projection_thread_sessions(provider_instance_id)

@@ -2,7 +2,7 @@ import type { ProviderConsumeResetCreditOutcome, AcpRegistryListSessionsResult, 
 import type * as Effect from "effect/Effect";
 import type * as Schema from "effect/Schema";
 import type * as Scope from "effect/Scope";
-import type * as ProviderAdapter from "./ProviderAdapter.js";
+import type * as ProviderAdapter from "./ProviderAdapter.ts";
 import type { ProviderAuthController } from "./auth.vibe";
 import type { ProviderDriverError } from "./errors.vibe";
 import type { ManagedServerProvider } from "./snapshot.vibe";

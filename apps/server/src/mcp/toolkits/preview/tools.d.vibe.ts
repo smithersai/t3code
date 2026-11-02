@@ -2,10 +2,10 @@ import { Tool, Toolkit } from "effect/ai";
 import { OrchestratorMcpFailure } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
 import * as FileSystem from "effect/FileSystem";
-import * as McpInvocationContext from "../../McpInvocationContext.js";
-import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.js";
-import * as ServerConfig from "../../../config.js";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.js";
+import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.ts";
+import * as ServerConfig from "../../../config.ts";
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
 export declare const PreviewSnapshotTool: Tool.Tool<"preview_snapshot", {
     readonly parameters: Schema.Struct<{
         readonly tabId: Schema.optional<Schema.decodeTo<Schema.String, Schema.String, never, never>>;

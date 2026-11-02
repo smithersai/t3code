@@ -1,10 +1,10 @@
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import * as ElectronWindow from "../../electron/ElectronWindow.js";
-import * as BrowserImport from "../../preview/BrowserImport/BrowserImport.js";
-import * as PreviewManager from "../../preview/Manager.js";
-import * as DesktopClientSettings from "../../settings/DesktopClientSettings.js";
-import * as DesktopIpc from "../DesktopIpc.js";
+import * as ElectronWindow from "../../electron/ElectronWindow.ts";
+import * as BrowserImport from "../../preview/BrowserImport/BrowserImport.ts";
+import * as PreviewManager from "../../preview/Manager.ts";
+import * as DesktopClientSettings from "../../settings/DesktopClientSettings.ts";
+import * as DesktopIpc from "../DesktopIpc.ts";
 export declare const installPreviewEventForwarding: () => Effect.Effect<void, never, ElectronWindow.ElectronWindow | PreviewManager.PreviewManager | import("effect/Scope").Scope>;
 export declare const startRecording: DesktopIpc.DesktopIpcMethod<DesktopClientSettings.DesktopClientSettingsReadError | Schema.SchemaError, DesktopClientSettings.DesktopClientSettings | PreviewManager.PreviewManager>;
 /** Keep the default profile's bare environment id so existing logins retain their partition. */

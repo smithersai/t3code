@@ -4,7 +4,7 @@ import * as SqlClient from "effect/sql/SqlClient"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     ALTER TABLE projection_threads
     ADD COLUMN interaction_mode TEXT NOT NULL DEFAULT 'default'

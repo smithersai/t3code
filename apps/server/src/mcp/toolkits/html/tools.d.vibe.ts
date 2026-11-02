@@ -1,9 +1,9 @@
 import { Tool, Toolkit } from "effect/ai";
 import { OrchestratorMcpFailure } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
-import * as HtmlRender from "../../../htmlRender/HtmlRender.js";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.js";
-import * as McpInvocationContext from "../../McpInvocationContext.js";
+import * as HtmlRender from "../../../htmlRender/HtmlRender.ts";
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.ts";
 export declare const HtmlPreviewTool: Tool.Tool<"html_preview", {
     readonly parameters: Schema.Struct<{
         readonly html: Schema.String;

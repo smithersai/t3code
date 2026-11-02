@@ -1,18 +1,18 @@
 import { Tool, Toolkit } from "effect/ai";
 import { OrchestratorMcpFailure } from "@t3tools/contracts";
 import * as FileSystem from "effect/FileSystem";
-import * as DocumentText from "../../../provider/DocumentText.js";
-import * as ServerConfig from "../../../config.js";
-import * as ServerSettings from "../../../serverSettings.js";
-import * as ThreadLaunchService from "../../../orchestration-v2/ThreadLaunchService.js";
+import * as DocumentText from "../../../provider/DocumentText.ts";
+import * as ServerConfig from "../../../config.ts";
+import * as ServerSettings from "../../../serverSettings.ts";
+import * as ThreadLaunchService from "../../../orchestration-v2/ThreadLaunchService.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Schema from "effect/Schema";
-import * as ProjectService from "../../../project/ProjectService.js";
-import * as ManagedProjectFolders from "../../../project/ManagedProjectFolders.js";
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.js";
-import * as SourceControlRepositoryService from "../../../sourceControl/SourceControlRepositoryService.js";
-import * as GitVcsDriver from "../../../vcs/GitVcsDriver.js";
-import * as McpInvocationContext from "../../McpInvocationContext.js";
+import * as ProjectService from "../../../project/ProjectService.ts";
+import * as ManagedProjectFolders from "../../../project/ManagedProjectFolders.ts";
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
+import * as SourceControlRepositoryService from "../../../sourceControl/SourceControlRepositoryService.ts";
+import * as GitVcsDriver from "../../../vcs/GitVcsDriver.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.ts";
 export declare const ProjectToolkit: Toolkit.Toolkit<{
     readonly t3_project_clone: Tool.Tool<"t3_project_clone", {
         readonly parameters: Schema.Struct<{

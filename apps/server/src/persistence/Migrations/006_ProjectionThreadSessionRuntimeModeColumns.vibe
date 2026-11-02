@@ -6,14 +6,14 @@ const DEFAULT_RUNTIME_MODE = "full-access"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
       ALTER TABLE projection_thread_sessions
       ADD COLUMN runtime_mode TEXT NOT NULL DEFAULT 'full-access'
     `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     UPDATE projection_thread_sessions
     SET runtime_mode = ${DEFAULT_RUNTIME_MODE}

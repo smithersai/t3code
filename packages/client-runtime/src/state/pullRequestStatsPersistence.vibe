@@ -14,7 +14,7 @@ export function persistPullRequestStats(): QueryPersistence<PullRequestListStats
   const row = persistQuery(PullRequestDiffStat)
   return {
     load: effect (environmentId, key) =>
-      withSpan(
+      try withSpan(
         effect {
           const [, input] = try Schema.decodeEffect(requestKey)(key)
           const rows = try Effect.forEach(input.refs, effect (ref) => try row.load(environmentId, statKey(ref)))
@@ -24,7 +24,7 @@ export function persistPullRequestStats(): QueryPersistence<PullRequestListStats
         "pullRequestStatsPersistence.load",
       ),
     save: effect (environmentId, key, result) =>
-      withSpan(
+      try withSpan(
         Effect.ignore(effect {
           const [, input] = try Schema.decodeEffect(requestKey)(key)
           try Effect.forEach(result.stats, effect (stat) => {

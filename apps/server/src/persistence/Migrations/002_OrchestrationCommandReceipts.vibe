@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     CREATE TABLE IF NOT EXISTS orchestration_command_receipts (
       command_id TEXT PRIMARY KEY,
@@ -18,14 +18,14 @@ export default effect {
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     CREATE INDEX IF NOT EXISTS idx_orch_command_receipts_aggregate
     ON orchestration_command_receipts(aggregate_kind, aggregate_id)
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     CREATE INDEX IF NOT EXISTS idx_orch_command_receipts_sequence
     ON orchestration_command_receipts(result_sequence)

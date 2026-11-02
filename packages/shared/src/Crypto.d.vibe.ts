@@ -28,13 +28,13 @@ export interface Crypto {
     }): Effect.Effect<string, PlatformError.PlatformError>;
     randomUUIDv4<Format extends "hex" | "bytes">(options: {
         readonly format: Format;
-    }): Effect.Effect<(Format extends "bytes" ? Uint8Array : string), PlatformError.PlatformError>;
+    }): Effect.Effect<Format extends "bytes" ? Uint8Array : string, PlatformError.PlatformError>;
     randomUUIDv7(options?: {
         readonly format?: "hex" | undefined;
     }): Effect.Effect<string, PlatformError.PlatformError>;
     randomUUIDv7<Format extends "hex" | "bytes">(options: {
         readonly format: Format;
-    }): Effect.Effect<(Format extends "bytes" ? Uint8Array : string), PlatformError.PlatformError>;
+    }): Effect.Effect<Format extends "bytes" ? Uint8Array : string, PlatformError.PlatformError>;
     readonly randomULID: Effect.Effect<string, PlatformError.PlatformError>;
 }
 export declare const Crypto: Context.Service<Crypto, Crypto>;

@@ -3,14 +3,14 @@ import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
-  const columns = try Effect.suspend(() =>
+  const columns = try Effect.suspend(effect () =>
     sql<{ readonly name: string }>`
     PRAGMA table_info(auth_sessions)
   `
   )
 
   if (!columns.some((column) => column.name === "client_surface")) {
-    try Effect.suspend(() =>
+    try Effect.suspend(effect () =>
       sql`
       ALTER TABLE auth_sessions
       ADD COLUMN client_surface TEXT
@@ -19,7 +19,7 @@ export default effect {
   }
 
   if (!columns.some((column) => column.name === "client_app_version")) {
-    try Effect.suspend(() =>
+    try Effect.suspend(effect () =>
       sql`
       ALTER TABLE auth_sessions
       ADD COLUMN client_app_version TEXT

@@ -1,4 +1,4 @@
-import { type LinuxPasswordStoreSwitch, type LinuxPasswordStorePreference } from "../linuxSecretStorage.js";
+import { type LinuxPasswordStoreSwitch, type LinuxPasswordStorePreference } from "../linuxSecretStorage.ts";
 import { type JoinPath } from "./DesktopStatePaths.vibe";
 interface EarlyDesktopSettingsInput {
     readonly env: NodeJS.ProcessEnv;

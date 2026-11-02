@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import * as AcpSchema from "./_generated/schema.gen.js";
+import * as AcpSchema from "./_generated/schema.gen.ts";
 declare const AcpRequestOperation: Schema.Literals<readonly ["decode-extension-request-payload", "encode-extension-response", "handle-request", "handle-extension-request", "receive-response", "receive-streaming-response"]>;
 type AcpRequestOperation = typeof AcpRequestOperation.Type;
 export declare const AcpRequestId: Schema.Union<readonly [Schema.String, Schema.Number]>;

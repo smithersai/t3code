@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
 import { type EnvironmentMachineKind, ExecutionEnvironmentDescriptor } from "./environment.vibe";
-import { ForwardCompatibleArray } from "./baseSchemas.js";
+import { ForwardCompatibleArray } from "./baseSchemas.ts";
 import { ServerSettings } from "./settings.vibe";
 export declare const ServerConfigIssue: Schema.Union<readonly [Schema.Struct<{
     readonly kind: Schema.Literal<"keybindings.malformed-config">;

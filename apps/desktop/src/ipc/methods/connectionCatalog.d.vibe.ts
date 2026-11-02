@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
-import * as DesktopConnectionCatalogStore from "../../app/DesktopConnectionCatalogStore.js";
-import * as DesktopIpc from "../DesktopIpc.js";
+import * as DesktopConnectionCatalogStore from "../../app/DesktopConnectionCatalogStore.ts";
+import * as DesktopIpc from "../DesktopIpc.ts";
 export declare const getConnectionCatalog: DesktopIpc.DesktopIpcMethod<DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreDecodeError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreDocumentDecodeError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreMigrationError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreProtectionError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreReadError | Schema.SchemaError, DesktopConnectionCatalogStore.DesktopConnectionCatalogStore>;
 export declare const setConnectionCatalog: DesktopIpc.DesktopIpcMethod<DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreProtectionError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreWriteError | Schema.SchemaError, DesktopConnectionCatalogStore.DesktopConnectionCatalogStore>;
 export declare const clearConnectionCatalog: DesktopIpc.DesktopIpcMethod<Schema.SchemaError, DesktopConnectionCatalogStore.DesktopConnectionCatalogStore>;

@@ -4,7 +4,7 @@ import * as SqlClient from "effect/sql/SqlClient"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     CREATE TABLE IF NOT EXISTS auth_pairing_links (
       id TEXT PRIMARY KEY,
@@ -20,14 +20,14 @@ export default effect {
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     CREATE INDEX IF NOT EXISTS idx_auth_pairing_links_active
     ON auth_pairing_links(revoked_at, consumed_at, expires_at)
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     CREATE TABLE IF NOT EXISTS auth_sessions (
       session_id TEXT PRIMARY KEY,
@@ -41,7 +41,7 @@ export default effect {
   `
   )
 
-  try Effect.suspend(() =>
+  try Effect.suspend(effect () =>
     sql`
     CREATE INDEX IF NOT EXISTS idx_auth_sessions_active
     ON auth_sessions(revoked_at, expires_at, issued_at)

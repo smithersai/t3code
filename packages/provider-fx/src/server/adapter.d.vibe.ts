@@ -15,7 +15,7 @@ import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEve
 import type * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { type ProviderAdapterDriver } from "@t3tools/provider-core/server/adapterDriver";
 import { type AcpAdapterV2RuntimeInput, makeAcpAdapterV2 } from "@t3tools/provider-acp/server/adapter";
-export { FX_DRIVER_KIND } from "./acpSupport.js";
+export { FX_DRIVER_KIND } from "./acpSupport.ts";
 export interface FxAdapterV2Options {
     readonly instanceId: Parameters<typeof makeAcpAdapterV2>[0]["instanceId"];
     readonly settings: FxSettings;

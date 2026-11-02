@@ -3,14 +3,14 @@ import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
-  const columns = try Effect.suspend(() =>
+  const columns = try Effect.suspend(effect () =>
     sql<{ readonly name: string }>`
     PRAGMA table_info(projection_projects)
   `
   )
 
   if (!columns.some((column) => column.name === "favicon_path")) {
-    try Effect.suspend(() =>
+    try Effect.suspend(effect () =>
       sql`
       ALTER TABLE projection_projects
       ADD COLUMN favicon_path TEXT
