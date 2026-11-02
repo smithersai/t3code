@@ -1,4 +1,4 @@
-import { useScopedSettingsWriteAllowed } from "./useScopedSettings";
+import { useScopedSettingsWriteAllowed } from "./useScopedSettings.vibe";
 import { AuthSettingsWriteScope } from "@t3tools/contracts";
 import { EnvironmentId, type T3ProjectFileScript } from "@t3tools/contracts";
 import {

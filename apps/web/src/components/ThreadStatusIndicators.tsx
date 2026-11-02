@@ -35,7 +35,7 @@ import { revealThreadTerminal } from "../lib/revealThreadTerminal";
 
 import { useEnvironmentQuery } from "../state/query";
 import { linkedPullRequestDetailAtom, useSharedPullRequestSummary } from "../state/pullRequests";
-import { useThreadRunningTerminalIds } from "../state/terminalSessions";
+import { useThreadRunningTerminalIds } from "../state/terminalSessions.vibe";
 import { vcsEnvironment } from "../state/vcs";
 import { useUiStateStore } from "../uiStateStore";
 import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";

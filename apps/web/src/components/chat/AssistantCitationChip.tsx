@@ -19,7 +19,7 @@ import {
 import {
   assistantCitationHash,
   assistantCitationNavigation,
-} from "../../lib/assistantCitationNavigation";
+} from "../../lib/assistantCitationNavigation.vibe";
 import { cn } from "~/lib/utils";
 import { ContextChip, ContextChipAction, ContextChipLabel } from "../ContextChip";
 import { ContextChipPopover } from "../contextChipParts";

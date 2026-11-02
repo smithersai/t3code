@@ -28,7 +28,7 @@ import {
   buildPlanImplementationPrompt,
   buildPlanImplementationThreadTitle,
 } from "../../proposedPlan";
-import type { LatestProposedPlanState } from "../../session-logic";
+import type { LatestProposedPlanState } from "../../session-logic.vibe";
 import { readEnvironmentScope } from "../../state/session";
 import { threadEnvironment } from "../../state/threads";
 import { useOrchestrationCommand } from "../../state/use-orchestration-command";

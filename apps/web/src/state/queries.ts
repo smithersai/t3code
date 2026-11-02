@@ -35,7 +35,7 @@ import { appAtomRegistry } from "../rpc/atomRegistry";
 import { useFilesystemReadAccess } from "./filesystem";
 import { orchestrationEnvironment } from "./orchestration";
 import { olderSettledThreads, threadFamilies } from "./threads";
-import { isPaginatedBranchesNextPagePending } from "./paginatedBranches";
+import { isPaginatedBranchesNextPagePending } from "./paginatedBranches.vibe";
 import { projectContentSearch, projectEnvironment } from "./projects";
 import { useEnvironmentQuery } from "./query";
 import { vcsEnvironment } from "./vcs";

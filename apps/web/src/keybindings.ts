@@ -19,7 +19,7 @@ import {
   type ShortcutModifierStateLike,
 } from "@t3tools/shared/keybindings";
 import { isElectron } from "./env";
-import { projectScriptIdFromCommand } from "./projectScripts";
+import { projectScriptIdFromCommand } from "./projectScripts.vibe";
 
 export type { ShortcutEventLike, ShortcutModifierStateLike } from "@t3tools/shared/keybindings";
 export { shortcutKeyFromEvent } from "@t3tools/shared/keybindings";

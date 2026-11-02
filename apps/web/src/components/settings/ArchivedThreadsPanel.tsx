@@ -12,7 +12,7 @@ import {
 import { useSettingsScope } from "./SettingsScopeContext";
 import { useThreadActions } from "../../hooks/useThreadActions";
 import { readLocalApi } from "../../localApi";
-import { useArchivedThreadSnapshots } from "../../lib/archivedThreadsState";
+import { useArchivedThreadSnapshots } from "../../lib/archivedThreadsState.vibe";
 import { RelativeTime } from "../RelativeTime";
 import { Button } from "../ui/button";
 import { stackedThreadToast, toastManager } from "../ui/toast";

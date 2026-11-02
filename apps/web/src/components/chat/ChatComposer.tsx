@@ -83,7 +83,7 @@ import {
 import {
   dataTransferHasComposerMention,
   makeComposerMentionDragHandlers,
-} from "./composerMentionDrag";
+} from "./composerMentionDrag.vibe";
 import {
   isInsideCollapsedComposerControls,
   isInsideRestingComposerControlScope,
@@ -178,7 +178,7 @@ import { useThreadContextDrop, threadContextDropTargetProps } from "./threadCont
 import { readThreadShell } from "~/state/entities";
 import { encodeComposerContextFragment } from "@t3tools/shared/composerContextClipboard";
 import type { ComposerContextRecord, ThreadPullRequestLink } from "@t3tools/contracts";
-import { threadContextAttachment } from "~/lib/threadContextAttachment";
+import { threadContextAttachment } from "../../lib/threadContextAttachment.vibe";
 import {
   type ComposerCommandItem,
   ComposerCommandMenu,
@@ -239,7 +239,7 @@ import { toastManager } from "../ui/toast";
 import { PlayIcon, ShieldIcon } from "lucide-react";
 import { proposedPlanTitle } from "@t3tools/shared/proposedPlanText";
 import { hasProviderSetup } from "./ProviderStatusBanner";
-import { type AppModelOption, getAppModelOptionsForInstance } from "../../modelSelection";
+import { type AppModelOption, getAppModelOptionsForInstance } from "../../modelSelection.vibe";
 import type { UnifiedSettings } from "@t3tools/contracts/settings";
 import {
   isVideoAttachment,
@@ -254,12 +254,12 @@ import type {
   LatestProposedPlanState,
   PendingApproval,
   PendingUserInput,
-} from "../../session-logic";
+} from "../../session-logic.vibe";
 import {
   resolveComposerDispatchMode,
   type ComposerDispatchMode,
 } from "@t3tools/client-runtime/state/composer-dispatch";
-import type { ContextWindowSnapshot } from "../../lib/contextWindow";
+import type { ContextWindowSnapshot } from "../../lib/contextWindow.vibe";
 import {
   resolveProviderSkillsForCwd,
   resolveProviderSlashCommandsForCwd,
@@ -273,7 +273,7 @@ import type { ReviewCommentContext } from "../../reviewCommentContext";
 import { useComposerRestingTransition } from "./useComposerRestingTransition";
 import { ComposerCommandMenuLayer } from "./ComposerCommandMenuLayer";
 import { useRestingComposerControlsLayout } from "./useRestingComposerControlsLayout";
-import { useProviderWorkspaceSnapshotRefresh } from "./useProviderWorkspaceSnapshotRefresh";
+import { useProviderWorkspaceSnapshotRefresh } from "./useProviderWorkspaceSnapshotRefresh.vibe";
 import { useComposerProviderModel } from "./useComposerProviderModel";
 import { useComposerImageGroups } from "./useComposerImageGroups";
 import { useComposerStash } from "./useComposerStash";

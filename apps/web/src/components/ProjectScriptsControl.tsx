@@ -15,7 +15,7 @@ import { projectScriptMenuLabel } from "@t3tools/shared/projectScripts";
 import { ChevronDownIcon, DownloadIcon, PlusIcon, SettingsIcon, WrenchIcon } from "lucide-react";
 import React, { useState } from "react";
 
-import { commandForProjectScript, primaryProjectScript } from "~/projectScripts";
+import { commandForProjectScript, primaryProjectScript } from "../projectScripts.vibe";
 import { shortcutLabelForCommand } from "~/keybindings";
 import { serverEnvironment } from "~/state/server";
 import { readEnvironmentScope } from "~/state/session";

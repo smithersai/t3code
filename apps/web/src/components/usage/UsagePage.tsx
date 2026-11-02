@@ -42,7 +42,7 @@ import { primaryServerKeybindingsAtom, serverEnvironment } from "../../state/ser
 import { isCommandPaletteOpen } from "../../commandPaletteBus";
 import { isModelPickerOpen } from "../../modelPickerVisibility";
 import { shortcutLabelForCommand } from "../../keybindings";
-import { useUsage, type EnvironmentUsageStatus } from "../../state/usage";
+import { useUsage, type EnvironmentUsageStatus } from "../../state/usage.vibe";
 import { useAtomCommand } from "../../state/use-atom-command";
 import {
   enumerateDays,

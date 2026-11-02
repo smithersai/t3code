@@ -28,7 +28,7 @@ import {
   commandForProjectScript,
   nextProjectScriptId,
   releaseClaimedRoles,
-} from "../../projectScripts";
+} from "../../projectScripts.vibe";
 import { useProjects } from "../../state/entities";
 import { serverEnvironment } from "../../state/server";
 import { useAtomCommand } from "../../state/use-atom-command";

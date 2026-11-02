@@ -1,0 +1,127 @@
+import { AuthSettingsWriteScope } from "@t3tools/contracts"
+import { useEnvironmentsWithScope } from "../../state/session.ts"
+import { requiredScopesForServerSettingsPatch, EnvironmentAuthorizationError } from "@t3tools/contracts"
+import { readEnvironmentScope } from "../../state/session.ts"
+import {
+  DEFAULT_SERVER_SETTINGS,
+  type ProjectScopedServerSettingKey,
+  type ServerSettings,
+  type UnifiedSettings,
+} from "@t3tools/contracts"
+
+import { persistClientSettingsPatch, useMergedSettings } from "../../hooks/useSettings.ts"
+import { serverEnvironment } from "../../state/server.ts"
+import { useAtomCommand } from "../../state/use-atom-command.ts"
+import { toastManager } from "../ui/toast.tsx"
+import { useOptionalSettingsScope, useSettingsScope } from "./SettingsScopeContext.tsx"
+import {
+  persistScopedSettingsPatch,
+  planProjectOverridesClear,
+  planScopedSettingsClear,
+  planScopedSettingsPatch,
+  scopedSettingsAreMixed,
+  scopedSettingsSource,
+  type ProjectOverrideEntry,
+  type ScopedSettingsPatch,
+} from "./scopedSettings.ts"
+
+export function useScopedSettings<T = UnifiedSettings>(
+  selector?: (settings: UnifiedSettings) => T,
+): T {
+  const { target } = useSettingsScope()
+  return useMergedSettings(target?.settings ?? DEFAULT_SERVER_SETTINGS, selector)
+}
+
+export function useScopedSettingsMixed(keys: readonly (keyof ServerSettings)[]): boolean {
+  const { targets } = useSettingsScope()
+  return scopedSettingsAreMixed(targets, keys)
+}
+
+export function useScopedSettingSource(keys: readonly (keyof ServerSettings)[]): infer _ {
+  const { targets } = useSettingsScope()
+  return scopedSettingsSource(targets, keys)
+}
+
+function useRunScopedPlan(): infer _ {
+  const persistServer = useAtomCommand(serverEnvironment.updateSettings, { reportFailure: false })
+  return (plan: ReturnType<typeof planScopedSettingsPatch>): infer _ => {
+    if (plan.unavailableReason) {
+      toastManager.add({
+        type: "warning",
+        title: "Setting not saved",
+        description: plan.unavailableReason,
+      })
+      return
+    }
+    void persistScopedSettingsPatch(
+      plan,
+      async (request) => {
+        const missing = requiredScopesForServerSettingsPatch(request.input.patch).find(
+          (scope) => !readEnvironmentScope(request.environmentId, scope),
+        )
+        if (missing) {
+          return AsyncResult.failure(
+            Cause.fail(
+              new EnvironmentAuthorizationError({
+                requiredScope: missing,
+                message: "This connection lacks permission to change these settings.",
+              }),
+            ),
+          )
+        }
+        return persistServer(request)
+      },
+      persistClientSettingsPatch,
+    ).then(({ failedEnvironments, savedEnvironments, savedEnvironmentCount }) => {
+      if (failedEnvironments.length === 0) return
+      toastManager.add({
+        type: "error",
+        title: savedEnvironmentCount > 0 ? "Setting saved on some environments" : "Setting not saved",
+        description: [
+          ...failedEnvironments.map(
+            ({ label, message }) => `Could not save on ${label}: ${message}`,
+          ),
+          ...(savedEnvironmentCount > 0
+            ? [`Saved on ${savedEnvironments.map(({ label }) => label).join(", ")}.`]
+            : []),
+        ].join("\n"),
+      })
+    })
+  }
+}
+
+export function useUpdateScopedSettings(): infer _ {
+  const { scope, environments } = useSettingsScope()
+  const run = useRunScopedPlan()
+  return (patch: ScopedSettingsPatch): infer _ => run(planScopedSettingsPatch(scope, environments, patch))
+}
+
+export function useClearScopedSettings(): infer _ {
+  const context = useOptionalSettingsScope()
+  const run = useRunScopedPlan()
+  return (keys: readonly ProjectScopedServerSettingKey[]): infer _ => {
+    if (context === null) return
+    run(planScopedSettingsClear(context.scope, context.environments, keys))
+  }
+}
+
+export function useClearProjectOverrides(): infer _ {
+  const context = useOptionalSettingsScope()
+  const run = useRunScopedPlan()
+  return (
+    entries: readonly ProjectOverrideEntry[],
+    keys: readonly ProjectScopedServerSettingKey[],
+  ): infer _ => {
+    if (context === null) return
+    run(planProjectOverridesClear(context.environments, entries, keys))
+  }
+}
+
+export function useScopedSettingsWriteAllowed(): infer _ {
+  const { connectedEnvironments } = useSettingsScope()
+  const writable = useEnvironmentsWithScope(connectedEnvironments, AuthSettingsWriteScope)
+  return (
+    connectedEnvironments.length > 0
+    && connectedEnvironments.every((target) => writable.has(target.environmentId))
+  )
+}

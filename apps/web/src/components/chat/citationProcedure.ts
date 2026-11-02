@@ -1,11 +1,11 @@
 import { useAtomValue } from "@effect/atom-react";
 import { type AtomCommandSuccess, runAtomCommand } from "@t3tools/client-runtime/state/runtime";
 import { Atom, type AtomRegistry } from "effect/reactivity";
-import type { TimelineEntry } from "../../session-logic";
+import type { TimelineEntry } from "../../session-logic.vibe";
 import { environmentThreadDetails, threadEnvironment } from "../../state/threads";
 import { toastManager } from "../ui/toast";
 import type { AssistantCitationRequest } from "./AssistantCitationSource";
-import type { MessagesTimelineRow } from "./MessagesTimeline.logic";
+import type { MessagesTimelineRow } from "./MessagesTimeline.logic.vibe";
 
 /** Whether the cited response is in the loaded history, after paging toward it. */
 export type CitedHistory =

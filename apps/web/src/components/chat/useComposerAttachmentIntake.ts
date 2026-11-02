@@ -18,7 +18,7 @@ import {
   composerFileNeedsReattach,
 } from "../../composerDraftStore";
 import { type ComposerPromptEditorHandle } from "../ComposerPromptEditor";
-import { type PendingUserInput } from "../../session-logic";
+import { type PendingUserInput } from "../../session-logic.vibe";
 import {
   changeQuestionAttachmentPreparation,
   useQuestionAttachmentPreparation,

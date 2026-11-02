@@ -95,7 +95,7 @@ import type { ComposerDispatchMode } from "@t3tools/client-runtime/state/compose
 import type { DraftThreadEnvMode } from "../composerDraftStore";
 import { collapseExpandedComposerCursor, type ComposerSubmissionIntent } from "../composer-logic";
 import type { ReviewCommentContext } from "../reviewCommentContext";
-import { derivePhase, type TimelineEntry } from "../session-logic";
+import { derivePhase, type TimelineEntry } from "../session-logic.vibe";
 import type { PreviewMiniPlayerSource } from "../previewMiniPlayerStore";
 import type { DesktopPreviewOverlay } from "../previewStateStore";
 import type { RightPanelSurface } from "../rightPanelStore";

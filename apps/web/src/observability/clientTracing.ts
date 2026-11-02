@@ -9,7 +9,7 @@ import { settleAsyncResult, squashAtomCommandFailure } from "@t3tools/client-run
 import { safeErrorLogAttributes } from "@t3tools/client-runtime/errors";
 import { resolvePrimaryEnvironmentHttpUrl } from "../environments/primary";
 import { releaseChannelOf, releaseResourceAttributes } from "@t3tools/shared/releaseResource";
-import * as ClientTracer from "./clientTracer";
+import * as ClientTracer from "./clientTracer.vibe";
 import * as PrimaryEnvironmentHttpLayer from "../environments/primary/httpLayer";
 import { isElectron } from "../env";
 import { APP_VERSION } from "~/branding";

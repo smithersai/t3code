@@ -37,7 +37,7 @@ import {
   resolvePreviousWorktreeLabel,
   resolvePreviousWorktreeSeed,
   shouldShowEnvironmentIndicator,
-} from "./BranchToolbar.logic";
+} from "./BranchToolbar.logic.vibe";
 import {
   BranchToolbarBranchSelector,
   type BranchToolbarBranchSelectorHandle,

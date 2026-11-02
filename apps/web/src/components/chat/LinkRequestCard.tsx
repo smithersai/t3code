@@ -26,7 +26,7 @@ import { CheckIcon, LinkIcon, MinusIcon, XIcon } from "lucide-react";
 import { useId, useRef, useState } from "react";
 
 import { useEnvironmentScope, usePreparedConnection } from "../../state/session";
-import { mintPairingCodeOn } from "../../state/peerPairingCode";
+import { mintPairingCodeOn } from "../../state/peerPairingCode.vibe";
 import { useLinkableMachines } from "../../state/peerLinks";
 import { serverEnvironment } from "../../state/server";
 import { useAtomCommand } from "../../state/use-atom-command";

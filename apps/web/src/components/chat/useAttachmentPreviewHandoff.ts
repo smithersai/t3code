@@ -1,7 +1,7 @@
 import { type EnvironmentId, type MessageId, type ThreadId } from "@t3tools/contracts";
 import { useAtomValue } from "@effect/atom-react";
 import { type Dispatch, type SetStateAction, useEffect } from "react";
-import { selectHandoffImageResources } from "../../session-logic";
+import { selectHandoffImageResources } from "../../session-logic.vibe";
 import type { useQuietThreadVisibleTurnItems } from "../../state/entities";
 import { useAssetUrls } from "../../assets/assetUrls";
 import {

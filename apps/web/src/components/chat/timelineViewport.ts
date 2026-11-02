@@ -4,7 +4,7 @@ import {
   TYPE_TO_FOCUS_EDITABLE_SELECTOR,
   TYPE_TO_FOCUS_FLOATING_LAYER_SELECTOR,
 } from "./composerFocusRedirect";
-import { resolveTimelineIsAtEnd } from "./MessagesTimeline.logic";
+import { resolveTimelineIsAtEnd } from "./MessagesTimeline.logic.vibe";
 import { createUpwardScrollDetector, isTimelineScrollTarget } from "./timelineScrollTarget";
 
 /**

@@ -23,7 +23,7 @@ import { memo, useState } from "react";
 import {
   COMPOSER_PULL_REQUEST_DRAG_TYPE,
   encodePullRequestDragPayload,
-} from "~/components/chat/composerMentionDrag";
+} from "../chat/composerMentionDrag.vibe";
 import { writeTextToClipboard } from "~/hooks/useCopyToClipboard";
 import { findProjectForChangeRequest } from "@t3tools/client-runtime/change-request-links";
 import { useOpenPrLink } from "~/lib/openPullRequestLink";

@@ -13,7 +13,7 @@ import {
 } from "@t3tools/contracts/settings";
 import * as Schema from "effect/Schema";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings";
+import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings.vibe";
 import { isMacPlatform } from "../../lib/utils";
 import { Input } from "../ui/input";
 import {

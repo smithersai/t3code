@@ -27,7 +27,7 @@ import {
   workEntryDisplayIndicatesToolFailure,
   workEntrySignalsSevereFailure,
   workLogEntryIsToolLike,
-} from "../../session-logic";
+} from "../../session-logic.vibe";
 import ChatMarkdown from "../ChatMarkdown";
 import { ChatMarkdownAssetImage } from "./ChatMarkdownMedia";
 import { ChevronRightIcon, CircleAlertIcon, XIcon, RotateCcwIcon } from "lucide-react";
@@ -41,7 +41,7 @@ import {
   toolGroupAction,
   workEntryDisplayLabel,
   workEntryReadOutput,
-} from "./MessagesTimeline.logic";
+} from "./MessagesTimeline.logic.vibe";
 import { cn } from "~/lib/utils";
 import { formatUpcomingTimestamp } from "../../timestampFormat";
 import { FetchedToolOutput, V2ItemInspector } from "./V2ItemInspector";

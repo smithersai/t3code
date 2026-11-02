@@ -21,7 +21,7 @@ import {
   composerFileNeedsReattach,
   useComposerDraftStore,
 } from "../../composerDraftStore";
-import { type PendingUserInput } from "../../session-logic";
+import { type PendingUserInput } from "../../session-logic.vibe";
 import {
   asKnownContextRecord,
   composerContextImportLookupIds,

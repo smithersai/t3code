@@ -32,7 +32,7 @@ import {
 } from "~/components/ui/menu";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "~/components/ui/tooltip";
 import type { DeviceStreamHandle, DeviceViewControls } from "./DeviceStreamView";
-import type { DeviceControls } from "./useDeviceControls";
+import type { DeviceControls } from "./useDeviceControls.vibe";
 
 export function DeviceControlsRail(props: {
   platform: DevicePlatform;

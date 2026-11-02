@@ -2,7 +2,7 @@ import { canCreateProjectInEnvironment } from "@t3tools/client-runtime/operation
 import type { EnvironmentProject } from "@t3tools/client-runtime/state/shell";
 import { AuthSourceControlWriteScope, resolveEnvironmentMachineKind } from "@t3tools/contracts";
 
-import type { EnvironmentOption } from "../components/BranchToolbar.logic";
+import type { EnvironmentOption } from "../components/BranchToolbar.logic.vibe";
 import { useEnvironments } from "../state/environments";
 import { useEnvironmentsWithScope } from "../state/session";
 

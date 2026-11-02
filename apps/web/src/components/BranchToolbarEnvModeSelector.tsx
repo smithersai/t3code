@@ -8,7 +8,7 @@ import {
   resolveEnvModeLabel,
   resolveLockedWorkspaceLabel,
   type EnvMode,
-} from "./BranchToolbar.logic";
+} from "./BranchToolbar.logic.vibe";
 import { useComposerMenuProps } from "./chat/composerEventScope";
 import { PreviousWorktreeItemContent } from "./PreviousWorktreeItemContent";
 import {

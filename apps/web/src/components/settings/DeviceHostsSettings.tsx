@@ -38,7 +38,7 @@ import {
 } from "./deviceHostsSettings.logic";
 import { FoldedSettingsSection } from "./FoldedSettingsSection";
 import { DeviceHostEditor } from "./DeviceHostEditor";
-import { useHostConnectionChecks } from "./useHostConnectionChecks";
+import { useHostConnectionChecks } from "./useHostConnectionChecks.vibe";
 import { deviceHostConnectionKey } from "./deviceHostConnectionChecks";
 import { settingsScopeEnvironmentLabel, settingsScopeEnvironmentLabels } from "./settingsScopeAxis";
 import { DeviceHostDiagnostics } from "../device/DeviceSetup";

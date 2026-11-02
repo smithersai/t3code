@@ -43,7 +43,7 @@ import {
   derivePendingApprovals,
   derivePendingUserInputs,
   type PendingUserInput,
-} from "../../session-logic";
+} from "../../session-logic.vibe";
 import { readEnvironmentScope } from "../../state/session";
 import { threadEnvironment } from "../../state/threads";
 import { useAtomCommand } from "../../state/use-atom-command";

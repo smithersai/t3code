@@ -56,7 +56,7 @@ import {
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
-import { useArchivedThreadSnapshots } from "../../lib/archivedThreadsState";
+import { useArchivedThreadSnapshots } from "../../lib/archivedThreadsState.vibe";
 import { buildThreadRouteParams } from "../../threadRoutes";
 import {
   useProjects,
