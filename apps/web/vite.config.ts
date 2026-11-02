@@ -281,7 +281,7 @@ export default defineConfig(() => {
             ],
           }),
       tanstackRouter({ autoCodeSplitting: true }),
-      react({ compiler: true }),
+      react({ compiler: true, include: /\.(?:[tj]sx?|vibe)$/ }),
       tailwindPlugins(bundledDev),
       warmBundledDevPlugin(),
     ],

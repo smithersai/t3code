@@ -37,7 +37,10 @@ const metroCaller = {
 
 const sourceFiles = NodeFS.readdirSync(NodePath.join(mobileRoot, "src"), { recursive: true })
   .map(String)
-  .filter((file) => /\.tsx?$/.test(file) && !/\.(test\.tsx?|d\.ts)$/.test(file))
+  .filter(
+    (file) =>
+      /\.(?:tsx?|vibe)$/.test(file) && !/\.(test\.(?:tsx?|vibe)|d\.ts|d\.vibe\.ts)$/.test(file),
+  )
   .map((file) => `src/${file.split(NodePath.sep).join("/")}`)
   .sort();
 
