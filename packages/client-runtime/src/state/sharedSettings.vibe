@@ -2,7 +2,7 @@ import type { ExecutionEnvironmentCapabilities, ServerSettings, ServerSettingsPa
 import { isModelSelectionProviderEnabled } from "@t3tools/shared/serverSettings"
 import * as Struct from "effect/Struct"
 
-import type { EnvironmentConnectionPhase } from "../connection/presentation.ts"
+import type { EnvironmentConnectionPhase } from "../connection/presentation.vibe"
 
 const SHARED_SERVER_SETTING_KEYS = [
   "continueThreadsAfterServerUpdate",

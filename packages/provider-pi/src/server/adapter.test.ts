@@ -52,7 +52,7 @@ import {
 } from "./adapter.ts";
 import { makePiRpcConnection, type PiRpcRecord } from "./rpc.ts";
 import { loadMcpBridge } from "./mcpBridge.testkit.ts";
-import { turnItemOutputText } from "../../../client-runtime/src/work-log/itemDetail.ts";
+import { turnItemOutputText } from "../../../client-runtime/src/work-log/itemDetail.vibe";
 
 const layerTest = Layer.mergeAll(
   NodeServices.layer,

@@ -12,7 +12,7 @@ import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
 import type { ConnectionRegistration } from "../connection/catalog.vibe";
-import type { DeferredShellSnapshot } from "../state/shellPullRequests.ts";
+import type { DeferredShellSnapshot } from "../state/shellPullRequests.vibe";
 import type { ConnectionTarget, PersistedConnectionTarget } from "../connection/model.vibe";
 
 export class ConnectionPersistenceError extends Schema.TaggedError<ConnectionPersistenceError>()(

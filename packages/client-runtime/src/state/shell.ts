@@ -29,7 +29,7 @@ import { runCachePersistence } from "./cachePersistence.ts";
 import { subscribeDynamic } from "../rpc/client.ts";
 import type { RpcSession } from "../rpc/session.ts";
 import * as ShellSnapshotLoader from "./shellSnapshotHttp.ts";
-import type { DeferredShellSnapshot } from "./shellPullRequests.ts";
+import type { DeferredShellSnapshot } from "./shellPullRequests.vibe";
 import {
   applyShellStreamEvent,
   mergeShellSnapshotProjects,
@@ -639,8 +639,8 @@ export function createEnvironmentShellAtoms<R, E>(
 }
 
 export * from "./models.vibe";
-export * from "./shellCommands.ts";
+export * from "./shellCommands.vibe";
 export * from "./shellReducer.vibe";
-export * from "./shellPullRequests.ts";
+export * from "./shellPullRequests.vibe";
 export * as ShellSnapshotLoader from "./shellSnapshotHttp.ts";
 export * from "./snapshots.ts";

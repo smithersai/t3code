@@ -5,7 +5,7 @@ import { describe, expect, it } from "vite-plus/test";
 
 import { BearerConnectionProfile } from "./connection/catalog.vibe";
 import { BearerConnectionTarget, RelayConnectionTarget } from "./connection/model.vibe";
-import type { EnvironmentPresentation } from "./connection/presentation.ts";
+import type { EnvironmentPresentation } from "./connection/presentation.vibe";
 import type { RelayDiscoveredEnvironment } from "./relay/discovery.ts";
 import {
   linkableMachines,

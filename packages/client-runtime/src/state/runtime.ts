@@ -1,8 +1,8 @@
 import type { QueryPersistence } from "./queryPersistence.vibe";
 import { createCommandPermissions } from "./commandPermissions.ts";
-import { followStreamInEnvironment } from "./environmentStreams.ts";
+import { followStreamInEnvironment } from "./environmentStreams.vibe";
 import { reuseUnchanged } from "./serverConfigProjection.vibe";
-export { runStreamInEnvironment, followStreamInEnvironment } from "./environmentStreams.ts";
+export { runStreamInEnvironment, followStreamInEnvironment } from "./environmentStreams.vibe";
 import {
   type ClientGuardedRpcTag,
   EnvironmentId,

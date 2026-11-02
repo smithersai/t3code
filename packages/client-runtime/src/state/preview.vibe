@@ -1,25 +1,23 @@
-import { WS_METHODS } from "@t3tools/contracts";
-import * as Stream from "effect/Stream";
-import { Atom } from "effect/reactivity";
+import { WS_METHODS } from "@t3tools/contracts"
 
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.ts"
 import {
   createAtomCommandScheduler,
   createEnvironmentRpcCommand,
   createEnvironmentRpcQueryAtomFamily,
   createEnvironmentRpcSubscriptionAtomFamily,
-} from "./runtime.ts";
+} from "./runtime.ts"
 
 export function createPreviewEnvironmentAtoms<R, E>(
   runtime: Atom.AtomRuntime<EnvironmentRegistry | R, E>,
-) {
-  const lifecycleScheduler = createAtomCommandScheduler();
-  const statusScheduler = createAtomCommandScheduler();
+): infer _ {
+  const lifecycleScheduler = createAtomCommandScheduler()
+  const statusScheduler = createAtomCommandScheduler()
   const lifecycleConcurrency = {
     mode: "serial" as const,
-    key: ({ environmentId, input }: { environmentId: string; input: { threadId: string } }) =>
+    key: ({ environmentId, input }: { environmentId: string; input: { threadId: string } }): infer _ =>
       JSON.stringify([environmentId, input.threadId]),
-  };
+  }
   return {
     list: createEnvironmentRpcQueryAtomFamily(runtime, {
       label: "environment-data:preview:list",
@@ -82,7 +80,7 @@ export function createPreviewEnvironmentAtoms<R, E>(
     reportProfiles: createEnvironmentRpcCommand(runtime, {
       label: "environment-data:preview:report-profiles",
       tag: WS_METHODS.previewReportProfiles,
-      concurrency: { mode: "latest", key: ({ environmentId }) => environmentId },
+      concurrency: { mode: "latest", key: ({ environmentId }): infer _ => environmentId },
     }),
     stopLocalServer: createEnvironmentRpcCommand(runtime, {
       label: "environment-data:preview:stop-local-server",
@@ -94,9 +92,8 @@ export function createPreviewEnvironmentAtoms<R, E>(
       scheduler: statusScheduler,
       concurrency: {
         mode: "latest",
-        key: ({ environmentId, input }) =>
-          JSON.stringify([environmentId, input.threadId, input.tabId]),
+        key: ({ environmentId, input }): infer _ => JSON.stringify([environmentId, input.threadId, input.tabId]),
       },
     }),
-  };
+  }
 }

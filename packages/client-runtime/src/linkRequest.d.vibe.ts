@@ -1,5 +1,5 @@
 import { type AuthMcpClientAccess, type EnvironmentId, type EnvironmentMachineKind, type OrchestrationV2TurnItem, type PeerLinkRequestAnswerInput, type PeerLinkSummary, type ServerConfig } from "@t3tools/contracts";
-import type { EnvironmentPresentation } from "./connection/presentation.ts";
+import type { EnvironmentPresentation } from "./connection/presentation.vibe";
 import type { RelayDiscoveredEnvironment } from "./relay/discovery.ts";
 export type LinkRequestItem = Extract<OrchestrationV2TurnItem, {
     readonly type: "link_request";
