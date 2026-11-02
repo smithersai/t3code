@@ -25,7 +25,7 @@ import {
   scopedSettingsAreMixed,
   scopedSettingsSource,
 } from "./scopedSettings";
-import { useClearProjectOverrides, useClearScopedSettings } from "./useScopedSettings";
+import { useClearProjectOverrides, useClearScopedSettings } from "./useScopedSettings.vibe";
 import {
   SettingInheritance,
   type SettingInheritanceState,

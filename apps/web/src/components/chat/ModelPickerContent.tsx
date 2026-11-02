@@ -62,7 +62,7 @@ import {
   isProviderInstancePickerVisible,
   type ProviderInstanceEntry,
 } from "../../providerInstances";
-import { providerModelKey, sortProviderModelItems } from "../../modelOrdering";
+import { providerModelKey, sortProviderModelItems } from "../../modelOrdering.vibe";
 
 type ModelPickerItem = {
   slug: string;

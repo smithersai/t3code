@@ -5,13 +5,13 @@ import * as Socket from "effect/socket/Socket";
 
 import { layerRemoteHttpClient } from "@t3tools/client-runtime/rpc";
 import * as RelayTracing from "@t3tools/shared/relayTracing";
-import * as PrimaryEnvironmentHttpClient from "../environments/primary/httpClient";
+import * as PrimaryEnvironmentHttpClient from "../environments/primary/httpClient.vibe";
 import * as PrimaryEnvironmentHttpLayer from "../environments/primary/httpLayer";
 
 import * as Dpop from "../cloud/dpop";
 import * as ManagedRelayLayer from "../cloud/managedRelayLayer";
 import { resolveCloudPublicConfig, resolveRelayTracingConfig } from "../cloud/publicConfig";
-import * as ClientTracer from "../observability/clientTracer";
+import * as ClientTracer from "../observability/clientTracer.vibe";
 
 function configuredRelayUrl(): string {
   return resolveCloudPublicConfig().relayUrl ?? "http://relay.invalid";

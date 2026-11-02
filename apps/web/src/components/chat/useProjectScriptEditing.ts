@@ -27,7 +27,7 @@ import {
   nextProjectScriptId,
   projectScriptIdFromCommand,
   releaseClaimedRoles,
-} from "../../projectScripts";
+} from "../../projectScripts.vibe";
 import { appAtomRegistry } from "../../rpc/atomRegistry";
 import { serverEnvironment } from "../../state/server";
 import { readEnvironmentScope } from "../../state/session";

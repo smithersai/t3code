@@ -29,7 +29,7 @@ import {
   type TimelineNavigation,
   type TimelineViewport,
 } from "./timelineViewport";
-import { resolveTimelineIsAtEnd, type MessagesTimelineRow } from "./MessagesTimeline.logic";
+import { resolveTimelineIsAtEnd, type MessagesTimelineRow } from "./MessagesTimeline.logic.vibe";
 import { measuredEndOffset, settleListScroll } from "./useTimelinePositionRestore";
 import {
   releaseChatTimelineAnchor,
@@ -39,7 +39,7 @@ import type { Dispatch, RefObject } from "react";
 import type { ThreadStructure } from "@t3tools/client-runtime/state/shell";
 import type { deriveThreadActivityRun } from "@t3tools/client-runtime/state/thread-execution";
 import type { EnvironmentThreadStatus } from "@t3tools/client-runtime/state/threads";
-import type { TimelineEntry } from "../../session-logic";
+import type { TimelineEntry } from "../../session-logic.vibe";
 
 const TIMELINE_SCROLL_CANCEL_SENTINEL = Object.freeze({});
 

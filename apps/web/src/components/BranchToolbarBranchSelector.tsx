@@ -55,7 +55,7 @@ import {
   resolveEffectiveEnvMode,
   sanitizeNewRefName,
   shouldIncludeBranchPickerItem,
-} from "./BranchToolbar.logic";
+} from "./BranchToolbar.logic.vibe";
 import {
   ThreadPullRequestBadgeControl,
   prStatusIndicator,

@@ -49,7 +49,7 @@ import {
 import { useStableCallback } from "../../hooks/useStableCallback";
 import { EnvironmentMachineIcon } from "../EnvironmentMachineIcon";
 import { cn } from "../../lib/utils";
-import { resolveAppModelSelectionState } from "../../modelSelection";
+import { resolveAppModelSelectionState } from "../../modelSelection.vibe";
 import {
   useEnvironments,
   usePrimaryEnvironmentId,

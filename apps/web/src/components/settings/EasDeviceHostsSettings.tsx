@@ -34,7 +34,7 @@ import {
   newEasDeviceHost,
   parseEasDeviceHostDraft,
   updateEasDeviceHosts,
-} from "./easDeviceHostsSettings.logic";
+} from "./easDeviceHostsSettings.logic.vibe";
 import { SecretInput } from "./SecretInput";
 import { useSettingsScope } from "./SettingsScopeContext";
 import { SettingsRow } from "./settingsLayout";

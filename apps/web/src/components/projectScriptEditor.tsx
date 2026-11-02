@@ -26,7 +26,7 @@ import {
   decodeProjectScriptKeybindingRule,
 } from "~/lib/projectScriptKeybindings";
 import { keybindingFromKeyboardEvent } from "~/components/settings/KeybindingsSettings.logic";
-import { commandForProjectScript, nextProjectScriptId } from "~/projectScripts";
+import { commandForProjectScript, nextProjectScriptId } from "../projectScripts.vibe";
 import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
 import { useComposerMenuState } from "./chat/useComposerMenuState";
 import {

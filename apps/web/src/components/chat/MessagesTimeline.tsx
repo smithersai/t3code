@@ -41,7 +41,7 @@ import {
   type LegendListRef,
   type MaintainScrollAtEndOptions,
 } from "@legendapp/list/react";
-import { type TimelineEntry } from "../../session-logic";
+import { type TimelineEntry } from "../../session-logic.vibe";
 import type { CodexArtifactTemplate } from "@t3tools/shared/codexArtifactTemplates";
 import { type ChatFileAttachment, type TurnDiffSummary } from "../../types";
 import { ArrowRightIcon, BotIcon, CircleAlertIcon, Minimize2Icon } from "lucide-react";
@@ -71,7 +71,7 @@ import {
   worktreeSetupAgentStarted,
   type MessagesTimelineRow,
   type TimelineLatestRun,
-} from "./MessagesTimeline.logic";
+} from "./MessagesTimeline.logic.vibe";
 import { type ThreadFindMatch } from "./threadFind";
 import { useThreadFindNavigation } from "./useThreadFindNavigation";
 import { TooltipScrollDismissArea } from "../ui/tooltip";

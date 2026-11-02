@@ -38,7 +38,7 @@ import {
 import {
   useResourceTelemetry,
   useResourceTelemetryHistory,
-} from "../../lib/resourceTelemetryState";
+} from "../../lib/resourceTelemetryState.vibe";
 import { cn } from "../../lib/utils";
 import { formatBytes } from "../../lib/formatBytes";
 import { ensureLocalApi } from "../../localApi";

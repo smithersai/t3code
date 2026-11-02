@@ -29,14 +29,14 @@ import {
   useComposerDraftStore,
 } from "./composerDraftStore";
 import { startDefaultThemeAdoption } from "./hooks/useDefaultTheme";
-import { startEnvironmentThemeRepaint } from "./hooks/useEnvironmentTheme";
+import { startEnvironmentThemeRepaint } from "./hooks/useEnvironmentTheme.vibe";
 import {
   getClientSettings,
   startModelPreferencesMigration,
   subscribeClientSettings,
 } from "./hooks/useSettings";
 import { syncBrowserChromeTheme } from "./hooks/useTheme";
-import { startThreadVisitedMigration } from "./hooks/useThreadVisitedMigration";
+import { startThreadVisitedMigration } from "./hooks/useThreadVisitedMigration.vibe";
 import { installDesktopPasteAsText } from "./lib/desktopPasteAsText";
 import {
   syncDocumentElectronPlatformClasses,

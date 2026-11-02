@@ -21,7 +21,7 @@ import {
 import { LinkRequestCard } from "./LinkRequestCard";
 import { SecretRequestCard } from "./SecretRequestCard";
 import { TimelineRowCtx, type TimelineRow } from "./timelineRowContext";
-import { v2EventPresentation, subagentGroupTiming } from "./TimelineV2EventRow.logic";
+import { v2EventPresentation, subagentGroupTiming } from "./TimelineV2EventRow.logic.vibe";
 
 export function V2EventTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "event" }> }) {
   const ctx = use(TimelineRowCtx);

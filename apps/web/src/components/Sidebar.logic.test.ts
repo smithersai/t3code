@@ -1,6 +1,6 @@
 import { presentThreadShell } from "@t3tools/client-runtime/state/models";
 import * as DateTime from "effect/DateTime";
-import { deriveActiveWorkStartedAt } from "../session-logic.ts";
+import { deriveActiveWorkStartedAt } from "../session-logic.vibe";
 import { describe, expect, it, vi } from "vite-plus/test";
 import * as Cause from "effect/Cause";
 import { AsyncResult } from "effect/reactivity";

@@ -16,7 +16,7 @@ import {
   DialogFooter,
 } from "../ui/dialog";
 import { DeviceHostAvailability } from "../device/DeviceHostAvailability";
-import { useHostConnectionChecks } from "./useHostConnectionChecks";
+import { useHostConnectionChecks } from "./useHostConnectionChecks.vibe";
 import {
   deviceHostConnectionKey,
   parseDeviceHostDraft,
