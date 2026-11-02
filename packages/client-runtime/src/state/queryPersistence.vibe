@@ -31,7 +31,7 @@ export function persistQuery<A, I>(schema: Schema.Codec<A, I>): QueryPersistence
     load: effect (environmentId, key) =>
       try withSpan(
         effect {
-          const store = try EnvironmentQueryStore()
+          const store = try EnvironmentQueryStore
           if (store === null) return Option.none<A>()
           const stored = try store.load(environmentId, key)
           if (Option.isNone(stored)) return Option.none<A>()
@@ -43,7 +43,7 @@ export function persistQuery<A, I>(schema: Schema.Codec<A, I>): QueryPersistence
       try withSpan(
         effect {
           return ((effect () => {
-            const store = try EnvironmentQueryStore()
+            const store = try EnvironmentQueryStore
             if (store === null) return
             const payload = try Schema.encodeEffect(codec)(value)
             try store.save(environmentId, key, payload)
