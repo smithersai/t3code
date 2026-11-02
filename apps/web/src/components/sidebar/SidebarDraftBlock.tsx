@@ -1,4 +1,4 @@
-import { discardComposerDraft } from "../../lib/discardComposerDraft.vibe";
+import { discardComposerDraft } from "../../lib/discardComposerDraft";
 import { replaceComposerContextReferences } from "@t3tools/shared/composerContextReferences";
 import { SquarePenIcon, XIcon } from "lucide-react";
 import {

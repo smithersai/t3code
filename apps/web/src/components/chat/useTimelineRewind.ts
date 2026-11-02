@@ -31,7 +31,7 @@ import { readEnvironmentScope } from "../../state/session";
 import { useAtomCommand } from "../../state/use-atom-command";
 import { useOrchestrationCommand } from "../../state/use-orchestration-command";
 import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe";
-import { rewindToMessage } from "./chatViewSend.vibe";
+import { rewindToMessage } from "./chatViewSend";
 import { makeThreadErrorSetter } from "../ChatView.logic";
 interface TimelineRewindInput {
   readonly environmentId: EnvironmentId;

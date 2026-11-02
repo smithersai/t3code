@@ -39,7 +39,7 @@ import {
   type prepareTurnAttachments,
   restoreComposerDraft,
   startFanoutThread,
-} from "./chatViewSend.vibe";
+} from "./chatViewSend";
 import type { useLocalDispatchState } from "./useLocalDispatchState";
 
 interface MultipleModelSendInput {

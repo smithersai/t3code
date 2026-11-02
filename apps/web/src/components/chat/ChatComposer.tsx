@@ -178,7 +178,7 @@ import { useThreadContextDrop, threadContextDropTargetProps } from "./threadCont
 import { readThreadShell } from "~/state/entities";
 import { encodeComposerContextFragment } from "@t3tools/shared/composerContextClipboard";
 import type { ComposerContextRecord, ThreadPullRequestLink } from "@t3tools/contracts";
-import { threadContextAttachment } from "../../lib/threadContextAttachment.vibe";
+import { threadContextAttachment } from "~/lib/threadContextAttachment";
 import {
   type ComposerCommandItem,
   ComposerCommandMenu,
