@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import { cookieScope, snapshotCookieDatabase, type ImportedCookie } from "./CookieDatabase.ts";
+import { cookieScope, snapshotCookieDatabase, type ImportedCookie } from "./CookieDatabase.vibe";
 
 export class FirefoxCookieReadError extends Schema.TaggedError<FirefoxCookieReadError>()(
   "FirefoxCookieReadError",
