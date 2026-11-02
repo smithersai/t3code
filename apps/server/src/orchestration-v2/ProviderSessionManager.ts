@@ -33,7 +33,7 @@ import * as Scope from "effect/Scope";
 import * as Semaphore from "effect/Semaphore";
 import * as Stream from "effect/Stream";
 
-import { normalizeModelMetricLabel } from "../observability/Attributes.ts";
+import { normalizeModelMetricLabel } from "../observability/Attributes.vibe";
 import {
   providerSessionsTotal,
   providerTurnDuration,

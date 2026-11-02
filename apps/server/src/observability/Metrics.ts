@@ -5,7 +5,7 @@ import * as Exit from "effect/Exit";
 import * as Metric from "effect/Metric";
 import { dual } from "effect/Function";
 
-import { compactMetricAttributes, outcomeFromExit } from "./Attributes.ts";
+import { compactMetricAttributes, outcomeFromExit } from "./Attributes.vibe";
 
 export const rpcRequestsTotal = Metric.counter("t3_rpc_requests_total", {
   description: "Total RPC requests handled by the websocket RPC server.",
