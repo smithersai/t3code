@@ -410,14 +410,14 @@ importers:
         specifier: ^8.69.0
         version: 8.72.1(@tsc-rs/typescript@0.8.0)(eslint@9.39.5(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
       vibelang:
-        specifier: file:./.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:./.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-unplugin:
         specifier: file:./.vibelang-toolchain/vibelang-unplugin-0.0.11-0cd78f8e2c0c.tgz
-        version: file:.vibelang-toolchain/vibelang-unplugin-0.0.11-0cd78f8e2c0c.tgz(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(rolldown@1.2.13)(terser@5.48.0)(unrun@0.2.39)(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))(yaml@2.9.0)
+        version: file:.vibelang-toolchain/vibelang-unplugin-0.0.11-0cd78f8e2c0c.tgz(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(rolldown@1.2.13)(terser@5.48.0)(unrun@0.2.39)(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))(yaml@2.9.0)
       vibelang-vite:
         specifier: file:./.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -507,11 +507,11 @@ importers:
         specifier: 4.3.3
         version: 4.3.3
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -538,11 +538,11 @@ importers:
         specifier: ~6.0.3
         version: 6.0.3
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@types/node@24.12.4)(@volar/typescript@2.4.28(typescript@6.0.3))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@types/node@24.12.4)(@volar/typescript@2.4.28(typescript@6.0.3))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
 
   apps/mobile:
     dependencies:
@@ -851,11 +851,11 @@ importers:
         specifier: 'catalog:'
         version: '@tsc-rs/typescript@0.8.0'
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
 
   apps/server:
     dependencies:
@@ -1026,11 +1026,11 @@ importers:
         specifier: 16.14.1
         version: 16.14.1
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1309,11 +1309,11 @@ importers:
         specifier: 4.3.3
         version: 4.3.3
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite:
         specifier: npm:@voidzero-dev/vite-plus-core@1.4.0
         version: '@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0)'
@@ -1352,8 +1352,8 @@ importers:
         specifier: 'catalog:'
         version: '@tsc-rs/typescript@0.8.0'
       vibelang:
-        specifier: file:../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1431,11 +1431,11 @@ importers:
         specifier: 'catalog:'
         version: '@tsc-rs/typescript@0.8.0'
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite:
         specifier: npm:@voidzero-dev/vite-plus-core@1.4.0
         version: '@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0)'
@@ -1480,11 +1480,11 @@ importers:
         specifier: 'catalog:'
         version: '@tsc-rs/typescript@0.8.0'
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1508,8 +1508,8 @@ importers:
         specifier: 4.1.1
         version: 4.1.1(patch_hash=428aad60a1541eb56e36fd9f806123064d41d573e5fce9d220475d925387d01d)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.1)(effect@4.1.1)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
       vibelang:
-        specifier: file:../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1575,11 +1575,11 @@ importers:
         specifier: 0.180.0
         version: 0.180.0
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1597,11 +1597,11 @@ importers:
         specifier: 4.1.1
         version: 4.1.1(patch_hash=428aad60a1541eb56e36fd9f806123064d41d573e5fce9d220475d925387d01d)(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.1)(effect@4.1.1)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1628,11 +1628,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1659,11 +1659,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1702,11 +1702,11 @@ importers:
         specifier: workspace:*
         version: link:../effect-acp
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1751,11 +1751,11 @@ importers:
         specifier: workspace:*
         version: link:../effect-acp
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1785,11 +1785,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1834,11 +1834,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1877,11 +1877,11 @@ importers:
         specifier: workspace:*
         version: link:../effect-acp
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1923,11 +1923,11 @@ importers:
         specifier: workspace:*
         version: link:../effect-acp
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -1966,11 +1966,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2018,11 +2018,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2058,11 +2058,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2092,11 +2092,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
 
   packages/shared:
     dependencies:
@@ -2174,11 +2174,11 @@ importers:
         specifier: 'catalog:'
         version: 2.0.2
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2217,11 +2217,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2260,11 +2260,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2291,11 +2291,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2358,11 +2358,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2398,11 +2398,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2444,11 +2444,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2481,11 +2481,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2515,11 +2515,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
 
   packages/ssh:
     dependencies:
@@ -2546,11 +2546,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2574,11 +2574,11 @@ importers:
         specifier: 24.12.4
         version: 24.12.4
       vibelang:
-        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vibelang-vite:
         specifier: file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz
-        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
+        version: file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -2644,8 +2644,8 @@ importers:
         specifier: npm:typescript@~6.0.3
         version: typescript@6.0.3
       vibelang:
-        specifier: file:../.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz
-        version: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+        specifier: file:../.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz
+        version: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vite-plus:
         specifier: 1.4.0
         version: 1.4.0(@astrojs/compiler-rs@0.5.1)(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(bufferutil@4.1.0)(esbuild@0.28.2)(jiti@2.7.0)(jsdom@30.1.0(@noble/hashes@1.8.0))(playwright@1.60.0)(terser@5.48.0)(unrun@0.2.39)(utf-8-validate@6.0.6)(yaml@2.9.0)
@@ -12648,8 +12648,8 @@ packages:
       vibelang: 0.0.11
       vite: '>=7 <9'
 
-  vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz:
-    resolution: {integrity: sha512-mW/E+d8xG4VH+DtgXCgNT7UAt6Vb3qbfbBKUsP9YE6BQiP+MrvnBW7T8G2xS8U8iqWNM50mh74Nbgu+KXgkH9A==, tarball: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz}
+  vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz:
+    resolution: {integrity: sha512-uDR6656V24P85PJd6UZauar3vrQp5c3bct1VImsRQ+UqhAmfyj/I8Nma0bfMfhqw4cWwk7w/qlfVnkFyoqx/Sw==, tarball: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz}
     version: 0.0.11
     engines: {node: ^22.22.3 || >=24.11.1}
     hasBin: true
@@ -23503,10 +23503,10 @@ snapshots:
     optionalDependencies:
       '@effect/platform-node': 4.1.1(bufferutil@4.1.1)(effect@4.1.1)(redis@6.2.1)(utf-8-validate@6.0.6)
 
-  vibelang-unplugin@file:.vibelang-toolchain/vibelang-unplugin-0.0.11-0cd78f8e2c0c.tgz(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(rolldown@1.2.13)(terser@5.48.0)(unrun@0.2.39)(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))(yaml@2.9.0):
+  vibelang-unplugin@file:.vibelang-toolchain/vibelang-unplugin-0.0.11-0cd78f8e2c0c.tgz(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(rolldown@1.2.13)(terser@5.48.0)(unrun@0.2.39)(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)))(yaml@2.9.0):
     dependencies:
       unplugin: 3.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(rolldown@1.2.13)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0)
-      vibelang: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+      vibelang: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
     transitivePeerDependencies:
       - '@arethetypeswrong/core'
       - '@farmfe/core'
@@ -23538,17 +23538,17 @@ snapshots:
       - webpack
       - yaml
 
-  vibelang-vite@file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))):
+  vibelang-vite@file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))):
     dependencies:
-      vibelang: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+      vibelang: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vite: '@voidzero-dev/vite-plus-core@1.4.0(@tsc-rs/typescript@0.8.0)(@types/node@24.12.4)(@volar/typescript@2.4.28(@tsc-rs/typescript@0.8.0))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(unrun@0.2.39)(yaml@2.9.0)'
 
-  vibelang-vite@file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@types/node@24.12.4)(@volar/typescript@2.4.28(typescript@6.0.3))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))):
+  vibelang-vite@file:.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz(@voidzero-dev/vite-plus-core@1.4.0(@types/node@24.12.4)(@volar/typescript@2.4.28(typescript@6.0.3))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))):
     dependencies:
-      vibelang: file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
+      vibelang: file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6))
       vite: '@voidzero-dev/vite-plus-core@1.4.0(@types/node@24.12.4)(@volar/typescript@2.4.28(typescript@6.0.3))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)'
 
-  vibelang@file:.vibelang-toolchain/vibelang-0.0.11-35cdb9591230.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)):
+  vibelang@file:.vibelang-toolchain/vibelang-0.0.11-c27f2579b8b4.tgz(@babel/core@7.29.7(supports-color@8.1.1))(effect@4.1.1)(metro@0.87.1(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)):
     dependencies:
       dprint: 0.64.3
       effect: 4.1.1

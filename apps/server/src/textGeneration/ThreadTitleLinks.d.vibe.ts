@@ -1,5 +1,5 @@
 import * as Effect from "effect/Effect";
-import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.js";
+import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
 export declare const resolveThreadTitleLinks: (input: {
     message: string;
     cwd: string;

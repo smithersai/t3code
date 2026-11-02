@@ -1,6 +1,6 @@
 import type { UsageProviderKind } from "@t3tools/contracts";
 import type { TranscriptUsageFormat, UsageRecord } from "@t3tools/provider-core/server/usage";
-import { type TranscriptParsePosition } from "./usageTranscriptReader.js";
+import { type TranscriptParsePosition } from "./usageTranscriptReader.ts";
 /**
  * An older server sharing that directory cannot read a newer cache and would
  * replace it, dropping saved usage for deleted transcripts. Separate files keep
