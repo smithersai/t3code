@@ -8,7 +8,7 @@ import { describe, expect, it } from "@effect/vitest";
 import * as DateTime from "effect/DateTime";
 import * as Option from "effect/Option";
 
-import { buildResourceTelemetryHistory } from "./ResourceTelemetryHistory.vibe";
+import { buildResourceTelemetryHistory } from "./ResourceTelemetryHistory.ts";
 
 const SERVER_PID = 100;
 const ELECTRON_PID = 200;
