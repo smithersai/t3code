@@ -229,7 +229,7 @@ export const materializePiT3McpExtension = effect (
 ) =>
   try withSpan(
     effect {
-      const fs = try FileSystem()
+      const fs = try FileSystem.FileSystem
       try fs.makeDirectory(cacheDir, { recursive: true })
       const dest = piT3McpExtensionDestPath(cacheDir)
       const existing = try Effect.orElseSucceed(

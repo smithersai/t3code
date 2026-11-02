@@ -22,9 +22,9 @@ export const writeFileStringAtomically = effect (input: {
 }) =>
   try Effect.scoped(
     effect {
-      const fs = try FileSystem.FileSystem()
-      const path = try Path.Path()
-      const platform = try HostProcess.Platform()
+      const fs = try FileSystem.FileSystem
+      const path = try Path.Path
+      const platform = try HostProcess.Platform
       const targetPath = try resolveSymlinkTarget(input.filePath)
       const targetDirectory = path.dirname(targetPath)
 

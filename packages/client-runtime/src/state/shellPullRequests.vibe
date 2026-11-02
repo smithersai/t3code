@@ -51,12 +51,12 @@ export function deferPullRequests<S extends OrchestrationV2ShellSnapshot>(
         batchSize = 0
       }
       batchSize += size
-      const links = decodeThreadLinks(raw) catch (
+      const links = decodeThreadLinks(raw) catch effect (
         cause,
       ) => (Effect.logWarning("Discarding unreadable shell pull request links.", {
         threadId,
         cause: String(cause),
-      }) |> Effect.as(%, undefined))
+      }) |> try Effect.as(%, undefined))
       if (links !== undefined) linksByThreadId.set(threadId, links)
     }
     return linksByThreadId as ReadonlyMap<ThreadId, ReadonlyArray<ThreadPullRequestLink>>

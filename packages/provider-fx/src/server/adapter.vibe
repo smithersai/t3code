@@ -221,9 +221,9 @@ export const makeFxAdapterV2Driver = (
     try withSpan(
       Effect.mapError(
         effect {
-          const hostEnvironment = try HostProcess.Environment()
+          const hostEnvironment = try HostProcess.Environment
           const selfInvocation = try resolveSelfInvocation()
-          const providerEventLoggers = try ProviderEventLoggers.ProviderEventLoggers()
+          const providerEventLoggers = try ProviderEventLoggers.ProviderEventLoggers
           const makeNativeLogger = try makeAcpNativeLoggerFactory()
           return try makeFxAdapterV2({
             instanceId: input.instanceId,

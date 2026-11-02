@@ -29,8 +29,8 @@
     "@effect/vitest": "catalog:",
     "@t3tools/source-control-testing": "workspace:*",
     "@types/node": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-316a192f4c8a.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-7159373887c8.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-240046f82a40.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-8d120066f406.tgz",
     "vite-plus": "catalog:"
   }
 }

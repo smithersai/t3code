@@ -71,7 +71,7 @@ function toChangeRequest(summary: NormalizedAzureDevOpsPullRequestRecord): Chang
 }
 
 export const make = effect {
-  const azure = try AzureDevOpsCli.AzureDevOpsCli()
+  const azure = try AzureDevOpsCli.AzureDevOpsCli
 
   return SourceControlProvider.SourceControlProvider.of({
     kind: SourceControlProviderKind.make("azure-devops"),

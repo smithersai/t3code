@@ -198,8 +198,8 @@ export const grokUsageReader: ProviderUsageReader<GrokSettings, Path.Path> = {
   directories: effect ({ environment }) =>
     try withSpan(
       effect {
-        const path = try Path.Path()
-        const homeDirectory = try HostProcess.HomeDirectory()
+        const path = try Path.Path
+        const homeDirectory = try HostProcess.HomeDirectory
         const home = expandHomePath(
           environment.GROK_HOME?.trim() || path.join(homeDirectory, ".grok"),
           homeDirectory,
