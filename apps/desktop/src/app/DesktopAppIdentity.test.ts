@@ -12,7 +12,7 @@ import type * as Electron from "electron";
 import * as ElectronApp from "../electron/ElectronApp.ts";
 import * as DesktopAppIdentity from "./DesktopAppIdentity.ts";
 import * as DesktopAssets from "./DesktopAssets.ts";
-import * as DesktopConfig from "./DesktopConfig.ts";
+import * as DesktopConfig from "./DesktopConfig.vibe";
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
 
 const defaultEnvironmentInput = {

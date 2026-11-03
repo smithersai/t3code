@@ -1,6 +1,6 @@
 import * as Effect from "effect/Effect"
 
-import { receiveProviderAuthCallback, cancelProviderAuthCallback } from "./methods/providerAuth.ts"
+import { receiveProviderAuthCallback, cancelProviderAuthCallback } from "./methods/providerAuth.vibe"
 import * as DesktopIpc from "./DesktopIpc.ts"
 import { installNotificationBadge } from "./methods/notificationBadge.ts"
 import { getClientSettings, setClientSettings } from "./methods/clientSettings.vibe"
@@ -22,7 +22,7 @@ import {
   issueSshWebSocketTicket,
   resolveSshHost,
   resolveSshPasswordPrompt,
-} from "./methods/sshEnvironment.ts"
+} from "./methods/sshEnvironment.vibe"
 import { checkForUpdate, downloadUpdate, getUpdateState, installUpdate, setUpdateChannel } from "./methods/updates.vibe"
 import {
   getAppBranding,
@@ -61,7 +61,7 @@ import * as PreviewIpc from "./methods/preview.vibe"
 import * as AppActivationIpc from "./methods/appActivation.vibe"
 import * as WebLinksIpc from "./methods/webLinks.vibe"
 import { completeLegacyLocalStorage, takeLegacyLocalStorage } from "./methods/legacyLocalStorage.vibe"
-import { getWslState, setWslBackendEnabled, setWslDistro, setWslOnly } from "./methods/wsl.ts"
+import { getWslState, setWslBackendEnabled, setWslDistro, setWslOnly } from "./methods/wsl.vibe"
 import { getCliCommandState, installCliCommand, uninstallCliCommand } from "./methods/cliCommand.vibe"
 
 export const installDesktopIpcHandlers = effect () =>

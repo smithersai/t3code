@@ -5,7 +5,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 
-import * as DesktopConfig from "../../app/DesktopConfig.ts";
+import * as DesktopConfig from "../../app/DesktopConfig.vibe";
 import * as DesktopEnvironment from "../../app/DesktopEnvironment.ts";
 import * as LinuxBrowserSecret from "./LinuxBrowserSecret.vibe";
 

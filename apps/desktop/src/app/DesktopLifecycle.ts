@@ -11,9 +11,9 @@ import type * as Electron from "electron";
 
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
 import { makeComponentLogger } from "./DesktopObservability.ts";
-import * as DesktopShutdown from "./DesktopShutdown.ts";
+import * as DesktopShutdown from "./DesktopShutdown.vibe";
 import * as ElectronApp from "../electron/ElectronApp.ts";
-import * as ElectronTheme from "../electron/ElectronTheme.ts";
+import * as ElectronTheme from "../electron/ElectronTheme.vibe";
 import * as ElectronWindow from "../electron/ElectronWindow.ts";
 import * as DesktopState from "./DesktopState.vibe";
 import * as DesktopWindow from "../window/DesktopWindow.ts";
