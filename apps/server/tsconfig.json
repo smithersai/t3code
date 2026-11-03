@@ -6,6 +6,5 @@
     "lib": ["ESNext", "esnext.disposable"]
   },
   "include": ["src", "vite.config.ts", "scripts", "integration", "../../scripts/lib"],
-  "vibelang": { "trustedPackages": ["@t3tools/*"] },
   "vibe": { "severities": { "EK38104": "warning" } }
 }

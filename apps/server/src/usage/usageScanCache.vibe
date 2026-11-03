@@ -1,7 +1,7 @@
 import type { UsageProviderKind } from "@t3tools/contracts"
 import type { TranscriptUsageFormat, UsageRecord, UsageSpeed } from "@t3tools/provider-core/server/usage"
 
-import { CLAUDE_SYNTHETIC_MODEL } from "../provider/Drivers/claudeUsage.vibe"
+import { CLAUDE_SYNTHETIC_MODEL } from "../provider/Drivers/claudeUsage.ts"
 import { GUARD_LENGTH, type TranscriptParsePosition } from "./usageTranscriptReader.ts"
 
 const USAGE_SCAN_CACHE_VERSION = 9 as const
@@ -146,7 +146,7 @@ export function makeScanCacheWriter(): (
 ) => string {
   const tables = makeInternTables()
   const fragments = new WeakMap<CachedFile, string>()
-  return (cache, extra): infer _ => {
+  return (cache, extra) => {
     const files: string[] = []
     for (const [path, entry] of cache) {
       let fragment = fragments.get(entry)
@@ -339,7 +339,7 @@ function makeStateValidators(
       const isState = format.state === undefined ? undefined : Schema.is(format.state.schema)
       return [
         provider,
-        (value: unknown): infer _ => value === null || (isState !== undefined && isState(value)),
+        (value: unknown) => value === null || (isState !== undefined && isState(value)),
       ] as const
     }),
   )

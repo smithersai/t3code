@@ -1,4 +1,3 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
@@ -6,9 +5,7 @@ export default effect {
 
   // Whether the link's session was issued as a link, which the peer fences.
   // Links stored before it are not, and must be made again.
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     ALTER TABLE peer_environment_links ADD COLUMN fenced INTEGER NOT NULL DEFAULT 0
   `
-  )
 }

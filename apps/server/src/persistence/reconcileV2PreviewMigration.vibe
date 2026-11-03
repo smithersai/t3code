@@ -1,4 +1,3 @@
-import * as Effect from "effect/Effect"
 import * as Migrator from "effect/sql/Migrator"
 import * as SqlClient from "effect/sql/SqlClient"
 
@@ -12,17 +11,13 @@ export const reconcileV2PreviewMigration = effect () =>
       const sql = try SqlClient.SqlClient
       return try sql.withTransaction(
         effect {
-          const tables = try Effect.suspend(() =>
-            sql`
+          const tables = try sql`
         SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'effect_sql_migrations'
       `
-          )
           if (tables.length === 0) return []
-          const history = try Effect.suspend(() =>
-            sql<{ readonly migration_id: number; readonly name: string }>`
+          const history = try sql<{ readonly migration_id: number; readonly name: string }>`
         SELECT migration_id, name FROM effect_sql_migrations WHERE migration_id >= 53
       `
-          )
           const legacy = history.find(
             (row) => row.name === "OrchestrationV2" && (row.migration_id === 53 || row.migration_id === 54),
           )
@@ -48,20 +43,12 @@ export const reconcileV2PreviewMigration = effect () =>
           try AutoSettleDisabledAt
           executed.push([54, "ProjectionThreadsAutoSettleDisabledAt"])
           // Move the later entry first to avoid a primary-key collision.
-          try Effect.suspend(() =>
-            sql`UPDATE effect_sql_migrations SET migration_id = 56 WHERE migration_id = 55 AND name = 'RemoveRedundantProjectionIndexes'`
-          )
-          try Effect.suspend(() =>
-            sql`UPDATE effect_sql_migrations SET migration_id = 55 WHERE migration_id = ${legacy.migration_id} AND name = 'OrchestrationV2'`
-          )
+          try sql`UPDATE effect_sql_migrations SET migration_id = 56 WHERE migration_id = 55 AND name = 'RemoveRedundantProjectionIndexes'`
+          try sql`UPDATE effect_sql_migrations SET migration_id = 55 WHERE migration_id = ${legacy.migration_id} AND name = 'OrchestrationV2'`
           if (legacy.migration_id === 53) {
-            try Effect.suspend(() =>
-              sql`INSERT INTO effect_sql_migrations (migration_id, name) VALUES (53, 'PullRequestFilesViewed')`
-            )
+            try sql`INSERT INTO effect_sql_migrations (migration_id, name) VALUES (53, 'PullRequestFilesViewed')`
           }
-          try Effect.suspend(() =>
-            sql`INSERT INTO effect_sql_migrations (migration_id, name) VALUES (54, 'ProjectionThreadsAutoSettleDisabledAt')`
-          )
+          try sql`INSERT INTO effect_sql_migrations (migration_id, name) VALUES (54, 'ProjectionThreadsAutoSettleDisabledAt')`
           return executed
         },
       )

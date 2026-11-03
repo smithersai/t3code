@@ -1,11 +1,9 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE TABLE orchestration_v2_effect_outbox_next (
       effect_id TEXT PRIMARY KEY,
       command_id TEXT NOT NULL,
@@ -25,9 +23,7 @@ export default effect {
       last_error TEXT
     )
   `
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     INSERT INTO orchestration_v2_effect_outbox_next (
       effect_id,
       command_id,
@@ -61,30 +57,21 @@ export default effect {
       last_error
     FROM orchestration_v2_effect_outbox
   `
-  )
-  try Effect.suspend(() => sql`DROP TABLE orchestration_v2_effect_outbox`)
-  try Effect.suspend(() =>
-    sql`
+  try sql`DROP TABLE orchestration_v2_effect_outbox`
+  try sql`
     ALTER TABLE orchestration_v2_effect_outbox_next
     RENAME TO orchestration_v2_effect_outbox
   `
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE INDEX orchestration_v2_effect_outbox_claim_idx
     ON orchestration_v2_effect_outbox(status, available_at, lease_expires_at, created_at)
   `
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE INDEX orchestration_v2_effect_outbox_command_idx
     ON orchestration_v2_effect_outbox(command_id, effect_id)
   `
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE INDEX orchestration_v2_effect_outbox_thread_status_idx
     ON orchestration_v2_effect_outbox(thread_id, status, effect_type)
   `
-  )
 }

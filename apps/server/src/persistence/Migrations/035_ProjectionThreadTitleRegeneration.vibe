@@ -1,29 +1,22 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
-  const columns = try Effect.suspend(effect () =>
-    sql<{ readonly name: string }>`
+  const columns = try sql<{ readonly name: string }>`
     PRAGMA table_info(projection_threads)
   `
-  )
 
   if (!columns.some((column) => column.name === "title_regeneration_request_id")) {
-    try Effect.suspend(effect () =>
-      sql`
+    try sql`
       ALTER TABLE projection_threads
       ADD COLUMN title_regeneration_request_id TEXT
     `
-    )
   }
 
   if (!columns.some((column) => column.name === "title_regeneration_started_at")) {
-    try Effect.suspend(effect () =>
-      sql`
+    try sql`
       ALTER TABLE projection_threads
       ADD COLUMN title_regeneration_started_at TEXT
     `
-    )
   }
 }

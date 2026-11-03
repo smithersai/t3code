@@ -1,10 +1,8 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE TABLE IF NOT EXISTS orchestration_v2_thread_launch_workflows (
       command_id TEXT PRIMARY KEY,
       thread_id TEXT NOT NULL,
@@ -21,5 +19,4 @@ export default effect {
       updated_at TEXT NOT NULL
     )
   `
-  )
 }

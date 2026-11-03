@@ -1,11 +1,9 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE TABLE orchestration_v2_legacy_imports (
       thread_id TEXT PRIMARY KEY,
       source_updated_at TEXT NOT NULL,
@@ -15,12 +13,9 @@ export default effect {
       last_error TEXT
     )
   `
-  )
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE INDEX orchestration_v2_legacy_imports_pending_transcript_idx
     ON orchestration_v2_legacy_imports(transcript_imported_at, shell_imported_at, thread_id)
   `
-  )
 }

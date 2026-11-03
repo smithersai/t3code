@@ -1,80 +1,61 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  const pairingLinkColumns = try Effect.suspend(effect () =>
-    sql<{ readonly name: string }>`
+  const pairingLinkColumns = try sql<{ readonly name: string }>`
     PRAGMA table_info(auth_pairing_links)
   `
-  )
   if (!pairingLinkColumns.some((column) => column.name === "label")) {
-    try Effect.suspend(effect () =>
-      sql`
+    try sql`
       ALTER TABLE auth_pairing_links
       ADD COLUMN label TEXT
     `
-    )
   }
 
-  const sessionColumns = try Effect.suspend(effect () =>
-    sql<{ readonly name: string }>`
+  const sessionColumns = try sql<{ readonly name: string }>`
     PRAGMA table_info(auth_sessions)
   `
-  )
 
   if (!sessionColumns.some((column) => column.name === "client_label")) {
-    try Effect.suspend(effect () =>
-      sql`
+    try sql`
       ALTER TABLE auth_sessions
       ADD COLUMN client_label TEXT
     `
-    )
   }
 
   if (!sessionColumns.some((column) => column.name === "client_ip_address")) {
-    try Effect.suspend(effect () =>
-      sql`
+    try sql`
       ALTER TABLE auth_sessions
       ADD COLUMN client_ip_address TEXT
     `
-    )
   }
 
   if (!sessionColumns.some((column) => column.name === "client_user_agent")) {
-    try Effect.suspend(effect () =>
-      sql`
+    try sql`
       ALTER TABLE auth_sessions
       ADD COLUMN client_user_agent TEXT
     `
-    )
   }
 
   if (!sessionColumns.some((column) => column.name === "client_device_type")) {
-    try Effect.suspend(effect () =>
-      sql`
+    try sql`
       ALTER TABLE auth_sessions
       ADD COLUMN client_device_type TEXT NOT NULL DEFAULT 'unknown'
     `
-    )
   }
 
   if (!sessionColumns.some((column) => column.name === "client_os")) {
-    try Effect.suspend(effect () =>
-      sql`
+    try sql`
       ALTER TABLE auth_sessions
       ADD COLUMN client_os TEXT
     `
-    )
   }
 
   if (!sessionColumns.some((column) => column.name === "client_browser")) {
-    try Effect.suspend(effect () =>
-      sql`
+    try sql`
       ALTER TABLE auth_sessions
       ADD COLUMN client_browser TEXT
     `
-    )
   }
 }

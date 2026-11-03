@@ -1,4 +1,3 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 // Bootstrap uses projections and cursors, so repair projections only.
@@ -6,8 +5,7 @@ import * as SqlClient from "effect/sql/SqlClient"
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     WITH activity_timestamps AS (
       SELECT thread_id, created_at AS activity_at
       FROM projection_thread_messages
@@ -64,5 +62,4 @@ export default effect {
           AND automatic.settled_at = thread.settled_at
       )
   `
-  )
 }

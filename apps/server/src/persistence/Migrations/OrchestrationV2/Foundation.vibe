@@ -1,14 +1,12 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 // Legacy NOT NULL provider columns remain write-through shadows; V2 reads explicit driver/instance columns.
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() => sql`ALTER TABLE orchestration_v2_events ADD COLUMN driver TEXT`)
-  try Effect.suspend(() => sql`ALTER TABLE orchestration_v2_events ADD COLUMN provider_instance_id TEXT`)
-  try Effect.suspend(() =>
-    sql`
+  try sql`ALTER TABLE orchestration_v2_events ADD COLUMN driver TEXT`
+  try sql`ALTER TABLE orchestration_v2_events ADD COLUMN provider_instance_id TEXT`
+  try sql`
     UPDATE orchestration_v2_events
     SET
       driver = COALESCE(json_extract(payload_json, '$.driver'), provider),
@@ -17,52 +15,38 @@ export default effect {
         provider
       )
   `
-  )
-  try Effect.suspend(() =>
-    sql`CREATE INDEX orchestration_v2_events_instance_sequence_idx ON orchestration_v2_events(provider_instance_id, sequence)`
-  )
+  try sql`CREATE INDEX orchestration_v2_events_instance_sequence_idx ON orchestration_v2_events(provider_instance_id, sequence)`
 
-  try Effect.suspend(() => sql`ALTER TABLE orchestration_v2_projection_threads ADD COLUMN provider_instance_id TEXT`)
-  try Effect.suspend(() =>
-    sql`
+  try sql`ALTER TABLE orchestration_v2_projection_threads ADD COLUMN provider_instance_id TEXT`
+  try sql`
     UPDATE orchestration_v2_projection_threads
     SET provider_instance_id = COALESCE(
       json_extract(payload_json, '$.providerInstanceId'),
       default_provider
     )
   `
-  )
 
-  try Effect.suspend(() => sql`ALTER TABLE orchestration_v2_projection_runs ADD COLUMN provider_instance_id TEXT`)
-  try Effect.suspend(() =>
-    sql`
+  try sql`ALTER TABLE orchestration_v2_projection_runs ADD COLUMN provider_instance_id TEXT`
+  try sql`
     UPDATE orchestration_v2_projection_runs
     SET provider_instance_id = COALESCE(
       json_extract(payload_json, '$.providerInstanceId'),
       provider
     )
   `
-  )
 
-  try Effect.suspend(() =>
-    sql`ALTER TABLE orchestration_v2_projection_run_attempts ADD COLUMN provider_instance_id TEXT`
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`ALTER TABLE orchestration_v2_projection_run_attempts ADD COLUMN provider_instance_id TEXT`
+  try sql`
     UPDATE orchestration_v2_projection_run_attempts
     SET provider_instance_id = COALESCE(
       json_extract(payload_json, '$.providerInstanceId'),
       provider
     )
   `
-  )
 
-  try Effect.suspend(() => sql`ALTER TABLE orchestration_v2_projection_provider_sessions ADD COLUMN driver TEXT`)
-  try Effect.suspend(() =>
-    sql`ALTER TABLE orchestration_v2_projection_provider_sessions ADD COLUMN provider_instance_id TEXT`
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`ALTER TABLE orchestration_v2_projection_provider_sessions ADD COLUMN driver TEXT`
+  try sql`ALTER TABLE orchestration_v2_projection_provider_sessions ADD COLUMN provider_instance_id TEXT`
+  try sql`
     UPDATE orchestration_v2_projection_provider_sessions
     SET
       driver = COALESCE(json_extract(payload_json, '$.driver'), provider),
@@ -71,17 +55,11 @@ export default effect {
         provider
       )
   `
-  )
-  try Effect.suspend(() =>
-    sql`CREATE INDEX orchestration_v2_projection_provider_sessions_instance_status_idx ON orchestration_v2_projection_provider_sessions(provider_instance_id, status)`
-  )
+  try sql`CREATE INDEX orchestration_v2_projection_provider_sessions_instance_status_idx ON orchestration_v2_projection_provider_sessions(provider_instance_id, status)`
 
-  try Effect.suspend(() => sql`ALTER TABLE orchestration_v2_projection_provider_threads ADD COLUMN driver TEXT`)
-  try Effect.suspend(() =>
-    sql`ALTER TABLE orchestration_v2_projection_provider_threads ADD COLUMN provider_instance_id TEXT`
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`ALTER TABLE orchestration_v2_projection_provider_threads ADD COLUMN driver TEXT`
+  try sql`ALTER TABLE orchestration_v2_projection_provider_threads ADD COLUMN provider_instance_id TEXT`
+  try sql`
     UPDATE orchestration_v2_projection_provider_threads
     SET
       driver = COALESCE(json_extract(payload_json, '$.driver'), provider),
@@ -90,15 +68,11 @@ export default effect {
         provider
       )
   `
-  )
-  try Effect.suspend(() =>
-    sql`CREATE INDEX orchestration_v2_projection_provider_threads_instance_status_idx ON orchestration_v2_projection_provider_threads(provider_instance_id, status)`
-  )
+  try sql`CREATE INDEX orchestration_v2_projection_provider_threads_instance_status_idx ON orchestration_v2_projection_provider_threads(provider_instance_id, status)`
 
-  try Effect.suspend(() => sql`ALTER TABLE orchestration_v2_projection_subagents ADD COLUMN driver TEXT`)
-  try Effect.suspend(() => sql`ALTER TABLE orchestration_v2_projection_subagents ADD COLUMN provider_instance_id TEXT`)
-  try Effect.suspend(() =>
-    sql`
+  try sql`ALTER TABLE orchestration_v2_projection_subagents ADD COLUMN driver TEXT`
+  try sql`ALTER TABLE orchestration_v2_projection_subagents ADD COLUMN provider_instance_id TEXT`
+  try sql`
     UPDATE orchestration_v2_projection_subagents
     SET
       driver = json_extract(payload_json, '$.driver'),
@@ -107,16 +81,10 @@ export default effect {
         provider
       )
   `
-  )
 
-  try Effect.suspend(() =>
-    sql`ALTER TABLE orchestration_v2_projection_context_transfers ADD COLUMN source_provider_instance_id TEXT`
-  )
-  try Effect.suspend(() =>
-    sql`ALTER TABLE orchestration_v2_projection_context_transfers ADD COLUMN target_provider_instance_id TEXT`
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`ALTER TABLE orchestration_v2_projection_context_transfers ADD COLUMN source_provider_instance_id TEXT`
+  try sql`ALTER TABLE orchestration_v2_projection_context_transfers ADD COLUMN target_provider_instance_id TEXT`
+  try sql`
     UPDATE orchestration_v2_projection_context_transfers
     SET
       source_provider_instance_id = COALESCE(
@@ -128,10 +96,8 @@ export default effect {
         target_provider
       )
   `
-  )
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE TABLE orchestration_v2_effect_outbox (
       effect_id TEXT PRIMARY KEY,
       command_id TEXT NOT NULL,
@@ -149,16 +115,10 @@ export default effect {
       last_error TEXT
     )
   `
-  )
-  try Effect.suspend(() =>
-    sql`CREATE INDEX orchestration_v2_effect_outbox_claim_idx ON orchestration_v2_effect_outbox(status, available_at, lease_expires_at, created_at)`
-  )
-  try Effect.suspend(() =>
-    sql`CREATE INDEX orchestration_v2_effect_outbox_command_idx ON orchestration_v2_effect_outbox(command_id, effect_id)`
-  )
+  try sql`CREATE INDEX orchestration_v2_effect_outbox_claim_idx ON orchestration_v2_effect_outbox(status, available_at, lease_expires_at, created_at)`
+  try sql`CREATE INDEX orchestration_v2_effect_outbox_command_idx ON orchestration_v2_effect_outbox(command_id, effect_id)`
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE TABLE orchestration_v2_turn_item_positions (
       thread_id TEXT NOT NULL,
       turn_item_id TEXT NOT NULL,
@@ -167,9 +127,7 @@ export default effect {
       UNIQUE (thread_id, ordinal)
     )
   `
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     INSERT INTO orchestration_v2_turn_item_positions (
       thread_id,
       turn_item_id,
@@ -187,10 +145,8 @@ export default effect {
       ON run.thread_id = item.thread_id
       AND run.run_id = item.run_id
   `
-  )
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE TABLE orchestration_v2_projection_metadata (
       projection_name TEXT PRIMARY KEY,
       schema_version INTEGER NOT NULL,
@@ -198,9 +154,7 @@ export default effect {
       updated_at TEXT NOT NULL
     )
   `
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     INSERT INTO orchestration_v2_projection_metadata (
       projection_name,
       schema_version,
@@ -214,5 +168,4 @@ export default effect {
       strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
     )
   `
-  )
 }

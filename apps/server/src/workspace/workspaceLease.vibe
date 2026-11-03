@@ -13,9 +13,9 @@ export const withWorkspaceLease = <A, E, R>(
     return lease.semaphore.withPermit(effect)
       |> Effect.ensuring(
         %,
-        Effect.sync(() => {
+        effect {
           lease.users--
           if (lease.users === 0) leases.delete(cwd)
-        }),
+        },
       )
   })

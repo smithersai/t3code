@@ -1,20 +1,15 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     ALTER TABLE projection_thread_proposed_plans
     ADD COLUMN implemented_at TEXT
   `
-  )
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     ALTER TABLE projection_thread_proposed_plans
     ADD COLUMN implementation_thread_id TEXT
   `
-  )
 }

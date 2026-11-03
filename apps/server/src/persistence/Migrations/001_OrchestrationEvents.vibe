@@ -1,11 +1,9 @@
 import * as SqlClient from "effect/sql/SqlClient"
-import * as Effect from "effect/Effect"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     CREATE TABLE IF NOT EXISTS orchestration_events (
       sequence INTEGER PRIMARY KEY AUTOINCREMENT,
       event_id TEXT NOT NULL UNIQUE,
@@ -22,33 +20,24 @@ export default effect {
       metadata_json TEXT NOT NULL
     )
   `
-  )
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     CREATE UNIQUE INDEX IF NOT EXISTS idx_orch_events_stream_version
     ON orchestration_events(aggregate_kind, stream_id, stream_version)
   `
-  )
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     CREATE INDEX IF NOT EXISTS idx_orch_events_stream_sequence
     ON orchestration_events(aggregate_kind, stream_id, sequence)
   `
-  )
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     CREATE INDEX IF NOT EXISTS idx_orch_events_command_id
     ON orchestration_events(command_id)
   `
-  )
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     CREATE INDEX IF NOT EXISTS idx_orch_events_correlation_id
     ON orchestration_events(correlation_id)
   `
-  )
 }

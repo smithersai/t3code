@@ -33,27 +33,20 @@ const encodeJson = Schema.encodeEffect(Schema.fromJsonString(Schema.Unknown))
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     ALTER TABLE orchestration_events
     ADD COLUMN application_event_version INTEGER NOT NULL DEFAULT 1
   `
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE INDEX idx_orchestration_events_application_sequence
     ON orchestration_events(application_event_version, sequence)
   `
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     ALTER TABLE orchestration_command_receipts
     ADD COLUMN command_type TEXT NOT NULL DEFAULT 'legacy'
   `
-  )
 
-  const legacyV2Events = try Effect.suspend(() =>
-    sql<LegacyV2EventRow>`
+  const legacyV2Events = try sql<LegacyV2EventRow>`
     SELECT
       event_id,
       command_id,
@@ -69,7 +62,6 @@ export default effect {
     FROM orchestration_v2_events
     ORDER BY sequence ASC
   `
-  )
 
   try Effect.forEach(
     legacyV2Events,
@@ -84,8 +76,7 @@ export default effect {
           : { providerInstanceId: event.provider_instance_id }),
         ...(event.raw_event_id === null ? {} : { rawEventId: event.raw_event_id }),
       })
-      try Effect.suspend(() =>
-        sql`
+      try sql`
         INSERT INTO orchestration_events (
           event_id,
           aggregate_kind,
@@ -126,14 +117,12 @@ export default effect {
           SELECT 1 FROM orchestration_events WHERE event_id = ${event.event_id}
         )
         `
-      )
     },
     { concurrency: 1, discard: true },
   )
 
   // Re-baseline current rows so shared-log rebuilds preserve pre-migration project state.
-  const projectRows = try Effect.suspend(() =>
-    sql<ProjectProjectionRow>`
+  const projectRows = try sql<ProjectProjectionRow>`
     SELECT
       project_id,
       title,
@@ -146,7 +135,6 @@ export default effect {
     FROM projection_projects
     ORDER BY created_at ASC, project_id ASC
   `
-  )
   try Effect.forEach(
     projectRows,
     effect (project) => {
@@ -167,8 +155,7 @@ export default effect {
         applicationEventVersion: 2,
         migration: 39,
       })
-      try Effect.suspend(() =>
-        sql`
+      try sql`
           INSERT INTO orchestration_events (
             event_id,
             aggregate_kind,
@@ -207,15 +194,13 @@ export default effect {
             2
           )
         `
-      )
 
       if (project.deleted_at !== null) {
         const deletedPayloadJson = try encodeJson({
           projectId: project.project_id,
           deletedAt: project.deleted_at,
         })
-        try Effect.suspend(() =>
-          sql`
+        try sql`
             INSERT INTO orchestration_events (
               event_id,
               aggregate_kind,
@@ -251,14 +236,12 @@ export default effect {
               2
             )
           `
-        )
       }
     },
     { concurrency: 1, discard: true },
   )
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     INSERT INTO orchestration_command_receipts (
       command_id,
       aggregate_kind,
@@ -290,5 +273,4 @@ export default effect {
     WHERE TRUE
     ON CONFLICT(command_id) DO NOTHING
   `
-  )
 }

@@ -33,10 +33,10 @@ export const GUEST_FAILURE = {
   filesBusy: "Wait for the owner to answer your earlier messages before you attach more files.",
 } as const
 
-const isExpired = (share: ThreadGuestShare, now: DateTime.Utc): infer _ =>
+const isExpired = (share: ThreadGuestShare, now: DateTime.Utc) =>
   DateTime.toEpochMillis(now) >= Date.parse(share.expiresAt)
 
-const pendingAttachments = (share: ThreadGuestShare | null): infer _ =>
+const pendingAttachments = (share: ThreadGuestShare | null) =>
   share?.messages.flatMap((message) => message.status === "pending" ? (message.attachments ?? []) : []) ?? []
 
 /**
@@ -103,8 +103,7 @@ export function decideGuestShareCommand(input: {
 }): Result.Result<OrchestrationV2AppThread, string> {
   const { thread, command, now } = input
   const share = thread.guestShare ?? null
-  const withShare = (guestShare: ThreadGuestShare | null): infer _ =>
-    Result.succeed({ ...thread, guestShare, updatedAt: now })
+  const withShare = (guestShare: ThreadGuestShare | null) => Result.succeed({ ...thread, guestShare, updatedAt: now })
 
   switch (command.type) {
     case "thread.guest-share.open": {

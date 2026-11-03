@@ -1,20 +1,15 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  const pairingLinkColumns = try Effect.suspend(effect () =>
-    sql<{ readonly name: string }>`
+  const pairingLinkColumns = try sql<{ readonly name: string }>`
     PRAGMA table_info(auth_pairing_links)
   `
-  )
   if (!pairingLinkColumns.some((column) => column.name === "proof_key_thumbprint")) {
-    try Effect.suspend(effect () =>
-      sql`
+    try sql`
       ALTER TABLE auth_pairing_links
       ADD COLUMN proof_key_thumbprint TEXT
     `
-    )
   }
 }

@@ -1,11 +1,9 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE TABLE orchestration_v2_projection_subagents (
       subagent_id TEXT PRIMARY KEY,
       thread_id TEXT NOT NULL,
@@ -22,17 +20,8 @@ export default effect {
       payload_json TEXT NOT NULL
     )
   `
-  )
-  try Effect.suspend(() =>
-    sql`CREATE INDEX orchestration_v2_projection_subagents_thread_idx ON orchestration_v2_projection_subagents(thread_id, started_at, subagent_id)`
-  )
-  try Effect.suspend(() =>
-    sql`CREATE INDEX orchestration_v2_projection_subagents_parent_node_idx ON orchestration_v2_projection_subagents(parent_node_id)`
-  )
-  try Effect.suspend(() =>
-    sql`CREATE INDEX orchestration_v2_projection_subagents_provider_thread_idx ON orchestration_v2_projection_subagents(provider_thread_id)`
-  )
-  try Effect.suspend(() =>
-    sql`CREATE INDEX orchestration_v2_projection_subagents_child_thread_idx ON orchestration_v2_projection_subagents(child_thread_id)`
-  )
+  try sql`CREATE INDEX orchestration_v2_projection_subagents_thread_idx ON orchestration_v2_projection_subagents(thread_id, started_at, subagent_id)`
+  try sql`CREATE INDEX orchestration_v2_projection_subagents_parent_node_idx ON orchestration_v2_projection_subagents(parent_node_id)`
+  try sql`CREATE INDEX orchestration_v2_projection_subagents_provider_thread_idx ON orchestration_v2_projection_subagents(provider_thread_id)`
+  try sql`CREATE INDEX orchestration_v2_projection_subagents_child_thread_idx ON orchestration_v2_projection_subagents(child_thread_id)`
 }

@@ -41,19 +41,16 @@ function databaseErrorMessage(value: unknown): string | undefined {
 }
 
 const CAPABILITY_REJECTION_MESSAGES: Record<string, (provider: string) => string> = {
-  queued_messages: (p): infer _ => `${p} cannot queue messages behind an active run.`,
-  active_steering: (p): infer _ => `${p} cannot redirect an active run. Stop it first, then send the message.`,
-  interrupt_restart_steering: (p): infer _ =>
-    `${p} cannot redirect an active run. Stop it first, then send the message.`,
-  interrupt: (p): infer _ => `${p} cannot stop a run once it has started.`,
-  native_fork: (p): infer _ => `${p} cannot fork this thread natively.`,
-  fork_from_turn: (p): infer _ => `${p} cannot fork from an earlier point in this thread.`,
-  rollback: (p): infer _ =>
-    `${p} cannot rewind its conversation, so this checkpoint cannot be restored on this thread.`,
-  rollback_snapshot: (p): infer _ =>
-    `${p} did not report its rewound conversation state, so the checkpoint was not restored.`,
-  context_handoff: (p): infer _ => `${p} cannot receive the context handoff needed for this switch.`,
-  strong_terminal_status: (p): infer _ => `${p} cannot confirm when its runs finish reliably enough for this.`,
+  queued_messages: (p) => `${p} cannot queue messages behind an active run.`,
+  active_steering: (p) => `${p} cannot redirect an active run. Stop it first, then send the message.`,
+  interrupt_restart_steering: (p) => `${p} cannot redirect an active run. Stop it first, then send the message.`,
+  interrupt: (p) => `${p} cannot stop a run once it has started.`,
+  native_fork: (p) => `${p} cannot fork this thread natively.`,
+  fork_from_turn: (p) => `${p} cannot fork from an earlier point in this thread.`,
+  rollback: (p) => `${p} cannot rewind its conversation, so this checkpoint cannot be restored on this thread.`,
+  rollback_snapshot: (p) => `${p} did not report its rewound conversation state, so the checkpoint was not restored.`,
+  context_handoff: (p) => `${p} cannot receive the context handoff needed for this switch.`,
+  strong_terminal_status: (p) => `${p} cannot confirm when its runs finish reliably enough for this.`,
 }
 
 function providerDisplayName(instanceId: string): string {

@@ -1,15 +1,13 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
   // Kept out of schedule_json so they never decode into the read model.
-  try Effect.suspend(() => sql`ALTER TABLE scheduled_tasks ADD COLUMN webhook_token TEXT`)
-  try Effect.suspend(() => sql`ALTER TABLE scheduled_tasks ADD COLUMN webhook_secret TEXT`)
+  try sql`ALTER TABLE scheduled_tasks ADD COLUMN webhook_token TEXT`
+  try sql`ALTER TABLE scheduled_tasks ADD COLUMN webhook_secret TEXT`
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE TABLE IF NOT EXISTS scheduled_task_webhook_deliveries (
       delivery_id TEXT PRIMARY KEY,
       task_id TEXT NOT NULL,
@@ -27,12 +25,9 @@ export default effect {
       error TEXT
     )
   `
-  )
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE INDEX IF NOT EXISTS idx_scheduled_task_webhook_deliveries_task
     ON scheduled_task_webhook_deliveries(task_id, received_at)
   `
-  )
 }

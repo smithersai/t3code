@@ -226,8 +226,7 @@ const makeContextHandoffService = effect () =>
   try withSpan(
     effect {
       const idAllocator = try IdAllocator.IdAllocatorV2
-      const tokenCap = try (handoffTokenCapConfig
-        |> Effect.orElseSucceed(%, () => DEFAULT_HANDOFF_TOKEN_CAP))
+      const tokenCap = handoffTokenCapConfig catch () => DEFAULT_HANDOFF_TOKEN_CAP
 
       const prepareLegacyImport = effect (input: {
         readonly threadId: ThreadId
@@ -239,23 +238,20 @@ const makeContextHandoffService = effect () =>
       }) =>
         try withSpan(
           effect {
-            const handoffId = try (idAllocator.allocate
+            const handoffId = idAllocator.allocate
               .contextHandoff({
                 threadId: input.threadId,
                 fromProviderInstanceId: ProviderInstanceId.make("legacy"),
                 toProviderInstanceId: input.toProviderInstanceId,
-              })
-              |> Effect.mapError(
-                %,
-                (cause) =>
-                  new ContextHandoffPrepareError({
-                    threadId: input.threadId,
-                    targetRunId: input.targetRunId,
-                    fromProviderThreadIds: [],
-                    toProviderThreadId: input.toProviderThreadId,
-                    cause,
-                  }),
-              ))
+              }) catch effect (cause) => {
+                throw new ContextHandoffPrepareError({
+                  threadId: input.threadId,
+                  targetRunId: input.targetRunId,
+                  fromProviderThreadIds: [],
+                  toProviderThreadId: input.toProviderThreadId,
+                  cause,
+                })
+              }
             const coverage = handoffCoverage({ ...input, coveredRunOrdinals: { from: 1, to: 1 } })
             const selected = selectHistory({
               messages: input.items.flatMap((item) => {
@@ -300,23 +296,20 @@ const makeContextHandoffService = effect () =>
         try withSpan(
           effect {
             const now = try DateTime.now
-            const handoffId = try (idAllocator.allocate
+            const handoffId = idAllocator.allocate
               .contextHandoff({
                 threadId: input.threadId,
                 fromProviderInstanceId: ProviderInstanceId.make("manual"),
                 toProviderInstanceId: ProviderInstanceId.make("manual"),
-              })
-              |> Effect.mapError(
-                %,
-                (cause) =>
-                  new ContextHandoffPrepareError({
-                    threadId: input.threadId,
-                    targetRunId: input.targetRunId,
-                    fromProviderThreadIds: Array.from(input.fromProviderThreadIds),
-                    toProviderThreadId: input.toProviderThreadId,
-                    cause,
-                  }),
-              ))
+              }) catch effect (cause) => {
+                throw new ContextHandoffPrepareError({
+                  threadId: input.threadId,
+                  targetRunId: input.targetRunId,
+                  fromProviderThreadIds: Array.from(input.fromProviderThreadIds),
+                  toProviderThreadId: input.toProviderThreadId,
+                  cause,
+                })
+              }
             return {
               id: handoffId,
               transferId: null,
@@ -352,23 +345,20 @@ const makeContextHandoffService = effect () =>
       }) =>
         try withSpan(
           effect {
-            const handoffId = try (idAllocator.allocate
+            const handoffId = idAllocator.allocate
               .contextHandoff({
                 threadId: input.targetThreadId,
                 fromProviderInstanceId: input.fromProviderInstanceId,
                 toProviderInstanceId: input.toProviderInstanceId,
-              })
-              |> Effect.mapError(
-                %,
-                (cause) =>
-                  new ContextHandoffPrepareError({
-                    threadId: input.targetThreadId,
-                    targetRunId: input.targetRunId,
-                    fromProviderThreadIds: Array.from(input.fromProviderThreadIds),
-                    toProviderThreadId: input.toProviderThreadId,
-                    cause,
-                  }),
-              ))
+              }) catch effect (cause) => {
+                throw new ContextHandoffPrepareError({
+                  threadId: input.targetThreadId,
+                  targetRunId: input.targetRunId,
+                  fromProviderThreadIds: Array.from(input.fromProviderThreadIds),
+                  toProviderThreadId: input.toProviderThreadId,
+                  cause,
+                })
+              }
             const coverage = handoffCoverage({
               threadId: input.sourceThreadId,
               coveredRunOrdinals: input.coveredRunOrdinals,
@@ -427,23 +417,20 @@ const makeContextHandoffService = effect () =>
       }) =>
         try withSpan(
           effect {
-            const handoffId = try (idAllocator.allocate
+            const handoffId = idAllocator.allocate
               .contextHandoff({
                 threadId: input.threadId,
                 fromProviderInstanceId: input.fromProviderInstanceId,
                 toProviderInstanceId: input.toProviderInstanceId,
-              })
-              |> Effect.mapError(
-                %,
-                (cause) =>
-                  new ContextHandoffPrepareError({
-                    threadId: input.threadId,
-                    targetRunId: input.targetRunId,
-                    fromProviderThreadIds: Array.from(input.fromProviderThreadIds),
-                    toProviderThreadId: input.toProviderThreadId,
-                    cause,
-                  }),
-              ))
+              }) catch effect (cause) => {
+                throw new ContextHandoffPrepareError({
+                  threadId: input.threadId,
+                  targetRunId: input.targetRunId,
+                  fromProviderThreadIds: Array.from(input.fromProviderThreadIds),
+                  toProviderThreadId: input.toProviderThreadId,
+                  cause,
+                })
+              }
             const runStatuses = new Map(input.runs?.map((run) => [run.id, run.status]))
             const coverage = handoffCoverage(input)
             const selected = selectHistory({
