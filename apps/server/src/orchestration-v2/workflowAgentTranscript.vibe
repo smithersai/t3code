@@ -1,32 +1,25 @@
 // @effect-diagnostics nodeBuiltinImport:off
 /** Workflow members appear only in transcripts, not provider events. */
-import * as NodePath from "node:path";
 
+module platform {
+// @effect-diagnostics nodeBuiltinImport:off
+
+import * as NodePath from "node:path";
 import { OrchestrationWorkflowFileError } from "@t3tools/contracts";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
-
 import { field, text } from "./unknownField.ts";
 import { readContainedWorkflowFile, type WorkflowFileIdentity } from "./workflowFileRead.ts";
 
-const TRANSCRIPT_READ_BYTE_CAP = 512 * 1024;
-
-const AGENT_ID_PATTERN = /^[A-Za-z0-9_-]{1,128}$/;
-
-const decodeJsonLine = Schema.decodeUnknownOption(Schema.fromJsonString(Schema.Unknown));
-
+export const TRANSCRIPT_READ_BYTE_CAP = 512 * 1024;
+export const AGENT_ID_PATTERN = /^[A-Za-z0-9_-]{1,128}$/;
+export const decodeJsonLine = Schema.decodeUnknownOption(Schema.fromJsonString(Schema.Unknown));
 export interface WorkflowAgentTranscriptCursor {
   readonly offset: number;
   readonly identity: WorkflowFileIdentity | null;
 }
-
-export const initialWorkflowAgentTranscriptCursor: WorkflowAgentTranscriptCursor = {
-  offset: 0,
-  identity: null,
-};
-
 export const WorkflowAgentTranscriptReadObserver = Context.Reference<
   (read: {
     readonly agentId: string;
@@ -37,9 +30,8 @@ export const WorkflowAgentTranscriptReadObserver = Context.Reference<
 >("t3/orchestration/WorkflowAgentTranscriptReadObserver", {
   defaultValue: () => () => Effect.void,
 });
-
 /** Skip harness bookkeeping (attachment and isMeta user lines) and lines without uuids needed for idempotent projection. */
-function parseWorkflowAgentTranscriptLines(contents: string): ReadonlyArray<unknown> {
+export function parseWorkflowAgentTranscriptLines(contents: string): ReadonlyArray<unknown> {
   return contents.split("\n").flatMap((line) => {
     if (line.trim().length === 0) return [];
     const entry = Option.getOrUndefined(decodeJsonLine(line));
@@ -49,7 +41,6 @@ function parseWorkflowAgentTranscriptLines(contents: string): ReadonlyArray<unkn
     return [entry];
   });
 }
-
 /** Reads the complete lines written since `cursor`, and the cursor after them. */
 export const readWorkflowAgentTranscript = Effect.fn("orchestration.readWorkflowAgentTranscript")(
   function* (input: {
@@ -85,3 +76,13 @@ export const readWorkflowAgentTranscript = Effect.fn("orchestration.readWorkflow
     };
   },
 );
+}
+
+import type { WorkflowAgentTranscriptCursor } from platform
+export { WorkflowAgentTranscriptReadObserver, readWorkflowAgentTranscript } from platform
+export type { WorkflowAgentTranscriptCursor } from platform
+
+export const initialWorkflowAgentTranscriptCursor: WorkflowAgentTranscriptCursor = {
+  offset: 0,
+  identity: null,
+};

@@ -76,7 +76,7 @@ import { SpawnExecutableResolution } from "@t3tools/shared/shell";
 
 import * as PortScanner from "../../preview/PortScanner.ts";
 import { attachmentRelativePath } from "../../attachmentStore.ts";
-import { WorkflowAgentTranscriptReadObserver } from "../workflowAgentTranscript.ts";
+import { WorkflowAgentTranscriptReadObserver } from "../workflowAgentTranscript.vibe";
 import * as ServerConfig from "../../config.ts";
 import * as McpProviderSession from "@t3tools/provider-core/server/mcpSession";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";

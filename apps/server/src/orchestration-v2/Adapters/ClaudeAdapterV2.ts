@@ -11,7 +11,7 @@ import {
   initialWorkflowAgentTranscriptCursor,
   readWorkflowAgentTranscript,
   type WorkflowAgentTranscriptCursor,
-} from "../workflowAgentTranscript.ts";
+} from "../workflowAgentTranscript.vibe";
 import {
   CLAUDE_WORKFLOW_TASK_TYPE,
   hasClaudeWorkflowSnapshot,
