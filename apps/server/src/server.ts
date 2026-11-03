@@ -1,7 +1,7 @@
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import type { RelayManagedEndpointRuntimeConfig } from "@t3tools/contracts/relay";
 import * as Random from "effect/Random";
-import * as DatabaseStorage from "./persistence/DatabaseStorage.ts";
+import * as DatabaseStorage from "./persistence/DatabaseStorage.vibe";
 import * as StorageCleanup from "./storageCleanup.ts";
 import * as PullRequestSyncReactor from "./orchestration-v2/PullRequestSyncReactor.ts";
 import * as PullRequestWatchReactor from "./orchestration-v2/PullRequestWatchReactor.ts";
@@ -42,7 +42,7 @@ import * as PullRequestProviderRegistry from "./pullRequest/PullRequestProviderR
 import * as PullRequestService from "./pullRequest/PullRequestService.ts";
 import * as SqlitePersistence from "./persistence/Sqlite.ts";
 import * as PullRequestFilesViewed from "./persistence/PullRequestFilesViewed.vibe";
-import * as PullRequestReviewGuides from "./persistence/PullRequestReviewGuides.ts";
+import * as PullRequestReviewGuides from "./persistence/PullRequestReviewGuides.vibe";
 import * as PullRequestReviewGuideService from "./pullRequest/PullRequestReviewGuideService.ts";
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.ts";
 import * as AnalyticsService from "./telemetry/AnalyticsService.ts";
@@ -68,10 +68,10 @@ import * as ProjectSettingsOverrideSweep from "./provider/ProjectSettingsOverrid
 import * as TerminalManager from "./terminal/Manager.ts";
 import * as McpHttpServer from "./mcp/McpHttpServer.ts";
 import * as PeerForwarding from "./peer/PeerForwarding.ts";
-import * as RemoteDelegation from "./peer/RemoteDelegation.ts";
-import * as PeerLinkRequests from "./peer/PeerLinkRequests.ts";
-import * as PeerLinks from "./peer/PeerLinks.ts";
-import * as PeerMcpClient from "./peer/PeerMcpClient.ts";
+import * as RemoteDelegation from "./peer/RemoteDelegation.vibe";
+import * as PeerLinkRequests from "./peer/PeerLinkRequests.vibe";
+import * as PeerLinks from "./peer/PeerLinks.vibe";
+import * as PeerMcpClient from "./peer/PeerMcpClient.vibe";
 import * as McpSessionRegistry from "./mcp/McpSessionRegistry.ts";
 import * as PreviewAutomationBroker from "./mcp/PreviewAutomationBroker.ts";
 import * as DeviceService from "./device/DeviceService.ts";
@@ -196,7 +196,7 @@ import * as ProjectionMaintenance from "./orchestration-v2/ProjectionMaintenance
 import * as ProjectionStoreV2 from "./orchestration-v2/ProjectionStore.ts";
 import { makePersistedServerRuntimeState } from "./serverRuntimeState.ts";
 import { acceptsPrivateNetworkConnection, loopbackUrlHostForAddress } from "./startupAccess.ts";
-import * as OrchestrationHttp from "./orchestration-v2/http.ts";
+import * as OrchestrationHttp from "./orchestration-v2/http.vibe";
 import * as ProjectHttp from "./project/http.ts";
 import * as NetService from "@t3tools/shared/Net";
 import * as RelayClient from "@t3tools/shared/relayClient";

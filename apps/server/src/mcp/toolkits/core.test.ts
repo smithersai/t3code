@@ -44,7 +44,7 @@ import * as PreviewBrowser from "../../preview/PreviewBrowser.ts";
 import * as ProjectService from "../../project/ProjectService.ts";
 import * as ProviderRegistry from "../../provider/ProviderRegistry.ts";
 import * as SecretRequests from "../../secrets/SecretRequests.ts";
-import * as RemoteDelegation from "../../peer/RemoteDelegation.ts";
+import * as RemoteDelegation from "../../peer/RemoteDelegation.vibe";
 import * as ScheduledTaskService from "../../scheduledTasks/ScheduledTaskService.ts";
 import * as ServerSettings from "../../serverSettings.ts";
 import * as McpHttpServer from "../McpHttpServer.ts";
@@ -55,8 +55,8 @@ import { dispatchFailure } from "../threadAccess.ts";
 import * as EnvironmentHandlers from "./environment/handlers.ts";
 import * as AttachmentHandlers from "./attachment/handlers.ts";
 import * as PeerForwarding from "../../peer/PeerForwarding.ts";
-import * as PeerLinkRequests from "../../peer/PeerLinkRequests.ts";
-import * as PeerLinks from "../../peer/PeerLinks.ts";
+import * as PeerLinkRequests from "../../peer/PeerLinkRequests.vibe";
+import * as PeerLinks from "../../peer/PeerLinks.vibe";
 
 const layerOrchestratorToolkit = McpHttpServer.layerOrchestratorToolkit.pipe(
   Layer.provide(Layer.mock(ThreadLaunchService.ThreadLaunchService)({})),

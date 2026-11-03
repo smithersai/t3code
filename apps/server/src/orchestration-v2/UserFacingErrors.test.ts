@@ -7,7 +7,7 @@ import * as Path from "effect/Path";
 import * as SqlClient from "effect/sql/SqlClient";
 import { SqlError, classifySqliteError } from "effect/sql/SqlError";
 
-import { toPersistenceSqlError } from "../persistence/Errors.ts";
+import { toPersistenceSqlError } from "../persistence/Errors.vibe";
 import { userFacingDispatchErrorMessage } from "./UserFacingErrors.vibe";
 
 describe("userFacingDispatchErrorMessage", () => {

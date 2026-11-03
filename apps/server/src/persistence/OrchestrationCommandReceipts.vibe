@@ -10,7 +10,7 @@ import * as Schema from "effect/Schema";
 import {
   toPersistenceSqlError,
   type OrchestrationCommandReceiptRepositoryError,
-} from "./Errors.ts";
+} from "./Errors.vibe";
 
 export const OrchestrationCommandReceipt = Schema.Struct({
   commandId: CommandId,

@@ -27,9 +27,9 @@ import * as ServerHttp from "../http.ts";
 import * as McpHttpServer from "../mcp/McpHttpServer.ts";
 import * as McpSessionRegistry from "../mcp/McpSessionRegistry.ts";
 import * as Sqlite from "../persistence/Sqlite.ts";
-import * as PeerLinks from "./PeerLinks.ts";
+import * as PeerLinks from "./PeerLinks.vibe";
 import * as ServerSettings from "../serverSettings.ts";
-import * as PeerMcpClient from "./PeerMcpClient.ts";
+import * as PeerMcpClient from "./PeerMcpClient.vibe";
 
 class PeerTestApi extends HttpApi.make("environment")
   .add(EnvironmentHttpApi.groups.metadata)

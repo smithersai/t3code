@@ -12,7 +12,7 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import type * as SqlClient from "effect/sql/SqlClient";
-import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.ts";
+import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.vibe";
 
 export class EventStoreAppendEventsError extends Schema.TaggedError<EventStoreAppendEventsError>()(
   "EventStoreAppendEventsError",

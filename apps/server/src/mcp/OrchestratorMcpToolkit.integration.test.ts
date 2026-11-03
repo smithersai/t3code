@@ -43,13 +43,13 @@ import * as ProviderRegistryMock from "../provider/testUtils/providerRegistryMoc
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
-import * as RemoteDelegation from "../peer/RemoteDelegation.ts";
+import * as RemoteDelegation from "../peer/RemoteDelegation.vibe";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as McpHttpServer from "./McpHttpServer.ts";
 import * as McpInvocationContext from "./McpInvocationContext.ts";
 import * as PeerForwarding from "../peer/PeerForwarding.ts";
-import * as PeerLinkRequests from "../peer/PeerLinkRequests.ts";
-import * as PeerLinks from "../peer/PeerLinks.ts";
+import * as PeerLinkRequests from "../peer/PeerLinkRequests.vibe";
+import * as PeerLinks from "../peer/PeerLinks.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerOrchestratorToolkit = McpHttpServer.layerOrchestratorToolkit.pipe(

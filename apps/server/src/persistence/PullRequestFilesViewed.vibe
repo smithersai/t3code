@@ -11,7 +11,7 @@ import {
   PersistenceDecodeError,
   PersistenceSqlError,
   type PullRequestFilesViewedRepositoryError,
-} from "./Errors.ts";
+} from "./Errors.vibe";
 
 export schema PullRequestFilesViewedScope {
   provider: SourceControlProviderKind

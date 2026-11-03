@@ -1,6 +1,4 @@
 import { CommandId, MessageId, type OrchestrationV2Command } from "@t3tools/contracts";
-import * as DateTime from "effect/DateTime";
-import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Scheduler from "../scheduling/Scheduler.vibe";
 import * as ServerSettings from "../serverSettings.ts";
@@ -71,15 +69,15 @@ export function limitRecoveryCommand(
   };
 }
 
-const makeSweep = Effect.gen(function* () {
-  const projections = yield* ProjectionStore.ProjectionStoreV2;
-  const threads = yield* ThreadManagement.ThreadManagementService;
-  const orchestrator = yield* Orchestrator.OrchestratorV2;
-  const settings = yield* ServerSettings.ServerSettingsService;
-  return Effect.fn("UsageLimitRecoveryWorker.sweep")(function* () {
-    const preferences = yield* settings.getSettings;
-    const now = yield* DateTime.now;
-    const candidates = yield* projections.getLimitRecoveryCandidates({
+const makeSweep = effect {
+  const projections = try ProjectionStore.ProjectionStoreV2;
+  const threads = try ThreadManagement.ThreadManagementService;
+  const orchestrator = try Orchestrator.OrchestratorV2;
+  const settings = try ServerSettings.ServerSettingsService;
+  return effect () => try withSpan(effect {
+    const preferences = try settings.getSettings;
+    const now = try DateTime.now;
+    const candidates = try projections.getLimitRecoveryCandidates({
       now,
       autoResume: preferences.autoResumeLimitedThreads,
       snooze: preferences.snoozeLimitedThreads,
@@ -93,32 +91,31 @@ const makeSweep = Effect.gen(function* () {
         preferences.snoozeLimitedThreads,
       );
       if (command === null) continue;
-      yield* Effect.gen(function* () {
+      try ((effect {
         if (command.type === "thread.metadata.update" && command.limitRecovery != null) {
-          yield* orchestrator.autoArmLimitRecovery({
+          try orchestrator.autoArmLimitRecovery({
             commandId: command.commandId,
             threadId: command.threadId,
             limitRecovery: command.limitRecovery,
           });
         } else {
-          yield* threads.dispatch(command);
+          try threads.dispatch(command);
         }
-      }).pipe(
-        Effect.catchCause((cause) =>
-          Effect.logWarning("orchestration-v2.limit-recovery.dispatch-failed", {
+      })
+        |> catchCause(%, (cause) =>
+          logWarning("orchestration-v2.limit-recovery.dispatch-failed", {
             threadId: thread.id,
             cause,
           }),
-        ),
-      );
+        ));
     }
-  });
-});
+  }, "UsageLimitRecoveryWorker.sweep");
+};
 
 export const layer = Layer.effectDiscard(
-  Effect.gen(function* () {
-    const sweep = yield* makeSweep;
-    const scheduler = yield* Scheduler.Scheduler;
-    yield* scheduler.register("usage-limit-recovery", sweep());
-  }),
+  effect {
+    const sweep = try makeSweep;
+    const scheduler = try Scheduler.Scheduler;
+    try scheduler.register("usage-limit-recovery", sweep());
+  },
 );

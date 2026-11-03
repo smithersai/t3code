@@ -24,7 +24,7 @@ import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import { replayAndBufferProjectedLiveEvents } from "./LiveStreamBudget.ts";
-import type { UnsequencedProjectEvent } from "../persistence/OrchestrationEventStore.ts";
+import type { UnsequencedProjectEvent } from "../persistence/OrchestrationEventStore.vibe";
 import { projectDomainEventForWire } from "./WireProjection.ts";
 import { makeRunOutcomeRecorder, type RunOutcome } from "./RunMetrics.ts";
 

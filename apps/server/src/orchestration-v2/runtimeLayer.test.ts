@@ -1,5 +1,5 @@
 import { SourceControlProviderKind } from "@t3tools/contracts";
-import { limitRecoveryCommand } from "./UsageLimitRecoveryWorker.ts";
+import { limitRecoveryCommand } from "./UsageLimitRecoveryWorker.vibe";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
 import * as NodeServices from "@effect/platform-node/NodeServices";
@@ -47,7 +47,7 @@ import * as CheckpointStore from "../checkpointing/CheckpointStore.ts";
 import * as GitWorkflow from "../git/GitWorkflowService.ts";
 import * as ServerConfig from "../config.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.ts";
+import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.vibe";
 import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ServerSettings from "../serverSettings.ts";

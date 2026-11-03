@@ -31,13 +31,13 @@ import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as RemoteDelegation from "./RemoteDelegation.ts";
+import * as RemoteDelegation from "./RemoteDelegation.vibe";
 import * as McpHttpServer from "../mcp/McpHttpServer.ts";
 import * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
 import { liveThreadShell } from "../mcp/McpToolAccess.testkit.ts";
 import * as PeerForwarding from "./PeerForwarding.ts";
-import * as PeerLinks from "./PeerLinks.ts";
-import * as PeerLinkRequests from "./PeerLinkRequests.ts";
+import * as PeerLinks from "./PeerLinks.vibe";
+import * as PeerLinkRequests from "./PeerLinkRequests.vibe";
 import { descriptorOf, layerLinkingEnvironment, linkTo, servePeer } from "./PeerLinks.testkit.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

@@ -50,7 +50,7 @@ import * as Statement from "effect/sql/Statement";
 import { vi } from "vite-plus/test";
 
 import * as ServerConfig from "../config.ts";
-import * as DatabaseStorage from "../persistence/DatabaseStorage.ts";
+import * as DatabaseStorage from "../persistence/DatabaseStorage.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import { LIVE_STREAM_MAX_ITEMS, LiveStreamBufferError } from "./LiveStreamBudget.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";

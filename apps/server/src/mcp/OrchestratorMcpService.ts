@@ -119,7 +119,7 @@ import {
 import { isLiveCallerShell, threadNotFound } from "./threadAccess.ts";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
 import * as PeerForwarding from "../peer/PeerForwarding.ts";
-import * as RemoteDelegation from "../peer/RemoteDelegation.ts";
+import * as RemoteDelegation from "../peer/RemoteDelegation.vibe";
 
 const DEFAULT_WAIT_TIMEOUT_MS = 10 * 60 * 1_000;
 const MAX_WAIT_TIMEOUT_MS = 60 * 60 * 1_000;

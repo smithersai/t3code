@@ -14,7 +14,7 @@ import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as ServerConfig from "../config.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as PeerLinks from "../peer/PeerLinks.ts";
+import * as PeerLinks from "../peer/PeerLinks.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import { authLocationFlags, type CliAuthLocationFlags, resolveCliAuthConfig } from "./config.ts";

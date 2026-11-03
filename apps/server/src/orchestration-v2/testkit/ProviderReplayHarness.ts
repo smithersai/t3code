@@ -51,7 +51,7 @@ import * as McpAppModelContext from "../../mcpApps/McpAppModelContext.ts";
 import * as PreviewAgentActivity from "../../preview/PreviewAgentActivity.ts";
 import * as RunExecutionService from "../RunExecutionService.ts";
 import * as RunFinalizationService from "../RunFinalizationService.ts";
-import * as ThreadTitleRegenerationService from "../ThreadTitleRegenerationService.ts";
+import * as ThreadTitleRegenerationService from "../ThreadTitleRegenerationService.vibe";
 import * as RuntimePolicy from "../RuntimePolicy.ts";
 import * as TurnItemPositionStore from "../TurnItemPositionStore.ts";
 import * as RuntimeRequestService from "../RuntimeRequestService.ts";

@@ -54,8 +54,8 @@ import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.ts
 import * as ThreadLaunch from "../orchestration-v2/ThreadLaunchService.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as PeerForwarding from "./PeerForwarding.ts";
-import * as PeerLinkRequests from "./PeerLinkRequests.ts";
-import * as PeerLinks from "./PeerLinks.ts";
+import * as PeerLinkRequests from "./PeerLinkRequests.vibe";
+import * as PeerLinks from "./PeerLinks.vibe";
 import {
   descriptorOf,
   layerLinkingEnvironment,
@@ -63,7 +63,7 @@ import {
   servePeer,
   type ServedPeer,
 } from "./PeerLinks.testkit.ts";
-import * as RemoteDelegation from "./RemoteDelegation.ts";
+import * as RemoteDelegation from "./RemoteDelegation.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 // The laptop's agent asks the user to link the box. The laptop is its real

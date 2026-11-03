@@ -24,9 +24,9 @@ import {
   LIVE_STREAM_MAX_ITEMS,
   LiveStreamBufferError,
 } from "../orchestration-v2/LiveStreamBudget.ts";
-import { PersistenceDecodeError } from "./Errors.ts";
+import { PersistenceDecodeError } from "./Errors.vibe";
 import { toShellApplicationEvent } from "../orchestration-v2/ShellStream.ts";
-import * as OrchestrationEventStore from "./OrchestrationEventStore.ts";
+import * as OrchestrationEventStore from "./OrchestrationEventStore.vibe";
 import * as SqlitePersistence from "./Sqlite.ts";
 const isPersistenceDecodeError = Schema.is(PersistenceDecodeError);
 const isLiveStreamBufferError = Schema.is(LiveStreamBufferError);

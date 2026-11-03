@@ -22,8 +22,8 @@ import { assertNotLinked } from "../mcp/linkOrigin.ts";
 import * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
 import { readCaller, unavailable } from "../mcp/threadAccess.ts";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
-import * as PeerLinks from "./PeerLinks.ts";
-import * as PeerMcpClient from "./PeerMcpClient.ts";
+import * as PeerLinks from "./PeerLinks.vibe";
+import * as PeerMcpClient from "./PeerMcpClient.vibe";
 
 /**
  * A peer's `/mcp` holds a wait open for its whole timeout without sending

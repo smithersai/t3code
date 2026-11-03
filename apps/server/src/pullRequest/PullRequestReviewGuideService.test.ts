@@ -20,7 +20,7 @@ import {
 
 import * as ServerConfig from "../config.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as PullRequestReviewGuides from "../persistence/PullRequestReviewGuides.ts";
+import * as PullRequestReviewGuides from "../persistence/PullRequestReviewGuides.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ServerSettings from "../serverSettings.ts";

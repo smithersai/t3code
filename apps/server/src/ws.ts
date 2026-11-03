@@ -2,8 +2,8 @@ import { OrchestrationDispatchCommandError } from "@t3tools/contracts";
 import * as Context from "effect/Context";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Orchestrator from "./orchestration-v2/Orchestrator.ts";
-import * as PeerLinkRequests from "./peer/PeerLinkRequests.ts";
-import * as PeerLinks from "./peer/PeerLinks.ts";
+import * as PeerLinkRequests from "./peer/PeerLinkRequests.vibe";
+import * as PeerLinks from "./peer/PeerLinks.vibe";
 
 import * as DateTime from "effect/DateTime";
 import * as Duration from "effect/Duration";
@@ -168,7 +168,7 @@ import {
 import { dedupeSnapshotBodies } from "@t3tools/shared/orchestrationV2DedupedBodies";
 import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
 import * as ThreadSearch from "./orchestration-v2/ThreadSearch.ts";
-import * as OrchestrationEventStore from "./persistence/OrchestrationEventStore.ts";
+import * as OrchestrationEventStore from "./persistence/OrchestrationEventStore.vibe";
 import { userFacingDispatchErrorMessage } from "./orchestration-v2/UserFacingErrors.vibe";
 import * as ProviderRegistry from "./provider/ProviderRegistry.ts";
 import * as ProviderInstanceRegistry from "./provider/ProviderInstanceRegistry.ts";
@@ -184,7 +184,7 @@ import * as ServerSelfUpdate from "./cloud/selfUpdate.ts";
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.ts";
 import * as ServerRuntimeStartup from "./serverRuntimeStartup.ts";
 import * as ServerSettings from "./serverSettings.ts";
-import * as DatabaseStorage from "./persistence/DatabaseStorage.ts";
+import * as DatabaseStorage from "./persistence/DatabaseStorage.vibe";
 import * as StorageCleanup from "./storageCleanup.ts";
 import * as TerminalManager from "./terminal/Manager.ts";
 import { terminalOutputStream, withTerminalOutputWindow } from "./terminal/OutputProtocol.ts";

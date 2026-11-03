@@ -58,10 +58,10 @@ import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.ts
 import * as SourceControlRepositoryService from "../sourceControl/SourceControlRepositoryService.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as PeerForwarding from "./PeerForwarding.ts";
-import * as PeerLinks from "./PeerLinks.ts";
+import * as PeerLinks from "./PeerLinks.vibe";
 import { descriptorOf, layerLinkingEnvironment, linkTo, servePeer } from "./PeerLinks.testkit.ts";
-import * as RemoteDelegation from "./RemoteDelegation.ts";
-import * as PeerLinkRequests from "./PeerLinkRequests.ts";
+import * as RemoteDelegation from "./RemoteDelegation.vibe";
+import * as PeerLinkRequests from "./PeerLinkRequests.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 // The laptop's agent delegates a task to the box through a link. The box is

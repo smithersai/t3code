@@ -31,9 +31,9 @@ import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as ServerSettings from "../serverSettings.ts";
 
-import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.ts";
+import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.vibe";
 import { ProjectEnrichmentService } from "../project/ProjectEnrichmentService.ts";
-import * as OrchestrationHttp from "./http.ts";
+import * as OrchestrationHttp from "./http.vibe";
 import { EventSinkV2 } from "./EventSink.ts";
 import * as ProjectStore from "./ProjectStore.ts";
 import * as CommandReceiptStore from "./CommandReceiptStore.ts";

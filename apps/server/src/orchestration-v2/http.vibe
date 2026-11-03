@@ -1,0 +1,258 @@
+import {
+  AuthOrchestrationReadScope,
+  EnvironmentHttpApi,
+  type OrchestrationProjectShell,
+} from "@t3tools/contracts";
+import * as SqlClient from "effect/sql/SqlClient";
+
+import {
+  annotateEnvironmentRequest,
+  failEnvironmentInternal,
+  failEnvironmentInvalidRequest,
+  failEnvironmentNotFound,
+  requireEnvironmentScope,
+} from "../auth/http.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import { traceLocalHandlerWork } from "../cloud/traceRelayRequest.vibe";
+import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.vibe";
+import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
+import {
+  buildBoundedThreadProjection,
+  decodeThreadHistoryCursor,
+  InvalidThreadHistoryCursorError,
+  THREAD_HISTORY_SNAPSHOT_ROW_LIMIT,
+  THREAD_HISTORY_PAGE_POLICY,
+  OLDER_THREAD_USER_TURN_LIMIT,
+} from "./threadHistoryPaging.ts";
+import * as ThreadManagementService from "./ThreadManagementService.ts";
+import * as ProjectStore from "./ProjectStore.ts";
+import {
+  buildActiveShellSnapshot,
+  loadShellSnapshotParts,
+  shellSnapshotForSubscriber,
+} from "./ShellStream.ts";
+import { boundedSnapshotResponseFields } from "./ThreadStream.ts";
+import { projectThreadProjectionForWire } from "./WireProjection.ts";
+
+const isThreadTranscriptTooLargeError = Schema.is(
+  ThreadManagementService.ThreadTranscriptTooLargeError,
+);
+
+function isThreadNotFound(error: unknown): boolean {
+  return (
+    Predicate.hasProperty(error, "cause") &&
+    Predicate.hasProperty(error.cause, "_tag") &&
+    error.cause._tag === "ProjectionStoreThreadNotFoundError"
+  );
+}
+
+export const layer = HttpApiBuilder.group(
+  EnvironmentHttpApi,
+  "orchestration",
+  effect (handlers) => {
+    const sql = try SqlClient.SqlClient;
+    const environment = try ServerEnvironment.ServerEnvironmentIdentity;
+    const threadManagement = try ThreadManagementService.ThreadManagementService;
+    const applicationEvents = try OrchestrationEventStore.OrchestrationEventStore;
+    const projectStore = try ProjectStore.ProjectStoreV2;
+    const projectEnrichment = try ProjectEnrichmentService.ProjectEnrichmentService;
+
+    const enrichProjectShells = fn("http.orchestration.enrichProjectShells")(
+      (projects: ReadonlyArray<OrchestrationProjectShell>) =>
+        forEach(
+          projects,
+          (project) =>
+            // Use available enrichment only; git probes can take a minute and exceed shell-snapshot budgets.
+            projectEnrichment.getAvailable(project.workspaceRoot)
+              |> map(%, (enrichment) => ({
+                ...project,
+                repositoryIdentity: enrichment.repositoryIdentity,
+              })),
+          { concurrency: 16 },
+        ),
+    );
+
+    const loadShellSnapshot = effect (options: { readonly omitIdleSubagents: boolean; readonly omitOlderSettled: boolean; }) => try withSpan(effect {
+      const input = try loadShellSnapshotParts({
+          sql,
+          readThreads: threadManagement.readShellSnapshot({ location: "active" }),
+          listProjects: projectStore.listShells(),
+          latestSequence: applicationEvents.latestApplicationSequence,
+        })
+      const base = try orDie(Effect.try({ try: () => buildActiveShellSnapshot(
+        input,
+      ), catch: (error) => error }));
+      const options2 = {
+        ...options,
+        now: try DateTime.now,
+      }
+      const { snapshot } = try orDie(Effect.try({ try: () => shellSnapshotForSubscriber(base, options2), catch: (error) => error }));
+      const projects = try enrichProjectShells(base.projects);
+      return { ...snapshot, projects };
+    }, "http.orchestration.loadShellSnapshot");
+
+    const loadThreadSnapshot = effect (
+      threadId: string & import("effect/Brand").Brand<"ThreadId">,
+      failureReason:
+        "orchestration_thread_bounded_snapshot_failed" | "orchestration_thread_history_failed" | "orchestration_thread_snapshot_failed",
+    ) => try withSpan(effect {
+      return try (threadManagement.getThreadSnapshot(threadId)
+        |> map(%, (snapshot) => ({
+          ...snapshot,
+          projection: projectThreadProjectionForWire(snapshot.projection),
+        }))
+        |> Effect.catch(
+          %, effect (error) => {
+            if (isThreadNotFound(error)) {
+              return try failEnvironmentNotFound("thread_not_found");
+            }
+            return try failEnvironmentInternal(failureReason, error);
+          },
+        ));
+    }, "http.orchestration.loadThreadSnapshot");
+
+    const loadThreadSnapshotWindow = effect (
+        threadId: string & import("effect/Brand").Brand<"ThreadId">,
+        anchorItemId?: (string & import("effect/Brand").Brand<"TurnItemId">) | undefined,
+        anchorThreadId?: (string & import("effect/Brand").Brand<"ThreadId">) | undefined,
+      ) => try withSpan(effect {
+      return try (threadManagement
+        .getThreadSnapshotWindow(threadId, {
+          rowLimit: THREAD_HISTORY_SNAPSHOT_ROW_LIMIT,
+          userTurnLimit:
+            anchorItemId === undefined
+              ? THREAD_HISTORY_PAGE_POLICY.maxUserTurns
+              : OLDER_THREAD_USER_TURN_LIMIT,
+          ...(anchorItemId === undefined ? {} : { anchorItemId }),
+          ...(anchorThreadId === undefined ? {} : { anchorThreadId }),
+        })
+          |> map(%, (snapshot) => ({
+            ...snapshot,
+            projection: projectThreadProjectionForWire(snapshot.projection),
+          }))
+          |> Effect.catch(
+            %, effect (error) => {
+              if (isThreadNotFound(error)) {
+                return try failEnvironmentNotFound("thread_not_found");
+              }
+              return try failEnvironmentInternal("orchestration_thread_history_failed", error);
+            },
+          ));
+    }, "http.orchestration.loadThreadSnapshotWindow");
+
+    return handlers
+      .handle(
+        "shellSnapshot",
+        effect (args) => try withSpan(effect {
+          try annotateEnvironmentRequest(args.endpoint.name);
+          try requireEnvironmentScope(AuthOrchestrationReadScope);
+          return try (loadShellSnapshot({
+            omitIdleSubagents: args.query.omitIdleSubagents === "1",
+            omitOlderSettled: args.query.omitOlderSettled === "1",
+          })
+            |> traceLocalHandlerWork(%)
+            |> Effect.catch(%, (cause) =>
+              failEnvironmentInternal("orchestration_snapshot_failed", cause),
+            ));
+        }, "environment.orchestration.shellSnapshot"),
+      )
+      .handle(
+        "threadSnapshot",
+        effect (args) => try withSpan(effect {
+          try annotateEnvironmentRequest(args.endpoint.name);
+          try requireEnvironmentScope(AuthOrchestrationReadScope);
+          const snapshot = try (loadThreadSnapshot(
+            args.params.threadId,
+            "orchestration_thread_snapshot_failed",
+          ) |> traceLocalHandlerWork(%));
+          return {
+            snapshotSequence: snapshot.snapshotSequence,
+            projection: snapshot.projection,
+          };
+        }, "environment.orchestration.threadSnapshot"),
+      )
+      .handle(
+        "threadTranscript",
+        effect (args) => try withSpan(effect {
+          try annotateEnvironmentRequest(args.endpoint.name);
+          try requireEnvironmentScope(AuthOrchestrationReadScope);
+          return try (threadManagement.getThreadTranscript(args.params.threadId)
+            |> provideService(%, ServerEnvironment.ServerEnvironmentIdentity, environment)
+            |> traceLocalHandlerWork(%)
+            |> Effect.catch(
+              %, effect (error) => {
+                if (isThreadTranscriptTooLargeError(error)) {
+                  return try failEnvironmentInvalidRequest("thread_transcript_too_large");
+                }
+                if (isThreadNotFound(error)) {
+                  return try failEnvironmentNotFound("thread_not_found");
+                }
+                return try failEnvironmentInternal(
+                  "orchestration_thread_snapshot_failed",
+                  error,
+                );
+              },
+            ));
+        }, "environment.orchestration.threadTranscript"),
+      )
+      .handle(
+        "threadBoundedSnapshot",
+        effect (args) => try withSpan(effect {
+          try annotateEnvironmentRequest(args.endpoint.name);
+          try requireEnvironmentScope(AuthOrchestrationReadScope);
+          const snapshot = try (loadThreadSnapshotWindow(args.params.threadId)
+            |> traceLocalHandlerWork(%));
+          const bounded = try orDie(Effect.try({ try: () => buildBoundedThreadProjection({
+            projection: snapshot.projection,
+            snapshotSequence: snapshot.snapshotSequence,
+          }), catch: (error) => error }));
+          return {
+            snapshotSequence: snapshot.snapshotSequence,
+            ...try orDie(Effect.try({ try: () => boundedSnapshotResponseFields({
+              bounded,
+              compactTurnItems: args.query.compactTurnItems === "1",
+              dedupeBodies: args.query.dedupeBodies === "1",
+              compactIds: args.query.compactIds === "1",
+            }), catch: (error) => error })),
+          };
+        }, "environment.orchestration.threadBoundedSnapshot"),
+      )
+      .handle(
+        "threadHistoryPage",
+        effect (args) => try withSpan(effect {
+          try annotateEnvironmentRequest(args.endpoint.name);
+          try requireEnvironmentScope(AuthOrchestrationReadScope);
+          const decoded = try (Effect.try(() =>
+            decodeThreadHistoryCursor(args.query.cursor),
+          ) |> result(%));
+          if (Result.isFailure(decoded)) {
+            const cause = decoded.failure.cause;
+            if (cause instanceof InvalidThreadHistoryCursorError)
+              return try failEnvironmentInvalidRequest("invalid_history_cursor");
+            return try failEnvironmentInternal("orchestration_thread_history_failed", cause);
+          }
+          return try (threadManagement
+            .getThreadHistoryPage(
+              args.params.threadId,
+              args.query.cursor,
+              args.query.throughEntryId,
+              args.query.view === "conversation",
+            )
+              |> map(%, (page) =>
+                args.query.compactIds === "1" ? { ...page, idTable: true as const } : page,
+              )
+              |> traceLocalHandlerWork(%)
+              |> Effect.catch(
+                %, effect (cause) => {
+                  if (isThreadNotFound(cause))
+                    return try failEnvironmentNotFound("thread_not_found");
+                  return try failEnvironmentInternal(
+                    "orchestration_thread_history_failed",
+                    cause,
+                  );
+                },
+              ));
+        }, "environment.orchestration.threadHistoryPage"),
+      );
+  },
+);

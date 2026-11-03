@@ -60,9 +60,9 @@ import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";
 import * as ThreadLaunch from "./ThreadLaunchService.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as ThreadManagement from "./ThreadManagementService.ts";
-import * as ThreadTitleRegeneration from "./ThreadTitleRegenerationService.ts";
+import * as ThreadTitleRegeneration from "./ThreadTitleRegenerationService.vibe";
 import * as ProviderReplayHarness from "./testkit/ProviderReplayHarness.ts";
-import * as RemoteDelegation from "../peer/RemoteDelegation.ts";
+import * as RemoteDelegation from "../peer/RemoteDelegation.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as Crypto from "@t3tools/shared/Crypto";
 

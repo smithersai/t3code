@@ -23,7 +23,7 @@ import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as McpHttpServer from "../mcp/McpHttpServer.ts";
 import * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
 import * as McpToolAccess from "../mcp/McpToolAccess.ts";
-import * as PeerLinks from "./PeerLinks.ts";
+import * as PeerLinks from "./PeerLinks.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import {
   descriptorOf,
@@ -31,7 +31,7 @@ import {
   servePeer,
   type ServedPeer,
 } from "./PeerLinks.testkit.ts";
-import * as PeerMcpClient from "./PeerMcpClient.ts";
+import * as PeerMcpClient from "./PeerMcpClient.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 /** What B's probe saw: the calling client and the modes it may start work with. */

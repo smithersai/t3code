@@ -20,7 +20,7 @@ import * as ProviderTurnStart from "./ProviderTurnStartService.ts";
 import * as RunFinalization from "./RunFinalizationService.ts";
 import * as RuntimeRequests from "./RuntimeRequestService.ts";
 import * as ThreadManagement from "./ThreadManagementService.ts";
-import * as ThreadTitles from "./ThreadTitleRegenerationService.ts";
+import * as ThreadTitles from "./ThreadTitleRegenerationService.vibe";
 
 it.effect.each([
   ["starts the next turn after a post-capture Git status failure", false],
