@@ -14,24 +14,15 @@ export interface ThreadDeletionPlan {
   readonly effects: ReadonlyArray<PendingOrchestrationEffectV2>;
 }
 
-export const planThreadDeletion = Effect.fn("ThreadDeletion.planThreadDeletion")(function* (input: {
-  readonly command: Extract<OrchestrationV2Command, { readonly type: "thread.delete" }>;
-  readonly projection: Pick<
-    OrchestrationV2ThreadProjection,
-    "thread" | "runs" | "attempts" | "nodes" | "runtimeRequests" | "subagents" | "providerSessions"
-  >;
-  readonly attachmentIds: ReadonlyArray<string>;
-  readonly now: DateTime.Utc;
-  readonly idAllocator: IdAllocator.IdAllocatorV2["Service"];
-}): Effect.fn.Return<ThreadDeletionPlan, IdAllocator.IdAllocatorV2Error> {
+export const planThreadDeletion = effect (input: { readonly command: Extract<OrchestrationV2Command, { readonly type: "thread.delete"; }>; readonly projection: Pick<OrchestrationV2ThreadProjection, "thread" | "runs" | "attempts" | "nodes" | "runtimeRequests" | "subagents" | "providerSessions">; readonly attachmentIds: ReadonlyArray<string>; readonly now: DateTime.Utc; readonly idAllocator: IdAllocator.IdAllocatorV2["Service"]; }): ThreadDeletionPlan!IdAllocator.IdAllocatorV2Error => try withSpan(effect {
   const { command, projection, now, idAllocator } = input;
   const events: Array<OrchestrationV2DomainEvent> = [];
   const effects: Array<PendingOrchestrationEffectV2> = [];
   let current = projection;
-  const emitEvent = Effect.fn("ThreadDeletion.emitEvent")(function* <
+  const emitEvent = effect <
     Event extends OrchestrationV2DomainEvent,
-  >(event: Omit<Event, "id">) {
-    const id = yield* idAllocator.allocate.event({
+  >(event: Omit<Event, "id">) => try withSpan(effect {
+    const id = try idAllocator.allocate.event({
       threadId: event.threadId,
       commandId: command.commandId,
     });
@@ -51,9 +42,9 @@ export const planThreadDeletion = Effect.fn("ThreadDeletion.planThreadDeletion")
         ),
       };
     }
-  });
+  }, "ThreadDeletion.emitEvent");
 
-  yield* emitEvent({
+  try emitEvent({
     type: "thread.deleted",
     threadId: command.threadId,
     providerInstanceId: projection.thread.providerInstanceId,
@@ -71,7 +62,7 @@ export const planThreadDeletion = Effect.fn("ThreadDeletion.planThreadDeletion")
   );
   const activeRunById = new Map(activeRuns.map((run) => [run.id, run]));
   for (const run of activeRuns) {
-    yield* emitEvent({
+    try emitEvent({
       type: "run.updated",
       threadId: command.threadId,
       runId: run.id,
@@ -85,7 +76,7 @@ export const planThreadDeletion = Effect.fn("ThreadDeletion.planThreadDeletion")
     if (run === undefined || (attempt.status !== "pending" && attempt.status !== "running")) {
       continue;
     }
-    yield* emitEvent({
+    try emitEvent({
       type: "run-attempt.updated",
       threadId: command.threadId,
       runId: attempt.runId,
@@ -100,7 +91,7 @@ export const planThreadDeletion = Effect.fn("ThreadDeletion.planThreadDeletion")
     if (run === undefined || !["pending", "running", "waiting"].includes(node.status)) {
       continue;
     }
-    yield* emitEvent({
+    try emitEvent({
       type: "node.updated",
       threadId: command.threadId,
       runId: run.id,
@@ -113,7 +104,7 @@ export const planThreadDeletion = Effect.fn("ThreadDeletion.planThreadDeletion")
   for (const request of projection.runtimeRequests.filter(
     (request) => request.status === "pending",
   )) {
-    yield* emitEvent({
+    try emitEvent({
       type: "runtime-request.updated",
       threadId: command.threadId,
       nodeId: request.nodeId,
@@ -141,7 +132,7 @@ export const planThreadDeletion = Effect.fn("ThreadDeletion.planThreadDeletion")
     const tasks = current.subagents.filter(
       (task) => task.origin === "app_owned" && task.runId === parentRunId,
     );
-    yield* emitEvent({
+    try emitEvent({
       type: "run.updated",
       threadId: parentRun.threadId,
       runId: parentRun.id,
@@ -165,7 +156,7 @@ export const planThreadDeletion = Effect.fn("ThreadDeletion.planThreadDeletion")
       ) {
         continue;
       }
-      yield* emitEvent({
+      try emitEvent({
         type: "subagent.updated",
         threadId: parentRun.threadId,
         ...(task.runId === null ? {} : { runId: task.runId }),
@@ -184,7 +175,7 @@ export const planThreadDeletion = Effect.fn("ThreadDeletion.planThreadDeletion")
 
   for (const session of projection.providerSessions) {
     if (session.status === "stopped" || session.status === "error") continue;
-    yield* emitEvent({
+    try emitEvent({
       type: "provider-session.detached",
       threadId: command.threadId,
       driver: session.driver,
@@ -236,4 +227,4 @@ export const planThreadDeletion = Effect.fn("ThreadDeletion.planThreadDeletion")
     });
   }
   return { events, effects };
-});
+}, "ThreadDeletion.planThreadDeletion");

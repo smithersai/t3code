@@ -9,7 +9,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 
 import * as EventStore from "../../orchestration-v2/EventStore.ts";
 import * as ProjectionStore from "../../orchestration-v2/ProjectionStore.ts";
-import * as ProjectionMaintenance from "../../orchestration-v2/ProjectionMaintenance.ts";
+import * as ProjectionMaintenance from "../../orchestration-v2/ProjectionMaintenance.vibe";
 import { listLinkedPullRequestThreads } from "../../pullRequest/linkedThreads.ts";
 import { runMigrations } from "../Migrations.vibe";
 

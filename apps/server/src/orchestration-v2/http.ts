@@ -36,7 +36,7 @@ import {
   buildActiveShellSnapshot,
   loadShellSnapshotParts,
   shellSnapshotForSubscriber,
-} from "./ShellStream.ts";
+} from "./ShellStream.vibe";
 import { boundedSnapshotResponseFields } from "./ThreadStream.ts";
 import { projectThreadProjectionForWire } from "./WireProjection.ts";
 

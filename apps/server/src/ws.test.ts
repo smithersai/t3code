@@ -70,7 +70,7 @@ import * as ProviderRegistry from "./provider/ProviderRegistry.ts";
 import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.ts";
 import * as PullRequestReviewGuideService from "./pullRequest/PullRequestReviewGuideService.ts";
 import * as PullRequestService from "./pullRequest/PullRequestService.ts";
-import * as PullRequestSyncReactor from "./orchestration-v2/PullRequestSyncReactor.ts";
+import * as PullRequestSyncReactor from "./orchestration-v2/PullRequestSyncReactor.vibe";
 import * as RelayClient from "@t3tools/shared/relayClient";
 import * as RemoteOpenTargets from "./environment/RemoteOpenTargets.ts";
 import * as RepositoryIdentityResolver from "./project/RepositoryIdentityResolver.ts";
@@ -108,7 +108,7 @@ import * as Keybindings from "./keybindings.ts";
 import * as ServerSettings from "./serverSettings.ts";
 
 import * as EventStore from "./orchestration-v2/EventStore.ts";
-import * as ProjectionMaintenance from "./orchestration-v2/ProjectionMaintenance.ts";
+import * as ProjectionMaintenance from "./orchestration-v2/ProjectionMaintenance.vibe";
 import * as ProjectionStore from "./orchestration-v2/ProjectionStore.ts";
 import * as ThreadManagement from "./orchestration-v2/ThreadManagementService.ts";
 import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";

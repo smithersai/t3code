@@ -9,7 +9,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 import { isSqlError } from "effect/sql/SqlError";
 
 import * as EventStore from "../orchestration-v2/EventStore.ts";
-import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.ts";
+import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.vibe";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import { rebuildMessageSearch } from "../orchestration-v2/messageSearchIndex.vibe";
 

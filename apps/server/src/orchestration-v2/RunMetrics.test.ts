@@ -24,7 +24,7 @@ import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as EventSink from "./EventSink.ts";
 import * as EventStore from "./EventStore.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
-import { makeRunOutcomeRecorder } from "./RunMetrics.ts";
+import { makeRunOutcomeRecorder } from "./RunMetrics.vibe";
 
 const at = (iso: string) => DateTime.makeUnsafe(iso);
 const threadId = ThreadId.make("thread:metrics");

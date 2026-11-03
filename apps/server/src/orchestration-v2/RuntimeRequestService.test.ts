@@ -13,7 +13,7 @@ import * as Layer from "effect/Layer";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderSessionManager from "./ProviderSessionManager.ts";
-import * as RuntimeRequestService from "./RuntimeRequestService.ts";
+import * as RuntimeRequestService from "./RuntimeRequestService.vibe";
 
 it.effect.each(["expired", "resolved"] as const)(
   "responds only to resolved requests and preserves feedback (%s)",

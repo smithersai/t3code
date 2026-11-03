@@ -14,7 +14,7 @@ import * as EffectOutbox from "./EffectOutbox.ts";
 import * as EventSink from "./EventSink.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.ts";
+import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 
 it("uses the thread provider for stale background work without provider threads", async () => {

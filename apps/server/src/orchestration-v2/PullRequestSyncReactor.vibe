@@ -17,18 +17,11 @@ import {
   visibleThreadPullRequests,
 } from "../sourceControl/threadPullRequests.ts";
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts";
-import * as Cause from "effect/Cause";
-import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
 import * as Crypto from "@t3tools/shared/Crypto";
-import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Schema from "effect/Schema";
-import * as Schedule from "effect/Schedule";
 import type * as Scope from "effect/Scope";
-import * as Semaphore from "effect/Semaphore";
-import * as Stream from "effect/Stream";
 
 import * as GitManager from "../git/GitManager.ts";
 import { PullRequestProviderError } from "@t3tools/source-control-core/server/PullRequestProvider";
@@ -282,12 +275,12 @@ function sameLayerNumbers(left: ThreadPullRequestStack, right: ThreadPullRequest
   );
 }
 
-function skipReason(cause: Cause.Cause<unknown>): string {
+function skipReason(cause: Cause<unknown>): string {
   const error = Cause.squash(cause);
   return error instanceof Error ? error.message : String(error);
 }
 
-function rateLimitRetryAt(cause: Cause.Cause<unknown>): number | undefined {
+function rateLimitRetryAt(cause: Cause<unknown>): number | undefined {
   let error: unknown = Cause.squash(cause);
   while (error instanceof Error) {
     if (isPullRequestProviderError(error) && error.reason === "rate-limited") return error.retryAt;
@@ -300,23 +293,22 @@ function isUnsettled(thread: ProjectionStore.ProjectionThreadPullRequests): bool
   return thread.settledOverride !== "settled" && thread.settledAt === null;
 }
 
-export class PullRequestSyncReactor extends Context.Service<
-  PullRequestSyncReactor,
-  {
-    readonly start: () => Effect.Effect<void, never, Scope.Scope>;
-    readonly drain: Effect.Effect<void>;
+export service PullRequestSyncReactor: {
+    readonly start: () => void!never!Scope.Scope;
+    readonly drain: void!!;
     /** Forces reread on the next sweep, including terminal snapshots; rate-limited hosts wait until the pause ends. */
-    readonly requestSync: (key: ThreadPullRequestKey) => Effect.Effect<void>;
-  }
->()("t3/orchestration-v2/PullRequestSyncReactor") {}
+    readonly requestSync: (key: ThreadPullRequestKey) => void!!;
+  } {
+  static readonly key = "t3/orchestration-v2/PullRequestSyncReactor"
+}
 
 /** @public */
-export const make = Effect.gen(function* () {
-  const engine = yield* Orchestrator.OrchestratorV2;
-  const projections = yield* ProjectionStore.ProjectionStoreV2;
-  const pullRequests = yield* PullRequestService.PullRequestService;
-  const git = yield* GitManager.GitManager;
-  const crypto = yield* Crypto.Crypto;
+export const make = effect {
+  const engine = try Orchestrator.OrchestratorV2;
+  const projections = try ProjectionStore.ProjectionStoreV2;
+  const pullRequests = try PullRequestService.PullRequestService;
+  const git = try GitManager.GitManager;
+  const crypto = try Crypto.Crypto;
 
   const lastSyncedAt = new Map<string, number>();
   const requested = new Set<string>();
@@ -356,20 +348,20 @@ export const make = Effect.gen(function* () {
 
   const logSkipped =
     (message: string, fields: Record<string, unknown>) =>
-    <E>(cause: Cause.Cause<E>): Effect.Effect<void, E> =>
-      Cause.hasInterruptsOnly(cause) ? Effect.failCause(cause) : Effect.logWarning(message, fields);
+    <E>(cause: Cause<E>): void!E =>
+      Cause.hasInterruptsOnly(cause) ? failCause(cause) : logWarning(message, fields);
 
-  const sweep = Effect.fn("PullRequestSyncReactor.sweep")(function* (scope: "all" | "requested") {
-    const threads = yield* projections.getThreadsWithPullRequests();
-    const now = yield* DateTime.now;
+  const sweep = effect (scope: "all" | "requested") => try withSpan(effect {
+    const threads = try projections.getThreadsWithPullRequests();
+    const now = try DateTime.now;
     const nowMs = DateTime.toEpochMillis(now);
     const nowIso = DateTime.formatIso(now);
 
     const groups = new Map<string, Array<LinkEntry>>();
     for (const thread of threads) {
-      for (const link of visibleThreadPullRequests(thread.pullRequests ?? [])) {
+      for (const link of try orDie(Effect.try({ try: () => visibleThreadPullRequests(thread.pullRequests ?? []), catch: (error) => error }))) {
         // Reads depend on the project's checkout and credentials, including their failures.
-        const key = `${thread.projectId}\0${threadPullRequestKeyOf(link)}`;
+        const key = `${thread.projectId}\0${try orDie(Effect.try({ try: () => threadPullRequestKeyOf(link), catch: (error) => error }))}`;
         const entries = groups.get(key) ?? [];
         entries.push({ thread, link });
         groups.set(key, entries);
@@ -378,7 +370,7 @@ export const make = Effect.gen(function* () {
 
     // A host-level refresh reaches every project, each retaining its own pending retry.
     for (const [key, entries] of groups) {
-      if (pendingRequests.has(threadPullRequestKeyOf(entries[0]!.link))) requested.add(key);
+      if (pendingRequests.has(try orDie(Effect.try({ try: () => threadPullRequestKeyOf(entries[0]!.link), catch: (error) => error })))) requested.add(key);
     }
     pendingRequests.clear();
 
@@ -390,13 +382,13 @@ export const make = Effect.gen(function* () {
     // Fresh stack reads by group, so a member flagged by a sibling is compared against what the
     // host answered this sweep, not the saved layers that sibling is about to replace.
     const stacksReadThisSweep = new Map<string, ThreadPullRequestStack | null>();
-    const persistence = yield* Semaphore.make(1);
+    const persistence = try Semaphore.make(1);
 
-    const syncEntry = Effect.fn("PullRequestSyncReactor.syncEntry")(function* (
+    const syncEntry = effect (
       entry: LinkEntry,
       fields: SnapshotFields,
-      fetchedStack: { readonly stack: ThreadPullRequestStack | null } | null,
-    ) {
+      fetchedStack: { readonly stack: ThreadPullRequestStack | null; } | null,
+    ) => try withSpan(effect {
       const { thread, link } = entry;
       const nextStack = fetchedStack === null ? link.stack : fetchedStack.stack;
       const changed =
@@ -406,11 +398,11 @@ export const make = Effect.gen(function* () {
       // Persist siblings before terminal snapshots trigger settlement; settled threads get snapshots without new links.
       for (const layer of isUnsettled(thread) ? (fetchedStack?.stack?.layers ?? []) : []) {
         const layerKey = {
-          host: normalizeThreadPullRequestKey(link).host,
+          host: (try orDie(Effect.try({ try: () => normalizeThreadPullRequestKey(link), catch: (error) => error }))).host,
           repository: link.repository,
           number: layer.number,
         };
-        const dedupeKey = `${thread.id}:${threadPullRequestKeyOf(layerKey)}`;
+        const dedupeKey = `${thread.id}:${try orDie(Effect.try({ try: () => threadPullRequestKeyOf(layerKey), catch: (error) => error }))}`;
         if (linkedThisSweep.has(dedupeKey)) continue;
         // Tombstones count as present: a dismissed layer is never re-added.
         if (
@@ -422,8 +414,8 @@ export const make = Effect.gen(function* () {
         }
         const url = siblingChangeRequestUrl(link.url, layer.number);
         if (url === null) continue;
-        const uuid = yield* crypto.randomUUIDv4();
-        yield* engine.dispatch({
+        const uuid = try crypto.randomUUIDv4();
+        try engine.dispatch({
           type: "thread.pull-request.link",
           commandId: CommandId.make(`server:pr-stack-link:${thread.id}:${uuid}`),
           threadId: thread.id,
@@ -434,28 +426,28 @@ export const make = Effect.gen(function* () {
         linkedThisSweep.add(dedupeKey);
       }
       if (changed) {
-        const uuid = yield* crypto.randomUUIDv4();
-        yield* engine.dispatch({
+        const uuid = try crypto.randomUUIDv4();
+        try engine.dispatch({
           type: "thread.pull-request-link.sync",
           commandId: CommandId.make(`server:pr-sync:${thread.id}:${uuid}`),
           threadId: thread.id,
-          host: normalizeThreadPullRequestKey(link).host,
+          host: (try orDie(Effect.try({ try: () => normalizeThreadPullRequestKey(link), catch: (error) => error }))).host,
           repository: link.repository,
           number: link.number,
           snapshot: { ...fields, syncedAt: nowIso },
           stack: nextStack,
         });
       }
-    });
+    }, "PullRequestSyncReactor.syncEntry");
 
-    const syncGroup = Effect.fn("PullRequestSyncReactor.syncGroup")(function* (
+    const syncGroup = effect (
       key: string,
-      entries: ReadonlyArray<LinkEntry>,
-    ) {
+      entries: readonly LinkEntry[],
+    ) => try withSpan(effect {
       const first = entries[0]!;
       const ref = {
         projectId: first.thread.projectId,
-        host: normalizeThreadPullRequestKey(first.link).host,
+        host: (try orDie(Effect.try({ try: () => normalizeThreadPullRequestKey(first.link), catch: (error) => error }))).host,
         repository: first.link.repository,
         number: first.link.number,
       };
@@ -467,8 +459,8 @@ export const make = Effect.gen(function* () {
       );
       // A stack retry reads past the cache, or it could get back the layer list it is retrying.
       const invalidated = refreshRequested || missingMergedAt || retryStacks.has(key);
-      if (invalidated) yield* pullRequests.invalidate({ reference: ref });
-      const summary = yield* pullRequests.summary(ref, { recoverTransientFailure: false });
+      if (invalidated) try pullRequests.invalidate({ reference: ref });
+      const summary = try pullRequests.summary(ref, { recoverTransientFailure: false });
       const fields = snapshotFieldsOf(summary);
       const needsStack =
         refreshRequested ||
@@ -484,7 +476,7 @@ export const make = Effect.gen(function* () {
         summary.stack === null && entries.every((entry) => entry.link.stack === null);
       // A sibling can flag this group while its summary read is in flight.
       if (!invalidated && retryStacks.has(key) && !knownUnstacked) {
-        yield* pullRequests.invalidate({ reference: ref });
+        try pullRequests.invalidate({ reference: ref });
       }
       // The retry this read answers is consumed before the read, not after it: a sibling may
       // flag this group again while the read is in flight, and that flag must survive to the
@@ -494,22 +486,20 @@ export const make = Effect.gen(function* () {
         ? null
         : knownUnstacked
           ? { stack: null }
-          : yield* pullRequests.stack(ref, { includeDetails: false }).pipe(
-              Effect.map((stack) => ({
+          : try (pullRequests.stack(ref, { includeDetails: false })
+              |> map(%, (stack) => ({
                 stack: stack === null ? null : ({ kind: "native", ...stack } as const),
-              })),
-              Effect.catchCauseIf(
-                (cause) => !Cause.hasInterruptsOnly(cause),
+              }))
+              |> catchCauseIf(
+                %, (cause) => !Cause.hasInterruptsOnly(cause),
                 (cause) =>
                   rateLimitRetryAt(cause) !== undefined
-                    ? Effect.sync(() => retryStacks.add(key)).pipe(
-                        Effect.andThen(Effect.failCause(cause)),
-                      )
-                    : Effect.logWarning("pull request stack lookup failed", {
+                    ? (effect { return retryStacks.add(key) }
+                        |> andThen(%, failCause(cause)))
+                    : (logWarning("pull request stack lookup failed", {
                         key,
-                      }).pipe(Effect.as(null)),
-              ),
-            );
+                      }) |> as(%, null)),
+              ));
       if (needsStack) {
         if (fetchedStack === null) {
           retryStacks.add(key);
@@ -540,27 +530,26 @@ export const make = Effect.gen(function* () {
       // The host answered, so the cadence clock ticks even if a dispatch below is rejected.
       lastSyncedAt.set(key, nowMs);
       requested.delete(key);
-      yield* Effect.forEach(
+      try forEach(
         entries,
         (entry) =>
-          syncEntry(entry, fields, fetchedStack).pipe(
-            persistence.withPermits(1),
-            Effect.catchCause((cause) => {
+          syncEntry(entry, fields, fetchedStack)
+            |> persistence.withPermits(1)(%)
+            |> catchCause(%, (cause) => {
               if (!Cause.hasInterruptsOnly(cause)) retryStacks.add(key);
               return logSkipped("pull request sync skipped", { threadId: entry.thread.id, key })(
                 cause,
               );
             }),
-          ),
         { discard: true },
       );
-    });
+    }, "PullRequestSyncReactor.syncGroup");
 
     const skips = new Map<string, { count: number; readonly key: string }>();
     const readGroup = (key: string, entries: ReadonlyArray<LinkEntry>, pauseKey: string) =>
-      syncGroup(key, entries).pipe(
-        Effect.catchCause((cause) => {
-          if (Cause.hasInterruptsOnly(cause)) return Effect.failCause(cause);
+      syncGroup(key, entries)
+        |> catchCause(%, (cause) => {
+          if (Cause.hasInterruptsOnly(cause)) return failCause(cause);
           const retryAt = rateLimitRetryAt(cause);
           if (retryAt !== undefined) {
             pausedUntil.set(pauseKey, Math.max(retryAt, pausedUntil.get(pauseKey) ?? 0));
@@ -570,9 +559,8 @@ export const make = Effect.gen(function* () {
           if (skip === undefined) skips.set(reason, { count: 1, key });
           else skip.count += 1;
           return Effect.void;
-        }),
-      );
-    yield* Effect.forEach(
+        });
+    try forEach(
       groups,
       ([key, entries]) => {
         if (!((scope === "all" || requested.has(key)) && isDue(key, entries, nowMs))) {
@@ -581,35 +569,34 @@ export const make = Effect.gen(function* () {
         const first = entries[0]!;
         const pauseKey = `${first.thread.projectId}\0${normalizeThreadPullRequestKey(first.link).host}`;
         // Check pauses at each read so changes during the sweep apply immediately.
-        return Clock.currentTimeMillis.pipe(
-          Effect.flatMap((startedAtMs) =>
+        return Clock.currentTimeMillis
+          |> flatMap(%, (startedAtMs) =>
             (pausedUntil.get(pauseKey) ?? 0) > startedAtMs
               ? Effect.void
               : readGroup(key, entries, pauseKey),
-          ),
-        );
+          );
       },
       // Match summary batch width so GitHub reads coalesce into one request.
       { concurrency: 25, discard: true },
     );
     for (const [reason, { count, key }] of skips) {
-      yield* Effect.logWarning("pull request sync skipped", { count, key, reason });
+      try logWarning("pull request sync skipped", { count, key, reason });
     }
-  });
+  }, "PullRequestSyncReactor.sweep");
 
-  const worker = yield* makeDrainableWorker((scope: "all" | "requested") =>
-    Effect.suspend(() => {
+  const worker = try makeDrainableWorker((scope: "all" | "requested") =>
+    suspend(() => {
       if (scope === "requested") requestedSweepQueued = false;
       return sweep(scope);
-    }).pipe(Effect.catchCause(logSkipped("pull request sync sweep failed", {}))),
+    }) |> catchCause(%, logSkipped("pull request sync sweep failed", {})),
   );
 
   // Threads that ran a close command this run, with the commands already read for.
   const closeCommands = new Map<ThreadId, Set<string>>();
   const refreshOpenLinks = (threadId: ThreadId) =>
-    projections.getThreadsWithPullRequests(threadId).pipe(
-      Effect.flatMap((threads) =>
-        Effect.forEach(
+    projections.getThreadsWithPullRequests(threadId)
+      |> flatMap(%, (threads) =>
+        forEach(
           threads.flatMap((thread) =>
             visibleThreadPullRequests(thread.pullRequests ?? []).filter(
               (link) => link.snapshot?.state === "open",
@@ -618,58 +605,50 @@ export const make = Effect.gen(function* () {
           requestSync,
           { discard: true },
         ),
-      ),
-      Effect.catchCause(logSkipped("pull request refresh after run skipped", { threadId })),
-    );
+      )
+      |> catchCause(%, logSkipped("pull request refresh after run skipped", { threadId }));
 
   // An agent that opens a pull request from a shell gets it linked as link_pull_request would.
-  const linkCreatedChangeRequests = Effect.fn("PullRequestSyncReactor.linkCreatedChangeRequests")(
-    function* (threadId: ThreadId, item: CommandExecution) {
-      if (isOrchestrationV2WorkActive(item.status)) return;
-      yield* Effect.forEach(
-        changeRequestsCreatedBy(item.input, item.output ?? ""),
-        (created) =>
-          engine
-            .dispatch({
-              type: "thread.pull-request.link",
-              // Stable per command, so a repeated settlement cannot relink one the user unlinked.
-              commandId: CommandId.make(
-                `server:pr-created-link:${threadId}:${item.id}:${threadPullRequestKeyOf(created)}`,
-              ),
-              threadId,
-              ...created,
-              source: "created",
-            })
-            .pipe(
-              Effect.catchCause(
-                logSkipped("linking a pull request a command created failed", { threadId }),
-              ),
+  const linkCreatedChangeRequests = effect (threadId: string & import("effect/Brand").Brand<"ThreadId">, item: { readonly toolNonExecutionKind?: string | undefined; readonly toolSurface?: "browser" | "computer" | undefined; readonly toolIcon?: { readonly _tag: "native-app"; readonly app: { readonly _tag: "app-id"; readonly appId: string; } | { readonly _tag: "display-name"; readonly displayName: string; }; } | { readonly _tag: "themed-logo"; readonly logoUrl: string; readonly logoUrlDark?: string | undefined; } | { readonly _tag: "website"; readonly pageUrl: string; readonly faviconUrl?: string | undefined; readonly faviconUrlDark?: string | undefined; } | undefined; readonly toolSource?: { readonly key: string; readonly name: string; readonly kind: "browser" | "computer" | "integration"; readonly icon?: { readonly _tag: "native-app"; readonly app: { readonly _tag: "app-id"; readonly appId: string; } | { readonly _tag: "display-name"; readonly displayName: string; }; } | { readonly _tag: "themed-logo"; readonly logoUrl: string; readonly logoUrlDark?: string | undefined; } | { readonly _tag: "website"; readonly pageUrl: string; readonly faviconUrl?: string | undefined; readonly faviconUrlDark?: string | undefined; } | undefined; } | undefined; readonly id: string & import("effect/Brand").Brand<"TurnItemId">; readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; readonly runId: (string & import("effect/Brand").Brand<"RunId">) | null; readonly nodeId: (string & import("effect/Brand").Brand<"NodeId">) | null; readonly providerThreadId: (string & import("effect/Brand").Brand<"ProviderThreadId">) | null; readonly providerTurnId: (string & import("effect/Brand").Brand<"ProviderTurnId">) | null; readonly nativeItemRef: { readonly driver: string & import("effect/Brand").Brand<"ProviderDriverKind">; readonly nativeId: string | null; readonly strength: "none" | "strong" | "weak"; readonly fingerprint?: string | undefined; readonly ordinal?: number | undefined; } | null; readonly parentItemId: (string & import("effect/Brand").Brand<"TurnItemId">) | null; readonly ordinal: number; readonly status: "cancelled" | "completed" | "failed" | "idle" | "interrupted" | "pending" | "running" | "waiting"; readonly title: string | null; readonly startedAt: DateTime.Utc | null; readonly completedAt: DateTime.Utc | null; readonly updatedAt: DateTime.Utc; readonly type: "command_execution"; readonly input: string; readonly output?: string | undefined; readonly outputOmitted?: boolean | undefined; readonly outputIndicatesFailure?: boolean | undefined; readonly exitCode?: number | undefined; readonly monitor?: boolean | undefined; }) => try withSpan(effect {
+    if (try orDie(Effect.try({ try: () => isOrchestrationV2WorkActive(item.status), catch: (error) => error }))) return;
+    try forEach(
+      changeRequestsCreatedBy(item.input, item.output ?? ""),
+      (created) =>
+        engine
+          .dispatch({
+            type: "thread.pull-request.link",
+            // Stable per command, so a repeated settlement cannot relink one the user unlinked.
+            commandId: CommandId.make(
+              `server:pr-created-link:${threadId}:${item.id}:${threadPullRequestKeyOf(created)}`,
             ),
-        { discard: true },
-      );
-    },
-  );
+            threadId,
+            ...created,
+            source: "created",
+          })
+            |> catchCause(
+              %, logSkipped("linking a pull request a command created failed", { threadId }),
+            ),
+      { discard: true },
+    );
+  }, "PullRequestSyncReactor.linkCreatedChangeRequests");
 
-  const start: PullRequestSyncReactor["Service"]["start"] = Effect.fn(
-    "PullRequestSyncReactor.start",
-  )(function* () {
+  const start: PullRequestSyncReactor["Service"]["start"] = effect () => try withSpan(effect {
     const events = engine.streamDomainEvents;
     const stateChanges = Stream.merge(
-      yield* pullRequests.subscribeStateChanges,
-      yield* git.subscribePullRequestStateChanges,
+      try pullRequests.subscribeStateChanges,
+      try git.subscribePullRequestStateChanges,
     );
-    yield* forkParked(
-      Stream.runForEach(stateChanges, requestSync).pipe(
-        Effect.catchCause(logSkipped("pull request state change stream failed", {})),
-      ),
+    try forkParked(
+      Stream.runForEach(stateChanges, requestSync)
+        |> catchCause(%, logSkipped("pull request state change stream failed", {})),
     );
-    yield* forkParked(
+    try forkParked(
       Stream.runForEach(events, (event) => {
         switch (event.type) {
           case "thread.pull-request-link-updated":
             return event.payload.snapshot === null ? requestSync(event.payload) : Effect.void;
           case "thread.pull-request-synced":
-            return Effect.forEach(
+            return forEach(
               visibleThreadPullRequests(event.payload.pullRequests ?? []).filter(
                 (link) => link.snapshot === null,
               ),
@@ -689,7 +668,7 @@ export const make = Effect.gen(function* () {
             closeCommands.set(event.threadId, ended);
             if (isOrchestrationV2WorkActive(item.status) || ended.has(item.id)) return linked;
             ended.add(item.id);
-            return Effect.andThen(linked, refreshOpenLinks(event.threadId));
+            return andThen(linked, refreshOpenLinks(event.threadId));
           }
           case "run.updated":
             return isTerminalRunStatus(event.payload.status) && closeCommands.delete(event.threadId)
@@ -698,18 +677,18 @@ export const make = Effect.gen(function* () {
           default:
             return Effect.void;
         }
-      }).pipe(Effect.catchCause(logSkipped("pull request sync event stream failed", {}))),
+      }) |> catchCause(%, logSkipped("pull request sync event stream failed", {})),
     );
-    yield* forkParked(
-      Effect.gen(function* () {
-        yield* worker.enqueue("all");
-        yield* worker.drain;
-      }).pipe(Effect.repeat(Schedule.spaced("1 minute")), Effect.asVoid),
+    try forkParked(
+      (effect {
+        try worker.enqueue("all");
+        try worker.drain;
+      }) |> repeat(%, Schedule.spaced("1 minute")) |> asVoid(%),
     );
-  });
+  }, "PullRequestSyncReactor.start");
 
   const requestSync: PullRequestSyncReactor["Service"]["requestSync"] = (key) =>
-    Effect.suspend(() => {
+    suspend(() => {
       pendingRequests.add(threadPullRequestKeyOf(key));
       if (requestedSweepQueued) return Effect.void;
       requestedSweepQueued = true;
@@ -717,6 +696,6 @@ export const make = Effect.gen(function* () {
     });
 
   return { start, drain: worker.drain, requestSync } satisfies PullRequestSyncReactor["Service"];
-});
+};
 
 export const layer = Layer.effect(PullRequestSyncReactor, make);

@@ -8,15 +8,11 @@ import {
 } from "@t3tools/contracts";
 import { makeDrainableWorker } from "@t3tools/shared/DrainableWorker";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
-import * as Cause from "effect/Cause";
-import * as Context from "effect/Context";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";
-import * as Schedule from "effect/Schedule";
 import type * as Scope from "effect/Scope";
-import * as Stream from "effect/Stream";
 
 import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
 import * as GitManager from "../git/GitManager.ts";
@@ -27,13 +23,11 @@ import { forkParked } from "../serverActivation.ts";
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts";
 import * as Orchestrator from "./Orchestrator.ts";
 
-class ThreadPullRequestServiceV2 extends Context.Service<
-  ThreadPullRequestServiceV2,
-  {
-    readonly start: () => Effect.Effect<void, never, Scope.Scope>;
-    readonly drain: Effect.Effect<void>;
-  }
->()("t3/orchestration-v2/ThreadPullRequestService/ThreadPullRequestServiceV2") {}
+service ThreadPullRequestServiceV2 {
+  static readonly key = "t3/orchestration-v2/ThreadPullRequestService/ThreadPullRequestServiceV2"
+  readonly start: () => void!!Scope.Scope;
+  readonly drain: void!!;
+}
 
 function samePullRequest(
   left: ThreadLinkedPullRequest | null | undefined,
@@ -60,22 +54,20 @@ function pullRequestMatchesProject(
   );
 }
 
-const resolveProjectForPullRequestDiscovery = Effect.fn(
-  "ThreadPullRequestServiceV2.resolveProject",
-)(function* (
-  project: OrchestrationProjectShell,
-  repositoryIdentities: RepositoryIdentityResolver.RepositoryIdentityResolver["Service"],
-  options?: { readonly refresh?: boolean },
-) {
+const resolveProjectForPullRequestDiscovery = effect (
+  project: { readonly id: string & import("effect/Brand").Brand<"ProjectId">; readonly title: string; readonly workspaceRoot: string; readonly repositoryIdentity?: { readonly canonicalKey: string; readonly locator: { source: "git-remote"; remoteName: string; remoteUrl: string; }; readonly webUrl?: string; readonly rootPath?: string; readonly displayName?: string; readonly provider?: string & import("effect/Brand").Brand<"SourceControlProviderKind">; readonly owner?: string; readonly name?: string; readonly origin?: { readonly canonicalKey: string; readonly remoteUrl?: string; readonly displayName?: string; }; } | null | undefined; readonly defaultModelSelection: { readonly instanceId: string & import("effect/Brand").Brand<"ProviderInstanceId">; readonly model: string; readonly options?: readonly { id: string; value: string | boolean; }[]; } | null; readonly defaultThreadEnvMode?: "local" | "worktree" | null | undefined; readonly autoPull?: boolean | undefined; readonly faviconPath?: string | null | undefined; readonly projectIcon?: { kind: "lucide"; name: string; color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "teal" | "violet" | "yellow"; } | { kind: "emoji"; emoji: string; } | { kind: "monogram"; text: string; color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "teal" | "violet" | "yellow"; } | null | undefined; readonly scripts: readonly { id: string; name: string; command: string; icon: "build" | "configure" | "debug" | "lint" | "play" | "test"; runOnWorktreeCreate: boolean; runOnSettle?: boolean | undefined; async?: boolean | undefined; previewUrl?: string | undefined; autoOpenPreview?: boolean | undefined; }[]; readonly createdAt: string; readonly updatedAt: string; },
+  repositoryIdentities: { readonly resolve: (cwd: string, options?: { readonly refresh?: boolean; }) => (import("@t3tools/contracts").RepositoryIdentity | null)!!; },
+  options?: { readonly refresh?: boolean; } | undefined,
+) => try withSpan(effect {
   // Post-turn discovery refreshes 15-minute identity caches because agents may add remotes.
-  const repositoryIdentity = yield* repositoryIdentities.resolve(project.workspaceRoot, {
+  const repositoryIdentity = try repositoryIdentities.resolve(project.workspaceRoot, {
     refresh: options?.refresh ?? false,
   });
   return {
     project: { ...project, repositoryIdentity },
-    repository: sourceControlDefinitions.repositorySelector(repositoryIdentity),
+    repository: try orDie(Effect.try({ try: () => sourceControlDefinitions.repositorySelector(repositoryIdentity), catch: (error) => error })),
   };
-});
+}, "ThreadPullRequestServiceV2.resolveProject");
 
 export function projectWorkspaceMatchesSnapshot(
   currentProject: Option.Option<Pick<OrchestrationProjectShell, "workspaceRoot">>,
@@ -94,15 +86,15 @@ interface RefreshRequest {
   readonly backfill?: boolean;
 }
 
-export const make = Effect.gen(function* () {
-  const orchestrator = yield* Orchestrator.OrchestratorV2;
-  const projectStore = yield* ProjectStore.ProjectStoreV2;
-  const git = yield* GitManager.GitManager;
-  const pullRequests = yield* PullRequestService.PullRequestService;
-  const repositoryIdentities = yield* RepositoryIdentityResolver.RepositoryIdentityResolver;
-  const crypto = yield* Crypto.Crypto;
-  const fileSystem = yield* FileSystem.FileSystem;
-  const backgroundPolicy = yield* BackgroundPolicy.BackgroundPolicy;
+export const make = effect {
+  const orchestrator = try Orchestrator.OrchestratorV2;
+  const projectStore = try ProjectStore.ProjectStoreV2;
+  const git = try GitManager.GitManager;
+  const pullRequests = try PullRequestService.PullRequestService;
+  const repositoryIdentities = try RepositoryIdentityResolver.RepositoryIdentityResolver;
+  const crypto = try Crypto.Crypto;
+  const fileSystem = try FileSystem.FileSystem;
+  const backgroundPolicy = try BackgroundPolicy.BackgroundPolicy;
   const pendingBackfill = new Map<ThreadId, number>();
 
   const finishBackfill = (threads: ReadonlyArray<Pick<OrchestrationV2ThreadShell, "id">>) => {
@@ -119,23 +111,22 @@ export const make = Effect.gen(function* () {
 
   const readThreadSnapshot = ({ threadId, backfill }: RefreshRequest) =>
     threadId === null
-      ? orchestrator
+      ? (orchestrator
           .getShellSnapshot({
             location: "active",
             unsettledOnly: !(backfill || pendingBackfill.size > 0),
-          })
-          .pipe(NodeSqliteClient.readOnly)
-      : Effect.gen(function* () {
+          })|> NodeSqliteClient.readOnly(%))
+      : effect {
           // Read sequence first so guarded sync rejects intervening changes.
-          const snapshotSequence = yield* orchestrator.getThreadEventSequence(threadId);
-          const thread = yield* orchestrator.getThreadShell(threadId);
+          const snapshotSequence = try orchestrator.getThreadEventSequence(threadId);
+          const thread = try orchestrator.getThreadShell(threadId);
           return { snapshotSequence, threads: thread === null ? [] : [thread] };
-        });
+        };
 
-  const synchronize = Effect.fn("ThreadPullRequestServiceV2.synchronize")(function* (
+  const synchronize = effect (
     request: RefreshRequest,
-  ) {
-    const [threadSnapshot, projectShells] = yield* Effect.all([
+  ) => try withSpan(effect {
+    const [threadSnapshot, projectShells] = try all([
       readThreadSnapshot(request),
       projectStore.listShells(),
     ]);
@@ -169,20 +160,20 @@ export const make = Effect.gen(function* () {
       JSON.stringify([thread.projectId, thread.worktreePath, thread.branch]),
     );
 
-    yield* Effect.forEach(
+    try forEach(
       groups.values(),
       (group) =>
-        Effect.gen(function* () {
+        (effect {
           const first = group[0]!;
           const project = projects.get(first.projectId);
           if (project === undefined) return finishBackfill(group);
           const { project: resolvedProject, repository } =
-            yield* resolveProjectForPullRequestDiscovery(project, repositoryIdentities, {
+            try resolveProjectForPullRequestDiscovery(project, repositoryIdentities, {
               refresh: request.refresh,
             });
           if (first.branch !== null && repository === null) return finishBackfill(group);
           const worktreeExists =
-            first.worktreePath !== null && (yield* fileSystem.exists(first.worktreePath));
+            first.worktreePath !== null && (try fileSystem.exists(first.worktreePath));
           const cwd =
             worktreeExists && first.worktreePath !== null
               ? first.worktreePath
@@ -190,7 +181,7 @@ export const make = Effect.gen(function* () {
           const detected =
             first.branch === null
               ? null
-              : yield* git.branchPullRequest(
+              : try git.branchPullRequest(
                   { cwd, branch: first.branch },
                   { refresh: request.refresh },
                 );
@@ -207,8 +198,8 @@ export const make = Effect.gen(function* () {
                 }
               : null;
 
-          const plans = yield* Effect.forEach(group, (thread) =>
-            Effect.gen(function* () {
+          const plans = try forEach(group, (thread) =>
+            (effect {
               let branchPullRequest = detectedReference;
               if (
                 branchPullRequest === null &&
@@ -216,7 +207,7 @@ export const make = Effect.gen(function* () {
                 thread.worktreePath === null &&
                 thread.branchPullRequest != null
               ) {
-                const previous = yield* pullRequests.summary(thread.branchPullRequest, {
+                const previous = try pullRequests.summary(thread.branchPullRequest, {
                   recoverTransientFailure: false,
                 });
                 if (
@@ -235,7 +226,7 @@ export const make = Effect.gen(function* () {
                 detectedReference !== null &&
                 !samePullRequest(thread.linkedPullRequest, detectedReference)
               ) {
-                const linked = yield* pullRequests.summary(thread.linkedPullRequest, {
+                const linked = try pullRequests.summary(thread.linkedPullRequest, {
                   recoverTransientFailure: false,
                 });
                 if (linked.state === "merged" || linked.state === "closed") {
@@ -250,29 +241,27 @@ export const make = Effect.gen(function* () {
                 return null;
               }
               return { thread, branchPullRequest, replacement };
-            }).pipe(
-              Effect.catchCauseIf(
-                (cause) => !Cause.hasInterruptsOnly(cause),
+            })
+              |> catchCauseIf(
+                %, (cause) => !Cause.hasInterruptsOnly(cause),
                 (cause) =>
-                  Effect.logWarning("thread pull request discovery failed", {
+                  logWarning("thread pull request discovery failed", {
                     threadId: thread.id,
                     cause: Cause.pretty(cause),
-                  }).pipe(
-                    Effect.tap(() => Effect.sync(() => failBackfill([thread]))),
-                    Effect.as(null),
-                  ),
+                  })
+                    |> tap(%, effect () => failBackfill([thread]))
+                    |> as(%, null),
               ),
-            ),
           );
           const updates = plans.filter((plan) => plan !== null);
           if (updates.length === 0) return;
 
           if (detected !== null && first.branch !== null) {
-            const current = yield* git.branchPullRequest(
+            const current = try git.branchPullRequest(
               { cwd, branch: first.branch },
               { freshGitState: true },
             );
-            const currentIdentity = yield* repositoryIdentities.resolve(project.workspaceRoot, {
+            const currentIdentity = try repositoryIdentities.resolve(project.workspaceRoot, {
               refresh: true,
             });
             if (
@@ -290,17 +279,17 @@ export const make = Effect.gen(function* () {
             }
           }
 
-          yield* Effect.forEach(
+          try forEach(
             updates,
             ({ thread, branchPullRequest, replacement }) =>
-              Effect.gen(function* () {
+              (effect {
                 // Discovery yields to network I/O; recheck the project at commit to reject deleted projects or changed checkouts.
-                const currentProject = yield* projectStore.getShell(project.id);
+                const currentProject = try projectStore.getShell(project.id);
                 if (!projectWorkspaceMatchesSnapshot(currentProject, project.workspaceRoot)) {
                   return failBackfill([thread]);
                 }
-                const uuid = yield* crypto.randomUUIDv4();
-                yield* orchestrator.dispatch({
+                const uuid = try crypto.randomUUIDv4();
+                try orchestrator.dispatch({
                   type: "thread.pull-request.sync",
                   commandId: CommandId.make(`server:thread-pull-request:${thread.id}:${uuid}`),
                   threadId: thread.id,
@@ -317,43 +306,40 @@ export const make = Effect.gen(function* () {
                   ...(replacement === undefined ? {} : { linkedPullRequest: replacement }),
                 });
                 pendingBackfill.delete(thread.id);
-              }).pipe(
-                Effect.catchCauseIf(
-                  (cause) => !Cause.hasInterruptsOnly(cause),
+              })
+                |> catchCauseIf(
+                  %, (cause) => !Cause.hasInterruptsOnly(cause),
                   (cause) =>
-                    Effect.logWarning("thread pull request update failed", {
+                    logWarning("thread pull request update failed", {
                       threadId: thread.id,
                       cause: Cause.pretty(cause),
-                    }).pipe(Effect.tap(() => Effect.sync(() => failBackfill([thread])))),
+                    }) |> tap(%, effect () => failBackfill([thread])),
                 ),
-              ),
             { discard: true },
           );
-        }).pipe(
-          Effect.catchCauseIf(
-            (cause) => !Cause.hasInterruptsOnly(cause),
+        })
+          |> catchCauseIf(
+            %, (cause) => !Cause.hasInterruptsOnly(cause),
             (cause) =>
-              Effect.logWarning("thread branch pull request lookup failed", {
+              logWarning("thread branch pull request lookup failed", {
                 threadIds: group.map((thread) => thread.id),
                 cause: Cause.pretty(cause),
-              }).pipe(Effect.tap(() => Effect.sync(() => failBackfill(group)))),
+              }) |> tap(%, effect () => failBackfill(group)),
           ),
-        ),
       // Batch concurrent branch lookups into one GitHub GraphQL document.
       { concurrency: 32, discard: true },
     );
-  });
+  }, "ThreadPullRequestServiceV2.synchronize");
 
-  const worker = yield* makeDrainableWorker((request: RefreshRequest) =>
-    synchronize(request).pipe(
-      Effect.catchCauseIf(
-        (cause) => !Cause.hasInterruptsOnly(cause),
+  const worker = try makeDrainableWorker((request: RefreshRequest) =>
+    synchronize(request)
+      |> catchCauseIf(
+        %, (cause) => !Cause.hasInterruptsOnly(cause),
         (cause) =>
-          Effect.logWarning("thread pull request refresh failed", {
+          logWarning("thread pull request refresh failed", {
             cause: Cause.pretty(cause),
           }),
       ),
-    ),
   );
 
   const processEvent = (event: OrchestrationV2DomainEvent) => {
@@ -379,24 +365,22 @@ export const make = Effect.gen(function* () {
     return Effect.void;
   };
 
-  const start: ThreadPullRequestServiceV2["Service"]["start"] = Effect.fn(
-    "ThreadPullRequestServiceV2.start",
-  )(function* () {
-    yield* forkParked(Stream.runForEach(orchestrator.streamDomainEvents, processEvent));
-    yield* forkParked(
-      Effect.gen(function* () {
-        yield* worker.enqueue({ threadId: null, refresh: false, backfill: true });
-        yield* worker.drain;
-        yield* Effect.gen(function* () {
+  const start: ThreadPullRequestServiceV2["Service"]["start"] = effect () => try withSpan(effect {
+    try forkParked(Stream.runForEach(orchestrator.streamDomainEvents, processEvent));
+    try forkParked(
+      effect {
+        try worker.enqueue({ threadId: null, refresh: false, backfill: true });
+        try worker.drain;
+        try ((effect {
           // The sweep only catches pull requests opened outside a turn, which
           // nobody sees without a client. Thread events still refresh headless work.
-          if (!(yield* backgroundPolicy.shouldRunOpportunisticWork)) return;
-          yield* worker.enqueue({ threadId: null, refresh: false });
-          yield* worker.drain;
-        }).pipe(Effect.repeat(Schedule.spaced("1 minute")), Effect.delay("1 minute"));
-      }).pipe(Effect.asVoid),
+          if (!(try backgroundPolicy.shouldRunOpportunisticWork)) return;
+          try worker.enqueue({ threadId: null, refresh: false });
+          try worker.drain;
+        }) |> repeat(%, Schedule.spaced("1 minute")) |> delay(%, "1 minute"));
+      } |> asVoid(%),
     );
-  });
+  }, "ThreadPullRequestServiceV2.start");
 
   return { start, drain: worker.drain } satisfies ThreadPullRequestServiceV2["Service"];
-});
+};

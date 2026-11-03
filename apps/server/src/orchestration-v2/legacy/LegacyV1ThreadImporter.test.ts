@@ -17,7 +17,7 @@ import { listLinkedPullRequestThreads } from "../../pullRequest/linkedThreads.ts
 import * as EventSink from "../EventSink.ts";
 import * as EventStore from "../EventStore.ts";
 import * as LegacyV1ThreadImporter from "./LegacyV1ThreadImporter.ts";
-import * as ProjectionMaintenance from "../ProjectionMaintenance.ts";
+import * as ProjectionMaintenance from "../ProjectionMaintenance.vibe";
 import * as ProjectionStore from "../ProjectionStore.ts";
 
 const layerDatabase = SqlitePersistence.layerMemory;

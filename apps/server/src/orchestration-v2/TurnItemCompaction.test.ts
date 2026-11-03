@@ -27,7 +27,7 @@ import * as Statement from "effect/sql/Statement";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as EventSink from "./EventSink.ts";
 import * as EventStore from "./EventStore.ts";
-import * as ProjectionMaintenance from "./ProjectionMaintenance.ts";
+import * as ProjectionMaintenance from "./ProjectionMaintenance.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
 
 const database = SqlitePersistence.layerMemory;

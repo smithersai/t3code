@@ -21,13 +21,8 @@ import {
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 import type * as Arr from "effect/Array";
 import type * as Cause from "effect/Cause";
-import * as Clock from "effect/Clock";
 import * as DateTime from "effect/DateTime";
-import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
-import * as Queue from "effect/Queue";
-import * as Schema from "effect/Schema";
 import type * as SqlClient from "effect/sql/SqlClient";
 import * as Stream from "effect/Stream";
 
@@ -206,71 +201,49 @@ export function shellSnapshotForSubscriber(
  * because the server shares one SQLite connection and decoding a large shell takes longer than
  * reading it.
  */
-export const loadShellSnapshotParts = Effect.fn("ShellStream.loadShellSnapshotParts")(function* <
+export const loadShellSnapshotParts = effect <
   E1,
   E2,
   E3,
   E4,
->(input: {
-  readonly sql: SqlClient.SqlClient;
-  readonly readThreads: Effect.Effect<Effect.Effect<OrchestrationV2ThreadShellSnapshot, E2>, E1>;
-  readonly listProjects: Effect.Effect<ReadonlyArray<OrchestrationProjectShell>, E3>;
-  readonly latestSequence: Effect.Effect<number, E4>;
-}) {
-  const read = yield* input.sql
+>(input: { readonly sql: SqlClient.SqlClient; readonly readThreads: (OrchestrationV2ThreadShellSnapshot!E2)!E1; readonly listProjects: ReadonlyArray<OrchestrationProjectShell>!E3; readonly latestSequence: number!E4; }) => try withSpan(effect {
+  const read = try (input.sql
     .withTransaction(
-      Effect.all({
+      all({
         decodeThreads: input.readThreads,
         projects: input.listProjects,
         snapshotSequence: input.latestSequence,
       }),
-    )
-    .pipe(NodeSqliteClient.readOnly);
+    )|> NodeSqliteClient.readOnly(%));
   return {
     projects: read.projects,
-    threads: yield* read.decodeThreads,
+    threads: try read.decodeThreads,
     snapshotSequence: read.snapshotSequence,
   };
-});
+}, "ShellStream.loadShellSnapshotParts");
 
 /** A page of older settled threads, read and decoded like `loadShellSnapshotParts`. */
-export const loadOlderSettledThreadsPage = Effect.fn("ShellStream.loadOlderSettledThreadsPage")(
-  function* <E1, E2, E3, E4>(input: {
-    readonly sql: SqlClient.SqlClient;
-    readonly listThreads: Effect.Effect<
-      {
-        readonly threadIds: ReadonlyArray<ThreadId>;
-        readonly counts: ReadonlyArray<OrchestrationV2OlderSettledCount>;
+export const loadOlderSettledThreadsPage = effect <E1, E2, E3, E4>(input: { readonly sql: SqlClient.SqlClient; readonly listThreads: { readonly threadIds: ReadonlyArray<ThreadId>; readonly counts: ReadonlyArray<OrchestrationV2OlderSettledCount>; }!E1; readonly readThreads: (threadIds: ReadonlyArray<ThreadId>) => (OrchestrationV2ThreadShellSnapshot!E3)!E2; readonly latestSequence: number!E4; }) => try withSpan(effect {
+  const read = try (input.sql
+    .withTransaction(
+      effect {
+        const listed = try input.listThreads;
+        return {
+          listed,
+          decodeThreads:
+            listed.threadIds.length === 0 ? null : try input.readThreads(listed.threadIds),
+          snapshotSequence: try input.latestSequence,
+        };
       },
-      E1
-    >;
-    readonly readThreads: (
-      threadIds: ReadonlyArray<ThreadId>,
-    ) => Effect.Effect<Effect.Effect<OrchestrationV2ThreadShellSnapshot, E3>, E2>;
-    readonly latestSequence: Effect.Effect<number, E4>;
-  }) {
-    const read = yield* input.sql
-      .withTransaction(
-        Effect.gen(function* () {
-          const listed = yield* input.listThreads;
-          return {
-            listed,
-            decodeThreads:
-              listed.threadIds.length === 0 ? null : yield* input.readThreads(listed.threadIds),
-            snapshotSequence: yield* input.latestSequence,
-          };
-        }),
-      )
-      .pipe(NodeSqliteClient.readOnly);
-    const threads = read.decodeThreads === null ? [] : (yield* read.decodeThreads).threads;
-    const order = new Map(read.listed.threadIds.map((threadId, index) => [threadId, index]));
-    return {
-      snapshotSequence: read.snapshotSequence,
-      threads: threads.toSorted((left, right) => order.get(left.id)! - order.get(right.id)!),
-      counts: read.listed.counts,
-    };
-  },
-);
+    )|> NodeSqliteClient.readOnly(%));
+  const threads = read.decodeThreads === null ? [] : (try read.decodeThreads).threads;
+  const order = new Map(read.listed.threadIds.map((threadId, index) => [threadId, index]));
+  return {
+    snapshotSequence: read.snapshotSequence,
+    threads: threads.toSorted((left, right) => order.get(left.id)! - order.get(right.id)!),
+    counts: read.listed.counts,
+  };
+}, "ShellStream.loadOlderSettledThreadsPage");
 
 export type ShellApplicationEvent =
   | Pick<
@@ -343,54 +316,52 @@ export function composeShellStreamWithEnrichment<A, E, R, A2, E2, R2, A3, E3, R3
   readonly enrichment: Stream.Stream<A3, E3, R3>;
 }): Stream.Stream<A | A2 | A3, E | E2 | E3, R | R2 | R3> {
   const merged = Stream.fromPull(
-    Effect.gen(function* () {
-      const output = yield* Queue.bounded<
+    effect {
+      const output = try Queue.bounded<
         {
           readonly items: Arr.NonEmptyReadonlyArray<A2 | A3>;
-          readonly acknowledged?: Deferred.Deferred<void>;
+          readonly acknowledged?: Deferred<void>;
         },
         E2 | E3 | Cause.Done
       >(0);
-      yield* Effect.addFinalizer(() => Queue.shutdown(output));
+      try addFinalizer(() => Queue.shutdown(output));
       let remaining = 2;
-      const drain = (effect: Effect.Effect<void, E2 | E3, R2 | R3>) =>
-        effect.pipe(
-          Effect.exit,
-          Effect.flatMap((exit) =>
+      const drain = (effect: void!(E2 | E3)!(R2 | R3)) =>
+        effect
+          |> exit(%)
+          |> flatMap(%, (exit) =>
             Exit.isFailure(exit)
               ? Queue.failCause(output, exit.cause)
               : --remaining === 0
                 ? Queue.end(output)
                 : Effect.void,
-          ),
-          Effect.forkScoped,
-        );
-      yield* drain(
+          )
+          |> forkScoped(%);
+      try drain(
         input.tail.pipe(
-          Stream.runForEachArray((items) =>
-            Effect.gen(function* () {
-              const acknowledged = yield* Deferred.make<void>();
-              yield* Queue.offer(output, { items, acknowledged });
-              yield* Deferred.await(acknowledged);
-            }),
+          Stream.runForEachArray(effect (items) => {
+            const acknowledged = try Deferred.make<void>();
+            try Queue.offer(output, { items, acknowledged });
+            try Deferred.await(acknowledged);
+          },
           ),
         ),
       );
       // Keep draining the sliding enrichment subscription after each handoff,
       // as Stream.merge does, while only the budgeted tail waits for an ACK.
-      yield* drain(
+      try drain(
         input.enrichment.pipe(Stream.runForEachArray((items) => Queue.offer(output, { items }))),
       );
-      let previous: Deferred.Deferred<void> | undefined;
+      let previous: Deferred<void> | undefined;
       // Stream.merge pulls ahead after handing off each batch. Wait for the next
       // downstream pull so shell delivery keeps that batch charged until its RPC ACK.
-      return Effect.gen(function* () {
-        if (previous) yield* Deferred.succeed(previous, undefined);
-        const next = yield* Queue.take(output);
+      return effect {
+        if (previous) try Deferred.succeed(previous, undefined);
+        const next = try Queue.take(output);
         previous = next.acknowledged;
         return next.items;
-      });
-    }),
+      };
+    },
   ).pipe(Stream.scoped);
   return Stream.concat(input.initial, merged);
 }
@@ -511,7 +482,7 @@ export function skipUnchangedThreadShells<A extends OrchestrationV2ShellStreamIt
     >();
     return stream.pipe(
       Stream.filterEffect((item) =>
-        Effect.map(Clock.currentTimeMillis, (now) => {
+        map(Clock.currentTimeMillis, (now) => {
           if (item.kind === "thread.removed") {
             lastSent.delete(item.threadId);
             return true;

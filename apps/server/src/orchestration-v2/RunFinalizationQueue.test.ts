@@ -18,7 +18,7 @@ import * as ProviderSessions from "./ProviderSessionManager.ts";
 import * as ProviderTurnControl from "./ProviderTurnControlService.ts";
 import * as ProviderTurnStart from "./ProviderTurnStartService.ts";
 import * as RunFinalization from "./RunFinalizationService.ts";
-import * as RuntimeRequests from "./RuntimeRequestService.ts";
+import * as RuntimeRequests from "./RuntimeRequestService.vibe";
 import * as ThreadManagement from "./ThreadManagementService.ts";
 import * as ThreadTitles from "./ThreadTitleRegenerationService.ts";
 

@@ -26,7 +26,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 import { replayAndBufferProjectedLiveEvents } from "./LiveStreamBudget.ts";
 import type { UnsequencedProjectEvent } from "../persistence/OrchestrationEventStore.ts";
 import { projectDomainEventForWire } from "./WireProjection.ts";
-import { makeRunOutcomeRecorder, type RunOutcome } from "./RunMetrics.ts";
+import { makeRunOutcomeRecorder, type RunOutcome } from "./RunMetrics.vibe";
 
 import * as CommandReceiptStore from "./CommandReceiptStore.ts";
 import * as EffectOutbox from "./EffectOutbox.ts";

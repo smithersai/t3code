@@ -34,7 +34,7 @@ import {
 } from "@t3tools/shared/paletteSearch";
 import { threadSearchPullRequests } from "@t3tools/shared/threadPullRequests";
 import { indexedMessageCondition } from "./messageSearchIndex.vibe";
-import { loadOlderSettledThreadsPage } from "./ShellStream.ts";
+import { loadOlderSettledThreadsPage } from "./ShellStream.vibe";
 
 // When the user last wrote in the thread aliased `threads`, as the clients
 // rank recency; agent notices in the user role do not count.

@@ -36,7 +36,7 @@ import * as PullRequestService from "../pullRequest/PullRequestService.ts";
 import * as ServerActivation from "../serverActivation.ts";
 import * as Orchestrator from "./Orchestrator.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
-import * as PullRequestSyncReactor from "./PullRequestSyncReactor.ts";
+import * as PullRequestSyncReactor from "./PullRequestSyncReactor.vibe";
 import type { PullRequestTestThread } from "./testkit/pullRequestFixtures.ts";
 
 const NOW = "2026-08-28T12:00:00.000Z";

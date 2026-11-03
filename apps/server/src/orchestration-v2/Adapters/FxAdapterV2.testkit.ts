@@ -17,7 +17,7 @@ import { resolveSelfInvocation } from "@t3tools/shared/nodeRuntime";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import type { ProviderReplayGate } from "@t3tools/provider-testing/replayGate";
-import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import type { OrchestratorV2ProviderReplayHarness } from "../testkit/ProviderReplayHarness.ts";
 import {
   type AcpReplayTranscript,

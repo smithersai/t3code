@@ -1,11 +1,9 @@
 import { ThreadId } from "@t3tools/contracts";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 import * as Context from "effect/Context";
-import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
-import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as EventStore from "./EventStore.ts";
@@ -21,25 +19,20 @@ export interface ProjectionVerificationV2 {
   readonly unexpectedThreadIds: ReadonlyArray<ThreadId>;
 }
 
-export class ProjectionMaintenanceError extends Schema.TaggedError<ProjectionMaintenanceError>()(
-  "ProjectionMaintenanceError",
-  {
-    operation: Schema.String,
-    cause: Schema.optional(Schema.Defect()),
-  },
-) {}
+const ProjectionMaintenanceErrorCauseField = Schema.Defect()
+export schema error ProjectionMaintenanceError {
+  readonly operation: string
+  cause?: ProjectionMaintenanceErrorCauseField
+}
 
 export interface ProjectionMaintenanceV2Shape {
-  readonly verify: Effect.Effect<ProjectionVerificationV2, ProjectionMaintenanceError>;
-  readonly rebuild: Effect.Effect<ProjectionVerificationV2, ProjectionMaintenanceError>;
-  readonly compactEventStore: (betweenPages?: Effect.Effect<void>) => Effect.Effect<
-    {
+  readonly verify: ProjectionVerificationV2!ProjectionMaintenanceError;
+  readonly rebuild: ProjectionVerificationV2!ProjectionMaintenanceError;
+  readonly compactEventStore: (betweenPages?: void!!) => {
       readonly deletedEventCount: number;
       readonly deletedReceiptCount: number;
       readonly reclaimableBytes: number;
-    },
-    ProjectionMaintenanceError
-  >;
+    }!ProjectionMaintenanceError;
 }
 
 export class ProjectionMaintenanceV2 extends Context.Service<
@@ -62,13 +55,13 @@ export const layer: Layer.Layer<
   EventStore.EventStoreV2 | ProjectionStore.ProjectionStoreV2 | SqlClient.SqlClient
 > = Layer.effect(
   ProjectionMaintenanceV2,
-  Effect.gen(function* () {
-    const sql = yield* SqlClient.SqlClient;
-    const eventStore = yield* EventStore.EventStoreV2;
-    const projectionStore = yield* ProjectionStore.ProjectionStoreV2;
+  effect {
+    const sql = try SqlClient.SqlClient;
+    const eventStore = try EventStore.EventStoreV2;
+    const projectionStore = try ProjectionStore.ProjectionStoreV2;
 
-    const verify = Effect.gen(function* () {
-      const expectedThreadRows = yield* sql<{ readonly thread_id: string }>`
+    const verify = effect { return try (effect {
+      const expectedThreadRows = try sql<{ readonly thread_id: string }>`
         SELECT DISTINCT stream_id AS thread_id
         FROM orchestration_events INDEXED BY orchestration_events_v2_created_threads_idx
         WHERE application_event_version = 2
@@ -76,7 +69,7 @@ export const layer: Layer.Layer<
           AND event_type = 'thread.created'
         ORDER BY stream_id ASC
       `;
-      const projectionRows = yield* sql<{ readonly thread_id: string }>`
+      const projectionRows = try sql<{ readonly thread_id: string }>`
         SELECT thread_id
         FROM orchestration_v2_projection_threads
         ORDER BY thread_id ASC
@@ -87,14 +80,14 @@ export const layer: Layer.Layer<
       const expectedSet = new Set(expectedIds);
       const missingThreadIds = expectedIds.filter((threadId) => !actualSet.has(threadId));
       const unexpectedThreadIds = actualIds.filter((threadId) => !expectedSet.has(threadId));
-      const unreadableThreadIds = yield* projectionStore.getUnreadableThreadIds();
-      const metadata = yield* sql<ProjectionMetadataRow>`
+      const unreadableThreadIds = try projectionStore.getUnreadableThreadIds();
+      const metadata = try sql<ProjectionMetadataRow>`
         SELECT schema_version, last_sequence
         FROM orchestration_v2_projection_metadata
         WHERE projection_name = 'thread-projections'
         LIMIT 1
       `;
-      const expectedSequence = yield* eventStore.latestSequence();
+      const expectedSequence = try eventStore.latestSequence();
       const schemaVersion = metadata[0]?.schema_version ?? 0;
       const projectionSequence = metadata[0]?.last_sequence ?? 0;
       return {
@@ -111,41 +104,41 @@ export const layer: Layer.Layer<
         missingThreadIds,
         unexpectedThreadIds,
       } satisfies ProjectionVerificationV2;
-    }).pipe(sql.withTransaction);
+    } |> sql.withTransaction(%)) };
 
-    const rebuild = Effect.gen(function* () {
-      yield* sql.withTransaction(
-        Effect.gen(function* () {
-          const throughSequence = yield* eventStore.latestSequence();
-          yield* sql`DELETE FROM orchestration_v2_projection_context_transfers`;
-          yield* sql`DELETE FROM orchestration_v2_projection_context_handoffs`;
-          yield* sql`DELETE FROM orchestration_v2_projection_checkpoints`;
-          yield* sql`DELETE FROM orchestration_v2_projection_checkpoint_scopes`;
-          yield* sql`DELETE FROM orchestration_v2_projection_turn_items`;
-          yield* sql`DELETE FROM orchestration_v2_projection_plans`;
-          yield* sql`DELETE FROM orchestration_v2_projection_messages`;
-          yield* sql`DELETE FROM orchestration_v2_projection_runtime_requests`;
-          yield* sql`DELETE FROM orchestration_v2_projection_provider_turns`;
-          yield* sql`DELETE FROM orchestration_v2_projection_provider_threads`;
-          yield* sql`DELETE FROM orchestration_v2_projection_provider_session_bindings`;
-          yield* sql`DELETE FROM orchestration_v2_projection_provider_sessions`;
-          yield* sql`DELETE FROM orchestration_v2_projection_subagents`;
-          yield* sql`DELETE FROM orchestration_v2_projection_nodes`;
-          yield* sql`DELETE FROM orchestration_v2_projection_run_attempts`;
-          yield* sql`DELETE FROM orchestration_v2_projection_runs`;
-          yield* sql`DELETE FROM orchestration_v2_projection_threads`;
-          yield* sql`DELETE FROM orchestration_v2_turn_item_positions`;
+    const rebuild = effect {
+      try sql.withTransaction(
+        effect {
+          const throughSequence = try eventStore.latestSequence();
+          try sql`DELETE FROM orchestration_v2_projection_context_transfers`;
+          try sql`DELETE FROM orchestration_v2_projection_context_handoffs`;
+          try sql`DELETE FROM orchestration_v2_projection_checkpoints`;
+          try sql`DELETE FROM orchestration_v2_projection_checkpoint_scopes`;
+          try sql`DELETE FROM orchestration_v2_projection_turn_items`;
+          try sql`DELETE FROM orchestration_v2_projection_plans`;
+          try sql`DELETE FROM orchestration_v2_projection_messages`;
+          try sql`DELETE FROM orchestration_v2_projection_runtime_requests`;
+          try sql`DELETE FROM orchestration_v2_projection_provider_turns`;
+          try sql`DELETE FROM orchestration_v2_projection_provider_threads`;
+          try sql`DELETE FROM orchestration_v2_projection_provider_session_bindings`;
+          try sql`DELETE FROM orchestration_v2_projection_provider_sessions`;
+          try sql`DELETE FROM orchestration_v2_projection_subagents`;
+          try sql`DELETE FROM orchestration_v2_projection_nodes`;
+          try sql`DELETE FROM orchestration_v2_projection_run_attempts`;
+          try sql`DELETE FROM orchestration_v2_projection_runs`;
+          try sql`DELETE FROM orchestration_v2_projection_threads`;
+          try sql`DELETE FROM orchestration_v2_turn_item_positions`;
 
           const pageSize = 500;
           let lastSequence = 0;
           while (true) {
-            const page = yield* eventStore
+            const page = try eventStore
               .read({ afterSequence: lastSequence, throughSequence, limit: pageSize })
               .pipe(Stream.runCollect);
             for (const stored of page) {
-              yield* projectionStore.apply(stored.event);
+              try projectionStore.apply(stored.event);
               if (stored.event.type === "turn-item.updated") {
-                yield* sql`
+                try sql`
                 INSERT INTO orchestration_v2_turn_item_positions (
                   thread_id,
                   turn_item_id,
@@ -163,10 +156,10 @@ export const layer: Layer.Layer<
               lastSequence = stored.sequence;
             }
             if (page.length < pageSize) break;
-            yield* Effect.yieldNow;
+            try Effect.yieldNow;
           }
-          const now = DateTime.formatIso(yield* DateTime.now);
-          yield* sql`
+          const now = DateTime.formatIso(try DateTime.now);
+          try sql`
             INSERT INTO orchestration_v2_projection_metadata (
               projection_name,
               schema_version,
@@ -184,17 +177,16 @@ export const layer: Layer.Layer<
               last_sequence = excluded.last_sequence,
               updated_at = excluded.updated_at
           `;
-        }),
+        },
       );
-      return yield* verify;
-    });
+      return try verify;
+    };
 
     const mapError =
       (operation: string) =>
-      <A, E, R>(effect: Effect.Effect<A, E, R>) =>
-        effect.pipe(
-          Effect.mapError((cause) => new ProjectionMaintenanceError({ operation, cause })),
-        );
+      <A, E, R>(effect: A!E!R) =>
+        effect
+          |> Effect.mapError(%, (cause) => new ProjectionMaintenanceError({ operation, cause }));
 
     // Keep thread.created as the verification and replay anchor; clients recognize deletion by thread.deleted event type.
     const SUPERSEDABLE_THREAD_EVENT_TYPES = [
@@ -228,10 +220,10 @@ export const layer: Layer.Layer<
     const COMPACTION_PAGE_SIZE = 50;
 
     // Keep first/latest keyed events for replay order; page every event to bound sparse scans.
-    const compactEventStore = Effect.fn("ProjectionMaintenance.compactEventStore")(function* (
-      betweenPages: Effect.Effect<void> = Effect.void,
-    ) {
-      const bounds = yield* sql<{
+    const compactEventStore = effect (
+      betweenPages: void!never!never = Effect.void,
+    ) => try withSpan(effect {
+      const bounds = try sql<{
         readonly event_sequence: number;
         readonly receipt_row_id: number;
       }>`
@@ -249,7 +241,7 @@ export const layer: Layer.Layer<
       let deletedReceiptCount = 0;
 
       while (throughSequence > 0) {
-        const rows = yield* sql<{
+        const rows = try sql<{
           readonly sequence: number;
           readonly application_event_version: number;
           readonly aggregate_kind: string;
@@ -339,19 +331,19 @@ export const layer: Layer.Layer<
           }
         }
         // Never hold a transaction or the reader lock across a yield or a rest.
-        yield* Effect.yieldNow;
+        try Effect.yieldNow;
         if (obsolete.length > 0) {
-          yield* sql`DELETE FROM orchestration_events WHERE sequence IN ${sql.in(obsolete)}`;
+          try sql`DELETE FROM orchestration_events WHERE sequence IN ${sql.in(obsolete)}`;
           deletedEventCount += obsolete.length;
-          yield* Effect.yieldNow;
+          try Effect.yieldNow;
         }
         throughSequence =
           rows.length <= COMPACTION_PAGE_SIZE ? 0 : (page.at(-1)?.sequence ?? 1) - 1;
-        if (throughSequence > 0 || throughReceiptRowId > 0) yield* betweenPages;
+        if (throughSequence > 0 || throughReceiptRowId > 0) try betweenPages;
       }
 
       while (throughReceiptRowId > 0) {
-        const rows = yield* sql<{
+        const rows = try sql<{
           readonly row_id: number;
           readonly command_id: string;
           readonly imported_legacy_thread: number;
@@ -377,29 +369,29 @@ export const layer: Layer.Layer<
         const obsolete = page
           .filter((row) => row.imported_legacy_thread === 1)
           .map((row) => row.command_id);
-        yield* Effect.yieldNow;
+        try Effect.yieldNow;
         if (obsolete.length > 0) {
-          yield* sql`DELETE FROM orchestration_command_receipts WHERE command_id IN ${sql.in(obsolete)}`;
+          try sql`DELETE FROM orchestration_command_receipts WHERE command_id IN ${sql.in(obsolete)}`;
           deletedReceiptCount += obsolete.length;
-          yield* Effect.yieldNow;
+          try Effect.yieldNow;
         }
         throughReceiptRowId = (page.at(-1)?.row_id ?? 1) - 1;
         if (rows.length <= COMPACTION_PAGE_SIZE) break;
-        yield* betweenPages;
+        try betweenPages;
       }
 
-      const freelistRows = yield* sql<{ readonly freelist_count: number }>`PRAGMA freelist_count`;
-      const pageSizeRows = yield* sql<{ readonly page_size: number }>`PRAGMA page_size`;
+      const freelistRows = try sql<{ readonly freelist_count: number }>`PRAGMA freelist_count`;
+      const pageSizeRows = try sql<{ readonly page_size: number }>`PRAGMA page_size`;
       const reclaimableBytes =
         (freelistRows[0]?.freelist_count ?? 0) * (pageSizeRows[0]?.page_size ?? 0);
 
       return { deletedEventCount, deletedReceiptCount, reclaimableBytes };
-    }, mapError("compact event store"));
+    } |> mapError("compact event store")(%), "ProjectionMaintenance.compactEventStore");
 
     return ProjectionMaintenanceV2.of({
       verify: mapError("verify")(verify),
       rebuild: mapError("rebuild")(rebuild),
       compactEventStore,
     });
-  }),
+  },
 );

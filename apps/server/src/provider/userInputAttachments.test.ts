@@ -15,7 +15,7 @@ import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as ServerConfig from "../config.ts";
 import * as DocumentText from "./DocumentText.ts";
 import { extractDocumentText } from "./documentTextWorker.ts";
-import * as Cleanup from "../orchestration-v2/ResourceCleanupService.ts";
+import * as Cleanup from "../orchestration-v2/ResourceCleanupService.vibe";
 import * as TerminalManager from "../terminal/Manager.ts";
 import * as PreviewManager from "../preview/Manager.ts";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";

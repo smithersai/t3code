@@ -6,7 +6,7 @@ import * as Layer from "effect/Layer";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as EventStore from "../../orchestration-v2/EventStore.ts";
-import * as ProjectionMaintenance from "../../orchestration-v2/ProjectionMaintenance.ts";
+import * as ProjectionMaintenance from "../../orchestration-v2/ProjectionMaintenance.vibe";
 import * as ProjectionStore from "../../orchestration-v2/ProjectionStore.ts";
 import { runMigrations } from "../Migrations.vibe";
 import Migration0066 from "./066_RepairClientSettlementTimestamps.vibe";

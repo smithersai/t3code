@@ -144,7 +144,7 @@ import {
   type OlderSettledThreadsQuery,
   type ShellSnapshotOptions,
 } from "./ProjectionStore.ts";
-import { ProviderAdapterRegistryV2 } from "./ProviderAdapterRegistry.ts";
+import { ProviderAdapterRegistryV2 } from "./ProviderAdapterRegistry.vibe";
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
 import * as RunExecutionService from "./RunExecutionService.ts";
@@ -165,7 +165,7 @@ import {
   isForkableSourceRunStatus,
   ThreadForkServiceV2,
 } from "./ThreadForkService.vibe";
-import { planThreadDeletion } from "./ThreadDeletion.ts";
+import { planThreadDeletion } from "./ThreadDeletion.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ServerSettings from "../serverSettings.ts";
 

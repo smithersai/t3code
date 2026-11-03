@@ -30,7 +30,7 @@ import {
 } from "../orchestration-v2/ProjectCommands.ts";
 import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
 import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.vibe";
-import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.ts";
+import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import * as ProjectEnrichmentService from "./ProjectEnrichmentService.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";

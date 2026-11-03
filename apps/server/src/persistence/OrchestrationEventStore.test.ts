@@ -25,7 +25,7 @@ import {
   LiveStreamBufferError,
 } from "../orchestration-v2/LiveStreamBudget.ts";
 import { PersistenceDecodeError } from "./Errors.ts";
-import { toShellApplicationEvent } from "../orchestration-v2/ShellStream.ts";
+import { toShellApplicationEvent } from "../orchestration-v2/ShellStream.vibe";
 import * as OrchestrationEventStore from "./OrchestrationEventStore.ts";
 import * as SqlitePersistence from "./Sqlite.ts";
 const isPersistenceDecodeError = Schema.is(PersistenceDecodeError);

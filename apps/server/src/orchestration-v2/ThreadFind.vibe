@@ -9,10 +9,7 @@ import {
 } from "@t3tools/contracts";
 import { searchableMessageSegments, searchablePlanSegments } from "@t3tools/shared/threadFindText";
 import { countThreadSearchOccurrences } from "@t3tools/shared/threadSearch";
-import * as Cache from "effect/Cache";
-import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 import * as SqlClient from "effect/sql/SqlClient";
@@ -196,15 +193,10 @@ function resultForSelection(
   };
 }
 
-export const makeThreadFind = Effect.fn("makeThreadFind")(function* (
-  readIndex: (threadId: ThreadId) => Effect.Effect<
-    readonly (Omit<FindRow, "position"> & {
-      readonly item: Pick<OrchestrationV2TurnItem, "type">;
-    })[],
-    ProjectionStoreV2Error
-  >,
-) {
-  const sql = yield* SqlClient.SqlClient;
+export const makeThreadFind = effect (
+  readIndex: (threadId: ThreadId) => readonly (Omit<FindRow, "position"> & { readonly item: Pick<OrchestrationV2TurnItem, "type">; })[]!ProjectionStoreV2Error,
+) => try withSpan(effect {
+  const sql = try SqlClient.SqlClient;
   const encodeCacheKey = Schema.encodeEffect(
     Schema.fromJsonString(
       Schema.Struct({
@@ -223,15 +215,15 @@ export const makeThreadFind = Effect.fn("makeThreadFind")(function* (
   const isSnapshotError = Schema.is(
     Schema.Union([ProjectionStoreReadError, ProjectionStoreThreadNotFoundError]),
   );
-  const load = Effect.fn("ThreadFind.load")(function* (
-    threadId: ThreadId,
+  const load = effect (
+    threadId: string & import("effect/Brand").Brand<"ThreadId">,
     rows: readonly FindRow[],
-  ) {
+  ) => try withSpan(effect {
     if (rows.length === 0) return [];
-    const sources = yield* encodeSources(
+    const sources = encodeSources(
       rows.map((row) => ({ threadId: row.sourceThreadId, id: row.sourceItemId })),
-    ).pipe(Effect.mapError((cause) => new ProjectionStoreReadError({ threadId, cause })));
-    const payloads = yield* sql<{
+    ) catch effect (cause) => { throw new ProjectionStoreReadError({ threadId, cause }) };
+    const payloads = sql<{
       thread_id: string;
       turn_item_id: string;
       payload_json: string;
@@ -245,36 +237,36 @@ export const makeThreadFind = Effect.fn("makeThreadFind")(function* (
       JOIN json_each(${sources}) AS wanted
         ON item.thread_id = json_extract(wanted.value, '$.threadId')
           AND item.turn_item_id = json_extract(wanted.value, '$.id')
-    `.pipe(Effect.mapError((cause) => new ProjectionStoreReadError({ threadId, cause })));
+    ` catch effect (cause) => { throw new ProjectionStoreReadError({ threadId, cause }) };
     const byThread = new Map<string, Map<string, (typeof payloads)[number]>>();
     for (const row of payloads) {
       let items = byThread.get(row.thread_id);
       if (!items) byThread.set(row.thread_id, (items = new Map()));
       items.set(row.turn_item_id, row);
     }
-    return yield* Effect.forEach(rows, (row) => {
+    return try forEach(rows, (row) => {
       const payload = byThread.get(row.sourceThreadId)?.get(row.sourceItemId);
       return payload === undefined
-        ? Effect.fail(new ProjectionStoreReadError({ threadId }))
-        : Effect.succeed({
+        ? fail(new ProjectionStoreReadError({ threadId }))
+        : succeed({
             ...row,
             payload: payload.payload_json,
             entryId: payload.entry_id,
             type: payload.item_type,
           });
     });
-  });
+  }, "ThreadFind.load");
   // Scans visit every message; a cache smaller than the thread churns without hits.
-  const textCache = yield* Cache.make({
+  const textCache = try Cache.make({
     capacity: 8192,
     timeToLive: "1 minute",
-    lookup: (key: TextKey) => Effect.sync(() => parseText(key)),
+    lookup: effect (key: TextKey) => parseText(key),
   });
   // Bounded separately because each entry can hold a large body; typing reuses the parse.
-  const largeTextCache = yield* Cache.make({
+  const largeTextCache = try Cache.make({
     capacity: 32,
     timeToLive: "1 minute",
-    lookup: (key: TextKey) => Effect.sync(() => parseText(key)),
+    lookup: effect (key: TextKey) => parseText(key),
   });
   const scans = new Map<
     string,
@@ -284,11 +276,11 @@ export const makeThreadFind = Effect.fn("makeThreadFind")(function* (
       sourceThreadIds: readonly ThreadId[];
     }
   >();
-  const readRevision = Effect.fn("ThreadFind.readRevision")(function* (
-    threadIds: readonly ThreadId[],
-  ) {
-    const sources = yield* encodeThreadIds(threadIds);
-    const revision = yield* sql<{ sequence: number }>`
+  const readRevision = effect (
+    threadIds: readonly (string & import("effect/Brand").Brand<"ThreadId">)[],
+  ) => try withSpan(effect {
+    const sources = try encodeThreadIds(threadIds);
+    const revision = try sql<{ sequence: number }>`
       WITH RECURSIVE source_threads(thread_id) AS (
         SELECT value FROM json_each(${sources})
         UNION
@@ -305,75 +297,69 @@ export const makeThreadFind = Effect.fn("makeThreadFind")(function* (
         AND stream_id IN (SELECT thread_id FROM source_threads)
     `;
     return revision[0]?.sequence ?? 0;
-  });
-  const snapshot = Effect.fn("ThreadFind.snapshot")(
-    function* (input: OrchestrationV2SearchThreadInput) {
-      const { threadId } = input;
-      const active = yield* sql<{ cwd: string | null }>`
+  }, "ThreadFind.readRevision");
+  const snapshot = effect (input: { readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; readonly skills?: readonly { readonly name: string; readonly displayName?: string | undefined; }[]; readonly query: string; readonly index?: number; readonly offset?: number; readonly start?: { readonly entryId: string; readonly occurrence: number; }; }) => try withSpan(effect {
+    const { threadId } = input;
+    const active = try sql<{ cwd: string | null }>`
       SELECT COALESCE(json_extract(t.payload_json, '$.worktreePath'), p.workspace_root) AS cwd
       FROM orchestration_v2_projection_threads t JOIN projection_projects p ON p.project_id = t.project_id
       WHERE t.thread_id = ${threadId} AND t.deleted_at IS NULL AND p.deleted_at IS NULL
     `;
-      if (!active[0]) return yield* new ProjectionStoreThreadNotFoundError({ threadId });
-      const cwd = active[0].cwd ?? undefined;
-      const cacheKey = yield* encodeCacheKey({
-        threadId,
-        cwd,
-        query: input.query,
-        skills: input.skills ?? [],
-      });
-      const cached = scans.get(cacheKey);
-      if (cached && cached.sequence === (yield* readRevision(cached.sourceThreadIds))) {
-        const selected = selectMatch(cached.documents, input);
-        scans.delete(cacheKey);
-        scans.set(cacheKey, cached);
-        return { result: resultForSelection(selected, cached.documents, cached.sequence) };
-      }
-      const index = yield* readIndex(threadId);
-      const sourceThreadIds = [...new Set([threadId, ...index.map((row) => row.sourceThreadId)])];
-      const sequence = yield* readRevision(sourceThreadIds);
-      const candidates = index
-        .map((row, position) => ({ ...row, position }))
-        .filter((row) =>
-          ["user_message", "assistant_message", "proposed_plan", "user_input_request"].includes(
-            row.item.type,
-          ),
-        );
-      const payloads: FindPayload[] = [];
-      for (let start = 0; start < candidates.length; start += 128) {
-        payloads.push(...(yield* load(threadId, candidates.slice(start, start + 128))));
-      }
-      return { payloads, cwd, sequence, cacheKey, sourceThreadIds };
-    },
-    (effect) => sql.withTransaction(effect).pipe(NodeSqliteClient.readOnly),
-    (effect, input) =>
-      effect.pipe(
-        Effect.mapError((cause) =>
+    if (!active[0]) throw new ProjectionStoreThreadNotFoundError({ threadId });
+    const cwd = active[0].cwd ?? undefined;
+    const cacheKey = try encodeCacheKey({
+      threadId,
+      cwd,
+      query: input.query,
+      skills: input.skills ?? [],
+    });
+    const cached = scans.get(cacheKey);
+    if (cached && cached.sequence === (try readRevision(cached.sourceThreadIds))) {
+      const selected = selectMatch(cached.documents, input);
+      scans.delete(cacheKey);
+      scans.set(cacheKey, cached);
+      return { result: resultForSelection(selected, cached.documents, cached.sequence) };
+    }
+    const index = try readIndex(threadId);
+    const sourceThreadIds = [...new Set([threadId, ...index.map((row) => row.sourceThreadId)])];
+    const sequence = try readRevision(sourceThreadIds);
+    const candidates = index
+      .map((row, position) => ({ ...row, position }))
+      .filter((row) =>
+        ["user_message", "assistant_message", "proposed_plan", "user_input_request"].includes(
+          row.item.type,
+        ),
+      );
+    const payloads: FindPayload[] = [];
+    for (let start = 0; start < candidates.length; start += 128) {
+      payloads.push(...(try load(threadId, candidates.slice(start, start + 128))));
+    }
+    return { payloads, cwd, sequence, cacheKey, sourceThreadIds };
+  } |> ((effect) => sql.withTransaction(effect) |> NodeSqliteClient.readOnly(%))(%) |> ((effect, input) =>
+      effect
+        |> mapError(%, (cause) =>
           isSnapshotError(cause)
             ? cause
             : new ProjectionStoreReadError({ threadId: input.threadId, cause }),
-        ),
-      ),
-  );
+        ))(%, input), "ThreadFind.snapshot");
   const searchThreadStream = (input: OrchestrationV2SearchThreadInput) =>
     Stream.unwrap(
-      Effect.gen(function* () {
+      effect {
         // Release SQLite before decoding and parsing. Both frames describe one snapshot.
-        const data = yield* snapshot(input);
+        const data = try snapshot(input);
         if (data.result) return Stream.succeed(data.result);
         const { payloads, cwd, sequence, cacheKey, sourceThreadIds } = data;
         const decode = (row: FindPayload) =>
-          decodeItem(row.payload).pipe(
-            Effect.map((item) => ({ ...row, item })),
-            Effect.mapError(
-              (cause) => new ProjectionStoreReadError({ threadId: input.threadId, cause }),
-            ),
-          );
+          decodeItem(row.payload)
+            |> map(%, (item) => ({ ...row, item }))
+            |> mapError(
+              %, (cause) => new ProjectionStoreReadError({ threadId: input.threadId, cause }),
+            );
         // Answers rendered inside question cards must not appear as separate matches.
         const foldedAnswers = new Set<string>();
         for (const payload of payloads) {
           if (payload.type !== "user_input_request") continue;
-          const { item } = yield* decode(payload);
+          const { item } = try decode(payload);
           if (item.type === "user_input_request" && item.questionAnswer)
             foldedAnswers.add(`async-answer:${item.questionAnswer.requestId}`);
         }
@@ -383,22 +369,22 @@ export const makeThreadFind = Effect.fn("makeThreadFind")(function* (
             !(row.type === "user_message" && foldedAnswers.has(row.entryId)),
         );
         const documents = new Map<number, FindDocument>();
-        const count = Effect.fnUntraced(function* (row: FindPayload) {
+        const count = effect (row: FindPayload) => {
           const cached = documents.get(row.position);
           if (cached) return cached;
-          const decoded = yield* decode(row);
+          const decoded = try decode(row);
           const key = textKey(decoded.item, cwd, input.skills ?? []);
-          const segments = yield* Cache.get(
+          const segments = try Cache.get(
             key.text.length <= 32_768 ? textCache : largeTextCache,
             key,
           );
           const document = documentFor(decoded, countSegments(segments, input.query));
           documents.set(row.position, document);
-          yield* Effect.yieldNow;
+          try Effect.yieldNow;
           return document;
-        });
-        const finish = Effect.gen(function* () {
-          for (const row of rows) yield* count(row);
+        };
+        const finish = effect {
+          for (const row of rows) try count(row);
           const ordered = rows.map((row) => documents.get(row.position)!);
           scans.delete(cacheKey);
           scans.set(cacheKey, { sequence, documents: ordered, sourceThreadIds });
@@ -407,7 +393,7 @@ export const makeThreadFind = Effect.fn("makeThreadFind")(function* (
             if (oldest !== undefined) scans.delete(oldest);
           }
           return resultForSelection(selectMatch(ordered, input), ordered, sequence);
-        });
+        };
         if (input.index !== undefined || (input.offset ?? 0) !== 0)
           return Stream.fromEffect(finish);
         const anchor = Math.max(
@@ -418,7 +404,7 @@ export const makeThreadFind = Effect.fn("makeThreadFind")(function* (
           const index = (anchor + step) % rows.length;
           const row = rows[index];
           if (!row) break;
-          const document = yield* count(row);
+          const document = try count(row);
           const occurrence =
             step === 0 && row.entryId === input.start?.entryId
               ? Math.min(input.start.occurrence, document.count)
@@ -434,14 +420,13 @@ export const makeThreadFind = Effect.fn("makeThreadFind")(function* (
           return Stream.concat(Stream.succeed(first), Stream.fromEffect(finish));
         }
         return Stream.fromEffect(finish);
-      }),
+      },
     );
   return {
     searchThreadStream,
     searchThread: (input: OrchestrationV2SearchThreadInput) =>
-      searchThreadStream(input).pipe(
-        Stream.runCollect,
-        Effect.map((results) => results[results.length - 1]!),
-      ),
+      searchThreadStream(input)
+        |> Stream.runCollect(%)
+        |> map(%, (results) => results[results.length - 1]!),
   };
-});
+}, "makeThreadFind");

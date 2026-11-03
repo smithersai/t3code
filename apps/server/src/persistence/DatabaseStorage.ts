@@ -14,7 +14,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 
 import { resolveHostCliCommand } from "../cli/invocation.vibe";
 import * as ServerConfig from "../config.ts";
-import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.ts";
+import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.vibe";
 import { forkParked } from "../serverActivation.ts";
 
 // Bound each reclaim pass to one minute of churn.
