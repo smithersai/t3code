@@ -5,7 +5,7 @@ import { describe, expect, it } from "vite-plus/test";
 
 import { PrimaryConnectionTarget } from "../connection/model.vibe";
 import { createEnvironmentProjectAtoms } from "./projectEntities.ts";
-import { v2Project, v2ShellSnapshot } from "./orchestrationV2TestFixtures.vibe";
+import { v2Project, v2ShellSnapshot } from "./orchestrationV2TestFixtures.ts";
 
 const environmentId = EnvironmentId.make("local");
 const remoteEnvironmentId = EnvironmentId.make("remote");

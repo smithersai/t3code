@@ -13,7 +13,7 @@ import { Atom, AtomRegistry } from "effect/reactivity";
 import { describe, expect, it } from "vite-plus/test";
 
 import { PrimaryConnectionTarget } from "../connection/model.vibe";
-import { v2Now, v2ShellSnapshot, v2ThreadShell } from "./orchestrationV2TestFixtures.vibe";
+import { v2Now, v2ShellSnapshot, v2ThreadShell } from "./orchestrationV2TestFixtures.ts";
 import { applyShellStreamEvent } from "./shellReducer.vibe";
 import { isThreadWorking } from "./threadInbox.ts";
 import { childThreadInputsTitle, createEnvironmentThreadShellAtoms } from "./threadShell.ts";

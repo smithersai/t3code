@@ -27,7 +27,7 @@ import {
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
 import * as RpcSession from "../rpc/session.ts";
-import { v2Now, v2Projection, v2ThreadId } from "../state/orchestrationV2TestFixtures.vibe";
+import { v2Now, v2Projection, v2ThreadId } from "../state/orchestrationV2TestFixtures.ts";
 import { startThreadTurn } from "./commands.ts";
 
 const ROW_COUNT = 600;

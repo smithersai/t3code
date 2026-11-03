@@ -12,7 +12,7 @@ import * as DateTime from "effect/DateTime";
 import * as Option from "effect/Option";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
-import { v2Now, v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.vibe";
+import { v2Now, v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.ts";
 import { applyOrchestrationV2ProjectionEvent } from "./orchestrationV2Projection.ts";
 import { createEnvironmentThreadDetailAtoms, sameThreadStructure } from "./threadDetail.ts";
 import { mergeOlderHistoryIntoProjection } from "./threadHistoryMerge.ts";
