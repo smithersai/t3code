@@ -12,8 +12,8 @@ import { formatComposerContextReference } from "./composerContextReferences.ts"
 /** Converts in memory on read; never rewrites event history. */
 
 export interface UpgradedLegacyContext {
-  mutable text: string
-  mutable records: ComposerContextRecord[]
+  text: string
+  records: ComposerContextRecord[]
 }
 
 const PLACEHOLDER = "￼"
@@ -33,13 +33,13 @@ const isLegacyContextRecords = Schema.is(
 )
 
 interface ParsedEntry {
-  mutable header: string
-  mutable body: string
+  header: string
+  body: string
 }
 
 function parseEntries(block: string): ParsedEntry[] | null {
   const entries: ParsedEntry[] = []
-  let current: { mutable header: string; mutable bodyLines: string[] } | null = null
+  let current: { header: string; bodyLines: string[] } | null = null
   const commit = (): void => {
     if (!current) return
     entries.push({ header: current.header, body: current.bodyLines.join("\n").trimEnd() })
@@ -254,7 +254,7 @@ function reviewRecord(
 function stripTrailing(
   text: string,
   pattern: RegExp,
-): { mutable text: string; mutable match: RegExpExecArray } | null {
+): { text: string; match: RegExpExecArray } | null {
   const match = pattern.exec(text)
   if (!match) return null
   return { text: text.slice(0, match.index).replace(/\n+$/, ""), match }

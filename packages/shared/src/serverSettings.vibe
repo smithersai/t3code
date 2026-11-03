@@ -113,7 +113,7 @@ export function fallbackTextGenerationModelSelection(
   if (match === undefined) return null
   const [instanceId, driver] = match
   const threadDefault = options?.defaultModelSelection
-  const config = providerInstances[instanceId]?.config as { mutable customModels?: unknown } | undefined
+  const config = providerInstances[instanceId]?.config as { customModels?: unknown } | undefined
   if (
     threadDefault?.instanceId === instanceId
     && readCustomModelEntries(config?.customModels).some((entry) => entry.slug === threadDefault.model)
@@ -219,9 +219,9 @@ function shouldReplaceTextGenerationModelSelection(
 }
 
 function mergeModelSelectionOptionsById(input: {
-  mutable current: ReadonlyArray<{ readonly id: string; readonly value: string | boolean }> | undefined
-  mutable patch: ReadonlyArray<{ readonly id: string; readonly value: string | boolean }> | undefined
-}): Array<{ mutable id: string; mutable value: string | boolean }> | undefined {
+  current: ReadonlyArray<{ readonly id: string; readonly value: string | boolean }> | undefined
+  patch: ReadonlyArray<{ readonly id: string; readonly value: string | boolean }> | undefined
+}): Array<{ id: string; value: string | boolean }> | undefined {
   if (input.patch === undefined) {
     return input.current ? [...input.current] : undefined
   }

@@ -107,10 +107,10 @@ export function serializeAssistantCitation(citation: AssistantCitation): string 
 
 export function collectAssistantCitations(text: string): infer _ {
   const citations: {
-    mutable citation: AssistantCitation
-    mutable source: string
-    mutable start: number
-    mutable end: number
+    citation: AssistantCitation
+    source: string
+    start: number
+    end: number
   }[] = []
   for (const match of text.matchAll(CITATION_LINK)) {
     const citation = parseAssistantCitationHref(match[1]!)
@@ -138,7 +138,7 @@ export function assistantCitationsToPlainText(prompt: string): string {
 export function expandAssistantCitationsForProvider(prompt: string): string {
   const matches = collectAssistantCitations(prompt)
   if (matches.length === 0) return prompt
-  const citations: { mutable id: string; mutable citation: AssistantCitation }[] = []
+  const citations: { id: string; citation: AssistantCitation }[] = []
   const idsBySource = new Map<string, string>()
   let cursor = 0
   let text = ""

@@ -651,10 +651,10 @@ export function collectProviderUsageLimits(
     ...providers.filter((provider) => provider.enabled).map(nativeReport),
     ...sources.flatMap((source) => source.accounts),
   ])
-  type NativeSnapshot = { mutable provider: ServerProvider; mutable limits: ServerProviderUsageLimits }
+  type NativeSnapshot = { provider: ServerProvider; limits: ServerProviderUsageLimits }
   const nativeByAccount = new Map<
     string,
-    { mutable usage: NativeSnapshot; mutable credits: NativeSnapshot | null }
+    { usage: NativeSnapshot; credits: NativeSnapshot | null }
   >()
   for (const provider of providersWithLimits(providers)) {
     if (provider.driver !== selected.driver || !provider.usageLimits) continue

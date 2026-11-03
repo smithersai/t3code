@@ -56,10 +56,10 @@ function readDomains(value: unknown): ReadonlyArray<string> | undefined {
 export function readMcpAppCsp(value: unknown): McpAppCsp | undefined {
   if (!Predicate.isObject(value)) return undefined
   const csp: {
-    mutable connectDomains?: ReadonlyArray<string>
-    mutable resourceDomains?: ReadonlyArray<string>
-    mutable frameDomains?: ReadonlyArray<string>
-    mutable baseUriDomains?: ReadonlyArray<string>
+    connectDomains?: ReadonlyArray<string>
+    resourceDomains?: ReadonlyArray<string>
+    frameDomains?: ReadonlyArray<string>
+    baseUriDomains?: ReadonlyArray<string>
   } = {}
   for (
     const key of [
