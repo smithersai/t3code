@@ -15,15 +15,15 @@ import type { PreviewForwardedShortcut } from "./keybindings.vibe"
 import type { DesktopAppActivationRequest, DesktopAppActivationResponse } from "./desktopAppActivation.vibe"
 
 export interface ContextMenuItem<T extends string = string> {
-  mutable id: T
-  mutable label: string
-  mutable destructive?: boolean
-  mutable disabled?: boolean
-  mutable header?: boolean
-  mutable icon?: string
-  mutable separatorBefore?: boolean
-  mutable checked?: boolean
-  mutable children?: readonly ContextMenuItem<T>[]
+  id: T
+  label: string
+  destructive?: boolean
+  disabled?: boolean
+  header?: boolean
+  icon?: string
+  separatorBefore?: boolean
+  checked?: boolean
+  children?: readonly ContextMenuItem<T>[]
 }
 
 export type QuitShortcutHintEvent =
@@ -89,9 +89,9 @@ export const DesktopUpdateChannelSchema = Schema.Literals(["latest", "nightly"])
 export const DesktopAppStageLabelSchema = Schema.Literals(["Alpha", "Beta", "Dev", "Nightly"])
 
 export interface DesktopAppBranding {
-  mutable baseName: string
-  mutable stageLabel: DesktopAppStageLabel
-  mutable displayName: string
+  baseName: string
+  stageLabel: DesktopAppStageLabel
+  displayName: string
 }
 
 export const DesktopAppBrandingSchema = Schema.Struct({
@@ -244,35 +244,35 @@ export const DesktopSnapShotAnimationDestination = Schema.Struct({
 export type DesktopSnapShotAnimationDestination = typeof DesktopSnapShotAnimationDestination.Type
 
 export interface DesktopRuntimeInfo {
-  mutable hostArch: DesktopRuntimeArch
-  mutable appArch: DesktopRuntimeArch
-  mutable runningUnderArm64Translation: boolean
+  hostArch: DesktopRuntimeArch
+  appArch: DesktopRuntimeArch
+  runningUnderArm64Translation: boolean
 }
 
 export interface DesktopUpdateState {
-  mutable enabled: boolean
-  mutable status: DesktopUpdateStatus
-  mutable channel: DesktopUpdateChannel
-  mutable currentVersion: string
-  mutable hostArch: DesktopRuntimeArch
-  mutable appArch: DesktopRuntimeArch
-  mutable runningUnderArm64Translation: boolean
-  mutable availableVersion: string | null
-  mutable downloadedVersion: string | null
-  mutable releaseNotes: ReadonlyArray<DesktopUpdateReleaseNote>
-  mutable omittedReleaseCount: number
-  mutable downloadPercent: number | null
-  mutable checkedAt: string | null
-  mutable message: string | null
-  mutable errorContext: "check" | "download" | "install" | null
-  mutable canRetry: boolean
-  mutable notAppliedVersion?: string
+  enabled: boolean
+  status: DesktopUpdateStatus
+  channel: DesktopUpdateChannel
+  currentVersion: string
+  hostArch: DesktopRuntimeArch
+  appArch: DesktopRuntimeArch
+  runningUnderArm64Translation: boolean
+  availableVersion: string | null
+  downloadedVersion: string | null
+  releaseNotes: ReadonlyArray<DesktopUpdateReleaseNote>
+  omittedReleaseCount: number
+  downloadPercent: number | null
+  checkedAt: string | null
+  message: string | null
+  errorContext: "check" | "download" | "install" | null
+  canRetry: boolean
+  notAppliedVersion?: string
 }
 
 export interface DesktopUpdateReleaseNote {
-  mutable version: string
-  mutable items: ReadonlyArray<string>
-  mutable totalItems: number
+  version: string
+  items: ReadonlyArray<string>
+  totalItems: number
 }
 
 export const DesktopUpdateReleaseNoteSchema = Schema.Struct({
@@ -312,9 +312,9 @@ export const DesktopCliCommandStateSchema = Schema.Struct({
 export type DesktopCliCommandState = typeof DesktopCliCommandStateSchema.Type
 
 export interface DesktopUpdateActionResult {
-  mutable accepted: boolean
-  mutable completed: boolean
-  mutable state: DesktopUpdateState
+  accepted: boolean
+  completed: boolean
+  state: DesktopUpdateState
 }
 
 export const DesktopUpdateActionResultSchema = Schema.Struct({
@@ -324,8 +324,8 @@ export const DesktopUpdateActionResultSchema = Schema.Struct({
 })
 
 export interface DesktopUpdateCheckResult {
-  mutable checked: boolean
-  mutable state: DesktopUpdateState
+  checked: boolean
+  state: DesktopUpdateState
 }
 
 export const DesktopUpdateCheckResultSchema = Schema.Struct({
@@ -337,13 +337,13 @@ export const PRIMARY_LOCAL_ENVIRONMENT_ID = "primary"
 
 export interface DesktopEnvironmentBootstrap {
   // Stable backend identity used to reopen routed projects.
-  mutable id: string
-  mutable label: string
+  id: string
+  label: string
   // Actual distro for this run; id stays wsl:default when tracking the default.
-  mutable runningDistro?: string | null
-  mutable httpBaseUrl: string | null
-  mutable wsBaseUrl: string | null
-  mutable bootstrapToken?: string
+  runningDistro?: string | null
+  httpBaseUrl: string | null
+  wsBaseUrl: string | null
+  bootstrapToken?: string
 }
 
 export const DesktopEnvironmentBootstrapSchema = Schema.Struct({
@@ -367,7 +367,7 @@ export type DesktopSshHostSource = "ssh-config" | "known-hosts"
 export const DesktopSshHostSourceSchema = Schema.Literals(["ssh-config", "known-hosts"])
 
 export interface DesktopDiscoveredSshHost extends DesktopSshEnvironmentTarget {
-  mutable source: DesktopSshHostSource
+  source: DesktopSshHostSource
 }
 
 export const DesktopDiscoveredSshHostSchema = Schema.Struct({
@@ -379,12 +379,12 @@ export const DesktopDiscoveredSshHostSchema = Schema.Struct({
 })
 
 export interface DesktopSshEnvironmentBootstrap {
-  mutable target: DesktopSshEnvironmentTarget
-  mutable httpBaseUrl: string
-  mutable wsBaseUrl: string
-  mutable pairingToken: string | null
-  mutable remotePort?: number
-  mutable remoteServerKind?: "external" | "managed"
+  target: DesktopSshEnvironmentTarget
+  httpBaseUrl: string
+  wsBaseUrl: string
+  pairingToken: string | null
+  remotePort?: number
+  remoteServerKind?: "external" | "managed"
 }
 
 export const DesktopSshEnvironmentBootstrapSchema = Schema.Struct({
@@ -397,11 +397,11 @@ export const DesktopSshEnvironmentBootstrapSchema = Schema.Struct({
 })
 
 export interface DesktopSshPasswordPromptRequest {
-  mutable requestId: string
-  mutable destination: string
-  mutable username: string | null
-  mutable prompt: string
-  mutable expiresAt: string
+  requestId: string
+  destination: string
+  username: string | null
+  prompt: string
+  expiresAt: string
 }
 
 export const DesktopSshPasswordPromptCancelledType = "ssh-password-prompt-cancelled" as const
@@ -468,11 +468,11 @@ export const DesktopServerExposureModeSchema = Schema.Literals([
 ])
 
 export interface DesktopServerExposureState {
-  mutable mode: DesktopServerExposureMode
-  mutable endpointUrl: string | null
-  mutable advertisedHost: string | null
-  mutable tailscaleServeEnabled: boolean
-  mutable tailscaleServePort: number
+  mode: DesktopServerExposureMode
+  endpointUrl: string | null
+  advertisedHost: string | null
+  tailscaleServeEnabled: boolean
+  tailscaleServePort: number
 }
 
 export const DesktopServerExposureStateSchema = Schema.Struct({
@@ -484,8 +484,8 @@ export const DesktopServerExposureStateSchema = Schema.Struct({
 })
 
 export interface PickFolderOptions {
-  mutable initialPath?: string | null
-  mutable targetEnvironmentId?: string
+  initialPath?: string | null
+  targetEnvironmentId?: string
 }
 
 export const PickFolderOptionsSchema = Schema.Struct({
@@ -495,9 +495,9 @@ export const PickFolderOptionsSchema = Schema.Struct({
 
 /** Oversized files have empty text so the main process never loads their contents. */
 export interface PickedThemeFile {
-  mutable name: string
-  mutable size: number
-  mutable text: string
+  name: string
+  size: number
+  text: string
 }
 
 export const PickedThemeFileSchema = Schema.Struct({
@@ -507,9 +507,9 @@ export const PickedThemeFileSchema = Schema.Struct({
 })
 
 export interface DesktopWslDistro {
-  mutable name: string
-  mutable isDefault: boolean
-  mutable version: 1 | 2
+  name: string
+  isDefault: boolean
+  version: 1 | 2
 }
 
 export const DesktopWslDistroSchema = Schema.Struct({
@@ -519,14 +519,14 @@ export const DesktopWslDistroSchema = Schema.Struct({
 })
 
 export interface DesktopWslState {
-  mutable enabled: boolean
+  enabled: boolean
   // null means "track the current WSL default distro".
-  mutable distro: string | null
-  mutable available: boolean
-  mutable wslOnly: boolean
-  mutable distros: readonly DesktopWslDistro[]
+  distro: string | null
+  available: boolean
+  wslOnly: boolean
+  distros: readonly DesktopWslDistro[]
   // Always null in wsl-only mode, which falls back to Windows with a dialog.
-  mutable preflightError: string | null
+  preflightError: string | null
 }
 
 export const DesktopWslStateSchema = Schema.Struct({
@@ -539,15 +539,15 @@ export const DesktopWslStateSchema = Schema.Struct({
 })
 
 export type DesktopPreviewNavStatus =
-  | { mutable kind: "Idle" }
-  | { mutable kind: "Loading"; mutable url: string; mutable title: string }
-  | { mutable kind: "Success"; mutable url: string; mutable title: string }
+  | { kind: "Idle" }
+  | { kind: "Loading"; url: string; title: string }
+  | { kind: "Success"; url: string; title: string }
   | {
-    mutable kind: "LoadFailed"
-    mutable url: string
-    mutable title: string
-    mutable code: number
-    mutable description: string
+    kind: "LoadFailed"
+    url: string
+    title: string
+    code: number
+    description: string
   }
 
 export type DesktopPreviewColorScheme = "system" | "light" | "dark"
@@ -562,28 +562,28 @@ export const FAVICON_DATA_URL_MAX_LENGTH = 8192
 export const FAVICON_CAPTURED_AT_MAX = 8_640_000_000_000_000
 
 export interface DesktopPreviewFavicon {
-  mutable dataUrl: string
-  mutable pageUrl: string
-  mutable capturedAt: number
+  dataUrl: string
+  pageUrl: string
+  capturedAt: number
 }
 
 export interface DesktopPreviewTabState {
-  mutable tabId: string
-  mutable webContentsId: number | null
-  mutable navStatus: DesktopPreviewNavStatus
-  mutable canGoBack: boolean
-  mutable canGoForward: boolean
-  mutable zoomFactor: number
-  mutable pictureInPicture: boolean
-  mutable colorScheme: DesktopPreviewColorScheme
-  mutable audioMuted: boolean
+  tabId: string
+  webContentsId: number | null
+  navStatus: DesktopPreviewNavStatus
+  canGoBack: boolean
+  canGoForward: boolean
+  zoomFactor: number
+  pictureInPicture: boolean
+  colorScheme: DesktopPreviewColorScheme
+  audioMuted: boolean
   /** Chromium reports playback even when audioMuted is true. */
-  mutable audible: boolean
-  mutable controller: "human" | "agent" | "none"
+  audible: boolean
+  controller: "human" | "agent" | "none"
   /** A screenshot or stream of the guest is pending, so the client keeps it painting while hidden. */
-  mutable capturing: boolean
-  mutable favicon?: DesktopPreviewFavicon
-  mutable updatedAt: string
+  capturing: boolean
+  favicon?: DesktopPreviewFavicon
+  updatedAt: string
 }
 
 export const DesktopPreviewTabIdSchema = Schema.String.check(Schema.isTrimmed()).check(
@@ -591,18 +591,18 @@ export const DesktopPreviewTabIdSchema = Schema.String.check(Schema.isTrimmed())
 )
 
 export interface DesktopPreviewPointerEvent {
-  mutable tabId: string
-  mutable phase: "move" | "click"
-  mutable x: number
-  mutable y: number
-  mutable sequence: number
-  mutable createdAt: string
+  tabId: string
+  phase: "move" | "click"
+  x: number
+  y: number
+  sequence: number
+  createdAt: string
 }
 
 export interface DesktopPreviewOpenLinkEvent {
-  mutable tabId: string
-  mutable url: string
-  mutable background: boolean
+  tabId: string
+  url: string
+  background: boolean
 }
 
 export const DesktopPreviewRecordingInputSchema = Schema.Union([
@@ -629,11 +629,11 @@ export interface DesktopPreviewRecordingInputEvent {
 }
 
 export interface DesktopPreviewWebviewConfig {
-  mutable partition: string
+  partition: string
   /** Sandboxed with contextIsolation off so the picker preload can read the React DevTools hook. */
-  mutable webPreferences: string
+  webPreferences: string
   /** Absolute file:// preload URL; null requires disabling element picking. */
-  mutable preloadUrl: string | null
+  preloadUrl: string | null
 }
 
 export const DesktopPreviewWebviewConfigSchema: Schema.Codec<DesktopPreviewWebviewConfig> = Schema.Struct({
@@ -643,23 +643,23 @@ export const DesktopPreviewWebviewConfigSchema: Schema.Codec<DesktopPreviewWebvi
 })
 
 export interface DesktopPreviewAnnotationTheme {
-  mutable colorScheme: "light" | "dark"
-  mutable radius: string
-  mutable background: string
-  mutable foreground: string
-  mutable popover: string
-  mutable popoverForeground: string
-  mutable primary: string
-  mutable primaryForeground: string
-  mutable muted: string
-  mutable mutedForeground: string
-  mutable accent: string
-  mutable accentForeground: string
-  mutable border: string
-  mutable input: string
-  mutable ring: string
-  mutable fontSans: string
-  mutable fontMono: string
+  colorScheme: "light" | "dark"
+  radius: string
+  background: string
+  foreground: string
+  popover: string
+  popoverForeground: string
+  primary: string
+  primaryForeground: string
+  muted: string
+  mutedForeground: string
+  accent: string
+  accentForeground: string
+  border: string
+  input: string
+  ring: string
+  fontSans: string
+  fontMono: string
 }
 
 export const DesktopPreviewAnnotationThemeSchema: Schema.Codec<DesktopPreviewAnnotationTheme> = Schema.Struct({
@@ -683,20 +683,20 @@ export const DesktopPreviewAnnotationThemeSchema: Schema.Codec<DesktopPreviewAnn
 })
 
 export interface DesktopPreviewRecordingFrame {
-  mutable tabId: string
-  mutable data: string
-  mutable width: number
-  mutable height: number
-  mutable receivedAt: string
+  tabId: string
+  data: string
+  width: number
+  height: number
+  receivedAt: string
 }
 
 export interface DesktopPreviewRecordingArtifact {
-  mutable id: string
-  mutable tabId: string
-  mutable path: string
-  mutable mimeType: string
-  mutable sizeBytes: number
-  mutable createdAt: string
+  id: string
+  tabId: string
+  path: string
+  mimeType: string
+  sizeBytes: number
+  createdAt: string
 }
 
 export const DesktopPreviewRecordingArtifactSchema: Schema.Codec<DesktopPreviewRecordingArtifact> = Schema.Struct({
@@ -709,12 +709,12 @@ export const DesktopPreviewRecordingArtifactSchema: Schema.Codec<DesktopPreviewR
 })
 
 export interface DesktopPreviewScreenshotArtifact {
-  mutable id: string
-  mutable tabId: string
-  mutable path: string
-  mutable mimeType: "image/png"
-  mutable sizeBytes: number
-  mutable createdAt: string
+  id: string
+  tabId: string
+  path: string
+  mimeType: "image/png"
+  sizeBytes: number
+  createdAt: string
 }
 
 export const DesktopPreviewScreenshotArtifactSchema: Schema.Codec<DesktopPreviewScreenshotArtifact> = Schema.Struct({
@@ -727,10 +727,10 @@ export const DesktopPreviewScreenshotArtifactSchema: Schema.Codec<DesktopPreview
 })
 
 export interface PickedElementStackFrame {
-  mutable functionName: string | null
-  mutable fileName: string | null
-  mutable lineNumber: number | null
-  mutable columnNumber: number | null
+  functionName: string | null
+  fileName: string | null
+  lineNumber: number | null
+  columnNumber: number | null
 }
 
 export const PickedElementStackFrameSchema: Schema.Codec<PickedElementStackFrame> = Schema.Struct({
@@ -741,16 +741,16 @@ export const PickedElementStackFrameSchema: Schema.Codec<PickedElementStackFrame
 })
 
 export interface PickedElementPayload {
-  mutable pageUrl: string
-  mutable pageTitle: string | null
-  mutable tagName: string
-  mutable selector: string | null
-  mutable htmlPreview: string
-  mutable componentName: string | null
-  mutable source: PickedElementStackFrame | null
-  mutable stack: ReadonlyArray<PickedElementStackFrame>
-  mutable styles: string
-  mutable pickedAt: string
+  pageUrl: string
+  pageTitle: string | null
+  tagName: string
+  selector: string | null
+  htmlPreview: string
+  componentName: string | null
+  source: PickedElementStackFrame | null
+  stack: ReadonlyArray<PickedElementStackFrame>
+  styles: string
+  pickedAt: string
 }
 
 export const PickedElementPayloadSchema: Schema.Codec<PickedElementPayload> = Schema.Struct({
@@ -767,10 +767,10 @@ export const PickedElementPayloadSchema: Schema.Codec<PickedElementPayload> = Sc
 })
 
 export interface PreviewAnnotationRect {
-  mutable x: number
-  mutable y: number
-  mutable width: number
-  mutable height: number
+  x: number
+  y: number
+  width: number
+  height: number
 }
 
 export const PreviewAnnotationRectSchema: Schema.Codec<PreviewAnnotationRect> = Schema.Struct({
@@ -781,8 +781,8 @@ export const PreviewAnnotationRectSchema: Schema.Codec<PreviewAnnotationRect> = 
 })
 
 export interface PreviewAnnotationPoint {
-  mutable x: number
-  mutable y: number
+  x: number
+  y: number
 }
 
 export const PreviewAnnotationPointSchema: Schema.Codec<PreviewAnnotationPoint> = Schema.Struct({
@@ -791,9 +791,9 @@ export const PreviewAnnotationPointSchema: Schema.Codec<PreviewAnnotationPoint> 
 })
 
 export interface PreviewAnnotationElementTarget {
-  mutable id: string
-  mutable element: PickedElementPayload
-  mutable rect: PreviewAnnotationRect
+  id: string
+  element: PickedElementPayload
+  rect: PreviewAnnotationRect
 }
 
 export const PreviewAnnotationElementTargetSchema: Schema.Codec<PreviewAnnotationElementTarget> = Schema.Struct({
@@ -803,8 +803,8 @@ export const PreviewAnnotationElementTargetSchema: Schema.Codec<PreviewAnnotatio
 })
 
 export interface PreviewAnnotationRegionTarget {
-  mutable id: string
-  mutable rect: PreviewAnnotationRect
+  id: string
+  rect: PreviewAnnotationRect
 }
 
 export const PreviewAnnotationRegionTargetSchema: Schema.Codec<PreviewAnnotationRegionTarget> = Schema.Struct({
@@ -813,11 +813,11 @@ export const PreviewAnnotationRegionTargetSchema: Schema.Codec<PreviewAnnotation
 })
 
 export interface PreviewAnnotationStrokeTarget {
-  mutable id: string
-  mutable color: string
-  mutable width: number
-  mutable points: ReadonlyArray<PreviewAnnotationPoint>
-  mutable bounds: PreviewAnnotationRect
+  id: string
+  color: string
+  width: number
+  points: ReadonlyArray<PreviewAnnotationPoint>
+  bounds: PreviewAnnotationRect
 }
 
 export const PreviewAnnotationStrokeTargetSchema: Schema.Codec<PreviewAnnotationStrokeTarget> = Schema.Struct({
@@ -829,11 +829,11 @@ export const PreviewAnnotationStrokeTargetSchema: Schema.Codec<PreviewAnnotation
 })
 
 export interface PreviewAnnotationStyleChange {
-  mutable targetId: string
-  mutable selector: string | null
-  mutable property: string
-  mutable previousValue: string
-  mutable value: string
+  targetId: string
+  selector: string | null
+  property: string
+  previousValue: string
+  value: string
 }
 
 export const PreviewAnnotationStyleChangeSchema: Schema.Codec<PreviewAnnotationStyleChange> = Schema.Struct({
@@ -845,10 +845,10 @@ export const PreviewAnnotationStyleChangeSchema: Schema.Codec<PreviewAnnotationS
 })
 
 export interface PreviewAnnotationScreenshot {
-  mutable dataUrl: string
-  mutable width: number
-  mutable height: number
-  mutable cropRect: PreviewAnnotationRect
+  dataUrl: string
+  width: number
+  height: number
+  cropRect: PreviewAnnotationRect
 }
 
 export const PreviewAnnotationScreenshotSchema: Schema.Codec<PreviewAnnotationScreenshot> = Schema.Struct({
@@ -859,16 +859,16 @@ export const PreviewAnnotationScreenshotSchema: Schema.Codec<PreviewAnnotationSc
 })
 
 export interface PreviewAnnotationPayload {
-  mutable id: string
-  mutable pageUrl: string
-  mutable pageTitle: string | null
-  mutable comment: string
-  mutable elements: ReadonlyArray<PreviewAnnotationElementTarget>
-  mutable regions: ReadonlyArray<PreviewAnnotationRegionTarget>
-  mutable strokes: ReadonlyArray<PreviewAnnotationStrokeTarget>
-  mutable styleChanges: ReadonlyArray<PreviewAnnotationStyleChange>
-  mutable screenshot: PreviewAnnotationScreenshot | null
-  mutable createdAt: string
+  id: string
+  pageUrl: string
+  pageTitle: string | null
+  comment: string
+  elements: ReadonlyArray<PreviewAnnotationElementTarget>
+  regions: ReadonlyArray<PreviewAnnotationRegionTarget>
+  strokes: ReadonlyArray<PreviewAnnotationStrokeTarget>
+  styleChanges: ReadonlyArray<PreviewAnnotationStyleChange>
+  screenshot: PreviewAnnotationScreenshot | null
+  createdAt: string
 }
 
 export const PreviewAnnotationPayloadSchema: Schema.Codec<PreviewAnnotationPayload> = Schema.Struct(
@@ -893,9 +893,9 @@ export const PreviewAnnotationSubmissionSchema: Schema.Codec<PreviewAnnotationSu
 ])
 
 export interface PreviewAnnotationSubmissionResult {
-  mutable annotation: PreviewAnnotationPayload
-  mutable submission: PreviewAnnotationSubmission
-  mutable screenshotFailed?: boolean
+  annotation: PreviewAnnotationPayload
+  submission: PreviewAnnotationSubmission
+  screenshotFailed?: boolean
 }
 export const PreviewAnnotationSubmissionResultSchema: Schema.Codec<PreviewAnnotationSubmissionResult> = Schema.Struct({
   annotation: PreviewAnnotationPayloadSchema,
@@ -983,189 +983,189 @@ export const SystemSettingsPaneSchema = Schema.Literals(["full-disk-access"])
 export type SystemSettingsPane = typeof SystemSettingsPaneSchema.Type
 
 export interface DesktopBridge {
-  mutable getAppBranding: () => DesktopAppBranding | null
-  mutable getRelayTelemetryEnabled?: () => boolean
-  mutable getPathForFile?: (file: File) => string
-  mutable getClientPlatform?: () => string
-  mutable setNotificationBadge?: (badge: { mutable count: number; mutable image: string | null }) => Promise<void>
-  mutable onNotificationBadgeClear?: (listener: () => void) => () => void
-  mutable onTrackpadScrollEnd?: (listener: () => void) => () => void
+  getAppBranding: () => DesktopAppBranding | null
+  getRelayTelemetryEnabled?: () => boolean
+  getPathForFile?: (file: File) => string
+  getClientPlatform?: () => string
+  setNotificationBadge?: (badge: { count: number; image: string | null }) => Promise<void>
+  onNotificationBadgeClear?: (listener: () => void) => () => void
+  onTrackpadScrollEnd?: (listener: () => void) => () => void
   /**
    * Renderer `window.focus()` cannot raise an Electron window, and on Wayland
    * only the main process can spend a notification click's activation token.
    */
-  mutable revealWindow?: () => Promise<void>
+  revealWindow?: () => Promise<void>
   /**
    * The OS locale as a BCP-47 tag, which the renderer cannot read for itself:
    * the packaged app ships only the `en-US` Chromium locale pak, so
    * `navigator.language` and the default `Intl` locale are pinned to `en-US`
    * regardless of OS settings.
    */
-  mutable getSystemLocale?: () => string | null
-  mutable getLocalEnvironmentBootstraps: () => readonly DesktopEnvironmentBootstrap[]
-  mutable getLocalEnvironmentEnabled?: () => boolean
-  mutable setLocalEnvironmentEnabled?: (enabled: boolean) => Promise<void>
-  mutable getLocalEnvironmentBearerToken: () => Promise<string>
-  mutable getClientSettings: () => Promise<ClientSettings | null>
-  mutable setClientSettings: (settings: ClientSettings) => Promise<void>
-  mutable getConnectionCatalog?: () => Promise<string | null>
-  mutable setConnectionCatalog?: (catalog: string) => Promise<boolean>
-  mutable clearConnectionCatalog?: () => Promise<void>
-  mutable discoverSshHosts: () => Promise<readonly DesktopDiscoveredSshHost[]>
-  mutable resolveSshHost: (alias: string) => Promise<DesktopSshEnvironmentTarget>
-  mutable requestSnapShotPermissions?: (includeAccessibility: boolean) => Promise<void>
-  mutable getSnapShotState?: () => Promise<DesktopSnapShotState>
-  mutable setupSnapShot?: (action: DesktopSnapShotSetupAction) => Promise<void>
-  mutable previewSnapShotConfig?: (
+  getSystemLocale?: () => string | null
+  getLocalEnvironmentBootstraps: () => readonly DesktopEnvironmentBootstrap[]
+  getLocalEnvironmentEnabled?: () => boolean
+  setLocalEnvironmentEnabled?: (enabled: boolean) => Promise<void>
+  getLocalEnvironmentBearerToken: () => Promise<string>
+  getClientSettings: () => Promise<ClientSettings | null>
+  setClientSettings: (settings: ClientSettings) => Promise<void>
+  getConnectionCatalog?: () => Promise<string | null>
+  setConnectionCatalog?: (catalog: string) => Promise<boolean>
+  clearConnectionCatalog?: () => Promise<void>
+  discoverSshHosts: () => Promise<readonly DesktopDiscoveredSshHost[]>
+  resolveSshHost: (alias: string) => Promise<DesktopSshEnvironmentTarget>
+  requestSnapShotPermissions?: (includeAccessibility: boolean) => Promise<void>
+  getSnapShotState?: () => Promise<DesktopSnapShotState>
+  setupSnapShot?: (action: DesktopSnapShotSetupAction) => Promise<void>
+  previewSnapShotConfig?: (
     request: DesktopCaptureConfigRequest,
   ) => Promise<DesktopCaptureConfigPreview | null>
-  mutable applySnapShotConfig?: (previewId: string) => Promise<DesktopCaptureConfigApplied>
-  mutable checkSnapShotShortcut?: (
+  applySnapShotConfig?: (previewId: string) => Promise<DesktopCaptureConfigApplied>
+  checkSnapShotShortcut?: (
     shortcut: SnapShotShortcut,
   ) => Promise<DesktopSnapShotShortcutAvailability>
-  mutable setSnapShotShortcutSuppressed?: (suppressed: boolean) => Promise<void>
-  mutable listPendingSnapShots?: () => Promise<readonly DesktopPendingSnapShot[]>
-  mutable readSnapShot?: (id: string) => Promise<DesktopSnapShot>
-  mutable setSnapShotAnimationDestination?: (
+  setSnapShotShortcutSuppressed?: (suppressed: boolean) => Promise<void>
+  listPendingSnapShots?: () => Promise<readonly DesktopPendingSnapShot[]>
+  readSnapShot?: (id: string) => Promise<DesktopSnapShot>
+  setSnapShotAnimationDestination?: (
     destination: DesktopSnapShotAnimationDestination,
   ) => Promise<void>
-  mutable dismissSnapShotAnimation?: (id: DesktopSnapShotId) => Promise<void>
-  mutable acknowledgeSnapShot?: (id: string) => Promise<void>
-  mutable ensureSshEnvironment: (
+  dismissSnapShotAnimation?: (id: DesktopSnapShotId) => Promise<void>
+  acknowledgeSnapShot?: (id: string) => Promise<void>
+  ensureSshEnvironment: (
     target: DesktopSshEnvironmentTarget,
-    options?: { mutable issuePairingToken?: boolean },
+    options?: { issuePairingToken?: boolean },
   ) => Promise<DesktopSshEnvironmentBootstrap>
-  mutable disconnectSshEnvironment: (target: DesktopSshEnvironmentTarget) => Promise<void>
-  mutable fetchSshEnvironmentDescriptor: (httpBaseUrl: string) => Promise<ExecutionEnvironmentDescriptor>
-  mutable bootstrapSshBearerSession: (
+  disconnectSshEnvironment: (target: DesktopSshEnvironmentTarget) => Promise<void>
+  fetchSshEnvironmentDescriptor: (httpBaseUrl: string) => Promise<ExecutionEnvironmentDescriptor>
+  bootstrapSshBearerSession: (
     httpBaseUrl: string,
     credential: string,
   ) => Promise<AuthAccessTokenResult>
-  mutable fetchSshSessionState: (httpBaseUrl: string, bearerToken: string) => Promise<AuthSessionState>
-  mutable issueSshWebSocketTicket: (
+  fetchSshSessionState: (httpBaseUrl: string, bearerToken: string) => Promise<AuthSessionState>
+  issueSshWebSocketTicket: (
     httpBaseUrl: string,
     bearerToken: string,
   ) => Promise<AuthWebSocketTicketResult>
-  mutable onSshPasswordPrompt: (listener: (request: DesktopSshPasswordPromptRequest) => void) => () => void
-  mutable resolveSshPasswordPrompt: (requestId: string, password: string | null) => Promise<void>
-  mutable getServerExposureState: () => Promise<DesktopServerExposureState>
-  mutable setServerExposureMode: (mode: DesktopServerExposureMode) => Promise<DesktopServerExposureState>
-  mutable setTailscaleServeEnabled: (input: {
+  onSshPasswordPrompt: (listener: (request: DesktopSshPasswordPromptRequest) => void) => () => void
+  resolveSshPasswordPrompt: (requestId: string, password: string | null) => Promise<void>
+  getServerExposureState: () => Promise<DesktopServerExposureState>
+  setServerExposureMode: (mode: DesktopServerExposureMode) => Promise<DesktopServerExposureState>
+  setTailscaleServeEnabled: (input: {
     readonly enabled: boolean
     readonly port?: number
   }) => Promise<DesktopServerExposureState>
-  mutable getAdvertisedEndpoints: () => Promise<readonly AdvertisedEndpoint[]>
-  mutable getWslState: () => Promise<DesktopWslState>
-  mutable setWslBackendEnabled: (enabled: boolean) => Promise<DesktopWslState>
-  mutable setWslDistro: (distro: string | null) => Promise<DesktopWslState>
-  mutable setWslOnly: (enabled: boolean) => Promise<DesktopWslState>
-  mutable pickFolder: (options?: PickFolderOptions) => Promise<string | null>
-  mutable pickProjectFavicon?: (initialPath?: string) => Promise<string | null>
-  mutable pickThemeFiles?: () => Promise<readonly PickedThemeFile[] | null>
-  mutable setTheme: (theme: DesktopTheme) => Promise<void>
-  mutable showContextMenu: <T extends string>(
+  getAdvertisedEndpoints: () => Promise<readonly AdvertisedEndpoint[]>
+  getWslState: () => Promise<DesktopWslState>
+  setWslBackendEnabled: (enabled: boolean) => Promise<DesktopWslState>
+  setWslDistro: (distro: string | null) => Promise<DesktopWslState>
+  setWslOnly: (enabled: boolean) => Promise<DesktopWslState>
+  pickFolder: (options?: PickFolderOptions) => Promise<string | null>
+  pickProjectFavicon?: (initialPath?: string) => Promise<string | null>
+  pickThemeFiles?: () => Promise<readonly PickedThemeFile[] | null>
+  setTheme: (theme: DesktopTheme) => Promise<void>
+  showContextMenu: <T extends string>(
     items: readonly ContextMenuItem<T>[],
-    position?: { mutable x: number; mutable y: number },
+    position?: { x: number; y: number },
   ) => Promise<T | null>
-  mutable receiveProviderAuthCallback?: (authorizationUrl: string) => Promise<string>
-  mutable cancelProviderAuthCallback?: (authorizationUrl: string) => Promise<void>
-  mutable openExternal: (url: string) => Promise<boolean>
-  mutable openSystemSettings?: (pane: SystemSettingsPane) => Promise<boolean>
-  mutable checkSystemPermission?: (pane: SystemSettingsPane) => Promise<boolean>
+  receiveProviderAuthCallback?: (authorizationUrl: string) => Promise<string>
+  cancelProviderAuthCallback?: (authorizationUrl: string) => Promise<void>
+  openExternal: (url: string) => Promise<boolean>
+  openSystemSettings?: (pane: SystemSettingsPane) => Promise<boolean>
+  checkSystemPermission?: (pane: SystemSettingsPane) => Promise<boolean>
   /** Older builds lack this; fall back to VS Code only. */
-  mutable probeRemoteEditors?: () => Promise<readonly EditorId[]>
-  mutable pasteAsText?: () => Promise<void>
-  mutable onMenuAction: (listener: (action: string) => void) => () => void
-  mutable onSnapShotEvent?: (listener: (event: DesktopSnapShotEvent) => void) => () => void
-  mutable onQuitShortcut?: (listener: (event: QuitShortcutHintEvent) => void) => () => void
-  mutable getWindowFullscreenState: () => boolean
-  mutable onWindowFullscreenStateChange: (listener: (fullscreen: boolean) => void) => () => void
+  probeRemoteEditors?: () => Promise<readonly EditorId[]>
+  pasteAsText?: () => Promise<void>
+  onMenuAction: (listener: (action: string) => void) => () => void
+  onSnapShotEvent?: (listener: (event: DesktopSnapShotEvent) => void) => () => void
+  onQuitShortcut?: (listener: (event: QuitShortcutHintEvent) => void) => () => void
+  getWindowFullscreenState: () => boolean
+  onWindowFullscreenStateChange: (listener: (fullscreen: boolean) => void) => () => void
   /** App window zoom; older desktop shells omit this method. */
-  mutable getWindowZoomFactor?: () => number
-  mutable getUpdateState: () => Promise<DesktopUpdateState>
-  mutable setUpdateChannel: (channel: DesktopUpdateChannel) => Promise<DesktopUpdateState>
-  mutable checkForUpdate: () => Promise<DesktopUpdateCheckResult>
-  mutable downloadUpdate: () => Promise<DesktopUpdateActionResult>
-  mutable installUpdate: () => Promise<DesktopUpdateActionResult>
-  mutable onUpdateState: (listener: (state: DesktopUpdateState) => void) => () => void
-  mutable cliCommand?: {
-    mutable getState: () => Promise<DesktopCliCommandState>
-    mutable install: () => Promise<DesktopCliCommandState>
-    mutable uninstall: () => Promise<DesktopCliCommandState>
+  getWindowZoomFactor?: () => number
+  getUpdateState: () => Promise<DesktopUpdateState>
+  setUpdateChannel: (channel: DesktopUpdateChannel) => Promise<DesktopUpdateState>
+  checkForUpdate: () => Promise<DesktopUpdateCheckResult>
+  downloadUpdate: () => Promise<DesktopUpdateActionResult>
+  installUpdate: () => Promise<DesktopUpdateActionResult>
+  onUpdateState: (listener: (state: DesktopUpdateState) => void) => () => void
+  cliCommand?: {
+    getState: () => Promise<DesktopCliCommandState>
+    install: () => Promise<DesktopCliCommandState>
+    uninstall: () => Promise<DesktopCliCommandState>
   }
-  mutable webLinks?: {
-    mutable setReady: (ready: boolean) => Promise<void>
-    mutable onOpen: (listener: (url: string) => void) => () => void
+  webLinks?: {
+    setReady: (ready: boolean) => Promise<void>
+    onOpen: (listener: (url: string) => void) => () => void
   }
-  mutable appActivation?: {
-    mutable setReady: (ready: boolean) => Promise<void>
-    mutable complete: (response: DesktopAppActivationResponse) => Promise<void>
-    mutable onRequest: (listener: (request: DesktopAppActivationRequest) => void) => () => void
+  appActivation?: {
+    setReady: (ready: boolean) => Promise<void>
+    complete: (response: DesktopAppActivationResponse) => Promise<void>
+    onRequest: (listener: (request: DesktopAppActivationRequest) => void) => () => void
   }
-  mutable preview?: DesktopPreviewBridge
+  preview?: DesktopPreviewBridge
 }
 
 /** Renderer callback invoked by Electron with a fresh user gesture before display-media capture. */
 export const DESKTOP_PREVIEW_RECORDING_CAPTURE_TRIGGER = "__t3DesktopPreviewRecordingCapture"
 
 export interface DesktopPreviewBridge {
-  mutable setForwardedShortcuts?: (shortcuts: ReadonlyArray<PreviewForwardedShortcut>) => Promise<void>
-  mutable createTab: (tabId: string, defaults?: DesktopPreviewTabDefaults) => Promise<void>
-  mutable closeTab: (tabId: string) => Promise<void>
-  mutable registerWebview: (tabId: string, webContentsId: number) => Promise<void>
-  mutable navigate: (tabId: string, url: string) => Promise<void>
-  mutable goBack: (tabId: string) => Promise<void>
-  mutable goForward: (tabId: string) => Promise<void>
-  mutable refresh: (tabId: string) => Promise<void>
-  mutable zoomIn: (tabId: string) => Promise<void>
-  mutable zoomOut: (tabId: string) => Promise<void>
-  mutable resetZoom: (tabId: string) => Promise<void>
-  mutable setZoomFactor: (tabId: string, zoomFactor: number) => Promise<void>
-  mutable hardReload: (tabId: string) => Promise<void>
-  mutable setColorScheme: (tabId: string, colorScheme: DesktopPreviewColorScheme) => Promise<void>
-  mutable setAudioMuted: (tabId: string, audioMuted: boolean) => Promise<void>
-  mutable openDevTools: (tabId: string) => Promise<void>
-  mutable clearCookies: (environmentId: EnvironmentId, profileId?: string) => Promise<void>
-  mutable clearCache: (environmentId: EnvironmentId, profileId?: string) => Promise<void>
-  mutable getPreviewConfig: (
+  setForwardedShortcuts?: (shortcuts: ReadonlyArray<PreviewForwardedShortcut>) => Promise<void>
+  createTab: (tabId: string, defaults?: DesktopPreviewTabDefaults) => Promise<void>
+  closeTab: (tabId: string) => Promise<void>
+  registerWebview: (tabId: string, webContentsId: number) => Promise<void>
+  navigate: (tabId: string, url: string) => Promise<void>
+  goBack: (tabId: string) => Promise<void>
+  goForward: (tabId: string) => Promise<void>
+  refresh: (tabId: string) => Promise<void>
+  zoomIn: (tabId: string) => Promise<void>
+  zoomOut: (tabId: string) => Promise<void>
+  resetZoom: (tabId: string) => Promise<void>
+  setZoomFactor: (tabId: string, zoomFactor: number) => Promise<void>
+  hardReload: (tabId: string) => Promise<void>
+  setColorScheme: (tabId: string, colorScheme: DesktopPreviewColorScheme) => Promise<void>
+  setAudioMuted: (tabId: string, audioMuted: boolean) => Promise<void>
+  openDevTools: (tabId: string) => Promise<void>
+  clearCookies: (environmentId: EnvironmentId, profileId?: string) => Promise<void>
+  clearCache: (environmentId: EnvironmentId, profileId?: string) => Promise<void>
+  getPreviewConfig: (
     environmentId: EnvironmentId,
     profileId?: string,
   ) => Promise<DesktopPreviewWebviewConfig>
-  mutable listBrowserImportSources: () => Promise<ReadonlyArray<BrowserImportSource>>
-  mutable importBrowserCookies: (input: {
+  listBrowserImportSources: () => Promise<ReadonlyArray<BrowserImportSource>>
+  importBrowserCookies: (input: {
     readonly environmentId: EnvironmentId
     readonly sourceId: BrowserImportSourceId
     readonly sourceProfileDirectory: string
     readonly targetProfileId: string
   }) => Promise<BrowserImportResult>
-  mutable setAnnotationTheme: (theme: DesktopPreviewAnnotationTheme) => Promise<void>
-  mutable setAnnotationSendEnabled: (tabId: string, enabled: boolean) => Promise<void>
+  setAnnotationTheme: (theme: DesktopPreviewAnnotationTheme) => Promise<void>
+  setAnnotationSendEnabled: (tabId: string, enabled: boolean) => Promise<void>
   /** Resolves with the annotation and attach/send intent, or null on cancellation. Rejects if activation fails. */
-  mutable pickElement: (tabId: string) => Promise<PreviewAnnotationSubmissionResult | null>
-  mutable cancelPickElement: (tabId: string) => Promise<void>
-  mutable captureScreenshot: (
+  pickElement: (tabId: string) => Promise<PreviewAnnotationSubmissionResult | null>
+  cancelPickElement: (tabId: string) => Promise<void>
+  captureScreenshot: (
     tabId: string,
   ) => Promise<DesktopPreviewScreenshotArtifact | PreviewCaptureFailureEncoded>
-  mutable revealArtifact: (path: string) => Promise<void>
-  mutable copyArtifactToClipboard: (path: string) => Promise<void>
-  mutable pictureInPicture: {
-    mutable open: (tabId: string) => Promise<void>
-    mutable close: (tabId: string) => Promise<void>
+  revealArtifact: (path: string) => Promise<void>
+  copyArtifactToClipboard: (path: string) => Promise<void>
+  pictureInPicture: {
+    open: (tabId: string) => Promise<void>
+    close: (tabId: string) => Promise<void>
   }
-  mutable recording: {
-    mutable onInput: (listener: (event: DesktopPreviewRecordingInputEvent) => void) => () => void
-    mutable startScreencast: (tabId: string) => Promise<void | PreviewCaptureFailureEncoded>
-    mutable stopScreencast: (tabId: string) => Promise<void>
-    mutable save: (
+  recording: {
+    onInput: (listener: (event: DesktopPreviewRecordingInputEvent) => void) => () => void
+    startScreencast: (tabId: string) => Promise<void | PreviewCaptureFailureEncoded>
+    stopScreencast: (tabId: string) => Promise<void>
+    save: (
       tabId: string,
       mimeType: string,
       data: Uint8Array,
     ) => Promise<DesktopPreviewRecordingArtifact>
-    mutable onFrame: (listener: (frame: DesktopPreviewRecordingFrame) => void) => () => void
+    onFrame: (listener: (frame: DesktopPreviewRecordingFrame) => void) => () => void
   }
-  mutable onStateChange: (listener: (tabId: string, state: DesktopPreviewTabState) => void) => () => void
-  mutable onPointerEvent: (listener: (event: DesktopPreviewPointerEvent) => void) => () => void
-  mutable onOpenLink: (listener: (event: DesktopPreviewOpenLinkEvent) => void) => () => void
+  onStateChange: (listener: (tabId: string, state: DesktopPreviewTabState) => void) => () => void
+  onPointerEvent: (listener: (event: DesktopPreviewPointerEvent) => void) => () => void
+  onOpenLink: (listener: (event: DesktopPreviewOpenLinkEvent) => void) => () => void
 }
 
 export type ConfirmDialogVariant = "default" | "destructive"
@@ -1175,23 +1175,23 @@ export interface ConfirmDialogOptions {
 }
 
 export interface LocalApi {
-  mutable dialogs: {
-    mutable pickFolder: (options?: PickFolderOptions) => Promise<string | null>
-    mutable confirm: (message: string, options?: ConfirmDialogOptions) => Promise<boolean>
+  dialogs: {
+    pickFolder: (options?: PickFolderOptions) => Promise<string | null>
+    confirm: (message: string, options?: ConfirmDialogOptions) => Promise<boolean>
   }
-  mutable shell: {
-    mutable openExternal: (url: string) => Promise<void>
-    mutable openSystemSettings: (pane: SystemSettingsPane) => Promise<void>
+  shell: {
+    openExternal: (url: string) => Promise<void>
+    openSystemSettings: (pane: SystemSettingsPane) => Promise<void>
   }
-  mutable contextMenu: {
-    mutable show: <T extends string>(
+  contextMenu: {
+    show: <T extends string>(
       items: readonly ContextMenuItem<T>[],
-      position?: { mutable x: number; mutable y: number },
+      position?: { x: number; y: number },
     ) => Promise<T | null>
-    mutable close: () => Promise<void>
+    close: () => Promise<void>
   }
-  mutable persistence: {
-    mutable getClientSettings: () => Promise<ClientSettings | null>
-    mutable setClientSettings: (settings: ClientSettings) => Promise<void>
+  persistence: {
+    getClientSettings: () => Promise<ClientSettings | null>
+    setClientSettings: (settings: ClientSettings) => Promise<void>
   }
 }
