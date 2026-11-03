@@ -44,7 +44,7 @@ import {
   type ClaudeScopedLimitNames,
   claudeUsageResponseToLimits,
   recordClaudeUsageResponse,
-} from "./claudeUsageLimits.ts";
+} from "./claudeUsageLimits.vibe";
 import {
   BUNDLED_CLAUDE_MODEL_CATALOG,
   type ClaudeModelCatalog,

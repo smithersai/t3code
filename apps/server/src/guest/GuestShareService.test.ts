@@ -47,7 +47,7 @@ import * as ResourceCleanupService from "../orchestration-v2/ResourceCleanupServ
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as AnalyticsService from "../telemetry/AnalyticsService.ts";
+import * as AnalyticsService from "../telemetry/AnalyticsService.vibe";
 import * as GuestShareService from "./GuestShareService.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

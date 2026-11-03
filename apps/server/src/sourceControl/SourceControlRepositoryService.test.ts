@@ -18,8 +18,8 @@ import {
 import * as ServerConfig from "../config.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import type * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider";
-import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.ts";
-import * as SourceControlRepositoryService from "./SourceControlRepositoryService.ts";
+import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.vibe";
+import * as SourceControlRepositoryService from "./SourceControlRepositoryService.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const CLONE_URLS = {

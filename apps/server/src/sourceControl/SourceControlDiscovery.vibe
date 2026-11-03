@@ -6,12 +6,11 @@ import {
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
 
 import * as ServerConfig from "../config.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import { detailFromCause, firstNonEmptyLine } from "@t3tools/source-control-core/server/discovery";
-import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.ts";
+import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.vibe";
 
 interface DiscoveryProbe {
   readonly label: string;
@@ -33,9 +32,9 @@ interface DiscoveryProbeResult<Kind extends string> {
   readonly executable?: string;
   readonly implemented: boolean;
   readonly status: "available" | "missing";
-  readonly version: Option.Option<string>;
+  readonly version: Option<string>;
   readonly installHint: string;
-  readonly detail: Option.Option<string>;
+  readonly detail: Option<string>;
 }
 
 const VCS_PROBES: ReadonlyArray<VcsProbe> = [
@@ -57,27 +56,26 @@ const VCS_PROBES: ReadonlyArray<VcsProbe> = [
   },
 ];
 
-export class SourceControlDiscovery extends Context.Service<
-  SourceControlDiscovery,
-  {
-    readonly discover: Effect.Effect<SourceControlDiscoveryResult>;
-  }
->()("t3/sourceControl/SourceControlDiscovery") {}
+export service SourceControlDiscovery: {
+    readonly discover: SourceControlDiscoveryResult!!;
+  } {
+  static readonly key = "t3/sourceControl/SourceControlDiscovery"
+}
 
 /** @public */
-export const make = Effect.gen(function* () {
-  const config = yield* ServerConfig.ServerConfig;
-  const process = yield* VcsProcess.VcsProcess;
-  const sourceControlProviders = yield* SourceControlProviderRegistry.SourceControlProviderRegistry;
+export const make = effect {
+  const config = try ServerConfig.ServerConfig;
+  const process = try VcsProcess.VcsProcess;
+  const sourceControlProviders = try SourceControlProviderRegistry.SourceControlProviderRegistry;
 
   const probe = <Kind extends VcsDriverKind>(
     input: DiscoveryProbe & { readonly kind: Kind },
-  ): Effect.Effect<DiscoveryProbeResult<Kind>> => {
+  ): DiscoveryProbeResult<Kind>!! => {
     const executable = input.executable;
     const versionArgs = input.versionArgs;
 
     if (!executable || !versionArgs) {
-      return Effect.succeed({
+      return succeed({
         kind: input.kind,
         label: input.label,
         implemented: input.implemented,
@@ -98,9 +96,8 @@ export const make = Effect.gen(function* () {
         maxOutputBytes: 8_000,
         appendTruncationMarker: true,
       })
-      .pipe(
-        Effect.map(
-          (result) =>
+        |> map(
+          %, (result) =>
             ({
               kind: input.kind,
               label: input.label,
@@ -113,9 +110,9 @@ export const make = Effect.gen(function* () {
               installHint: input.installHint,
               detail: Option.none<string>(),
             }) satisfies DiscoveryProbeResult<Kind>,
-        ),
-        Effect.catch((cause) =>
-          Effect.succeed({
+        )
+        |> Effect.catch(%, (cause) =>
+          succeed({
             kind: input.kind,
             label: input.label,
             executable,
@@ -125,19 +122,18 @@ export const make = Effect.gen(function* () {
             installHint: input.installHint,
             detail: detailFromCause(cause),
           } satisfies DiscoveryProbeResult<Kind>),
-        ),
-      );
+        );
   };
 
   return SourceControlDiscovery.of({
-    discover: Effect.all({
-      versionControlSystems: Effect.all(
-        VCS_PROBES.map((entry) => probe(entry)) as ReadonlyArray<Effect.Effect<VcsDiscoveryItem>>,
+    discover: all({
+      versionControlSystems: all(
+        VCS_PROBES.map((entry) => probe(entry)) as ReadonlyArray<VcsDiscoveryItem!!>,
         { concurrency: "unbounded" },
       ),
       sourceControlProviders: sourceControlProviders.discover,
     }),
   });
-});
+};
 
 export const layer = Layer.effect(SourceControlDiscovery, make);

@@ -48,7 +48,7 @@ import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter"
 import * as ProviderSessionManager from "./ProviderSessionManager.ts";
 import * as ProviderTurnStart from "./ProviderTurnStartService.ts";
 import * as RunExecutionService from "./RunExecutionService.ts";
-import * as RuntimePolicy from "./RuntimePolicy.ts";
+import * as RuntimePolicy from "./RuntimePolicy.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const isDomainEvent = Schema.is(OrchestrationV2DomainEvent);

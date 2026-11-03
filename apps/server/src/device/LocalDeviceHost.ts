@@ -37,7 +37,7 @@ import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite";
 import * as ServerConfig from "../config.ts";
 import * as ProcessRunner from "../processRunner.ts";
 import * as DeviceHost from "./DeviceHost.ts";
-import { makeDeviceHubOperations } from "./DeviceHubOperations.ts";
+import { makeDeviceHubOperations } from "./DeviceHubOperations.vibe";
 import {
   agentDeviceStateDir,
   type DeviceToolPaths,

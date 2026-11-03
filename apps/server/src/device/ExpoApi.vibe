@@ -5,19 +5,10 @@
  */
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
-import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import {
-  GraphQLClient,
-  GraphQLClientError,
-  GraphQLMiddleware,
-  GraphQLProtocol,
-} from "effect/graphql";
 import { HttpClient } from "effect/http";
-import * as Headers from "effect/http/Headers";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
 import { ExpoApiGraphQLGroup, type T3EasSimulatorSession } from "./ExpoApi.graphql.ts";
@@ -36,10 +27,7 @@ export interface ExpoCredential {
   };
 }
 
-export class ExpoNotSignedInError extends Schema.TaggedError<ExpoNotSignedInError>()(
-  "ExpoNotSignedInError",
-  {},
-) {
+export schema error ExpoNotSignedInError {
   override get message(): string {
     return "No Expo credential on the server: save an access token for this host, set EXPO_TOKEN, or run `eas login`.";
   }
@@ -51,10 +39,8 @@ const CREDENTIAL_SOURCE_NAMES: Record<ExpoCredentialSource, string> = {
   "eas-login": "The eas login session",
 };
 
-export class ExpoInvalidCredentialError extends Schema.TaggedError<ExpoInvalidCredentialError>()(
-  "ExpoInvalidCredentialError",
-  { source: Schema.Literals(["settings", "env", "eas-login"]) },
-) {
+export schema error ExpoInvalidCredentialError {
+  readonly source: "settings" | "env" | "eas-login"
   override get message(): string {
     return `${CREDENTIAL_SOURCE_NAMES[this.source]} is not a usable Expo credential. Replace it.`;
   }
@@ -71,14 +57,14 @@ const credential = (
   value: string,
 ) =>
   /^[\x21-\x7e]+$/.test(value)
-    ? Effect.succeed({
+    ? succeed({
         source,
         header: {
           name: header,
           value: Redacted.make(header === "authorization" ? `Bearer ${value}` : value),
         },
       } satisfies ExpoCredential)
-    : Effect.fail(new ExpoInvalidCredentialError({ source }));
+    : fail(new ExpoInvalidCredentialError({ source }));
 
 export class ExpoApiError extends Schema.TaggedError<ExpoApiError>()("ExpoApiError", {
   operation: Schema.String,
@@ -109,23 +95,22 @@ const ExpoState = Schema.fromJsonString(
 const decodeExpoState = Schema.decodeUnknownOption(ExpoState);
 
 /** A token saved for the host, then EXPO_TOKEN, then the `eas login` session. */
-export const resolveExpoCredential = Effect.fn("ExpoApi.resolveExpoCredential")(function* (
+export const resolveExpoCredential = effect (
   savedToken: string,
-) {
+) => try withSpan(effect {
   const saved = savedToken.trim();
-  if (saved !== "") return yield* credential("settings", "authorization", saved);
-  const fromEnv = (yield* HostProcess.Environment).EXPO_TOKEN?.trim();
-  if (fromEnv) return yield* credential("env", "authorization", fromEnv);
-  const fs = yield* FileSystem.FileSystem;
-  const path = yield* Path.Path;
-  const statePath = path.join(yield* HostProcess.HomeDirectory, ".expo", "state.json");
-  const state = yield* fs.readFileString(statePath).pipe(Effect.option);
-  const secret = Option.flatMap(state, decodeExpoState).pipe(
-    Option.flatMap((value) => Option.fromNullishOr(value.auth?.sessionSecret?.trim() || null)),
-  );
-  if (Option.isNone(secret)) return yield* new ExpoNotSignedInError();
-  return yield* credential("eas-login", "expo-session", secret.value);
-});
+  if (saved !== "") return try credential("settings", "authorization", saved);
+  const fromEnv = (try HostProcess.Environment).EXPO_TOKEN?.trim();
+  if (fromEnv) return try credential("env", "authorization", fromEnv);
+  const fs = try FileSystem.FileSystem;
+  const path = try Path.Path;
+  const statePath = path.join(try HostProcess.HomeDirectory, ".expo", "state.json");
+  const state = try (fs.readFileString(statePath) |> option(%));
+  const secret = Option.flatMap(state, decodeExpoState)
+    .flatMap((value) => Option.fromNullishOr(value.auth?.sessionSecret?.trim() || null));
+  if (Option.isNone(secret)) throw new ExpoNotSignedInError();
+  return try credential("eas-login", "expo-session", secret.value);
+}, "ExpoApi.resolveExpoCredential");
 
 export type EasSessionStatus = DeviceRunSessionStatus;
 
@@ -168,7 +153,7 @@ const ExpoGroup = ExpoApiGraphQLGroup.middleware(ExpoAuth);
 const toExpoApiError = (
   operation: string,
   credential: ExpoCredential,
-  error: GraphQLClientError.GraphQLClientError,
+  error: GraphQLClientError,
 ): ExpoApiError => {
   const reason = error.reason;
   const status =
@@ -250,13 +235,13 @@ const toSession = (
 
 /** Typed calls against Expo's API with one resolved credential. */
 export const makeExpoApi = (http: HttpClient.HttpClient, credential: ExpoCredential) => {
-  const client = GraphQLClient.make(ExpoGroup).pipe(
-    Effect.provide(
-      Layer.mergeAll(
+  const client = GraphQLClient.make(ExpoGroup)
+    |> Effect.provide(
+      %, Layer.mergeAll(
         Layer.succeed(
           ExpoAuth,
           GraphQLMiddleware.mapRequest((request) =>
-            Effect.succeed({
+            succeed({
               ...request,
               headers: Headers.set(
                 request.headers,
@@ -270,36 +255,34 @@ export const makeExpoApi = (http: HttpClient.HttpClient, credential: ExpoCredent
           Layer.provide(Layer.succeed(HttpClient.HttpClient, http)),
         ),
       ),
-    ),
-  );
+    );
   const call = <A>(
     operation: string,
     run: (
       client: GraphQLClient.FromGroup<typeof ExpoGroup>,
-    ) => Effect.Effect<A, GraphQLClientError.GraphQLClientError>,
+    ) => A!GraphQLClientError,
   ) =>
-    Effect.flatMap(client, run).pipe(
-      Effect.mapError((error) => toExpoApiError(operation, credential, error)),
-      Effect.timeoutOrElse({
+    flatMap(client, run)
+      |> mapError(%, (error) => toExpoApiError(operation, credential, error))
+      |> timeoutOrElse(%, {
         duration: REQUEST_TIMEOUT,
         orElse: () =>
-          Effect.fail(new ExpoApiError({ operation, detail: "Expo's API did not answer in time" })),
-      }),
-      Effect.withSpan(`ExpoApi.${operation}`),
-    );
+          fail(new ExpoApiError({ operation, detail: "Expo's API did not answer in time" })),
+      })
+      |> withSpan(%, `ExpoApi.${operation}`);
 
   return {
     credential,
-    viewer: call("read the signed-in account", (expo) => expo.T3ExpoViewer()).pipe(
-      Effect.flatMap(({ meActor }) =>
+    viewer: call("read the signed-in account", (expo) => expo.T3ExpoViewer())
+      |> flatMap(%, ({ meActor }) =>
         meActor === null
-          ? Effect.fail(
+          ? fail(
               new ExpoApiError({
                 operation: "read the signed-in account",
                 detail: "no account is signed in",
               }),
             )
-          : Effect.succeed({
+          : succeed({
               name:
                 "username" in meActor
                   ? meActor.username
@@ -311,19 +294,17 @@ export const makeExpoApi = (http: HttpClient.HttpClient, credential: ExpoCredent
               ),
             }),
       ),
-    ),
     availability: (appId: string) =>
       call("check EAS Simulator access", (expo) =>
         expo.T3EasSimulatorAvailability({ appId, filter: [DEVICE_RUN_SESSIONS_GATE] }),
-      ).pipe(
-        Effect.map(({ app }) => {
+      )
+        |> map(%, ({ app }) => {
           const gates = app.byId.ownerAccount.accountFeatureGates;
           return {
             account: app.byId.ownerAccount.name,
             available: isFeatureGates(gates) && gates[DEVICE_RUN_SESSIONS_GATE] === true,
           };
         }),
-      ),
     create: (input: CreateEasSessionInput) =>
       call("start a simulator session", (expo) =>
         expo.T3CreateEasSimulatorSession({
@@ -338,24 +319,21 @@ export const makeExpoApi = (http: HttpClient.HttpClient, credential: ExpoCredent
             corsOrigins: ["http://localhost"],
           },
         }),
-      ).pipe(Effect.map(({ deviceRunSession }) => deviceRunSession.createDeviceRunSession.id)),
+      ) |> map(%, ({ deviceRunSession }) => deviceRunSession.createDeviceRunSession.id),
     session: (id: string) =>
-      call("read a simulator session", (expo) => expo.T3EasSimulatorSession({ id })).pipe(
-        Effect.map(({ deviceRunSessions }) => toSession(deviceRunSessions.byId)),
-      ),
+      call("read a simulator session", (expo) => expo.T3EasSimulatorSession({ id }))
+        |> map(%, ({ deviceRunSessions }) => toSession(deviceRunSessions.byId)),
     activeSessions: (appId: string) =>
       call("list simulator sessions", (expo) =>
         expo.T3ActiveEasSimulatorSessions({
           appId,
           filter: { statuses: ["NEW", "QUEUED", "STARTING", "IN_PROGRESS"] },
         }),
-      ).pipe(
-        Effect.map(({ app }) => app.byId.deviceRunSessionsPaginated.edges.map(({ node }) => node)),
-      ),
+      )
+        |> map(%, ({ app }) => app.byId.deviceRunSessionsPaginated.edges.map(({ node }) => node)),
     stop: (id: string) =>
-      call("stop a simulator session", (expo) => expo.T3StopEasSimulatorSession({ id })).pipe(
-        Effect.map(({ deviceRunSession }) => deviceRunSession.ensureDeviceRunSessionStopped.status),
-      ),
+      call("stop a simulator session", (expo) => expo.T3StopEasSimulatorSession({ id }))
+        |> map(%, ({ deviceRunSession }) => deviceRunSession.ensureDeviceRunSessionStopped.status),
   };
 };
 

@@ -31,7 +31,7 @@ import * as ServerLifecycleEvents from "./serverLifecycleEvents.ts";
 import * as ServerRuntimeStartup from "./serverRuntimeStartup.ts";
 import * as ServerSettings from "./serverSettings.ts";
 import * as ServerSecretStore from "./auth/ServerSecretStore.ts";
-import * as AnalyticsService from "./telemetry/AnalyticsService.ts";
+import * as AnalyticsService from "./telemetry/AnalyticsService.vibe";
 import * as GitVcsDriver from "./vcs/GitVcsDriver.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

@@ -4,11 +4,8 @@ import type {
   ServerProviderUsageLimits,
   ServerProviderUsageWindow,
 } from "@t3tools/contracts";
-import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
-import * as Schema from "effect/Schema";
 
 import {
   clampPercent,
@@ -30,11 +27,11 @@ const WINDOWS: Readonly<
 const OVERAGE_INCLUDED_EVENT_TYPE = "seven_day_overage_included";
 
 // The SDK does not yet type the spend budget returned by `get_usage`.
-const SpendMoney = Schema.Struct({
-  amount_minor: Schema.Natural,
-  currency: Schema.NonEmptyString,
-  exponent: Schema.Natural,
-});
+schema SpendMoney {
+  readonly amount_minor: Schema.Natural
+  readonly currency: Schema.NonEmptyString
+  readonly exponent: Schema.Natural
+}
 const decodeSpendBudget = Schema.decodeUnknownOption(
   Schema.Struct({ enabled: Schema.Boolean, used: SpendMoney, limit: SpendMoney }),
 );
@@ -219,7 +216,7 @@ export function claudeUsageResponseToLimits(input: {
 export const recordClaudeUsageResponse = (
   namesRef: Ref.Ref<ClaudeScopedLimitNames>,
   input: Parameters<typeof claudeUsageResponseToLimits>[0],
-): Effect.Effect<ServerProviderUsageLimits> => {
+): ServerProviderUsageLimits!! => {
   const { limits, names } = claudeUsageResponseToLimits(input);
-  return Ref.set(namesRef, names).pipe(Effect.as(limits));
+  return Ref.set(namesRef, names) |> as(%, limits);
 };

@@ -17,8 +17,8 @@ import * as HttpServerResponse from "effect/http/HttpServerResponse";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
 import * as ServerConfig from "../config.ts";
-import { getTelemetryIdentity } from "./Identify.ts";
-import * as AnalyticsService from "./AnalyticsService.ts";
+import { getTelemetryIdentity } from "./Identify.vibe";
+import * as AnalyticsService from "./AnalyticsService.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 interface RecordedBatchRequest {

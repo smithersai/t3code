@@ -54,7 +54,7 @@ import {
   makeProviderFailure,
 } from "@t3tools/provider-core/server/failure";
 import * as RunExecutionService from "./RunExecutionService.ts";
-import * as RuntimePolicy from "./RuntimePolicy.ts";
+import * as RuntimePolicy from "./RuntimePolicy.vibe";
 import {
   isRestartNoteContinuation,
   pendingRestartCancelledBackgroundWork,

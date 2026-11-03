@@ -16,7 +16,7 @@ import * as Stream from "effect/Stream";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
 import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.ts";
 import * as ProjectStore from "./ProjectStore.ts";
-import * as RuntimePolicy from "./RuntimePolicy.ts";
+import * as RuntimePolicy from "./RuntimePolicy.vibe";
 
 const projectId = ProjectId.make("project:runtime-policy");
 const providerInstanceId = ProviderInstanceId.make("codex");

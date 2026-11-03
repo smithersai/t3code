@@ -13,7 +13,7 @@ import * as ServerSettings from "../serverSettings.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
 import * as KnownWorkspaces from "../workspace/KnownWorkspaces.ts";
-import * as ReviewService from "./ReviewService.ts";
+import * as ReviewService from "./ReviewService.vibe";
 
 function layer(input: {
   readonly workspaceRoot: string;

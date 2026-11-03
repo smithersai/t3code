@@ -8,7 +8,7 @@ import * as Redacted from "effect/Redacted";
 import { HttpClient, HttpClientError, HttpClientResponse } from "effect/http";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
-import { makeExpoApi, resolveExpoCredential, type ExpoCredential } from "./ExpoApi.ts";
+import { makeExpoApi, resolveExpoCredential, type ExpoCredential } from "./ExpoApi.vibe";
 
 const header = (credential: ExpoCredential) => ({
   source: credential.source,

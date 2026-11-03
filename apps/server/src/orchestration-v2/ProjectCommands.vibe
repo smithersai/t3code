@@ -47,48 +47,31 @@ export interface ProjectDeleteCommand {
 
 export type ProjectCommand = ProjectCreateCommand | ProjectMetaUpdateCommand | ProjectDeleteCommand;
 
-export class ProjectCommandInvariantError extends Schema.TaggedError<ProjectCommandInvariantError>()(
-  "ProjectCommandInvariantError",
-  {
-    commandType: Schema.String,
-    detail: Schema.String,
-  },
-) {
+export schema error ProjectCommandInvariantError {
+  readonly commandType: string
+  readonly detail: string
   override get message(): string {
     return `Project command invariant failed (${this.commandType}): ${this.detail}`;
   }
 }
 
-export class ProjectCommandMissingProjectError extends Schema.TaggedError<ProjectCommandMissingProjectError>()(
-  "ProjectCommandMissingProjectError",
-  {
-    commandType: Schema.String,
-    projectId: ProjectId,
-  },
-) {
+export schema error ProjectCommandMissingProjectError {
+  readonly commandType: string
+  readonly projectId: ProjectId
   override get message(): string {
     return `Project '${this.projectId}' does not exist for command '${this.commandType}'.`;
   }
 }
 
-export class ProjectWorkspaceConflictError extends Schema.TaggedError<ProjectWorkspaceConflictError>()(
-  "ProjectWorkspaceConflictError",
-  {
-    workspaceRoot: Schema.String,
-    conflictingProjectId: ProjectId,
-  },
-) {
+export schema error ProjectWorkspaceConflictError {
+  readonly workspaceRoot: string
+  readonly conflictingProjectId: ProjectId
   override get message(): string {
     return `Active project '${this.conflictingProjectId}' already exists for workspace root '${this.workspaceRoot}'.`;
   }
 }
 
-export const ProjectCommandRejection = Schema.Union([
-  ProjectCommandInvariantError,
-  ProjectCommandMissingProjectError,
-  ProjectWorkspaceConflictError,
-]);
-export type ProjectCommandRejection = typeof ProjectCommandRejection.Type;
+export schema ProjectCommandRejection = ProjectCommandInvariantError | ProjectCommandMissingProjectError | ProjectWorkspaceConflictError
 
 const ProjectCommandRejectionJson = Schema.fromJsonString(ProjectCommandRejection);
 export const encodeProjectCommandRejection = Schema.encodeSync(ProjectCommandRejectionJson);

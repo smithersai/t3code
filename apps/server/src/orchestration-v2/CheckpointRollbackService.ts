@@ -24,7 +24,7 @@ import { withWorkspaceLease } from "../workspace/workspaceLease.vibe";
 import {
   isCheckpointRestoreIsolated,
   SHARED_WORKSPACE_RESTORE_MESSAGE,
-} from "./CheckpointRestoreSafety.ts";
+} from "./CheckpointRestoreSafety.vibe";
 import { CheckpointRestoreError, CheckpointServiceV2 } from "./CheckpointService.ts";
 import { EventSinkV2 } from "./EventSink.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
@@ -33,7 +33,7 @@ import { GIT_INDEX_LOCKED_DETAIL } from "../vcs/VcsProcess.ts";
 import * as ProjectStore from "./ProjectStore.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import { ProviderSessionManagerV2 } from "./ProviderSessionManager.ts";
-import { RuntimePolicyV2 } from "./RuntimePolicy.ts";
+import { RuntimePolicyV2 } from "./RuntimePolicy.vibe";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 
 export const ROLLBACK_FAILED_MESSAGE =

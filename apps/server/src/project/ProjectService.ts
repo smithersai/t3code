@@ -27,7 +27,7 @@ import {
   encodeProjectCommandRejection,
   planProjectCommand,
   type ProjectCommand,
-} from "../orchestration-v2/ProjectCommands.ts";
+} from "../orchestration-v2/ProjectCommands.vibe";
 import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
 import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.vibe";
 import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.ts";

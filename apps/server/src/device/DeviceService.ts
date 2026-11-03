@@ -59,7 +59,7 @@ import * as ProcessRunner from "../processRunner.ts";
 import * as DeviceHost from "./DeviceHost.ts";
 import * as SshDeviceHost from "./SshDeviceHost.ts";
 import * as EasDeviceHost from "./EasDeviceHost.ts";
-import { makeExpoApi, resolveExpoCredential } from "./ExpoApi.ts";
+import { makeExpoApi, resolveExpoCredential } from "./ExpoApi.vibe";
 import * as Exit from "effect/Exit";
 import * as LocalDeviceHost from "./LocalDeviceHost.ts";
 

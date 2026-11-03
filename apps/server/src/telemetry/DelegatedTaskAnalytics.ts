@@ -13,7 +13,7 @@ import * as Stream from "effect/Stream";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import { forkParked } from "../serverActivation.ts";
-import * as AnalyticsService from "./AnalyticsService.ts";
+import * as AnalyticsService from "./AnalyticsService.vibe";
 import { crossProvider, providerDimensions } from "./ProviderDimensions.ts";
 
 type SubagentEvent = Extract<OrchestrationV2DomainEvent, { readonly type: "subagent.updated" }>;

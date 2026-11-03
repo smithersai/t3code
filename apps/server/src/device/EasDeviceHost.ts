@@ -34,7 +34,7 @@ import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as ServerConfig from "../config.ts";
 import * as DeviceHost from "./DeviceHost.ts";
 import { findEasProjectId } from "./easProjectId.vibe";
-import { type ExpoApi, makeExpoApi, resolveExpoCredential } from "./ExpoApi.ts";
+import { type ExpoApi, makeExpoApi, resolveExpoCredential } from "./ExpoApi.vibe";
 
 const POLL_INTERVAL = Duration.seconds(5);
 // How stale a running session's status may get before listing rechecks it.

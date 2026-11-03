@@ -6,7 +6,7 @@ import * as Effect from "effect/Effect";
 import { HttpClient, HttpClientResponse } from "effect/http";
 import * as ServerSettings from "../serverSettings.ts";
 import * as DeviceHost from "./DeviceHost.ts";
-import { makeDeviceHubOperations } from "./DeviceHubOperations.ts";
+import { makeDeviceHubOperations } from "./DeviceHubOperations.vibe";
 import * as DeviceService from "./DeviceService.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

@@ -16,8 +16,8 @@ import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as SourceControlDiscovery from "./SourceControlDiscovery.ts";
-import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.ts";
+import * as SourceControlDiscovery from "./SourceControlDiscovery.vibe";
+import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.vibe";
 
 const kind = SourceControlProviderKind.make;
 

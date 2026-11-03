@@ -1,9 +1,5 @@
 import type { ResourceTelemetryProcess } from "@t3tools/contracts";
-import * as Cause from "effect/Cause";
-import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Metric from "effect/Metric";
-import * as Ref from "effect/Ref";
 
 import * as ServerConfig from "../config.ts";
 import { metricAttributes } from "../observability/Metrics.vibe";
@@ -98,48 +94,45 @@ export function groupProcesses(
  * it, once a minute.
  */
 export const layer = Layer.effectDiscard(
-  Effect.gen(function* () {
-    const config = yield* ServerConfig.ServerConfig;
+  effect {
+    const config = try ServerConfig.ServerConfig;
     if (config.otlpMetricsUrl === undefined) return;
-    const telemetry = yield* ResourceTelemetry.ResourceTelemetry;
+    const telemetry = try ResourceTelemetry.ResourceTelemetry;
     // A group that empties reads zero rather than holding its last value.
     const seen = new Set<string>();
-    const sample = Effect.fn("ProcessGroupMetrics.sample")(function* () {
-      const totals = groupProcesses((yield* telemetry.refresh).processes);
+    const sample = effect () => try withSpan(effect {
+      const totals = groupProcesses((try telemetry.refresh).processes);
       for (const group of totals.keys()) seen.add(group);
       for (const group of seen) {
         const total = totals.get(group) ?? { residentBytes: 0, cpuPercent: 0, count: 0 };
         const attributes = metricAttributes({ group });
-        yield* Metric.update(Metric.withAttributes(residentBytes, attributes), total.residentBytes);
-        yield* Metric.update(Metric.withAttributes(cpuPercent, attributes), total.cpuPercent);
-        yield* Metric.update(Metric.withAttributes(processCount, attributes), total.count);
+        try Metric.update(Metric.withAttributes(residentBytes, attributes), total.residentBytes);
+        try Metric.update(Metric.withAttributes(cpuPercent, attributes), total.cpuPercent);
+        try Metric.update(Metric.withAttributes(processCount, attributes), total.count);
       }
-    });
+    }, "ProcessGroupMetrics.sample");
     // A failing collector would otherwise leave these series silently absent, so the first
     // failure and the recovery are logged; the repeats stay at debug.
-    const failing = yield* Ref.make(false);
-    const recordSuccess = Ref.getAndSet(failing, false).pipe(
-      Effect.flatMap((wasFailing) =>
-        wasFailing ? Effect.logInfo("process group metrics sample recovered") : Effect.void,
-      ),
-    );
+    const failing = try Ref.make(false);
+    const recordSuccess = effect { return try (Ref.getAndSet(failing, false)
+      |> flatMap(%, (wasFailing) =>
+        wasFailing ? logInfo("process group metrics sample recovered") : Effect.void,
+      )) };
     const recordFailure = (error: ResourceTelemetry.ResourceTelemetryRefreshFailed) => {
       const cause = Cause.fail(error);
-      return Ref.getAndSet(failing, true).pipe(
-        Effect.flatMap((wasFailing) =>
+      return Ref.getAndSet(failing, true)
+        |> flatMap(%, (wasFailing) =>
           wasFailing
-            ? Effect.logDebug("process group metrics sample failed", cause)
-            : Effect.logWarning("process group metrics are not exported: sample failed", cause),
-        ),
-        Effect.annotateLogs({ operation: error.operation }),
-      );
+            ? logDebug("process group metrics sample failed", cause)
+            : logWarning("process group metrics are not exported: sample failed", cause),
+        )
+        |> annotateLogs({ operation: error.operation })(%);
     };
-    yield* sample().pipe(
-      Effect.andThen(recordSuccess),
-      Effect.catch(recordFailure),
-      Effect.andThen(Effect.sleep(SAMPLE_INTERVAL)),
-      Effect.forever,
-      Effect.forkScoped,
-    );
-  }),
+    try (sample()
+      |> andThen(%, recordSuccess)
+      |> Effect.catch(%, recordFailure)
+      |> andThen(%, sleep(SAMPLE_INTERVAL))
+      |> forever(%)
+      |> forkScoped(%));
+  },
 );

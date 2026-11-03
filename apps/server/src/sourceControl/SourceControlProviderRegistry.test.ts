@@ -30,7 +30,7 @@ import * as ServerSettings from "../serverSettings.ts";
 import * as ServerConfig from "../config.ts";
 import type * as VcsDriver from "../vcs/VcsDriver.ts";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
-import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.ts";
+import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.vibe";
 
 const TEST_EPOCH = DateTime.makeUnsafe("1970-01-01T00:00:00.000Z");
 const kind = SourceControlProviderKind.make;

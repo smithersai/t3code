@@ -13,7 +13,7 @@ import * as References from "effect/References";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import { CLOUD_LINKED_USER_ID } from "../cloud/config.ts";
 import * as ServerConfig from "../config.ts";
-import * as Identify from "./Identify.ts";
+import * as Identify from "./Identify.vibe";
 
 interface CapturedLog {
   readonly message: unknown;

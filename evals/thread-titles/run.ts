@@ -18,7 +18,7 @@ import {
   type ThreadTitleMessage,
 } from "@t3tools/provider-core/server/threadTitleContext";
 import * as ThreadTitleLinks from "../../apps/server/src/textGeneration/ThreadTitleLinks.ts";
-import * as SourceControlProviderRegistry from "../../apps/server/src/sourceControl/SourceControlProviderRegistry.ts";
+import * as SourceControlProviderRegistry from "../../apps/server/src/sourceControl/SourceControlProviderRegistry.vibe";
 import * as SourceControlBuiltInDrivers from "../../apps/server/src/sourceControl/builtInDrivers.ts";
 import * as ServerSettings from "../../apps/server/src/serverSettings.ts";
 import * as VcsProcess from "../../apps/server/src/vcs/VcsProcess.ts";

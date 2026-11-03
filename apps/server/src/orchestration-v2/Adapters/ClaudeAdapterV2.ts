@@ -164,7 +164,7 @@ import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEve
 import {
   claudeRateLimitEventToUpdate,
   type ClaudeScopedLimitNames,
-} from "../../provider/claudeUsageLimits.ts";
+} from "../../provider/claudeUsageLimits.vibe";
 import type { ManagedServerProvider } from "@t3tools/provider-core/server/snapshot";
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";
 import { T3_CODE_ORCHESTRATION_INSTRUCTIONS } from "@t3tools/provider-core/server/orchestrationInstructions";

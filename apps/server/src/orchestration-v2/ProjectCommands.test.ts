@@ -7,7 +7,7 @@ import {
   planProjectCommand,
   type ProjectCommand,
   type ProjectCommandState,
-} from "./ProjectCommands.ts";
+} from "./ProjectCommands.vibe";
 import type { ProjectRow } from "./ProjectStore.ts";
 
 const now = DateTime.makeUnsafe("2026-01-01T00:00:00.000Z");
