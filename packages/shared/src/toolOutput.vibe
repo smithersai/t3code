@@ -14,27 +14,27 @@ const MAX_ENVELOPE_NODES = 128
 const encoder = new TextEncoder()
 
 interface ResultReadBudget {
-  mutable remainingBytes: number
-  mutable remainingNodes: number
-  mutable exceeded: boolean
+  remainingBytes: number
+  remainingNodes: number
+  exceeded: boolean
 }
 
 interface ResultEnvelope {
-  mutable data?: Record<PropertyKey, unknown>
-  mutable failed: boolean
+  data?: Record<PropertyKey, unknown>
+  failed: boolean
 }
 
 interface CompactToolOutput {
-  mutable isError?: true
-  mutable threadId?: string
-  mutable messageId?: string
-  mutable taskId?: string
-  mutable scheduledTaskId?: string
-  mutable status?: "rolled_back"
-  mutable htmlRender?: HtmlRenderReference
-  mutable [MCP_APP_OUTPUT_KEY]?: McpAppReference
-  mutable thread?: { mutable threadId: string }
-  mutable threads?: Array<{ mutable threadId?: string; mutable status?: "rolled_back" }>
+  isError?: true
+  threadId?: string
+  messageId?: string
+  taskId?: string
+  scheduledTaskId?: string
+  status?: "rolled_back"
+  htmlRender?: HtmlRenderReference
+  [MCP_APP_OUTPUT_KEY]?: McpAppReference
+  thread?: { threadId: string }
+  threads?: Array<{ threadId?: string; status?: "rolled_back" }>
 }
 
 function readResult(value: unknown, budget: ResultReadBudget, depth = 0): ResultEnvelope {

@@ -22,13 +22,13 @@ export function modelSelectionCommandType(
 }
 
 export interface SelectableModelOption {
-  mutable slug: string
-  mutable name: string
-  mutable aliases?: ReadonlyArray<string> | undefined
+  slug: string
+  name: string
+  aliases?: ReadonlyArray<string> | undefined
 }
 
 export function createModelCapabilities(input: {
-  mutable optionDescriptors: ReadonlyArray<ProviderOptionDescriptor>
+  optionDescriptors: ReadonlyArray<ProviderOptionDescriptor>
 }): ModelCapabilities {
   return {
     optionDescriptors: input.optionDescriptors.map(cloneDescriptor),
@@ -129,7 +129,7 @@ export function draftModelPickMatchesThread(pick: ModelSelection, thread: ModelS
 }
 
 function resolveDescriptorChoiceValue(
-  descriptor: Extract<ProviderOptionDescriptor, { mutable type: "select" }>,
+  descriptor: Extract<ProviderOptionDescriptor, { type: "select" }>,
   raw: string | null | undefined,
 ): string | undefined {
   const trimmed = trimOrNull(raw)
@@ -194,8 +194,8 @@ function withDescriptorCurrentValue(
 }
 
 export function getProviderOptionDescriptors(input: {
-  mutable caps: ModelCapabilities
-  mutable selections?: ReadonlyArray<ProviderOptionSelection> | null | undefined
+  caps: ModelCapabilities
+  selections?: ReadonlyArray<ProviderOptionSelection> | null | undefined
 }): ReadonlyArray<ProviderOptionDescriptor> {
   const { caps, selections } = input
   const baseDescriptors = (caps.optionDescriptors ?? []).map(cloneDescriptor)
@@ -386,7 +386,7 @@ export function readCustomModelEntries(value: unknown): CustomModelDefinition[] 
     const record = typeof raw === "string"
       ? { slug: raw }
       : raw !== null && typeof raw === "object"
-      ? (raw as { mutable slug?: unknown; mutable name?: unknown; mutable capabilities?: unknown })
+      ? (raw as { slug?: unknown; name?: unknown; capabilities?: unknown })
       : null
     if (!record) continue
     const slug = normalizeCustomModelSlug(typeof record.slug === "string" ? record.slug : null)

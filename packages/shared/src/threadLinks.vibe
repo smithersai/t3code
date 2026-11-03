@@ -65,7 +65,7 @@ export function relabelThreadLinks(
 ): string {
   if (!hasThreadLinks(markdown)) return markdown
   return markdown.replace(THREAD_LINK_OUTSIDE_CODE, (source, ...args) => {
-    const href = (args.at(-1) as { mutable href?: string }).href
+    const href = (args.at(-1) as { href?: string }).href
     if (href === undefined) return source
     const written = parseThreadLinkHref(href)
     if (written === null) return source
