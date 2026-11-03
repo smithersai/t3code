@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@effect/vitest";
 
-import { createTranscriptJsonReader, TranscriptJsonLimitError } from "./AgentSessionJson.vibe";
+import { createTranscriptJsonReader, TranscriptJsonLimitError } from "./AgentSessionJson.ts";
 
 function read(
   json: string,
