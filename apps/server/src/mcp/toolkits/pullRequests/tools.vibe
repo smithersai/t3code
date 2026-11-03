@@ -193,10 +193,10 @@ export const LinkPullRequestResult = Schema.Struct({
 export type LinkPullRequestResult = typeof LinkPullRequestResult.Type
 
 export schema UnlinkPullRequestResult {
-  host: string
-  repository: string
-  number: Schema.Int
-  wasLinked: boolean
+  readonly host: string
+  readonly repository: string
+  readonly number: Schema.Int
+  readonly wasLinked: boolean
 }
 
 export const WatchPullRequestResult = Schema.Struct({
@@ -326,7 +326,7 @@ const GuideOutcome = Schema.Struct({
 })
 
 export schema WritePullRequestGuidesResult {
-  guides: ReadonlyArray<GuideOutcome>
+  readonly guides: ReadonlyArray<GuideOutcome>
 }
 
 export const ReadPullRequestGuideResult = Schema.Struct({

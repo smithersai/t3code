@@ -8,7 +8,7 @@ import { TrimmedNonEmptyString } from "@t3tools/contracts"
 const CODEX_MATCHING: ModelCatalog.CatalogMatching = { family: codexModelFamily }
 
 schema CodexModelAdapter {
-  codex?: { minVersion?: TrimmedNonEmptyString }
+  readonly codex?: { readonly minVersion?: TrimmedNonEmptyString }
 }
 const decodeCodexModelAdapter = Schema.decodeUnknownOption(CodexModelAdapter)
 

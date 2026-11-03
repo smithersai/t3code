@@ -73,9 +73,9 @@ const commandTool = {
   ],
 }
 schema queueEntry {
-  queuedRunId: RunId
-  text: string
-  truncated: boolean
+  readonly queuedRunId: RunId
+  readonly text: string
+  readonly truncated: boolean
 }
 const QUEUE_READ_ACTIONS = ["list", "read"] as const
 const QueueTool = Tool.make("t3_queue", {
@@ -107,18 +107,18 @@ const QueueTool = Tool.make("t3_queue", {
 }).annotate(Tool.Destructive, true)
 
 schema question {
-  id: string
-  header: string
-  question: string
-  options: ReadonlyArray<{
-    label: string
-    description: string
-    value?: string
+  readonly id: string
+  readonly header: string
+  readonly question: string
+  readonly options: ReadonlyArray<{
+    readonly label: string
+    readonly description: string
+    readonly value?: string
   }>
-  multiSelect?: boolean
-  allowCustomAnswer?: boolean
-  initialAnswer?: string
-  required?: boolean
+  readonly multiSelect?: boolean
+  readonly allowCustomAnswer?: boolean
+  readonly initialAnswer?: string
+  readonly required?: boolean
 }
 const PendingRequestTool = Tool.make("t3_pending_request", {
   ...commandTool,
@@ -141,10 +141,10 @@ const PendingRequestTool = Tool.make("t3_pending_request", {
   .annotate(Tool.OpenWorld, true)
 
 schema threadConfiguration {
-  threadId: ThreadId
-  modelSelection: ModelSelection
-  runtimeMode: RuntimeMode
-  interactionMode: ProviderInteractionMode
+  readonly threadId: ThreadId
+  readonly modelSelection: ModelSelection
+  readonly runtimeMode: RuntimeMode
+  readonly interactionMode: ProviderInteractionMode
 }
 const ThreadConfigureTool = Tool.make("t3_thread_configure", {
   ...commandTool,

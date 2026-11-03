@@ -8,10 +8,10 @@ export schema error ChatGptCatalogError {
 }
 
 schema Catalog {
-  models: ReadonlyArray<{
-    slug: Schema.NonEmptyString
-    display_name: Schema.NonEmptyString
-    visibility: string
+  readonly models: ReadonlyArray<{
+    readonly slug: Schema.NonEmptyString
+    readonly display_name: Schema.NonEmptyString
+    readonly visibility: string
   }>
 }
 

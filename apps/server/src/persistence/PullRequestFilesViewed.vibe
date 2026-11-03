@@ -14,11 +14,11 @@ import {
 } from "./Errors.ts";
 
 export schema PullRequestFilesViewedScope {
-  provider: SourceControlProviderKind
-  host: string
-  repository: string
-  number: Schema.Int
-  viewer: string
+  readonly provider: SourceControlProviderKind
+  readonly host: string
+  readonly repository: string
+  readonly number: Schema.Int
+  readonly viewer: string
 }
 
 export const PullRequestFileViewedMark = Schema.Struct({

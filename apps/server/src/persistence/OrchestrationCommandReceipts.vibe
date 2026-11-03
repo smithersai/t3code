@@ -25,7 +25,7 @@ export const OrchestrationCommandReceipt = Schema.Struct({
 export type OrchestrationCommandReceipt = typeof OrchestrationCommandReceipt.Type;
 
 export schema GetByCommandIdInput {
-  commandId: CommandId
+  readonly commandId: CommandId
 }
 
 export service OrchestrationCommandReceiptRepository {
