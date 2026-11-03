@@ -10,5 +10,6 @@ declare class ReplayFixtureGitCommandError extends ReplayFixtureGitCommandError_
 }
 export type ReplayWorkspaceFiles = Readonly<Record<string, string>>;
 export declare const checkpointWorkspace: (fixtureName: string, files?: ReplayWorkspaceFiles) => Effect.Effect<string, PlatformError.PlatformError | ReplayFixtureGitCommandError, import("effect/Scope").Scope>;
+/** @throws {never} */
 export declare function makeCheckpointWorkspace(fixtureName: string, files?: ReplayWorkspaceFiles): Promise<string>;
 export {};

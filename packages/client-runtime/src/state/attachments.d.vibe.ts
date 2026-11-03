@@ -52,6 +52,7 @@ export type PersistedAttachmentVerification = {
     readonly status: "failed";
     readonly error: unknown;
 };
+/** @throws {never} */
 export declare function verifyPersistedAttachmentUpload<A, E>(input: {
     readonly registry: AtomRegistry.AtomRegistry;
     readonly createAssetUrl: (query: {
@@ -101,6 +102,7 @@ export type AttachmentUploadCycleResult = {
  * `attachmentId` and decide between retry and release. The one exception is `onMinted`
  * returning `"cancel"`, where the caller already abandoned the upload and the fresh mint is
  * deleted before returning.
+ * @throws {never}
  */
 export declare function runAttachmentUploadCycle<E, RE>(input: {
     readonly registry: AtomRegistry.AtomRegistry;
