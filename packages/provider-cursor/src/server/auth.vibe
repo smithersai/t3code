@@ -22,7 +22,7 @@ const AUTH_TIMEOUT_MS = 300_000
 interface AuthFlow {
   readonly id: string
   readonly owner: string
-  mutable fiber?: Fiber.Fiber<void>
+  fiber?: Fiber.Fiber<void>
 }
 
 export interface CursorAuth {
