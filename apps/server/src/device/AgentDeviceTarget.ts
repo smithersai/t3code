@@ -5,7 +5,7 @@ import * as Schema from "effect/Schema";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 
-import type { AgentDaemonEndpoint } from "./DeviceHost.ts";
+import type { AgentDaemonEndpoint } from "./DeviceHost.vibe";
 
 const encodeEndpoint = Schema.encodeEffect(
   Schema.fromJsonString(

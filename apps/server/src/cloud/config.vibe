@@ -50,51 +50,44 @@ export function isAgentActivityPublishingEnabledValue(value: string | null): boo
  */
 export const readAgentActivityPublishingActive: (
   secrets: ServerSecretStore.ServerSecretStore["Service"],
-) => Effect.Effect<boolean> = Effect.fn("config.readAgentActivityPublishingActive")(
-  function* (secrets: ServerSecretStore.ServerSecretStore["Service"]) {
-    const readSecretString = (name: string) =>
-      secrets
-        .get(name)
-        .pipe(
-          Effect.map((bytes) =>
-            Option.isSome(bytes) ? new TextDecoder().decode(bytes.value) : null,
-          ),
+) => boolean!! = effect (secrets: { readonly directory?: string; readonly get: (name: string) => Option.Option<Uint8Array>!ServerSecretStore.SecretStoreError; readonly set: (name: string, value: Uint8Array) => void!ServerSecretStore.SecretStoreError; readonly create: (name: string, value: Uint8Array) => void!ServerSecretStore.SecretStoreError; readonly getOrCreateRandom: (name: string, bytes: number) => Uint8Array!ServerSecretStore.SecretStoreError; readonly remove: (name: string) => void!ServerSecretStore.SecretStoreError; }) => try withSpan(effect {
+  const readSecretString = (name: string) =>
+    secrets
+      .get(name)
+        |> map(%, (bytes) =>
+          Option.isSome(bytes) ? new TextDecoder().decode(bytes.value) : null,
         );
-    const [enabled, url, environmentCredential] = yield* Effect.all([
-      readSecretString(PUBLISH_AGENT_ACTIVITY_SECRET),
-      readSecretString(RELAY_URL_SECRET),
-      readSecretString(RELAY_ENVIRONMENT_CREDENTIAL_SECRET),
-    ]);
-    // Match the publisher, which treats empty strings as unconfigured.
-    return (
-      isAgentActivityPublishingEnabledValue(enabled) &&
-      url !== null &&
-      url !== "" &&
-      environmentCredential !== null &&
-      environmentCredential !== ""
-    );
-  },
-  Effect.orElseSucceed(() => false),
-);
+  const [enabled, url, environmentCredential] = try all([
+    readSecretString(PUBLISH_AGENT_ACTIVITY_SECRET),
+    readSecretString(RELAY_URL_SECRET),
+    readSecretString(RELAY_ENVIRONMENT_CREDENTIAL_SECRET),
+  ]);
+  // Match the publisher, which treats empty strings as unconfigured.
+  return (
+    isAgentActivityPublishingEnabledValue(enabled) &&
+    url !== null &&
+    url !== "" &&
+    environmentCredential !== null &&
+    environmentCredential !== ""
+  );
+} |> orElseSucceed(%, () => false), "config.readAgentActivityPublishingActive");
 
 const readSecretString = (name: string) =>
-  ServerSecretStore.ServerSecretStore.pipe(
-    Effect.flatMap((secrets) => secrets.get(name)),
-    Effect.map((bytes) =>
+  ServerSecretStore.ServerSecretStore
+    |> flatMap(%, (secrets) => secrets.get(name))
+    |> map(%, (bytes) =>
       Option.isSome(bytes) && bytes.value.length > 0 ? new TextDecoder().decode(bytes.value) : null,
-    ),
-    Effect.orElseSucceed(() => null),
-  );
+    )
+    |> orElseSucceed(%, () => null);
 
-export const readRelayConnection = Effect.all([
+export const readRelayConnection = all([
   readSecretString(RELAY_URL_SECRET),
   readSecretString(RELAY_ENVIRONMENT_CREDENTIAL_SECRET),
-]).pipe(
-  Effect.map(([url, environmentCredential]) =>
+])
+  |> map(%, ([url, environmentCredential]) =>
     url && environmentCredential ? { url, environmentCredential } : null,
-  ),
-);
+  );
 
 export const readHoldWebhooksWhileOffline = readSecretString(
   HOLD_WEBHOOKS_WHILE_OFFLINE_SECRET,
-).pipe(Effect.map((value) => value === "true"));
+) |> map(%, (value) => value === "true");

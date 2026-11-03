@@ -12,7 +12,7 @@ import {
   DEVICE_HUB_VERSION,
   ensureDeviceHub,
   isDeviceHubInstalled,
-} from "./DeviceToolchain.ts";
+} from "./DeviceToolchain.vibe";
 
 it.effect("failed installation cleans staging and exposes only a safe failure message", () =>
   Effect.gen(function* () {

@@ -2,7 +2,7 @@ import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 
 import { readDeviceDetail, runDeviceAction } from "./DeviceActions.ts";
-import type { DeviceHostReady } from "./DeviceHost.ts";
+import type { DeviceHostReady } from "./DeviceHost.vibe";
 
 type Call = { command: string; args: ReadonlyArray<string>; stdin?: string };
 

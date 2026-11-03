@@ -18,7 +18,7 @@ import {
   BOOT_SERVICE_PLIST_FILE,
   BOOT_SERVICE_UNIT_FILE,
   bootServiceBaseDirOf,
-} from "./cloud/bootService.ts";
+} from "./cloud/bootService.vibe";
 import { ServiceLauncherHostProcess } from "./cloud/serviceLauncherClient.ts";
 import {
   SERVICE_LAUNCHER_CONTEXT_ENV,

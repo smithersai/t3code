@@ -4,7 +4,7 @@ import * as Schedule from "effect/Schedule";
 import * as Stream from "effect/Stream";
 
 import * as CloudManagedEndpointRuntime from "../cloud/ManagedEndpointRuntime.ts";
-import { readHoldWebhooksWhileOffline, readRelayConnection } from "../cloud/config.ts";
+import { readHoldWebhooksWhileOffline, readRelayConnection } from "../cloud/config.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import { makeRelayEnvironmentClient } from "./relayEnvironmentClient.ts";
 

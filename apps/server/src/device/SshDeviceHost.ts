@@ -22,7 +22,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import * as ServerConfig from "../config.ts";
-import * as DeviceHost from "./DeviceHost.ts";
+import * as DeviceHost from "./DeviceHost.vibe";
 import { makeDeviceHubOperations } from "./DeviceHubOperations.ts";
 import { quoteRemoteArg, remoteDeviceEnvironment, remoteDeviceScript } from "./sshDeviceScript.ts";
 

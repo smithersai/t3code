@@ -1,5 +1,5 @@
-import { deviceToolMaintenanceScript } from "./deviceToolMaintenance.ts";
-import { AGENT_DEVICE_VERSION, DEVICE_HUB_VERSION } from "./DeviceToolchain.ts";
+import { deviceToolMaintenanceScript } from "./deviceToolMaintenance.vibe";
+import { AGENT_DEVICE_VERSION, DEVICE_HUB_VERSION } from "./DeviceToolchain.vibe";
 
 export const quoteRemoteArg = (value: string) => `'${value.replaceAll("'", "'\"'\"'")}'`;
 

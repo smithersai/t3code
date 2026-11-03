@@ -180,7 +180,7 @@ import { latestProviderVersionCacheKeys } from "@t3tools/provider-core/server/ma
 import * as ProviderMaintenanceRunner from "./provider/providerMaintenanceRunner.ts";
 import * as ProviderAuthService from "./provider/ProviderAuthService.ts";
 import { makeProviderInstallation } from "./provider/providerInstallation.ts";
-import * as ServerSelfUpdate from "./cloud/selfUpdate.ts";
+import * as ServerSelfUpdate from "./cloud/selfUpdate.vibe";
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.ts";
 import * as ServerRuntimeStartup from "./serverRuntimeStartup.ts";
 import * as ServerSettings from "./serverSettings.ts";

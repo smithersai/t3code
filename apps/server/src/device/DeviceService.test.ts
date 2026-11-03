@@ -28,7 +28,7 @@ import { HttpClient, HttpClientResponse } from "effect/http";
 import * as ServerConfig from "../config.ts";
 import * as ProcessRunner from "../processRunner.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as DeviceHost from "./DeviceHost.ts";
+import * as DeviceHost from "./DeviceHost.vibe";
 import { makeDeviceHubOperations } from "./DeviceHubOperations.ts";
 import { NodeRuntimeUnavailableError } from "@t3tools/shared/nodeRuntime";
 

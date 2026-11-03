@@ -12,7 +12,7 @@ import {
 } from "@t3tools/contracts";
 import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
 import * as DeviceService from "./DeviceService.ts";
-import * as DeviceHubProxy from "./DeviceHubProxy.ts";
+import * as DeviceHubProxy from "./DeviceHubProxy.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 it.effect("preserves binary input and admission frames through the real socket proxy", () =>

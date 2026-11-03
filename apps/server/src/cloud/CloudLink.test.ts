@@ -23,7 +23,7 @@ import {
   PUBLISH_AGENT_ACTIVITY_SECRET,
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_URL_SECRET,
-} from "./config.ts";
+} from "./config.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const encode = (value: string) => new TextEncoder().encode(value);

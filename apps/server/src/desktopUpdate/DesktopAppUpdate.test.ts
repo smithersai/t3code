@@ -11,7 +11,7 @@ import * as Stream from "effect/Stream";
 
 import * as ServerConfig from "../config.ts";
 import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.ts";
-import * as DesktopAppUpdate from "./DesktopAppUpdate.ts";
+import * as DesktopAppUpdate from "./DesktopAppUpdate.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 function makeState(overrides: Partial<DesktopUpdateState> = {}): DesktopUpdateState {

@@ -3,7 +3,7 @@ import * as Schema from "effect/Schema";
 import * as Effect from "effect/Effect";
 import * as Path from "effect/Path";
 import * as ProcessRunner from "../processRunner.ts";
-import { AGENT_DEVICE_VERSION, DEVICE_HUB_VERSION } from "./DeviceToolchain.ts";
+import { AGENT_DEVICE_VERSION, DEVICE_HUB_VERSION } from "./DeviceToolchain.vibe";
 
 export const deviceToolMaintenanceScript = String.raw`
 const maintenanceFs = require('node:fs');
@@ -109,14 +109,14 @@ class DeviceToolMaintenanceError extends Schema.TaggedError<DeviceToolMaintenanc
   }
 }
 
-const runMaintenance = Effect.fn("DeviceToolchain.maintenance")(function* (
+const runMaintenance = effect (
   nodePath: string,
   script: string,
   operation: "prune",
-  tool: "hub" | "agent",
-) {
-  const runner = yield* ProcessRunner.ProcessRunner;
-  const result = yield* runner.run({
+  tool: "agent" | "hub",
+) => try withSpan(effect {
+  const runner = try ProcessRunner.ProcessRunner;
+  const result = try runner.run({
     command: nodePath,
     args: [
       "-e",
@@ -127,24 +127,24 @@ const runMaintenance = Effect.fn("DeviceToolchain.maintenance")(function* (
     ],
   });
   if (result.code !== 0)
-    return yield* new DeviceToolMaintenanceError({
+    throw new DeviceToolMaintenanceError({
       operation,
       tool,
       exitCode: result.code,
       cause: result,
     });
-});
+}, "DeviceToolchain.maintenance");
 
-export const pruneLocalDeviceTools = Effect.fn("DeviceToolchain.prune")(function* (
+export const pruneLocalDeviceTools = effect (
   baseDir: string,
   nodePath: string,
-  tool: "hub" | "agent",
-) {
-  const path = yield* Path.Path;
-  yield* runMaintenance(
+  tool: "agent" | "hub",
+) => try withSpan(effect {
+  const path = try Path.Path;
+  try runMaintenance(
     nodePath,
     `pruneTools(${JSON.stringify(path.join(baseDir, "tools"))}, ${JSON.stringify(tool === "hub" ? [["expo-device-hub", DEVICE_HUB_VERSION]] : [["agent-device", AGENT_DEVICE_VERSION]])}, false)`,
     "prune",
     tool,
   );
-});
+}, "DeviceToolchain.prune");

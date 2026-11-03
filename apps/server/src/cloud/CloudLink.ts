@@ -76,7 +76,7 @@ import {
   readCliDesiredCloudLink,
   readCliDesiredLinkMode,
   setCliDesiredCloudLink,
-} from "./CliState.ts";
+} from "./CliState.vibe";
 import * as CliTokenManager from "./CliTokenManager.ts";
 import {
   CLOUD_ENDPOINT_CONFIRMED_ORIGIN,
@@ -94,7 +94,7 @@ import {
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_ISSUER_SECRET,
   RELAY_URL_SECRET,
-} from "./config.ts";
+} from "./config.vibe";
 import { getOrCreateEnvironmentKeyPairFromSecretStore } from "./environmentKeys.ts";
 import * as ConnectReachability from "./ConnectReachability.ts";
 import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
@@ -116,7 +116,7 @@ import {
   parseManagedEndpointLocalOrigin,
   requestAbsoluteUrl,
 } from "./linkChecks.ts";
-import { desktopUpdateRestartPending, pendingUpdateHandoffExists } from "./updateHandoff.ts";
+import { desktopUpdateRestartPending, pendingUpdateHandoffExists } from "./updateHandoff.vibe";
 
 const CLOUD_MINT_NONCE_PREFIX = "cloud-mint-nonce-";
 const CLOUD_MINT_JTI_PREFIX = "cloud-mint-jti-";

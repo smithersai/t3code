@@ -1,17 +1,6 @@
 // Loopback-only hubs expose shell execution or unauthenticated actions.
 // Proxy with environment read scope for streams and operate scope for input and tuning.
 import { AuthOrchestrationReadScope, AuthOrchestrationOperateScope } from "@t3tools/contracts";
-import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
-import {
-  HttpClient,
-  HttpClientRequest,
-  HttpMethod,
-  HttpRouter,
-  HttpServerRequest,
-  HttpServerResponse,
-} from "effect/http";
-import * as Socket from "effect/socket/Socket";
 import * as NodeSocket from "@effect/platform-node/NodeSocket";
 
 import { authenticateMediaRequest } from "../auth/http.ts";
@@ -63,10 +52,10 @@ const DROPPED_REQUEST_HEADERS = new Set([
   "x-forwarded-proto",
 ]);
 
-const isWebSocketUpgrade = (request: HttpServerRequest.HttpServerRequest) =>
+const isWebSocketUpgrade = (request: HttpServerRequest) =>
   request.headers.upgrade?.toLowerCase() === "websocket";
 
-const forwardHeaders = (request: HttpServerRequest.HttpServerRequest, origin: string) => {
+const forwardHeaders = (request: HttpServerRequest, origin: string) => {
   const headers: Record<string, string> = {};
   for (const [name, value] of Object.entries(request.headers)) {
     if (DROPPED_REQUEST_HEADERS.has(name) || value === undefined) continue;
@@ -77,44 +66,44 @@ const forwardHeaders = (request: HttpServerRequest.HttpServerRequest, origin: st
   return headers;
 };
 
-const proxyWebSocket = Effect.fn("DeviceHubProxy.proxyWebSocket")(function* (
-  request: HttpServerRequest.HttpServerRequest,
+const proxyWebSocket = effect (
+  request: HttpServerRequest,
   upstreamUrl: string,
-  protocols: ReadonlyArray<string> = [],
-) {
-  const client = yield* request.upgrade;
-  const upstream = yield* Socket.makeWebSocket(upstreamUrl, {
+  protocols: readonly string[] = [],
+) => try withSpan(effect {
+  const client = try request.upgrade;
+  const upstream = try effect { provide NodeSocket.layerWebSocketConstructor { return try Socket.makeWebSocket(upstreamUrl, {
     openTimeout: "10 seconds",
     ...(protocols.length > 0 ? { protocols: [...protocols] } : {}),
-  }).pipe(Effect.provide(NodeSocket.layerWebSocketConstructor));
-  yield* Effect.scoped(
-    Effect.gen(function* () {
-      const writeToClient = yield* client.writer;
-      const writeToUpstream = yield* upstream.writer;
-      return yield* Effect.raceFirst(
+  }) } };
+  try (scoped(
+    effect {
+      const writeToClient = try client.writer;
+      const writeToUpstream = try upstream.writer;
+      return try raceFirst(
         pumpFrames(upstream, writeToClient),
         pumpFrames(client, writeToUpstream),
       );
-    }),
-  ).pipe(Effect.ignoreCause);
+    },
+  ) |> ignoreCause(%));
   return HttpServerResponse.empty();
-});
+}, "DeviceHubProxy.proxyWebSocket");
 
 const pumpFrames =
   /* Frame pumping runs continuously; a span per frame stream adds no diagnostic value. */
-  Effect.fnUntraced(function* (source: Socket.Socket, sink: Socket.Writer) {
-    const { pull } = yield* source.reader;
+  effect (source: Socket, sink: Socket.Writer) => {
+    const { pull } = try source.reader;
     while (true) {
-      yield* sink.writeAll(yield* pull);
+      try sink.writeAll(try pull);
     }
-  });
+  };
 
-const proxyHttp = Effect.fn("DeviceHubProxy.proxyHttp")(function* (
-  request: HttpServerRequest.HttpServerRequest,
+const proxyHttp = effect (
+  request: HttpServerRequest,
   upstreamUrl: string,
   extraHeaders: Readonly<Record<string, string>> = {},
-) {
-  const httpClient = HttpClient.withScope(yield* HttpClient.HttpClient);
+) => try withSpan(effect {
+  const httpClient = HttpClient.withScope(try HttpClient.HttpClient);
   const method = request.method;
   if (!HttpMethod.isHttpMethod(method)) {
     return HttpServerResponse.empty({ status: 405 });
@@ -132,7 +121,7 @@ const proxyHttp = Effect.fn("DeviceHubProxy.proxyHttp")(function* (
           contentType: request.headers["content-type"],
         }),
   );
-  const response = yield* httpClient.execute(upstreamRequest);
+  const response = try httpClient.execute(upstreamRequest);
   const headers: Record<string, string> = {};
   for (const [name, value] of Object.entries(response.headers)) {
     // A cookie from an upstream such as an EAS session's preview host would land on T3's origin.
@@ -156,10 +145,10 @@ const proxyHttp = Effect.fn("DeviceHubProxy.proxyHttp")(function* (
     headers,
     ...(headers["content-type"] ? { contentType: headers["content-type"] } : {}),
   });
-});
+}, "DeviceHubProxy.proxyHttp");
 
-const handler = Effect.gen(function* () {
-  const request = yield* HttpServerRequest.HttpServerRequest;
+const handler = effect {
+  const request = try HttpServerRequest.HttpServerRequest;
   const url = RequestUrl.toURL(request);
   if (Option.isNone(url)) {
     return HttpServerResponse.text("Bad Request", { status: 400 });
@@ -179,11 +168,11 @@ const handler = Effect.gen(function* () {
   const controlsDevice =
     (upgrade && hubPath !== "/api/devices/ws") ||
     (!readOnly && /\/api\/(stream-(mode|settings)|fold)$/.test(hubPath));
-  yield* authenticateMediaRequest(
+  try authenticateMediaRequest(
     controlsDevice ? AuthOrchestrationOperateScope : AuthOrchestrationReadScope,
   );
-  const devices = yield* DeviceService.DeviceService;
-  const ready = yield* devices.currentReadiness(url.value.searchParams.get("hostId") ?? undefined);
+  const devices = try DeviceService.DeviceService;
+  const ready = try devices.currentReadiness(url.value.searchParams.get("hostId") ?? undefined);
   if (!ready) {
     return HttpServerResponse.text("Device hub is not running", { status: 503 });
   }
@@ -193,15 +182,15 @@ const handler = Effect.gen(function* () {
   upstreamSearch.delete("hostId");
   const search = upstreamSearch.size > 0 ? `?${upstreamSearch.toString()}` : "";
   // Hosts with several upstreams (one per cloud session) route and authenticate requests themselves.
-  const routed = ready.upstream ? yield* ready.upstream(hubPath, upstreamSearch) : undefined;
+  const routed = ready.upstream ? try ready.upstream(hubPath, upstreamSearch) : undefined;
   if (routed === null) {
     return HttpServerResponse.text("Not Found", { status: 404 });
   }
   const upstreamUrl = routed?.url ?? `${ready.hub.origin}${hubPath}${search}`;
   if (upgrade) {
-    return yield* proxyWebSocket(request, upstreamUrl.replace(/^http/, "ws"), routed?.protocols);
+    return try proxyWebSocket(request, upstreamUrl.replace(/^http/, "ws"), routed?.protocols);
   }
-  return yield* proxyHttp(request, upstreamUrl, routed?.headers);
-});
+  return try proxyHttp(request, upstreamUrl, routed?.headers);
+};
 
 export const layer = HttpRouter.add("*", `${DeviceService.DEVICE_HUB_ROUTE_PREFIX}/*`, handler);

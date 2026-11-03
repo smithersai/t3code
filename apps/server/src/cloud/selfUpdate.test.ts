@@ -15,11 +15,11 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import packageJson from "../../package.json" with { type: "json" };
 import * as ServerConfig from "../config.ts";
-import * as DesktopAppUpdate from "../desktopUpdate/DesktopAppUpdate.ts";
+import * as DesktopAppUpdate from "../desktopUpdate/DesktopAppUpdate.vibe";
 import * as ProcessRunner from "../processRunner.ts";
 import * as ServiceLauncherClient from "./serviceLauncherClient.ts";
 import { SERVICE_LAUNCHER_PROTOCOL } from "./serviceProtocol.ts";
-import * as ServerSelfUpdate from "./selfUpdate.ts";
+import * as ServerSelfUpdate from "./selfUpdate.vibe";
 
 interface HarnessOptions {
   readonly mode?: "web" | "desktop";

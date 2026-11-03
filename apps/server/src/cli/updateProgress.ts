@@ -1,4 +1,4 @@
-import type { PinnedRuntimeProgress } from "../cloud/pinnedRuntime.ts";
+import type { PinnedRuntimeProgress } from "../cloud/pinnedRuntime.vibe";
 
 export function createUpdateProgress(
   output: Pick<NodeJS.WriteStream, "write" | "isTTY" | "columns"> = process.stderr,

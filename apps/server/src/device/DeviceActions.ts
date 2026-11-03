@@ -13,7 +13,7 @@ import {
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 
-import type { DeviceHostReady } from "./DeviceHost.ts";
+import type { DeviceHostReady } from "./DeviceHost.vibe";
 
 type Runner = DeviceHostReady["run"];
 

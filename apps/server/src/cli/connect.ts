@@ -31,8 +31,8 @@ import * as HttpApiClient from "effect/http-api/HttpApiClient";
 
 import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as BootService from "../cloud/bootService.ts";
-import * as CliState from "../cloud/CliState.ts";
+import * as BootService from "../cloud/bootService.vibe";
+import * as CliState from "../cloud/CliState.vibe";
 import * as CliTokenManager from "../cloud/CliTokenManager.ts";
 import { formatReachabilityFailure } from "../cloud/ConnectReachability.ts";
 import { filterRelayResponse } from "../cloud/relayResponse.vibe";
@@ -42,7 +42,7 @@ import {
   isAgentActivityPublishingEnabledValue,
   PUBLISH_AGENT_ACTIVITY_SECRET,
   RELAY_URL_SECRET,
-} from "../cloud/config.ts";
+} from "../cloud/config.vibe";
 import { relayUrlConfig } from "../cloud/publicConfig.ts";
 import * as RelayTracing from "../cloud/relayTracing.ts";
 import * as ServerConfig from "../config.ts";

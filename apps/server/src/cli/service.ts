@@ -7,7 +7,7 @@ import { Command, Flag, GlobalFlag, Prompt } from "effect/cli";
 import { FetchHttpClient } from "effect/http";
 
 import packageJson from "../../package.json" with { type: "json" };
-import * as BootService from "../cloud/bootService.ts";
+import * as BootService from "../cloud/bootService.vibe";
 import { compareExactServiceVersions } from "../cloud/serviceProtocol.ts";
 import type * as ServerConfig from "../config.ts";
 import * as ProcessRunner from "../processRunner.ts";

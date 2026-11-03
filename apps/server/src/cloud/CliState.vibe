@@ -1,5 +1,4 @@
 import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import {
@@ -12,7 +11,7 @@ import {
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_ISSUER_SECRET,
   RELAY_URL_SECRET,
-} from "./config.ts";
+} from "./config.vibe";
 
 export const CLOUD_CLI_DESIRED_LINK_SECRET = "cloud-cli-desired-link";
 
@@ -21,43 +20,43 @@ export type CliDesiredLinkMode = "managed" | "publish_only";
 const MANAGED_BYTES = new TextEncoder().encode("managed");
 const PUBLISH_ONLY_BYTES = new TextEncoder().encode("publish_only");
 
-export const readCliDesiredCloudLink = Effect.gen(function* () {
-  const secrets = yield* ServerSecretStore.ServerSecretStore;
-  return Option.isSome(yield* secrets.get(CLOUD_CLI_DESIRED_LINK_SECRET));
-});
+export const readCliDesiredCloudLink = effect {
+  const secrets = try ServerSecretStore.ServerSecretStore;
+  return Option.isSome(try secrets.get(CLOUD_CLI_DESIRED_LINK_SECRET));
+};
 
-export const readCliDesiredLinkMode = Effect.gen(function* () {
-  const secrets = yield* ServerSecretStore.ServerSecretStore;
-  const value = yield* secrets.get(CLOUD_CLI_DESIRED_LINK_SECRET);
+export const readCliDesiredLinkMode = effect {
+  const secrets = try ServerSecretStore.ServerSecretStore;
+  const value = try secrets.get(CLOUD_CLI_DESIRED_LINK_SECRET);
   if (Option.isNone(value)) {
     return "managed" as CliDesiredLinkMode;
   }
   return new TextDecoder().decode(value.value) === "publish_only"
     ? ("publish_only" as CliDesiredLinkMode)
     : ("managed" as CliDesiredLinkMode);
-});
+};
 
-export const setCliDesiredCloudLink = Effect.fn("cloud.cli_state.set_desired")(function* (
+export const setCliDesiredCloudLink = effect (
   desired: boolean,
   mode: CliDesiredLinkMode = "managed",
-) {
-  const secrets = yield* ServerSecretStore.ServerSecretStore;
+) => try withSpan(effect {
+  const secrets = try ServerSecretStore.ServerSecretStore;
   if (desired) {
-    yield* secrets.set(
+    try secrets.set(
       CLOUD_CLI_DESIRED_LINK_SECRET,
       mode === "publish_only" ? PUBLISH_ONLY_BYTES : MANAGED_BYTES,
     );
   } else {
-    yield* secrets.remove(CLOUD_CLI_DESIRED_LINK_SECRET);
+    try secrets.remove(CLOUD_CLI_DESIRED_LINK_SECRET);
   }
-});
+}, "cloud.cli_state.set_desired");
 
-export const dropRevokedCloudLink = Effect.gen(function* () {
-  const secrets = yield* ServerSecretStore.ServerSecretStore;
-  if (Option.isNone(yield* secrets.get(CLOUD_LINK_REVOKED))) {
+export const dropRevokedCloudLink = effect {
+  const secrets = try ServerSecretStore.ServerSecretStore;
+  if (Option.isNone(try secrets.get(CLOUD_LINK_REVOKED))) {
     return false;
   }
-  yield* Effect.all(
+  try all(
     [
       secrets.remove(CLOUD_LINKED_USER_ID),
       secrets.remove(RELAY_ENVIRONMENT_CREDENTIAL_SECRET),
@@ -68,13 +67,13 @@ export const dropRevokedCloudLink = Effect.gen(function* () {
     { concurrency: "unbounded" },
   );
   // Last, so a failed removal above leaves the mark for the next attempt.
-  yield* secrets.remove(CLOUD_LINK_REVOKED);
+  try secrets.remove(CLOUD_LINK_REVOKED);
   return true;
-});
+};
 
-export const clearPersistedCloudLink = Effect.gen(function* () {
-  const secrets = yield* ServerSecretStore.ServerSecretStore;
-  yield* Effect.all(
+export const clearPersistedCloudLink = effect {
+  const secrets = try ServerSecretStore.ServerSecretStore;
+  try all(
     [
       secrets.remove(CLOUD_CLI_DESIRED_LINK_SECRET),
       secrets.remove(CLOUD_LINKED_USER_ID),
@@ -89,4 +88,4 @@ export const clearPersistedCloudLink = Effect.gen(function* () {
     ],
     { concurrency: "unbounded" },
   );
-});
+};

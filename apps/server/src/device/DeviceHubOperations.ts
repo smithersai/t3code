@@ -9,7 +9,7 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http";
 
-import type { DeviceHostReady, DeviceOperations, HostDevice } from "./DeviceHost.ts";
+import type { DeviceHostReady, DeviceOperations, HostDevice } from "./DeviceHost.vibe";
 
 const BOOT_TIMEOUT = Duration.minutes(3);
 const SCREENSHOT_TIMEOUT = Duration.seconds(20);

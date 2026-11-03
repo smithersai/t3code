@@ -6,7 +6,7 @@ import * as Option from "effect/Option";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as ServerConfig from "../config.ts";
-import * as CliState from "./CliState.ts";
+import * as CliState from "./CliState.vibe";
 import {
   CLOUD_ENDPOINT_CONFIRMED_ORIGIN,
   CLOUD_ENDPOINT_RUNTIME_CONFIG,
@@ -17,7 +17,7 @@ import {
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_ISSUER_SECRET,
   RELAY_URL_SECRET,
-} from "./config.ts";
+} from "./config.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const persistedCloudLinkSecrets = [

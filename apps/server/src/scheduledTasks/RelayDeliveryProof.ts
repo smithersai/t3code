@@ -14,7 +14,7 @@ import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import { CLOUD_MINT_PUBLIC_KEY, RELAY_ISSUER_SECRET, RELAY_URL_SECRET } from "../cloud/config.ts";
+import { CLOUD_MINT_PUBLIC_KEY, RELAY_ISSUER_SECRET, RELAY_URL_SECRET } from "../cloud/config.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 
 /** Covers the relay's 24-hour hold plus a margin. */

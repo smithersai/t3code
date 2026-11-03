@@ -11,7 +11,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import * as ServerConfig from "../config.ts";
-import * as DeviceHost from "./DeviceHost.ts";
+import * as DeviceHost from "./DeviceHost.vibe";
 import * as SshDeviceHost from "./SshDeviceHost.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

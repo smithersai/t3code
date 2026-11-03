@@ -1,0 +1,55 @@
+import { DESKTOP_UPDATE_RESTART_MARKER_FILE } from "@t3tools/contracts";
+import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Path from "effect/Path";
+
+import * as ServerConfig from "../config.ts";
+import {
+  SERVICE_STATE_FILE,
+  SERVICE_STOP_MARKER_FILE,
+  serviceStateHasPendingUpdate,
+} from "./serviceProtocol.ts";
+
+const DESKTOP_UPDATE_RESTART_MARKER_TTL = Duration.minutes(1);
+
+export const pendingServiceUpdateExists = effect {
+  const config = try ServerConfig.ServerConfig;
+  const fs = try FileSystem.FileSystem;
+  const path = try Path.Path;
+  const runtimeDir = path.join(config.baseDir, "runtime");
+  const stateText = try (fs
+    .readFileString(path.join(runtimeDir, SERVICE_STATE_FILE))|> option(%));
+  return Option.isSome(stateText) && (try orDie(Effect.try({ try: () => serviceStateHasPendingUpdate(stateText.value), catch: (error) => error })));
+};
+
+export const pendingUpdateHandoffExists = effect {
+  if (!(try pendingServiceUpdateExists)) {
+    return false;
+  }
+  const config = try ServerConfig.ServerConfig;
+  const fs = try FileSystem.FileSystem;
+  const path = try Path.Path;
+  const runtimeDir = path.join(config.baseDir, "runtime");
+  const stopping = fs
+    .exists(path.join(runtimeDir, SERVICE_STOP_MARKER_FILE)) catch () => false;
+  return !stopping;
+};
+
+// Reading consumes it, so shutdown checks it first.
+export const desktopUpdateRestartPending = effect {
+  const config = try ServerConfig.ServerConfig;
+  const fs = try FileSystem.FileSystem;
+  const path = try Path.Path;
+  const markerPath = path.join(config.baseDir, "runtime", DESKTOP_UPDATE_RESTART_MARKER_FILE);
+  const marker = try (fs.stat(markerPath) |> option(%));
+  if (Option.isNone(marker)) {
+    return false;
+  }
+  try (fs.remove(markerPath) |> ignore(%));
+  const now = try Clock.currentTimeMillis;
+  return do { const $optionSubject = marker.value.mtime; const $optionHandlers: { onNone: () => boolean; onSome: (writtenAt: Date) => boolean; } = {
+    onNone: () => false,
+    onSome: (writtenAt) =>
+      now - writtenAt.getTime() < Duration.toMillis(DESKTOP_UPDATE_RESTART_MARKER_TTL),
+  }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): $optionSome($optionValue); default: $optionNone(); }; };
+};

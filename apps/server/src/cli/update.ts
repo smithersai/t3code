@@ -19,7 +19,7 @@ import { Argument, Command, Flag, GlobalFlag, Prompt } from "effect/cli";
 import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http";
 
 import packageJson from "../../package.json" with { type: "json" };
-import * as BootService from "../cloud/bootService.ts";
+import * as BootService from "../cloud/bootService.vibe";
 import {
   ensurePinnedRuntimeInstalled,
   launcherOwnsVersionsDir,
@@ -28,7 +28,7 @@ import {
   pinnedRuntimePaths,
   prunePinnedRuntimes,
   windowsShimTarget,
-} from "../cloud/pinnedRuntime.ts";
+} from "../cloud/pinnedRuntime.vibe";
 import { compareExactServiceVersions, isExactServiceVersion } from "../cloud/serviceProtocol.ts";
 import * as ProcessRunner from "../processRunner.ts";
 import { isProcessAlive, readPersistedServerRuntimeState } from "../serverRuntimeState.ts";

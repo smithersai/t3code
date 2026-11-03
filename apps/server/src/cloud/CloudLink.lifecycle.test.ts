@@ -24,7 +24,7 @@ import {
 } from "./serviceProtocol.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.ts";
-import { CLOUD_CLI_DESIRED_LINK_SECRET } from "./CliState.ts";
+import { CLOUD_CLI_DESIRED_LINK_SECRET } from "./CliState.vibe";
 import * as CliTokenManager from "./CliTokenManager.ts";
 import { RelayManagedEndpointRecoveryRegistrationRequest } from "@t3tools/contracts/relay";
 import {
@@ -36,11 +36,11 @@ import {
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_ISSUER_SECRET,
   RELAY_URL_SECRET,
-} from "./config.ts";
+} from "./config.vibe";
 import * as CloudLink from "./CloudLink.ts";
 import * as ConnectReachability from "./ConnectReachability.ts";
 import { consumeCloudReplayGuards } from "./CloudLink.ts";
-import { pendingServiceUpdateExists } from "./updateHandoff.ts";
+import { pendingServiceUpdateExists } from "./updateHandoff.vibe";
 import { managedTunnelStartupAction } from "./managedTunnelStartup.vibe";
 import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

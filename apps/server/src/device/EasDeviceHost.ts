@@ -32,7 +32,7 @@ import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
 import * as ServerConfig from "../config.ts";
-import * as DeviceHost from "./DeviceHost.ts";
+import * as DeviceHost from "./DeviceHost.vibe";
 import { findEasProjectId } from "./easProjectId.vibe";
 import { type ExpoApi, makeExpoApi, resolveExpoCredential } from "./ExpoApi.ts";
 

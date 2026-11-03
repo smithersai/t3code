@@ -82,7 +82,7 @@ import * as GuestShareService from "./guest/GuestShareService.ts";
 import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.ts";
 import * as ServerRuntimeStartup from "./serverRuntimeStartup.ts";
-import * as ServerSelfUpdate from "./cloud/selfUpdate.ts";
+import * as ServerSelfUpdate from "./cloud/selfUpdate.vibe";
 import * as SessionStore from "./auth/SessionStore.ts";
 import * as SourceControlDiscovery from "./sourceControl/SourceControlDiscovery.ts";
 import * as SourceControlRepositoryService from "./sourceControl/SourceControlRepositoryService.ts";

@@ -11,12 +11,12 @@ import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 import { Command, Flag, GlobalFlag, Prompt } from "effect/cli";
 
-import * as BootService from "../cloud/bootService.ts";
+import * as BootService from "../cloud/bootService.vibe";
 import {
   launcherOwnsVersionsDir,
   pinnedRuntimeVersionsDir,
   windowsShimTarget,
-} from "../cloud/pinnedRuntime.ts";
+} from "../cloud/pinnedRuntime.vibe";
 import { projectLocationFlags, resolveCliAuthConfig } from "./config.ts";
 import * as CliService from "./service.ts";
 import { findWindowsShim, resolveLauncherPath } from "./update.ts";

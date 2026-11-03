@@ -32,7 +32,7 @@ import { SshCommandError } from "@t3tools/ssh/errors";
 import * as FileSystem from "effect/FileSystem";
 import { resolveNodeExecutable, nodeRuntimeUnavailableMessage } from "@t3tools/shared/nodeRuntime";
 import * as Path from "effect/Path";
-import { ensureAgentDevice, ensureDeviceHub } from "./DeviceToolchain.ts";
+import { ensureAgentDevice, ensureDeviceHub } from "./DeviceToolchain.vibe";
 import * as ServerConfig from "../config.ts";
 import {
   agentDeviceConfigPath,
@@ -56,7 +56,7 @@ import { isLocalSshDeviceHost, remoteSshDeviceHosts } from "./localSshDeviceHost
 
 import { readDeviceDetail, runDeviceAction } from "./DeviceActions.ts";
 import * as ProcessRunner from "../processRunner.ts";
-import * as DeviceHost from "./DeviceHost.ts";
+import * as DeviceHost from "./DeviceHost.vibe";
 import * as SshDeviceHost from "./SshDeviceHost.ts";
 import * as EasDeviceHost from "./EasDeviceHost.ts";
 import { makeExpoApi, resolveExpoCredential } from "./ExpoApi.ts";

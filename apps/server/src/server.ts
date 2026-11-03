@@ -75,7 +75,7 @@ import * as PeerMcpClient from "./peer/PeerMcpClient.ts";
 import * as McpSessionRegistry from "./mcp/McpSessionRegistry.ts";
 import * as PreviewAutomationBroker from "./mcp/PreviewAutomationBroker.ts";
 import * as DeviceService from "./device/DeviceService.ts";
-import * as DeviceHubProxy from "./device/DeviceHubProxy.ts";
+import * as DeviceHubProxy from "./device/DeviceHubProxy.vibe";
 import * as PreviewManager from "./preview/Manager.ts";
 import * as PortScanner from "./preview/PortScanner.ts";
 import * as ServerBrowser from "./preview/ServerBrowser.ts";
@@ -145,13 +145,13 @@ import {
   CLOUD_ENDPOINT_RUNTIME_CONFIG,
   decodeRuntimeConfig,
   RELAY_URL_SECRET,
-} from "./cloud/config.ts";
+} from "./cloud/config.vibe";
 import * as EnvironmentAuth from "./auth/EnvironmentAuth.ts";
 import * as CloudHttp from "./cloud/http.ts";
 import * as GuestHttp from "./guest/http.ts";
 import * as CloudLink from "./cloud/CloudLink.ts";
 import * as ConnectReachability from "./cloud/ConnectReachability.ts";
-import { pendingServiceUpdateExists } from "./cloud/updateHandoff.ts";
+import { pendingServiceUpdateExists } from "./cloud/updateHandoff.vibe";
 import * as RelayTracing from "./cloud/relayTracing.ts";
 import * as CloudManagedEndpointRuntime from "./cloud/ManagedEndpointRuntime.ts";
 import {
@@ -162,9 +162,9 @@ import {
   retryManagedTunnelRegistration,
 } from "./cloud/managedTunnelStartup.vibe";
 import * as CloudCliTokenManager from "./cloud/CliTokenManager.ts";
-import * as CloudCliState from "./cloud/CliState.ts";
-import * as ServerSelfUpdate from "./cloud/selfUpdate.ts";
-import * as DesktopAppUpdate from "./desktopUpdate/DesktopAppUpdate.ts";
+import * as CloudCliState from "./cloud/CliState.vibe";
+import * as ServerSelfUpdate from "./cloud/selfUpdate.vibe";
+import * as DesktopAppUpdate from "./desktopUpdate/DesktopAppUpdate.vibe";
 import * as ServiceLauncherClient from "./cloud/serviceLauncherClient.ts";
 import * as ProcessDiagnostics from "./diagnostics/ProcessDiagnostics.ts";
 import * as HostResources from "./resourceTelemetry/HostResources.ts";

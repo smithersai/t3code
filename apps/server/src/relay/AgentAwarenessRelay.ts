@@ -44,7 +44,7 @@ import {
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_ISSUER_SECRET,
   RELAY_URL_SECRET,
-} from "../cloud/config.ts";
+} from "../cloud/config.vibe";
 import { getOrCreateEnvironmentKeyPairFromSecretStore } from "../cloud/environmentKeys.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";

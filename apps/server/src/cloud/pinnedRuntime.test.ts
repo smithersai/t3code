@@ -21,7 +21,7 @@ import {
   PinnedRuntimeInstallError,
   type PinnedRuntimeProgress,
   prunePinnedRuntimes,
-} from "./pinnedRuntime.ts";
+} from "./pinnedRuntime.vibe";
 import { SERVICE_LAUNCHER_PROTOCOL } from "./serviceProtocol.ts";
 
 const version = "1.2.3";

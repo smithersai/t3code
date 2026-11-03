@@ -8,18 +8,12 @@ import {
   type ThreadId,
 } from "@t3tools/contracts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import * as Cause from "effect/Cause";
 import * as Config from "effect/Config";
 import * as Context from "effect/Context";
-import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
-import * as HashSet from "effect/HashSet";
-import * as Option from "effect/Option";
-import * as Ref from "effect/Ref";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
-import * as Queue from "effect/Queue";
 import * as Stream from "effect/Stream";
 import { HttpClient } from "effect/http";
 
@@ -27,7 +21,7 @@ import { CLI_RELEASE_BASE_URL_ENV } from "@t3tools/shared/cliRelease";
 
 import packageJson from "../../package.json" with { type: "json" };
 import * as ServerConfig from "../config.ts";
-import * as DesktopAppUpdate from "../desktopUpdate/DesktopAppUpdate.ts";
+import * as DesktopAppUpdate from "../desktopUpdate/DesktopAppUpdate.vibe";
 import * as ProcessRunner from "../processRunner.ts";
 import {
   ensurePinnedRuntimeInstalled,
@@ -36,7 +30,7 @@ import {
   pinnedRuntimePaths,
   PinnedRuntimePreflightBlockedError,
   prunePinnedRuntimes,
-} from "./pinnedRuntime.ts";
+} from "./pinnedRuntime.vibe";
 import { decodeServicePreflightResult } from "./servicePreflight.ts";
 import * as ServiceLauncherClient from "./serviceLauncherClient.ts";
 import { isExactServiceVersion, SERVICE_LAUNCHER_PROTOCOL } from "./serviceProtocol.ts";
@@ -51,47 +45,36 @@ export function resolveServerSelfUpdateCapability(input: {
   return input.launcherManaged ? ("boot-service" as const) : null;
 }
 
-export class ServerSelfUpdate extends Context.Service<
-  ServerSelfUpdate,
-  {
+export service ServerSelfUpdate: {
     readonly update: (
       input: ServerSelfUpdateInput,
       reportProgress?: (
         stage: ServerSelfUpdateProgressStage,
-      ) => Effect.Effect<void, ServerSelfUpdateError>,
-      onHandoffAccepted?: () => Effect.Effect<void>,
-    ) => Effect.Effect<ServerSelfUpdateResult, ServerSelfUpdateError>;
+      ) => void!ServerSelfUpdateError,
+      onHandoffAccepted?: () => void!!,
+    ) => ServerSelfUpdateResult!ServerSelfUpdateError;
     readonly commitDesktopUpdate: (
       requestId: string,
-      onHandoffAccepted?: () => Effect.Effect<void>,
-    ) => Effect.Effect<never, ServerSelfUpdateError>;
-  }
->()("t3/cloud/selfUpdate/ServerSelfUpdate") {}
+      onHandoffAccepted?: () => void!!,
+    ) => never!ServerSelfUpdateError;
+  } {
+  static readonly key = "t3/cloud/selfUpdate/ServerSelfUpdate"
+}
 
-export const withRunningThreadContinuation = Effect.fn(
-  "cloud.server_self_update.withRunningThreadContinuation",
-)(function* (input: {
-  readonly mode: ServerConfig.RuntimeMode;
-  readonly selfUpdate: ServerSelfUpdate["Service"];
-  readonly prepare: Effect.Effect<ReadonlyArray<ThreadId>, ServerSelfUpdateError>;
-  readonly clear: (
-    threadIds: ReadonlyArray<ThreadId>,
-  ) => Effect.Effect<void, ServerSelfUpdateError>;
-}) {
-  const desktopContinuationTokens = yield* Ref.make(HashSet.empty<string>());
+export const withRunningThreadContinuation = effect (input: { readonly mode: ServerConfig.RuntimeMode; readonly selfUpdate: ServerSelfUpdate["Service"]; readonly prepare: ReadonlyArray<ThreadId>!ServerSelfUpdateError; readonly clear: (threadIds: ReadonlyArray<ThreadId>) => void!ServerSelfUpdateError; }) => try withSpan(effect {
+  const desktopContinuationTokens = try Ref.make(HashSet.empty<string>());
   const clearOnError = <A>(
-    effect: Effect.Effect<A, ServerSelfUpdateError>,
+    effect: A!ServerSelfUpdateError,
     threadIds: () => ReadonlyArray<ThreadId>,
     handoffAccepted: () => boolean,
-  ): Effect.Effect<A, ServerSelfUpdateError> =>
-    effect.pipe(
-      Effect.catchCause((cause) =>
+  ): A!ServerSelfUpdateError =>
+    effect
+      |> catchCause(%, (cause) =>
         (handoffAccepted() && Cause.hasInterruptsOnly(cause)
           ? Effect.void
           : input.clear(threadIds())
-        ).pipe(Effect.andThen(Effect.failCause(cause))),
-      ),
-    );
+        ) |> andThen(%, failCause(cause)),
+      );
 
   const update: ServerSelfUpdate["Service"]["update"] = (
     request,
@@ -109,24 +92,22 @@ export const withRunningThreadContinuation = Effect.fn(
             input.mode !== "desktop" &&
             stage === "installing" &&
             !prepared
-              ? input.prepare.pipe(
-                  Effect.tap((threadIds) =>
-                    Effect.sync(() => {
+              ? (input.prepare
+                  |> tap(%, effect (threadIds) =>
+                    {
                       prepared = true;
                       continuationThreadIds = threadIds;
-                    }),
-                  ),
-                  Effect.asVoid,
-                )
+                    },
+                  )
+                  |> asVoid(%))
               : Effect.void
-            ).pipe(Effect.andThen(reportProgress(stage))),
-          () =>
-            Effect.sync(() => {
+            ) |> andThen(%, reportProgress(stage)),
+          effect () =>
+            {
               handoffAccepted = true;
-            }),
+            },
         )
-        .pipe(
-          Effect.tap((result) => {
+          |> tap(%, (result) => {
             if (
               result.method === "desktop-app" &&
               result.desktopUpdateToken !== undefined &&
@@ -136,7 +117,6 @@ export const withRunningThreadContinuation = Effect.fn(
             }
             return Effect.void;
           }),
-        ),
       () => continuationThreadIds,
       () => handoffAccepted,
     );
@@ -144,82 +124,78 @@ export const withRunningThreadContinuation = Effect.fn(
 
   return ServerSelfUpdate.of({
     update,
-    commitDesktopUpdate: Effect.fn("selfUpdate.commitDesktopUpdate")(function* (requestId) {
-      const shouldContinue = yield* Ref.modify(desktopContinuationTokens, (tokens) => [
+    commitDesktopUpdate: effect (requestId) => try withSpan(effect {
+      const shouldContinue = try Ref.modify(desktopContinuationTokens, (tokens) => [
         HashSet.has(tokens, requestId),
         HashSet.remove(tokens, requestId),
       ]);
       let handoffAccepted = false;
       let continuationThreadIds: ReadonlyArray<ThreadId> = [];
-      return yield* clearOnError(
-        Effect.gen(function* () {
-          continuationThreadIds = shouldContinue ? yield* input.prepare : [];
-          return yield* input.selfUpdate.commitDesktopUpdate(requestId, () =>
-            Effect.sync(() => {
+      return try (clearOnError(
+        effect {
+          continuationThreadIds = shouldContinue ? try input.prepare : [];
+          return try input.selfUpdate.commitDesktopUpdate(requestId, effect () =>
+            {
               handoffAccepted = true;
-            }),
+            },
           );
-        }),
+        },
         () => continuationThreadIds,
         () => handoffAccepted,
-      ).pipe(
-        Effect.catchCause((cause) =>
+      )
+        |> catchCause(%, (cause) =>
           (shouldContinue && !handoffAccepted
             ? Ref.update(desktopContinuationTokens, HashSet.add(requestId))
             : Effect.void
-          ).pipe(Effect.andThen(Effect.failCause(cause))),
-        ),
-      );
-    }),
+          ) |> andThen(%, failCause(cause)),
+        ));
+    }, "selfUpdate.commitDesktopUpdate"),
   });
-});
+}, "cloud.server_self_update.withRunningThreadContinuation");
 
 /**
  * A server starting from the runtime its launcher settled on means runtimes left by earlier
  * updates can go. The boot service says so through its IPC context. The SSH launcher and the
  * install script's `t3` start this home's pinned runtime directly, without one.
  */
-export const pruneRuntimesOnStart = Effect.fn("cloud.server_self_update.prune_on_start")(
-  function* (input: { readonly baseDir: string; readonly managed: boolean }) {
-    const fs = yield* FileSystem.FileSystem;
-    const path = yield* Path.Path;
-    const platform = yield* HostProcess.Platform;
-    const executablePath = yield* HostProcess.ExecutablePath;
-    const { entryPath } = pinnedRuntimePaths(path, input.baseDir, packageJson.version, platform);
-    // The executable path is resolved, so it names the real path of a symlinked T3 home.
-    const realEntryPath = yield* fs.realPath(entryPath).pipe(Effect.orElseSucceed(() => entryPath));
-    if (!input.managed && executablePath !== entryPath && executablePath !== realEntryPath) {
-      return [];
-    }
-    const removed = yield* prunePinnedRuntimes({
-      baseDir: input.baseDir,
-      keep: [packageJson.version],
-    });
-    if (removed.length > 0) {
-      yield* Effect.logInfo("Removed unused t3 runtimes.", { versions: removed });
-    }
-    return removed;
-  },
-);
+export const pruneRuntimesOnStart = effect (input: { readonly baseDir: string; readonly managed: boolean; }) => try withSpan(effect {
+  const fs = try FileSystem.FileSystem;
+  const path = try Path.Path;
+  const platform = try HostProcess.Platform;
+  const executablePath = try HostProcess.ExecutablePath;
+  const { entryPath } = pinnedRuntimePaths(path, input.baseDir, packageJson.version, platform);
+  // The executable path is resolved, so it names the real path of a symlinked T3 home.
+  const realEntryPath = fs.realPath(entryPath) catch () => entryPath;
+  if (!input.managed && executablePath !== entryPath && executablePath !== realEntryPath) {
+    return [];
+  }
+  const removed = try prunePinnedRuntimes({
+    baseDir: input.baseDir,
+    keep: [packageJson.version],
+  });
+  if (removed.length > 0) {
+    try logInfo("Removed unused t3 runtimes.", { versions: removed });
+  }
+  return removed;
+}, "cloud.server_self_update.prune_on_start");
 
-export const make = Effect.fn("cloud.server_self_update.make")(function* () {
-  const serverConfig = yield* ServerConfig.ServerConfig;
-  const desktopAppUpdate = yield* DesktopAppUpdate.DesktopAppUpdate;
-  const launcher = yield* ServiceLauncherClient.ServiceLauncherClient;
-  const runner = yield* ProcessRunner.ProcessRunner;
-  const fs = yield* FileSystem.FileSystem;
-  const path = yield* Path.Path;
-  const platform = yield* HostProcess.Platform;
-  const arch = yield* HostProcess.Architecture;
-  const httpClient = yield* HttpClient.HttpClient;
+export const make = effect () => try withSpan(effect {
+  const serverConfig = try ServerConfig.ServerConfig;
+  const desktopAppUpdate = try DesktopAppUpdate.DesktopAppUpdate;
+  const launcher = try ServiceLauncherClient.ServiceLauncherClient;
+  const runner = try ProcessRunner.ProcessRunner;
+  const fs = try FileSystem.FileSystem;
+  const path = try Path.Path;
+  const platform = try HostProcess.Platform;
+  const arch = try HostProcess.Architecture;
+  const httpClient = try HttpClient.HttpClient;
   const releaseBaseUrl = Option.getOrUndefined(
-    yield* Config.String(CLI_RELEASE_BASE_URL_ENV).pipe(Config.option),
+    try Config.String(CLI_RELEASE_BASE_URL_ENV).pipe(Config.option),
   );
-  const inFlight = yield* Ref.make(false);
+  const inFlight = try Ref.make(false);
 
-  yield* pruneRuntimesOnStart({ baseDir: serverConfig.baseDir, managed: launcher.managed }).pipe(
-    Effect.forkScoped,
-  );
+  try (pruneRuntimesOnStart({ baseDir: serverConfig.baseDir, managed: launcher.managed })
+    |> forkScoped(%));
 
   const capability: ServerSelfUpdateCapability | null =
     serverConfig.mode === "desktop" ? "desktop-managed" : launcher.managed ? "boot-service" : null;
@@ -228,34 +204,32 @@ export const make = Effect.fn("cloud.server_self_update.make")(function* () {
       ? new ServerSelfUpdateError({ reason })
       : new ServerSelfUpdateError({ reason, cause });
 
-  const update: ServerSelfUpdate["Service"]["update"] = Effect.fn(
-    "cloud.server_self_update.update",
-  )(function* (input, reportProgress = () => Effect.void, onHandoffAccepted = () => Effect.void) {
+  const update: ServerSelfUpdate["Service"]["update"] = effect (input, reportProgress = () => Effect.void, onHandoffAccepted = () => Effect.void) => try withSpan(effect {
     if (capability === "desktop-managed") {
       if (desktopAppUpdate.available) {
-        return yield* desktopAppUpdate.run(reportProgress);
+        return try desktopAppUpdate.run(reportProgress);
       }
-      return yield* failWith(
+      throw failWith(
         "This server is managed by the T3 Code desktop app on its machine; update the desktop app to update it.",
       );
     }
     if (capability === null) {
-      return yield* failWith(
+      throw failWith(
         "Remote updates require the T3 Code background service. Run `t3 service install` on the server machine.",
       );
     }
 
     const targetVersion = input.targetVersion.trim();
-    if (!isExactServiceVersion(targetVersion)) {
-      return yield* failWith(`'${targetVersion}' is not an exact t3 version.`);
+    if (!(try orDie(Effect.try({ try: () => isExactServiceVersion(targetVersion), catch: (error) => error })))) {
+      throw failWith(`'${targetVersion}' is not an exact t3 version.`);
     }
-    if (yield* Ref.getAndSet(inFlight, true)) {
-      return yield* failWith("A server update is already in progress.");
+    if (try Ref.getAndSet(inFlight, true)) {
+      throw failWith("A server update is already in progress.");
     }
 
-    return yield* Effect.gen(function* () {
-      yield* reportProgress("downloading");
-      const paths = yield* ensurePinnedRuntimeInstalled({
+    return try ((effect {
+      try reportProgress("downloading");
+      const paths = ensurePinnedRuntimeInstalled({
         baseDir: serverConfig.baseDir,
         version: targetVersion,
         fs,
@@ -279,23 +253,19 @@ export const make = Effect.fn("cloud.server_self_update.make")(function* () {
               ],
               timeout: PREFLIGHT_TIMEOUT,
             })
-            .pipe(
-              Effect.mapError(
-                (cause) =>
+              |> mapError(
+                %, (cause) =>
                   new PinnedRuntimeInstallError({
                     step: "running the staged service preflight",
                     cause,
                   }),
-              ),
-              Effect.flatMap(
-                (
+              )
+              |> flatMap(
+                %, (
                   result,
-                ): Effect.Effect<
-                  void,
-                  PinnedRuntimeInstallError | PinnedRuntimePreflightBlockedError
-                > => {
+                ): void!(PinnedRuntimeInstallError | PinnedRuntimePreflightBlockedError) => {
                   if (result.code !== 0) {
-                    return Effect.fail(
+                    return fail(
                       new PinnedRuntimeInstallError({
                         step: "running the staged service preflight",
                         exitCode: Number(result.code),
@@ -308,7 +278,7 @@ export const make = Effect.fn("cloud.server_self_update.make")(function* () {
                   try {
                     parsed = JSON.parse(result.stdout.trim());
                   } catch (cause) {
-                    return Effect.fail(
+                    return fail(
                       new PinnedRuntimeInstallError({
                         step: "decoding the staged service preflight",
                         cause,
@@ -317,7 +287,7 @@ export const make = Effect.fn("cloud.server_self_update.make")(function* () {
                   }
                   const preflight = decodeServicePreflightResult(parsed);
                   if (preflight === undefined || preflight.version !== targetVersion) {
-                    return Effect.fail(
+                    return fail(
                       new PinnedRuntimeInstallError({
                         step: "verifying the staged service preflight",
                       }),
@@ -325,7 +295,7 @@ export const make = Effect.fn("cloud.server_self_update.make")(function* () {
                   }
                   return preflight.status === "ready"
                     ? Effect.void
-                    : Effect.fail(
+                    : fail(
                         new PinnedRuntimePreflightBlockedError({
                           version: targetVersion,
                           reason: preflight.reason,
@@ -333,48 +303,42 @@ export const make = Effect.fn("cloud.server_self_update.make")(function* () {
                       );
                 },
               ),
-            ),
-      }).pipe(
-        Effect.mapError((error) =>
-          error._tag === "PinnedRuntimePreflightBlockedError"
+      }) catch effect (error) => { throw error._tag === "PinnedRuntimePreflightBlockedError"
             ? failWith(error.reason, error)
-            : failWith(`Could not prepare t3@${targetVersion}.`, error),
-        ),
-      );
+            : failWith(`Could not prepare t3@${targetVersion}.`, error) };
 
-      yield* reportProgress("installing");
-      const updateId = yield* Effect.uninterruptible(
-        launcher.requestUpdate({ targetVersion, dbPath: serverConfig.dbPath }).pipe(
-          Effect.mapError((error) =>
+      try reportProgress("installing");
+      const updateId = try Effect.uninterruptible(
+        launcher.requestUpdate({ targetVersion, dbPath: serverConfig.dbPath })
+          |> mapError(%, (error) =>
             failWith(
               error._tag === "ServiceLauncherRejectedError"
                 ? error.reason
                 : "Could not ask the service launcher to activate the prepared update.",
               error,
             ),
-          ),
-          Effect.tap(() => onHandoffAccepted()),
-        ),
+          )
+          |> tap(%, () => onHandoffAccepted()),
       );
 
-      yield* Effect.logInfo("Server update prepared; handing off to the service launcher.", {
+      try logInfo("Server update prepared; handing off to the service launcher.", {
         updateId,
         targetVersion,
         runtimePath: paths.entryPath,
       });
       return { targetVersion, method: "boot-service" as const, updateId };
-    }).pipe(Effect.onError(() => Ref.set(inFlight, false)));
-  });
+    }) |> onError(%, () => Ref.set(inFlight, false)));
+  }, "cloud.server_self_update.update");
 
   return ServerSelfUpdate.of({
     update,
-    commitDesktopUpdate: Effect.fn("ServerSelfUpdate.commitDesktopUpdate")(
+    commitDesktopUpdate: fn("ServerSelfUpdate.commitDesktopUpdate")(
       function (requestId, onHandoffAccepted) {
         return desktopAppUpdate.commit(requestId, onHandoffAccepted);
       },
     ),
   });
-});
+}, "cloud.server_self_update.make");
 
 export const layer = Layer.effect(ServerSelfUpdate, make()).pipe(
   Layer.provide(ProcessRunner.layer),
@@ -387,16 +351,14 @@ export const updateProgressStream = (
 ) =>
   Stream.callback<ServerSelfUpdateProgressEvent, ServerSelfUpdateError>((queue) => {
     const offer = (event: ServerSelfUpdateProgressEvent) =>
-      Queue.offer(queue, event).pipe(Effect.ignore);
+      Queue.offer(queue, event) |> ignore(%);
 
     return selfUpdate
       .update(input, (stage) => offer({ type: "progress", stage }))
-      .pipe(
-        Effect.flatMap((result) => offer({ type: "complete", result })),
-        Effect.catchTags({
-          ServerSelfUpdateError: (error) => Queue.fail(queue, error).pipe(Effect.ignore),
-        }),
-        Effect.andThen(Queue.end(queue).pipe(Effect.ignore)),
-        Effect.forkDetach,
-      );
+        |> flatMap(%, (result) => offer({ type: "complete", result }))
+        |> catchTags(%, {
+          ServerSelfUpdateError: (error) => Queue.fail(queue, error) |> ignore(%),
+        })
+        |> andThen(%, Queue.end(queue) |> ignore(%))
+        |> forkDetach(%);
   });
