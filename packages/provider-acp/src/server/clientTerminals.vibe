@@ -19,9 +19,9 @@ const terminalRequestError = (message: string, cause?: unknown): EffectAcpErrors
   )
 
 interface OutputBufferState {
-  mutable chunks: Array<Uint8Array>
-  mutable bytes: number
-  mutable truncated: boolean
+  chunks: Array<Uint8Array>
+  bytes: number
+  truncated: boolean
   readonly limit: number
 }
 
@@ -87,8 +87,8 @@ interface ManagedAcpTerminal {
   readonly exit: Deferred<EffectAcpSchema.WaitForTerminalExitResponse>
   readonly kill: void!!
   readonly dispose: void!!
-  mutable exitStatus: EffectAcpSchema.TerminalExitStatus | undefined
-  mutable released: boolean
+  exitStatus: EffectAcpSchema.TerminalExitStatus | undefined
+  released: boolean
 }
 
 export interface AcpClientTerminals {
