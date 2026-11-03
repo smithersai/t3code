@@ -15,7 +15,7 @@
     "alchemy": "catalog:",
     "effect": "catalog:",
     "jose": "catalog:",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11-2fe05486ecc6.tgz"
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11-6a665783b5e4.tgz"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260601.1",
@@ -23,8 +23,8 @@
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
     "typescript": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-240046f82a40.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-8d120066f406.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-98d5eb3d61ce.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-a43d2b04075f.tgz",
     "vite-plus": "catalog:"
   }
 }

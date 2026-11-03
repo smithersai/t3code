@@ -342,18 +342,22 @@ export schema GitCommandFailureReason =
 
 const GitCommandErrorReasonField = ForwardCompatibleOptional(GitCommandFailureReason)
 const DefectField = Schema.Defect()
-export schema error GitCommandError {
-  operation: string
-  command: string
-  cwd: string
-  argumentCount?: number
-  exitCode?: number
-  stdoutLength?: number
-  stderrLength?: number
-  outputLength?: number
-  reason: GitCommandErrorReasonField
-  detail: string
-  cause?: DefectField
+// GitCommandError keeps its explicit Effect codecs: `reason` is ForwardCompatibleOptional(...), an optional-key schema,
+// and a `schema error` field cannot carry optional-key behaviour (EK2109 on VibeLang a444534a5dda: "Keep an explicit
+// Schema.Struct value when the reference's optional-key behavior is intended"). Written as the compiler's quick fix writes it.
+export class GitCommandError extends Schema.TaggedError<GitCommandError>()("GitCommandError", {
+  operation: Schema.String,
+  command: Schema.String,
+  cwd: Schema.String,
+  argumentCount: Schema.optional(Schema.Number),
+  exitCode: Schema.optional(Schema.Number),
+  stdoutLength: Schema.optional(Schema.Number),
+  stderrLength: Schema.optional(Schema.Number),
+  outputLength: Schema.optional(Schema.Number),
+  reason: GitCommandErrorReasonField,
+  detail: Schema.String,
+  cause: Schema.optional(DefectField),
+}) {
   override get message(): string {
     const reason = this.reason === undefined ? "" : ` (${this.reason})`
     return `Git command failed in ${this.operation} (${this.cwd}): ${this.detail}${reason}`
