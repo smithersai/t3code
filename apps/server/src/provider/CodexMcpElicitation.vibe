@@ -75,14 +75,14 @@ function mcpElicitationPersistenceDecision(
   return null
 }
 
-function mcpElicitationFormFields(payload: EffectCodexSchema.McpServerElicitationRequestParams): infer _ {
+function mcpElicitationFormFields(payload: EffectCodexSchema.McpServerElicitationRequestParams) {
   if (payload.mode === "url" || !isMcpElicitationForm(payload.requestedSchema)) {
     return undefined
   }
   return payload.requestedSchema
 }
 
-function mcpElicitationFieldOptions(field: typeof McpElicitationFormField.Type): infer _ {
+function mcpElicitationFieldOptions(field: typeof McpElicitationFormField.Type) {
   if (field.oneOf) {
     return field.oneOf.map((option) => ({ value: option.const, label: option.title }))
   }

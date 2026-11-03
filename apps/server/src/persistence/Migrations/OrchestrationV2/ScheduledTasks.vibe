@@ -1,11 +1,9 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE TABLE IF NOT EXISTS scheduled_tasks (
       task_id TEXT PRIMARY KEY,
       title TEXT NOT NULL,
@@ -29,20 +27,15 @@ export default effect {
       run_count INTEGER NOT NULL
     )
   `
-  )
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE INDEX IF NOT EXISTS idx_scheduled_tasks_due
     ON scheduled_tasks(enabled, next_run_at)
     WHERE enabled = 1 AND next_run_at IS NOT NULL
   `
-  )
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE INDEX IF NOT EXISTS idx_scheduled_tasks_project
     ON scheduled_tasks(project_id, updated_at)
   `
-  )
 }

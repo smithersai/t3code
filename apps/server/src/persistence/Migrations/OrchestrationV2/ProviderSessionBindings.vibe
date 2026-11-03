@@ -1,20 +1,16 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE TABLE orchestration_v2_projection_provider_session_bindings (
       provider_session_id TEXT NOT NULL,
       thread_id TEXT NOT NULL,
       PRIMARY KEY (provider_session_id, thread_id)
     )
   `
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     INSERT OR IGNORE INTO orchestration_v2_projection_provider_session_bindings (
       provider_session_id,
       thread_id
@@ -23,11 +19,8 @@ export default effect {
     FROM orchestration_v2_projection_provider_sessions
     WHERE thread_id IS NOT NULL
   `
-  )
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE INDEX orchestration_v2_projection_provider_session_bindings_thread_idx
     ON orchestration_v2_projection_provider_session_bindings(thread_id)
   `
-  )
 }

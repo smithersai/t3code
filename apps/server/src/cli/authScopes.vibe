@@ -1,6 +1,6 @@
 import { AuthGrantScope } from "@t3tools/contracts"
 
-export const authScopesFlag = (defaults: ReadonlyArray<AuthGrantScope>): infer _ =>
+export const authScopesFlag = (defaults: ReadonlyArray<AuthGrantScope>) =>
   Flag.Literals("scope", AuthGrantScope.literals).pipe(
     Flag.withDescription(
       `Authorization scope to grant. Repeat for multiple scopes; replaces the default set: ${defaults.join(", ")}.`,

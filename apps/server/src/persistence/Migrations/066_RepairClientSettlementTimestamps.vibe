@@ -1,14 +1,11 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
-const timestamp = (value: string | null): infer _ =>
-  value === null ? undefined : Option.getOrUndefined(DateTime.make(value))
+const timestamp = (value: string | null) => value === null ? undefined : Option.getOrUndefined(DateTime.make(value))
 
 export default effect {
   const sql = try SqlClient.SqlClient
   // Manual settles have the same shape; only the affected builds' dense sweeps qualify.
-  const settlements = try Effect.suspend(() =>
-    sql<{ readonly thread_id: string; readonly occurred_at: string }>`
+  const settlements = try sql<{ readonly thread_id: string; readonly occurred_at: string }>`
     WITH
     legacy_settlements AS (
       SELECT
@@ -61,7 +58,6 @@ export default effect {
     SELECT DISTINCT thread_id, occurred_at FROM automatic_settlements
     ORDER BY thread_id, occurred_at
   `
-  )
   const byThread = Map.groupBy(settlements, (settlement) => settlement.thread_id)
 
   for (const [threadId, sweeps] of byThread) {
@@ -71,7 +67,7 @@ export default effect {
       activityAt: null as string | null,
       activityTime: -Infinity,
     }))
-    const recordActivity = (value: string | null): infer _ => {
+    const recordActivity = (value: string | null) => {
       const date = timestamp(value)
       if (date === undefined) return
       const time = DateTime.toEpochMillis(date)
@@ -84,14 +80,12 @@ export default effect {
     }
 
     for (const repair of repairs) {
-      const messages = try Effect.suspend(() =>
-        sql<{ readonly created_at: string }>`
+      const messages = try sql<{ readonly created_at: string }>`
         SELECT created_at FROM projection_thread_messages
         WHERE thread_id = ${threadId} AND role = 'user'
           AND julianday(created_at) <= julianday(${repair.occurredAt})
         ORDER BY julianday(created_at) DESC LIMIT 1
       `
-      )
       recordActivity(messages[0]?.created_at ?? null)
     }
 
@@ -106,23 +100,22 @@ export default effect {
     let afterSequence = 0
     const pageSize = 500
     while (true) {
-      const events = try Effect.suspend(() =>
-        sql<{
-          readonly sequence: number
-          readonly event_type: string
-          readonly occurred_at: string
-          readonly turn_id: string | null
-          readonly created_at: string | null
-          readonly updated_at: string | null
-          readonly completed_at: string | null
-          readonly role: string | null
-          readonly streaming: number | null
-          readonly status: string | null
-          readonly session_turn_id: string | null
-          readonly session_updated_at: string | null
-          readonly checkpoint: number | null
-          readonly turn_count: number | null
-        }>`
+      const events = try sql<{
+        readonly sequence: number
+        readonly event_type: string
+        readonly occurred_at: string
+        readonly turn_id: string | null
+        readonly created_at: string | null
+        readonly updated_at: string | null
+        readonly completed_at: string | null
+        readonly role: string | null
+        readonly streaming: number | null
+        readonly status: string | null
+        readonly session_turn_id: string | null
+        readonly session_updated_at: string | null
+        readonly checkpoint: number | null
+        readonly turn_count: number | null
+      }>`
         SELECT sequence, event_type, occurred_at,
           json_extract(payload_json, '$.turnId') AS turn_id,
           json_extract(payload_json, '$.createdAt') AS created_at,
@@ -145,7 +138,6 @@ export default effect {
           )
         ORDER BY sequence LIMIT ${pageSize}
       `
-      )
       for (const event of events) {
         const turn = event.turn_id === null ? undefined : turns.get(event.turn_id)
         switch (event.event_type) {
@@ -256,16 +248,13 @@ export default effect {
     }
 
     for (const repair of repairs) {
-      try Effect.suspend(() =>
-        sql`
+      try sql`
         UPDATE projection_threads
         SET settled_at = COALESCE(${repair.activityAt}, created_at)
         WHERE thread_id = ${threadId} AND settled_override = 'settled'
           AND settled_at = ${repair.occurredAt}
       `
-      )
-      try Effect.suspend(() =>
-        sql`
+      try sql`
         UPDATE orchestration_v2_projection_threads
         SET payload_json = json_set(payload_json, '$.settledAt',
           COALESCE(${repair.activityAt}, json_extract(payload_json, '$.createdAt')))
@@ -273,10 +262,8 @@ export default effect {
           AND json_extract(payload_json, '$.settledOverride') = 'settled'
           AND json_extract(payload_json, '$.settledAt') = ${repair.occurredAt}
       `
-      )
       // V2 snapshots must retain the repair after a rebuild; V1 history stays immutable.
-      try Effect.suspend(() =>
-        sql`
+      try sql`
         UPDATE orchestration_events
         SET payload_json = json_set(payload_json, '$.settledAt',
           COALESCE(${repair.activityAt}, json_extract(payload_json, '$.createdAt'),
@@ -286,7 +273,6 @@ export default effect {
           AND json_extract(payload_json, '$.settledOverride') = 'settled'
           AND json_extract(payload_json, '$.settledAt') = ${repair.occurredAt}
       `
-      )
     }
   }
 }

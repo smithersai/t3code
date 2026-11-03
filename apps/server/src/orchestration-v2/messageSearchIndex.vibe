@@ -1,4 +1,3 @@
-import * as Effect from "effect/Effect"
 import type * as SqlClient from "effect/sql/SqlClient"
 
 /**
@@ -6,7 +5,7 @@ import type * as SqlClient from "effect/sql/SqlClient"
  * their finished answer on every streamed chunk.
  * Migration triggers, backfill, rebuild and scans share this predicate; `row` may be `new`.
  */
-export const indexedMessageCondition = (sql: SqlClient.SqlClient, row = "messages"): infer _ =>
+export const indexedMessageCondition = (sql: SqlClient.SqlClient, row = "messages") =>
   sql.literal(`
   ${row}.streaming = 0
   AND (
@@ -29,7 +28,7 @@ export const indexedMessageCondition = (sql: SqlClient.SqlClient, row = "message
  * type "'". Migration 69's triggers use it too. `payload` is the message's
  * JSON column.
  */
-export const indexedMessageText = (sql: SqlClient.SqlClient, payload: string): infer _ =>
+export const indexedMessageText = (sql: SqlClient.SqlClient, payload: string) =>
   sql.literal(`replace(replace(json_extract(${payload}, '$.text'), '’', ''''), '‘', '''')`)
 
 /**
@@ -43,31 +42,25 @@ export const rebuildMessageSearch = effect (
 ) =>
   try withSpan(
     effect {
-      const index = try Effect.suspend(() =>
-        sql`
+      const index = try sql`
     SELECT 1 FROM sqlite_master WHERE name = 'orchestration_v2_message_search'
   `
-      )
       if (index.length === 0) return
       // One transaction: an interrupt between clear and refill would leave an
       // empty index that nothing repairs, since search only checks the table exists.
       try sql.withTransaction(
         effect {
-          try Effect.suspend(() =>
-            sql`
+          try sql`
         INSERT INTO orchestration_v2_message_search (orchestration_v2_message_search)
         VALUES ('delete-all')
       `
-          )
-          try Effect.suspend(() =>
-            sql`
+          try sql`
         INSERT INTO orchestration_v2_message_search (rowid, text)
         SELECT messages.rowid, ${indexedMessageText(sql, "messages.payload_json")}
         FROM orchestration_v2_projection_messages AS messages
         WHERE ${indexedMessageCondition(sql)}
           AND json_extract(messages.payload_json, '$.text') IS NOT NULL
       `
-          )
         },
       )
     },

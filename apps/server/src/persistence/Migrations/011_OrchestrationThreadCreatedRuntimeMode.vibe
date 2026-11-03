@@ -1,15 +1,12 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     UPDATE orchestration_events
     SET payload_json = json_set(payload_json, '$.runtimeMode', 'full-access')
     WHERE event_type = 'thread.created'
       AND json_type(payload_json, '$.runtimeMode') IS NULL
   `
-  )
 }

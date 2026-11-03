@@ -1,4 +1,4 @@
-import * as Effect from "effect/Effect";
+import { Effect } from "effect";
 import type * as SqlClient from "effect/sql/SqlClient";
 /**
  * Exclude generated notices and subagent threads: search hides them, and ACP subagents rewrite

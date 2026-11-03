@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@effect/vitest";
 
-import { claudeUsageFormat, parseClaudeLine } from "./claudeUsage.vibe";
+import { claudeUsageFormat, parseClaudeLine } from "./claudeUsage.ts";
 
 function claudeLine(overrides: {
   messageId: string;

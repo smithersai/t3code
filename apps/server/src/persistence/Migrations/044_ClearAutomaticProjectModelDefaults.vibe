@@ -1,12 +1,10 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
   // Creation exposed no model choice; later metadata proves the user set or reset one.
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     WITH automatically_seeded_projects AS (
       SELECT created.stream_id AS project_id
       FROM orchestration_events AS created
@@ -27,10 +25,8 @@ export default effect {
     SET default_model_selection_json = NULL
     WHERE project_id IN (SELECT project_id FROM automatically_seeded_projects)
   `
-  )
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     UPDATE orchestration_events AS created
     SET payload_json = json_set(
       created.payload_json,
@@ -50,5 +46,4 @@ export default effect {
           AND json_type(configured.payload_json, '$.defaultModelSelection') IS NOT NULL
       )
   `
-  )
 }

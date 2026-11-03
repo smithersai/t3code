@@ -21,7 +21,7 @@ const handlers = {
     const service = try OrchestratorMcpService.OrchestratorMcpService
     return try service.delegateTask(scope, input)
   }),
-  task_status: McpToolAccess.actsAsCaller(({ taskId }): infer _ =>
+  task_status: McpToolAccess.actsAsCaller(({ taskId }) =>
     effect {
       const scope = try McpInvocationContext.McpInvocationContext
       const service = try OrchestratorMcpService.OrchestratorMcpService
@@ -37,43 +37,37 @@ const handlers = {
     (input) => [input.threadId],
     effect (input) => {
       const { threads } = try readCaller()
-      return try (threads.stopWorkflow(input)
-        |> Effect.as(%, {})
-        |> Effect.mapError(
-          %,
-          (cause) =>
-            new OrchestratorMcpFailure({
-              code: cause.reason === "unavailable" || cause.reason === "stop-failed"
-                ? "orchestration_error"
-                : "invalid_request",
-              message: cause.message,
-            }),
-        ))
+      return (threads.stopWorkflow(input)
+        |> Effect.as(%, {})) catch effect (cause) => {
+          throw new OrchestratorMcpFailure({
+            code: cause.reason === "unavailable" || cause.reason === "stop-failed"
+              ? "orchestration_error"
+              : "invalid_request",
+            message: cause.message,
+          })
+        }
     },
   ),
   t3_background_wait: McpToolAccess.actsAsCaller(effect (input) => {
     const { scope, threads } = try readCaller()
     const caller = try McpInvocationContext.requireThreadScope(scope, "t3_background_wait")
-    return try (threads
+    return threads
       .awaitBackgroundTasks({
         threadId: caller.thread.threadId,
         taskIds: input.taskIds,
         awaited: input.waiting ?? true,
-      })
-      |> Effect.mapError(
-        %,
-        (cause) =>
-          new OrchestratorMcpFailure({
-            code: cause.reason === "unsupported" ? "invalid_request" : "orchestration_error",
-            message: cause.message,
-          }),
-      ))
+      }) catch effect (cause) => {
+        throw new OrchestratorMcpFailure({
+          code: cause.reason === "unsupported" ? "invalid_request" : "orchestration_error",
+          message: cause.message,
+        })
+      }
   }),
   schedule_task: McpToolAccess.either(
     (input) => input.scheduledTaskId === undefined,
     McpToolAccess.startsThreads(
       () => ({}),
-      ({ prompt, schedule, ...input }): infer _ =>
+      ({ prompt, schedule, ...input }) =>
         effect {
           if (prompt === undefined || schedule === undefined) {
             throw new OrchestratorMcpFailure({
@@ -89,7 +83,7 @@ const handlers = {
       { refused: "schedule tasks in this environment" },
     ),
     McpToolAccess.writes(
-      ({ scheduledTaskId, prompt, title, schedule, enabled, bindToCurrentThread }): infer _ =>
+      ({ scheduledTaskId, prompt, title, schedule, enabled, bindToCurrentThread }) =>
         effect {
           if (scheduledTaskId === undefined) return try Effect.die("unreachable")
           const scope = try McpInvocationContext.McpInvocationContext
@@ -168,15 +162,13 @@ const handlers = {
     const requests = try PeerLinkRequests.PeerLinkRequests
     return try requests.request(scope, input)
   }),
-  t3_environment_unlink: McpToolAccess.writesEnvironment(({ environmentId }): infer _ =>
+  t3_environment_unlink: McpToolAccess.writesEnvironment(({ environmentId }) =>
     effect {
       const links = try PeerLinks.PeerLinks
-      const removed = try (links
-        .unlink(environmentId)
-        |> Effect.mapError(
-          %,
-          (error) => new OrchestratorMcpFailure({ code: "orchestration_error", message: error.message }),
-        ))
+      const removed = links
+        .unlink(environmentId) catch effect (error) => {
+          throw new OrchestratorMcpFailure({ code: "orchestration_error", message: error.message })
+        }
       return { environmentId, removed }
     }
   ),

@@ -1,12 +1,10 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
   // Delete unticked rows; storing the absent state would grow with every scrolled diff.
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE TABLE IF NOT EXISTS pull_request_files_viewed (
       provider TEXT NOT NULL,
       host TEXT NOT NULL,
@@ -19,5 +17,4 @@ export default effect {
       PRIMARY KEY (provider, host, repository, number, viewer, path)
     ) WITHOUT ROWID
   `
-  )
 }

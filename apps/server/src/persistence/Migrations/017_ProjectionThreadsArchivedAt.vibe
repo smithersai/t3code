@@ -1,22 +1,17 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
-  const columns = try Effect.suspend(effect () =>
-    sql<{ readonly name: string }>`
+  const columns = try sql<{ readonly name: string }>`
     PRAGMA table_info(projection_threads)
   `
-  )
 
   if (columns.some((column) => column.name === "archived_at")) {
     return
   }
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     ALTER TABLE projection_threads
     ADD COLUMN archived_at TEXT
   `
-  )
 }

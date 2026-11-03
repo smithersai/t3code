@@ -1,11 +1,9 @@
-import * as Effect from "effect/Effect"
 import * as SqlClient from "effect/sql/SqlClient"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(() =>
-    sql`
+  try sql`
     CREATE TABLE IF NOT EXISTS pull_request_review_guides (
       host TEXT NOT NULL,
       repository TEXT NOT NULL,
@@ -14,5 +12,4 @@ export default effect {
       PRIMARY KEY (host, repository, number)
     ) WITHOUT ROWID
   `
-  )
 }

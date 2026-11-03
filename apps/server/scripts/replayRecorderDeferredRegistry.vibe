@@ -19,7 +19,7 @@ export const makeReplayRecorderDeferredRegistry = effect () =>
             return try SynchronizedRef.modifyEffect(state, (deferreds) => {
               const existing = deferreds.get(key)
               if (existing !== undefined) {
-                return [existing, deferreds] as const
+                return Effect.succeed([existing, deferreds] as const)
               }
 
               return Deferred.make<void>()

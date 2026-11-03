@@ -1,11 +1,9 @@
 import * as SqlClient from "effect/sql/SqlClient"
-import * as Effect from "effect/Effect"
 
 export default effect {
   const sql = try SqlClient.SqlClient
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     INSERT OR IGNORE INTO projection_pending_approvals (
       request_id,
       thread_id,
@@ -39,10 +37,8 @@ export default effect {
     ) AS requested
     WHERE requested.row_number = 1
   `
-  )
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     WITH latest_resolutions AS (
       SELECT
         resolved.request_id,
@@ -91,10 +87,8 @@ export default effect {
       WHERE latest_resolutions.request_id = projection_pending_approvals.request_id
     )
   `
-  )
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     WITH latest_response_events AS (
       SELECT
         response.request_id,
@@ -143,10 +137,8 @@ export default effect {
       WHERE latest_response_events.request_id = projection_pending_approvals.request_id
     )
   `
-  )
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     WITH latest_stale_failures AS (
       SELECT
         failure.request_id,
@@ -189,10 +181,8 @@ export default effect {
         WHERE latest_stale_failures.request_id = projection_pending_approvals.request_id
       )
   `
-  )
 
-  try Effect.suspend(effect () =>
-    sql`
+  try sql`
     UPDATE projection_threads
     SET
       latest_user_message_at = (
@@ -283,5 +273,4 @@ export default effect {
         END
       ), 0)
   `
-  )
 }
