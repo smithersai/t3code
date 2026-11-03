@@ -187,10 +187,10 @@ export const KeybindingWhenNode = Schema.Union([
   }),
 ])
 export type KeybindingWhenNode =
-  | { mutable type: "identifier"; mutable name: string }
-  | { mutable type: "not"; mutable node: KeybindingWhenNode }
-  | { mutable type: "and"; mutable left: KeybindingWhenNode; mutable right: KeybindingWhenNode }
-  | { mutable type: "or"; mutable left: KeybindingWhenNode; mutable right: KeybindingWhenNode }
+  | { type: "identifier"; name: string }
+  | { type: "not"; node: KeybindingWhenNode }
+  | { type: "and"; left: KeybindingWhenNode; right: KeybindingWhenNode }
+  | { type: "or"; left: KeybindingWhenNode; right: KeybindingWhenNode }
 
 export const ResolvedKeybindingRule = Schema.Struct({
   command: KeybindingCommand,

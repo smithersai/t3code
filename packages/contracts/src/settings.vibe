@@ -825,9 +825,9 @@ const SourceControlWritingStyleSetting = Schema.Union([
 export schema BranchNamingMode = "static" | "semantic" | "custom"
 
 export interface BranchNamingOptions {
-  mutable mode: BranchNamingMode
-  mutable prefix: string
-  mutable instructions: string
+  mode: BranchNamingMode
+  prefix: string
+  instructions: string
 }
 
 export const DEFAULT_AUTOMATIC_GIT_FETCH_INTERVAL = Duration.seconds(30)

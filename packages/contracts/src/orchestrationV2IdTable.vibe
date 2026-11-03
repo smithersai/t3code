@@ -5,7 +5,7 @@ import * as Schema from "effect/Schema"
  * under `id`, `*Id`, and `*Ids` index the response's `ids` table. Both peers must apply this exact
  * rule; changing it needs a new opt-in (`compactIds=2`, or a new `accept*` key over WS).
  */
-type JsonObject = { mutable [key: string]: unknown }
+type JsonObject = { [key: string]: unknown }
 
 const isObject = (value: unknown): value is JsonObject =>
   typeof value === "object" && value !== null && !Array.isArray(value)
