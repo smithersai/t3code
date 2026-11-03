@@ -28,19 +28,20 @@ export schema GetByCommandIdInput {
   readonly commandId: CommandId
 }
 
-export service OrchestrationCommandReceiptRepository {
+export service OrchestrationCommandReceiptRepository: {
+    readonly insertIfAbsent: (
+      receipt: OrchestrationCommandReceipt,
+    ) => boolean!OrchestrationCommandReceiptRepositoryError;
+
+    readonly upsert: (
+      receipt: OrchestrationCommandReceipt,
+    ) => void!OrchestrationCommandReceiptRepositoryError;
+
+    readonly getByCommandId: (
+      input: GetByCommandIdInput,
+    ) => Option.Option<OrchestrationCommandReceipt>!OrchestrationCommandReceiptRepositoryError;
+  } {
   static readonly key = "t3/persistence/OrchestrationCommandReceipts/OrchestrationCommandReceiptRepository"
-  insertIfAbsent: (
-    receipt: OrchestrationCommandReceipt,
-  ) => boolean!OrchestrationCommandReceiptRepositoryError;
-
-  upsert: (
-    receipt: OrchestrationCommandReceipt,
-  ) => void!OrchestrationCommandReceiptRepositoryError;
-
-  getByCommandId: (
-    input: GetByCommandIdInput,
-  ) => Option.Option<OrchestrationCommandReceipt>!OrchestrationCommandReceiptRepositoryError;
 }
 
 const makeOrchestrationCommandReceiptRepository = effect {
@@ -103,7 +104,7 @@ const makeOrchestrationCommandReceiptRepository = effect {
 
   const upsert: OrchestrationCommandReceiptRepository["Service"]["upsert"] = (receipt) =>
     upsertReceiptRow(receipt)
-      |> Effect.mapError(%, toPersistenceSqlError("OrchestrationCommandReceiptRepository.upsert:query"));
+      |> mapError(%, toPersistenceSqlError("OrchestrationCommandReceiptRepository.upsert:query"));
 
   const insertIfAbsent: OrchestrationCommandReceiptRepository["Service"]["insertIfAbsent"] = (
     receipt,
@@ -132,8 +133,8 @@ const makeOrchestrationCommandReceiptRepository = effect {
       ON CONFLICT(command_id) DO NOTHING
       RETURNING command_id
     `
-      |> Effect.map(%, (rows) => rows.length === 1)
-      |> Effect.mapError(
+      |> map(%, (rows) => rows.length === 1)
+      |> mapError(
         %, toPersistenceSqlError("OrchestrationCommandReceiptRepository.insertIfAbsent:query"),
       );
 
@@ -142,7 +143,7 @@ const makeOrchestrationCommandReceiptRepository = effect {
   ) =>
     findReceiptByCommandId(input)
       |> NodeSqliteClient.readOnly(%)
-      |> Effect.mapError(
+      |> mapError(
         %, toPersistenceSqlError("OrchestrationCommandReceiptRepository.getByCommandId:query"),
       );
 

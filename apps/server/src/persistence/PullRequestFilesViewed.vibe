@@ -40,14 +40,15 @@ export interface PullRequestFilesViewedPage {
   readonly truncated: boolean;
 }
 
-export service PullRequestFilesViewedRepository {
+export service PullRequestFilesViewedRepository: {
+    readonly list: (
+      input: PullRequestFilesViewedScope,
+    ) => PullRequestFilesViewedPage!PullRequestFilesViewedRepositoryError;
+    readonly set: (
+      input: SetPullRequestFilesViewedInput,
+    ) => void!PullRequestFilesViewedRepositoryError;
+  } {
   static readonly key = "t3/persistence/PullRequestFilesViewed/PullRequestFilesViewedRepository"
-  list: (
-    input: PullRequestFilesViewedScope,
-  ) => PullRequestFilesViewedPage!PullRequestFilesViewedRepositoryError;
-  set: (
-    input: SetPullRequestFilesViewedInput,
-  ) => void!PullRequestFilesViewedRepositoryError;
 }
 
 function toSqlOrDecodeError(sqlOperation: string, decodeOperation: string) {
@@ -80,20 +81,20 @@ const make = effect {
   });
 
   return PullRequestFilesViewedRepository.of({
-    list: Effect.fn("PullRequestFilesViewedRepository.list")(function (input) {
+    list: fn("PullRequestFilesViewedRepository.list")(function (input) {
       return listRows(input)
         |> NodeSqliteClient.readOnly(%)
-        |> Effect.map(%, (rows) => ({
+        |> map(%, (rows) => ({
           files: rows.slice(0, MAX_FILES_VIEWED_ROWS),
           truncated: rows.length > MAX_FILES_VIEWED_ROWS,
         }))
-        |> Effect.mapError(%, toSqlOrDecodeError("listPullRequestFilesViewed", "PullRequestFileViewed"));
+        |> mapError(%, toSqlOrDecodeError("listPullRequestFilesViewed", "PullRequestFileViewed"));
     }),
 
-    set: Effect.fn("PullRequestFilesViewedRepository.set")(function (input) {
+    set: fn("PullRequestFilesViewedRepository.set")(function (input) {
       return sql
         .withTransaction(
-          Effect.forEach(
+          forEach(
             input.files,
             (file) =>
               file.viewed
@@ -133,7 +134,7 @@ const make = effect {
             { discard: true },
           ),
         )
-          |> Effect.mapError(
+          |> mapError(
             %, (cause) => new PersistenceSqlError({ operation: "setPullRequestFilesViewed", cause }),
           );
     }),

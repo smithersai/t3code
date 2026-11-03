@@ -55,19 +55,20 @@ export schema error WorkspacePathOutsideRootError {
 
 export schema WorkspacePathsError = WorkspaceRootNotExistsError | WorkspaceRootCreateFailedError | WorkspaceRootStatFailedError | WorkspaceRootNotDirectoryError | WorkspacePathOutsideRootError
 
-export service WorkspacePaths {
+export service WorkspacePaths: {
+    readonly normalizeWorkspaceRoot: (
+      workspaceRoot: string,
+      options?: { readonly createIfMissing?: boolean },
+    ) => string!(| WorkspaceRootNotExistsError
+      | WorkspaceRootCreateFailedError
+      | WorkspaceRootStatFailedError
+      | WorkspaceRootNotDirectoryError);
+    readonly resolveRelativePathWithinRoot: (input: {
+      workspaceRoot: string;
+      relativePath: string;
+    }) => { absolutePath: string; relativePath: string }!WorkspacePathOutsideRootError;
+  } {
   static readonly key = "t3/workspace/WorkspacePaths"
-  normalizeWorkspaceRoot: (
-    workspaceRoot: string,
-    options?: { readonly createIfMissing?: boolean },
-  ) => string!(| WorkspaceRootNotExistsError
-    | WorkspaceRootCreateFailedError
-    | WorkspaceRootStatFailedError
-    | WorkspaceRootNotDirectoryError);
-  resolveRelativePathWithinRoot: (input: {
-    workspaceRoot: string;
-    relativePath: string;
-  }) => { absolutePath: string; relativePath: string }!WorkspacePathOutsideRootError;
 }
 
 function toPosixRelativePath(input: string): string {
@@ -84,11 +85,11 @@ const make = effect {
     phase: "validate-existing" | "verify-created",
   ) => try withSpan(effect {
     return try (fileSystem.stat(normalizedWorkspaceRoot)
-      |> Effect.matchEffect(%, {
+      |> matchEffect(%, {
         onFailure: (cause) =>
           cause.reason._tag === "NotFound"
-            ? Effect.succeed(null)
-            : Effect.fail(
+            ? succeed(null)
+            : fail(
                 new WorkspaceRootStatFailedError({
                   workspaceRoot,
                   normalizedWorkspaceRoot,
@@ -103,7 +104,7 @@ const make = effect {
   const normalizeWorkspaceRoot: WorkspacePaths["Service"]["normalizeWorkspaceRoot"] = effect (workspaceRoot, options) => try withSpan(effect {
     const home = try HostProcess.HomeDirectory
     const normalizedWorkspaceRoot = path.resolve(
-      try Effect.orDie(Effect.try({ try: () => expandHomePath(workspaceRoot.trim(), home), catch: (error) => error })),
+      try orDie(Effect.try({ try: () => expandHomePath(workspaceRoot.trim(), home), catch: (error) => error })),
     );
     let workspaceStat = try statWorkspaceRoot(
       workspaceRoot,
