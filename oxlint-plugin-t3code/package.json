@@ -10,11 +10,11 @@
     "@effect/platform-node": "catalog:",
     "@oxlint/plugins": "^1.63.0",
     "effect": "catalog:",
-    "vibelang-runtime": "file:../.vibelang-toolchain/vibelang-runtime-0.0.11-2fe05486ecc6.tgz"
+    "vibelang-runtime": "file:../.vibelang-toolchain/vibelang-runtime-0.0.11-6a665783b5e4.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
-    "vibelang": "file:../.vibelang-toolchain/vibelang-0.0.11-240046f82a40.tgz",
+    "vibelang": "file:../.vibelang-toolchain/vibelang-0.0.11-98d5eb3d61ce.tgz",
     "vite-plus": "catalog:"
   }
 }
