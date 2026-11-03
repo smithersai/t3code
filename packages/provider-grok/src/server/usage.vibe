@@ -112,7 +112,7 @@ function parseGrokRecord(parsed: unknown): readonly UsageRecord[] {
   if (topLevel === null) return []
 
   const modelUsage = usageRecord["modelUsage"]
-  const modelEntries: Array<{ mutable model: string; mutable totals: GrokUsageTotals }> = []
+  const modelEntries: Array<{ model: string; totals: GrokUsageTotals }> = []
   if (typeof modelUsage === "object" && modelUsage !== null) {
     for (const [model, raw] of Object.entries(modelUsage as Record<string, unknown>)) {
       if (model.length === 0) continue
