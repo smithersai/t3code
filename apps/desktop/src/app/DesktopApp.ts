@@ -31,7 +31,7 @@ import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
 import * as DesktopShellEnvironment from "../shell/DesktopShellEnvironment.ts";
 import * as DesktopStartupRecovery from "./DesktopStartupRecovery.ts";
 import * as DesktopState from "./DesktopState.vibe";
-import * as DesktopRemoteUpdates from "../updates/DesktopRemoteUpdates.ts";
+import * as DesktopRemoteUpdates from "../updates/DesktopRemoteUpdates.vibe";
 import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
 import * as DesktopSnapShot from "../snapShot/DesktopSnapShot.ts";
 import * as DesktopWslBackend from "../wsl/DesktopWslBackend.ts";

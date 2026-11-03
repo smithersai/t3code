@@ -1,6 +1,6 @@
 import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
-import { safariAccessGranted } from "./SafariCookies.ts"
+import { safariAccessGranted } from "./SafariCookies.vibe"
 import { BROWSER_IMPORT_SOURCES, resolveCookieDatabase, listSourceProfiles, sourcePathContext } from "./Sources.ts"
 
 export const safariPermissionCheck = effect {
