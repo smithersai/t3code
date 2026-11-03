@@ -10,7 +10,6 @@ import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
-import * as Exit from "effect/Exit";
 import * as Scope from "effect/Scope";
 import * as EffectAcpErrors from "effect-acp/errors";
 
@@ -66,17 +65,13 @@ export interface AntigravityAdapterV2Options {
   readonly selfInvocation: SelfInvocation;
   readonly makeRuntime: (
     input: Omit<AntigravityAcpRuntimeInput, "spawn" | "childProcessSpawner">,
-  ) => Effect.Effect<
-    AcpSessionRuntime.AcpSessionRuntime["Service"],
-    EffectAcpErrors.AcpError | ProviderSetupError,
-    Scope.Scope
-  >;
+  ) => AcpSessionRuntime.AcpSessionRuntime["Service"]!(EffectAcpErrors.AcpError | ProviderSetupError)!Scope.Scope;
   readonly withProcess: AntigravityAuth["withProcess"];
-  readonly defaultModel: Effect.Effect<string | undefined>;
+  readonly defaultModel: (string | undefined)!!;
   readonly onSessionStarted?: (
     started: AcpSessionRuntime.AcpSessionRuntimeStartResult,
     cwd: string,
-  ) => Effect.Effect<void>;
+  ) => void!!;
   readonly onSessionEvent?: AcpAdapterV2Flavor["onSessionEvent"];
   readonly nativeLogging?: Parameters<typeof makeAcpAdapterV2>[0]["nativeLogging"];
   readonly continuationRequests?: Parameters<typeof makeAcpAdapterV2>[0]["continuationRequests"];
@@ -118,38 +113,30 @@ export function makeAntigravityAcpAdapterFlavor(
 ): AcpAdapterV2Flavor {
   const antigravityClientFileRoots = (cwd: string | null) =>
     cwd === null ? [options.host.paths.attachmentsDir] : [cwd, options.host.paths.attachmentsDir];
-  const makeRuntime = Effect.fn("AntigravityAdapterV2.makeRuntime")(
-    function* (input: AcpAdapterV2RuntimeInput) {
-      const scope = yield* Scope.fork(yield* Effect.scope);
-      const runtime = yield* options
-        .withProcess(
-          Scope.close(scope, Exit.void),
-          options.makeRuntime({
-            ...input,
-            clientFileSystem: true,
-            additionalDirectories: [options.host.paths.attachmentsDir],
-          }),
-        )
-        .pipe(Effect.provideService(Scope.Scope, scope));
-      return {
-        ...runtime,
-        start: () =>
-          runtime
-            .start()
-            .pipe(
-              Effect.tap(
-                (started) => options.onSessionStarted?.(started, input.cwd) ?? Effect.void,
-              ),
+  const makeRuntime = effect (input: AcpAdapterV2RuntimeInput) => try withSpan(effect {
+    const scope = try Scope.fork(try Effect.scope);
+    const runtime = try effect { provide Scope.Scope = scope { return try options
+      .withProcess(
+        Scope.close(scope, Exit.void),
+        options.makeRuntime({
+          ...input,
+          clientFileSystem: true,
+          additionalDirectories: [options.host.paths.attachmentsDir],
+        }),
+      ) } };
+    return {
+      ...runtime,
+      start: () =>
+        runtime
+          .start()
+            |> tap(
+              %, (started) => options.onSessionStarted?.(started, input.cwd) ?? Effect.void,
             ),
-      };
-    },
-    Effect.provideService(Crypto.Crypto, options.crypto),
-    Effect.mapError((cause): EffectAcpErrors.AcpError =>
+    };
+  } |> provideService(%, Crypto.Crypto, options.crypto) |> mapError(%, (cause): EffectAcpErrors.AcpError =>
       cause._tag === "ProviderSetupError"
         ? new EffectAcpErrors.AcpTransportError({ detail: cause.detail, cause })
-        : cause,
-    ),
-  );
+        : cause), "AntigravityAdapterV2.makeRuntime");
 
   return {
     driver: ANTIGRAVITY_PROVIDER,
@@ -162,27 +149,26 @@ export function makeAntigravityAcpAdapterFlavor(
         attachments,
         attachmentsDir: options.host.paths.attachmentsDir,
         promptCapabilities,
-      }).pipe(
-        Effect.provideService(FileSystem.FileSystem, options.fileSystem),
-        Effect.provideService(Path.Path, options.path),
-      ),
+      })
+        |> provideService(%, FileSystem.FileSystem, options.fileSystem)
+        |> provideService(%, Path.Path, options.path),
     // Loading history replays tool calls; resume avoids replay.
     preferResumeSession: true,
     subagentsIdleOnTurnCompletion: true,
     ...(options.onSessionEvent === undefined ? {} : { onSessionEvent: options.onSessionEvent }),
-    applyModelSelection: Effect.fn("AntigravityAdapterV2.applyModelSelection")(function* ({
+    applyModelSelection: effect ({
       runtime,
       modelSelection,
-    }) {
-      const defaultModel = yield* options.defaultModel;
-      return yield* applyAntigravityAcpModelSelection({
+    }) => try withSpan(effect {
+      const defaultModel = try options.defaultModel;
+      return try applyAntigravityAcpModelSelection({
         runtime,
         model:
           modelSelection.model === ANTIGRAVITY_DEFAULT_MODEL ? undefined : modelSelection.model,
         defaultModel,
         mapError: (cause) => cause,
       });
-    }),
+    }, "AntigravityAdapterV2.applyModelSelection"),
     sessionModeForPolicy: (policy) => antigravityPermissionMode(policy.runtimeMode),
     clientFileSystem: {
       readTextFile: (request, cwd) =>
@@ -216,16 +202,16 @@ export function makeAntigravityAcpAdapterFlavor(
   };
 }
 
-export const makeAntigravityAdapterV2 = Effect.fn("makeAntigravityAdapterV2")(function* (
+export const makeAntigravityAdapterV2 = effect (
   options: AntigravityAdapterV2Options,
-) {
+) => try withSpan(effect {
   const services: AntigravityFlavorServices = {
-    crypto: yield* Crypto.Crypto,
-    fileSystem: yield* FileSystem.FileSystem,
-    path: yield* Path.Path,
-    host: yield* ProviderHost.ProviderHost,
+    crypto: try Crypto.Crypto,
+    fileSystem: try FileSystem.FileSystem,
+    path: try Path.Path,
+    host: try ProviderHost.ProviderHost,
   };
-  return yield* makeAcpAdapterV2({
+  return try makeAcpAdapterV2({
     instanceId: options.instanceId,
     flavor: makeAntigravityAcpAdapterFlavor({ ...options, ...services }),
     selfInvocation: options.selfInvocation,
@@ -234,4 +220,4 @@ export const makeAntigravityAdapterV2 = Effect.fn("makeAntigravityAdapterV2")(fu
       ? {}
       : { continuationRequests: options.continuationRequests }),
   });
-});
+}, "makeAntigravityAdapterV2");

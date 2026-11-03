@@ -27,7 +27,7 @@ import * as GitVcsDriver from "./GitVcsDriver.ts";
 import type * as VcsDriver from "./VcsDriver.ts";
 import * as VcsDriverRegistry from "./VcsDriverRegistry.ts";
 import * as VcsProcess from "./VcsProcess.ts";
-import { runVcsDriverContractSuite } from "./testing/VcsDriverContractHarness.ts";
+import { runVcsDriverContractSuite } from "./testing/VcsDriverContractHarness.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerServerConfig = ServerConfig.layerTest(process.cwd(), {

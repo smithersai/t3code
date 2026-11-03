@@ -30,7 +30,7 @@ import * as ServiceLauncherClient from "./cloud/serviceLauncherClient.ts";
 import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
 import * as Keybindings from "./keybindings.ts";
 import * as EffectWorker from "./orchestration-v2/EffectWorker.ts";
-import * as LegacyV1ThreadImporter from "./orchestration-v2/legacy/LegacyV1ThreadImporter.ts";
+import * as LegacyV1ThreadImporter from "./orchestration-v2/legacy/LegacyV1ThreadImporter.vibe";
 import * as Orchestrator from "./orchestration-v2/Orchestrator.ts";
 import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
 import * as ProviderRuntimeRecovery from "./orchestration-v2/ProviderRuntimeRecoveryService.ts";

@@ -56,7 +56,7 @@ import * as ProviderSessionManager from "./ProviderSessionManager.ts";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import { DispatchModeLimit, exceededDispatchModeLimit } from "./DispatchModeLimit.vibe";
 import { projectTurnItemForDetail } from "./WireProjection.ts";
-import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts";
+import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 
 export type ThreadManagementSendMode = "auto" | "queue" | "steer" | "restart";

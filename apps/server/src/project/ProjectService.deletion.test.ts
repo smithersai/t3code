@@ -21,7 +21,7 @@ import { OrchestrationEffectRequestV2 } from "../orchestration-v2/EffectOutbox.t
 import * as EventSink from "../orchestration-v2/EventSink.ts";
 import * as EventStore from "../orchestration-v2/EventStore.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.ts";
+import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.vibe";
 import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.ts";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";

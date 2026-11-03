@@ -37,7 +37,7 @@ import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
 import { fakeSourceControlDriverInstance } from "@t3tools/source-control-testing/fakeSourceControlDriver";
 import * as BuiltInDrivers from "../sourceControl/builtInDrivers.ts";
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts";
-import { sourceControlMediaResponse } from "./sourceControlMediaResponse.ts";
+import { sourceControlMediaResponse } from "./sourceControlMediaResponse.vibe";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as Crypto from "@t3tools/shared/Crypto";
 

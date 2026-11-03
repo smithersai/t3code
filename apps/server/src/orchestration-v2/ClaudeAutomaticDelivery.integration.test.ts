@@ -34,7 +34,7 @@ import * as EffectWorker from "./EffectWorker.ts";
 import * as EventSink from "./EventSink.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
-import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts";
+import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.vibe";
 import * as Orchestrator from "./Orchestrator.ts";
 import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";
 import * as ThreadLaunchService from "./ThreadLaunchService.ts";

@@ -57,7 +57,7 @@ import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
-import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts";
+import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.vibe";
 import * as Orchestrator from "./Orchestrator.ts";
 import { ROLLBACK_FAILED_MESSAGE } from "./CheckpointRollbackService.ts";
 import * as EffectWorker from "./EffectWorker.ts";

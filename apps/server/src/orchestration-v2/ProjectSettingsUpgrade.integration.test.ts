@@ -26,7 +26,7 @@ import * as SourceControlProviderRegistry from "../sourceControl/SourceControlPr
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
-import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts";
+import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.vibe";
 import * as RuntimeLayer from "./runtimeLayer.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

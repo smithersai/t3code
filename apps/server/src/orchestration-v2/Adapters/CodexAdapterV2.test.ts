@@ -2,7 +2,7 @@ import { historyResponseItems } from "@t3tools/provider-core/server/handoffBudge
 import {
   makeProviderTextDeltaCoalescer,
   type ProviderTextDeltaUpdate,
-} from "./ProviderTextDeltaCoalescer.ts";
+} from "./ProviderTextDeltaCoalescer.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import {
   CommandId,

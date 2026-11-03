@@ -16,7 +16,7 @@ import * as SqlitePersistence from "../../persistence/Sqlite.ts";
 import { listLinkedPullRequestThreads } from "../../pullRequest/linkedThreads.ts";
 import * as EventSink from "../EventSink.ts";
 import * as EventStore from "../EventStore.ts";
-import * as LegacyV1ThreadImporter from "./LegacyV1ThreadImporter.ts";
+import * as LegacyV1ThreadImporter from "./LegacyV1ThreadImporter.vibe";
 import * as ProjectionMaintenance from "../ProjectionMaintenance.ts";
 import * as ProjectionStore from "../ProjectionStore.ts";
 

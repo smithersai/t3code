@@ -1,5 +1,5 @@
 import * as DocumentText from "../../provider/DocumentText.ts";
-import { makeProviderTextDeltaCoalescer } from "./ProviderTextDeltaCoalescer.ts";
+import { makeProviderTextDeltaCoalescer } from "./ProviderTextDeltaCoalescer.vibe";
 import { claudeTaskOutputRoot, tailClaudeTaskOutput } from "./ClaudeTaskOutputTail.ts";
 import {
   dynamicToolTitle,

@@ -37,7 +37,7 @@ import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter"
 import {
   makeAntigravityAcpAdapterFlavor,
   makeAntigravityAdapterV2,
-} from "./AntigravityAdapterV2.ts";
+} from "./AntigravityAdapterV2.vibe";
 
 const flavor = makeAntigravityAcpAdapterFlavor({
   instanceId: ProviderInstanceId.make("antigravity-test"),

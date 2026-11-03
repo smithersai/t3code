@@ -25,10 +25,8 @@ import * as KeyedLock from "@t3tools/shared/KeyedLock";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 import * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
-import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 
@@ -92,14 +90,11 @@ export interface LegacyV1ImportSummary {
   readonly importedMessageCount: number;
 }
 
-export class LegacyV1ThreadImportError extends Schema.TaggedError<LegacyV1ThreadImportError>()(
-  "LegacyV1ThreadImportError",
-  {
-    operation: Schema.String,
-    threadId: Schema.optional(ThreadId),
-    cause: Schema.optional(Schema.Defect()),
-  },
-) {
+const LegacyV1ThreadImportErrorCauseField = Schema.Defect()
+export schema error LegacyV1ThreadImportError {
+  readonly operation: string
+  readonly threadId?: ThreadId
+  cause?: LegacyV1ThreadImportErrorCauseField
   override get message(): string {
     return this.threadId === undefined
       ? `Failed to ${this.operation} legacy v1 threads.`
@@ -108,12 +103,12 @@ export class LegacyV1ThreadImportError extends Schema.TaggedError<LegacyV1Thread
 }
 
 export interface LegacyV1ThreadImporterShape {
-  readonly pendingThreadCount: Effect.Effect<number, LegacyV1ThreadImportError>;
-  readonly reconcileShells: Effect.Effect<LegacyV1ImportSummary, LegacyV1ThreadImportError>;
+  readonly pendingThreadCount: number!LegacyV1ThreadImportError;
+  readonly reconcileShells: LegacyV1ImportSummary!LegacyV1ThreadImportError;
   readonly ensureTranscript: (
     threadId: ThreadId,
-  ) => Effect.Effect<LegacyV1ImportSummary, LegacyV1ThreadImportError>;
-  readonly importPendingTranscripts: Effect.Effect<LegacyV1ImportSummary, never>;
+  ) => LegacyV1ImportSummary!LegacyV1ThreadImportError;
+  readonly importPendingTranscripts: LegacyV1ImportSummary!never;
 }
 
 export class LegacyV1ThreadImporter extends Context.Service<
@@ -335,10 +330,10 @@ function chunks<A>(items: ReadonlyArray<A>, size: number): Array<ReadonlyArray<A
   return result;
 }
 
-const make = Effect.gen(function* () {
-  const sql = yield* SqlClient.SqlClient;
-  const eventSink = yield* EventSink.EventSinkV2;
-  const transcriptImports = yield* KeyedLock.make<ThreadId>();
+const make = effect {
+  const sql = try SqlClient.SqlClient;
+  const eventSink = try EventSink.EventSinkV2;
+  const transcriptImports = try KeyedLock.make<ThreadId>();
 
   const listMessages = (threadId: ThreadId) =>
     sql<LegacyMessageRow>`
@@ -362,10 +357,10 @@ const make = Effect.gen(function* () {
       ORDER BY created_at ASC, message_id ASC
     `.pipe(NodeSqliteClient.readOnly);
 
-  const listShellMessages = Effect.fn("LegacyV1ThreadImporter.listShellMessages")(function* (
-    threadId: ThreadId,
-  ) {
-    const latest = yield* sql<LegacyMessageRow>`
+  const listShellMessages = effect (
+    threadId: string & import("effect/Brand").Brand<"ThreadId">,
+  ) => try withSpan(effect {
+    const latest = try sql<LegacyMessageRow>`
         SELECT
           message.message_id,
           message.thread_id,
@@ -395,7 +390,7 @@ const make = Effect.gen(function* () {
         ORDER BY message.created_at DESC, message.message_id DESC
         LIMIT 1
       `;
-    const latestUser = yield* sql<LegacyMessageRow>`
+    const latestUser = try sql<LegacyMessageRow>`
         SELECT
           message.message_id,
           message.thread_id,
@@ -430,11 +425,11 @@ const make = Effect.gen(function* () {
         message !== undefined &&
         selected.findIndex((candidate) => candidate?.message_id === message.message_id) === index,
     );
-  });
+  }, "LegacyV1ThreadImporter.listShellMessages");
 
-  const reconcileShellsBase = Effect.gen(function* () {
-    const now = DateTime.formatIso(yield* DateTime.now);
-    const repairRows = yield* sql<LegacyRepairRow>`
+  const reconcileShellsBase = effect {
+    const now = DateTime.formatIso(try DateTime.now);
+    const repairRows = try sql<LegacyRepairRow>`
       SELECT
         thread.thread_id,
         thread.project_id,
@@ -501,7 +496,7 @@ const make = Effect.gen(function* () {
             ? legacy.linkedPullRequest
             : current.linkedPullRequest,
         pullRequests:
-          current.pullRequests === undefined
+          try orDie(Effect.try({ try: () => current.pullRequests === undefined
             ? current.linkedPullRequest === null
               ? []
               : legacyPullRequests.length > 0
@@ -512,7 +507,7 @@ const make = Effect.gen(function* () {
                         ? legacy.linkedPullRequest
                         : current.linkedPullRequest,
                   })
-            : current.pullRequests,
+            : current.pullRequests, catch: (error) => error })),
         branchPullRequest:
           current.branchPullRequest === undefined
             ? legacy.branchPullRequest
@@ -521,8 +516,8 @@ const make = Effect.gen(function* () {
           current.activeOrderKey === undefined ? legacy.activeOrderKey : current.activeOrderKey,
       };
       // Later schema additions can require another repair for the same thread.
-      const repairId = yield* randomUuidV4;
-      yield* eventSink.write({
+      const repairId = try randomUuidV4;
+      try eventSink.write({
         events: [
           {
             id: EventId.make(
@@ -538,7 +533,7 @@ const make = Effect.gen(function* () {
       });
       repairedThreadCount += 1;
     }
-    const rows = yield* sql<LegacyThreadRow>`
+    const rows = try sql<LegacyThreadRow>`
       SELECT
         thread.thread_id,
         thread.project_id,
@@ -579,7 +574,7 @@ const make = Effect.gen(function* () {
     let importedMessageCount = 0;
     for (const row of rows) {
       const thread = importedThread(row);
-      const previews = yield* listShellMessages(thread.id);
+      const previews = try listShellMessages(thread.id);
       const events: Array<OrchestrationV2DomainEvent> = [
         {
           id: EventId.make(`${IMPORT_EVENT_PREFIX}:thread:${row.thread_id}:created`),
@@ -599,9 +594,9 @@ const make = Effect.gen(function* () {
           payload: thread,
         },
       ];
-      yield* sql.withTransaction(
-        Effect.gen(function* () {
-          yield* Effect.forEach(
+      try sql.withTransaction(
+        effect {
+          try forEach(
             previews,
             (message) =>
               sql`
@@ -619,8 +614,8 @@ const make = Effect.gen(function* () {
               `,
             { discard: true },
           );
-          yield* eventSink.write({ events });
-          yield* sql`
+          try eventSink.write({ events });
+          try sql`
             INSERT INTO orchestration_v2_legacy_imports (
               thread_id,
               source_updated_at,
@@ -639,19 +634,17 @@ const make = Effect.gen(function* () {
             )
             ON CONFLICT(thread_id) DO NOTHING
           `;
-        }),
+        },
       );
       importedThreadCount += 1;
       importedMessageCount += previews.length;
     }
     return { importedThreadCount, importedMessageCount };
-  });
+  };
 
-  const reconcileShells = reconcileShellsBase.pipe(
-    Effect.mapError((cause) => new LegacyV1ThreadImportError({ operation: "import", cause })),
-  );
+  const reconcileShells = effect { return reconcileShellsBase catch effect (cause) => { throw new LegacyV1ThreadImportError({ operation: "import", cause }) } };
 
-  const pendingThreadCount = sql<{ readonly count: number }>`
+  const pendingThreadCount = effect { return (sql<{ readonly count: number }>`
     SELECT COUNT(*) AS count
     FROM (
       SELECT thread.thread_id
@@ -669,13 +662,9 @@ const make = Effect.gen(function* () {
       FROM orchestration_v2_legacy_imports AS legacy_import
       WHERE legacy_import.transcript_imported_at IS NULL
     )
-  `.pipe(
-    NodeSqliteClient.readOnly,
-    Effect.map((rows) => rows[0]?.count ?? 0),
-    Effect.mapError(
-      (cause) => new LegacyV1ThreadImportError({ operation: "inspect pending", cause }),
-    ),
-  );
+  `
+    |> NodeSqliteClient.readOnly(%)
+    |> map(%, (rows) => rows[0]?.count ?? 0)) catch effect (cause) => { throw new LegacyV1ThreadImportError({ operation: "inspect pending", cause }) } };
 
   // transcript_imported_at never resets; cache confirmed imports for the process lifetime to skip repeated locks and reads.
   const confirmedTranscriptThreadIds = new Set<ThreadId>();
@@ -683,8 +672,8 @@ const make = Effect.gen(function* () {
   const ensureTranscriptBase = (threadId: ThreadId) =>
     transcriptImports.withLock(
       threadId,
-      Effect.gen(function* () {
-        const imports = yield* sql<LegacyImportRow>`
+      effect {
+        const imports = try sql<LegacyImportRow>`
           SELECT thread_id, transcript_imported_at
           FROM orchestration_v2_legacy_imports
           WHERE thread_id = ${threadId}
@@ -697,9 +686,9 @@ const make = Effect.gen(function* () {
           }
           return { importedThreadCount: 0, importedMessageCount: 0 };
         }
-        const messages = yield* listMessages(threadId);
+        const messages = try listMessages(threadId);
         // Hint the index to skip V1 events without scanning their payloads.
-        const existingRows = yield* sql<{ readonly event_id: string }>`
+        const existingRows = try sql<{ readonly event_id: string }>`
           SELECT event_id
           FROM orchestration_events INDEXED BY idx_orchestration_events_agent_stream_sequence
           WHERE application_event_version = 2
@@ -712,7 +701,7 @@ const make = Effect.gen(function* () {
           (message) => !existing.has(`${IMPORT_EVENT_PREFIX}:message:${message.message_id}`),
         );
         for (const batch of chunks(missing, TRANSCRIPT_EVENT_BATCH_SIZE / 2)) {
-          yield* Effect.forEach(
+          try forEach(
             batch,
             (message) =>
               sql`
@@ -730,11 +719,11 @@ const make = Effect.gen(function* () {
               `,
             { discard: true },
           );
-          yield* eventSink.write({ events: batch.flatMap(messageEvents) });
-          yield* Effect.yieldNow;
+          try eventSink.write({ events: batch.flatMap(messageEvents) });
+          try Effect.yieldNow;
         }
-        const now = DateTime.formatIso(yield* DateTime.now);
-        yield* sql`
+        const now = DateTime.formatIso(try DateTime.now);
+        try sql`
           UPDATE orchestration_v2_legacy_imports
           SET
             transcript_imported_at = ${now},
@@ -747,25 +736,24 @@ const make = Effect.gen(function* () {
           importedThreadCount: 1,
           importedMessageCount: missing.length,
         };
-      }),
+      },
     );
 
   const ensureTranscript = (threadId: ThreadId) =>
     confirmedTranscriptThreadIds.has(threadId)
-      ? Effect.succeed({ importedThreadCount: 0, importedMessageCount: 0 })
-      : ensureTranscriptBase(threadId).pipe(
-          Effect.mapError(
-            (cause) =>
+      ? succeed({ importedThreadCount: 0, importedMessageCount: 0 })
+      : (ensureTranscriptBase(threadId)
+          |> mapError(
+            %, (cause) =>
               new LegacyV1ThreadImportError({
                 operation: "hydrate transcript for",
                 threadId,
                 cause,
               }),
-          ),
-        );
+          ));
 
-  const importPendingTranscripts = Effect.gen(function* () {
-    const rows = yield* sql<LegacyImportRow>`
+  const importPendingTranscripts = effect { return try ((effect {
+    const rows = try sql<LegacyImportRow>`
       SELECT thread_id, transcript_imported_at
       FROM orchestration_v2_legacy_imports
       WHERE transcript_imported_at IS NULL
@@ -774,44 +762,39 @@ const make = Effect.gen(function* () {
     let importedThreadCount = 0;
     let importedMessageCount = 0;
     for (const row of rows) {
-      const result = yield* ensureTranscript(ThreadId.make(row.thread_id)).pipe(
-        Effect.catchCauseIf(
-          (cause) => !Cause.hasInterrupts(cause),
+      const result = try (ensureTranscript(ThreadId.make(row.thread_id))
+        |> catchCauseIf(
+          %, (cause) => !Cause.hasInterrupts(cause),
           (cause) =>
-            Effect.logWarning("Failed to hydrate migrated v1 thread transcript", {
+            logWarning("Failed to hydrate migrated v1 thread transcript", {
               threadId: row.thread_id,
               cause,
-            }).pipe(
-              Effect.andThen(() =>
+            })
+              |> andThen(%, () =>
                 sql`
                     UPDATE orchestration_v2_legacy_imports
                     SET last_error = 'Transcript hydration failed; retry on next open.'
                     WHERE thread_id = ${row.thread_id}
-                  `.pipe(
-                  Effect.catchCauseIf(
-                    (cause) => !Cause.hasInterrupts(cause),
+                  `
+                  |> catchCauseIf(
+                    %, (cause) => !Cause.hasInterrupts(cause),
                     () => Effect.void,
                   ),
-                ),
-              ),
-              Effect.as({ importedThreadCount: 0, importedMessageCount: 0 }),
-            ),
-        ),
-      );
+              )
+              |> as(%, { importedThreadCount: 0, importedMessageCount: 0 }),
+        ));
       importedThreadCount += result.importedThreadCount;
       importedMessageCount += result.importedMessageCount;
-      yield* Effect.yieldNow;
+      try Effect.yieldNow;
     }
     return { importedThreadCount, importedMessageCount };
-  }).pipe(
-    Effect.catchCause((cause) =>
+  })
+    |> catchCause(%, (cause) =>
       Cause.hasInterrupts(cause)
-        ? Effect.failCause(Cause.fromReasons<never>(cause.reasons.filter(Cause.isInterruptReason)))
-        : Effect.logWarning("Legacy v1 transcript background import stopped", { cause }).pipe(
-            Effect.as({ importedThreadCount: 0, importedMessageCount: 0 }),
-          ),
-    ),
-  );
+        ? failCause(Cause.fromReasons<never>(cause.reasons.filter(Cause.isInterruptReason)))
+        : (logWarning("Legacy v1 transcript background import stopped", { cause })
+            |> as(%, { importedThreadCount: 0, importedMessageCount: 0 })),
+    )) };
 
   return LegacyV1ThreadImporter.of({
     pendingThreadCount,
@@ -819,7 +802,7 @@ const make = Effect.gen(function* () {
     ensureTranscript,
     importPendingTranscripts,
   });
-});
+};
 
 export const layer: Layer.Layer<
   LegacyV1ThreadImporter,

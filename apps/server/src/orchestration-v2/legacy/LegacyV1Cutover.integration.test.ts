@@ -40,7 +40,7 @@ import { CodexProviderCapabilitiesV2 } from "../Adapters/CodexAdapterV2.ts";
 import * as EffectWorker from "../EffectWorker.ts";
 import * as EventSink from "../EventSink.ts";
 import * as EventStore from "../EventStore.ts";
-import * as LegacyV1ThreadImporter from "./LegacyV1ThreadImporter.ts";
+import * as LegacyV1ThreadImporter from "./LegacyV1ThreadImporter.vibe";
 import * as Orchestrator from "../Orchestrator.ts";
 import * as ProjectionMaintenance from "../ProjectionMaintenance.ts";
 import * as ProjectionStore from "../ProjectionStore.ts";

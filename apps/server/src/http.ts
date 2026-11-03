@@ -31,7 +31,7 @@ import { OtlpTracer, OtlpSerialization } from "effect/observability";
 
 import * as ServerConfig from "./config.ts";
 import { ASSET_ROUTE_PREFIX, readMcpAppHtml, resolveAsset } from "./assets/AssetAccess.ts";
-import { sourceControlMediaResponse } from "./assets/sourceControlMediaResponse.ts";
+import { sourceControlMediaResponse } from "./assets/sourceControlMediaResponse.vibe";
 import { statMediaFile, streamMediaFile, type OpenMediaFile } from "./assets/MediaFile.ts";
 import {
   ATTACHMENT_UPLOAD_ROUTE_PREFIX,
