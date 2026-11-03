@@ -21,7 +21,7 @@ import * as BrowserSession from "../BrowserSession.ts";
 import { ChromiumCookieReadError, readChromiumCookies } from "./ChromiumCookies.ts";
 import type { CookieReadResult } from "./CookieDatabase.vibe";
 import { FirefoxCookieReadError, readFirefoxCookies } from "./FirefoxCookies.ts";
-import { readSafariCookies, safariAccessDenied, SafariCookieReadError } from "./SafariCookies.ts";
+import { readSafariCookies, safariAccessDenied, SafariCookieReadError } from "./SafariCookies.vibe";
 import {
   BROWSER_IMPORT_SOURCES,
   resolveCookieDatabase,

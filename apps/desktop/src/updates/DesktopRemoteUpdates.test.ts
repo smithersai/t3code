@@ -18,7 +18,7 @@ import * as TestClock from "effect/testing/TestClock";
 import * as ElectronUpdater from "../electron/ElectronUpdater.vibe";
 import * as DesktopState from "../app/DesktopState.vibe";
 import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.ts";
-import * as DesktopRemoteUpdates from "./DesktopRemoteUpdates.ts";
+import * as DesktopRemoteUpdates from "./DesktopRemoteUpdates.vibe";
 import * as DesktopUpdates from "./DesktopUpdates.ts";
 import { makeHarness } from "./updatesTestHarness.ts";
 
