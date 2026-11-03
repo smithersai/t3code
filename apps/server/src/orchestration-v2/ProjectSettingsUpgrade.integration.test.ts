@@ -18,7 +18,7 @@ import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 import * as McpSessionRegistryTestkit from "../mcp/McpSessionRegistry.testkit.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import { runMigrations } from "../persistence/Migrations.vibe";
-import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
+import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.ts";
 import * as ServerSettings from "../serverSettings.ts";

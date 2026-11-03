@@ -32,7 +32,7 @@ import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as ServerSettings from "../serverSettings.ts";
 
 import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.ts";
-import { ProjectEnrichmentService } from "../project/ProjectEnrichmentService.ts";
+import { ProjectEnrichmentService } from "../project/ProjectEnrichmentService.vibe";
 import * as OrchestrationHttp from "./http.ts";
 import { EventSinkV2 } from "./EventSink.ts";
 import * as ProjectStore from "./ProjectStore.ts";

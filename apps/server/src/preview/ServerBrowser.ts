@@ -77,7 +77,7 @@ import { resolveRootCliCommand } from "../cli/invocation.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as PreviewAutomationBroker from "../mcp/PreviewAutomationBroker.ts";
 import * as DesktopBrowserChannel from "./DesktopBrowserChannel.ts";
-import * as PreviewAgentActivity from "./PreviewAgentActivity.ts";
+import * as PreviewAgentActivity from "./PreviewAgentActivity.vibe";
 import * as PreviewManager from "./Manager.ts";
 import * as ServerBrowserPage from "./ServerBrowserPage.ts";
 import * as PreviewBrowser from "./PreviewBrowser.ts";

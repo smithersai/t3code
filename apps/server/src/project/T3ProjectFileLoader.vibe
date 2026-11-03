@@ -1,0 +1,84 @@
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
+import * as Path from "effect/Path";
+import * as Schema from "effect/Schema";
+
+import { T3_PROJECT_FILE_NAME, type T3ProjectFile } from "@t3tools/contracts";
+import { T3ProjectFileFromJson } from "@t3tools/shared/t3ProjectFile";
+
+const decodeT3ProjectFileJson = Schema.decodeEffect(T3ProjectFileFromJson);
+
+const T3ProjectFileLoadErrorCauseField = Schema.Defect()
+export schema error T3ProjectFileLoadError {
+  readonly operation: "read" | "decode"
+  readonly workspaceRoot: string
+  readonly filePath: string
+  cause: T3ProjectFileLoadErrorCauseField
+  override get message(): string {
+    return `Failed to ${this.operation} ${T3_PROJECT_FILE_NAME} at ${this.filePath}.`;
+  }
+}
+
+export service T3ProjectFileLoader: {
+    /** Never fails; missing/unreadable/invalid files return none, with warnings for invalid files. */
+    readonly load: (workspaceRoot: string) => Option.Option<T3ProjectFile>!!;
+  } {
+  static readonly key = "t3/project/T3ProjectFileLoader"
+}
+
+const logT3ProjectFileLoadError = (error: T3ProjectFileLoadError) =>
+  logWarning(error)
+    |> annotateLogs({
+      operation: error.operation,
+      workspaceRoot: error.workspaceRoot,
+      filePath: error.filePath,
+      errorTag: error._tag,
+    })(%);
+
+/** @public */
+export const make = effect {
+  const fileSystem = try FileSystem.FileSystem;
+  const path = try Path.Path;
+
+  const load: T3ProjectFileLoader["Service"]["load"] = effect (workspaceRoot) => try withSpan(effect {
+    const filePath = path.join(workspaceRoot, T3_PROJECT_FILE_NAME);
+    const raw = try (fileSystem.readFileString(filePath)
+      |> asSome(%)
+      |> catchTags(%, {
+        PlatformError: (error) =>
+          error.reason._tag === "NotFound"
+            ? succeed(Option.none<string>())
+            : (logT3ProjectFileLoadError(
+                new T3ProjectFileLoadError({
+                  operation: "read",
+                  workspaceRoot,
+                  filePath,
+                  cause: error,
+                }),
+              ) |> as(%, Option.none<string>())),
+      }));
+    if (Option.isNone(raw)) {
+      return Option.none<T3ProjectFile>();
+    }
+    return try (decodeT3ProjectFileJson(raw.value)
+      |> asSome(%)
+      |> catchTags(%, {
+        SchemaError: (error) =>
+          logT3ProjectFileLoadError(
+            new T3ProjectFileLoadError({
+              operation: "decode",
+              workspaceRoot,
+              filePath,
+              cause: error,
+            }),
+          ) |> as(%, Option.none<T3ProjectFile>()),
+      }));
+  }, "T3ProjectFileLoader.load");
+
+  return T3ProjectFileLoader.of({ load });
+};
+
+export const layer = Layer.effect(T3ProjectFileLoader, make);

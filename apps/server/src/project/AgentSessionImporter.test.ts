@@ -30,7 +30,7 @@ import {
 } from "../orchestration-v2/testkit/fixtures/shared.ts";
 import * as ProviderSessionRuntime from "../persistence/ProviderSessionRuntime.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as AgentSessionImporter from "./AgentSessionImporter.ts";
+import * as AgentSessionImporter from "./AgentSessionImporter.vibe";
 import * as AgentSessionScanner from "./AgentSessionScanner.ts";
 import * as ProjectService from "./ProjectService.ts";
 

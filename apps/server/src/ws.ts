@@ -213,13 +213,13 @@ import * as GitWorkflowService from "./git/GitWorkflowService.ts";
 import { refreshPushedPullRequests } from "./git/refreshPushedPullRequests.ts";
 import { linkCreatedPullRequest } from "./git/linkCreatedPullRequest.ts";
 import * as ReviewService from "./review/ReviewService.ts";
-import * as ProjectEnrichmentService from "./project/ProjectEnrichmentService.ts";
+import * as ProjectEnrichmentService from "./project/ProjectEnrichmentService.vibe";
 import * as ProjectService from "./project/ProjectService.ts";
-import { threadWorkspaceRoot } from "./project/threadWorkspaceRoot.ts";
-import * as ManagedProjectFolders from "./project/ManagedProjectFolders.ts";
-import { projectMutationOperation } from "./project/ProjectMutation.ts";
+import { threadWorkspaceRoot } from "./project/threadWorkspaceRoot.vibe";
+import * as ManagedProjectFolders from "./project/ManagedProjectFolders.vibe";
+import { projectMutationOperation } from "./project/ProjectMutation.vibe";
 import * as ProjectCloneTracker from "./project/ProjectCloneTracker.ts";
-import * as RepositoryIdentityResolver from "./project/RepositoryIdentityResolver.ts";
+import * as RepositoryIdentityResolver from "./project/RepositoryIdentityResolver.vibe";
 import * as WorktreeSetupTracker from "./project/WorktreeSetupTracker.ts";
 import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
 import * as DirectEndpoints from "./environment/DirectEndpoints.ts";
@@ -266,7 +266,7 @@ import {
   withUsageLimitsCommands,
 } from "@t3tools/shared/usageLimits";
 import * as AgentSessionScanner from "./project/AgentSessionScanner.ts";
-import * as AgentSessionImporter from "./project/AgentSessionImporter.ts";
+import * as AgentSessionImporter from "./project/AgentSessionImporter.vibe";
 import * as UsageLimitSources from "./usage/UsageLimitSources.ts";
 import * as RequestUrl from "./RequestUrl.vibe";
 

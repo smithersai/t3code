@@ -1,0 +1,53 @@
+import { type ProjectMutation } from "@t3tools/contracts";
+import * as Effect from "effect/Effect";
+
+import { type ProjectService } from "./ProjectService.ts";
+
+type ProjectMutations = Pick<ProjectService["Service"], "create" | "delete" | "update">;
+
+export const projectMutationOperation = effect (
+  projects: ProjectMutations,
+  mutation: { readonly title: string; readonly workspaceRoot: string; readonly createWorkspaceRootIfMissing?: boolean | undefined; readonly defaultModelSelection?: { readonly instanceId: string & import("effect/Brand").Brand<"ProviderInstanceId">; readonly model: string; readonly options?: readonly { id: string; value: string | boolean; }[]; } | null | undefined; readonly scripts?: readonly { id: string; name: string; command: string; icon: "build" | "configure" | "debug" | "lint" | "play" | "test"; runOnWorktreeCreate: boolean; runOnSettle?: boolean | undefined; async?: boolean | undefined; previewUrl?: string | undefined; autoOpenPreview?: boolean | undefined; }[] | undefined; readonly type: "project.create"; readonly commandId: string & import("effect/Brand").Brand<"CommandId">; readonly projectId: string & import("effect/Brand").Brand<"ProjectId">; } | { readonly title?: string | undefined; readonly workspaceRoot?: string | undefined; readonly defaultModelSelection?: { readonly instanceId: string & import("effect/Brand").Brand<"ProviderInstanceId">; readonly model: string; readonly options?: readonly { id: string; value: string | boolean; }[]; } | null | undefined; readonly autoPull?: boolean | undefined; readonly projectIcon?: { kind: "lucide"; name: string; color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "teal" | "violet" | "yellow"; } | { kind: "emoji"; emoji: string; } | { kind: "monogram"; text: string; color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "teal" | "violet" | "yellow"; } | null | undefined; readonly faviconPath?: string | null | undefined; readonly defaultThreadEnvMode?: "local" | "worktree" | null | undefined; readonly scripts?: readonly { id: string; name: string; command: string; icon: "build" | "configure" | "debug" | "lint" | "play" | "test"; runOnWorktreeCreate: boolean; runOnSettle?: boolean | undefined; async?: boolean | undefined; previewUrl?: string | undefined; autoOpenPreview?: boolean | undefined; }[] | undefined; readonly type: "project.update"; readonly commandId: string & import("effect/Brand").Brand<"CommandId">; readonly projectId: string & import("effect/Brand").Brand<"ProjectId">; } | { readonly type: "project.delete"; readonly commandId: string & import("effect/Brand").Brand<"CommandId">; readonly projectId: string & import("effect/Brand").Brand<"ProjectId">; readonly force?: boolean | undefined; },
+) => try withSpan(effect {
+  switch (mutation.type) {
+    case "project.create":
+      return try projects.create({
+        commandId: mutation.commandId,
+        projectId: mutation.projectId,
+        title: mutation.title,
+        workspaceRoot: mutation.workspaceRoot,
+        ...(mutation.createWorkspaceRootIfMissing === undefined
+          ? {}
+          : { createWorkspaceRootIfMissing: mutation.createWorkspaceRootIfMissing }),
+        ...(mutation.defaultModelSelection === undefined
+          ? {}
+          : { defaultModelSelection: mutation.defaultModelSelection }),
+        ...(mutation.scripts === undefined ? {} : { scripts: mutation.scripts }),
+      });
+
+    case "project.update":
+      return try projects.update({
+        commandId: mutation.commandId,
+        projectId: mutation.projectId,
+        ...(mutation.title === undefined ? {} : { title: mutation.title }),
+        ...(mutation.workspaceRoot === undefined ? {} : { workspaceRoot: mutation.workspaceRoot }),
+        ...(mutation.defaultModelSelection === undefined
+          ? {}
+          : { defaultModelSelection: mutation.defaultModelSelection }),
+        ...(mutation.autoPull === undefined ? {} : { autoPull: mutation.autoPull }),
+        ...(mutation.projectIcon === undefined ? {} : { projectIcon: mutation.projectIcon }),
+        ...(mutation.faviconPath === undefined ? {} : { faviconPath: mutation.faviconPath }),
+        ...(mutation.defaultThreadEnvMode === undefined
+          ? {}
+          : { defaultThreadEnvMode: mutation.defaultThreadEnvMode }),
+        ...(mutation.scripts === undefined ? {} : { scripts: mutation.scripts }),
+      });
+
+    case "project.delete":
+      return try projects.delete({
+        commandId: mutation.commandId,
+        projectId: mutation.projectId,
+        ...(mutation.force === undefined ? {} : { force: mutation.force }),
+      });
+  }
+}, "projectMutationOperation");

@@ -23,7 +23,7 @@ import * as Tracer from "effect/Tracer";
 import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
-import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
+import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as Scheduler from "../scheduling/Scheduler.vibe";
 import * as ScheduledTaskService from "./ScheduledTaskService.ts";

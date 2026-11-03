@@ -32,7 +32,7 @@ import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
 import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.vibe";
 import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as ProjectEnrichmentService from "./ProjectEnrichmentService.ts";
+import * as ProjectEnrichmentService from "./ProjectEnrichmentService.vibe";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 
 export interface ProjectCreateInput extends ProjectCreatePayload {

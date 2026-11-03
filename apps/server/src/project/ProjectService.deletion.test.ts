@@ -30,10 +30,10 @@ import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
-import * as ProjectEnrichmentService from "./ProjectEnrichmentService.ts";
-import * as ProjectFaviconResolver from "./ProjectFaviconResolver.ts";
+import * as ProjectEnrichmentService from "./ProjectEnrichmentService.vibe";
+import * as ProjectFaviconResolver from "./ProjectFaviconResolver.vibe";
 import * as ProjectService from "./ProjectService.ts";
-import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.ts";
+import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.vibe";
 
 const layerEventPersistence = EventSink.layer.pipe(
   Layer.provideMerge(Layer.merge(EventStore.layer, ProjectionStore.layer)),

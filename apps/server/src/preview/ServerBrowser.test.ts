@@ -32,7 +32,7 @@ import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as Broker from "../mcp/PreviewAutomationBroker.ts";
 import * as DesktopChannel from "./DesktopBrowserChannel.ts";
 import * as Manager from "./Manager.ts";
-import * as PreviewAgentActivity from "./PreviewAgentActivity.ts";
+import * as PreviewAgentActivity from "./PreviewAgentActivity.vibe";
 import * as ServerBrowser from "./ServerBrowser.ts";
 import * as PreviewBrowser from "./PreviewBrowser.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
