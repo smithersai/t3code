@@ -31,7 +31,7 @@ vi.mock("electron", () => ({
 }));
 
 import * as ElectronDialog from "../electron/ElectronDialog.ts";
-import * as BrowserSession from "./BrowserSession.ts";
+import * as BrowserSession from "./BrowserSession.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const { showMessageBox } = vi.hoisted(() => ({

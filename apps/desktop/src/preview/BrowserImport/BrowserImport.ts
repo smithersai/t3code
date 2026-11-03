@@ -17,7 +17,7 @@ import { ChildProcessSpawner } from "effect/process";
 
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
-import * as BrowserSession from "../BrowserSession.ts";
+import * as BrowserSession from "../BrowserSession.vibe";
 import { ChromiumCookieReadError, readChromiumCookies } from "./ChromiumCookies.ts";
 import type { CookieReadResult } from "./CookieDatabase.vibe";
 import { FirefoxCookieReadError, readFirefoxCookies } from "./FirefoxCookies.ts";

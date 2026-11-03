@@ -68,7 +68,7 @@ import * as DesktopRendererHistory from "./telemetry/DesktopRendererHistory.ts";
 import * as DesktopUpdates from "./updates/DesktopUpdates.ts";
 import * as BrowserImport from "./preview/BrowserImport/BrowserImport.ts";
 import * as LinuxBrowserSecret from "./preview/BrowserImport/LinuxBrowserSecret.vibe";
-import * as BrowserSession from "./preview/BrowserSession.ts";
+import * as BrowserSession from "./preview/BrowserSession.vibe";
 import * as DesktopBrowserHost from "./preview/DesktopBrowserHost.ts";
 import * as PreviewManager from "./preview/Manager.ts";
 import * as PreviewPasskeys from "./preview/Passkeys.ts";
