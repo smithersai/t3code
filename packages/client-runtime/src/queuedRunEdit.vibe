@@ -76,7 +76,7 @@ interface ExitWatch<E> {
   readonly runs: QueuedRunsAtom
   readonly runId: RunId
   readonly onRunLeftQueue: (threadKey: string, edit: E) => void
-  mutable cancel: (() => void) | null
+  cancel: (() => void) | null
 }
 
 /**
