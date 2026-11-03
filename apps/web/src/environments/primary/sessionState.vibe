@@ -5,7 +5,13 @@ import { appAtomRegistry } from "../../rpc/atomRegistry.ts"
 import { fetchSessionState } from "./auth.ts"
 
 const primarySessionStateAtom = Atom.make(
-  Effect.suspend(effect () => isLocalEnvironmentDisabled() ? null : try Effect.promise(fetchSessionState)),
+  Effect.suspend(effect () => {
+    const disabled = try Effect.orDie(Effect.try({
+      try: () => isLocalEnvironmentDisabled(),
+      catch: (cause) => cause,
+    }))
+    return disabled ? null : try Effect.promise(fetchSessionState)
+  }),
 ).pipe(
   Atom.swr({ staleTime: 5_000, revalidateOnMount: true }),
   Atom.setIdleTTL(5 * 60_000),
