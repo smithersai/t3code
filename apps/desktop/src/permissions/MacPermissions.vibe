@@ -35,7 +35,7 @@ export const layer = Layer.effect(
                 environment.resolveResourcePathCandidates("icon.png"),
                 isGranted,
               )
-            ) catch (cause) => Effect.logWarning("Could not show permission helper", cause)
+            ) catch effect (cause) => try Effect.logWarning("Could not show permission helper", cause)
           },
           "MacPermissions.showHelper",
         ),

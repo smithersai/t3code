@@ -7,6 +7,5 @@
     "types": ["node", "electron"],
     "lib": ["ESNext", "DOM", "esnext.disposable"]
   },
-  "include": ["src", "vite.config.ts", "../../scripts/lib"],
-  "vibelang": { "trustedPackages": ["@t3tools/*", "react", "react-dom", "tailwind-merge", "clsx"] }
+  "include": ["src", "vite.config.ts", "../../scripts/lib"]
 }

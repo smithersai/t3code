@@ -13,7 +13,7 @@ async function fetchPrimaryEnvironmentDescriptor(): Promise<ExecutionEnvironment
     let descriptor: ExecutionEnvironmentDescriptor
     try {
       descriptor = await runPrimaryHttp(
-        PrimaryEnvironmentHttpClient |> Effect.flatMap(%, (client) => client.metadata.descriptor()),
+        PrimaryEnvironmentHttpClient |> Effect.flatMap(%, effect (client) => try client.metadata.descriptor()),
       )
     } catch (error) {
       throw PrimaryEnvironmentRequestError.fromCause({
