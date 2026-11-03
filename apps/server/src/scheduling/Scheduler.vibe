@@ -10,7 +10,7 @@ export service Scheduler {
   register: <E, R>(
     name: string,
     runDueWork: void!E!R,
-  ) => void!never!R | Scope.Scope;
+  ) => void!never!(R | Scope.Scope);
 }
 
 const make = effect {

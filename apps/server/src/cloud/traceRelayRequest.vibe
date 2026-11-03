@@ -14,7 +14,7 @@ export const traceRelayRequest = <A, E, R>(
 export const traceAuthenticatedRelayRequest = <A, E, R>(
   effect: A!E!R,
   authentication: { readonly startTime: bigint; readonly endTime: bigint },
-): A!E!R | HttpServerRequest.HttpServerRequest =>
+): A!E!(R | HttpServerRequest.HttpServerRequest) =>
   Effect.all([RelayClientTracer, HttpServerRequest.HttpServerRequest])
     |> Effect.flatMap(%, ([tracer, request]): A!E!R => {
       if (Option.isNone(tracer)) return effect;
