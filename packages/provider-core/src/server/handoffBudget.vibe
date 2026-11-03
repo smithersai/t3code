@@ -29,9 +29,9 @@ export function latestNativeContextUsage(
   const runs = new Map(projection.runs.map((run) => [run.id, run]))
   let latest:
     | {
-      mutable usage: ThreadTokenUsageSnapshot
-      mutable modelSelection: ModelSelection
-      mutable reportedAt: string
+      usage: ThreadTokenUsageSnapshot
+      modelSelection: ModelSelection
+      reportedAt: string
     }
     | undefined
   for (const turn of projection.providerTurns) {

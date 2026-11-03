@@ -22,7 +22,7 @@ export const decodeUtf8 = (
 }
 
 interface CollectState {
-  mutable chunks: Uint8Array[]
+  chunks: Uint8Array[]
   readonly bytes: number
   readonly truncated: boolean
 }

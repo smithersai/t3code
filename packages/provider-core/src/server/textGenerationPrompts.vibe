@@ -15,11 +15,11 @@ function policyInstruction(instruction: string | undefined): ReadonlyArray<strin
 }
 
 export interface CommitMessagePromptInput {
-  mutable branch: string | null
-  mutable stagedSummary: string
-  mutable stagedPatch: string
-  mutable includeBranch?: boolean
-  mutable policy?: TextGenerationPolicy | undefined
+  branch: string | null
+  stagedSummary: string
+  stagedPatch: string
+  includeBranch?: boolean
+  policy?: TextGenerationPolicy | undefined
 }
 
 export function buildCommitMessagePrompt(input: CommitMessagePromptInput): infer _ {
@@ -69,14 +69,14 @@ export function buildCommitMessagePrompt(input: CommitMessagePromptInput): infer
 }
 
 export interface PrContentPromptInput {
-  mutable baseBranch: string
-  mutable headBranch: string
-  mutable commitSummary: string
-  mutable diffSummary: string
-  mutable diffPatch: string
-  mutable changeRequestTemplate?: string | undefined
-  mutable threadContext?: string | undefined
-  mutable policy?: TextGenerationPolicy | undefined
+  baseBranch: string
+  headBranch: string
+  commitSummary: string
+  diffSummary: string
+  diffPatch: string
+  changeRequestTemplate?: string | undefined
+  threadContext?: string | undefined
+  policy?: TextGenerationPolicy | undefined
 }
 
 export function buildPrContentPrompt(input: PrContentPromptInput): infer _ {
@@ -139,14 +139,14 @@ export function buildPrContentPrompt(input: PrContentPromptInput): infer _ {
 }
 
 export interface ReviewGuidePromptInput {
-  mutable number: number
-  mutable title: string
-  mutable description: string
-  mutable baseBranch: string
-  mutable baseCommit: string
-  mutable settledReview: string
-  mutable instructions?: string | undefined
-  mutable stack?: ReadonlyArray<ReviewGuideStackLayer> | undefined
+  number: number
+  title: string
+  description: string
+  baseBranch: string
+  baseCommit: string
+  settledReview: string
+  instructions?: string | undefined
+  stack?: ReadonlyArray<ReviewGuideStackLayer> | undefined
 }
 
 function reviewGuideStack(
@@ -267,19 +267,19 @@ export function buildReviewGuidePrompt(input: ReviewGuidePromptInput): infer _ {
 }
 
 export interface BranchNamePromptInput {
-  mutable naming?: BranchNamingOptions | undefined
-  mutable message: string
-  mutable attachments?: ReadonlyArray<ChatAttachment> | undefined
-  mutable policy?: TextGenerationPolicy | undefined
+  naming?: BranchNamingOptions | undefined
+  message: string
+  attachments?: ReadonlyArray<ChatAttachment> | undefined
+  policy?: TextGenerationPolicy | undefined
 }
 
 interface PromptFromMessageInput {
-  mutable instruction: string
-  mutable responseShape: string
-  mutable rules: ReadonlyArray<string>
-  mutable message: string
-  mutable attachments?: ReadonlyArray<ChatAttachment> | undefined
-  mutable additionalInstructions?: string | undefined
+  instruction: string
+  responseShape: string
+  rules: ReadonlyArray<string>
+  message: string
+  attachments?: ReadonlyArray<ChatAttachment> | undefined
+  additionalInstructions?: string | undefined
 }
 
 function buildPromptFromMessage(input: PromptFromMessageInput): string {
@@ -345,18 +345,18 @@ export function buildBranchNamePrompt(input: BranchNamePromptInput): infer _ {
 }
 
 export interface ThreadTitlePromptInput {
-  mutable linkedContext?: string | undefined
-  mutable message: string
-  mutable previousTitle?: string | undefined
-  mutable forkSource?: ThreadTitleForkSource | undefined
-  mutable attachments?: ReadonlyArray<ChatAttachment> | undefined
-  mutable instructions?: string | undefined
+  linkedContext?: string | undefined
+  message: string
+  previousTitle?: string | undefined
+  forkSource?: ThreadTitleForkSource | undefined
+  attachments?: ReadonlyArray<ChatAttachment> | undefined
+  instructions?: string | undefined
 }
 
 /** The thread a fork branched from, and its conversation up to the fork point. */
 export interface ThreadTitleForkSource {
-  mutable title: string
-  mutable history: string
+  title: string
+  history: string
 }
 
 // Keep shared editorial rules in these two prompts in sync.

@@ -38,10 +38,10 @@ interface Flow {
   readonly id: string
   readonly owner: string
   readonly expiresAt: number
-  mutable complete?: ((callbackUrl: string) => void!ProviderSetupError) | undefined
-  mutable fiber?: Fiber<void>
-  mutable responseFiber?: Fiber<void, ProviderSetupError>
-  mutable respond:
+  complete?: ((callbackUrl: string) => void!ProviderSetupError) | undefined
+  fiber?: Fiber<void>
+  responseFiber?: Fiber<void, ProviderSetupError>
+  respond:
     | ((response: ProviderAuthResponse) => void!ProviderSetupError)
     | undefined
 }
