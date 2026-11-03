@@ -28,10 +28,10 @@ function parseLegacyLinkedPullRequest(json: string): LegacyLinkedPullRequest | n
   }
 }
 
-export default Effect.gen(function* () {
-  const sql = yield* SqlClient.SqlClient;
+export default effect {
+  const sql = try SqlClient.SqlClient;
 
-  yield* sql`
+  try sql`
     CREATE TABLE IF NOT EXISTS projection_thread_pull_requests (
       thread_id TEXT NOT NULL,
       host TEXT NOT NULL,
@@ -46,12 +46,12 @@ export default Effect.gen(function* () {
     )
   `;
 
-  yield* sql`
+  try sql`
     CREATE INDEX IF NOT EXISTS idx_projection_thread_pull_requests_pr
     ON projection_thread_pull_requests(host, repository, number)
   `;
 
-  const legacyRows = yield* sql<LegacyLinkedThreadRow>`
+  const legacyRows = try sql<LegacyLinkedThreadRow>`
     SELECT
       thread_id AS "threadId",
       updated_at AS "updatedAt",
@@ -63,8 +63,8 @@ export default Effect.gen(function* () {
   for (const row of legacyRows) {
     const linked = parseLegacyLinkedPullRequest(row.linkedPullRequestJson);
     if (linked === null) continue;
-    const key = legacyThreadPullRequestKey(linked);
-    yield* sql`
+    const key = try orDie(Effect.try({ try: () => legacyThreadPullRequestKey(linked), catch: (error) => error }));
+    try sql`
       INSERT OR IGNORE INTO projection_thread_pull_requests (
         thread_id,
         host,
@@ -89,4 +89,4 @@ export default Effect.gen(function* () {
       )
     `;
   }
-});
+};
