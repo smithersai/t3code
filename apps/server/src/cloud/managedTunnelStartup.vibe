@@ -1,9 +1,6 @@
 import type { RelayManagedEndpointRuntimeConfig } from "@t3tools/contracts/relay";
-import * as Clock from "effect/Clock";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
-import * as Schedule from "effect/Schedule";
-import * as Semaphore from "effect/Semaphore";
 
 import { isRelayUnavailable, relayRetryAfterMillis } from "./relayResponse.vibe";
 
@@ -70,17 +67,17 @@ const windowMillis = Duration.toMillis(MANAGED_TUNNEL_REGISTRATION_RETRY_WINDOW)
  * relay's Retry-After still holds across the handoff.
  */
 const retryAcrossWindow = <A, E, R>(
-  effect: Effect.Effect<A, E, R>,
+  effect: A!E!R,
   options: {
     readonly while: (error: E) => boolean;
     readonly whilePastWindow: (error: E) => boolean;
-    readonly onWindowExhausted: (error: E) => Effect.Effect<void, never, R>;
+    readonly onWindowExhausted: (error: E) => void!!R;
   },
 ) =>
   Effect.suspend(() => {
     let pastWindow = false;
-    return effect.pipe(
-      Effect.retry({
+    return effect
+      |> Effect.retry(%, {
         while: (error) => (pastWindow ? options.whilePastWindow(error) : options.while(error)),
         schedule: relayRetrySchedule.pipe(
           Schedule.setInputType<E>(),
@@ -90,18 +87,17 @@ const retryAcrossWindow = <A, E, R>(
             }
             pastWindow = true;
             return options.whilePastWindow(input)
-              ? options.onWindowExhausted(input).pipe(Effect.as(duration))
+              ? (options.onWindowExhausted(input) |> Effect.as(%, duration))
               : Effect.fail(input);
           }),
         ),
-      }),
-    );
+      });
   });
 
 export const retryManagedTunnelRegistration = <A, E, R>(
-  registration: Effect.Effect<A, E, R>,
+  registration: A!E!R,
   isRetryable: (error: E) => boolean,
-  onRetryWindowExhausted?: Effect.Effect<void, never, R>,
+  onRetryWindowExhausted?: void!never!R,
 ) =>
   retryAcrossWindow(registration, {
     while: isRetryable,
@@ -116,9 +112,9 @@ export const retryManagedTunnelRegistration = <A, E, R>(
  * would otherwise relink, and provision a tunnel, forever.
  */
 export const retryDesiredLinkReconcile = <A, E, R>(
-  reconcile: Effect.Effect<A, E, R>,
+  reconcile: A!E!R,
   isRetryable: (error: E) => boolean,
-  onRetryWindowExhausted: (error: E) => Effect.Effect<void, never, R>,
+  onRetryWindowExhausted: (error: E) => void!never!R,
 ) =>
   retryAcrossWindow(reconcile, {
     while: isRetryable,
@@ -168,47 +164,41 @@ export const MANAGED_TUNNEL_FIRST_REGISTRATION_JITTER = Duration.seconds(30);
  * Runs one recovery per request, one at a time: waits out the current
  * cooldown, then calls the relay, retrying it while it stays unavailable.
  */
-export const makeManagedTunnelRecovery = Effect.fn("ManagedTunnelRecovery.make")(function* <
+export const makeManagedTunnelRecovery = effect <
   A,
   E,
   R,
->(options: {
-  readonly recover: (config: RelayManagedEndpointRuntimeConfig) => Effect.Effect<A, E, R>;
-  readonly isRetryable: (error: E) => boolean;
-}) {
-  const lock = yield* Semaphore.make(1);
+>(options: { readonly recover: (config: RelayManagedEndpointRuntimeConfig) => A!E!R; readonly isRetryable: (error: E) => boolean; }) => try withSpan(effect {
+  const lock = try Semaphore.make(1);
   let lastRecoveryAtMillis = Number.NEGATIVE_INFINITY;
   let cooldown = MANAGED_TUNNEL_RECOVERY_COOLDOWN;
-  const waitForCooldown = Effect.gen(function* () {
-    const elapsed = (yield* Clock.currentTimeMillis) - lastRecoveryAtMillis;
+  const waitForCooldown = effect {
+    const elapsed = (try Clock.currentTimeMillis) - lastRecoveryAtMillis;
     cooldown = nextManagedTunnelRecoveryCooldown({
       current: cooldown,
       sinceLastRecovery: Duration.millis(elapsed),
     });
     const wait = Duration.toMillis(cooldown) - elapsed;
-    if (wait > 0) yield* Effect.sleep(Duration.millis(wait));
-  });
+    if (wait > 0) try Effect.sleep(Duration.millis(wait));
+  };
   // Measured from the end: a recovery that retried through a long relay
   // outage must not look settled the moment it finishes.
-  const recordRecovery = Clock.currentTimeMillis.pipe(
-    Effect.tap((now) =>
-      Effect.sync(() => {
+  const recordRecovery = effect { return try (Clock.currentTimeMillis
+    |> Effect.tap(%, effect (now) =>
+      {
         lastRecoveryAtMillis = now;
-      }),
-    ),
-  );
+      },
+    )) };
   return (config: RelayManagedEndpointRuntimeConfig) =>
     lock.withPermits(1)(
-      waitForCooldown.pipe(
-        Effect.andThen(
-          options.recover(config).pipe(
-            Effect.retry({
+      waitForCooldown
+        |> Effect.andThen(
+          %, options.recover(config)
+            |> Effect.retry(%, {
               while: options.isRetryable,
               schedule: managedTunnelRecoveryRetrySchedule,
-            }),
-            Effect.ensuring(recordRecovery),
-          ),
+            })
+            |> Effect.ensuring(%, recordRecovery),
         ),
-      ),
     );
-});
+}, "ManagedTunnelRecovery.make");

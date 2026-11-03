@@ -39,7 +39,7 @@ import {
   createTranscriptJsonReader,
   createTranscriptJsonSelector,
   TranscriptJsonLimitError,
-} from "./AgentSessionJson.ts";
+} from "./AgentSessionJson.vibe";
 
 const TRANSCRIPT_PREFIX_BYTES = 32 * 1024;
 const METADATA_READ_BYTES = 8 * 1024;

@@ -26,7 +26,7 @@ import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import { runMigrations } from "../../persistence/Migrations.ts";
+import { runMigrations } from "../../persistence/Migrations.vibe";
 import * as SqlitePersistence from "../../persistence/Sqlite.ts";
 import Migration0042 from "../../persistence/Migrations/042_ProjectionThreadLinkedPullRequest.vibe";
 import Migration0043 from "../../persistence/Migrations/043_ProjectionThreadsUnsettledAt.vibe";

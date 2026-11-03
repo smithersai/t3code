@@ -11,7 +11,7 @@ import * as Path from "effect/Path";
 import * as PlatformError from "effect/PlatformError";
 import * as Schema from "effect/Schema";
 
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as T3ProjectFileLoader from "./T3ProjectFileLoader.ts";
 
 const FAVICON_CACHE_CAPACITY = 512;

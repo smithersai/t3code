@@ -1,7 +1,5 @@
-import * as Clock from "effect/Clock";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
 import * as Metric from "effect/Metric";
 import { dual } from "effect/Function";
 
@@ -147,17 +145,17 @@ export interface WithMetricsOptions {
 
 const recordMetrics =
   /* Instrumentation must not create its own span for every recorded operation. */
-  Effect.fnUntraced(function* (
+  effect (
     options: WithMetricsOptions,
     startedAt: bigint,
-    exit: Exit.Exit<unknown, unknown>,
-  ) {
-    const duration = Duration.nanos((yield* Clock.monotonicTimeNanos) - startedAt);
+    exit: Exit<unknown, unknown>,
+  ) => {
+    const duration = Duration.nanos((try Clock.monotonicTimeNanos) - startedAt);
     const baseAttributes =
       typeof options.attributes === "function" ? options.attributes() : (options.attributes ?? {});
 
     if (options.timer) {
-      yield* Metric.update(
+      try Metric.update(
         Metric.withAttributes(options.timer, metricAttributes(baseAttributes)),
         duration,
       );
@@ -165,7 +163,7 @@ const recordMetrics =
 
     if (options.counter) {
       const outcome = outcomeFromExit(exit);
-      yield* Metric.update(
+      try Metric.update(
         Metric.withAttributes(
           options.counter,
           metricAttributes({
@@ -177,13 +175,13 @@ const recordMetrics =
         1,
       );
     }
-  });
+  };
 
 // Monotonic timing ignores clock corrections; exit finalizers count interruptions.
 const withMetricsImpl = <A, E, R>(
-  effect: Effect.Effect<A, E, R>,
+  effect: A!E!R,
   options: WithMetricsOptions,
-): Effect.Effect<A, E, R> =>
+): A!E!R =>
   Effect.flatMap(Clock.monotonicTimeNanos, (startedAt) =>
     Effect.onExit(effect, (exit) => recordMetrics(options, startedAt, exit)),
   );
@@ -191,15 +189,15 @@ const withMetricsImpl = <A, E, R>(
 export const withMetrics: {
   (
     options: WithMetricsOptions,
-  ): <A, E, R>(effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, R>;
-  <A, E, R>(effect: Effect.Effect<A, E, R>, options: WithMetricsOptions): Effect.Effect<A, E, R>;
+  ): <A, E, R>(effect: A!E!R) => A!E!R;
+  <A, E, R>(effect: A!E!R, options: WithMetricsOptions): A!E!R;
 } = dual(2, withMetricsImpl);
 
 // Shaped as an `Effect.fn` combinator: the command is the instrumented function's argument.
 export const withCommandMetrics = <A, E, R>(
-  effect: Effect.Effect<A, E, R>,
+  effect: A!E!R,
   command: { readonly type: string },
-): Effect.Effect<A, E, R> =>
+): A!E!R =>
   withMetrics(effect, {
     counter: orchestrationCommandsTotal,
     timer: orchestrationCommandDuration,

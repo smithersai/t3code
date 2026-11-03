@@ -22,7 +22,7 @@ import * as Socket from "effect/socket/Socket";
 
 import { authenticateMediaRequest } from "../auth/http.ts";
 import { assetResponseHeaders } from "../http.ts";
-import * as PreviewBrowserHost from "./PreviewBrowserHost.ts";
+import * as PreviewBrowserHost from "./PreviewBrowserHost.vibe";
 import * as ServerBrowser from "./ServerBrowser.ts";
 import * as RequestUrl from "../RequestUrl.vibe";
 

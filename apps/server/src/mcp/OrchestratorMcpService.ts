@@ -108,7 +108,7 @@ import {
   type McpThreadInvocationScope,
   requireThreadScope,
 } from "./McpInvocationContext.ts";
-import * as Metrics from "../observability/Metrics.ts";
+import * as Metrics from "../observability/Metrics.vibe";
 import {
   interactionModeRank,
   resolveInteractionMode,

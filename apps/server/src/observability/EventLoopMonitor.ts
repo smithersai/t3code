@@ -16,7 +16,7 @@ import type * as Scope from "effect/Scope";
 import * as Semaphore from "effect/Semaphore";
 
 import * as ServerConfig from "../config.ts";
-import * as Metrics from "./Metrics.ts";
+import * as Metrics from "./Metrics.vibe";
 
 // Subtract the histogram's timer resolution; this can undercount stalls by up to RESOLUTION_MS.
 const RESOLUTION_MS = 1000;

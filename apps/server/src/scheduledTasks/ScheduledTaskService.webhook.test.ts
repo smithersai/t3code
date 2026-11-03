@@ -25,7 +25,7 @@ import * as ThreadManagementService from "../orchestration-v2/ThreadManagementSe
 import * as SecretRequests from "../secrets/SecretRequests.ts";
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as Scheduler from "../scheduling/Scheduler.ts";
+import * as Scheduler from "../scheduling/Scheduler.vibe";
 import * as ScheduledTaskService from "./ScheduledTaskService.ts";
 import { renderWebhookPrompt } from "./webhookTemplate.ts";
 

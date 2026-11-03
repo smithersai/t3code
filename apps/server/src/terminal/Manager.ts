@@ -70,7 +70,7 @@ import {
   increment,
   terminalRestartsTotal,
   terminalSessionsTotal,
-} from "../observability/Metrics.ts";
+} from "../observability/Metrics.vibe";
 import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion";
 import * as ProcessRunner from "../processRunner.ts";
 import * as PortScanner from "../preview/PortScanner.ts";

@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as SqlClient from "effect/sql/SqlClient";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 
-import { runMigrations } from "../Migrations.ts";
+import { runMigrations } from "../Migrations.vibe";
 import migrateActiveOrderKey from "./049_ProjectionThreadsActiveOrderKey.vibe";
 
 it.layer(NodeSqliteClient.layer({ filename: ":memory:" }))(

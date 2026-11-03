@@ -12,7 +12,7 @@ import * as ServerConfig from "../config.ts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as WorkspaceEntries from "./WorkspaceEntries.ts";
-import * as WorkspacePaths from "./WorkspacePaths.ts";
+import * as WorkspacePaths from "./WorkspacePaths.vibe";
 
 vi.mock("node:fs/promises", async (importOriginal) => {
   const actual = await importOriginal<typeof import("node:fs/promises")>();

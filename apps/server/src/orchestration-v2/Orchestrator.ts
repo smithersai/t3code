@@ -124,7 +124,7 @@ import {
   type GuestShareCommand,
 } from "./GuestShareDecider.vibe";
 import * as EffectOutbox from "./EffectOutbox.ts";
-import { withCommandMetrics } from "../observability/Metrics.ts";
+import { withCommandMetrics } from "../observability/Metrics.vibe";
 import type { OrchestrationEffectRequestV2, PendingOrchestrationEffectV2 } from "./EffectOutbox.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";

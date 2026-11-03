@@ -22,7 +22,7 @@ import {
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import type { SourceControlProcessInput } from "@t3tools/source-control-core/server/SourceControlHost";
 
-import { gitCommandDuration, gitCommandsTotal, withMetrics } from "../observability/Metrics.ts";
+import { gitCommandDuration, gitCommandsTotal, withMetrics } from "../observability/Metrics.vibe";
 import * as ProcessRunner from "../processRunner.ts";
 
 export interface VcsProcessInput {

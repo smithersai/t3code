@@ -1,5 +1,3 @@
-import * as Predicate from "effect/Predicate";
-import { Tool } from "effect/ai";
 
 type Json = unknown;
 type JsonObject = { [key: string]: Json };

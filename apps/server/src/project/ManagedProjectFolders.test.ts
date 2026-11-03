@@ -21,7 +21,7 @@ import * as ServerSettings from "../serverSettings.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as ProjectEnrichmentService from "./ProjectEnrichmentService.ts";
 import * as ProjectFaviconResolver from "./ProjectFaviconResolver.ts";
 import * as ProjectService from "./ProjectService.ts";

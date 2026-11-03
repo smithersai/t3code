@@ -5,7 +5,7 @@ import * as Path from "effect/Path";
 import * as SqlClient from "effect/sql/SqlClient";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 
-import { runMigrations } from "./Migrations.ts";
+import { runMigrations } from "./Migrations.vibe";
 import { initializeV2Database } from "./initializeV2Database.ts";
 import * as ServerConfig from "../config.ts";
 

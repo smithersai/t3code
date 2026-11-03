@@ -12,7 +12,7 @@ import { acpMcpBridgeCommand, acpMcpCallCommand } from "./cli/acpMcpBridge.vibe"
 import { authCommand } from "./cli/auth.ts";
 import { environmentCommand } from "./cli/environment.ts";
 import { appCommand } from "./cli/app.ts";
-import { browserCommand } from "./cli/browser.ts";
+import { browserCommand } from "./cli/browser.vibe";
 import { connectCommand } from "./cli/connect.ts";
 import { pairCommand } from "./cli/pair.ts";
 import { hasCloudPublicConfig } from "./cloud/publicConfig.ts";
@@ -27,7 +27,7 @@ import { serviceLauncherCommand } from "./cli/serviceLauncher.ts";
 import { claudeHistoryCommand } from "./cli/claudeHistory.vibe";
 import { sshHelperCommand } from "./cli/sshHelper.ts";
 import { serviceCommand } from "./cli/service.ts";
-import { servicePreflightCommand } from "./cli/servicePreflight.ts";
+import { servicePreflightCommand } from "./cli/servicePreflight.vibe";
 import { themeCommand } from "./cli/theme.ts";
 import { traceCommand } from "./cli/trace.ts";
 import { triageCommand } from "./cli/triage.ts";

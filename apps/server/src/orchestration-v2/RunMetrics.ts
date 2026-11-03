@@ -15,7 +15,7 @@ import {
   runDuration,
   runQueueWait,
   runsTotal,
-} from "../observability/Metrics.ts";
+} from "../observability/Metrics.vibe";
 
 const REMEMBERED_RUNS = 4096;
 // A rollback rewrites runs that already finished, stamping the rollback time as their completion,

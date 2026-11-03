@@ -41,7 +41,7 @@ import * as PullRequestHttp from "./pullRequest/http.vibe";
 import * as PullRequestProviderRegistry from "./pullRequest/PullRequestProviderRegistry.ts";
 import * as PullRequestService from "./pullRequest/PullRequestService.ts";
 import * as SqlitePersistence from "./persistence/Sqlite.ts";
-import * as PullRequestFilesViewed from "./persistence/PullRequestFilesViewed.ts";
+import * as PullRequestFilesViewed from "./persistence/PullRequestFilesViewed.vibe";
 import * as PullRequestReviewGuides from "./persistence/PullRequestReviewGuides.ts";
 import * as PullRequestReviewGuideService from "./pullRequest/PullRequestReviewGuideService.ts";
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.ts";
@@ -107,7 +107,7 @@ import * as RepositoryIdentityResolver from "./project/RepositoryIdentityResolve
 import * as WorkspaceEntries from "./workspace/WorkspaceEntries.ts";
 import * as KnownWorkspaces from "./workspace/KnownWorkspaces.ts";
 import * as WorkspaceFileSystem from "./workspace/WorkspaceFileSystem.ts";
-import * as WorkspacePaths from "./workspace/WorkspacePaths.ts";
+import * as WorkspacePaths from "./workspace/WorkspacePaths.vibe";
 import * as GitVcsDriver from "./vcs/GitVcsDriver.ts";
 import * as VcsDriverRegistry from "./vcs/VcsDriverRegistry.ts";
 import * as VcsProjectConfig from "./vcs/VcsProjectConfig.ts";
@@ -160,7 +160,7 @@ import {
   managedTunnelStartupAction,
   retryDesiredLinkReconcile,
   retryManagedTunnelRegistration,
-} from "./cloud/managedTunnelStartup.ts";
+} from "./cloud/managedTunnelStartup.vibe";
 import * as CloudCliTokenManager from "./cloud/CliTokenManager.ts";
 import * as CloudCliState from "./cloud/CliState.ts";
 import * as ServerSelfUpdate from "./cloud/selfUpdate.ts";

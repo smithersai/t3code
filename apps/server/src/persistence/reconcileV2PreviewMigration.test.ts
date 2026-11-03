@@ -5,7 +5,7 @@ import * as Exit from "effect/Exit";
 import * as Migrator from "effect/sql/Migrator";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import { migrationManifest, runMigrations } from "./Migrations.ts";
+import { migrationManifest, runMigrations } from "./Migrations.vibe";
 import PullRequestFilesViewed from "./Migrations/053_PullRequestFilesViewed.vibe";
 import RemoveRedundantProjectionIndexes from "./Migrations/056_RemoveRedundantProjectionIndexes.vibe";
 import OrchestrationV2 from "./Migrations/055_OrchestrationV2.vibe";

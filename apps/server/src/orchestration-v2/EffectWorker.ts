@@ -15,7 +15,7 @@ import {
   metricAttributes,
   orchestrationEffectClaimsTotal,
   orchestrationEffectQueueWait,
-} from "../observability/Metrics.ts";
+} from "../observability/Metrics.vibe";
 import * as RunFinalizationService from "./RunFinalizationService.ts";
 import * as ResourceCleanupService from "./ResourceCleanupService.ts";
 import * as EffectOutbox from "./EffectOutbox.ts";

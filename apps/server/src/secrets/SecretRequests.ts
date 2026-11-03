@@ -24,7 +24,7 @@ import * as Schema from "effect/Schema";
 import * as Semaphore from "effect/Semaphore";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as Metrics from "../observability/Metrics.ts";
+import * as Metrics from "../observability/Metrics.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
 
 const SECRET_REF_PREFIX = "secret-ref:";
