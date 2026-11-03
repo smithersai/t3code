@@ -8,6 +8,5 @@
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true
-  },
-  "vibelang": { "trustedPackages": ["@t3tools/*", "react", "react-dom", "tailwind-merge", "clsx"] }
+  }
 }
