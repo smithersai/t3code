@@ -789,7 +789,7 @@ function toReactions(
   const normalizedViewer = viewer?.toLowerCase() ?? null
   const groups = new Map<
     PullRequestReactionContent,
-    { mutable count: number; mutable actors: string[]; mutable viewer: boolean }
+    { count: number; actors: string[]; viewer: boolean }
   >()
   for (const node of nodes?.nodes ?? []) {
     const content = CONTENT_BY_GITLAB_AWARD[trimmed(node?.name)?.toLowerCase() ?? ""]
