@@ -1,7 +1,7 @@
 import { vi } from "vite-plus/test";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as CodexInstallation from "./CodexInstallation.ts";
-import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.ts";
+import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { describe, it, assert, expect } from "@effect/vitest";

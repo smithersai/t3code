@@ -3,7 +3,7 @@ import * as NodeURL from "node:url";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as Stream from "effect/Stream";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
-import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.ts";
+import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it } from "@effect/vitest";
 import { CodexSettings, EnvironmentId, ProviderInstanceId } from "@t3tools/contracts";

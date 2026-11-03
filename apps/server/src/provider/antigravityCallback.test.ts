@@ -3,7 +3,7 @@ import { ProviderInstanceId } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 
-import { validateAntigravityCallbackUrl } from "./antigravityCallback.ts";
+import { validateAntigravityCallbackUrl } from "./antigravityCallback.vibe";
 
 const instanceId = ProviderInstanceId.make("antigravity-callback-test");
 const pending = { redirectUri: "http://127.0.0.1:51234/", state: "owned-state" };

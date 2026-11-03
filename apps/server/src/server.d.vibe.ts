@@ -1,0 +1,9 @@
+import { Cause } from "effect";
+import * as Effect from "effect/Effect";
+import * as ServerConfig from "./config.ts";
+import * as ServerOwnership from "./serverOwnership.ts";
+import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
+import * as ServerSecretStore from "./auth/ServerSecretStore.ts";
+import * as ServiceLauncherClient from "./cloud/serviceLauncherClient.ts";
+import * as DesktopTelemetryReceiver from "./resourceTelemetry/DesktopTelemetryReceiver.ts";
+export declare const runServer: Effect.Effect<never, import("effect/Config").ConfigError | DesktopTelemetryReceiver.DesktopTelemetryStreamFailed | import("@t3tools/contracts").DeviceOperationError | Cause.IllegalArgumentError | import("effect/sql/Migrator").MigrationError | ServerOwnership.OlderBootServiceError | import("effect/PlatformError").PlatformError | ServerSecretStore.SecretStoreConcurrentReadError | ServerSecretStore.SecretStoreDecodeError | ServerSecretStore.SecretStoreEncodeError | ServerSecretStore.SecretStorePersistError | ServerSecretStore.SecretStoreRandomGenerationError | ServerSecretStore.SecretStoreReadError | ServerSecretStore.SecretStoreRemoveError | ServerSecretStore.SecretStoreSecureError | ServerSecretStore.SecretStoreTemporaryPathError | import("effect/http/HttpServerError").ServeError | ServerOwnership.ServerAlreadyRunningError | ServerEnvironment.ServerEnvironmentIdPersistenceError | ServerOwnership.ServerOwnershipError | import("@t3tools/contracts").ServerSettingsError | ServiceLauncherClient.ServiceLauncherClientError | import("./auth/SessionStore.ts").SessionCredentialIssueError | import("effect/sql/SqlError").SqlError | import("./persistence/initializeV2Database.ts").V2DatabaseImportError, import("effect/process/ChildProcessSpawner").ChildProcessSpawner | import("@t3tools/shared/Crypto").Crypto | import("effect/FileSystem").FileSystem | import("effect/Path").Path | ServerConfig.ServerConfig>;

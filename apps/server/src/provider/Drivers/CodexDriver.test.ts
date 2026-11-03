@@ -1,5 +1,5 @@
 import * as CodexInstallation from "../CodexInstallation.ts";
-import * as CodexManagedTokenBroker from "../CodexManagedTokenBroker.ts";
+import * as CodexManagedTokenBroker from "../CodexManagedTokenBroker.vibe";
 import * as ServerSecretStore from "../../auth/ServerSecretStore.ts";
 import * as ServerEnvironment from "../../environment/ServerEnvironment.ts";
 // @effect-diagnostics nodeBuiltinImport:off

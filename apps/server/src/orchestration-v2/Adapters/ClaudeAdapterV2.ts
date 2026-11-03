@@ -159,7 +159,7 @@ import {
 import {
   boundProviderEventForLogging,
   shouldPersistProviderEvent,
-} from "../../provider/EventNdjsonLogger.ts";
+} from "../../provider/EventNdjsonLogger.vibe";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import {
   claudeRateLimitEventToUpdate,

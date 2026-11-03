@@ -27,7 +27,7 @@ import {
 import {
   forwardAntigravityCallback,
   validateAntigravityCallbackUrl,
-} from "./antigravityCallback.ts";
+} from "./antigravityCallback.vibe";
 import type { ProviderAuthController } from "./ProviderAuthService.ts";
 
 const AUTH_TIMEOUT_MS = 300_000;

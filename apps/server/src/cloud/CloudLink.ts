@@ -70,7 +70,7 @@ import * as ServerConfig from "../config.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.ts";
 import { makeRelayEnvironmentClient } from "../relay/relayEnvironmentClient.ts";
-import { loopbackUrlHostForAddress } from "../startupAccess.ts";
+import { loopbackUrlHostForAddress } from "../startupAccess.vibe";
 import {
   type CliDesiredLinkMode,
   readCliDesiredCloudLink,

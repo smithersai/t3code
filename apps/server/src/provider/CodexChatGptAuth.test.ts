@@ -3,7 +3,7 @@ import * as NodeNet from "node:net";
 import * as Context from "effect/Context";
 import * as Scope from "effect/Scope";
 import * as ServerConfig from "../config.ts";
-import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.ts";
+import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.vibe";
 import * as NodeHttp from "node:http";
 import * as NodeCrypto from "node:crypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";

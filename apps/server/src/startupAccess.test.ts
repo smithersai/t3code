@@ -5,7 +5,7 @@ import { describe, expect, it } from "@effect/vitest";
 import {
   acceptsPrivateNetworkConnection,
   resolveHeadlessConnectionString,
-} from "./startupAccess.ts";
+} from "./startupAccess.vibe";
 
 const ipv4 = (address: string, internal = false): NodeOS.NetworkInterfaceInfo => ({
   address,

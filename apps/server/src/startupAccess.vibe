@@ -1,44 +1,21 @@
-import * as NodeNet from "node:net";
-import * as NodeOS from "node:os";
-
-import { isPrivateNetworkHost, isSharedAddressSpaceHost } from "@t3tools/shared/hostClassification";
 import { QrCode } from "@t3tools/shared/qrCode";
 import { buildPairingAppLink } from "@t3tools/shared/remote";
 import * as Effect from "effect/Effect";
 import { HttpServer } from "effect/http";
 import * as NetAddress from "effect/net/NetAddress";
-
 import * as ServerConfig from "./config.ts";
 import * as EnvironmentAuth from "./auth/EnvironmentAuth.ts";
 
-export interface HeadlessServeAccessInfo {
-  readonly connectionString: string;
-  readonly token: string;
-  readonly pairingUrl: string;
-}
+module platform {
+import * as NodeNet from "node:net";
+import * as NodeOS from "node:os";
+import { isPrivateNetworkHost, isSharedAddressSpaceHost } from "@t3tools/shared/hostClassification";
 
-type NetworkInterfacesMap = ReturnType<typeof NodeOS.networkInterfaces>;
-
-export const isLoopbackHost = (host: string | undefined): boolean => {
-  if (!host || host.length === 0) {
-    return true;
-  }
-
-  return (
-    host === "localhost" ||
-    host === "127.0.0.1" ||
-    host === "::1" ||
-    host === "[::1]" ||
-    host.startsWith("127.")
-  );
-};
-
+export type NetworkInterfacesMap = ReturnType<typeof NodeOS.networkInterfaces>;
 export const isWildcardHost = (host: string | undefined): boolean =>
   host === "0.0.0.0" || host === "::" || host === "[::]";
-
 export const formatHostForUrl = (host: string): string =>
   host.includes(":") && !host.startsWith("[") ? `[${host}]` : host;
-
 /**
  * Container and VM networks (Docker, libvirt, VMware, VirtualBox, Hyper-V, and
  * macOS's `bridge100`+) have private addresses only this machine reaches. A
@@ -47,7 +24,6 @@ export const formatHostForUrl = (host: string): string =>
  */
 export const VIRTUAL_INTERFACE =
   /^(docker|br-|veth|virbr|vmnet|vboxnet|vEthernet|podman|cni|flannel|cali|lxcbr|lxdbr|bridge[1-9]\d\d)/;
-
 /**
  * Loopback or private-range IPv4 (LAN, tailnet, CGNAT), not link-local, in
  * plain or IPv4-mapped IPv6 form.
@@ -56,34 +32,11 @@ export const isPrivateNetworkAddress = (address: string): boolean => {
   const ipv4 = address.replace(/^::ffff:/i, "");
   return NodeNet.isIPv4(ipv4) && !ipv4.startsWith("169.254.") && isPrivateNetworkHost(ipv4);
 };
-
-/**
- * A private-network listener binds every interface but serves only
- * connections that stay on loopback, a LAN, or the tailnet. Both ends must be
- * private: a cloud VM or a router port forward hands public clients to a
- * private local address.
- */
-export const acceptsPrivateNetworkConnection = (socket: {
-  readonly localAddress?: string | undefined;
-  readonly remoteAddress?: string | undefined;
-}): boolean =>
-  [socket.localAddress, socket.remoteAddress].every(
-    (address) => address !== undefined && isPrivateNetworkAddress(address),
-  );
-
-export const loopbackUrlHostForAddress = (address: NetAddress.InetAddress): string =>
-  address._tag === "InetAddressV6" && NetAddress.isLoopback(address.address)
-    ? "[::1]"
-    : "127.0.0.1";
-
-const normalizeHost = (host: string): string =>
+export const normalizeHost = (host: string): string =>
   host.startsWith("[") && host.endsWith("]") ? host.slice(1, -1) : host;
-
-const isIpv4Family = (family: string | number): boolean => family === "IPv4" || family === 4;
-
-const isIpv6Family = (family: string | number): boolean => family === "IPv6" || family === 6;
-
-const resolveHeadlessConnectionHost = (
+export const isIpv4Family = (family: string | number): boolean => family === "IPv4" || family === 4;
+export const isIpv6Family = (family: string | number): boolean => family === "IPv6" || family === 6;
+export const resolveHeadlessConnectionHost = (
   host: string | undefined,
   interfaces: NetworkInterfacesMap,
   privateNetworkOnly: boolean,
@@ -122,7 +75,6 @@ const resolveHeadlessConnectionHost = (
   );
   return externalIpv6 ? normalizeHost(externalIpv6.address) : "localhost";
 };
-
 export const resolveHeadlessConnectionString = (
   host: string | undefined,
   port: number,
@@ -138,7 +90,46 @@ export const resolveHeadlessConnectionString = (
   );
   return `http://${formatHostForUrl(connectionHost)}:${port}`;
 };
+}
 
+import { isPrivateNetworkAddress, resolveHeadlessConnectionString } from platform
+export { VIRTUAL_INTERFACE, formatHostForUrl, isPrivateNetworkAddress, isWildcardHost, resolveHeadlessConnectionString } from platform
+
+export interface HeadlessServeAccessInfo {
+  readonly connectionString: string;
+  readonly token: string;
+  readonly pairingUrl: string;
+}
+export const isLoopbackHost = (host: string | undefined): boolean => {
+  if (!host || host.length === 0) {
+    return true;
+  }
+
+  return (
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host === "::1" ||
+    host === "[::1]" ||
+    host.startsWith("127.")
+  );
+};
+/**
+ * A private-network listener binds every interface but serves only
+ * connections that stay on loopback, a LAN, or the tailnet. Both ends must be
+ * private: a cloud VM or a router port forward hands public clients to a
+ * private local address.
+ */
+export const acceptsPrivateNetworkConnection = (socket: {
+  readonly localAddress?: string | undefined;
+  readonly remoteAddress?: string | undefined;
+}): boolean =>
+  [socket.localAddress, socket.remoteAddress].every(
+    (address) => address !== undefined && isPrivateNetworkAddress(address),
+  );
+export const loopbackUrlHostForAddress = (address: NetAddress.InetAddress): string =>
+  address._tag === "InetAddressV6" && NetAddress.isLoopback(address.address)
+    ? "[::1]"
+    : "127.0.0.1";
 const resolveListeningPort = (address: unknown, fallbackPort: number): number => {
   if (
     typeof address === "object" &&
@@ -150,7 +141,6 @@ const resolveListeningPort = (address: unknown, fallbackPort: number): number =>
   }
   return fallbackPort;
 };
-
 export const buildPairingUrl = (connectionString: string, token: string): string => {
   const url = new URL(connectionString);
   url.pathname = "/pair";
@@ -158,7 +148,6 @@ export const buildPairingUrl = (connectionString: string, token: string): string
   url.hash = new URLSearchParams([["token", token]]).toString();
   return url.toString();
 };
-
 export const renderTerminalQrCode = (value: string, margin = 2): string => {
   const qrCode = QrCode.encodeText(value, QrCode.Ecc.MEDIUM);
   const rows: Array<string> = [];
@@ -180,7 +169,6 @@ export const renderTerminalQrCode = (value: string, margin = 2): string => {
 
   return rows.join("\n");
 };
-
 export const formatHeadlessServeOutput = (accessInfo: HeadlessServeAccessInfo): string =>
   [
     "T3 Code server is ready.",
@@ -192,21 +180,21 @@ export const formatHeadlessServeOutput = (accessInfo: HeadlessServeAccessInfo): 
     renderTerminalQrCode(accessInfo.pairingUrl),
     "",
   ].join("\n");
-
-export const issueHeadlessServeAccessInfo = Effect.fn("issueHeadlessServeAccessInfo")(function* () {
-  const serverConfig = yield* ServerConfig.ServerConfig;
-  const httpServer = yield* HttpServer.HttpServer;
-  const serverAuth = yield* EnvironmentAuth.EnvironmentAuth;
-  const connectionString = resolveHeadlessConnectionString(
+export const issueHeadlessServeAccessInfo = effect () => try withSpan(effect {
+  const serverConfig = try ServerConfig.ServerConfig;
+  const httpServer = try HttpServer.HttpServer;
+  const serverAuth = try EnvironmentAuth.EnvironmentAuth;
+  const port2 = resolveListeningPort(httpServer.address, serverConfig.port)
+  const connectionString = try Effect.orDie(Effect.try({ try: () => resolveHeadlessConnectionString(
     serverConfig.host,
-    resolveListeningPort(httpServer.address, serverConfig.port),
+    port2,
     { privateNetworkOnly: serverConfig.privateNetworkOnly },
-  );
-  const issued = yield* serverAuth.issueStartupPairingCredential();
+  ), catch: (error) => error }));
+  const issued = try serverAuth.issueStartupPairingCredential();
 
   return {
     connectionString,
     token: issued.credential,
     pairingUrl: buildPairingUrl(connectionString, issued.credential),
   } satisfies HeadlessServeAccessInfo;
-});
+}, "issueHeadlessServeAccessInfo");

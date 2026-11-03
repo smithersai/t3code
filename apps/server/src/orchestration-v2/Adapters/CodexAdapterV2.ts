@@ -114,7 +114,7 @@ import {
 import {
   boundProviderEventForLogging,
   shouldPersistProviderEvent,
-} from "../../provider/EventNdjsonLogger.ts";
+} from "../../provider/EventNdjsonLogger.vibe";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import { codexAppServerArgs, resolveCodexLaunchArgs } from "../../provider/codexLaunchArgs.ts";
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";

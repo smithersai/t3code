@@ -1,6 +1,6 @@
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as CodexInstallation from "./CodexInstallation.ts";
-import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.ts";
+import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as ClaudeSdk from "@anthropic-ai/claude-agent-sdk";
 import { describe, expect, it } from "@effect/vitest";

@@ -43,7 +43,7 @@ import {
   isWildcardHost,
   renderTerminalQrCode,
   resolveHeadlessConnectionString,
-} from "../startupAccess.ts";
+} from "../startupAccess.vibe";
 import { authScopesFlag } from "./authScopes.vibe";
 import { baseDirFlag, DurationFromString } from "./config.ts";
 

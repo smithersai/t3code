@@ -7,7 +7,7 @@ import * as Schema from "effect/Schema";
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite";
 import packageJson from "../package.json" with { type: "json" };
 import type * as ServerConfig from "./config.ts";
-import { formatHostForUrl, isWildcardHost } from "./startupAccess.ts";
+import { formatHostForUrl, isWildcardHost } from "./startupAccess.vibe";
 
 export const PersistedServerRuntimeState = Schema.Struct({
   version: Schema.Literal(1),

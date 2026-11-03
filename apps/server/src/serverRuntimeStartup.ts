@@ -53,7 +53,7 @@ import {
   formatHostForUrl,
   isWildcardHost,
   issueHeadlessServeAccessInfo,
-} from "./startupAccess.ts";
+} from "./startupAccess.vibe";
 
 export class ServerRuntimeStartupError extends Schema.TaggedError<ServerRuntimeStartupError>()(
   "ServerRuntimeStartupError",

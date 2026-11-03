@@ -1,4 +1,11 @@
 // @effect-diagnostics nodeBuiltinImport:off - Server-owned private pipe/Unix socket, never a public listener.
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+
+module platform {
+// @effect-diagnostics nodeBuiltinImport:off - Server-owned private pipe/Unix socket, never a public listener.
+
 import * as NodeFSP from "node:fs/promises";
 import * as NodeNet from "node:net";
 import * as NodeOS from "node:os";
@@ -6,23 +13,20 @@ import * as NodePath from "node:path";
 import * as NodeCrypto from "node:crypto";
 import { EnvironmentId, ProviderInstanceId } from "@t3tools/contracts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as FiberSet from "effect/FiberSet";
-import * as Layer from "effect/Layer";
-import * as Exit from "effect/Exit";
 import * as Scope from "effect/Scope";
 import * as Schema from "effect/Schema";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import { makeCodexChatGptAuth } from "./CodexChatGptAuth.ts";
 import * as Protocol from "./CodexManagedTokenProtocol.ts";
 
-const MAX_CONNECTIONS = 32;
-const MAX_JOBS = 16;
+export const MAX_CONNECTIONS = 32;
+export const MAX_JOBS = 16;
 // Stay below macOS's 104-byte and Linux's 108-byte sockaddr_un limits, including NUL.
-const UNIX_SOCKET_PATH_BYTES = 100;
-const encodeResponse = Schema.encodeSync(Schema.fromJsonString(Protocol.Response));
-class BrokerStartError extends Schema.TaggedError<BrokerStartError>()(
+export const UNIX_SOCKET_PATH_BYTES = 100;
+export const encodeResponse = Schema.encodeSync(Schema.fromJsonString(Protocol.Response));
+export class BrokerStartError extends Schema.TaggedError<BrokerStartError>()(
   "ManagedTokenBrokerStartError",
   {
     cause: Schema.Defect(),
@@ -32,17 +36,9 @@ class BrokerStartError extends Schema.TaggedError<BrokerStartError>()(
     return "Could not start the private managed token listener.";
   }
 }
-export class CodexManagedTokenBroker extends Context.Service<
-  CodexManagedTokenBroker,
-  {
-    readonly endpoint: Effect.Effect<string, BrokerStartError>;
-    readonly awaitIdle: Effect.Effect<void>;
-  }
->()("t3/provider/CodexManagedTokenBroker") {}
-
-const io = <A>(f: () => Promise<A>) =>
+export const io = <A>(f: () => Promise<A>) =>
   Effect.tryPromise({ try: f, catch: (cause) => new BrokerStartError({ cause }) });
-const acquireListener = Effect.gen(function* () {
+export const acquireListener = Effect.gen(function* () {
   const identity = yield* ServerEnvironment.ServerEnvironmentIdentity;
   const environmentId = yield* identity.getEnvironmentId;
   const platform = yield* HostProcess.Platform;
@@ -207,11 +203,20 @@ const acquireListener = Effect.gen(function* () {
   if (platform !== "win32") yield* io(() => NodeFSP.chmod(owned.endpoint, 0o600));
   return { endpoint: owned.endpoint, awaitIdle: FiberSet.awaitEmpty(jobs) };
 });
-const make = Effect.gen(function* () {
-  const scope = yield* Scope.fork(yield* Effect.scope);
-  const acquired = yield* acquireListener.pipe(Scope.provide(scope), Effect.result);
+}
+
+import { BrokerStartError, acquireListener } from platform
+
+export service CodexManagedTokenBroker {
+  static readonly key = "t3/provider/CodexManagedTokenBroker"
+  endpoint: string!BrokerStartError;
+  awaitIdle: void!!;
+}
+const make = effect {
+  const scope = try Scope.fork(try Effect.scope);
+  const acquired = try (acquireListener |> Scope.provide(%, scope) |> Effect.result(%));
   if (acquired._tag === "Failure") {
-    yield* Scope.close(scope, Exit.fail(acquired.failure));
+    try Scope.close(scope, Exit.fail(acquired.failure));
     return CodexManagedTokenBroker.of({
       endpoint: Effect.fail(acquired.failure),
       awaitIdle: Effect.void,
@@ -221,5 +226,5 @@ const make = Effect.gen(function* () {
     endpoint: Effect.succeed(acquired.success.endpoint),
     awaitIdle: acquired.success.awaitIdle,
   });
-});
+};
 export const layer = Layer.effect(CodexManagedTokenBroker, make);

@@ -23,7 +23,7 @@ import {
   isPrivateNetworkAddress,
   isWildcardHost,
   VIRTUAL_INTERFACE,
-} from "../startupAccess.ts";
+} from "../startupAccess.vibe";
 
 type NetworkInterfacesMap = ReturnType<typeof NodeOS.networkInterfaces>;
 
