@@ -14,7 +14,7 @@ import * as Statement from "effect/sql/Statement";
 
 import * as ServerConfig from "../config.ts";
 import * as ResourceAttribution from "../resourceTelemetry/ResourceAttribution.ts";
-import * as ServerLogger from "../serverLogger.ts";
+import * as ServerLogger from "../serverLogger.vibe";
 import * as BrowserTraceCollector from "./BrowserTraceCollector.vibe";
 
 export const layer = Layer.unwrap(

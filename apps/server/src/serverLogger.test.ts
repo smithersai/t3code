@@ -21,7 +21,7 @@ import * as OtelEnvironment from "@t3tools/shared/otelEnvironment";
 
 import * as ServerConfig from "./config.ts";
 import * as ExternalLauncher from "./process/externalLauncher.ts";
-import * as ServerLogger from "./serverLogger.ts";
+import * as ServerLogger from "./serverLogger.vibe";
 import {
   announceStartupPairingUrl,
   logBrowserAutoOpenUnavailable,

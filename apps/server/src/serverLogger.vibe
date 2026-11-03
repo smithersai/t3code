@@ -1,18 +1,11 @@
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as SharedObservability from "@t3tools/shared/observability";
-import * as Cause from "effect/Cause";
-import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Logger from "effect/Logger";
-import * as Redactable from "effect/Redactable";
-import * as References from "effect/References";
-import * as OtlpExporter from "effect/observability/OtlpExporter";
-import * as OtlpLogger from "effect/observability/OtlpLogger";
 
 import * as ServerConfig from "./config.ts";
 
 // consolePretty collapses Cause fields via util.inspect; render them with Cause.pretty like standalone arguments.
-const consolePretty = (): Logger.Logger<unknown, void> => {
+const consolePretty = (): Logger<unknown, void> => {
   const pretty = Logger.consolePretty();
   return Logger.make((options) =>
     pretty.log({
@@ -42,9 +35,9 @@ function prettyCauseFields(value: unknown): unknown {
   return changed ? Object.create(prototype, descriptors) : value;
 }
 
-export const layer = Effect.gen(function* () {
-  const config = yield* ServerConfig.ServerConfig;
-  const hostName = yield* HostProcess.Hostname;
+export const layer = effect {
+  const config = try ServerConfig.ServerConfig;
+  const hostName = try HostProcess.Hostname;
   const layerMinimumLogLevel = Layer.succeed(References.MinimumLogLevel, config.logLevel);
 
   const logs = config.otlpLogsExport;
@@ -55,7 +48,7 @@ export const layer = Effect.gen(function* () {
           url: config.otlpLogsUrl,
           exportInterval: `${logs.exportIntervalMs} millis`,
           headers: logs.headers,
-          resource: ServerConfig.otlpResource(config, hostName),
+          resource: try Effect.orDie(Effect.try({ try: () => ServerConfig.otlpResource(config, hostName), catch: (error) => error })),
         });
 
   // Logger.layer replaces the whole set; name every logger here.
@@ -71,4 +64,4 @@ export const layer = Effect.gen(function* () {
   );
 
   return Layer.mergeAll(layerLogger, layerMinimumLogLevel);
-}).pipe(Layer.unwrap);
+} |> Layer.unwrap(%);
