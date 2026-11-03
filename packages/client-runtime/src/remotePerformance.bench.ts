@@ -16,7 +16,7 @@ import { fetchRemoteEnvironmentDescriptor } from "./environment/descriptor.ts";
 import type { RemoteEnvironmentRequestError } from "./rpc/http.ts";
 import { fetchEnvironmentThreadSnapshot } from "./state/threadSnapshotHttp.vibe";
 import { applyOrchestrationV2ProjectionEvent } from "./state/orchestrationV2Projection.ts";
-import { v2Projection, v2Now } from "./state/orchestrationV2TestFixtures.vibe";
+import { v2Projection, v2Now } from "./state/orchestrationV2TestFixtures.ts";
 
 const timestamp = "2026-09-01T00:00:00.000Z";
 const runOptions = { warmupTime: 1_000, time: 1_500 };

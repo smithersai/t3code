@@ -16,7 +16,7 @@ import {
   v2Projection,
   v2ShellSnapshot,
   v2ThreadId,
-} from "../state/orchestrationV2TestFixtures.vibe";
+} from "../state/orchestrationV2TestFixtures.ts";
 
 import { applyOrchestrationV2ProjectionEvent } from "../state/orchestrationV2Projection.ts";
 

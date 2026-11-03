@@ -34,7 +34,7 @@ import {
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as RpcSession from "../rpc/session.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
-import { v2Now, v2Projection, v2ThreadId } from "../state/orchestrationV2TestFixtures.vibe";
+import { v2Now, v2Projection, v2ThreadId } from "../state/orchestrationV2TestFixtures.ts";
 import {
   archiveThread,
   interruptThreadTurn,
