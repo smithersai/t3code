@@ -115,7 +115,7 @@ import {
   managedEndpointRuntimeConfigsMatch,
   parseManagedEndpointLocalOrigin,
   requestAbsoluteUrl,
-} from "./linkChecks.ts";
+} from "./linkChecks.vibe";
 import { desktopUpdateRestartPending, pendingUpdateHandoffExists } from "./updateHandoff.ts";
 
 const CLOUD_MINT_NONCE_PREFIX = "cloud-mint-nonce-";

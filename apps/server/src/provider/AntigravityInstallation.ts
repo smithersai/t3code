@@ -27,7 +27,7 @@ import * as NodeFSP from "node:fs/promises";
 import * as EffectAcpErrors from "effect-acp/errors";
 
 import * as ServerConfig from "../config.ts";
-import { openZipArchive } from "../zipArchive.ts";
+import { openZipArchive } from "../zipArchive.vibe";
 import { makeAntigravityAcpRuntime } from "./acp/AntigravityAcpSupport.ts";
 import {
   buildAntigravityAcpSpawnInput,

@@ -19,7 +19,7 @@ import {
   requireEnvironmentScope,
 } from "../auth/http.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import { traceLocalHandlerWork } from "../cloud/traceRelayRequest.ts";
+import { traceLocalHandlerWork } from "../cloud/traceRelayRequest.vibe";
 import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.ts";
 import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
 import {

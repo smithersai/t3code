@@ -4,16 +4,16 @@ import type * as NodeStream from "node:stream";
 import * as Yauzl from "yauzl";
 
 /** Closing the scope closes the archive. */
-export const openZipArchive = Effect.fn("zipArchive.open")(function* <E>(
+export const openZipArchive = effect <E>(
   archivePath: string,
   makeError: (detail: string, cause: unknown) => E,
-) {
-  const opened = yield* Effect.acquireRelease(
+) => try withSpan(effect {
+  const opened = try Effect.acquireRelease(
     Effect.callback<
       {
         readonly zip: Yauzl.ZipFile;
         readonly error: () => E | undefined;
-        readonly close: Effect.Effect<void>;
+        readonly close: void!!;
       },
       E
     >((resume) => {
@@ -62,7 +62,7 @@ export const openZipArchive = Effect.fn("zipArchive.open")(function* <E>(
     (opened) => opened.close,
   );
 
-  const next = Effect.callback<Yauzl.Entry | null, E>((resume) => {
+  const next = effect { return try Effect.callback<Yauzl.Entry | null, E>((resume) => {
     const existingError = opened.error();
     if (existingError) {
       resume(Effect.fail(existingError));
@@ -90,7 +90,7 @@ export const openZipArchive = Effect.fn("zipArchive.open")(function* <E>(
     opened.zip.once("error", onError);
     opened.zip.readEntry();
     return Effect.sync(cleanup);
-  });
+  }) };
 
   const streamEntry = (entry: Yauzl.Entry) =>
     Effect.acquireRelease(
@@ -109,4 +109,4 @@ export const openZipArchive = Effect.fn("zipArchive.open")(function* <E>(
         }),
     );
   return { entryCount: opened.zip.entryCount, next, streamEntry };
-});
+}, "zipArchive.open");

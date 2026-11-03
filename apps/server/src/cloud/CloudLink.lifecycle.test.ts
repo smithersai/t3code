@@ -41,7 +41,7 @@ import * as CloudLink from "./CloudLink.ts";
 import * as ConnectReachability from "./ConnectReachability.ts";
 import { consumeCloudReplayGuards } from "./CloudLink.ts";
 import { pendingServiceUpdateExists } from "./updateHandoff.ts";
-import { managedTunnelStartupAction } from "./managedTunnelStartup.ts";
+import { managedTunnelStartupAction } from "./managedTunnelStartup.vibe";
 import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

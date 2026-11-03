@@ -1,4 +1,4 @@
-import { resolveManagedCodexHomeLayout } from "./CodexManagedHome.ts";
+import { resolveManagedCodexHomeLayout } from "./CodexManagedHome.vibe";
 import { CodexSettings, ProviderSetupError, type ProviderInstanceId } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";

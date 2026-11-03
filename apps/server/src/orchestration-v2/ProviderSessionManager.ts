@@ -39,7 +39,7 @@ import {
   providerTurnDuration,
   providerTurnsTotal,
   withMetrics,
-} from "../observability/Metrics.ts";
+} from "../observability/Metrics.vibe";
 import { ProviderWorkspaceMissingError } from "../provider/Errors.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";

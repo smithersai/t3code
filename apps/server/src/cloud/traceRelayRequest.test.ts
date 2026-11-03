@@ -9,7 +9,7 @@ import {
   traceAuthenticatedRelayRequest,
   traceLocalHandlerWork,
   traceRelayRequest,
-} from "./traceRelayRequest.ts";
+} from "./traceRelayRequest.vibe";
 
 const AUTHENTICATION = { startTime: 1_000n, endTime: 2_000n };
 

@@ -33,7 +33,7 @@ import * as HostProcess from "@t3tools/shared/HostProcess";
 
 import * as ServerConfig from "../config.ts";
 import * as DeviceHost from "./DeviceHost.ts";
-import { findEasProjectId } from "./easProjectId.ts";
+import { findEasProjectId } from "./easProjectId.vibe";
 import { type ExpoApi, makeExpoApi, resolveExpoCredential } from "./ExpoApi.ts";
 
 const POLL_INTERVAL = Duration.seconds(5);

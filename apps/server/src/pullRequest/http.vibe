@@ -1,7 +1,7 @@
 import { AuthOrchestrationReadScope, EnvironmentHttpApi } from "@t3tools/contracts"
 
 import { annotateEnvironmentRequest, requireEnvironmentScope } from "../auth/http.ts"
-import { traceLocalHandlerWork } from "../cloud/traceRelayRequest.ts"
+import { traceLocalHandlerWork } from "../cloud/traceRelayRequest.vibe"
 import * as PullRequestService from "./PullRequestService.ts"
 
 // Large patches benefit from HTTP compression and flow control.

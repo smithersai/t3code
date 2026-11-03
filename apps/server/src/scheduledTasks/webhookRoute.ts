@@ -10,7 +10,7 @@ import * as HttpTraceContext from "effect/http/HttpTraceContext";
 import { withRelayClientTracing } from "@t3tools/shared/relayTracing";
 import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder";
 
-import * as Metrics from "../observability/Metrics.ts";
+import * as Metrics from "../observability/Metrics.vibe";
 import * as RelayDeliveryProof from "./RelayDeliveryProof.ts";
 import * as ScheduledTaskService from "./ScheduledTaskService.ts";
 
