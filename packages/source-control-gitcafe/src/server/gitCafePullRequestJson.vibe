@@ -570,7 +570,7 @@ function isEOFMarker(origin: string | undefined): infer _ {
 
 export function toDiff(diff: typeof GitCafeDiff.Type): ProviderDiffSlice {
   const chunks: Array<string> = []
-  const omittedFileStats: Array<{ mutable path: string; mutable additions: number; mutable deletions: number }> = []
+  const omittedFileStats: Array<{ path: string; additions: number; deletions: number }> = []
   for (const file of diff.items) {
     const oldPath = file.oldPath ?? file.path
     const a = quoteGitPatchPath(`a/${oldPath}`)
@@ -675,7 +675,7 @@ function runOrder(check: GitCafeCheck): bigint | null {
  */
 export function toChecks(checks: typeof GitCafeChecks.Type): ReadonlyArray<PullRequestCheck> {
   const kept: Array<GitCafeCheck> = []
-  const newestByKey = new Map<string, { mutable index: number; mutable order: bigint }>()
+  const newestByKey = new Map<string, { index: number; order: bigint }>()
   for (const check of checks.items) {
     const order = runOrder(check)
     if (order === null) {
