@@ -30,9 +30,9 @@ import {
 } from "../../../attachmentStore.ts";
 import { resolveAttachmentRelativePath } from "../../../attachmentPaths.ts";
 import * as ServerConfig from "../../../config.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
-import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.ts";
+import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.vibe";
 import { PreviewSnapshotToolkit, PreviewStandardToolkit, PreviewToolkit } from "./tools.vibe";
 
 /** Whether a preview the agent

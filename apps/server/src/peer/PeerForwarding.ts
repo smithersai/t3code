@@ -18,8 +18,8 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import type * as Tool from "effect/ai/Tool";
 
-import { assertNotLinked } from "../mcp/linkOrigin.ts";
-import * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
+import { assertNotLinked } from "../mcp/linkOrigin.vibe";
+import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
 import { readCaller, unavailable } from "../mcp/threadAccess.ts";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
 import * as PeerLinks from "./PeerLinks.ts";

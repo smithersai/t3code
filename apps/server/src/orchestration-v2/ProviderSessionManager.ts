@@ -426,7 +426,7 @@ export const layerWithOptions = (
                 const { browser: browserToolsAvailable, device: deviceToolsAvailable } =
                   yield* agentAccessSettings(threadId);
                 const capabilities = new Set<
-                  import("../mcp/McpInvocationContext.ts").McpCapability
+                  import("../mcp/McpInvocationContext.vibe").McpCapability
                 >(["orchestration", "worktree", "pull-requests"]);
                 if (browserToolsAvailable) capabilities.add("preview");
                 if (deviceToolsAvailable) capabilities.add("device");

@@ -5,7 +5,7 @@ import * as Stream from "effect/Stream";
 
 import * as CloudManagedEndpointRuntime from "../cloud/ManagedEndpointRuntime.ts";
 import { readHoldWebhooksWhileOffline, readRelayConnection } from "../cloud/config.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import { makeRelayEnvironmentClient } from "./relayEnvironmentClient.ts";
 
 const wakeHeldHooks = Effect.fn("HeldHooksWaker.wake")(function* () {

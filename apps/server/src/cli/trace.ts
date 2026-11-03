@@ -11,7 +11,7 @@ import * as Schema from "effect/Schema";
 import { Command, Flag } from "effect/cli";
 
 import * as ServerConfig from "../config.ts";
-import { streamTraceFileLines, toRotatedTracePaths } from "../diagnostics/TraceDiagnostics.ts";
+import { streamTraceFileLines, toRotatedTracePaths } from "../diagnostics/TraceDiagnostics.vibe";
 import { resolveBaseDir } from "../os-jank.ts";
 import { baseDirFlag, DurationFromString, traceFileConfig, traceMaxFilesConfig } from "./config.ts";
 

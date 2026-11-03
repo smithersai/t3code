@@ -13,7 +13,7 @@ import * as Layer from "effect/Layer";
 import * as Exit from "effect/Exit";
 import * as Scope from "effect/Scope";
 import * as Schema from "effect/Schema";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import { makeCodexChatGptAuth } from "./CodexChatGptAuth.ts";
 import * as Protocol from "./CodexManagedTokenProtocol.ts";
 

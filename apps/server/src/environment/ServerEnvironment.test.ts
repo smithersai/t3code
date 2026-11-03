@@ -18,7 +18,7 @@ import {
   RELAY_URL_SECRET,
 } from "../cloud/config.ts";
 import * as ServerConfig from "../config.ts";
-import * as ServerEnvironment from "./ServerEnvironment.ts";
+import * as ServerEnvironment from "./ServerEnvironment.vibe";
 
 const layerServerEnvironment = (baseDir: string) =>
   ServerEnvironment.layer.pipe(

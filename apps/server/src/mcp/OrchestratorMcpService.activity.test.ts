@@ -25,7 +25,7 @@ import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as RemoteDelegation from "../peer/RemoteDelegation.ts";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
-import type * as McpInvocationContext from "./McpInvocationContext.ts";
+import type * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as OrchestratorMcpService from "./OrchestratorMcpService.ts";
 import { liveThreadShell } from "./McpToolAccess.testkit.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

@@ -9,10 +9,10 @@ import { McpServer } from "effect/ai";
 import { ServerSecretStore } from "../auth/ServerSecretStore.ts";
 import { ServerConfig } from "../config.ts";
 import { DeviceService } from "../device/DeviceService.ts";
-import { ServerEnvironment } from "../environment/ServerEnvironment.ts";
-import { GitWorkflowService } from "../git/GitWorkflowService.ts";
+import { ServerEnvironment } from "../environment/ServerEnvironment.vibe";
+import { GitWorkflowService } from "../git/GitWorkflowService.vibe";
 import * as McpHttpServer from "../mcp/McpHttpServer.ts";
-import { PreviewAutomationBroker } from "../mcp/PreviewAutomationBroker.ts";
+import { PreviewAutomationBroker } from "../mcp/PreviewAutomationBroker.vibe";
 import {
   CLAUDE_PROVIDER,
   makeClaudeQueryOptions,

@@ -12,11 +12,7 @@ import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
-import * as PlatformError from "effect/PlatformError";
-import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
-import * as Stream from "effect/Stream";
 
 interface TraceRecordLike {
   readonly name?: unknown;
@@ -42,27 +38,23 @@ export interface TraceDiagnosticsOptions {
   readonly readAt?: DateTime.Utc;
 }
 
-export class TraceFileReadError extends Schema.TaggedError<TraceFileReadError>()(
-  "TraceFileReadError",
-  {
-    traceFilePath: Schema.String,
-    causeTag: Schema.String,
-    cause: Schema.Defect(),
-  },
-) {
+const TraceFileReadErrorCauseField = Schema.Defect()
+export schema error TraceFileReadError {
+  readonly traceFilePath: string
+  readonly causeTag: string
+  cause: TraceFileReadErrorCauseField
   override get message(): string {
     return `Failed to read local trace file '${this.traceFilePath}'.`;
   }
 }
 
-export class TraceDiagnostics extends Context.Service<
-  TraceDiagnostics,
-  {
+export service TraceDiagnostics: {
     readonly read: (
       options: TraceDiagnosticsOptions,
-    ) => Effect.Effect<ServerTraceDiagnosticsResult>;
-  }
->()("t3/diagnostics/TraceDiagnostics") {}
+    ) => ServerTraceDiagnosticsResult!!;
+  } {
+  static readonly key = "t3/diagnostics/TraceDiagnostics"
+}
 
 interface TraceDiagnosticsErrorSummary {
   readonly kind: ServerTraceDiagnosticsErrorKind;
@@ -159,7 +151,7 @@ function makeEmptyDiagnostics(input: {
   };
 }
 
-function isNotFoundError(error: PlatformError.PlatformError): boolean {
+function isNotFoundError(error: PlatformError): boolean {
   return error.reason._tag === "NotFound";
 }
 
@@ -381,95 +373,90 @@ export function streamTraceFileLines(
   fileSystem: FileSystem.FileSystem,
   path: string,
   onLine: (line: string) => void,
-): Effect.Effect<boolean, TraceFileReadError> {
-  return fileSystem.stream(path).pipe(
-    Stream.decodeText,
-    Stream.splitLines,
-    Stream.runForEachArray((lines) => Effect.sync(() => lines.forEach(onLine))),
-    Effect.as(true),
-    Effect.catchTags({
+): boolean!TraceFileReadError {
+  return fileSystem.stream(path)
+    |> Stream.decodeText(%)
+    |> Stream.splitLines(%)
+    |> Stream.runForEachArray(%, effect (lines) => lines.forEach(onLine))
+    |> as(%, true)
+    |> catchTags(%, {
       PlatformError: (cause) =>
         isNotFoundError(cause)
-          ? Effect.succeed(false)
-          : Effect.fail(
+          ? succeed(false)
+          : fail(
               new TraceFileReadError({
                 traceFilePath: path,
                 causeTag: cause.reason._tag,
                 cause,
               }),
             ),
-    }),
-  );
+    });
 }
 
 /** @public */
-export const make = Effect.gen(function* () {
-  const fileSystem = yield* FileSystem.FileSystem;
+export const make = effect {
+  const fileSystem = try FileSystem.FileSystem;
 
-  const read: TraceDiagnostics["Service"]["read"] = Effect.fn("TraceDiagnostics.read")(
-    function* (options) {
-      const readAt = options.readAt ?? (yield* DateTime.now);
-      const slowSpanThresholdMs = options.slowSpanThresholdMs ?? DEFAULT_SLOW_SPAN_THRESHOLD_MS;
-      const paths = toRotatedTracePaths(options.traceFilePath, options.maxFiles);
-      const aggregator = makeTraceDiagnosticsAggregator(slowSpanThresholdMs);
-      const results = yield* Effect.forEach(
-        paths,
-        (path) =>
-          streamTraceFileLines(fileSystem, path, aggregator.addLine).pipe(
-            Effect.tapError((cause) =>
-              Effect.logWarning("Failed to read local trace file.").pipe(
-                Effect.annotateLogs({
-                  traceFilePath: cause.traceFilePath,
-                  errorTag: cause._tag,
-                  causeTag: cause.causeTag,
-                }),
-              ),
-            ),
-            Effect.result,
-          ),
-        { concurrency: 1 },
-      );
-      const foundFile = results.some((result) => Result.isSuccess(result) && result.success);
-      const readFailure = results.find(Result.isFailure);
-      const readFailureError = readFailure
-        ? ({
-            kind: "trace-file-read-failed",
-            message: readFailure.failure.message,
-          } satisfies TraceDiagnosticsErrorSummary)
-        : undefined;
+  const read: TraceDiagnostics["Service"]["read"] = effect (options) => try withSpan(effect {
+    const readAt = options.readAt ?? (try DateTime.now);
+    const slowSpanThresholdMs = options.slowSpanThresholdMs ?? DEFAULT_SLOW_SPAN_THRESHOLD_MS;
+    const paths = toRotatedTracePaths(options.traceFilePath, options.maxFiles);
+    const aggregator = makeTraceDiagnosticsAggregator(slowSpanThresholdMs);
+    const results = try forEach(
+      paths,
+      (path) =>
+        streamTraceFileLines(fileSystem, path, aggregator.addLine)
+          |> tapError(%, (cause) =>
+            logWarning("Failed to read local trace file.")
+              |> annotateLogs({
+                traceFilePath: cause.traceFilePath,
+                errorTag: cause._tag,
+                causeTag: cause.causeTag,
+              })(%),
+          )
+          |> result(%),
+      { concurrency: 1 },
+    );
+    const foundFile = results.some((result) => Result.isSuccess(result) && result.success);
+    const readFailure = results.find(Result.isFailure);
+    const readFailureError = readFailure
+      ? ({
+          kind: "trace-file-read-failed",
+          message: readFailure.failure.message,
+        } satisfies TraceDiagnosticsErrorSummary)
+      : undefined;
 
-      if (!foundFile) {
-        return makeEmptyDiagnostics({
-          traceFilePath: options.traceFilePath,
-          scannedFilePaths: paths,
-          readAt,
-          slowSpanThresholdMs,
-          error:
-            readFailureError ??
-            ({
-              kind: "trace-file-not-found",
-              message: "No local trace files were found.",
-            } satisfies TraceDiagnosticsErrorSummary),
-        });
-      }
-
-      return aggregator.finish({
+    if (!foundFile) {
+      return makeEmptyDiagnostics({
         traceFilePath: options.traceFilePath,
         scannedFilePaths: paths,
         readAt,
-        ...(readFailureError ? { partialFailure: true, error: readFailureError } : {}),
+        slowSpanThresholdMs,
+        error:
+          readFailureError ??
+          ({
+            kind: "trace-file-not-found",
+            message: "No local trace files were found.",
+          } satisfies TraceDiagnosticsErrorSummary),
       });
-    },
-  );
+    }
+
+    return aggregator.finish({
+      traceFilePath: options.traceFilePath,
+      scannedFilePaths: paths,
+      readAt,
+      ...(readFailureError ? { partialFailure: true, error: readFailureError } : {}),
+    });
+  }, "TraceDiagnostics.read");
 
   return TraceDiagnostics.of({ read });
-});
+};
 
 export const layer = Layer.effect(TraceDiagnostics, make);
 
-export const readTraceDiagnostics = Effect.fn("TraceDiagnostics.readTraceDiagnostics")(function* (
+export const readTraceDiagnostics = effect (
   options: TraceDiagnosticsOptions,
-): Effect.fn.Return<ServerTraceDiagnosticsResult, never, TraceDiagnostics> {
-  const diagnostics = yield* TraceDiagnostics;
-  return yield* diagnostics.read(options);
-});
+): ServerTraceDiagnosticsResult!never!TraceDiagnostics => try withSpan(effect {
+  const diagnostics = try TraceDiagnostics;
+  return try diagnostics.read(options);
+}, "TraceDiagnostics.readTraceDiagnostics");

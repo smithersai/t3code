@@ -31,7 +31,7 @@ import * as Layer from "effect/Layer";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as GitWorkflow from "../git/GitWorkflowService.ts";
+import * as GitWorkflow from "../git/GitWorkflowService.vibe";
 import { withWorkspaceLease } from "../workspace/workspaceLease.vibe";
 import { ProviderWorkspaceMissingError } from "../provider/Errors.vibe";
 import { resolveCodexRollbackTurnCount } from "./Adapters/CodexAdapterV2.ts";

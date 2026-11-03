@@ -48,7 +48,7 @@ export const assertSameLink = (
   const origin = fencingLinkOrigin(caller);
   return origin === undefined || target.linkOrigin?.sessionId === origin.sessionId
     ? Effect.void
-    : Effect.fail(outsideLink(origin, `it may change only threads that link started.`));
+    : fail(outsideLink(origin, `it may change only threads that link started.`));
 };
 
 /** Fenced work never changes what the environment already has: projects, settings, scheduled runs. */
@@ -56,5 +56,5 @@ export const assertNotLinked = (caller: Pick<Caller, "scope" | "caller">, what: 
   const origin = fencingLinkOrigin(caller);
   return origin === undefined
     ? Effect.void
-    : Effect.fail(outsideLink(origin, `it cannot ${what}.`));
+    : fail(outsideLink(origin, `it cannot ${what}.`));
 };

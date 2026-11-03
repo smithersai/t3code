@@ -1,0 +1,446 @@
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as FileSystem from "effect/FileSystem";
+
+import {
+  GitManagerError,
+  GitCommandError,
+  type VcsSwitchRefInput,
+  type VcsSwitchRefResult,
+  type VcsCreateRefInput,
+  type VcsCreateRefResult,
+  type VcsCreateWorktreeInput,
+  type VcsCreateWorktreeResult,
+  type VcsListRefsInput,
+  type VcsListRefsResult,
+  type GitManagerServiceError,
+  type GitPreparePullRequestThreadInput,
+  type GitPreparePullRequestThreadResult,
+  type GitPullRequestRefInput,
+  type VcsPullResult,
+  type VcsRemoveWorktreeInput,
+  type GitResolvePullRequestResult,
+  type GitRunStackedActionInput,
+  type GitRunStackedActionResult,
+  type VcsStatusInput,
+  type VcsStatusLocalResult,
+  type VcsStatusRemoteResult,
+  type VcsStatusResult,
+} from "@t3tools/contracts";
+
+import * as GitManager from "./GitManager.ts";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
+import { withWorkspaceLease } from "../workspace/workspaceLease.vibe";
+
+export service GitWorkflowService: {
+    readonly isRepository: (cwd: string) => boolean!GitManagerServiceError;
+    readonly hasCommit: (input: {
+      readonly cwd: string;
+      readonly refName: string;
+    }) => boolean!GitCommandError;
+    readonly hasRefNamed: (input: {
+      readonly cwd: string;
+      readonly refName: string;
+    }) => boolean!GitCommandError;
+    readonly status: (
+      input: VcsStatusInput,
+    ) => VcsStatusResult!GitManagerServiceError;
+    readonly localStatus: (
+      input: VcsStatusInput,
+    ) => VcsStatusLocalResult!GitManagerServiceError;
+    readonly remoteStatus: (
+      input: VcsStatusInput,
+      options?: GitManager.GitRemoteStatusOptions,
+    ) => (VcsStatusRemoteResult | null)!GitManagerServiceError;
+    readonly invalidateLocalStatus: (cwd: string) => void!never;
+    readonly invalidateRemoteStatus: (cwd: string) => void!never;
+    readonly invalidateStatus: (cwd: string) => void!never;
+    readonly pullCurrentBranch: (cwd: string) => VcsPullResult!GitCommandError;
+    readonly runStackedAction: (
+      input: GitRunStackedActionInput,
+      options?: GitManager.GitRunStackedActionOptions,
+    ) => GitRunStackedActionResult!GitManagerServiceError;
+    readonly resolvePullRequest: (
+      input: GitPullRequestRefInput,
+    ) => GitResolvePullRequestResult!GitManagerServiceError;
+    readonly preparePullRequestThread: (
+      input: GitPreparePullRequestThreadInput,
+    ) => GitPreparePullRequestThreadResult!GitManagerServiceError;
+    readonly listRefs: (
+      input: VcsListRefsInput,
+    ) => VcsListRefsResult!GitCommandError;
+    readonly createWorktree: (
+      input: VcsCreateWorktreeInput,
+      options?: GitVcsDriver.CreateWorktreeOptions,
+    ) => VcsCreateWorktreeResult!GitCommandError;
+    readonly listLocalBranchNames: (cwd: string) => string[]!GitCommandError;
+    readonly fetchRemote: (input: {
+      readonly cwd: string;
+      readonly remoteName: string;
+      readonly refName?: string;
+    }) => void!GitCommandError;
+    readonly remoteExists: (input: {
+      readonly cwd: string;
+      readonly remoteName: string;
+    }) => boolean!GitCommandError;
+    readonly remoteBranchExists: (input: {
+      readonly cwd: string;
+      readonly remoteName: string;
+      readonly refName: string;
+    }) => boolean!GitCommandError;
+    readonly resolveRemoteTrackingCommit: (input: {
+      readonly cwd: string;
+      readonly refName: string;
+      readonly fallbackRemoteName: string;
+    }) => { readonly commitSha: string; readonly remoteRefName: string }!GitCommandError;
+    readonly resolveWorktreeBaseRemote: GitVcsDriver.GitVcsDriver["Service"]["resolveWorktreeBaseRemote"];
+    readonly fetchWorktreeBaseCommit: (input: {
+      readonly cwd: string;
+      readonly refName: string;
+    }) => ({ readonly commitSha: string; readonly remoteRefName: string } | null)!GitCommandError;
+    readonly removeWorktree: (
+      input: VcsRemoveWorktreeInput,
+    ) => void!GitCommandError;
+    readonly pruneWorktrees: (input: {
+      readonly cwd: string;
+    }) => void!GitCommandError;
+    readonly deleteLocalBranch: (
+      input: GitVcsDriver.GitDeleteLocalBranchInput,
+    ) => void!GitCommandError;
+    readonly createRef: (
+      input: VcsCreateRefInput,
+    ) => VcsCreateRefResult!GitCommandError;
+    readonly switchRef: (
+      input: VcsSwitchRefInput,
+    ) => VcsSwitchRefResult!GitCommandError;
+    readonly renameBranch: (input: {
+      readonly exactName?: boolean;
+      readonly cwd: string;
+      readonly oldBranch: string;
+      readonly newBranch: string;
+    }) => { readonly branch: string }!GitManagerServiceError;
+  } {
+  static readonly key = "t3/git/GitWorkflowService"
+}
+
+function nonRepositoryLocalStatus(): VcsStatusLocalResult {
+  return {
+    isRepo: false,
+    hasPrimaryRemote: false,
+    isDefaultRef: false,
+    refName: null,
+    hasWorkingTreeChanges: false,
+    workingTree: {
+      files: [],
+      insertions: 0,
+      deletions: 0,
+    },
+  };
+}
+
+function nonRepositoryStatus(): VcsStatusResult {
+  return {
+    ...nonRepositoryLocalStatus(),
+    hasUpstream: false,
+    aheadCount: 0,
+    behindCount: 0,
+    aheadOfDefaultCount: 0,
+    pr: null,
+  };
+}
+
+function nonRepositoryListRefs(): VcsListRefsResult {
+  return {
+    refs: [],
+    isRepo: false,
+    hasPrimaryRemote: false,
+    nextCursor: null,
+    totalCount: 0,
+  };
+}
+
+/** @public */
+export const make = effect {
+  const registry = try VcsDriverRegistry.VcsDriverRegistry;
+  const git = try GitVcsDriver.GitVcsDriver;
+  const gitManager = try GitManager.GitManager;
+  const fileSystem = try FileSystem.FileSystem;
+
+  // Nested projects and path aliases must share the checkout's branch-mutation lease.
+  const withCheckoutLease = <A, E, R>(rootPath: string, effect: A!E!R) =>
+    fileSystem.realPath(rootPath)
+      |> orElseSucceed(%, () => rootPath)
+      |> flatMap(%, (cwd) => withWorkspaceLease(cwd, effect));
+
+  const ensureGit = effect (
+    operation: string,
+    cwd: string,
+  ) => try withSpan(effect {
+    const handle = registry.resolve({ cwd }) catch effect (cause) => { throw new GitManagerError({
+            operation,
+            cwd,
+            detail: "Failed to resolve the VCS driver for this Git workflow.",
+            cause,
+          }) };
+    if (handle.kind !== "git") {
+      throw new GitManagerError({
+        operation,
+        cwd,
+        detail: `The ${operation} workflow currently supports Git repositories only; detected ${handle.kind}. (${cwd})`,
+      });
+    }
+    return handle;
+  }, "GitWorkflowService.ensureGit");
+
+  const ensureGitCommand = effect (
+    operation: string,
+    cwd: string,
+  ) => try withSpan(effect {
+    const handle = registry.resolve({ cwd }) catch effect (cause) => { throw new GitCommandError({
+            operation,
+            command: "vcs-route",
+            cwd,
+            detail: "Failed to resolve the VCS driver for this Git command.",
+            cause,
+          }) };
+    if (handle.kind !== "git") {
+      throw new GitCommandError({
+        operation,
+        command: "vcs-route",
+        cwd,
+        detail: `The ${operation} command currently supports Git repositories only; detected ${handle.kind}.`,
+      });
+    }
+    return handle;
+  }, "GitWorkflowService.ensureGitCommand");
+
+  const detectGitRepositoryForStatus = effect (operation: string, cwd: string) => try withSpan(effect {
+    const handle = registry.detect({ cwd }) catch effect (cause) => { throw new GitManagerError({
+            operation,
+            cwd,
+            detail: "Failed to detect a VCS repository for this Git workflow.",
+            cause,
+          }) };
+    if (!handle) {
+      return false;
+    }
+    if (handle.kind !== "git") {
+      throw new GitManagerError({
+        operation,
+        cwd,
+        detail: `The ${operation} workflow currently supports Git repositories only; detected ${handle.kind}. (${cwd})`,
+      });
+    }
+    return true;
+  }, "GitWorkflowService.detectGitRepositoryForStatus");
+
+  const detectGitRepositoryForCommand = effect (operation: string, cwd: string) => try withSpan(effect {
+    const handle = registry.detect({ cwd }) catch effect (cause) => { throw new GitCommandError({
+            operation,
+            command: "vcs-route",
+            cwd,
+            detail: "Failed to detect a VCS repository for this Git command.",
+            cause,
+          }) };
+    if (!handle) {
+      return false;
+    }
+    if (handle.kind !== "git") {
+      throw new GitCommandError({
+        operation,
+        command: "vcs-route",
+        cwd,
+        detail: `The ${operation} command currently supports Git repositories only; detected ${handle.kind}.`,
+      });
+    }
+    return true;
+  }, "GitWorkflowService.detectGitRepositoryForCommand");
+
+  const routeGitManager =
+    <Input extends { readonly cwd: string }, Output>(
+      operation: string,
+      run: (input: Input) => Output!GitManagerServiceError,
+    ) =>
+    (input: Input) =>
+      ensureGit(operation, input.cwd) |> andThen(%, run(input));
+
+  return GitWorkflowService.of({
+    isRepository: fn("GitWorkflowService.isRepository")(function (cwd) {
+      return registry.detect({ cwd })
+        |> map(%, (handle) => handle?.kind === "git")
+        |> mapError(
+          %, (cause) =>
+            new GitManagerError({
+              operation: "GitWorkflowService.isRepository",
+              cwd,
+              detail: "Failed to detect a VCS repository for this Git workflow.",
+              cause,
+            }),
+        );
+    }),
+    hasCommit: fn("GitWorkflowService.hasCommit")(function (input) {
+      return ensureGitCommand("GitWorkflowService.hasCommit", input.cwd)
+        |> andThen(
+          %, git.execute({
+            operation: "GitWorkflowService.hasCommit",
+            cwd: input.cwd,
+            args: ["rev-parse", "--verify", `${input.refName}^{commit}`],
+            allowNonZeroExit: true,
+          }),
+        )
+        |> map(%, (result) => result.exitCode === 0);
+    }),
+    hasRefNamed: fn("GitWorkflowService.hasRefNamed")(function (input) {
+      // Pattern characters would widen the ref match.
+      return /[*?[\\]/.test(input.refName)
+        ? succeed(false)
+        : (ensureGitCommand("GitWorkflowService.hasRefNamed", input.cwd)
+            |> andThen(
+              %, git.execute({
+                operation: "GitWorkflowService.hasRefNamed",
+                cwd: input.cwd,
+                args: [
+                  "for-each-ref",
+                  "--count=1",
+                  "--format=%(refname)",
+                  `refs/**/${input.refName}`,
+                ],
+              }),
+            )
+            |> map(%, (result) => result.stdout.trim().length > 0));
+    }),
+    status: fn("GitWorkflowService.status")(function (input) {
+      return detectGitRepositoryForStatus("GitWorkflowService.status", input.cwd)
+        |> flatMap(%, (isGitRepository) =>
+          isGitRepository ? gitManager.status(input) : succeed(nonRepositoryStatus()),
+        );
+    }),
+    localStatus: fn("GitWorkflowService.localStatus")(function (input) {
+      return detectGitRepositoryForStatus("GitWorkflowService.localStatus", input.cwd)
+        |> flatMap(%, (isGitRepository) =>
+          isGitRepository
+            ? gitManager.localStatus(input)
+            : succeed(nonRepositoryLocalStatus()),
+        );
+    }),
+    remoteStatus: fn("GitWorkflowService.remoteStatus")(function (input, options) {
+      return detectGitRepositoryForStatus("GitWorkflowService.remoteStatus", input.cwd)
+        |> flatMap(%, (isGitRepository) =>
+          isGitRepository ? gitManager.remoteStatus(input, options) : succeed(null),
+        );
+    }),
+    invalidateLocalStatus: gitManager.invalidateLocalStatus,
+    invalidateRemoteStatus: gitManager.invalidateRemoteStatus,
+    invalidateStatus: gitManager.invalidateStatus,
+    pullCurrentBranch: fn("GitWorkflowService.pullCurrentBranch")(function (cwd) {
+      return ensureGitCommand("GitWorkflowService.pullCurrentBranch", cwd)
+        |> andThen(%, git.pullCurrentBranch(cwd));
+    }),
+    runStackedAction: fn("GitWorkflowService.runStackedAction")(function (input, options) {
+      return ensureGit("GitWorkflowService.runStackedAction", input.cwd)
+        |> flatMap(%, (handle) =>
+          input.featureBranch
+            ? withCheckoutLease(
+                handle.repository.rootPath,
+                gitManager.runStackedAction(input, options),
+              )
+            : gitManager.runStackedAction(input, options),
+        );
+    }),
+    resolvePullRequest: routeGitManager(
+      "GitWorkflowService.resolvePullRequest",
+      gitManager.resolvePullRequest,
+    ),
+    preparePullRequestThread: fn("GitWorkflowService.preparePullRequestThread")(
+      function (input) {
+        return ensureGit("GitWorkflowService.preparePullRequestThread", input.cwd)
+          |> flatMap(%, (handle) =>
+            input.mode === "local"
+              ? withCheckoutLease(
+                  handle.repository.rootPath,
+                  gitManager.preparePullRequestThread(input),
+                )
+              : gitManager.preparePullRequestThread(input),
+          );
+      },
+    ),
+    listRefs: fn("GitWorkflowService.listRefs")(function (input) {
+      return detectGitRepositoryForCommand("GitWorkflowService.listRefs", input.cwd)
+        |> flatMap(%, (isGitRepository) =>
+          isGitRepository ? git.listRefs(input) : succeed(nonRepositoryListRefs()),
+        );
+    }),
+    createWorktree: fn("GitWorkflowService.createWorktree")(function (input, options) {
+      return ensureGitCommand("GitWorkflowService.createWorktree", input.cwd)
+        |> andThen(%, gitManager.createWorktree(input, options));
+    }),
+    listLocalBranchNames: fn("GitWorkflowService.listLocalBranchNames")(function (cwd) {
+      return ensureGitCommand("GitWorkflowService.listLocalBranchNames", cwd)
+        |> andThen(%, git.listLocalBranchNames(cwd));
+    }),
+    fetchRemote: fn("GitWorkflowService.fetchRemote")(function (input) {
+      return ensureGitCommand("GitWorkflowService.fetchRemote", input.cwd)
+        |> andThen(%, git.fetchRemote(input));
+    }),
+    remoteExists: fn("GitWorkflowService.remoteExists")(function (input) {
+      return ensureGitCommand("GitWorkflowService.remoteExists", input.cwd)
+        |> andThen(%, git.remoteExists(input));
+    }),
+    remoteBranchExists: fn("GitWorkflowService.remoteBranchExists")(function (input) {
+      return ensureGitCommand("GitWorkflowService.remoteBranchExists", input.cwd)
+        |> andThen(%, git.remoteBranchExists(input));
+    }),
+    resolveRemoteTrackingCommit: fn("GitWorkflowService.resolveRemoteTrackingCommit")(
+      function (input) {
+        return ensureGitCommand("GitWorkflowService.resolveRemoteTrackingCommit", input.cwd)
+          |> andThen(%, git.resolveRemoteTrackingCommit(input));
+      },
+    ),
+    resolveWorktreeBaseRemote: fn("GitWorkflowService.resolveWorktreeBaseRemote")(
+      function (input) {
+        return ensureGitCommand("GitWorkflowService.resolveWorktreeBaseRemote", input.cwd)
+          |> andThen(%, git.resolveWorktreeBaseRemote(input));
+      },
+    ),
+    fetchWorktreeBaseCommit: fn("GitWorkflowService.fetchWorktreeBaseCommit")(
+      function (input) {
+        return ensureGitCommand("GitWorkflowService.fetchWorktreeBaseCommit", input.cwd)
+          |> andThen(%, git.fetchWorktreeBaseCommit(input));
+      },
+    ),
+    removeWorktree: fn("GitWorkflowService.removeWorktree")(function (input) {
+      return ensureGitCommand("GitWorkflowService.removeWorktree", input.cwd)
+        |> andThen(%, git.removeWorktree(input));
+    }),
+    pruneWorktrees: fn("GitWorkflowService.pruneWorktrees")(function (input) {
+      return ensureGitCommand("GitWorkflowService.pruneWorktrees", input.cwd)
+        |> andThen(%, git.pruneWorktrees(input));
+    }),
+    deleteLocalBranch: fn("GitWorkflowService.deleteLocalBranch")(function (input) {
+      return ensureGitCommand("GitWorkflowService.deleteLocalBranch", input.cwd)
+        |> andThen(%, git.deleteLocalBranch(input));
+    }),
+    createRef: fn("GitWorkflowService.createRef")(function (input) {
+      return ensureGitCommand("GitWorkflowService.createRef", input.cwd)
+        |> flatMap(%, (handle) =>
+          input.switchRef
+            ? withCheckoutLease(handle.repository.rootPath, git.createRef(input))
+            : git.createRef(input),
+        );
+    }),
+    switchRef: fn("GitWorkflowService.switchRef")(function (input) {
+      return ensureGitCommand("GitWorkflowService.switchRef", input.cwd)
+        |> flatMap(%, (handle) =>
+          withCheckoutLease(handle.repository.rootPath, scoped(git.switchRef(input))),
+        );
+    }),
+    renameBranch: fn("GitWorkflowService.renameBranch")(function (input) {
+      return ensureGit("GitWorkflowService.renameBranch", input.cwd)
+        |> andThen(%, git.renameBranch(input));
+    }),
+  });
+};
+
+export const layer = Layer.effect(GitWorkflowService, make);

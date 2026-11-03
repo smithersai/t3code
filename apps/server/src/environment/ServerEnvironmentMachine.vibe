@@ -89,47 +89,39 @@ function machineKindFromDmi(input: {
   return input.chassisType === null ? null : (DMI_CHASSIS_KINDS[input.chassisType] ?? null);
 }
 
-const readOptionalFile = Effect.fn("readOptionalFile")(function* (path: string) {
-  const fileSystem = yield* FileSystem.FileSystem;
-  return yield* fileSystem.readFileString(path).pipe(
-    Effect.map(normalize),
-    Effect.orElseSucceed(() => null),
-  );
-});
+const readOptionalFile = effect (path: string) => try withSpan(effect {
+  const fileSystem = try FileSystem.FileSystem;
+  return (fileSystem.readFileString(path)
+    |> map(%, normalize)) catch () => null;
+}, "readOptionalFile");
 
-const runProbe = Effect.fn("runMachineProbe")(function* (input: {
-  readonly command: string;
-  readonly args: ReadonlyArray<string>;
-}) {
-  const processRunner = yield* ProcessRunner.ProcessRunner;
-  return yield* processRunner
+const runProbe = effect (input: { readonly command: string; readonly args: ReadonlyArray<string>; }) => try withSpan(effect {
+  const processRunner = try ProcessRunner.ProcessRunner;
+  return (processRunner
     .run({
       command: input.command,
       args: input.args,
       timeout: "5 seconds",
       timeoutBehavior: "timedOutResult",
     })
-    .pipe(
-      Effect.map((result) => (result.code === 0 ? normalize(result.stdout) : null)),
-      Effect.orElseSucceed(() => null),
-    );
-});
+      |> map(%, (result) => (result.code === 0 ? normalize(result.stdout) : null))) catch () => null;
+}, "runMachineProbe");
 
 // Apple silicon exposes IOKit's marketing name; Intel needs the hw.model fallback.
-const detectDarwinMachineKind = Effect.fn("detectDarwinMachineKind")(function* () {
-  const ioreg = yield* runProbe({ command: "ioreg", args: ["-rd1", "-n", "product"] });
+const detectDarwinMachineKind = effect () => try withSpan(effect {
+  const ioreg = try runProbe({ command: "ioreg", args: ["-rd1", "-n", "product"] });
   const productName = ioreg?.match(/"product-name"\s*=\s*<"([^"]+)">/)?.[1] ?? null;
   const fromProductName =
     productName === null ? null : machineKindFromAppleProductName(productName);
   if (fromProductName !== null) {
     return fromProductName;
   }
-  const model = yield* runProbe({ command: "sysctl", args: ["-n", "hw.model"] });
+  const model = try runProbe({ command: "sysctl", args: ["-n", "hw.model"] });
   return model === null ? null : machineKindFromAppleProductName(model);
-});
+}, "detectDarwinMachineKind");
 
-const detectLinuxMachineKind = Effect.fn("detectLinuxMachineKind")(function* () {
-  const [kernelRelease, chassisType, sysVendor, productName] = yield* Effect.all([
+const detectLinuxMachineKind = effect () => try withSpan(effect {
+  const [kernelRelease, chassisType, sysVendor, productName] = try all([
     readOptionalFile(KERNEL_RELEASE_PATH),
     readOptionalFile(`${DMI_ROOT}/chassis_type`),
     readOptionalFile(`${DMI_ROOT}/sys_vendor`),
@@ -140,18 +132,16 @@ const detectLinuxMachineKind = Effect.fn("detectLinuxMachineKind")(function* () 
     return "linux";
   }
   return machineKindFromDmi({ chassisType, sysVendor, productName });
-});
+}, "detectLinuxMachineKind");
 
-export const detectServerEnvironmentMachineKind = Effect.fn("detectServerEnvironmentMachineKind")(
-  function* () {
-    const platform = yield* HostProcess.Platform;
-    switch (platform) {
-      case "darwin":
-        return yield* detectDarwinMachineKind();
-      case "linux":
-        return yield* detectLinuxMachineKind();
-      default:
-        return null;
-    }
-  },
-);
+export const detectServerEnvironmentMachineKind = effect () => try withSpan(effect {
+  const platform = try HostProcess.Platform;
+  switch (platform) {
+    case "darwin":
+      return try detectDarwinMachineKind();
+    case "linux":
+      return try detectLinuxMachineKind();
+    default:
+      return null;
+  }
+}, "detectServerEnvironmentMachineKind");

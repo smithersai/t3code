@@ -8,8 +8,8 @@ import * as SynchronizedRef from "effect/SynchronizedRef";
 import { HttpServer } from "effect/http";
 import * as NetAddress from "effect/net/NetAddress";
 
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as McpInvocationContext from "./McpInvocationContext.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
+import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as McpProviderSession from "@t3tools/provider-core/server/mcpSession";
 
 export interface McpCredentialRequest {

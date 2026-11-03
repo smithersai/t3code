@@ -13,7 +13,7 @@ import * as NetAddress from "effect/net/NetAddress";
 import * as EnvironmentAuth from "./auth/EnvironmentAuth.ts";
 import * as ServiceLauncherClient from "./cloud/serviceLauncherClient.ts";
 import * as ServerConfig from "./config.ts";
-import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "./environment/ServerEnvironment.vibe";
 import * as Keybindings from "./keybindings.ts";
 import * as EffectWorker from "./orchestration-v2/EffectWorker.ts";
 import * as LegacyV1ThreadImporter from "./orchestration-v2/legacy/LegacyV1ThreadImporter.ts";

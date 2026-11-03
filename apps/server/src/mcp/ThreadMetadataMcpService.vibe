@@ -10,23 +10,21 @@ import {
 } from "@t3tools/contracts";
 import * as Context from "effect/Context";
 import * as Crypto from "@t3tools/shared/Crypto";
-import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
-import type { McpInvocationScope } from "./McpInvocationContext.ts";
+import type { McpInvocationScope } from "./McpInvocationContext.vibe";
 import { threadNotFound } from "./threadAccess.ts";
 
-export class ThreadMetadataMcpService extends Context.Service<
-  ThreadMetadataMcpService,
-  {
+export service ThreadMetadataMcpService: {
     readonly update: (
       scope: McpInvocationScope,
       input: ThreadMetadataMcpUpdateInput,
-    ) => Effect.Effect<ThreadMetadataMcpUpdateResult, OrchestratorMcpFailure>;
-  }
->()("t3/mcp/ThreadMetadataMcpService") {}
+    ) => ThreadMetadataMcpUpdateResult!OrchestratorMcpFailure;
+  } {
+  static readonly key = "t3/mcp/ThreadMetadataMcpService"
+}
 
 function failure(code: OrchestratorMcpFailure["code"], message: string): OrchestratorMcpFailure {
   return new OrchestratorMcpFailure({ code, message });
@@ -109,16 +107,16 @@ function resultFromThread(input: {
   };
 }
 
-const make = Effect.gen(function* () {
-  const crypto = yield* Crypto.Crypto;
-  const threadManagement = yield* ThreadManagementService.ThreadManagementService;
+const make = effect {
+  const crypto = try Crypto.Crypto;
+  const threadManagement = try ThreadManagementService.ThreadManagementService;
 
-  const update = Effect.fn("ThreadMetadataMcpService.update")(function* (
+  const update = effect (
     scope: McpInvocationScope,
-    input: ThreadMetadataMcpUpdateInput,
-  ) {
+    input: { readonly threadId?: (string & import("effect/Brand").Brand<"ThreadId">) | undefined; readonly action: "regenerate_title" | "rename"; readonly title?: string | undefined; readonly clientRequestId?: string | undefined; },
+  ) => try withSpan(effect {
     if (!scope.capabilities.has("orchestration")) {
-      return yield* failure(
+      throw failure(
         "capability_denied",
         "This MCP credential does not grant orchestration capabilities.",
       );
@@ -126,27 +124,22 @@ const make = Effect.gen(function* () {
 
     const threadId = input.threadId ?? scope.thread?.threadId;
     if (threadId === undefined) {
-      return yield* failure(
+      throw failure(
         "target_required",
         "Pass threadId: this MCP client is not running inside a T3 thread.",
       );
     }
-    const shell = yield* threadManagement
-      .getThreadShell(threadId)
-      .pipe(
-        Effect.mapError((error) =>
-          failure(
+    const shell = threadManagement
+      .getThreadShell(threadId) catch effect (error) => { throw failure(
             "orchestration_error",
             `Unable to locate thread ${threadId}: ${errorMessage(error)}`,
-          ),
-        ),
-      );
+          ) };
     if (shell === null || shell.deletedAt !== null) {
-      return yield* threadNotFound(threadManagement, threadId, `Thread ${threadId} was not found.`);
+      return try threadNotFound(threadManagement, threadId, `Thread ${threadId} was not found.`);
     }
     const requestKey =
       input.clientRequestId === undefined
-        ? yield* crypto.randomUUIDv4().pipe(Effect.orDie)
+        ? try (crypto.randomUUIDv4() |> orDie(%))
         : input.clientRequestId;
     const updateCommandId = commandId({
       scope,
@@ -154,22 +147,17 @@ const make = Effect.gen(function* () {
       action: input.action,
       requestKey,
     });
-    const dispatched = yield* threadManagement
+    const dispatched = threadManagement
       .dispatch(
         metadataCommand({
           commandId: updateCommandId,
           threadId,
           update: input,
         }),
-      )
-      .pipe(
-        Effect.mapError((error) =>
-          failure(
+      ) catch effect (error) => { throw failure(
             "orchestration_error",
             `Unable to ${input.action} for thread ${threadId}: ${errorMessage(error)}`,
-          ),
-        ),
-      );
+          ) };
     const metadataEvent = dispatched.storedEvents.find(
       (stored) => stored.event.type === "thread.metadata-updated",
     );
@@ -177,11 +165,10 @@ const make = Effect.gen(function* () {
     const thread =
       metadataEvent?.event.type === "thread.metadata-updated"
         ? metadataEvent.event.payload
-        : yield* threadManagement
-            .getThreadShell(threadId)
-            .pipe(Effect.mapError((error) => failure("orchestration_error", errorMessage(error))));
+        : (threadManagement
+            .getThreadShell(threadId) catch effect (error) => { throw failure("orchestration_error", errorMessage(error)) });
     if (thread === null) {
-      return yield* failure(
+      throw failure(
         "orchestration_error",
         `Thread ${threadId} metadata update completed without a resultant state.`,
       );
@@ -192,10 +179,10 @@ const make = Effect.gen(function* () {
       sequence: dispatched.sequence,
       thread,
     });
-  });
+  }, "ThreadMetadataMcpService.update");
 
   return ThreadMetadataMcpService.of({ update });
-});
+};
 
 export const layer: Layer.Layer<
   ThreadMetadataMcpService,

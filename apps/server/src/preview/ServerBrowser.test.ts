@@ -28,8 +28,8 @@ import type { BrowserContext, Page } from "playwright-core";
 import { beforeEach, expect, vi } from "vite-plus/test";
 
 import * as ServerConfig from "../config.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as Broker from "../mcp/PreviewAutomationBroker.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
+import * as Broker from "../mcp/PreviewAutomationBroker.vibe";
 import * as DesktopChannel from "./DesktopBrowserChannel.ts";
 import * as Manager from "./Manager.ts";
 import * as PreviewAgentActivity from "./PreviewAgentActivity.ts";

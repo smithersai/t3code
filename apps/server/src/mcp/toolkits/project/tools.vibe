@@ -32,7 +32,7 @@ import * as ManagedProjectFolders from "../../../project/ManagedProjectFolders.t
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts"
 import * as SourceControlRepositoryService from "../../../sourceControl/SourceControlRepositoryService.ts"
 import * as GitVcsDriver from "../../../vcs/GitVcsDriver.ts"
-import * as McpInvocationContext from "../../McpInvocationContext.ts"
+import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 
 const shared = {
   success: Project,

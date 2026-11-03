@@ -25,7 +25,7 @@ import {
   threadPullRequestsOf,
   visibleThreadPullRequests,
 } from "../../../sourceControl/threadPullRequests.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import {
   type ListThreadPullRequestsResult,

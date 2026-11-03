@@ -20,7 +20,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
-import * as GitWorkflowService from "../git/GitWorkflowService.ts";
+import * as GitWorkflowService from "../git/GitWorkflowService.vibe";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as ServerConfig from "../config.ts";
 import {
@@ -32,8 +32,8 @@ import * as ProjectService from "../project/ProjectService.ts";
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.ts";
-import type * as McpInvocationContext from "./McpInvocationContext.ts";
-import * as WorktreeMcpService from "./WorktreeMcpService.ts";
+import type * as McpInvocationContext from "./McpInvocationContext.vibe";
+import * as WorktreeMcpService from "./WorktreeMcpService.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const environmentId = EnvironmentId.make("environment-worktree-test");

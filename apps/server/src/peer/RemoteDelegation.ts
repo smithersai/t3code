@@ -25,7 +25,7 @@ import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import type * as Tool from "effect/ai/Tool";
 
-import type * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
+import type * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
 import { ProjectToolkit } from "../mcp/toolkits/project/tools.vibe";
 import {
   resolveInteractionMode,
@@ -34,7 +34,7 @@ import {
 } from "../mcp/delegatedTaskModes.ts";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.ts";
 import { forkParked } from "../serverActivation.ts";

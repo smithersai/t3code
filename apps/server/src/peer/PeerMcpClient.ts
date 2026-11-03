@@ -14,7 +14,7 @@ import * as HttpBody from "effect/http/HttpBody";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 
-import * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
+import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
 import * as PeerLinks from "./PeerLinks.ts";
 
 /** The only MCP protocol version a T3 Code `/mcp` registers. */

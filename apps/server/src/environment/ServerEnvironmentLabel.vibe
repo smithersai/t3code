@@ -1,7 +1,6 @@
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
-import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
 import * as ProcessRunner from "../processRunner.ts";
@@ -10,34 +9,24 @@ interface ResolveServerEnvironmentLabelInput {
   readonly cwdBaseName: string;
 }
 
-const ServerEnvironmentLabelCommandProbe = Schema.Literals([
-  "macos-computer-name",
-  "linux-pretty-hostname",
-]);
-type ServerEnvironmentLabelCommandProbe = typeof ServerEnvironmentLabelCommandProbe.Type;
+schema ServerEnvironmentLabelCommandProbe = "macos-computer-name" | "linux-pretty-hostname"
 
-export class ServerEnvironmentLabelFileError extends Schema.TaggedError<ServerEnvironmentLabelFileError>()(
-  "ServerEnvironmentLabelFileError",
-  {
-    operation: Schema.Literals(["inspect", "read"]),
-    path: Schema.String,
-    cause: Schema.Defect(),
-  },
-) {
+const ServerEnvironmentLabelFileErrorCauseField = Schema.Defect()
+export schema error ServerEnvironmentLabelFileError {
+  readonly operation: "inspect" | "read"
+  readonly path: string
+  cause: ServerEnvironmentLabelFileErrorCauseField
   override get message(): string {
     return `Failed to ${this.operation} environment-label file at ${this.path}.`;
   }
 }
 
-export class ServerEnvironmentLabelCommandError extends Schema.TaggedError<ServerEnvironmentLabelCommandError>()(
-  "ServerEnvironmentLabelCommandError",
-  {
-    probe: ServerEnvironmentLabelCommandProbe,
-    executable: Schema.String,
-    argumentCount: Schema.Number,
-    cause: Schema.Defect(),
-  },
-) {
+const ServerEnvironmentLabelCommandErrorCauseField = Schema.Defect()
+export schema error ServerEnvironmentLabelCommandError {
+  readonly probe: ServerEnvironmentLabelCommandProbe
+  readonly executable: string
+  readonly argumentCount: number
+  cause: ServerEnvironmentLabelCommandErrorCauseField
   override get message(): string {
     return `Failed to run environment-label probe '${this.probe}' with ${this.executable}.`;
   }
@@ -66,94 +55,84 @@ function parseMachineInfoValue(raw: string, key: string): string | null {
   return null;
 }
 
-const readLinuxMachineInfo = Effect.fn("readLinuxMachineInfo")(function* () {
-  const fileSystem = yield* FileSystem.FileSystem;
+const readLinuxMachineInfo = effect () => try withSpan(effect {
+  const fileSystem = try FileSystem.FileSystem;
   const machineInfoPath = "/etc/machine-info";
-  return yield* fileSystem.exists(machineInfoPath).pipe(
-    Effect.mapError(
-      (cause) =>
+  return try (fileSystem.exists(machineInfoPath)
+    |> mapError(
+      %, (cause) =>
         new ServerEnvironmentLabelFileError({
           operation: "inspect",
           path: machineInfoPath,
           cause,
         }),
-    ),
-    Effect.flatMap((exists) =>
+    )
+    |> flatMap(%, (exists) =>
       exists
-        ? fileSystem.readFileString(machineInfoPath).pipe(
-            Effect.mapError(
-              (cause) =>
+        ? (fileSystem.readFileString(machineInfoPath)
+            |> mapError(
+              %, (cause) =>
                 new ServerEnvironmentLabelFileError({
                   operation: "read",
                   path: machineInfoPath,
                   cause,
                 }),
-            ),
-          )
-        : Effect.succeed(null),
-    ),
-    Effect.catchTags({
+            ))
+        : succeed(null),
+    )
+    |> catchTags(%, {
       ServerEnvironmentLabelFileError: (error) =>
-        Effect.logDebug(error.message).pipe(
-          Effect.annotateLogs({
+        logDebug(error.message)
+          |> annotateLogs({
             operation: error.operation,
             path: error.path,
             cause: error,
-          }),
-          Effect.as(null),
-        ),
-    }),
-  );
-});
+          })(%)
+          |> as(%, null),
+    }));
+}, "readLinuxMachineInfo");
 
-const runFriendlyLabelCommand = Effect.fn("runFriendlyLabelCommand")(function* (input: {
-  readonly probe: ServerEnvironmentLabelCommandProbe;
-  readonly command: string;
-  readonly args: readonly string[];
-}) {
-  const processRunner = yield* ProcessRunner.ProcessRunner;
-  const result = yield* processRunner
+const runFriendlyLabelCommand = effect (input: { readonly probe: ServerEnvironmentLabelCommandProbe; readonly command: string; readonly args: readonly string[]; }) => try withSpan(effect {
+  const processRunner = try ProcessRunner.ProcessRunner;
+  const result = try (processRunner
     .run({
       command: input.command,
       args: input.args,
       timeoutBehavior: "timedOutResult",
     })
-    .pipe(
-      Effect.mapError(
-        (cause) =>
+      |> mapError(
+        %, (cause) =>
           new ServerEnvironmentLabelCommandError({
             probe: input.probe,
             executable: input.command,
             argumentCount: input.args.length,
             cause,
           }),
-      ),
-      Effect.asSome,
-      Effect.catchTags({
+      )
+      |> asSome(%)
+      |> catchTags(%, {
         ServerEnvironmentLabelCommandError: (error) =>
-          Effect.logDebug(error.message).pipe(
-            Effect.annotateLogs({
+          logDebug(error.message)
+            |> annotateLogs({
               probe: error.probe,
               executable: error.executable,
               argumentCount: error.argumentCount,
               cause: error,
-            }),
-            Effect.as(Option.none()),
-          ),
-      }),
-    );
+            })(%)
+            |> as(%, Option.none()),
+      }));
 
   if (Option.isNone(result) || result.value.code !== 0) {
     return null;
   }
 
   return normalizeLabel(result.value.stdout);
-});
+}, "runFriendlyLabelCommand");
 
-const resolveFriendlyHostLabel = Effect.fn("resolveFriendlyHostLabel")(function* () {
-  const platform = yield* HostProcess.Platform;
+const resolveFriendlyHostLabel = effect () => try withSpan(effect {
+  const platform = try HostProcess.Platform;
   if (platform === "darwin") {
-    return yield* runFriendlyLabelCommand({
+    return try runFriendlyLabelCommand({
       probe: "macos-computer-name",
       command: "scutil",
       args: ["--get", "ComputerName"],
@@ -161,7 +140,7 @@ const resolveFriendlyHostLabel = Effect.fn("resolveFriendlyHostLabel")(function*
   }
 
   if (platform === "linux") {
-    const machineInfo = normalizeLabel(yield* readLinuxMachineInfo());
+    const machineInfo = normalizeLabel(try readLinuxMachineInfo());
     if (machineInfo) {
       const prettyHostname = parseMachineInfoValue(machineInfo, "PRETTY_HOSTNAME");
       if (prettyHostname) {
@@ -169,7 +148,7 @@ const resolveFriendlyHostLabel = Effect.fn("resolveFriendlyHostLabel")(function*
       }
     }
 
-    return yield* runFriendlyLabelCommand({
+    return try runFriendlyLabelCommand({
       probe: "linux-pretty-hostname",
       command: "hostnamectl",
       args: ["--pretty"],
@@ -177,20 +156,20 @@ const resolveFriendlyHostLabel = Effect.fn("resolveFriendlyHostLabel")(function*
   }
 
   return null;
-});
+}, "resolveFriendlyHostLabel");
 
-export const resolveServerEnvironmentLabel = Effect.fn("resolveServerEnvironmentLabel")(function* (
+export const resolveServerEnvironmentLabel = effect (
   input: ResolveServerEnvironmentLabelInput,
-) {
-  const friendlyHostLabel = yield* resolveFriendlyHostLabel();
+) => try withSpan(effect {
+  const friendlyHostLabel = try resolveFriendlyHostLabel();
   if (friendlyHostLabel) {
     return friendlyHostLabel;
   }
 
-  const hostname = normalizeLabel(yield* HostProcess.Hostname);
+  const hostname = normalizeLabel(try HostProcess.Hostname);
   if (hostname) {
     return hostname;
   }
 
   return normalizeLabel(input.cwdBaseName) ?? "T3 environment";
-});
+}, "resolveServerEnvironmentLabel");

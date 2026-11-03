@@ -1,0 +1,32 @@
+import type { GitRunStackedActionInput, GitRunStackedActionResult } from "@t3tools/contracts";
+import * as Effect from "effect/Effect";
+
+import * as OrchestratorV2 from "../orchestration-v2/Orchestrator.ts";
+import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
+import * as PullRequestService from "../pullRequest/PullRequestService.ts";
+
+export const refreshPushedPullRequests = effect (
+    input: Pick<{ readonly actionId: string; readonly cwd: string; readonly action: "commit" | "commit_push" | "commit_push_pr" | "create_pr" | "push"; readonly commitMessage?: string | undefined; readonly featureBranch?: boolean | undefined; readonly filePaths?: readonly string[] | undefined; readonly threadId?: (string & import("effect/Brand").Brand<"ThreadId">) | undefined; readonly projectId?: (string & import("effect/Brand").Brand<"ProjectId">) | undefined; }, "cwd" | "projectId" | "threadId">,
+    result: Pick<{ action: "commit" | "commit_push" | "commit_push_pr" | "create_pr" | "push"; branch: { status: "created" | "skipped_not_requested"; name?: string | undefined; }; commit: { status: "created" | "skipped_no_changes" | "skipped_not_requested"; commitSha?: string | undefined; subject?: string | undefined; }; push: { status: "pushed" | "skipped_not_requested" | "skipped_up_to_date"; branch?: string | undefined; upstreamBranch?: string | undefined; setUpstream?: boolean | undefined; }; pr: { status: "created" | "opened_existing" | "skipped_not_requested"; url?: string | undefined; number?: number | undefined; baseBranch?: string | undefined; headBranch?: string | undefined; title?: string | undefined; }; toast: { readonly title: string; readonly description?: string | undefined; readonly cta: { readonly kind: "none"; } | { readonly kind: "open_pr"; readonly label: string; readonly url: string; } | { readonly kind: "run_action"; readonly label: string; readonly action: { kind: "commit" | "commit_push" | "commit_push_pr" | "create_pr" | "push"; }; }; }; }, "push">,
+  ) => try withSpan(effect {
+  if (result.push.status !== "pushed") return;
+  const pullRequests = try PullRequestService.PullRequestService;
+  if (input.threadId !== undefined) {
+    const engine = try OrchestratorV2.OrchestratorV2;
+    const thread = try engine.getThreadShell(input.threadId);
+    if (thread !== null) {
+      try pullRequests.refreshAfterTurn(thread.projectId);
+      return;
+    }
+  }
+  if (input.projectId !== undefined) {
+    try pullRequests.refreshAfterTurn(input.projectId);
+    return;
+  }
+  const projects = try (try ProjectStore.ProjectStoreV2).listShells();
+  try forEach(
+    projects.filter((project) => project.workspaceRoot === input.cwd),
+    (project) => pullRequests.refreshAfterTurn(project.id),
+    { discard: true },
+  );
+} |> ignore(%, { log: true }), "refreshPushedPullRequests");

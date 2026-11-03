@@ -30,7 +30,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as KeyedLock from "@t3tools/shared/KeyedLock";
 
-import * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
+import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
 import * as PeerLinks from "./PeerLinks.ts";
 

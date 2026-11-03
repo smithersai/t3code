@@ -39,7 +39,7 @@ import {
   toolOutcome,
 } from "../telemetry/ProviderDimensions.ts";
 import { advertisedJsonSchema } from "./advertisedJsonSchema.vibe";
-import * as McpInvocationContext from "./McpInvocationContext.ts";
+import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as McpToolAccess from "./McpToolAccess.ts";
 import * as OrchestratorMcpService from "./OrchestratorMcpService.ts";
 import { PreviewControlsToolkit } from "./toolkits/previewControls/tools.vibe";
@@ -52,9 +52,9 @@ import { AttachmentToolkit } from "./toolkits/attachment/tools.vibe";
 import * as AttachmentHandlers from "./toolkits/attachment/handlers.ts";
 import { ThreadToolkit } from "./toolkits/thread/tools.vibe";
 import * as ThreadHandlers from "./toolkits/thread/handlers.ts";
-import * as ThreadMetadataMcpService from "./ThreadMetadataMcpService.ts";
+import * as ThreadMetadataMcpService from "./ThreadMetadataMcpService.vibe";
 import * as McpSessionRegistry from "./McpSessionRegistry.ts";
-import * as PreviewAutomationBroker from "./PreviewAutomationBroker.ts";
+import * as PreviewAutomationBroker from "./PreviewAutomationBroker.vibe";
 import * as OrchestratorHandlers from "./toolkits/orchestrator/handlers.vibe";
 import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.vibe";
 import * as PreviewHandlers from "./toolkits/preview/handlers.ts";
@@ -65,7 +65,7 @@ import {
 } from "./toolkits/preview/tools.vibe";
 import * as WorktreeHandlers from "./toolkits/worktree/handlers.vibe";
 import { WorktreeToolkit } from "./toolkits/worktree/tools.vibe";
-import * as WorktreeMcpService from "./WorktreeMcpService.ts";
+import * as WorktreeMcpService from "./WorktreeMcpService.vibe";
 import * as PullRequestsHandlers from "./toolkits/pullRequests/handlers.ts";
 import { PullRequestsToolkit } from "./toolkits/pullRequests/tools.vibe";
 import * as DeviceHandlers from "./toolkits/device/handlers.ts";

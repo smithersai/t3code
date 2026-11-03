@@ -74,8 +74,8 @@ import type {
 import { PENDING_ATTACHMENT_THREAD_SEGMENT } from "../attachmentStore.ts";
 import * as ServerConfig from "../config.ts";
 import { resolveRootCliCommand } from "../cli/invocation.vibe";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as PreviewAutomationBroker from "../mcp/PreviewAutomationBroker.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
+import * as PreviewAutomationBroker from "../mcp/PreviewAutomationBroker.vibe";
 import * as DesktopBrowserChannel from "./DesktopBrowserChannel.ts";
 import * as PreviewAgentActivity from "./PreviewAgentActivity.ts";
 import * as PreviewManager from "./Manager.ts";

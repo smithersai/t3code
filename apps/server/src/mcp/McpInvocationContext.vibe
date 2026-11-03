@@ -11,7 +11,6 @@ import {
 } from "@t3tools/contracts";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Fiber from "effect/Fiber";
 
 const ALL_MCP_CAPABILITIES = [
   "preview",
@@ -152,26 +151,24 @@ const missingCapability = (
 
 export const requireMcpCapability = <const C extends McpCapability>(
   capability: C,
-): Effect.Effect<McpInvocationScope, McpCapabilityError<C>, McpInvocationContext> =>
-  McpInvocationContext.pipe(
-    Effect.filterOrFail(
-      (invocation) => invocation.capabilities.has(capability),
+): McpInvocationScope!McpCapabilityError<C>!McpInvocationContext =>
+  McpInvocationContext
+    |> filterOrFail(
+      %, (invocation) => invocation.capabilities.has(capability),
       (invocation) => missingCapability(invocation, capability) as McpCapabilityError<C>,
-    ),
-    Effect.withSpan("mcp.requireCapability"),
-  );
+    )
+    |> withSpan(%, "mcp.requireCapability");
 
 export const requireThreadMcpCapability = <const C extends "preview" | "device">(
   capability: C,
-): Effect.Effect<McpThreadInvocationScope, McpCapabilityError<C>, McpInvocationContext> =>
-  McpInvocationContext.pipe(
-    Effect.filterOrFail(
-      (invocation): invocation is McpThreadInvocationScope =>
+): McpThreadInvocationScope!McpCapabilityError<C>!McpInvocationContext =>
+  McpInvocationContext
+    |> filterOrFail(
+      %, (invocation): invocation is McpThreadInvocationScope =>
         invocation.capabilities.has(capability) && invocation.thread !== undefined,
       (invocation) => missingCapability(invocation, capability) as McpCapabilityError<C>,
-    ),
-    Effect.withSpan("mcp.requireCapability"),
-  );
+    )
+    |> withSpan(%, "mcp.requireCapability");
 
 const threadCallerRequired = (operation: string) =>
   new OrchestratorMcpFailure({
@@ -183,5 +180,5 @@ export type McpThreadInvocationScope = McpInvocationScope & { readonly thread: M
 
 export const requireThreadScope = (scope: McpInvocationScope, operation: string) =>
   scope.thread === undefined
-    ? Effect.fail(threadCallerRequired(operation))
-    : Effect.succeed(scope as McpThreadInvocationScope);
+    ? fail(threadCallerRequired(operation))
+    : succeed(scope as McpThreadInvocationScope);

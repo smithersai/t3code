@@ -1,5 +1,4 @@
 import * as Effect from "effect/Effect";
-import * as References from "effect/References";
 
 const snapshotStack = (
   frame: References.StackFrame | undefined,
@@ -14,9 +13,9 @@ const snapshotStack = (
  * caller frame would otherwise retain the caller's request snapshot for the TTL.
  * Stay untraced so this helper does not introduce another lazy frame to retain.
  */
-export const detachStackFrame = Effect.fnUntraced(function* <A, E, R>(
-  effect: Effect.Effect<A, E, R>,
-) {
-  const frame = snapshotStack(yield* References.CurrentStackFrame);
-  return yield* Effect.provideService(effect, References.CurrentStackFrame, frame);
-});
+export const detachStackFrame = effect <A, E, R>(
+  effect: A!E!R,
+) => {
+  const frame = snapshotStack(try References.CurrentStackFrame);
+  return try provideService(effect, References.CurrentStackFrame, frame);
+};

@@ -19,7 +19,7 @@ import * as Fiber from "effect/Fiber";
 import * as Result from "effect/Result";
 import * as Stream from "effect/Stream";
 
-import * as PreviewAutomationBroker from "./PreviewAutomationBroker.ts";
+import * as PreviewAutomationBroker from "./PreviewAutomationBroker.vibe";
 import * as Layer from "effect/Layer";
 import * as Crypto from "@t3tools/shared/Crypto";
 
