@@ -12,7 +12,7 @@ import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
-import * as DesktopConfig from "./DesktopConfig.ts";
+import * as DesktopConfig from "./DesktopConfig.vibe";
 import { resolveLinuxDesktopEntryName } from "./DesktopEarlyElectronStartup.vibe";
 import { resolveDesktopBaseDir, resolveDesktopStateDir } from "./DesktopStatePaths.vibe";
 import { isNightlyDesktopVersion } from "../updates/updateChannels.ts";

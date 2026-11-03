@@ -6,7 +6,7 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import * as Tracer from "effect/Tracer";
 
-import * as DesktopConfig from "../app/DesktopConfig.ts";
+import * as DesktopConfig from "../app/DesktopConfig.vibe";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
 import * as DesktopAppSettings from "./DesktopAppSettings.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

@@ -15,7 +15,7 @@ import * as NodeEvents from "node:events";
 
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
 import * as ElectronApp from "../electron/ElectronApp.ts";
-import * as ElectronPowerMonitor from "../electron/ElectronPowerMonitor.ts";
+import * as ElectronPowerMonitor from "../electron/ElectronPowerMonitor.vibe";
 import * as DesktopTelemetryPublisher from "./DesktopTelemetryPublisher.ts";
 import * as DesktopRendererHistory from "./DesktopRendererHistory.ts";
 

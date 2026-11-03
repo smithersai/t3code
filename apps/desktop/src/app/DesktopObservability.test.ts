@@ -10,7 +10,7 @@ import * as Schema from "effect/Schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 
-import * as DesktopConfig from "./DesktopConfig.ts";
+import * as DesktopConfig from "./DesktopConfig.vibe";
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
 import * as DesktopObservability from "./DesktopObservability.ts";
 

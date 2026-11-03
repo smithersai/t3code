@@ -34,7 +34,7 @@ vi.mock("electron", async (importOriginal) => ({
 }));
 
 import * as DesktopAssets from "../app/DesktopAssets.ts";
-import * as DesktopConfig from "../app/DesktopConfig.ts";
+import * as DesktopConfig from "../app/DesktopConfig.vibe";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
 import * as DesktopState from "../app/DesktopState.vibe";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
@@ -43,7 +43,7 @@ import * as ElectronApp from "../electron/ElectronApp.ts";
 import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.ts";
 import * as ElectronMenu from "../electron/ElectronMenu.ts";
 import * as ElectronShell from "../electron/ElectronShell.ts";
-import * as ElectronTheme from "../electron/ElectronTheme.ts";
+import * as ElectronTheme from "../electron/ElectronTheme.vibe";
 import * as ElectronWindow from "../electron/ElectronWindow.ts";
 import { SNAP_SHOT_EVENT_CHANNEL } from "../ipc/channels.ts";
 import * as DesktopServerExposure from "../backend/DesktopServerExposure.ts";

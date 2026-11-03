@@ -22,7 +22,7 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 
 import * as ElectronApp from "../electron/ElectronApp.ts";
-import * as ElectronPowerMonitor from "../electron/ElectronPowerMonitor.ts";
+import * as ElectronPowerMonitor from "../electron/ElectronPowerMonitor.vibe";
 import * as DesktopRendererHistory from "./DesktopRendererHistory.ts";
 
 const LIVE_SAMPLE_INTERVAL = Duration.seconds(1);

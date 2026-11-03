@@ -8,7 +8,7 @@ import * as PlatformError from "effect/PlatformError";
 import * as Ref from "effect/Ref";
 import * as Scope from "effect/Scope";
 
-import * as DesktopConfig from "../app/DesktopConfig.ts";
+import * as DesktopConfig from "../app/DesktopConfig.vibe";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
 import * as DesktopWslServerTree from "./DesktopWslServerTree.ts";
 

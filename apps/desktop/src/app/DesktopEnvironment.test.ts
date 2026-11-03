@@ -5,7 +5,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
-import * as DesktopConfig from "./DesktopConfig.ts";
+import * as DesktopConfig from "./DesktopConfig.vibe";
 
 const defaultInput = {
   dirname: "/repo/apps/desktop/dist-electron",
