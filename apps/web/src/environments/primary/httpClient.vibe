@@ -19,7 +19,11 @@ export const PrimaryEnvironmentHttpClient: Context.Service<
 > = Context.Service("@t3tools/web/environments/primary/httpClient/PrimaryEnvironmentHttpClient")
 
 const make = effect {
-  return try makeEnvironmentHttpApiClient(resolvePrimaryEnvironmentHttpUrl("/"))
+  const url = try Effect.orDie(Effect.try({
+    try: () => resolvePrimaryEnvironmentHttpUrl("/"),
+    catch: (cause) => cause,
+  }))
+  return try makeEnvironmentHttpApiClient(url)
 }
 
 export const layer = Layer.effect(PrimaryEnvironmentHttpClient, make)
