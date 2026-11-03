@@ -6,7 +6,7 @@ import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 import { TestClock } from "effect/testing";
 
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as ProjectFaviconResolver from "./ProjectFaviconResolver.ts";
 import * as T3ProjectFileLoader from "./T3ProjectFileLoader.ts";
 

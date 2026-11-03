@@ -28,7 +28,7 @@ import { FetchHttpClient, HttpClient, HttpClientRequest } from "effect/http";
 
 import { taskPrompt } from "../../apps/server/src/mcp/delegatedTaskModes.ts";
 import * as McpInvocationContext from "../../apps/server/src/mcp/McpInvocationContext.ts";
-import { advertisedJsonSchema } from "../../apps/server/src/mcp/advertisedJsonSchema.ts";
+import { advertisedJsonSchema } from "../../apps/server/src/mcp/advertisedJsonSchema.vibe";
 import { ORCHESTRATOR_MCP_RUNNING_TASK_NEXT } from "@t3tools/contracts";
 import { formatThreadLink } from "@t3tools/shared/threadLinks";
 import { buildCodexAdditionalContext } from "../../apps/server/src/provider/CodexDeveloperInstructions.ts";

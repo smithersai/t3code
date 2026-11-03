@@ -50,7 +50,7 @@ import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as ExternalLauncher from "../process/externalLauncher.ts";
 import { readPersistedServerRuntimeState } from "../serverRuntimeState.ts";
 import { projectLocationFlags, resolveCliAuthConfig } from "./config.ts";
-import { resolveCliCommand } from "./invocation.ts";
+import { resolveCliCommand } from "./invocation.vibe";
 import * as CliService from "./service.ts";
 
 const jsonFlag = Flag.Boolean("json").pipe(

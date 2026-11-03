@@ -2,7 +2,6 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";
 import * as Path from "effect/Path";
-import * as Schema from "effect/Schema";
 
 const CONFIG_FILES = [
   "app.config.ts",
@@ -136,17 +135,16 @@ const decodeAppJson = Schema.decodeUnknownOption(
  * Include JSON configs because dynamic configs may replace them only for some builds.
  * Return null for unreadable configs or ids set or changed without a literal.
  */
-const projectIdsOf = Effect.fn("easProjectId.projectIdsOf")(function* (dir: string) {
-  const fs = yield* FileSystem.FileSystem;
-  const path = yield* Path.Path;
+const projectIdsOf = effect (dir: string) => try withSpan(effect {
+  const fs = try FileSystem.FileSystem;
+  const path = try Path.Path;
   const ids: Array<string> = [];
-  const configFile = yield* Effect.findFirst(CONFIG_FILES, (file) =>
-    fs.exists(path.join(dir, file)).pipe(Effect.orElseSucceed(() => false)),
+  const configFile = try Effect.findFirst(CONFIG_FILES, (file) =>
+    fs.exists(path.join(dir, file)) |> Effect.orElseSucceed(%, () => false),
   );
   if (Option.isSome(configFile)) {
-    const source = yield* fs
-      .readFileString(path.join(dir, configFile.value))
-      .pipe(Effect.orElseSucceed(() => "projectId"));
+    const source = fs
+      .readFileString(path.join(dir, configFile.value)) catch () => "projectId";
     // Every mention of `projectId` must be a quoted entry: one set from a
     // variable, or assigned later, could be any project, and makes the
     // answer unknown.
@@ -177,12 +175,8 @@ const projectIdsOf = Effect.fn("easProjectId.projectIdsOf")(function* (dir: stri
     ids.push(...quoted.filter((id) => UUID.test(id)).map((id) => id.toLowerCase()));
   }
   for (const file of JSON_CONFIG_FILES) {
-    const json = yield* fs.readFileString(path.join(dir, file)).pipe(
-      Effect.asSome,
-      Effect.catch((error) =>
-        Effect.succeed(error.reason._tag === "NotFound" ? Option.none<string>() : null),
-      ),
-    );
+    const json = (fs.readFileString(path.join(dir, file))
+      |> Effect.asSome(%)) catch (error) => (error.reason._tag === "NotFound" ? Option.none<string>() : null);
     // A config that is there but cannot be read could name any project.
     if (json === null) return null;
     if (Option.isNone(json)) continue;
@@ -194,7 +188,7 @@ const projectIdsOf = Effect.fn("easProjectId.projectIdsOf")(function* (dir: stri
     break;
   }
   return ids;
-});
+}, "easProjectId.projectIdsOf");
 
 /**
  * The EAS project of a workspace's Expo app: its root, or one app below
@@ -202,36 +196,34 @@ const projectIdsOf = Effect.fn("easProjectId.projectIdsOf")(function* (dir: stri
  * the apps disagree, so the caller asks for an explicit choice instead of
  * billing the wrong project.
  */
-export const findEasProjectId = Effect.fn("easProjectId.findEasProjectId")(function* (
+export const findEasProjectId = effect (
   workspaceRoot: string,
-) {
-  const fs = yield* FileSystem.FileSystem;
-  const path = yield* Path.Path;
+) => try withSpan(effect {
+  const fs = try FileSystem.FileSystem;
+  const path = try Path.Path;
   const isDirectory = (child: string) =>
-    fs.stat(child).pipe(
-      Effect.map((info) => info.type === "Directory"),
-      Effect.orElseSucceed(() => false),
-    );
+    fs.stat(child)
+      |> Effect.map(%, (info) => info.type === "Directory")
+      |> Effect.orElseSucceed(%, () => false);
   // Only a directory can be an app; a README or .DS_Store beside them is not one.
   const children = (parent: string) =>
-    fs.readDirectory(path.join(workspaceRoot, parent)).pipe(
-      Effect.map((names) => names.map((name) => path.join(workspaceRoot, parent, name))),
-      Effect.flatMap((paths) =>
+    fs.readDirectory(path.join(workspaceRoot, parent))
+      |> Effect.map(%, (names) => names.map((name) => path.join(workspaceRoot, parent, name)))
+      |> Effect.flatMap(%, (paths) =>
         Effect.forEach(paths, (child) =>
           Effect.map(isDirectory(child), (directory) => (directory ? [child] : [])),
         ),
-      ),
-      Effect.map((kept) => kept.flat()),
-      Effect.orElseSucceed(() => []),
-    );
+      )
+      |> Effect.map(%, (kept) => kept.flat())
+      |> Effect.orElseSucceed(%, () => []);
   const directories = [
     workspaceRoot,
-    ...(yield* children("apps")),
-    ...(yield* children("packages")),
+    ...(try children("apps")),
+    ...(try children("packages")),
   ];
-  const ids = yield* Effect.forEach(directories, projectIdsOf, { concurrency: 4 });
+  const ids = try Effect.forEach(directories, projectIdsOf, { concurrency: 4 });
   // An app whose project is unknown could be the one the thread works on.
   if (ids.some((found) => found === null)) return Option.none<string>();
   const distinct = new Set(ids.flatMap((found) => found ?? []));
   return distinct.size === 1 ? Option.some([...distinct][0]!) : Option.none<string>();
-});
+}, "easProjectId.findEasProjectId");

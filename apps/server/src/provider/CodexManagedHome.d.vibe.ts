@@ -1,0 +1,36 @@
+import * as Effect from "effect/Effect";
+import * as Path from "effect/Path";
+export declare const resolveManagedCodexHomeLayout: (stateDir: string, instanceId: string & import("effect/Brand").Brand<"ProviderInstanceId">, config: {
+    readonly setupMode?: "existing" | "managed";
+    readonly enabled: boolean;
+    readonly binaryPath: string;
+    readonly homePath: string;
+    readonly shadowHomePath: string;
+    readonly launchArgs: string;
+    readonly customModels: readonly (string | {
+        readonly slug: string;
+        readonly name?: string | undefined;
+        readonly capabilities?: {
+            readonly optionDescriptors?: readonly ({
+                readonly id: string;
+                readonly label: string;
+                readonly description?: string | undefined;
+                readonly type: "select";
+                readonly options: readonly {
+                    readonly id: string;
+                    readonly label: string;
+                    readonly description?: string | undefined;
+                    readonly isDefault?: boolean | undefined;
+                }[];
+                readonly currentValue?: string | undefined;
+                readonly promptInjectedValues?: readonly string[] | undefined;
+            } | {
+                readonly id: string;
+                readonly label: string;
+                readonly description?: string | undefined;
+                readonly type: "boolean";
+                readonly currentValue?: boolean | undefined;
+            })[] | undefined;
+        } | undefined;
+    })[];
+}) => Effect.Effect<import("./Drivers/CodexHomeLayout.ts").CodexHomeLayout, never, Path.Path>;

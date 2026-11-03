@@ -12,7 +12,7 @@ import * as Option from "effect/Option";
 import { ChildProcessSpawner } from "effect/process";
 import { makeCodexTextGeneration } from "../../textGeneration/CodexTextGeneration.ts";
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
-import { chatGptModels } from "../CodexChatGptModels.ts";
+import { chatGptModels } from "../CodexChatGptModels.vibe";
 import { makeCodexManagedRuntime } from "../CodexManagedRuntime.ts";
 import { ProviderDriverError } from "../Errors.vibe";
 import { createCodexAdapterV2 } from "../../orchestration-v2/Adapters/CodexAdapterV2.ts";

@@ -2,7 +2,7 @@ import { CommandId, MessageId, type OrchestrationV2Command } from "@t3tools/cont
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Scheduler from "../scheduling/Scheduler.ts";
+import * as Scheduler from "../scheduling/Scheduler.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as Orchestrator from "./Orchestrator.ts";

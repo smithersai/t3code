@@ -38,7 +38,7 @@ import {
   MAX_REPORTED_DEPTH,
   toolOutcome,
 } from "../telemetry/ProviderDimensions.ts";
-import { advertisedJsonSchema } from "./advertisedJsonSchema.ts";
+import { advertisedJsonSchema } from "./advertisedJsonSchema.vibe";
 import * as McpInvocationContext from "./McpInvocationContext.ts";
 import * as McpToolAccess from "./McpToolAccess.ts";
 import * as OrchestratorMcpService from "./OrchestratorMcpService.ts";

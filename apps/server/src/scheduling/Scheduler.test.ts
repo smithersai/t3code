@@ -7,7 +7,7 @@ import * as Ref from "effect/Ref";
 import * as TestClock from "effect/testing/TestClock";
 
 import * as ServerActivation from "../serverActivation.ts";
-import * as Scheduler from "./Scheduler.ts";
+import * as Scheduler from "./Scheduler.vibe";
 
 it.effect("keeps other sources running after a source defects", () =>
   Effect.gen(function* () {

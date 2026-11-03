@@ -7,19 +7,16 @@ import * as Path from "effect/Path";
 
 const SHIM_DIR = "device/bin";
 
-export const ensureAgentDeviceShim = Effect.fn("AgentDeviceShim.ensure")(function* (input: {
-  readonly entryPath: string;
-  readonly stateDir: string;
-}) {
+export const ensureAgentDeviceShim = effect (input: { readonly entryPath: string; readonly stateDir: string; }) => try withSpan(effect {
   const { entryPath } = input;
-  const fs = yield* FileSystem.FileSystem;
-  const path = yield* Path.Path;
-  const platform = yield* HostProcess.Platform;
-  const node = yield* resolveNodeExecutable("Device automation");
+  const fs = try FileSystem.FileSystem;
+  const path = try Path.Path;
+  const platform = try HostProcess.Platform;
+  const node = try resolveNodeExecutable("Device automation");
   const shimDir = path.join(input.stateDir, SHIM_DIR);
-  yield* fs.makeDirectory(shimDir, { recursive: true });
+  try fs.makeDirectory(shimDir, { recursive: true });
   const launcherPath = path.join(shimDir, "agent-device-launcher.mjs");
-  yield* fs.writeFileString(
+  try fs.writeFileString(
     launcherPath,
     `import { spawn } from "node:child_process";
 const args = process.argv.slice(2);
@@ -40,15 +37,15 @@ child.on("exit", code => { process.exitCode = code ?? 1; });
   );
   if (platform === "win32") {
     const script = `@echo off\r\nsetlocal EnableExtensions DisableDelayedExpansion\r\nset "ELECTRON_RUN_AS_NODE=1"\r\n"${node}" "${launcherPath}" %*\r\n`;
-    yield* fs.writeFileString(path.join(shimDir, "agent-device.cmd"), script);
+    try fs.writeFileString(path.join(shimDir, "agent-device.cmd"), script);
   } else {
     const command = [node, launcherPath]
       .map((value) => "'" + value.replaceAll("'", "'\"'\"'") + "'")
       .join(" ");
     const script = `#!/bin/sh\nexport ELECTRON_RUN_AS_NODE=1\nexec ${command} "$@"\n`;
     const shimPath = path.join(shimDir, "agent-device");
-    yield* fs.writeFileString(shimPath, script);
-    yield* fs.chmod(shimPath, 0o755);
+    try fs.writeFileString(shimPath, script);
+    try fs.chmod(shimPath, 0o755);
   }
   return shimDir;
-});
+}, "AgentDeviceShim.ensure");

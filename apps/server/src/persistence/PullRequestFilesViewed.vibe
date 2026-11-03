@@ -4,7 +4,6 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
-import * as SqlSchema from "effect/sql/SqlSchema";
 
 import { SourceControlProviderKind } from "@t3tools/contracts";
 
@@ -14,14 +13,13 @@ import {
   type PullRequestFilesViewedRepositoryError,
 } from "./Errors.ts";
 
-export const PullRequestFilesViewedScope = Schema.Struct({
-  provider: SourceControlProviderKind,
-  host: Schema.String,
-  repository: Schema.String,
-  number: Schema.Int,
-  viewer: Schema.String,
-});
-export type PullRequestFilesViewedScope = typeof PullRequestFilesViewedScope.Type;
+export schema PullRequestFilesViewedScope {
+  provider: SourceControlProviderKind
+  host: string
+  repository: string
+  number: Schema.Int
+  viewer: string
+}
 
 export const PullRequestFileViewedMark = Schema.Struct({
   path: Schema.String,
@@ -42,17 +40,15 @@ export interface PullRequestFilesViewedPage {
   readonly truncated: boolean;
 }
 
-export class PullRequestFilesViewedRepository extends Context.Service<
-  PullRequestFilesViewedRepository,
-  {
-    readonly list: (
-      input: PullRequestFilesViewedScope,
-    ) => Effect.Effect<PullRequestFilesViewedPage, PullRequestFilesViewedRepositoryError>;
-    readonly set: (
-      input: SetPullRequestFilesViewedInput,
-    ) => Effect.Effect<void, PullRequestFilesViewedRepositoryError>;
-  }
->()("t3/persistence/PullRequestFilesViewed/PullRequestFilesViewedRepository") {}
+export service PullRequestFilesViewedRepository {
+  static readonly key = "t3/persistence/PullRequestFilesViewed/PullRequestFilesViewedRepository"
+  list: (
+    input: PullRequestFilesViewedScope,
+  ) => PullRequestFilesViewedPage!PullRequestFilesViewedRepositoryError;
+  set: (
+    input: SetPullRequestFilesViewedInput,
+  ) => void!PullRequestFilesViewedRepositoryError;
+}
 
 function toSqlOrDecodeError(sqlOperation: string, decodeOperation: string) {
   return (cause: unknown): PullRequestFilesViewedRepositoryError =>
@@ -61,8 +57,8 @@ function toSqlOrDecodeError(sqlOperation: string, decodeOperation: string) {
       : new PersistenceSqlError({ operation: sqlOperation, cause });
 }
 
-const make = Effect.gen(function* () {
-  const sql = yield* SqlClient.SqlClient;
+const make = effect {
+  const sql = try SqlClient.SqlClient;
 
   const listRows = SqlSchema.findAll({
     Request: PullRequestFilesViewedScope,
@@ -85,14 +81,13 @@ const make = Effect.gen(function* () {
 
   return PullRequestFilesViewedRepository.of({
     list: Effect.fn("PullRequestFilesViewedRepository.list")(function (input) {
-      return listRows(input).pipe(
-        NodeSqliteClient.readOnly,
-        Effect.map((rows) => ({
+      return listRows(input)
+        |> NodeSqliteClient.readOnly(%)
+        |> Effect.map(%, (rows) => ({
           files: rows.slice(0, MAX_FILES_VIEWED_ROWS),
           truncated: rows.length > MAX_FILES_VIEWED_ROWS,
-        })),
-        Effect.mapError(toSqlOrDecodeError("listPullRequestFilesViewed", "PullRequestFileViewed")),
-      );
+        }))
+        |> Effect.mapError(%, toSqlOrDecodeError("listPullRequestFilesViewed", "PullRequestFileViewed"));
     }),
 
     set: Effect.fn("PullRequestFilesViewedRepository.set")(function (input) {
@@ -138,13 +133,11 @@ const make = Effect.gen(function* () {
             { discard: true },
           ),
         )
-        .pipe(
-          Effect.mapError(
-            (cause) => new PersistenceSqlError({ operation: "setPullRequestFilesViewed", cause }),
-          ),
-        );
+          |> Effect.mapError(
+            %, (cause) => new PersistenceSqlError({ operation: "setPullRequestFilesViewed", cause }),
+          );
     }),
   });
-});
+};
 
 export const layer = Layer.effect(PullRequestFilesViewedRepository, make);

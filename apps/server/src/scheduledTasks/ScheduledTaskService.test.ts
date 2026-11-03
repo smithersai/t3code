@@ -1,4 +1,4 @@
-import * as Scheduler from "../scheduling/Scheduler.ts";
+import * as Scheduler from "../scheduling/Scheduler.vibe";
 import * as NodeUtil from "node:util";
 
 import { assert, it } from "@effect/vitest";

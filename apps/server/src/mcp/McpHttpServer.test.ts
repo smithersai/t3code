@@ -27,7 +27,7 @@ import * as ProjectService from "../project/ProjectService.ts";
 import * as PullRequestReviewGuideService from "../pullRequest/PullRequestReviewGuideService.ts";
 import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import { advertisedJsonSchema } from "./advertisedJsonSchema.ts";
+import { advertisedJsonSchema } from "./advertisedJsonSchema.vibe";
 import * as McpHttpServer from "./McpHttpServer.ts";
 import * as McpToolAccess from "./McpToolAccess.ts";
 import * as McpToolAccessTestkit from "./McpToolAccess.testkit.ts";

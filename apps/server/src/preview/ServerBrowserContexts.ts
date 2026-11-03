@@ -7,7 +7,7 @@ import * as NodeOS from "node:os";
 import * as NodePath from "node:path";
 import type { Browser, BrowserContext, CDPSession } from "playwright-core";
 
-import { sandboxDisabled } from "./PreviewBrowserHost.ts";
+import { sandboxDisabled } from "./PreviewBrowserHost.vibe";
 
 // Playwright needs its files on disk. createRequire also resolves it from a Node SEA executable.
 const requirePlaywright = NodeModule.createRequire(import.meta.url);

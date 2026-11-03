@@ -38,9 +38,9 @@ import {
   storeAttachmentUpload,
   validateAttachmentUploadToken,
 } from "./assets/AttachmentUpload.ts";
-import * as BrowserTraceCollector from "./observability/BrowserTraceCollector.ts";
+import * as BrowserTraceCollector from "./observability/BrowserTraceCollector.vibe";
 import * as EnvironmentAuth from "./auth/EnvironmentAuth.ts";
-import { traceRelayRequest } from "./cloud/traceRelayRequest.ts";
+import { traceRelayRequest } from "./cloud/traceRelayRequest.vibe";
 import {
   annotateEnvironmentRequest,
   failEnvironmentScopeRequired,
