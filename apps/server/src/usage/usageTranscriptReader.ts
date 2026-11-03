@@ -12,7 +12,7 @@ import type {
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
-import { createTranscriptJsonReader } from "../project/AgentSessionJson.vibe";
+import { createTranscriptJsonReader } from "../project/AgentSessionJson.ts";
 
 export interface TranscriptFile {
   readonly path: string;
