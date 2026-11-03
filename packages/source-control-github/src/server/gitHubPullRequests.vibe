@@ -60,8 +60,8 @@ function trimOptionalString(value: string | null | undefined): string | null {
 }
 
 function normalizeGitHubPullRequestState(input: {
-  mutable state?: string | null | undefined
-  mutable mergedAt?: string | null | undefined
+  state?: string | null | undefined
+  mergedAt?: string | null | undefined
 }): "open" | "closed" | "merged" {
   const normalizedState = input.state?.trim().toUpperCase()
   if (
