@@ -1,0 +1,16 @@
+import { ClaudeSettings } from "@t3tools/contracts";
+import * as Crypto from "@t3tools/shared/Crypto";
+import * as FileSystem from "effect/FileSystem";
+import * as Path from "effect/Path";
+import { HttpClient } from "effect/http";
+import { ChildProcessSpawner } from "effect/process";
+import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
+import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
+import * as ServerConfig from "../../config.ts";
+import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
+import { type ClaudeAdapterV2DriverEnv } from "../../orchestration-v2/Adapters/ClaudeAdapterV2.ts";
+import * as ResetCreditCoordinator from "../resetCreditCoordinator.ts";
+import * as ModelCatalog from "@t3tools/provider-core/server/ModelCatalog";
+import { type ProviderDriver } from "@t3tools/provider-core/server/driver";
+export type ClaudeDriverEnv = ClaudeAdapterV2DriverEnv | ProviderHost.ProviderHost | ChildProcessSpawner.ChildProcessSpawner | ResetCreditCoordinator.ResetCreditCoordinator | Crypto.Crypto | FileSystem.FileSystem | HttpClient.HttpClient | ProviderLatestVersions.ProviderLatestVersions | ModelCatalog.ModelCatalog | Path.Path | ProviderEventLoggers.ProviderEventLoggers | ServerConfig.ServerConfig;
+export declare const ClaudeDriver: ProviderDriver<ClaudeSettings, ClaudeDriverEnv, Path.Path>;

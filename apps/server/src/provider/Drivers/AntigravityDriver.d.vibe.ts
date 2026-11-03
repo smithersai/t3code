@@ -1,0 +1,16 @@
+import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
+import { AntigravitySettings } from "@t3tools/contracts";
+import * as Crypto from "@t3tools/shared/Crypto";
+import * as FileSystem from "effect/FileSystem";
+import * as Path from "effect/Path";
+import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
+import { HttpClient } from "effect/http";
+import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
+import * as AntigravityInstallation from "../AntigravityInstallation.ts";
+import * as AntigravityUsage from "./AntigravityUsage.vibe";
+import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
+import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
+import * as ModelCatalog from "@t3tools/provider-core/server/ModelCatalog";
+import { type ProviderDriver } from "@t3tools/provider-core/server/driver";
+export type AntigravityDriverEnv = AntigravityInstallation.AntigravityInstallation | ProviderHost.ProviderHost | ChildProcessSpawner.ChildProcessSpawner | Crypto.Crypto | FileSystem.FileSystem | HttpClient.HttpClient | IdAllocator.IdAllocatorV2 | McpProviderSessions.McpProviderSessions | ModelCatalog.ModelCatalog | Path.Path | ProviderEventLoggers.ProviderEventLoggers;
+export declare const AntigravityDriver: ProviderDriver<AntigravitySettings, AntigravityDriverEnv, AntigravityUsage.AntigravityUsage>;

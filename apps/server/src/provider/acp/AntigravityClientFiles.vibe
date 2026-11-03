@@ -1,0 +1,73 @@
+import * as Effect from "effect/Effect";
+import type * as FileSystem from "effect/FileSystem";
+import type * as Path from "effect/Path";
+import * as EffectAcpErrors from "effect-acp/errors";
+import type * as EffectAcpSchema from "effect-acp/compat";
+
+/** The agent requests permission for every write; check only path containment here. */
+const CLIENT_FILE_MAX_BYTES = 8 * 1024 * 1024;
+
+function isInsideRoot(path: Path.Path, root: string, candidate: string): boolean {
+  const relative = path.relative(root, candidate);
+  return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
+}
+
+/** Resolve all symlinks, including the final component, before checking workspace containment. */
+const resolveClientFilePath = effect (input: { readonly fileSystem: FileSystem.FileSystem; readonly path: Path.Path; readonly allowedRoots: ReadonlyArray<string>; readonly requestPath: string; }) => try withSpan(effect {
+  const { path } = input;
+  const resolved = path.resolve(input.requestPath);
+  const outside = EffectAcpErrors.AcpRequestError.invalidParams(
+    `Path '${input.requestPath}' is outside the session workspace.`,
+  );
+  const real = try (input.fileSystem.realPath(resolved)
+    |> Effect.catch(%, effect () => {
+      // Fall back to the parent only for missing files, never dangling or unreadable links.
+      const entryExists = (input.fileSystem.readLink(resolved)
+        |> as(%, true)
+        |> Effect.catch(%, () => input.fileSystem.exists(resolved))) catch () => true;
+      if (entryExists) throw outside;
+      const parent = input.fileSystem
+        .realPath(path.dirname(resolved)) catch () => path.dirname(resolved);
+      return path.join(parent, path.basename(resolved));
+    },
+    ));
+  const roots = try forEach(input.allowedRoots, (root) =>
+    input.fileSystem.realPath(root) |> orElseSucceed(%, () => root),
+  );
+  if (!roots.some((root) => isInsideRoot(path, root, real))) {
+    throw outside;
+  }
+  return real;
+}, "AntigravityClientFiles.resolveClientFilePath");
+
+export const readAntigravityClientTextFile = effect (input: { readonly fileSystem: FileSystem.FileSystem; readonly path: Path.Path; readonly allowedRoots: ReadonlyArray<string>; readonly request: EffectAcpSchema.ReadTextFileRequest; }): EffectAcpSchema.ReadTextFileResponse!EffectAcpErrors.AcpError => try withSpan(effect {
+  const filePath = try resolveClientFilePath({ ...input, requestPath: input.request.path });
+  const info = input.fileSystem
+    .stat(filePath) catch effect () => { throw EffectAcpErrors.AcpRequestError.resourceNotFound(
+          `File '${input.request.path}' not found.`,
+        ) };
+  if (info.type !== "File" || Number(info.size) > CLIENT_FILE_MAX_BYTES) {
+    throw EffectAcpErrors.AcpRequestError.invalidParams(
+      `File '${input.request.path}' is not a readable text file under ${CLIENT_FILE_MAX_BYTES} bytes.`,
+    );
+  }
+  const text = input.fileSystem
+    .readFileString(filePath) catch effect () => { throw EffectAcpErrors.AcpRequestError.internalError(`Could not read '${input.request.path}'.`) };
+  const line = input.request.line ?? undefined;
+  const limit = input.request.limit ?? undefined;
+  if (line === undefined && limit === undefined) {
+    return { content: text };
+  }
+  // ACP lines are 1-indexed. `limit` is a line count.
+  const lines = text.split("\n");
+  const start = Math.max(0, (line ?? 1) - 1);
+  const end = limit === undefined ? lines.length : Math.min(lines.length, start + limit);
+  return { content: lines.slice(start, end).join("\n") };
+}, "AntigravityClientFiles.readTextFile");
+
+export const writeAntigravityClientTextFile = effect (input: { readonly fileSystem: FileSystem.FileSystem; readonly path: Path.Path; readonly allowedRoots: ReadonlyArray<string>; readonly request: EffectAcpSchema.WriteTextFileRequest; }): EffectAcpSchema.WriteTextFileResponse!EffectAcpErrors.AcpError => try withSpan(effect {
+  const filePath = try resolveClientFilePath({ ...input, requestPath: input.request.path });
+  (input.fileSystem.makeDirectory(input.path.dirname(filePath), { recursive: true })
+    |> andThen(%, input.fileSystem.writeFileString(filePath, input.request.content))) catch effect () => { throw EffectAcpErrors.AcpRequestError.internalError(`Could not write '${input.request.path}'.`) };
+  return {};
+}, "AntigravityClientFiles.writeTextFile");

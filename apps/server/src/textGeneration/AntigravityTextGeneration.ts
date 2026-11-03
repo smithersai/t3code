@@ -12,7 +12,7 @@ import * as Stream from "effect/Stream";
 import { type AcpError, AcpRequestError } from "effect-acp/errors";
 
 import { applyAntigravityAcpModelSelection } from "../provider/acp/AntigravityAcpSupport.ts";
-import { removeAntigravitySessionFiles } from "../provider/acp/AntigravitySessionFiles.ts";
+import { removeAntigravitySessionFiles } from "../provider/acp/AntigravitySessionFiles.vibe";
 import type * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
 import * as TextGenerationOperations from "@t3tools/provider-core/server/textGenerationOperations";
 

@@ -26,7 +26,7 @@ import {
 import {
   readAntigravityClientTextFile,
   writeAntigravityClientTextFile,
-} from "../../provider/acp/AntigravityClientFiles.ts";
+} from "../../provider/acp/AntigravityClientFiles.vibe";
 import {
   antigravityApprovalOptions,
   antigravitySubagentOutput,

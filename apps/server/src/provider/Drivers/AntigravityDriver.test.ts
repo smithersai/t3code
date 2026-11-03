@@ -26,7 +26,7 @@ import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEve
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as ModelManifest from "../ModelManifest.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import { AntigravityDriver } from "./AntigravityDriver.ts";
+import { AntigravityDriver } from "./AntigravityDriver.vibe";
 import * as ProviderHostLive from "../ProviderHostLive.ts";
 import * as ServerSecretStore from "../../auth/ServerSecretStore.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

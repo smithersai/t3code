@@ -17,27 +17,26 @@ import * as Path from "effect/Path";
 import { resolveAntigravityInstanceDirectories } from "../antigravityAuthSupport.ts";
 import { makeAntigravityUsageCache, readAntigravityUsage } from "./antigravityUsageReader.ts";
 
-export class AntigravityUsage extends Context.Service<
-  AntigravityUsage,
-  {
+export service AntigravityUsage: {
     readonly scan: (input: {
       readonly instances: ReadonlyArray<ProviderUsageInstance<AntigravitySettings>>;
       readonly windowStartMs: number;
-    }) => Effect.Effect<ReadonlyArray<ProviderUsageScan>, UsageReadError>;
-  }
->()("t3/provider/Drivers/AntigravityUsage") {}
+    }) => ReadonlyArray<ProviderUsageScan>!UsageReadError;
+  } {
+  static readonly key = "t3/provider/Drivers/AntigravityUsage"
+}
 
-const make = Effect.gen(function* () {
-  const crypto = yield* Crypto.Crypto;
-  const fileSystem = yield* FileSystem.FileSystem;
-  const path = yield* Path.Path;
-  const host = yield* ProviderHost.ProviderHost;
-  const cache = makeAntigravityUsageCache();
+const make = effect {
+  const crypto = try Crypto.Crypto;
+  const fileSystem = try FileSystem.FileSystem;
+  const path = try Path.Path;
+  const host = try ProviderHost.ProviderHost;
+  const cache = try orDie(Effect.try({ try: () => makeAntigravityUsageCache(), catch: (error) => error }));
 
-  const dataRoots = Effect.fn("AntigravityUsage.dataRoots")(function* (
+  const dataRoots = effect (
     environment: NodeJS.ProcessEnv,
-  ) {
-    const home = yield* HostProcess.HomeDirectory;
+  ) => try withSpan(effect {
+    const home = try HostProcess.HomeDirectory;
     const configured = environment["ANTIGRAVITY_DATA_DIR"]
       ?.split(",")
       .map((value) => value.trim())
@@ -50,58 +49,48 @@ const make = Effect.gen(function* () {
     ];
     const canonical = new Set<string>();
     for (const root of configured?.length ? configured : defaults) {
-      const resolved = path.resolve(expandHomePath(root, home));
+      const resolved = path.resolve(try orDie(Effect.try({ try: () => expandHomePath(root, home), catch: (error) => error })));
       canonical.add(
-        yield* fileSystem.realPath(resolved).pipe(Effect.orElseSucceed(() => resolved)),
+        fileSystem.realPath(resolved) catch () => resolved,
       );
     }
     return [...canonical];
-  });
+  }, "AntigravityUsage.dataRoots");
 
-  const scan: AntigravityUsage["Service"]["scan"] = Effect.fn("AntigravityUsage.scan")(function* ({
+  const scan: AntigravityUsage["Service"]["scan"] = effect ({
     instances,
     windowStartMs,
-  }) {
+  }) => try withSpan(effect {
     const roots: Array<string> = [];
-    for (const instance of instances) roots.push(...(yield* dataRoots(instance.environment)));
+    for (const instance of instances) roots.push(...(try dataRoots(instance.environment)));
     for (const { instanceId } of instances.filter((instance) => instance.configured)) {
-      const directories = yield* resolveAntigravityInstanceDirectories(
+      const directories = (resolveAntigravityInstanceDirectories(
         host.paths.stateDir,
         instanceId,
-      ).pipe(
-        Effect.provideService(Crypto.Crypto, crypto),
-        Effect.provideService(Path.Path, path),
-        Effect.mapError(
-          (cause) =>
-            new UsageReadError({
+      )
+        |> provideService(%, Crypto.Crypto, crypto)
+        |> provideService(%, Path.Path, path)) catch effect (cause) => { throw new UsageReadError({
               reason: "scanFailed",
               detail: "Antigravity profile directory could not be resolved.",
               cause,
-            }),
-        ),
-      );
+            }) };
       roots.push(path.join(directories.profile, "antigravity-acp"));
     }
     const conversationDirs = new Set<string>();
     for (const root of roots) {
-      const resolvedRoot = yield* fileSystem.realPath(root).pipe(Effect.orElseSucceed(() => root));
+      const resolvedRoot = fileSystem.realPath(root) catch () => root;
       const nested = path.join(resolvedRoot, "conversations");
-      const dir = (yield* fileSystem
-        .exists(nested)
-        .pipe(Effect.catchCause(() => Effect.succeed(false))))
+      const dir = (try (fileSystem
+        .exists(nested)|> catchCause(%, () => succeed(false))))
         ? nested
         : resolvedRoot;
-      conversationDirs.add(yield* fileSystem.realPath(dir).pipe(Effect.orElseSucceed(() => dir)));
+      conversationDirs.add(fileSystem.realPath(dir) catch () => dir);
     }
-    const result = yield* readAntigravityUsage([...conversationDirs], windowStartMs, cache).pipe(
-      Effect.provideService(FileSystem.FileSystem, fileSystem),
-      Effect.provideService(Path.Path, path),
-    );
+    const result = try effect { provide Path.Path = path { return try effect { provide FileSystem.FileSystem = fileSystem { return try readAntigravityUsage([...conversationDirs], windowStartMs, cache) } } } };
     const scanned: ProviderUsageScan[] = [];
     for (const dir of conversationDirs) {
-      const exists = yield* fileSystem
-        .exists(dir)
-        .pipe(Effect.catchCause(() => Effect.succeed(false)));
+      const exists = try (fileSystem
+        .exists(dir)|> catchCause(%, () => succeed(false)));
       const failed = result.errors.some(
         (error) => error === dir || error.startsWith(`${dir}${path.sep}`),
       );
@@ -113,10 +102,10 @@ const make = Effect.gen(function* () {
       });
     }
     return scanned;
-  });
+  }, "AntigravityUsage.scan");
 
   return AntigravityUsage.of({ scan });
-});
+};
 
 export const layer = Layer.effect(AntigravityUsage, make);
 
@@ -124,5 +113,5 @@ export const antigravityUsageReader: ProviderUsageReader<AntigravitySettings, An
   kind: "scan",
   provider: "antigravity",
   scan: ({ instances, windowStartMs }) =>
-    AntigravityUsage.pipe(Effect.flatMap((usage) => usage.scan({ instances, windowStartMs }))),
+    AntigravityUsage |> flatMap(%, (usage) => usage.scan({ instances, windowStartMs })),
 };

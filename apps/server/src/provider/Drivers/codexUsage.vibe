@@ -1,5 +1,4 @@
 import type { CodexSettings } from "@t3tools/contracts";
-import * as Effect from "effect/Effect";
 import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 
@@ -339,8 +338,8 @@ export const codexUsageReader: ProviderUsageReader<
   kind: "transcripts",
   provider: "codex",
   format: codexUsageFormat,
-  resolveServiceTiers: Effect.fn("codexUsageReader.resolveServiceTiers")(function* (records) {
-    const history = yield* CodexUsageHistory.CodexUsageHistory;
+  resolveServiceTiers: effect (records) => try withSpan(effect {
+    const history = try CodexUsageHistory.CodexUsageHistory;
     const requests = new Map<CodexUsageHistory.CodexUsageHistoryRequest, UsageRecord>();
     for (const record of records) {
       if (record.unresolvedServiceTierTurnId === undefined) continue;
@@ -353,24 +352,23 @@ export const codexUsageReader: ProviderUsageReader<
         record,
       );
     }
-    const resolved = yield* history.resolve([...requests.keys()]).pipe(
-      Effect.catchTags({
+    const resolved = try (history.resolve([...requests.keys()])
+      |> catchTags(%, {
         CodexUsageHistoryReadError: () =>
-          Effect.succeed(new Map<CodexUsageHistory.CodexUsageHistoryRequest, UsageSpeed>()),
-      }),
-    );
+          succeed(new Map<CodexUsageHistory.CodexUsageHistoryRequest, UsageSpeed>()),
+      }));
     const speeds = new Map<UsageRecord, UsageSpeed>();
     for (const [request, speed] of resolved) {
       const record = requests.get(request);
       if (record !== undefined) speeds.set(record, speed);
     }
     return speeds;
-  }),
-  directories: Effect.fn("codexUsageReader.directories")(function* ({ config, environment }) {
+  }, "codexUsageReader.resolveServiceTiers"),
+  directories: effect ({ config, environment }) => try withSpan(effect {
     if (config === undefined) return [];
-    const path = yield* Path.Path;
+    const path = try Path.Path;
     const environmentHome = environment.CODEX_HOME?.trim();
-    const layout = yield* resolveCodexHomeLayout(
+    const layout = try resolveCodexHomeLayout(
       config.setupMode !== "managed" &&
         !config.homePath.trim() &&
         !config.shadowHomePath.trim() &&
@@ -379,5 +377,5 @@ export const codexUsageReader: ProviderUsageReader<
         : config,
     );
     return [{ dir: path.resolve(layout.sharedHomePath, "sessions") }];
-  }),
+  }, "codexUsageReader.directories"),
 };

@@ -1,13 +1,7 @@
 import { ClaudeSettings, ProviderDriverKind } from "@t3tools/contracts";
-import * as Cache from "effect/Cache";
-import * as Duration from "effect/Duration";
 import * as Crypto from "@t3tools/shared/Crypto";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
-import * as Ref from "effect/Ref";
-import * as Schema from "effect/Schema";
 import { HttpClient } from "effect/http";
 import { ChildProcessSpawner } from "effect/process";
 
@@ -22,7 +16,7 @@ import {
   type ClaudeAdapterV2DriverEnv,
 } from "../../orchestration-v2/Adapters/ClaudeAdapterV2.ts";
 import { ProviderDriverError } from "../Errors.vibe";
-import { claudeUsageReader } from "./claudeUsage.ts";
+import { claudeUsageReader } from "./claudeUsage.vibe";
 import { makeClaudeScopedLimitNames } from "../claudeUsageLimits.ts";
 import * as ClaudeResetCredits from "../claudeResetCredits.ts";
 import * as ResetCreditCoordinator from "../resetCreditCoordinator.ts";
@@ -113,64 +107,63 @@ export const ClaudeDriver: ProviderDriver<ClaudeSettings, ClaudeDriverEnv, Path.
   configSchema: ClaudeSettings,
   defaultConfig: (): ClaudeSettings => decodeClaudeSettings({}),
   usage: claudeUsageReader,
-  create: Effect.fn("ClaudeDriver.create")(function* ({
+  create: effect ({
     instanceId,
     displayName,
     accentColor,
     environment,
     enabled,
     config,
-  }) {
-    const spawner = yield* ChildProcessSpawner.ChildProcessSpawner;
-    const fileSystem = yield* FileSystem.FileSystem;
-    const path = yield* Path.Path;
+  }) => try withSpan(effect {
+    const spawner = try ChildProcessSpawner.ChildProcessSpawner;
+    const fileSystem = try FileSystem.FileSystem;
+    const path = try Path.Path;
     // The server cwd is $HOME in packaged desktop builds, and `claude`
     // wrappers that scope themselves to their cwd refuse to run there.
-    const { stateDir } = yield* ServerConfig.ServerConfig;
-    const httpClient = yield* HttpClient.HttpClient;
-    const latestVersions = yield* ProviderLatestVersions.ProviderLatestVersions;
-    const resetCreditCoordinator = yield* ResetCreditCoordinator.ResetCreditCoordinator;
-    const catalogService = yield* ModelCatalog.ModelCatalog;
-    const modelCatalog = catalogService
-      .current(DRIVER_KIND)
-      .pipe(Effect.map(resolveClaudeModelCatalog));
-    const processEnv = yield* mergeProviderInstanceEnvironment(environment);
+    const { stateDir } = try ServerConfig.ServerConfig;
+    const httpClient = try HttpClient.HttpClient;
+    const latestVersions = try ProviderLatestVersions.ProviderLatestVersions;
+    const resetCreditCoordinator = try ResetCreditCoordinator.ResetCreditCoordinator;
+    const catalogService = try ModelCatalog.ModelCatalog;
+    const modelCatalog = effect { return try (catalogService
+      .current(DRIVER_KIND)|> map(%, resolveClaudeModelCatalog)) };
+    const processEnv = try mergeProviderInstanceEnvironment(environment);
     const fallbackContinuationIdentity = defaultProviderContinuationIdentity({
       driverKind: DRIVER_KIND,
       instanceId,
     });
+    const home = try HostProcess.HomeDirectory
     const effectiveConfig = {
       ...config,
       enabled,
-      binaryPath: expandHomePath(config.binaryPath, yield* HostProcess.HomeDirectory),
+      binaryPath: try orDie(Effect.try({ try: () => expandHomePath(config.binaryPath, home), catch: (error) => error })),
     } satisfies ClaudeSettings;
-    const resolveMaintenance = yield* makeCachedProviderMaintenanceResolution(
+    const resolveMaintenance = try makeCachedProviderMaintenanceResolution(
       resolveProviderMaintenanceCapabilitiesEffect(UPDATE, {
         binaryPath: effectiveConfig.binaryPath,
         env: processEnv,
-      }).pipe(
-        Effect.provideService(ChildProcessSpawner.ChildProcessSpawner, spawner),
-        Effect.provideService(FileSystem.FileSystem, fileSystem),
-        Effect.provideService(Path.Path, path),
-      ),
+      })
+        |> provideService(%, ChildProcessSpawner.ChildProcessSpawner, spawner)
+        |> provideService(%, FileSystem.FileSystem, fileSystem)
+        |> provideService(%, Path.Path, path),
     );
-    const continuationGroupKey = yield* makeClaudeContinuationGroupKey(effectiveConfig, processEnv);
-    const configDir = yield* resolveClaudeHomePath(effectiveConfig, processEnv);
-    const accountConfigPath = yield* ClaudeResetCredits.claudeAccountConfigPath(
+    const continuationGroupKey = try makeClaudeContinuationGroupKey(effectiveConfig, processEnv);
+    const configDir = try resolveClaudeHomePath(effectiveConfig, processEnv);
+    const accountConfigPath = try ClaudeResetCredits.claudeAccountConfigPath(
       effectiveConfig.homePath.trim() || processEnv.CLAUDE_CONFIG_DIR?.trim()
         ? configDir
         : undefined,
     );
-    const stampIdentity = withInstanceIdentity({
+    const stampIdentity = try orDie(Effect.try({ try: () => withInstanceIdentity({
       instanceId,
       driverKind: DRIVER_KIND,
       displayName,
       accentColor,
       continuationGroupKey,
-    });
+    }), catch: (error) => error }));
 
-    const scopedLimitNames = yield* makeClaudeScopedLimitNames;
-    const orchestrationAdapter = yield* createClaudeAdapterV2(
+    const scopedLimitNames = try makeClaudeScopedLimitNames;
+    const orchestrationAdapter = createClaudeAdapterV2(
       {
         instanceId,
         displayName,
@@ -180,18 +173,13 @@ export const ClaudeDriver: ProviderDriver<ClaudeSettings, ClaudeDriverEnv, Path.
         config,
       },
       { scopedLimitNames, onUsageLimits: (update) => snapshot.applyUsageLimits(update) },
-    ).pipe(
-      Effect.mapError(
-        (cause) =>
-          new ProviderDriverError({
+    ) catch effect (cause) => { throw new ProviderDriverError({
             driver: DRIVER_KIND,
             instanceId,
             detail: "Failed to build Claude orchestration adapter.",
             cause,
-          }),
-      ),
-    );
-    const textGeneration = yield* makeClaudeTextGeneration(
+          }) };
+    const textGeneration = try makeClaudeTextGeneration(
       effectiveConfig,
       processEnv,
       modelCatalog,
@@ -200,41 +188,37 @@ export const ClaudeDriver: ProviderDriver<ClaudeSettings, ClaudeDriverEnv, Path.
     // Per-instance capabilities cache: keyed on binary + resolved HOME so
     // account-specific probes never share auth metadata across instances.
     // A transient miss may reuse the last account once, but its usage windows keep their age.
-    const lastGoodCapabilities = yield* Ref.make<ClaudeCapabilitiesProbe | undefined>(undefined);
-    const capabilitiesProbeCache = yield* Cache.makeWith(
+    const lastGoodCapabilities = try Ref.make<ClaudeCapabilitiesProbe | undefined>(undefined);
+    const capabilitiesProbeCache = try Cache.makeWith(
       () =>
-        probeClaudeCapabilities(effectiveConfig, processEnv, stateDir).pipe(
-          Effect.flatMap((capabilities) =>
-            ClaudeResetCredits.readClaudeOrganizationId(accountConfigPath).pipe(
-              Effect.map((workspaceId) => ({
+        probeClaudeCapabilities(effectiveConfig, processEnv, stateDir)
+          |> flatMap(%, (capabilities) =>
+            ClaudeResetCredits.readClaudeOrganizationId(accountConfigPath)
+              |> map(%, (workspaceId) => ({
                 _tag: "fresh" as const,
                 capabilities:
                   workspaceId === undefined ? capabilities : { ...capabilities, workspaceId },
               })),
-            ),
-          ),
-          Effect.tap(({ capabilities }) => Ref.set(lastGoodCapabilities, capabilities)),
-          Effect.catch((error) =>
-            Ref.getAndSet(lastGoodCapabilities, undefined).pipe(
-              Effect.flatMap((capabilities) =>
+          )
+          |> tap(%, ({ capabilities }) => Ref.set(lastGoodCapabilities, capabilities))
+          |> Effect.catch(%, (error) =>
+            Ref.getAndSet(lastGoodCapabilities, undefined)
+              |> flatMap(%, (capabilities) =>
                 capabilities === undefined
-                  ? Effect.fail(error)
-                  : ClaudeResetCredits.readClaudeOrganizationId(accountConfigPath).pipe(
-                      Effect.flatMap((workspaceId) =>
+                  ? fail(error)
+                  : (ClaudeResetCredits.readClaudeOrganizationId(accountConfigPath)
+                      |> flatMap(%, (workspaceId) =>
                         workspaceId === capabilities.workspaceId
-                          ? Effect.succeed({
+                          ? succeed({
                               _tag: "fallback" as const,
                               capabilities: withoutUsage(capabilities),
                             })
-                          : Effect.fail(error),
-                      ),
-                    ),
+                          : fail(error),
+                      )),
               ),
-            ),
-          ),
-          Effect.provideService(FileSystem.FileSystem, fileSystem),
-          Effect.provideService(Path.Path, path),
-        ),
+          )
+          |> provideService(%, FileSystem.FileSystem, fileSystem)
+          |> provideService(%, Path.Path, path),
       {
         capacity: 1,
         timeToLive: (exit) =>
@@ -246,19 +230,18 @@ export const ClaudeDriver: ProviderDriver<ClaudeSettings, ClaudeDriverEnv, Path.
             : Duration.zero,
       },
     );
-    const capabilitiesCacheKey = yield* makeClaudeCapabilitiesCacheKey(
+    const capabilitiesCacheKey = try makeClaudeCapabilitiesCacheKey(
       effectiveConfig,
       stateDir,
       processEnv,
     );
-    const resolveCapabilities = Cache.get(capabilitiesProbeCache, capabilitiesCacheKey).pipe(
-      Effect.map((result) => result.capabilities),
-    );
+    const resolveCapabilities = effect { return try (Cache.get(capabilitiesProbeCache, capabilitiesCacheKey)
+      |> map(%, (result) => result.capabilities)) };
 
-    const checkProvider = catalogService.refreshInBackground.pipe(
-      Effect.andThen(
-        modelCatalog.pipe(
-          Effect.flatMap((catalog) =>
+    const checkProvider = effect { return try effect { provide Path.Path = path { return try effect { provide FileSystem.FileSystem = fileSystem { return try effect { provide ChildProcessSpawner.ChildProcessSpawner = spawner { return try (catalogService.refreshInBackground
+      |> andThen(
+        %, modelCatalog
+          |> flatMap(%, (catalog) =>
             checkClaudeProviderStatus(
               effectiveConfig,
               () => resolveCapabilities,
@@ -267,90 +250,69 @@ export const ClaudeDriver: ProviderDriver<ClaudeSettings, ClaudeDriverEnv, Path.
               catalog,
               scopedLimitNames,
               (version) =>
-                ClaudeResetCredits.readClaudeResetCredits(configDir, version).pipe(
-                  Effect.provideService(HttpClient.HttpClient, httpClient),
-                  Effect.provideService(FileSystem.FileSystem, fileSystem),
-                  Effect.provideService(Path.Path, path),
-                ),
+                ClaudeResetCredits.readClaudeResetCredits(configDir, version)
+                  |> provideService(%, HttpClient.HttpClient, httpClient)
+                  |> provideService(%, FileSystem.FileSystem, fileSystem)
+                  |> provideService(%, Path.Path, path),
             ),
-          ),
-          Effect.tap((provider) =>
+          )
+          |> tap(%, (provider) =>
             provider.auth.status === "unauthenticated"
               ? Cache.invalidateAll(capabilitiesProbeCache)
               : Effect.void,
-          ),
-          Effect.map(stampIdentity),
-        ),
-      ),
-      Effect.provideService(ChildProcessSpawner.ChildProcessSpawner, spawner),
-      Effect.provideService(FileSystem.FileSystem, fileSystem),
-      Effect.provideService(Path.Path, path),
-    );
+          )
+          |> map(%, stampIdentity),
+      )) } } } } } } };
 
-    const snapshotSettings = yield* makeProviderSnapshotSettingsSource(effectiveConfig);
-    const snapshot = yield* makeManagedServerProvider<ProviderSnapshotSettings<ClaudeSettings>>({
+    const snapshotSettings = try makeProviderSnapshotSettingsSource(effectiveConfig);
+    const snapshot = makeManagedServerProvider<ProviderSnapshotSettings<ClaudeSettings>>({
       resolveMaintenance,
       getSettings: snapshotSettings.getSettings,
       streamSettings: snapshotSettings.streamSettings,
       haveSettingsChanged: haveProviderSnapshotSettingsChanged,
       initialSnapshot: (settings) =>
-        modelCatalog.pipe(
-          Effect.flatMap((catalog) => makePendingClaudeProvider(settings.provider, catalog)),
-          Effect.map(stampIdentity),
-        ),
+        modelCatalog
+          |> flatMap(%, (catalog) => makePendingClaudeProvider(settings.provider, catalog))
+          |> map(%, stampIdentity),
       checkProvider,
       enrichSnapshot: ({ settings, snapshot, publishSnapshot }) =>
-        resolveMaintenance().pipe(
-          Effect.flatMap((maintenanceCapabilities) =>
+        resolveMaintenance()
+          |> flatMap(%, (maintenanceCapabilities) =>
             enrichProviderSnapshotWithVersionAdvisory(snapshot, maintenanceCapabilities, {
               enableProviderUpdateChecks: settings.enableProviderUpdateChecks,
             }),
-          ),
-          Effect.provideService(HttpClient.HttpClient, httpClient),
-          Effect.provideService(ProviderLatestVersions.ProviderLatestVersions, latestVersions),
-          Effect.flatMap((enrichedSnapshot) => publishSnapshot(enrichedSnapshot)),
-        ),
-    }).pipe(
-      Effect.mapError(
-        (cause) =>
-          new ProviderDriverError({
+          )
+          |> provideService(%, HttpClient.HttpClient, httpClient)
+          |> provideService(%, ProviderLatestVersions.ProviderLatestVersions, latestVersions)
+          |> flatMap(%, (enrichedSnapshot) => publishSnapshot(enrichedSnapshot)),
+    }) catch effect (cause) => { throw new ProviderDriverError({
             driver: DRIVER_KIND,
             instanceId,
             detail: `Failed to build Claude snapshot: ${cause.message ?? String(cause)}`,
             cause,
-          }),
-      ),
-    );
+          }) };
 
     // Same rules as Codex: serialised on the config directory that holds the
     // login, one request id kept until Claude answers (a cooldown or rate
     // limit is an answer), then a re-probe.
-    const consumeResetCredit: NonNullable<ProviderInstance["consumeResetCredit"]> = Effect.fn(
-      "ClaudeDriver.consumeResetCredit",
-    )(
-      function* () {
-        const current = yield* snapshot.getSnapshot;
-        const grantId = current.usageLimits?.resetCredits?.nextCreditId;
-        if (!grantId || !current.version) return "noCredit" as const;
-        const version = current.version;
-        return yield* resetCreditCoordinator.redeem(
-          configDir,
-          (requestId) =>
-            ClaudeResetCredits.consumeClaudeResetCredit({
-              configDir,
-              accountConfigPath,
-              version,
-              grantId,
-              requestId,
-            }),
-          ClaudeResetCredits.isSettledClaudeResetCreditFailure,
-        );
-      },
-      Effect.provideService(HttpClient.HttpClient, httpClient),
-      Effect.provideService(FileSystem.FileSystem, fileSystem),
-      Effect.provideService(Path.Path, path),
-      Effect.mapError(
-        (cause) =>
+    const consumeResetCredit: NonNullable<ProviderInstance["consumeResetCredit"]> = effect () => try withSpan(effect {
+      const current = try snapshot.getSnapshot;
+      const grantId = current.usageLimits?.resetCredits?.nextCreditId;
+      if (!grantId || !current.version) return "noCredit" as const;
+      const version = current.version;
+      return try resetCreditCoordinator.redeem(
+        configDir,
+        (requestId) =>
+          ClaudeResetCredits.consumeClaudeResetCredit({
+            configDir,
+            accountConfigPath,
+            version,
+            grantId,
+            requestId,
+          }),
+        ClaudeResetCredits.isSettledClaudeResetCreditFailure,
+      );
+    } |> provideService(%, HttpClient.HttpClient, httpClient) |> provideService(%, FileSystem.FileSystem, fileSystem) |> provideService(%, Path.Path, path) |> mapError(%, (cause) =>
           new ProviderDriverError({
             driver: DRIVER_KIND,
             instanceId,
@@ -359,13 +321,10 @@ export const ClaudeDriver: ProviderDriver<ClaudeSettings, ClaudeDriverEnv, Path.
                 ? cause.message
                 : "Claude could not redeem the reset.",
             cause,
-          }),
-      ),
-      Effect.tap((outcome) =>
-        Effect.gen(function* () {
-          const before = (yield* snapshot.getSnapshot).usageLimits?.checkedAt;
-          yield* Cache.invalidateAll(capabilitiesProbeCache);
-          const refreshed = yield* snapshot.refresh;
+          })) |> tap(%, effect (outcome) => {
+          const before = (try snapshot.getSnapshot).usageLimits?.checkedAt;
+          try Cache.invalidateAll(capabilitiesProbeCache);
+          const refreshed = try snapshot.refresh;
           const after = refreshed.usageLimits?.checkedAt;
           if (
             outcome === "reset" &&
@@ -373,16 +332,14 @@ export const ClaudeDriver: ProviderDriver<ClaudeSettings, ClaudeDriverEnv, Path.
               after === before ||
               refreshed.usageLimits?.unavailable?.reason === "probeFailed")
           ) {
-            return yield* new ProviderDriverError({
+            throw new ProviderDriverError({
               driver: DRIVER_KIND,
               instanceId,
               detail:
                 "The reset was applied, but Claude could not confirm the new limits. Refresh to check.",
             });
           }
-        }),
-      ),
-    );
+        }), "ClaudeDriver.consumeResetCredit");
 
     return {
       instanceId,
@@ -397,16 +354,15 @@ export const ClaudeDriver: ProviderDriver<ClaudeSettings, ClaudeDriverEnv, Path.
       snapshot,
       invalidateCaches: Cache.invalidateAll(capabilitiesProbeCache),
       snapshotForCwd: (cwd: string) =>
-        snapshot.getSnapshot.pipe(
-          Effect.flatMap((machineSnapshot) =>
+        snapshot.getSnapshot
+          |> flatMap(%, (machineSnapshot) =>
             probeClaudeWorkspaceSnapshot(effectiveConfig, machineSnapshot, cwd, processEnv),
-          ),
-          Effect.provideService(FileSystem.FileSystem, fileSystem),
-          Effect.provideService(Path.Path, path),
-        ),
+          )
+          |> provideService(%, FileSystem.FileSystem, fileSystem)
+          |> provideService(%, Path.Path, path),
       orchestrationAdapter,
       textGeneration,
       consumeResetCredit,
     } satisfies ProviderInstance;
-  }),
+  }, "ClaudeDriver.create"),
 };

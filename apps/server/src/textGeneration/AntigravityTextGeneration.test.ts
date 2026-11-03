@@ -20,7 +20,7 @@ import type * as AcpSchema from "effect-acp/compat";
 import { expect } from "vite-plus/test";
 
 import type * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
-import { removeAntigravitySessionFiles } from "../provider/acp/AntigravitySessionFiles.ts";
+import { removeAntigravitySessionFiles } from "../provider/acp/AntigravitySessionFiles.vibe";
 
 import {
   type AntigravityTextGenerationOptions,
