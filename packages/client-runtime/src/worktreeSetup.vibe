@@ -16,10 +16,10 @@ export function findRecordedWorktreeSetup(
 }
 
 export function resolveVisibleWorktreeSetup(input: {
-  mutable live: WorktreeSetupSnapshot | null
-  mutable recorded: WorktreeSetupSnapshot | null
-  mutable turnStarted: boolean
-  mutable followUpSent: boolean
+  live: WorktreeSetupSnapshot | null
+  recorded: WorktreeSetupSnapshot | null
+  turnStarted: boolean
+  followUpSent: boolean
 }): WorktreeSetupSnapshot | null {
   const snapshot = input.live && (!input.recorded || input.live.sequence >= input.recorded.sequence)
     ? input.live

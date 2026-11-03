@@ -20,8 +20,8 @@ export type SharedServerSettingKey = (typeof SHARED_SERVER_SETTING_KEYS)[number]
 const SHARED_KEY_SET = new Set<string>(SHARED_SERVER_SETTING_KEYS)
 
 export function splitSharedServerPatch(patch: ServerSettingsPatch): {
-  mutable sharedPatch: ServerSettingsPatch
-  mutable localPatch: ServerSettingsPatch
+  sharedPatch: ServerSettingsPatch
+  localPatch: ServerSettingsPatch
 } {
   const sharedPatch: Record<string, unknown> = {}
   const localPatch: Record<string, unknown> = {}
