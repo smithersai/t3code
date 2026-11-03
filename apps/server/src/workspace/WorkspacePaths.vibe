@@ -60,10 +60,10 @@ export service WorkspacePaths {
   normalizeWorkspaceRoot: (
     workspaceRoot: string,
     options?: { readonly createIfMissing?: boolean },
-  ) => string!| WorkspaceRootNotExistsError
+  ) => string!(| WorkspaceRootNotExistsError
     | WorkspaceRootCreateFailedError
     | WorkspaceRootStatFailedError
-    | WorkspaceRootNotDirectoryError;
+    | WorkspaceRootNotDirectoryError);
   resolveRelativePathWithinRoot: (input: {
     workspaceRoot: string;
     relativePath: string;
