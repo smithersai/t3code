@@ -25,7 +25,7 @@ import * as Option from "effect/Option";
 import * as ServerConfig from "../config.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as AuthSessions from "../persistence/AuthSessions.ts";
-import * as ServerSecretStore from "./ServerSecretStore.ts";
+import * as ServerSecretStore from "./ServerSecretStore.vibe";
 import {
   REUSABLE_DEV_SESSION_EXPIRES_AT,
   REUSABLE_DEV_SESSION_PREFIX,

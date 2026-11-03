@@ -14,7 +14,7 @@ import * as Schema from "effect/Schema";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import { HttpClient } from "effect/http";
 
-import * as BackgroundPolicy from "../../background/BackgroundPolicy.ts";
+import * as BackgroundPolicy from "../../background/BackgroundPolicy.vibe";
 import * as ServerConfig from "../../config.ts";
 import * as ServerSettings from "../../serverSettings.ts";
 import * as AntigravityInstallation from "../AntigravityInstallation.ts";
@@ -28,7 +28,7 @@ import * as ModelManifest from "../ModelManifest.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { AntigravityDriver } from "./AntigravityDriver.ts";
 import * as ProviderHostLive from "../ProviderHostLive.ts";
-import * as ServerSecretStore from "../../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../../auth/ServerSecretStore.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const hostPlatform = HostProcess.Platform.defaultValue();

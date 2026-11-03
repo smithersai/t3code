@@ -23,8 +23,8 @@ import * as Stream from "effect/Stream";
 import { FetchHttpClient, HttpRouter, HttpServer } from "effect/http";
 import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder";
 
-import * as BackgroundPolicy from "./background/BackgroundPolicy.ts";
-import * as HostPowerMonitor from "./background/HostPowerMonitor.ts";
+import * as BackgroundPolicy from "./background/BackgroundPolicy.vibe";
+import * as HostPowerMonitor from "./background/HostPowerMonitor.vibe";
 import * as ServerConfig from "./config.ts";
 import { withUntracedRequests } from "./http.ts";
 import * as ServerHttp from "./http.ts";
@@ -59,7 +59,7 @@ import * as ProviderHostLive from "./provider/ProviderHostLive.ts";
 import * as DocumentText from "./provider/DocumentText.ts";
 import * as AcpRegistrySupport from "@t3tools/provider-acp-registry/server/AcpRegistrySupport";
 import * as CheckpointDiffQuery from "./checkpointing/CheckpointDiffQuery.ts";
-import * as CheckpointStore from "./checkpointing/CheckpointStore.ts";
+import * as CheckpointStore from "./checkpointing/CheckpointStore.vibe";
 import * as SourceControlBuiltInDrivers from "./sourceControl/builtInDrivers.ts";
 import { BUILT_IN_SOURCE_CONTROL_DRIVER_LIST } from "./sourceControl/sourceControlDefinitions.ts";
 import * as TextGeneration from "./textGeneration/TextGeneration.ts";
@@ -129,14 +129,14 @@ import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
 import * as DirectEndpoints from "./environment/DirectEndpoints.ts";
 import * as RemoteOpenTargets from "./environment/RemoteOpenTargets.ts";
 import * as AuthHttp from "./auth/http.ts";
-import * as ReplayMarkers from "./auth/replayMarkers.ts";
-import * as ServerSecretStore from "./auth/ServerSecretStore.ts";
+import * as ReplayMarkers from "./auth/replayMarkers.vibe";
+import * as ServerSecretStore from "./auth/ServerSecretStore.vibe";
 import * as CodexManagedTokenBroker from "./provider/CodexManagedTokenBroker.ts";
 import * as WebhookRoute from "./scheduledTasks/webhookRoute.ts";
 import * as RelayDeliveryProof from "./scheduledTasks/RelayDeliveryProof.ts";
 import * as HeldHooksWaker from "./relay/HeldHooksWaker.ts";
 import * as McpOAuth from "./auth/McpOAuth.ts";
-import * as McpOAuthHttp from "./auth/mcpOAuthHttp.ts";
+import * as McpOAuthHttp from "./auth/mcpOAuthHttp.vibe";
 import {
   relayHookBaseUrl,
   ScheduledTaskWebhookOrigin,

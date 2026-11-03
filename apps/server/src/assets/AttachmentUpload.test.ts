@@ -15,7 +15,7 @@ import * as PlatformError from "effect/PlatformError";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import { base64UrlEncode, signPayload } from "../auth/utils.ts";
 import * as ServerConfig from "../config.ts";
 import {

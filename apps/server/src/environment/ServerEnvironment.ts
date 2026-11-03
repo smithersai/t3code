@@ -14,7 +14,7 @@ import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 
 import packageJson from "../../package.json" with { type: "json" };
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import { resolveServerInstallation } from "../cli/invocation.vibe";
 import { readAgentActivityPublishingActive } from "../cloud/config.ts";
 import { resolveServerSelfUpdateCapability } from "../cloud/selfUpdate.ts";

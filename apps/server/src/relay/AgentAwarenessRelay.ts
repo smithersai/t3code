@@ -37,7 +37,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpApiClient from "effect/http-api/HttpApiClient";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import {
   isAgentActivityPublishingEnabledValue,
   PUBLISH_AGENT_ACTIVITY_SECRET,

@@ -1,14 +1,7 @@
 import { PositiveInt } from "@t3tools/contracts";
-import * as Clock from "effect/Clock";
 import * as Config from "effect/Config";
-import * as Console from "effect/Console";
-import * as DateTime from "effect/DateTime";
-import * as Duration from "effect/Duration";
-import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
-import * as Option from "effect/Option";
-import * as Schema from "effect/Schema";
-import { Command, Flag } from "effect/cli";
+import { Command } from "effect/cli";
 
 import * as ServerConfig from "../config.ts";
 import { streamTraceFileLines, toRotatedTracePaths } from "../diagnostics/TraceDiagnostics.ts";
@@ -160,32 +153,33 @@ const traceSummaryCommand = Command.make("summary", {
 }).pipe(
   Command.withDescription("Summarize the local server trace file: counts, rates, and latency."),
   Command.withHandler(
-    Effect.fn("cli.trace.summary")(function* (flags) {
-      const fs = yield* FileSystem.FileSystem;
-      const envHome = yield* Config.String("T3CODE_HOME").pipe(Config.option);
-      const baseDir = yield* resolveBaseDir(
+    effect (flags) => try withSpan(effect {
+      const fs = try FileSystem.FileSystem;
+      const envHome = try Config.String("T3CODE_HOME").pipe(Config.option);
+      const baseDir = try resolveBaseDir(
         Option.getOrUndefined(Option.orElse(flags.baseDir, () => envHome)),
       );
       const traceFilePath =
-        (yield* traceFileConfig) ??
-        (yield* ServerConfig.deriveServerPaths(baseDir, undefined)).serverTracePath;
+        (try traceFileConfig) ??
+        (try ServerConfig.deriveServerPaths(baseDir, undefined)).serverTracePath;
       const sinceMs = Option.isSome(flags.since)
-        ? (yield* Clock.currentTimeMillis) - Duration.toMillis(flags.since.value)
+        ? (try Clock.currentTimeMillis) - Duration.toMillis(flags.since.value)
         : undefined;
       const summarizer = makeTraceSpanSummary(sinceMs);
-      yield* Effect.forEach(
-        toRotatedTracePaths(traceFilePath, yield* traceMaxFilesConfig),
+      const maxFiles = try traceMaxFilesConfig
+      try forEach(
+        try orDie(Effect.try({ try: () => toRotatedTracePaths(traceFilePath, maxFiles), catch: (error) => error })),
         (path) => streamTraceFileLines(fs, path, summarizer.addLine),
         { discard: true },
       );
       const summary = summarizer.finish();
 
-      yield* Console.log(
+      try Console.log(
         summary.spanCount === 0
           ? `No spans found in ${traceFilePath} or its rotated files${sinceMs === undefined ? "" : " in that window"}.${summary.skippedLineCount > 0 ? ` Skipped ${summary.skippedLineCount} lines that are not spans.` : ""}`
           : formatTraceSummary(summary, flags.limit),
       );
-    }),
+    }, "cli.trace.summary"),
   ),
 );
 

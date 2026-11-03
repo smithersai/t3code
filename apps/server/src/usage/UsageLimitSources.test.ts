@@ -5,7 +5,7 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import { HttpClient } from "effect/http";
 
-import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import * as UsageLimitSources from "./UsageLimitSources.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

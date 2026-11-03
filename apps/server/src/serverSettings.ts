@@ -50,7 +50,7 @@ import {
   fallbackTextGenerationModelSelection,
   isModelSelectionProviderEnabled,
 } from "@t3tools/shared/serverSettings";
-import * as ServerSecretStore from "./auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "./auth/ServerSecretStore.vibe";
 import {
   readSecretFieldValues,
   sourceControlHostSecretName,

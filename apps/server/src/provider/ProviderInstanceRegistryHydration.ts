@@ -19,7 +19,7 @@ import * as ProviderOrchestrationAdapterInfrastructure from "./ProviderOrchestra
 import * as AcpRegistrySupport from "@t3tools/provider-acp-registry/server/AcpRegistrySupport";
 import * as ProviderHostLive from "./ProviderHostLive.ts";
 import type * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
-import type * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
+import type * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
 import type * as ServerConfig from "../config.ts";
 import type * as PortScanner from "../preview/PortScanner.ts";
 

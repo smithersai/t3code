@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vite-plus/test";
 import * as PlatformError from "effect/PlatformError";
 
-import { SecretStorePersistError } from "./ServerSecretStore.ts";
+import { SecretStorePersistError } from "./ServerSecretStore.vibe";
 import { mapDpopReplayStoreError } from "./dpop.ts";
 
 const storeFailure = (tag: "AlreadyExists" | "PermissionDenied") =>

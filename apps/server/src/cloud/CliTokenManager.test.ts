@@ -13,7 +13,7 @@ import * as TestClock from "effect/testing/TestClock";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ExternalLauncher from "../process/externalLauncher.ts";
 import * as CliTokenManager from "./CliTokenManager.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

@@ -6,7 +6,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { McpServer } from "effect/ai";
 
-import { ServerSecretStore } from "../auth/ServerSecretStore.ts";
+import { ServerSecretStore } from "../auth/ServerSecretStore.vibe";
 import { ServerConfig } from "../config.ts";
 import { DeviceService } from "../device/DeviceService.ts";
 import { ServerEnvironment } from "../environment/ServerEnvironment.ts";

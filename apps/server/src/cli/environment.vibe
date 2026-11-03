@@ -1,17 +1,8 @@
 import { AuthMcpClientAccess, EnvironmentId, type PeerLinkSummary } from "@t3tools/contracts";
-import * as Console from "effect/Console";
-import * as DateTime from "effect/DateTime";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as References from "effect/References";
 import * as Schema from "effect/Schema";
-import * as Argument from "effect/cli/Argument";
 import * as Command from "effect/cli/Command";
-import * as Flag from "effect/cli/Flag";
-import * as GlobalFlag from "effect/cli/GlobalFlag";
-import * as FetchHttpClient from "effect/http/FetchHttpClient";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ServerConfig from "../config.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as PeerLinks from "../peer/PeerLinks.ts";
@@ -23,17 +14,14 @@ import { authLocationFlags, type CliAuthLocationFlags, resolveCliAuthConfig } fr
  * Links live in this environment's database and secret store, so these
  * commands work whether or not its server is running.
  */
-const runWithPeerLinks = Effect.fn("environment.runWithPeerLinks")(function* <A, E>(
+const runWithPeerLinks = effect <A, E>(
   flags: CliAuthLocationFlags,
-  run: (links: PeerLinks.PeerLinks["Service"]) => Effect.Effect<A, E>,
-  options?: { readonly quietLogs?: boolean },
-) {
-  const logLevel = yield* GlobalFlag.LogLevel;
-  const config = yield* resolveCliAuthConfig(flags, logLevel);
-  return yield* PeerLinks.PeerLinks.pipe(
-    Effect.flatMap(run),
-    Effect.provide(
-      PeerLinks.layer.pipe(
+  run: (links: PeerLinks.PeerLinks["Service"]) => A!E,
+  options?: { readonly quietLogs?: boolean; } | undefined,
+) => try withSpan(effect {
+  const logLevel = try GlobalFlag.LogLevel;
+  const config = try resolveCliAuthConfig(flags, logLevel);
+  return try effect { provide PeerLinks.layer.pipe(
         Layer.provide(
           Layer.mergeAll(
             ServerSecretStore.layer,
@@ -51,10 +39,9 @@ const runWithPeerLinks = Effect.fn("environment.runWithPeerLinks")(function* <A,
         Layer.provide(
           Layer.succeed(References.MinimumLogLevel, options?.quietLogs ? "Error" : config.logLevel),
         ),
-      ),
-    ),
-  );
-});
+      ) { return try (PeerLinks.PeerLinks
+    |> flatMap(%, run)) } };
+}, "environment.runWithPeerLinks");
 
 const jsonFlag = Flag.Boolean("json").pipe(
   Flag.withDescription("Emit JSON instead of human-readable output."),
@@ -100,18 +87,17 @@ const environmentLinkCommand = Command.make("link", {
     "Link another T3 Code environment, so agents here can work there. It shows up there under Settings → Connections, where it can be revoked.",
   ),
   Command.withHandler((flags) =>
-    runWithPeerLinks(flags, (links) =>
-      Effect.gen(function* () {
-        const linked = yield* links.link({
-          url: flags.url,
-          alternateUrls: flags.alternateUrl,
-          pairingCode: flags.pairingCode,
-          access: flags.access,
-        });
-        yield* Console.log(
-          `Linked ${linked.label} (${linked.environmentId}) with ${linked.access} access, until ${DateTime.formatIso(linked.expiresAt)}.\n`,
-        );
-      }),
+    runWithPeerLinks(flags, effect (links) => {
+      const linked = try links.link({
+        url: flags.url,
+        alternateUrls: flags.alternateUrl,
+        pairingCode: flags.pairingCode,
+        access: flags.access,
+      });
+      try Console.log(
+        `Linked ${linked.label} (${linked.environmentId}) with ${linked.access} access, until ${DateTime.formatIso(linked.expiresAt)}.\n`,
+      );
+    },
     ),
   ),
 );
@@ -121,11 +107,10 @@ const environmentListCommand = Command.make("list", { ...authLocationFlags, json
   Command.withHandler((flags) =>
     runWithPeerLinks(
       flags,
-      (links) =>
-        Effect.gen(function* () {
-          const listed = yield* links.list;
-          yield* Console.log(flags.json ? `${yield* encodeLinks(listed)}\n` : formatLinks(listed));
-        }),
+      effect (links) => {
+        const listed = try links.list;
+        try Console.log(flags.json ? `${try encodeLinks(listed)}\n` : formatLinks(listed));
+      },
       { quietLogs: flags.json },
     ),
   ),
@@ -141,15 +126,14 @@ const environmentUnlinkCommand = Command.make("unlink", {
     "Forget a linked environment here. Revoke it in that environment's Connections to end its session there too.",
   ),
   Command.withHandler((flags) =>
-    runWithPeerLinks(flags, (links) =>
-      Effect.gen(function* () {
-        const removed = yield* links.unlink(EnvironmentId.make(flags.environmentId));
-        yield* Console.log(
-          removed
-            ? `Forgot ${flags.environmentId}. Revoke it in that environment's Connections to end its session there.\n`
-            : `No linked environment ${flags.environmentId}.\n`,
-        );
-      }),
+    runWithPeerLinks(flags, effect (links) => {
+      const removed = try links.unlink(EnvironmentId.make(flags.environmentId));
+      try Console.log(
+        removed
+          ? `Forgot ${flags.environmentId}. Revoke it in that environment's Connections to end its session there.\n`
+          : `No linked environment ${flags.environmentId}.\n`,
+      );
+    },
     ),
   ),
 );

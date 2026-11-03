@@ -12,48 +12,39 @@ import {
   resolveServerBackgroundActivitySettings,
   type ResolvedBackgroundActivitySettings,
 } from "@t3tools/shared/backgroundActivitySettings";
-import * as DateTime from "effect/DateTime";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as PubSub from "effect/PubSub";
-import * as Ref from "effect/Ref";
 import * as Scope from "effect/Scope";
-import * as Semaphore from "effect/Semaphore";
 import * as Stream from "effect/Stream";
 
 import * as ServerSettings from "../serverSettings.ts";
 import { subscribeBeforeSnapshot } from "../utils/subscribeBeforeSnapshot.ts";
-import * as HostPowerMonitor from "./HostPowerMonitor.ts";
+import * as HostPowerMonitor from "./HostPowerMonitor.vibe";
 
-export class BackgroundPolicy extends Context.Service<
-  BackgroundPolicy,
-  {
+export service BackgroundPolicy: {
     readonly reportClientActivity: (
       sessionId: AuthSessionId,
       rpcClientId: RpcClientId,
       input: ClientActivityReportInput,
-    ) => Effect.Effect<void>;
+    ) => void!!;
     readonly removeRpcClient: (
       sessionId: AuthSessionId,
       rpcClientId: RpcClientId,
-    ) => Effect.Effect<void>;
-    readonly reportHostPowerState: (snapshot: HostPowerSnapshot) => Effect.Effect<void>;
-    readonly snapshot: Effect.Effect<BackgroundPolicySnapshot>;
+    ) => void!!;
+    readonly reportHostPowerState: (snapshot: HostPowerSnapshot) => void!!;
+    readonly snapshot: BackgroundPolicySnapshot!!;
     readonly streamChanges: Stream.Stream<BackgroundPolicySnapshot>;
-    readonly subscribe: Effect.Effect<
-      {
+    readonly subscribe: {
         readonly latest: BackgroundPolicySnapshot;
         readonly changes: Stream.Stream<BackgroundPolicySnapshot>;
-      },
-      never,
-      Scope.Scope
-    >;
-    readonly hasDemand: (scope: BackgroundScope) => Effect.Effect<boolean>;
-    readonly shouldRunScopeWork: (scope: BackgroundScope) => Effect.Effect<boolean>;
-    readonly shouldRunOpportunisticWork: Effect.Effect<boolean>;
-  }
->()("t3/background/BackgroundPolicy") {}
+      }!never!Scope.Scope;
+    readonly hasDemand: (scope: BackgroundScope) => boolean!!;
+    readonly shouldRunScopeWork: (scope: BackgroundScope) => boolean!!;
+    readonly shouldRunOpportunisticWork: boolean!!;
+  } {
+  static readonly key = "t3/background/BackgroundPolicy"
+}
 
 const DEFAULT_LEASE_TTL_MS = 45_000;
 const MAX_LEASE_TTL_MS = 120_000;
@@ -209,32 +200,29 @@ function computeSnapshot(input: {
 }
 
 /** @public */
-export const make = Effect.fn("background.policy.make")(function* () {
-  const hostPowerMonitor = yield* HostPowerMonitor.HostPowerMonitor;
-  const serverSettings = yield* ServerSettings.ServerSettingsService;
-  const leasesRef = yield* Ref.make(new Map<string, ClientActivityLease>());
-  const changes = yield* PubSub.sliding<BackgroundPolicySnapshot>(1);
-  const publishMutex = yield* Semaphore.make(1);
+export const make = effect () => try withSpan(effect {
+  const hostPowerMonitor = try HostPowerMonitor.HostPowerMonitor;
+  const serverSettings = try ServerSettings.ServerSettingsService;
+  const leasesRef = try Ref.make(new Map<string, ClientActivityLease>());
+  const changes = try PubSub.sliding<BackgroundPolicySnapshot>(1);
+  const publishMutex = try Semaphore.make(1);
 
-  const backgroundActivitySettings = serverSettings.getSettings.pipe(
-    Effect.map(resolveServerBackgroundActivitySettings),
-    Effect.orElseSucceed(() => getBackgroundActivityPresetSettings("balanced")),
-  );
+  const backgroundActivitySettings = effect { return (serverSettings.getSettings
+    |> map(%, resolveServerBackgroundActivitySettings)) catch () => getBackgroundActivityPresetSettings("balanced") };
 
-  const snapshot = Effect.gen(function* () {
-    const [hostPower, leases, now, settings] = yield* Effect.all([
+  const snapshot = effect {
+    const [hostPower, leases, now, settings] = try all([
       hostPowerMonitor.snapshot,
       Ref.get(leasesRef),
       DateTime.now,
       backgroundActivitySettings,
     ]);
     return computeSnapshot({ hostPower, leases, now, settings, updatedAt: now });
-  });
+  };
 
-  const publishSnapshotUnlocked = snapshot.pipe(
-    Effect.flatMap((next) => PubSub.publish(changes, next)),
-  );
-  const publishSnapshot = publishMutex.withPermits(1)(publishSnapshotUnlocked);
+  const publishSnapshotUnlocked = effect { return try (snapshot
+    |> flatMap(%, (next) => PubSub.publish(changes, next))) };
+  const publishSnapshot = effect { return try publishMutex.withPermits(1)(publishSnapshotUnlocked) };
 
   const reportClientActivity: BackgroundPolicy["Service"]["reportClientActivity"] = (
     sessionId,
@@ -242,12 +230,12 @@ export const make = Effect.fn("background.policy.make")(function* () {
     input,
   ) =>
     publishMutex.withPermits(1)(
-      Effect.gen(function* () {
+      effect {
         const ttlMs = Math.min(
           Math.max(input.ttlMs ?? DEFAULT_LEASE_TTL_MS, 1_000),
           MAX_LEASE_TTL_MS,
         );
-        const now = yield* DateTime.now;
+        const now = try DateTime.now;
         const expiresAt = DateTime.add(now, { milliseconds: ttlMs });
         const lease: ClientActivityLease = {
           sessionId,
@@ -265,9 +253,9 @@ export const make = Effect.fn("background.policy.make")(function* () {
           updatedAt: now,
           expiresAt,
         };
-        yield* Ref.update(leasesRef, (leases) => upsertClientActivityLease(leases, lease, now));
-        yield* publishSnapshotUnlocked;
-      }),
+        try Ref.update(leasesRef, (leases) => upsertClientActivityLease(leases, lease, now));
+        try publishSnapshotUnlocked;
+      },
     );
 
   const removeRpcClient: BackgroundPolicy["Service"]["removeRpcClient"] = (
@@ -283,43 +271,39 @@ export const make = Effect.fn("background.policy.make")(function* () {
           }
         }
         return next;
-      }).pipe(Effect.andThen(publishSnapshotUnlocked), Effect.asVoid),
+      }) |> andThen(%, publishSnapshotUnlocked) |> asVoid(%),
     );
 
   const hasDemand: BackgroundPolicy["Service"]["hasDemand"] = (scope) =>
-    Effect.map(snapshot, (current) => current.activeScopeKeys.includes(scopeKey(scope)));
+    map(snapshot, (current) => current.activeScopeKeys.includes(scopeKey(scope)));
 
-  const shouldRunScopeWork: BackgroundPolicy["Service"]["shouldRunScopeWork"] = Effect.fn(
-    "BackgroundPolicy.shouldRunScopeWork",
-  )(function* (scope) {
-    const [current, settings] = yield* Effect.all([snapshot, backgroundActivitySettings]);
+  const shouldRunScopeWork: BackgroundPolicy["Service"]["shouldRunScopeWork"] = effect (scope) => try withSpan(effect {
+    const [current, settings] = try all([snapshot, backgroundActivitySettings]);
     if (isHostConstrained(current.hostPower, settings)) {
       return false;
     }
     return current.leases.some((lease) =>
       leaseMayRunScopedWork(lease, scope, current.updatedAt, settings),
     );
-  });
+  }, "BackgroundPolicy.shouldRunScopeWork");
 
-  const shouldRunOpportunisticWork = Effect.map(
+  const shouldRunOpportunisticWork = effect { return try map(
     snapshot,
     (current) => current.shouldRunOpportunisticWork,
-  );
+  ) };
 
-  yield* Stream.runForEach(hostPowerMonitor.streamChanges, () => publishSnapshot).pipe(
-    Effect.forkScoped,
-  );
-  yield* Stream.runForEach(serverSettings.streamChanges, () => publishSnapshot).pipe(
-    Effect.forkScoped,
-  );
+  try (Stream.runForEach(hostPowerMonitor.streamChanges, () => publishSnapshot)
+    |> forkScoped(%));
+  try (Stream.runForEach(serverSettings.streamChanges, () => publishSnapshot)
+    |> forkScoped(%));
 
-  yield* Effect.forever(
-    Effect.sleep("15 seconds").pipe(
-      Effect.andThen(
-        publishMutex.withPermits(1)(
-          Effect.gen(function* () {
-            const now = yield* DateTime.now;
-            yield* Ref.update(leasesRef, (leases) => {
+  try (forever(
+    sleep("15 seconds")
+      |> andThen(
+        %, publishMutex.withPermits(1)(
+          effect {
+            const now = try DateTime.now;
+            try Ref.update(leasesRef, (leases) => {
               const next = new Map(leases);
               for (const [key, lease] of next) {
                 if (!isLeaseActive(lease, now)) {
@@ -328,12 +312,11 @@ export const make = Effect.fn("background.policy.make")(function* () {
               }
               return next;
             });
-            yield* publishSnapshotUnlocked;
-          }),
+            try publishSnapshotUnlocked;
+          },
         ),
       ),
-    ),
-  ).pipe(Effect.forkScoped);
+  ) |> forkScoped(%));
 
   return BackgroundPolicy.of({
     reportClientActivity,
@@ -346,6 +329,6 @@ export const make = Effect.fn("background.policy.make")(function* () {
     shouldRunScopeWork,
     shouldRunOpportunisticWork,
   });
-});
+}, "background.policy.make");
 
 export const layer = Layer.effect(BackgroundPolicy, make());

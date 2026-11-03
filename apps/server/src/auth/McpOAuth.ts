@@ -32,7 +32,7 @@ import * as ServerSettings from "../serverSettings.ts";
 import * as McpHttpServer from "../mcp/McpHttpServer.ts";
 import type * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
 import * as EnvironmentAuth from "./EnvironmentAuth.ts";
-import * as ServerSecretStore from "./ServerSecretStore.ts";
+import * as ServerSecretStore from "./ServerSecretStore.vibe";
 import {
   base64UrlDecodeUtf8,
   base64UrlEncode,

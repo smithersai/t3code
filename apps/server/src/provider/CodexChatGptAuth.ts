@@ -27,7 +27,7 @@ import type { ProviderAuthFlowContext } from "@t3tools/provider-core/server/prov
 import { HttpClient, HttpClientRequest } from "effect/http";
 import * as ProviderCredentialStore from "./ProviderCredentialStore.ts";
 import { withChatGptSessionLock } from "./CodexChatGptSessionLock.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 

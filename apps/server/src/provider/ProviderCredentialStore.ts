@@ -1,7 +1,7 @@
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Hex from "effect/encoding/Hex";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 
 export const make = Effect.fn("ProviderCredentialStore.make")(function* (
   driver: string,

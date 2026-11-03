@@ -24,7 +24,7 @@ import {
   type WebhookTriggerRequest,
   type WebhookTriggerResult,
 } from "./ScheduledTaskService.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import { CLOUD_MINT_PUBLIC_KEY, RELAY_ISSUER_SECRET } from "../cloud/config.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as RelayDeliveryProof from "./RelayDeliveryProof.ts";

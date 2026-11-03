@@ -5,7 +5,7 @@ import * as Layer from "effect/Layer";
 
 import * as ServerConfig from "../config.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as EnvironmentAuthPolicy from "./EnvironmentAuthPolicy.ts";
+import * as EnvironmentAuthPolicy from "./EnvironmentAuthPolicy.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerEnvironmentAuthPolicy = (overrides?: Partial<ServerConfig.ServerConfig["Service"]>) =>

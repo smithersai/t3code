@@ -17,7 +17,7 @@ import * as Stream from "effect/Stream";
 import { HttpClient } from "effect/http";
 import { ChildProcessSpawner } from "effect/process";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import { CLOUD_ENDPOINT_RUNTIME_CONFIG } from "./config.ts";
 import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
 

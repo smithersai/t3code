@@ -18,7 +18,7 @@ import * as Deferred from "effect/Deferred";
 import { subscribeChatGptHandoff } from "./CodexChatGptHandoff.ts";
 import { FetchHttpClient, HttpClient, HttpClientResponse } from "effect/http";
 import { exportJWK, generateKeyPair, SignJWT } from "jose";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as ProviderCredentialStore from "./ProviderCredentialStore.ts";
 import * as AnalyticsService from "../telemetry/AnalyticsService.ts";

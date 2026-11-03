@@ -10,7 +10,7 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as CheckpointStore from "../checkpointing/CheckpointStore.ts";
+import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
 import * as ServerConfig from "../config.ts";
 import * as GitWorkflow from "../git/GitWorkflowService.ts";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";

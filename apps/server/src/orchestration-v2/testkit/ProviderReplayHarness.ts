@@ -11,7 +11,7 @@ import type * as SqlClient from "effect/sql/SqlClient";
 import type { MigrationError } from "effect/sql/Migrator";
 import type { SqlError } from "effect/sql/SqlError";
 
-import * as CheckpointStore from "../../checkpointing/CheckpointStore.ts";
+import * as CheckpointStore from "../../checkpointing/CheckpointStore.vibe";
 import * as ServerConfig from "../../config.ts";
 import * as SqlitePersistence from "../../persistence/Sqlite.ts";
 import * as ServerSettings from "../../serverSettings.ts";

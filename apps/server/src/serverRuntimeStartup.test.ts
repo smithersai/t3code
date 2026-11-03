@@ -43,7 +43,7 @@ import * as AgentAwarenessRelay from "./relay/AgentAwarenessRelay.ts";
 import { ServerActivation } from "./serverActivation.ts";
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.ts";
 import * as ServerSettings from "./serverSettings.ts";
-import * as ServerSecretStore from "./auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "./auth/ServerSecretStore.vibe";
 import * as AnalyticsService from "./telemetry/AnalyticsService.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

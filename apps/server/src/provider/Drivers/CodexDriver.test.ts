@@ -1,6 +1,6 @@
 import * as CodexInstallation from "../CodexInstallation.ts";
 import * as CodexManagedTokenBroker from "../CodexManagedTokenBroker.ts";
-import * as ServerSecretStore from "../../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../../auth/ServerSecretStore.vibe";
 import * as ServerEnvironment from "../../environment/ServerEnvironment.ts";
 // @effect-diagnostics nodeBuiltinImport:off
 import * as NodeServices from "@effect/platform-node/NodeServices";
@@ -23,7 +23,7 @@ import { HttpClient, HttpClientResponse } from "effect/http";
 import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import * as BackgroundPolicy from "../../background/BackgroundPolicy.ts";
+import * as BackgroundPolicy from "../../background/BackgroundPolicy.vibe";
 import * as ServerConfig from "../../config.ts";
 import * as ServerSettings from "../../serverSettings.ts";
 import * as ResetCreditCoordinator from "../resetCreditCoordinator.ts";

@@ -226,7 +226,7 @@ import * as DirectEndpoints from "./environment/DirectEndpoints.ts";
 import * as RemoteOpenTargets from "./environment/RemoteOpenTargets.ts";
 import * as DefectReporter from "./observability/DefectReporter.vibe";
 import * as EventLoopMonitor from "./observability/EventLoopMonitor.ts";
-import * as BackgroundPolicy from "./background/BackgroundPolicy.ts";
+import * as BackgroundPolicy from "./background/BackgroundPolicy.vibe";
 import * as EnvironmentAuth from "./auth/EnvironmentAuth.ts";
 import { requiredScopeForDeviceList, rpcAuthorizationError } from "./auth/RpcAuthorization.ts";
 import * as RpcAuthorization from "./auth/RpcAuthorization.ts";
@@ -255,7 +255,7 @@ import * as SourceControlProviderRegistry from "./sourceControl/SourceControlPro
 import * as GitVcsDriver from "./vcs/GitVcsDriver.ts";
 import * as VcsDriverRegistry from "./vcs/VcsDriverRegistry.ts";
 import * as VcsProjectConfig from "./vcs/VcsProjectConfig.ts";
-import * as PairingGrantStore from "./auth/PairingGrantStore.ts";
+import * as PairingGrantStore from "./auth/PairingGrantStore.vibe";
 import * as SessionStore from "./auth/SessionStore.ts";
 import { failEnvironmentAuthInvalid, failEnvironmentInternal } from "./auth/http.ts";
 import { isNetworkPath } from "@t3tools/shared/path";

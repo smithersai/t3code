@@ -20,7 +20,7 @@ import * as Ref from "effect/Ref";
 import * as Semaphore from "effect/Semaphore";
 import * as Stream from "effect/Stream";
 
-import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
 import * as Settings from "../serverSettings.ts";
 import { makeCliproxyApi } from "./cliproxyApi.ts";
 

@@ -6,8 +6,8 @@ import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 
 import { resolveAttachmentPath } from "../attachmentStore.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
 import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as DocumentText from "./DocumentText.ts";

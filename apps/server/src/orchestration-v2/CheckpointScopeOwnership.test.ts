@@ -14,7 +14,7 @@ import {
   ThreadId,
 } from "@t3tools/contracts";
 import * as CheckpointDiffQuery from "../checkpointing/CheckpointDiffQuery.ts";
-import * as CheckpointStore from "../checkpointing/CheckpointStore.ts";
+import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { checkpointRefForScopeOrdinal } from "./CheckpointService.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";

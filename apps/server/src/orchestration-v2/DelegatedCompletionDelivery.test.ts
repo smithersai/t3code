@@ -26,7 +26,7 @@ import * as Fiber from "effect/Fiber";
 import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
 
-import * as CheckpointStore from "../checkpointing/CheckpointStore.ts";
+import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
 import * as ServerConfig from "../config.ts";
 import * as McpSessionRegistryTestkit from "../mcp/McpSessionRegistry.testkit.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";

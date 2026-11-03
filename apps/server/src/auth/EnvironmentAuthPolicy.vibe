@@ -7,18 +7,17 @@ import * as ServerConfig from "../config.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import { isRemoteReachableHost, resolveSessionCookieName } from "./utils.ts";
 
-export class EnvironmentAuthPolicy extends Context.Service<
-  EnvironmentAuthPolicy,
-  {
-    readonly getDescriptor: () => Effect.Effect<ServerAuthDescriptor>;
-  }
->()("t3/auth/EnvironmentAuthPolicy") {}
+export service EnvironmentAuthPolicy: {
+    readonly getDescriptor: () => ServerAuthDescriptor!!;
+  } {
+  static readonly key = "t3/auth/EnvironmentAuthPolicy"
+}
 
 /** @public */
-export const make = Effect.gen(function* () {
-  const config = yield* ServerConfig.ServerConfig;
-  const serverEnvironment = yield* ServerEnvironment.ServerEnvironmentIdentity;
-  const isRemoteReachable = isRemoteReachableHost(config.host);
+export const make = effect {
+  const config = try ServerConfig.ServerConfig;
+  const serverEnvironment = try ServerEnvironment.ServerEnvironmentIdentity;
+  const isRemoteReachable = try orDie(Effect.try({ try: () => isRemoteReachableHost(config.host), catch: (error) => error }));
 
   const policy =
     config.mode === "desktop"
@@ -36,26 +35,27 @@ export const make = Effect.gen(function* () {
         ? ["desktop-bootstrap", "one-time-token"]
         : ["one-time-token"];
 
+  const input = {
+      mode: config.mode,
+      port: config.port,
+      host: config.host,
+      instanceKey: config.stateDir,
+      environmentId: try serverEnvironment.getEnvironmentId,
+      development: config.devUrl !== undefined,
+    }
   const descriptor: ServerAuthDescriptor = {
     policy,
     bootstrapMethods,
     sessionMethods: ["browser-session-cookie", "bearer-access-token", "dpop-access-token"],
     serverUpdateScope: AuthEnvironmentMaintainScope,
-    sessionCookieName: resolveSessionCookieName({
-      mode: config.mode,
-      port: config.port,
-      host: config.host,
-      instanceKey: config.stateDir,
-      environmentId: yield* serverEnvironment.getEnvironmentId,
-      development: config.devUrl !== undefined,
-    }),
+    sessionCookieName: try orDie(Effect.try({ try: () => resolveSessionCookieName(input), catch: (error) => error })),
   };
 
   return EnvironmentAuthPolicy.of({
-    getDescriptor: Effect.fn("EnvironmentAuthPolicy.getDescriptor")(function () {
-      return Effect.succeed(descriptor);
+    getDescriptor: fn("EnvironmentAuthPolicy.getDescriptor")(function () {
+      return succeed(descriptor);
     }),
   });
-});
+};
 
 export const layer = Layer.effect(EnvironmentAuthPolicy, make);

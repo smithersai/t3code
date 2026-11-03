@@ -13,7 +13,7 @@ import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.t
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as CheckpointDiffQuery from "./CheckpointDiffQuery.ts";
-import * as CheckpointStore from "./CheckpointStore.ts";
+import * as CheckpointStore from "./CheckpointStore.vibe";
 import { CheckpointRefUnavailableError, CheckpointTurnRangeUnavailableError } from "./Errors.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

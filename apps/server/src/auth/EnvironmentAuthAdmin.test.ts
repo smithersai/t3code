@@ -8,7 +8,7 @@ import * as ServerConfig from "../config.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as EnvironmentAuth from "./EnvironmentAuth.ts";
-import * as ServerSecretStore from "./ServerSecretStore.ts";
+import * as ServerSecretStore from "./ServerSecretStore.vibe";
 import * as SessionStore from "./SessionStore.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

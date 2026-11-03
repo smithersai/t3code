@@ -43,7 +43,7 @@ import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as CheckpointStore from "../checkpointing/CheckpointStore.ts";
+import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
 import * as GitWorkflow from "../git/GitWorkflowService.ts";
 import * as ServerConfig from "../config.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";

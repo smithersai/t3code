@@ -24,7 +24,7 @@ import * as TestClock from "effect/testing/TestClock";
 import { HttpClientRequest, HttpClientResponse, HttpServerResponse } from "effect/http";
 import { vi } from "vite-plus/test";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ServerConfig from "../config.ts";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
 import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.ts";

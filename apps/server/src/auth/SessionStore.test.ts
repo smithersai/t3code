@@ -17,7 +17,7 @@ import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as SessionStore from "./SessionStore.ts";
-import * as ServerSecretStore from "./ServerSecretStore.ts";
+import * as ServerSecretStore from "./ServerSecretStore.vibe";
 import { base64UrlDecodeUtf8, base64UrlEncode, signPayload } from "./utils.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

@@ -16,7 +16,7 @@ import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import { HttpClient, HttpClientResponse } from "effect/http";
 import * as ServerConfig from "../config.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as CodexInstallation from "./CodexInstallation.ts";
 import { makeCodexManagedRuntime } from "./CodexManagedRuntime.ts";

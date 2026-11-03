@@ -129,24 +129,21 @@ const isThreadCliError = Schema.is(ThreadCliError);
  * These errors are expected outcomes for a script, so they print as one line
  * on stderr instead of the runtime's logged stack trace.
  */
-const reportThreadErrors = <A, E, R>(effect: Effect.Effect<A, E, R>) =>
-  effect.pipe(
-    Effect.tapError((error) =>
+const reportThreadErrors = <A, E, R>(effect: A!E!R) =>
+  effect
+    |> Effect.tapError(%, (error) =>
       isThreadCliError(error) ? Console.error(error.message) : Effect.void,
-    ),
-  );
+    );
 
 const decodeFailureText = Schema.decodeUnknownOption(Schema.fromJsonString(OrchestratorMcpFailure));
 const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown));
 const printJson = (value: unknown) => Console.log(encodeJson(value));
 
-const ToolResult = Schema.Struct({
-  isError: Schema.optional(Schema.Boolean),
-  structuredContent: Schema.optional(Schema.Unknown),
-  content: Schema.optional(
-    Schema.Array(Schema.Struct({ type: Schema.String, text: Schema.optional(Schema.String) })),
-  ),
-});
+schema ToolResult {
+  readonly isError?: boolean
+  readonly structuredContent?: Schema.Unknown
+  readonly content?: ReadonlyArray<{ readonly type: string; readonly text?: string }>
+}
 
 const decodeToolResult = Schema.decodeUnknownEffect(ToolResult);
 
@@ -165,10 +162,10 @@ const ThreadLaunchResult = Schema.Struct({
 
 const toolFailureDetail = (result: typeof ToolResult.Type) => {
   const text = result.content?.find((part) => part.text !== undefined)?.text ?? "";
-  return Option.match(decodeFailureText(text), {
+  return do { const $optionSubject = decodeFailureText(text); const $optionHandlers: { onNone: () => string; onSome: (failure: OrchestratorMcpFailure) => string; } = {
     onNone: () => text || "The tool call failed.",
     onSome: (failure) => failure.message,
-  });
+  }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): $optionSome($optionValue); default: $optionNone(); }; };
 };
 
 const makeThreadTools = (session: McpToolSession, origin: string) => {
@@ -178,22 +175,19 @@ const makeThreadTools = (session: McpToolSession, origin: string) => {
       detail: `The server sent an unexpected ${tool} result. Update the t3 CLI to match the server.`,
     });
   return {
-    call: Effect.fn("cli.thread.callTool")(function* <S extends Schema.Decoder<unknown>>(
+    call: effect <S extends Schema.Decoder<unknown>>(
       tool: string,
       args: Readonly<Record<string, unknown>>,
       schema: S,
-    ): Effect.fn.Return<S["Type"], ThreadServerUnreachableError | ThreadToolFailedError> {
-      const raw = yield* session
-        .call(tool, args)
-        .pipe(Effect.mapError((cause) => new ThreadServerUnreachableError({ origin, cause })));
-      const result = yield* decodeToolResult(raw).pipe(Effect.mapError(() => unexpected(tool)));
+    ): S["Type"]!(ThreadServerUnreachableError | ThreadToolFailedError) => try withSpan(effect {
+      const raw = session
+        .call(tool, args) catch effect (cause) => { throw new ThreadServerUnreachableError({ origin, cause }) };
+      const result = decodeToolResult(raw) catch effect () => { throw unexpected(tool) };
       if (result.isError === true) {
-        return yield* new ThreadToolFailedError({ tool, detail: toolFailureDetail(result) });
+        throw new ThreadToolFailedError({ tool, detail: toolFailureDetail(result) });
       }
-      return yield* Schema.decodeUnknownEffect(schema)(result.structuredContent).pipe(
-        Effect.mapError(() => unexpected(tool)),
-      );
-    }),
+      return Schema.decodeUnknownEffect(schema)(result.structuredContent) catch effect () => { throw unexpected(tool) };
+    }, "cli.thread.callTool"),
   };
 };
 export type ThreadTools = ReturnType<typeof makeThreadTools>;
@@ -202,20 +196,23 @@ export type ThreadTools = ReturnType<typeof makeThreadTools>;
  * Signs in as a short-lived MCP client of the running server, the same way an
  * outside agent does, and revokes that session when the command ends.
  */
-const withThreadTools = Effect.fn("cli.thread.withThreadTools")(function* <A, E, R>(
-  flags: { readonly baseDir: Option.Option<string> },
-  run: (tools: ThreadTools) => Effect.Effect<A, E, R>,
-) {
-  const logLevel = yield* GlobalFlag.LogLevel;
-  const config = yield* resolveCliAuthConfig(flags, logLevel);
-  return yield* Effect.gen(function* () {
-    const runtimeState = yield* readPersistedServerRuntimeState(config.serverRuntimeStatePath);
+const withThreadTools = effect <A, E, R>(
+  flags: { readonly baseDir: Option.Option<string>; },
+  run: (tools: ThreadTools) => A!E!R,
+) => try withSpan(effect {
+  const logLevel = try GlobalFlag.LogLevel;
+  const config = try resolveCliAuthConfig(flags, logLevel);
+  return try effect { provide EnvironmentAuth.layerRuntime.pipe(
+        Layer.provide(ServerConfig.layer(config)),
+        Layer.provide(Layer.succeed(References.MinimumLogLevel, config.logLevel)),
+      ) { return try ((effect {
+    const runtimeState = try readPersistedServerRuntimeState(config.serverRuntimeStatePath);
     if (Option.isNone(runtimeState)) {
-      return yield* new ThreadServerNotRunningError({ baseDir: config.baseDir });
+      throw new ThreadServerNotRunningError({ baseDir: config.baseDir });
     }
     const origin = runtimeState.value.origin;
-    const environmentAuth = yield* EnvironmentAuth.EnvironmentAuth;
-    const issued = yield* Effect.acquireRelease(
+    const environmentAuth = try EnvironmentAuth.EnvironmentAuth;
+    const issued = try Effect.acquireRelease(
       environmentAuth.issueMcpClientSession({
         label: "t3 thread cli",
         // The CLI runs as the machine's owner. New threads still start at
@@ -225,43 +222,35 @@ const withThreadTools = Effect.fn("cli.thread.withThreadTools")(function* <A, E,
         client: { deviceType: "bot" },
       }),
       (session) =>
-        environmentAuth.revokeSession(session.sessionId).pipe(Effect.ignore({ log: true })),
+        environmentAuth.revokeSession(session.sessionId) |> Effect.ignore({ log: true })(%),
     );
-    const session = yield* mcpToolSession({
+    const session = mcpToolSession({
       endpoint: new URL("/mcp", origin).href,
       authorization: `Bearer ${issued.token}`,
       clientName: "t3-thread-cli",
-    }).pipe(Effect.mapError((cause) => new ThreadServerUnreachableError({ origin, cause })));
-    return yield* run(makeThreadTools(session, origin));
-  }).pipe(
-    Effect.scoped,
-    Effect.provide(
-      EnvironmentAuth.layerRuntime.pipe(
-        Layer.provide(ServerConfig.layer(config)),
-        Layer.provide(Layer.succeed(References.MinimumLogLevel, config.logLevel)),
-      ),
-    ),
-  );
-});
+    }) catch effect (cause) => { throw new ThreadServerUnreachableError({ origin, cause }) };
+    return try run(makeThreadTools(session, origin));
+  })
+    |> Effect.scoped(%)) } };
+}, "cli.thread.withThreadTools");
 
-const readMessageArgument = Effect.fn("cli.thread.readMessage")(function* (argument: string) {
+const readMessageArgument = effect (argument: string) => try withSpan(effect {
   const text =
     argument === "-"
-      ? yield* Stdio.Stdio.pipe(
-          Effect.flatMap((stdio) => stdio.stdin.pipe(Stream.decodeText(), Stream.mkString)),
-        )
+      ? try (Stdio.Stdio
+          |> Effect.flatMap(%, (stdio) => stdio.stdin.pipe(Stream.decodeText(), Stream.mkString)))
       : argument;
   if (text.trim().length === 0) {
-    return yield* new ThreadUsageError({ detail: "The message is empty." });
+    throw new ThreadUsageError({ detail: "The message is empty." });
   }
   return text;
-});
+}, "cli.thread.readMessage");
 
-const listAllProjects = Effect.fn("cli.thread.listAllProjects")(function* (tools: ThreadTools) {
+const listAllProjects = effect (tools: { call: <S extends Schema.Decoder<unknown>>(tool: string, args: Readonly<Record<string, unknown>>, schema: S) => S["Type"]!(ThreadServerUnreachableError | ThreadToolFailedError); }) => try withSpan(effect {
   const projects: Array<(typeof ProjectListResult.Type)["projects"][number]> = [];
   let cursor: number | null = 0;
   while (cursor !== null) {
-    const page: typeof ProjectListResult.Type = yield* tools.call(
+    const page: typeof ProjectListResult.Type = try tools.call(
       "t3_project_list",
       { cursor, limit: 100 },
       ProjectListResult,
@@ -270,25 +259,25 @@ const listAllProjects = Effect.fn("cli.thread.listAllProjects")(function* (tools
     cursor = page.nextCursor;
   }
   return projects;
-});
+}, "cli.thread.listAllProjects");
 
 /** A project id, or a path inside a project's folder (deepest project wins). */
-const resolveProject = Effect.fn("cli.thread.resolveProject")(function* (
-  tools: ThreadTools,
+const resolveProject = effect (
+  tools: { call: <S extends Schema.Decoder<unknown>>(tool: string, args: Readonly<Record<string, unknown>>, schema: S) => S["Type"]!(ThreadServerUnreachableError | ThreadToolFailedError); },
   identifier: string,
-) {
-  const projects = yield* listAllProjects(tools);
+) => try withSpan(effect {
+  const projects = try listAllProjects(tools);
   const byId = projects.find((project) => project.id === identifier);
   if (byId !== undefined) return byId;
 
-  const path = yield* Path.Path;
-  const fileSystem = yield* FileSystem.FileSystem;
+  const path = try Path.Path;
+  const fileSystem = try FileSystem.FileSystem;
   // Stored roots keep the path the project was added with, which may pass
   // through a symlink (macOS /tmp), so both sides compare as real paths.
   const realPath = (value: string) =>
-    fileSystem.realPath(value).pipe(Effect.orElseSucceed(() => value));
-  const target = yield* realPath(path.resolve(yield* HostProcess.WorkingDirectory, identifier));
-  const roots = yield* Effect.forEach(projects, (project) =>
+    fileSystem.realPath(value) |> Effect.orElseSucceed(%, () => value);
+  const target = try realPath(path.resolve(try HostProcess.WorkingDirectory, identifier));
+  const roots = try Effect.forEach(projects, (project) =>
     Effect.map(realPath(project.workspaceRoot), (root) => ({ project, root })),
   );
   const containing = roots
@@ -301,22 +290,22 @@ const resolveProject = Effect.fn("cli.thread.resolveProject")(function* (
     })
     .toSorted((left, right) => right.root.length - left.root.length)[0];
   if (containing === undefined) {
-    return yield* new ThreadProjectNotFoundError({ identifier });
+    throw new ThreadProjectNotFoundError({ identifier });
   }
   return containing.project;
-});
+}, "cli.thread.resolveProject");
 
 /** Every item on a timeline view, oldest first. */
-const readTimeline = Effect.fn("cli.thread.readTimeline")(function* (
-  tools: ThreadTools,
-  threadId: ThreadId,
-  view: "messages" | "activity",
-) {
+const readTimeline = effect (
+  tools: { call: <S extends Schema.Decoder<unknown>>(tool: string, args: Readonly<Record<string, unknown>>, schema: S) => S["Type"]!(ThreadServerUnreachableError | ThreadToolFailedError); },
+  threadId: string & import("effect/Brand").Brand<"ThreadId">,
+  view: "activity" | "messages",
+) => try withSpan(effect {
   const items: Array<OrchestratorMcpThreadTimelineItem> = [];
   let afterPosition: number | undefined;
   let page: OrchestratorMcpThreadReadResult;
   do {
-    page = yield* tools.call(
+    page = try tools.call(
       "t3_thread_read",
       {
         threadId,
@@ -331,18 +320,18 @@ const readTimeline = Effect.fn("cli.thread.readTimeline")(function* (
     afterPosition = page.nextPosition ?? undefined;
   } while (page.hasMore && afterPosition !== undefined);
   return { thread: page.thread, items };
-});
+}, "cli.thread.readTimeline");
 
 /** Item text past the read's per-item cap. */
-const readFullText = Effect.fn("cli.thread.readFullText")(function* (
-  tools: ThreadTools,
-  threadId: ThreadId,
-  item: OrchestratorMcpThreadTimelineItem,
-) {
+const readFullText = effect (
+  tools: { call: <S extends Schema.Decoder<unknown>>(tool: string, args: Readonly<Record<string, unknown>>, schema: S) => S["Type"]!(ThreadServerUnreachableError | ThreadToolFailedError); },
+  threadId: string & import("effect/Brand").Brand<"ThreadId">,
+  item: { readonly position: number; readonly visibility: "inherited" | "local" | "synthetic"; readonly sourceThreadId: string & import("effect/Brand").Brand<"ThreadId">; readonly itemId: string & import("effect/Brand").Brand<"TurnItemId">; readonly subagentId?: (string & import("effect/Brand").Brand<"NodeId">) | undefined; readonly runId: (string & import("effect/Brand").Brand<"RunId">) | null; readonly messageId: (string & import("effect/Brand").Brand<"MessageId">) | null; readonly createdBy: "agent" | "system" | "user" | null; readonly creationSource: "mcp" | "mobile" | "provider" | "server" | "web" | null; readonly senderThreadId?: (string & import("effect/Brand").Brand<"ThreadId">) | undefined; readonly type: string; readonly status: "cancelled" | "completed" | "failed" | "idle" | "interrupted" | "pending" | "running" | "waiting"; readonly title: string | null; readonly text: string | null; readonly textTruncated: boolean; readonly nextTextOffset?: number | null | undefined; readonly updatedAt: string; },
+) => try withSpan(effect {
   let text = item.text ?? "";
   let nextTextOffset = item.textTruncated ? (item.nextTextOffset ?? null) : null;
   while (nextTextOffset !== null) {
-    const page = yield* tools.call(
+    const page = try tools.call(
       "t3_thread_read",
       { threadId, itemId: item.itemId, textOffset: nextTextOffset, runLimit: 1 },
       OrchestratorMcpThreadReadResult,
@@ -353,23 +342,23 @@ const readFullText = Effect.fn("cli.thread.readFullText")(function* (
     nextTextOffset = chunk.textTruncated ? (chunk.nextTextOffset ?? null) : null;
   }
   return text;
-});
+}, "cli.thread.readFullText");
 
 /** The run's last assistant message, or its last error when it did not complete. */
-const runResultText = Effect.fn("cli.thread.runResultText")(function* (
-  tools: ThreadTools,
-  threadId: ThreadId,
-  runId: RunId,
+const runResultText = effect (
+  tools: { call: <S extends Schema.Decoder<unknown>>(tool: string, args: Readonly<Record<string, unknown>>, schema: S) => S["Type"]!(ThreadServerUnreachableError | ThreadToolFailedError); },
+  threadId: string & import("effect/Brand").Brand<"ThreadId">,
+  runId: string & import("effect/Brand").Brand<"RunId">,
   type: "assistant_message" | "error",
-) {
-  const { items } = yield* readTimeline(
+) => try withSpan(effect {
+  const { items } = try readTimeline(
     tools,
     threadId,
     type === "assistant_message" ? "messages" : "activity",
   );
   const item = items.findLast((candidate) => candidate.runId === runId && candidate.type === type);
-  return item === undefined ? null : yield* readFullText(tools, threadId, item);
-});
+  return item === undefined ? null : try readFullText(tools, threadId, item);
+}, "cli.thread.runResultText");
 
 type WaitOutcome =
   | {
@@ -383,21 +372,21 @@ type WaitOutcome =
  * Waits for this exact run, following a restart to its continuation, so a
  * message another client sends meanwhile cannot stand in for its result.
  */
-export const waitForRun = Effect.fn("cli.thread.waitForRun")(function* (
-  tools: ThreadTools,
-  threadId: ThreadId,
-  runId: RunId,
-) {
+export const waitForRun = effect (
+  tools: { call: <S extends Schema.Decoder<unknown>>(tool: string, args: Readonly<Record<string, unknown>>, schema: S) => S["Type"]!(ThreadServerUnreachableError | ThreadToolFailedError)!never; },
+  threadId: string & import("effect/Brand").Brand<"ThreadId">,
+  runId: string & import("effect/Brand").Brand<"RunId">,
+) => try withSpan(effect {
   const waitSlice = (timeoutMs: number) =>
     tools.call("t3_thread_wait", { threadId, runId, timeoutMs }, OrchestratorMcpThreadWaitResult);
   const ended = (waited: OrchestratorMcpThreadWaitResult) =>
     ({ type: "ended", runId: waited.runId, status: waited.status }) satisfies WaitOutcome;
   while (true) {
-    const waited = yield* waitSlice(WAIT_SLICE_MS);
+    const waited = try waitSlice(WAIT_SLICE_MS);
     if (!waited.timedOut) return ended(waited);
     // A pending request on this run, or on an earlier run this one is queued
     // behind, blocks it until someone answers.
-    const { thread } = yield* tools.call(
+    const { thread } = try tools.call(
       "t3_thread_read",
       { threadId, limit: 1, runLimit: 1 },
       OrchestratorMcpThreadReadResult,
@@ -405,51 +394,47 @@ export const waitForRun = Effect.fn("cli.thread.waitForRun")(function* (
     if (thread.pendingRequestCount > 0) {
       // The count is thread-wide: if this run ended since the slice, the
       // request belongs to a later run.
-      const recheck = yield* waitSlice(1);
+      const recheck = try waitSlice(1);
       return recheck.timedOut ? ({ type: "needs_input" } satisfies WaitOutcome) : ended(recheck);
     }
   }
-});
+}, "cli.thread.waitForRun");
 
 /**
  * With --json the result always reaches stdout, so a script keeps the thread
  * id even when the run fails.
  */
-const finishRun = Effect.fn("cli.thread.finishRun")(function* (
-  tools: ThreadTools,
-  input: {
-    readonly threadId: ThreadId;
-    readonly runId: RunId;
-    readonly json: boolean;
-  },
-) {
-  const outcome = yield* waitForRun(tools, input.threadId, input.runId);
+const finishRun = effect (
+  tools: { call: <S extends Schema.Decoder<unknown>>(tool: string, args: Readonly<Record<string, unknown>>, schema: S) => S["Type"]!(ThreadServerUnreachableError | ThreadToolFailedError); },
+  input: { readonly threadId: ThreadId; readonly runId: RunId; readonly json: boolean; },
+) => try withSpan(effect {
+  const outcome = try waitForRun(tools, input.threadId, input.runId);
   const runId = outcome.type === "ended" ? (outcome.runId ?? input.runId) : input.runId;
   const status = outcome.type === "ended" ? outcome.status : "waiting";
   const reply =
     status === "completed"
-      ? yield* runResultText(tools, input.threadId, runId, "assistant_message")
+      ? try runResultText(tools, input.threadId, runId, "assistant_message")
       : null;
   const error =
     status === "completed" || status === "waiting"
       ? null
-      : yield* runResultText(tools, input.threadId, runId, "error");
+      : try runResultText(tools, input.threadId, runId, "error");
   if (input.json) {
-    yield* printJson({ threadId: input.threadId, runId, status, reply, error });
+    try printJson({ threadId: input.threadId, runId, status, reply, error });
   } else if (reply !== null) {
-    yield* Console.log(reply);
+    try Console.log(reply);
   }
   if (outcome.type === "needs_input") {
-    return yield* new ThreadNeedsInputError({ threadId: input.threadId });
+    throw new ThreadNeedsInputError({ threadId: input.threadId });
   }
   if (status !== "completed") {
-    return yield* new ThreadRunEndedError({
+    throw new ThreadRunEndedError({
       threadId: input.threadId,
       status,
       ...(error === null ? {} : { error }),
     });
   }
-});
+}, "cli.thread.finishRun");
 
 const titleFromMessage = (message: string) => {
   const firstLine = message.trim().split("\n")[0]?.trim() ?? "";
@@ -471,7 +456,7 @@ const launchWorkspaceStrategy = (input: {
       Effect.succeed({
         type: "worktree" as const,
         baseRef,
-        ...Option.match(input.branch, { onNone: () => ({}), onSome: (branch) => ({ branch }) }),
+        ...do { const $optionSubject = input.branch; const $optionHandlers: { onNone: () => {}; onSome: (branch: string) => { branch: string; }; } = { onNone: () => ({}), onSome: (branch) => ({ branch }) }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): $optionSome($optionValue); default: $optionNone(); }; },
       }),
   });
 
@@ -493,9 +478,8 @@ const threadArgument = Argument.String("thread").pipe(Argument.withDescription("
 const decodeThreadIdValue = Schema.decodeUnknownEffect(ThreadId);
 const decodeTitle = Schema.decodeUnknownEffect(TrimmedNonEmptyString);
 const decodeThreadId = (value: string) =>
-  decodeThreadIdValue(value.trim()).pipe(
-    Effect.mapError(() => new ThreadUsageError({ detail: `'${value}' is not a thread id.` })),
-  );
+  decodeThreadIdValue(value.trim())
+    |> Effect.mapError(%, () => new ThreadUsageError({ detail: `'${value}' is not a thread id.` }));
 
 const threadListCommand = Command.make("list", {
   ...projectLocationFlags,
@@ -509,12 +493,12 @@ const threadListCommand = Command.make("list", {
   Command.withHandler((flags) =>
     withThreadTools(
       flags,
-      Effect.fn("cli.thread.list")(function* (tools) {
-        const project = yield* resolveProject(tools, flags.project);
+      effect (tools) => try withSpan(effect {
+        const project = try resolveProject(tools, flags.project);
         const threads: Array<OrchestratorMcpThreadListItem> = [];
         let cursor: number | null = 0;
         while (cursor !== null) {
-          const page: OrchestratorMcpThreadListResult = yield* tools.call(
+          const page: OrchestratorMcpThreadListResult = try tools.call(
             "t3_thread_list",
             { projectId: project.id, includeSubagents: false, limit: 100, cursor },
             OrchestratorMcpThreadListResult,
@@ -523,13 +507,13 @@ const threadListCommand = Command.make("list", {
           cursor = page.nextCursor;
         }
         if (flags.json) {
-          return yield* printJson(threads);
+          return try printJson(threads);
         }
         for (const thread of threads) {
-          yield* Console.log(`${thread.threadId}  ${thread.status.padEnd(11)}  ${thread.title}`);
+          try Console.log(`${thread.threadId}  ${thread.status.padEnd(11)}  ${thread.title}`);
         }
-      }),
-    ).pipe(reportThreadErrors),
+      }, "cli.thread.list"),
+    ) |> reportThreadErrors(%),
   ),
 );
 
@@ -566,20 +550,20 @@ const threadStartCommand = Command.make("start", {
 }).pipe(
   Command.withDescription("Start a thread in a project and print its id."),
   Command.withHandler((flags) =>
-    Effect.gen(function* () {
-      const message = yield* readMessageArgument(flags.message);
-      const workspaceStrategy = yield* launchWorkspaceStrategy(flags);
+    effect {
+      const message = try readMessageArgument(flags.message);
+      const workspaceStrategy = try launchWorkspaceStrategy(flags);
       if (Option.isSome(flags.provider) !== Option.isSome(flags.model)) {
-        return yield* new ThreadUsageError({ detail: "--provider and --model go together." });
+        throw new ThreadUsageError({ detail: "--provider and --model go together." });
       }
-      const title = yield* decodeTitle(
+      const title = decodeTitle(
         Option.getOrElse(flags.title, () => titleFromMessage(message)),
-      ).pipe(Effect.mapError(() => new ThreadUsageError({ detail: "The title is empty." })));
-      yield* withThreadTools(
+      ) catch effect () => { throw new ThreadUsageError({ detail: "The title is empty." }) };
+      try withThreadTools(
         flags,
-        Effect.fn("cli.thread.start")(function* (tools) {
-          const project = yield* resolveProject(tools, flags.project);
-          const launched = yield* tools.call(
+        effect (tools) => try withSpan(effect {
+          const project = try resolveProject(tools, flags.project);
+          const launched = try tools.call(
             "t3_thread_launch",
             {
               projectId: project.id,
@@ -598,17 +582,17 @@ const threadStartCommand = Command.make("start", {
             ThreadLaunchResult,
           );
           if (flags.wait && launched.runId !== null) {
-            if (!flags.json) yield* Console.error(`Thread ${launched.threadId}`);
-            return yield* finishRun(tools, {
+            if (!flags.json) try Console.error(`Thread ${launched.threadId}`);
+            return try finishRun(tools, {
               threadId: launched.threadId,
               runId: launched.runId,
               json: flags.json,
             });
           }
-          yield* flags.json ? printJson(launched) : Console.log(launched.threadId);
-        }),
+          try (flags.json ? printJson(launched) : Console.log(launched.threadId));
+        }, "cli.thread.start"),
       );
-    }).pipe(reportThreadErrors),
+    } |> reportThreadErrors(%),
   ),
 );
 
@@ -623,26 +607,26 @@ const threadSendCommand = Command.make("send", {
     "Send a message to a thread. A busy thread gets it as its next turn; nothing is interrupted.",
   ),
   Command.withHandler((flags) =>
-    Effect.gen(function* () {
-      const threadId = yield* decodeThreadId(flags.thread);
-      const message = yield* readMessageArgument(flags.message);
-      yield* withThreadTools(
+    effect {
+      const threadId = try decodeThreadId(flags.thread);
+      const message = try readMessageArgument(flags.message);
+      try withThreadTools(
         flags,
-        Effect.fn("cli.thread.send")(function* (tools) {
-          const sent = yield* tools.call(
+        effect (tools) => try withSpan(effect {
+          const sent = try tools.call(
             "t3_thread_send",
             { threadId, message, mode: "queue" },
             OrchestratorMcpThreadSendResult,
           );
           if (flags.wait) {
-            return yield* finishRun(tools, { threadId, runId: sent.runId, json: flags.json });
+            return try finishRun(tools, { threadId, runId: sent.runId, json: flags.json });
           }
-          yield* flags.json
+          try (flags.json
             ? printJson(sent)
-            : Console.log(sent.delivery === "queued" ? "Queued." : "Sent.");
-        }),
+            : Console.log(sent.delivery === "queued" ? "Queued." : "Sent."));
+        }, "cli.thread.send"),
       );
-    }).pipe(reportThreadErrors),
+    } |> reportThreadErrors(%),
   ),
 );
 
@@ -657,46 +641,45 @@ const threadShowCommand = Command.make("show", {
 }).pipe(
   Command.withDescription("Show a thread's state and its latest messages."),
   Command.withHandler((flags) =>
-    Effect.gen(function* () {
-      const threadId = yield* decodeThreadId(flags.thread);
-      yield* withThreadTools(
+    effect {
+      const threadId = try decodeThreadId(flags.thread);
+      try withThreadTools(
         flags,
-        Effect.fn("cli.thread.show")(function* (tools) {
-          const { thread, items } = yield* readTimeline(tools, threadId, "messages");
+        effect (tools) => try withSpan(effect {
+          const { thread, items } = try readTimeline(tools, threadId, "messages");
           const conversation = items.filter(
             (item) => item.type === "user_message" || item.type === "assistant_message",
           );
           const latest = conversation.slice(Math.max(0, conversation.length - flags.messages));
-          const messages = yield* Effect.forEach(latest, (item) =>
-            readFullText(tools, threadId, item).pipe(
-              Effect.map((text) => ({
+          const messages = try Effect.forEach(latest, (item) =>
+            readFullText(tools, threadId, item)
+              |> Effect.map(%, (text) => ({
                 role: item.type === "user_message" ? "user" : "assistant",
                 runId: item.runId,
                 text,
               })),
-            ),
           );
           if (flags.json) {
-            return yield* printJson({ thread, messages });
+            return try printJson({ thread, messages });
           }
-          yield* Console.log(thread.title);
-          yield* Console.log(
+          try Console.log(thread.title);
+          try Console.log(
             [thread.threadId, thread.status, `${thread.providerInstanceId}/${thread.model}`].join(
               "  ",
             ),
           );
           if (thread.worktreePath !== null) {
-            yield* Console.log(`${thread.branch ?? "(no branch)"}  ${thread.worktreePath}`);
+            try Console.log(`${thread.branch ?? "(no branch)"}  ${thread.worktreePath}`);
           }
           if (thread.pendingRequestCount > 0) {
-            yield* Console.log(`Waiting for ${thread.pendingRequestCount} answer(s).`);
+            try Console.log(`Waiting for ${thread.pendingRequestCount} answer(s).`);
           }
           for (const entry of messages) {
-            yield* Console.log(`\n[${entry.role}]\n${entry.text}`);
+            try Console.log(`\n[${entry.role}]\n${entry.text}`);
           }
-        }),
+        }, "cli.thread.show"),
       );
-    }).pipe(reportThreadErrors),
+    } |> reportThreadErrors(%),
   ),
 );
 

@@ -22,7 +22,7 @@ import * as Ref from "effect/Ref";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as CheckpointStore from "../checkpointing/CheckpointStore.ts";
+import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
 import { VcsProcessTimeoutError } from "@t3tools/contracts";
 import * as CheckpointService from "./CheckpointService.ts";
 import * as CheckpointCaptureService from "./CheckpointCaptureService.ts";
