@@ -50,7 +50,7 @@ import * as ProviderRegistryMock from "../provider/testUtils/providerRegistryMoc
 import * as ServerSettings from "../serverSettings.ts";
 import * as ScheduledTasks from "../scheduledTasks/ScheduledTaskService.ts";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
-import * as TextGeneration from "../textGeneration/TextGeneration.ts";
+import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
 import { ClaudeProviderCapabilitiesV2 } from "./Adapters/ClaudeAdapterV2.ts";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
 import * as CommandReceiptStore from "./CommandReceiptStore.ts";

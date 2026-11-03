@@ -1,0 +1,135 @@
+// Client-supplied worktrees count only under managed folders or when Git lists them for the project.
+import * as HostProcess from "@t3tools/shared/HostProcess";
+import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Layer from "effect/Layer";
+import * as Path from "effect/Path";
+import * as Schema from "effect/Schema";
+import * as SqlClient from "effect/sql/SqlClient";
+
+import * as ServerConfig from "../config.ts";
+import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
+import * as ServerSettings from "../serverSettings.ts";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
+import { isFilesystemRoot, managedWorktreesDirectories } from "../worktreesDirectory.ts";
+
+const UnknownWorkspaceErrorCauseField = Schema.Defect()
+export schema error UnknownWorkspaceError {
+  readonly cwd: string
+  cause?: UnknownWorkspaceErrorCauseField
+  override get message(): string {
+    return `'${this.cwd}' is not a registered project, a managed worktree, or a thread's worktree.`;
+  }
+}
+
+/** Resolve candidate and root consistently before checking containment. */
+export const isWithinRoot = (path: Path.Path, candidate: string, root: string) => {
+  const relative = path.relative(root, candidate);
+  return (
+    relative === "" ||
+    (relative !== ".." && !relative.startsWith(`..${path.sep}`) && !path.isAbsolute(relative))
+  );
+};
+
+export service KnownWorkspaces: {
+    /** Takes a symlink-resolved path. */
+    readonly contains: (realPath: string) => boolean!!;
+    /** Fails unless `cwd` exists and resolves inside a known workspace. */
+    readonly assertContains: (cwd: string) => void!UnknownWorkspaceError;
+  } {
+  static readonly key = "t3/workspace/KnownWorkspaces"
+}
+
+/** @public */
+export const make = effect {
+  const config = try ServerConfig.ServerConfig;
+  const fileSystem = try FileSystem.FileSystem;
+  const path = try Path.Path;
+  const settings = try ServerSettings.ServerSettingsService;
+  const projectStore = try ProjectStore.ProjectStoreV2;
+  const sql = try SqlClient.SqlClient;
+  const git = try GitVcsDriver.GitVcsDriver;
+
+  // Missing roots keep lexical paths; other resolution failures and filesystem roots grant nothing.
+  const resolveRoot = (value: string) => {
+    const resolvedPath = path.resolve(value);
+    return fileSystem.realPath(resolvedPath)
+      |> catchTags(%, {
+        PlatformError: (cause) =>
+          succeed(cause.reason._tag === "NotFound" ? resolvedPath : null),
+      })
+      |> map(%, (root) => (root === null || isFilesystemRoot(root, path) ? null : root));
+  };
+
+  const contains: KnownWorkspaces["Service"]["contains"] = effect (realPath) => try withSpan(effect {
+    const within = (root: string | null) => root !== null && isWithinRoot(path, realPath, root);
+    const worktreeSettings = settings.getSettings catch () => ({ worktreesDirectory: "", previousWorktreesDirectories: [] });
+    const home = try HostProcess.HomeDirectory;
+    const managedDirectories = try orDie(Effect.try({ try: () => managedWorktreesDirectories(
+      worktreeSettings,
+      config.worktreesDir,
+      path,
+      home,
+    ), catch: (error) => error }));
+    const managed = (try forEach(managedDirectories, resolveRoot)).filter(
+      (root) => root !== null,
+    );
+    if (managed.some(within)) return true;
+
+    const projects = projectStore.listShells() catch () => [];
+    for (const project of projects) {
+      if (within(try resolveRoot(project.workspaceRoot))) return true;
+    }
+
+    const threads = (sql<{ readonly worktreePath: string; readonly projectId: string }>`
+        SELECT DISTINCT
+          json_extract(payload_json, '$.worktreePath') AS "worktreePath",
+          project_id AS "projectId"
+        FROM orchestration_v2_projection_threads
+        WHERE deleted_at IS NULL AND json_extract(payload_json, '$.worktreePath') IS NOT NULL
+      `
+      |> NodeSqliteClient.readOnly(%)) catch () => [];
+    const projectWorktrees = new Map<string, ReadonlyArray<string>>();
+    const isProjectWorktree = effect (
+      projectId: string,
+      worktreePath: string,
+    ) => {
+      const project = projects.find((candidate) => candidate.id === projectId);
+      if (project === undefined) return false;
+      let listed = projectWorktrees.get(projectId);
+      if (listed === undefined) {
+        listed = try (git.listWorktreePaths(project.workspaceRoot)
+          |> flatMap(%, (paths) => forEach(paths, resolveRoot))
+          |> map(%, (paths) => paths.filter((listedPath) => listedPath !== null))
+          |> orElseSucceed(%, (): ReadonlyArray<string> => []));
+        projectWorktrees.set(projectId, listed);
+      }
+      const real = try resolveRoot(worktreePath);
+      return real !== null && listed.includes(real);
+    };
+    for (const { worktreePath, projectId } of threads) {
+      // Relative paths use server cwd; managed paths still need resolution to reject symlinks elsewhere.
+      if (!path.isAbsolute(worktreePath)) continue;
+      if (!within(try resolveRoot(worktreePath))) continue;
+      const lexical = path.resolve(worktreePath);
+      if (managedDirectories.some((directory) => isWithinRoot(path, lexical, directory))) {
+        return true;
+      }
+      if (try isProjectWorktree(projectId, worktreePath)) return true;
+    }
+    return false;
+  }, "KnownWorkspaces.contains");
+
+  const assertContains: KnownWorkspaces["Service"]["assertContains"] = effect (cwd) => try withSpan(effect {
+    // `..` collapses on the path as named before symlinks resolve, as the write does.
+    const realCwd = fileSystem
+      .realPath(path.resolve(cwd)) catch effect (cause) => { throw new UnknownWorkspaceError({ cwd, cause }) };
+    if (!(try contains(realCwd))) throw new UnknownWorkspaceError({ cwd });
+  }, "KnownWorkspaces.assertContains");
+
+  return KnownWorkspaces.of({ contains, assertContains });
+};
+
+export const layer = Layer.effect(KnownWorkspaces, make);

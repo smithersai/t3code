@@ -26,7 +26,7 @@ import * as SourceControlHost from "@t3tools/source-control-core/server/SourceCo
 
 import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 
 const PROVIDER_DETECTION_CACHE_CAPACITY = 2_048;
 const PROVIDER_DETECTION_CACHE_TTL = Duration.seconds(5);

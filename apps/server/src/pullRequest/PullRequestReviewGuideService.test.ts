@@ -24,7 +24,7 @@ import * as PullRequestReviewGuides from "../persistence/PullRequestReviewGuides
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as TextGeneration from "../textGeneration/TextGeneration.ts";
+import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as PullRequestReviewGuideService from "./PullRequestReviewGuideService.ts";

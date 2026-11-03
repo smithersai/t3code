@@ -24,7 +24,7 @@ import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import {
   isAntigravityTextGenerationAvailable,
   makeAntigravityTextGeneration,
-} from "../../textGeneration/AntigravityTextGeneration.ts";
+} from "../../textGeneration/AntigravityTextGeneration.vibe";
 import { makeAntigravityAuth, type AntigravityAuth } from "../AntigravityAuth.ts";
 import * as AntigravityInstallation from "../AntigravityInstallation.ts";
 import * as AntigravityUsage from "./AntigravityUsage.ts";

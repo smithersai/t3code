@@ -94,7 +94,7 @@ import * as ThreadSearch from "./orchestration-v2/ThreadSearch.ts";
 import * as UsageLimitSources from "./usage/UsageLimitSources.ts";
 import * as UsageService from "./usage/UsageService.ts";
 import * as VcsProvisioningService from "./vcs/VcsProvisioningService.ts";
-import * as VcsStatusBroadcaster from "./vcs/VcsStatusBroadcaster.ts";
+import * as VcsStatusBroadcaster from "./vcs/VcsStatusBroadcaster.vibe";
 import * as WorkspaceEntries from "./workspace/WorkspaceEntries.ts";
 import * as WorkspaceFileSystem from "./workspace/WorkspaceFileSystem.ts";
 import * as WorktreeSetupTracker from "./project/WorktreeSetupTracker.ts";

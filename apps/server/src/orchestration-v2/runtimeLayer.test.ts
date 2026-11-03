@@ -54,7 +54,7 @@ import * as ServerSettings from "../serverSettings.ts";
 import * as McpSessionRegistryTestkit from "../mcp/McpSessionRegistry.testkit.ts";
 import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.ts";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts";

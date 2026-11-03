@@ -21,7 +21,7 @@ import * as ThreadManagementService from "../orchestration-v2/ThreadManagementSe
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.ts";
+import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.vibe";
 import type { McpInvocationScope, McpThreadInvocationScope } from "./McpInvocationContext.ts";
 
 export class WorktreeMcpService extends Context.Service<

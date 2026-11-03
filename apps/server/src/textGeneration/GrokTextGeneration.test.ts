@@ -15,7 +15,7 @@ import { ProviderInstanceId } from "@t3tools/contracts";
 import { GrokSettings } from "@t3tools/provider-grok/settings";
 
 import * as ServerConfig from "../config.ts";
-import * as TextGeneration from "./TextGeneration.ts";
+import * as TextGeneration from "./TextGeneration.vibe";
 import { makeGrokTextGeneration } from "@t3tools/provider-grok/testing";
 import { execScriptSource, writeFakeCli } from "@t3tools/provider-testing/fakeCli";
 import * as Crypto from "@t3tools/shared/Crypto";

@@ -46,7 +46,7 @@ import * as Settings from "./serverSettings.ts";
 import * as TerminalManager from "./terminal/Manager.ts";
 import { isFilesystemRoot, managedWorktreesDirectories } from "./worktreesDirectory.ts";
 import * as GitVcsDriver from "./vcs/GitVcsDriver.ts";
-import { removeLinkedWorktree } from "./vcs/worktreeRemoval.ts";
+import { removeLinkedWorktree } from "./vcs/worktreeRemoval.vibe";
 import { withWorkspaceLease } from "./workspace/workspaceLease.vibe";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";

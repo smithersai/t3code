@@ -17,7 +17,7 @@ import * as Option from "effect/Option";
 import * as Schedule from "effect/Schedule";
 
 import * as ServerSettings from "../serverSettings.ts";
-import * as TextGeneration from "../textGeneration/TextGeneration.ts";
+import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
 import type { OrchestratorV2Error } from "./Orchestrator.ts";
 import * as ProjectStore from "./ProjectStore.ts";
 import * as ThreadManagementService from "./ThreadManagementService.ts";

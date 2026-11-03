@@ -9,7 +9,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
 import * as PullRequestService from "../pullRequest/PullRequestService.ts";
-import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.ts";
+import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.vibe";
 import * as WorkspaceEntries from "../workspace/WorkspaceEntries.ts";
 import * as CheckpointCapture from "./CheckpointCaptureService.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";

@@ -7,8 +7,8 @@ import * as Path from "effect/Path";
 import { ChildProcessSpawner } from "effect/process";
 
 import * as VcsProcess from "./VcsProcess.ts";
-import * as VcsProjectConfig from "./VcsProjectConfig.ts";
-import * as VcsDriverRegistry from "./VcsDriverRegistry.ts";
+import * as VcsProjectConfig from "./VcsProjectConfig.vibe";
+import * as VcsDriverRegistry from "./VcsDriverRegistry.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const processOutput = (stdout: string): VcsProcess.VcsProcessOutput => ({

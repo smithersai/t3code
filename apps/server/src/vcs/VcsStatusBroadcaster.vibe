@@ -1,0 +1,749 @@
+import * as Context from "effect/Context";
+import * as Duration from "effect/Duration";
+import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Layer from "effect/Layer";
+import * as Scope from "effect/Scope";
+import * as Stream from "effect/Stream";
+import type {
+  GitManagerServiceError,
+  VcsStatusInput,
+  VcsStatusLocalResult,
+  VcsStatusRemoteResult,
+  VcsStatusResult,
+  VcsStatusStreamEvent,
+  VcsStatusSubscriptionInput,
+} from "@t3tools/contracts";
+import { DEFAULT_AUTOMATIC_GIT_FETCH_INTERVAL } from "@t3tools/contracts";
+import { resolveServerBackgroundActivitySettings } from "@t3tools/shared/backgroundActivitySettings";
+import { mergeGitStatusParts } from "@t3tools/shared/git";
+import * as KeyedLock from "@t3tools/shared/KeyedLock";
+import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
+
+import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
+import * as GitWorkflowService from "../git/GitWorkflowService.ts";
+import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
+import * as ServerSettings from "../serverSettings.ts";
+
+const VCS_STATUS_REFRESH_FAILURE_BASE_DELAY = Duration.seconds(30);
+const VCS_STATUS_REFRESH_FAILURE_MAX_DELAY = Duration.minutes(15);
+const MAX_FAILURE_DIAGNOSTIC_VALUES = 8;
+const MAX_FAILURE_DIAGNOSTIC_VALUE_LENGTH = 128;
+
+function boundedDiagnosticValue(value: string): string {
+  return value.slice(0, MAX_FAILURE_DIAGNOSTIC_VALUE_LENGTH);
+}
+
+function diagnosticValueTag(value: unknown): string {
+  try {
+    if (
+      typeof value === "object" &&
+      value !== null &&
+      "_tag" in value &&
+      typeof value._tag === "string"
+    ) {
+      return boundedDiagnosticValue(value._tag);
+    }
+    if (value instanceof Error) {
+      return boundedDiagnosticValue(value.name);
+    }
+    return typeof value;
+  } catch {
+    return "Uninspectable";
+  }
+}
+
+function diagnosticFailureOperation(value: unknown): string | undefined {
+  try {
+    if (
+      typeof value === "object" &&
+      value !== null &&
+      "operation" in value &&
+      typeof value.operation === "string"
+    ) {
+      return boundedDiagnosticValue(value.operation);
+    }
+  } catch {
+    return undefined;
+  }
+  return undefined;
+}
+
+function addUniqueDiagnosticValue(values: Array<string>, value: string | undefined): void {
+  if (
+    value !== undefined &&
+    values.length < MAX_FAILURE_DIAGNOSTIC_VALUES &&
+    !values.includes(value)
+  ) {
+    values.push(value);
+  }
+}
+
+function remoteRefreshFailureDiagnostics(cause: Cause<unknown>) {
+  const failureTags: Array<string> = [];
+  const failureOperations: Array<string> = [];
+  const defectTags: Array<string> = [];
+  let failureCount = 0;
+  let defectCount = 0;
+  let interruptionCount = 0;
+
+  for (const reason of cause.reasons) {
+    if (Cause.isFailReason(reason)) {
+      failureCount += 1;
+      addUniqueDiagnosticValue(failureTags, diagnosticValueTag(reason.error));
+      addUniqueDiagnosticValue(failureOperations, diagnosticFailureOperation(reason.error));
+      continue;
+    }
+    if (Cause.isDieReason(reason)) {
+      defectCount += 1;
+      addUniqueDiagnosticValue(defectTags, diagnosticValueTag(reason.defect));
+      continue;
+    }
+    interruptionCount += 1;
+  }
+
+  return {
+    reasonCount: cause.reasons.length,
+    failureCount,
+    failureTags,
+    failureOperations,
+    defectCount,
+    defectTags,
+    interruptionCount,
+  };
+}
+
+interface VcsStatusChange {
+  readonly cwd: string;
+  readonly event: VcsStatusStreamEvent;
+}
+
+interface CachedValue<T> {
+  readonly fingerprint: string;
+  readonly value: T;
+}
+
+interface CachedVcsStatus {
+  readonly local: CachedValue<VcsStatusLocalResult> | null;
+  readonly remote: CachedValue<VcsStatusRemoteResult | null> | null;
+}
+
+interface ActiveRemotePoller {
+  readonly fiber: Fiber<void, never>;
+  readonly subscriberCount: number;
+  readonly demandCwds: Ref<ReadonlyMap<string, number>>;
+}
+
+export class VcsAutomaticFetchInterval extends Context.Reference<Duration.Duration!!>(
+  "t3/vcs/VcsAutomaticFetchInterval",
+  { defaultValue: () => succeed(DEFAULT_AUTOMATIC_GIT_FETCH_INTERVAL) },
+) {}
+
+export const layerAutomaticFetchInterval = Layer.effect(
+  VcsAutomaticFetchInterval,
+  effect {
+    const serverSettings = try ServerSettings.ServerSettingsService;
+    return serverSettings.getSettings
+      |> map(
+        %, (settings) => resolveServerBackgroundActivitySettings(settings).automaticGitFetchInterval,
+      )
+      |> orElseSucceed(%, () => DEFAULT_AUTOMATIC_GIT_FETCH_INTERVAL);
+  },
+);
+
+export class VcsAutoPullPolicy extends Context.Reference<{
+  readonly isEnabled: (cwd: string) => boolean!never;
+}>("t3/vcs/VcsAutoPullPolicy", {
+  defaultValue: () => ({ isEnabled: () => succeed(false) }),
+}) {}
+
+export const layerAutoPullPolicy = Layer.effect(
+  VcsAutoPullPolicy,
+  effect {
+    const projects = try ProjectStore.ProjectStoreV2;
+    const serverSettings = try ServerSettings.ServerSettingsService;
+    return {
+      isEnabled: effect (cwd: string) => try withSpan(effect {
+        const project = try projects.findActiveByWorkspaceRoot(cwd);
+        if (project._tag === "None") return false;
+        const settings = try serverSettings.getSettings;
+        return (try orDie(Effect.try({ try: () => resolveProjectSettings(settings, project.value.projectId), catch: (error) => error }))).settings.defaultAutoPull;
+      } |> orElseSucceed(%, () => false), "VcsAutoPullPolicy.isEnabled"),
+    };
+  },
+);
+
+function remoteRefreshFailureDelay(
+  consecutiveFailures: number,
+  configuredInterval: Duration.Duration,
+) {
+  const exponent = Math.max(0, consecutiveFailures - 1);
+  const backoffMs =
+    Duration.toMillis(VCS_STATUS_REFRESH_FAILURE_BASE_DELAY) * Math.pow(2, exponent);
+  const cappedBackoff = Duration.min(
+    Duration.millis(backoffMs),
+    VCS_STATUS_REFRESH_FAILURE_MAX_DELAY,
+  );
+  return Duration.max(configuredInterval, cappedBackoff);
+}
+
+export service VcsStatusBroadcaster: {
+    readonly getStatus: (
+      input: VcsStatusInput,
+    ) => VcsStatusResult!GitManagerServiceError;
+    readonly refreshLocalStatus: (
+      cwd: string,
+    ) => VcsStatusLocalResult!GitManagerServiceError;
+    readonly refreshStatus: (
+      cwd: string,
+      options?: { readonly localOnly?: boolean },
+    ) => VcsStatusResult!GitManagerServiceError;
+    readonly refreshPullRequestStatus: (
+      cwd: string,
+    ) => (VcsStatusRemoteResult | null)!GitManagerServiceError;
+    readonly streamStatus: (
+      input: VcsStatusSubscriptionInput,
+    ) => Stream.Stream<VcsStatusStreamEvent, GitManagerServiceError>;
+  } {
+  static readonly key = "t3/vcs/VcsStatusBroadcaster"
+}
+
+function fingerprintStatusPart(status: unknown): string {
+  return JSON.stringify(status);
+}
+
+const normalizeCwd = (cwd: string) =>
+  Effect.service(FileSystem.FileSystem)
+    |> flatMap(%, (fs) => fs.realPath(cwd))
+    |> orElseSucceed(%, () => cwd);
+
+/** @public */
+export const make = effect {
+  const automaticFetchInterval = try VcsAutomaticFetchInterval;
+  const autoPullPolicy = try VcsAutoPullPolicy;
+  const workflow = try GitWorkflowService.GitWorkflowService;
+  const backgroundPolicy = try BackgroundPolicy.BackgroundPolicy;
+  const fs = try FileSystem.FileSystem;
+  const changesPubSub = try acquireRelease(
+    PubSub.unbounded<VcsStatusChange>(),
+    (pubsub) => PubSub.shutdown(pubsub),
+  );
+  const broadcasterScope = try acquireRelease(Scope.make(), (scope) =>
+    Scope.close(scope, Exit.void),
+  );
+  const cacheRef = try Ref.make(new Map<string, CachedVcsStatus>());
+  // One permit per cwd for remote reads that write the cache. Without it a
+  // periodic poll that started before an agent creates a PR can finish after the
+  // turn-end refresh and overwrite the fresh PR with its stale `pr: null`.
+  const remoteWriteLocks = try KeyedLock.make<string>();
+  const withRemoteWriteLock = <A, E, R>(cwd: string, effect: A!E!R) =>
+    remoteWriteLocks.withLock(cwd, effect);
+  const pollersRef = try SynchronizedRef.make(new Map<string, ActiveRemotePoller>());
+
+  const getCachedStatus = effect (
+    cwd: string,
+  ) => try withSpan(effect {
+    return try (Ref.get(cacheRef) |> map(%, (cache) => cache.get(cwd) ?? null));
+  }, "VcsStatusBroadcaster.getCachedStatus");
+
+  const updateCachedLocalStatus = effect (cwd: string, local: { readonly isRepo: boolean; readonly sourceControlProvider?: { kind: string & import("effect/Brand").Brand<"SourceControlProviderKind">; name: string; baseUrl: string; } | undefined; readonly hasPrimaryRemote: boolean; readonly isDefaultRef: boolean; readonly refName: string | null; readonly hasWorkingTreeChanges: boolean; readonly workingTree: { readonly rootPath?: string | undefined; readonly files: readonly { readonly path: string; readonly insertions: number; readonly deletions: number; }[]; readonly insertions: number; readonly deletions: number; }; readonly branchChanges?: { readonly baseRef: string | null; readonly insertions: number; readonly deletions: number; } | undefined; }, options?: { publish?: boolean; } | undefined) => try withSpan(effect {
+    const nextLocal = {
+      fingerprint: fingerprintStatusPart(local),
+      value: local,
+    } satisfies CachedValue<VcsStatusLocalResult>;
+    const shouldPublish = try Ref.modify(cacheRef, (cache) => {
+      const previous = cache.get(cwd) ?? { local: null, remote: null };
+      const nextCache = new Map(cache);
+      nextCache.set(cwd, {
+        ...previous,
+        local: nextLocal,
+      });
+      return [previous.local?.fingerprint !== nextLocal.fingerprint, nextCache] as const;
+    });
+
+    if (options?.publish && shouldPublish) {
+      try PubSub.publish(changesPubSub, {
+        cwd,
+        event: {
+          _tag: "localUpdated",
+          local,
+        },
+      });
+    }
+
+    return local;
+  }, "VcsStatusBroadcaster.updateCachedLocalStatus");
+
+  const updateCachedRemoteStatus = effect (cwd: string, remote: { readonly hasUpstream: boolean; readonly aheadCount: number; readonly behindCount: number; readonly aheadOfDefaultCount?: number | undefined; readonly pr: { readonly number: number; readonly title: string; readonly url: string; readonly baseRef: string; readonly headRef: string; readonly state: "closed" | "merged" | "open"; readonly isDraft?: boolean | undefined; readonly updatedAt?: string | null | undefined; } | null; } | null, options?: { publish?: boolean; } | undefined) => try withSpan(effect {
+    const nextRemote = {
+      fingerprint: fingerprintStatusPart(remote),
+      value: remote,
+    } satisfies CachedValue<VcsStatusRemoteResult | null>;
+    const shouldPublish = try Ref.modify(cacheRef, (cache) => {
+      const previous = cache.get(cwd) ?? { local: null, remote: null };
+      const nextCache = new Map(cache);
+      nextCache.set(cwd, {
+        ...previous,
+        remote: nextRemote,
+      });
+      return [previous.remote?.fingerprint !== nextRemote.fingerprint, nextCache] as const;
+    });
+
+    if (options?.publish && shouldPublish) {
+      try PubSub.publish(changesPubSub, {
+        cwd,
+        event: {
+          _tag: "remoteUpdated",
+          remote,
+        },
+      });
+    }
+
+    return remote;
+  }, "VcsStatusBroadcaster.updateCachedRemoteStatus");
+
+  const updateCachedStatus = effect (
+    cwd: string,
+    local: { readonly isRepo: boolean; readonly sourceControlProvider?: { kind: string & import("effect/Brand").Brand<"SourceControlProviderKind">; name: string; baseUrl: string; } | undefined; readonly hasPrimaryRemote: boolean; readonly isDefaultRef: boolean; readonly refName: string | null; readonly hasWorkingTreeChanges: boolean; readonly workingTree: { readonly rootPath?: string | undefined; readonly files: readonly { readonly path: string; readonly insertions: number; readonly deletions: number; }[]; readonly insertions: number; readonly deletions: number; }; readonly branchChanges?: { readonly baseRef: string | null; readonly insertions: number; readonly deletions: number; } | undefined; },
+    remote: { readonly hasUpstream: boolean; readonly aheadCount: number; readonly behindCount: number; readonly aheadOfDefaultCount?: number | undefined; readonly pr: { readonly number: number; readonly title: string; readonly url: string; readonly baseRef: string; readonly headRef: string; readonly state: "closed" | "merged" | "open"; readonly isDraft?: boolean | undefined; readonly updatedAt?: string | null | undefined; } | null; } | null,
+    options?: { publish?: boolean; } | undefined,
+  ) => try withSpan(effect {
+    const nextLocal = {
+      fingerprint: fingerprintStatusPart(local),
+      value: local,
+    } satisfies CachedValue<VcsStatusLocalResult>;
+    const nextRemote = {
+      fingerprint: fingerprintStatusPart(remote),
+      value: remote,
+    } satisfies CachedValue<VcsStatusRemoteResult | null>;
+    const shouldPublish = try Ref.modify(cacheRef, (cache) => {
+      const previous = cache.get(cwd) ?? { local: null, remote: null };
+      const nextCache = new Map(cache);
+      nextCache.set(cwd, {
+        local: nextLocal,
+        remote: nextRemote,
+      });
+      return [
+        previous.local?.fingerprint !== nextLocal.fingerprint ||
+          previous.remote?.fingerprint !== nextRemote.fingerprint,
+        nextCache,
+      ] as const;
+    });
+
+    if (options?.publish && shouldPublish) {
+      try PubSub.publish(changesPubSub, {
+        cwd,
+        event: {
+          _tag: "snapshot",
+          local,
+          remote,
+        },
+      });
+    }
+
+    return mergeGitStatusParts(local, remote);
+  }, "VcsStatusBroadcaster.updateCachedStatus");
+
+  const loadLocalStatus = effect (
+    cwd: string,
+  ) => try withSpan(effect {
+    const local = try workflow.localStatus({ cwd });
+    return try updateCachedLocalStatus(cwd, local);
+  }, "VcsStatusBroadcaster.loadLocalStatus");
+
+  const getOrLoadLocalStatus = effect (
+    cwd: string,
+  ) => try withSpan(effect {
+    const cached = try getCachedStatus(cwd);
+    if (cached?.local) {
+      return cached.local.value;
+    }
+    return try loadLocalStatus(cwd);
+  }, "VcsStatusBroadcaster.getOrLoadLocalStatus");
+
+  const withFileSystem = provideService(FileSystem.FileSystem, fs);
+
+  const getStatus: VcsStatusBroadcaster["Service"]["getStatus"] = effect (input) => try withSpan(effect {
+    const cwd = try withFileSystem(normalizeCwd(input.cwd));
+    const cached = try getCachedStatus(cwd);
+    if (cached?.local && cached.remote) {
+      return mergeGitStatusParts(cached.local.value, cached.remote.value);
+    }
+    return try withRemoteWriteLock(
+      cwd,
+      effect {
+        const latest = try getCachedStatus(cwd);
+        const refreshUpstream = !Duration.isZero(try automaticFetchInterval);
+        const [local, remote] = try all(
+          [
+            latest?.local ? succeed(latest.local.value) : workflow.localStatus({ cwd }),
+            latest?.remote
+              ? succeed(latest.remote.value)
+              : workflow.remoteStatus({ cwd }, { refreshUpstream }),
+          ],
+          { concurrency: "unbounded" },
+        );
+        return try updateCachedStatus(cwd, local, remote);
+      },
+    );
+  }, "VcsStatusBroadcaster.getStatus");
+
+  const refreshLocalStatusCore = effect (cwd: string) => try withSpan(effect {
+    try workflow.invalidateLocalStatus(cwd);
+    const local = try workflow.localStatus({ cwd });
+    return try updateCachedLocalStatus(cwd, local, { publish: true });
+  }, "VcsStatusBroadcaster.refreshLocalStatusCore");
+
+  const refreshLocalStatus: VcsStatusBroadcaster["Service"]["refreshLocalStatus"] = effect (rawCwd) => try withSpan(effect {
+    const cwd = try withFileSystem(normalizeCwd(rawCwd));
+    return try refreshLocalStatusCore(cwd);
+  }, "VcsStatusBroadcaster.refreshLocalStatus");
+
+  const maybeAutoPull = effect (
+    cwd: string,
+    remote: { readonly hasUpstream: boolean; readonly aheadCount: number; readonly behindCount: number; readonly aheadOfDefaultCount?: number | undefined; readonly pr: { readonly number: number; readonly title: string; readonly url: string; readonly baseRef: string; readonly headRef: string; readonly state: "closed" | "merged" | "open"; readonly isDraft?: boolean | undefined; readonly updatedAt?: string | null | undefined; } | null; } | null,
+    policyCwds: readonly string[],
+  ) => try withSpan(effect {
+    let pullAttempted = false;
+    return try ((effect {
+      const autoPullEnabled = (try forEach(policyCwds, autoPullPolicy.isEnabled, {
+        concurrency: "unbounded",
+      })).some(Boolean);
+      if (
+        remote === null ||
+        !remote.hasUpstream ||
+        remote.aheadCount > 0 ||
+        remote.behindCount <= 0 ||
+        !autoPullEnabled
+      ) {
+        return null;
+      }
+
+      try workflow.invalidateLocalStatus(cwd);
+      const local = try workflow.localStatus({ cwd });
+      if (!local.isRepo || !local.isDefaultRef || local.hasWorkingTreeChanges) return null;
+
+      pullAttempted = true;
+      try workflow.pullCurrentBranch(cwd);
+      try workflow.invalidateStatus(cwd);
+      const [refreshedLocal, refreshedRemote] = try all(
+        [workflow.localStatus({ cwd }), workflow.remoteStatus({ cwd }, { refreshUpstream: false })],
+        { concurrency: "unbounded" },
+      );
+      try updateCachedStatus(cwd, refreshedLocal, refreshedRemote, { publish: true });
+      return { local: refreshedLocal, remote: refreshedRemote };
+    })
+      |> Effect.catch(%, effect (error) => {
+        try logWarning("Automatic project pull failed", {
+          cwdLength: cwd.length,
+          errorTag: error._tag,
+        });
+        if (!pullAttempted) return null;
+        // Pull can change local state before failing; propagate reconciliation failures instead of publishing stale status.
+        try workflow.invalidateLocalStatus(cwd);
+        const local = try workflow.localStatus({ cwd });
+        try updateCachedStatus(cwd, local, remote, { publish: true });
+        return { local, remote };
+      },
+      ));
+  }, "VcsStatusBroadcaster.maybeAutoPull");
+
+  const refreshRemoteStatus = effect (
+    cwd: string,
+    options?: { readonly refreshUpstream?: boolean; readonly policyCwds?: ReadonlyArray<string>; } | undefined,
+  ) => try withSpan(effect {
+    return try withRemoteWriteLock(
+      cwd,
+      effect {
+        if (options?.refreshUpstream !== false) {
+          try workflow.invalidateRemoteStatus(cwd);
+        }
+        const previousRemote = (try getCachedStatus(cwd))?.remote?.value;
+        const remote = try workflow.remoteStatus({ cwd }, options);
+        const pulled =
+          options?.refreshUpstream === false
+            ? null
+            : try maybeAutoPull(cwd, remote, options?.policyCwds ?? [cwd]);
+        if (pulled !== null) return pulled.remote;
+        if (
+          remote &&
+          (!previousRemote ||
+            previousRemote.aheadCount !== remote.aheadCount ||
+            previousRemote.behindCount !== remote.behindCount ||
+            previousRemote.aheadOfDefaultCount !== remote.aheadOfDefaultCount)
+        ) {
+          try refreshLocalStatusCore(cwd);
+        }
+        return try updateCachedRemoteStatus(cwd, remote, { publish: true });
+      },
+    );
+  }, "VcsStatusBroadcaster.refreshRemoteStatus");
+
+  const refreshStatus: VcsStatusBroadcaster["Service"]["refreshStatus"] = effect (rawCwd, options) => try withSpan(effect {
+    const cwd = try withFileSystem(normalizeCwd(rawCwd));
+    if (options?.localOnly) {
+      return try withRemoteWriteLock(
+        cwd,
+        effect {
+          try workflow.invalidateLocalStatus(cwd);
+          const local = try workflow.localStatus({ cwd });
+          const previous = try getCachedStatus(cwd);
+          if (previous?.local?.value.refName !== local.refName) {
+            try workflow.invalidateRemoteStatus(cwd);
+            return try updateCachedStatus(cwd, local, null, { publish: true });
+          }
+          try updateCachedLocalStatus(cwd, local, { publish: true });
+          return mergeGitStatusParts(local, previous?.remote?.value ?? null);
+        },
+      );
+    }
+    // Full invalidation also bypasses GitManager's slow PR cache.
+    return try withRemoteWriteLock(
+      cwd,
+      effect {
+        const refreshUpstream = !Duration.isZero(try automaticFetchInterval);
+        try workflow.invalidateStatus(cwd);
+        // Local after remote: the fetch can move the base that the Changes totals compare with.
+        const remote = try workflow.remoteStatus({ cwd }, { refreshUpstream });
+        const local = try workflow.localStatus({ cwd });
+        // Without a fetch, the cached behind count cannot justify an automatic pull.
+        const pulled = refreshUpstream ? try maybeAutoPull(cwd, remote, [rawCwd]) : null;
+        if (pulled !== null) return mergeGitStatusParts(pulled.local, pulled.remote);
+        return try updateCachedStatus(cwd, local, remote, { publish: true });
+      },
+    );
+  }, "VcsStatusBroadcaster.refreshStatus");
+
+  const refreshPullRequestStatus: VcsStatusBroadcaster["Service"]["refreshPullRequestStatus"] =
+    effect (rawCwd) => try withSpan(effect {
+      const cwd = try withFileSystem(normalizeCwd(rawCwd));
+      return try withRemoteWriteLock(
+        cwd,
+        effect {
+          const cached = try getCachedStatus(cwd);
+          if (cached?.remote?.value == null) return null;
+          const poller = (try SynchronizedRef.get(pollersRef)).get(cwd);
+          const demandCwds = poller ? [...(try Ref.get(poller.demandCwds)).keys()] : [rawCwd];
+          const shouldRefresh = (try forEach(
+            demandCwds,
+            (demandCwd) =>
+              backgroundPolicy.shouldRunScopeWork({ type: "vcs-status", cwd: demandCwd }),
+            { concurrency: "unbounded" },
+          )).some(Boolean);
+          if (!shouldRefresh) return null;
+          // Re-resolve the branch; cached PRs may belong to a checkout's previous branch.
+          const remote = try workflow.remoteStatus(
+            { cwd },
+            { refreshUpstream: false, refreshMissingPullRequest: true },
+          );
+          return try updateCachedRemoteStatus(cwd, remote, { publish: true });
+        },
+      );
+    }, "VcsStatusBroadcaster.refreshPullRequestStatus");
+
+  // A subscription owns this loop; keep each poll's spans out of a never-ending parent span.
+  const makeRemoteRefreshLoop = effect (
+    cwd: string,
+    demandCwdsRef: Ref<ReadonlyMap<string, number>>,
+    refreshImmediately: boolean,
+  ) => {
+    const consecutiveFailuresRef = try Ref.make(0);
+    const needsInitialRefreshRef = try Ref.make(refreshImmediately);
+    const refreshRemoteStatusIfEnabled = effect {
+      const configuredInterval = try automaticFetchInterval;
+      const activeInterval = Duration.isZero(configuredInterval)
+        ? DEFAULT_AUTOMATIC_GIT_FETCH_INTERVAL
+        : configuredInterval;
+      const needsInitialRefresh = try Ref.get(needsInitialRefreshRef);
+      if (Duration.isZero(configuredInterval) && !needsInitialRefresh) {
+        return activeInterval;
+      }
+
+      const demandCwds = try Ref.get(demandCwdsRef);
+      const shouldRun =
+        needsInitialRefresh ||
+        (try forEach(
+          [...demandCwds.keys()],
+          (demandCwd) =>
+            backgroundPolicy.shouldRunScopeWork({
+              type: "vcs-status",
+              cwd: demandCwd,
+            }),
+          { concurrency: "unbounded" },
+        )).some(Boolean);
+      if (!shouldRun) {
+        return activeInterval;
+      }
+
+      const exit = try (refreshRemoteStatus(cwd, {
+        refreshUpstream: !Duration.isZero(configuredInterval),
+        policyCwds: [...demandCwds.keys()],
+      }) |> Effect.exit(%));
+      if (Exit.isSuccess(exit)) {
+        try Ref.set(needsInitialRefreshRef, false);
+        try Ref.set(consecutiveFailuresRef, 0);
+        return activeInterval;
+      }
+
+      const interruptionReasons = exit.cause.reasons.filter(Cause.isInterruptReason);
+      if (interruptionReasons.length > 0) {
+        return try failCause(Cause.fromReasons<never>(interruptionReasons));
+      }
+
+      const consecutiveFailures = try Ref.updateAndGet(
+        consecutiveFailuresRef,
+        (count) => count + 1,
+      );
+      const nextDelay = remoteRefreshFailureDelay(consecutiveFailures, activeInterval);
+      try logWarning("VCS remote status refresh failed", {
+        cwdLength: cwd.length,
+        ...remoteRefreshFailureDiagnostics(exit.cause),
+        consecutiveFailures,
+        nextDelayMs: Duration.toMillis(nextDelay),
+      });
+      return nextDelay;
+    };
+
+    if (!refreshImmediately) {
+      const configuredInterval = try automaticFetchInterval;
+      try sleep(
+        Duration.isZero(configuredInterval)
+          ? DEFAULT_AUTOMATIC_GIT_FETCH_INTERVAL
+          : configuredInterval,
+      );
+    }
+
+    return try (refreshRemoteStatusIfEnabled
+      |> repeat(
+        %, Schedule.identity<Duration.Duration>().pipe(
+          Schedule.addDelay(({ output: delay }) => succeed(delay)),
+        ),
+      )
+      |> asVoid(%));
+  };
+
+  const retainRemotePoller = effect (
+    cwd: string,
+    demandCwd: string,
+    refreshImmediately: boolean,
+  ) => try withSpan(effect {
+    try SynchronizedRef.modifyEffect(pollersRef, (activePollers) => {
+      const existing = activePollers.get(cwd);
+      if (existing) {
+        return Ref.update(existing.demandCwds, (demandCwds) => {
+          const next = new Map(demandCwds);
+          next.set(demandCwd, (next.get(demandCwd) ?? 0) + 1);
+          return next;
+        })
+          |> map(%, () => {
+            const nextPollers = new Map(activePollers);
+            nextPollers.set(cwd, {
+              ...existing,
+              subscriberCount: existing.subscriberCount + 1,
+            });
+            return [undefined, nextPollers] as const;
+          });
+      }
+
+      return Ref.make<ReadonlyMap<string, number>>(new Map([[demandCwd, 1]]))
+        |> flatMap(%, (demandCwds) =>
+          makeRemoteRefreshLoop(cwd, demandCwds, refreshImmediately)
+            |> Effect.forkIn(%, broadcasterScope)
+            |> map(%, (fiber) => {
+              const nextPollers = new Map(activePollers);
+              nextPollers.set(cwd, {
+                fiber,
+                subscriberCount: 1,
+                demandCwds,
+              });
+              return [undefined, nextPollers] as const;
+            }),
+        );
+    });
+  }, "VcsStatusBroadcaster.retainRemotePoller");
+
+  const releaseRemotePoller = effect (
+    cwd: string,
+    demandCwd: string,
+  ) => try withSpan(effect {
+    const pollerToInterrupt = try SynchronizedRef.modifyEffect(pollersRef, (activePollers) => {
+      const existing = activePollers.get(cwd);
+      if (!existing) {
+        return succeed([null, activePollers] as const);
+      }
+
+      if (existing.subscriberCount > 1) {
+        return Ref.update(existing.demandCwds, (demandCwds) => {
+          const nextDemandCwds = new Map(demandCwds);
+          const count = nextDemandCwds.get(demandCwd) ?? 0;
+          if (count <= 1) {
+            nextDemandCwds.delete(demandCwd);
+          } else {
+            nextDemandCwds.set(demandCwd, count - 1);
+          }
+          return nextDemandCwds;
+        })
+          |> as(%, [
+            null,
+            new Map(activePollers).set(cwd, {
+              ...existing,
+              subscriberCount: existing.subscriberCount - 1,
+            }),
+          ] as const);
+      }
+
+      return succeed([
+        existing.fiber,
+        new Map([...activePollers].filter(([activeCwd]) => activeCwd !== cwd)),
+      ] as const);
+    });
+
+    if (pollerToInterrupt) {
+      try (Fiber.interrupt(pollerToInterrupt) |> ignore(%));
+    }
+  }, "VcsStatusBroadcaster.releaseRemotePoller");
+
+  const streamStatus: VcsStatusBroadcaster["Service"]["streamStatus"] = (input) =>
+    Stream.unwrap(
+      effect {
+        const cwd = try withFileSystem(normalizeCwd(input.cwd));
+        const subscription = try PubSub.subscribe(changesPubSub);
+        const initialLocal = try getOrLoadLocalStatus(cwd);
+        const cachedStatus = try getCachedStatus(cwd);
+        const initialRemote = cachedStatus?.remote?.value ?? null;
+        if (input.includeRemote !== false) {
+          try retainRemotePoller(
+            cwd,
+            input.cwd,
+            cachedStatus?.remote === null || cachedStatus?.remote === undefined,
+          );
+        }
+        const release =
+          input.includeRemote === false
+            ? Effect.void
+            : (releaseRemotePoller(cwd, input.cwd) |> ignore(%) |> asVoid(%));
+
+        return Stream.concat(
+          Stream.make({
+            _tag: "snapshot" as const,
+            local: initialLocal,
+            remote: initialRemote,
+          }),
+          Stream.fromSubscription(subscription).pipe(
+            Stream.filter((event) => event.cwd === cwd),
+            Stream.map((event) => event.event),
+          ),
+        ).pipe(Stream.ensuring(release));
+      },
+    );
+
+  return VcsStatusBroadcaster.of({
+    getStatus,
+    refreshLocalStatus,
+    refreshStatus,
+    refreshPullRequestStatus,
+    streamStatus,
+  });
+};
+
+export const layer = Layer.effect(VcsStatusBroadcaster, make);

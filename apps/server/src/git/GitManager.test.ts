@@ -41,15 +41,15 @@ import {
   TurnItemId,
 } from "@t3tools/contracts";
 import * as DateTime from "effect/DateTime";
-import * as TextGeneration from "../textGeneration/TextGeneration.ts";
+import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
 import {
   fromRunner,
   decodeJsonReply,
 } from "@t3tools/provider-core/server/textGenerationOperations";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
-import * as VcsProjectConfig from "../vcs/VcsProjectConfig.ts";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
+import * as VcsProjectConfig from "../vcs/VcsProjectConfig.vibe";
 import * as GitWorkflowService from "./GitWorkflowService.ts";
 import type { SourceControlProvider } from "@t3tools/source-control-core/server/SourceControlProvider";
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";

@@ -4,7 +4,7 @@ import * as Layer from "effect/Layer";
 
 import * as ServerSettings from "../serverSettings.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 
 export const layer = Layer.effect(

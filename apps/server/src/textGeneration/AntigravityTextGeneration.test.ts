@@ -26,7 +26,7 @@ import {
   type AntigravityTextGenerationOptions,
   isAntigravityTextGenerationAvailable,
   makeAntigravityTextGeneration,
-} from "./AntigravityTextGeneration.ts";
+} from "./AntigravityTextGeneration.vibe";
 
 type TextRuntime = Effect.Success<ReturnType<AntigravityTextGenerationOptions["makeRuntime"]>>;
 

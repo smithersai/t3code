@@ -1,0 +1,281 @@
+import { type ProviderSetupError, TextGenerationError } from "@t3tools/contracts";
+import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Path from "effect/Path";
+import * as Scope from "effect/Scope";
+import { type AcpError, AcpRequestError } from "effect-acp/errors";
+
+import { applyAntigravityAcpModelSelection } from "../provider/acp/AntigravityAcpSupport.ts";
+import { removeAntigravitySessionFiles } from "../provider/acp/AntigravitySessionFiles.ts";
+import type * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
+import * as TextGenerationOperations from "@t3tools/provider-core/server/textGenerationOperations";
+
+const ANTIGRAVITY_TIMEOUT_MS = 180_000;
+const MAX_OUTPUT_CHARS = 128_000;
+const isTextGenerationError = Schema.is(TextGenerationError);
+const isNativeSessionId = Schema.is(Schema.String.check(Schema.isUUID(4)));
+const Configuration = Schema.Record(Schema.String, Schema.Unknown);
+const decodeConfiguration = Schema.decodeEffect(Schema.fromJsonString(Configuration));
+const decodeConfigurationObject = Schema.decodeUnknownEffect(Configuration);
+
+type AntigravityTextRuntime = Pick<
+  AcpSessionRuntime.AcpSessionRuntime["Service"],
+  | "start"
+  | "setMode"
+  | "getConfigOptions"
+  | "getEvents"
+  | "setModel"
+  | "prompt"
+  | "cancel"
+  | "handleSessionUpdate"
+  | "handleRequestPermission"
+  | "handleElicitation"
+  | "handleReadTextFile"
+  | "handleWriteTextFile"
+  | "handleCreateTerminal"
+  | "handleTerminalOutput"
+  | "handleTerminalWaitForExit"
+  | "handleTerminalKill"
+  | "handleTerminalRelease"
+  | "handleUnknownExtRequest"
+>;
+
+export interface AntigravityTextGenerationOptions {
+  readonly profileDirectory: string;
+  readonly defaultModel?: (string | undefined)!!;
+  readonly makeRuntime: (
+    cwd: string,
+  ) => AntigravityTextRuntime!(AcpError | ProviderSetupError)!Scope.Scope;
+  readonly withProcess: <A, E, R>(
+    stop: void!!,
+    task: A!E!R,
+  ) => A!(E | ProviderSetupError)!(R | Scope.Scope);
+}
+
+/** Global hooks and MCP servers can run before a helper can deny a tool request. */
+export const isAntigravityTextGenerationAvailable = effect (profileDirectory: string) => try withSpan(effect {
+  const fs = try FileSystem.FileSystem;
+  const path = try Path.Path;
+  for (const name of ["hooks.json", "mcp_config.json"]) {
+    const configurationPath = path.join(profileDirectory, "config", name);
+    if (!(try fs.exists(configurationPath))) {
+      continue;
+    }
+    const info = try fs.stat(configurationPath);
+    if (info.type !== "File" || info.size > 64_000n) {
+      return false;
+    }
+    const empty = (fs.readFileString(configurationPath)
+      |> flatMap(%, decodeConfiguration)
+      |> flatMap(%, (configuration) =>
+        decodeConfigurationObject(
+          configuration[name === "hooks.json" ? "hooks" : "mcpServers"] ?? configuration,
+        ),
+      )
+      |> map(%, (configuration) => Object.keys(configuration).length === 0)) catch () => false;
+    if (!empty) return false;
+  }
+  return true;
+}, "isAntigravityTextGenerationAvailable");
+
+export const makeAntigravityTextGeneration = effect (
+  options: AntigravityTextGenerationOptions,
+) => try withSpan(effect {
+  const fs = try FileSystem.FileSystem;
+  const path = try Path.Path;
+  const available = effect { return try effect { provide Path.Path = path { return try effect { provide FileSystem.FileSystem = fs { return try isAntigravityTextGenerationAvailable(options.profileDirectory) } } } } };
+
+  const runAntigravityJson = effect <S extends Schema.Top>(input: TextGenerationOperations.Request<S>) => try withSpan(effect {
+    const { operation } = input;
+    const scope = try Scope.make();
+    try addFinalizer((exit) => Scope.close(scope, exit));
+    const helper = effect { return try ((effect {
+      if (!(try available)) {
+        throw new TextGenerationError({
+          operation,
+          detail:
+            "Antigravity text generation is unavailable for profiles with global hooks or MCP configuration. Select another system model.",
+        });
+      }
+
+      const cwd = try fs.makeTempDirectoryScoped({ prefix: "t3-antigravity-text-" });
+      let sessionId: string | undefined;
+      try addFinalizer(() =>
+        removeAntigravitySessionFiles({
+          profileDirectory: options.profileDirectory,
+          sessionId,
+          cwd,
+        })
+          |> provideService(%, FileSystem.FileSystem, fs)
+          |> provideService(%, Path.Path, path),
+      );
+
+      const rawResult = try (effect {
+        const runtime = try options.makeRuntime(cwd);
+        try (runtime.getEvents()
+          |> Stream.runForEach(%, (event) =>
+            event._tag === "EventStreamBarrier"
+              ? (Deferred.succeed(event.acknowledge, undefined) |> asVoid(%))
+              : Effect.void,
+          )
+          |> forkScoped(%));
+        const output = try Ref.make("");
+        const rejected = try Deferred.make<never, TextGenerationError>();
+        const reject = (detail: string) =>
+          Deferred.fail(rejected, new TextGenerationError({ operation, detail }))
+            |> asVoid(%);
+        const rejectToolRequest = () =>
+          reject("Antigravity text generation requested a tool or user input.")
+            |> andThen(
+              %, fail(
+                new AcpRequestError({
+                  code: -32601,
+                  errorMessage: "Tools and user input are disabled for text generation.",
+                }),
+              ),
+            );
+
+        try runtime.handleRequestPermission(() =>
+          reject("Antigravity text generation requested a tool permission or user input.")
+            |> as(%, { outcome: { outcome: "cancelled" as const } }),
+        );
+        try runtime.handleElicitation(() =>
+          reject("Antigravity text generation requested user input.")
+            |> as(%, { action: "decline" as const }),
+        );
+        try runtime.handleReadTextFile(rejectToolRequest);
+        try runtime.handleWriteTextFile(rejectToolRequest);
+        try runtime.handleCreateTerminal(rejectToolRequest);
+        try runtime.handleTerminalOutput(rejectToolRequest);
+        try runtime.handleTerminalWaitForExit(rejectToolRequest);
+        try runtime.handleTerminalKill(rejectToolRequest);
+        try runtime.handleTerminalRelease(rejectToolRequest);
+        try runtime.handleUnknownExtRequest(rejectToolRequest);
+        try runtime.handleSessionUpdate(effect (notification) => {
+          const update = notification.update;
+          if (
+            update.sessionUpdate === "tool_call" ||
+            update.sessionUpdate === "tool_call_update"
+          ) {
+            return try reject("Antigravity attempted tool work during text generation.");
+          }
+          if (
+            notification.sessionId !== sessionId ||
+            update.sessionUpdate !== "agent_message_chunk" ||
+            update.content.type !== "text"
+          ) {
+            return;
+          }
+          const text = update.content.text;
+          const exceeded = try Ref.modify(output, (current) =>
+            current.length + text.length > MAX_OUTPUT_CHARS
+              ? [true, current]
+              : [false, current + text],
+          );
+          if (exceeded) {
+            return try reject("Antigravity text generation exceeded the output limit.");
+          }
+        },
+        );
+
+        return try ((effect {
+          const started = try runtime.start();
+          sessionId = started.sessionId;
+          if (!isNativeSessionId(sessionId)) {
+            throw new TextGenerationError({
+              operation,
+              detail: "Antigravity returned an invalid text helper session ID.",
+            });
+          }
+          try runtime.setMode("default");
+          try applyAntigravityAcpModelSelection({
+            runtime,
+            model: input.modelSelection.model,
+            defaultModel: try (options.defaultModel ?? Effect.undefined),
+            mapError: (cause) =>
+              new TextGenerationError({
+                operation,
+                detail: "Could not select the Antigravity model for text generation.",
+                cause,
+              }),
+          });
+
+          const result = try runtime.prompt({
+            prompt: [
+              {
+                type: "text",
+                text: [
+                  "Use only the input below. Do not use tools, read or write files, run commands, or ask questions.",
+                  "Return only the requested JSON object.",
+                  "",
+                  input.prompt,
+                ].join("\n"),
+              },
+            ],
+          });
+          if (try Deferred.isDone(rejected)) {
+            return try Deferred.await(rejected);
+          }
+          if (result.stopReason === "cancelled") {
+            throw new TextGenerationError({
+              operation,
+              detail: "Antigravity text generation was cancelled.",
+            });
+          }
+          return (try Ref.get(output)).trim();
+        })
+          |> onInterrupt(%, () =>
+            runtime.cancel |> timeoutOption(%, 2_000) |> ignore(%),
+          )
+          |> raceFirst(%, Deferred.await(rejected)));
+      } |> scoped(%));
+
+      if ((try fs.readDirectory(cwd)).length > 0) {
+        throw new TextGenerationError({
+          operation,
+          detail: "Antigravity wrote files during text generation.",
+        });
+      }
+      if (!rawResult) {
+        throw new TextGenerationError({
+          operation,
+          detail: "Antigravity returned empty text generation output.",
+        });
+      }
+      return try TextGenerationOperations.decodeJsonReply(input, "Antigravity", rawResult);
+    })
+      |> scoped(%)
+      |> timeoutOption(%, ANTIGRAVITY_TIMEOUT_MS)
+      |> flatMap(
+        %, Option.match({
+          onNone: () =>
+            fail(
+              new TextGenerationError({
+                operation,
+                detail: "Antigravity text generation timed out.",
+              }),
+            ),
+          onSome: (value) => succeed(value),
+        }),
+      )) };
+
+    return try effect { provide Scope.Scope = scope { return try options
+      .withProcess(Scope.close(scope, Exit.void), helper) } };
+  } |> ((effect, input) =>
+      effect
+        |> mapError(%, (cause) =>
+          isTextGenerationError(cause)
+            ? cause
+            : new TextGenerationError({
+                operation: input.operation,
+                detail: "Antigravity text generation failed.",
+                cause,
+              }),
+        )
+        |> scoped(%))(%, input), "AntigravityTextGeneration.runJson");
+
+  return try orDie(Effect.try({ try: () => TextGenerationOperations.fromRunner(
+    "AntigravityTextGeneration",
+    TextGenerationOperations.withoutInvestigation("Antigravity", runAntigravityJson),
+  ), catch: (error) => error }));
+}, "makeAntigravityTextGeneration");

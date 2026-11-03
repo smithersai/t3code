@@ -21,7 +21,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 import * as TestConsole from "effect/testing/TestConsole";
 import { Command, CliError } from "effect/cli";
 
-import { cli } from "../binCli.ts";
+import { cli } from "../binCli.vibe";
 import {
   SERVICE_LAUNCHER_CONTEXT_ENV,
   SERVICE_LAUNCHER_PROTOCOL,

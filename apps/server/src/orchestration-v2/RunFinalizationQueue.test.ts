@@ -7,7 +7,7 @@ import * as Option from "effect/Option";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as PullRequestService from "../pullRequest/PullRequestService.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.ts";
+import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.vibe";
 import * as WorkspaceEntries from "../workspace/WorkspaceEntries.ts";
 import * as CheckpointCapture from "./CheckpointCaptureService.ts";
 import * as CheckpointRollback from "./CheckpointRollbackService.ts";

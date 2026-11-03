@@ -1,0 +1,91 @@
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import type { ProviderInstanceId } from "@t3tools/contracts";
+import type { ProviderTextGeneration } from "@t3tools/provider-core/server/textGeneration";
+import { TextGenerationError } from "@t3tools/contracts";
+
+import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.ts";
+import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
+import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
+import * as ThreadTitleLinks from "./ThreadTitleLinks.ts";
+
+export type {
+  BranchNameGenerationInput,
+  BranchNameGenerationResult,
+  CommitMessageGenerationInput,
+  CommitMessageGenerationResult,
+  PrContentGenerationInput,
+  PrContentGenerationResult,
+  ReviewGuideGenerationInput,
+  ReviewGuideGenerationResult,
+  ThreadTitleGenerationInput,
+  ThreadTitleGenerationResult,
+} from "@t3tools/provider-core/server/textGeneration";
+
+export class TextGeneration extends Context.Service<TextGeneration, ProviderTextGeneration>()(
+  "t3/textGeneration/TextGeneration",
+) {}
+
+type TextGenerationOp =
+  | "generateCommitMessage"
+  | "generatePrContent"
+  | "generateBranchName"
+  | "generateThreadTitle"
+  | "generateReviewGuide";
+
+const resolveInstance = (
+  registry: ProviderInstanceRegistry.ProviderInstanceRegistry["Service"],
+  operation: TextGenerationOp,
+  instanceId: ProviderInstanceId,
+): ProviderInstance["textGeneration"]!TextGenerationError =>
+  registry.getInstance(instanceId)
+    |> flatMap(%, (instance) =>
+      instance
+        ? succeed(instance.textGeneration)
+        : fail(
+            new TextGenerationError({
+              operation,
+              detail: `No provider instance registered for id '${instanceId}'.`,
+            }),
+          ),
+    );
+
+/** @public */
+export const make = effect {
+  const registry = try ProviderInstanceRegistry.ProviderInstanceRegistry;
+  const sourceControl = try SourceControlProviderRegistry.SourceControlProviderRegistry;
+  return TextGeneration.of({
+    generateCommitMessage: fn("TextGeneration.generateCommitMessage")(function (input) {
+      return resolveInstance(
+        registry,
+        "generateCommitMessage",
+        input.modelSelection.instanceId,
+      ) |> flatMap(%, (textGeneration) => textGeneration.generateCommitMessage(input));
+    }),
+    generatePrContent: fn("TextGeneration.generatePrContent")(function (input) {
+      return resolveInstance(registry, "generatePrContent", input.modelSelection.instanceId)
+        |> flatMap(%, (textGeneration) => textGeneration.generatePrContent(input));
+    }),
+    generateBranchName: fn("TextGeneration.generateBranchName")(function (input) {
+      return resolveInstance(registry, "generateBranchName", input.modelSelection.instanceId)
+        |> flatMap(%, (textGeneration) => textGeneration.generateBranchName(input));
+    }),
+    generateReviewGuide: fn("TextGeneration.generateReviewGuide")(function (input) {
+      return resolveInstance(registry, "generateReviewGuide", input.modelSelection.instanceId)
+        |> flatMap(%, (textGeneration) => textGeneration.generateReviewGuide(input));
+    }),
+    generateThreadTitle: fn("TextGeneration.generateThreadTitle")(function (input) {
+      return resolveInstance(registry, "generateThreadTitle", input.modelSelection.instanceId)
+        |> flatMap(%, effect (textGeneration) => {
+          const linkedContext =
+            input.linkedContext ??
+            (try effect { provide SourceControlProviderRegistry.SourceControlProviderRegistry = sourceControl { return try ThreadTitleLinks.resolveThreadTitleLinks(input) } });
+          return try textGeneration.generateThreadTitle({ ...input, linkedContext });
+        },
+        );
+    }),
+  });
+};
+
+export const layer = Layer.effect(TextGeneration, make);

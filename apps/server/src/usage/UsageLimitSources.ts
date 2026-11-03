@@ -22,7 +22,7 @@ import * as Stream from "effect/Stream";
 
 import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
 import * as Settings from "../serverSettings.ts";
-import { makeCliproxyApi } from "./cliproxyApi.ts";
+import { makeCliproxyApi } from "./cliproxyApi.vibe";
 
 export class UsageLimitSources extends Context.Service<
   UsageLimitSources,

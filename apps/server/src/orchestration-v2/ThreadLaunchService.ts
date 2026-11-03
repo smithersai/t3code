@@ -45,7 +45,7 @@ import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.t
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as TextGeneration from "../textGeneration/TextGeneration.ts";
+import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
 import * as CommandReceiptStore from "./CommandReceiptStore.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import type * as Orchestrator from "./Orchestrator.ts";

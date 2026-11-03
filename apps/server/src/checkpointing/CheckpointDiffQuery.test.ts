@@ -10,7 +10,7 @@ import { checkpointRefForScopeOrdinal } from "../orchestration-v2/CheckpointServ
 import { OrchestratorProjectionError } from "../orchestration-v2/Orchestrator.ts";
 import type { ProjectionCheckpointContext } from "../orchestration-v2/ProjectionStore.ts";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as CheckpointDiffQuery from "./CheckpointDiffQuery.ts";
 import * as CheckpointStore from "./CheckpointStore.ts";

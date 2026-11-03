@@ -31,7 +31,7 @@ import {
 
 import * as GitManager from "./GitManager.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import { withWorkspaceLease } from "../workspace/workspaceLease.vibe";
 
 export class GitWorkflowService extends Context.Service<

@@ -37,7 +37,7 @@ import { SecretRequests } from "../secrets/SecretRequests.ts";
 import { ServerSettingsService } from "../serverSettings.ts";
 import { SourceControlRepositoryService } from "../sourceControl/SourceControlRepositoryService.ts";
 import { GitVcsDriver } from "../vcs/GitVcsDriver.ts";
-import { VcsStatusBroadcaster } from "../vcs/VcsStatusBroadcaster.ts";
+import { VcsStatusBroadcaster } from "../vcs/VcsStatusBroadcaster.vibe";
 import { buildCodexAdditionalContext } from "./CodexDeveloperInstructions.ts";
 import { DocumentText } from "./DocumentText.ts";
 import { ProviderRegistry } from "./ProviderRegistry.ts";

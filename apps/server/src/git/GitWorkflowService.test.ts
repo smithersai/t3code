@@ -10,7 +10,7 @@ import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as GitManager from "./GitManager.ts";
 import * as GitWorkflowService from "./GitWorkflowService.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("GitWorkflowService", (it) => {
