@@ -1,6 +1,5 @@
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
-import * as Record from "effect/Record";
 import * as Schema from "effect/Schema";
 import {
   PROVIDER_SEND_TURN_MAX_FILE_BYTES,
@@ -49,20 +48,16 @@ function normalizePreviewOpenInput(input: PreviewAutomationOpenInput): PreviewAu
   };
 }
 
-const invoke = Effect.fn("PreviewToolkit.invoke")(function* <A>(
-  operation: PreviewAutomationOperation,
+const invoke = effect <A>(
+  operation: "click" | "close" | "dialog" | "drag" | "evaluate" | "hover" | "navigate" | "open" | "press" | "recordingStart" | "recordingStop" | "resize" | "scroll" | "select" | "setColorScheme" | "snapshot" | "status" | "type" | "upload" | "waitFor",
   input: unknown,
-  timeoutMs?: number,
-  tabId?: PreviewTabId,
-): Effect.fn.Return<
-  { result: A; toolIcon?: ToolActivityIcon },
-  import("@t3tools/contracts").PreviewAutomationError,
-  McpInvocationContext.McpInvocationContext | PreviewAutomationBroker.PreviewAutomationBroker
-> {
-  const scope = yield* McpInvocationContext.requireThreadMcpCapability("preview");
-  const broker = yield* PreviewAutomationBroker.PreviewAutomationBroker;
+  timeoutMs?: number | undefined,
+  tabId?: string | undefined,
+): { result: A; toolIcon?: ToolActivityIcon }!import("@t3tools/contracts").PreviewAutomationError!(McpInvocationContext.McpInvocationContext | PreviewAutomationBroker.PreviewAutomationBroker) => try withSpan(effect {
+  const scope = try McpInvocationContext.requireThreadMcpCapability("preview");
+  const broker = try PreviewAutomationBroker.PreviewAutomationBroker;
   let targetTabId = tabId;
-  const result = yield* broker.invoke<A>({
+  const result = try broker.invoke<A>({
     onTargetTab: (resolvedTabId) => {
       targetTabId = resolvedTabId;
     },
@@ -77,7 +72,7 @@ const invoke = Effect.fn("PreviewToolkit.invoke")(function* <A>(
     (operation !== "evaluate" && typeof result === "object" && result !== null
       ? (result as { tabId?: PreviewTabId }).tabId
       : undefined) ?? targetTabId;
-  const page = yield* broker
+  const page = broker
     .invoke<PreviewAutomationStatus>({
       scope,
       operation: "status",
@@ -85,15 +80,14 @@ const invoke = Effect.fn("PreviewToolkit.invoke")(function* <A>(
       timeoutMs: 500,
       updateCurrentTab: false,
       ...(statusTabId === undefined ? {} : { tabId: statusTabId }),
-    })
-    .pipe(Effect.orElseSucceed(() => null));
+    }) catch () => null;
   return {
     result,
     ...(page?.url && /^https?:\/\//i.test(page.url) && page.url.length <= 4096
       ? { toolIcon: { _tag: "website" as const, pageUrl: page.url } }
       : {}),
   };
-});
+}, "PreviewToolkit.invoke");
 
 const invokeTargeted = <A extends object>(
   operation: PreviewAutomationOperation,
@@ -104,12 +98,11 @@ const invokeTargeted = <A extends object>(
   timeoutMs?: number,
 ) => {
   const { tabId, ...operationInput } = input;
-  return invoke<A>(operation, operationInput, timeoutMs, tabId).pipe(
-    Effect.map(({ result, toolIcon }) => ({
+  return invoke<A>(operation, operationInput, timeoutMs, tabId)
+    |> map(%, ({ result, toolIcon }) => ({
       ...result,
       ...(toolIcon ? { toolIcon } : {}),
-    })),
-  );
+    }));
 };
 
 const decodeActInput = Record.map(PreviewAutomationActInputs, (schema) =>
@@ -122,71 +115,65 @@ const UploadedRecordingArtifact = Schema.Struct({
 });
 const decodeUploadedRecordingArtifact = Schema.decodeUnknownEffect(UploadedRecordingArtifact);
 
-export const claimPreviewRecording = Effect.fn("PreviewToolkit.claimRecording")(function* (
-  threadId: ThreadId,
+export const claimPreviewRecording = effect (
+  threadId: string & import("effect/Brand").Brand<"ThreadId">,
   response: unknown,
-) {
-  const artifact = yield* decodeUploadedRecordingArtifact(response).pipe(
-    Effect.mapError(
-      (cause) =>
-        new PreviewAutomationRecordingTransferError({
+) => try withSpan(effect {
+  const artifact = decodeUploadedRecordingArtifact(response) catch effect (cause) => { throw new PreviewAutomationRecordingTransferError({
           threadId,
           cause,
-        }),
-    ),
-  );
+        }) };
   if (!artifact.uploadedAttachmentId) {
-    return yield* new PreviewAutomationRecordingDesktopUpdateRequiredError({ threadId });
+    throw new PreviewAutomationRecordingDesktopUpdateRequiredError({ threadId });
   }
-  const config = yield* ServerConfig.ServerConfig;
-  const uuid = parseAttachmentUuid(artifact.uploadedAttachmentId);
-  const extension = parseAttachmentFileExtension(artifact.uploadedAttachmentId);
-  const threadSegment = toSafeThreadAttachmentSegment(threadId);
+  const config = try ServerConfig.ServerConfig;
+  const attachmentId = artifact.uploadedAttachmentId
+  const uuid = try orDie(Effect.try({ try: () => parseAttachmentUuid(attachmentId), catch: (error) => error }));
+  const attachmentId2 = artifact.uploadedAttachmentId
+  const extension = try orDie(Effect.try({ try: () => parseAttachmentFileExtension(attachmentId2), catch: (error) => error }));
+  const threadSegment = try orDie(Effect.try({ try: () => toSafeThreadAttachmentSegment(threadId), catch: (error) => error }));
   const pendingId = `${PENDING_ATTACHMENT_THREAD_SEGMENT}-${uuid}-${extension}`;
   if (!uuid || !extension || !threadSegment || artifact.uploadedAttachmentId !== pendingId) {
-    return yield* new PreviewAutomationRecordingTransferError({
+    throw new PreviewAutomationRecordingTransferError({
       threadId,
     });
   }
   const finalId = `${threadSegment}-${uuid}-${extension}`;
-  const currentPath = resolveAttachmentRelativePath({
+  const currentPath = try orDie(Effect.try({ try: () => resolveAttachmentRelativePath({
     attachmentsDir: config.attachmentsDir,
     relativePath: `${pendingId}.${extension}`,
-  });
-  const finalPath = resolveAttachmentRelativePath({
+  }), catch: (error) => error }));
+  const finalPath = try orDie(Effect.try({ try: () => resolveAttachmentRelativePath({
     attachmentsDir: config.attachmentsDir,
     relativePath: `${finalId}.${extension}`,
-  });
+  }), catch: (error) => error }));
   if (!currentPath || !finalPath) {
-    return yield* new PreviewAutomationRecordingTransferError({ threadId });
+    throw new PreviewAutomationRecordingTransferError({ threadId });
   }
-  const fileSystem = yield* FileSystem.FileSystem;
+  const fileSystem = try FileSystem.FileSystem;
   const validateFile = (filePath: string) =>
-    fileSystem.stat(filePath).pipe(
-      Effect.filterOrFail(
-        (stat) =>
+    fileSystem.stat(filePath)
+      |> filterOrFail(
+        %, (stat) =>
           stat.type === "File" &&
           Number(stat.size) === artifact.sizeBytes &&
           artifact.sizeBytes > 0 &&
           artifact.sizeBytes <= PROVIDER_SEND_TURN_MAX_FILE_BYTES,
         () => new PreviewAutomationRecordingTransferError({ threadId }),
-      ),
-    );
-  yield* Effect.gen(function* () {
-    yield* validateFile(currentPath);
-    yield* fileSystem.rename(currentPath, finalPath);
-  }).pipe(
-    Effect.catchIf(
-      (cause) =>
+      );
+  ((effect {
+    try validateFile(currentPath);
+    try fileSystem.rename(currentPath, finalPath);
+  })
+    |> catchIf(
+      %, (cause) =>
         cause._tag !== "PreviewAutomationRecordingTransferError" &&
         cause.reason._tag === "NotFound",
       () => validateFile(finalPath),
-    ),
-    Effect.mapError((cause) => new PreviewAutomationRecordingTransferError({ threadId, cause })),
-  );
+    )) catch effect (cause) => { throw new PreviewAutomationRecordingTransferError({ threadId, cause }) };
   const { uploadedAttachmentId: _uploadedAttachmentId, ...recording } = artifact;
   return { ...recording, id: finalId, path: finalPath };
-});
+}, "PreviewToolkit.claimRecording");
 
 const handlers = {
   preview_dialog: McpToolAccess.actsAsCaller((input) =>
@@ -212,26 +199,24 @@ const handlers = {
     return invokeTargeted<PreviewAutomationSnapshot>("snapshot", operationInput);
   }),
   preview_act: McpToolAccess.actsAsCaller(({ action, ...input }) =>
-    decodeActInput[action](input).pipe(
-      Effect.mapError(
-        (cause) => new OrchestratorMcpFailure({ code: "invalid_request", message: cause.message }),
-      ),
-      Effect.flatMap((decoded) =>
+    decodeActInput[action](input)
+      |> mapError(
+        %, (cause) => new OrchestratorMcpFailure({ code: "invalid_request", message: cause.message }),
+      )
+      |> flatMap(%, (decoded) =>
         invokeTargeted<object>(
           action,
           decoded,
           "timeoutMs" in decoded ? decoded.timeoutMs : undefined,
         ),
       ),
-    ),
   ),
   preview_evaluate: McpToolAccess.actsAsCaller(({ tabId, ...input }) =>
-    invoke<unknown>("evaluate", input, undefined, tabId).pipe(
-      Effect.map(({ result, toolIcon }) => ({
+    invoke<unknown>("evaluate", input, undefined, tabId)
+      |> map(%, ({ result, toolIcon }) => ({
         value: result ?? null,
         ...(toolIcon ? { toolIcon } : {}),
       })),
-    ),
   ),
   preview_wait_for: McpToolAccess.readsAsCaller((input) =>
     invokeTargeted<object>("waitFor", input, input.timeoutMs),
@@ -239,19 +224,18 @@ const handlers = {
   preview_recording_start: McpToolAccess.actsAsCaller((input) =>
     invokeTargeted<PreviewAutomationRecordingStatus>("recordingStart", input ?? {}),
   ),
-  preview_recording_stop: McpToolAccess.actsAsCaller((input) =>
-    Effect.gen(function* () {
-      const scope = yield* McpInvocationContext.requireThreadMcpCapability("preview");
-      const { tabId, ...operationInput } = input;
-      const response = yield* invoke<unknown>(
-        "recordingStop",
-        { ...operationInput, transferToEnvironment: true },
-        PREVIEW_RECORDING_STOP_TIMEOUT_MS,
-        tabId,
-      );
-      const artifact = yield* claimPreviewRecording(scope.thread.threadId, response.result);
-      return { ...artifact, ...(response.toolIcon ? { toolIcon: response.toolIcon } : {}) };
-    }),
+  preview_recording_stop: McpToolAccess.actsAsCaller(effect (input) => {
+    const scope = try McpInvocationContext.requireThreadMcpCapability("preview");
+    const { tabId, ...operationInput } = input;
+    const response = try invoke<unknown>(
+      "recordingStop",
+      { ...operationInput, transferToEnvironment: true },
+      PREVIEW_RECORDING_STOP_TIMEOUT_MS,
+      tabId,
+    );
+    const artifact = try claimPreviewRecording(scope.thread.threadId, response.result);
+    return { ...artifact, ...(response.toolIcon ? { toolIcon: response.toolIcon } : {}) };
+  },
   ),
 } satisfies McpToolAccess.Handlers<typeof PreviewToolkit.tools>;
 

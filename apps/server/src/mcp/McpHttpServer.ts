@@ -57,7 +57,7 @@ import * as McpSessionRegistry from "./McpSessionRegistry.ts";
 import * as PreviewAutomationBroker from "./PreviewAutomationBroker.ts";
 import * as OrchestratorHandlers from "./toolkits/orchestrator/handlers.vibe";
 import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.vibe";
-import * as PreviewHandlers from "./toolkits/preview/handlers.ts";
+import * as PreviewHandlers from "./toolkits/preview/handlers.vibe";
 import {
   PreviewSnapshotTool,
   PreviewSnapshotToolkit,
@@ -74,7 +74,7 @@ import {
   DeviceScreenshotToolkit,
   DeviceStandardToolkit,
 } from "./toolkits/device/tools.vibe";
-import * as HtmlHandlers from "./toolkits/html/handlers.ts";
+import * as HtmlHandlers from "./toolkits/html/handlers.vibe";
 import { HtmlPreviewTool, HtmlPreviewToolkit, HtmlRenderToolkit } from "./toolkits/html/tools.vibe";
 import * as RequestUrl from "../RequestUrl.vibe";
 
