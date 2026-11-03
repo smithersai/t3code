@@ -4,10 +4,9 @@ import type {
 } from "@t3tools/source-control-core/server/driver";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
 import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as ServerSourceControlHost from "./ServerSourceControlHost.ts";
+import * as ServerSourceControlHost from "./ServerSourceControlHost.vibe";
 import { BUILT_IN_SOURCE_CONTROL_DRIVER_LIST } from "./sourceControlDefinitions.ts";
 
 export interface SourceControlDriverEntry {
@@ -21,8 +20,8 @@ export class SourceControlDrivers extends Context.Service<
   ReadonlyArray<SourceControlDriverEntry>
 >()("t3/sourceControl/builtInDrivers/SourceControlDrivers") {}
 
-const make = Effect.forEach(BUILT_IN_SOURCE_CONTROL_DRIVER_LIST, (driver) =>
-  driver.make.pipe(Effect.map((instance) => ({ driver, instance }))),
+const make = forEach(BUILT_IN_SOURCE_CONTROL_DRIVER_LIST, (driver) =>
+  driver.make |> map(%, (instance) => ({ driver, instance })),
 );
 
 export const layer = Layer.effect(SourceControlDrivers, make).pipe(

@@ -115,7 +115,7 @@ import {
   resolveRuntimeMode,
   runtimeModeRank,
   taskPrompt,
-} from "./delegatedTaskModes.ts";
+} from "./delegatedTaskModes.vibe";
 import { isLiveCallerShell, threadNotFound } from "./threadAccess.ts";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
 import * as PeerForwarding from "../peer/PeerForwarding.ts";

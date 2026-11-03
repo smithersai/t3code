@@ -41,7 +41,7 @@ import * as ExternalLauncher from "./process/externalLauncher.ts";
 import * as ProjectService from "./project/ProjectService.ts";
 import * as AgentAwarenessRelay from "./relay/AgentAwarenessRelay.ts";
 import { ServerActivation } from "./serverActivation.ts";
-import * as ServerLifecycleEvents from "./serverLifecycleEvents.ts";
+import * as ServerLifecycleEvents from "./serverLifecycleEvents.vibe";
 import * as ServerSettings from "./serverSettings.ts";
 import * as ServerSecretStore from "./auth/ServerSecretStore.ts";
 import * as AnalyticsService from "./telemetry/AnalyticsService.ts";

@@ -6,18 +6,16 @@ import type {
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
 
 import * as ResourceTelemetry from "../resourceTelemetry/ResourceTelemetry.ts";
 
-export class ProcessResourceMonitor extends Context.Service<
-  ProcessResourceMonitor,
-  {
+export service ProcessResourceMonitor: {
     readonly readHistory: (
       input: ServerProcessResourceHistoryInput,
-    ) => Effect.Effect<ServerProcessResourceHistoryResult>;
-  }
->()("t3/diagnostics/ProcessResourceMonitor") {}
+    ) => ServerProcessResourceHistoryResult!!;
+  } {
+  static readonly key = "t3/diagnostics/ProcessResourceMonitor"
+}
 
 function isLegacyBackendCategory(category: ResourceTelemetryProcessCategory): boolean {
   return (
@@ -29,11 +27,11 @@ function isLegacyBackendCategory(category: ResourceTelemetryProcessCategory): bo
 }
 
 /** @public */
-export const make = Effect.fn("makeProcessResourceMonitor")(function* () {
-  const telemetry = yield* ResourceTelemetry.ResourceTelemetry;
+export const make = effect () => try withSpan(effect {
+  const telemetry = try ResourceTelemetry.ResourceTelemetry;
   const readHistory: ProcessResourceMonitor["Service"]["readHistory"] = (input) =>
     telemetry.readHistory(input).pipe(
-      Effect.map((history) => {
+      map((history) => {
         const topProcesses = history.topProcesses
           .filter((entry) => isLegacyBackendCategory(entry.category))
           .map((entry) => ({
@@ -72,17 +70,16 @@ export const make = Effect.fn("makeProcessResourceMonitor")(function* () {
             maxProcessCount: bucket.maxProcessCount,
           })),
           topProcesses,
-          error: history.health.native.lastError.pipe(
-            Option.map((message) => ({
+          error: history.health.native.lastError
+            .map((message) => ({
               failureTag: "ProcessDiagnosticsQueryFailedError" as const,
               message,
             })),
-          ),
         };
       }),
     );
 
   return ProcessResourceMonitor.of({ readHistory });
-});
+}, "makeProcessResourceMonitor");
 
 export const layer = Layer.effect(ProcessResourceMonitor, make());

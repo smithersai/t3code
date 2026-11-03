@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type { SourceControlProviderKind } from "@t3tools/contracts";
 
-import * as BuiltInDrivers from "../sourceControl/builtInDrivers.ts";
+import * as BuiltInDrivers from "../sourceControl/builtInDrivers.vibe";
 import type { PullRequestProviderApi } from "@t3tools/source-control-core/server/PullRequestProvider";
 
 export class PullRequestProviderRegistry extends Context.Service<

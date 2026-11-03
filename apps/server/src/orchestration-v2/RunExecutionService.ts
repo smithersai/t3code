@@ -38,7 +38,7 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 
 import * as McpSessionRegistry from "../mcp/McpSessionRegistry.ts";
-import * as McpAppModelContext from "../mcpApps/McpAppModelContext.ts";
+import * as McpAppModelContext from "../mcpApps/McpAppModelContext.vibe";
 import * as PreviewAgentActivity from "../preview/PreviewAgentActivity.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as CheckpointService from "./CheckpointService.ts";

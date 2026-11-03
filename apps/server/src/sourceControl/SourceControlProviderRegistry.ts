@@ -13,7 +13,7 @@ import {
   type SourceControlProviderDiscoveryItem,
 } from "@t3tools/contracts";
 
-import * as BuiltInDrivers from "./builtInDrivers.ts";
+import * as BuiltInDrivers from "./builtInDrivers.vibe";
 import { sourceControlDefinitions } from "./sourceControlDefinitions.ts";
 import * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider";
 import {

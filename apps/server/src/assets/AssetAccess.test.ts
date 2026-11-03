@@ -35,7 +35,7 @@ import { ASSET_ROUTE_PREFIX, issueAssetUrl, readMcpAppHtml, resolveAsset } from 
 import * as NativeAppIconResolver from "./NativeAppIconResolver.ts";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
 import { fakeSourceControlDriverInstance } from "@t3tools/source-control-testing/fakeSourceControlDriver";
-import * as BuiltInDrivers from "../sourceControl/builtInDrivers.ts";
+import * as BuiltInDrivers from "../sourceControl/builtInDrivers.vibe";
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts";
 import { sourceControlMediaResponse } from "./sourceControlMediaResponse.ts";
 import * as HostProcess from "@t3tools/shared/HostProcess";

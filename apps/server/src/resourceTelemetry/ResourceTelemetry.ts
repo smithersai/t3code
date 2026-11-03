@@ -30,7 +30,7 @@ import {
   type TelemetryCounters,
 } from "./Model.ts";
 import * as NativeTelemetryClient from "./NativeTelemetryClient.ts";
-import * as ResourceAttribution from "./ResourceAttribution.ts";
+import * as ResourceAttribution from "./ResourceAttribution.vibe";
 import {
   buildResourceTelemetryHistory,
   normalizeResourceTelemetryHistoryInput,

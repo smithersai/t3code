@@ -44,7 +44,7 @@ import {
   RELAY_URL_SECRET,
 } from "../cloud/config.ts";
 import { relayUrlConfig } from "../cloud/publicConfig.ts";
-import * as RelayTracing from "../cloud/relayTracing.ts";
+import * as RelayTracing from "../cloud/relayTracing.vibe";
 import * as ServerConfig from "../config.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as ExternalLauncher from "../process/externalLauncher.ts";

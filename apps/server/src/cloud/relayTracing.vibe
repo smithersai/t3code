@@ -3,7 +3,6 @@ import {
   processServiceInstanceId,
 } from "@t3tools/shared/observability";
 import * as RelayTracing from "@t3tools/shared/relayTracing";
-import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
 import * as ServerConfig from "../config.ts";
@@ -13,7 +12,7 @@ const relayClientTracingConfig = resolveRelayClientTracingConfig();
 
 const relayLayer = (resource: Omit<RelayTracing.RelayClientTracingResource, "serviceInstanceId">) =>
   Layer.unwrap(
-    Effect.map(ServerConfig.ServerConfig, (config) =>
+    map(ServerConfig.ServerConfig, (config) =>
       RelayTracing.layer(relayClientTracingConfig, {
         ...resource,
         serviceInstanceId: processServiceInstanceId(config.otelEnvironment.resourceAttributes),

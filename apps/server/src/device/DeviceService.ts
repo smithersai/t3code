@@ -38,7 +38,7 @@ import {
   agentDeviceConfigPath,
   agentDeviceSession,
   writeAgentDeviceConfig,
-} from "./AgentDeviceTarget.ts";
+} from "./AgentDeviceTarget.vibe";
 import * as Context from "effect/Context";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as DateTime from "effect/DateTime";

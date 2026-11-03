@@ -14,7 +14,7 @@ import * as Effect from "effect/Effect";
 
 import type { OrchestratorV2Error } from "../orchestration-v2/Orchestrator.ts";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
-import { resolveInteractionMode, resolveRuntimeMode } from "./delegatedTaskModes.ts";
+import { resolveInteractionMode, resolveRuntimeMode } from "./delegatedTaskModes.vibe";
 import * as McpInvocationContext from "./McpInvocationContext.ts";
 
 /**

@@ -13,7 +13,7 @@ import * as OtlpTracer from "effect/observability/OtlpTracer";
 import * as Statement from "effect/sql/Statement";
 
 import * as ServerConfig from "../config.ts";
-import * as ResourceAttribution from "../resourceTelemetry/ResourceAttribution.ts";
+import * as ResourceAttribution from "../resourceTelemetry/ResourceAttribution.vibe";
 import * as ServerLogger from "../serverLogger.ts";
 import * as BrowserTraceCollector from "./BrowserTraceCollector.vibe";
 

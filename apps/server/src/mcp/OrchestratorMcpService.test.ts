@@ -61,7 +61,7 @@ import * as RemoteDelegation from "../peer/RemoteDelegation.ts";
 import type { McpInvocationScope } from "./McpInvocationContext.ts";
 import { idleThreadProjection, liveThreadShell } from "./McpToolAccess.testkit.ts";
 import * as OrchestratorMcpService from "./OrchestratorMcpService.ts";
-import { resolveRuntimeMode } from "./delegatedTaskModes.ts";
+import { resolveRuntimeMode } from "./delegatedTaskModes.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as Crypto from "@t3tools/shared/Crypto";
 

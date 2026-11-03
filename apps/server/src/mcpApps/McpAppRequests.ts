@@ -24,7 +24,7 @@ import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProviderSessionManager from "../orchestration-v2/ProviderSessionManager.ts";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
-import * as McpAppModelContext from "./McpAppModelContext.ts";
+import * as McpAppModelContext from "./McpAppModelContext.vibe";
 
 /** Reports stopped sessions without starting them; app views must not spend provider turns. */
 export class McpAppRequests extends Context.Service<

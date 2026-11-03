@@ -31,7 +31,7 @@ import {
   resolveInteractionMode,
   resolveRuntimeMode,
   taskPrompt,
-} from "../mcp/delegatedTaskModes.ts";
+} from "../mcp/delegatedTaskModes.vibe";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";

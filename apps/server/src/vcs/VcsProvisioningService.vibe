@@ -10,21 +10,20 @@ import {
 } from "@t3tools/contracts";
 import * as VcsDriverRegistry from "./VcsDriverRegistry.ts";
 
-export class VcsProvisioningService extends Context.Service<
-  VcsProvisioningService,
-  {
-    readonly initRepository: (input: VcsInitInput) => Effect.Effect<void, VcsError>;
-  }
->()("t3/vcs/VcsProvisioningService") {}
+export service VcsProvisioningService: {
+    readonly initRepository: (input: VcsInitInput) => void!VcsError;
+  } {
+  static readonly key = "t3/vcs/VcsProvisioningService"
+}
 
 function resolveRequestedKind(
   kind: VcsDriverKind | undefined,
-): Effect.Effect<VcsDriverKind, VcsUnsupportedOperationError> {
+): VcsDriverKind!VcsUnsupportedOperationError {
   if (kind === undefined) {
-    return Effect.succeed("git");
+    return succeed("git");
   }
   if (kind === "unknown") {
-    return Effect.fail(
+    return fail(
       new VcsUnsupportedOperationError({
         operation: "VcsProvisioningService.resolveRequestedKind",
         kind,
@@ -32,24 +31,22 @@ function resolveRequestedKind(
       }),
     );
   }
-  return Effect.succeed(kind);
+  return succeed(kind);
 }
 
 /** @public */
-export const make = Effect.gen(function* () {
-  const registry = yield* VcsDriverRegistry.VcsDriverRegistry;
+export const make = effect {
+  const registry = try VcsDriverRegistry.VcsDriverRegistry;
 
-  const initRepository: VcsProvisioningService["Service"]["initRepository"] = Effect.fn(
-    "VcsProvisioningService.initRepository",
-  )(function* (input) {
-    const kind = yield* resolveRequestedKind(input.kind);
-    const driver = yield* registry.get(kind);
-    return yield* driver.initRepository(input);
-  });
+  const initRepository: VcsProvisioningService["Service"]["initRepository"] = effect (input) => try withSpan(effect {
+    const kind = try resolveRequestedKind(input.kind);
+    const driver = try registry.get(kind);
+    return try driver.initRepository(input);
+  }, "VcsProvisioningService.initRepository");
 
   return VcsProvisioningService.of({
     initRepository,
   });
-});
+};
 
 export const layer = Layer.effect(VcsProvisioningService, make);

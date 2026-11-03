@@ -2,8 +2,6 @@ import type { ServerLifecycleStreamEvent } from "@t3tools/contracts";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as PubSub from "effect/PubSub";
-import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 
 type LifecycleEventInput =
@@ -16,18 +14,17 @@ interface SnapshotState {
   readonly events: ReadonlyArray<ServerLifecycleStreamEvent>;
 }
 
-export class ServerLifecycleEvents extends Context.Service<
-  ServerLifecycleEvents,
-  {
-    readonly publish: (event: LifecycleEventInput) => Effect.Effect<ServerLifecycleStreamEvent>;
-    readonly snapshot: Effect.Effect<SnapshotState>;
+export service ServerLifecycleEvents: {
+    readonly publish: (event: LifecycleEventInput) => ServerLifecycleStreamEvent!!;
+    readonly snapshot: SnapshotState!!;
     readonly stream: Stream.Stream<ServerLifecycleStreamEvent>;
-  }
->()("t3/serverLifecycleEvents") {}
+  } {
+  static readonly key = "t3/serverLifecycleEvents"
+}
 
-const make = Effect.gen(function* () {
-  const pubsub = yield* PubSub.unbounded<ServerLifecycleStreamEvent>();
-  const state = yield* Ref.make<SnapshotState>({
+const make = effect {
+  const pubsub = try PubSub.unbounded<ServerLifecycleStreamEvent>();
+  const state = try Ref.make<SnapshotState>({
     sequence: 0,
     events: [],
   });
@@ -45,12 +42,12 @@ const make = Effect.gen(function* () {
           ...current.events.filter((entry) => entry.type !== nextEvent.type),
         ];
         return [nextEvent, { sequence: nextSequence, events: nextEvents }] as const;
-      }).pipe(Effect.tap((event) => PubSub.publish(pubsub, event))),
+      }).pipe(tap((event) => PubSub.publish(pubsub, event))),
     snapshot: Ref.get(state),
     get stream() {
       return Stream.fromPubSub(pubsub);
     },
   } satisfies ServerLifecycleEvents["Service"];
-});
+};
 
 export const layer = Layer.effect(ServerLifecycleEvents, make);

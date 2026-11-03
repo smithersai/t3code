@@ -12,7 +12,7 @@ import {
   agentDeviceConfigPath,
   agentDeviceSession,
   writeAgentDeviceConfig,
-} from "./AgentDeviceTarget.ts";
+} from "./AgentDeviceTarget.vibe";
 import * as Layer from "effect/Layer";
 import * as Crypto from "@t3tools/shared/Crypto";
 

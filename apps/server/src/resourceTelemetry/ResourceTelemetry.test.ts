@@ -16,7 +16,7 @@ import * as Stream from "effect/Stream";
 
 import * as DesktopTelemetryReceiver from "./DesktopTelemetryReceiver.ts";
 import * as NativeTelemetryClient from "./NativeTelemetryClient.ts";
-import * as ResourceAttribution from "./ResourceAttribution.ts";
+import * as ResourceAttribution from "./ResourceAttribution.vibe";
 import * as ResourceTelemetry from "./ResourceTelemetry.ts";
 
 // ResourceTelemetry classifies process.pid as the server, so fixture PIDs are
