@@ -62,12 +62,12 @@ diff --git a/package.json b/package.json
    },
    "peerDependencies": {
 -    "vitest": ">=5.0.0 <6.0.0",
-     "effect": "^4.1.0"
+     "effect": "^4.1.1"
    },
    "devDependencies": {
      "@types/node": "^26.6.5",
 -    "vitest": "5.0.5",
-     "effect": "^4.1.0"
+     "effect": "^4.1.1"
    },
    "scripts": {
 diff --git a/src/index.ts b/src/index.ts
