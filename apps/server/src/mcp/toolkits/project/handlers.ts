@@ -21,9 +21,9 @@ import * as ServerSettings from "../../../serverSettings.ts";
 import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
 import { formatThreadLink } from "@t3tools/shared/threadLinks";
 import { resolveRuntimeMode } from "../../delegatedTaskModes.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
-import { newCommandId, readCaller, resolveProjectId, unavailable } from "../../threadAccess.ts";
+import { newCommandId, readCaller, resolveProjectId, unavailable } from "../../threadAccess.vibe";
 import { ProjectToolkit } from "./tools.vibe";
 
 function projectFailure(error: Project.ProjectServiceError) {

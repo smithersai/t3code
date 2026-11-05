@@ -20,7 +20,7 @@ import {
   PersistenceDecodeError,
   type PersistenceErrorCorrelation,
   PersistenceSqlError,
-} from "./Errors.ts";
+} from "./Errors.vibe";
 
 export const AuthSessionClientMetadataRecord = Schema.Struct({
   label: Schema.NullOr(Schema.String),

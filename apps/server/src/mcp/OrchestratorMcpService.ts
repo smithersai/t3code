@@ -107,7 +107,7 @@ import {
   type McpInvocationScope,
   type McpThreadInvocationScope,
   requireThreadScope,
-} from "./McpInvocationContext.ts";
+} from "./McpInvocationContext.vibe";
 import * as Metrics from "../observability/Metrics.vibe";
 import {
   interactionModeRank,
@@ -116,7 +116,7 @@ import {
   runtimeModeRank,
   taskPrompt,
 } from "./delegatedTaskModes.ts";
-import { isLiveCallerShell, threadNotFound } from "./threadAccess.ts";
+import { isLiveCallerShell, threadNotFound } from "./threadAccess.vibe";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
 import * as PeerForwarding from "../peer/PeerForwarding.ts";
 import * as RemoteDelegation from "../peer/RemoteDelegation.ts";

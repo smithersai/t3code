@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --import=vibelang/register
 // @effect-diagnostics nodeBuiltinImport:off
 /**
  * Replays small fake threads on a Claude or Codex model to check T3's MCP tool use. A trimmed
@@ -27,7 +27,7 @@ import * as McpSchema from "effect/ai/McpSchema";
 import { FetchHttpClient, HttpClient, HttpClientRequest } from "effect/http";
 
 import { taskPrompt } from "../../apps/server/src/mcp/delegatedTaskModes.ts";
-import * as McpInvocationContext from "../../apps/server/src/mcp/McpInvocationContext.ts";
+import * as McpInvocationContext from "../../apps/server/src/mcp/McpInvocationContext.vibe";
 import { advertisedJsonSchema } from "../../apps/server/src/mcp/advertisedJsonSchema.vibe";
 import { ORCHESTRATOR_MCP_RUNNING_TASK_NEXT } from "@t3tools/contracts";
 import { formatThreadLink } from "@t3tools/shared/threadLinks";

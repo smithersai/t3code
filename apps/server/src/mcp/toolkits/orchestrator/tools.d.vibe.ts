@@ -1,11 +1,11 @@
-import { Tool, Toolkit } from "effect/ai";
 import { OrchestratorMcpFailure } from "@t3tools/contracts";
+import { Tool, Toolkit } from "effect/ai";
 import * as Schema from "effect/Schema";
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
 import * as PeerForwarding from "../../../peer/PeerForwarding.ts";
 import * as PeerLinkRequests from "../../../peer/PeerLinkRequests.ts";
 import * as PeerLinks from "../../../peer/PeerLinks.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as OrchestratorMcpService from "../../OrchestratorMcpService.ts";
 import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.ts";
 export declare const OrchestratorToolkit: Toolkit.Toolkit<{

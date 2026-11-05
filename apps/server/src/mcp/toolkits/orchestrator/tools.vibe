@@ -37,35 +37,36 @@ import {
   ThreadMetadataMcpUpdateInput,
   ThreadMetadataMcpUpdateResult,
   TrimmedNonEmptyString,
-} from "@t3tools/contracts"
-import * as Schema from "effect/Schema"
+} from "@t3tools/contracts";
+import { Tool, Toolkit } from "effect/ai";
+import * as Schema from "effect/Schema";
 
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts"
-import * as PeerForwarding from "../../../peer/PeerForwarding.ts"
-import * as PeerLinkRequests from "../../../peer/PeerLinkRequests.ts"
-import * as PeerLinks from "../../../peer/PeerLinks.ts"
-import * as McpInvocationContext from "../../McpInvocationContext.ts"
-import * as OrchestratorMcpService from "../../OrchestratorMcpService.ts"
-import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.ts"
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
+import * as PeerForwarding from "../../../peer/PeerForwarding.ts";
+import * as PeerLinkRequests from "../../../peer/PeerLinkRequests.ts";
+import * as PeerLinks from "../../../peer/PeerLinks.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
+import * as OrchestratorMcpService from "../../OrchestratorMcpService.ts";
+import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.ts";
 
 const dependencies = [
   McpInvocationContext.McpInvocationContext,
   ThreadManagementService.ThreadManagementService,
   OrchestratorMcpService.OrchestratorMcpService,
-]
+];
 /** Listing this environment's links. */
-const linkDependencies = [...dependencies, PeerForwarding.PeerForwarding]
+const linkDependencies = [...dependencies, PeerForwarding.PeerForwarding];
 /** Making and forgetting links. */
 const linkingDependencies = [
   ...dependencies,
   PeerLinkRequests.PeerLinkRequests,
   PeerLinks.PeerLinks,
-]
+];
 const threadMetadataDependencies = [
   McpInvocationContext.McpInvocationContext,
   ThreadManagementService.ThreadManagementService,
   ThreadMetadataMcpService.ThreadMetadataMcpService,
-]
+];
 
 const OrchestratorCapabilitiesTool = Tool.make("orchestrator_capabilities", {
   description:
@@ -79,7 +80,7 @@ const OrchestratorCapabilitiesTool = Tool.make("orchestrator_capabilities", {
   .annotate(Tool.Title, "Get orchestration capabilities")
   .annotate(Tool.Readonly, true)
   .annotate(Tool.Destructive, false)
-  .annotate(Tool.Idempotent, true)
+  .annotate(Tool.Idempotent, true);
 
 const DelegateTaskTool = Tool.make("delegate_task", {
   description:
@@ -92,7 +93,7 @@ const DelegateTaskTool = Tool.make("delegate_task", {
 })
   .annotate(Tool.Title, "Delegate a child task")
   .annotate(Tool.Destructive, true)
-  .annotate(Tool.OpenWorld, true)
+  .annotate(Tool.OpenWorld, true);
 
 const TaskStatusTool = Tool.make("task_status", {
   description:
@@ -106,7 +107,7 @@ const TaskStatusTool = Tool.make("task_status", {
   .annotate(Tool.Title, "Get delegated task status")
   .annotate(Tool.Readonly, false)
   .annotate(Tool.Destructive, false)
-  .annotate(Tool.Idempotent, true)
+  .annotate(Tool.Idempotent, true);
 
 const TaskCancelTool = Tool.make("task_cancel", {
   description:
@@ -118,7 +119,7 @@ const TaskCancelTool = Tool.make("task_cancel", {
   dependencies,
 })
   .annotate(Tool.Title, "Cancel delegated task")
-  .annotate(Tool.Destructive, true)
+  .annotate(Tool.Destructive, true);
 
 const WorkflowStopTool = Tool.make("t3_workflow_stop", {
   description:
@@ -133,7 +134,7 @@ const WorkflowStopTool = Tool.make("t3_workflow_stop", {
   dependencies,
 })
   .annotate(Tool.Title, "Stop a workflow")
-  .annotate(Tool.Destructive, true)
+  .annotate(Tool.Destructive, true);
 
 const BackgroundWaitTool = Tool.make("t3_background_wait", {
   description:
@@ -152,7 +153,7 @@ const BackgroundWaitTool = Tool.make("t3_background_wait", {
   failure: OrchestratorMcpFailure,
   failureMode: "return",
   dependencies,
-}).annotate(Tool.Title, "Wait on background work")
+}).annotate(Tool.Title, "Wait on background work");
 
 const ScheduleTaskTool = Tool.make("schedule_task", {
   description:
@@ -165,7 +166,7 @@ const ScheduleTaskTool = Tool.make("schedule_task", {
 })
   .annotate(Tool.Title, "Schedule a recurring task")
   .annotate(Tool.Destructive, true)
-  .annotate(Tool.OpenWorld, true)
+  .annotate(Tool.OpenWorld, true);
 
 const ListScheduledTasksTool = Tool.make("list_scheduled_tasks", {
   parameters: OrchestratorMcpListScheduledTasksInput,
@@ -179,7 +180,7 @@ const ListScheduledTasksTool = Tool.make("list_scheduled_tasks", {
   .annotate(Tool.Title, "List scheduled tasks")
   .annotate(Tool.Readonly, true)
   .annotate(Tool.Destructive, false)
-  .annotate(Tool.Idempotent, true)
+  .annotate(Tool.Idempotent, true);
 
 const DeleteScheduledTaskTool = Tool.make("delete_scheduled_task", {
   description:
@@ -191,11 +192,11 @@ const DeleteScheduledTaskTool = Tool.make("delete_scheduled_task", {
   dependencies,
 })
   .annotate(Tool.Title, "Delete a scheduled task")
-  .annotate(Tool.Destructive, true)
+  .annotate(Tool.Destructive, true);
 
 const RequestSecretTool = Tool.make("request_secret", {
   description:
-    "Ask the user to enter a secret in a private card and wait. You never see the value. Returns a one-use `secretRef` for a tool that accepts it, or with `delivery: \"file\"` a private file path to read inside a shell command. Asked how to provide a secret: call this now, do not explain instead.",
+    'Ask the user to enter a secret in a private card and wait. You never see the value. Returns a one-use `secretRef` for a tool that accepts it, or with `delivery: "file"` a private file path to read inside a shell command. Asked how to provide a secret: call this now, do not explain instead.',
   parameters: OrchestratorMcpRequestSecretInput,
   success: OrchestratorMcpRequestSecretResult,
   failure: OrchestratorMcpFailure,
@@ -203,7 +204,7 @@ const RequestSecretTool = Tool.make("request_secret", {
   dependencies,
 })
   .annotate(Tool.Title, "Request a secret from the user")
-  .annotate(Tool.Destructive, false)
+  .annotate(Tool.Destructive, false);
 
 const CreateThreadsTool = Tool.make("create_threads", {
   description:
@@ -216,7 +217,7 @@ const CreateThreadsTool = Tool.make("create_threads", {
 })
   .annotate(Tool.Title, "Create T3 threads")
   .annotate(Tool.Destructive, true)
-  .annotate(Tool.OpenWorld, true)
+  .annotate(Tool.OpenWorld, true);
 
 const ThreadListTool = Tool.make("t3_thread_list", {
   description:
@@ -230,7 +231,7 @@ const ThreadListTool = Tool.make("t3_thread_list", {
   .annotate(Tool.Title, "List T3 threads")
   .annotate(Tool.Readonly, true)
   .annotate(Tool.Destructive, false)
-  .annotate(Tool.Idempotent, true)
+  .annotate(Tool.Idempotent, true);
 
 const ThreadReadTool = Tool.make("t3_thread_read", {
   description:
@@ -245,7 +246,7 @@ const ThreadReadTool = Tool.make("t3_thread_read", {
   .annotate(Tool.Strict, true)
   .annotate(Tool.Readonly, false)
   .annotate(Tool.Destructive, false)
-  .annotate(Tool.Idempotent, true)
+  .annotate(Tool.Idempotent, true);
 
 const ThreadUpdateTool = Tool.make("t3_thread_update", {
   description:
@@ -262,7 +263,7 @@ const ThreadUpdateTool = Tool.make("t3_thread_update", {
 })
   .annotate(Tool.Title, "Update T3 thread metadata")
   .annotate(Tool.Destructive, true)
-  .annotate(Tool.Idempotent, false)
+  .annotate(Tool.Idempotent, false);
 
 const ThreadSendTool = Tool.make("t3_thread_send", {
   description:
@@ -275,7 +276,7 @@ const ThreadSendTool = Tool.make("t3_thread_send", {
 })
   .annotate(Tool.Title, "Send to a T3 thread")
   .annotate(Tool.Destructive, true)
-  .annotate(Tool.OpenWorld, true)
+  .annotate(Tool.OpenWorld, true);
 
 const ThreadWaitTool = Tool.make("t3_thread_wait", {
   description:
@@ -289,7 +290,7 @@ const ThreadWaitTool = Tool.make("t3_thread_wait", {
   .annotate(Tool.Title, "Wait for a T3 thread")
   .annotate(Tool.Readonly, true)
   .annotate(Tool.Destructive, false)
-  .annotate(Tool.Idempotent, true)
+  .annotate(Tool.Idempotent, true);
 
 const ThreadInterruptTool = Tool.make("t3_thread_interrupt", {
   description:
@@ -301,7 +302,7 @@ const ThreadInterruptTool = Tool.make("t3_thread_interrupt", {
   dependencies,
 })
   .annotate(Tool.Title, "Interrupt a T3 thread")
-  .annotate(Tool.Destructive, true)
+  .annotate(Tool.Destructive, true);
 
 const EnvironmentLinksTool = Tool.make("t3_environment_links", {
   description:
@@ -315,7 +316,7 @@ const EnvironmentLinksTool = Tool.make("t3_environment_links", {
   .annotate(Tool.Readonly, true)
   .annotate(Tool.Destructive, false)
   .annotate(Tool.Idempotent, true)
-  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWhileLinksOff)
+  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWhileLinksOff);
 
 const EnvironmentLinkTool = Tool.make("t3_environment_link", {
   description:
@@ -329,10 +330,11 @@ const EnvironmentLinkTool = Tool.make("t3_environment_link", {
   .annotate(Tool.Title, "Link another environment")
   .annotate(Tool.Destructive, false)
   .annotate(Tool.OpenWorld, true)
-  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWhileLinksOff)
+  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWhileLinksOff);
 
 const EnvironmentUnlinkTool = Tool.make("t3_environment_unlink", {
-  description: "Forget a linked environment. That machine's Connections list its session until revoked there.",
+  description:
+    "Forget a linked environment. That machine's Connections list its session until revoked there.",
   parameters: OrchestratorMcpEnvironmentUnlinkInput,
   success: OrchestratorMcpEnvironmentUnlinkResult,
   failure: OrchestratorMcpFailure,
@@ -342,7 +344,7 @@ const EnvironmentUnlinkTool = Tool.make("t3_environment_unlink", {
   .annotate(Tool.Title, "Forget a linked environment")
   .annotate(Tool.Destructive, true)
   .annotate(Tool.Idempotent, true)
-  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWhileLinksOff)
+  .annotate(McpSchema.EnabledWhen, McpInvocationContext.hiddenWhileLinksOff);
 
 export const OrchestratorToolkit = Toolkit.make(
   OrchestratorCapabilitiesTool,
@@ -365,4 +367,4 @@ export const OrchestratorToolkit = Toolkit.make(
   EnvironmentLinksTool,
   EnvironmentLinkTool,
   EnvironmentUnlinkTool,
-)
+);

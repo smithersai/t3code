@@ -1,11 +1,11 @@
-import { Tool, Toolkit } from "effect/ai";
 import { OrchestratorMcpFailure } from "@t3tools/contracts";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Schema from "effect/Schema";
+import { Tool, Toolkit } from "effect/ai";
 import * as ThreadSearch from "../../../orchestration-v2/ThreadSearch.ts";
 import * as ScheduledTaskService from "../../../scheduledTasks/ScheduledTaskService.ts";
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 export declare const ThreadToolkit: Toolkit.Toolkit<{
     readonly run_scheduled_task_now: Tool.Tool<"run_scheduled_task_now", {
         readonly parameters: Schema.Struct<{

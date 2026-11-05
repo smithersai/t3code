@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
-import { type OrchestrationCommandReceiptRepositoryError } from "./Errors.ts";
+import { type OrchestrationCommandReceiptRepositoryError } from "./Errors.vibe";
 export declare const OrchestrationCommandReceipt: Schema.Struct<{
     readonly commandId: Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "CommandId">;
     readonly aggregateKind: Schema.Literals<readonly ["project", "thread"]>;

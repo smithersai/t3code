@@ -25,7 +25,7 @@ import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import type * as Tool from "effect/ai/Tool";
 
-import type * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
+import type * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
 import { ProjectToolkit } from "../mcp/toolkits/project/tools.vibe";
 import {
   resolveInteractionMode,

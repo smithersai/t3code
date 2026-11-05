@@ -10,7 +10,7 @@ import * as Schema from "effect/Schema";
 import {
   toPersistenceSqlError,
   type OrchestrationCommandReceiptRepositoryError,
-} from "./Errors.ts";
+} from "./Errors.vibe";
 
 export const OrchestrationCommandReceipt = Schema.Struct({
   commandId: CommandId,
@@ -25,23 +25,25 @@ export const OrchestrationCommandReceipt = Schema.Struct({
 export type OrchestrationCommandReceipt = typeof OrchestrationCommandReceipt.Type;
 
 export schema GetByCommandIdInput {
-  commandId: CommandId
+  readonly commandId: CommandId
 }
 
-export service OrchestrationCommandReceiptRepository {
-  static readonly key = "t3/persistence/OrchestrationCommandReceipts/OrchestrationCommandReceiptRepository"
-  insertIfAbsent: (
+export service OrchestrationCommandReceiptRepository: {
+  readonly insertIfAbsent: (
     receipt: OrchestrationCommandReceipt,
   ) => boolean!OrchestrationCommandReceiptRepositoryError;
 
-  upsert: (
+  readonly upsert: (
     receipt: OrchestrationCommandReceipt,
   ) => void!OrchestrationCommandReceiptRepositoryError;
 
-  getByCommandId: (
+  readonly getByCommandId: (
     input: GetByCommandIdInput,
-  ) => Option.Option<OrchestrationCommandReceipt>!OrchestrationCommandReceiptRepositoryError;
-}
+  ) => Effect.Effect<
+    Option.Option<OrchestrationCommandReceipt>,
+    OrchestrationCommandReceiptRepositoryError
+  >;
+} { static readonly key = "t3/persistence/OrchestrationCommandReceipts/OrchestrationCommandReceiptRepository" }
 
 const makeOrchestrationCommandReceiptRepository = effect {
   const sql = try SqlClient.SqlClient;
@@ -140,11 +142,14 @@ const makeOrchestrationCommandReceiptRepository = effect {
   const getByCommandId: OrchestrationCommandReceiptRepository["Service"]["getByCommandId"] = (
     input,
   ) =>
-    findReceiptByCommandId(input)
-      |> NodeSqliteClient.readOnly(%)
-      |> Effect.mapError(
-        %, toPersistenceSqlError("OrchestrationCommandReceiptRepository.getByCommandId:query"),
+    (() => {
+      const pipe$program = findReceiptByCommandId(input);
+      const pipe$stage0 = NodeSqliteClient.readOnly;
+      const pipe$stage1 = Effect.mapError(
+        toPersistenceSqlError("OrchestrationCommandReceiptRepository.getByCommandId:query"),
       );
+      return pipe$program |> pipe$stage0(%) |> pipe$stage1(%);
+    })();
 
   return {
     insertIfAbsent,

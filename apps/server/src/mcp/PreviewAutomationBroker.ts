@@ -39,7 +39,7 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as SynchronizedRef from "effect/SynchronizedRef";
 
-import * as McpInvocationContext from "./McpInvocationContext.ts";
+import * as McpInvocationContext from "./McpInvocationContext.vibe";
 
 const HOST_RESPONSE_GRACE_MS = 1_000;
 

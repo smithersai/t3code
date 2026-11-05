@@ -12,7 +12,7 @@ import * as ServerEnvironment from "../../../environment/ServerEnvironment.ts"
 import * as ThreadCommandExecutor from "../../../orchestration-v2/ThreadCommandExecutor.vibe"
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts"
 import * as Settings from "../../../serverSettings.ts"
-import * as McpInvocationContext from "../../McpInvocationContext.ts"
+import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 
 const PreferenceFields = {
   defaultThreadEnvMode: ServerSettings.fields.defaultThreadEnvMode,

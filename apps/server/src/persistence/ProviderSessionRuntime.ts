@@ -23,7 +23,7 @@ import {
   type PersistenceErrorCorrelation,
   PersistenceSqlError,
   type ProviderSessionRuntimeRepositoryError,
-} from "./Errors.ts";
+} from "./Errors.vibe";
 
 const ProviderSessionRuntimeStatus = Schema.Literals(["starting", "running", "stopped", "error"]);
 

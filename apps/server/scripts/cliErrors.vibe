@@ -1,42 +1,44 @@
-import * as Schema from "effect/Schema"
+import * as Schema from "effect/Schema";
 
-export schema error ServerCliCommandExitError {
-  command: string
-  args: ReadonlyArray<string>
-  cwd?: string
-  exitCode: Schema.Int
+export class ServerCliCommandExitError extends Schema.TaggedError<ServerCliCommandExitError>()(
+  "ServerCliCommandExitError",
+  {
+    command: Schema.String,
+    args: Schema.Array(Schema.String),
+    cwd: Schema.optional(Schema.String),
+    exitCode: Schema.Int,
+  },
+) {
   override get message(): string {
-    return `Command exited with non-zero exit code (${this.exitCode})`
+    return `Command exited with non-zero exit code (${this.exitCode})`;
   }
 }
 
 export schema error ServerCliDevelopmentIconSourceMissingError {
-  sourcePath: string
+  readonly sourcePath: string
   override get message(): string {
-    return `Missing development icon source: ${this.sourcePath}`
+    return `Missing development icon source: ${this.sourcePath}`;
   }
 }
 
 export schema error ServerCliDevelopmentIconTargetMissingError {
-  targetPath: string
+  readonly targetPath: string
   override get message(): string {
-    return `Missing development icon target: ${this.targetPath}. Build web first.`
+    return `Missing development icon target: ${this.targetPath}. Build web first.`;
   }
 }
 
 export schema error ServerCliBuildAssetMissingError {
-  assetPath: string
+  readonly assetPath: string
   override get message(): string {
-    return `Missing build asset: ${this.assetPath}. Run the build subcommand first.`
+    return `Missing build asset: ${this.assetPath}. Run the build subcommand first.`;
   }
 }
 
 export schema error ServerCliExecutableImportError {
-  bundlePath: string
-  specifiers: ReadonlyArray<string>
+  readonly bundlePath: string
+  readonly specifiers: ReadonlyArray<string>
   override get message(): string {
-    return `${this.bundlePath} imports file-backed packages that a single-executable cannot resolve: ${
-      this.specifiers.join(", ")
-    }. Load them through createRequire instead.`
+    return `${this.bundlePath} imports file-backed packages that a single-executable cannot resolve: ${this.specifiers.join(", ")}. Load them through createRequire instead.`;
   }
 }

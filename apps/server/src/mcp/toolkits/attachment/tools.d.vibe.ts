@@ -7,7 +7,7 @@ import * as ServerSecretStore from "../../../auth/ServerSecretStore.ts";
 import * as ServerConfig from "../../../config.ts";
 import * as DocumentText from "../../../provider/DocumentText.ts";
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 export declare const AttachmentToolkit: Toolkit.Toolkit<{
     readonly t3_attachment_discard: Tool.Tool<"t3_attachment_discard", {
         readonly parameters: Schema.Struct<{

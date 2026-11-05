@@ -15,8 +15,8 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
-import type { McpInvocationScope } from "./McpInvocationContext.ts";
-import { threadNotFound } from "./threadAccess.ts";
+import type { McpInvocationScope } from "./McpInvocationContext.vibe";
+import { threadNotFound } from "./threadAccess.vibe";
 
 export class ThreadMetadataMcpService extends Context.Service<
   ThreadMetadataMcpService,

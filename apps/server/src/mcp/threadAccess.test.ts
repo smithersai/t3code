@@ -4,9 +4,9 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
-import * as McpInvocationContext from "./McpInvocationContext.ts";
+import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import { liveThreadShell } from "./McpToolAccess.testkit.ts";
-import { readThread } from "./threadAccess.ts";
+import { readThread } from "./threadAccess.vibe";
 
 const bareId = ThreadId.make("5d0b4a3e-8c1f-4a52-9d37-2f6c7e1b9a04");
 const client: McpInvocationContext.McpInvocationScope = {

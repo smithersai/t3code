@@ -38,7 +38,7 @@ import * as ProjectService from "../project/ProjectService.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
-import type { McpInvocationScope } from "./McpInvocationContext.ts";
+import type { McpInvocationScope } from "./McpInvocationContext.vibe";
 import * as OrchestratorMcpService from "./OrchestratorMcpService.ts";
 import * as RemoteDelegation from "../peer/RemoteDelegation.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

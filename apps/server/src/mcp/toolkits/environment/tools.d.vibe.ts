@@ -5,7 +5,7 @@ import * as ServerEnvironment from "../../../environment/ServerEnvironment.ts";
 import * as ThreadCommandExecutor from "../../../orchestration-v2/ThreadCommandExecutor.vibe";
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
 import * as Settings from "../../../serverSettings.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 export declare const EnvironmentToolkit: Toolkit.Toolkit<{
     readonly t3_environment_preferences_update: Tool.Tool<"t3_environment_preferences_update", {
         readonly parameters: Schema.Struct<{

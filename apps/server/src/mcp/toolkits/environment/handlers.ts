@@ -3,9 +3,9 @@ import * as Effect from "effect/Effect";
 import * as Environment from "../../../environment/ServerEnvironment.ts";
 import * as ThreadCommandExecutor from "../../../orchestration-v2/ThreadCommandExecutor.vibe";
 import * as Settings from "../../../serverSettings.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
-import { readCaller, unavailable } from "../../threadAccess.ts";
+import { readCaller, unavailable } from "../../threadAccess.vibe";
 import { EnvironmentToolkit } from "./tools.vibe";
 
 export function preferences(settings: ServerSettings) {

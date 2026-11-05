@@ -1,6 +1,6 @@
 import { type VcsError } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
-import type { ProjectionRepositoryError } from "../persistence/Errors.ts";
+import type { ProjectionRepositoryError } from "../persistence/Errors.vibe";
 export declare const CheckpointDiffOperation: Schema.Literals<readonly ["CheckpointDiffQuery.getTurnDiff", "CheckpointDiffQuery.getFullThreadDiff"]>;
 export type CheckpointDiffOperation = typeof CheckpointDiffOperation.Type;
 declare const CheckpointDiffResultInvalidError_base: Schema.Class<CheckpointDiffResultInvalidError, Schema.TaggedStruct<"CheckpointDiffResultInvalidError", {

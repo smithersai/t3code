@@ -33,7 +33,7 @@ import { McpSchema, McpServer, Tool, Toolkit } from "effect/ai";
 
 import * as ServerConfig from "../config.ts";
 import * as McpHttpServer from "../mcp/McpHttpServer.ts";
-import * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
+import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
 import * as McpToolAccess from "../mcp/McpToolAccess.ts";
 import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.ts";
 import * as EventSink from "../orchestration-v2/EventSink.ts";

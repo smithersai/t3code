@@ -13,7 +13,7 @@ import * as Schema from "effect/Schema"
 
 import * as HtmlRender from "../../../htmlRender/HtmlRender.ts"
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts"
-import * as McpInvocationContext from "../../McpInvocationContext.ts"
+import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 
 const Html = Schema.String.check(Schema.isMinLength(1), Schema.isMaxLength(512_000)).annotate({
   description: "A complete, self-contained HTML document.",

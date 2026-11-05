@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
-import { type PullRequestFilesViewedRepositoryError } from "./Errors.ts";
+import { type PullRequestFilesViewedRepositoryError } from "./Errors.vibe";
 export declare const PullRequestFilesViewedScope: Schema.Struct<{
     readonly provider: Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "SourceControlProviderKind">;
     readonly host: Schema.String;

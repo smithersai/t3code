@@ -22,7 +22,7 @@ import {
 } from "../orchestration-v2/DispatchModeLimit.vibe";
 import * as PeerForwarding from "../peer/PeerForwarding.ts";
 import { assertNotLinked, assertSameLink, callerLinkOrigin } from "./linkOrigin.ts";
-import * as McpInvocationContext from "./McpInvocationContext.ts";
+import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import { resolveInteractionMode, resolveRuntimeMode } from "./delegatedTaskModes.ts";
 import {
   assertFullAccess,
@@ -32,7 +32,7 @@ import {
   loadCaller,
   readCaller,
   unavailable,
-} from "./threadAccess.ts";
+} from "./threadAccess.vibe";
 
 /** Private constructors only enforce types; the token also blocks runtime construction. */
 const builtHere: unique symbol = Symbol("t3/mcp/McpToolAccess/builtHere");

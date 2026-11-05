@@ -7,7 +7,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 
 import * as AuthPairingLinks from "./AuthPairingLinks.ts";
 import * as AuthSessions from "./AuthSessions.ts";
-import * as PersistenceErrors from "./Errors.ts";
+import * as PersistenceErrors from "./Errors.vibe";
 import * as SqlitePersistence from "./Sqlite.ts";
 import * as ProviderSessionRuntime from "./ProviderSessionRuntime.ts";
 

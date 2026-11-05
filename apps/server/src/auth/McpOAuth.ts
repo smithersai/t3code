@@ -30,7 +30,7 @@ import { HttpServerRequest } from "effect/http";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as McpHttpServer from "../mcp/McpHttpServer.ts";
-import type * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
+import type * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
 import * as EnvironmentAuth from "./EnvironmentAuth.ts";
 import * as ServerSecretStore from "./ServerSecretStore.ts";
 import {

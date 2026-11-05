@@ -4,7 +4,7 @@ import * as Schema from "effect/Schema";
 import * as GitWorkflowService from "../../../git/GitWorkflowService.ts";
 import * as ProjectService from "../../../project/ProjectService.ts";
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as WorktreeMcpService from "../../WorktreeMcpService.ts";
 export declare const WorktreeToolkit: Toolkit.Toolkit<{
     readonly t3_worktree_handoff: Tool.Tool<"t3_worktree_handoff", {

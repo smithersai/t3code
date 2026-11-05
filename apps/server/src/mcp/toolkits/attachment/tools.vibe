@@ -16,7 +16,7 @@ import * as ServerSecretStore from "../../../auth/ServerSecretStore.ts"
 import * as ServerConfig from "../../../config.ts"
 import * as DocumentText from "../../../provider/DocumentText.ts"
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts"
-import * as McpInvocationContext from "../../McpInvocationContext.ts"
+import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 
 const shared = {
   failure: OrchestratorMcpFailure,

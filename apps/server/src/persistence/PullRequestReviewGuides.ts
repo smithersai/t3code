@@ -13,7 +13,7 @@ import {
   PersistenceDecodeError,
   PersistenceSqlError,
   type PullRequestReviewGuideRepositoryError,
-} from "./Errors.ts";
+} from "./Errors.vibe";
 
 const GuideRow = Schema.Struct({
   guide: Schema.fromJsonString(PullRequestReviewGuide),

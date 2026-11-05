@@ -8,7 +8,7 @@ import {
 } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 
-import * as McpInvocationContext from "./McpInvocationContext.ts";
+import * as McpInvocationContext from "./McpInvocationContext.vibe";
 
 it.effect("reports other missing capabilities with the neutral error", () => {
   const invocation: McpInvocationContext.McpInvocationScope = {

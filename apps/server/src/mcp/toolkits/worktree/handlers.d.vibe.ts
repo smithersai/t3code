@@ -1,7 +1,7 @@
 import { OrchestratorMcpFailure } from "@t3tools/contracts";
 import * as GitWorkflow from "../../../git/GitWorkflowService.ts";
 import * as Project from "../../../project/ProjectService.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import * as WorktreeMcpService from "../../WorktreeMcpService.ts";
 export declare const layer: McpToolAccess.HandlersLayer<{
