@@ -7,8 +7,8 @@ import * as Path from "effect/Path";
 import { TestClock } from "effect/testing";
 
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
-import * as ProjectFaviconResolver from "./ProjectFaviconResolver.ts";
-import * as T3ProjectFileLoader from "./T3ProjectFileLoader.ts";
+import * as ProjectFaviconResolver from "./ProjectFaviconResolver.vibe";
+import * as T3ProjectFileLoader from "./T3ProjectFileLoader.vibe";
 
 const layerTest = Layer.empty.pipe(
   Layer.provideMerge(

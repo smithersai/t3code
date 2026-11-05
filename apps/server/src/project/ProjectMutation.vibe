@@ -5,13 +5,13 @@ import { type ProjectService } from "./ProjectService.ts";
 
 type ProjectMutations = Pick<ProjectService["Service"], "create" | "delete" | "update">;
 
-export const projectMutationOperation = Effect.fn("projectMutationOperation")(function* (
+export const projectMutationOperation = effect (
   projects: ProjectMutations,
   mutation: ProjectMutation,
-) {
+) => try withSpan(effect {
   switch (mutation.type) {
     case "project.create":
-      return yield* projects.create({
+      return try projects.create({
         commandId: mutation.commandId,
         projectId: mutation.projectId,
         title: mutation.title,
@@ -26,7 +26,7 @@ export const projectMutationOperation = Effect.fn("projectMutationOperation")(fu
       });
 
     case "project.update":
-      return yield* projects.update({
+      return try projects.update({
         commandId: mutation.commandId,
         projectId: mutation.projectId,
         ...(mutation.title === undefined ? {} : { title: mutation.title }),
@@ -44,10 +44,10 @@ export const projectMutationOperation = Effect.fn("projectMutationOperation")(fu
       });
 
     case "project.delete":
-      return yield* projects.delete({
+      return try projects.delete({
         commandId: mutation.commandId,
         projectId: mutation.projectId,
         ...(mutation.force === undefined ? {} : { force: mutation.force }),
       });
   }
-});
+}, "projectMutationOperation");

@@ -7,7 +7,7 @@ import * as PubSub from "effect/PubSub";
 import * as Ref from "effect/Ref";
 
 import * as ProjectEnrichment from "./ProjectEnrichmentService.ts";
-import * as ProjectFaviconResolver from "./ProjectFaviconResolver.ts";
+import * as ProjectFaviconResolver from "./ProjectFaviconResolver.vibe";
 import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.ts";
 
 const identity = (workspaceRoot: string, version = 1): RepositoryIdentity => ({

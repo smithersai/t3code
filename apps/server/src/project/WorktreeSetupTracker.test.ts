@@ -6,7 +6,7 @@ import * as Exit from "effect/Exit";
 import * as Fiber from "effect/Fiber";
 import * as Stream from "effect/Stream";
 
-import * as WorktreeSetupTracker from "./WorktreeSetupTracker.ts";
+import * as WorktreeSetupTracker from "./WorktreeSetupTracker.vibe";
 
 const threadId = ThreadId.make("thread-1");
 

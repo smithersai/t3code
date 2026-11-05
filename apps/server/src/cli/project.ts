@@ -30,11 +30,11 @@ import * as ProcessRunner from "../processRunner.ts";
 import * as ServerOwnership from "../serverOwnership.ts";
 import * as RuntimeLayer from "../orchestration-v2/runtimeLayer.vibe";
 import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
-import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.ts";
+import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.vibe";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.ts";
 import * as ProjectService from "../project/ProjectService.ts";
-import { projectMutationOperation } from "../project/ProjectMutation.ts";
-import * as T3ProjectFileLoader from "../project/T3ProjectFileLoader.ts";
+import { projectMutationOperation } from "../project/ProjectMutation.vibe";
+import * as T3ProjectFileLoader from "../project/T3ProjectFileLoader.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import {
   clearPersistedServerRuntimeState,

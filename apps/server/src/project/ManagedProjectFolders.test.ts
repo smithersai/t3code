@@ -23,10 +23,10 @@ import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as ProjectEnrichmentService from "./ProjectEnrichmentService.ts";
-import * as ProjectFaviconResolver from "./ProjectFaviconResolver.ts";
+import * as ProjectFaviconResolver from "./ProjectFaviconResolver.vibe";
 import * as ProjectService from "./ProjectService.ts";
 import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.ts";
-import * as ManagedProjectFolders from "./ManagedProjectFolders.ts";
+import * as ManagedProjectFolders from "./ManagedProjectFolders.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerGitWorkflow = (vcsProcess?: Layer.Layer<VcsProcess.VcsProcess>) =>
