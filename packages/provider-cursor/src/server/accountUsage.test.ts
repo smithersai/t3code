@@ -9,8 +9,8 @@ import * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Path from "effect/Path";
 
-import * as CursorKeychain from "./CursorKeychain.ts";
-import { readCursorAccountUsage } from "./accountUsage.ts";
+import * as CursorKeychain from "./CursorKeychain.vibe";
+import { readCursorAccountUsage } from "./accountUsage.vibe";
 import * as Layer from "effect/Layer";
 import * as Crypto from "@t3tools/shared/Crypto";
 

@@ -11,7 +11,7 @@ import {
   buildCursorDiscoveredModelsFromSdk,
   buildCursorProviderSnapshot,
   checkCursorProviderStatus,
-} from "./status.ts";
+} from "./status.vibe";
 import * as CursorSdkCatalog from "./CursorSdkCatalog.vibe";
 import { CursorSdkError } from "./sdk.ts";
 

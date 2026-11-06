@@ -1,5 +1,5 @@
 // Occurrence indices are fetch-local; replace entire refetched ranges to prevent key collisions.
-import { cursorRateModel } from "./accountUsage.ts";
+import { cursorRateModel } from "./accountUsage.vibe";
 import type { UsageRecord } from "@t3tools/provider-core/server/usage";
 
 export type CursorCredentialSource = string | { readonly kind: "keychain" };

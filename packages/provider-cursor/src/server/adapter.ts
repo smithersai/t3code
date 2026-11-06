@@ -74,7 +74,7 @@ import {
   makeSubagentConversationArtifacts,
   subagentThreadTitle,
 } from "@t3tools/provider-core/server/subagentProjection";
-import * as CursorAgentSdk from "./CursorAgentSdk.ts";
+import * as CursorAgentSdk from "./CursorAgentSdk.vibe";
 import { ConfigurationError } from "./sdk.ts";
 export { cursorSdkModelSelection } from "./sdkModel.ts";
 

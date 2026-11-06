@@ -16,7 +16,7 @@ import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import { makeCursorTextGeneration } from "./textGeneration.ts";
 import { makeCursorAdapterV2, type CursorAdapterV2DriverEnv } from "./adapter.ts";
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors";
-import { buildInitialCursorProviderSnapshot, checkCursorProviderStatus } from "./status.ts";
+import { buildInitialCursorProviderSnapshot, checkCursorProviderStatus } from "./status.vibe";
 import * as CursorSdkCatalog from "./CursorSdkCatalog.vibe";
 import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider";
 import {
@@ -35,10 +35,10 @@ import {
 import { probeCursorSkills } from "./skills.ts";
 import { makeCursorAuth } from "./auth.vibe";
 import * as CursorCredentialStore from "./credentialStore.ts";
-import * as CursorAgentSdk from "./CursorAgentSdk.ts";
+import * as CursorAgentSdk from "./CursorAgentSdk.vibe";
 import * as CursorSdk from "./CursorSdk.ts";
-import * as CursorKeychain from "./CursorKeychain.ts";
-import * as CursorUsageAccounts from "./CursorUsageAccounts.ts";
+import * as CursorKeychain from "./CursorKeychain.vibe";
+import * as CursorUsageAccounts from "./CursorUsageAccounts.vibe";
 
 const decodeCursorSettings = Schema.decodeSync(CursorSettings);
 const isSdkRunnerError = Schema.is(CursorAgentSdk.CursorAgentSdkRunnerError);

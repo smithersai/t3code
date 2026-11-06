@@ -6,7 +6,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as CursorKeychain from "./CursorKeychain.ts";
+import * as CursorKeychain from "./CursorKeychain.vibe";
 import { cursorUsageResponseToLimits, readCursorUsageLimits } from "./usageLimits.ts";
 
 const withNodeServices = <A, E>(

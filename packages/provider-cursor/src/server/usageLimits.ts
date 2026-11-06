@@ -16,7 +16,7 @@ import {
   makeUnavailableUsageLimits,
   makeUsageLimits,
 } from "@t3tools/provider-core/server/usageLimits";
-import * as CursorKeychain from "./CursorKeychain.ts";
+import * as CursorKeychain from "./CursorKeychain.vibe";
 
 const CursorCredentials = Schema.Struct({ accessToken: Schema.optional(Schema.String) });
 const DEFAULT_CURSOR_API_ENDPOINT = "https://api2.cursor.sh";

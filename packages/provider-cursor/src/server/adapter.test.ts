@@ -34,7 +34,7 @@ import {
   makeCursorAdapterV2,
   nestedToolCallFromEnvelope,
 } from "./adapter.ts";
-import * as CursorAgentSdk from "./CursorAgentSdk.ts";
+import * as CursorAgentSdk from "./CursorAgentSdk.vibe";
 import { ConfigurationError } from "./sdk.ts";
 
 const decodeCursorSettings = Schema.decodeEffect(CursorSettings);

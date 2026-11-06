@@ -20,24 +20,39 @@
       "import": "./src/testing.ts"
     },
     "./server/CursorAgentSdk": {
-      "types": "./src/server/CursorAgentSdk.ts",
-      "import": "./src/server/CursorAgentSdk.ts"
+      "types": "./src/server/CursorAgentSdk.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/CursorAgentSdk.vibe",
+        "default": "./.vibelang/js/src/server/CursorAgentSdk.js"
+      }
     },
     "./server/accountUsage": {
-      "types": "./src/server/accountUsage.ts",
-      "import": "./src/server/accountUsage.ts"
+      "types": "./src/server/accountUsage.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/accountUsage.vibe",
+        "default": "./.vibelang/js/src/server/accountUsage.js"
+      }
     },
     "./server/CursorAccountReader": {
-      "types": "./src/server/CursorAccountReader.ts",
-      "import": "./src/server/CursorAccountReader.ts"
+      "types": "./src/server/CursorAccountReader.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/CursorAccountReader.vibe",
+        "default": "./.vibelang/js/src/server/CursorAccountReader.js"
+      }
     },
     "./server/CursorKeychain": {
-      "types": "./src/server/CursorKeychain.ts",
-      "import": "./src/server/CursorKeychain.ts"
+      "types": "./src/server/CursorKeychain.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/CursorKeychain.vibe",
+        "default": "./.vibelang/js/src/server/CursorKeychain.js"
+      }
     },
     "./server/CursorUsageAccounts": {
-      "types": "./src/server/CursorUsageAccounts.ts",
-      "import": "./src/server/CursorUsageAccounts.ts"
+      "types": "./src/server/CursorUsageAccounts.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/CursorUsageAccounts.vibe",
+        "default": "./.vibelang/js/src/server/CursorUsageAccounts.js"
+      }
     },
     "./server/CursorSdk": {
       "types": "./src/server/CursorSdk.ts",
