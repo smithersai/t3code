@@ -68,7 +68,7 @@
     "stream-chain": "^4.2.5",
     "stream-json": "3.6.0",
     "undici": "catalog:",
-    "vibelang-runtime": "0.0.11",
+    "vibelang-runtime": "0.0.12",
     "yaml": "catalog:",
     "yauzl": "^3.4.0",
     "zod": "^4.6.5"
@@ -90,8 +90,8 @@
     "effect-acp": "workspace:*",
     "effect-codex-app-server": "workspace:*",
     "graphql": "16.14.1",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-e1c40147c6ef.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-d23a07206819.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-f4c4e300ea22.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-29aa9027018d.tgz",
     "vite-plus": "catalog:"
   },
   "engines": {

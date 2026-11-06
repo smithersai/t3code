@@ -2,51 +2,51 @@
   "version": 1,
   "manager": "pnpm",
   "versions": {
-    "vibelang": "0.0.11",
-    "vibelang-runtime": "0.0.11",
-    "vibelang-vite": "0.0.11",
-    "vibelang-unplugin": "0.0.11"
+    "vibelang": "0.0.12",
+    "vibelang-runtime": "0.0.12",
+    "vibelang-vite": "0.0.12",
+    "vibelang-unplugin": "0.0.12"
   },
   "packages": [
     "apps/server/package.json"
   ],
   "localPins": {
-    "vibelang": "file:./.vibelang-toolchain/vibelang-0.0.11-e1c40147c6ef.tgz",
-    "vibelang-runtime": "file:./.vibelang-toolchain/vibelang-runtime-0.0.11-a019a5bb8c6d.tgz",
-    "vibelang-vite": "file:./.vibelang-toolchain/vibelang-vite-0.0.11-d23a07206819.tgz",
-    "vibelang-unplugin": "file:./.vibelang-toolchain/vibelang-unplugin-0.0.11-ccd97f398bd6.tgz"
+    "vibelang": "file:./.vibelang-toolchain/vibelang-0.0.12-f4c4e300ea22.tgz",
+    "vibelang-runtime": "file:./.vibelang-toolchain/vibelang-runtime-0.0.12-8928602aed99.tgz",
+    "vibelang-vite": "file:./.vibelang-toolchain/vibelang-vite-0.0.12-29aa9027018d.tgz",
+    "vibelang-unplugin": "file:./.vibelang-toolchain/vibelang-unplugin-0.0.12-6bd06a06dd8a.tgz"
   },
   "releaseRequired": [
     {
       "name": "vibelang-runtime",
-      "version": "0.0.11"
+      "version": "0.0.12"
     }
   ],
   "overrides": [
     {
       "name": "vibelang",
-      "value": "file:./.vibelang-toolchain/vibelang-0.0.11-e1c40147c6ef.tgz",
+      "value": "file:./.vibelang-toolchain/vibelang-0.0.12-f4c4e300ea22.tgz",
       "file": "pnpm-workspace.yaml",
       "table": "overrides",
       "hadValue": false
     },
     {
       "name": "vibelang-runtime",
-      "value": "file:./.vibelang-toolchain/vibelang-runtime-0.0.11-a019a5bb8c6d.tgz",
+      "value": "file:./.vibelang-toolchain/vibelang-runtime-0.0.12-8928602aed99.tgz",
       "file": "pnpm-workspace.yaml",
       "table": "overrides",
       "hadValue": false
     },
     {
       "name": "vibelang-vite",
-      "value": "file:./.vibelang-toolchain/vibelang-vite-0.0.11-d23a07206819.tgz",
+      "value": "file:./.vibelang-toolchain/vibelang-vite-0.0.12-29aa9027018d.tgz",
       "file": "pnpm-workspace.yaml",
       "table": "overrides",
       "hadValue": false
     },
     {
       "name": "vibelang-unplugin",
-      "value": "file:./.vibelang-toolchain/vibelang-unplugin-0.0.11-ccd97f398bd6.tgz",
+      "value": "file:./.vibelang-toolchain/vibelang-unplugin-0.0.12-6bd06a06dd8a.tgz",
       "file": "pnpm-workspace.yaml",
       "table": "overrides",
       "hadValue": false
