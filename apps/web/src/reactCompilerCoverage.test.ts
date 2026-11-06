@@ -15,7 +15,12 @@ const webSourceFiles = NodeFS.readdirSync(NodePath.join(repoRoot, "apps/web/src"
 })
   .map(String)
   .filter((file) => /\.(?:tsx?|vibe)$/.test(file) && !/\.(test|browser)\.(?:tsx?|vibe)$/.test(file))
-  .filter((file) => !file.endsWith(".gen.ts") && !file.endsWith(".d.vibe.ts"))
+  .filter(
+    (file) =>
+      !file.endsWith(".gen.ts") &&
+      !file.endsWith(".d.vibe.ts") &&
+      !/\.vibe\..+\.d\.ts$/.test(file),
+  )
   .map((file) => `apps/web/src/${file}`);
 
 // ChatView is ~9k lines. Compiling it takes ~9s on a fast machine and can pass the
