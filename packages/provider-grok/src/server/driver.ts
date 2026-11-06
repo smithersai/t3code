@@ -12,7 +12,7 @@ import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderL
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import { makeGrokTextGeneration } from "./textGeneration.ts";
-import { GrokAdapterV2Driver, type GrokAdapterV2DriverEnv } from "./adapter.ts";
+import { GrokAdapterV2Driver, type GrokAdapterV2DriverEnv } from "./adapter.vibe";
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors";
 import {
   buildInitialGrokProviderSnapshot,

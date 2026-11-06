@@ -5,12 +5,12 @@ export {
   makeGrokAcpAdapterFlavor,
   makeGrokAdapterV2,
   type GrokAdapterV2Options,
-} from "./server/adapter.ts";
+} from "./server/adapter.vibe";
 export {
   GROK_ACP_CANCEL_META,
   GROK_ACP_INITIALIZE_META,
   makeGrokAcpRuntime,
-} from "./server/acpSupport.ts";
+} from "./server/acpSupport.vibe";
 export {
   buildGrokModelCapabilities,
   buildInitialGrokProviderSnapshot,
@@ -26,4 +26,4 @@ export {
   normalizeXAiAcpToolCallState,
   registerXAiBackgroundTaskTracking,
   xAiRateLimitedErrorCode,
-} from "./server/xaiAcpExtension.ts";
+} from "./server/xaiAcpExtension.vibe";

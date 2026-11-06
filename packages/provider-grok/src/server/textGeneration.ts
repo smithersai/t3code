@@ -17,7 +17,7 @@ import {
   currentGrokReasoningEffortFromSessionSetup,
   makeGrokAcpRuntime,
   resolveGrokAcpBaseModelId,
-} from "./acpSupport.ts";
+} from "./acpSupport.vibe";
 
 const GROK_TIMEOUT_MS = 180_000;
 
