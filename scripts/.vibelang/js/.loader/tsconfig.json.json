@@ -94,7 +94,7 @@
      "relative": "scripts/lib"
     },
     null,
-    "i5mk4xrGoZrVfxHKzRISMdfPpLAL8BhVAexfZAHewq4",
+    "ZDaq9ypZH4oH9Gsc-jI0wZ0Jau8SMDU0MRyZWiBxuVQ",
     []
    ],
    [
@@ -155,8 +155,8 @@
     "path": {
      "relative": "pnpm-lock.yaml"
     },
-    "size": 991290,
-    "hash": "-JIRvJS04v1jyjckzi3jkbhDHC_4y9FDybgeU8GCL14"
+    "size": 991582,
+    "hash": "iU9dxy5Nl1T7GbBQoD0SHagUhdzTWxLOTQvpUw1m9Rk"
    },
    {
     "path": {
@@ -320,8 +320,8 @@
     "path": {
      "relative": "apps/desktop/package.json"
     },
-    "size": 1562,
-    "hash": "LqvTmLIWyrmqzoKMttPY-m4hzunkagE38wz9W_7-AkQ"
+    "size": 1586,
+    "hash": "ti_Yodo-PIChQ5qn66EiYGHHsBg91svhB8SCdak-LNk"
    },
    {
     "path": {
@@ -3843,8 +3843,8 @@
     "path": {
      "relative": "apps/desktop/package.json"
     },
-    "size": 1562,
-    "hash": "LqvTmLIWyrmqzoKMttPY-m4hzunkagE38wz9W_7-AkQ"
+    "size": 1586,
+    "hash": "ti_Yodo-PIChQ5qn66EiYGHHsBg91svhB8SCdak-LNk"
    },
    {
     "path": {
@@ -3897,17 +3897,17 @@
    },
    {
     "path": {
-     "relative": "scripts/lib/resolve-catalog.ts"
+     "relative": "scripts/lib/resolve-catalog.vibe"
     },
-    "size": 1613,
-    "hash": "wqYtUPjTeDyFbf_QcuU6irsSJF1naaoI3GrLAmCtQ6o"
+    "size": 1616,
+    "hash": "nUOe0cGzN0P8wMaUCVBXUatBA9e9c7fmMYaZ4MYjs-M"
    },
    {
     "path": {
      "relative": "scripts/build-desktop-artifact.ts"
     },
-    "size": 151916,
-    "hash": "HNJAv0e3vkH0oMH_XicGTqVL94e0GGYfGscxyXytoPY"
+    "size": 151918,
+    "hash": "TTa6ZKOZJvGqUeXNbSx-DB2TeWiUtVEYaSkoI9OJXz0"
    },
    {
     "path": {
@@ -3934,8 +3934,8 @@
     "path": {
      "relative": "scripts/build-cli-archive.ts"
     },
-    "size": 21731,
-    "hash": "wldawnIfGrraKfgjTjKUMBQU57Hujekt17FfAcG7s20"
+    "size": 21733,
+    "hash": "bh_9vWknSi902rM5Q7mioDfi3vXDrR8apbkY00UcsuQ"
    },
    {
     "path": {
@@ -9401,8 +9401,8 @@
     "path": {
      "relative": "scripts/lib/resolve-catalog.test.ts"
     },
-    "size": 1585,
-    "hash": "0PujJ6mqxAUqKJ5Jo-TDA6eLwdOAYVkjZ2Jz8s3F43w"
+    "size": 1587,
+    "hash": "gAZwt1NThpWQcnaKVsBrIOKc-ye_u12Cy425OCHR5wk"
    },
    {
     "path": {
@@ -9476,7 +9476,7 @@
     "relative": "scripts/lib/desktop-external-packages.ts"
    },
    {
-    "relative": "scripts/lib/resolve-catalog.ts"
+    "relative": "scripts/lib/resolve-catalog.vibe"
    },
    {
     "relative": "scripts/build-desktop-artifact.ts"
@@ -9756,6 +9756,46 @@
      ],
      "names": [],
      "mappings": ";;;AAAA,OAAO,KAAK,WAAW,MAAM,6BAA6B,CAAA;AAC1D,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AASvC,MAAM,kCAAkC,GAAG,MAAM,CAAC,GAAG,CAAC;IACpD,qBAAqB,EAAE,MAAM,CAAC,MAAM,CAAC,wBAAwB,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,MAAM,CAAC;IAClF,0BAA0B,EAAE,MAAM,CAAC,MAAM,CAAC,wBAAwB,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,MAAM,CAAC;CACxF,CAAC,CAAA;AAEF,SAAS,oBAAoB,CAAC,KAAyB;IACrD,MAAM,UAAU,GAAG,KAAK,EAAE,IAAI,EAAE,CAAC,WAAW,EAAE,CAAA;IAC9C,IAAI,CAAC,UAAU;QAAE,OAAO,SAAS,CAAA;IACjC,IAAI,UAAU,CAAC,QAAQ,CAAC,OAAO,CAAC,IAAI,UAAU,KAAK,SAAS;QAAE,OAAO,OAAO,CAAA;IAC5E,IAAI,UAAU,CAAC,QAAQ,CAAC,OAAO,CAAC,IAAI,UAAU,CAAC,QAAQ,CAAC,KAAK,CAAC;QAAE,OAAO,KAAK,CAAA;IAC5E,OAAO,SAAS,CAAA;AAClB,CAAC;AAED,MAAM,iBAAiB,GAAG,CAAI,KAAuB,EAAiB,EAAE,CAAC,MAAM,CAAC,cAAc,CAAC,KAAK,CAAC,CAAA;AAErG,MAAM,sBAAsB,GAAG;GAAA,C,CAAA,mB,CAAA,S,CAAA,wCACzB,QAAQ,CACV,a,CAAA;QACE,MAAM,QAAQ,UAAO,WAAW,CAAC,QAAQ,CAAA;QACzC,MAAM,WAAW,UAAO,WAAW,CAAC,YAAY,CAAA;QAChD,IAAI,WAAW,KAAK,OAAO;YAAE,OAAO,OAAO,CAAA;QAC3C,IAAI,WAAW,KAAK,KAAK,EAAE,CAAC;YAC1B,IAAI,QAAQ,KAAK,OAAO;gBAAE,OAAO,KAAK,CAAA;YAEtC,gFAAgF;YAChF,MAAM,GAAG,UAAO,kCAAkC,CAAA;YAClD,OAAO,CACL,oBAAoB,CAAC,iBAAiB,CAAC,GAAG,CAAC,0BAA0B,CAAC,CAAC;mBAClE,oBAAoB,CAAC,iBAAiB,CAAC,GAAG,CAAC,qBAAqB,CAAC,CAAC;mBAClE,KAAK,CACX,CAAA;QACH,CAAC;QACD,OAAO,SAAS,CAAA;IAClB,CAAC,CAAA,EACD,wBAAwB,CACzB;CAAA,CAAA;AAEH,MAAM,CAAC,MAAM,mBAAmB,GAAG,CACjC,QAAuB,EACvB,cAA8B;GAAA,C,CAAA,mB,CAAA,S,CAAA,qCAE1B,QAAQ,CACV,a,CAAA;QACE,MAAM,QAAQ,UAAO,sBAAsB,EAAE,CAAA;QAC7C,IAAI,QAAQ,IAAI,cAAc,CAAC,WAAW,CAAC,QAAQ,CAAC,QAAQ,CAAC,EAAE,CAAC;YAC9D,OAAO,QAAQ,CAAA;QACjB,CAAC;QAED,OAAO,cAAc,CAAC,WAAW,CAAC,CAAC,CAAC,IAAI,KAAK,CAAA;IAC/C,CAAC,CAAA,EACD,qBAAqB,CACtB;CAAA,CAAA"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "scripts/lib/resolve-catalog.vibe"
+     }
+    ],
+    "code": "import * as Schema from \"effect/Schema\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime\";\nclass CatalogDependencyResolutionError extends Schema.TaggedError()(\"CatalogDependencyResolutionError\", {\n    workspacePackage: Schema.String,\n    dependencyName: Schema.String,\n    catalogSpec: Schema.String,\n    catalogKey: Schema.String,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"CatalogDependencyResolutionError\");\n    }\n    get message() {\n        return `Unable to resolve '${this.catalogSpec}' for ${this.workspacePackage} dependency '${this.dependencyName}'. Expected key '${this.catalogKey}' in root workspace catalog.`;\n    }\n}\nexport function resolveCatalogDependencies(dependencies, catalog, workspacePackage) {\n    return Object.fromEntries(Object.entries(dependencies).map(([name, spec]) => {\n        if (typeof spec !== \"string\" || !spec.startsWith(\"catalog:\")) {\n            return [name, spec];\n        }\n        const catalogKey = spec.slice(\"catalog:\".length).trim();\n        const selector = name.split(\">\").at(-1) ?? name;\n        const versionIndex = selector.indexOf(\"@\", 1);\n        const packageName = versionIndex === -1 ? selector : selector.slice(0, versionIndex);\n        const lookupKey = catalogKey.length > 0 ? catalogKey : packageName;\n        const resolved = catalog[lookupKey];\n        if (typeof resolved !== \"string\" || resolved.length === 0) {\n            $raise(new CatalogDependencyResolutionError({\n                workspacePackage,\n                dependencyName: name,\n                catalogSpec: spec,\n                catalogKey: lookupKey,\n            }));\n        }\n        return [name, resolved];\n    }));\n}\nimport { raise as $raise } from \"./resolve-catalog.vibe.-24-throw-24-ts.js\";\n",
+    "map": {
+     "version": 3,
+     "file": "resolve-catalog.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "scripts/lib/resolve-catalog.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": ";;AAAA,MAAa,gCAAiC,SAAA,AAA9C,MAAM,CAAN,WAAM,EAAA,CAAO,kCAAgC,EAAC;IACnC,gBAAgB,EAAE,MAAA,CAAA,MAAA;IAClB,cAAc,EAAE,MAAA,CAAA,MAAA;IAChB,WAAW,EAAE,MAAA,CAAA,MAAA;IACb,UAAU,EAAE,MAAA,CAAA,MAAA;CAItB,CAAA;GAAA,C,CAAA;QARY,mBAAgC,CAAhC,IAAgC,EAAhC,kCAAgC,CAAA,CAAA;IAAC,CAAC,AAAF;IAK3C,IAAa,OAAO;QAClB,OAAO,sBAAsB,IAAI,CAAC,WAAW,SAAS,IAAI,CAAC,gBAAgB,gBAAgB,IAAI,CAAC,cAAc,oBAAoB,IAAI,CAAC,UAAU,8BAA8B,CAAA;IACjL,CAAC;CACF;AAED,MAAM,UAAU,0BAA0B,CACxC,YAAoC,EACpC,OAA+B,EAC/B,gBAAwB;IAExB,OAAO,MAAM,CAAC,WAAW,CACvB,MAAM,CAAC,OAAO,CAAC,YAAY,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,IAAI,EAAE,IAAI,CAAC,EAAE,EAAE;QAChD,IAAI,OAAO,IAAI,KAAK,QAAQ,IAAI,CAAC,IAAI,CAAC,UAAU,CAAC,UAAU,CAAC,EAAE,CAAC;YAC7D,OAAO,CAAC,IAAI,EAAE,IAAI,CAAC,CAAA;QACrB,CAAC;QAED,MAAM,UAAU,GAAG,IAAI,CAAC,KAAK,CAAC,UAAU,CAAC,MAAM,CAAC,CAAC,IAAI,EAAE,CAAA;QACvD,MAAM,QAAQ,GAAG,IAAI,CAAC,KAAK,CAAC,GAAG,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,IAAI,IAAI,CAAA;QAC/C,MAAM,YAAY,GAAG,QAAQ,CAAC,OAAO,CAAC,GAAG,EAAE,CAAC,CAAC,CAAA;QAC7C,MAAM,WAAW,GAAG,YAAY,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,QAAQ,CAAC,KAAK,CAAC,CAAC,EAAE,YAAY,CAAC,CAAA;QACpF,MAAM,SAAS,GAAG,UAAU,CAAC,MAAM,GAAG,CAAC,CAAC,CAAC,CAAC,UAAU,CAAC,CAAC,CAAC,WAAW,CAAA;QAClE,MAAM,QAAQ,GAAG,OAAO,CAAC,SAAS,CAAC,CAAA;QAEnC,IAAI,OAAO,QAAQ,KAAK,QAAQ,IAAI,QAAQ,CAAC,MAAM,KAAK,CAAC,EAAE,CAAC;YAC1D,MAAM,CACJ,IAAI,gCAAgC,CAAC;gBACnC,gBAAgB;gBAChB,cAAc,EAAE,IAAI;gBACpB,WAAW,EAAE,IAAI;gBACjB,UAAU,EAAE,SAAS;aACtB,CAAC,CACH,CAAA;QACH,CAAC;QAED,OAAO,CAAC,IAAI,EAAE,QAAQ,CAAC,CAAA;IACzB,CAAC,CAAC,CACH,CAAA;AACH,CAAC;AAOD,OAAO,EAAE,KAAK,IAAI,MAAM,EAAE,MAAM,2CAAS,CAAA"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "scripts/lib/resolve-catalog.vibe.-24-throw-24-ts.js"
+     }
+    ],
+    "code": "export function raise(value) {\n    throw value;\n}\n",
+    "map": {
+     "version": 3,
+     "file": "resolve-catalog.vibe.-24-throw-24-ts.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "scripts/lib/resolve-catalog.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "AA6CE,MAAM,UAAU,KAAK,CAAC,KAAc;IAClC,MAAM,KAAK,CAAA;AACb,CAAC"
     }
    },
    {
