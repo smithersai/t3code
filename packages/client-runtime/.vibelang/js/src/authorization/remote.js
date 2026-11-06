@@ -172,9 +172,9 @@ export const resolveRemoteWebSocketConnectionUrl = (input) => {
             ...(input.timeoutMs ? { timeoutMs: input.timeoutMs } : {}),
         });
         const url = rpcSocketUrl(input.wsBaseUrl);
-        url.searchParams.set("wsTicket", issued.ticket);
+        yield* Effect.orDie(Effect.try({ try: () => url.searchParams.set("wsTicket", issued.ticket), catch: (error) => error }));
         appendClientConnectionParams(url, input.clientMetadata, input.connectionMethod, yield* readClientOwnerParams);
-        return url.toString();
+        return yield* Effect.orDie(Effect.try({ try: () => url.toString(), catch: (error) => error }));
     }), "clientRuntime.authorization.resolveRemoteWebSocketConnectionUrl"); });
 };
 /**
@@ -210,9 +210,9 @@ export const resolveRemoteDpopWebSocketConnectionUrl = (input) => {
             url: `${url.protocol === "wss:" ? "https:" : "http:"}//${url.host}${url.pathname}`,
             accessToken: issued.ticket,
         });
-        url.searchParams.set("wsTicket", issued.ticket);
-        url.searchParams.set("dpop", upgradeProof);
+        yield* Effect.orDie(Effect.try({ try: () => url.searchParams.set("wsTicket", issued.ticket), catch: (error) => error }));
+        yield* Effect.orDie(Effect.try({ try: () => url.searchParams.set("dpop", upgradeProof), catch: (error) => error }));
         appendClientConnectionParams(url, input.clientMetadata, input.connectionMethod, yield* readClientOwnerParams);
-        return url.toString();
+        return yield* Effect.orDie(Effect.try({ try: () => url.toString(), catch: (error) => error }));
     }), "clientRuntime.authorization.resolveRemoteDpopWebSocketConnectionUrl"); });
 };

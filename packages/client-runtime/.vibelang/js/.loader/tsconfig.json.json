@@ -10,7 +10,7 @@
   "root": {
    "relative": "packages/client-runtime"
   },
-  "compiler": "tLjDD_7iBwWv7r8Cv1mI5TtE0M1TNvWVikBfp2HxLVI",
+  "compiler": "151zslvcMX95GL7YYMo4-P12dqKGK5Q2vJRm0QxAytw",
   "configs": [
    {
     "path": {
@@ -332,8 +332,8 @@
     "path": {
      "relative": "pnpm-lock.yaml"
     },
-    "size": 991616,
-    "hash": "HwhTlPpv5ulvZ8FuiuwGk_5yASyqCrYmQThfGyCY3JE"
+    "size": 991991,
+    "hash": "tRkYttCwyD5HMyrC3WgVYPtfhOwYjxp7s1qZ7N853pg"
    },
    {
     "path": {
@@ -369,6 +369,13 @@
   "packages": [
    {
     "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/package.json"
+    },
+    "size": 7285,
+    "hash": "xjl50PJ1-UYHIIuSuMFl661MsBKTYZbY3moinJbPOAc"
+   },
+   {
+    "path": {
      "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/package.json"
     },
     "size": 3248,
@@ -378,15 +385,8 @@
     "path": {
      "relative": "packages/contracts/package.json"
     },
-    "size": 967,
-    "hash": "LFQFs_SB9V9dVLzbRSqDDGp973Z7GRXuOnMRfS7X7Wc"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/package.json"
-    },
-    "size": 7285,
-    "hash": "xjl50PJ1-UYHIIuSuMFl661MsBKTYZbY3moinJbPOAc"
+    "size": 14644,
+    "hash": "UYEPj4iqmAvDO2RvIzWO_tHhZ8aP5Mhna2R4tLWk_lE"
    },
    {
     "path": {
@@ -455,57 +455,57 @@
     "path": {
      "relative": "packages/shared/package.json"
     },
-    "size": 17836,
-    "hash": "Hfh4jJ2K02ljNhNXvQN25Enon-9R_LcKGRf6XdmfCJU"
+    "size": 31269,
+    "hash": "-pJNQJVlrbeLkyY2k0Zy4qJYERPAyrzkIvVaQbtQ38E"
    },
    {
     "path": {
      "relative": "packages/source-control-core/package.json"
     },
-    "size": 2884,
-    "hash": "evrZkoa8-VfRvyebBET1W0pYsGIfZLQptKU7pYyR_0M"
+    "size": 2991,
+    "hash": "-eghvLCo3LW399OxrgDpM52dYVTzSkGWJ-Z8uytHSx8"
    },
    {
     "path": {
      "relative": "packages/source-control-azure-devops/package.json"
     },
     "size": 1169,
-    "hash": "MJHmGRqSYF2u2_yI5CTfddhzEwLxwRCgJ-BHlqzDwFA"
+    "hash": "ZDKcNCnB6IhpA2Hiv6c5qGr3fGinkQz6fYjyFv_SRzA"
    },
    {
     "path": {
      "relative": "packages/source-control-bitbucket/package.json"
     },
     "size": 1194,
-    "hash": "9PxPSb_rEF2EAToq5DDfBYwpWCSz5Y-_O-Sqgyi2apM"
+    "hash": "0nJMasAjxAqaa9mvKptl_PVCrzvtzEGk0XpJnXKMfwc"
    },
    {
     "path": {
      "relative": "packages/source-control-forgejo/package.json"
     },
     "size": 1193,
-    "hash": "8AS1BD7H9h7cBDL7h6u3SlhV89jYzlaKhgTk2rRFJOc"
+    "hash": "OeflCgCXkmRmkwN0pz-AP5855n9D-ckhbxsl2w5meIE"
    },
    {
     "path": {
      "relative": "packages/source-control-gitcafe/package.json"
     },
     "size": 1156,
-    "hash": "iPw-a1lNKs5qKvkm9mblwHpms9nJEijD_W08yuC1UF8"
+    "hash": "gUTDtHrmtXnjieA8L9OJ1QMsXZ-NlRtQLnGRLucHrqI"
    },
    {
     "path": {
      "relative": "packages/source-control-github/package.json"
     },
     "size": 1262,
-    "hash": "9kgKf26F7m4cdZUtfO6KnfJ7UgTXGzAEYQXGD8jxwhU"
+    "hash": "m4RyfS-RGgzBcAl5BA9KZ994YrsQTAhvhL4bxrWPD_g"
    },
    {
     "path": {
      "relative": "packages/source-control-gitlab/package.json"
     },
     "size": 1101,
-    "hash": "EI5UxgN_DmBXcxVYFu2IYe7bJalmGU59JtFWhZFb8fs"
+    "hash": "lSzs4uSU7taXXSDQnGzF_GTZhnvyeGtCAuccrHnRDTo"
    },
    {
     "path": {
@@ -519,63 +519,63 @@
      "relative": "packages/client-runtime/package.json"
     },
     "size": 17060,
-    "hash": "QlrG4BWOd1_xMFQvpq-NFK6DWFsLjhVZlCHswX8oY5I"
+    "hash": "EiDZrEz1h7Wg7t__tTgeZ1qcNIZbE-to2dKSD7b1n4c"
    },
    {
     "path": {
      "relative": "packages/provider-core/package.json"
     },
     "size": 8449,
-    "hash": "tNSl0p5zik0MlsINz6NZMqKMG6svuMBOTn5sRZ0WHPo"
+    "hash": "sl-yuxqE2Za7ZCs9DvHT6rRcq3JGE83o_Poed_2ETjY"
    },
    {
     "path": {
      "relative": "packages/provider-acp-registry/package.json"
     },
-    "size": 1714,
-    "hash": "_GAmVIt-P2F9op_rzsM-QrNu6R7azipOHmEKxm4qAaw"
+    "size": 1841,
+    "hash": "C_npIiRifSlzz2I_vs1mzn4p-ZXCMqjw2_4eTfmy5MU"
    },
    {
     "path": {
      "relative": "packages/provider-cursor/package.json"
     },
-    "size": 2189,
-    "hash": "kbJPbwmafjPRxdFwFlEUQ4E3fFUWd9lqRMzkHliiVH0"
+    "size": 2757,
+    "hash": "hJi_hL3AcTuxhUCR10ZasNMo0mZROb2di1VWhVySA70"
    },
    {
     "path": {
      "relative": "packages/provider-fx/package.json"
     },
-    "size": 1290,
-    "hash": "HS9F4DoxVQ-zjBnXMzaQsK6PZcAvEP11u5t6D9bzzds"
+    "size": 2723,
+    "hash": "8UUoSdOGbSI7nHSn1Md96w-_Mb5kE5QaOjY2JxNvzqs"
    },
    {
     "path": {
      "relative": "packages/provider-grok/package.json"
     },
     "size": 1455,
-    "hash": "QezBJYQjRnAGqoLZak6ih1dXYz-tROxpGf5yFXfgLT8"
+    "hash": "vM4JrVXC8xY2juILKad7aLGD4fmE-qk4F6orWYMeG6c"
    },
    {
     "path": {
      "relative": "packages/provider-muse/package.json"
     },
     "size": 1409,
-    "hash": "HR74awq5VZEXFuQGWhRVRVspqW4LFTyIzedGlx9gRME"
+    "hash": "hmTvsd35UcCEn7JYksWJwQVtdL5kkH-IdC8D9CwaEgs"
    },
    {
     "path": {
      "relative": "packages/provider-opencode/package.json"
     },
-    "size": 2284,
-    "hash": "buVY2-eQoz1pynthjNaK2eqo9dizM18__2lr4k5pp1k"
+    "size": 2400,
+    "hash": "iTaUkBDPfQKVpLQhKE6Lb-hww8JUseaqH7kI7M-VhxI"
    },
    {
     "path": {
      "relative": "packages/provider-pi/package.json"
     },
     "size": 1285,
-    "hash": "_9TpN8f8X0rLLwXYnMhrXOCiKNKzfZGfY8I1NQSggqw"
+    "hash": "kaBQnQrQHgH5G9tdxv0YYcCU2uzVMTDNg1XQ5uODfR4"
    },
    {
     "path": {
@@ -789,6 +789,13 @@
    }
   ],
   "files": [
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/version.d.ts"
+    },
+    "size": 91,
+    "hash": "OLhx74xVvRMxcl4krcVslmdZGXNsTNFw1VSQRYH3mpc"
+   },
    {
     "path": {
      "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Types.d.ts"
@@ -1603,133 +1610,119 @@
    },
    {
     "path": {
-     "relative": "packages/contracts/src/baseSchemas.ts"
-    },
-    "size": 13258,
-    "hash": "mnvIT5DyScn76xOCeAjXcrOPhKBue1sVKtI9uHPq1Go"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/version.d.ts"
-    },
-    "size": 91,
-    "hash": "OLhx74xVvRMxcl4krcVslmdZGXNsTNFw1VSQRYH3mpc"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/calls.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/calls.d.ts"
     },
     "size": 1383,
     "hash": "uAwhDPR2CFdUic_UDD997dkpJaNZ3R1T_jqRSG4Cclo"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/fastcalls.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/fastcalls.d.ts"
     },
     "size": 4751,
     "hash": "9wxoIynrlvPe4VAUQN_yG-rNp1lwbKvt-AZOat2MRdY"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/regions.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/regions.d.ts"
     },
     "size": 6387,
     "hash": "wHQs6G-mP3lEKiqUEa8esaj1EIdtBxzBWiKUXvaoBbY"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/fork.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/fork.d.ts"
     },
     "size": 1522,
     "hash": "ckaaRg51IcfZbr740uLdup3qFuKS3TxgVYGSFOW2Q54"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/kernel/internals.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/kernel/internals.d.ts"
     },
     "size": 1238,
     "hash": "IMzEvVGIaf37peHrkUH2HsmoOemwj7YAPgBI1bNG6tk"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/kernel/kernel.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/kernel/kernel.d.ts"
     },
     "size": 6338,
     "hash": "XGJbPTQadKfJQPfra4kFdQXvD8XgBQQ6eH-by456KBs"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/services.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/services.d.ts"
     },
     "size": 3346,
     "hash": "JxhNAxkLVY33Lxqyh_Vd-mqQSE8dmceO3rEnpBJTbEY"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/handlers.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/handlers.d.ts"
     },
     "size": 4479,
     "hash": "ZzQU78bLBWIppynLZgOBgDkcijiAJJq_TQpkNW-JrCY"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/producers.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/producers.d.ts"
     },
     "size": 2721,
     "hash": "ndVPafzb3N5wWv25-4h-4Omv5tqD3POjx2v8_p9Erko"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/iterators.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/iterators.d.ts"
     },
     "size": 307,
     "hash": "R_32U0PMqjIgXtbB6rzs2OaY3x5NurDOaidBkv7uhfE"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/binding-iterator.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/binding-iterator.d.ts"
     },
     "size": 521,
     "hash": "a5GFo1F3YhIqtKzebc3H9jA8z8NZhbnUT6KJQHrwj5Q"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/boundaries.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/boundaries.d.ts"
     },
     "size": 2237,
     "hash": "BZIaO-QAJ9Z6Fu4irKqOzSRsUYSLuUQiW1zKjGvuXfI"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/hatches.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/hatches.d.ts"
     },
     "size": 4288,
     "hash": "SHvw3j3NmkBQey39qbFcwin5cLqgq9PF9msgmFzaYKE"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/fibers.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/fibers.d.ts"
     },
-    "size": 7629,
-    "hash": "EiZ7kFH915KwfM4-KJZsdiawtJ_7Ty4raruq4BAIkGU"
+    "size": 6935,
+    "hash": "HFdGAWXboTtErBQoR3bK0lO0H9gJZzAfvqYG4H-Yhj4"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/provide.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/provide.d.ts"
     },
     "size": 2355,
     "hash": "DTx-GtW-_UHyzfF40aMg8o-NybtpBLPa3q1ln3Jpa5s"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/primitives.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/primitives.d.ts"
     },
     "size": 2785,
     "hash": "IWg8HZdD_h5bezhO5VO0Oat3-GL3h98xoW06v-EAWOs"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/match.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/match.d.ts"
     },
     "size": 6984,
     "hash": "2FsfAhYwF1fwC5e0LU4278-JVGYlmyyiLdE2ulgu2A0"
@@ -1743,70 +1736,70 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/main.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/main.d.ts"
     },
     "size": 1370,
     "hash": "S2GqpFmzvnikrJrgw5lzEqtFJy_7i20jzGlMr4mt88Y"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/prelude-core.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/prelude-core.d.ts"
     },
     "size": 2772,
     "hash": "-F09SO-52bZw9ht9RpKGlrIWz0y1TQwQS5E6DXxUPQQ"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/resources.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/resources.d.ts"
     },
     "size": 1670,
     "hash": "jWScKmw8idFbB3itet51UYKNCRN74Mmu_uzZqy3V28w"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/legacy-await-types.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/legacy-await-types.d.ts"
     },
     "size": 2033,
     "hash": "-FCwl_PxDin1gwAopKVXXRBoJCDUdKxfzIl4qN9DSoc"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/match-cache.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/match-cache.d.ts"
     },
     "size": 1848,
     "hash": "--YGTy05Qg7JNLPVUPyXp00E4F2Em5j1uTY_Bfe8lIQ"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/core.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/core.d.ts"
     },
     "size": 1612,
     "hash": "7teQjEXxfbpg3ExxV-mnuvIVLHwt2HKWK5u_wNRmvi0"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/Animations.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/Animations.d.ts"
     },
     "size": 4126,
     "hash": "LIh_ITVpztxGdctQldXDsjoilz47SeJfVYCfdklEYtE"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/BrowserInfo.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/BrowserInfo.d.ts"
     },
     "size": 1989,
     "hash": "mO2jTu2b39Dco34MEBt0o6UTMBWA4gEIAtZHi1IW46I"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/ChildProcess.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/ChildProcess.d.ts"
     },
     "size": 3133,
     "hash": "vtz-lrM1qVNbYlFgzi89KmoPI076rUvhtNoYs2UqjCE"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/Crypto.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/Crypto.d.ts"
     },
     "size": 6627,
     "hash": "XwHusiTQVjE4hwkTA3zAFGJPZll6iaWLc-hZp7hAFPk"
@@ -1827,14 +1820,14 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/Dns.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/Dns.d.ts"
     },
     "size": 2094,
     "hash": "a8V4vRrBPQWD6J1ZDSVUngqy4VPQYhwXW_4wp7dZbDw"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/Document.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/Document.d.ts"
     },
     "size": 2970,
     "hash": "wgJNU0rjtPZ9wCQ1vOFM17UzIMNuxXkAnRL6Y6k91UM"
@@ -1953,56 +1946,56 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/Encoding.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/Encoding.d.ts"
     },
     "size": 852,
     "hash": "6JHF6GIvlFYBICb2qrmb-bGQDaH1t16tgPW4ET7lViM"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/FileReader.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/FileReader.d.ts"
     },
     "size": 3271,
     "hash": "Izc4Lg3SrR_vTOYfWz0LwZeU40DjL8144EqjrGxp8AU"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/Headers.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/Headers.d.ts"
     },
     "size": 1481,
     "hash": "y3AcQqeGN8mxkJ58iTbWOmyXNdK5dRRTEUogxbFXy0s"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/FileSystem.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/FileSystem.d.ts"
     },
     "size": 4237,
     "hash": "GscyJs1q8_cVZgxDm-u1CJwscBRKw-f5XSRJdUxCAP8"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/Locks.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/Locks.d.ts"
     },
     "size": 5678,
     "hash": "vA5GYo8h7qcs5a-fuxQPj_Xrbx1iP5fNyo4v0SJHAKk"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/MediaQuery.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/MediaQuery.d.ts"
     },
     "size": 2800,
     "hash": "H2TsmsCxrAVQFpn2-nEjFgeAxGOVseTq6FcGaP1wfeE"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/NetAddress.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/NetAddress.d.ts"
     },
     "size": 444,
     "hash": "SgsPPjdFtiCOl0YW0Hfd-hH9BkaSftHcBv_ygK67A4U"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/NodeStream.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/NodeStream.d.ts"
     },
     "size": 3224,
     "hash": "-Om0tHTgAHL2dgmRlVlG--oBT8d5mftOLPyo-yrHdSk"
@@ -2030,14 +2023,14 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/Process.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/Process.d.ts"
     },
     "size": 8241,
     "hash": "oiIVYvpaIUKJOP6geMxc4B8Dl0_JFBNWkR9ZIAKCyHs"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/ResizeObserver.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/ResizeObserver.d.ts"
     },
     "size": 2495,
     "hash": "uUMxJ3p5sbc-qhqfyWNUwnitOJtINeXL_9M1xJLWz30"
@@ -2051,49 +2044,49 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/Stdio.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/Stdio.d.ts"
     },
     "size": 1504,
     "hash": "6TcF16KKXbLqEGWumgFgvLQ7WkOiGr_cWBw27JoJX6Q"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/Window.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/Window.d.ts"
     },
     "size": 2301,
     "hash": "Jgz07Sov3RhBpS50HAW-g5wQmxTspcjGXzQUavlym-g"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/AudioContext.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/AudioContext.d.ts"
     },
     "size": 2205,
     "hash": "z0dedL-zpn1GrXaOgFyOHm7DMb1z3zCMaIMqGqR6tUk"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/Request.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/Request.d.ts"
     },
     "size": 1649,
     "hash": "KRg2WDevqFgPetJq4CxDHh8edm0srjqhWRN7lTSenyY"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/experimental/index.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/experimental/index.d.ts"
     },
     "size": 1574,
     "hash": "hcZRaVCidu8HYX0HvnTobrHo2cQDv4U1txmpSQ0GSa0"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/prelude.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/prelude.d.ts"
     },
     "size": 129,
     "hash": "Tqy755Tt4ZuJDGVpmxUCXsPlRUgHYXa4ktmztNdW1DY"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-1341c3023766.tgz_@eff_c7700e93eb5c71112d192dc073ef29cf/node_modules/vibelang-runtime/dist/index.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-8928602aed99.tgz_@eff_ab9db1a9a2012bc020fd5f3a9caed778/node_modules/vibelang-runtime/dist/index.d.ts"
     },
     "size": 107,
     "hash": "kHyPbTEwJDNbyrr9EJDBtS42mtLKhF1zop-5XYfg38g"
@@ -2492,66 +2485,73 @@
    },
    {
     "path": {
+     "relative": "packages/contracts/src/baseSchemas.vibe"
+    },
+    "size": 12508,
+    "hash": "k1uozdECldF0YZHXyq4XeH4xYdh-ghbZvlgrWKouJkQ"
+   },
+   {
+    "path": {
      "relative": "packages/contracts/src/assistantCitations.vibe"
     },
-    "size": 1353,
-    "hash": "0yitqKUOaEGdZ1BBFApRVvb1udMyKJTD5Mc-BeFa7Zs"
+    "size": 1355,
+    "hash": "tvGEoIRhO1VqdnEf7z5Je12rOxc-7XWm7PVveQ4mYBo"
    },
    {
     "path": {
      "relative": "packages/contracts/src/chatAttachment.vibe"
     },
-    "size": 9298,
-    "hash": "D4XRMFHnJw-fD4z6_aqHoLSUtiFYJIFrmR6ginD7pC8"
+    "size": 9300,
+    "hash": "ln4bm1JyADBsnLz1qoeqTwddyM3iYrZvn-qb7plEO8g"
    },
    {
     "path": {
      "relative": "packages/contracts/src/guestShare.vibe"
     },
-    "size": 5380,
-    "hash": "Z-4kpxSHWHgw5B8Gi-HoKTNxlxiC7yEm2e_Dbz3E1vY"
+    "size": 5382,
+    "hash": "rUPDlqUuDYWTvPvAhpZRnyi-ECFNoStSyhBeDomzUh8"
    },
    {
     "path": {
      "relative": "packages/contracts/src/composerContext.vibe"
     },
-    "size": 11056,
-    "hash": "im7gPGnvb06zg_6cy0b4TyvVOrDpCiy3sxRm95q7Suc"
+    "size": 11058,
+    "hash": "BizPsznrZqtN8oj8iJv4L-Ob0vEC1PYpRB-bKXt2E_Q"
    },
    {
     "path": {
      "relative": "packages/contracts/src/composerContextClipboard.vibe"
     },
-    "size": 950,
-    "hash": "9PaVzlkoIm1LIm36O66msIIAzVQS_licAegy5VcoGaM"
+    "size": 954,
+    "hash": "6mVLU29SNJ3iZrRPDk0hBS2rpLRHq-aQup8Yo_idkGM"
    },
    {
     "path": {
      "relative": "packages/contracts/src/providerInstance.vibe"
     },
-    "size": 3089,
-    "hash": "IGfJyY392X3vwfSq4WvOPcws5khoaHhY05o8Z3bt-lo"
+    "size": 3091,
+    "hash": "oErM60vtv3ivbrEjkWipy7RaEF41xR5GXI7BzMk71_s"
    },
    {
     "path": {
      "relative": "packages/contracts/src/background.vibe"
     },
-    "size": 3638,
-    "hash": "yf5ibi2kVMcjckYC3E10Oq3ZJ2kQJEcQMHu8e9N76Zo"
+    "size": 3640,
+    "hash": "X4t1ghcFBku7FrThhsHIWkvTQGQjRk1yOSdd09hWfDA"
    },
    {
     "path": {
      "relative": "packages/contracts/src/model.vibe"
     },
-    "size": 7021,
-    "hash": "a9IZOf0dcb8k6h7fcggTLSypJFzgoqz0LIoFzKPZ4Ks"
+    "size": 7023,
+    "hash": "34n5TteambCYyZKcMvvEMYt629BdL8yPOTNOOD4NlsM"
    },
    {
     "path": {
      "relative": "packages/contracts/src/acpRegistry.vibe"
     },
-    "size": 11250,
-    "hash": "aJ9OaSMo9KkgNE1_x1zfuKsR1QLJkIngix4oyHOrNTc"
+    "size": 11252,
+    "hash": "1aC3V6EIyx0jAI3WJRnBTZ4bER8Utq4vwvIdqcEDzyA"
    },
    {
     "path": {
@@ -2837,29 +2837,29 @@
     "path": {
      "relative": "packages/contracts/src/auth.vibe"
     },
-    "size": 19419,
-    "hash": "bvVoB3KzRA7z9PaLe30ySpexlQLvjb_lEKxgg8mUwsg"
+    "size": 19421,
+    "hash": "Ub3Va9t77hUHmX5EMIJ5_XOnkQ0lAR-RZeov2SBNim4"
    },
    {
     "path": {
-     "relative": "packages/contracts/src/vcs.ts"
+     "relative": "packages/contracts/src/vcs.vibe"
     },
-    "size": 8684,
-    "hash": "sw3G3DwbfjeSyEh0Nz6htl6LzwpqiodLlrz4vuAMH-s"
+    "size": 7887,
+    "hash": "EfciRNT9SEDdbEmqqGPs-TlxH7KtAGO3i5w5CkvbOpo"
    },
    {
     "path": {
      "relative": "packages/contracts/src/sourceControl.vibe"
     },
-    "size": 6673,
-    "hash": "Ftlfxv6_DBFjZwYgSOpNS7-cMjriDVfmv_YBSh-fBtU"
+    "size": 6677,
+    "hash": "JNkCpmFyOH_BsD3Cc73MDTVNQIEnZLCYJuwVkDQpM3c"
    },
    {
     "path": {
      "relative": "packages/contracts/src/environment.vibe"
     },
-    "size": 9035,
-    "hash": "9qMYrjkdauHA3OCrS92_OpoHNw56gCtLuTRiGVA1srI"
+    "size": 9037,
+    "hash": "QAAfKMc1ot_mvJcMcO_aLCFIbKcCy1EY1ci2HgIBaz0"
    },
    {
     "path": {
@@ -2872,57 +2872,57 @@
     "path": {
      "relative": "packages/contracts/src/threadSearch.vibe"
     },
-    "size": 2034,
-    "hash": "WOrwgvzNBIDpgeV-7vcR1EEX7N0_Ap-k39L2cM5-Uz8"
+    "size": 2036,
+    "hash": "FMMPp0m1pOL7fY7clAwWh-aKrTwVFmYZnnCauXl7gyY"
    },
    {
     "path": {
      "relative": "packages/contracts/src/checkpointDiff.vibe"
     },
-    "size": 1673,
-    "hash": "P9ikQLFRTkKPib1LXXSF4LLOZldxj2cdRBP9Ykdf9zQ"
+    "size": 1675,
+    "hash": "Y0jKFkLu2wb0n4crxnkad5E11r62HIP2LRKSh0_o59c"
    },
    {
     "path": {
      "relative": "packages/contracts/src/modelSelection.vibe"
     },
-    "size": 1703,
-    "hash": "HISGInnhRan1jYm3tBNN3N1-iTrrFszzaRcCF2yLg3Q"
+    "size": 1705,
+    "hash": "tyweLLCuDb9y_Nhlf6viub_iXNE-jOeEogpwpqirdNI"
    },
    {
     "path": {
-     "relative": "packages/contracts/src/pullRequest.ts"
+     "relative": "packages/contracts/src/pullRequest.vibe"
     },
-    "size": 35463,
-    "hash": "5fBoqUUG5CjxheCZOyTKFyNAmumBAoqk3oS9VjXQO_E"
+    "size": 32031,
+    "hash": "XgyVV571-w9uhpErnt3F0STODNDl94g9yF50NDTyYEM"
    },
    {
     "path": {
      "relative": "packages/contracts/src/threadPullRequest.vibe"
     },
-    "size": 4117,
-    "hash": "UXMqWW_om6Zvf4Yp7BOBzrXth30Mc2bGML8UAF6cTkg"
+    "size": 4121,
+    "hash": "6pvB6V7WpWOpiwTGjxOJ7QB6PPQjS1xxfo8UfZADOqg"
    },
    {
     "path": {
      "relative": "packages/contracts/src/providerPolicy.vibe"
     },
-    "size": 2066,
-    "hash": "M-yGvWAlnriSNvSeg8pJ_3m3OYj_be2mqT66GxRHMKo"
+    "size": 2068,
+    "hash": "3BpKpcP8rd6e_-FaVIHzPwxZvVX26LXUWCLFAmoJ6b8"
    },
    {
     "path": {
      "relative": "packages/contracts/src/project.vibe"
     },
-    "size": 16831,
-    "hash": "kOQot-PDP_HH7QzMxTBw414b9H1POcjGW27yAcAqhs0"
+    "size": 16833,
+    "hash": "EhwFmpDMWkE8hQXJi2-kFyPOnKIUv2Xbhw-XUHirM74"
    },
    {
     "path": {
      "relative": "packages/contracts/src/orchestrationProject.vibe"
     },
-    "size": 1104,
-    "hash": "wzKazmMs5PbX6j9PLKxWBojHwJg32e-4QM1X0ElhWzw"
+    "size": 1106,
+    "hash": "EzExROp-n5JK_16UzliEbo4cFK2F27fZDpLeT-vucRc"
    },
    {
     "path": {
@@ -2935,36 +2935,36 @@
     "path": {
      "relative": "packages/contracts/src/providerUsageLimits.vibe"
     },
-    "size": 4454,
-    "hash": "NQly-sSwgzFRIdDH1KCpl0yWQPDKWCen5VIBeFg1O_o"
+    "size": 4456,
+    "hash": "0Kk-YEzDy00to_5S174vdGyvT7NN2nh2F_DmyBNbCuE"
    },
    {
     "path": {
      "relative": "packages/contracts/src/providerRuntime.vibe"
     },
-    "size": 42535,
-    "hash": "v2x1tCeHaDlMDpkp0Ndu0gq8FGV_6h1VEcE7nlsEGcM"
+    "size": 42537,
+    "hash": "E-MVNhFTUOwVdJ-koIorLXpjMmFhGJFp9XpIh79lbn8"
    },
    {
     "path": {
      "relative": "packages/contracts/src/orchestrationV2.ts"
     },
-    "size": 156940,
-    "hash": "cEST-_dHCxHmDKekhl65fvMJbYQPpv-WOauwPXkCFHc"
+    "size": 156942,
+    "hash": "krUf43eKK5YI5BVjrFoAxLRVhDqVblzyk7c6z9pXB3Y"
    },
    {
     "path": {
      "relative": "packages/contracts/src/relay.vibe"
     },
-    "size": 44068,
-    "hash": "BcO5LrQWW6sD97I_rehyFedRqrgAPJbV6zy59QCnR_g"
+    "size": 44070,
+    "hash": "yEZuLmLIgcMqNZYblOIGPYAVnhgPzLX_XGAthaPn8l4"
    },
    {
     "path": {
      "relative": "packages/contracts/src/environmentHttp.ts"
     },
-    "size": 30401,
-    "hash": "rcIt_IwA4IFvb3aV476N22UQ7wJDIiJ9Px9k-e_jKeY"
+    "size": 30405,
+    "hash": "_3ooWDbBzTmmB9w7IGtYSmsLGW74w24rhVUT-v5OS9k"
    },
    {
     "path": {
@@ -2977,29 +2977,29 @@
     "path": {
      "relative": "packages/contracts/src/desktopBootstrap.vibe"
     },
-    "size": 1691,
-    "hash": "47Qtnq9FTwdUj6ksCZz1f9aXeGj_ASDYtUs3lHI7xtE"
+    "size": 1693,
+    "hash": "moygWd2pOSpVF9L3PIoysgHApKmsnTQgI_EenO4AnfI"
    },
    {
     "path": {
      "relative": "packages/contracts/src/desktopBrowser.vibe"
     },
-    "size": 1280,
-    "hash": "ge2k7miPM4z9Ge0nVBKRIn6VzjM_jiBclqro47tKz_c"
+    "size": 1282,
+    "hash": "4AhxWDlE0cki9aBDkDs9odkmXOlbiIob_pQx2uJXpfQ"
    },
    {
     "path": {
      "relative": "packages/contracts/src/desktopAppActivation.vibe"
     },
-    "size": 1658,
-    "hash": "9mwoGvxmvVjieqTGYkRXBcloqfKg6rEjtGI7cZVft5c"
+    "size": 1660,
+    "hash": "64PDQ4InHQwxSQqX1kyW58T48UNrl-qWd7t1oEazlU4"
    },
    {
     "path": {
      "relative": "packages/contracts/src/remoteAccess.vibe"
     },
-    "size": 1543,
-    "hash": "uWOKFtBqKOF-IEDpi6JftxtHeOYPdNmbydAaWl3mDXU"
+    "size": 1545,
+    "hash": "p-o7Na2hqmniEdoSmBvNee0pM1k0CP39CWD1wUIRwGg"
    },
    {
     "path": {
@@ -3012,162 +3012,162 @@
     "path": {
      "relative": "packages/contracts/src/browserProfile.vibe"
     },
-    "size": 2120,
-    "hash": "0gjg6bcaJSIzVSjE_aQ7ml5aa_qXGiA6IbnB83iugiI"
+    "size": 2122,
+    "hash": "QVq9t6-jxqFsitb3Gm2y9WX7Ibgu2_8MqT_qm0nqWaM"
    },
    {
     "path": {
      "relative": "packages/contracts/src/browserImport.vibe"
     },
-    "size": 3473,
-    "hash": "OvoxdwZ4lK_R5t7onHJQW9xuOeRZi694xprWDxh1P3g"
+    "size": 3475,
+    "hash": "qg7ecCgSHD8TKmQ6iQBjDkvED_bdsYuUwkLm_zGTTKU"
    },
    {
     "path": {
      "relative": "packages/contracts/src/device.vibe"
     },
-    "size": 20352,
-    "hash": "qHbIoOMypKe1KQAZs5ULdfaT0ODj6GI_px3To1JAK-M"
+    "size": 20354,
+    "hash": "U7G__GzkLraRfpxiybIVj2AJ24Po4NkUheivW-8TC1k"
    },
    {
     "path": {
      "relative": "packages/contracts/src/keybindings.vibe"
     },
-    "size": 6187,
-    "hash": "btb2KxGhPynrAMKTwOwDctQYS01maV1YUnJACYPGmxw"
+    "size": 6189,
+    "hash": "hE-JxHKA8l3CEfIVMIv8A2MuX-mX3_1Apd-eI3RhjKw"
    },
    {
     "path": {
      "relative": "packages/contracts/src/preview.vibe"
     },
-    "size": 12873,
-    "hash": "SSEQoATnZcT1Pv2jaCBC88qf3jI0BdseaOafRoxdb7s"
+    "size": 12875,
+    "hash": "tclemNILqS6au9fFtNBfzY8nKKP1LJ8xYK5PM7-qyeM"
    },
    {
     "path": {
      "relative": "packages/contracts/src/settings.vibe"
     },
-    "size": 71733,
-    "hash": "HzM_rHmyUwahPnVonA26_FCpx5GSig8mlUOtCym6V14"
+    "size": 71737,
+    "hash": "hxsubj869ptXYrDhja3J1XAfchYTpGp3N6COtagY8wA"
    },
    {
     "path": {
      "relative": "packages/contracts/src/editor.vibe"
     },
-    "size": 8843,
-    "hash": "Opzrww2dWfAUPF9qogioCjLIOkLC1e0NJEfrfoFVbvU"
+    "size": 8845,
+    "hash": "A2H7hcmnQMMUnce5tHUDru8pa5YVKYARHLtzoj-TZCs"
    },
    {
     "path": {
      "relative": "packages/contracts/src/ipc.vibe"
     },
-    "size": 41933,
-    "hash": "gl7UnZHweAvcnTMR-BtIeD3ldxy1uok9kDP3g8H70Q0"
+    "size": 41935,
+    "hash": "OiSjHCEEVqxY5rU24rfZiWsLTM8AO_Wtqk3HnG4qIjs"
    },
    {
     "path": {
      "relative": "packages/contracts/src/terminal.vibe"
     },
-    "size": 11391,
-    "hash": "RhrgVzqJvgJGxCxyA1G1tvaUTmUPXm19OJYZUPn5ayo"
+    "size": 11393,
+    "hash": "rDqwUF6jxTcq5bAf6s3Mp3rqmXdMN855G0PvqmGedBw"
    },
    {
     "path": {
      "relative": "packages/contracts/src/provider.vibe"
     },
-    "size": 4614,
-    "hash": "vBj5GYmkrQZ7Dnl1a10rJqa8KbDOH3Bd3bS1kKwXreU"
+    "size": 4618,
+    "hash": "tug-zwrf5MHZnw0yj7Nm_gAvQWQ7kf7G9VeN-PB80kU"
    },
    {
     "path": {
      "relative": "packages/contracts/src/providerSetup.vibe"
     },
-    "size": 8681,
-    "hash": "GIJ1JBfWIkPT7q6C-A-ncVg1NOwuuO65OBtza6n8iME"
+    "size": 8683,
+    "hash": "lflLf4JI60VRKwvaGjC9xe7_mgzpYqpXMlRUPFD8sCE"
    },
    {
     "path": {
      "relative": "packages/contracts/src/server.vibe"
     },
-    "size": 31721,
-    "hash": "1SbwwsUCVv-Y87KguApWbSO3h3LQTg0-JDg7lMg9OAQ"
+    "size": 31723,
+    "hash": "cncpQSLwOIprY9EnSYA8-OinQUv8eCzDBhSBA-gZxUA"
    },
    {
     "path": {
      "relative": "packages/contracts/src/git.vibe"
     },
-    "size": 16006,
-    "hash": "b6a63CNvlyKKakBrdc805YFrLE6Bj502r6SJFx1rCAA"
+    "size": 16010,
+    "hash": "UfG_9U_9L2YcNFnjGSptKRZiExtMNoUEBTpv5b9Cebc"
    },
    {
     "path": {
      "relative": "packages/contracts/src/projectClone.vibe"
     },
-    "size": 3602,
-    "hash": "PS4Sf-gHLRtYLps_4nfpYbG7-Se7oKsQ-BjZ8ZDzm9c"
+    "size": 3604,
+    "hash": "2oH_GoYuf7lihdOv4873tApz_-3309luz4EWjg8Ilv8"
    },
    {
     "path": {
      "relative": "packages/contracts/src/pullRequestReviewGuide.vibe"
     },
-    "size": 2192,
-    "hash": "hMKkDOij4e0Pozg-hQsy2LnFWSqlHzbbzGaF-3bbm4o"
+    "size": 2194,
+    "hash": "1CNUeG38vWix_1ZoL_OoJKJnC8zLQ0mdHN2kdizGY-Q"
    },
    {
     "path": {
      "relative": "packages/contracts/src/orchestrationDispatch.vibe"
     },
-    "size": 485,
-    "hash": "ev7LGxH8QT7UDqj014h0LNb2INoxzEU5iFJVNJTqGGs"
+    "size": 487,
+    "hash": "EA-o-9iEyyGtBXHJU00YuOyD07I1MnNz6il0ju56bqM"
    },
    {
     "path": {
      "relative": "packages/contracts/src/guestStream.ts"
     },
-    "size": 1753,
-    "hash": "loPr8byghYTfAMzrJ9A0aVpzBhGiqKYxE9W17M2AQcc"
+    "size": 1755,
+    "hash": "Ija_mj23Bh5nQ4WDQ7xAakwdq2FjRCdqhPCSRz8DcRI"
    },
    {
     "path": {
      "relative": "packages/contracts/src/applicationEvent.vibe"
     },
-    "size": 4182,
-    "hash": "B5kxUIrKzLrSY47kQ7rrIruUCihIfy1xhzzGcIpECiM"
+    "size": 4184,
+    "hash": "hPcABQAZKZR7mlkrUoFJid9_y0C8_6u-hCvoqgv8kow"
    },
    {
     "path": {
      "relative": "packages/contracts/src/scheduledTask.vibe"
     },
-    "size": 12240,
-    "hash": "hekm0sznXFUVOgoapVCLoRoAxHWzP6BSk8kglwZ_ARY"
+    "size": 12242,
+    "hash": "BUs0FuHJ4deiacyPpCHZtzIppCdwi8vu2yFPwo8E1a0"
    },
    {
     "path": {
      "relative": "packages/contracts/src/threadTitle.vibe"
     },
-    "size": 208,
-    "hash": "Kctkrc5rdHhJ10MwlvslFf49M3Pl5JHCc-73dWrsAGo"
+    "size": 210,
+    "hash": "6gsMbs05u5XoQVziF0kIbpdGb_QkoEp8Rl1gMZwrcZw"
    },
    {
     "path": {
      "relative": "packages/contracts/src/threadMetadataMcp.vibe"
     },
-    "size": 2367,
-    "hash": "RFND8ZFDO1Wj1FPvWwge8xbFQcFiO8S6EzY59XBcVy8"
+    "size": 2369,
+    "hash": "wVNGqXLqGRHN6y_6NSTtfUhVP-Dp8e51aN-T1JgBmqY"
    },
    {
     "path": {
      "relative": "packages/contracts/src/orchestratorMcp.vibe"
     },
-    "size": 32335,
-    "hash": "XIGF3_EFzCQTkhwCLDfCRSPKgOCysaBN_np3CUBQ7cc"
+    "size": 32339,
+    "hash": "F6JLCZuM4AlGydOvG220XzEPGSatmrOqT7d84asGbpM"
    },
    {
     "path": {
      "relative": "packages/contracts/src/peerLink.vibe"
     },
-    "size": 4983,
-    "hash": "fz6cuGcf5oWlpFydZNNLEhzY817ubJUJ2RbEq-GItyw"
+    "size": 4985,
+    "hash": "XcBVcAqjkOxCSug_rWfoxG6KXU04wv5IxB1a_x87p6o"
    },
    {
     "path": {
@@ -3180,64 +3180,64 @@
     "path": {
      "relative": "packages/contracts/src/filesystem.vibe"
     },
-    "size": 3141,
-    "hash": "ihroM5OibK8iFL91neAm856P_nYM_vXonM-rFXpYc0Y"
+    "size": 3143,
+    "hash": "UXjMURLV4GkX_qXbodII3Y8l6ZPP0U1p3mQaSATo4jA"
    },
    {
     "path": {
      "relative": "packages/contracts/src/agentSessions.vibe"
     },
-    "size": 2806,
-    "hash": "nv4ROVfiC5AmhV40aAgI6cwOA0mIOE1go1_gQycSDG8"
+    "size": 2808,
+    "hash": "B6e6upZkNp-QQdvTDWeG-1wJSa5VwY0Qv6o5K8IqFH0"
    },
    {
     "path": {
      "relative": "packages/contracts/src/assets.vibe"
     },
-    "size": 9591,
-    "hash": "FPqzv0zmSA7sY4XOMBbRdU80YkVTLAEsOv9IrGnZCRo"
+    "size": 9593,
+    "hash": "6dD4q5DWE-Yyi1E5TGcNQ1BROZ01cDV-cNXnuLYXZqI"
    },
    {
     "path": {
      "relative": "packages/contracts/src/review.vibe"
     },
-    "size": 2305,
-    "hash": "2mvYfsJ5UPtHffwQa9Xz6q70akBDgPr97ZKEmWajj6A"
+    "size": 2309,
+    "hash": "5C9-qDMUm00V9jq5W4e3A57uBMXWegcMr3DTeZ_o17g"
    },
    {
     "path": {
      "relative": "packages/contracts/src/mcpApps.vibe"
     },
-    "size": 2812,
-    "hash": "oDbrETKu04kLppSnCwXA0yC3Vy0ZkPl9ordQzifKZZM"
+    "size": 2814,
+    "hash": "C04uM_KDCg0LibVX9h6VccEFOpw4vUHuX8eaRd4pQ3s"
    },
    {
     "path": {
      "relative": "packages/contracts/src/previewAutomation.vibe"
     },
-    "size": 35152,
-    "hash": "Y7aBGMwFS3UuZCf3so4ZQW7Rv84NhcoAItce-KpxFWw"
+    "size": 35154,
+    "hash": "Gu2KsdYD0LmXnOy0ux7X8cwrqj32O8hsHEedAfz6FjU"
    },
    {
     "path": {
      "relative": "packages/contracts/src/resourceTelemetry.vibe"
     },
-    "size": 16174,
-    "hash": "ErB5anxDA2CB3xCC7tR5hDpCr9b6UoKUKZprDLux6aM"
+    "size": 16176,
+    "hash": "kABB7-y63FIOSnUc81VI2W3q3vgXBzuAlEcPT8Qnh6o"
    },
    {
     "path": {
      "relative": "packages/contracts/src/usage.vibe"
     },
-    "size": 4618,
-    "hash": "NSsYBPq_gOYOh8vPo8YZTyCz8QtRWb0f_CgFpQ-dH-c"
+    "size": 4620,
+    "hash": "WIEEwLRowFlhoXf5bxtzET9Bv61sRm6pXM2mAsdEzvU"
    },
    {
     "path": {
      "relative": "packages/contracts/src/worktreeMcp.vibe"
     },
-    "size": 2708,
-    "hash": "m4abuO6Zh5HAT87xQdB1FFBDxPERMV363kNQEBFVMX8"
+    "size": 2710,
+    "hash": "xN6Po__v2pIIc8YIEMSBd1GjIl3ZODDB5qtiLRSkAlw"
    },
    {
     "path": {
@@ -3292,22 +3292,22 @@
     "path": {
      "relative": "packages/contracts/src/worktreeSetup.vibe"
     },
-    "size": 2920,
-    "hash": "xFZuhS5KsCWOIRNTMHLBIq6gGEVlwbM3kfDKGrfKQ3s"
+    "size": 2922,
+    "hash": "xGe7AE1QiLV0gORfq1hqhz9-ovuxl2k-TXfjakkcbQU"
    },
    {
     "path": {
      "relative": "packages/contracts/src/secretRequest.vibe"
     },
-    "size": 1901,
-    "hash": "dGAQKmalHseC9kOVYGrUTRmcgc6lCeCkWcDe1FhBASQ"
+    "size": 1903,
+    "hash": "0gq-sxZv9EwArkEW6qww5jXmLEbkqeKG03GyB_7vm8U"
    },
    {
     "path": {
      "relative": "packages/contracts/src/rpc.ts"
     },
-    "size": 76925,
-    "hash": "MflGb5KoU5TJuz4eXS7Xue_YTnatX0wrtTQTER8MdvE"
+    "size": 76931,
+    "hash": "6ObYQpdSuKwaniMIVB2uf2zgjM1yKtRyel_E44V0Dk0"
    },
    {
     "path": {
@@ -3320,8 +3320,8 @@
     "path": {
      "relative": "packages/contracts/src/index.ts"
     },
-    "size": 2627,
-    "hash": "iriEYYeyt_zwgMp2Z6OTiOQQWFV5kVyqpvmNdjbGxk0"
+    "size": 2633,
+    "hash": "cPZxwNtzYkW__wjhf3_7ybd1h8Q_a1oqKhiz6loqCr4"
    },
    {
     "path": {
@@ -3670,8 +3670,8 @@
     "path": {
      "relative": "packages/shared/src/paletteSearch.ts"
     },
-    "size": 47252,
-    "hash": "A2d2NqbiqsDSgny5ogcoWIQ2pN4j5L6RbnzcEK4oMQU"
+    "size": 47267,
+    "hash": "Mi6fIJtfeuVBU_G1L866-wWd009bryp3rAWin87VIvY"
    },
    {
     "path": {
@@ -3782,8 +3782,8 @@
     "path": {
      "relative": "packages/provider-fx/src/client.ts"
     },
-    "size": 1560,
-    "hash": "H7Sn43mJ-WeuwxGrrVPChW87oCvoGKwmQj0QEF5E-Ms"
+    "size": 1575,
+    "hash": "wdAid2XOi72Z4AQXFLgmHCqp9QsEzYaYAAO_7PO8qfk"
    },
    {
     "path": {
@@ -4559,8 +4559,8 @@
     "path": {
      "relative": "packages/client-runtime/src/authorization/remote.vibe"
     },
-    "size": 13682,
-    "hash": "cVdKCinGSvHQq1H4lCEtSqPeYTDk-pAmcrTFoiRDg4E"
+    "size": 14066,
+    "hash": "Tbp5zlrI97VUiYfp-yVtgnsJocfl2BaVLHnYvaYiYvE"
    },
    {
     "path": {
@@ -4727,8 +4727,8 @@
     "path": {
      "relative": "packages/shared/src/connectAuth.ts"
     },
-    "size": 2803,
-    "hash": "g8Glk7z6xpwTr4Z6wjLPY0QRIbIRfESxvs3bNXneBnI"
+    "size": 2818,
+    "hash": "mBmd5Smg5XFE1LWajX9I99VftC_kC7nStYRmyPdR59Q"
    },
    {
     "path": {
@@ -11258,8 +11258,8 @@
     "path": {
      "relative": "packages/shared/src/orchestrationV2BoundedSnapshot.ts"
     },
-    "size": 1889,
-    "hash": "nk8IFStWH3pSDZsJlJrDTuQn5j0Cg_m53pkqVVFnauA"
+    "size": 1904,
+    "hash": "ar9DsRpr6c-ajdhEdDbVwXtOamdeTIo-3z1UTHNJHkQ"
    },
    {
     "path": {
@@ -13294,7 +13294,7 @@
   ],
   "inputs": [
    {
-    "relative": "packages/contracts/src/baseSchemas.ts"
+    "relative": "packages/contracts/src/baseSchemas.vibe"
    },
    {
     "relative": "packages/contracts/src/assistantCitations.vibe"
@@ -13327,7 +13327,7 @@
     "relative": "packages/contracts/src/auth.vibe"
    },
    {
-    "relative": "packages/contracts/src/vcs.ts"
+    "relative": "packages/contracts/src/vcs.vibe"
    },
    {
     "relative": "packages/contracts/src/sourceControl.vibe"
@@ -13348,7 +13348,7 @@
     "relative": "packages/contracts/src/modelSelection.vibe"
    },
    {
-    "relative": "packages/contracts/src/pullRequest.ts"
+    "relative": "packages/contracts/src/pullRequest.vibe"
    },
    {
     "relative": "packages/contracts/src/threadPullRequest.vibe"
@@ -15207,7 +15207,7 @@
       "relative": "packages/client-runtime/src/authorization/remote.vibe"
      }
     ],
-    "code": "import * as Option from \"effect/Option\";\nimport { withSpan } from \"effect/Effect\";\nimport * as Effect_1 from \"effect/Effect\";\nimport { AuthAccessTokenType, AuthEnvironmentBootstrapTokenType, AuthTokenExchangeGrantType, } from \"@t3tools/contracts\";\nimport { encodeOAuthScope } from \"@t3tools/shared/oauthScope\";\nimport { hashTelemetryId } from \"@t3tools/shared/telemetryId\";\nimport * as Effect from \"effect/Effect\";\nimport { environmentEndpointUrl } from \"../environment/endpoint.js\";\nimport * as ClientCapabilities from \"../platform/capabilities.js\";\nimport { executeEnvironmentHttpRequest, makeEnvironmentHttpApiGroupClient, RemoteEnvironmentAuthUndeclaredStatusError, } from \"../rpc/http.js\";\nexport { RemoteEnvironmentAuthUndeclaredStatusError } from \"../rpc/http.js\";\nconst DEFAULT_REMOTE_REQUEST_TIMEOUT_MS = 10_000;\nconst clientMetadataTokenExchangeFields = (clientMetadata) => {\n    const displayOs = clientMetadata?.os;\n    return {\n        ...(clientMetadata?.label ? { client_label: clientMetadata.label } : {}),\n        ...(clientMetadata?.deviceType ? { client_device_type: clientMetadata.deviceType } : {}),\n        ...(displayOs && displayOs !== \"unknown\" && displayOs !== \"other\"\n            ? { client_os: displayOs }\n            : {}),\n    };\n};\n/**\n * Tells the environment, for analytics, which T3 Connect account and device\n * are connecting, so it can count the environment as theirs.\n */\nexport const readClientOwnerParams = Effect_1.gen(function* readClientOwnerParams() {\n    const session = yield* Effect.serviceOption(ClientCapabilities.CloudSession);\n    const account = Option.isSome(session) ? yield* session.value.identity : Option.none();\n    const device = yield* (yield* ClientCapabilities.AnalyticsDevice).id;\n    return {\n        ...(Option.isSome(account) ? { connect: hashTelemetryId(account.value.accountId) } : {}),\n        ...(Option.isSome(device) ? { device: hashTelemetryId(device.value) } : {}),\n    };\n});\nexport const appendClientConnectionParams = (url, clientMetadata, connectionMethod, owners) => {\n    if (clientMetadata?.surface) {\n        url.searchParams.set(\"clientSurface\", clientMetadata.surface);\n    }\n    if (clientMetadata?.appVersion) {\n        url.searchParams.set(\"clientAppVersion\", clientMetadata.appVersion);\n    }\n    if (clientMetadata?.deviceType) {\n        const deviceType = clientMetadata.deviceType === \"mobile\"\n            ? \"phone\"\n            : clientMetadata.deviceType === \"desktop\" || clientMetadata.deviceType === \"tablet\"\n                ? clientMetadata.deviceType\n                : \"unknown\";\n        url.searchParams.set(\"clientDeviceType\", deviceType);\n    }\n    if (clientMetadata?.os) {\n        url.searchParams.set(\"clientOs\", clientMetadata.os);\n    }\n    if (clientMetadata?.surface === \"web\") {\n        if (clientMetadata.webDeployment) {\n            url.searchParams.set(\"clientWebDeployment\", clientMetadata.webDeployment);\n        }\n        if (clientMetadata.browser) {\n            url.searchParams.set(\"clientBrowser\", clientMetadata.browser);\n        }\n    }\n    if (clientMetadata?.surface === \"mobile\") {\n        if (clientMetadata.osMajorVersion !== undefined) {\n            url.searchParams.set(\"clientOsMajorVersion\", String(clientMetadata.osMajorVersion));\n        }\n        if (clientMetadata.deviceModel) {\n            url.searchParams.set(\"clientDeviceModel\", clientMetadata.deviceModel);\n        }\n    }\n    if (connectionMethod) {\n        url.searchParams.set(\"connectionMethod\", connectionMethod);\n    }\n    if (owners?.connect) {\n        url.searchParams.set(\"clientOwner\", owners.connect);\n    }\n    if (owners?.device) {\n        url.searchParams.set(\"clientDevice\", owners.device);\n    }\n};\nexport const exchangeRemoteDpopAccessToken = (input) => {\n    return Effect_1.gen(function* exchangeRemoteDpopAccessToken() { return yield* withSpan(Effect_1.gen(function* () {\n        const client = yield* makeEnvironmentHttpApiGroupClient(input.httpBaseUrl, \"auth\");\n        const response = yield* executeEnvironmentHttpRequest(yield* Effect.orDie(Effect.try({ try: () => environmentEndpointUrl(input.httpBaseUrl, \"/oauth/token\"), catch: (e) => e })), input.timeoutMs ?? DEFAULT_REMOTE_REQUEST_TIMEOUT_MS, client.token({\n            headers: { dpop: input.dpopProof },\n            payload: {\n                grant_type: AuthTokenExchangeGrantType,\n                subject_token: input.credential,\n                subject_token_type: AuthEnvironmentBootstrapTokenType,\n                requested_token_type: AuthAccessTokenType,\n                ...(input.scopes ? { scope: encodeOAuthScope(input.scopes) } : {}),\n                ...clientMetadataTokenExchangeFields(input.clientMetadata),\n            },\n        }));\n        return response;\n    }), \"clientRuntime.authorization.exchangeRemoteDpopAccessToken\"); });\n};\nexport const bootstrapRemoteBearerSession = (input) => {\n    return Effect_1.gen(function* bootstrapRemoteBearerSession() { return yield* withSpan(Effect_1.gen(function* () {\n        const client = yield* makeEnvironmentHttpApiGroupClient(input.httpBaseUrl, \"auth\");\n        return yield* executeEnvironmentHttpRequest(yield* Effect.orDie(Effect.try({ try: () => environmentEndpointUrl(input.httpBaseUrl, \"/oauth/token\"), catch: (e) => e })), input.timeoutMs ?? DEFAULT_REMOTE_REQUEST_TIMEOUT_MS, client.token({\n            headers: {},\n            payload: {\n                grant_type: AuthTokenExchangeGrantType,\n                subject_token: input.credential,\n                subject_token_type: AuthEnvironmentBootstrapTokenType,\n                requested_token_type: AuthAccessTokenType,\n                ...(input.scopes ? { scope: encodeOAuthScope(input.scopes) } : {}),\n                ...clientMetadataTokenExchangeFields(input.clientMetadata),\n            },\n        }));\n    }), \"clientRuntime.authorization.bootstrapRemoteBearerSession\"); });\n};\nexport const fetchRemoteSessionState = (input) => {\n    return Effect_1.gen(function* fetchRemoteSessionState() { return yield* withSpan(Effect_1.gen(function* () {\n        const client = yield* makeEnvironmentHttpApiGroupClient(input.httpBaseUrl, \"auth\");\n        return yield* executeEnvironmentHttpRequest(yield* Effect.orDie(Effect.try({ try: () => environmentEndpointUrl(input.httpBaseUrl, \"/api/auth/session\"), catch: (e) => e })), input.timeoutMs ?? DEFAULT_REMOTE_REQUEST_TIMEOUT_MS, client.session({\n            headers: {\n                authorization: `Bearer ${input.bearerToken}`,\n            },\n        }));\n    }), \"clientRuntime.authorization.fetchRemoteSessionState\"); });\n};\nconst webSocketTicketPath = (use) => use === undefined ? \"/api/auth/websocket-ticket\" : `/api/auth/websocket-ticket/${use}`;\n/**\n * A server that predates ticket audiences has no `/:use` route and answers 404.\n * Its tickets are the unbound kind it always issued, so the bare path is the\n * right request there, not an error.\n */\nconst issueWebSocketTicketWithFallback = (use, issue, canFallBack = true) => use === undefined || !canFallBack\n    ? issue(use)\n    : (Effect.catchIf(issue(use), (error) => error instanceof RemoteEnvironmentAuthUndeclaredStatusError && error.status === 404, () => issue(undefined)));\nexport const issueRemoteWebSocketTicket = (input) => {\n    return Effect_1.gen(function* issueRemoteWebSocketTicket() { return yield* withSpan(Effect_1.gen(function* () {\n        const client = yield* makeEnvironmentHttpApiGroupClient(input.httpBaseUrl, \"auth\");\n        const headers = { authorization: `Bearer ${input.bearerToken}` };\n        return yield* issueWebSocketTicketWithFallback(input.use, (use) => executeEnvironmentHttpRequest(environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(use)), input.timeoutMs ?? DEFAULT_REMOTE_REQUEST_TIMEOUT_MS, use === undefined\n            ? client.webSocketTicket({ headers })\n            : client.webSocketTicketFor({ headers, params: { use } })));\n    }), \"clientRuntime.authorization.issueRemoteWebSocketTicket\"); });\n};\nexport const issueRemoteDpopWebSocketTicket = Effect.fn(\"clientRuntime.authorization.issueRemoteDpopWebSocketTicket\")(function* (input) {\n    const client = yield* makeEnvironmentHttpApiGroupClient(input.httpBaseUrl, \"auth\");\n    const fallbackProof = input.fallbackProof;\n    return yield* issueWebSocketTicketWithFallback(input.use, (use) => {\n        return Effect_1.gen(function* () {\n            // The proof names the path it signs, so the fallback request needs its own.\n            const dpopProof = use === input.use || fallbackProof === undefined ? input.dpopProof : yield* fallbackProof;\n            const headers = { authorization: `DPoP ${input.accessToken}`, dpop: dpopProof };\n            return yield* executeEnvironmentHttpRequest(yield* Effect.orDie(Effect.try({\n                try: () => environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(use)),\n                catch: (e) => e,\n            })), input.timeoutMs ?? DEFAULT_REMOTE_REQUEST_TIMEOUT_MS, use === undefined\n                ? client.webSocketTicket({ headers })\n                : client.webSocketTicketFor({ headers, params: { use } }));\n        });\n    }, fallbackProof !== undefined);\n});\nfunction rpcSocketUrl(wsBaseUrl) {\n    const url = new URL(wsBaseUrl);\n    if (url.pathname === \"\" || url.pathname === \"/\") {\n        url.pathname = \"/ws\";\n    }\n    return url;\n}\nexport const resolveRemoteWebSocketConnectionUrl = (input) => {\n    return Effect_1.gen(function* resolveRemoteWebSocketConnectionUrl() { return yield* withSpan(Effect_1.gen(function* () {\n        const issued = yield* issueRemoteWebSocketTicket({\n            httpBaseUrl: input.httpBaseUrl,\n            bearerToken: input.bearerToken,\n            use: \"rpc\",\n            ...(input.timeoutMs ? { timeoutMs: input.timeoutMs } : {}),\n        });\n        const url = rpcSocketUrl(input.wsBaseUrl);\n        url.searchParams.set(\"wsTicket\", issued.ticket);\n        appendClientConnectionParams(url, input.clientMetadata, input.connectionMethod, yield* readClientOwnerParams);\n        return url.toString();\n    }), \"clientRuntime.authorization.resolveRemoteWebSocketConnectionUrl\"); });\n};\n/**\n * A DPoP client's RPC ticket is bound to its key, so the upgrade carries a\n * proof too. A WebSocket cannot set headers, so it rides in the `dpop` query\n * parameter and names the socket URL as the HTTP request the server sees.\n */\nexport const resolveRemoteDpopWebSocketConnectionUrl = (input) => {\n    return Effect_1.gen(function* resolveRemoteDpopWebSocketConnectionUrl() { return yield* withSpan(Effect_1.gen(function* () {\n        const ticketProof = yield* input.createProof({\n            method: \"POST\",\n            url: yield* Effect.orDie(Effect.try({\n                try: () => environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(\"rpc\")),\n                catch: (e) => e,\n            })),\n            accessToken: input.accessToken,\n        });\n        const issued = yield* issueRemoteDpopWebSocketTicket({\n            httpBaseUrl: input.httpBaseUrl,\n            accessToken: input.accessToken,\n            dpopProof: ticketProof,\n            use: \"rpc\",\n            fallbackProof: Effect.suspend(() => input.createProof({\n                method: \"POST\",\n                url: environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(undefined)),\n                accessToken: input.accessToken,\n            })),\n            ...(input.timeoutMs ? { timeoutMs: input.timeoutMs } : {}),\n        });\n        const url = rpcSocketUrl(input.wsBaseUrl);\n        const upgradeProof = yield* input.createProof({\n            method: \"GET\",\n            url: `${url.protocol === \"wss:\" ? \"https:\" : \"http:\"}//${url.host}${url.pathname}`,\n            accessToken: issued.ticket,\n        });\n        url.searchParams.set(\"wsTicket\", issued.ticket);\n        url.searchParams.set(\"dpop\", upgradeProof);\n        appendClientConnectionParams(url, input.clientMetadata, input.connectionMethod, yield* readClientOwnerParams);\n        return url.toString();\n    }), \"clientRuntime.authorization.resolveRemoteDpopWebSocketConnectionUrl\"); });\n};\n",
+    "code": "import * as Option from \"effect/Option\";\nimport { withSpan } from \"effect/Effect\";\nimport * as Effect_1 from \"effect/Effect\";\nimport { AuthAccessTokenType, AuthEnvironmentBootstrapTokenType, AuthTokenExchangeGrantType, } from \"@t3tools/contracts\";\nimport { encodeOAuthScope } from \"@t3tools/shared/oauthScope\";\nimport { hashTelemetryId } from \"@t3tools/shared/telemetryId\";\nimport * as Effect from \"effect/Effect\";\nimport { environmentEndpointUrl } from \"../environment/endpoint.js\";\nimport * as ClientCapabilities from \"../platform/capabilities.js\";\nimport { executeEnvironmentHttpRequest, makeEnvironmentHttpApiGroupClient, RemoteEnvironmentAuthUndeclaredStatusError, } from \"../rpc/http.js\";\nexport { RemoteEnvironmentAuthUndeclaredStatusError } from \"../rpc/http.js\";\nconst DEFAULT_REMOTE_REQUEST_TIMEOUT_MS = 10_000;\nconst clientMetadataTokenExchangeFields = (clientMetadata) => {\n    const displayOs = clientMetadata?.os;\n    return {\n        ...(clientMetadata?.label ? { client_label: clientMetadata.label } : {}),\n        ...(clientMetadata?.deviceType ? { client_device_type: clientMetadata.deviceType } : {}),\n        ...(displayOs && displayOs !== \"unknown\" && displayOs !== \"other\"\n            ? { client_os: displayOs }\n            : {}),\n    };\n};\n/**\n * Tells the environment, for analytics, which T3 Connect account and device\n * are connecting, so it can count the environment as theirs.\n */\nexport const readClientOwnerParams = Effect_1.gen(function* readClientOwnerParams() {\n    const session = yield* Effect.serviceOption(ClientCapabilities.CloudSession);\n    const account = Option.isSome(session) ? yield* session.value.identity : Option.none();\n    const device = yield* (yield* ClientCapabilities.AnalyticsDevice).id;\n    return {\n        ...(Option.isSome(account) ? { connect: hashTelemetryId(account.value.accountId) } : {}),\n        ...(Option.isSome(device) ? { device: hashTelemetryId(device.value) } : {}),\n    };\n});\nexport const appendClientConnectionParams = (url, clientMetadata, connectionMethod, owners) => {\n    if (clientMetadata?.surface) {\n        url.searchParams.set(\"clientSurface\", clientMetadata.surface);\n    }\n    if (clientMetadata?.appVersion) {\n        url.searchParams.set(\"clientAppVersion\", clientMetadata.appVersion);\n    }\n    if (clientMetadata?.deviceType) {\n        const deviceType = clientMetadata.deviceType === \"mobile\"\n            ? \"phone\"\n            : clientMetadata.deviceType === \"desktop\" || clientMetadata.deviceType === \"tablet\"\n                ? clientMetadata.deviceType\n                : \"unknown\";\n        url.searchParams.set(\"clientDeviceType\", deviceType);\n    }\n    if (clientMetadata?.os) {\n        url.searchParams.set(\"clientOs\", clientMetadata.os);\n    }\n    if (clientMetadata?.surface === \"web\") {\n        if (clientMetadata.webDeployment) {\n            url.searchParams.set(\"clientWebDeployment\", clientMetadata.webDeployment);\n        }\n        if (clientMetadata.browser) {\n            url.searchParams.set(\"clientBrowser\", clientMetadata.browser);\n        }\n    }\n    if (clientMetadata?.surface === \"mobile\") {\n        if (clientMetadata.osMajorVersion !== undefined) {\n            url.searchParams.set(\"clientOsMajorVersion\", String(clientMetadata.osMajorVersion));\n        }\n        if (clientMetadata.deviceModel) {\n            url.searchParams.set(\"clientDeviceModel\", clientMetadata.deviceModel);\n        }\n    }\n    if (connectionMethod) {\n        url.searchParams.set(\"connectionMethod\", connectionMethod);\n    }\n    if (owners?.connect) {\n        url.searchParams.set(\"clientOwner\", owners.connect);\n    }\n    if (owners?.device) {\n        url.searchParams.set(\"clientDevice\", owners.device);\n    }\n};\nexport const exchangeRemoteDpopAccessToken = (input) => {\n    return Effect_1.gen(function* exchangeRemoteDpopAccessToken() { return yield* withSpan(Effect_1.gen(function* () {\n        const client = yield* makeEnvironmentHttpApiGroupClient(input.httpBaseUrl, \"auth\");\n        const response = yield* executeEnvironmentHttpRequest(yield* Effect.orDie(Effect.try({ try: () => environmentEndpointUrl(input.httpBaseUrl, \"/oauth/token\"), catch: (e) => e })), input.timeoutMs ?? DEFAULT_REMOTE_REQUEST_TIMEOUT_MS, client.token({\n            headers: { dpop: input.dpopProof },\n            payload: {\n                grant_type: AuthTokenExchangeGrantType,\n                subject_token: input.credential,\n                subject_token_type: AuthEnvironmentBootstrapTokenType,\n                requested_token_type: AuthAccessTokenType,\n                ...(input.scopes ? { scope: encodeOAuthScope(input.scopes) } : {}),\n                ...clientMetadataTokenExchangeFields(input.clientMetadata),\n            },\n        }));\n        return response;\n    }), \"clientRuntime.authorization.exchangeRemoteDpopAccessToken\"); });\n};\nexport const bootstrapRemoteBearerSession = (input) => {\n    return Effect_1.gen(function* bootstrapRemoteBearerSession() { return yield* withSpan(Effect_1.gen(function* () {\n        const client = yield* makeEnvironmentHttpApiGroupClient(input.httpBaseUrl, \"auth\");\n        return yield* executeEnvironmentHttpRequest(yield* Effect.orDie(Effect.try({ try: () => environmentEndpointUrl(input.httpBaseUrl, \"/oauth/token\"), catch: (e) => e })), input.timeoutMs ?? DEFAULT_REMOTE_REQUEST_TIMEOUT_MS, client.token({\n            headers: {},\n            payload: {\n                grant_type: AuthTokenExchangeGrantType,\n                subject_token: input.credential,\n                subject_token_type: AuthEnvironmentBootstrapTokenType,\n                requested_token_type: AuthAccessTokenType,\n                ...(input.scopes ? { scope: encodeOAuthScope(input.scopes) } : {}),\n                ...clientMetadataTokenExchangeFields(input.clientMetadata),\n            },\n        }));\n    }), \"clientRuntime.authorization.bootstrapRemoteBearerSession\"); });\n};\nexport const fetchRemoteSessionState = (input) => {\n    return Effect_1.gen(function* fetchRemoteSessionState() { return yield* withSpan(Effect_1.gen(function* () {\n        const client = yield* makeEnvironmentHttpApiGroupClient(input.httpBaseUrl, \"auth\");\n        return yield* executeEnvironmentHttpRequest(yield* Effect.orDie(Effect.try({ try: () => environmentEndpointUrl(input.httpBaseUrl, \"/api/auth/session\"), catch: (e) => e })), input.timeoutMs ?? DEFAULT_REMOTE_REQUEST_TIMEOUT_MS, client.session({\n            headers: {\n                authorization: `Bearer ${input.bearerToken}`,\n            },\n        }));\n    }), \"clientRuntime.authorization.fetchRemoteSessionState\"); });\n};\nconst webSocketTicketPath = (use) => use === undefined ? \"/api/auth/websocket-ticket\" : `/api/auth/websocket-ticket/${use}`;\n/**\n * A server that predates ticket audiences has no `/:use` route and answers 404.\n * Its tickets are the unbound kind it always issued, so the bare path is the\n * right request there, not an error.\n */\nconst issueWebSocketTicketWithFallback = (use, issue, canFallBack = true) => use === undefined || !canFallBack\n    ? issue(use)\n    : (Effect.catchIf(issue(use), (error) => error instanceof RemoteEnvironmentAuthUndeclaredStatusError && error.status === 404, () => issue(undefined)));\nexport const issueRemoteWebSocketTicket = (input) => {\n    return Effect_1.gen(function* issueRemoteWebSocketTicket() { return yield* withSpan(Effect_1.gen(function* () {\n        const client = yield* makeEnvironmentHttpApiGroupClient(input.httpBaseUrl, \"auth\");\n        const headers = { authorization: `Bearer ${input.bearerToken}` };\n        return yield* issueWebSocketTicketWithFallback(input.use, (use) => executeEnvironmentHttpRequest(environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(use)), input.timeoutMs ?? DEFAULT_REMOTE_REQUEST_TIMEOUT_MS, use === undefined\n            ? client.webSocketTicket({ headers })\n            : client.webSocketTicketFor({ headers, params: { use } })));\n    }), \"clientRuntime.authorization.issueRemoteWebSocketTicket\"); });\n};\nexport const issueRemoteDpopWebSocketTicket = Effect.fn(\"clientRuntime.authorization.issueRemoteDpopWebSocketTicket\")(function* (input) {\n    const client = yield* makeEnvironmentHttpApiGroupClient(input.httpBaseUrl, \"auth\");\n    const fallbackProof = input.fallbackProof;\n    return yield* issueWebSocketTicketWithFallback(input.use, (use) => {\n        return Effect_1.gen(function* () {\n            // The proof names the path it signs, so the fallback request needs its own.\n            const dpopProof = use === input.use || fallbackProof === undefined ? input.dpopProof : yield* fallbackProof;\n            const headers = { authorization: `DPoP ${input.accessToken}`, dpop: dpopProof };\n            return yield* executeEnvironmentHttpRequest(yield* Effect.orDie(Effect.try({\n                try: () => environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(use)),\n                catch: (e) => e,\n            })), input.timeoutMs ?? DEFAULT_REMOTE_REQUEST_TIMEOUT_MS, use === undefined\n                ? client.webSocketTicket({ headers })\n                : client.webSocketTicketFor({ headers, params: { use } }));\n        });\n    }, fallbackProof !== undefined);\n});\nfunction rpcSocketUrl(wsBaseUrl) {\n    const url = new URL(wsBaseUrl);\n    if (url.pathname === \"\" || url.pathname === \"/\") {\n        url.pathname = \"/ws\";\n    }\n    return url;\n}\nexport const resolveRemoteWebSocketConnectionUrl = (input) => {\n    return Effect_1.gen(function* resolveRemoteWebSocketConnectionUrl() { return yield* withSpan(Effect_1.gen(function* () {\n        const issued = yield* issueRemoteWebSocketTicket({\n            httpBaseUrl: input.httpBaseUrl,\n            bearerToken: input.bearerToken,\n            use: \"rpc\",\n            ...(input.timeoutMs ? { timeoutMs: input.timeoutMs } : {}),\n        });\n        const url = rpcSocketUrl(input.wsBaseUrl);\n        yield* Effect.orDie(Effect.try({ try: () => url.searchParams.set(\"wsTicket\", issued.ticket), catch: (error) => error }));\n        appendClientConnectionParams(url, input.clientMetadata, input.connectionMethod, yield* readClientOwnerParams);\n        return yield* Effect.orDie(Effect.try({ try: () => url.toString(), catch: (error) => error }));\n    }), \"clientRuntime.authorization.resolveRemoteWebSocketConnectionUrl\"); });\n};\n/**\n * A DPoP client's RPC ticket is bound to its key, so the upgrade carries a\n * proof too. A WebSocket cannot set headers, so it rides in the `dpop` query\n * parameter and names the socket URL as the HTTP request the server sees.\n */\nexport const resolveRemoteDpopWebSocketConnectionUrl = (input) => {\n    return Effect_1.gen(function* resolveRemoteDpopWebSocketConnectionUrl() { return yield* withSpan(Effect_1.gen(function* () {\n        const ticketProof = yield* input.createProof({\n            method: \"POST\",\n            url: yield* Effect.orDie(Effect.try({\n                try: () => environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(\"rpc\")),\n                catch: (e) => e,\n            })),\n            accessToken: input.accessToken,\n        });\n        const issued = yield* issueRemoteDpopWebSocketTicket({\n            httpBaseUrl: input.httpBaseUrl,\n            accessToken: input.accessToken,\n            dpopProof: ticketProof,\n            use: \"rpc\",\n            fallbackProof: Effect.suspend(() => input.createProof({\n                method: \"POST\",\n                url: environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(undefined)),\n                accessToken: input.accessToken,\n            })),\n            ...(input.timeoutMs ? { timeoutMs: input.timeoutMs } : {}),\n        });\n        const url = rpcSocketUrl(input.wsBaseUrl);\n        const upgradeProof = yield* input.createProof({\n            method: \"GET\",\n            url: `${url.protocol === \"wss:\" ? \"https:\" : \"http:\"}//${url.host}${url.pathname}`,\n            accessToken: issued.ticket,\n        });\n        yield* Effect.orDie(Effect.try({ try: () => url.searchParams.set(\"wsTicket\", issued.ticket), catch: (error) => error }));\n        yield* Effect.orDie(Effect.try({ try: () => url.searchParams.set(\"dpop\", upgradeProof), catch: (error) => error }));\n        appendClientConnectionParams(url, input.clientMetadata, input.connectionMethod, yield* readClientOwnerParams);\n        return yield* Effect.orDie(Effect.try({ try: () => url.toString(), catch: (error) => error }));\n    }), \"clientRuntime.authorization.resolveRemoteDpopWebSocketConnectionUrl\"); });\n};\n",
     "map": {
      "version": 3,
      "file": "remote.js",
@@ -15218,7 +15218,7 @@
       }
      ],
      "names": [],
-     "mappings": "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"
+     "mappings": "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"
     }
    },
    {
@@ -16607,7 +16607,7 @@
       "relative": "packages/client-runtime/src/state/threadCommands.vibe"
      }
     ],
-    "code": "import * as Effect from \"effect/Effect\";\nimport * as Option from \"effect/Option\";\nimport { withSpan } from \"effect/Effect\";\nimport { $extract } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as Option_1 from \"effect/Option\";\nimport * as Crypto from \"@t3tools/shared/Crypto\";\nimport { Atom } from \"effect/reactivity\";\nimport { WS_METHODS } from \"@t3tools/contracts\";\nimport { createOptimisticThreadLifecycle } from \"./threadLifecycle.js\";\nimport * as DateTime from \"effect/DateTime\";\nimport { createAtomCommandScheduler, createEnvironmentCommand, createEnvironmentRpcCommand } from \"./runtime.js\";\nimport { archiveThread, closeGuestShare, resolveGuestMessage, cancelQueuedRun, createThread, deleteThread, editQueuedRun, interruptThreadTurn, forkThreadFromRun, markThreadUnread, mergeThreadBack, promoteQueuedRun, resumeThreadQueue, retryWorkspacePreparation, linkThreadPullRequest, respondToThreadApproval, respondToThreadUserInput, dismissThreadUserInput, revertThreadCheckpoint, setThreadInteractionMode, setThreadRuntimeMode, pinThread, reorderPinnedThread, reorderActiveThread, setThreadAutoSettle, settleThread, snoozeThread, startThreadTurn, stopThreadSession, unarchiveThread, unlinkThreadPullRequest, unpinThread, unsettleThread, unsnoozeThread, updateThreadMetadata, visitThread, watchThreadPullRequest, } from \"../operations/commands.js\";\nimport * as EnvironmentSupervisor from \"../connection/supervisor.js\";\nimport * as ThreadHistoryController from \"./threadHistoryController.js\";\nexport function createThreadEnvironmentAtoms(runtime, snapshotAtom) {\n    const scheduler = createAtomCommandScheduler();\n    const concurrency = {\n        mode: \"serial\",\n        key: ({ environmentId, input }) => JSON.stringify([environmentId, input.threadId]),\n    };\n    const loadEarlierHistory = (input) => {\n        return Effect_1.gen(function* loadEarlierHistory() { return yield* withSpan(Effect_1.gen(function* () {\n            const supervisor = yield* EnvironmentSupervisor.EnvironmentSupervisor;\n            const controller = yield* Effect.serviceOption(ThreadHistoryController.ThreadHistoryController);\n            if (Option.isNone(controller)) {\n                return {\n                    _tag: \"noop\",\n                };\n            }\n            return yield* controller.value.loadEarlier(supervisor.target.environmentId, input.threadId, input.throughEntryId);\n        }), \"ThreadCommands.loadEarlierHistory\"); });\n    };\n    // Runs whether or not the server accepted the interrupt, so a stale cached item still\n    // settles when Stop had nothing to interrupt; the interrupt's own failure still surfaces.\n    // The repair is detached: its lookups must not hold the thread's serial command key, and\n    // closing the thread cancels the repair, not the Stop that triggered it.\n    const interruptTurn = (input) => {\n        return Effect_1.gen(function* interruptTurn() { return yield* withSpan(Effect_1.gen(function* () {\n            const supervisor = yield* EnvironmentSupervisor.EnvironmentSupervisor;\n            const controller = yield* Effect.serviceOption(ThreadHistoryController.ThreadHistoryController);\n            return yield* (Effect.ensuring(interruptThreadTurn(input), yield* (function* () {\n                let $do1;\n                const $optionSubject = controller;\n                const $optionHandlers = {\n                    onNone: () => Effect.void,\n                    onSome: (value) => Effect.asVoid(Effect.forkDetach(value\n                        .reconcilePendingWork(supervisor.target.environmentId, input.threadId))),\n                };\n                const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers;\n                $match3: {\n                    const $match4 = $optionSubject;\n                    {\n                        const $extracted5 = (subject_1 => Option_1.isOption(subject_1) && Option_1.isSome(subject_1) && [subject_1.value])($match4);\n                        $do1 = void 0;\n                        if ($extracted5 !== false && $extracted5.length === 1) {\n                            let $optionValue = $extracted5[0];\n                            $do1 = $optionSome($optionValue);\n                            break $match3;\n                        }\n                    }\n                    $do1 = $optionNone();\n                    break $match3;\n                }\n                return $do1;\n            })()));\n        }), \"ThreadCommands.interruptTurn\"); });\n    };\n    const commands = {\n        create: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:create\",\n            execute: (input) => createThread(input),\n            scheduler,\n            concurrency,\n        }),\n        delete: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:delete\",\n            execute: (input) => deleteThread(input),\n            scheduler,\n            concurrency,\n        }),\n        closeGuestShare: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:close-guest-share\",\n            execute: (input) => closeGuestShare(input),\n            scheduler,\n            concurrency,\n        }),\n        resolveGuestMessage: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:resolve-guest-message\",\n            execute: (input) => resolveGuestMessage(input),\n            scheduler,\n            concurrency,\n        }),\n        archive: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:archive\",\n            execute: (input) => archiveThread(input),\n            scheduler,\n            concurrency,\n        }),\n        unarchive: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:unarchive\",\n            execute: (input) => unarchiveThread(input),\n            scheduler,\n            concurrency,\n        }),\n        settle: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:settle\",\n            execute: (input) => settleThread(input),\n            scheduler,\n            concurrency,\n        }),\n        unsettle: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:unsettle\",\n            execute: (input) => unsettleThread(input),\n            scheduler,\n            concurrency,\n        }),\n        snooze: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:snooze\",\n            execute: (input) => snoozeThread(input),\n            scheduler,\n            concurrency,\n        }),\n        unsnooze: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:unsnooze\",\n            execute: (input) => unsnoozeThread(input),\n            scheduler,\n            concurrency,\n        }),\n        pin: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:pin\",\n            execute: (input) => pinThread(input),\n            scheduler,\n            concurrency,\n        }),\n        unpin: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:unpin\",\n            execute: (input) => unpinThread(input),\n            scheduler,\n            concurrency,\n        }),\n        reorderPin: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:reorder-pin\",\n            execute: (input) => reorderPinnedThread(input),\n            scheduler,\n            concurrency,\n        }),\n        setAutoSettle: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:set-auto-settle\",\n            execute: (input) => setThreadAutoSettle(input),\n            scheduler,\n            concurrency,\n        }),\n        reorderActive: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:reorder-active\",\n            execute: (input) => reorderActiveThread(input),\n            scheduler,\n            concurrency,\n        }),\n        visit: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:visit\",\n            execute: (input) => visitThread(input),\n            scheduler,\n            concurrency,\n        }),\n        markUnread: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:mark-unread\",\n            execute: (input) => markThreadUnread(input),\n            scheduler,\n            concurrency,\n        }),\n        updateMetadata: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:update-metadata\",\n            execute: (input) => updateThreadMetadata(input),\n            scheduler,\n            concurrency,\n        }),\n        linkPullRequest: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:link-pull-request\",\n            execute: (input) => linkThreadPullRequest(input),\n            scheduler,\n            concurrency,\n        }),\n        unlinkPullRequest: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:unlink-pull-request\",\n            execute: (input) => unlinkThreadPullRequest(input),\n            scheduler,\n            concurrency,\n        }),\n        watchPullRequest: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:watch-pull-request\",\n            execute: (input) => watchThreadPullRequest(input),\n            scheduler,\n            concurrency,\n        }),\n        setRuntimeMode: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:set-runtime-mode\",\n            execute: (input) => setThreadRuntimeMode(input),\n            scheduler,\n            concurrency,\n        }),\n        setInteractionMode: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:set-interaction-mode\",\n            execute: (input) => setThreadInteractionMode(input),\n            scheduler,\n            concurrency,\n        }),\n        startTurn: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:start-turn\",\n            execute: (input) => startThreadTurn(input),\n            scheduler,\n            concurrency,\n        }),\n        interruptTurn: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:interrupt-turn\",\n            execute: interruptTurn,\n            scheduler,\n            concurrency,\n        }),\n        respondToApproval: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:respond-to-approval\",\n            execute: (input) => respondToThreadApproval(input),\n            scheduler,\n            concurrency,\n        }),\n        respondToUserInput: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:respond-to-user-input\",\n            execute: (input) => respondToThreadUserInput(input),\n            scheduler,\n            concurrency,\n        }),\n        dismissUserInput: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:dismiss-user-input\",\n            execute: (input) => dismissThreadUserInput(input),\n            scheduler,\n            concurrency,\n        }),\n        revertCheckpoint: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:revert-checkpoint\",\n            execute: (input) => revertThreadCheckpoint(input),\n            scheduler,\n            concurrency,\n        }),\n        stopSession: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:stop-session\",\n            execute: (input) => stopThreadSession(input),\n            scheduler,\n            concurrency,\n        }),\n        forkFromRun: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:fork-from-run\",\n            execute: (input) => forkThreadFromRun(input),\n            scheduler,\n            concurrency: {\n                mode: \"serial\",\n                key: ({ environmentId, input }) => JSON.stringify([environmentId, input.sourceThreadId]),\n            },\n        }),\n        mergeBack: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:merge-back\",\n            execute: (input) => mergeThreadBack(input),\n            scheduler,\n            concurrency: {\n                mode: \"serial\",\n                key: ({ environmentId, input }) => JSON.stringify([environmentId, input.sourceThreadId, input.targetThreadId]),\n            },\n        }),\n        resumeThreadQueue: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:resume-queue\",\n            execute: (input) => resumeThreadQueue(input),\n            scheduler,\n            concurrency,\n        }),\n        promoteQueuedRun: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:promote-queued-run\",\n            execute: (input) => promoteQueuedRun(input),\n            scheduler,\n            concurrency,\n        }),\n        cancelQueuedRun: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:cancel-queued-run\",\n            execute: (input) => cancelQueuedRun(input),\n            scheduler,\n            concurrency,\n        }),\n        retryWorkspacePreparation: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:retry-workspace-preparation\",\n            execute: (input) => retryWorkspacePreparation(input),\n            scheduler,\n            concurrency,\n        }),\n        editQueuedRun: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:edit-queued-run\",\n            execute: (input) => editQueuedRun(input),\n            scheduler,\n            concurrency,\n        }),\n        loadEarlierHistory: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:load-earlier-history\",\n            execute: loadEarlierHistory,\n            scheduler,\n            concurrency: {\n                mode: \"serial\",\n                key: ({ environmentId, input }) => JSON.stringify([environmentId, input.threadId]),\n            },\n        }),\n        uploadFeedback: createEnvironmentRpcCommand(runtime, {\n            label: \"environment-data:commands:thread:upload-feedback\",\n            tag: WS_METHODS.providerUploadFeedback,\n            scheduler,\n            concurrency,\n        }),\n    };\n    const optimistic = createOptimisticThreadLifecycle(snapshotAtom);\n    return {\n        ...commands,\n        snapshotAtom: optimistic.snapshotAtom,\n        settle: optimistic.wrap(commands.settle, (thread, _input, now, accepted) => !accepted\n            && (thread.pendingRuntimeRequest !== null\n                || [\"preparing\", \"queued\", \"starting\", \"running\", \"waiting\"].includes(thread.status))\n            ? thread\n            : {\n                ...thread,\n                pendingRuntimeRequest: null,\n                settledOverride: \"settled\",\n                settledAt: thread.settledOverride === \"settled\" ? (thread.settledAt ?? now) : now,\n                unsettledAt: null,\n                activeOrderKey: null,\n                pinnedAt: null,\n                pinOrderKey: null,\n                snoozedAt: null,\n                snoozedUntil: null,\n            }),\n        unsettle: optimistic.wrap(commands.unsettle, (thread, input, now) => ({\n            ...thread,\n            settledOverride: input.reason === \"user\" ? \"active\" : null,\n            settledAt: null,\n            unsettledAt: thread.settledOverride === \"active\" ? (thread.unsettledAt ?? null) : now,\n        })),\n        snooze: optimistic.wrap(commands.snooze, (thread, input, now, accepted) => (!accepted\n            && (thread.pendingRuntimeRequest !== null\n                || [\"preparing\", \"queued\", \"starting\"].includes(thread.status)))\n            || !(Date.parse(input.snoozedUntil) > DateTime.toEpochMillis(now))\n            ? thread\n            : {\n                ...thread,\n                pendingRuntimeRequest: null,\n                snoozedUntil: DateTime.makeUnsafe(input.snoozedUntil),\n                snoozedAt: now,\n            }),\n        unsnooze: optimistic.wrap(commands.unsnooze, (thread) => ({\n            ...thread,\n            snoozedUntil: null,\n            snoozedAt: null,\n        })),\n        setAutoSettle: optimistic.wrap(commands.setAutoSettle, (thread, input, now) => ({\n            ...thread,\n            autoSettleDisabledAt: input.enabled ? null : (thread.autoSettleDisabledAt ?? now),\n        })),\n        pin: optimistic.wrap(commands.pin, (thread, input, now) => ({\n            ...thread,\n            pinnedAt: thread.pinnedAt ?? now,\n            pinOrderKey: thread.pinnedAt == null ? (input.orderKey ?? null) : thread.pinOrderKey,\n            ...(thread.settledOverride === \"settled\"\n                ? {\n                    settledOverride: \"active\",\n                    settledAt: null,\n                    unsettledAt: now,\n                }\n                : {}),\n            snoozedUntil: null,\n            snoozedAt: null,\n        })),\n        unpin: optimistic.wrap(commands.unpin, (thread) => ({\n            ...thread,\n            pinnedAt: null,\n            pinOrderKey: null,\n        })),\n        reorderPin: optimistic.wrap(commands.reorderPin, (thread, input) => ({\n            ...thread,\n            pinOrderKey: input.orderKey,\n        })),\n        reorderActive: optimistic.wrap(commands.reorderActive, (thread, input) => ({\n            ...thread,\n            activeOrderKey: input.orderKey,\n        })),\n    };\n}\n",
+    "code": "import * as Effect from \"effect/Effect\";\nimport * as Option from \"effect/Option\";\nimport { withSpan } from \"effect/Effect\";\nimport { $extract } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as Option_1 from \"effect/Option\";\nimport * as Crypto from \"@t3tools/shared/Crypto\";\nimport { Atom } from \"effect/reactivity\";\nimport { WS_METHODS } from \"@t3tools/contracts\";\nimport { createOptimisticThreadLifecycle } from \"./threadLifecycle.js\";\nimport * as DateTime from \"effect/DateTime\";\nimport { createAtomCommandScheduler, createEnvironmentCommand, createEnvironmentRpcCommand } from \"./runtime.js\";\nimport { archiveThread, closeGuestShare, resolveGuestMessage, cancelQueuedRun, createThread, deleteThread, editQueuedRun, interruptThreadTurn, forkThreadFromRun, markThreadUnread, mergeThreadBack, promoteQueuedRun, resumeThreadQueue, retryWorkspacePreparation, linkThreadPullRequest, respondToThreadApproval, respondToThreadUserInput, dismissThreadUserInput, revertThreadCheckpoint, setThreadInteractionMode, setThreadRuntimeMode, pinThread, reorderPinnedThread, reorderActiveThread, setThreadAutoSettle, settleThread, snoozeThread, startThreadTurn, stopThreadSession, unarchiveThread, unlinkThreadPullRequest, unpinThread, unsettleThread, unsnoozeThread, updateThreadMetadata, visitThread, watchThreadPullRequest, } from \"../operations/commands.js\";\nimport * as EnvironmentSupervisor from \"../connection/supervisor.js\";\nimport * as ThreadHistoryController from \"./threadHistoryController.js\";\nexport function createThreadEnvironmentAtoms(runtime, snapshotAtom) {\n    const scheduler = createAtomCommandScheduler();\n    const concurrency = {\n        mode: \"serial\",\n        key: ({ environmentId, input }) => JSON.stringify([environmentId, input.threadId]),\n    };\n    const loadEarlierHistory = (input) => {\n        return Effect_1.gen(function* loadEarlierHistory() { return yield* withSpan(Effect_1.gen(function* () {\n            const supervisor = yield* EnvironmentSupervisor.EnvironmentSupervisor;\n            const controller = yield* Effect.serviceOption(ThreadHistoryController.ThreadHistoryController);\n            if (Option.isNone(controller)) {\n                return {\n                    _tag: \"noop\",\n                };\n            }\n            return yield* controller.value.loadEarlier(supervisor.target.environmentId, input.threadId, input.throughEntryId);\n        }), \"ThreadCommands.loadEarlierHistory\"); });\n    };\n    // Runs whether or not the server accepted the interrupt, so a stale cached item still\n    // settles when Stop had nothing to interrupt; the interrupt's own failure still surfaces.\n    // The repair is detached: its lookups must not hold the thread's serial command key, and\n    // closing the thread cancels the repair, not the Stop that triggered it.\n    const interruptTurn = (input) => {\n        return Effect_1.gen(function* interruptTurn() { return yield* withSpan(Effect_1.gen(function* () {\n            const supervisor = yield* EnvironmentSupervisor.EnvironmentSupervisor;\n            const controller = yield* Effect.serviceOption(ThreadHistoryController.ThreadHistoryController);\n            return yield* (Effect.ensuring(interruptThreadTurn(input), yield* (Effect_1.fnUntraced(function* () {\n                let $do1;\n                const $optionSubject = controller;\n                const $optionHandlers = {\n                    onNone: () => Effect.void,\n                    onSome: (value) => Effect.asVoid(Effect.forkDetach(value\n                        .reconcilePendingWork(supervisor.target.environmentId, input.threadId))),\n                };\n                const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers;\n                $match3: {\n                    const $match4 = $optionSubject;\n                    {\n                        const $extracted5 = (subject_1 => Option_1.isOption(subject_1) && Option_1.isSome(subject_1) && [subject_1.value])($match4);\n                        $do1 = void 0;\n                        if ($extracted5 !== false && $extracted5.length === 1) {\n                            let $optionValue = $extracted5[0];\n                            $do1 = $optionSome($optionValue);\n                            break $match3;\n                        }\n                    }\n                    $do1 = $optionNone();\n                    break $match3;\n                }\n                return $do1;\n            }))()));\n        }), \"ThreadCommands.interruptTurn\"); });\n    };\n    const commands = {\n        create: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:create\",\n            execute: (input) => createThread(input),\n            scheduler,\n            concurrency,\n        }),\n        delete: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:delete\",\n            execute: (input) => deleteThread(input),\n            scheduler,\n            concurrency,\n        }),\n        closeGuestShare: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:close-guest-share\",\n            execute: (input) => closeGuestShare(input),\n            scheduler,\n            concurrency,\n        }),\n        resolveGuestMessage: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:resolve-guest-message\",\n            execute: (input) => resolveGuestMessage(input),\n            scheduler,\n            concurrency,\n        }),\n        archive: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:archive\",\n            execute: (input) => archiveThread(input),\n            scheduler,\n            concurrency,\n        }),\n        unarchive: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:unarchive\",\n            execute: (input) => unarchiveThread(input),\n            scheduler,\n            concurrency,\n        }),\n        settle: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:settle\",\n            execute: (input) => settleThread(input),\n            scheduler,\n            concurrency,\n        }),\n        unsettle: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:unsettle\",\n            execute: (input) => unsettleThread(input),\n            scheduler,\n            concurrency,\n        }),\n        snooze: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:snooze\",\n            execute: (input) => snoozeThread(input),\n            scheduler,\n            concurrency,\n        }),\n        unsnooze: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:unsnooze\",\n            execute: (input) => unsnoozeThread(input),\n            scheduler,\n            concurrency,\n        }),\n        pin: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:pin\",\n            execute: (input) => pinThread(input),\n            scheduler,\n            concurrency,\n        }),\n        unpin: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:unpin\",\n            execute: (input) => unpinThread(input),\n            scheduler,\n            concurrency,\n        }),\n        reorderPin: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:reorder-pin\",\n            execute: (input) => reorderPinnedThread(input),\n            scheduler,\n            concurrency,\n        }),\n        setAutoSettle: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:set-auto-settle\",\n            execute: (input) => setThreadAutoSettle(input),\n            scheduler,\n            concurrency,\n        }),\n        reorderActive: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:reorder-active\",\n            execute: (input) => reorderActiveThread(input),\n            scheduler,\n            concurrency,\n        }),\n        visit: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:visit\",\n            execute: (input) => visitThread(input),\n            scheduler,\n            concurrency,\n        }),\n        markUnread: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:mark-unread\",\n            execute: (input) => markThreadUnread(input),\n            scheduler,\n            concurrency,\n        }),\n        updateMetadata: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:update-metadata\",\n            execute: (input) => updateThreadMetadata(input),\n            scheduler,\n            concurrency,\n        }),\n        linkPullRequest: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:link-pull-request\",\n            execute: (input) => linkThreadPullRequest(input),\n            scheduler,\n            concurrency,\n        }),\n        unlinkPullRequest: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:unlink-pull-request\",\n            execute: (input) => unlinkThreadPullRequest(input),\n            scheduler,\n            concurrency,\n        }),\n        watchPullRequest: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:watch-pull-request\",\n            execute: (input) => watchThreadPullRequest(input),\n            scheduler,\n            concurrency,\n        }),\n        setRuntimeMode: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:set-runtime-mode\",\n            execute: (input) => setThreadRuntimeMode(input),\n            scheduler,\n            concurrency,\n        }),\n        setInteractionMode: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:set-interaction-mode\",\n            execute: (input) => setThreadInteractionMode(input),\n            scheduler,\n            concurrency,\n        }),\n        startTurn: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:start-turn\",\n            execute: (input) => startThreadTurn(input),\n            scheduler,\n            concurrency,\n        }),\n        interruptTurn: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:interrupt-turn\",\n            execute: interruptTurn,\n            scheduler,\n            concurrency,\n        }),\n        respondToApproval: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:respond-to-approval\",\n            execute: (input) => respondToThreadApproval(input),\n            scheduler,\n            concurrency,\n        }),\n        respondToUserInput: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:respond-to-user-input\",\n            execute: (input) => respondToThreadUserInput(input),\n            scheduler,\n            concurrency,\n        }),\n        dismissUserInput: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:dismiss-user-input\",\n            execute: (input) => dismissThreadUserInput(input),\n            scheduler,\n            concurrency,\n        }),\n        revertCheckpoint: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:revert-checkpoint\",\n            execute: (input) => revertThreadCheckpoint(input),\n            scheduler,\n            concurrency,\n        }),\n        stopSession: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:stop-session\",\n            execute: (input) => stopThreadSession(input),\n            scheduler,\n            concurrency,\n        }),\n        forkFromRun: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:fork-from-run\",\n            execute: (input) => forkThreadFromRun(input),\n            scheduler,\n            concurrency: {\n                mode: \"serial\",\n                key: ({ environmentId, input }) => JSON.stringify([environmentId, input.sourceThreadId]),\n            },\n        }),\n        mergeBack: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:merge-back\",\n            execute: (input) => mergeThreadBack(input),\n            scheduler,\n            concurrency: {\n                mode: \"serial\",\n                key: ({ environmentId, input }) => JSON.stringify([environmentId, input.sourceThreadId, input.targetThreadId]),\n            },\n        }),\n        resumeThreadQueue: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:resume-queue\",\n            execute: (input) => resumeThreadQueue(input),\n            scheduler,\n            concurrency,\n        }),\n        promoteQueuedRun: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:promote-queued-run\",\n            execute: (input) => promoteQueuedRun(input),\n            scheduler,\n            concurrency,\n        }),\n        cancelQueuedRun: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:cancel-queued-run\",\n            execute: (input) => cancelQueuedRun(input),\n            scheduler,\n            concurrency,\n        }),\n        retryWorkspacePreparation: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:retry-workspace-preparation\",\n            execute: (input) => retryWorkspacePreparation(input),\n            scheduler,\n            concurrency,\n        }),\n        editQueuedRun: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:edit-queued-run\",\n            execute: (input) => editQueuedRun(input),\n            scheduler,\n            concurrency,\n        }),\n        loadEarlierHistory: createEnvironmentCommand(runtime, {\n            label: \"environment-data:commands:thread:load-earlier-history\",\n            execute: loadEarlierHistory,\n            scheduler,\n            concurrency: {\n                mode: \"serial\",\n                key: ({ environmentId, input }) => JSON.stringify([environmentId, input.threadId]),\n            },\n        }),\n        uploadFeedback: createEnvironmentRpcCommand(runtime, {\n            label: \"environment-data:commands:thread:upload-feedback\",\n            tag: WS_METHODS.providerUploadFeedback,\n            scheduler,\n            concurrency,\n        }),\n    };\n    const optimistic = createOptimisticThreadLifecycle(snapshotAtom);\n    return {\n        ...commands,\n        snapshotAtom: optimistic.snapshotAtom,\n        settle: optimistic.wrap(commands.settle, (thread, _input, now, accepted) => !accepted\n            && (thread.pendingRuntimeRequest !== null\n                || [\"preparing\", \"queued\", \"starting\", \"running\", \"waiting\"].includes(thread.status))\n            ? thread\n            : {\n                ...thread,\n                pendingRuntimeRequest: null,\n                settledOverride: \"settled\",\n                settledAt: thread.settledOverride === \"settled\" ? (thread.settledAt ?? now) : now,\n                unsettledAt: null,\n                activeOrderKey: null,\n                pinnedAt: null,\n                pinOrderKey: null,\n                snoozedAt: null,\n                snoozedUntil: null,\n            }),\n        unsettle: optimistic.wrap(commands.unsettle, (thread, input, now) => ({\n            ...thread,\n            settledOverride: input.reason === \"user\" ? \"active\" : null,\n            settledAt: null,\n            unsettledAt: thread.settledOverride === \"active\" ? (thread.unsettledAt ?? null) : now,\n        })),\n        snooze: optimistic.wrap(commands.snooze, (thread, input, now, accepted) => (!accepted\n            && (thread.pendingRuntimeRequest !== null\n                || [\"preparing\", \"queued\", \"starting\"].includes(thread.status)))\n            || !(Date.parse(input.snoozedUntil) > DateTime.toEpochMillis(now))\n            ? thread\n            : {\n                ...thread,\n                pendingRuntimeRequest: null,\n                snoozedUntil: DateTime.makeUnsafe(input.snoozedUntil),\n                snoozedAt: now,\n            }),\n        unsnooze: optimistic.wrap(commands.unsnooze, (thread) => ({\n            ...thread,\n            snoozedUntil: null,\n            snoozedAt: null,\n        })),\n        setAutoSettle: optimistic.wrap(commands.setAutoSettle, (thread, input, now) => ({\n            ...thread,\n            autoSettleDisabledAt: input.enabled ? null : (thread.autoSettleDisabledAt ?? now),\n        })),\n        pin: optimistic.wrap(commands.pin, (thread, input, now) => ({\n            ...thread,\n            pinnedAt: thread.pinnedAt ?? now,\n            pinOrderKey: thread.pinnedAt == null ? (input.orderKey ?? null) : thread.pinOrderKey,\n            ...(thread.settledOverride === \"settled\"\n                ? {\n                    settledOverride: \"active\",\n                    settledAt: null,\n                    unsettledAt: now,\n                }\n                : {}),\n            snoozedUntil: null,\n            snoozedAt: null,\n        })),\n        unpin: optimistic.wrap(commands.unpin, (thread) => ({\n            ...thread,\n            pinnedAt: null,\n            pinOrderKey: null,\n        })),\n        reorderPin: optimistic.wrap(commands.reorderPin, (thread, input) => ({\n            ...thread,\n            pinOrderKey: input.orderKey,\n        })),\n        reorderActive: optimistic.wrap(commands.reorderActive, (thread, input) => ({\n            ...thread,\n            activeOrderKey: input.orderKey,\n        })),\n    };\n}\n",
     "map": {
      "version": 3,
      "file": "threadCommands.js",
@@ -16618,7 +16618,7 @@
       }
      ],
      "names": [],
-     "mappings": "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"
+     "mappings": "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"
     }
    },
    {

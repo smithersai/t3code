@@ -309,14 +309,16 @@ export const resolveRemoteWebSocketConnectionUrl = effect (
       })
 
       const url = rpcSocketUrl(input.wsBaseUrl)
-      url.searchParams.set("wsTicket", issued.ticket)
+      try Effect.orDie(
+        Effect.try({ try: () => url.searchParams.set("wsTicket", issued.ticket), catch: (error) => error }),
+      )
       appendClientConnectionParams(
         url,
         input.clientMetadata,
         input.connectionMethod,
         try readClientOwnerParams,
       )
-      return url.toString()
+      return try Effect.orDie(Effect.try({ try: () => url.toString(), catch: (error) => error }))
     },
     "clientRuntime.authorization.resolveRemoteWebSocketConnectionUrl",
   )
@@ -369,15 +371,17 @@ export const resolveRemoteDpopWebSocketConnectionUrl = effect <E>(
         url: `${url.protocol === "wss:" ? "https:" : "http:"}//${url.host}${url.pathname}`,
         accessToken: issued.ticket,
       })
-      url.searchParams.set("wsTicket", issued.ticket)
-      url.searchParams.set("dpop", upgradeProof)
+      try Effect.orDie(
+        Effect.try({ try: () => url.searchParams.set("wsTicket", issued.ticket), catch: (error) => error }),
+      )
+      try Effect.orDie(Effect.try({ try: () => url.searchParams.set("dpop", upgradeProof), catch: (error) => error }))
       appendClientConnectionParams(
         url,
         input.clientMetadata,
         input.connectionMethod,
         try readClientOwnerParams,
       )
-      return url.toString()
+      return try Effect.orDie(Effect.try({ try: () => url.toString(), catch: (error) => error }))
     },
     "clientRuntime.authorization.resolveRemoteDpopWebSocketConnectionUrl",
   )
