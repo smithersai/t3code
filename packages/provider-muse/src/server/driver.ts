@@ -23,7 +23,7 @@ import { makeManagedServerProvider } from "@t3tools/provider-core/server/managed
 import { enrichMuseSnapshot, latestMuseVersion, museMaintenance } from "./maintenance.vibe";
 import { makeMuseEnvironment } from "./sdk.ts";
 import { museUsageReader } from "./usage.vibe";
-import type * as MuseUsageHome from "./MuseUsageHome.ts";
+import type * as MuseUsageHome from "./MuseUsageHome.vibe";
 import {
   defaultProviderContinuationIdentity,
   type ProviderDriver,
