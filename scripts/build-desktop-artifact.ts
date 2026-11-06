@@ -35,7 +35,7 @@ import {
   resolveWebAssetBrandForChannel,
   type WebAssetBrand,
 } from "./lib/brand-assets.ts";
-import { getDefaultBuildArch } from "./lib/build-target-arch.ts";
+import { getDefaultBuildArch } from "./lib/build-target-arch.vibe";
 import {
   findInlinedExternalPackages,
   selectCliRuntimeExternalDependencies,

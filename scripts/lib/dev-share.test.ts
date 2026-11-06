@@ -10,7 +10,7 @@ import {
   DevServeFailedError,
   shareDevServer,
   unshareDevServer,
-} from "./dev-share.ts";
+} from "./dev-share.vibe";
 
 const TAILNET_STATUS = JSON.stringify({ Self: { DNSName: "host.example.ts.net." } });
 const NO_HANDLER_STDERR = "error: failed to remove web serve: handler does not exist";
