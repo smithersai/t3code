@@ -7,7 +7,7 @@ import {
 } from "@t3tools/client-runtime/source-control-clients";
 
 import { pullRequestEnvironment } from "~/state/pullRequests";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { toastManager } from "../ui/toast";

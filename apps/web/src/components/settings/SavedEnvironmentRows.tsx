@@ -33,7 +33,7 @@ import {
   ConnectionDiagnosisSummary,
   useConnectionDiagnosis,
 } from "./ConnectionDiagnosisDetails";
-import { usePreparedConnection } from "~/state/session";
+import { usePreparedConnection } from "../../state/session.vibe";
 import { EnvironmentRow, environmentTransportLabel } from "./EnvironmentRow";
 import { Menu, MenuItem, MenuPopup, MenuSeparator, MenuTrigger } from "../ui/menu";
 import { Switch } from "../ui/switch";
@@ -51,14 +51,14 @@ import { hasCloudPublicConfig } from "~/cloud/publicConfig";
 import { isElectron } from "~/env";
 import { useCloudLinkController } from "~/cloud/useCloudLinkController";
 import { environmentCatalog } from "~/connection/catalog";
-import { readEnvironmentScope } from "~/state/session";
+import { readEnvironmentScope } from "../../state/session.vibe";
 import {
   type EnvironmentPresentation,
   useRelayEnvironmentDiscovery,
   usePrimaryEnvironmentId,
-} from "~/state/environments";
+} from "../../state/environments.vibe";
 import { APP_VERSION } from "~/branding";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { serverEnvironment } from "~/state/server";
 import {
   OutdatedServerUpdateAction,

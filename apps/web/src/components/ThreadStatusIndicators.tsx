@@ -17,7 +17,7 @@ import {
 } from "@t3tools/contracts";
 import { Atom } from "effect/reactivity";
 import { FolderGit2Icon, TerminalIcon } from "lucide-react";
-import { useEnvironment, usePrimaryEnvironmentId } from "../state/environments";
+import { useEnvironment, usePrimaryEnvironmentId } from "../state/environments.vibe";
 import { EnvironmentMachineIcon } from "./EnvironmentMachineIcon";
 import { useProject } from "../state/entities";
 import {
@@ -33,7 +33,7 @@ import { type ReactNode, type AnimationEvent, type MouseEvent, type ReactElement
 import { cn } from "../lib/utils";
 import { revealThreadTerminal } from "../lib/revealThreadTerminal";
 
-import { useEnvironmentQuery } from "../state/query";
+import { useEnvironmentQuery } from "../state/query.vibe";
 import { linkedPullRequestDetailAtom, useSharedPullRequestSummary } from "../state/pullRequests";
 import { useThreadRunningTerminalIds } from "../state/terminalSessions.vibe";
 import { vcsEnvironment } from "../state/vcs";

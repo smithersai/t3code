@@ -2,7 +2,7 @@ import { projectChangeRequestUrl } from "@t3tools/client-runtime/change-request-
 import { normalizeThreadPullRequestKey } from "@t3tools/client-runtime/thread-pull-requests";
 import { changeRequestReferenceAutolinker } from "@t3tools/client-runtime/pull-request-markdown";
 import { useAtomValue } from "@effect/atom-react";
-import { usePullRequestStack } from "~/state/usePullRequestStack";
+import { usePullRequestStack } from "../../state/usePullRequestStack.vibe";
 import {
   scopedThreadKey,
   scopeProjectRef,
@@ -58,14 +58,14 @@ import { offHeadPullRequestCheckoutToast } from "./pullRequestCheckoutToast";
 import { usePreparePullRequestThreadAction } from "~/lib/sourceControlActions";
 import { cn } from "~/lib/utils";
 import { readLocalApi } from "~/localApi";
-import type { ReviewCommentContext } from "~/reviewCommentContext";
+import type { ReviewCommentContext } from "../../reviewCommentContext.vibe";
 import { useProjects, useServerConfigs } from "~/state/entities";
-import { useEnvironments } from "~/state/environments";
-import { useEnvironmentQuery } from "~/state/query";
-import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
+import { useEnvironments } from "../../state/environments.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
 import { useLiveRefresh } from "~/hooks/useLiveRefresh";
 import { pullRequestEnvironment, usePullRequestTurnRefresh } from "~/state/pullRequests";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { PullRequestStackMenu } from "./PullRequestStackMenu";
 import { PullRequestChangeBreakdownStat } from "./PullRequestChangeBreakdownStat";
 import {

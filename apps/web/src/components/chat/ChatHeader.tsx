@@ -25,10 +25,10 @@ import { toastManager } from "../ui/toast";
 import { useThreadActionMenu } from "~/hooks/useThreadActionMenu";
 import { readLocalApi } from "~/localApi";
 import { threadEnvironment } from "../../state/threads";
-import { canShareWithGuestAtom } from "./guestShareAvailability";
+import { canShareWithGuestAtom } from "./guestShareAvailability.vibe";
 import { useAtomValue } from "@effect/atom-react";
-import { useOrchestrationCommand } from "../../state/use-orchestration-command";
-import { readEnvironmentScope, useEnvironmentScope } from "../../state/session";
+import { useOrchestrationCommand } from "../../state/use-orchestration-command.vibe";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
 import { ProjectFavicon } from "../ProjectFavicon";
 import {
   WorkspaceBreadcrumb,

@@ -1,7 +1,7 @@
 import { type ModelSelection, ProviderDriverKind, ProviderInstanceId, type ServerProvider } from "@t3tools/contracts";
 import { UnifiedSettings } from "@t3tools/contracts/settings";
-import { ModelEsque } from "./components/chat/providerIconUtils.ts";
-import { type ProviderInstanceEntry } from "./providerInstances.ts";
+import { ModelEsque } from "./components/chat/providerIconUtils";
+import { type ProviderInstanceEntry } from "./providerInstances";
 export declare const MAX_CUSTOM_MODEL_LENGTH = 256;
 export interface AppModelOption {
     slug: string;

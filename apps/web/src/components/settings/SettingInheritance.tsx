@@ -10,7 +10,7 @@ import { CheckIcon, ChevronRightIcon, LayersIcon } from "lucide-react";
 import * as Equal from "effect/Equal";
 
 import { cn } from "../../lib/utils";
-import type { EnvironmentPresentation } from "../../state/environments";
+import type { EnvironmentPresentation } from "../../state/environments.vibe";
 import { EnvironmentMachineIcon } from "../EnvironmentMachineIcon";
 import { resolveEnvModeLabel, WORKTREE_SUBMODULES_LABELS } from "../BranchToolbar.logic.vibe";
 import { PULL_REQUEST_MERGE_METHOD_LABELS } from "../pullRequest/pullRequestDetail.logic.vibe";

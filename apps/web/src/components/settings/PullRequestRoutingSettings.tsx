@@ -8,8 +8,8 @@ import {
 import { useState } from "react";
 
 import { environmentCatalog } from "~/connection/catalog";
-import type { EnvironmentPresentation } from "~/state/environments";
-import { useAtomCommand } from "~/state/use-atom-command";
+import type { EnvironmentPresentation } from "../../state/environments.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "../ui/select";
 import { toastManager } from "../ui/toast";
 import { EnvironmentRow, environmentTransportLabel } from "./EnvironmentRow";

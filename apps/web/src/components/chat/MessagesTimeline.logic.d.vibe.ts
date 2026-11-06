@@ -3,7 +3,7 @@ import type { HandoffTimelineRun } from "@t3tools/client-runtime/handoff";
 import { contextCompactionTokenCounts, type ToolGroupSummaryKind } from "@t3tools/client-runtime/work-log/presentation";
 export { toolGroupAction } from "@t3tools/client-runtime/work-log/presentation";
 import { type TimelineEntry, type WorkLogEntry } from "../../session-logic.vibe";
-import { type ChatMessage, type ProposedPlan, type ThreadShell, type TurnDiffSummary } from "../../types.ts";
+import { type ChatMessage, type ProposedPlan, type ThreadShell, type TurnDiffSummary } from "../../types";
 import { type WorktreeSetupSnapshot, type OrchestrationV2ProjectedTurnItem, type RunAttemptId, RunId, type ThreadId, type TurnItemId } from "@t3tools/contracts";
 import type { ThreadRunSummary } from "@t3tools/client-runtime/state/shell";
 import { type T3McpToolPresentation } from "@t3tools/shared/t3McpToolPresentation";

@@ -57,16 +57,16 @@ import {
 import { useState, type ReactNode } from "react";
 
 import { useArchivedThreadSnapshots } from "../../lib/archivedThreadsState.vibe";
-import { buildThreadRouteParams } from "../../threadRoutes";
+import { buildThreadRouteParams } from "../../threadRoutes.vibe";
 import {
   useProjects,
   useThreadProjection,
   useThreadRelationshipShells,
 } from "../../state/entities";
-import { useEnvironment, useEnvironmentProviders } from "../../state/environments";
+import { useEnvironment, useEnvironmentProviders } from "../../state/environments.vibe";
 import { threadEnvironment } from "../../state/threads";
 import { orchestrationEnvironment } from "../../state/orchestration";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { AgentElapsed } from "./AgentElapsed";
 import { ThreadRelationshipIcon, threadRelationshipStatusLabel } from "./ThreadRelationshipIcon";
 import { ThreadLineageWorkflowRow } from "./ThreadLineageWorkflowRow";

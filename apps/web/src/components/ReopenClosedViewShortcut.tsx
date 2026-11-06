@@ -29,18 +29,18 @@ import {
   selectThreadRightPanelState,
   useRightPanelStore,
 } from "../rightPanelStore";
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { readProject, readThreadShell } from "../state/entities";
 import { previewEnvironment } from "../state/preview";
 import { primaryServerKeybindingsAtom } from "../state/server";
-import { environmentShell } from "../state/shell";
-import { useAtomCommand } from "../state/use-atom-command";
+import { environmentShell } from "../state/shell.vibe";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { selectThreadTerminalUiState, useTerminalUiStateStore } from "../terminalUiStateStore";
 import {
   buildDraftThreadRouteParams,
   buildThreadRouteParams,
   resolveThreadRouteTarget,
-} from "../threadRoutes";
+} from "../threadRoutes.vibe";
 import { toastManager } from "./ui/toast";
 
 const PREVIEW_FORWARDED_LAYOUT_COMMANDS = [

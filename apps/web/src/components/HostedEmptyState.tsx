@@ -8,7 +8,7 @@ import { APP_DISPLAY_NAME, DESKTOP_DOWNLOAD_URL } from "~/branding";
 import { hasCloudPublicConfig } from "~/cloud/publicConfig";
 import { isElectron } from "../env";
 import { isLocalEnvironmentDisabled } from "../localEnvironment";
-import { useRelayEnvironmentDiscovery } from "../state/environments";
+import { useRelayEnvironmentDiscovery } from "../state/environments.vibe";
 import { CommandBlock } from "./CommandBlock";
 import { useT3ConnectAuthPrompt } from "./clerk/useT3ConnectAuthPrompt";
 import { CloudEnvironmentConnectRows } from "./cloud/CloudEnvironmentConnectList";

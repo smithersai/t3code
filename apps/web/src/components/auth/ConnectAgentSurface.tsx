@@ -13,7 +13,7 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { type ReactNode, useEffect, useState } from "react";
 
-import { PrimaryEnvironmentHttpClient } from "../../environments/primary/httpClient.vibe";
+import { PrimaryEnvironmentHttpClient } from "../../environments/primary/httpClient.ts";
 import { runPrimaryHttp } from "~/lib/runtime";
 import { cn } from "~/lib/utils";
 import { runtimeModeConfig } from "../chat/runtimeModeConfig";

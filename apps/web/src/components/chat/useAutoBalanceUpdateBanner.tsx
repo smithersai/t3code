@@ -2,8 +2,8 @@ import { useAtomValue } from "@effect/atom-react";
 import type { ServerUpdateState } from "@t3tools/client-runtime/state/server";
 import { useState } from "react";
 
-import { environmentIdsKey } from "~/state/environmentAtomList";
-import type { EnvironmentPresentation } from "~/state/environments";
+import { environmentIdsKey } from "../../state/environmentAtomList.vibe";
+import type { EnvironmentPresentation } from "../../state/environments.vibe";
 import { environmentUpdateStatesAtom } from "~/state/server";
 import {
   buildVersionMismatchDismissalKey,

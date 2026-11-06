@@ -1,5 +1,5 @@
 import { AuthProvidersManageScope } from "@t3tools/contracts";
-import { readEnvironmentScope, useEnvironmentScope } from "../../state/session";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
 import { useAtomValue } from "@effect/atom-react";
 import {
   ProviderDriverKind,
@@ -13,7 +13,7 @@ import { usesChatGptSharing } from "@t3tools/shared/usageLimits";
 import { useEnvironmentSettings } from "../../hooks/useSettings";
 import { randomUUID } from "../../lib/utils";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Button } from "../ui/button";
 import { Dialog } from "../ui/dialog";
 import { Input } from "../ui/input";

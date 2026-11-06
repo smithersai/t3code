@@ -4,8 +4,8 @@ import { createEnvironmentRpcQueryAtomFamily } from "@t3tools/client-runtime/sta
 import { WS_METHODS } from "@t3tools/contracts";
 
 import { environmentCatalog } from "../connection/catalog";
-import { connectionAtomRuntime } from "../connection/runtime";
-import { environmentSnapshotAtom } from "./shell";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
+import { environmentSnapshotAtom } from "./shell.vibe";
 import { serverEnvironment } from "./server";
 
 export const environmentProjects = createEnvironmentProjectAtoms({

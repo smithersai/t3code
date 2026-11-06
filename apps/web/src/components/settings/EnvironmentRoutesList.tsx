@@ -30,9 +30,9 @@ import { useState } from "react";
 import { requestConfirmDialog } from "~/confirmDialog";
 import { environmentCatalog } from "~/connection/catalog";
 import { cn } from "~/lib/utils";
-import type { EnvironmentPresentation } from "~/state/environments";
-import { usePreparedConnection } from "~/state/session";
-import { useAtomCommand } from "~/state/use-atom-command";
+import type { EnvironmentPresentation } from "../../state/environments.vibe";
+import { usePreparedConnection } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
 

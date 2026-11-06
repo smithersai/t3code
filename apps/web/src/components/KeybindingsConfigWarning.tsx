@@ -6,7 +6,7 @@ import {
 import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
 
 import { useOpenInPreferredEditor } from "../editorPreferences.vibe";
-import { useEnvironmentScope } from "../state/session";
+import { useEnvironmentScope } from "../state/session.vibe";
 import { Button } from "./ui/button";
 import { stackedThreadToast, toastManager } from "./ui/toast";
 

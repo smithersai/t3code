@@ -3,13 +3,13 @@ import type { OtlpEndpointCheckResult, OtlpSignal, ServerObservability } from "@
 import { useEffect, useEffectEvent, useState } from "react";
 
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { ConnectionStatusDot } from "../ConnectionStatusDot";
 import { useSettingsScope } from "./SettingsScopeContext";
-import { useScopedSettings } from "./useScopedSettings.vibe";
+import { useScopedSettings } from "./useScopedSettings.ts";
 import { SettingsSection } from "./settingsLayout";
 import { SettingsScopeNotice } from "./SettingsScopeNotice";
 

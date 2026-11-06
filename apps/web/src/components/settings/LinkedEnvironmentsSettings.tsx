@@ -19,10 +19,10 @@ import { useId, useRef, useState } from "react";
 
 import { requestConfirmDialog } from "~/confirmDialog";
 import { mintPairingCodeOn } from "../../state/peerPairingCode.vibe";
-import { peerLinkEnvironment, useLinkableMachines } from "~/state/peerLinks";
-import { useEnvironmentQuery } from "~/state/query";
-import { useEnvironmentScope, usePreparedConnection } from "~/state/session";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { peerLinkEnvironment, useLinkableMachines } from "../../state/peerLinks.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useEnvironmentScope, usePreparedConnection } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { accessConfig } from "../auth/ConnectAgentSurface";
 import { ConnectionStatusDot } from "../ConnectionStatusDot";
 import { Button } from "../ui/button";

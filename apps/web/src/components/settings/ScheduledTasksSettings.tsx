@@ -63,17 +63,17 @@ import {
   useEnvironment,
   useEnvironmentHttpBaseUrl,
   type EnvironmentPresentation,
-} from "../../state/environments";
+} from "../../state/environments.vibe";
 import { useProjects } from "../../state/entities";
-import { environmentAtomList, environmentIdsKey } from "../../state/environmentAtomList";
-import { formatEnvironmentQueryError, useEnvironmentQuery } from "../../state/query";
+import { environmentAtomList, environmentIdsKey } from "../../state/environmentAtomList.vibe";
+import { formatEnvironmentQueryError, useEnvironmentQuery } from "../../state/query.vibe";
 import { EMPTY_SERVER_PROVIDERS, serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { WorktreeBaseBranchPicker } from "../WorktreeBaseBranchPicker";
 import { EnvironmentMachineIcon } from "../EnvironmentMachineIcon";
 import { ConnectionStatusDot, connectionPhaseDotClassName } from "../ConnectionStatusDot";
 import { AuthOrchestrationOperateScope } from "@t3tools/contracts";
-import { readEnvironmentScope } from "~/state/session";
+import { readEnvironmentScope } from "../../state/session.vibe";
 import { useSettingsScope } from "./SettingsScopeContext";
 import { EnvironmentRow, environmentTransportLabel } from "./EnvironmentRow";
 import { SettingsGroup } from "./SettingsGroup";

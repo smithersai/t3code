@@ -18,7 +18,7 @@ import {
   type VectorBitmap,
   type VectorRequest,
 } from "./slide-protocol";
-import { deckText } from "./slide-text.vibe";
+import { deckText } from "./slide-text.ts";
 import { officeImageBitmap } from "./image-bitmap";
 import { serveWorker, Transfer } from "./worker-rpc";
 

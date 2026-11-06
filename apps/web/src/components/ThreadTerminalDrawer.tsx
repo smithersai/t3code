@@ -79,14 +79,14 @@ import { confirmTerminalClose } from "~/lib/terminalCloseConfirm";
 import { useClientSettings } from "../hooks/useSettings";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { attachedTerminalSessionAtom } from "../state/terminalSessions.vibe";
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { serverEnvironment } from "../state/server";
 import { previewEnvironment } from "../state/preview";
-import { readEnvironmentScope } from "../state/session";
+import { readEnvironmentScope } from "../state/session.vibe";
 import { terminalEnvironment } from "../state/terminal";
-import { useEnvironmentScope } from "../state/session";
+import { useEnvironmentScope } from "../state/session.vibe";
 import { openTerminalLinkInPreview } from "./preview/openTerminalLinkInPreview";
-import { useAtomCommand } from "../state/use-atom-command";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { preventTerminalCloseShortcut } from "../lib/terminalCloseShortcut";
 import { observeResize } from "../lib/observeResize";
 import {

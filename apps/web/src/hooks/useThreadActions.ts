@@ -24,8 +24,8 @@ import { useRouter } from "@tanstack/react-router";
 
 import { getFallbackThreadIdAfterDelete, pinOrderKeyBetween } from "../components/Sidebar.logic";
 import { useComposerDraftStore } from "../composerDraftStore";
-import { environmentSession, readEnvironmentScope } from "../state/session";
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { environmentSession, readEnvironmentScope } from "../state/session.vibe";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { environmentServerConfigsAtom } from "../state/server";
 import { isScratchProject } from "@t3tools/client-runtime/state/projects";
 import { orchestrationEnvironment } from "../state/orchestration";
@@ -51,14 +51,14 @@ import {
 import { useUiStateStore } from "../uiStateStore";
 import { clearThreadPreviewState } from "../previewStateStore";
 import { useTerminalUiStateStore } from "../terminalUiStateStore";
-import { buildThreadRouteParams, resolveThreadRouteRef } from "../threadRoutes";
+import { buildThreadRouteParams, resolveThreadRouteRef } from "../threadRoutes.vibe";
 import { formatWorktreePathForDisplay, getOrphanedWorktreePathForThread } from "../worktreeCleanup";
 import { stackedThreadToast, toastManager } from "../components/ui/toast";
 import { useClientSettings } from "./useSettings";
 import * as ThreadUndo from "./threadUndo";
 import { showThreadUndoNotice } from "./showThreadUndoNotice";
-import { useAtomCommand } from "../state/use-atom-command";
-import { useOrchestrationCommand } from "../state/use-orchestration-command";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
+import { useOrchestrationCommand } from "../state/use-orchestration-command.vibe";
 import { useAtomQueryRunner } from "../state/use-atom-query-runner.vibe";
 
 export class ThreadArchiveBlockedError extends Schema.TaggedError<ThreadArchiveBlockedError>()(

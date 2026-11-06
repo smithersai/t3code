@@ -14,7 +14,7 @@ import { findProjectOnChangeRequestHost } from "@t3tools/client-runtime/change-r
 
 import { useProjects } from "~/state/entities";
 import { threadEnvironment } from "~/state/threads";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 import { MorphIcon } from "~/components/MorphIcon";
 import { linkedPullRequestSnapshotStatus, prStatusIndicator } from "../ThreadStatusIndicators";

@@ -8,8 +8,8 @@ import { settlePromise, squashAtomCommandFailure } from "@t3tools/client-runtime
 import { useRef, useState } from "react";
 
 import { useProjects, useThreadShell } from "~/state/entities";
-import { usePullRequestLinking } from "~/hooks/usePullRequestLinking";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { usePullRequestLinking } from "../../hooks/usePullRequestLinking.vibe";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
 import { Atom } from "effect/reactivity";
 import { Button } from "../ui/button";
 import {

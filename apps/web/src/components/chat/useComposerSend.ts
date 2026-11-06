@@ -61,7 +61,7 @@ import { type ChatMessage } from "../../types";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 import { newMessageId, newThreadId } from "~/lib/utils";
 import { useNewThreadHandler } from "../../hooks/useHandleNewThread";
-import { buildThreadRouteParams } from "../../threadRoutes";
+import { buildThreadRouteParams } from "../../threadRoutes.vibe";
 import {
   beginBackgroundDraftSubmissionByRef,
   clearBackgroundDraftSubmissionByRef,
@@ -103,10 +103,10 @@ import {
   retryAttachmentUpload,
   startAttachmentUpload,
 } from "../../lib/attachmentUploadQueue";
-import { appAtomRegistry } from "../../rpc/atomRegistry";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
 import { fileAttachmentCapabilityBlockReason } from "./composerAttachmentFiles";
-import { readEnvironmentScope } from "../../state/session";
-import { useOrchestrationCommand } from "../../state/use-orchestration-command";
+import { readEnvironmentScope } from "../../state/session.vibe";
+import { useOrchestrationCommand } from "../../state/use-orchestration-command.vibe";
 import {
   ATTACHMENT_ONLY_BOOTSTRAP_PROMPT,
   threadContextsOutsideEnvironment,

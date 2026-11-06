@@ -5,7 +5,7 @@ import { createBrowserHistory, createHashHistory } from "@tanstack/react-router"
 import { applyAppearanceContrast } from "./appearanceContrast";
 import { applyAppearanceFontVariables } from "./appearanceFonts";
 import { startElectronBrowserHost } from "./browser/ElectronBrowserHost";
-import { startBrowserProfileReporting } from "./browser/BrowserProfileReporter";
+import { startBrowserProfileReporting } from "./browser/BrowserProfileReporter.vibe";
 import { startPreviewTitleRecording } from "./browserHistoryStore";
 import { retainThreadOverlaysForThread } from "./components/chat/threadOverlayRetention";
 import { startBackgroundThreadAnnouncements } from "./components/BackgroundThreadAnnouncer";
@@ -13,7 +13,7 @@ import { startSshPasswordPromptQueue } from "./components/desktop/SshPasswordPro
 import { startHostFreezeToasts } from "./components/HostFreezeToastCoordinator";
 import { startKeybindingsUpdateToasts } from "./components/KeybindingsUpdateToast";
 import { startLegacyThreadMigrationToast } from "./components/LegacyThreadMigrationToast";
-import { startPermissionUpdateNotices } from "./components/PermissionUpdateNotice";
+import { startPermissionUpdateNotices } from "./components/PermissionUpdateNotice.vibe";
 import { startAgentOpenedPreviews } from "./components/preview/agentOpenedPreviews";
 import { startMainAppLocationTracking } from "./components/sidebar/mainAppLocation";
 import { startDesktopUpdateLaunchNotice } from "./components/sidebar/updateEverythingRun";
@@ -44,14 +44,14 @@ import {
 } from "./lib/windowControlsOverlay";
 import { startProviderAuthDelivery } from "./providerAuthDelivery";
 import { getRouter, type AppRouter } from "./router";
-import { appAtomRegistry } from "./rpc/atomRegistry";
+import { appAtomRegistry } from "./rpc/atomRegistry.vibe";
 import { primaryServerConfigAtom } from "./state/server";
-import { environmentShell } from "./state/shell";
+import { environmentShell } from "./state/shell.vibe";
 import { installChatRouteCommands } from "./shortcuts/chatRouteCommands";
 import { installCommandPaletteCommands } from "./shortcuts/commandPaletteCommands";
 import { registerOpenFavoriteEditorCommand } from "./components/chat/OpenInPickerShortcut";
 import { environmentThreadShells } from "./state/threads";
-import { resolveThreadRouteTarget } from "./threadRoutes";
+import { resolveThreadRouteTarget } from "./threadRoutes.vibe";
 
 /** Writes appearance settings onto the document, touching only the groups that changed. */
 function startClientAppearance(): void {

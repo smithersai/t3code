@@ -1,0 +1,13 @@
+import { Connection } from "@t3tools/client-runtime/connection";
+import { ShellSnapshotLoader } from "@t3tools/client-runtime/state/shell";
+import { ThreadHistoryController } from "@t3tools/client-runtime/state/threads";
+import { PullRequestDiffLoader } from "@t3tools/client-runtime/state/pull-requests";
+import * as Layer from "effect/Layer";
+import { Atom } from "effect/reactivity";
+import * as Runtime from "../lib/runtime";
+import * as BackgroundActivityReporter from "../lib/backgroundActivityReporter";
+import * as ConnectionPlatform from "./platform";
+declare const layerSnapshotLoader: Layer.Layer<PullRequestDiffLoader.PullRequestDiffLoader | ShellSnapshotLoader.ShellSnapshotLoader | ThreadHistoryController.ThreadHistoryController | import("@t3tools/client-runtime/state/threads").ThreadSnapshotLoader, never, import("effect/http/HttpClient").HttpClient>;
+type ConnectionLayerSource = typeof Connection.layer | typeof layerSnapshotLoader | typeof Runtime.layer | typeof ConnectionPlatform.layer | typeof BackgroundActivityReporter.layerObserver | typeof BackgroundActivityReporter.layer;
+export declare const connectionAtomRuntime: Atom.AtomRuntime<Layer.Success<ConnectionLayerSource>, Layer.Error<ConnectionLayerSource>>;
+export {};

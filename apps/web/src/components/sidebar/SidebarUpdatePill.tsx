@@ -42,7 +42,7 @@ import {
   saveUpdateEverythingResult,
   useUpdateEverythingRun,
 } from "./updateEverythingRun";
-import { type ReportLocalUpdateError, useUpdateEverything } from "./useUpdateEverything";
+import { type ReportLocalUpdateError, useUpdateEverything } from "./useUpdateEverything.vibe";
 
 type SidebarUpdatePopoverChangeDetails = Parameters<
   NonNullable<ComponentProps<typeof Popover>["onOpenChange"]>

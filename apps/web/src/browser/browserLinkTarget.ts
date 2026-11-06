@@ -1,7 +1,7 @@
 import type { BrowserLinkTarget, ScopedThreadRef } from "@t3tools/contracts";
 
 import { ensureClientSettingsHydrated, getClientSettings } from "~/hooks/useSettings";
-import { isPreviewAvailableFor } from "./previewRuntime";
+import { isPreviewAvailableFor } from "./previewRuntime.vibe";
 
 export interface ResolveLinkTargetInput {
   readonly url: string;

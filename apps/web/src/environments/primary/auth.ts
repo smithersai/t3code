@@ -19,7 +19,7 @@ import {
   stripPairingTokenFromUrl as stripPairingTokenUrl,
 } from "../../pairingUrl";
 
-import { PrimaryEnvironmentHttpClient } from "./httpClient.vibe";
+import { PrimaryEnvironmentHttpClient } from "./httpClient";
 import { runPrimaryHttp } from "../../lib/runtime";
 
 const PrimaryEnvironmentRequestOperation = Schema.Literals([

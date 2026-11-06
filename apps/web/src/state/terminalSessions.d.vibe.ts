@@ -1,6 +1,6 @@
-import { Atom } from "effect/reactivity";
 import { type KnownTerminalSession, type TerminalSessionState } from "@t3tools/client-runtime/state/terminal";
 import { EnvironmentId, ThreadId, TerminalAttachInput, type TerminalSummary } from "@t3tools/contracts";
+import { Atom } from "effect/reactivity";
 export declare function selectKnownTerminalSessions(metadata: ReadonlyArray<TerminalSummary> | null, environmentId: EnvironmentId | null, threadId: ThreadId | null): ReadonlyArray<KnownTerminalSession>;
 /**
  * One shown terminal's session: its attach (or read-only observe) buffer

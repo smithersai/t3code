@@ -16,7 +16,7 @@ import {
 } from "@t3tools/contracts";
 import { dismissProjectFileCopy, useProjectFileCopy } from "../../lib/addProjectToMachine";
 import { type ComposerBannerStackItem } from "./ComposerBannerStack";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Button } from "../ui/button";
 /**
  * A project still being cloned or copied into place: the composer banner with its cancel,

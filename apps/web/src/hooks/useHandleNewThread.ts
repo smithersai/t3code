@@ -36,10 +36,10 @@ import {
 } from "../lib/chatThreadActions";
 import type { EnvironmentProject } from "@t3tools/client-runtime/state/shell";
 import { readT3ProjectFile } from "../lib/t3ProjectFileDefaults";
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { environmentSummaries } from "../state/presentation.vibe";
 import { environmentServerConfigsAtom } from "../state/server";
-import { resolveThreadRouteTarget } from "../threadRoutes";
+import { resolveThreadRouteTarget } from "../threadRoutes.vibe";
 import { legacyProjectCwdPreferenceKey, useUiStateStore } from "../uiStateStore";
 import { getClientSettings } from "./useSettings";
 import { useThreadRouteTarget } from "./useThreadRouteTarget";

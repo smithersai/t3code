@@ -1,6 +1,6 @@
-import { Atom } from "effect/reactivity";
 import type { EnvironmentPresentation } from "@t3tools/client-runtime/connection";
 import type { EnvironmentId } from "@t3tools/contracts";
+import { Atom } from "effect/reactivity";
 export declare const environmentPresentations: {
     presentationAtom: (arg: string & import("effect/Brand").Brand<"EnvironmentId">) => Atom.Atom<EnvironmentPresentation | null>;
     presentationsAtom: Atom.Atom<ReadonlyMap<string & import("effect/Brand").Brand<"EnvironmentId">, EnvironmentPresentation>>;

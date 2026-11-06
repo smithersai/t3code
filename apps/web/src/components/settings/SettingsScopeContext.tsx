@@ -5,7 +5,7 @@ import * as Option from "effect/Option";
 import { AsyncResult, Atom } from "effect/reactivity";
 import { createContext, type ReactNode, useContext } from "react";
 
-import { useEnvironments, usePrimaryEnvironmentId } from "../../state/environments";
+import { useEnvironments, usePrimaryEnvironmentId } from "../../state/environments.vibe";
 import { getProjectFileQueryAtom, optimisticFileAtom } from "../files/projectFilesQueryState.vibe";
 import { useSettingsProjectGroups } from "./useSettingsProjectGroups";
 import {

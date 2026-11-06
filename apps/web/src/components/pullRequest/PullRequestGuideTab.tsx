@@ -2,7 +2,7 @@ import type { EnvironmentId, PullRequestRef, PullRequestReviewGuideStop } from "
 import { SparklesIcon, TriangleAlertIcon } from "lucide-react";
 import { useEffect, useEffectEvent } from "react";
 
-import type { ReviewCommentContext } from "~/reviewCommentContext";
+import type { ReviewCommentContext } from "../../reviewCommentContext.vibe";
 
 import { Alert, AlertAction, AlertDescription } from "../ui/alert";
 import { Button } from "../ui/button";

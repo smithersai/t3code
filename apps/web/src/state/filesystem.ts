@@ -4,10 +4,10 @@ import {
 } from "@t3tools/client-runtime/state/filesystem";
 import type { EnvironmentId } from "@t3tools/contracts";
 
-import { connectionAtomRuntime } from "../connection/runtime";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
 import { useEnvironmentPresentation } from "./presentation.vibe";
-import { useEnvironmentQuery } from "./query";
-import { environmentSession } from "./session";
+import { useEnvironmentQuery } from "./query.vibe";
+import { environmentSession } from "./session.vibe";
 
 export const filesystemEnvironment = createFilesystemEnvironmentAtoms(connectionAtomRuntime);
 

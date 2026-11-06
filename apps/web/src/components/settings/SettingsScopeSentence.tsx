@@ -4,7 +4,7 @@ import { CheckIcon, ChevronDownIcon, LayersIcon } from "lucide-react";
 import { Fragment, useState, type ReactNode } from "react";
 
 import type { SidebarProjectSnapshot } from "../../sidebarProjectGrouping";
-import { useEnvironments, type EnvironmentPresentation } from "../../state/environments";
+import { useEnvironments, type EnvironmentPresentation } from "../../state/environments.vibe";
 import { EnvironmentMachineIcon } from "../EnvironmentMachineIcon";
 import { ProjectFavicon } from "../ProjectFavicon";
 import { Button } from "../ui/button";

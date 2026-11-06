@@ -9,8 +9,8 @@ import { useState } from "react";
 
 import { usePullRequestChecksRefresh } from "~/hooks/usePullRequestChecksRefresh";
 import { useServerConfigs } from "~/state/entities";
-import { useEnvironmentQuery } from "~/state/query";
-import { useEnvironmentScope } from "~/state/session";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useEnvironmentScope } from "../../state/session.vibe";
 import {
   newestPullRequestSummary,
   pullRequestEnvironment,

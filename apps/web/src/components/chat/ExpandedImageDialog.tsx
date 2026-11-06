@@ -22,7 +22,7 @@ import { ZoomableImage, type ZoomableImageHandle } from "./ZoomableImage";
 import { composerFloatingLayerProps } from "./composerEventScope";
 import { useAtomValue } from "@effect/atom-react";
 import { Atom } from "effect/reactivity";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
 import { expandedImageKey } from "./ExpandedImagePreview";
 import { registerThreadOverlay } from "./threadOverlayRetention";
 

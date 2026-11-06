@@ -23,9 +23,9 @@ import { Fragment, type ReactNode, useLayoutEffect, useState } from "react";
 import { usePrimarySettings } from "../../hooks/useSettings";
 import { observeResize } from "../../lib/observeResize";
 import { environmentPresentations } from "../../state/presentation.vibe";
-import { useEnvironmentScope, readEnvironmentScope } from "../../state/session";
+import { useEnvironmentScope, readEnvironmentScope } from "../../state/session.vibe";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { formatUpcomingTimestamp } from "../../timestampFormat";
 import {
   AlertDialog,

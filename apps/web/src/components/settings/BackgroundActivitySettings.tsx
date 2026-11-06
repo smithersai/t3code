@@ -1,4 +1,4 @@
-import { useScopedSettingsWriteAllowed } from "./useScopedSettings.vibe";
+import { useScopedSettingsWriteAllowed } from "./useScopedSettings.ts";
 import { SettingsIcon } from "lucide-react";
 import { useState } from "react";
 import { type BackgroundActivityProfile } from "@t3tools/contracts";
@@ -10,7 +10,7 @@ import {
   useScopedSettings,
   useScopedSettingsMixed,
   useUpdateScopedSettings,
-} from "./useScopedSettings.vibe";
+} from "./useScopedSettings.ts";
 import { useSettingsScope } from "./SettingsScopeContext";
 import { Button } from "../ui/button";
 import {

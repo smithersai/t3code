@@ -53,10 +53,7 @@ import type {
 import { waitForDraftHeroTransition } from "./components/chat/draftHeroTransition";
 import { getLocalStorageItem } from "./hooks/useLocalStorage";
 import { readThreadPreviewState } from "./previewStateStore";
-import {
-  resolveAppModelSelection,
-  resolveAppModelSelectionForInstance,
-} from "./modelSelection.vibe";
+import { resolveAppModelSelection, resolveAppModelSelectionForInstance } from "./modelSelection.vibe";
 import {
   DEFAULT_INTERACTION_MODE,
   DEFAULT_RUNTIME_MODE,

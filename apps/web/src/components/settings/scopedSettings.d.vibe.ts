@@ -2,7 +2,7 @@ import { type ClientSettingsPatch, type EnvironmentId, type ProjectId, type Proj
 import type { EnvironmentConnectionPhase } from "@t3tools/client-runtime/connection";
 import { type ProjectSettingSource } from "@t3tools/shared/projectSettings";
 import * as Cause from "effect/Cause";
-import type { ResolvedSettingsScope } from "./settingsScope.ts";
+import type { ResolvedSettingsScope } from "./settingsScope";
 export type ScopedSettingsPatch = ServerSettingsPatch & ClientSettingsPatch;
 interface ScopedSettingsEnvironment {
     readonly environmentId: EnvironmentId;
@@ -187,6 +187,7 @@ export declare function planProjectOverridesClear(environments: readonly ScopedS
     serverWrites: ScopedServerWrite[];
     unavailableReason: string | null;
 };
+/** @throws {never} */
 export declare function persistScopedSettingsPatch(plan: ReturnType<typeof planScopedSettingsPatch>, persistServer: (input: {
     environmentId: EnvironmentId;
     input: {

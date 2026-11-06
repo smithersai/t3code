@@ -5,7 +5,7 @@ import type { McpAppReference } from "@t3tools/shared/mcpApp";
 import type { ThreadCheckpointSummary } from "@t3tools/client-runtime/state/thread-checkpoints";
 import type { ThreadPendingApproval, ThreadPendingUserInput } from "@t3tools/client-runtime/state/thread-requests";
 import type { ThreadRunSummary, ThreadRuntimeSummary } from "@t3tools/client-runtime/state/shell";
-import { type ChatAttachment, type ChatMessage, type ProposedPlan, type SessionPhase, type TurnDiffSummary } from "./types.ts";
+import { type ChatAttachment, type ChatMessage, type ProposedPlan, type SessionPhase, type TurnDiffSummary } from "./types";
 export { formatDuration } from "@t3tools/shared/orchestrationTiming";
 export { workEntryDisplayIndicatesToolFailure, workEntryIndicatesToolFailure, } from "@t3tools/client-runtime/work-log/presentation";
 export type WorkLogToolLifecycleStatus = "idle" | "inProgress" | "completed" | "failed" | "declined" | "stopped";

@@ -23,8 +23,8 @@ import {
 } from "../components/threadActionMenu.logic";
 import { stackedThreadToast, toastManager } from "../components/ui/toast";
 import { threadEnvironment } from "../state/threads";
-import { useOrchestrationCommand } from "../state/use-orchestration-command";
-import { readEnvironmentScope } from "../state/session";
+import { useOrchestrationCommand } from "../state/use-orchestration-command.vibe";
+import { readEnvironmentScope } from "../state/session.vibe";
 import {
   readEnvironmentSupportsAutoSettleOptOut,
   readEnvironmentSupportsPinning,
@@ -34,7 +34,7 @@ import {
   readThreadShell,
   useProjects,
 } from "../state/entities";
-import { usePrimaryEnvironmentId } from "../state/environments";
+import { usePrimaryEnvironmentId } from "../state/environments.vibe";
 import { readLocalApi } from "../localApi";
 import {
   deriveLogicalProjectKeyFromSettings,

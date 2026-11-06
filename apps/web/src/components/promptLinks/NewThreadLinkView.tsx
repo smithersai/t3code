@@ -28,13 +28,13 @@ import { useNewThreadHandler } from "~/hooks/useHandleNewThread";
 import { useScratchProject } from "~/hooks/useScratchProject";
 import { newProjectId } from "~/lib/utils";
 import { useProjects, useThreadShells, waitForProject } from "~/state/entities";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
-import { useEnvironments, usePrimaryEnvironmentId } from "~/state/environments";
-import { environmentPresentations } from "~/state/presentation";
-import { allReachableShellsLiveAtom, environmentShell } from "~/state/shell";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
+import { useEnvironments, usePrimaryEnvironmentId } from "../../state/environments.vibe";
+import { environmentPresentations } from "../../state/presentation.vibe";
+import { allReachableShellsLiveAtom, environmentShell } from "../../state/shell.vibe";
 import { sourceControlEnvironment } from "~/state/sourceControl";
 import { pullRequestEnvironment } from "~/state/pullRequests";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 import { usePullRequestHandoffs } from "../pullRequest/usePullRequestActions";
 import { sortScopedProjectsForSidebar } from "../Sidebar.logic";

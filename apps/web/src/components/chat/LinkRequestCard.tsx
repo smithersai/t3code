@@ -25,11 +25,11 @@ import * as Result from "effect/Result";
 import { CheckIcon, LinkIcon, MinusIcon, XIcon } from "lucide-react";
 import { useId, useRef, useState } from "react";
 
-import { useEnvironmentScope, usePreparedConnection } from "../../state/session";
+import { useEnvironmentScope, usePreparedConnection } from "../../state/session.vibe";
 import { mintPairingCodeOn } from "../../state/peerPairingCode.vibe";
-import { useLinkableMachines } from "../../state/peerLinks";
+import { useLinkableMachines } from "../../state/peerLinks.vibe";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { accessConfig } from "../auth/ConnectAgentSurface";
 import { EnvironmentMachineIcon } from "../EnvironmentMachineIcon";
 import { LinkAccessPicker } from "../settings/LinkAccessPicker";

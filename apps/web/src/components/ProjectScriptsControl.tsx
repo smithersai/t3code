@@ -18,7 +18,7 @@ import React, { useState } from "react";
 import { commandForProjectScript, primaryProjectScript } from "../projectScripts.vibe";
 import { shortcutLabelForCommand } from "~/keybindings";
 import { serverEnvironment } from "~/state/server";
-import { readEnvironmentScope } from "~/state/session";
+import { readEnvironmentScope } from "../state/session.vibe";
 import {
   EMPTY_PROJECT_SCRIPT_INPUT,
   editorRequestForScript,

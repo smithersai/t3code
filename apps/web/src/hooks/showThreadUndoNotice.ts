@@ -8,7 +8,7 @@ import { create } from "zustand";
 import { stackedThreadToast, toastManager } from "../components/ui/toast";
 import { shortcutLabelForCommand } from "../keybindings";
 import { announce, cancelAnnouncement } from "../lib/announce";
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { primaryServerKeybindingsAtom } from "../state/server";
 import * as ThreadUndo from "./threadUndo";
 

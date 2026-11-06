@@ -8,7 +8,7 @@ import type {
 import { useAtomValue } from "@effect/atom-react";
 import { Atom } from "effect/reactivity";
 
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
 import { useRightPanelStore } from "~/rightPanelStore";
 import { DeviceSetup } from "../device/DeviceSetup";
 import { PullRequestThreadDialog } from "../PullRequestThreadDialog";

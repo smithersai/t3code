@@ -8,8 +8,8 @@ import { useRef, useState } from "react";
 import { cn } from "../../lib/utils";
 import { environmentPresentations } from "../../state/presentation.vibe";
 import { serverEnvironment } from "../../state/server";
-import { environmentSession, readEnvironmentScope } from "../../state/session";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { environmentSession, readEnvironmentScope } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import type { EnvironmentUsageStatus } from "../../state/usage.vibe";
 import { Button } from "../ui/button";
 import {

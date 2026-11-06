@@ -3,7 +3,7 @@ import type { PreviewViewportSetting, ScopedThreadRef } from "@t3tools/contracts
 
 import { toastManager } from "~/components/ui/toast";
 import { updatePreviewServerSnapshot } from "~/previewStateStore";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { previewEnvironment } from "~/state/preview";
 
 /** One browser tab as both the server (thread + tab id) and this window's runtime know it. */

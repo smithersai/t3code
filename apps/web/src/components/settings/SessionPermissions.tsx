@@ -1,6 +1,6 @@
 import { type EnvironmentId, sessionGrantsScope } from "@t3tools/contracts";
 import { AUTH_SCOPE_OPTIONS } from "@t3tools/shared/authScopeOptions";
-import { useEnvironmentSessionState } from "~/state/session";
+import { useEnvironmentSessionState } from "../../state/session.vibe";
 
 export function SessionPermissions({
   environmentId,

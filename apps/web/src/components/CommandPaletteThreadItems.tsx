@@ -28,12 +28,12 @@ import {
   useEnvironmentProviders,
   useEnvironments,
   usePrimaryEnvironmentId,
-} from "../state/environments";
+} from "../state/environments.vibe";
 import { useThreadSearch } from "../state/queries";
 import { primaryServerProvidersAtom } from "../state/server";
 import { threadEnvironment } from "../state/threads";
-import { useAtomCommand } from "../state/use-atom-command";
-import { buildThreadRouteParams } from "../threadRoutes";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
+import { buildThreadRouteParams } from "../threadRoutes.vibe";
 import { formatRelativeTimeLabel } from "../timestampFormat";
 import { buildThreadActionItems, ITEM_ICON_CLASS } from "./CommandPalette.logic";
 import { useEnvironmentLookups, useProjectLookups } from "./CommandPaletteLookups";

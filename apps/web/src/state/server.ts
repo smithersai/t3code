@@ -24,10 +24,10 @@ import { AsyncResult, Atom } from "effect/reactivity";
 
 import { isConnectedWithConfig } from "../components/settings/scopedSettings.vibe";
 import { environmentCatalog } from "../connection/catalog";
-import { connectionAtomRuntime } from "../connection/runtime";
-import { environmentAtomList } from "./environmentAtomList";
-import { primaryEnvironmentIdAtom } from "./primaryEnvironment";
-import { environmentSession } from "./session";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
+import { environmentAtomList } from "./environmentAtomList.vibe";
+import { primaryEnvironmentIdAtom } from "./primaryEnvironment.vibe";
+import { environmentSession } from "./session.vibe";
 import { reuseProvidersIgnoringCheckedAt } from "./serverProviders.logic";
 
 // Subscribe to every environment's themes; primary can change without reconnecting or updating the subscription.

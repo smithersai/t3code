@@ -1,4 +1,4 @@
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import type {
   EnvironmentId,
   PullRequestRef,
@@ -8,7 +8,7 @@ import { CheckIcon, UserPlusIcon } from "lucide-react";
 import { useState } from "react";
 
 import { pullRequestEnvironment } from "~/state/pullRequests";
-import { useEnvironmentQuery } from "~/state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
 
 import { toastManager } from "../ui/toast";

@@ -16,14 +16,14 @@ import { useEffect, useRef } from "react";
 
 import { useNewThreadHandler } from "../hooks/useHandleNewThread";
 import { useRemoveClonedProject } from "../hooks/useRemoveClonedProject";
-import { useEnvironments } from "../state/environments";
+import { useEnvironments } from "../state/environments.vibe";
 import {
   isProjectCloneToastSilenced,
   silenceProjectCloneToasts,
   useEnvironmentProjectClones,
 } from "../state/projectClones.vibe";
 import { sourceControlEnvironment } from "../state/sourceControl";
-import { useAtomCommand } from "../state/use-atom-command";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { type DraftId, useComposerDraftStore } from "../composerDraftStore";
 import { toastManager } from "./ui/toast";
 import { stackedThreadToast } from "./ui/toastHelpers";

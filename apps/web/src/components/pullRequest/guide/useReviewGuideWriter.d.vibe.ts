@@ -4,7 +4,7 @@ export declare function useReviewGuideWriter({ environmentId, reference, title, 
     reference: PullRequestRef;
     title: string | null;
 }): {
-    query: import("~/state/query").EnvironmentQueryView<{
+    query: import("../../../state/query.vibe").EnvironmentQueryView<{
         readonly guide: {
             readonly headSha: string;
             readonly generatedAt: string;

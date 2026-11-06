@@ -44,16 +44,16 @@ import {
   useEnvironment,
   useEnvironmentHttpBaseUrl,
   usePrimaryEnvironmentId,
-} from "~/state/environments";
+} from "../../state/environments.vibe";
 import { previewEnvironment } from "~/state/preview";
 import { usePreviewStreamAccess } from "~/state/previewStream";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {
   browserMiniPlayerSource,
   selectThreadPreviewMiniPlayerTabId,
   usePreviewMiniPlayerStore,
 } from "~/previewMiniPlayerStore";
-import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
 import { useRightPanelStore } from "~/rightPanelStore";
 
 import { previewBridge } from "./previewBridge";
@@ -70,17 +70,20 @@ import { BrowserDeviceToolbar } from "~/browser/BrowserDeviceToolbar";
 import { BROWSER_DEVICE_TOOLBAR_HEIGHT } from "~/browser/browserViewportLayout";
 import { useBrowserLayoutZoomFactor } from "~/browser/useBrowserLayoutZoomFactor";
 import { previewRuntimeTabId } from "~/browser/previewRuntimeTabId";
-import { BrowserSettingsReadError } from "~/browser/openFileInPreview";
+import { BrowserSettingsReadError } from "../../browser/openFileInPreview.vibe";
 import { PreviewFileNotShown, PreviewUnreachable } from "./PreviewUnreachable";
 import { revealInFileExplorerLabel } from "./fileExplorerLabel";
 import { shouldShowPreviewEmptyState } from "./previewEmptyStateLogic";
 import { Badge } from "~/components/ui/badge";
 import { BrowserSurfaceSlot } from "~/browser/BrowserSurfaceSlot";
-import { alternatePreviewRuntime, useRendersServerTabNatively } from "~/browser/previewRuntime";
+import {
+  alternatePreviewRuntime,
+  useRendersServerTabNatively,
+} from "../../browser/previewRuntime.vibe";
 import { ServerBrowserSurface, type ServerBrowserHandle } from "~/browser/ServerBrowserSurface";
 import { cn } from "~/lib/utils";
 import { useBrowserSurfaceStore } from "~/browser/browserSurfaceStore";
-import { usePreviewSession } from "./usePreviewSession";
+import { usePreviewSession } from "./usePreviewSession.vibe";
 import { ZoomIndicator } from "./ZoomIndicator";
 import { AgentBrowserCursor } from "./AgentBrowserCursor";
 import {

@@ -1,7 +1,7 @@
 import type { EnvironmentId, PullRequestContextMetadata } from "@t3tools/contracts";
 import { CircleDashedIcon, FilmIcon, ImageIcon } from "lucide-react";
 import { useEffect, useState, type ComponentProps, type MouseEvent, type ReactNode } from "react";
-import { useAssetUrlState } from "~/assets/assetUrls";
+import { useAssetUrlState } from "../assets/assetUrls.vibe";
 import { documentChipKindForFileName } from "~/pierre-icons";
 
 import { PULL_REQUEST_STATE_PRESENTATION } from "~/components/pullRequest/pullRequestIcons";

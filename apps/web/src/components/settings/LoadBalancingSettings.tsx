@@ -5,7 +5,7 @@ import {
   useClientSettingsHydrated,
   updateClientSettings,
 } from "~/hooks/useSettings";
-import type { EnvironmentPresentation } from "~/state/environments";
+import type { EnvironmentPresentation } from "../../state/environments.vibe";
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "../ui/select";
 import { Switch } from "../ui/switch";
 import { EnvironmentRow, environmentTransportLabel } from "./EnvironmentRow";

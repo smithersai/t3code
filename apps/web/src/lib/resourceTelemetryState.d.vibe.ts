@@ -7,7 +7,7 @@ export interface ResourceTelemetryState {
     readonly retry: () => Promise<ResourceTelemetrySnapshot>;
 }
 export declare function useResourceTelemetry(targetEnvironmentId?: EnvironmentId | null): ResourceTelemetryState;
-export declare function useResourceTelemetryHistory(input: ResourceTelemetryHistoryInput, targetEnvironmentId?: EnvironmentId | null): import("../state/query.ts").EnvironmentQueryView<{
+export declare function useResourceTelemetryHistory(input: ResourceTelemetryHistoryInput, targetEnvironmentId?: EnvironmentId | null): import("../state/query.vibe").EnvironmentQueryView<{
     readonly readAt: import("effect/DateTime").Utc;
     readonly windowMs: number;
     readonly bucketMs: number;

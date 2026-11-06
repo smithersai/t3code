@@ -107,13 +107,13 @@ import { selectThreadTerminalUiState, useTerminalUiStateStore } from "../termina
 import { useThreadRunningTerminalIds } from "../state/terminalSessions.vibe";
 import { useThreadDiscoveredPorts } from "../portDiscoveryState";
 import { openDiscoveredPort } from "./preview/openDiscoveredPort";
-import { useAtomCommand } from "../state/use-atom-command";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import {
   ORCHESTRATION_OPERATE_DENIED_MESSAGE,
   useOrchestrationCommand,
-} from "../state/use-orchestration-command";
+} from "../state/use-orchestration-command.vibe";
 import { previewEnvironment } from "../state/preview";
-import { readEnvironmentScope, useEnvironmentScope } from "../state/session";
+import { readEnvironmentScope, useEnvironmentScope } from "../state/session.vibe";
 import {
   legacyProjectCwdPreferenceKey,
   resolveProjectExpanded,
@@ -138,8 +138,12 @@ import { useThreadActions } from "../hooks/useThreadActions";
 import { projectEnvironment } from "../state/projects";
 import { threadEnvironment, useEnvironmentThread } from "../state/threads";
 import { readUnloadedThreadCount } from "../state/olderSettledShelf.vibe";
-import { useEnvironment, useEnvironments, usePrimaryEnvironmentId } from "../state/environments";
-import { buildThreadRouteParams, resolveActiveThreadRouteRef } from "../threadRoutes";
+import {
+  useEnvironment,
+  useEnvironments,
+  usePrimaryEnvironmentId,
+} from "../state/environments.vibe";
+import { buildThreadRouteParams, resolveActiveThreadRouteRef } from "../threadRoutes.vibe";
 import { stackedThreadToast, toastManager } from "./ui/toast";
 import { RelativeTime } from "./RelativeTime";
 import { Kbd } from "./ui/kbd";
@@ -219,8 +223,8 @@ import { useIsMobile } from "~/hooks/useMediaQuery";
 import { CommandDialogTrigger } from "./ui/command";
 import { useClientSettings, updateClientSettings } from "~/hooks/useSettings";
 import { primaryServerKeybindingsAtom } from "../state/server";
-import { appAtomRegistry } from "../rpc/atomRegistry";
-import { canShareWithGuestAtom } from "./chat/guestShareAvailability";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
+import { canShareWithGuestAtom } from "./chat/guestShareAvailability.vibe";
 import { openGuestShareDialog } from "./chat/guestShareDialogState.vibe";
 import {
   derivePhysicalProjectKey,

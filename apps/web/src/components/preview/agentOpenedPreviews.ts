@@ -26,8 +26,8 @@ import {
 } from "../../previewStateStore";
 import { useRightPanelStore } from "../../rightPanelStore";
 import { RIGHT_PANEL_INLINE_LAYOUT_MEDIA_QUERY } from "../../rightPanelLayout";
-import { appAtomRegistry } from "../../rpc/atomRegistry";
-import { deviceEnvironment } from "../../state/device";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
+import { deviceEnvironment } from "../../state/device.vibe";
 import { readEnvironmentSupportsServerBrowser } from "../../state/entities";
 import { environmentSummaries } from "../../state/presentation.vibe";
 

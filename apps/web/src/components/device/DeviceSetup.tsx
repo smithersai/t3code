@@ -12,9 +12,13 @@ import { MorphIcon } from "~/components/MorphIcon";
 import { WizardHeader, WizardPanel, WizardSteps, WizardFooter } from "~/components/ui/wizard";
 import { Spinner } from "~/components/ui/spinner";
 import { Switch } from "~/components/ui/switch";
-import { deviceEnvironment, deviceHostProbeAtom, NO_DEVICE_PROBE_ATOM } from "~/state/device";
-import { useAtomCommand } from "~/state/use-atom-command";
-import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
+import {
+  deviceEnvironment,
+  deviceHostProbeAtom,
+  NO_DEVICE_PROBE_ATOM,
+} from "../../state/device.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
 import { cn } from "~/lib/utils";
 
 const platformName = (platform: DevicePlatform) => (platform === "ios" ? "iOS" : "Android");

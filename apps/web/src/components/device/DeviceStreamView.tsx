@@ -6,7 +6,7 @@ import { useId, useRef, useState, type ReactNode } from "react";
 
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
-import { renewDeviceHubAccess, useDeviceHubAccess } from "~/state/device";
+import { renewDeviceHubAccess, useDeviceHubAccess } from "../../state/device.vibe";
 import { resolveDeviceShape } from "@t3tools/client-runtime/device/shape-profile";
 import { deviceKeyboard, deviceModel } from "./deviceModels";
 import { fitDeviceFrame } from "./deviceFrameLayout";
@@ -16,7 +16,7 @@ import { DeviceAndroidFoldControls } from "./DeviceAndroidFoldControls";
 import { DevicePhoneViewport } from "./DevicePhoneViewport";
 import { DeviceLoadingView } from "./DeviceLoadingView";
 import type { DeviceAxElement } from "./deviceHubApi";
-import { androidFoldViewAtom, deviceAxElementsAtom } from "./deviceHubAtoms";
+import { androidFoldViewAtom, deviceAxElementsAtom } from "./deviceHubAtoms.vibe";
 import {
   deviceScreenKey,
   deviceStreamSessionAtom,

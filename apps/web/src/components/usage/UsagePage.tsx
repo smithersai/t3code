@@ -36,14 +36,14 @@ import {
 import { cn } from "../../lib/utils";
 import { usePrimarySettings } from "../../hooks/useSettings";
 import { resolveHour12 } from "../../timestampFormat";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
 import { environmentPresentations } from "../../state/presentation.vibe";
 import { primaryServerKeybindingsAtom, serverEnvironment } from "../../state/server";
 import { isCommandPaletteOpen } from "../../commandPaletteBus";
 import { isModelPickerOpen } from "../../modelPickerVisibility";
 import { shortcutLabelForCommand } from "../../keybindings";
 import { useUsage, type EnvironmentUsageStatus } from "../../state/usage.vibe";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {
   enumerateDays,
   enumerateHourStarts,

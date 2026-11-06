@@ -1,7 +1,7 @@
 import { WS_METHODS } from "@t3tools/contracts";
 import { Atom } from "effect/reactivity";
 
-import { appAtomRegistry } from "./atomRegistry";
+import { appAtomRegistry } from "./atomRegistry.vibe";
 
 const SLOW_RPC_ACK_THRESHOLD_MS = 15_000;
 /**

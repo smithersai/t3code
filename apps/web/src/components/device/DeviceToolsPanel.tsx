@@ -19,7 +19,7 @@ import { Switch } from "~/components/ui/switch";
 import { Toggle, ToggleGroup } from "~/components/ui/toggle-group";
 import { cn } from "~/lib/utils";
 import type { DeviceControls } from "./useDeviceControls.vibe";
-import { deviceEventLogAtom } from "./deviceHubAtoms";
+import { deviceEventLogAtom } from "./deviceHubAtoms.vibe";
 
 const TEXT_SIZES: ReadonlyArray<{ value: DeviceTextSize; label: string }> = [
   { value: "small", label: "Small" },

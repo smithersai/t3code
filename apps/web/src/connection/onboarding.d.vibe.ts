@@ -1,0 +1,3 @@
+import { ConnectionOnboarding } from "@t3tools/client-runtime/connection";
+export declare const connectPairing: import("@t3tools/client-runtime/state/runtime").AtomCommand<ConnectionOnboarding.PairingConnectionInput, string & import("effect/Brand").Brand<"EnvironmentId">, import("@t3tools/client-runtime/platform").ConnectionPersistenceError | import("@t3tools/client-runtime/connection").ConnectionAttemptError>;
+export declare const connectSshEnvironment: import("@t3tools/client-runtime/state/runtime").AtomCommand<ConnectionOnboarding.SshConnectionInput, string & import("effect/Brand").Brand<"EnvironmentId">, import("@t3tools/client-runtime/platform").ConnectionPersistenceError | import("@t3tools/client-runtime/connection").ConnectionAttemptError>;

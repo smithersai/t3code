@@ -11,10 +11,10 @@ import {
 import { CloudIcon, PlusIcon, XIcon } from "lucide-react";
 
 import { randomUUID } from "../../lib/utils";
-import { deviceEasAccountCheck, deviceEnvironment } from "../../state/device";
+import { deviceEasAccountCheck, deviceEnvironment } from "../../state/device.vibe";
 import { serverEnvironment } from "../../state/server";
-import { readEnvironmentScope, useEnvironmentScope } from "../../state/session";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Button } from "../ui/button";
 import {
   Dialog,

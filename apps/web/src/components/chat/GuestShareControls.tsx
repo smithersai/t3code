@@ -15,14 +15,14 @@ import { useState } from "react";
 
 import { useCopyToClipboard } from "~/hooks/useCopyToClipboard";
 import { useNowMinute } from "~/hooks/useNowMinute";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
 import { useQuietThreadProjection } from "~/state/entities";
 import { serverEnvironment } from "~/state/server";
-import { useEnvironmentScope } from "~/state/session";
+import { useEnvironmentScope } from "../../state/session.vibe";
 import { threadEnvironment } from "~/state/threads";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { cn } from "~/lib/utils";
-import { useOrchestrationCommand } from "~/state/use-orchestration-command";
+import { useOrchestrationCommand } from "../../state/use-orchestration-command.vibe";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -34,7 +34,7 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import { Input } from "../ui/input";
-import { useAssetUrls } from "~/assets/assetUrls";
+import { useAssetUrls } from "../../assets/assetUrls.vibe";
 import { type ChatFileAttachment, isImageAttachment } from "../../types";
 import { buildExpandedImagePreview, type ExpandedImagePreview } from "./ExpandedImagePreview";
 import { GuestMessageAttachments } from "./GuestMessageAttachments";

@@ -21,6 +21,7 @@ export type OpenPreviewMutation<E = unknown> = (input: {
     readonly environmentId: EnvironmentId;
     readonly input: PreviewOpenInput;
 }) => Promise<AtomCommandResult<PreviewSessionSnapshot, E>>;
+/** @throws {never} */
 export declare function openUrlInPreview<E>(input: {
     readonly threadRef: ScopedThreadRef;
     readonly url: string;
@@ -28,6 +29,7 @@ export declare function openUrlInPreview<E>(input: {
     readonly profileId?: PreviewOpenInput["profileId"];
     readonly background?: boolean;
 }): Promise<AtomCommandResult<void, E | BrowserSettingsReadError>>;
+/** @throws {never} */
 export declare function openFileInPreview<AssetError, PreviewError>(input: {
     readonly threadRef: ScopedThreadRef;
     readonly filePath: string;

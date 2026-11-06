@@ -73,7 +73,7 @@ import {
   type DraftThreadState,
 } from "../composerDraftStore";
 import * as Schema from "effect/Schema";
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { environmentThreadShells, environmentThreadDetails } from "../state/threads";
 import { waitForAtomValue } from "../state/waitForAtomValue";
 import {

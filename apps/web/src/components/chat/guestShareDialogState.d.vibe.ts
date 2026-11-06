@@ -1,5 +1,5 @@
-import { Atom } from "effect/reactivity";
 import type { ScopedThreadRef } from "@t3tools/contracts";
+import { Atom } from "effect/reactivity";
 /**
  * Which thread has the guest share dialog open. The thread menu and the command palette both
  * close as their command runs, so the chat view renders the dialog once.

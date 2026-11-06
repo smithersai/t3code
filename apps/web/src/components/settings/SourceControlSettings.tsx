@@ -12,7 +12,7 @@ import type {
 import { useSettingsScope } from "./SettingsScopeContext";
 import { ProjectDefaultsSettings } from "./ProjectDefaultsSettings";
 import { cn } from "../../lib/utils";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { sourceControlEnvironment } from "../../state/sourceControl";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";

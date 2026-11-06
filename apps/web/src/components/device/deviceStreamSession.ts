@@ -10,7 +10,7 @@ import type { DeviceHubAccess } from "@t3tools/client-runtime/state/deviceHubAcc
 import type { DevicePlatform, EnvironmentId } from "@t3tools/contracts";
 import { Atom } from "effect/reactivity";
 
-import { refreshDeviceHubAccess } from "~/state/device";
+import { refreshDeviceHubAccess } from "../../state/device.vibe";
 
 export interface DeviceStreamState {
   readonly status: DeviceStreamStatus;

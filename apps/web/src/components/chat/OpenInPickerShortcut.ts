@@ -7,8 +7,8 @@ import { isOpenFavoriteEditorShortcut } from "../../keybindings";
 import { announce } from "../../lib/announce";
 import { useRemoteOpenState } from "../../remoteOpen";
 import { registerCommands } from "../../shortcuts/dispatcher";
-import { shellEnvironment } from "../../state/shell";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { shellEnvironment } from "../../state/shell.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 /** Marks an OpenInPicker's primary button as the target of `editor.openFavorite`. */
 export const OPEN_FAVORITE_EDITOR_ATTRIBUTE = "data-open-favorite-editor";

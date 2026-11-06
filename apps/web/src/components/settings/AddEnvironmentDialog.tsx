@@ -45,11 +45,14 @@ import { environmentCatalog } from "~/connection/catalog";
 import {
   connectPairing as connectPairingAtom,
   connectSshEnvironment as connectSshEnvironmentAtom,
-} from "~/connection/onboarding";
-import { useEnvironmentQuery } from "~/state/query";
+} from "../../connection/onboarding.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { desktopSshHostsStateAtom, filterDiscoveredSshHosts } from "~/state/desktopSshHosts";
-import { type EnvironmentPresentation, useRelayEnvironmentDiscovery } from "~/state/environments";
-import { useAtomCommand } from "../../state/use-atom-command";
+import {
+  type EnvironmentPresentation,
+  useRelayEnvironmentDiscovery,
+} from "../../state/environments.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { primaryServerKeybindingsAtom } from "~/state/server";
 import {
   resolveShortcutCommand,

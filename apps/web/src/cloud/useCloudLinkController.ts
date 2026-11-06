@@ -17,17 +17,14 @@ import { useState } from "react";
 
 import { toastManager } from "../components/ui/toast";
 import { relayEnvironmentDiscovery } from "../state/relay";
-import { readEnvironmentScope } from "../state/session";
-import { useAtomCommand } from "../state/use-atom-command";
+import { readEnvironmentScope } from "../state/session.vibe";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import {
   linkPrimaryEnvironment as linkPrimaryEnvironmentAtom,
   unlinkPrimaryEnvironment as unlinkPrimaryEnvironmentAtom,
   updatePrimaryEnvironmentPreferences as updatePrimaryEnvironmentPreferencesAtom,
 } from "./linkEnvironmentAtoms";
-import {
-  readCachedPrimaryCloudLinkState,
-  usePrimaryCloudLinkState,
-} from "./primaryCloudLinkState.vibe";
+import { readCachedPrimaryCloudLinkState, usePrimaryCloudLinkState } from "./primaryCloudLinkState.vibe";
 import { resolveRelayClerkTokenOptions } from "./publicConfig";
 
 export interface CloudLinkDesiredState {

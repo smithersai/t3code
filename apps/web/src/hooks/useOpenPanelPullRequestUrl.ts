@@ -9,7 +9,7 @@ import { projectChangeRequestUrl } from "@t3tools/client-runtime/change-request-
 import { selectActiveRightPanelSurface, useRightPanelStore } from "../rightPanelStore";
 import { useProject } from "../state/entities";
 import { pullRequestEnvironment } from "../state/pullRequests";
-import { useEnvironmentQuery } from "../state/query";
+import { useEnvironmentQuery } from "../state/query.vibe";
 import { useSupportsMultiplePullRequests } from "./useSupportsMultiplePullRequests";
 
 type PanelPullRequestSurface = Extract<

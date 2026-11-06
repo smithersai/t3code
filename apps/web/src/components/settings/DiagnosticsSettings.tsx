@@ -1,8 +1,8 @@
 import { ProcessSignalActions } from "./ProcessSignalActions";
 import { resolveUsageAccess } from "@t3tools/client-runtime/state/usage-access";
-import { environmentSession } from "../../state/session";
+import { environmentSession } from "../../state/session.vibe";
 import { AuthOrchestrationOperateScope } from "@t3tools/contracts";
-import { readEnvironmentScope, useEnvironmentScope } from "../../state/session";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
 import { AuthEnvironmentMaintainScope } from "@t3tools/contracts";
 import { RefreshIcon } from "~/components/ui/refresh-icon";
 import { AlertTriangleIcon, CopyIcon, FolderOpenIcon, InfoIcon } from "lucide-react";
@@ -24,7 +24,7 @@ import { cn } from "../../lib/utils";
 import { ensureLocalApi } from "../../localApi";
 import { useOpenInPreferredEditor } from "../../editorPreferences.vibe";
 import { useRelativeTimeState } from "../../hooks/useRelativeTimeState";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { serverEnvironment } from "../../state/server";
 import { useCopyToClipboard } from "../../hooks/useCopyToClipboard";
 import { Button } from "../ui/button";
@@ -36,7 +36,7 @@ import { toastManager } from "../ui/toast";
 import { ExpandableText } from "./ExpandableText";
 import { ResourceTelemetryDiagnostics } from "./ResourceTelemetryDiagnostics";
 import { SettingsPageContainer, SettingsSection } from "./settingsLayout";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useSettingsScope } from "./SettingsScopeContext";
 import { TelemetryExportSettings } from "./TelemetryExportSettings";
 

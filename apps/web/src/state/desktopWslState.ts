@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { Atom } from "effect/reactivity";
 
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 
 const DESKTOP_WSL_STATE_STALE_TIME_MS = 30_000;
 

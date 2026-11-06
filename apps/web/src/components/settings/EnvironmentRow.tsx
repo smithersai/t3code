@@ -9,7 +9,7 @@ import * as Option from "effect/Option";
 import type { ReactNode } from "react";
 
 import { cn } from "~/lib/utils";
-import type { EnvironmentPresentation } from "~/state/environments";
+import type { EnvironmentPresentation } from "../../state/environments.vibe";
 import { isDesktopLocalConnectionTarget } from "~/connection/desktopLocal";
 import { EnvironmentMachineIcon } from "../EnvironmentMachineIcon";
 

@@ -107,7 +107,7 @@ import {
   useSharedPullRequestSummary,
   type EnvironmentQueryTarget,
 } from "~/state/pullRequests";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { cn } from "~/lib/utils";
 import { primaryServerKeybindingsAtom } from "~/state/server";
 import { getSourceControlPresentationForKind } from "~/sourceControlPresentation";

@@ -22,7 +22,7 @@ import {
 
 import { cn } from "../../lib/utils";
 import { normalizeProviderAccentColor } from "../../providerInstances";
-import { readEnvironmentScope, useEnvironmentScope } from "../../state/session";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
 import { Button } from "../ui/button";
 import { ChatGptConnectionButton } from "./ChatGptConnectionButton";
 import { Dialog } from "../ui/dialog";

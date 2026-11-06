@@ -7,7 +7,7 @@ import { FolderCodeIcon } from "lucide-react";
 import type { ComponentType } from "react";
 import { createElement, lazy, Suspense, useState } from "react";
 import { useAtomValue } from "@effect/atom-react";
-import { projectFaviconUrlAtom } from "../state/assets";
+import { projectFaviconUrlAtom } from "../state/assets.vibe";
 import { deriveProjectIdentity } from "../projectIdentity";
 import { projectIconColorClassName } from "../projectIconColors";
 import { ProjectMonogram } from "./ProjectMonogram";

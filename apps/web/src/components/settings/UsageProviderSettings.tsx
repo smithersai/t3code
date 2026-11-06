@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { useUpdateEnvironmentSettings } from "../../hooks/useSettings";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {
   AlertDialog,
   AlertDialogClose,

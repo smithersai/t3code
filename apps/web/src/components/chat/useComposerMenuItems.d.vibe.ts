@@ -1,6 +1,6 @@
 import type { EnvironmentId, ProjectId, ProviderDriverKind, ServerProvider, ThreadId, ThreadPullRequestLink } from "@t3tools/contracts";
-import type { ComposerTrigger } from "../../composer-logic.ts";
-import type { DraftId } from "../../composerDraftStore.ts";
+import type { ComposerTrigger } from "../../composer-logic";
+import type { DraftId } from "../../composerDraftStore";
 import type { ComposerCommandItem } from "./ComposerCommandMenu";
 /** Builds the @, /, $ and # suggestion lists, running the searches each trigger needs. */
 export declare function useComposerMenuItems({ composerTrigger, environmentId, gitCwd, activeThreadId, pullRequestProjectId, pullRequestRepository, threadPullRequests, planModeUiEnabled, compactSlashCommandAvailable, selectedProvider, selectedProviderSkills, selectedProviderSlashCommands, showSkillsInSlashMenu, questionAttachmentTarget, }: {

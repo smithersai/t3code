@@ -92,7 +92,7 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";
 import { stackedThreadToast, toastManager } from "~/components/ui/toast";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "~/components/ui/tooltip";
-import { useOpenInPreferredEditor } from "~/editorPreferences";
+import { useOpenInPreferredEditor } from "../editorPreferences.vibe";
 import {
   useGitStackedAction,
   useSourceControlActionRunning,
@@ -101,12 +101,12 @@ import {
   useVcsPullAction,
 } from "~/lib/sourceControlActions";
 import { useThreadProjection, useQuietThreadShell } from "~/state/entities";
-import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
-import { useEnvironmentQuery } from "~/state/query";
+import { readEnvironmentScope, useEnvironmentScope } from "../state/session.vibe";
+import { useEnvironmentQuery } from "../state/query.vibe";
 import { serverEnvironment } from "~/state/server";
 import { sourceControlEnvironment } from "~/state/sourceControl";
 import { threadEnvironment } from "~/state/threads";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { vcsActionManager, vcsEnvironment, vcsStatusRevalidation } from "~/state/vcs";
 import { randomUUID } from "~/lib/utils";
 import { resolvePathLinkTarget } from "@t3tools/shared/fileLinks";

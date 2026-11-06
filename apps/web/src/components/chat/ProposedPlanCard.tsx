@@ -35,8 +35,8 @@ import {
 import { stackedThreadToast, toastManager } from "../ui/toast";
 import { projectEnvironment } from "~/state/projects";
 import { useCopyToClipboard } from "~/hooks/useCopyToClipboard";
-import { useAtomCommand } from "~/state/use-atom-command";
-import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
 
 export const ProposedPlanCard = memo(function ProposedPlanCard({
   planMarkdown,

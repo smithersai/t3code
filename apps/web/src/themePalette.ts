@@ -28,7 +28,7 @@ import {
   type ContextChipAccentKind,
 } from "./lib/contextChipAccents";
 
-import { appAtomRegistry, subscribeAtomChanges } from "./rpc/atomRegistry";
+import { appAtomRegistry, subscribeAtomChanges } from "./rpc/atomRegistry.vibe";
 import { primaryServerEnvironmentThemesAtom } from "./state/server";
 
 export { EMBER_THEME, GROVE_THEME, IRIS_THEME, OCEAN_THEME, T3_CHAT_THEME, THEME_COLOR_ROLES };

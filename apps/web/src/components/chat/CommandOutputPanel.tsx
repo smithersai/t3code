@@ -6,7 +6,7 @@ import { useLayoutEffect, useRef } from "react";
 import { useTheme } from "../../hooks/useTheme";
 import { useServerConfigs } from "../../state/entities";
 import { orchestrationEnvironment } from "../../state/orchestration";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import type { TurnItemSource } from "./timelineRowContext.vibe";
 
 const FOLLOW_SLACK_PX = 8;

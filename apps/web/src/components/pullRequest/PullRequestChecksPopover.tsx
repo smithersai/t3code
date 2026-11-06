@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useOpenLink } from "~/browser/useOpenLink";
 import { cn } from "~/lib/utils";
 import { pullRequestEnvironment } from "~/state/pullRequests";
-import { useEnvironmentQuery } from "~/state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 
 import { Popover, PopoverPopup, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";

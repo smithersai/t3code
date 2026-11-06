@@ -5,7 +5,7 @@ import { Atom } from "effect/reactivity";
 import { createContext, useEffect, useRef, type ReactNode } from "react";
 
 import { projectEnvironment } from "../state/projects";
-import { useAtomCommand } from "../state/use-atom-command";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 
 export const FileMetadataThreadContext = createContext<ScopedThreadRef | null>(null);
 const EMPTY_RETENTION = Atom.make(undefined);

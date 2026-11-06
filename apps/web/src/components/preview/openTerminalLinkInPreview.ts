@@ -8,8 +8,8 @@ import {
   resolveBrowserDefaults,
 } from "~/browser/browserDefaults";
 import { isWebUrl, resolveBrowserLinkTargetPreference } from "~/browser/browserLinkTarget";
-import type { OpenPreviewMutation } from "~/browser/openFileInPreview";
-import { isPreviewAvailableFor, previewRuntimeFor } from "~/browser/previewRuntime";
+import type { OpenPreviewMutation } from "../../browser/openFileInPreview.vibe";
+import { isPreviewAvailableFor, previewRuntimeFor } from "../../browser/previewRuntime.vibe";
 import { recordVisitForThread } from "~/browserHistoryStore";
 import { applyPreviewServerSnapshot } from "~/previewStateStore";
 import { useRightPanelStore } from "~/rightPanelStore";

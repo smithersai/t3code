@@ -18,10 +18,10 @@ import {
   useEnvironmentStateHeldFor,
 } from "../../hooks/useEnvironmentDisconnectDelay";
 import { serverEnvironment } from "../../state/server";
-import { type EnvironmentPresentation } from "../../state/environments";
+import { type EnvironmentPresentation } from "../../state/environments.vibe";
 import type { ComposerBannerStackItem } from "./ComposerBannerStack";
 import { ENVIRONMENT_RECONNECT_WARNING_GRACE_MS } from "../ChatView.logic";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Button } from "../ui/button";
 import { ServerUpdateAction, serverUpdateStageLabel } from "../ServerUpdateAction";
 import { useAutoBalanceUpdateBanner } from "./useAutoBalanceUpdateBanner";

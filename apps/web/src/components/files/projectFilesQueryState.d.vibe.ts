@@ -1,5 +1,5 @@
-import { AsyncResult, Atom } from "effect/reactivity";
 import { type EnvironmentId, type ProjectListEntriesResult, ProjectReadFileError, type ProjectReadFileResult } from "@t3tools/contracts";
+import { AsyncResult, Atom } from "effect/reactivity";
 export declare function optimisticFileAtom(environmentId: EnvironmentId, cwd: string, relativePath: string): Atom.Writable<import("@t3tools/client-runtime/state/projects").OptimisticProjectFile | null, import("@t3tools/client-runtime/state/projects").OptimisticProjectFile | null>;
 interface ProjectQueryState<A> {
     readonly data: A | null;

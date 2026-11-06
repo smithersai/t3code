@@ -4,17 +4,17 @@ import { useAtomValue } from "@effect/atom-react";
 import * as Option from "effect/Option";
 import { AsyncResult } from "effect/reactivity";
 import { AuthSettingsWriteScope } from "@t3tools/contracts";
-import { readEnvironmentScope, useEnvironmentScope } from "../../state/session";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
 import { Tooltip, TooltipTrigger, TooltipPopup } from "../ui/tooltip";
 import { AppleIcon, AndroidIcon } from "../Icons";
 import { Spinner } from "../ui/spinner";
 import type { EnvironmentId, SshDeviceHostConfig } from "@t3tools/contracts";
 import { randomUUID } from "../../lib/utils";
 import { useState } from "react";
-import { deviceEnvironment } from "../../state/device";
-import { environmentAtomList, environmentIdsKey } from "../../state/environmentAtomList";
+import { deviceEnvironment } from "../../state/device.vibe";
+import { environmentAtomList, environmentIdsKey } from "../../state/environmentAtomList.vibe";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Button, InlineButton } from "../ui/button";
 import {
   CheckIcon,
@@ -39,7 +39,7 @@ import {
 import { FoldedSettingsSection } from "./FoldedSettingsSection";
 import { DeviceHostEditor } from "./DeviceHostEditor";
 import { useHostConnectionChecks } from "./useHostConnectionChecks.vibe";
-import { deviceHostConnectionKey } from "./deviceHostConnectionChecks";
+import { deviceHostConnectionKey } from "./deviceHostConnectionChecks.vibe";
 import { settingsScopeEnvironmentLabel, settingsScopeEnvironmentLabels } from "./settingsScopeAxis";
 import { DeviceHostDiagnostics } from "../device/DeviceSetup";
 

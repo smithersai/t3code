@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 
 import { cn } from "../../lib/utils";
 import type { SidebarProjectSnapshot } from "../../sidebarProjectGrouping";
-import { useEnvironments, type EnvironmentPresentation } from "../../state/environments";
+import { useEnvironments, type EnvironmentPresentation } from "../../state/environments.vibe";
 import { EnvironmentMachineIcon } from "../EnvironmentMachineIcon";
 import { ProjectFavicon } from "../ProjectFavicon";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";

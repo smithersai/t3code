@@ -1,4 +1,4 @@
-import { type ThemeDefinition } from "../themePalette.ts";
+import { type ThemeDefinition } from "../themePalette";
 export declare function useEnvironmentThemeDefinitions(): ReadonlyArray<ThemeDefinition>;
 /**
  * The palette is painted from a snapshot taken when the theme last changed, so new colors

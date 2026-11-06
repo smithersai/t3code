@@ -1,7 +1,7 @@
 import { SettingsGroup } from "./SettingsGroup";
 import { AuthSettingsWriteScope } from "@t3tools/contracts";
-import { usePrimaryEnvironmentId, usePrimaryEnvironment } from "../../state/environments";
-import { useEnvironmentScope, useEnvironmentsWithScope } from "../../state/session";
+import { usePrimaryEnvironmentId, usePrimaryEnvironment } from "../../state/environments.vibe";
+import { useEnvironmentScope, useEnvironmentsWithScope } from "../../state/session.vibe";
 import { InfoIcon, Undo2Icon } from "lucide-react";
 import { DEFAULT_SERVER_SETTINGS, type ServerSettings } from "@t3tools/contracts";
 import * as Equal from "effect/Equal";
@@ -25,7 +25,7 @@ import {
   scopedSettingsAreMixed,
   scopedSettingsSource,
 } from "./scopedSettings.vibe";
-import { useClearProjectOverrides, useClearScopedSettings } from "./useScopedSettings.vibe";
+import { useClearProjectOverrides, useClearScopedSettings } from "./useScopedSettings.ts";
 import {
   SettingInheritance,
   type SettingInheritanceState,

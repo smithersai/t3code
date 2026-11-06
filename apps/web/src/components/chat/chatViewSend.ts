@@ -43,7 +43,7 @@ import {
   prepareRevertedMessageAttachments,
   waitForRevertedMessage,
 } from "../ChatView.logic";
-import { readPreparedConnection } from "../../state/session";
+import { readPreparedConnection } from "../../state/session.vibe";
 import { recallableComposerPrompt } from "./composerPromptHistory";
 
 // Kept per route so a send in flight, and the multiple-model selections, survive

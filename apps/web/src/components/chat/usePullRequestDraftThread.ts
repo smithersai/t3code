@@ -10,7 +10,7 @@ import {
   deriveLogicalProjectKeyFromSettings,
   selectProjectGroupingSettings,
 } from "../../logicalProject";
-import { buildDraftThreadRouteParams } from "../../threadRoutes";
+import { buildDraftThreadRouteParams } from "../../threadRoutes.vibe";
 import { type DraftThreadEnvMode, useComposerDraftStore, DraftId } from "../../composerDraftStore";
 import { openPullRequestThreadDialog } from "./ChatOverlayHosts";
 interface PullRequestDraftThreadInput {

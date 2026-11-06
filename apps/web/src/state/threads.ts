@@ -17,9 +17,9 @@ import { AsyncResult, Atom } from "effect/reactivity";
 import { useEffect } from "react";
 
 import { environmentCatalog } from "../connection/catalog";
-import { connectionAtomRuntime } from "../connection/runtime";
-import { appAtomRegistry } from "../rpc/atomRegistry";
-import { environmentShell } from "./shell";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
+import { environmentShell } from "./shell.vibe";
 
 export const threadFamilies = createThreadFamilyAtoms(
   connectionAtomRuntime,

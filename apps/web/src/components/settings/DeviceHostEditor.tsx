@@ -21,7 +21,7 @@ import {
   deviceHostConnectionKey,
   parseDeviceHostDraft,
   type DeviceHostCheckTarget,
-} from "./deviceHostConnectionChecks";
+} from "./deviceHostConnectionChecks.vibe";
 
 export function DeviceHostEditor({
   host,

@@ -14,7 +14,7 @@ import { useEffect, type ReactNode } from "react";
 
 import { environmentCatalog } from "../connection/catalog";
 import { runtime } from "../lib/runtime";
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { resolveRelayClerkTokenOptions } from "./publicConfig";
 
 export function deactivateManagedRelayAuthentication(): void {

@@ -1,4 +1,4 @@
-import { type CloudLinkTarget } from "./linkEnvironment.ts";
+import { type CloudLinkTarget } from "./linkEnvironment.vibe";
 export declare function readCachedPrimaryCloudLinkState(target: CloudLinkTarget): {
     readonly linked: boolean;
     readonly cloudUserId: string | null;

@@ -10,7 +10,7 @@ import {
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "../ui/select";
 import { SettingsRow } from "./settingsLayout";
 import { searchableSetting } from "./settingsSearch";
-import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings.vibe";
+import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings.ts";
 
 export function NotificationSettings() {
   const mode = useScopedSettings((settings) => settings.notificationMode);

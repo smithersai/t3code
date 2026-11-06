@@ -100,14 +100,14 @@ import { readLocalApi } from "../localApi";
 import { desktopLocalBackendId } from "../connection/desktopLocal";
 import { filesystemEnvironment, useFilesystemReadAccess } from "../state/filesystem";
 import { projectEnvironment } from "../state/projects";
-import { useEnvironmentQuery } from "../state/query";
+import { useEnvironmentQuery } from "../state/query.vibe";
 import { serverEnvironment } from "../state/server";
 import { threadEnvironment } from "../state/threads";
-import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
+import { readEnvironmentScope, useEnvironmentScope } from "../state/session.vibe";
 import { sourceControlEnvironment } from "../state/sourceControl";
-import { useAtomCommand } from "../state/use-atom-command";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { useAtomQueryRunner } from "../state/use-atom-query-runner.vibe";
-import { useScratchProject } from "../hooks/useScratchProject.vibe";
+import { useScratchProject } from "../hooks/useScratchProject.ts";
 import { useStartTriage } from "../hooks/useStartTriage";
 import { pickTriageEnvironment } from "../lib/triageTarget";
 import { useNewProject } from "../hooks/useNewProject";
@@ -116,7 +116,7 @@ import {
   useEnvironmentProviders,
   useEnvironments,
   usePrimaryEnvironmentId,
-} from "../state/environments";
+} from "../state/environments.vibe";
 import { useProjects, useServerConfigs, useThreadShells, waitForProject } from "../state/entities";
 import { resolveThreadActionProjectRef, startNewThreadFromContext } from "../lib/chatThreadActions";
 import {
@@ -144,7 +144,7 @@ import {
   isWindowsPlatform,
   newProjectId,
 } from "../lib/utils";
-import { buildThreadRouteParams } from "../threadRoutes";
+import { buildThreadRouteParams } from "../threadRoutes.vibe";
 import { useAvailableSettingsSearchItems } from "./settings/useAvailableSettingsSearchItems";
 import {
   applyWslEnvironmentConfiguration,
@@ -216,7 +216,7 @@ import { EnvironmentMachineIcon } from "./EnvironmentMachineIcon";
 import { Checkbox } from "./ui/checkbox";
 import { ProjectFilePicker } from "./files/ProjectFilePicker";
 import { openLinkPullRequestDialog } from "./pullRequest/LinkPullRequestDialog";
-import { canShareWithGuestAtom } from "./chat/guestShareAvailability";
+import { canShareWithGuestAtom } from "./chat/guestShareAvailability.vibe";
 import { openGuestShareDialog } from "./chat/guestShareDialogState.vibe";
 import { ProjectContentSearchDialog } from "./search/ProjectContentSearchDialog";
 import { settingsForThisPlatform, SETTINGS_SECTION_LABELS } from "./settings/settingsSearch";

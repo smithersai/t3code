@@ -1,4 +1,4 @@
-import { useScopedSettingsWriteAllowed } from "./useScopedSettings.vibe";
+import { useScopedSettingsWriteAllowed } from "./useScopedSettings.ts";
 import { AuthSettingsWriteScope } from "@t3tools/contracts";
 import { EnvironmentId, type T3ProjectFileScript } from "@t3tools/contracts";
 import {
@@ -9,7 +9,7 @@ import { DEFAULT_RESOLVED_KEYBINDINGS } from "@t3tools/shared/keybindings";
 import { ChevronDownIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { useT3ProjectFileState } from "../../hooks/useT3ProjectFileScripts";
-import { useEnvironments } from "../../state/environments";
+import { useEnvironments } from "../../state/environments.vibe";
 import {
   EMPTY_PROJECT_SCRIPT_INPUT,
   editorRequestForScript,

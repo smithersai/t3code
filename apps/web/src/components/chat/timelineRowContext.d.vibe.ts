@@ -6,12 +6,12 @@ import type { WorkflowOpening } from "@t3tools/client-runtime/state/subagentRunt
 import { type MouseEvent, type ReactNode } from "react";
 import { type LegendListRef } from "@legendapp/list/react";
 import type { CodexArtifactTemplate } from "@t3tools/shared/codexArtifactTemplates";
-import { type ChatFileAttachment } from "../../types.ts";
+import { type ChatFileAttachment } from "../../types";
 import { ExpandedImagePreview } from "./ExpandedImagePreview";
 import { type AssistantCitationTarget } from "./AssistantCitationSource";
 import { type MessagesTimelineRow, type WorkGroupScrollAnchor } from "./MessagesTimeline.logic.vibe";
 import { type TimestampFormat } from "@t3tools/contracts/settings";
-import type { TurnItemDetailSource } from "../../state/queries.ts";
+import type { TurnItemDetailSource } from "../../state/queries";
 import { type HandoffTimelineRun } from "./V2LifecycleRow";
 /**
  * Where an expanded row reads an item's detail and a command's output. The owner's rows read them

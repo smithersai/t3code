@@ -7,7 +7,7 @@ import {
   deriveProviderInstanceEntries,
   type ProviderInstanceEntry,
 } from "../../providerInstances";
-import { useEnvironmentProviders, useEnvironments } from "../../state/environments";
+import { useEnvironmentProviders, useEnvironments } from "../../state/environments.vibe";
 import { useSettingsScope } from "./SettingsScopeContext";
 
 export function useScopedModelDisabledReason(

@@ -58,22 +58,22 @@ import {
 import { newProjectId, randomUUID } from "../../lib/utils";
 import { agentSessionImport } from "../../state/agentSessions";
 import { readProjects, waitForProject } from "../../state/entities";
-import { useEnvironments, usePrimaryEnvironment } from "../../state/environments";
+import { useEnvironments, usePrimaryEnvironment } from "../../state/environments.vibe";
 import {
   isOnboardingRelayEnvironment,
   resolveOnboardingSetup,
 } from "../../onboarding/targetEnvironment.logic";
-import { useProjectScans } from "../../onboarding/useProjectScans";
+import { useProjectScans } from "../../onboarding/useProjectScans.vibe";
 import { projectEnvironment } from "../../state/projects";
 import { serverEnvironment } from "../../state/server";
 import {
   readEnvironmentScope,
   useEnvironmentScope,
   useEnvironmentsWithScope,
-} from "../../state/session";
+} from "../../state/session.vibe";
 import { terminalEnvironment } from "../../state/terminal";
-import { useAtomCommand } from "../../state/use-atom-command";
-import { connectPairing } from "../../connection/onboarding";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { connectPairing } from "../../connection/onboarding.vibe";
 import { getProviderSummary } from "../settings/providerStatus";
 import { providerClients } from "../settings/providerDriverMeta";
 import { ChatGptWelcomeCoordinator } from "../settings/ChatGptWelcomeCoordinator";

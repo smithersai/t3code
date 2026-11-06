@@ -40,14 +40,14 @@ import { buildMessageContext } from "../../lib/composerContextRecords";
 import { readFileAsDataUrl } from "../../lib/imageCompression";
 import type { TerminalContextDraft } from "../../lib/terminalContext";
 import type { ReviewCommentContext } from "../../reviewCommentContext.vibe";
-import { appAtomRegistry } from "../../rpc/atomRegistry";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
 import { environmentServerConfigsAtom } from "../../state/server";
 import {
   environmentThreadDetails,
   environmentThreadShells,
   threadEnvironment,
 } from "../../state/threads";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 import type { ChatComposerHandle } from "./ChatComposer";
 import { fileAttachmentCapabilityBlockReason } from "./composerAttachmentFiles";

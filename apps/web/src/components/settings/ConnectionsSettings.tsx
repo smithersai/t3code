@@ -37,7 +37,7 @@ import { searchableSetting } from "./settingsSearch";
 import { EnvironmentIconMenu } from "./EnvironmentIconPicker";
 import { FoldedSettingsSection } from "./FoldedSettingsSection";
 import { LinkedEnvironmentsSettings } from "./LinkedEnvironmentsSettings";
-import { usePeerLinkHosts } from "~/state/peerLinks";
+import { usePeerLinkHosts } from "../../state/peerLinks.vibe";
 import { LoadBalancingSettings } from "./LoadBalancingSettings";
 import { PullRequestRoutingSettings } from "./PullRequestRoutingSettings";
 import { Input } from "../ui/input";
@@ -88,8 +88,8 @@ import { hasCloudPublicConfig } from "~/cloud/publicConfig";
 import { RemoveT3ConnectEnvironmentDialog } from "../clerk/RemoveT3ConnectEnvironmentDialog";
 import { authEnvironment } from "~/state/auth";
 import { environmentCatalog } from "~/connection/catalog";
-import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
-import { useEnvironmentQuery } from "~/state/query";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import {
   desktopNetworkAccessStateAtom,
   refreshDesktopNetworkAccessState,
@@ -100,10 +100,10 @@ import {
   type EnvironmentPresentation,
   useEnvironments,
   usePrimaryEnvironment,
-} from "~/state/environments";
+} from "../../state/environments.vibe";
 import { requestConfirmDialog } from "~/confirmDialog";
-import { useAtomCommand } from "../../state/use-atom-command";
-import { environmentIdsKey } from "~/state/environmentAtomList";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { environmentIdsKey } from "../../state/environmentAtomList.vibe";
 import { environmentUpdateStatesAtom, serverEnvironment } from "~/state/server";
 import {
   ServerUpdateAction,

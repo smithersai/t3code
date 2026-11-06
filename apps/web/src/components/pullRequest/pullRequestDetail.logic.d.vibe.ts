@@ -1,5 +1,5 @@
 import { PullRequestDetail, type PullRequestAction, type PullRequestActor, type PullRequestBaseComparison, type PullRequestCheck, type PullRequestChecksState as ContractPullRequestChecksState, type PullRequestComment, type PullRequestCommit, type PullRequestContextMetadata, type PullRequestDetailView, type PullRequestMergeability, type PullRequestReaction, type PullRequestMergeMethod, type PullRequestRef, type RepositoryIdentity, type PullRequestReviewThread, type PullRequestState, type PullRequestUpdateMethod, SourceControlProviderKind, type ThreadLinkedPullRequest, type ThreadPullRequestLink, type VcsRef } from "@t3tools/contracts";
-import { type ReviewCommentContext } from "~/reviewCommentContext";
+import { type ReviewCommentContext } from "../../reviewCommentContext.vibe";
 export declare const PULL_REQUEST_MERGE_METHOD_LABELS: Record<PullRequestMergeMethod, string>;
 export declare function allowsSinglePullRequestMerge(input: {
     supportsStackActions: boolean;

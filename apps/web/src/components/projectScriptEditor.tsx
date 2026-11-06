@@ -24,10 +24,10 @@ import React, { type FormEvent, type KeyboardEvent, useEffect, useRef, useState 
 import {
   keybindingValueForCommand,
   decodeProjectScriptKeybindingRule,
-} from "~/lib/projectScriptKeybindings";
+} from "../lib/projectScriptKeybindings.vibe";
 import { keybindingFromKeyboardEvent } from "~/components/settings/KeybindingsSettings.logic";
 import { commandForProjectScript, nextProjectScriptId } from "../projectScripts.vibe";
-import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
+import { readEnvironmentScope, useEnvironmentScope } from "../state/session.vibe";
 import { useComposerMenuState } from "./chat/useComposerMenuState";
 import {
   AlertDialog,

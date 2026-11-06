@@ -19,7 +19,7 @@ import {
   resolveDefaultProviderModelSelection,
   sortProviderInstanceEntries,
 } from "../../providerInstances";
-import { useEnvironmentProviders, useEnvironments } from "../../state/environments";
+import { useEnvironmentProviders, useEnvironments } from "../../state/environments.vibe";
 import { EMPTY_SERVER_PROVIDERS } from "../../state/server";
 import { resolveEnvModeLabel, WORKTREE_SUBMODULES_LABELS } from "../BranchToolbar.logic.vibe";
 import { ProviderModelPicker } from "../chat/ProviderModelPicker";
@@ -43,7 +43,7 @@ import {
   useScopedSettingsMixed,
   useScopedSettingSource,
   useUpdateScopedSettings,
-} from "./useScopedSettings.vibe";
+} from "./useScopedSettings.ts";
 
 const WORKTREE_SUBMODULES_OPTIONS = ["recursive", "top-level", "none"] as const;
 function isWorktreeSubmodules(value: string | null): value is WorktreeSubmodules {

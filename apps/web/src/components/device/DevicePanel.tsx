@@ -27,9 +27,9 @@ import {
   deviceHostProbeAtom,
   NO_DEVICE_PROBE_ATOM,
   useDeviceState,
-} from "~/state/device";
-import { formatEnvironmentQueryError } from "~/state/query";
-import { useAtomCommand } from "~/state/use-atom-command";
+} from "../../state/device.vibe";
+import { formatEnvironmentQueryError } from "../../state/query.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { DeviceLoadingView } from "./DeviceLoadingView";
 import { DeviceSetup, deviceHubReadiness, isAndroidDiscoveryUncertain } from "./DeviceSetup";
 import { DeviceWorkspace } from "./DeviceWorkspace";

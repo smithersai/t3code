@@ -1,7 +1,7 @@
 import { useComposerMenuState } from "../chat/useComposerMenuState";
-import { useOrchestrationCommand } from "../../state/use-orchestration-command";
+import { useOrchestrationCommand } from "../../state/use-orchestration-command.vibe";
 import { AuthOrchestrationOperateScope } from "@t3tools/contracts";
-import { useEnvironmentsWithScope, readEnvironmentScope } from "../../state/session";
+import { useEnvironmentsWithScope, readEnvironmentScope } from "../../state/session.vibe";
 import {
   isAtomCommandInterrupted,
   mapAtomCommandResult,
@@ -25,7 +25,7 @@ import {
   type SidebarProjectGroupMember,
   type SidebarProjectSnapshot,
 } from "../../sidebarProjectGrouping";
-import { useEnvironments, usePrimaryEnvironmentId } from "../../state/environments";
+import { useEnvironments, usePrimaryEnvironmentId } from "../../state/environments.vibe";
 import { useThreadShells, waitForProjectRemoval } from "../../state/entities";
 import { projectEnvironment } from "../../state/projects";
 import { ProjectFavicon } from "../ProjectFavicon";

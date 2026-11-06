@@ -12,7 +12,7 @@ import type {
 } from "@t3tools/contracts";
 import { create } from "zustand";
 
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import {
   environmentProjectClonesAtom,
   silenceProjectCloneToasts,

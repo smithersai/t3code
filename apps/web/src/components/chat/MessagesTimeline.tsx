@@ -59,7 +59,7 @@ import { AssistantSelectionToolbar } from "./AssistantSelectionToolbar";
 import type { AssistantCitationSourceAnchor } from "~/lib/assistantTextSelection";
 import { type AssistantCitationRequest } from "./AssistantCitationSource";
 import { useAssistantCitationTarget } from "./useAssistantCitationTarget";
-import { resolveCitationPhase, type CitedHistory } from "./citationProcedure";
+import { resolveCitationPhase, type CitedHistory } from "./citationProcedure.vibe";
 import {
   resolveTimelineIsAtEnd,
   resolveTimelineMinimapHasPersistentGutter,

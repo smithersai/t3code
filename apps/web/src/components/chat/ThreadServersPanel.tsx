@@ -15,10 +15,10 @@ import { useState } from "react";
 
 import { cn } from "../../lib/utils";
 import { useThreadDiscoveredPorts } from "../../portDiscoveryState";
-import { useEnvironment } from "../../state/environments";
+import { useEnvironment } from "../../state/environments.vibe";
 import { previewEnvironment } from "../../state/preview";
-import { useEnvironmentScope } from "../../state/session";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useEnvironmentScope } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { openDiscoveredPort } from "../preview/openDiscoveredPort";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";

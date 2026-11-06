@@ -1,5 +1,5 @@
-import { Atom } from "effect/reactivity";
 import type { EnvironmentId, ProjectCloneSnapshot, ScopedProjectRef } from "@t3tools/contracts";
+import { Atom } from "effect/reactivity";
 export declare const environmentProjectClonesAtom: (arg: string & import("effect/Brand").Brand<"EnvironmentId">) => Atom.Atom<readonly {
     readonly projectId: string & import("effect/Brand").Brand<"ProjectId">;
     readonly remoteUrl: string;

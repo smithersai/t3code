@@ -30,7 +30,7 @@ import {
   useEnvironmentQueryIsNewer,
   useEnvironmentQueryRefresh,
   useEnvironmentQuerySelector,
-} from "~/state/query";
+} from "../../state/query.vibe";
 
 import {
   buildFixFindingsHandoff,

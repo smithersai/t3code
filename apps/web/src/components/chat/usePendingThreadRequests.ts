@@ -44,10 +44,10 @@ import {
   derivePendingUserInputs,
   type PendingUserInput,
 } from "../../session-logic.vibe";
-import { readEnvironmentScope } from "../../state/session";
+import { readEnvironmentScope } from "../../state/session.vibe";
 import { threadEnvironment } from "../../state/threads";
-import { useAtomCommand } from "../../state/use-atom-command";
-import { useOrchestrationCommand } from "../../state/use-orchestration-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { useOrchestrationCommand } from "../../state/use-orchestration-command.vibe";
 import type { ChatComposerHandle } from "./ChatComposer";
 
 const EMPTY_PENDING_USER_INPUT_ANSWERS: Record<string, PendingUserInputDraftAnswer> = {};

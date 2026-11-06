@@ -17,8 +17,12 @@ import {
   useEnvironments,
   usePrimaryEnvironment,
   usePrimaryEnvironmentId,
-} from "~/state/environments";
-import { environmentSession, readEnvironmentScope, useEnvironmentScope } from "~/state/session";
+} from "../../state/environments.vibe";
+import {
+  environmentSession,
+  readEnvironmentScope,
+  useEnvironmentScope,
+} from "../../state/session.vibe";
 import { CloudEnvironmentConnectRows } from "./CloudEnvironmentConnectList";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";

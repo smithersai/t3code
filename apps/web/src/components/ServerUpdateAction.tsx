@@ -5,7 +5,7 @@ import {
   sessionGrantsScope,
 } from "@t3tools/contracts";
 import type { AsyncResult } from "effect/reactivity";
-import { environmentSession } from "~/state/session";
+import { environmentSession } from "../state/session.vibe";
 import type {
   EnvironmentId,
   ServerInstallation,
@@ -24,8 +24,8 @@ import { requestConfirmDialog } from "~/confirmDialog";
 import { useCopyToClipboard } from "~/hooks/useCopyToClipboard";
 import { useEnvironmentSettings } from "~/hooks/useSettings";
 import { serverEnvironment, updateOutdatedServer } from "~/state/server";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { manualServerUpdateCommand } from "~/versionSkew";
 import { Button } from "./ui/button";
 import { toastManager } from "./ui/toast";

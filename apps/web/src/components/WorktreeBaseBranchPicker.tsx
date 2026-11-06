@@ -3,7 +3,7 @@ import { ChevronDownIcon, GitBranchIcon } from "lucide-react";
 import { useDeferredValue, useState } from "react";
 
 import { usePaginatedBranches } from "../state/queries";
-import { useEnvironmentQuery } from "../state/query";
+import { useEnvironmentQuery } from "../state/query.vibe";
 import { vcsEnvironment } from "../state/vcs";
 import { BranchPicker, BranchPickerRefItem } from "./BranchPicker";
 import { resolveBranchTriggerLabel, sanitizeNewRefName } from "./BranchToolbar.logic.vibe";

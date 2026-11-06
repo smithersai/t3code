@@ -1,5 +1,5 @@
 import { AuthProvidersManageScope } from "@t3tools/contracts";
-import { readPreparedConnection, useEnvironmentScope } from "../../state/session";
+import { readPreparedConnection, useEnvironmentScope } from "../../state/session.vibe";
 import {
   isAtomCommandInterrupted,
   squashAtomCommandFailure,
@@ -27,14 +27,14 @@ import {
 } from "react";
 
 import { ensureLocalApi } from "../../localApi";
-import { useEnvironmentHttpBaseUrl } from "../../state/environments";
+import { useEnvironmentHttpBaseUrl } from "../../state/environments.vibe";
 import { environmentPresentations } from "../../state/presentation.vibe";
-import { primaryEnvironmentIdAtom } from "../../state/primaryEnvironment";
-import { useEnvironmentQuery } from "../../state/query";
+import { primaryEnvironmentIdAtom } from "../../state/primaryEnvironment.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
-import { appAtomRegistry } from "../../rpc/atomRegistry";
-import { waitForQuerySettled } from "../../state/waitForQuerySettled";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
+import { waitForQuerySettled } from "../../state/waitForQuerySettled.vibe";
 import { Button } from "../ui/button";
 import { ChatGptConnectionButton } from "./ChatGptConnectionButton";
 import { ChatGptUsageButton } from "./ChatGptUsageButton";
