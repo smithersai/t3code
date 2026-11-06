@@ -6,7 +6,7 @@ import {
   ClientSurface,
   ClientWebDeployment,
   TrimmedNonEmptyString,
-} from "./baseSchemas.ts"
+} from "./baseSchemas.vibe"
 
 export schema ServerAuthPolicy = "desktop-managed-local" | "loopback-browser" | "remote-reachable" | "unsafe-no-auth"
 

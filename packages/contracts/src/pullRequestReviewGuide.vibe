@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { IsoDateTime, PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { IsoDateTime, PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import { ModelSelection } from "./modelSelection.vibe"
 
 export schema PullRequestReviewGuideAttention {

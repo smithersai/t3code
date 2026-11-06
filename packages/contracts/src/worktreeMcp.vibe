@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { TrimmedNonEmptyString } from "./baseSchemas.vibe"
 
 /** Uses the managed worktree folder; handoff detaches the provider, ending this turn and resuming there next run. */
 export const WorktreeMcpHandoffInput = Schema.Struct({

@@ -6,7 +6,7 @@ import {
   ForwardCompatibleOptional,
   IsoDateTime,
   TrimmedNonEmptyString,
-} from "./baseSchemas.ts"
+} from "./baseSchemas.vibe"
 import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe"
 
 export schema ProviderSetupInput {

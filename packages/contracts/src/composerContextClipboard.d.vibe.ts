@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import { ForwardCompatibleArray } from "./baseSchemas.ts";
+import { ForwardCompatibleArray } from "./baseSchemas.vibe";
 export declare const COMPOSER_CONTEXT_CLIPBOARD_MIME = "web application/x-t3-context-fragment+json";
 export declare const ComposerContextClipboardFragment: Schema.Struct<{
     readonly version: Schema.Literal<1>;

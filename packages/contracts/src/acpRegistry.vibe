@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { ProjectId, ThreadId, TrimmedNonEmptyString, TrimmedString } from "./baseSchemas.ts"
+import { ProjectId, ThreadId, TrimmedNonEmptyString, TrimmedString } from "./baseSchemas.vibe"
 import { ProviderOptionDescriptor } from "./model.vibe"
 import { ProviderInstanceId } from "./providerInstance.vibe"
 

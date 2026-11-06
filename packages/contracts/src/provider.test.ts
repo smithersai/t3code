@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vite-plus/test";
 import * as Schema from "effect/Schema";
 
-import { ThreadId } from "./baseSchemas.ts";
+import { ThreadId } from "./baseSchemas.vibe";
 import { ProviderSendTurnInput, ProviderUploadFeedbackError } from "./provider.vibe";
 
 const decodeProviderSendTurnInput = Schema.decodeUnknownSync(ProviderSendTurnInput);

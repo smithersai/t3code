@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { EnvironmentId, ForwardCompatibleOptional, ProjectId, ThreadId, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { EnvironmentId, ForwardCompatibleOptional, ProjectId, ThreadId, TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import { SourceControlProviderKind } from "./sourceControl.vibe"
 
 export const ORCHESTRATION_PROTOCOL_VERSION = 2

@@ -10,7 +10,7 @@ import {
   ProjectId,
   ThreadId,
   TrimmedNonEmptyString,
-} from "./baseSchemas.ts"
+} from "./baseSchemas.vibe"
 import { KeybindingCommand, KeybindingValue, KeybindingWhen, ResolvedKeybindingsConfig } from "./keybindings.vibe"
 import { EditorId, FileManagerRevealKind, RemoteOpenTarget } from "./editor.vibe"
 import { ModelCapabilities, ProviderOptionDescriptor } from "./model.vibe"

@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema"
-import { TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import { ProviderDriverKind } from "./providerInstance.vibe"
 
 export schema ProviderOptionDescriptorType = "select" | "boolean"

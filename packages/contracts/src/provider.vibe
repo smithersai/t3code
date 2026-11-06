@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
-import { TrimmedNonEmptyString } from "./baseSchemas.ts"
-import { ApprovalRequestId, EventId, IsoDateTime, ProviderItemId, ThreadId, TurnId } from "./baseSchemas.ts"
+import { TrimmedNonEmptyString } from "./baseSchemas.vibe"
+import { ApprovalRequestId, EventId, IsoDateTime, ProviderItemId, ThreadId, TurnId } from "./baseSchemas.vibe"
 import {
   ChatAttachment,
   getProviderAttachmentLimitError,

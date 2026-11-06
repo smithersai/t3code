@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { IsoDateTime, ProjectId, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { IsoDateTime, ProjectId, TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import { RepositoryIdentity, ThreadEnvMode } from "./environment.vibe"
 import { ModelSelection } from "./modelSelection.vibe"
 import { ProjectScript, ReceivedProjectIcon } from "./project.vibe"

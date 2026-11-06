@@ -6,9 +6,9 @@ import {
   ProjectId,
   ThreadId,
   TrimmedNonEmptyString,
-} from "./baseSchemas.ts"
+} from "./baseSchemas.vibe"
 import { SourceControlProviderError, SourceControlProviderInfo } from "./sourceControl.vibe"
-import { VcsDriverKind } from "./vcs.ts"
+import { VcsDriverKind } from "./vcs.vibe"
 
 const TrimmedNonEmptyStringSchema = TrimmedNonEmptyString
 const GitFilePath = Schema.String.check(Schema.isNonEmpty())

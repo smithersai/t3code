@@ -1,7 +1,7 @@
 import * as Schema from "effect/Schema"
-import { TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import { GitCommandError } from "./git.vibe"
-import { VcsError } from "./vcs.ts"
+import { VcsError } from "./vcs.vibe"
 
 export const ReviewDiffPreviewInput = Schema.Struct({
   cwd: TrimmedNonEmptyString,

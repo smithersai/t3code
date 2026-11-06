@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { IsoDateTime, MessageId, ProjectId, ThreadId, TrimmedNonEmptyString, TrimmedString } from "./baseSchemas.ts"
+import { IsoDateTime, MessageId, ProjectId, ThreadId, TrimmedNonEmptyString, TrimmedString } from "./baseSchemas.vibe"
 
 export schema OrchestrationThreadSearchSource = "user" | "assistant"
 

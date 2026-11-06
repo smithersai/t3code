@@ -17,10 +17,10 @@ import {
   ThreadId,
   TrimmedNonEmptyString,
   TurnItemId,
-} from "./baseSchemas.ts"
+} from "./baseSchemas.vibe"
 import { ScheduledTaskRunStatus, ScheduledTaskSchedule, ScheduledTaskUpsertSchedule } from "./scheduledTask.vibe"
 import { ProviderInteractionMode, ProviderRequestKind, RuntimeMode } from "./providerPolicy.vibe"
-import { PullRequestState } from "./pullRequest.ts"
+import { PullRequestState } from "./pullRequest.vibe"
 import { ThreadLinkedPullRequest, ThreadPullRequestKey, ThreadPullRequestLinkSource } from "./threadPullRequest.vibe"
 import { hasOnlyPairedSurrogates } from "./threadMetadataMcp.vibe"
 import { ThreadTitleRegeneration } from "./threadTitle.vibe"

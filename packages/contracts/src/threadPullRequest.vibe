@@ -1,13 +1,13 @@
 import * as Schema from "effect/Schema"
 
-import { IsoDateTime, NonNegativeInt, PositiveInt, ProjectId, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { IsoDateTime, NonNegativeInt, PositiveInt, ProjectId, TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import {
   PullRequestActor,
   PullRequestChecksState,
   PullRequestMergeability,
   PullRequestReviewDecision,
   PullRequestState,
-} from "./pullRequest.ts"
+} from "./pullRequest.vibe"
 
 export schema ThreadLinkedPullRequest {
   readonly projectId: ProjectId

@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import { ProviderOptionSelections } from "./model.vibe"
 import { ProviderInstanceId } from "./providerInstance.vibe"
 

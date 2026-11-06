@@ -8,7 +8,7 @@ import {
   ThreadId,
   TrimmedNonEmptyString,
   TrimmedString,
-} from "./baseSchemas.ts"
+} from "./baseSchemas.vibe"
 
 /**
  * A guest share lets one unauthenticated browser watch a thread over T3 Connect and propose

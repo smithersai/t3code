@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { PortSchema, PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { PortSchema, PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.vibe"
 
 // A supervisor must not restart a server refused by the state-directory owner.
 export const SERVER_EXIT_CODE_STATE_DIR_OWNED = 78

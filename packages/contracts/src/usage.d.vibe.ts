@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import { ForwardCompatibleArray } from "./baseSchemas.ts";
+import { ForwardCompatibleArray } from "./baseSchemas.vibe";
 /** Bump for incompatible UsageSummary changes; skipped unknown array variants need no bump. */
 export declare const USAGE_CONTRACT_VERSION: 6;
 export declare const USAGE_MERGE_COMPATIBLE_SINCE: 4;

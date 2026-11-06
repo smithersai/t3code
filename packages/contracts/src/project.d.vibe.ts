@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import { ForwardCompatibleUnion } from "./baseSchemas.ts";
+import { ForwardCompatibleUnion } from "./baseSchemas.vibe";
 export declare const ProjectScriptIcon: Schema.Literals<readonly ["play", "test", "lint", "configure", "build", "debug"]>;
 export type ProjectScriptIcon = typeof ProjectScriptIcon.Type;
 export declare const ProjectScript: Schema.Struct<{

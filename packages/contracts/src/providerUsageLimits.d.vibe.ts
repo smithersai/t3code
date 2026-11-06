@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import { ForwardCompatibleArray } from "./baseSchemas.ts";
+import { ForwardCompatibleArray } from "./baseSchemas.vibe";
 /** Stable per-provider ids let sparse updates merge with full probes. */
 export declare const ServerProviderUsageWindow: Schema.Struct<{
     readonly id: Schema.decodeTo<Schema.String, Schema.String, never, never>;

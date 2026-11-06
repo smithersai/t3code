@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { TrimmedNonEmptyString } from "./baseSchemas.vibe"
 
 const DefectField = Schema.Defect()
 const OrchestrationDispatchCommandErrorBootstrapThreadDispositionField = Schema.Literals(["deleted", "not-created"])

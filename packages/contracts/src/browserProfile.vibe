@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema"
-import { TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { TrimmedNonEmptyString } from "./baseSchemas.vibe"
 
 export const BROWSER_PROFILE_NAME_MAX_LENGTH = 48
 export const BROWSER_PROFILE_MAX_COUNT = 24

@@ -9,7 +9,7 @@ import {
   SecretRef,
   ThreadId,
   TrimmedNonEmptyString,
-} from "./baseSchemas.ts"
+} from "./baseSchemas.vibe"
 import { ModelSelection } from "./modelSelection.vibe"
 import {
   OrchestrationV2Actor,

@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { ThreadId, TrimmedNonEmptyString, TrimmedString } from "./baseSchemas.ts"
+import { ThreadId, TrimmedNonEmptyString, TrimmedString } from "./baseSchemas.vibe"
 
 export schema DevicePlatform = "ios" | "android"
 

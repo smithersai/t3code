@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vite-plus/test";
 import * as Schema from "effect/Schema";
 
-import { type CommandId, ProjectId } from "./baseSchemas.ts";
+import { type CommandId, ProjectId } from "./baseSchemas.vibe";
 import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe";
 import {
   ClientSettingsSchema,

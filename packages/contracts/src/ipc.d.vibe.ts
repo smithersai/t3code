@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
 import type { PreviewCaptureFailureEncoded } from "./previewCapture.vibe";
-import { EnvironmentId } from "./baseSchemas.ts";
+import { EnvironmentId } from "./baseSchemas.vibe";
 import type { BrowserImportResult, BrowserImportSource, BrowserImportSourceId } from "./browserImport.vibe";
 import { AuthAccessTokenResult, AuthSessionState, AuthWebSocketTicketResult } from "./auth.vibe";
 import { AdvertisedEndpoint } from "./remoteAccess.vibe";

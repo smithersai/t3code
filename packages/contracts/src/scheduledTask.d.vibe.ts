@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import { ForwardCompatibleArray } from "./baseSchemas.ts";
+import { ForwardCompatibleArray } from "./baseSchemas.vibe";
 export declare const MIN_SCHEDULED_TASK_INTERVAL_MS = 60000;
 export declare const ScheduledTaskWebhookSignature: Schema.Struct<{
     header: Schema.decodeTo<Schema.String, Schema.String, never, never>;

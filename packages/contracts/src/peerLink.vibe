@@ -1,7 +1,7 @@
 import * as Schema from "effect/Schema"
 
 import { AuthMcpClientAccess } from "./auth.vibe"
-import { EnvironmentId, ThreadId, TrimmedNonEmptyString, TurnItemId } from "./baseSchemas.ts"
+import { EnvironmentId, ThreadId, TrimmedNonEmptyString, TurnItemId } from "./baseSchemas.vibe"
 
 /**
  * A link from this environment to another one (the peer). This environment

@@ -49,7 +49,7 @@ import {
   AuthSessionId,
   ThreadId,
   TrimmedNonEmptyString,
-} from "./baseSchemas.ts";
+} from "./baseSchemas.vibe";
 import {
   OrchestrationV2ShellSnapshot,
   OrchestrationV2ThreadBoundedSnapshot,
@@ -63,7 +63,7 @@ import {
   PullRequestDiffResult,
   PullRequestOperationError,
   PullRequestUnavailableError,
-} from "./pullRequest.ts";
+} from "./pullRequest.vibe";
 import {
   RelayCloudEnvironmentHealthRequest,
   RelayCloudMintCredentialRequest,

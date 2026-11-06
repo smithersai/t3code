@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
-import { PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.ts"
-import { VcsDriverKind } from "./vcs.ts"
+import { PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.vibe"
+import { VcsDriverKind } from "./vcs.vibe"
 
 /** Accept unknown hosts so clients can fall back to generic presentation. */
 export const SourceControlProviderKind = TrimmedNonEmptyString.check(

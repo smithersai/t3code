@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import { ForwardCompatibleArray } from "./baseSchemas.ts";
+import { ForwardCompatibleArray } from "./baseSchemas.vibe";
 export declare const ServerAuthPolicy: Schema.Literals<readonly ["desktop-managed-local", "loopback-browser", "remote-reachable", "unsafe-no-auth"]>;
 export type ServerAuthPolicy = typeof ServerAuthPolicy.Type;
 export declare const ServerAuthBootstrapMethod: Schema.Literals<readonly ["desktop-bootstrap", "one-time-token"]>;

@@ -8,7 +8,7 @@ import {
   ThreadId,
   TrimmedNonEmptyString,
   TrimmedString,
-} from "./baseSchemas.ts"
+} from "./baseSchemas.vibe"
 
 export const PROVIDER_SEND_TURN_MAX_INPUT_CHARS = 120_000
 export const PROVIDER_SEND_TURN_MAX_ATTACHMENTS = 100

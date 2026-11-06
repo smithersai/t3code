@@ -1,8 +1,8 @@
 import * as Schema from "effect/Schema"
 
-import { EnvironmentId, MessageId, ThreadId } from "./baseSchemas.ts"
+import { EnvironmentId, MessageId, ThreadId } from "./baseSchemas.vibe"
 import { COMPOSER_CONTEXT_MAX_RECORDS, ComposerContextRecord } from "./composerContext.vibe"
-import { ForwardCompatibleArray } from "./baseSchemas.ts"
+import { ForwardCompatibleArray } from "./baseSchemas.vibe"
 
 export const COMPOSER_CONTEXT_CLIPBOARD_MIME = "web application/x-t3-context-fragment+json"
 

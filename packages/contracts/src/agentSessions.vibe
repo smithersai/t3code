@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema"
-import { IsoDateTime, NonNegativeInt, ProjectId, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { IsoDateTime, NonNegativeInt, ProjectId, TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import { ProviderInstanceId } from "./providerInstance.vibe"
 
 export schema AgentSessionSource = "claudeAgent" | "codex"

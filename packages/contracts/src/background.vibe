@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { AuthSessionId, EnvironmentId, RpcClientId, ThreadId, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { AuthSessionId, EnvironmentId, RpcClientId, ThreadId, TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import { ProviderInstanceId } from "./providerInstance.vibe"
 
 export schema BackgroundBooleanState = "true" | "false" | "unknown"

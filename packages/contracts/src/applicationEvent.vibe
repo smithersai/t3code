@@ -10,7 +10,7 @@ import {
   ProjectId,
   ProviderItemId,
   TrimmedNonEmptyString,
-} from "./baseSchemas.ts"
+} from "./baseSchemas.vibe"
 import { RepositoryIdentity, ThreadEnvMode } from "./environment.vibe"
 import { ModelSelection } from "./modelSelection.vibe"
 import type { OrchestrationV2StoredEvent } from "./orchestrationV2.ts"

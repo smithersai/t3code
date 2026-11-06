@@ -11,7 +11,7 @@ import {
   ThreadId,
   TrimmedNonEmptyString,
   TurnId,
-} from "./baseSchemas.ts"
+} from "./baseSchemas.vibe"
 import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe"
 import { ProviderUsageLimitsUpdate } from "./providerUsageLimits.vibe"
 import { ProviderApprovalOption } from "./providerPolicy.vibe"

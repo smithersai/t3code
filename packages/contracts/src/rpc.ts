@@ -37,7 +37,7 @@ import * as Schema from "effect/Schema";
 import * as Rpc from "effect/rpc/Rpc";
 import * as RpcGroup from "effect/rpc/RpcGroup";
 import * as RpcMiddleware from "effect/rpc/RpcMiddleware";
-import { NonNegativeInt, TrimmedNonEmptyString } from "./baseSchemas.ts";
+import { NonNegativeInt, TrimmedNonEmptyString } from "./baseSchemas.vibe";
 import {
   CodexAuthCallbackInput,
   CodexAuthCallbackState,
@@ -216,7 +216,7 @@ import {
   PullRequestThreadResolutionInput,
   PullRequestUnavailableError,
   PullRequestUpdateInput,
-} from "./pullRequest.ts";
+} from "./pullRequest.vibe";
 import {
   RelayClientInstallFailedError,
   RelayClientInstallProgressEventSchema,
@@ -393,7 +393,7 @@ import {
   SourceControlRepositoryInfo,
   SourceControlRepositoryLookupInput,
 } from "./sourceControl.vibe";
-import { VcsError } from "./vcs.ts";
+import { VcsError } from "./vcs.vibe";
 import { Project, ProjectMutation, ProjectMutationError } from "./project.vibe";
 
 export const WS_METHODS = {

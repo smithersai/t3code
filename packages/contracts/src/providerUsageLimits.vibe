@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { ForwardCompatibleArray, IsoDateTime, NonNegativeInt, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { ForwardCompatibleArray, IsoDateTime, NonNegativeInt, TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe"
 import { UsageLimitSourceId } from "./usageLimitSourceId.vibe"
 

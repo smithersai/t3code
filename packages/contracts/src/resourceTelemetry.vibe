@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { NonNegativeInt, PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { NonNegativeInt, PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import { HostPowerSnapshot } from "./background.vibe"
 import { DesktopUpdateStateSchema } from "./ipc.vibe"
 

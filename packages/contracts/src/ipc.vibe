@@ -2,7 +2,7 @@ import * as Schema from "effect/Schema"
 import type { PreviewCaptureFailureEncoded } from "./previewCapture.vibe"
 
 import { SnapShotSource } from "./chatAttachment.vibe"
-import { EnvironmentId, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { EnvironmentId, TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import { BrowserProfileId } from "./browserProfile.vibe"
 import type { BrowserImportResult, BrowserImportSource, BrowserImportSourceId } from "./browserImport.vibe"
 import { AuthAccessTokenResult, AuthSessionState, AuthWebSocketTicketResult } from "./auth.vibe"

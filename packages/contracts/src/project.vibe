@@ -12,7 +12,7 @@ import {
   TrimmedNonEmptyString,
   TrimmedString,
   type UnknownUnionMember,
-} from "./baseSchemas.ts"
+} from "./baseSchemas.vibe"
 
 const PROJECT_SEARCH_ENTRIES_MAX_LIMIT = 200
 const PROJECT_SEARCH_CONTENTS_MAX_LIMIT = 500

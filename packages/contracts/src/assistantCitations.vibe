@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema"
-import { EnvironmentId, MessageId, NonNegativeInt, ThreadId } from "./baseSchemas.ts"
+import { EnvironmentId, MessageId, NonNegativeInt, ThreadId } from "./baseSchemas.vibe"
 
 export const ASSISTANT_CITATION_MAX_TEXT_LENGTH = 8_000
 export const ASSISTANT_CITATION_MAX_COMMENT_LENGTH = 8_000

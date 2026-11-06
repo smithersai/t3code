@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { CommandId, IsoDateTime } from "./baseSchemas.ts"
+import { CommandId, IsoDateTime } from "./baseSchemas.vibe"
 
 export schema ThreadTitleRegeneration {
   readonly requestId: CommandId

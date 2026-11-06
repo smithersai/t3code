@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema"
 
-import { CommandId, IsoDateTime, NonNegativeInt, ThreadId, TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { CommandId, IsoDateTime, NonNegativeInt, ThreadId, TrimmedNonEmptyString } from "./baseSchemas.vibe"
 import { ThreadLinkedPullRequest } from "./threadPullRequest.vibe"
 import { ThreadTitleRegeneration } from "./threadTitle.vibe"
 

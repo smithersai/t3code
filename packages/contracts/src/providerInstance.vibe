@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema"
-import { TrimmedNonEmptyString } from "./baseSchemas.ts"
+import { TrimmedNonEmptyString } from "./baseSchemas.vibe"
 
 const PROVIDER_SLUG_MAX_CHARS = 64
 const PROVIDER_SLUG_PATTERN = /^[a-zA-Z][a-zA-Z0-9_-]*$/
