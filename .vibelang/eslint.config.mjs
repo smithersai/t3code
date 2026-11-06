@@ -1,3 +1,4 @@
+import { withOxlintComments } from "./oxlint-comments.mjs";
 import { nativeOverrides } from "./eslint-overrides.mjs";
 import parser from "vibelang/eslint";
 import { createRequire } from "node:module";
@@ -7,6 +8,11 @@ import config from "../vite.config.ts";
 const { eslintCompatPlugin } = createRequire(new URL("../oxlint-plugin-t3code/package.json", import.meta.url))("@oxlint/plugins");
 
 // typescript-eslint refuses TypeScript 7, so .vibe files get the rules ESLint can run itself and t3code's own plugin.
+const ownedRules = new Set([
+  "no-debugger", "no-dupe-keys", "no-unreachable",
+  ...Object.keys(t3codePlugin.rules).map(name => "t3code/" + name),
+]);
+
 const t3codeRules = Object.fromEntries(
   Object.entries(config.lint.rules ?? {}).filter(([name]) => name.startsWith("t3code/")),
 );
@@ -15,7 +21,7 @@ export default [
   { ignores: ["**/node_modules/**", "**/dist/**", "**/build/**"] },
   {
     files: ["**/*.vibe", "**/*.vibex"],
-    languageOptions: { parser },
+    languageOptions: { parser: withOxlintComments(parser, [], ownedRules) },
     plugins: { t3code: eslintCompatPlugin(t3codePlugin) },
     rules: { "no-debugger": "error", "no-dupe-keys": "error", "no-unreachable": "error", ...t3codeRules },
   },
