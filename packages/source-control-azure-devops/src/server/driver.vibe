@@ -2,9 +2,9 @@ import { defineSourceControlDriver, withOwnServices } from "@t3tools/source-cont
 
 import { definition } from "../shared/definition.ts"
 
-import * as AzureDevOpsCli from "./AzureDevOpsCli.ts"
-import * as AzureDevOpsPullRequestCli from "./AzureDevOpsPullRequestCli.ts"
-import * as AzureDevOpsPullRequestProvider from "./AzureDevOpsPullRequestProvider.ts"
+import * as AzureDevOpsCli from "./AzureDevOpsCli.vibe"
+import * as AzureDevOpsPullRequestCli from "./AzureDevOpsPullRequestCli.vibe"
+import * as AzureDevOpsPullRequestProvider from "./AzureDevOpsPullRequestProvider.vibe"
 import * as AzureDevOpsSourceControlProvider from "./AzureDevOpsSourceControlProvider.vibe"
 
 const services = AzureDevOpsPullRequestCli.layer.pipe(Layer.provideMerge(AzureDevOpsCli.layer))

@@ -2,12 +2,12 @@ import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as AzureDevOpsPullRequestCli from "./AzureDevOpsPullRequestCli.ts";
+import * as AzureDevOpsPullRequestCli from "./AzureDevOpsPullRequestCli.vibe";
 import {
   LOCATION_CACHE_CAPACITY,
   make,
   MAX_DIFF_SPAWNS,
-} from "./AzureDevOpsPullRequestProvider.ts";
+} from "./AzureDevOpsPullRequestProvider.vibe";
 import {
   byteLength,
   MAX_DIFF_SLICE_BYTES,

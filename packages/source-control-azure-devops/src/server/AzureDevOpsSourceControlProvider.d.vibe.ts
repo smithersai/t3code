@@ -1,7 +1,7 @@
 import { SourceControlProviderKind } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import { type ChangeRequest, SourceControlProviderError } from "@t3tools/contracts";
-import * as AzureDevOpsCli from "./AzureDevOpsCli.ts";
+import * as AzureDevOpsCli from "./AzureDevOpsCli.vibe";
 import * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider";
 import { type SourceControlAuthProbeInput } from "@t3tools/source-control-core/server/discovery";
 /** @throws {never} */

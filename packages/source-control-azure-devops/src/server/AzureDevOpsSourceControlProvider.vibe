@@ -2,7 +2,7 @@ import { SourceControlProviderKind } from "@t3tools/contracts"
 import * as Effect from "effect/Effect"
 import { type ChangeRequest, SourceControlProviderError } from "@t3tools/contracts"
 
-import * as AzureDevOpsCli from "./AzureDevOpsCli.ts"
+import * as AzureDevOpsCli from "./AzureDevOpsCli.vibe"
 import type { NormalizedAzureDevOpsPullRequestRecord } from "./azureDevOpsPullRequests.vibe"
 import * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider"
 import {
