@@ -8,7 +8,7 @@ import * as Schema from "effect/Schema";
 import * as AcpErrors from "effect-acp/errors";
 
 import type * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
-import { makeAcpNativeLoggerFactory } from "./nativeLogging.ts";
+import { makeAcpNativeLoggerFactory } from "./nativeLogging.vibe";
 import * as Layer from "effect/Layer";
 import * as Crypto from "@t3tools/shared/Crypto";
 

@@ -24,8 +24,11 @@
       "import": "./src/server/mcpOverAcpBridge.ts"
     },
     "./server/nativeLogging": {
-      "types": "./src/server/nativeLogging.ts",
-      "import": "./src/server/nativeLogging.ts"
+      "types": "./src/server/nativeLogging.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/nativeLogging.vibe",
+        "default": "./.vibelang/js/src/server/nativeLogging.js"
+      }
     },
     "./server/runtimeModel": {
       "types": "./src/server/runtimeModel.ts",
