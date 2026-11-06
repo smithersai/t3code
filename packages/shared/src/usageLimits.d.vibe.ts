@@ -5,6 +5,7 @@ export declare const CHATGPT_USAGE_LIMIT_CODE = "subscription_sharing_usage_limi
 export declare const CHATGPT_WORKSPACE_USAGE_LIMIT_CODE = "subscription_sharing_workplace_individual_usage_limit_exceeded";
 /** OpenAI's partner guidelines fix this wording; the user sends it to their admin themselves. */
 export declare const CHATGPT_WORKSPACE_ADMIN_REQUEST = "I've reached the limit for using my ChatGPT plan in T3 Code. Could you increase our workspace's usage limits so I can continue?\n\nGo to admin.openai.com \u2192 Workspace \u2192 Usage limits. Thank you!";
+/** @throws {never} */
 export declare function usesChatGptSharing(provider: ServerProvider | null | undefined): boolean;
 export declare const CURSOR_USAGE_WINDOWS: readonly [{
     readonly id: "totalPercentUsed";
@@ -19,6 +20,7 @@ export declare const CURSOR_USAGE_WINDOWS: readonly [{
     readonly label: "Other Models";
     readonly description: "Claude, GPT, and Gemini use this pool. Grok and Composer fall back here.";
 }];
+/** @throws {never} */
 export declare function cursorUsageWindowDetails(id: string): {
     readonly id: "totalPercentUsed";
     readonly label: "Overall";
@@ -43,6 +45,7 @@ export type LimitPresentations = ReadonlyMap<EnvironmentId, {
         readonly usageLimitSources?: UsageLimitSourceSnapshots | undefined;
     } | null;
 }>;
+/** @throws {never} */
 export declare function collectExternalUsageLinks(presentations: LimitPresentations): {
     readonly label: string;
     readonly url: string;
@@ -67,7 +70,9 @@ export interface LimitAccount {
     } | null;
     readonly limits: ServerProviderUsageLimits;
 }
+/** @throws {never} */
 export declare function collectLimitAccounts(presentations: LimitPresentations): readonly LimitAccount[];
+/** @throws {never} */
 export declare function collectLimitNotices(presentations: LimitPresentations): readonly string[];
 export interface LimitPoolMember {
     readonly account: LimitAccount;
@@ -97,23 +102,39 @@ export interface LimitPool {
     readonly accounts: readonly LimitAccount[];
     readonly windows: readonly LimitPoolWindow[];
 }
+/** @throws {never} */
 export declare function displayLimitWindows(pool: LimitPool): readonly LimitPoolWindow[];
+/** @throws {never} */
 export declare function collectLimitPools(accounts: readonly LimitAccount[], now: number): readonly LimitPool[];
+/** @throws {never} */
 export declare function limitsNotice(limits: ServerProviderUsageLimits): string | null;
+/** @throws {never} */
 export declare function remainingPercent(window: ServerProviderUsageWindow): number;
+/** @throws {never} */
 export declare function elapsedShare(window: ServerProviderUsageWindow, now: number): number | null;
+/** @throws {never} */
 export declare function paceRemainingPercent(window: ServerProviderUsageWindow, now: number): number | null;
 export type LimitPace = "ahead" | "on" | "under";
+/** @throws {never} */
 export declare function paceOf(window: ServerProviderUsageWindow, now: number): LimitPace | null;
+/** @throws {never} */
 export declare function formatDuration(ms: number): string;
+/** @throws {never} */
 export declare function formatResetsIn(window: ServerProviderUsageWindow, now: number): string | null;
 export declare const USAGE_LIMITS_COMMAND: {
     name: string;
     description: string;
 };
+/** @throws {never} */
 export declare function isUsageLimitsCommand(prompt: string): boolean;
+/** @throws {never} */
 export declare function hasProviderUsageLimits(driver: ServerProvider["driver"], providers: readonly ServerProvider[], sources: UsageLimitSourceSnapshots): boolean;
+/** @throws {never} */
 export declare function sameUsageLimitCommandCoverage(previous: UsageLimitSourceSnapshots, next: UsageLimitSourceSnapshots): boolean;
-/** Advertise on workspace catalogs too, which replace the global command list. */
+/**
+ * Advertise on workspace catalogs too, which replace the global command list.
+ * @throws {never}
+ */
 export declare function withUsageLimitsCommands(providers: readonly ServerProvider[], sources: UsageLimitSourceSnapshots): ServerProvider[];
+/** @throws {never} */
 export declare function collectProviderUsageLimits(instanceId: ProviderInstanceId, providers: readonly ServerProvider[], sources: UsageLimitSourceSnapshots, now: number): UsageLimitsReport | null;

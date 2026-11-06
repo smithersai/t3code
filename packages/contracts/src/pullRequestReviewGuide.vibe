@@ -4,23 +4,23 @@ import { IsoDateTime, PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.t
 import { ModelSelection } from "./modelSelection.vibe"
 
 export schema PullRequestReviewGuideAttention {
-  kind: "tradeoff" | "contract" | "product" | "risk" | "accessibility"
-  note: TrimmedNonEmptyString
+  readonly kind: "tradeoff" | "contract" | "product" | "risk" | "accessibility"
+  readonly note: TrimmedNonEmptyString
 }
 
 export schema PullRequestReviewGuideExcerpt {
-  path: TrimmedNonEmptyString
-  side: "new" | "old"
-  start: PositiveInt
-  end: PositiveInt
-  caption: string
+  readonly path: TrimmedNonEmptyString
+  readonly side: "new" | "old"
+  readonly start: PositiveInt
+  readonly end: PositiveInt
+  readonly caption: string
 }
 
 export schema PullRequestReviewGuideNote {
-  path: TrimmedNonEmptyString
-  line: PositiveInt
-  title: TrimmedNonEmptyString
-  body: string
+  readonly path: TrimmedNonEmptyString
+  readonly line: PositiveInt
+  readonly title: TrimmedNonEmptyString
+  readonly body: string
 }
 
 export const PullRequestReviewGuideStop = Schema.Struct({
@@ -40,10 +40,10 @@ export const PullRequestReviewGuideStop = Schema.Struct({
 export type PullRequestReviewGuideStop = typeof PullRequestReviewGuideStop.Type
 
 export schema PullRequestReviewGuide {
-  headSha: TrimmedNonEmptyString
-  generatedAt: IsoDateTime
-  modelSelection: ModelSelection
-  stops: ReadonlyArray<PullRequestReviewGuideStop>
+  readonly headSha: TrimmedNonEmptyString
+  readonly generatedAt: IsoDateTime
+  readonly modelSelection: ModelSelection
+  readonly stops: ReadonlyArray<PullRequestReviewGuideStop>
 }
 
 export const PullRequestReviewGuideRun = Schema.Union([

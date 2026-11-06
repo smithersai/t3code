@@ -33,10 +33,10 @@ const RuntimeEventRawSource = Schema.Union([
 export type RuntimeEventRawSource = typeof RuntimeEventRawSource.Type
 
 export schema RuntimeEventRaw {
-  source: RuntimeEventRawSource
-  method?: TrimmedNonEmptyStringSchema
-  messageType?: TrimmedNonEmptyStringSchema
-  payload: Schema.Unknown
+  readonly source: RuntimeEventRawSource
+  readonly method?: TrimmedNonEmptyStringSchema | undefined
+  readonly messageType?: TrimmedNonEmptyStringSchema | undefined
+  readonly payload: Schema.Unknown
 }
 
 const ProviderRequestId = TrimmedNonEmptyStringSchema
@@ -423,16 +423,16 @@ export const ToolActivitySource = Schema.Struct({
 export type ToolActivitySource = typeof ToolActivitySource.Type
 
 export schema ItemLifecyclePayload {
-  itemType: CanonicalItemType
-  status?: RuntimeItemStatus
-  title?: TrimmedNonEmptyStringSchema
-  detail?: TrimmedNonEmptyStringSchema
-  toolSurface?: ToolActivitySurface
-  toolIcon?: ToolActivityIcon
-  toolSource?: ToolActivitySource
-  data?: Schema.Unknown
-  agentId?: TrimmedNonEmptyStringSchema
-  parentToolUseId?: TrimmedNonEmptyStringSchema
+  readonly itemType: CanonicalItemType
+  readonly status?: RuntimeItemStatus | undefined
+  readonly title?: TrimmedNonEmptyStringSchema | undefined
+  readonly detail?: TrimmedNonEmptyStringSchema | undefined
+  readonly toolSurface?: ToolActivitySurface | undefined
+  readonly toolIcon?: ToolActivityIcon | undefined
+  readonly toolSource?: ToolActivitySource | undefined
+  readonly data?: Schema.Unknown | undefined
+  readonly agentId?: TrimmedNonEmptyStringSchema | undefined
+  readonly parentToolUseId?: TrimmedNonEmptyStringSchema | undefined
 }
 
 const ContentDeltaPayload = Schema.Struct({
@@ -480,8 +480,8 @@ export const UserInputQuestion = Schema.Struct({
 export type UserInputQuestion = typeof UserInputQuestion.Type
 
 export schema UserInputRequestedPayload {
-  questions: ReadonlyArray<UserInputQuestion>
-  responseMode?: "message"
+  readonly questions: ReadonlyArray<UserInputQuestion>
+  readonly responseMode?: "message" | undefined
 }
 
 const UserInputResolvedPayload = Schema.Struct({
@@ -491,18 +491,18 @@ export type UserInputResolvedPayload = typeof UserInputResolvedPayload.Type
 
 /** Claude reports activation deltas; Codex reports cumulative totals. Merge per provider in client-runtime. */
 export schema RuntimeTaskUsage {
-  totalTokens: NonNegativeInt
-  inputTokens?: NonNegativeInt
-  cachedInputTokens?: NonNegativeInt
-  outputTokens?: NonNegativeInt
-  reasoningOutputTokens?: NonNegativeInt
-  toolUses?: NonNegativeInt
-  durationMs?: NonNegativeInt
+  readonly totalTokens: NonNegativeInt
+  readonly inputTokens?: NonNegativeInt | undefined
+  readonly cachedInputTokens?: NonNegativeInt | undefined
+  readonly outputTokens?: NonNegativeInt | undefined
+  readonly reasoningOutputTokens?: NonNegativeInt | undefined
+  readonly toolUses?: NonNegativeInt | undefined
+  readonly durationMs?: NonNegativeInt | undefined
 }
 
 export schema TaskWorkflowPhase {
-  index: NonNegativeInt
-  title: TrimmedNonEmptyStringSchema
+  readonly index: NonNegativeInt
+  readonly title: TrimmedNonEmptyStringSchema
 }
 
 export const TaskRunHandles = Schema.Struct({

@@ -29,6 +29,7 @@ interface QueuedThreadShell {
  * Bound the pending window so those threads can eventually settle.
  */
 export declare const QUEUED_TURN_START_GRACE_MS: number;
+/** @throws {never} */
 export declare function hasQueuedTurnStart(shell: QueuedThreadShell, options: {
     readonly now: string;
 }): boolean;
@@ -45,14 +46,18 @@ export interface ThreadSnoozeShell extends QueuedThreadShell {
  * Only a request for the user or a fresh failure ends a snooze early. Completed runs never do:
  * a snoozed long-running thread keeps waking itself for background work and stays hidden
  * until its timer.
+ * @throws {never}
  */
 export declare function threadRaisedHandWhileSnoozed(shell: ThreadSnoozeShell): boolean;
+/** @throws {never} */
 export declare function canSnooze(shell: Pick<ThreadSnoozeShell, "hasPendingApprovals" | "hasPendingUserInput" | "pendingSubagentRequest" | "pendingGuestMessageCount" | "latestUserMessageAt" | "latestTurn" | "latestRun" | "session" | "runtime" | "source">, options: {
     readonly now: string;
 }): boolean;
+/** @throws {never} */
 export declare function effectiveSnoozed(shell: ThreadSnoozeShell, options: {
     readonly now: string;
 }): boolean;
+/** @throws {never} */
 export declare function threadWokeAt(shell: ThreadSnoozeShell, options: {
     readonly now: string;
 }): string | null;
@@ -63,7 +68,9 @@ export interface SnoozePreset {
     readonly whenLabel: string;
     readonly snoozedUntil: string;
 }
+/** @throws {never} */
 export declare function resolveSnoozePresets(now: Date): ReadonlyArray<SnoozePreset>;
+/** @throws {never} */
 export declare function snoozeWakeLabel(snoozedUntil: string, options: {
     readonly now: string;
 }): string;
@@ -76,12 +83,16 @@ export type CustomSnoozeInput = {
     readonly amount: string;
     readonly unit: "minutes" | "hours" | "days";
 };
+/** @throws {never} */
 export declare function resolveCustomSnooze(input: CustomSnoozeInput, now: Date): string | null;
+/** @throws {never} */
 export declare function localSnoozeDate(date: Date): string;
+/** @throws {never} */
 export declare function localSnoozeTime(date: Date): string;
 /**
  * Whether a woken thread woke after the user last saw it. A run that completed
  * after the last visit counts as seeing it, since the user watched it finish.
+ * @throws {never}
  */
 export declare function isThreadWokeUnseen(input: {
     readonly wokeAt: string | null;

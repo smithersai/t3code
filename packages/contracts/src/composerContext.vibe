@@ -69,13 +69,13 @@ const ShortString = BoundedString(2_048)
 const NullableShortString = Schema.NullOr(ShortString)
 
 export schema PullRequestContextMetadata {
-  number: PositiveInt
-  title: ShortString
-  url: ShortString
-  headBranch: ShortString
-  baseBranch: ShortString
-  state: "open" | "closed" | "merged"
-  isDraft: boolean
+  readonly number: PositiveInt
+  readonly title: ShortString
+  readonly url: ShortString
+  readonly headBranch: ShortString
+  readonly baseBranch: ShortString
+  readonly state: "open" | "closed" | "merged"
+  readonly isDraft: boolean
 }
 
 const recordBase = {

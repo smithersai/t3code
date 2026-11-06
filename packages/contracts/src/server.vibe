@@ -1,4 +1,3 @@
-import * as Effect from "effect/Effect"
 import * as Schema from "effect/Schema"
 import { AcpRegistryUrlAuthAction } from "./acpRegistry.vibe"
 import { type EnvironmentMachineKind, ExecutionEnvironmentDescriptor, ServerSelfUpdateMethod } from "./environment.vibe"
@@ -21,14 +20,14 @@ import { ServerProviderUsageLimits, UsageLimitSourceSnapshots } from "./provider
 import { ServerSettings } from "./settings.vibe"
 
 schema KeybindingsMalformedConfigIssue {
-  kind: "keybindings.malformed-config"
-  message: TrimmedNonEmptyString
+  readonly kind: "keybindings.malformed-config"
+  readonly message: TrimmedNonEmptyString
 }
 
 schema KeybindingsInvalidEntryIssue {
-  kind: "keybindings.invalid-entry"
-  message: TrimmedNonEmptyString
-  index: number
+  readonly kind: "keybindings.invalid-entry"
+  readonly message: TrimmedNonEmptyString
+  readonly index: number
 }
 
 export schema ServerConfigIssue = KeybindingsMalformedConfigIssue | KeybindingsInvalidEntryIssue
@@ -40,15 +39,15 @@ export schema ServerProviderState = "ready" | "warning" | "error" | "disabled"
 export schema ServerProviderAuthStatus = "authenticated" | "unauthenticated" | "unknown"
 
 export schema ServerProviderAuth {
-  status: ServerProviderAuthStatus
-  type?: TrimmedNonEmptyString
-  label?: TrimmedNonEmptyString
-  email?: TrimmedNonEmptyString
-  action?: AcpRegistryUrlAuthAction
-  canLogout?: boolean
-  subscriptionSharing?: boolean
-  profileId?: TrimmedNonEmptyString
-  workspaceId?: TrimmedNonEmptyString
+  readonly status: ServerProviderAuthStatus
+  readonly type?: TrimmedNonEmptyString | undefined
+  readonly label?: TrimmedNonEmptyString | undefined
+  readonly email?: TrimmedNonEmptyString | undefined
+  readonly action?: AcpRegistryUrlAuthAction | undefined
+  readonly canLogout?: boolean | undefined
+  readonly subscriptionSharing?: boolean | undefined
+  readonly profileId?: TrimmedNonEmptyString | undefined
+  readonly workspaceId?: TrimmedNonEmptyString | undefined
 }
 
 export const ServerProviderModel = Schema.Struct({
@@ -66,20 +65,20 @@ export const ServerProviderModel = Schema.Struct({
 export type ServerProviderModel = typeof ServerProviderModel.Type
 
 export schema ServerProviderUpdateRequiredModel {
-  slug: TrimmedNonEmptyString
-  name: TrimmedNonEmptyString
-  badge?: "new"
-  minVersion: TrimmedNonEmptyString
+  readonly slug: TrimmedNonEmptyString
+  readonly name: TrimmedNonEmptyString
+  readonly badge?: "new" | undefined
+  readonly minVersion: TrimmedNonEmptyString
 }
 
 export schema ServerProviderSlashCommandInput {
-  hint: TrimmedNonEmptyString
+  readonly hint: TrimmedNonEmptyString
 }
 
 export schema ServerProviderSlashCommand {
-  name: TrimmedNonEmptyString
-  description?: TrimmedNonEmptyString
-  input?: ServerProviderSlashCommandInput
+  readonly name: TrimmedNonEmptyString
+  readonly description?: TrimmedNonEmptyString | undefined
+  readonly input?: ServerProviderSlashCommandInput | undefined
 }
 
 export const ServerProviderSkill = Schema.Struct({
@@ -98,12 +97,12 @@ export const ServerProviderSkill = Schema.Struct({
 export type ServerProviderSkill = typeof ServerProviderSkill.Type
 
 export schema ServerProviderWorkspaceSnapshot {
-  cwd: TrimmedNonEmptyString
-  checkedAt: IsoDateTime
-  slashCommands: ReadonlyArray<ServerProviderSlashCommand>
-  slashCommandsPending?: boolean
-  skills: ReadonlyArray<ServerProviderSkill>
-  optionDescriptors?: ReadonlyArray<ProviderOptionDescriptor>
+  readonly cwd: TrimmedNonEmptyString
+  readonly checkedAt: IsoDateTime
+  readonly slashCommands: ReadonlyArray<ServerProviderSlashCommand>
+  readonly slashCommandsPending?: boolean | undefined
+  readonly skills: ReadonlyArray<ServerProviderSkill>
+  readonly optionDescriptors?: ReadonlyArray<ProviderOptionDescriptor> | undefined
 }
 
 export const PROVIDER_WORKSPACE_SNAPSHOT_TTL_MS = 5 * 60_000
@@ -120,7 +119,7 @@ export const ServerProviderAvailability = Schema.Literals(["available", "unavail
 export type ServerProviderAvailability = typeof ServerProviderAvailability.Type
 
 export schema ServerProviderContinuation {
-  groupKey: TrimmedNonEmptyString
+  readonly groupKey: TrimmedNonEmptyString
 }
 
 export const ServerProviderCompatibilityStatus = Schema.Literals([
@@ -275,7 +274,7 @@ export type OtlpEndpointCheckResult = typeof OtlpEndpointCheckResult.Type
 
 /** The client tells the server what it is, so the triage context can name it. */
 export schema ServerPrepareTriageInput {
-  client: AuthClientPresentationMetadata
+  readonly client: AuthClientPresentationMetadata
 }
 
 export const ServerPrepareTriageResult = Schema.Struct({
@@ -292,7 +291,7 @@ export const TRIAGE_PROMPT_FILE_NAME = "triage-playbook.md"
 
 const DefectField = Schema.Defect()
 export schema error ServerPrepareTriageError {
-  cause?: DefectField
+  cause?: DefectField | undefined
   override get message(): string {
     return "Could not write the triage session files."
   }
@@ -301,47 +300,47 @@ export schema error ServerPrepareTriageError {
 export schema ServerTraceDiagnosticsErrorKind = "trace-file-not-found" | "trace-file-read-failed"
 
 export schema ServerTraceDiagnosticsSpanSummary {
-  name: TrimmedNonEmptyString
-  count: NonNegativeInt
-  failureCount: NonNegativeInt
-  totalDurationMs: number
-  averageDurationMs: number
-  maxDurationMs: number
+  readonly name: TrimmedNonEmptyString
+  readonly count: NonNegativeInt
+  readonly failureCount: NonNegativeInt
+  readonly totalDurationMs: number
+  readonly averageDurationMs: number
+  readonly maxDurationMs: number
 }
 
 export schema ServerTraceDiagnosticsFailureSummary {
-  name: TrimmedNonEmptyString
-  cause: TrimmedNonEmptyString
-  count: NonNegativeInt
-  lastSeenAt: Schema.DateTimeUtc
-  traceId: TrimmedNonEmptyString
-  spanId: TrimmedNonEmptyString
+  readonly name: TrimmedNonEmptyString
+  readonly cause: TrimmedNonEmptyString
+  readonly count: NonNegativeInt
+  readonly lastSeenAt: Schema.DateTimeUtc
+  readonly traceId: TrimmedNonEmptyString
+  readonly spanId: TrimmedNonEmptyString
 }
 
 export schema ServerTraceDiagnosticsRecentFailure {
-  name: TrimmedNonEmptyString
-  cause: TrimmedNonEmptyString
-  durationMs: number
-  endedAt: Schema.DateTimeUtc
-  traceId: TrimmedNonEmptyString
-  spanId: TrimmedNonEmptyString
+  readonly name: TrimmedNonEmptyString
+  readonly cause: TrimmedNonEmptyString
+  readonly durationMs: number
+  readonly endedAt: Schema.DateTimeUtc
+  readonly traceId: TrimmedNonEmptyString
+  readonly spanId: TrimmedNonEmptyString
 }
 
 export schema ServerTraceDiagnosticsSpanOccurrence {
-  name: TrimmedNonEmptyString
-  durationMs: number
-  endedAt: Schema.DateTimeUtc
-  traceId: TrimmedNonEmptyString
-  spanId: TrimmedNonEmptyString
+  readonly name: TrimmedNonEmptyString
+  readonly durationMs: number
+  readonly endedAt: Schema.DateTimeUtc
+  readonly traceId: TrimmedNonEmptyString
+  readonly spanId: TrimmedNonEmptyString
 }
 
 export schema ServerTraceDiagnosticsLogEvent {
-  spanName: TrimmedNonEmptyString
-  level: TrimmedNonEmptyString
-  message: TrimmedNonEmptyString
-  seenAt: Schema.DateTimeUtc
-  traceId: TrimmedNonEmptyString
-  spanId: TrimmedNonEmptyString
+  readonly spanName: TrimmedNonEmptyString
+  readonly level: TrimmedNonEmptyString
+  readonly message: TrimmedNonEmptyString
+  readonly seenAt: Schema.DateTimeUtc
+  readonly traceId: TrimmedNonEmptyString
+  readonly spanId: TrimmedNonEmptyString
 }
 
 export const ServerTraceDiagnosticsResult = Schema.Struct({
@@ -405,35 +404,35 @@ export const ServerProcessDiagnosticsResult = Schema.Struct({
 export type ServerProcessDiagnosticsResult = typeof ServerProcessDiagnosticsResult.Type
 
 export schema ServerProcessResourceHistoryInput {
-  windowMs: NonNegativeInt
-  bucketMs: NonNegativeInt
+  readonly windowMs: NonNegativeInt
+  readonly bucketMs: NonNegativeInt
 }
 
 export schema ServerProcessResourceHistoryBucket {
-  startedAt: Schema.DateTimeUtc
-  endedAt: Schema.DateTimeUtc
-  avgCpuPercent: number
-  maxCpuPercent: number
-  maxRssBytes: NonNegativeInt
-  maxProcessCount: NonNegativeInt
+  readonly startedAt: Schema.DateTimeUtc
+  readonly endedAt: Schema.DateTimeUtc
+  readonly avgCpuPercent: number
+  readonly maxCpuPercent: number
+  readonly maxRssBytes: NonNegativeInt
+  readonly maxProcessCount: NonNegativeInt
 }
 
 export schema ServerProcessResourceHistorySummary {
-  processKey: TrimmedNonEmptyString
-  pid: PositiveInt
-  ppid: NonNegativeInt
-  command: TrimmedNonEmptyString
-  depth: NonNegativeInt
-  isServerRoot: boolean
-  firstSeenAt: Schema.DateTimeUtc
-  lastSeenAt: Schema.DateTimeUtc
-  currentCpuPercent: number
-  avgCpuPercent: number
-  maxCpuPercent: number
-  cpuSecondsApprox: number
-  currentRssBytes: NonNegativeInt
-  maxRssBytes: NonNegativeInt
-  sampleCount: NonNegativeInt
+  readonly processKey: TrimmedNonEmptyString
+  readonly pid: PositiveInt
+  readonly ppid: NonNegativeInt
+  readonly command: TrimmedNonEmptyString
+  readonly depth: NonNegativeInt
+  readonly isServerRoot: boolean
+  readonly firstSeenAt: Schema.DateTimeUtc
+  readonly lastSeenAt: Schema.DateTimeUtc
+  readonly currentCpuPercent: number
+  readonly avgCpuPercent: number
+  readonly maxCpuPercent: number
+  readonly cpuSecondsApprox: number
+  readonly currentRssBytes: NonNegativeInt
+  readonly maxRssBytes: NonNegativeInt
+  readonly sampleCount: NonNegativeInt
 }
 
 export schema ServerProcessResourceHistoryFailureTag =
@@ -462,9 +461,9 @@ export const ServerProcessResourceHistoryResult = Schema.Struct({
 export type ServerProcessResourceHistoryResult = typeof ServerProcessResourceHistoryResult.Type
 
 export schema ServerSignalProcessInput {
-  pid: PositiveInt
-  startTimeMs: NonNegativeInt
-  signal: ServerProcessSignal
+  readonly pid: PositiveInt
+  readonly startTimeMs: NonNegativeInt
+  readonly signal: ServerProcessSignal
 }
 
 export const ServerSignalProcessResult = Schema.Struct({
@@ -528,8 +527,8 @@ export const ServerDirectEndpointKind = Schema.Literals(["lan", "tailnet"])
 export type ServerDirectEndpointKind = typeof ServerDirectEndpointKind.Type
 
 export schema ServerDirectEndpoint {
-  kind: ServerDirectEndpointKind
-  httpBaseUrl: TrimmedNonEmptyString
+  readonly kind: ServerDirectEndpointKind
+  readonly httpBaseUrl: TrimmedNonEmptyString
 }
 
 /**
@@ -607,16 +606,16 @@ export function resolveEnvironmentMachineKind(
 }
 
 schema ServerUpsertKeybindingReplaceTarget {
-  key: KeybindingValue
-  command: KeybindingCommand
-  when?: KeybindingWhen
+  readonly key: KeybindingValue
+  readonly command: KeybindingCommand
+  readonly when?: KeybindingWhen | undefined
 }
 
 export schema ServerUpsertKeybindingInput {
-  key: KeybindingValue
-  command: KeybindingCommand
-  when?: KeybindingWhen
-  replace?: ServerUpsertKeybindingReplaceTarget
+  readonly key: KeybindingValue
+  readonly command: KeybindingCommand
+  readonly when?: KeybindingWhen | undefined
+  readonly replace?: ServerUpsertKeybindingReplaceTarget | undefined
 }
 
 export schema ServerRemoveKeybindingInput = ServerUpsertKeybindingReplaceTarget
@@ -648,41 +647,41 @@ export const ServerConfigProviderStatusesPayload = Schema.Struct({
 export type ServerConfigProviderStatusesPayload = typeof ServerConfigProviderStatusesPayload.Type
 
 export schema ServerConfigSettingsUpdatedPayload {
-  settings: ServerSettings
+  readonly settings: ServerSettings
 }
 
 export schema ServerConfigStreamSnapshotEvent {
-  version: 1
-  type: "snapshot"
-  config: ServerConfig
+  readonly version: 1
+  readonly type: "snapshot"
+  readonly config: ServerConfig
 }
 
 export schema ServerConfigStreamKeybindingsUpdatedEvent {
-  version: 1
-  type: "keybindingsUpdated"
-  payload: ServerConfigKeybindingsUpdatedPayload
+  readonly version: 1
+  readonly type: "keybindingsUpdated"
+  readonly payload: ServerConfigKeybindingsUpdatedPayload
 }
 
 export schema ServerConfigStreamProviderStatusesEvent {
-  version: 1
-  type: "providerStatuses"
-  payload: ServerConfigProviderStatusesPayload
+  readonly version: 1
+  readonly type: "providerStatuses"
+  readonly payload: ServerConfigProviderStatusesPayload
 }
 
 export schema ServerConfigStreamSettingsUpdatedEvent {
-  version: 1
-  type: "settingsUpdated"
-  payload: ServerConfigSettingsUpdatedPayload
+  readonly version: 1
+  readonly type: "settingsUpdated"
+  readonly payload: ServerConfigSettingsUpdatedPayload
 }
 
 export schema ServerConfigEnvironmentThemesUpdatedPayload {
-  themes: ReadonlyArray<EnvironmentTheme>
+  readonly themes: ReadonlyArray<EnvironmentTheme>
 }
 
 export schema ServerConfigStreamEnvironmentThemesUpdatedEvent {
-  version: 1
-  type: "environmentThemesUpdated"
-  payload: ServerConfigEnvironmentThemesUpdatedPayload
+  readonly version: 1
+  readonly type: "environmentThemesUpdated"
+  readonly payload: ServerConfigEnvironmentThemesUpdatedPayload
 }
 
 export const ServerConfigUsageLimitSourcesUpdatedPayload = Schema.Struct({
@@ -691,9 +690,9 @@ export const ServerConfigUsageLimitSourcesUpdatedPayload = Schema.Struct({
 export type ServerConfigUsageLimitSourcesUpdatedPayload = typeof ServerConfigUsageLimitSourcesUpdatedPayload.Type
 
 export schema ServerConfigStreamUsageLimitSourcesUpdatedEvent {
-  version: 1
-  type: "usageLimitSourcesUpdated"
-  payload: ServerConfigUsageLimitSourcesUpdatedPayload
+  readonly version: 1
+  readonly type: "usageLimitSourcesUpdated"
+  readonly payload: ServerConfigUsageLimitSourcesUpdatedPayload
 }
 
 export schema ServerConfigStreamEvent =
@@ -721,14 +720,14 @@ export const ServerLifecycleReadyPayload = Schema.Struct({
 export type ServerLifecycleReadyPayload = typeof ServerLifecycleReadyPayload.Type
 
 export schema ServerLifecycleWelcomePayload {
-  environment: ExecutionEnvironmentDescriptor
-  cwd: TrimmedNonEmptyString
-  projectName: TrimmedNonEmptyString
-  bootstrapStatus?: "pending" | "complete"
-  bootstrapProjectId?: ProjectId
-  bootstrapThreadId?: ThreadId
-  bootstrapProjectCreated?: boolean
-  bootstrapThreadCreated?: boolean
+  readonly environment: ExecutionEnvironmentDescriptor
+  readonly cwd: TrimmedNonEmptyString
+  readonly projectName: TrimmedNonEmptyString
+  readonly bootstrapStatus?: "pending" | "complete" | undefined
+  readonly bootstrapProjectId?: ProjectId | undefined
+  readonly bootstrapThreadId?: ThreadId | undefined
+  readonly bootstrapProjectCreated?: boolean | undefined
+  readonly bootstrapThreadCreated?: boolean | undefined
 }
 
 export const ServerLifecycleLegacyThreadMigrationPayload = Schema.Struct({
@@ -738,24 +737,24 @@ export const ServerLifecycleLegacyThreadMigrationPayload = Schema.Struct({
 export type ServerLifecycleLegacyThreadMigrationPayload = typeof ServerLifecycleLegacyThreadMigrationPayload.Type
 
 export schema ServerLifecycleStreamWelcomeEvent {
-  version: 1
-  sequence: NonNegativeInt
-  type: "welcome"
-  payload: ServerLifecycleWelcomePayload
+  readonly version: 1
+  readonly sequence: NonNegativeInt
+  readonly type: "welcome"
+  readonly payload: ServerLifecycleWelcomePayload
 }
 
 export schema ServerLifecycleStreamReadyEvent {
-  version: 1
-  sequence: NonNegativeInt
-  type: "ready"
-  payload: ServerLifecycleReadyPayload
+  readonly version: 1
+  readonly sequence: NonNegativeInt
+  readonly type: "ready"
+  readonly payload: ServerLifecycleReadyPayload
 }
 
 export schema ServerLifecycleStreamLegacyThreadMigrationEvent {
-  version: 1
-  sequence: NonNegativeInt
-  type: "legacyThreadMigration"
-  payload: ServerLifecycleLegacyThreadMigrationPayload
+  readonly version: 1
+  readonly sequence: NonNegativeInt
+  readonly type: "legacyThreadMigration"
+  readonly payload: ServerLifecycleLegacyThreadMigrationPayload
 }
 
 export schema ServerLifecycleStreamEvent =
@@ -778,7 +777,7 @@ export type ServerProviderUpdateInput = typeof ServerProviderUpdateInput.Type
 export schema error ServerProviderUpdateError {
   provider: ProviderDriverKind
   reason: TrimmedNonEmptyString
-  cause?: DefectField
+  cause?: DefectField | undefined
   override get message(): string {
     return `Provider update failed for ${this.provider}: ${this.reason}`
   }
@@ -800,22 +799,22 @@ export const ServerSelfUpdateResult = Schema.Struct({
 export type ServerSelfUpdateResult = typeof ServerSelfUpdateResult.Type
 
 export schema DesktopUpdateCommitInput {
-  requestId: TrimmedNonEmptyString
+  readonly requestId: TrimmedNonEmptyString
 }
 
 export schema ServerSelfUpdateProgressStage = "downloading" | "installing"
 
 export schema ServerSelfUpdateProgressEvent = {
-  type: "progress"
-  stage: ServerSelfUpdateProgressStage
+  readonly type: "progress"
+  readonly stage: ServerSelfUpdateProgressStage
 } | {
-  type: "complete"
-  result: ServerSelfUpdateResult
+  readonly type: "complete"
+  readonly result: ServerSelfUpdateResult
 }
 
 export schema error ServerSelfUpdateError {
   reason: TrimmedNonEmptyString
-  cause?: DefectField
+  cause?: DefectField | undefined
   override get message(): string {
     return `Server update failed: ${this.reason}`
   }

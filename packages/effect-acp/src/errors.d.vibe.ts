@@ -46,7 +46,9 @@ declare const AcpProtocolParseError_base: Schema.Class<AcpProtocolParseError, Sc
 }>, import("effect/Cause").YieldableError>;
 export declare class AcpProtocolParseError extends AcpProtocolParseError_base {
     get message(): string;
+    /** @throws {never} */
     static fromSchemaError(operation: AcpProtocolParseOperation, method: string, cause: Schema.SchemaError): AcpProtocolParseError;
+    /** @throws {never} */
     static fromEncodingError(method: string | undefined, requestId: AcpRequestId | undefined, cause: unknown): AcpProtocolParseError;
 }
 declare const AcpTransportError_base: Schema.Class<AcpTransportError, Schema.TaggedStruct<"AcpTransportError", {
@@ -77,24 +79,39 @@ declare const AcpRequestError_base: Schema.Class<AcpRequestError, Schema.TaggedS
 }>, import("effect/Cause").YieldableError>;
 export declare class AcpRequestError extends AcpRequestError_base {
     get message(): string;
+    /** @throws {never} */
     static fromProtocolError(error: AcpSchema.Error, context: {
         readonly method: string;
         readonly requestId?: AcpRequestId;
         readonly cause?: unknown;
     }): AcpRequestError;
+    /** @throws {never} */
     static fromExtensionResponseFailure(method: string, requestId: AcpRequestId, cause: unknown): AcpRequestError;
+    /** @throws {never} */
     static fromExtensionResponseEncodingError(method: string, requestId: AcpRequestId, cause: AcpProtocolParseError): AcpRequestError;
+    /** @throws {never} */
     static unsupportedStreamingResponse(method: string, requestId: AcpRequestId): AcpRequestError;
+    /** @throws {never} */
     static fromCoreHandlerError(error: AcpError, method: string): AcpRequestError;
+    /** @throws {never} */
     static fromExtensionHandlerError(error: AcpError, method: string): AcpRequestError;
+    /** @throws {never} */
     static parseError(message?: string, data?: unknown): AcpRequestError;
+    /** @throws {never} */
     static invalidRequest(message?: string, data?: unknown): AcpRequestError;
+    /** @throws {never} */
     static methodNotFound(method: string): AcpRequestError;
+    /** @throws {never} */
     static invalidParams(message?: string, data?: unknown): AcpRequestError;
+    /** @throws {never} */
     static invalidExtensionPayload(method: string, cause: Schema.SchemaError): AcpRequestError;
+    /** @throws {never} */
     static internalError(message?: string, data?: unknown, diagnostics?: AcpRequestDiagnostics): AcpRequestError;
+    /** @throws {never} */
     static authRequired(message?: string, data?: unknown): AcpRequestError;
+    /** @throws {never} */
     static resourceNotFound(message?: string, data?: unknown): AcpRequestError;
+    /** @throws {never} */
     toProtocolError(): {
         readonly code: number;
         readonly message: string;

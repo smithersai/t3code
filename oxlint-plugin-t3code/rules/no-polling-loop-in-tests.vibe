@@ -28,7 +28,7 @@ const someDescendant = (node: unknown, match: (node: ESTree.Node) => boolean): b
   return false
 }
 
-const memberName = (node: unknown): Option<readonly [string, string]> => {
+const memberName = (node: unknown): Option.Option<readonly [string, string]> => {
   const expression = unwrapExpression(node)
   if (Option.isNone(expression) || expression.value.type !== "MemberExpression") {
     return Option.none()

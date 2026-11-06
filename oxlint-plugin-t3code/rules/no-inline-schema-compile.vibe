@@ -32,7 +32,7 @@ const COMPILER_METHODS = new Set<keyof typeof Schema>([
   "encodeUnknownSync",
 ])
 
-const getSchemaCompilerMethod = (callee: unknown): Option<string> => {
+const getSchemaCompilerMethod = (callee: unknown): Option.Option<string> => {
   const expression = unwrapExpression(callee)
   if (Option.isNone(expression) || expression.value.type !== "MemberExpression") {
     return Option.none()
@@ -86,8 +86,7 @@ const isImmediatelyInvoked = (node: unknown): boolean => {
   return (
     Option.isSome(parent)
     && parent.value.type === "CallExpression"
-    && unwrapExpression(parent.value.callee)
-      .exists((callee) => callee === expression.value)
+    && Option.exists(unwrapExpression(parent.value.callee), (callee) => callee === expression.value)
   )
 }
 

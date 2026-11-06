@@ -6,7 +6,7 @@ export interface KeyedLock<Key> {
 }
 
 interface LockEntry {
-  readonly semaphore: Semaphore
+  readonly semaphore: Semaphore.Semaphore
   readonly users: number
 }
 

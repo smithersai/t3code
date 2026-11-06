@@ -15,7 +15,7 @@ const MESSAGE =
   "Frame and transition waits race the renderer. Assert with `expect.element`/`vi.waitFor` (auto-retry), or install `fakeTimers()` (full set) and advance the timer the component sets."
 
 /** Name of a bare global (`requestAnimationFrame`) or one read off `window`/`globalThis`/`self`. */
-const globalName = (node: unknown): Option<string> => {
+const globalName = (node: unknown): Option.Option<string> => {
   const expression = unwrapExpression(node)
   if (Option.isNone(expression)) return Option.none()
   if (expression.value.type === "Identifier") return Option.some(expression.value.name)

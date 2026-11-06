@@ -131,8 +131,12 @@ export const museUsageReader: ProviderUsageReader<
           try HostProcess.Environment,
         )
         const museHome = try usageHome.resolve({
-          binaryPath: expandHomePath(config?.binaryPath ?? "muse", home),
-          environment: makeMuseEnvironment(processEnvironment),
+          binaryPath: try Effect.orDie(
+            Effect.try({ try: () => expandHomePath(config?.binaryPath ?? "muse", home), catch: (e) => e }),
+          ),
+          environment: try Effect.orDie(
+            Effect.try({ try: () => makeMuseEnvironment(processEnvironment), catch: (e) => e }),
+          ),
         })
         return museHome ? [{ dir: path.join(museHome, "sessions"), fileName: "session.jsonl" }] : []
       },

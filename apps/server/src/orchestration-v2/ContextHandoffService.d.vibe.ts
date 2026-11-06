@@ -10,7 +10,7 @@ declare const ContextHandoffPrepareError_base: Schema.Class<ContextHandoffPrepar
     readonly targetRunId: Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "RunId">;
     readonly fromProviderThreadIds: Schema.$Array<Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "ProviderThreadId">>;
     readonly toProviderThreadId: Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "ProviderThreadId">;
-    readonly cause: Schema.optional<Schema.Defect>;
+    readonly cause: Schema.optionalKey<Schema.Defect>;
 }>, import("effect/Cause").YieldableError>;
 export declare class ContextHandoffPrepareError extends ContextHandoffPrepareError_base {
     get message(): string;
@@ -63,6 +63,7 @@ export interface ContextHandoffServiceV2Shape {
 declare const ContextHandoffServiceV2_base: Context.ServiceClass<ContextHandoffServiceV2, "t3/orchestration-v2/ContextHandoffService/ContextHandoffServiceV2", ContextHandoffServiceV2Shape>;
 export declare class ContextHandoffServiceV2 extends ContextHandoffServiceV2_base {
 }
+/** @throws {never} */
 export declare function providerMessageWithContextHandoff(input: {
     readonly handoff: OrchestrationV2ContextHandoff;
     readonly userText: string;

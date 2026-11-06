@@ -29,15 +29,20 @@ export declare const webhookHeldDelay: Metric.Histogram<Duration.Duration>;
 export declare const webhookRunsTotal: Metric.Counter<number>;
 export declare const secretRequestsTotal: Metric.Counter<number>;
 export declare const secretRefsConsumedTotal: Metric.Counter<number>;
+/** @throws {never} */
 export declare const metricAttributes: (attributes: Readonly<Record<string, unknown>>) => ReadonlyArray<[string, string]>;
 export declare const increment: (metric: Metric.Metric<number, unknown>, attributes: Readonly<Record<string, unknown>>, amount?: number) => Effect.Effect<void, never, never>;
 export interface WithMetricsOptions {
     readonly counter?: Metric.Metric<number, unknown>;
     readonly timer?: Metric.Metric<Duration.Duration, unknown>;
-    readonly attributes?: Readonly<Record<string, unknown>> | (() => Readonly<Record<string, unknown>>);
+    readonly attributes?: Readonly<Record<string, unknown>> | (
+    /** @throws {never} */
+    () => Readonly<Record<string, unknown>>);
+    /** @throws {never} */
     readonly outcomeAttributes?: (outcome: ReturnType<typeof outcomeFromExit>) => Readonly<Record<string, unknown>>;
 }
 export declare const withMetrics: {
+    /** @throws {never} */
     (options: WithMetricsOptions): <A, E, R>(effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, R>;
     <A, E, R>(effect: Effect.Effect<A, E, R>, options: WithMetricsOptions): Effect.Effect<A, E, R>;
 };

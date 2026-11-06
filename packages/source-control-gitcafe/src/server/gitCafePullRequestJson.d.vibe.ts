@@ -499,21 +499,28 @@ export declare const GitCafePeople: Schema.Struct<{
     }>>;
     readonly next: Schema.NullOr<Schema.String>;
 }>;
+/** @throws {never} */
 export declare function toPeople(people: typeof GitCafePeople.Type, host: string): ReadonlyArray<PullRequestActor>;
 interface RepositoryOnHost {
     readonly repository: string;
     readonly host: string;
 }
+/** @throws {never} */
 export declare function toReviewers(pull: Pick<GitCafePull, "reviewers">, host: string): ReadonlyArray<PullRequestActor>;
+/** @throws {never} */
 export declare function toReviewerCandidates(candidates: typeof GitCafeActorEntries.Type, input: {
     readonly requested: ReadonlySet<string>;
     readonly authorActorId: string;
     readonly host: string;
 }): ReadonlyArray<PullRequestReviewerCandidate>;
+/** @throws {never} */
 export declare function toChangeRequest(pull: GitCafePull, target: RepositoryOnHost): ProviderChangeRequest;
+/** @throws {never} */
 export declare function toViewerPermissions(detail: GitCafePullDetail): PullRequestViewerPermissions;
 export declare const REACTION_EMOJI: Readonly<Record<PullRequestReactionContent, string>>;
+/** @throws {never} */
 export declare function reactionContent(emoji: string): PullRequestReactionContent | undefined;
+/** @throws {never} */
 export declare function toActivity(input: {
     readonly comments: typeof GitCafeComments.Type;
     readonly reviews: typeof GitCafeReviews.Type;
@@ -522,14 +529,18 @@ export declare function toActivity(input: {
     readonly headOid?: string;
     readonly host: string;
 }): ProviderChangeRequestActivity;
+/** @throws {never} */
 export declare function toStack(stack: GitCafeStack, target: RepositoryOnHost): ProviderChangeRequestStack;
+/** @throws {never} */
 export declare function toDiff(diff: typeof GitCafeDiff.Type): ProviderDiffSlice;
 /**
  * GitCafe lists every run of a commit's checks, so a re-run arrives beside the run it replaced.
  * The newest run is the check's state; an older failure is history, not a failing check. Runs whose
  * order cannot be told apart are all kept, so no failure is hidden. Two reporters may share a check
  * name, so a run only replaces runs from the same provider and GitHub app.
+ * @throws {never}
  */
 export declare function toChecks(checks: typeof GitCafeChecks.Type): ReadonlyArray<PullRequestCheck>;
+/** @throws {never} */
 export declare function checksStateOf(checks: ReadonlyArray<PullRequestCheck>): PullRequestChecksState | null;
 export {};

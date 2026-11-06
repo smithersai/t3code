@@ -41,11 +41,18 @@ declare const PersistenceDecodeError_base: Schema.Class<PersistenceDecodeError, 
     readonly cause: Schema.optional<Schema.Defect>;
 }>, import("effect/Cause").YieldableError>;
 export declare class PersistenceDecodeError extends PersistenceDecodeError_base {
+    /** @throws {never} */
     static fromSchemaError(operation: string, cause: Schema.SchemaError, correlation?: PersistenceErrorCorrelation): PersistenceDecodeError;
     get message(): string;
 }
-export declare function toPersistenceSqlError(operation: string): (cause: unknown) => PersistenceSqlError;
-export declare function toPersistenceDecodeError(operation: string): (cause: Schema.SchemaError) => PersistenceDecodeError;
+/** @throws {never} */
+export declare function toPersistenceSqlError(operation: string): 
+/** @throws {never} */
+(cause: unknown) => PersistenceSqlError;
+/** @throws {never} */
+export declare function toPersistenceDecodeError(operation: string): 
+/** @throws {never} */
+(cause: Schema.SchemaError) => PersistenceDecodeError;
 export type OrchestrationEventStoreError = PersistenceSqlError | PersistenceDecodeError;
 export type OrchestrationCommandReceiptRepositoryError = PersistenceSqlError | PersistenceDecodeError;
 export type ProviderSessionRuntimeRepositoryError = PersistenceSqlError | PersistenceDecodeError;

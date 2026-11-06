@@ -297,7 +297,7 @@ export const endOrphanedNativeSubagent = effect <E>(input: {
       }
       const events: Array<OrchestrationV2DomainEvent> = []
       if (
-        isOrchestrationV2WorkActive(subagent.status)
+        (try Effect.orDie(Effect.try({ try: () => isOrchestrationV2WorkActive(subagent.status), catch: (e) => e })))
         && !writtenIds(input.emitted, "subagent.updated").has(subagentId)
       ) {
         events.push({
@@ -316,7 +316,7 @@ export const endOrphanedNativeSubagent = effect <E>(input: {
       }
       if (
         node !== undefined
-        && isOrchestrationV2WorkActive(node.status)
+        && (try Effect.orDie(Effect.try({ try: () => isOrchestrationV2WorkActive(node.status), catch: (e) => e })))
         && !writtenIds(input.emitted, "node.updated").has(subagentId)
       ) {
         events.push({
@@ -328,7 +328,7 @@ export const endOrphanedNativeSubagent = effect <E>(input: {
       }
       if (
         item !== undefined
-        && isOrchestrationV2WorkActive(item.status)
+        && (try Effect.orDie(Effect.try({ try: () => isOrchestrationV2WorkActive(item.status), catch: (e) => e })))
         && !writtenIds(input.emitted, "turn-item.updated").has(item.id)
       ) {
         events.push({
@@ -380,7 +380,7 @@ export const endRunlessRootTurns = effect <
         if (
           node.kind !== "root_turn"
           || node.runId !== null
-          || !isOrchestrationV2WorkActive(node.status)
+          || !(try Effect.orDie(Effect.try({ try: () => isOrchestrationV2WorkActive(node.status), catch: (e) => e })))
         ) {
           continue
         }
@@ -397,7 +397,9 @@ export const endRunlessRootTurns = effect <
           if (
             item.nodeId !== node.id
             || item.runId !== null
-            || !isOrchestrationV2WorkActive(item.status)
+            || !(try Effect.orDie(
+              Effect.try({ try: () => isOrchestrationV2WorkActive(item.status), catch: (e) => e }),
+            ))
             || endedItemIds.has(item.id)
           ) {
             continue
@@ -425,7 +427,9 @@ export const endRunlessRootTurns = effect <
           if (
             providerTurn.nodeId !== node.id
             || providerTurn.runAttemptId !== null
-            || !isOrchestrationV2WorkActive(providerTurn.status)
+            || !(try Effect.orDie(
+              Effect.try({ try: () => isOrchestrationV2WorkActive(providerTurn.status), catch: (e) => e }),
+            ))
             || endedProviderTurnIds.has(providerTurn.id)
           ) {
             continue

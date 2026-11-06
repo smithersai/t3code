@@ -6,7 +6,7 @@ const APPEARANCE_VARIANT_PATTERN = /\b(?:dark|light):(?=\S)/u
 const APPEARANCE_VARIANT_MESSAGE =
   "dark:/light: utilities do not follow registered custom themes; use an adaptive semantic token."
 
-const literalStringValue = (node: unknown): Option<string> => {
+const literalStringValue = (node: unknown): Option.Option<string> => {
   if (typeof node !== "object" || node === null) return Option.none()
   if (!("type" in node) || node.type !== "Literal") return Option.none()
   if (!("value" in node) || typeof node.value !== "string") return Option.none()

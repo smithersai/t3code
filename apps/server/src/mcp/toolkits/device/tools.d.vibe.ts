@@ -113,8 +113,8 @@ export declare const DeviceStandardToolkit: Toolkit.Toolkit<{
                 readonly physical: Schema.Boolean;
             }>>;
             readonly open: Schema.$Array<Schema.Struct<{
-                readonly hostId: Schema.decodeTo<Schema.String, Schema.String, never, never>;
-                readonly deviceId: Schema.decodeTo<Schema.String, Schema.String, never, never>;
+                readonly hostId: Schema.mutableKey<Schema.decodeTo<Schema.String, Schema.String, never, never>>;
+                readonly deviceId: Schema.mutableKey<Schema.decodeTo<Schema.String, Schema.String, never, never>>;
             }>>;
         }>;
         readonly failure: Schema.Union<readonly [Schema.Union<readonly [typeof import("@t3tools/contracts").DeviceToolUnavailableError, typeof import("@t3tools/contracts").DeviceHostUnavailableError, typeof import("@t3tools/contracts").DevicePlatformUnavailableError, typeof import("@t3tools/contracts").DeviceNotFoundError, typeof import("@t3tools/contracts").DeviceBootError, typeof import("@t3tools/contracts").DeviceOperationError, typeof import("@t3tools/contracts").DeviceActionUnavailableError]>, typeof OrchestratorMcpFailure]>;
@@ -253,8 +253,8 @@ export declare const DeviceToolkit: Toolkit.Toolkit<{
                 readonly physical: Schema.Boolean;
             }>>;
             readonly open: Schema.$Array<Schema.Struct<{
-                readonly hostId: Schema.decodeTo<Schema.String, Schema.String, never, never>;
-                readonly deviceId: Schema.decodeTo<Schema.String, Schema.String, never, never>;
+                readonly hostId: Schema.mutableKey<Schema.decodeTo<Schema.String, Schema.String, never, never>>;
+                readonly deviceId: Schema.mutableKey<Schema.decodeTo<Schema.String, Schema.String, never, never>>;
             }>>;
         }>;
         readonly failure: Schema.Union<readonly [Schema.Union<readonly [typeof import("@t3tools/contracts").DeviceToolUnavailableError, typeof import("@t3tools/contracts").DeviceHostUnavailableError, typeof import("@t3tools/contracts").DevicePlatformUnavailableError, typeof import("@t3tools/contracts").DeviceNotFoundError, typeof import("@t3tools/contracts").DeviceBootError, typeof import("@t3tools/contracts").DeviceOperationError, typeof import("@t3tools/contracts").DeviceActionUnavailableError]>, typeof OrchestratorMcpFailure]>;

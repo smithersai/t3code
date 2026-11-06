@@ -94,16 +94,18 @@ export interface DesktopAppBranding {
   displayName: string
 }
 
-export const DesktopAppBrandingSchema = Schema.Struct({
-  baseName: Schema.String,
-  stageLabel: DesktopAppStageLabelSchema,
-  displayName: Schema.String,
-})
+schema DesktopAppBrandingSchemaCodec {
+  readonly baseName: string
+  readonly stageLabel: DesktopAppStageLabelSchema
+  readonly displayName: string
+}
+
+export const DesktopAppBrandingSchema = DesktopAppBrandingSchemaCodec
 
 export schema DesktopSnapShotMode = "direct" | "portal" | "unavailable"
 
 export schema DesktopCaptureExtensionState {
-  status:
+  readonly status:
     | "not-installed"
     | "disabled"
     | "enabled"
@@ -112,13 +114,13 @@ export schema DesktopCaptureExtensionState {
     | "extensions-disabled"
     | "unsupported"
     | "error"
-  message: string
+  readonly message: string
 }
 
 export schema DesktopCaptureHelperState {
-  status: "not-installed" | "update-required" | "ready" | "error"
-  message: string
-  feedbackAvailable?: boolean
+  readonly status: "not-installed" | "update-required" | "ready" | "error"
+  readonly message: string
+  readonly feedbackAvailable?: boolean | undefined
 }
 
 export schema DesktopSnapShotSetupAction =
@@ -142,13 +144,13 @@ export const DesktopCaptureConfigRequest = Schema.Struct({
 export type DesktopCaptureConfigRequest = typeof DesktopCaptureConfigRequest.Type
 
 export schema DesktopCaptureConfigPreview {
-  id: string
-  path: string
-  resolvedPath: string
-  before: string
-  after: string
-  shortcut: string
-  operation: "install" | "remove"
+  readonly id: string
+  readonly path: string
+  readonly resolvedPath: string
+  readonly before: string
+  readonly after: string
+  readonly shortcut: string
+  readonly operation: "install" | "remove"
 }
 
 export const DesktopCaptureConfigApplied = Schema.Struct({
@@ -208,11 +210,11 @@ export const DesktopSnapShotEvent = Schema.Union([
 export type DesktopSnapShotEvent = typeof DesktopSnapShotEvent.Type
 
 export schema DesktopPendingSnapShot {
-  id: DesktopSnapShotId
-  name: string
-  mimeType: "image/png"
-  sizeBytes: Schema.Int
-  source: SnapShotSource
+  readonly id: DesktopSnapShotId
+  readonly name: string
+  readonly mimeType: "image/png"
+  readonly sizeBytes: Schema.Int
+  readonly source: SnapShotSource
 }
 
 export const DesktopSnapShot = Schema.Struct({
@@ -275,11 +277,13 @@ export interface DesktopUpdateReleaseNote {
   totalItems: number
 }
 
-export const DesktopUpdateReleaseNoteSchema = Schema.Struct({
-  version: Schema.String,
-  items: Schema.Array(Schema.String),
-  totalItems: Schema.Number,
-})
+schema DesktopUpdateReleaseNoteSchemaCodec {
+  readonly version: string
+  readonly items: ReadonlyArray<string>
+  readonly totalItems: number
+}
+
+export const DesktopUpdateReleaseNoteSchema = DesktopUpdateReleaseNoteSchemaCodec
 
 export const DesktopUpdateStateSchema = Schema.Struct({
   enabled: Schema.Boolean,
@@ -317,21 +321,25 @@ export interface DesktopUpdateActionResult {
   state: DesktopUpdateState
 }
 
-export const DesktopUpdateActionResultSchema = Schema.Struct({
-  accepted: Schema.Boolean,
-  completed: Schema.Boolean,
-  state: DesktopUpdateStateSchema,
-})
+schema DesktopUpdateActionResultSchemaCodec {
+  readonly accepted: boolean
+  readonly completed: boolean
+  readonly state: DesktopUpdateStateSchema
+}
+
+export const DesktopUpdateActionResultSchema = DesktopUpdateActionResultSchemaCodec
 
 export interface DesktopUpdateCheckResult {
   checked: boolean
   state: DesktopUpdateState
 }
 
-export const DesktopUpdateCheckResultSchema = Schema.Struct({
-  checked: Schema.Boolean,
-  state: DesktopUpdateStateSchema,
-})
+schema DesktopUpdateCheckResultSchemaCodec {
+  readonly checked: boolean
+  readonly state: DesktopUpdateStateSchema
+}
+
+export const DesktopUpdateCheckResultSchema = DesktopUpdateCheckResultSchemaCodec
 
 export const PRIMARY_LOCAL_ENVIRONMENT_ID = "primary"
 
@@ -425,19 +433,25 @@ export const DesktopSshEnvironmentEnsureResultSchema = Schema.Union([
   DesktopSshPasswordPromptCancelledResultSchema,
 ])
 
-export const DesktopSshHttpBaseUrlInputSchema = Schema.Struct({
-  httpBaseUrl: Schema.String,
-})
+schema DesktopSshHttpBaseUrlInputSchemaCodec {
+  readonly httpBaseUrl: string
+}
 
-export const DesktopSshBearerRequestInputSchema = Schema.Struct({
-  httpBaseUrl: Schema.String,
-  bearerToken: Schema.String,
-})
+export const DesktopSshHttpBaseUrlInputSchema = DesktopSshHttpBaseUrlInputSchemaCodec
 
-export const DesktopSshBearerBootstrapInputSchema = Schema.Struct({
-  httpBaseUrl: Schema.String,
-  credential: Schema.String,
-})
+schema DesktopSshBearerRequestInputSchemaCodec {
+  readonly httpBaseUrl: string
+  readonly bearerToken: string
+}
+
+export const DesktopSshBearerRequestInputSchema = DesktopSshBearerRequestInputSchemaCodec
+
+schema DesktopSshBearerBootstrapInputSchemaCodec {
+  readonly httpBaseUrl: string
+  readonly credential: string
+}
+
+export const DesktopSshBearerBootstrapInputSchema = DesktopSshBearerBootstrapInputSchemaCodec
 
 export const DesktopSshPasswordPromptResolutionInputSchema = Schema.Struct({
   requestId: Schema.String,
@@ -500,11 +514,13 @@ export interface PickedThemeFile {
   text: string
 }
 
-export const PickedThemeFileSchema = Schema.Struct({
-  name: Schema.String,
-  size: Schema.Number,
-  text: Schema.String,
-})
+schema PickedThemeFileSchemaCodec {
+  readonly name: string
+  readonly size: number
+  readonly text: string
+}
+
+export const PickedThemeFileSchema = PickedThemeFileSchemaCodec
 
 export interface DesktopWslDistro {
   name: string
@@ -512,11 +528,13 @@ export interface DesktopWslDistro {
   version: 1 | 2
 }
 
-export const DesktopWslDistroSchema = Schema.Struct({
-  name: Schema.String,
-  isDefault: Schema.Boolean,
-  version: Schema.Literals([1, 2]),
-})
+schema DesktopWslDistroSchemaCodec {
+  readonly name: string
+  readonly isDefault: boolean
+  readonly version: 1 | 2
+}
+
+export const DesktopWslDistroSchema = DesktopWslDistroSchemaCodec
 
 export interface DesktopWslState {
   enabled: boolean
@@ -903,9 +921,11 @@ export const PreviewAnnotationSubmissionResultSchema: Schema.Codec<PreviewAnnota
   screenshotFailed: Schema.optionalKey(Schema.Boolean),
 })
 
-export const DesktopPreviewTabInputSchema = Schema.Struct({
-  tabId: DesktopPreviewTabIdSchema,
-})
+schema DesktopPreviewTabInputSchemaCodec {
+  readonly tabId: DesktopPreviewTabIdSchema
+}
+
+export const DesktopPreviewTabInputSchema = DesktopPreviewTabInputSchemaCodec
 
 /** Apply zoom and color scheme at creation to avoid flashing browser defaults. */
 export const DesktopPreviewCreateTabInputSchema = Schema.Struct({
@@ -928,10 +948,12 @@ export const DesktopPreviewRegisterWebviewInputSchema = Schema.Struct({
   webContentsId: Schema.Int.check(Schema.isGreaterThan(0)),
 })
 
-export const DesktopPreviewNavigateInputSchema = Schema.Struct({
-  tabId: DesktopPreviewTabIdSchema,
-  url: Schema.String,
-})
+schema DesktopPreviewNavigateInputSchemaCodec {
+  readonly tabId: DesktopPreviewTabIdSchema
+  readonly url: string
+}
+
+export const DesktopPreviewNavigateInputSchema = DesktopPreviewNavigateInputSchemaCodec
 
 export const DesktopPreviewConfigInputSchema = Schema.Struct({
   environmentId: EnvironmentId,
@@ -955,19 +977,23 @@ export const DesktopPreviewSetZoomFactorInputSchema = Schema.Struct({
   zoomFactor: Schema.Number.check(Schema.isGreaterThan(0)),
 })
 
-export const DesktopPreviewSetAudioMutedInputSchema = Schema.Struct({
-  tabId: DesktopPreviewTabIdSchema,
-  audioMuted: Schema.Boolean,
-})
+schema DesktopPreviewSetAudioMutedInputSchemaCodec {
+  readonly tabId: DesktopPreviewTabIdSchema
+  readonly audioMuted: boolean
+}
+
+export const DesktopPreviewSetAudioMutedInputSchema = DesktopPreviewSetAudioMutedInputSchemaCodec
 
 export const DesktopPreviewAnnotationThemeInputSchema = Schema.Struct({
   theme: DesktopPreviewAnnotationThemeSchema,
 })
 
-export const DesktopPreviewAnnotationSendEnabledInputSchema = Schema.Struct({
-  tabId: DesktopPreviewTabIdSchema,
-  enabled: Schema.Boolean,
-})
+schema DesktopPreviewAnnotationSendEnabledInputSchemaCodec {
+  readonly tabId: DesktopPreviewTabIdSchema
+  readonly enabled: boolean
+}
+
+export const DesktopPreviewAnnotationSendEnabledInputSchema = DesktopPreviewAnnotationSendEnabledInputSchemaCodec
 
 export const DesktopPreviewArtifactInputSchema = Schema.Struct({
   path: Schema.String.check(Schema.isTrimmed()).check(Schema.isNonEmpty()),

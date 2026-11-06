@@ -15,12 +15,12 @@ import type { PiSettings } from "../settings.vibe"
 
 schema PiScanState { mutable sessionId: string }
 schema Usage {
-  input?: Schema.Unknown
-  output?: Schema.Unknown
-  cacheRead?: Schema.Unknown
-  cacheWrite?: Schema.Unknown
-  reasoning?: Schema.Unknown
-  cost?: { total: Schema.Unknown }
+  readonly input?: Schema.Unknown | undefined
+  readonly output?: Schema.Unknown | undefined
+  readonly cacheRead?: Schema.Unknown | undefined
+  readonly cacheWrite?: Schema.Unknown | undefined
+  readonly reasoning?: Schema.Unknown | undefined
+  readonly cost?: { readonly total: Schema.Unknown } | undefined
 }
 const Identity = { id: Schema.NonEmptyString, timestamp: Schema.String }
 const Model = { provider: Schema.NonEmptyString, model: Schema.NonEmptyString }
@@ -130,12 +130,23 @@ export const piUsageReader: ProviderUsageReader<PiSettings, Path.Path> = {
         const path = try Path.Path
         const home = try HostProcess.HomeDirectory
         const sessionDir = environment.PI_CODING_AGENT_SESSION_DIR?.trim()
-        if (sessionDir) return [{ dir: path.resolve(expandHomePath(sessionDir, home)) }]
+        if (sessionDir) {
+          return [{
+            dir: path.resolve(
+              try Effect.orDie(Effect.try({
+                try: () => expandHomePath(sessionDir, home),
+                catch: (e) => e,
+              })),
+            ),
+          }]
+        }
         const agentDir = environment.PI_CODING_AGENT_DIR?.trim()
         return [
           {
             dir: path.resolve(
-              agentDir ? expandHomePath(agentDir, home) : path.join(home, ".pi", "agent"),
+              agentDir
+                ? try Effect.orDie(Effect.try({ try: () => expandHomePath(agentDir, home), catch: (e) => e }))
+                : path.join(home, ".pi", "agent"),
               "sessions",
             ),
           },

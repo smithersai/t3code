@@ -9,7 +9,6 @@ import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as PlatformError from "effect/PlatformError"
 
-
 const TypeId = "~@t3tools/shared/Crypto"
 
 export type DigestAlgorithm = "SHA-1" | "SHA-256" | "SHA-384" | "SHA-512"
@@ -79,29 +78,32 @@ export const make = (impl: {
       if (value < Number.MAX_SAFE_INTEGER) return value + 1
     }
   }
-  const uuid =
-    (generate: SecureRandom.UuidGenerator): infer _ => effect (options?: UuidOptions): (string | Uint8Array)!! =>
-      options?.format === "bytes" ? try generate({ format: "bytes" }) : try generate()
+  const uuid = (generate: SecureRandom.UuidGenerator): infer _ => (options?: UuidOptions): (string | Uint8Array)!! =>
+    options?.format === "bytes" ? generate({ format: "bytes" }) : generate()
   return Crypto.of({
     [TypeId]: TypeId,
     nextIntUnsafe,
     nextDoubleUnsafe,
-    randomBytes: effect (size) =>
+    randomBytes: (size) =>
       Number.isSafeInteger(size) && size >= 0
-        ? randomBytesUnsafe(size)
-        : (throw PlatformError.badArgument({
+        ? effect {
+          return randomBytesUnsafe(size)
+        }
+        : fail(PlatformError.badArgument({
           module: "Crypto",
           method: "randomBytes",
           description: "size must be a non-negative safe integer",
         })),
     digest: impl.digest,
     random: Effect.sync(nextDoubleUnsafe),
-    randomBoolean: effect { return nextDoubleUnsafe() > 0.5 },
+    randomBoolean: effect {
+      return nextDoubleUnsafe() > 0.5
+    },
     randomInt: Effect.sync(nextIntUnsafe),
     randomBetween: effect (min, max) => nextDoubleUnsafe() * (max - min) + min,
-    randomIntBetween: effect (min, max, options) => {
+    randomIntBetween: (min, max, options) => {
       const extra = options?.halfOpen === true ? 0 : 1
-      return try effect {
+      return effect {
         const minInt = Math.ceil(min)
         const maxInt = Math.floor(max)
         return Math.floor(nextDoubleUnsafe() * (maxInt - minInt + extra)) + minInt

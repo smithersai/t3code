@@ -33,10 +33,16 @@ export interface AzureDevOpsPullRequestBatch {
     /** Count before decoding to avoid ending pagination on skipped rows. */
     readonly rawCount: number;
 }
+/** @throws {never} */
 export declare function decodePullRequestListJson(raw: string): Result.Result<AzureDevOpsPullRequestBatch, DecodeFailure>;
-/** Null means Azure returned insufficient data. */
+/**
+ * Null means Azure returned insufficient data.
+ * @throws {never}
+ */
 export declare function decodePullRequestJson(raw: string): Result.Result<AzureDevOpsPullRequest | null, DecodeFailure>;
+/** @throws {never} */
 export declare function decodeViewerJson(raw: string): Result.Result<string | null, DecodeFailure>;
+/** @throws {never} */
 export declare function decodeThreadsJson(raw: string): Result.Result<ReadonlyArray<PullRequestComment>, DecodeFailure>;
 export interface AzureDevOpsIteration {
     readonly id: number;
@@ -58,8 +64,13 @@ export interface AzureDevOpsItemContent {
     readonly contents: string;
     readonly isBinary: boolean;
 }
+/** @throws {never} */
 export declare function decodeIterationsJson(raw: string): Result.Result<ReadonlyArray<AzureDevOpsIteration>, DecodeFailure>;
+/** @throws {never} */
 export declare function decodeIterationChangesJson(raw: string): Result.Result<AzureDevOpsChangePage, DecodeFailure>;
-/** Azure returns an empty body for absent files. Binary status comes from its metadata. */
+/**
+ * Azure returns an empty body for absent files. Binary status comes from its metadata.
+ * @throws {never}
+ */
 export declare function decodeItemContentJson(raw: string): Result.Result<AzureDevOpsItemContent, DecodeFailure>;
 export {};

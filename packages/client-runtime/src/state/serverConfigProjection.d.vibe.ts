@@ -8,11 +8,14 @@ export interface ServerConfigProjection {
 /**
  * Published themes and usage-limit sources are current machine state, so a
  * cache could restore a set the machine no longer reports.
+ * @throws {never}
  */
 export declare function withoutEnvironmentThemes(config: ServerConfig): ServerConfig;
 /**
  * Provider pushes, reconnects, and settings writes resend unchanged data.
  * Reuse deep-equal objects so memoized UI can skip unchanged providers, models, and skills.
+ * @throws {never}
  */
 export declare function reuseUnchanged<T>(previous: unknown, next: T): T;
+/** @throws {never} */
 export declare function applyServerConfigProjection(current: Option.Option<ServerConfigProjection>, event: ServerConfigStreamEvent): Option.Option<ServerConfigProjection>;

@@ -11,5 +11,7 @@ export declare const ProviderCompatibilityPolicy: Schema.Struct<{
     }>>;
 }>;
 export type ProviderCompatibilityPolicy = typeof ProviderCompatibilityPolicy.Type;
+/** @throws {never} */
 export declare function resolveProviderCompatibility(policies: ReadonlyArray<ProviderCompatibilityPolicy> | undefined, driver: ProviderDriverKind, version: string | null, t3CodeVersion?: string): ServerProviderCompatibilityAdvisory | undefined;
+/** @throws {never} */
 export declare function applyProviderCompatibility(snapshot: ServerProvider, policies: ReadonlyArray<ProviderCompatibilityPolicy> | undefined, fallback: ReadonlyArray<ProviderCompatibilityPolicy> | undefined): ServerProvider;

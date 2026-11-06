@@ -19,5 +19,7 @@ export interface NormalizedGitLabMergeRequestRecord {
     readonly headRepositoryNameWithOwner?: string | null;
     readonly headRepositoryOwnerLogin?: string | null;
 }
+/** @throws {never} */
 export declare function decodeGitLabMergeRequestListJson(raw: string): Result.Result<ReadonlyArray<NormalizedGitLabMergeRequestRecord>, Cause.Cause<Schema.SchemaError>>;
+/** @throws {never} */
 export declare function decodeGitLabMergeRequestJson(raw: string): Result.Result<NormalizedGitLabMergeRequestRecord, Cause.Cause<Schema.SchemaError>>;

@@ -10,9 +10,9 @@ export const SourceControlProviderKind = TrimmedNonEmptyString.check(
 export type SourceControlProviderKind = typeof SourceControlProviderKind.Type
 
 export schema SourceControlProviderInfo {
-  kind: SourceControlProviderKind
-  name: TrimmedNonEmptyString
-  baseUrl: string
+  readonly kind: SourceControlProviderKind
+  readonly name: TrimmedNonEmptyString
+  readonly baseUrl: string
 }
 
 export schema ChangeRequestState = "open" | "closed" | "merged"
@@ -37,9 +37,9 @@ export const ChangeRequest = Schema.Struct({
 export type ChangeRequest = typeof ChangeRequest.Type
 
 export schema SourceControlRepositoryCloneUrls {
-  nameWithOwner: TrimmedNonEmptyString
-  url: TrimmedNonEmptyString
-  sshUrl: TrimmedNonEmptyString
+  readonly nameWithOwner: TrimmedNonEmptyString
+  readonly url: TrimmedNonEmptyString
+  readonly sshUrl: TrimmedNonEmptyString
 }
 
 export schema SourceControlRepositoryVisibility = "private" | "public"
@@ -47,24 +47,24 @@ export schema SourceControlRepositoryVisibility = "private" | "public"
 export schema SourceControlCloneProtocol = "auto" | "ssh" | "https"
 
 export schema SourceControlRepositoryInfo {
-  provider: SourceControlProviderKind
-  nameWithOwner: TrimmedNonEmptyString
-  url: TrimmedNonEmptyString
-  sshUrl: TrimmedNonEmptyString
+  readonly provider: SourceControlProviderKind
+  readonly nameWithOwner: TrimmedNonEmptyString
+  readonly url: TrimmedNonEmptyString
+  readonly sshUrl: TrimmedNonEmptyString
 }
 
 export schema SourceControlRepositoryLookupInput {
-  provider: SourceControlProviderKind
-  repository: TrimmedNonEmptyString
-  cwd?: TrimmedNonEmptyString
+  readonly provider: SourceControlProviderKind
+  readonly repository: TrimmedNonEmptyString
+  readonly cwd?: TrimmedNonEmptyString | undefined
 }
 
 export schema SourceControlCloneRepositoryInput {
-  provider?: SourceControlProviderKind
-  repository?: TrimmedNonEmptyString
-  remoteUrl?: TrimmedNonEmptyString
-  destinationPath: TrimmedNonEmptyString
-  protocol?: SourceControlCloneProtocol
+  readonly provider?: SourceControlProviderKind | undefined
+  readonly repository?: TrimmedNonEmptyString | undefined
+  readonly remoteUrl?: TrimmedNonEmptyString | undefined
+  readonly destinationPath: TrimmedNonEmptyString
+  readonly protocol?: SourceControlCloneProtocol | undefined
 }
 
 export const SourceControlCloneRepositoryResult = Schema.Struct({
@@ -75,23 +75,23 @@ export const SourceControlCloneRepositoryResult = Schema.Struct({
 export type SourceControlCloneRepositoryResult = typeof SourceControlCloneRepositoryResult.Type
 
 export schema SourceControlPublishRepositoryInput {
-  cwd: TrimmedNonEmptyString
-  provider: SourceControlProviderKind
-  repository: TrimmedNonEmptyString
-  visibility: SourceControlRepositoryVisibility
-  remoteName?: TrimmedNonEmptyString
-  protocol?: SourceControlCloneProtocol
+  readonly cwd: TrimmedNonEmptyString
+  readonly provider: SourceControlProviderKind
+  readonly repository: TrimmedNonEmptyString
+  readonly visibility: SourceControlRepositoryVisibility
+  readonly remoteName?: TrimmedNonEmptyString | undefined
+  readonly protocol?: SourceControlCloneProtocol | undefined
 }
 
 export schema SourceControlPublishStatus = "pushed" | "remote_added"
 
 export schema SourceControlPublishRepositoryResult {
-  repository: SourceControlRepositoryInfo
-  remoteName: TrimmedNonEmptyString
-  remoteUrl: TrimmedNonEmptyString
-  branch: TrimmedNonEmptyString
-  upstreamBranch?: TrimmedNonEmptyString
-  status: SourceControlPublishStatus
+  readonly repository: SourceControlRepositoryInfo
+  readonly remoteName: TrimmedNonEmptyString
+  readonly remoteUrl: TrimmedNonEmptyString
+  readonly branch: TrimmedNonEmptyString
+  readonly upstreamBranch?: TrimmedNonEmptyString | undefined
+  readonly status: SourceControlPublishStatus
 }
 
 export schema SourceControlDiscoveryStatus = "available" | "missing"
@@ -143,8 +143,8 @@ export const SourceControlProviderDiscoveryItem = Schema.Struct({
 export type SourceControlProviderDiscoveryItem = typeof SourceControlProviderDiscoveryItem.Type
 
 export schema SourceControlDiscoveryResult {
-  versionControlSystems: ReadonlyArray<VcsDiscoveryItem>
-  sourceControlProviders: ReadonlyArray<SourceControlProviderDiscoveryItem>
+  readonly versionControlSystems: ReadonlyArray<VcsDiscoveryItem>
+  readonly sourceControlProviders: ReadonlyArray<SourceControlProviderDiscoveryItem>
 }
 
 export class SourceControlProviderError extends Schema.TaggedError<SourceControlProviderError>()(

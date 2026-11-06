@@ -24,9 +24,9 @@ export schema ProviderApprovalDecision = "accept" | "acceptForSession" | "accept
 export schema ProviderApprovalFullAccessOverride = "ask_rule" | "provider_check"
 
 export schema ProviderApprovalOption {
-  decision: ProviderApprovalDecision
-  label: TrimmedNonEmptyString
-  warning?: TrimmedNonEmptyString
+  readonly decision: ProviderApprovalDecision
+  readonly label: TrimmedNonEmptyString
+  readonly warning?: TrimmedNonEmptyString | undefined
 }
 
 export schema ProviderUserInputAnswers = Readonly<Record<string, Schema.Unknown>>
@@ -40,8 +40,8 @@ export const UserInputAttachments = Schema.Record(
 export type UserInputAttachments = typeof UserInputAttachments.Type
 
 export schema UserInputAttachmentAnswerPayload {
-  requestId: TrimmedNonEmptyString
-  questionTextById?: Readonly<Record<string, string>>
-  answers: ProviderUserInputAnswers
-  attachmentsByQuestionId: UserInputAttachments
+  readonly requestId: TrimmedNonEmptyString
+  readonly questionTextById?: Readonly<Record<string, string>> | undefined
+  readonly answers: ProviderUserInputAnswers
+  readonly attachmentsByQuestionId: UserInputAttachments
 }

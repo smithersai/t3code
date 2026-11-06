@@ -16,10 +16,10 @@ export const McpAppCallToolInput = Schema.Struct({
 export type McpAppCallToolInput = typeof McpAppCallToolInput.Type
 
 export schema McpAppCallToolResult {
-  content: ReadonlyArray<Schema.Unknown>
-  structuredContent?: Schema.Unknown
-  isError?: boolean
-  _meta?: Schema.Unknown
+  readonly content: ReadonlyArray<Schema.Unknown>
+  readonly structuredContent?: Schema.Unknown | undefined
+  readonly isError?: boolean | undefined
+  readonly _meta?: Schema.Unknown | undefined
 }
 
 export const McpAppToolInfoInput = Schema.Struct({
@@ -29,10 +29,10 @@ export const McpAppToolInfoInput = Schema.Struct({
 export type McpAppToolInfoInput = typeof McpAppToolInfoInput.Type
 
 export schema McpAppToolInfo {
-  callable: boolean
-  readOnly: boolean
-  title?: string
-  tool?: Schema.Unknown
+  readonly callable: boolean
+  readonly readOnly: boolean
+  readonly title?: string | undefined
+  readonly tool?: Schema.Unknown | undefined
 }
 
 export const McpAppReadResourceInput = Schema.Struct({
@@ -42,7 +42,7 @@ export const McpAppReadResourceInput = Schema.Struct({
 export type McpAppReadResourceInput = typeof McpAppReadResourceInput.Type
 
 export schema McpAppReadResourceResult {
-  contents: ReadonlyArray<Schema.Unknown>
+  readonly contents: ReadonlyArray<Schema.Unknown>
 }
 
 /** Replaces prior context; no content clears it. */

@@ -37,14 +37,14 @@ export schema ProjectCloneSubscribeInput {}
 export schema ProjectCloneListEvent = ReadonlyArray<ProjectCloneSnapshot>
 
 export schema ProjectCloneStartInput {
-  projectId: ProjectId
-  title: TrimmedNonEmptyString
-  createdAt: IsoDateTime
-  provider?: SourceControlProviderKind
-  repository?: TrimmedNonEmptyString
-  remoteUrl?: TrimmedNonEmptyString
-  destinationPath: TrimmedNonEmptyString
-  protocol?: SourceControlCloneProtocol
+  readonly projectId: ProjectId
+  readonly title: TrimmedNonEmptyString
+  readonly createdAt: IsoDateTime
+  readonly provider?: SourceControlProviderKind | undefined
+  readonly repository?: TrimmedNonEmptyString | undefined
+  readonly remoteUrl?: TrimmedNonEmptyString | undefined
+  readonly destinationPath: TrimmedNonEmptyString
+  readonly protocol?: SourceControlCloneProtocol | undefined
 }
 
 export const ProjectCloneStartResult = Schema.Struct({
@@ -56,11 +56,11 @@ export const ProjectCloneStartResult = Schema.Struct({
 export type ProjectCloneStartResult = typeof ProjectCloneStartResult.Type
 
 export schema ProjectCloneActionInput {
-  projectId: ProjectId
+  readonly projectId: ProjectId
 }
 
 export schema ProjectCloneActionResult {
-  applied: boolean
+  readonly applied: boolean
 }
 
 function projectCloneStageLabel(stage: ProjectCloneStage): string {

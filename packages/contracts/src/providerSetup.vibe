@@ -10,7 +10,7 @@ import {
 import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe"
 
 export schema ProviderSetupInput {
-  instanceId: ProviderInstanceId
+  readonly instanceId: ProviderInstanceId
 }
 
 export const CodexAuthCallbackInput = Schema.Struct({
@@ -107,10 +107,10 @@ export const ProviderAuthStartInput = Schema.Struct({
 export type ProviderAuthStartInput = typeof ProviderAuthStartInput.Type
 
 export schema ProviderAuthRespondInput {
-  instanceId: ProviderInstanceId
-  flowId: SetupOperationId
-  interactionId: SetupOperationId
-  response: ProviderAuthResponse
+  readonly instanceId: ProviderInstanceId
+  readonly flowId: SetupOperationId
+  readonly interactionId: SetupOperationId
+  readonly response: ProviderAuthResponse
 }
 
 export const ProviderAuthState = Schema.Struct({
@@ -145,8 +145,8 @@ export const ProviderAuthCompleteInput = Schema.Struct({
 export type ProviderAuthCompleteInput = typeof ProviderAuthCompleteInput.Type
 
 export schema ProviderAuthCancelInput {
-  instanceId: ProviderInstanceId
-  flowId: SetupOperationId
+  readonly instanceId: ProviderInstanceId
+  readonly flowId: SetupOperationId
 }
 
 const ByteCount = Schema.Int.check(Schema.isGreaterThanOrEqualTo(0))
@@ -175,8 +175,8 @@ export const ProviderInstallState = Schema.Struct({
 export type ProviderInstallState = typeof ProviderInstallState.Type
 
 export schema ProviderInstallCancelInput {
-  instanceId: ProviderInstanceId
-  operationId: SetupOperationId
+  readonly instanceId: ProviderInstanceId
+  readonly operationId: SetupOperationId
 }
 
 const ProviderSetupErrorCauseField = Schema.Defect()
@@ -185,7 +185,7 @@ export schema error ProviderSetupError {
   instanceId: ProviderInstanceId
   operation: string
   detail: string
-  cause?: ProviderSetupErrorCauseField
+  cause?: ProviderSetupErrorCauseField | undefined
   override get message(): string {
     return this.detail
   }
@@ -221,14 +221,18 @@ export const ChatGptTransferredProfile = Schema.Struct({
   }),
 })
 export type ChatGptTransferredProfile = typeof ChatGptTransferredProfile.Type
-export const ChatGptReconnectProfileInput = Schema.Struct({
-  instanceId: ProviderInstanceId,
-  methodId: Schema.String,
-})
-export const ChatGptImportProfileInput = Schema.Struct({
-  instanceId: ProviderInstanceId,
-  profile: ChatGptTransferredProfile,
-})
+schema ChatGptReconnectProfileInputCodec {
+  readonly instanceId: ProviderInstanceId
+  readonly methodId: string
+}
+
+export const ChatGptReconnectProfileInput = ChatGptReconnectProfileInputCodec
+schema ChatGptImportProfileInputCodec {
+  readonly instanceId: ProviderInstanceId
+  readonly profile: ChatGptTransferredProfile
+}
+
+export const ChatGptImportProfileInput = ChatGptImportProfileInputCodec
 export const ChatGptHandoffInput = Schema.Struct({
   instanceId: ProviderInstanceId,
   environmentId: EnvironmentId,
@@ -237,7 +241,7 @@ export const ChatGptHandoffInput = Schema.Struct({
   profile: Schema.NullOr(ChatGptReconnectProfile),
 })
 export type ChatGptHandoffInput = typeof ChatGptHandoffInput.Type
-export schema ChatGptHandoffState = { phase: "auth"; state: ProviderAuthState } | {
-  phase: "finished"
-  profile: ChatGptTransferredProfile
+export schema ChatGptHandoffState = { readonly phase: "auth"; readonly state: ProviderAuthState } | {
+  readonly phase: "finished"
+  readonly profile: ChatGptTransferredProfile
 }

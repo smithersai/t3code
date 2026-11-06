@@ -4,5 +4,6 @@ import { Tool } from "effect/ai";
  * `additionalProperties: true`, safe-integer bounds, nested `anyOf`, JSON-string fallbacks, and
  * the `null` branch of optional properties. A tagged union of objects becomes one object.
  * Decoding still uses the full schema, so each tag's own required fields still apply.
+ * @throws {never}
  */
 export declare const advertisedJsonSchema: (tool: Tool.Any) => ReturnType<typeof Tool.getJsonSchema>;

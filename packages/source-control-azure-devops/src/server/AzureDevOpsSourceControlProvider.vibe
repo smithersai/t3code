@@ -78,7 +78,9 @@ export const make = effect {
     listChangeRequests: effect (input) =>
       try withSpan(
         effect {
-          const source = SourceControlProvider.sourceControlRefFromInput(input)
+          const source = try Effect.orDie(
+            Effect.try({ try: () => SourceControlProvider.sourceControlRefFromInput(input), catch: (e) => e }),
+          )
           return try Effect.mapError(
             Effect.map(
               azure
@@ -126,7 +128,9 @@ export const make = effect {
     createChangeRequest: effect (input) =>
       try withSpan(
         effect {
-          const source = SourceControlProvider.sourceControlRefFromInput(input)
+          const source = try Effect.orDie(
+            Effect.try({ try: () => SourceControlProvider.sourceControlRefFromInput(input), catch: (e) => e }),
+          )
           return try Effect.mapError(
             azure
               .createPullRequest({

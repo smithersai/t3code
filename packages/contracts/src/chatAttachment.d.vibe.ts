@@ -4,6 +4,7 @@ export declare const PROVIDER_SEND_TURN_MAX_ATTACHMENTS = 100;
 export declare const PROVIDER_SEND_TURN_MAX_IMAGE_BYTES: number;
 export declare const PROVIDER_SEND_TURN_MAX_FILE_BYTES: number;
 export declare const PROVIDER_SEND_TURN_SUPPORTED_IMAGE_MIME_TYPES: readonly ["image/gif", "image/jpeg", "image/png", "image/webp"];
+/** @throws {never} */
 export declare function isProviderSendTurnSupportedImageMimeType(mimeType: string): boolean;
 export declare const ChatAttachmentId: Schema.decodeTo<Schema.String, Schema.String, never, never>;
 export type ChatAttachmentId = typeof ChatAttachmentId.Type;
@@ -208,6 +209,7 @@ export declare const ChatAttachment: Schema.Union<readonly [Schema.Struct<{
     readonly sizeBytes: Schema.Int;
 }>]>;
 export type ChatAttachment = typeof ChatAttachment.Type;
+/** @throws {never} */
 export declare function getProviderAttachmentLimitError(attachments: ReadonlyArray<Pick<ChatAttachment, "type" | "mimeType" | "sizeBytes">>): string | undefined;
 export declare const UploadChatAttachment: Schema.Union<readonly [Schema.Struct<{
     readonly id: Schema.optional<Schema.decodeTo<Schema.String, Schema.String, never, never>>;

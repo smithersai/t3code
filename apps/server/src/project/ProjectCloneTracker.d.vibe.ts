@@ -14,7 +14,7 @@ declare const ProjectCloneTracker_base: Context.ServiceClass<ProjectCloneTracker
     /** Stops tracking, interrupts any running clone and removes unfinished checkouts. */
     readonly discard: (projectId: ProjectId) => Effect.Effect<void>;
     readonly get: (projectId: ProjectId) => Effect.Effect<ProjectCloneSnapshot | null>;
-    readonly stream: Stream.Stream<ReadonlyArray<ProjectCloneSnapshot>>;
+    readonly stream: Stream.Stream<readonly ProjectCloneSnapshot[]>;
 }>;
 export declare class ProjectCloneTracker extends ProjectCloneTracker_base {
 }

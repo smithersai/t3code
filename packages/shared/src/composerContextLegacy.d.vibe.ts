@@ -4,4 +4,5 @@ export interface UpgradedLegacyContext {
     text: string;
     records: ComposerContextRecord[];
 }
+/** @throws {never} */
 export declare function upgradeLegacyContextMessage(text: string): UpgradedLegacyContext;

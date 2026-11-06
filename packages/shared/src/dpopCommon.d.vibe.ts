@@ -6,4 +6,5 @@ export declare const DpopPublicJwk: Schema.Struct<{
     readonly y: Schema.String;
 }>;
 export type DpopPublicJwk = typeof DpopPublicJwk.Type;
+/** @throws {never} */
 export declare function normalizeDpopHtu(url: string): string | null;

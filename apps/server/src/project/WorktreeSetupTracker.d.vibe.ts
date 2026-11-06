@@ -9,10 +9,12 @@ declare const WorktreeSetupTracker_base: Context.ServiceClass<WorktreeSetupTrack
         readonly threadId: ThreadId;
         readonly branch: string | null;
         readonly baseRef: string | null;
-        readonly stages: ReadonlyArray<WorktreeSetupStageId>;
+        readonly stages: readonly WorktreeSetupStageId[];
         readonly fiber: Fiber.Fiber<unknown, unknown> | null;
     }) => Effect.Effect<void>;
-    readonly update: (threadId: ThreadId, mutate: (snapshot: WorktreeSetupSnapshot) => WorktreeSetupSnapshot) => Effect.Effect<void>;
+    readonly update: (threadId: ThreadId, mutate: 
+    /** @throws {never} */
+    (snapshot: WorktreeSetupSnapshot) => WorktreeSetupSnapshot) => Effect.Effect<void>;
     readonly stage: (threadId: ThreadId, stageId: WorktreeSetupStageId, patch: Partial<Omit<WorktreeSetupStage, "id">>) => Effect.Effect<void>;
     readonly stageStatus: (threadId: ThreadId, stageId: WorktreeSetupStageId, status: WorktreeSetupStageStatus, detail?: string | null) => Effect.Effect<void>;
     readonly appendTail: (threadId: ThreadId, stageId: WorktreeSetupStageId, line: string) => Effect.Effect<void>;
@@ -33,7 +35,9 @@ export declare const make: Effect.Effect<{
         readonly stages: ReadonlyArray<WorktreeSetupStageId>;
         readonly fiber: Fiber.Fiber<unknown, unknown> | null;
     }) => Effect.Effect<void>;
-    readonly update: (threadId: ThreadId, mutate: (snapshot: WorktreeSetupSnapshot) => WorktreeSetupSnapshot) => Effect.Effect<void>;
+    readonly update: (threadId: ThreadId, mutate: 
+    /** @throws {never} */
+    (snapshot: WorktreeSetupSnapshot) => WorktreeSetupSnapshot) => Effect.Effect<void>;
     readonly stage: (threadId: ThreadId, stageId: WorktreeSetupStageId, patch: Partial<Omit<WorktreeSetupStage, "id">>) => Effect.Effect<void>;
     readonly stageStatus: (threadId: ThreadId, stageId: WorktreeSetupStageId, status: WorktreeSetupStageStatus, detail?: string | null) => Effect.Effect<void>;
     readonly appendTail: (threadId: ThreadId, stageId: WorktreeSetupStageId, line: string) => Effect.Effect<void>;

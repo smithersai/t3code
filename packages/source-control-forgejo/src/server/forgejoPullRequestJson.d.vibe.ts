@@ -177,7 +177,9 @@ export declare const ForgejoReaction: Schema.Struct<{
         readonly avatar_url: Schema.optional<Schema.NullOr<Schema.String>>;
     }>>;
 }>;
+/** @throws {never} */
 export declare function forgejoActor(user: typeof ForgejoUser.Type | null | undefined): PullRequestActor | null;
+/** @throws {never} */
 export declare function forgejoChangeRequest(pr: typeof ForgejoPullRequest.Type): {
     number: number;
     title: string;
@@ -206,10 +208,16 @@ export declare function forgejoChangeRequest(pr: typeof ForgejoPullRequest.Type)
         color: string | null;
     }[];
 };
+/** @throws {never} */
 export declare function forgejoComment(comment: typeof ForgejoComment.Type): PullRequestComment;
+/** @throws {never} */
 export declare function forgejoReview(review: typeof ForgejoReview.Type): PullRequestComment;
+/** @throws {never} */
 export declare function forgejoReviewThread(comment: typeof ForgejoReviewComment.Type): PullRequestReviewThread;
+/** @throws {never} */
 export declare function forgejoCommit(commit: typeof ForgejoCommit.Type): PullRequestCommit;
+/** @throws {never} */
 export declare function forgejoChecks(statuses: ReadonlyArray<typeof ForgejoStatus.Type>, pullRequestUrl: string): ReadonlyArray<PullRequestCheck>;
 export declare const FORGEJO_REACTIONS: Record<PullRequestReactionContent, string>;
+/** @throws {never} */
 export declare function forgejoReactions(reactions: ReadonlyArray<typeof ForgejoReaction.Type>, viewer: string): ReadonlyArray<PullRequestReaction>;

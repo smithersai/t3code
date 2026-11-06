@@ -16,6 +16,7 @@ declare const ProjectFaviconResolutionError_base: Schema.Class<ProjectFaviconRes
 export declare class ProjectFaviconResolutionError extends ProjectFaviconResolutionError_base {
     get message(): string;
 }
+/** @throws {never} */
 export declare const isMissingWorkspaceRoot: (error: ProjectFaviconResolutionError) => boolean;
 declare const ProjectFaviconResolver_base: Context.ServiceClass<ProjectFaviconResolver, "t3/project/ProjectFaviconResolver", {
     readonly resolvePath: (cwd: string, faviconPath?: string) => Effect.Effect<string | null, ProjectFaviconResolutionError>;

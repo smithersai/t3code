@@ -4,7 +4,6 @@ import * as Crypto from "@t3tools/shared/Crypto"
 import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
 import * as Path from "effect/Path"
-import * as Hex from "effect/encoding/Hex"
 
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite"
 
@@ -54,20 +53,20 @@ export const makeAcpRegistryAuthenticationState = effect (input: {
           "LOCALAPPDATA",
         ].map((name) => input.processEnvironment[name] ?? null),
       })
-      const saved = try (effect {
+      const saved = effect {
         const text = try fs.readFileString(filePath)
         return try decodeState(text)
-      } catch effect () => undefined)
+      } catch effect () => undefined
       const confirmed = try Ref.make(saved?.binding === binding && saved.authenticated)
       const lock = try Semaphore.make(1)
       const persist = effect (authenticated: boolean) => {
         provide FileSystem.FileSystem = fs, Path.Path = path {
-          try (writeFileStringAtomically({
+          writeFileStringAtomically({
             filePath,
             contents: JSON.stringify({ binding, authenticated }),
           }) catch effect () => {
             try logWarning("Could not save ACP sign-in confirmation.")
-          })
+          }
         }
       }
       if (saved && saved.binding !== binding) try persist(false)

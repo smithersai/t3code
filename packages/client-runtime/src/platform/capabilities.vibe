@@ -29,13 +29,13 @@ export service CloudSession: {
     readonly identity: Option.Option<CloudSessionIdentity>!!;
     readonly clerkToken: string!ConnectionAttemptError;
   } {
-  static override readonly key = "@t3tools/client-runtime/platform/capabilities/CloudSession"
+  static readonly key = "@t3tools/client-runtime/platform/capabilities/CloudSession"
 }
 
 export service RelayDeviceIdentity: {
     readonly deviceId: Option.Option<string>!ConnectionAttemptError;
   } {
-  static override readonly key = "@t3tools/client-runtime/platform/capabilities/RelayDeviceIdentity"
+  static readonly key = "@t3tools/client-runtime/platform/capabilities/RelayDeviceIdentity"
 }
 
 /**
@@ -52,13 +52,13 @@ export class AnalyticsDevice extends Context.Reference<{
 export service ClientPresentation: {
     readonly metadata: AuthClientPresentationMetadata;
   } {
-  static override readonly key = "@t3tools/client-runtime/platform/capabilities/ClientPresentation"
+  static readonly key = "@t3tools/client-runtime/platform/capabilities/ClientPresentation"
 }
 
 export service PrimaryEnvironmentAuth: {
     readonly bearerToken: Option.Option<string>!ConnectionAttemptError;
   } {
-  static override readonly key = "@t3tools/client-runtime/platform/capabilities/PrimaryEnvironmentAuth"
+  static readonly key = "@t3tools/client-runtime/platform/capabilities/PrimaryEnvironmentAuth"
 }
 
 export service SshEnvironmentGateway: {
@@ -86,5 +86,5 @@ export service SshEnvironmentGateway: {
       target: DesktopSshEnvironmentTarget,
     ) => void!ConnectionAttemptError;
   } {
-  static override readonly key = "@t3tools/client-runtime/platform/capabilities/SshEnvironmentGateway"
+  static readonly key = "@t3tools/client-runtime/platform/capabilities/SshEnvironmentGateway"
 }

@@ -29,36 +29,36 @@ export const WorktreeMcpHandoffInput = Schema.Struct({
 export type WorktreeMcpHandoffInput = typeof WorktreeMcpHandoffInput.Type
 
 export schema WorktreeMcpSetupScriptStatus = {
-  status: "started"
-  scriptName: TrimmedNonEmptyString
-  terminalId: TrimmedNonEmptyString
+  readonly status: "started"
+  readonly scriptName: TrimmedNonEmptyString
+  readonly terminalId: TrimmedNonEmptyString
 } | {
-  status: "no-script"
+  readonly status: "no-script"
 } | {
-  status: "skipped"
+  readonly status: "skipped"
 } | {
-  status: "failed"
-  detail: string
+  readonly status: "failed"
+  readonly detail: string
 }
 
 export schema WorktreeMcpContinuationStatus = {
-  status: "scheduled"
-  delivery: "started" | "queued" | "steered" | "restarted"
+  readonly status: "scheduled"
+  readonly delivery: "started" | "queued" | "steered" | "restarted"
 } | {
-  status: "skipped"
+  readonly status: "skipped"
 } | {
-  status: "failed"
-  detail: string
+  readonly status: "failed"
+  readonly detail: string
 }
 
 export schema WorktreeMcpHandoffResult {
-  worktreePath: TrimmedNonEmptyString
-  branch: TrimmedNonEmptyString
-  baseRef: TrimmedNonEmptyString
-  startedFromOrigin: boolean
-  setupScript: WorktreeMcpSetupScriptStatus
-  continuation: WorktreeMcpContinuationStatus
-  note: string
+  readonly worktreePath: TrimmedNonEmptyString
+  readonly branch: TrimmedNonEmptyString
+  readonly baseRef: TrimmedNonEmptyString
+  readonly startedFromOrigin: boolean
+  readonly setupScript: WorktreeMcpSetupScriptStatus
+  readonly continuation: WorktreeMcpContinuationStatus
+  readonly note: string
 }
 
 export const WorktreeMcpStatusResult = Schema.Struct({

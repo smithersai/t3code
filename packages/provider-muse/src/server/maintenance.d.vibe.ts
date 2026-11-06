@@ -3,7 +3,9 @@ import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import { type ProviderMaintenanceCapabilities, type ProviderMaintenanceCapabilitiesResolver } from "@t3tools/provider-core/server/maintenanceResolver";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
+/** @throws {never} */
 export declare function parseMuseVersion(output: string): string | null;
+/** @throws {never} */
 export declare const compareMuseVersions: (current: string, latest: string) => number;
 /** Only the official launcher owns an update channel; a standalone binary cannot update itself. */
 export declare const museMaintenance: ProviderMaintenanceCapabilitiesResolver;

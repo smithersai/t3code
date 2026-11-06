@@ -2,10 +2,12 @@ import type { ExecutionEnvironmentCapabilities, ServerSettings, ServerSettingsPa
 import type { EnvironmentConnectionPhase } from "../connection/presentation.vibe";
 declare const SHARED_SERVER_SETTING_KEYS: readonly ["continueThreadsAfterServerUpdate", "sidebarAutoSettleAfterDays", "sidebarAutoSettleOnMerge", "autoResumeLimitedThreads", "snoozeLimitedThreads", "newWorktreesStartFromOrigin", "sourceControlWritingStyle", "textGenerationModelSelection"];
 export type SharedServerSettingKey = (typeof SHARED_SERVER_SETTING_KEYS)[number];
+/** @throws {never} */
 export declare function splitSharedServerPatch(patch: ServerSettingsPatch): {
     sharedPatch: ServerSettingsPatch;
     localPatch: ServerSettingsPatch;
 };
+/** @throws {never} */
 export declare function filterSharedServerPatch(patch: ServerSettingsPatch, capabilities: Pick<ExecutionEnvironmentCapabilities, "threadRestartContinuation"> | undefined, settings?: ServerSettings, sourceSettings?: {
     readonly favorites: readonly {
         readonly provider: string & import("effect/Brand").Brand<"ProviderInstanceId">;
@@ -316,7 +318,9 @@ export declare function filterSharedServerPatch(patch: ServerSettingsPatch, capa
         readonly [x: string]: string;
     };
 } | undefined, targetIsSource?: boolean): ServerSettingsPatch;
+/** @throws {never} */
 export declare function pickSharedServerSettings(settings: ServerSettings, capabilities?: Pick<ExecutionEnvironmentCapabilities, "threadRestartContinuation">): ServerSettingsPatch;
+/** @throws {never} */
 export declare function supportsSharedSettingsSync(environment: {
     readonly connection: {
         readonly phase: EnvironmentConnectionPhase;

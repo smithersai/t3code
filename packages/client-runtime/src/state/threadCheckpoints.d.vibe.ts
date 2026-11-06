@@ -15,4 +15,5 @@ export interface ThreadCheckpointSummary {
     readonly assistantMessageId: MessageId | null;
     readonly completedAt: string;
 }
+/** @throws {never} */
 export declare function deriveThreadCheckpointSummaries(projection: Pick<OrchestrationV2ThreadProjection, "checkpoints" | "messages">): ReadonlyArray<ThreadCheckpointSummary>;

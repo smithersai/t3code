@@ -1,6 +1,4 @@
 import * as Schema from "effect/Schema"
-import * as SchemaIssue from "effect/SchemaIssue"
-import * as Struct from "effect/Struct"
 
 import { NonNegativeInt, ThreadId, TrimmedNonEmptyString } from "./baseSchemas.ts"
 
@@ -49,10 +47,10 @@ export schema OrchestrationGetFullThreadDiffResult = ThreadTurnDiff
 const DefectField = Schema.Defect()
 export schema error OrchestrationGetTurnDiffError {
   message: TrimmedNonEmptyString
-  cause?: DefectField
+  cause?: DefectField | undefined
 }
 
 export schema error OrchestrationGetFullThreadDiffError {
   message: TrimmedNonEmptyString
-  cause?: DefectField
+  cause?: DefectField | undefined
 }

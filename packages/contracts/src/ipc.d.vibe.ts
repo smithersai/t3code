@@ -859,19 +859,35 @@ export declare const DesktopPreviewRecordingSaveInputSchema: Schema.Struct<{
 export declare const SystemSettingsPaneSchema: Schema.Literals<readonly ["full-disk-access"]>;
 export type SystemSettingsPane = typeof SystemSettingsPaneSchema.Type;
 export interface DesktopBridge {
+    /** @throws {never} */
     getAppBranding: () => DesktopAppBranding | null;
+    /** @throws {never} */
     getRelayTelemetryEnabled?: () => boolean;
+    /** @throws {never} */
     getPathForFile?: (file: File) => string;
+    /** @throws {never} */
     getClientPlatform?: () => string;
+    /** @throws {never} */
     setNotificationBadge?: (badge: {
         count: number;
         image: string | null;
     }) => Promise<void>;
-    onNotificationBadgeClear?: (listener: () => void) => () => void;
-    onTrackpadScrollEnd?: (listener: () => void) => () => void;
+    /** @throws {never} */
+    onNotificationBadgeClear?: (listener: 
+    /** @throws {never} */
+    () => void) => 
+    /** @throws {never} */
+    () => void;
+    /** @throws {never} */
+    onTrackpadScrollEnd?: (listener: 
+    /** @throws {never} */
+    () => void) => 
+    /** @throws {never} */
+    () => void;
     /**
      * Renderer `window.focus()` cannot raise an Electron window, and on Wayland
      * only the main process can spend a notification click's activation token.
+     * @throws {never}
      */
     revealWindow?: () => Promise<void>;
     /**
@@ -879,148 +895,316 @@ export interface DesktopBridge {
      * the packaged app ships only the `en-US` Chromium locale pak, so
      * `navigator.language` and the default `Intl` locale are pinned to `en-US`
      * regardless of OS settings.
+     * @throws {never}
      */
     getSystemLocale?: () => string | null;
+    /** @throws {never} */
     getLocalEnvironmentBootstraps: () => readonly DesktopEnvironmentBootstrap[];
+    /** @throws {never} */
     getLocalEnvironmentEnabled?: () => boolean;
+    /** @throws {never} */
     setLocalEnvironmentEnabled?: (enabled: boolean) => Promise<void>;
+    /** @throws {never} */
     getLocalEnvironmentBearerToken: () => Promise<string>;
+    /** @throws {never} */
     getClientSettings: () => Promise<ClientSettings | null>;
+    /** @throws {never} */
     setClientSettings: (settings: ClientSettings) => Promise<void>;
+    /** @throws {never} */
     getConnectionCatalog?: () => Promise<string | null>;
+    /** @throws {never} */
     setConnectionCatalog?: (catalog: string) => Promise<boolean>;
+    /** @throws {never} */
     clearConnectionCatalog?: () => Promise<void>;
+    /** @throws {never} */
     discoverSshHosts: () => Promise<readonly DesktopDiscoveredSshHost[]>;
+    /** @throws {never} */
     resolveSshHost: (alias: string) => Promise<DesktopSshEnvironmentTarget>;
+    /** @throws {never} */
     requestSnapShotPermissions?: (includeAccessibility: boolean) => Promise<void>;
+    /** @throws {never} */
     getSnapShotState?: () => Promise<DesktopSnapShotState>;
+    /** @throws {never} */
     setupSnapShot?: (action: DesktopSnapShotSetupAction) => Promise<void>;
+    /** @throws {never} */
     previewSnapShotConfig?: (request: DesktopCaptureConfigRequest) => Promise<DesktopCaptureConfigPreview | null>;
+    /** @throws {never} */
     applySnapShotConfig?: (previewId: string) => Promise<DesktopCaptureConfigApplied>;
+    /** @throws {never} */
     checkSnapShotShortcut?: (shortcut: SnapShotShortcut) => Promise<DesktopSnapShotShortcutAvailability>;
+    /** @throws {never} */
     setSnapShotShortcutSuppressed?: (suppressed: boolean) => Promise<void>;
+    /** @throws {never} */
     listPendingSnapShots?: () => Promise<readonly DesktopPendingSnapShot[]>;
+    /** @throws {never} */
     readSnapShot?: (id: string) => Promise<DesktopSnapShot>;
+    /** @throws {never} */
     setSnapShotAnimationDestination?: (destination: DesktopSnapShotAnimationDestination) => Promise<void>;
+    /** @throws {never} */
     dismissSnapShotAnimation?: (id: DesktopSnapShotId) => Promise<void>;
+    /** @throws {never} */
     acknowledgeSnapShot?: (id: string) => Promise<void>;
+    /** @throws {never} */
     ensureSshEnvironment: (target: DesktopSshEnvironmentTarget, options?: {
         issuePairingToken?: boolean;
     }) => Promise<DesktopSshEnvironmentBootstrap>;
+    /** @throws {never} */
     disconnectSshEnvironment: (target: DesktopSshEnvironmentTarget) => Promise<void>;
+    /** @throws {never} */
     fetchSshEnvironmentDescriptor: (httpBaseUrl: string) => Promise<ExecutionEnvironmentDescriptor>;
+    /** @throws {never} */
     bootstrapSshBearerSession: (httpBaseUrl: string, credential: string) => Promise<AuthAccessTokenResult>;
+    /** @throws {never} */
     fetchSshSessionState: (httpBaseUrl: string, bearerToken: string) => Promise<AuthSessionState>;
+    /** @throws {never} */
     issueSshWebSocketTicket: (httpBaseUrl: string, bearerToken: string) => Promise<AuthWebSocketTicketResult>;
-    onSshPasswordPrompt: (listener: (request: DesktopSshPasswordPromptRequest) => void) => () => void;
+    /** @throws {never} */
+    onSshPasswordPrompt: (listener: 
+    /** @throws {never} */
+    (request: DesktopSshPasswordPromptRequest) => void) => 
+    /** @throws {never} */
+    () => void;
+    /** @throws {never} */
     resolveSshPasswordPrompt: (requestId: string, password: string | null) => Promise<void>;
+    /** @throws {never} */
     getServerExposureState: () => Promise<DesktopServerExposureState>;
+    /** @throws {never} */
     setServerExposureMode: (mode: DesktopServerExposureMode) => Promise<DesktopServerExposureState>;
+    /** @throws {never} */
     setTailscaleServeEnabled: (input: {
         readonly enabled: boolean;
         readonly port?: number;
     }) => Promise<DesktopServerExposureState>;
+    /** @throws {never} */
     getAdvertisedEndpoints: () => Promise<readonly AdvertisedEndpoint[]>;
+    /** @throws {never} */
     getWslState: () => Promise<DesktopWslState>;
+    /** @throws {never} */
     setWslBackendEnabled: (enabled: boolean) => Promise<DesktopWslState>;
+    /** @throws {never} */
     setWslDistro: (distro: string | null) => Promise<DesktopWslState>;
+    /** @throws {never} */
     setWslOnly: (enabled: boolean) => Promise<DesktopWslState>;
+    /** @throws {never} */
     pickFolder: (options?: PickFolderOptions) => Promise<string | null>;
+    /** @throws {never} */
     pickProjectFavicon?: (initialPath?: string) => Promise<string | null>;
+    /** @throws {never} */
     pickThemeFiles?: () => Promise<readonly PickedThemeFile[] | null>;
+    /** @throws {never} */
     setTheme: (theme: DesktopTheme) => Promise<void>;
+    /** @throws {never} */
     showContextMenu: <T extends string>(items: readonly ContextMenuItem<T>[], position?: {
         x: number;
         y: number;
     }) => Promise<T | null>;
+    /** @throws {never} */
     receiveProviderAuthCallback?: (authorizationUrl: string) => Promise<string>;
+    /** @throws {never} */
     cancelProviderAuthCallback?: (authorizationUrl: string) => Promise<void>;
+    /** @throws {never} */
     openExternal: (url: string) => Promise<boolean>;
+    /** @throws {never} */
     openSystemSettings?: (pane: SystemSettingsPane) => Promise<boolean>;
+    /** @throws {never} */
     checkSystemPermission?: (pane: SystemSettingsPane) => Promise<boolean>;
-    /** Older builds lack this; fall back to VS Code only. */
+    /**
+     * Older builds lack this; fall back to VS Code only.
+     * @throws {never}
+     */
     probeRemoteEditors?: () => Promise<readonly EditorId[]>;
+    /** @throws {never} */
     pasteAsText?: () => Promise<void>;
-    onMenuAction: (listener: (action: string) => void) => () => void;
-    onSnapShotEvent?: (listener: (event: DesktopSnapShotEvent) => void) => () => void;
-    onQuitShortcut?: (listener: (event: QuitShortcutHintEvent) => void) => () => void;
+    /** @throws {never} */
+    onMenuAction: (listener: 
+    /** @throws {never} */
+    (action: string) => void) => 
+    /** @throws {never} */
+    () => void;
+    /** @throws {never} */
+    onSnapShotEvent?: (listener: 
+    /** @throws {never} */
+    (event: DesktopSnapShotEvent) => void) => 
+    /** @throws {never} */
+    () => void;
+    /** @throws {never} */
+    onQuitShortcut?: (listener: 
+    /** @throws {never} */
+    (event: QuitShortcutHintEvent) => void) => 
+    /** @throws {never} */
+    () => void;
+    /** @throws {never} */
     getWindowFullscreenState: () => boolean;
-    onWindowFullscreenStateChange: (listener: (fullscreen: boolean) => void) => () => void;
-    /** App window zoom; older desktop shells omit this method. */
+    /** @throws {never} */
+    onWindowFullscreenStateChange: (listener: 
+    /** @throws {never} */
+    (fullscreen: boolean) => void) => 
+    /** @throws {never} */
+    () => void;
+    /**
+     * App window zoom; older desktop shells omit this method.
+     * @throws {never}
+     */
     getWindowZoomFactor?: () => number;
+    /** @throws {never} */
     getUpdateState: () => Promise<DesktopUpdateState>;
+    /** @throws {never} */
     setUpdateChannel: (channel: DesktopUpdateChannel) => Promise<DesktopUpdateState>;
+    /** @throws {never} */
     checkForUpdate: () => Promise<DesktopUpdateCheckResult>;
+    /** @throws {never} */
     downloadUpdate: () => Promise<DesktopUpdateActionResult>;
+    /** @throws {never} */
     installUpdate: () => Promise<DesktopUpdateActionResult>;
-    onUpdateState: (listener: (state: DesktopUpdateState) => void) => () => void;
+    /** @throws {never} */
+    onUpdateState: (listener: 
+    /** @throws {never} */
+    (state: DesktopUpdateState) => void) => 
+    /** @throws {never} */
+    () => void;
     cliCommand?: {
+        /** @throws {never} */
         getState: () => Promise<DesktopCliCommandState>;
+        /** @throws {never} */
         install: () => Promise<DesktopCliCommandState>;
+        /** @throws {never} */
         uninstall: () => Promise<DesktopCliCommandState>;
     };
     webLinks?: {
+        /** @throws {never} */
         setReady: (ready: boolean) => Promise<void>;
-        onOpen: (listener: (url: string) => void) => () => void;
+        /** @throws {never} */
+        onOpen: (listener: 
+        /** @throws {never} */
+        (url: string) => void) => 
+        /** @throws {never} */
+        () => void;
     };
     appActivation?: {
+        /** @throws {never} */
         setReady: (ready: boolean) => Promise<void>;
+        /** @throws {never} */
         complete: (response: DesktopAppActivationResponse) => Promise<void>;
-        onRequest: (listener: (request: DesktopAppActivationRequest) => void) => () => void;
+        /** @throws {never} */
+        onRequest: (listener: 
+        /** @throws {never} */
+        (request: DesktopAppActivationRequest) => void) => 
+        /** @throws {never} */
+        () => void;
     };
     preview?: DesktopPreviewBridge;
 }
 /** Renderer callback invoked by Electron with a fresh user gesture before display-media capture. */
 export declare const DESKTOP_PREVIEW_RECORDING_CAPTURE_TRIGGER = "__t3DesktopPreviewRecordingCapture";
 export interface DesktopPreviewBridge {
+    /** @throws {never} */
     setForwardedShortcuts?: (shortcuts: ReadonlyArray<PreviewForwardedShortcut>) => Promise<void>;
+    /** @throws {never} */
     createTab: (tabId: string, defaults?: DesktopPreviewTabDefaults) => Promise<void>;
+    /** @throws {never} */
     closeTab: (tabId: string) => Promise<void>;
+    /** @throws {never} */
     registerWebview: (tabId: string, webContentsId: number) => Promise<void>;
+    /** @throws {never} */
     navigate: (tabId: string, url: string) => Promise<void>;
+    /** @throws {never} */
     goBack: (tabId: string) => Promise<void>;
+    /** @throws {never} */
     goForward: (tabId: string) => Promise<void>;
+    /** @throws {never} */
     refresh: (tabId: string) => Promise<void>;
+    /** @throws {never} */
     zoomIn: (tabId: string) => Promise<void>;
+    /** @throws {never} */
     zoomOut: (tabId: string) => Promise<void>;
+    /** @throws {never} */
     resetZoom: (tabId: string) => Promise<void>;
+    /** @throws {never} */
     setZoomFactor: (tabId: string, zoomFactor: number) => Promise<void>;
+    /** @throws {never} */
     hardReload: (tabId: string) => Promise<void>;
+    /** @throws {never} */
     setColorScheme: (tabId: string, colorScheme: DesktopPreviewColorScheme) => Promise<void>;
+    /** @throws {never} */
     setAudioMuted: (tabId: string, audioMuted: boolean) => Promise<void>;
+    /** @throws {never} */
     openDevTools: (tabId: string) => Promise<void>;
+    /** @throws {never} */
     clearCookies: (environmentId: EnvironmentId, profileId?: string) => Promise<void>;
+    /** @throws {never} */
     clearCache: (environmentId: EnvironmentId, profileId?: string) => Promise<void>;
+    /** @throws {never} */
     getPreviewConfig: (environmentId: EnvironmentId, profileId?: string) => Promise<DesktopPreviewWebviewConfig>;
+    /** @throws {never} */
     listBrowserImportSources: () => Promise<ReadonlyArray<BrowserImportSource>>;
+    /** @throws {never} */
     importBrowserCookies: (input: {
         readonly environmentId: EnvironmentId;
         readonly sourceId: BrowserImportSourceId;
         readonly sourceProfileDirectory: string;
         readonly targetProfileId: string;
     }) => Promise<BrowserImportResult>;
+    /** @throws {never} */
     setAnnotationTheme: (theme: DesktopPreviewAnnotationTheme) => Promise<void>;
+    /** @throws {never} */
     setAnnotationSendEnabled: (tabId: string, enabled: boolean) => Promise<void>;
-    /** Resolves with the annotation and attach/send intent, or null on cancellation. Rejects if activation fails. */
+    /**
+     * Resolves with the annotation and attach/send intent, or null on cancellation. Rejects if activation fails.
+     * @throws {never}
+     */
     pickElement: (tabId: string) => Promise<PreviewAnnotationSubmissionResult | null>;
+    /** @throws {never} */
     cancelPickElement: (tabId: string) => Promise<void>;
+    /** @throws {never} */
     captureScreenshot: (tabId: string) => Promise<DesktopPreviewScreenshotArtifact | PreviewCaptureFailureEncoded>;
+    /** @throws {never} */
     revealArtifact: (path: string) => Promise<void>;
+    /** @throws {never} */
     copyArtifactToClipboard: (path: string) => Promise<void>;
     pictureInPicture: {
+        /** @throws {never} */
         open: (tabId: string) => Promise<void>;
+        /** @throws {never} */
         close: (tabId: string) => Promise<void>;
     };
     recording: {
-        onInput: (listener: (event: DesktopPreviewRecordingInputEvent) => void) => () => void;
+        /** @throws {never} */
+        onInput: (listener: 
+        /** @throws {never} */
+        (event: DesktopPreviewRecordingInputEvent) => void) => 
+        /** @throws {never} */
+        () => void;
+        /** @throws {never} */
         startScreencast: (tabId: string) => Promise<void | PreviewCaptureFailureEncoded>;
+        /** @throws {never} */
         stopScreencast: (tabId: string) => Promise<void>;
+        /** @throws {never} */
         save: (tabId: string, mimeType: string, data: Uint8Array) => Promise<DesktopPreviewRecordingArtifact>;
-        onFrame: (listener: (frame: DesktopPreviewRecordingFrame) => void) => () => void;
+        /** @throws {never} */
+        onFrame: (listener: 
+        /** @throws {never} */
+        (frame: DesktopPreviewRecordingFrame) => void) => 
+        /** @throws {never} */
+        () => void;
     };
-    onStateChange: (listener: (tabId: string, state: DesktopPreviewTabState) => void) => () => void;
-    onPointerEvent: (listener: (event: DesktopPreviewPointerEvent) => void) => () => void;
-    onOpenLink: (listener: (event: DesktopPreviewOpenLinkEvent) => void) => () => void;
+    /** @throws {never} */
+    onStateChange: (listener: 
+    /** @throws {never} */
+    (tabId: string, state: DesktopPreviewTabState) => void) => 
+    /** @throws {never} */
+    () => void;
+    /** @throws {never} */
+    onPointerEvent: (listener: 
+    /** @throws {never} */
+    (event: DesktopPreviewPointerEvent) => void) => 
+    /** @throws {never} */
+    () => void;
+    /** @throws {never} */
+    onOpenLink: (listener: 
+    /** @throws {never} */
+    (event: DesktopPreviewOpenLinkEvent) => void) => 
+    /** @throws {never} */
+    () => void;
 }
 export type ConfirmDialogVariant = "default" | "destructive";
 export interface ConfirmDialogOptions {
@@ -1028,22 +1212,30 @@ export interface ConfirmDialogOptions {
 }
 export interface LocalApi {
     dialogs: {
+        /** @throws {never} */
         pickFolder: (options?: PickFolderOptions) => Promise<string | null>;
+        /** @throws {never} */
         confirm: (message: string, options?: ConfirmDialogOptions) => Promise<boolean>;
     };
     shell: {
+        /** @throws {never} */
         openExternal: (url: string) => Promise<void>;
+        /** @throws {never} */
         openSystemSettings: (pane: SystemSettingsPane) => Promise<void>;
     };
     contextMenu: {
+        /** @throws {never} */
         show: <T extends string>(items: readonly ContextMenuItem<T>[], position?: {
             x: number;
             y: number;
         }) => Promise<T | null>;
+        /** @throws {never} */
         close: () => Promise<void>;
     };
     persistence: {
+        /** @throws {never} */
         getClientSettings: () => Promise<ClientSettings | null>;
+        /** @throws {never} */
         setClientSettings: (settings: ClientSettings) => Promise<void>;
     };
 }

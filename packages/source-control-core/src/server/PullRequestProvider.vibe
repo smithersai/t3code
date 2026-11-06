@@ -52,8 +52,8 @@ export schema error PullRequestProviderError {
   operation: string
   reason: PullRequestProviderErrorReasonField
   detail: string
-  retryAt?: number
-  cause?: DefectField
+  retryAt?: number | undefined
+  cause?: DefectField | undefined
   override get message(): string {
     return `${this.provider} failed in ${this.operation}: ${this.detail}`
   }

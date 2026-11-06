@@ -15,8 +15,11 @@ export interface UsageRecord {
     readonly dedupeKey: string | null;
 }
 export declare const EMPTY_TOTALS: UsageTokenTotals;
+/** @throws {never} */
 export declare function totalTokens(totals: UsageTokenTotals): number;
+/** @throws {never} */
 export declare function tokenCount(value: unknown): number;
+/** @throws {never} */
 export declare function parseTimestampMs(value: unknown): number | null;
 export type SelectedFields = {
     readonly [key: string]: true | SelectedFields;
@@ -25,9 +28,14 @@ export interface TranscriptUsageFormat<State> {
     readonly selectFields: SelectedFields;
     /** ASCII markers must match every relevant line, including state-only updates. */
     readonly usageMarkers: readonly [string, ...string[]];
+    /** @throws {never} */
     parseLine(line: string, state: State): readonly UsageRecord[];
+    /** @throws {never} */
     parseProjected(projected: unknown, state: State): readonly UsageRecord[];
-    /** Cumulative malformed or inconsistent usage records, including skipped records. */
+    /**
+     * Cumulative malformed or inconsistent usage records, including skipped records.
+     * @throws {never}
+     */
     readMalformedRecords?(state: State): number;
     /**
      * Present for formats whose records depend on earlier lines. The state at a
@@ -35,6 +43,7 @@ export interface TranscriptUsageFormat<State> {
      * file resumes with it. Absent means every line stands alone.
      */
     readonly state?: {
+        /** @throws {never} */
         readonly initial: () => State;
         readonly schema: Schema.Codec<State, unknown>;
     };

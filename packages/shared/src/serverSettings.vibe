@@ -22,7 +22,6 @@ import {
   type ServerSettingsPatch,
   withIdleCompaction,
 } from "@t3tools/contracts"
-import * as Schema from "effect/Schema"
 import { deepMerge } from "./Struct.vibe"
 import { fromLenientJson } from "./schemaJson.vibe"
 import { createModelSelection, readCustomModelEntries } from "./model.vibe"

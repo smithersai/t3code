@@ -164,7 +164,7 @@ export function createThreadSearchResultsAtomFamily<E>(options: {
     }).pipe(Atom.withLabel(`${options.labelPrefix}:${key}`))
   )
   const rowsAtom = Atom.family((rowsKey: string): infer _ => {
-    const [key, environmentId] = JSON.parse(rowsKey) as [string, EnvironmentId]
+    const [key, environmentId] = parseThreadSearchRowsKeyJson(rowsKey) as [string, EnvironmentId]
     let previous = EMPTY_READS
     return Atom.make((get): ReadonlyArray<OrchestrationV2ThreadFamily> => {
       const next = get(results(key)).rows.flatMap((row) => row.environmentId === environmentId ? [row.read] : [])
@@ -299,3 +299,10 @@ export function visibleThreadSearch(
     ? previous
     : { query: "", matches: [] }
 }
+
+module threadSearchKey {
+  export function parse(value: string): unknown {
+    return JSON.parse(value)
+  }
+}
+import { parse as parseThreadSearchRowsKeyJson } from threadSearchKey

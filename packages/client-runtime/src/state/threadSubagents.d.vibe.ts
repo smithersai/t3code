@@ -15,6 +15,8 @@ export interface SubagentPillSegment {
     readonly label: string;
     readonly accessibilityLabel: string;
 }
+/** @throws {never} */
 export declare function deriveThreadTurnSubagents(projection: Pick<Projection, "runs" | "subagents">): ThreadTurnSubagents | null;
+/** @throws {never} */
 export declare function resolveSubagentPillSegment(turn: ThreadTurnSubagents | null): SubagentPillSegment | null;
 export {};

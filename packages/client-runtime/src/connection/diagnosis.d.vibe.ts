@@ -28,7 +28,11 @@ export interface ConnectionDiagnosisInput {
 /**
  * Turns a connection state into what failed, in order, and what to try. Returns
  * null when nothing has failed. Web and mobile render this same model.
+ * @throws {never}
  */
 export declare function presentConnectionDiagnosis(input: ConnectionDiagnosisInput): ConnectionDiagnosis | null;
-/** One plain-text block for bug reports. */
+/**
+ * One plain-text block for bug reports.
+ * @throws {never}
+ */
 export declare function connectionDiagnosisText(hostLabel: string, diagnosis: ConnectionDiagnosis): string;

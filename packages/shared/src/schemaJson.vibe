@@ -1,7 +1,6 @@
 import * as Cause from "effect/Cause"
 import * as Result from "effect/Result"
 import * as Schema from "effect/Schema"
-import * as SchemaIssue from "effect/SchemaIssue"
 
 const MAX_SCHEMA_DIAGNOSTIC_ISSUES = 8
 const MAX_SCHEMA_DIAGNOSTIC_PATH_SEGMENTS = 16
@@ -152,7 +151,7 @@ export const formatSchemaError = (cause: Cause.Cause<Schema.SchemaError>): strin
 
 const decodeJsonString = Schema.decodeEffect(Schema.fromJsonString(Schema.Unknown))
 
-const parseLenientJsonGetter = SchemaGetter.transformEffect(effect (input: string) => {
+const parseLenientJsonGetter = SchemaGetter.transformEffect((input: string) => {
   // Match comments together so URLs stay inside blocks; whitespace keeps adjacent tokens apart.
   let stripped = input.replace(
     /("(?:[^"\\]|\\.)*")|\/\/[^\n]*|\/\*[\s\S]*?\*\//g,
@@ -164,8 +163,11 @@ const parseLenientJsonGetter = SchemaGetter.transformEffect(effect (input: strin
     (match, stringLiteral: string | undefined, bracket: string | undefined) => stringLiteral ? match : (bracket ?? ""),
   )
 
-  return decodeJsonString(stripped) catch effect (error) => {
-    throw error.issue
+  const program = decodeJsonString(stripped)
+  return effect {
+    return program catch effect (error) => {
+      throw error.issue
+    }
   }
 })
 

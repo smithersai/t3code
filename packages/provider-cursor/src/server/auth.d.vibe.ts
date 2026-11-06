@@ -19,6 +19,7 @@ export interface CursorAuthOptions {
     readonly store: SdkCredentialStore;
     readonly credentialBinding?: NonNullable<ProviderAuthController["credentialBinding"]>;
     readonly onChanged: (signedIn: boolean) => Effect.Effect<void, ProviderSetupError>;
+    /** @throws {never} */
     readonly login?: (options: SdkLoginOptions) => Promise<SdkLoginResult>;
 }
 export declare const makeCursorAuth: (options: CursorAuthOptions) => Effect.Effect<{

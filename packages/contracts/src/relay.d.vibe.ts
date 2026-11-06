@@ -583,7 +583,7 @@ declare const RelayClientPrincipal_base: Context.ServiceClass<RelayClientPrincip
     readonly userId: string;
     readonly token: string;
     readonly proofKeyThumbprint?: string;
-    readonly dpopScopes?: ReadonlyArray<RelayDpopAccessTokenScope>;
+    readonly dpopScopes?: readonly RelayDpopAccessTokenScope[];
 }>;
 export declare class RelayClientPrincipal extends RelayClientPrincipal_base {
 }

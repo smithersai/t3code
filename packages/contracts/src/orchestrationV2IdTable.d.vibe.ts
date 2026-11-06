@@ -11,6 +11,9 @@ type JsonObject = {
  * Adds the optional ID table to a snapshot-shaped schema. `container` returns the
  * key whose value holds the records, `null` when records sit at the top level, or
  * `undefined` when the value has no records (other stream item kinds).
+ * @throws {never}
  */
-export declare const withRecordIdTable: <S extends Schema.Top>(schema: S, container: (value: JsonObject) => string | null | undefined) => Schema.decodeTo<Schema.toCodecJson<S>, Schema.declare<unknown, unknown>, never, never>;
+export declare const withRecordIdTable: <S extends Schema.Top>(schema: S, container: 
+/** @throws {never} */
+(value: JsonObject) => string | null | undefined) => Schema.decodeTo<Schema.toCodecJson<S>, Schema.declare<unknown, unknown>, never, never>;
 export {};

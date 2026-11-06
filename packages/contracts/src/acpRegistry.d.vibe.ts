@@ -1,5 +1,7 @@
 import * as Schema from "effect/Schema";
+/** @throws {never} */
 export declare function officialAcpRegistryIconUrlForAgentId(agentId: string | null | undefined): string | null;
+/** @throws {never} */
 export declare function resolveOfficialAcpRegistryIconUrl(icon: string | null | undefined): string | null;
 export declare const AcpRegistryDistribution: Schema.Literals<readonly ["binary", "npx", "uvx"]>;
 export type AcpRegistryDistribution = typeof AcpRegistryDistribution.Type;

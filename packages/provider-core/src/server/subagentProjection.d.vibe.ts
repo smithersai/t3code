@@ -1,12 +1,14 @@
 import type { EventId, MessageId, ModelSelection, NodeId, OrchestrationV2Actor, OrchestrationV2AppThread, OrchestrationV2ConversationMessage, OrchestrationV2CreationSource, OrchestrationV2DomainEvent, OrchestrationV2ProviderRef, OrchestrationV2Run, OrchestrationV2ThreadProjection, OrchestrationV2TurnItem, ProviderInstanceId, ProviderThreadId, ProviderTurnId, ThreadId, TurnItemId } from "@t3tools/contracts";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
+/** @throws {never} */
 export declare function subagentThreadTitle(input: {
     readonly parentTitle: string;
     readonly title?: string | null;
     readonly prompt: string;
     readonly ordinal: number;
 }): string;
+/** @throws {never} */
 export declare function makeSubagentChildThread(input: {
     readonly parentThread: OrchestrationV2AppThread;
     readonly childThreadId: ThreadId;
@@ -19,6 +21,7 @@ export declare function makeSubagentChildThread(input: {
     readonly createdBy: OrchestrationV2Actor;
     readonly creationSource: OrchestrationV2CreationSource;
 }): OrchestrationV2AppThread;
+/** @throws {never} */
 export declare function makeSubagentConversationArtifacts(input: {
     readonly messageId: MessageId;
     readonly senderThreadId?: ThreadId;
@@ -37,11 +40,13 @@ export declare function makeSubagentConversationArtifacts(input: {
     readonly message: OrchestrationV2ConversationMessage;
     readonly turnItem: OrchestrationV2TurnItem;
 };
+/** @throws {never} */
 export declare function subagentResultForRun(projection: Pick<OrchestrationV2ThreadProjection, "messages" | "turnItems">, run: OrchestrationV2Run): {
     readonly text: string;
     readonly messageId: OrchestrationV2ConversationMessage["id"] | null;
     readonly turnItemId: OrchestrationV2TurnItem["id"] | null;
 };
+/** @throws {never} */
 export declare function delegatedTaskProgress(projection: {
     readonly runs: OrchestrationV2ThreadProjection["runs"];
     readonly messages: ReadonlyArray<Pick<OrchestrationV2ConversationMessage, "runId" | "notification">>;

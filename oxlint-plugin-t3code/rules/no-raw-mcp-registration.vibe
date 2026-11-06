@@ -29,7 +29,7 @@ const importMessage =
 const testImportMessage =
   "Tests import McpServer only as `import { McpServer } from \"effect/ai\"`, so a registration on it is reported."
 
-const literalString = (node: unknown): Option<string> =>
+const literalString = (node: unknown): Option.Option<string> =>
   Option.flatMap(unwrapExpression(node), (expression) => {
     if (expression.type === "Literal" && typeof expression.value === "string") {
       return Option.some(expression.value)
@@ -42,7 +42,7 @@ const literalString = (node: unknown): Option<string> =>
 
 const namesMcpServer = (node: unknown): infer _ => Option.getOrUndefined(getPropertyName(node)) === "McpServer"
 
-const exposesMcpServer = (source: Option<string>): infer _ =>
+const exposesMcpServer = (source: Option.Option<string>): infer _ =>
   Option.isSome(source) && (source.value === MCP_SERVER_MODULE || AI_MODULES.has(source.value))
 
 export default defineRule({

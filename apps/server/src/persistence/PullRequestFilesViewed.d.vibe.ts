@@ -5,11 +5,11 @@ import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 import { type PullRequestFilesViewedRepositoryError } from "./Errors.vibe";
 export declare const PullRequestFilesViewedScope: Schema.Struct<{
-    readonly provider: Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "SourceControlProviderKind">;
-    readonly host: Schema.String;
-    readonly repository: Schema.String;
-    readonly number: Schema.Int;
-    readonly viewer: Schema.String;
+    readonly provider: Schema.mutableKey<Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "SourceControlProviderKind">>;
+    readonly host: Schema.mutableKey<Schema.String>;
+    readonly repository: Schema.mutableKey<Schema.String>;
+    readonly number: Schema.mutableKey<Schema.Int>;
+    readonly viewer: Schema.mutableKey<Schema.String>;
 }>;
 export type PullRequestFilesViewedScope = typeof PullRequestFilesViewedScope.Type;
 export declare const PullRequestFileViewedMark: Schema.Struct<{
@@ -29,11 +29,15 @@ export interface PullRequestFilesViewedPage {
     readonly files: ReadonlyArray<PullRequestFileViewedMark>;
     readonly truncated: boolean;
 }
-declare const PullRequestFilesViewedRepository_base: Context.ServiceClass<PullRequestFilesViewedRepository, "t3/persistence/PullRequestFilesViewed/PullRequestFilesViewedRepository", {
-    readonly list: (input: PullRequestFilesViewedScope) => Effect.Effect<PullRequestFilesViewedPage, PullRequestFilesViewedRepositoryError>;
-    readonly set: (input: SetPullRequestFilesViewedInput) => Effect.Effect<void, PullRequestFilesViewedRepositoryError>;
-}>;
+type PullRequestFilesViewedRepository_shape = {
+    list: (input: PullRequestFilesViewedScope) => Effect.Effect<PullRequestFilesViewedPage, PullRequestFilesViewedRepositoryError>;
+    set: (input: SetPullRequestFilesViewedInput) => Effect.Effect<void, PullRequestFilesViewedRepositoryError>;
+};
+declare const PullRequestFilesViewedRepository_base: Context.ServiceClass<PullRequestFilesViewedRepository, "t3/persistence/PullRequestFilesViewed/PullRequestFilesViewedRepository", PullRequestFilesViewedRepository_shape>;
 export declare class PullRequestFilesViewedRepository extends PullRequestFilesViewedRepository_base {
+}
+export declare namespace PullRequestFilesViewedRepository {
+    type Shape = PullRequestFilesViewedRepository_shape;
 }
 export declare const layer: Layer.Layer<PullRequestFilesViewedRepository, never, SqlClient.SqlClient>;
 export {};

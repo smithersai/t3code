@@ -41,6 +41,7 @@ export interface ClientModes {
  * with, narrowed by what it asked for on this request. A read-only client
  * never reaches a write (`McpToolAccess` refuses it first), so it maps to the
  * lowest runtime mode rather than to nothing.
+ * @throws {never}
  */
 export declare const clientModeCeiling: (client: McpClientCaller | undefined) => ClientModes;
 /** Thread callers default to their own thread; client callers need thread for tools that act as the caller. */
@@ -60,9 +61,13 @@ export declare class McpInvocationContext extends McpInvocationContext_base {
 /**
  * `McpSchema.EnabledWhen` for tools a delegated child must not see or call.
  * EnabledWhen only receives the MCP client profile, so read the T3 caller from the request fiber.
+ * @throws {never}
  */
 export declare const hiddenFromSubagents: () => boolean;
-/** `McpSchema.EnabledWhen` for tools that only serve links, hidden while the beta is off. */
+/**
+ * `McpSchema.EnabledWhen` for tools that only serve links, hidden while the beta is off.
+ * @throws {never}
+ */
 export declare const hiddenWhileLinksOff: () => boolean;
 export type McpCapabilityError<C extends McpCapability> = C extends "preview" ? PreviewAutomationUnavailableError : McpCapabilityUnavailableError;
 export declare const requireMcpCapability: <const C extends McpCapability>(capability: C) => Effect.Effect<McpInvocationScope, McpCapabilityError<C>, McpInvocationContext>;

@@ -4,6 +4,7 @@ import * as Schema from "effect/Schema";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 export declare const SETUP_SUBCOMMAND = "browser setup";
 export declare const NO_SANDBOX_SIGNATURE = "No usable sandbox";
+/** @throws {never} */
 export declare const sandboxDisabled: (env: Readonly<Record<string, string | undefined>>) => boolean;
 export declare const APPARMOR_PROFILE_PATH = "/etc/apparmor.d/t3-chrome-headless-shell";
 /** Match Ubuntu's Chrome profile; unconfined adds nothing beyond userns. */

@@ -101,12 +101,12 @@ export const GitCafePullDetail = Schema.Struct({
 export type GitCafePullDetail = typeof GitCafePullDetail.Type
 
 schema CommentCapabilities {
-  edit: boolean
-  hide: boolean
-  unhide: boolean
-  delete: boolean
-  resolve: boolean
-  unresolve: boolean
+  readonly edit: boolean
+  readonly hide: boolean
+  readonly unhide: boolean
+  readonly delete: boolean
+  readonly resolve: boolean
+  readonly unresolve: boolean
 }
 
 const GitCafeComment = Schema.Struct({
@@ -664,7 +664,7 @@ type GitCafeCheck = (typeof GitCafeChecks.Type.items)[number]
 
 /** A check run's id, which grows with each run. Commit statuses (`status:…`) carry no such order. */
 function runOrder(check: GitCafeCheck): bigint | null {
-  return check.id != null && /^\d+$/u.test(check.id) ? $invoke(BigInt,check.id) : null
+  return check.id != null && /^\d+$/u.test(check.id) ? $invoke(BigInt, check.id) : null
 }
 
 /**
@@ -712,6 +712,11 @@ export function checksStateOf(
 }
 
 module $call$ts {
-export function invoke<T extends Function>(target:T,arg0:Parameters<Extract<T,(...args:any[])=>any>>[0]):ReturnType<Extract<T,(...args:any[])=>any>> { return target(arg0) }
+  export function invoke<T extends Function>(
+    target: T,
+    arg0: Parameters<Extract<T, (...args: any[]) => any>>[0],
+  ): ReturnType<Extract<T, (...args: any[]) => any>> {
+    return target(arg0)
+  }
 }
 import { invoke as $invoke } from $call$ts

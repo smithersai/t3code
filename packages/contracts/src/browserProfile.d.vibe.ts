@@ -16,7 +16,12 @@ export type BrowserProfile = typeof BrowserProfile.Type;
 export declare const DEFAULT_BROWSER_PROFILE_ID: BrowserProfileId;
 export declare const INCOGNITO_BROWSER_PROFILE_ID: BrowserProfileId;
 export declare const BUILT_IN_BROWSER_PROFILES: ReadonlyArray<BrowserProfile>;
+/** @throws {never} */
 export declare function isBuiltInBrowserProfileId(id: string): boolean;
-/** Deduplicates ids sharing a partition; only the built-in incognito id is actually ephemeral. */
+/**
+ * Deduplicates ids sharing a partition; only the built-in incognito id is actually ephemeral.
+ * @throws {never}
+ */
 export declare function resolveBrowserProfiles(userProfiles: ReadonlyArray<BrowserProfile>): ReadonlyArray<BrowserProfile>;
+/** @throws {never} */
 export declare function findBrowserProfile(profiles: ReadonlyArray<BrowserProfile>, id: string | undefined): BrowserProfile | undefined;

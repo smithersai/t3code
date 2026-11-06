@@ -23,5 +23,6 @@ export interface ProviderAuthController {
     readonly respond?: (ownerSessionId: string, input: ProviderAuthRespondInput) => Effect.Effect<ProviderAuthState, ProviderSetupError>;
     readonly logout: (stopSessions: Effect.Effect<void, ProviderSetupError>) => Effect.Effect<ProviderAuthState, ProviderSetupError>;
     readonly subscribe: (ownerSessionId: string) => Stream.Stream<ProviderAuthState>;
+    /** @throws {never} */
     readonly isLogoutPrompt?: (text: string, hasAttachments: boolean) => boolean;
 }

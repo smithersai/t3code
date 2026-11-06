@@ -1,5 +1,6 @@
 import { Atom } from "effect/reactivity";
 import type { EnvironmentRegistry } from "../connection/registry.ts";
+/** @throws {never} */
 export declare function createGitEnvironmentAtoms<R, E>(runtime: Atom.AtomRuntime<EnvironmentRegistry | R, E>): {
     pullRequestResolution: (target: {
         readonly environmentId: import("@t3tools/contracts").EnvironmentId;

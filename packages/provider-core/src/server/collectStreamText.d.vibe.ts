@@ -6,6 +6,7 @@ export interface CollectedUint8StreamText {
     readonly bytes: number;
     readonly invalidUtf8: boolean;
 }
+/** @throws {never} */
 export declare const decodeUtf8: (bytes: Uint8Array) => Pick<CollectedUint8StreamText, "text" | "invalidUtf8">;
 export declare const collectUint8StreamText: <E>(input: {
     readonly stream: Stream.Stream<Uint8Array, E>;

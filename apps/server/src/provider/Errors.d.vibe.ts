@@ -1,7 +1,7 @@
 import * as Schema from "effect/Schema";
 declare const ProviderInstanceNotFoundError_base: Schema.Class<ProviderInstanceNotFoundError, Schema.TaggedStruct<"ProviderInstanceNotFoundError", {
     readonly instanceId: Schema.String;
-    readonly cause: Schema.optional<Schema.Defect>;
+    readonly cause: Schema.optionalKey<Schema.Defect>;
 }>, import("effect/Cause").YieldableError>;
 export declare class ProviderInstanceNotFoundError extends ProviderInstanceNotFoundError_base {
     get message(): string;

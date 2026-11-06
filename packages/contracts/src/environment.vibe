@@ -39,9 +39,9 @@ export type ExecutionEnvironmentPlatform = typeof ExecutionEnvironmentPlatform.T
 
 export schema ServerSelfUpdateMethod = "boot-service" | "respawn" | "desktop-app"
 
-export schema ServerInstallation = { kind: "npx" | "pnpm-dlx" | "bunx" } | {
-  kind: "npm-global"
-  prefix: TrimmedNonEmptyString
+export schema ServerInstallation = { readonly kind: "npx" | "pnpm-dlx" | "bunx" } | {
+  readonly kind: "npm-global"
+  readonly prefix: TrimmedNonEmptyString
 }
 
 export schema ServerSelfUpdateCapability = "boot-service" | "respawn" | "desktop-managed"
@@ -141,9 +141,9 @@ export const ExecutionEnvironmentDescriptor = Schema.Struct({
 export type ExecutionEnvironmentDescriptor = typeof ExecutionEnvironmentDescriptor.Type
 
 export schema RepositoryIdentityLocator {
-  source: "git-remote"
-  remoteName: TrimmedNonEmptyString
-  remoteUrl: TrimmedNonEmptyString
+  readonly source: "git-remote"
+  readonly remoteName: TrimmedNonEmptyString
+  readonly remoteUrl: TrimmedNonEmptyString
 }
 
 export const RepositoryOrigin = Schema.Struct({
@@ -178,11 +178,11 @@ export function repositoryGroupingDisplayNameOf(identity: RepositoryIdentity): s
 }
 
 export schema ScopedProjectRef {
-  environmentId: EnvironmentId
-  projectId: ProjectId
+  readonly environmentId: EnvironmentId
+  readonly projectId: ProjectId
 }
 
 export schema ScopedThreadRef {
-  environmentId: EnvironmentId
-  threadId: ThreadId
+  readonly environmentId: EnvironmentId
+  readonly threadId: ThreadId
 }

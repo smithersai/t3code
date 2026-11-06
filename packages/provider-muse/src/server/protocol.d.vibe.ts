@@ -171,6 +171,7 @@ export declare const MuseSessionResult: Schema.Struct<{
 export declare const MuseTurnStartResult: Schema.Struct<{
     readonly turnId: Schema.String;
 }>;
+export type MuseTurnStartResult = typeof MuseTurnStartResult.Type;
 export declare const MuseApproval: Schema.Struct<{
     readonly approvalId: Schema.String;
     readonly protectedWrite: Schema.optional<Schema.Boolean>;
@@ -246,6 +247,7 @@ export declare const MuseTodoList: Schema.Struct<{
         readonly status: Schema.String;
     }>>;
 }>;
+export type MuseTodoList = typeof MuseTodoList.Type;
 export declare const MuseTurnCompleted: Schema.Struct<{
     readonly turnId: Schema.String;
     readonly terminal: Schema.String;
@@ -346,19 +348,25 @@ export declare const MuseItemEvent: Schema.Struct<{
         readonly reason: Schema.optional<Schema.String>;
     }>;
 }>;
+export type MuseItemEvent = typeof MuseItemEvent.Type;
 export declare const MuseDelta: Schema.Struct<{
     readonly itemId: Schema.String;
     readonly delta: Schema.String;
     readonly field: Schema.optional<Schema.String>;
 }>;
+/** @throws {never} */
 export declare function museApprovalDecision(choice: Pick<MuseApproval["availableChoices"][number], "decision" | "scope">): ProviderApprovalDecision | undefined;
-/** Shell approvals offer abort instead of denied; decline falls back to abort. */
+/**
+ * Shell approvals offer abort instead of denied; decline falls back to abort.
+ * @throws {never}
+ */
 export declare function museApprovalChoices(approval: Pick<MuseApproval, "availableChoices">): Map<"accept" | "acceptAlways" | "acceptForSession" | "cancel" | "decline", {
     readonly choiceId: string;
     readonly label: string;
     readonly decision: string;
     readonly scope: string;
 }>;
+/** @throws {never} */
 export declare function museApprovalOptions(approval: Pick<MuseApproval, "availableChoices">): {
     decision: "accept" | "acceptAlways" | "acceptForSession" | "cancel" | "decline";
     label: string;

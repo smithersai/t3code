@@ -139,9 +139,9 @@ export const KeybindingWhen = TrimmedString.check(
   Schema.isMaxLength(MAX_KEYBINDING_WHEN_LENGTH),
 )
 export schema KeybindingRule {
-  key: KeybindingValue
-  command: KeybindingCommand
-  when?: KeybindingWhen
+  readonly key: KeybindingValue
+  readonly command: KeybindingCommand
+  readonly when?: KeybindingWhen | undefined
 }
 
 export const KeybindingsConfig = Schema.Array(KeybindingRule).check(
@@ -150,17 +150,17 @@ export const KeybindingsConfig = Schema.Array(KeybindingRule).check(
 export type KeybindingsConfig = typeof KeybindingsConfig.Type
 
 export schema KeybindingShortcut {
-  key: KeybindingValue
-  metaKey: boolean
-  ctrlKey: boolean
-  shiftKey: boolean
-  altKey: boolean
-  modKey: boolean
+  readonly key: KeybindingValue
+  readonly metaKey: boolean
+  readonly ctrlKey: boolean
+  readonly shiftKey: boolean
+  readonly altKey: boolean
+  readonly modKey: boolean
 }
 
 export schema PreviewForwardedShortcut {
-  command: KeybindingCommand
-  shortcut: KeybindingShortcut
+  readonly command: KeybindingCommand
+  readonly shortcut: KeybindingShortcut
 }
 
 const KeybindingWhenNodeRef = Schema.suspend(

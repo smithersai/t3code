@@ -44,19 +44,23 @@ export declare class WorkspacePathOutsideRootError extends WorkspacePathOutsideR
 }
 export declare const WorkspacePathsError: Schema.Union<readonly [typeof WorkspaceRootNotExistsError, typeof WorkspaceRootCreateFailedError, typeof WorkspaceRootStatFailedError, typeof WorkspaceRootNotDirectoryError, typeof WorkspacePathOutsideRootError]>;
 export type WorkspacePathsError = typeof WorkspacePathsError.Type;
-declare const WorkspacePaths_base: Context.ServiceClass<WorkspacePaths, "t3/workspace/WorkspacePaths", {
-    readonly normalizeWorkspaceRoot: (workspaceRoot: string, options?: {
+type WorkspacePaths_shape = {
+    normalizeWorkspaceRoot: (workspaceRoot: string, options?: {
         readonly createIfMissing?: boolean;
     }) => Effect.Effect<string, WorkspaceRootNotExistsError | WorkspaceRootCreateFailedError | WorkspaceRootStatFailedError | WorkspaceRootNotDirectoryError>;
-    readonly resolveRelativePathWithinRoot: (input: {
+    resolveRelativePathWithinRoot: (input: {
         workspaceRoot: string;
         relativePath: string;
     }) => Effect.Effect<{
         absolutePath: string;
         relativePath: string;
     }, WorkspacePathOutsideRootError>;
-}>;
+};
+declare const WorkspacePaths_base: Context.ServiceClass<WorkspacePaths, "t3/workspace/WorkspacePaths", WorkspacePaths_shape>;
 export declare class WorkspacePaths extends WorkspacePaths_base {
+}
+export declare namespace WorkspacePaths {
+    type Shape = WorkspacePaths_shape;
 }
 export declare const layer: Layer.Layer<WorkspacePaths, never, FileSystem.FileSystem | Path.Path>;
 export {};

@@ -163,10 +163,18 @@ function normalizeAzureDevOpsPullRequestRecord(
 ): NormalizedAzureDevOpsPullRequestRecord {
   const state = normalizeAzureDevOpsPullRequestState(raw.status)
   const headSha = trimOptionalString(raw.lastMergeSourceCommit?.commitId)
-  const terminalAt = Option.match(raw.closedDate ?? Option.none(), {
-    onNone: (): infer _ => null,
-    onSome: DateTime.formatIso,
-  })
+  const terminalAt = do {
+    const $optionSubject = raw.closedDate ?? Option.none()
+    const $optionHandlers: { onNone: () => null; onSome: (self: DateTime.DateTime) => string } = {
+      onNone: (): infer _ => null,
+      onSome: DateTime.formatIso,
+    }
+    const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers
+    match ($optionSubject) {
+      when Option.Some(let $optionValue): $optionSome($optionValue);
+      default: $optionNone();
+    }
+  }
   return {
     number: raw.pullRequestId,
     title: raw.title,
@@ -179,8 +187,7 @@ function normalizeAzureDevOpsPullRequestRecord(
     isCrossRepository: raw.forkSource != null,
     closedAt: state === "closed" ? terminalAt : null,
     mergedAt: state === "merged" ? terminalAt : null,
-    updatedAt: (raw.closedDate ?? Option.none())
-      .orElse(() => raw.creationDate ?? Option.none()),
+    updatedAt: Option.orElse(raw.closedDate ?? Option.none(), () => raw.creationDate ?? Option.none()),
   }
 }
 

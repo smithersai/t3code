@@ -64,7 +64,7 @@ function readOutput(state: OutputBufferState): string {
     }
     combined = combined.subarray(start)
   }
-  return $invoke(new TextDecoder("utf-8", { ignoreBOM: true }),() => (combined))
+  return $invoke(new TextDecoder("utf-8", { ignoreBOM: true }), () => combined)
 }
 
 function terminalExitSignal(error: unknown): string | null {
@@ -403,6 +403,11 @@ export function resolveEmbeddedTerminalContent(
 }
 
 module $call$ts {
-export function invoke<T extends {"decode":Function}>(target:T,arg0:()=>Parameters<Extract<T["decode"],(...args:any[])=>any>>[0]):ReturnType<Extract<T["decode"],(...args:any[])=>any>> { return target["decode"](arg0()) }
+  export function invoke<T extends { "decode": Function }>(
+    target: T,
+    arg0: () => Parameters<Extract<T["decode"], (...args: any[]) => any>>[0],
+  ): ReturnType<Extract<T["decode"], (...args: any[]) => any>> {
+    return target["decode"](arg0())
+  }
 }
 import { invoke as $invoke } from $call$ts

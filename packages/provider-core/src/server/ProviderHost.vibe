@@ -44,4 +44,6 @@ export service ProviderHost: {
       namespace: string,
       bindingId: string,
     ) => ProviderCredentials!!
-  } { static readonly key = "@t3tools/provider-core/server/ProviderHost" }
+  } {
+  static readonly key = "@t3tools/provider-core/server/ProviderHost"
+}

@@ -22,15 +22,15 @@ const PROJECT_READ_FILE_PATH_MAX_LENGTH = 512
 export schema ProjectScriptIcon = "play" | "test" | "lint" | "configure" | "build" | "debug"
 
 export schema ProjectScript {
-  id: TrimmedNonEmptyString
-  name: TrimmedNonEmptyString
-  command: TrimmedNonEmptyString
-  icon: ProjectScriptIcon
-  runOnWorktreeCreate: boolean
-  runOnSettle?: boolean
-  async?: boolean
-  previewUrl?: TrimmedNonEmptyString
-  autoOpenPreview?: boolean
+  readonly id: TrimmedNonEmptyString
+  readonly name: TrimmedNonEmptyString
+  readonly command: TrimmedNonEmptyString
+  readonly icon: ProjectScriptIcon
+  readonly runOnWorktreeCreate: boolean
+  readonly runOnSettle?: boolean | undefined
+  readonly async?: boolean | undefined
+  readonly previewUrl?: TrimmedNonEmptyString | undefined
+  readonly autoOpenPreview?: boolean | undefined
 }
 
 export schema ProjectIconColor =
@@ -67,18 +67,18 @@ export const ProjectMonogramText = TrimmedNonEmptyString.check(
 )
 
 schema ProjectLucideIcon {
-  kind: "lucide"
-  name: ProjectLucideIconName
-  color: ProjectIconColor
+  readonly kind: "lucide"
+  readonly name: ProjectLucideIconName
+  readonly color: ProjectIconColor
 }
 schema ProjectEmojiIcon {
-  kind: "emoji"
-  emoji: ProjectEmoji
+  readonly kind: "emoji"
+  readonly emoji: ProjectEmoji
 }
 schema ProjectMonogramIcon {
-  kind: "monogram"
-  text: ProjectMonogramText
-  color: ProjectIconColor
+  readonly kind: "monogram"
+  readonly text: ProjectMonogramText
+  readonly color: ProjectIconColor
 }
 export const ProjectFaviconPath = TrimmedNonEmptyString.check(
   Schema.isMaxLength(1024),
@@ -150,14 +150,14 @@ export const Project = Schema.Struct({
 export type Project = typeof Project.Type
 
 export schema ProjectSnapshot {
-  projects: ReadonlyArray<Project>
-  updatedAt: IsoDateTime
+  readonly projects: ReadonlyArray<Project>
+  readonly updatedAt: IsoDateTime
 }
 
-export schema ProjectChange = { type: "project.upserted"; project: Project } | {
-  type: "project.deleted"
-  projectId: ProjectId
-  deletedAt: IsoDateTime
+export schema ProjectChange = { readonly type: "project.upserted"; readonly project: Project } | {
+  readonly type: "project.deleted"
+  readonly projectId: ProjectId
+  readonly deletedAt: IsoDateTime
 }
 
 export const ProjectCreatePayload = Schema.Struct({
@@ -207,7 +207,7 @@ const ProjectMutationErrorCauseField = Schema.Defect()
 export schema error ProjectMutationError {
   commandId: CommandId
   message: string
-  cause?: ProjectMutationErrorCauseField
+  cause?: ProjectMutationErrorCauseField | undefined
 }
 
 export schema ProjectEntryKind = "file" | "directory"
@@ -222,14 +222,14 @@ export const ProjectSearchEntriesInput = Schema.Struct({
 export type ProjectSearchEntriesInput = typeof ProjectSearchEntriesInput.Type
 
 export schema ProjectEntry {
-  path: TrimmedNonEmptyString
-  kind: ProjectEntryKind
-  ignored?: boolean
+  readonly path: TrimmedNonEmptyString
+  readonly kind: ProjectEntryKind
+  readonly ignored?: boolean | undefined
 }
 
 export schema ProjectSearchEntriesResult {
-  entries: ReadonlyArray<ProjectEntry>
-  truncated: boolean
+  readonly entries: ReadonlyArray<ProjectEntry>
+  readonly truncated: boolean
 }
 
 export const ProjectSearchContentsInput = Schema.Struct({
@@ -244,47 +244,47 @@ export const ProjectSearchContentsInput = Schema.Struct({
 export type ProjectSearchContentsInput = typeof ProjectSearchContentsInput.Type
 
 export schema ProjectContentMatchRange {
-  start: NonNegativeInt
-  end: NonNegativeInt
+  readonly start: NonNegativeInt
+  readonly end: NonNegativeInt
 }
 
 export schema ProjectContentMatch {
-  path: TrimmedNonEmptyString
-  lineNumber: PositiveInt
-  lineContent: string
-  matchRanges: ReadonlyArray<ProjectContentMatchRange>
+  readonly path: TrimmedNonEmptyString
+  readonly lineNumber: PositiveInt
+  readonly lineContent: string
+  readonly matchRanges: ReadonlyArray<ProjectContentMatchRange>
 }
 
 export schema ProjectSearchContentsResult {
-  matches: ReadonlyArray<ProjectContentMatch>
-  truncated: boolean
-  regexFallbackError?: string
+  readonly matches: ReadonlyArray<ProjectContentMatch>
+  readonly truncated: boolean
+  readonly regexFallbackError?: string | undefined
 }
 
 export schema ProjectListEntriesInput {
-  cwd: TrimmedNonEmptyString
-  directoryPath?: TrimmedString
+  readonly cwd: TrimmedNonEmptyString
+  readonly directoryPath?: TrimmedString | undefined
 }
 
 export schema ProjectListEntriesResult {
-  entries: ReadonlyArray<ProjectEntry>
-  truncated: boolean
+  readonly entries: ReadonlyArray<ProjectEntry>
+  readonly truncated: boolean
 }
 
 // Untracked files git ignores. Wholly ignored folders such as `node_modules`
 // are left out, so the list stays small enough to pick from.
 export schema ProjectListIgnoredFilesInput {
-  cwd: TrimmedNonEmptyString
+  readonly cwd: TrimmedNonEmptyString
 }
 
 export schema ProjectIgnoredFile {
-  path: TrimmedNonEmptyString
-  byteLength: NonNegativeInt
+  readonly path: TrimmedNonEmptyString
+  readonly byteLength: NonNegativeInt
 }
 
 export schema ProjectListIgnoredFilesResult {
-  files: ReadonlyArray<ProjectIgnoredFile>
-  truncated: boolean
+  readonly files: ReadonlyArray<ProjectIgnoredFile>
+  readonly truncated: boolean
 }
 
 export schema ProjectEntriesFailure =
@@ -324,7 +324,7 @@ export class ProjectSearchEntriesError extends Schema.TaggedError<ProjectSearchE
     cause: Schema.optional(Schema.Defect()),
   },
 ) {
-  // @effect-diagnostics-next-line overriddenSchemaConstructor:off
+  // @vibelang-diagnostics-next-line EK4814:off
   constructor(
     props: ProjectEntriesFailureContext & {
       readonly cwd: string
@@ -354,7 +354,7 @@ export class ProjectSearchContentsError extends Schema.TaggedError<ProjectSearch
     cause: Schema.optional(Schema.Defect()),
   },
 ) {
-  // @effect-diagnostics-next-line overriddenSchemaConstructor:off
+  // @vibelang-diagnostics-next-line EK4814:off
   constructor(
     props: ProjectEntriesFailureContext & {
       readonly cwd: string
@@ -382,7 +382,7 @@ export class ProjectListEntriesError extends Schema.TaggedError<ProjectListEntri
     cause: Schema.optional(Schema.Defect()),
   },
 ) {
-  // @effect-diagnostics-next-line overriddenSchemaConstructor:off
+  // @vibelang-diagnostics-next-line EK4814:off
   constructor(props: ProjectEntriesFailureContext & { readonly cwd: string }) {
     super({
       ...props,
@@ -452,7 +452,7 @@ export class ProjectReadFileError extends Schema.TaggedError<ProjectReadFileErro
     cause: Schema.optional(Schema.Defect()),
   },
 ) {
-  // @effect-diagnostics-next-line overriddenSchemaConstructor:off
+  // @vibelang-diagnostics-next-line EK4814:off
   constructor(props: ProjectFileFailureContext) {
     super({
       ...props,
@@ -470,11 +470,11 @@ export const ProjectWriteFileInput = Schema.Struct({
 export type ProjectWriteFileInput = typeof ProjectWriteFileInput.Type
 
 export schema ProjectWriteFileResult {
-  relativePath: TrimmedNonEmptyString
+  readonly relativePath: TrimmedNonEmptyString
 }
 
 export schema ProjectEnsureScratchResult {
-  projectId: ProjectId
+  readonly projectId: ProjectId
 }
 
 export const ProjectCreateNewInput = Schema.Struct({
@@ -504,7 +504,7 @@ export class ProjectWriteFileError extends Schema.TaggedError<ProjectWriteFileEr
     cause: Schema.optional(Schema.Defect()),
   },
 ) {
-  // @effect-diagnostics-next-line overriddenSchemaConstructor:off
+  // @vibelang-diagnostics-next-line EK4814:off
   constructor(props: ProjectFileFailureContext) {
     super({
       ...props,

@@ -23,21 +23,21 @@ export declare const layer: McpToolAccess.HandlersLayer<{
                 readonly scriptName: import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>;
                 readonly terminalId: import("effect/Schema").decodeTo<import("effect/Schema").String, import("effect/Schema").String, never, never>;
             }>, import("effect/Schema").Struct<{
-                readonly status: import("effect/Schema").Literal<"no-script">;
+                readonly status: import("effect/Schema").mutableKey<import("effect/Schema").Literal<"no-script">>;
             }>, import("effect/Schema").Struct<{
-                readonly status: import("effect/Schema").Literal<"skipped">;
+                readonly status: import("effect/Schema").mutableKey<import("effect/Schema").Literal<"skipped">>;
             }>, import("effect/Schema").Struct<{
-                readonly status: import("effect/Schema").Literal<"failed">;
-                readonly detail: import("effect/Schema").String;
+                readonly status: import("effect/Schema").mutableKey<import("effect/Schema").Literal<"failed">>;
+                readonly detail: import("effect/Schema").mutableKey<import("effect/Schema").String>;
             }>]>;
             readonly continuation: import("effect/Schema").Union<readonly [import("effect/Schema").Struct<{
                 readonly status: import("effect/Schema").Literal<"scheduled">;
                 readonly delivery: import("effect/Schema").Literals<readonly ["started", "queued", "steered", "restarted"]>;
             }>, import("effect/Schema").Struct<{
-                readonly status: import("effect/Schema").Literal<"skipped">;
+                readonly status: import("effect/Schema").mutableKey<import("effect/Schema").Literal<"skipped">>;
             }>, import("effect/Schema").Struct<{
-                readonly status: import("effect/Schema").Literal<"failed">;
-                readonly detail: import("effect/Schema").String;
+                readonly status: import("effect/Schema").mutableKey<import("effect/Schema").Literal<"failed">>;
+                readonly detail: import("effect/Schema").mutableKey<import("effect/Schema").String>;
             }>]>;
             readonly note: import("effect/Schema").String;
         }>;

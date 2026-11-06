@@ -10,7 +10,7 @@ export schema error ProviderAdapterDriverCreateError {
   driver: ProviderDriverKind
   instanceId: ProviderInstanceId
   detail: string
-  cause?: DefectField
+  cause?: DefectField | undefined
   override get message(): string {
     return `Failed to create orchestration-v2 provider adapter ${this.instanceId} (${this.driver}): ${this.detail}`
   }

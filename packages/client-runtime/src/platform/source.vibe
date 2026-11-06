@@ -9,5 +9,5 @@ export service PlatformConnectionSource: {
     // alongside it).
     readonly registrations: Stream.Stream<ReadonlyArray<PlatformConnectionRegistration>>;
   } {
-  static override readonly key = "@t3tools/client-runtime/platform/source/PlatformConnectionSource"
+  static readonly key = "@t3tools/client-runtime/platform/source/PlatformConnectionSource"
 }

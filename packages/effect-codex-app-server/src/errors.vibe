@@ -112,7 +112,7 @@ export interface CodexAppServerProtocolErrorShape {
 
 const CodexAppServerSpawnErrorCauseField = Schema.Defect()
 export schema error CodexAppServerSpawnError {
-  command?: string
+  command?: string | undefined
   cause: CodexAppServerSpawnErrorCauseField
   override get message(): string {
     return this.command

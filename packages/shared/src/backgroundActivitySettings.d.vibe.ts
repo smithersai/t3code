@@ -12,9 +12,15 @@ export interface ResolvedBackgroundActivitySettings {
     readonly pauseWhenClientLowPower: boolean;
     readonly pauseWhenOnBattery: boolean;
 }
+/** @throws {never} */
 export declare function getBackgroundActivityPresetSettings(profile: BackgroundActivityProfile): ResolvedBackgroundActivitySettings;
+/** @throws {never} */
 export declare function getBackgroundActivityBaseProfile(backgroundActivity: BackgroundActivitySettings): BackgroundActivityProfile;
+/** @throws {never} */
 export declare function resolveBackgroundActivitySettings(backgroundActivity: BackgroundActivitySettings): ResolvedBackgroundActivitySettings;
+/** @throws {never} */
 export declare function normalizeBackgroundActivitySettings(backgroundActivity: BackgroundActivitySettings): BackgroundActivitySettings;
+/** @throws {never} */
 export declare function resolveServerBackgroundActivitySettings(settings: ServerSettings): ResolvedBackgroundActivitySettings;
+/** @throws {never} */
 export declare function normalizeServerBackgroundActivitySettings(settings: ServerSettings): BackgroundActivitySettings;

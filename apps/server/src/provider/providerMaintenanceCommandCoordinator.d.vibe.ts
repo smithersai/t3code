@@ -8,6 +8,7 @@ export interface ProviderMaintenanceCommandCoordinatorShape<E> {
     }) => Effect.Effect<A, E, R>;
 }
 export declare const makeProviderMaintenanceCommandCoordinator: <E>(input: {
+    /** @throws {never} */
     readonly makeAlreadyRunningError: (targetKey: string) => E;
 }) => Effect.Effect<{
     withCommandLock: <A, R>(input: {

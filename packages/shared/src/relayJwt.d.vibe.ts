@@ -19,9 +19,12 @@ declare const RelayJwtError_base: Schema.Class<RelayJwtError, Schema.TaggedStruc
 }>, import("effect/Cause").YieldableError>;
 export declare class RelayJwtError extends RelayJwtError_base {
     get message(): string;
+    /** @throws {never} */
     static diagnosticCode(error: RelayJwtError): string;
 }
+/** @throws {never} */
 export declare function normalizeRelayIssuer(value: string): string;
+/** @throws {never} */
 export declare function decodeRelayJwt(token: string): JWTPayload;
 export declare function signRelayJwt(input: {
     readonly privateKey: string;

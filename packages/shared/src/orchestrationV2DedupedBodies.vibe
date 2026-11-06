@@ -8,7 +8,6 @@ import {
   type OrchestrationV2ThreadProjection,
   type OrchestrationV2TurnItem,
 } from "@t3tools/contracts"
-import * as Schema from "effect/Schema"
 
 /**
  * For clients that opt in, the server blanks a turn item's body that its record already carries

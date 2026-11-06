@@ -4,6 +4,7 @@ import { type ChangeRequest, SourceControlProviderError } from "@t3tools/contrac
 import * as AzureDevOpsCli from "./AzureDevOpsCli.ts";
 import * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider";
 import { type SourceControlAuthProbeInput } from "@t3tools/source-control-core/server/discovery";
+/** @throws {never} */
 declare function parseAzureAuth(input: SourceControlAuthProbeInput): {
     readonly status: "authenticated" | "unauthenticated" | "unknown";
     readonly account: import("effect/Option").Option<string>;

@@ -17,6 +17,7 @@ export interface NormalizedAzureDevOpsPullRequestRecord {
     readonly mergedAt?: string | null;
     readonly updatedAt: Option.Option<DateTime.Utc>;
 }
+/** @throws {never} */
 export declare function azureDevOpsPullRequestWebUrl(input: {
     readonly pullRequestId: number;
     readonly webLink?: string | null | undefined;
@@ -25,5 +26,7 @@ export declare function azureDevOpsPullRequestWebUrl(input: {
     readonly projectName?: string | null | undefined;
     readonly repositoryName?: string | null | undefined;
 }): string;
+/** @throws {never} */
 export declare function decodeAzureDevOpsPullRequestListJson(raw: string): Result.Result<ReadonlyArray<NormalizedAzureDevOpsPullRequestRecord>, Cause.Cause<Schema.SchemaError>>;
+/** @throws {never} */
 export declare function decodeAzureDevOpsPullRequestJson(raw: string): Result.Result<NormalizedAzureDevOpsPullRequestRecord, Cause.Cause<Schema.SchemaError>>;

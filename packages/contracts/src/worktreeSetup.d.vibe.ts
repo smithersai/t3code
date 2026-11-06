@@ -85,4 +85,5 @@ export declare const WorktreeSetupCancelResult: Schema.Struct<{
 }>;
 export type WorktreeSetupCancelResult = typeof WorktreeSetupCancelResult.Type;
 export declare const WORKTREE_SETUP_STAGE_ORDER: ReadonlyArray<WorktreeSetupStageId>;
+/** @throws {never} */
 export declare function worktreeSetupStageLabel(id: WorktreeSetupStageId): string;

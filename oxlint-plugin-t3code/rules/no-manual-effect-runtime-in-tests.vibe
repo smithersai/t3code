@@ -28,7 +28,7 @@ const readMaxOccurrences = (options: ReadonlyArray<unknown>): number => {
     : 0
 }
 
-const manualRunnerName = (callee: unknown): Option<string> => {
+const manualRunnerName = (callee: unknown): Option.Option<string> => {
   const expression = unwrapExpression(callee)
   if (Option.isNone(expression) || expression.value.type !== "MemberExpression") {
     return Option.none()

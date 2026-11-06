@@ -14,11 +14,13 @@ export declare const GUEST_FAILURE: {
 /**
  * Stored files a share change leaves behind: those of waiting messages that were dismissed or
  * dropped with the share. A sent message keeps its files, which its thread message now holds.
+ * @throws {never}
  */
 export declare function releasedGuestAttachmentIds(before: ThreadGuestShare | null, after: ThreadGuestShare | null): ReadonlyArray<string>;
 /**
  * Applies a guest share command to the thread. The orchestrator runs commands one at a time, so
  * checking state here is what makes a link redeem once and a message send once.
+ * @throws {never}
  */
 export declare function decideGuestShareCommand(input: {
     readonly thread: OrchestrationV2AppThread;
@@ -29,6 +31,7 @@ export declare function decideGuestShareCommand(input: {
  * Marks a guest message sent. `text` is what the agent receives: it names the guest so the agent
  * does not mistake it for the owner's words, and so a guest cannot start a slash command.
  * `guest` lets clients show the guest's own text with their name beside it.
+ * @throws {never}
  */
 export declare function decideGuestMessageSend(input: {
     readonly thread: OrchestrationV2AppThread;
@@ -43,9 +46,13 @@ export declare function decideGuestMessageSend(input: {
  * The owner cancelled a queued send, so the agent never got the message. It shows as dismissed,
  * which the guest can see, instead of sent with no reply ever coming. A share that changed since
  * the send is left alone.
+ * @throws {never}
  */
 export declare function guestShareAfterCancelledSend(thread: OrchestrationV2AppThread, guest: Pick<GuestMessageAttribution, "guestMessageId" | "shareId">, now: DateTime.Utc): OrchestrationV2AppThread;
-/** Guest attribution comes only from `decideGuestMessageSend`; a client cannot claim it. */
+/**
+ * Guest attribution comes only from `decideGuestMessageSend`; a client cannot claim it.
+ * @throws {never}
+ */
 export declare function withoutGuestAttribution<C extends {
     readonly context?: OrchestrationMessageContext | undefined;
 }>(command: C): C;

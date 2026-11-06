@@ -11,11 +11,19 @@ declare const RelayRequestError_base: Schema.Class<RelayRequestError, Schema.Tag
 export declare class RelayRequestError extends RelayRequestError_base {
     get message(): string;
 }
+/** @throws {never} */
 export declare function relayRequestError(cause: unknown): RelayRequestError;
+/** @throws {never} */
 export declare const shouldRetryRelayRequest: (error: unknown) => boolean;
-/** The relay answered and asked to be retried later; nothing local is wrong. */
+/**
+ * The relay answered and asked to be retried later; nothing local is wrong.
+ * @throws {never}
+ */
 export declare const isRelayUnavailable: (error: unknown) => boolean;
-/** The relay's requested wait, found anywhere in a failure's cause chain. */
+/**
+ * The relay's requested wait, found anywhere in a failure's cause chain.
+ * @throws {never}
+ */
 export declare function relayRetryAfterMillis(error: unknown): number | undefined;
 export declare const filterRelayResponse: (response: HttpClientResponse.HttpClientResponse) => Effect.Effect<HttpClientResponse.HttpClientResponse, RelayRequestError, never>;
 export {};

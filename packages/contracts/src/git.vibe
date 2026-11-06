@@ -1,4 +1,3 @@
-import * as Effect from "effect/Effect"
 import * as Schema from "effect/Schema"
 import {
   ForwardCompatibleOptional,
@@ -43,7 +42,7 @@ const GitPullRequestReference = TrimmedNonEmptyStringSchema
 const GitPullRequestState = Schema.Literals(["open", "closed", "merged"])
 const GitPreparePullRequestThreadMode = Schema.Literals(["local", "worktree"])
 export schema GitRunStackedActionToastRunAction {
-  kind: GitStackedAction
+  readonly kind: GitStackedAction
 }
 const GitRunStackedActionToastCta = Schema.Union([
   Schema.Struct({
@@ -81,8 +80,8 @@ export const VcsRef = Schema.Struct({
 export type VcsRef = typeof VcsRef.Type
 
 schema VcsWorktree {
-  path: TrimmedNonEmptyStringSchema
-  refName: TrimmedNonEmptyStringSchema
+  readonly path: TrimmedNonEmptyStringSchema
+  readonly refName: TrimmedNonEmptyStringSchema
 }
 const GitResolvedPullRequest = Schema.Struct({
   number: PositiveInt,
@@ -95,7 +94,7 @@ const GitResolvedPullRequest = Schema.Struct({
 export type GitResolvedPullRequest = typeof GitResolvedPullRequest.Type
 
 export schema VcsStatusInput {
-  cwd: TrimmedNonEmptyStringSchema
+  readonly cwd: TrimmedNonEmptyStringSchema
 }
 
 export const VcsStatusSubscriptionInput = Schema.Struct({
@@ -106,7 +105,7 @@ export const VcsStatusSubscriptionInput = Schema.Struct({
 export type VcsStatusSubscriptionInput = typeof VcsStatusSubscriptionInput.Type
 
 export schema VcsPullInput {
-  cwd: TrimmedNonEmptyStringSchema
+  readonly cwd: TrimmedNonEmptyStringSchema
 }
 
 export const GitRunStackedActionInput = Schema.Struct({
@@ -144,41 +143,41 @@ export const VcsCreateWorktreeInput = Schema.Struct({
 export type VcsCreateWorktreeInput = typeof VcsCreateWorktreeInput.Type
 
 export schema GitPullRequestRefInput {
-  cwd: TrimmedNonEmptyStringSchema
-  reference: GitPullRequestReference
+  readonly cwd: TrimmedNonEmptyStringSchema
+  readonly reference: GitPullRequestReference
 }
 
 export schema GitPreparePullRequestThreadInput {
-  cwd: TrimmedNonEmptyStringSchema
-  reference: GitPullRequestReference
-  mode: GitPreparePullRequestThreadMode
-  threadId?: ThreadId
+  readonly cwd: TrimmedNonEmptyStringSchema
+  readonly reference: GitPullRequestReference
+  readonly mode: GitPreparePullRequestThreadMode
+  readonly threadId?: ThreadId | undefined
 }
 
 export schema VcsRemoveWorktreeInput {
-  cwd: TrimmedNonEmptyStringSchema
-  path: TrimmedNonEmptyStringSchema
-  force?: boolean
+  readonly cwd: TrimmedNonEmptyStringSchema
+  readonly path: TrimmedNonEmptyStringSchema
+  readonly force?: boolean | undefined
 }
 
 export schema VcsCreateRefInput {
-  cwd: TrimmedNonEmptyStringSchema
-  refName: TrimmedNonEmptyStringSchema
-  switchRef?: boolean
+  readonly cwd: TrimmedNonEmptyStringSchema
+  readonly refName: TrimmedNonEmptyStringSchema
+  readonly switchRef?: boolean | undefined
 }
 
 export schema VcsCreateRefResult {
-  refName: TrimmedNonEmptyStringSchema
+  readonly refName: TrimmedNonEmptyStringSchema
 }
 
 export schema VcsSwitchRefInput {
-  cwd: TrimmedNonEmptyStringSchema
-  refName: TrimmedNonEmptyStringSchema
+  readonly cwd: TrimmedNonEmptyStringSchema
+  readonly refName: TrimmedNonEmptyStringSchema
 }
 
 export schema VcsInitInput {
-  cwd: TrimmedNonEmptyStringSchema
-  kind?: VcsDriverKind
+  readonly cwd: TrimmedNonEmptyStringSchema
+  readonly kind?: VcsDriverKind | undefined
 }
 
 const VcsStatusChangeRequest = Schema.Struct({
@@ -267,11 +266,11 @@ export const VcsListRefsResult = Schema.Struct({
 export type VcsListRefsResult = typeof VcsListRefsResult.Type
 
 export schema VcsCreateWorktreeResult {
-  worktree: VcsWorktree
+  readonly worktree: VcsWorktree
 }
 
 export schema GitResolvePullRequestResult {
-  pullRequest: GitResolvedPullRequest
+  readonly pullRequest: GitResolvedPullRequest
 }
 
 export const GitPreparePullRequestThreadResult = Schema.Struct({
@@ -289,31 +288,31 @@ export const VcsSwitchRefResult = Schema.Struct({
 export type VcsSwitchRefResult = typeof VcsSwitchRefResult.Type
 
 export schema GitRunStackedActionResult {
-  action: GitStackedAction
-  branch: {
-    status: GitBranchStepStatus
-    name?: TrimmedNonEmptyStringSchema
+  readonly action: GitStackedAction
+  readonly branch: {
+    readonly status: GitBranchStepStatus
+    readonly name?: TrimmedNonEmptyStringSchema | undefined
   }
-  commit: {
-    status: GitCommitStepStatus
-    commitSha?: TrimmedNonEmptyStringSchema
-    subject?: TrimmedNonEmptyStringSchema
+  readonly commit: {
+    readonly status: GitCommitStepStatus
+    readonly commitSha?: TrimmedNonEmptyStringSchema | undefined
+    readonly subject?: TrimmedNonEmptyStringSchema | undefined
   }
-  push: {
-    status: GitPushStepStatus
-    branch?: TrimmedNonEmptyStringSchema
-    upstreamBranch?: TrimmedNonEmptyStringSchema
-    setUpstream?: boolean
+  readonly push: {
+    readonly status: GitPushStepStatus
+    readonly branch?: TrimmedNonEmptyStringSchema | undefined
+    readonly upstreamBranch?: TrimmedNonEmptyStringSchema | undefined
+    readonly setUpstream?: boolean | undefined
   }
-  pr: {
-    status: GitPrStepStatus
-    url?: string
-    number?: PositiveInt
-    baseBranch?: TrimmedNonEmptyStringSchema
-    headBranch?: TrimmedNonEmptyStringSchema
-    title?: TrimmedNonEmptyStringSchema
+  readonly pr: {
+    readonly status: GitPrStepStatus
+    readonly url?: string | undefined
+    readonly number?: PositiveInt | undefined
+    readonly baseBranch?: TrimmedNonEmptyStringSchema | undefined
+    readonly headBranch?: TrimmedNonEmptyStringSchema | undefined
+    readonly title?: TrimmedNonEmptyStringSchema | undefined
   }
-  toast: GitRunStackedActionToast
+  readonly toast: GitRunStackedActionToast
 }
 
 export const VcsPullResult = Schema.Struct({
@@ -367,7 +366,7 @@ export class GitCommandError extends Schema.TaggedError<GitCommandError>()("GitC
 export schema error TextGenerationError {
   operation: string
   detail: string
-  cause?: DefectField
+  cause?: DefectField | undefined
   override get message(): string {
     return `Text generation failed in ${this.operation}: ${this.detail}`
   }
@@ -377,7 +376,7 @@ export schema error GitManagerError {
   operation: string
   cwd: string
   detail: string
-  cause?: DefectField
+  cause?: DefectField | undefined
   override get message(): string {
     return `Git manager failed in ${this.operation}: ${this.detail}`
   }
@@ -404,9 +403,9 @@ export schema GitManagerServiceError =
   | TextGenerationError
 
 schema GitActionProgressBase {
-  actionId: TrimmedNonEmptyStringSchema
-  cwd: TrimmedNonEmptyStringSchema
-  action: GitStackedAction
+  readonly actionId: TrimmedNonEmptyStringSchema
+  readonly cwd: TrimmedNonEmptyStringSchema
+  readonly action: GitStackedAction
 }
 
 const GitActionStartedEvent = Schema.Struct({

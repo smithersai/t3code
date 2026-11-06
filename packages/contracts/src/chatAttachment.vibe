@@ -42,22 +42,22 @@ export const SNAP_SHOT_ACCESSIBILITY_MAX_NODES = 10_000
 export const SNAP_SHOT_ACCESSIBILITY_MAX_SERIALIZED_CHARS = 32_000
 
 schema SnapShotAccessibilityBounds {
-  x: NonNegativeInt
-  y: NonNegativeInt
-  width: PositiveInt
-  height: PositiveInt
+  readonly x: NonNegativeInt
+  readonly y: NonNegativeInt
+  readonly width: PositiveInt
+  readonly height: PositiveInt
 }
 
 schema SnapShotAccessibilityState {
-  active?: boolean
-  busy?: boolean
-  checked?: "on" | "off" | "mixed"
-  editable?: boolean
-  enabled?: boolean
-  expanded?: boolean
-  focused?: boolean
-  selected?: boolean
-  visible?: boolean
+  readonly active?: boolean | undefined
+  readonly busy?: boolean | undefined
+  readonly checked?: "on" | "off" | "mixed" | undefined
+  readonly editable?: boolean | undefined
+  readonly enabled?: boolean | undefined
+  readonly expanded?: boolean | undefined
+  readonly focused?: boolean | undefined
+  readonly selected?: boolean | undefined
+  readonly visible?: boolean | undefined
 }
 
 export interface SnapShotAccessibilityNode {
@@ -222,19 +222,18 @@ export function getProviderAttachmentLimitError(
 export const UploadChatAttachment = Schema.Union([UploadChatImageAttachment])
 export type UploadChatAttachment = typeof UploadChatAttachment.Type
 
-export const PersistChatAttachmentsInput = Schema.Struct({
-  threadId: ThreadId,
-  messageId: MessageId,
-  attachments: Schema.Array(UploadChatAttachment),
-})
-export type PersistChatAttachmentsInput = typeof PersistChatAttachmentsInput.Type
+export schema PersistChatAttachmentsInput {
+  readonly threadId: ThreadId
+  readonly messageId: MessageId
+  readonly attachments: ReadonlyArray<UploadChatAttachment>
+}
 
 export schema PersistChatAttachmentsResult {
-  attachments: ReadonlyArray<ChatAttachment>
+  readonly attachments: ReadonlyArray<ChatAttachment>
 }
 
 const PersistChatAttachmentsErrorCauseField = Schema.Defect()
 export schema error PersistChatAttachmentsError {
   message: string
-  cause?: PersistChatAttachmentsErrorCauseField
+  cause?: PersistChatAttachmentsErrorCauseField | undefined
 }

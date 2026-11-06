@@ -35,8 +35,8 @@ export declare const PreviewControlsToolkit: Toolkit.Toolkit<{
                     readonly code: Schema.Int;
                     readonly description: Schema.String;
                     readonly download: Schema.optional<Schema.Struct<{
-                        readonly id: Schema.String;
-                        readonly fileName: Schema.String;
+                        readonly id: Schema.mutableKey<Schema.String>;
+                        readonly fileName: Schema.mutableKey<Schema.String>;
                     }>>;
                 }>]>;
                 readonly canGoBack: Schema.Boolean;

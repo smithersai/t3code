@@ -21,6 +21,7 @@ interface ShellThreadPresence {
  * `deleted`) reads as no runs, so its edit ends. Absence from the shell is not
  * deletion: archived threads are dropped there but keep an editable queue, so
  * everything else reads the detail's runs, unknown until it loads.
+ * @throws {never}
  */
 export declare function makeQueuedRunsAtom(input: {
     readonly threadId: string;
@@ -35,6 +36,7 @@ export declare function makeQueuedRunsAtom(input: {
  * edit just closes; a changed one moves into the thread's own draft when that
  * draft is empty, and is dropped otherwise so it never overwrites the user's
  * other work.
+ * @throws {never}
  */
 export declare function resolveQueuedEditExit(input: {
     readonly editChanged: boolean;
@@ -44,6 +46,7 @@ export declare function resolveQueuedEditExit(input: {
  * Why a queued message can't be opened in the composer now, or null when it
  * can. An open question takes the composer over for its answer, so an edit
  * begun then would happen out of sight and could be sent before it is seen.
+ * @throws {never}
  */
 export declare function queuedRunEditBlockedReason(input: {
     readonly openQuestionCount: number;
@@ -53,7 +56,10 @@ export declare function queuedRunEditBlockedReason(input: {
  * ended or begun again meanwhile. Success ends the edit; failure resumes its
  * exit watch and returns whether the edit survived it.
  */
-export type FinishQueuedRunEditSave = (succeeded: boolean) => boolean;
+export type FinishQueuedRunEditSave = 
+/** @throws {never} */
+(succeeded: boolean) => boolean;
+/** @throws {never} */
 export declare function makeQueuedRunEditStore<E extends {
     readonly runId: RunId;
 }>(options: {
@@ -68,18 +74,25 @@ export declare function makeQueuedRunEditStore<E extends {
      * Starts an edit, replacing any edit already open on the thread. When the
      * run leaves the queue the edit is removed and `onRunLeftQueue` receives
      * it; if the run already left, that happens immediately.
+     * @throws {never}
      */
     begin(threadKey: string, edit: E, watch: {
         readonly runs: QueuedRunsAtom;
+        /** @throws {never} */
         readonly onRunLeftQueue: (threadKey: string, edit: E) => void;
     }): void;
-    update(threadKey: string, f: (edit: E) => E): void;
+    /** @throws {never} */
+    update(threadKey: string, f: 
+    /** @throws {never} */
+    (edit: E) => E): void;
+    /** @throws {never} */
     end(threadKey: string): void;
     /**
      * Claims the open edit for a save, or returns null when there is no edit
      * or a save is in flight. The exit watch pauses so the save's result decides
      * the edit's fate. The claim outlives the edit: the server orders saves by
      * arrival, so an overlapping older save could overwrite a newer one.
+     * @throws {never}
      */
     startSave(threadKey: string): FinishQueuedRunEditSave | null;
 };

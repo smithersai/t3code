@@ -22,37 +22,37 @@ export schema UsageCostSource = "providerReported" | "modelPriced" | "unpriced"
 
 /** Sum uncached input, cache reads, and cache writes for input totals; reasoning is already included in output. */
 export schema UsageTokenTotals {
-  uncachedInputTokens: NonNegativeInt
-  cachedInputTokens: NonNegativeInt
-  cacheCreationTokens: NonNegativeInt
-  outputTokens: NonNegativeInt
-  reasoningTokens: NonNegativeInt
+  readonly uncachedInputTokens: NonNegativeInt
+  readonly cachedInputTokens: NonNegativeInt
+  readonly cacheCreationTokens: NonNegativeInt
+  readonly outputTokens: NonNegativeInt
+  readonly reasoningTokens: NonNegativeInt
 }
 
 export schema UsageCategoryCost {
-  input: number
-  cacheRead: number
-  cacheWrite: number
-  output: number
+  readonly input: number
+  readonly cacheRead: number
+  readonly cacheWrite: number
+  readonly output: number
 }
 
 export schema UsageBucket {
-  day: UsageDay
-  hourStart?: TrimmedNonEmptyString
-  provider: UsageProviderKind
-  model: TrimmedNonEmptyString
-  sourcePath?: TrimmedNonEmptyString
-  totals: UsageTokenTotals
-  costUsd: number
-  cacheSavingsUsd: number
-  categoryCostUsd?: UsageCategoryCost
-  fastCostUsd?: number
-  ultrafastCostUsd?: number
-  speedPremiumUsd?: number
-  costSource: UsageCostSource
-  records: NonNegativeInt
-  unpricedRecords: NonNegativeInt
-  sessions: NonNegativeInt
+  readonly day: UsageDay
+  readonly hourStart?: TrimmedNonEmptyString | undefined
+  readonly provider: UsageProviderKind
+  readonly model: TrimmedNonEmptyString
+  readonly sourcePath?: TrimmedNonEmptyString | undefined
+  readonly totals: UsageTokenTotals
+  readonly costUsd: number
+  readonly cacheSavingsUsd: number
+  readonly categoryCostUsd?: UsageCategoryCost | undefined
+  readonly fastCostUsd?: number | undefined
+  readonly ultrafastCostUsd?: number | undefined
+  readonly speedPremiumUsd?: number | undefined
+  readonly costSource: UsageCostSource
+  readonly records: NonNegativeInt
+  readonly unpricedRecords: NonNegativeInt
+  readonly sessions: NonNegativeInt
 }
 
 export const UsageSourceFingerprint = Schema.Struct({

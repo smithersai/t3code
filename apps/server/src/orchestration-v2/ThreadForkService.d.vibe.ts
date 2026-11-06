@@ -11,12 +11,16 @@ export interface ThreadForkPlanV2 {
 declare const ThreadForkPlanError_base: Schema.Class<ThreadForkPlanError, Schema.TaggedStruct<"ThreadForkPlanError", {
     readonly sourceThreadId: Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "ThreadId">;
     readonly targetThreadId: Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "ThreadId">;
-    readonly cause: Schema.optional<Schema.Defect>;
+    readonly cause: Schema.optionalKey<Schema.Defect>;
 }>, import("effect/Cause").YieldableError>;
 export declare class ThreadForkPlanError extends ThreadForkPlanError_base {
 }
-/** waiting means provider-finished with checkpoint capture pending. */
+/**
+ * waiting means provider-finished with checkpoint capture pending.
+ * @throws {never}
+ */
 export declare function isForkableSourceRunStatus(status: OrchestrationV2Run["status"]): boolean;
+/** @throws {never} */
 export declare function forkableSourceRunStatusError(run: Pick<OrchestrationV2Run, "id" | "status">): string;
 export interface ThreadForkServiceV2Shape {
     readonly plan: (input: {

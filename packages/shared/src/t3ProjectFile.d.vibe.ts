@@ -16,5 +16,7 @@ export declare const T3ProjectFileFromJson: Schema.decodeTo<Schema.Struct<{
         readonly autoOpenPreview: Schema.optionalKey<Schema.Boolean>;
     }>>>;
 }>, Schema.String, never, never>;
+/** @throws {never} */
 export declare function parseT3ProjectFile(contents: string): T3ProjectFile | null;
+/** @throws {never} */
 export declare function buildT3ProjectFileJsonSchema(): Record<string, unknown>;

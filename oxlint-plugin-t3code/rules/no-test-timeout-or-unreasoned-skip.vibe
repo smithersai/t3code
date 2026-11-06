@@ -20,7 +20,7 @@ const SKIP_MESSAGE = "A skipped test needs a tracking issue in the comment above
 
 // Walks `it.effect.each(cases)` / `describe.skipIf(x)` / `it.layer(L)` down to the
 // identifier that registers the test.
-const chainRoot = (node: unknown): Option<string> => {
+const chainRoot = (node: unknown): Option.Option<string> => {
   const expression = unwrapExpression(node)
   if (Option.isNone(expression)) return Option.none()
   const value = expression.value

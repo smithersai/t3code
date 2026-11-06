@@ -40,48 +40,39 @@ export const AgentSessionProjectCandidate = Schema.Struct({
 export type AgentSessionProjectCandidate = typeof AgentSessionProjectCandidate.Type
 
 export schema AgentSessionScanResult {
-  candidates: ReadonlyArray<AgentSessionProjectCandidate>
-  scannedAt: IsoDateTime
-  truncated?: boolean
+  readonly candidates: ReadonlyArray<AgentSessionProjectCandidate>
+  readonly scannedAt: IsoDateTime
+  readonly truncated?: boolean | undefined
 }
 
 export schema AgentSessionImportInput {
-  projectId: ProjectId
-  expectedWorkspaceRoot?: TrimmedNonEmptyString
+  readonly projectId: ProjectId
+  readonly expectedWorkspaceRoot?: TrimmedNonEmptyString | undefined
 }
 
-export class AgentSessionImportProjectNotFoundError
-  extends Schema.TaggedError<AgentSessionImportProjectNotFoundError>()(
-    "AgentSessionImportProjectNotFoundError",
-    { projectId: ProjectId },
-  )
-{
+export schema error AgentSessionImportProjectNotFoundError {
+  readonly projectId: ProjectId
   override get message(): string {
     return `Project '${this.projectId}' does not exist.`
   }
 }
 
-export class AgentSessionImportProjectChangedError extends Schema.TaggedError<AgentSessionImportProjectChangedError>()(
-  "AgentSessionImportProjectChangedError",
-  { projectId: ProjectId },
-) {
+export schema error AgentSessionImportProjectChangedError {
+  readonly projectId: ProjectId
   override get message(): string {
     return `Project '${this.projectId}' changed directories. Scan for projects again before importing history.`
   }
 }
 
 export schema AgentSessionImportResult {
-  importedCount: NonNegativeInt
-  skippedCount: NonNegativeInt
+  readonly importedCount: NonNegativeInt
+  readonly skippedCount: NonNegativeInt
 }
 
-export class AgentSessionScanError extends Schema.TaggedError<AgentSessionScanError>()(
-  "AgentSessionScanError",
-  {
-    operation: Schema.Literals(["read-settings", "read-projects"]),
-    cause: Schema.Defect(),
-  },
-) {
+const AgentSessionScanErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error AgentSessionScanError {
+  readonly operation: "read-settings" | "read-projects"
+  cause: AgentSessionScanErrorCauseField
   override get message(): string {
     return `Failed to scan agent sessions during ${this.operation}.`
   }

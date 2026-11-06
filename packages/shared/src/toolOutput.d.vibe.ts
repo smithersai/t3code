@@ -17,28 +17,44 @@ interface CompactToolOutput {
         status?: "rolled_back";
     }>;
 }
+/** @throws {never} */
 export declare function compactDynamicToolOutput(value: unknown): CompactToolOutput | undefined;
+/** @throws {never} */
 export declare function htmlRenderFromToolItem(item: {
     readonly toolName: string | null | undefined;
     readonly output?: unknown;
 }): HtmlRenderReference | undefined;
-/** Accept app references only when server and tool match the item, so tools cannot impersonate another app source. */
+/**
+ * Accept app references only when server and tool match the item, so tools cannot impersonate another app source.
+ * @throws {never}
+ */
 export declare function mcpAppFromToolItem(item: {
     readonly toolName: string | null | undefined;
     readonly output?: unknown;
 }): McpAppReference | undefined;
-/** Some providers report completion even when command output describes a failure. */
+/**
+ * Some providers report completion even when command output describes a failure.
+ * @throws {never}
+ */
 export declare function toolOutputIndicatesFailure(text: string): boolean;
 export interface ToolOutputImage {
     readonly mimeType: string;
     readonly data?: string;
 }
-/** Raster types only, so agent SVG/HTML cannot be served inline. */
+/**
+ * Raster types only, so agent SVG/HTML cannot be served inline.
+ * @throws {never}
+ */
 export declare function readToolOutputImage(block: unknown): ToolOutputImage | null;
 export declare const MAX_TOOL_OUTPUT_IMAGES = 8;
 export declare const MAX_TOOL_OUTPUT_IMAGE_BASE64_LENGTH: number;
+/** @throws {never} */
 export declare function toolOutputImageBlocks(value: unknown): ReadonlyArray<unknown>;
-/** Order defines the shared tool-output-image asset index. */
+/**
+ * Order defines the shared tool-output-image asset index.
+ * @throws {never}
+ */
 export declare function toolOutputImages(value: unknown): ReadonlyArray<ToolOutputImage>;
+/** @throws {never} */
 export declare function omitToolOutputImageData(value: unknown): unknown;
 export {};

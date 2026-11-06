@@ -27,20 +27,41 @@ export interface McpAppReference {
     readonly permissions?: McpAppPermissions;
     readonly prefersBorder?: boolean;
 }
+/** @throws {never} */
 export declare function readMcpAppCsp(value: unknown): McpAppCsp | undefined;
+/** @throws {never} */
 export declare function readMcpAppPermissions(value: unknown): McpAppPermissions | undefined;
+/** @throws {never} */
 export declare function readMcpAppReference(value: unknown): McpAppReference | undefined;
+/** @throws {never} */
 export declare function mcpAppReferencesEqual(left: McpAppReference, right: McpAppReference): boolean;
+/** @throws {never} */
 export declare function readMcpAppResourceUri(meta: unknown): string | undefined;
+/** @throws {never} */
 export declare function mcpAppToolCallableByApp(meta: unknown): boolean;
-/** Block undeclared origins, including self, which would expose T3's API. */
+/**
+ * Block undeclared origins, including self, which would expose T3's API.
+ * @throws {never}
+ */
 export declare function mcpAppContentSecurityPolicy(csp: McpAppCsp | undefined): string;
-/** The route's sandbox header keeps origins opaque; the document CSP can only tighten it. */
+/**
+ * The route's sandbox header keeps origins opaque; the document CSP can only tighten it.
+ * @throws {never}
+ */
 export declare function injectMcpAppCsp(html: string, csp: McpAppCsp | undefined): string;
-/** Opaque origins require authenticating bridge messages by parent window. */
+/**
+ * Opaque origins require authenticating bridge messages by parent window.
+ * @throws {never}
+ */
 export declare function injectMcpAppThemeBootstrap(html: string): string;
-/** Opaque documents throw on cookie reads; analytics startup often expects an empty string instead. */
+/**
+ * Opaque documents throw on cookie reads; analytics startup often expects an empty string instead.
+ * @throws {never}
+ */
 export declare function injectMcpAppCookieBootstrap(html: string): string;
+/** @throws {never} */
 export declare function mcpAppAllowAttribute(permissions: McpAppPermissions | undefined): string;
+/** @throws {never} */
 export declare function clampMcpAppHeight(height: number): number;
+/** @throws {never} */
 export declare function mcpAppFileName(reference: McpAppReference): string;

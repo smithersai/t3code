@@ -28,7 +28,7 @@ const isStringLiteral = (node: unknown): infer _ =>
     (expression) => expression.type === "Literal" && typeof expression.value === "string",
   )
 
-const memberPath = (node: unknown): Option<ReadonlyArray<string>> => {
+const memberPath = (node: unknown): Option.Option<ReadonlyArray<string>> => {
   const expression = unwrapExpression(node)
   if (Option.isNone(expression)) return Option.none()
   if (expression.value.type === "Identifier") return Option.some([expression.value.name])

@@ -129,7 +129,7 @@ export schema PreviewAppearancePreference = "system" | "light" | "dark"
 
 export const DEFAULT_PREVIEW_APPEARANCE: PreviewAppearancePreference = "system"
 
-schema PreviewFileDownload { id: string; fileName: string }
+schema PreviewFileDownload { readonly id: string; readonly fileName: string }
 
 export const PreviewNavStatus = Schema.Union([
   Schema.TaggedStruct("Idle", {}),
@@ -155,8 +155,8 @@ export schema PreviewRuntime = "desktop" | "server"
 
 /** JSON reason for preview stream close code 4503; must fit the 123-byte close-reason limit. */
 export schema PreviewStreamHostSetup {
-  need: "sandbox" | "libraries"
-  command: string
+  readonly need: "sandbox" | "libraries"
+  readonly command: string
 }
 export const PREVIEW_STREAM_HOST_SETUP_CLOSE_CODE = 4503
 
@@ -182,53 +182,53 @@ export const PreviewSessionSnapshot = Schema.Struct({
 export type PreviewSessionSnapshot = typeof PreviewSessionSnapshot.Type
 
 export schema PreviewOpenInput {
-  threadId: ThreadId
-  url?: Url
-  viewport?: PreviewViewportSetting
-  profileId?: BrowserProfileId
-  runtime?: PreviewRuntime
-  reveal?: boolean
+  readonly threadId: ThreadId
+  readonly url?: Url | undefined
+  readonly viewport?: PreviewViewportSetting | undefined
+  readonly profileId?: BrowserProfileId | undefined
+  readonly runtime?: PreviewRuntime | undefined
+  readonly reveal?: boolean | undefined
 }
 
 export schema PreviewNavigateInput {
-  threadId: ThreadId
-  tabId: PreviewTabId
-  url: Url
-  resolvedTitle?: Title
+  readonly threadId: ThreadId
+  readonly tabId: PreviewTabId
+  readonly url: Url
+  readonly resolvedTitle?: Title | undefined
 }
 
 export schema PreviewReportStatusInput {
-  threadId: ThreadId
-  tabId: PreviewTabId
-  navStatus: PreviewNavStatus
-  canGoBack: boolean
-  canGoForward: boolean
+  readonly threadId: ThreadId
+  readonly tabId: PreviewTabId
+  readonly navStatus: PreviewNavStatus
+  readonly canGoBack: boolean
+  readonly canGoForward: boolean
 }
 
 export schema PreviewRefreshInput {
-  threadId: ThreadId
-  tabId: PreviewTabId
+  readonly threadId: ThreadId
+  readonly tabId: PreviewTabId
 }
 
 export schema PreviewResizeInput {
-  threadId: ThreadId
-  tabId: PreviewTabId
-  viewport: PreviewViewportSetting
+  readonly threadId: ThreadId
+  readonly tabId: PreviewTabId
+  readonly viewport: PreviewViewportSetting
 }
 
 /** Requires no tab control, unlike page input. */
 export schema PreviewAdjustInput {
-  threadId: ThreadId
-  tabId: PreviewTabId
-  colorScheme?: PreviewAppearancePreference
-  zoomFactor?: PreviewZoomFactor
-  hardReload?: boolean
-  clear?: "cookies" | "cache"
+  readonly threadId: ThreadId
+  readonly tabId: PreviewTabId
+  readonly colorScheme?: PreviewAppearancePreference | undefined
+  readonly zoomFactor?: PreviewZoomFactor | undefined
+  readonly hardReload?: boolean | undefined
+  readonly clear?: "cookies" | "cache" | undefined
 }
 
 export schema PreviewCloseInput {
-  threadId: ThreadId
-  tabId?: PreviewTabId
+  readonly threadId: ThreadId
+  readonly tabId?: PreviewTabId | undefined
 }
 
 export const BROWSER_RECORDING_FRAME_RATES = [30, 60] as const
@@ -245,11 +245,11 @@ export const PreviewReportProfilesInput = Schema.Struct({
 export type PreviewReportProfilesInput = typeof PreviewReportProfilesInput.Type
 
 export schema PreviewClearProfileInput {
-  profileId: BrowserProfileId
+  readonly profileId: BrowserProfileId
 }
 
 export schema PreviewListInput {
-  threadId: ThreadId
+  readonly threadId: ThreadId
 }
 
 export const PreviewListResult = Schema.Struct({
@@ -335,8 +335,8 @@ export const DiscoveredLocalServer = Schema.Struct({
 export type DiscoveredLocalServer = typeof DiscoveredLocalServer.Type
 
 export schema PreviewStopLocalServerInput {
-  pid: PositiveInt
-  port: LocalServerPort
+  readonly pid: PositiveInt
+  readonly port: LocalServerPort
 }
 
 export class PreviewStopLocalServerError extends Schema.TaggedError<PreviewStopLocalServerError>()(
@@ -361,18 +361,14 @@ export class PreviewStopLocalServerError extends Schema.TaggedError<PreviewStopL
 }
 
 export schema DiscoveredLocalServerList {
-  servers: ReadonlyArray<DiscoveredLocalServer>
-  scannedAt: string
-  configuredUrlProbing?: true
+  readonly servers: ReadonlyArray<DiscoveredLocalServer>
+  readonly scannedAt: string
+  readonly configuredUrlProbing?: true | undefined
 }
 
-export class PreviewSessionLookupError extends Schema.TaggedError<PreviewSessionLookupError>()(
-  "PreviewSessionLookupError",
-  {
-    threadId: Schema.String,
-    tabId: Schema.String,
-  },
-) {
+export schema error PreviewSessionLookupError {
+  readonly threadId: string
+  readonly tabId: string
   override get message() {
     return `Unknown preview session: thread=${this.threadId}, tab=${this.tabId}`
   }
@@ -393,19 +389,17 @@ export class PreviewInvalidUrlError extends Schema.TaggedError<PreviewInvalidUrl
   }
 }
 
-export class PreviewControlRequiredError extends Schema.TaggedError<PreviewControlRequiredError>()(
-  "PreviewControlRequiredError",
-  { tabId: Schema.String },
-) {
+export schema error PreviewControlRequiredError {
+  readonly tabId: string
   override get message() {
     return "Take control of the server browser and use its viewer controls."
   }
 }
 
-export class PreviewClearProfileError extends Schema.TaggedError<PreviewClearProfileError>()(
-  "PreviewClearProfileError",
-  { profileId: Schema.String, cause: Schema.Defect() },
-) {
+const PreviewClearProfileErrorCauseField: import("effect/Schema").Defect = Schema.Defect()
+export schema error PreviewClearProfileError {
+  readonly profileId: string
+  cause: PreviewClearProfileErrorCauseField
   override get message() {
     return "The environment could not delete this browser profile's data."
   }

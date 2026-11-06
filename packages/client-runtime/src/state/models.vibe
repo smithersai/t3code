@@ -16,7 +16,6 @@ import type {
   ThreadId,
   ThreadLinkedPullRequest,
 } from "@t3tools/contracts"
-import * as DateTime from "effect/DateTime"
 
 import { formatSubagentDisplayTitle } from "./subagentDisplay.ts"
 

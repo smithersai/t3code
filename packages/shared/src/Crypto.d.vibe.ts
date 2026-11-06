@@ -11,7 +11,9 @@ declare const TypeId = "~@t3tools/shared/Crypto";
 export type DigestAlgorithm = "SHA-1" | "SHA-256" | "SHA-384" | "SHA-512";
 export interface Crypto {
     readonly [TypeId]: typeof TypeId;
+    /** @throws {never} */
     nextIntUnsafe(): number;
+    /** @throws {never} */
     nextDoubleUnsafe(): number;
     randomBytes(size: number): Effect.Effect<Uint8Array, PlatformError.PlatformError>;
     digest(algorithm: DigestAlgorithm, data: Uint8Array): Effect.Effect<Uint8Array, PlatformError.PlatformError>;
@@ -38,7 +40,9 @@ export interface Crypto {
     readonly randomULID: Effect.Effect<string, PlatformError.PlatformError>;
 }
 export declare const Crypto: Context.Service<Crypto, Crypto>;
+/** @throws {never} */
 export declare const make: (impl: {
+    /** @throws {never} */
     readonly randomBytes: (size: number) => Uint8Array;
     readonly digest: (algorithm: DigestAlgorithm, data: Uint8Array) => Effect.Effect<Uint8Array, PlatformError.PlatformError>;
 }) => Crypto;

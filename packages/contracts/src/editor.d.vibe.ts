@@ -138,7 +138,9 @@ export declare const LaunchEditorInput: Schema.Struct<{
 }>;
 export type LaunchEditorInput = typeof LaunchEditorInput.Type;
 export declare const REMOTE_CAPABLE_EDITOR_IDS: ReadonlyArray<EditorId>;
+/** @throws {never} */
 export declare const remoteSchemeForEditor: (id: EditorId) => string | undefined;
+/** @throws {never} */
 export declare const buildRemoteOpenUrl: (input: {
     readonly editor: EditorId;
     readonly host: string;

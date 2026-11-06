@@ -252,8 +252,10 @@ export const makeCursorAuth = effect (options: CursorAuthOptions) =>
                 expiresAt: null,
                 message: Exit.isSuccess(result)
                   ? "Signed in with Cursor."
-                  : Option.getOrElse(Option.map(Cause.findErrorOption(result.cause), (error) => error.detail)
-                    , () => "Cursor sign-in failed or expired. Start sign-in again."),
+                  : Option.getOrElse(
+                    Option.map(Cause.findErrorOption(result.cause), (error) => error.detail),
+                    () => "Cursor sign-in failed or expired. Start sign-in again.",
+                  ),
               })
             })
           },

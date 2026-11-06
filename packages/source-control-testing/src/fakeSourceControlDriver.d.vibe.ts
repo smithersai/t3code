@@ -5,12 +5,19 @@ import type * as SourceControlProvider from "@t3tools/source-control-core/server
 /**
  * A pull request provider that can do everything and holds nothing: lists are empty, writes
  * succeed, and reads a test did not supply die.
+ * @throws {never}
  */
 export declare function fakePullRequestProvider(kind: string, overrides?: Partial<PullRequestProviderApi>): PullRequestProviderApi;
 type SourceControlProviderService = SourceControlProvider.SourceControlProvider["Service"];
-/** A source control provider whose every operation dies unless the test supplies it. */
+/**
+ * A source control provider whose every operation dies unless the test supplies it.
+ * @throws {never}
+ */
 export declare function fakeSourceControlProvider(kind: string, overrides?: Partial<SourceControlProviderService>): SourceControlProviderService;
-/** Discovery over an API integration that reports an unknown sign-in. */
+/**
+ * Discovery over an API integration that reports an unknown sign-in.
+ * @throws {never}
+ */
 export declare function fakeDiscovery(kind: string, overrides?: Partial<Extract<SourceControlProviderDiscoverySpec, {
     readonly type: "api";
 }>>): SourceControlProviderDiscoverySpec;
@@ -21,6 +28,9 @@ export interface FakeSourceControlDriverOptions {
     readonly discovery?: SourceControlProviderDiscoverySpec;
     readonly fetchMedia?: SourceControlDriverInstance["fetchMedia"];
 }
-/** A driver instance for a host named `kind` that needs none of the server's services. */
+/**
+ * A driver instance for a host named `kind` that needs none of the server's services.
+ * @throws {never}
+ */
 export declare function fakeSourceControlDriverInstance(kind: string, options?: FakeSourceControlDriverOptions): SourceControlDriverInstance;
 export {};

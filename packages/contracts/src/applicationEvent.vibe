@@ -17,18 +17,18 @@ import type { OrchestrationV2StoredEvent } from "./orchestrationV2.ts"
 import { ProjectScript, StoredProjectIcon } from "./project.vibe"
 
 export schema OrchestrationClientOrigin {
-  surface?: ClientSurface
-  appVersion?: TrimmedNonEmptyString
+  readonly surface?: ClientSurface | undefined
+  readonly appVersion?: TrimmedNonEmptyString | undefined
 }
 
 export schema ApplicationEventMetadata {
-  deferredTurn?: boolean
-  providerTurnId?: TrimmedNonEmptyString
-  providerItemId?: ProviderItemId
-  adapterKey?: TrimmedNonEmptyString
-  requestId?: ApprovalRequestId
-  ingestedAt?: IsoDateTime
-  origin?: OrchestrationClientOrigin
+  readonly deferredTurn?: boolean | undefined
+  readonly providerTurnId?: TrimmedNonEmptyString | undefined
+  readonly providerItemId?: ProviderItemId | undefined
+  readonly adapterKey?: TrimmedNonEmptyString | undefined
+  readonly requestId?: ApprovalRequestId | undefined
+  readonly ingestedAt?: IsoDateTime | undefined
+  readonly origin?: OrchestrationClientOrigin | undefined
 }
 
 export const ApplicationProjectCreatedPayload = Schema.Struct({
@@ -63,8 +63,8 @@ export const ApplicationProjectMetaUpdatedPayload = Schema.Struct({
 export type ApplicationProjectMetaUpdatedPayload = typeof ApplicationProjectMetaUpdatedPayload.Type
 
 export schema ApplicationProjectDeletedPayload {
-  projectId: ProjectId
-  deletedAt: IsoDateTime
+  readonly projectId: ProjectId
+  readonly deletedAt: IsoDateTime
 }
 
 const ApplicationProjectEventBaseFields = {

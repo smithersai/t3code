@@ -39,35 +39,37 @@ export const BrowserImportFailureReason = Schema.Literals([
 export type BrowserImportFailureReason = typeof BrowserImportFailureReason.Type
 
 export schema BrowserImportSourceProfile {
-  directory: TrimmedNonEmptyString
-  name: TrimmedNonEmptyString
-  cookieCount?: Schema.Int
+  readonly directory: TrimmedNonEmptyString
+  readonly name: TrimmedNonEmptyString
+  readonly cookieCount?: Schema.Int | undefined
 }
 
 export schema BrowserImportSource {
-  id: BrowserImportSourceId
-  name: TrimmedNonEmptyString
-  profiles: ReadonlyArray<BrowserImportSourceProfile>
-  unavailable?: BrowserImportUnavailableReason
+  readonly id: BrowserImportSourceId
+  readonly name: TrimmedNonEmptyString
+  readonly profiles: ReadonlyArray<BrowserImportSourceProfile>
+  readonly unavailable?: BrowserImportUnavailableReason | undefined
 }
 
 export schema BrowserImportInput {
-  sourceId: BrowserImportSourceId
-  sourceProfileDirectory: TrimmedNonEmptyString
-  targetProfileId: BrowserProfileId
+  readonly sourceId: BrowserImportSourceId
+  readonly sourceProfileDirectory: TrimmedNonEmptyString
+  readonly targetProfileId: BrowserProfileId
 }
 
-export const DesktopPreviewImportCookiesInputSchema = Schema.Struct({
-  environmentId: TrimmedNonEmptyString,
-  sourceId: BrowserImportSourceId,
-  sourceProfileDirectory: TrimmedNonEmptyString,
-  targetProfileId: BrowserProfileId,
-})
+schema DesktopPreviewImportCookiesInputSchemaCodec {
+  readonly environmentId: TrimmedNonEmptyString
+  readonly sourceId: BrowserImportSourceId
+  readonly sourceProfileDirectory: TrimmedNonEmptyString
+  readonly targetProfileId: BrowserProfileId
+}
+
+export const DesktopPreviewImportCookiesInputSchema = DesktopPreviewImportCookiesInputSchemaCodec
 
 export schema BrowserImportResult {
-  imported: Schema.Int
-  skipped: Schema.Int
-  skippedDomains: ReadonlyArray<string>
+  readonly imported: Schema.Int
+  readonly skipped: Schema.Int
+  readonly skippedDomains: ReadonlyArray<string>
 }
 
 const BROWSER_IMPORT_UNAVAILABLE_COPY: Readonly<Record<BrowserImportUnavailableReason, string>> = {

@@ -1,5 +1,6 @@
 import type { Atom } from "effect/reactivity";
 import type { EnvironmentRegistry } from "../connection/registry.ts";
+/** @throws {never} */
 export declare function createMcpAppEnvironmentAtoms<R, E>(runtime: Atom.AtomRuntime<EnvironmentRegistry | R, E>): {
     callTool: {
         label: string;

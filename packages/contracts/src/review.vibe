@@ -52,14 +52,14 @@ export const ReviewDiffFileContentsInput = Schema.Struct({
 export type ReviewDiffFileContentsInput = typeof ReviewDiffFileContentsInput.Type
 
 export schema ReviewDiffFileContentsResult {
-  oldContents: string
-  newContents: string
+  readonly oldContents: string
+  readonly newContents: string
 }
 
 export schema ReviewDiffPreviewResult {
-  cwd: TrimmedNonEmptyString
-  generatedAt: Schema.DateTimeUtc
-  sources: ReadonlyArray<ReviewDiffPreviewSource>
+  readonly cwd: TrimmedNonEmptyString
+  readonly generatedAt: Schema.DateTimeUtc
+  readonly sources: ReadonlyArray<ReviewDiffPreviewSource>
 }
 
 export schema ReviewDiffPreviewError = VcsError | GitCommandError

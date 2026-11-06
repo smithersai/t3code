@@ -25,9 +25,10 @@ export function shouldResubscribeAfterWakeup(reason: ConnectionWakeup): boolean 
   return isApplicationActiveWakeup(reason)
 }
 
-export service ConnectionWakeups {
+export service ConnectionWakeups: {
+  readonly changes: Stream.Stream<ConnectionWakeup>
+} {
   static readonly key = "@t3tools/client-runtime/connection/wakeups/ConnectionWakeups"
-  changes: Stream.Stream<ConnectionWakeup>
 }
 
 const make = (service: ConnectionWakeups["Service"]): infer _ => ConnectionWakeups.of(service)

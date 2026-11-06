@@ -66,9 +66,18 @@ const OrchestratorMcpTargetOptionsFromRecord = Schema.Record(
   Schema.decodeTo(
     Schema.Array(ProviderOptionSelection),
     SchemaTransformation.transformEffect({
-      decode: effect (record) => Object.entries(record).map(([id, value]) => ({ id, value })),
-      encode: effect (selections: ReadonlyArray<ProviderOptionSelection>) =>
-        Object.fromEntries(selections.map((selection) => [selection.id, selection.value])),
+      decode: (record) => {
+        const result = Object.entries(record).map(([id, value]) => ({ id, value }))
+        return effect {
+          return result
+        }
+      },
+      encode: (selections: ReadonlyArray<ProviderOptionSelection>) => {
+        const result = Object.fromEntries(selections.map((selection) => [selection.id, selection.value]))
+        return effect {
+          return result
+        }
+      },
     }),
   ),
 )
@@ -201,7 +210,7 @@ export const OrchestratorMcpDelegateTaskResult = Schema.Struct({
 export type OrchestratorMcpDelegateTaskResult = typeof OrchestratorMcpDelegateTaskResult.Type
 
 export schema OrchestratorMcpTaskStatusInput {
-  taskId: NodeId
+  readonly taskId: NodeId
 }
 
 export const OrchestratorMcpTaskCancelInput = Schema.Struct({
@@ -212,16 +221,16 @@ export const OrchestratorMcpTaskCancelInput = Schema.Struct({
 export type OrchestratorMcpTaskCancelInput = typeof OrchestratorMcpTaskCancelInput.Type
 
 export schema OrchestratorMcpTaskCancelResult {
-  taskId: NodeId
-  status: "cancel_requested" | "completed" | "failed" | "cancelled" | "interrupted"
+  readonly taskId: NodeId
+  readonly status: "cancel_requested" | "completed" | "failed" | "cancelled" | "interrupted"
 }
 
 export schema OrchestratorMcpCreateThreadRequest {
-  prompt?: OrchestratorMcpPrompt
-  title?: OrchestratorMcpTitle
-  target?: OrchestratorMcpTarget
-  runtimeMode?: OrchestratorMcpRuntimeMode
-  interactionMode?: OrchestratorMcpInteractionMode
+  readonly prompt?: OrchestratorMcpPrompt | undefined
+  readonly title?: OrchestratorMcpTitle | undefined
+  readonly target?: OrchestratorMcpTarget | undefined
+  readonly runtimeMode?: OrchestratorMcpRuntimeMode | undefined
+  readonly interactionMode?: OrchestratorMcpInteractionMode | undefined
 }
 
 export const OrchestratorMcpCreateThreadsInput = Schema.Struct({
@@ -254,7 +263,7 @@ export const OrchestratorMcpCreatedThread = Schema.Struct({
 export type OrchestratorMcpCreatedThread = typeof OrchestratorMcpCreatedThread.Type
 
 export schema OrchestratorMcpCreateThreadsResult {
-  threads: ReadonlyArray<OrchestratorMcpCreatedThread>
+  readonly threads: ReadonlyArray<OrchestratorMcpCreatedThread>
 }
 
 export schema OrchestratorMcpThreadStatus = "idle" | OrchestrationV2RunStatus
@@ -454,13 +463,13 @@ export const OrchestratorMcpThreadSendInput = Schema.Struct({
 export type OrchestratorMcpThreadSendInput = typeof OrchestratorMcpThreadSendInput.Type
 
 export schema OrchestratorMcpThreadSendResult {
-  threadId: ThreadId
-  link?: string
-  messageId: MessageId
-  runId: RunId
-  taskId?: NodeId
-  status: OrchestrationV2RunStatus
-  delivery: "started" | "queued" | "steered" | "restarted"
+  readonly threadId: ThreadId
+  readonly link?: string | undefined
+  readonly messageId: MessageId
+  readonly runId: RunId
+  readonly taskId?: NodeId | undefined
+  readonly status: OrchestrationV2RunStatus
+  readonly delivery: "started" | "queued" | "steered" | "restarted"
 }
 
 export const OrchestratorMcpThreadWaitInput = Schema.Struct({
@@ -525,9 +534,9 @@ export const OrchestratorMcpCapabilitiesInput = Schema.Struct({
 export type OrchestratorMcpCapabilitiesInput = typeof OrchestratorMcpCapabilitiesInput.Type
 
 export schema OrchestratorMcpModelOption {
-  id: string
-  values: ReadonlyArray<ProviderOptionSelectionValue>
-  default?: ProviderOptionSelectionValue
+  readonly id: string
+  readonly values: ReadonlyArray<ProviderOptionSelectionValue>
+  readonly default?: ProviderOptionSelectionValue | undefined
 }
 
 export const OrchestratorMcpProviderCapability = Schema.Struct({
@@ -648,7 +657,7 @@ export const OrchestratorMcpListScheduledTasksInput = Schema.Struct({
 export type OrchestratorMcpListScheduledTasksInput = typeof OrchestratorMcpListScheduledTasksInput.Type
 
 export schema OrchestratorMcpListScheduledTasksResult {
-  tasks: ReadonlyArray<OrchestratorMcpScheduledTask>
+  readonly tasks: ReadonlyArray<OrchestratorMcpScheduledTask>
 }
 
 export const OrchestratorMcpUpdateScheduledTaskInput = Schema.Struct({
@@ -764,8 +773,8 @@ export const OrchestratorMcpEnvironmentUnlinkInput = Schema.Struct({
 export type OrchestratorMcpEnvironmentUnlinkInput = typeof OrchestratorMcpEnvironmentUnlinkInput.Type
 
 export schema OrchestratorMcpEnvironmentUnlinkResult {
-  environmentId: EnvironmentId
-  removed: boolean
+  readonly environmentId: EnvironmentId
+  readonly removed: boolean
 }
 
 export const OrchestratorMcpDeleteScheduledTaskInput = Schema.Struct({
@@ -775,8 +784,8 @@ export const OrchestratorMcpDeleteScheduledTaskInput = Schema.Struct({
 export type OrchestratorMcpDeleteScheduledTaskInput = typeof OrchestratorMcpDeleteScheduledTaskInput.Type
 
 export schema OrchestratorMcpDeleteScheduledTaskResult {
-  scheduledTaskId: ScheduledTaskId
-  deleted: boolean
+  readonly scheduledTaskId: ScheduledTaskId
+  readonly deleted: boolean
 }
 
 const OrchestratorMcpFailureCodeField = Schema.Literals([

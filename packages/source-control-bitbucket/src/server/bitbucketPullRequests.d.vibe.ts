@@ -118,4 +118,5 @@ export declare const BitbucketPullRequestListSchema: Schema.Struct<{
     }>>;
     readonly next: Schema.optional<Schema.decodeTo<Schema.String, Schema.String, never, never>>;
 }>;
+/** @throws {never} */
 export declare function normalizeBitbucketPullRequestRecord(raw: Schema.Schema.Type<typeof BitbucketPullRequestSchema>): NormalizedBitbucketPullRequestRecord;

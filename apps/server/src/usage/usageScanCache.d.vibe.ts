@@ -53,11 +53,22 @@ interface SerializedCache {
     readonly sessions: readonly string[];
     readonly files: Readonly<Record<string, SerializedFile>>;
 }
+/** @throws {never} */
 export declare function encodeScanCache(cache: ScanCache): SerializedCache;
-/** Memoizes immutable entries by identity; growing intern tables preserve indexes, retaining unused strings until restart. */
-export declare function makeScanCacheWriter(): (cache: ScanCache, extra: Readonly<Record<string, unknown>>) => string;
+/**
+ * Memoizes immutable entries by identity; growing intern tables preserve indexes, retaining unused strings until restart.
+ * @throws {never}
+ */
+export declare function makeScanCacheWriter(): 
+/** @throws {never} */
+(cache: ScanCache, extra: Readonly<Record<string, unknown>>) => string;
+/** @throws {never} */
 export declare function decodeScanCache(document: unknown, formats: ReadonlyMap<UsageProviderKind, TranscriptUsageFormat<unknown>>): ScanCache;
+/** @throws {never} */
 export declare function pruneScanCache(cache: ScanCache, retentionCutoffMs: number): number;
-/** Mutates seen; share it across incremental line/tail batches to deduplicate the whole file. */
+/**
+ * Mutates seen; share it across incremental line/tail batches to deduplicate the whole file.
+ * @throws {never}
+ */
 export declare function dedupeWithinFile(records: readonly UsageRecord[], seen?: Set<string>): readonly UsageRecord[];
 export {};

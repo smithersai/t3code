@@ -20,13 +20,14 @@ export class RemoteDpopAccessToken extends Schema.Class<RemoteDpopAccessToken>(
   dpopThumbprint: Schema.String,
 }) {}
 
-export service RemoteDpopAccessTokenStore {
-  static readonly key = "@t3tools/client-runtime/authorization/tokenStore/RemoteDpopAccessTokenStore"
-  get: (
+export service RemoteDpopAccessTokenStore: {
+  readonly get: (
     environmentId: EnvironmentId,
   ) => Option.Option<RemoteDpopAccessToken>!ConnectionAttemptError
-  put: (token: RemoteDpopAccessToken) => void!ConnectionAttemptError
-  remove: (environmentId: EnvironmentId) => void!ConnectionAttemptError
+  readonly put: (token: RemoteDpopAccessToken) => void!ConnectionAttemptError
+  readonly remove: (environmentId: EnvironmentId) => void!ConnectionAttemptError
+} {
+  static readonly key = "@t3tools/client-runtime/authorization/tokenStore/RemoteDpopAccessTokenStore"
 }
 
 export const make = (service: RemoteDpopAccessTokenStore["Service"]): infer _ => RemoteDpopAccessTokenStore.of(service)

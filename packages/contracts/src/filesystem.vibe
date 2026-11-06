@@ -33,13 +33,13 @@ export const FilesystemBrowseInput = Schema.Struct({
 export type FilesystemBrowseInput = typeof FilesystemBrowseInput.Type
 
 export schema FilesystemBrowseEntry {
-  name: TrimmedNonEmptyString
-  fullPath: TrimmedNonEmptyString
+  readonly name: TrimmedNonEmptyString
+  readonly fullPath: TrimmedNonEmptyString
 }
 
 export schema FilesystemBrowseResult {
-  parentPath: TrimmedNonEmptyString
-  entries: ReadonlyArray<FilesystemBrowseEntry>
+  readonly parentPath: TrimmedNonEmptyString
+  readonly entries: ReadonlyArray<FilesystemBrowseEntry>
 }
 
 export schema FilesystemBrowseFailure =
@@ -64,7 +64,7 @@ export class FilesystemBrowseError extends Schema.TaggedError<FilesystemBrowseEr
     cause: Schema.optional(Schema.Defect()),
   },
 ) {
-  // @effect-diagnostics-next-line overriddenSchemaConstructor:off
+  // @vibelang-diagnostics-next-line EK4814:off
   constructor(props: {
     readonly partialPath: string
     readonly cwd?: string | undefined

@@ -1,10 +1,7 @@
 import { ProviderDriverKind, type ServerProvider } from "@t3tools/contracts"
 import { compareSemverVersions } from "@t3tools/shared/semver"
 import * as Effect from "effect/Effect"
-import * as FileSystem from "effect/FileSystem"
-import * as Schema from "effect/Schema"
 import * as HttpClient from "effect/http/HttpClient"
-import * as HttpClientRequest from "effect/http/HttpClientRequest"
 
 import {
   enrichProviderSnapshotWithVersionAdvisory,
@@ -44,10 +41,15 @@ export const museMaintenance: ProviderMaintenanceCapabilitiesResolver = {
     try withSpan(
       effect {
         const manual = {
-          ...makeManualOnlyProviderMaintenanceCapabilities({ provider: DRIVER, packageName: null }),
+          ...try Effect.orDie(Effect.try({
+            try: () => makeManualOnlyProviderMaintenanceCapabilities({ provider: DRIVER, packageName: null }),
+            catch: (e) => e,
+          })),
           compareVersions: compareMuseVersions,
         }
-        if (!context || context.platform === "win32") return manual
+        if (!context || context.platform === "win32") {
+          return manual
+        }
         const fs = try FileSystem.FileSystem
         const isLauncher = effect {
           const stat = try fs.stat(context.realCommandPath)
@@ -64,21 +66,22 @@ export const museMaintenance: ProviderMaintenanceCapabilitiesResolver = {
           MUSE_SYNC_UPDATE: "1",
           MUSE_UPDATE_INTERVAL_SECONDS: "0",
         }
+        const input = {
+          provider: DRIVER,
+          packageName: null,
+          updateExecutable: context.resolvedCommandPath,
+          updateArgs: ["--version"],
+          updateCommand: [
+            ...Object.entries(updateEnv).map(([key, value]) => `${key}=${shellQuote(value)}`),
+            shellQuote(context.resolvedCommandPath),
+            "--version",
+          ].join(" "),
+          updateLockKey: `muse:${context.realCommandPath}`,
+          platform: context.platform,
+          env: { ...context.env, ...updateEnv },
+        }
         return {
-          ...makeProviderMaintenanceCapabilities({
-            provider: DRIVER,
-            packageName: null,
-            updateExecutable: context.resolvedCommandPath,
-            updateArgs: ["--version"],
-            updateCommand: [
-              ...Object.entries(updateEnv).map(([key, value]) => `${key}=${shellQuote(value)}`),
-              shellQuote(context.resolvedCommandPath),
-              "--version",
-            ].join(" "),
-            updateLockKey: `muse:${context.realCommandPath}`,
-            platform: context.platform,
-            env: { ...context.env, ...updateEnv },
-          }),
+          ...try Effect.orDie(Effect.try({ try: () => makeProviderMaintenanceCapabilities(input), catch: (e) => e })),
           compareVersions: compareMuseVersions,
         }
       },

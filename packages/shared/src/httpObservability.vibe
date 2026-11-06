@@ -1,5 +1,4 @@
 import * as Layer from "effect/Layer"
-import * as Headers from "effect/http/Headers"
 
 export const layer = Layer.effect(
   Headers.CurrentRedactedNames,

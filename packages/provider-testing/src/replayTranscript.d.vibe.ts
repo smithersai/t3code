@@ -22,6 +22,7 @@ export declare class ProviderReplayNdjsonEmptyError extends ProviderReplayNdjson
 export declare const ProviderReplayNdjsonParseError: Schema.Union<readonly [typeof ProviderReplayNdjsonLineParseError, typeof ProviderReplayNdjsonMissingHeaderError, typeof ProviderReplayNdjsonEmptyError]>;
 export type ProviderReplayNdjsonParseError = typeof ProviderReplayNdjsonParseError.Type;
 export type ProviderReplayTranscriptMetadata = Omit<ProviderReplayTranscript, "entries">;
+/** @throws {never} */
 export declare function materializeReplayTranscriptWorkspace(transcript: ProviderReplayTranscript, workspace: string): ProviderReplayTranscript;
 export declare function decodeProviderReplayNdjson(input: string, fallbackMetadata?: ProviderReplayTranscriptMetadata): Effect.Effect<ProviderReplayTranscript, ProviderReplayNdjsonParseError>;
 /** Use Path to resolve Windows drive/UNC fixture URLs into native paths. */

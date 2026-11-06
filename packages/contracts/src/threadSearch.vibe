@@ -39,11 +39,11 @@ export const OrchestrationThreadSearchMatch = Schema.Struct({
 export type OrchestrationThreadSearchMatch = typeof OrchestrationThreadSearchMatch.Type
 
 export schema OrchestrationSearchThreadsResult {
-  matches: ReadonlyArray<OrchestrationThreadSearchMatch>
+  readonly matches: ReadonlyArray<OrchestrationThreadSearchMatch>
 }
 
 const DefectField = Schema.Defect()
 export schema error OrchestrationSearchThreadsError {
   message: TrimmedNonEmptyString
-  cause?: DefectField
+  cause?: DefectField | undefined
 }

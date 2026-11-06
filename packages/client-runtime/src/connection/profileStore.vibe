@@ -12,7 +12,7 @@ export service ConnectionProfileStore: {
     readonly put: (profile: ConnectionProfile) => void!ConnectionAttemptError;
     readonly remove: (connectionId: string) => void!ConnectionAttemptError;
   } {
-  static override readonly key = "@t3tools/client-runtime/connection/profileStore/ConnectionProfileStore"
+  static readonly key = "@t3tools/client-runtime/connection/profileStore/ConnectionProfileStore"
 }
 
 export const make = (service: ConnectionProfileStore["Service"]): infer _ => ConnectionProfileStore.of(service)

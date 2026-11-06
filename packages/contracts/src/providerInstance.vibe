@@ -21,8 +21,8 @@ export const ProviderInstanceId = slugSchema.pipe(Schema.brand("ProviderInstance
 export type ProviderInstanceId = typeof ProviderInstanceId.Type
 
 export schema ProviderInstanceRef {
-  instanceId: ProviderInstanceId
-  driver: ProviderDriverKind
+  readonly instanceId: ProviderInstanceId
+  readonly driver: ProviderDriverKind
 }
 
 export const ProviderInstanceEnvironmentVariableName = TrimmedNonEmptyString.check(
@@ -53,16 +53,16 @@ export const ProviderInstanceConfig = Schema.Struct({
 export type ProviderInstanceConfig = typeof ProviderInstanceConfig.Type
 
 export schema ProviderInstanceMutation = {
-  operation: "create"
-  instanceId: ProviderInstanceId
-  instance: ProviderInstanceConfig
+  readonly operation: "create"
+  readonly instanceId: ProviderInstanceId
+  readonly instance: ProviderInstanceConfig
 } | {
-  operation: "upsert"
-  instanceId: ProviderInstanceId
-  instance: ProviderInstanceConfig
+  readonly operation: "upsert"
+  readonly instanceId: ProviderInstanceId
+  readonly instance: ProviderInstanceConfig
 } | {
-  operation: "remove"
-  instanceId: ProviderInstanceId
+  readonly operation: "remove"
+  readonly instanceId: ProviderInstanceId
 }
 
 export schema ProviderInstanceConfigMap = Readonly<Record<ProviderInstanceId, ProviderInstanceConfig>>

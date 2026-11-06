@@ -34,6 +34,7 @@ declare const RuntimeErrorClass: Schema.Literals<readonly ["provider_error", "tr
 export type RuntimeErrorClass = typeof RuntimeErrorClass.Type;
 export declare const ToolLifecycleItemType: Schema.Literals<readonly ["command_execution", "file_change", "mcp_tool_call", "dynamic_tool_call", "collab_agent_tool_call", "web_search", "image_view"]>;
 export type ToolLifecycleItemType = typeof ToolLifecycleItemType.Type;
+/** @throws {never} */
 export declare function isToolLifecycleItemType(value: string): value is ToolLifecycleItemType;
 export declare const CanonicalItemType: Schema.Literals<readonly ["user_message", "assistant_message", "reasoning", "plan", "command_execution", "file_change", "mcp_tool_call", "dynamic_tool_call", "collab_agent_tool_call", "web_search", "image_view", "review_entered", "review_exited", "context_compaction", "error", "unknown"]>;
 export type CanonicalItemType = typeof CanonicalItemType.Type;

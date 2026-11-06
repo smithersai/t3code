@@ -9,6 +9,7 @@ export declare const ScheduledTaskWebhookSignature: Schema.Struct<{
 export type ScheduledTaskWebhookSignature = typeof ScheduledTaskWebhookSignature.Type;
 /** Matches how long the relay holds a request for an offline environment. */
 export declare const MAX_WEBHOOK_DELIVERY_AGE_MINUTES: number;
+/** @throws {never} */
 export declare function isWebhookDedupeTemplate(template: string): boolean;
 export declare const MAX_WEBHOOK_FILTERS = 16;
 export declare const ScheduledTaskWebhookFilter: Schema.Union<readonly [Schema.Struct<{

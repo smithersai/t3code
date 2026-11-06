@@ -63,7 +63,7 @@ export const AssetResource = Schema.Union([
 export type AssetResource = typeof AssetResource.Type
 
 export schema AssetCreateUrlInput {
-  resource: AssetResource
+  readonly resource: AssetResource
 }
 
 export const AssetImageDimensions = Schema.Struct({

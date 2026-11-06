@@ -15,8 +15,10 @@ export declare const MAX_PROVIDER_FAILURE_MESSAGE_LENGTH = 4096;
  * The curated message of a domain error in a failure's cause chain, if any.
  * Callers that pass their own `message` to `makeProviderFailure` check it
  * first, so a known reason is not hidden behind a wrapper's text.
+ * @throws {never}
  */
 export declare function knownProviderFailureMessage(cause: unknown): string | undefined;
+/** @throws {never} */
 export declare function makeProviderFailure(input: {
     readonly cause?: unknown;
     readonly message?: string | undefined;
@@ -25,6 +27,7 @@ export declare function makeProviderFailure(input: {
     readonly retryable?: boolean | null;
     readonly resetAt?: string | null;
 }): OrchestrationV2ProviderFailure;
+/** @throws {never} */
 export declare function makeProviderFailureTurnItem(input: {
     readonly driver: ProviderDriverKind;
     readonly threadId: ThreadId;
@@ -40,6 +43,7 @@ export declare function makeProviderFailureTurnItem(input: {
 }): Extract<OrchestrationV2TurnItem, {
     readonly type: "error";
 }>;
+/** @throws {never} */
 export declare function makeProviderRetryTurnItem(input: {
     readonly driver: ProviderDriverKind;
     readonly threadId: ThreadId;

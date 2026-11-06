@@ -30,11 +30,15 @@ export declare const AuthGrantScope: Schema.Literals<("access:read" | "access:wr
 export type AuthGrantScope = typeof AuthGrantScope.Type;
 export declare const AuthGrantScopes: Schema.$Array<Schema.Literals<("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[]>>;
 export type AuthGrantScopes = typeof AuthGrantScopes.Type;
+/** @throws {never} */
 export declare function authScopeResponse(scopes: ReadonlyArray<AuthEnvironmentScope>): {
     scopes: ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
     permissions: readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
 };
-/** Keep permission denials decodable by clients with the original scope enum. */
+/**
+ * Keep permission denials decodable by clients with the original scope enum.
+ * @throws {never}
+ */
 export declare function authScopeRequiredResponse(requiredPermission: AuthEnvironmentScope): {
     requiredScope: "access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read";
     requiredPermission: "access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read";
@@ -47,7 +51,9 @@ export interface SessionGrantInput {
         readonly serverUpdateScope?: string | undefined;
     } | undefined;
 }
+/** @throws {never} */
 export declare function sessionGrantsScope(session: SessionGrantInput, scope: AuthEnvironmentScope): boolean;
+/** @throws {never} */
 export declare function sessionHasLegacyPermissions(session: SessionGrantInput): boolean;
 export declare const AuthStandardClientScopes: readonly ["orchestration:read", "orchestration:operate", "settings:write", "providers:manage", "environment:maintain", "preview:operate", "diagnostics:read", "terminal:read", "terminal:operate", "source-control:write", "filesystem:read", "filesystem:write", "relay:read", "access:read", "access:write", "relay:write"];
 export declare const AuthTokenExchangeGrantType: "urn:ietf:params:oauth:grant-type:token-exchange";
@@ -429,7 +435,10 @@ export declare const AuthSessionState: Schema.Struct<{
 export type AuthSessionState = typeof AuthSessionState.Type;
 export declare const AuthMcpClientAccess: Schema.Literals<readonly ["read-only", "approval-required", "auto-accept-edits", "auto", "full-access"]>;
 export type AuthMcpClientAccess = typeof AuthMcpClientAccess.Type;
-/** The scopes an agent session gets for an access level, and a pairing code must carry. */
+/**
+ * The scopes an agent session gets for an access level, and a pairing code must carry.
+ * @throws {never}
+ */
 export declare const mcpClientScopes: (access: AuthMcpClientAccess) => ReadonlyArray<AuthGrantScope>;
 export declare const AuthMcpProtectedResourceMetadata: Schema.Struct<{
     readonly resource: Schema.String;

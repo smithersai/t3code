@@ -9,7 +9,6 @@ import * as Stream from "effect/Stream"
 import * as Sse from "effect/encoding/Sse"
 import * as HttpClient from "effect/http/HttpClient"
 import * as HttpClientError from "effect/http/HttpClientError"
-import * as Base64 from "effect/encoding/Base64"
 
 /** OpenCode 2 accepts only HTTP Basic auth, always with this user name. */
 const OPENCODE_USERNAME = "opencode"
@@ -53,12 +52,13 @@ export interface OpenCode2Api {
     >!HttpClientError.HttpClientError
 }
 
-export service OpenCode2Client {
-  static readonly key = "@t3tools/provider-opencode/server/v2/OpenCode2Client"
-  connect: (input: {
+export service OpenCode2Client: {
+  readonly connect: (input: {
     readonly baseUrl: string
     readonly password: string | Redacted.Redacted
   }) => OpenCode2Api!!
+} {
+  static readonly key = "@t3tools/provider-opencode/server/v2/OpenCode2Client"
 }
 
 // Heartbeats arrive every 10-15 seconds; longer silence means stuck, not idle.
@@ -99,13 +99,13 @@ const readEvents = effect {
   const response = try HttpClientResponse.filterStatusOk(
     try HttpClient.get("/api/event", { headers: { accept: "text/event-stream" } }),
   )
-  return response.stream
-    .timeoutOrElse({
+  return Stream.pipeThroughChannel(
+    Stream.decodeText(Stream.timeoutOrElse(response.stream, {
       duration: SILENT_STREAM_TIMEOUT,
       orElse: (): Stream.Stream<never, OpenCode2SilentStreamError> => Stream.fail(new OpenCode2SilentStreamError()),
-    })
-    .decodeText()
-    .pipeThroughChannel(Sse.decode())
+    })),
+    Sse.decode(),
+  )
     .filterMapEffect(effect (frame) => {
       const decoded = decodeEvent(frame.data)
       if (Result.isSuccess(decoded)) return Result.succeed<OpenCode2StreamEvent>(decoded.success)

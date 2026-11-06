@@ -1,5 +1,4 @@
 import * as Schema from "effect/Schema"
-import * as Effect from "effect/Effect"
 import { limitTitleMessage } from "./threadTitleContext.ts"
 import type { BranchNamingOptions, ChatAttachment } from "@t3tools/contracts"
 
@@ -131,8 +130,8 @@ export function buildPrContentPrompt(input: PrContentPromptInput): infer _ {
   ].join("\n")
 
   schema outputSchema {
-    title: string
-    body: string
+    readonly title: string
+    readonly body: string
   }
 
   return { prompt, outputSchema }
@@ -338,7 +337,7 @@ export function buildBranchNamePrompt(input: BranchNamePromptInput): infer _ {
       : input.policy?.branchInstructions,
   })
   schema outputSchema {
-    branch: string
+    readonly branch: string
   }
 
   return { prompt, outputSchema }

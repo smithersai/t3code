@@ -34,7 +34,10 @@ declare const ProviderHost_base: Context.ServiceClass<ProviderHost, "@t3tools/pr
         readonly subscribe: Effect.Effect<Stream.Stream<ServerSettings>, never, Scope.Scope>;
     };
     readonly shouldRunBackgroundWork: (scope: BackgroundScope) => Effect.Effect<boolean>;
-    /** Absolute attachment path, or null if the ID does not resolve inside attachmentsDir. */
+    /**
+     * Absolute attachment path, or null if the ID does not resolve inside attachmentsDir.
+     * @throws {never}
+     */
     readonly resolveAttachmentPath: (attachment: ChatAttachment) => string | null;
     readonly resolveExtractedTextPath?: (path: string) => Effect.Effect<string | undefined>;
     readonly credentials: (namespace: string, bindingId: string) => Effect.Effect<ProviderCredentials>;

@@ -18,17 +18,23 @@ export interface EnvironmentPresentation {
     readonly connection: EnvironmentConnectionPresentation;
     readonly serverConfig: EnvironmentServerConfig | null;
 }
+/** @throws {never} */
 export declare function presentConnectionState(state: SupervisorConnectionState): EnvironmentConnectionPresentation;
+/** @throws {never} */
 export declare function connectionStatusText(connection: EnvironmentConnectionPresentation): string;
+/** @throws {never} */
 export declare function connectionStatusTitle(connection: EnvironmentConnectionPresentation): string;
+/** @throws {never} */
 export declare function presentEnvironmentConnection(state: SupervisorConnectionState): EnvironmentConnectionPresentation;
 /**
  * SSH connections ride a local forward that disappears with the client, so they have no stable
  * address.
+ * @throws {never}
  */
 export declare function environmentMcpUrl(input: {
     readonly entry: ConnectionCatalogEntry;
     readonly relayHttpBaseUrl?: string | undefined;
     readonly connectedTarget?: ConnectionTarget | null | undefined;
 }): string | null;
+/** @throws {never} */
 export declare function connectionCatalogDisplayUrl(entry: ConnectionCatalogEntry): string | null;

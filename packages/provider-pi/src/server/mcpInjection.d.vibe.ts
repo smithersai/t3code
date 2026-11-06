@@ -8,8 +8,10 @@ export type PiLaunchArgsResolution = {
     readonly ok: false;
     readonly message: string;
 };
+/** @throws {never} */
 export declare function resolvePiLaunchArgs(launchArgs: string): PiLaunchArgsResolution;
 export declare const materializePiT3McpExtension: (cacheDir: string) => Effect.Effect<string, import("effect/PlatformError").PlatformError, FileSystem.FileSystem>;
+/** @throws {never} */
 export declare function buildPiRpcLaunch(input: {
     readonly launchArgs: ReadonlyArray<string>;
     readonly environment: NodeJS.ProcessEnv;

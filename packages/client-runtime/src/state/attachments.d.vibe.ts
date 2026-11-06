@@ -2,6 +2,7 @@ import { type AttachmentCreateUploadUrlInput, type AttachmentCreateUploadUrlResu
 import type { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 import type { EnvironmentRegistry } from "../connection/registry.ts";
 import { type AtomCommand } from "./runtime.ts";
+/** @throws {never} */
 export declare function createAttachmentEnvironmentAtoms<R, E>(runtime: Atom.AtomRuntime<EnvironmentRegistry | R, E>): {
     createUploadUrl: {
         label: string;
@@ -42,6 +43,7 @@ export declare function createAttachmentEnvironmentAtoms<R, E>(runtime: Atom.Ato
  * Pending uploads expire, so this is the signal to upload the bytes again rather than retry the
  * lookup. A structural `_tag` check rather than a schema check: the squashed cause of a failed
  * RPC is not guaranteed to be a decoded error class instance, only a tagged value.
+ * @throws {never}
  */
 export declare function isAssetAttachmentNotFoundFailure(error: unknown): boolean;
 export type PersistedAttachmentVerification = {
@@ -55,6 +57,7 @@ export type PersistedAttachmentVerification = {
 /** @throws {never} */
 export declare function verifyPersistedAttachmentUpload<A, E>(input: {
     readonly registry: AtomRegistry.AtomRegistry;
+    /** @throws {never} */
     readonly createAssetUrl: (query: {
         readonly environmentId: EnvironmentId;
         readonly input: {
@@ -75,6 +78,7 @@ type AttachmentRemoveCommand<E> = AtomCommand<{
     readonly environmentId: EnvironmentId;
     readonly input: AttachmentDeleteInput;
 }, unknown, E>;
+/** @throws {never} */
 export declare function deletePendingAttachmentUpload<E>(input: {
     readonly registry: AtomRegistry.AtomRegistry;
     readonly remove: AttachmentRemoveCommand<E>;
@@ -83,6 +87,7 @@ export declare function deletePendingAttachmentUpload<E>(input: {
 }): void;
 export interface AttachmentByteUpload {
     readonly done: Promise<void>;
+    /** @throws {never} */
     readonly abort: () => void;
 }
 export type AttachmentUploadCycleResult = {
@@ -110,16 +115,25 @@ export declare function runAttachmentUploadCycle<E, RE>(input: {
     readonly remove: AttachmentRemoveCommand<RE>;
     readonly environmentId: EnvironmentId;
     readonly upload: AttachmentCreateUploadUrlInput;
+    /** @throws {never} */
     readonly resolveUploadUrl: (relativeUrl: string) => string | null;
+    /** @throws {never} */
     readonly transport: (url: string) => AttachmentByteUpload;
+    /** @throws {never} */
     readonly onMinted?: (attachmentId: string) => "continue" | "cancel";
-    readonly onTransferStart?: (abort: () => void) => void;
+    /** @throws {never} */
+    readonly onTransferStart?: (abort: 
+    /** @throws {never} */
+    () => void) => void;
 }): Promise<AttachmentUploadCycleResult>;
 /**
  * The contract caps what a turn may reference, so a larger advertised value must not admit
  * files the send would then refuse.
+ * @throws {never}
  */
 export declare function clampFileAttachmentUploadBytes(advertisedMaxUploadBytes: number): number;
+/** @throws {never} */
 export declare function formatAttachmentSize(sizeBytes: number): string;
+/** @throws {never} */
 export declare function fileAttachmentTooLargeMessage(name: string, maxUploadBytes: number): string;
 export {};

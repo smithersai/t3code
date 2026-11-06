@@ -8,7 +8,7 @@ declare const OpenCodeServerLedger_base: Context.ServiceClass<OpenCodeServerLedg
     readonly track: (server: {
         readonly pid: number;
         readonly port: number;
-        readonly args: ReadonlyArray<string>;
+        readonly args: readonly string[];
     }) => Effect.Effect<Effect.Effect<void>>;
 }>;
 export declare class OpenCodeServerLedger extends OpenCodeServerLedger_base {

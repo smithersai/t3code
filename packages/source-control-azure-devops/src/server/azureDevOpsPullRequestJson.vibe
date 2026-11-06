@@ -89,7 +89,7 @@ const RawThreadSchema = Schema.Struct({
 })
 
 schema RawThreadPageSchema {
-  value: ReadonlyArray<Schema.Unknown>
+  readonly value: ReadonlyArray<Schema.Unknown>
 }
 
 const RawViewerSchema = Schema.Struct({
@@ -340,7 +340,7 @@ const RawIterationSchema = Schema.Struct({
   ),
 })
 
-schema RawIterationPageSchema { value: ReadonlyArray<Schema.Unknown> }
+schema RawIterationPageSchema { readonly value: ReadonlyArray<Schema.Unknown> }
 
 const RawChangeEntrySchema = Schema.Struct({
   changeType: Schema.optional(Schema.NullOr(Schema.String)),

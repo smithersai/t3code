@@ -1,10 +1,13 @@
 import type { OrchestrationV2PendingBackgroundTask, OrchestrationV2ProviderThread, OrchestrationV2Run, OrchestrationV2TurnItem, ThreadId, ThreadPullRequestLink } from "@t3tools/contracts";
 export type PendingBackgroundWorkTask = OrchestrationV2PendingBackgroundTask;
+/** @throws {never} */
 export declare function turnItemUpdateCanEndBackgroundWork(item: Pick<OrchestrationV2TurnItem, "type" | "status">): boolean;
+/** @throws {never} */
 export declare function deriveBlockedOnThreadWait(input: {
     readonly activeRun: Pick<OrchestrationV2Run, "id" | "status"> | null;
     readonly turnItems: ReadonlyArray<OrchestrationV2TurnItem>;
 }): boolean;
+/** @throws {never} */
 export declare function backgroundWorkHoldsCompletion(tasks: ReadonlyArray<Pick<PendingBackgroundWorkTask, "kind" | "awaited">>): boolean;
 type PendingBackgroundWorkRun = Pick<OrchestrationV2Run, "id" | "ordinal" | "status">;
 type PendingBackgroundWorkPullRequest = Pick<ThreadPullRequestLink, "host" | "repository" | "number" | "url" | "source" | "watch">;
@@ -27,11 +30,15 @@ type PendingBackgroundWorkTurnItem = {
     readonly prompt?: string | undefined;
     readonly childThreadId?: ThreadId | null;
 };
-/** Items Stop ends, without the pending list's settled-run gate. */
+/**
+ * Items Stop ends, without the pending list's settled-run gate.
+ * @throws {never}
+ */
 export declare function pendingBackgroundTurnItems<Item extends PendingBackgroundWorkTurnItem>(input: {
     readonly turnItems: ReadonlyArray<Item>;
     readonly runs?: ReadonlyArray<PendingBackgroundWorkRun>;
 }): ReadonlyArray<Item>;
+/** @throws {never} */
 export declare function derivePendingBackgroundWork(input: {
     readonly latestRun: PendingBackgroundWorkRun | null | undefined;
     readonly providerThreads: ReadonlyArray<PendingBackgroundWorkProviderThread>;

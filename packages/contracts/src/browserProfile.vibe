@@ -18,9 +18,9 @@ export const BrowserProfileName = TrimmedNonEmptyString.check(
 export schema BrowserProfileKind = "persistent" | "incognito"
 
 export schema BrowserProfile {
-  id: BrowserProfileId
-  name: BrowserProfileName
-  kind: BrowserProfileKind
+  readonly id: BrowserProfileId
+  readonly name: BrowserProfileName
+  readonly kind: BrowserProfileKind
 }
 
 export const DEFAULT_BROWSER_PROFILE_ID: BrowserProfileId = "default"

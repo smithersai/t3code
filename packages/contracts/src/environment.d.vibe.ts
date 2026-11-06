@@ -248,7 +248,9 @@ export declare const RepositoryIdentity: Schema.Struct<{
     }>>;
 }>;
 export type RepositoryIdentity = typeof RepositoryIdentity.Type;
+/** @throws {never} */
 export declare function repositoryGroupingKeyOf(identity: RepositoryIdentity): string;
+/** @throws {never} */
 export declare function repositoryGroupingDisplayNameOf(identity: RepositoryIdentity): string | undefined;
 export declare const ScopedProjectRef: Schema.Struct<{
     readonly environmentId: Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "EnvironmentId">;

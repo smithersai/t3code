@@ -2,16 +2,16 @@ import type { GitHubSettings } from "../shared/definition.ts"
 import * as Schema from "effect/Schema"
 
 schema GitHubAuthStatusAccountSchema {
-  state: string
-  error?: string
-  active: boolean
-  host: string
-  login: string
-  tokenSource?: string
+  readonly state: string
+  readonly error?: string | undefined
+  readonly active: boolean
+  readonly host: string
+  readonly login: string
+  readonly tokenSource?: string | undefined
 }
 
 schema GitHubAuthStatusSchema {
-  hosts: Readonly<Record<string, ReadonlyArray<GitHubAuthStatusAccountSchema>>>
+  readonly hosts: Readonly<Record<string, ReadonlyArray<GitHubAuthStatusAccountSchema>>>
 }
 
 const decodeGitHubAuthStatusJson = Schema.decodeUnknownOption(

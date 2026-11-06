@@ -28,12 +28,17 @@ interface PageInfoFields {
     readonly hasNextPage?: boolean | undefined;
     readonly endCursor?: string | null | undefined;
 }
+/** @throws {never} */
 export declare function gitHubReactionContent(content: PullRequestReactionContent): GitHubSchema.ReactionContent;
+/** @throws {never} */
 export declare function toActorAvatars(result: ActorAvatars.Result): ReadonlyMap<string, string>;
+/** @throws {never} */
 export declare function toPullRequestPreview(result: PullRequestPreviewQuery.Result): Omit<PullRequestPreview, "projectId" | "repository"> | null;
 /** Search rejects first > 100 with EXCESSIVE_PAGINATION. */
 export declare const PULL_REQUEST_SEARCH_MAX_ROWS = 100;
+/** @throws {never} */
 export declare function pageRows(rows: number): number;
+/** @throws {never} */
 export declare function toPullRequestNodeId(result: {
     readonly repository: {
         readonly pullRequest: {
@@ -41,6 +46,7 @@ export declare function toPullRequestNodeId(result: {
         } | null;
     } | null;
 }): string | null;
+/** @throws {never} */
 export declare function isSubjectOfPullRequest(result: PullRequestSubject.Result): boolean;
 declare const ReviewSubmissionSchema: Schema.Struct<{
     readonly event: Schema.Literals<readonly ["COMMENT", "APPROVE", "REQUEST_CHANGES"]>;
@@ -54,6 +60,7 @@ declare const ReviewSubmissionSchema: Schema.Struct<{
         readonly body: Schema.String;
     }>>;
 }>;
+/** @throws {never} */
 export declare function buildReviewSubmission(input: {
     readonly verdict: PullRequestReviewVerdict;
     readonly body: string;
@@ -145,7 +152,10 @@ export declare const LenientPullRequestList: GraphQL.Operation<"query", "PullReq
     }>>;
 }>, never>;
 type DecodeFailure = Cause.Cause<Schema.SchemaError>;
-/** Count skipped invalid rows in rawCount to avoid ending pagination early. */
+/**
+ * Count skipped invalid rows in rawCount to avoid ending pagination early.
+ * @throws {never}
+ */
 export declare function toPullRequestRows(connection: {
     readonly pageInfo: PageInfoFields;
     readonly nodes: ReadonlyArray<unknown> | null;
@@ -161,6 +171,7 @@ export declare function toPullRequestRows(connection: {
 export interface GitHubPullRequestSearchItem extends GitHubPullRequestListItem {
     readonly repository: string;
 }
+/** @throws {never} */
 export declare function toStackMembership(raw: {
     readonly stack?: {
         readonly number: number;
@@ -171,7 +182,10 @@ export declare function toStackMembership(raw: {
         readonly position: number;
     } | null;
 }): PullRequestStackMembership | undefined;
-/** Invalid selectors can fail an entire aliased request, not just their own lookup. */
+/**
+ * Invalid selectors can fail an entire aliased request, not just their own lookup.
+ * @throws {never}
+ */
 export declare function pullRequestLookup(changeRequest: {
     readonly repository: string;
     readonly number: number;
@@ -201,11 +215,13 @@ export interface GitHubPullRequestSummary {
     /** Null means no stack; absent means not requested. */
     readonly stack?: PullRequestStackMembership | null;
 }
+/** @throws {never} */
 export declare function toPullRequestSummary(pr: SummarizedPullRequest): GitHubPullRequestSummary;
 export interface GitHubPullRequestWatchFingerprint {
     readonly status: string;
     readonly remarks: string;
 }
+/** @throws {never} */
 export declare function toPullRequestWatchFingerprint(pr: WatchedPullRequest): GitHubPullRequestWatchFingerprint;
 export interface GitHubPullRequestCore extends GitHubPullRequestDetail {
     readonly reviewRequestTeams: ReadonlyArray<PullRequestActor>;
@@ -213,13 +229,17 @@ export interface GitHubPullRequestCore extends GitHubPullRequestDetail {
     readonly comparison: GitHubBaseComparison | null;
     readonly checksTruncated: boolean;
 }
+/** @throws {never} */
 export declare function toPullRequestCore(result: PullRequestCore.Result): GitHubPullRequestCore | null;
+/** @throws {never} */
 export declare function decodePullRequestDetailJson(raw: string): Result.Result<GitHubPullRequestDetail, DecodeFailure>;
 export interface GitHubWorkflowRunPage {
     readonly runs: ReadonlyArray<GitHubWorkflowRunApproval>;
     readonly rawCount: number;
 }
+/** @throws {never} */
 export declare function decodeWorkflowRunsJson(raw: string): Result.Result<GitHubWorkflowRunPage, DecodeFailure>;
+/** @throws {never} */
 export declare function toPullRequestHeads(result: PullRequestHeads.Result): {
     readonly heads: ReadonlyArray<GitHubPullRequestHead>;
     readonly nextCursor: string | null;
@@ -232,18 +252,22 @@ export interface GitHubPullRequestActivityPage {
     readonly nextCommentsCursor: string | null;
     readonly nextReviewsCursor: string | null;
 }
+/** @throws {never} */
 export declare function toPullRequestActivityPage(result: PullRequestActivity.Result): GitHubPullRequestActivityPage | null;
+/** @throws {never} */
 export declare function toPullRequestCommitStats(result: PullRequestCommitStats.Result): Map<string, {
     readonly additions: number;
     readonly deletions: number;
 }>;
 /** A check context as the rollup reports it; opaque outside this module. */
 export type GitHubCheckContext = CheckFields;
+/** @throws {never} */
 export declare function toPullRequestCheckContextsPage(result: PullRequestCheckContexts.Result): {
     readonly headSha: string;
     readonly contexts: ReadonlyArray<GitHubCheckContext>;
     readonly nextCursor: string | null;
 } | null;
+/** @throws {never} */
 export declare function pullRequestChecksFromContexts(contexts: ReadonlyArray<GitHubCheckContext>): {
     readonly checks: ReadonlyArray<PullRequestCheck>;
     readonly checksState: PullRequestChecksState | null;
@@ -294,12 +318,16 @@ export interface GitHubReviewThreadPage {
     readonly dismissalsByReviewId: ReadonlyMap<string, string>;
     readonly nextDismissalCursor: string | null;
 }
+/** @throws {never} */
 export declare function reviewThreadConversation(threads: ReadonlyArray<PullRequestReviewThread>): ReadonlyArray<PullRequestComment>;
+/** @throws {never} */
 export declare function toReviewDismissalsPage(result: ReviewDismissals.Result): {
     readonly dismissalsByReviewId: ReadonlyMap<string, string>;
     readonly nextCursor: string | null;
 } | null;
+/** @throws {never} */
 export declare function toReviewThreadPage(result: ReviewThreads.Result): GitHubReviewThreadPage | null;
+/** @throws {never} */
 export declare function toReviewThreadCommentsPage(result: ReviewThreadComments.Result): {
     readonly belongsToPullRequest: boolean;
     readonly comments: ReadonlyArray<PullRequestThreadComment>;
@@ -315,32 +343,43 @@ export declare const IMMEDIATELY_MERGEABLE: ReadonlySet<string>;
 /**
  * GitHub answers null only to a GitHub App installation, and no API says what an installation
  * may do, so null is granted and GitHub refuses whatever the app was not given.
+ * @throws {never}
  */
 export declare function toCanWrite(viewerPermission: string | null | undefined): boolean;
 export interface GitHubBaseComparison {
     readonly behindBy: number | null;
     readonly viewerCanUpdate: boolean;
 }
-/** assignableUsers avoids push/read:org requirements. Keep requested outsiders/apps removable. */
+/**
+ * assignableUsers avoids push/read:org requirements. Keep requested outsiders/apps removable.
+ * @throws {never}
+ */
 export declare function toReviewerCandidates(result: ReviewerCandidates.Result): PullRequestReviewerCandidateList | null;
 declare const ReviewerRequestSchema: Schema.Struct<{
     readonly reviewers: Schema.$Array<Schema.String>;
     readonly team_reviewers: Schema.$Array<Schema.String>;
 }>;
+/** @throws {never} */
 export declare function buildReviewerRequest(reviewers: ReadonlyArray<{
     readonly id: string;
     readonly kind: PullRequestReviewerKind;
 }>): typeof ReviewerRequestSchema.Type;
-/** Keep applied labels removable even when absent from the repository page. */
+/**
+ * Keep applied labels removable even when absent from the repository page.
+ * @throws {never}
+ */
 export declare function toLabelCandidates(result: LabelCandidates.Result): PullRequestLabelCandidateList | null;
+/** @throws {never} */
 export declare function toRepositoryLabels(result: RepositoryLabels.Result): {
     readonly items: ReadonlyArray<PullRequestLabel>;
     readonly truncated: boolean;
 } | null;
+/** @throws {never} */
 export declare function toRepositoryAuthors(result: RepositoryAuthors.Result): {
     readonly items: ReadonlyArray<PullRequestActor>;
     readonly truncated: boolean;
 } | null;
+/** @throws {never} */
 export declare function buildLabelRequest(labels: ReadonlyArray<string>): {
     readonly labels: ReadonlyArray<string>;
 };
@@ -355,6 +394,7 @@ export interface GitHubViewerAccess {
     /** Detail-only readiness; omitted by the lightweight action permission read. */
     readonly canMergeNow?: boolean;
 }
+/** @throws {never} */
 export declare function toViewerPermissions(result: ViewerPermissions.Result): (GitHubViewerAccess & GitHubRepositoryAccess) | null;
 export interface GitHubPullRequestFilesPatch {
     readonly patch: string;
@@ -362,8 +402,12 @@ export interface GitHubPullRequestFilesPatch {
     readonly rawCount: number;
     readonly omittedFileStats: ReadonlyArray<PullRequestOmittedFileStat>;
 }
-/** The files API omits diff --git headers; assemble them for unified-patch viewers. */
+/**
+ * The files API omits diff --git headers; assemble them for unified-patch viewers.
+ * @throws {never}
+ */
 export declare function decodePullRequestFilesJson(raw: string): Result.Result<GitHubPullRequestFilesPatch, DecodeFailure>;
+/** @throws {never} */
 export declare function decodeCommitFilesJson(raw: string): Result.Result<GitHubPullRequestFilesPatch, DecodeFailure>;
 export interface GitHubPullRequestFilesViewedPage {
     readonly files: ReadonlyArray<{
@@ -372,6 +416,7 @@ export interface GitHubPullRequestFilesViewedPage {
     }>;
     readonly nextCursor: string | null;
 }
+/** @throws {never} */
 export declare function toPullRequestFilesViewedPage(result: PullRequestFilesViewed.Result): GitHubPullRequestFilesViewedPage;
 export interface GitHubPullRequestFileStat {
     readonly path: string;
@@ -382,6 +427,7 @@ export interface GitHubPullRequestFileStatsPage {
     readonly files: ReadonlyArray<GitHubPullRequestFileStat>;
     readonly nextCursor: string | null;
 }
+/** @throws {never} */
 export declare function toPullRequestFileStatsPage(result: PullRequestFileStats.Result): GitHubPullRequestFileStatsPage;
 export interface GitHubPullRequestStackLayer {
     readonly title?: string;
@@ -398,5 +444,6 @@ export interface GitHubPullRequestStack {
     readonly base: string;
     readonly layers: ReadonlyArray<GitHubPullRequestStackLayer>;
 }
+/** @throws {never} */
 export declare function decodePullRequestStacksJson(raw: string): Result.Result<GitHubPullRequestStack | null, DecodeFailure>;
 export {};

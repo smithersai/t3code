@@ -10,7 +10,7 @@ const EACH_CAPABLE_MODIFIERS = new Set(["effect", "live"])
 const LOOPS = new Set(["ForStatement", "ForInStatement", "ForOfStatement"])
 const FUNCTIONS = new Set(["ArrowFunctionExpression", "FunctionExpression", "FunctionDeclaration"])
 
-const testCallName = (callee: unknown): Option<string> => {
+const testCallName = (callee: unknown): Option.Option<string> => {
   const expression = unwrapExpression(callee)
   if (Option.isNone(expression)) return Option.none()
 

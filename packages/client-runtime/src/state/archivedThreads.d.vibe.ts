@@ -9,8 +9,11 @@ export interface ArchivedThreadSnapshotsState {
     readonly error: string | null;
     readonly isLoading: boolean;
 }
+/** @throws {never} */
 export declare function makeArchivedThreadsEnvironmentKey(environmentIds: ReadonlyArray<EnvironmentId>): string;
+/** @throws {never} */
 export declare function createArchivedThreadSnapshotsAtomFamily<E>(options: {
+    /** @throws {never} */
     readonly getSnapshotAtom: (environmentId: EnvironmentId) => Atom.Atom<AsyncResult.AsyncResult<OrchestrationV2ArchivedShellSnapshot, E>>;
     readonly labelPrefix: string;
 }): (arg: string) => Atom.Atom<ArchivedThreadSnapshotsState>;

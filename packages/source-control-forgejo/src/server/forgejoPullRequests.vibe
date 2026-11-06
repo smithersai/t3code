@@ -1,11 +1,10 @@
 import { SourceControlProviderKind } from "@t3tools/contracts"
 import * as Schema from "effect/Schema"
-import * as Option from "effect/Option"
 import type { ChangeRequest } from "@t3tools/contracts"
 
 schema Repository {
-  full_name: string
-  owner: { login: string }
+  readonly full_name: string
+  readonly owner: { readonly login: string }
 }
 const Branch = Schema.Struct({
   ref: Schema.String,

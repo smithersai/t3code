@@ -54,11 +54,14 @@ declare const CodexAppServerProtocolParseError_base: Schema.Class<CodexAppServer
 }>, import("effect/Cause").YieldableError>;
 export declare class CodexAppServerProtocolParseError extends CodexAppServerProtocolParseError_base {
     get message(): string;
+    /** @throws {never} */
     static fromSchemaError(operation: CodexAppServerProtocolParseOperation, cause: Schema.SchemaError, context?: {
         readonly method?: string;
         readonly requestId?: string;
     }): CodexAppServerProtocolParseError;
+    /** @throws {never} */
     static fromRequestError(operation: CodexAppServerProtocolParseOperation, method: string, cause: CodexAppServerRequestError): CodexAppServerProtocolParseError;
+    /** @throws {never} */
     static fromUnroutableMessage(message: unknown): CodexAppServerProtocolParseError;
 }
 declare const CodexAppServerTransportError_base: Schema.Class<CodexAppServerTransportError, Schema.TaggedStruct<"CodexAppServerTransportError", {
@@ -95,16 +98,27 @@ declare const CodexAppServerRequestError_base: Schema.Class<CodexAppServerReques
 }>, import("effect/Cause").YieldableError>;
 export declare class CodexAppServerRequestError extends CodexAppServerRequestError_base {
     get message(): string;
+    /** @throws {never} */
     static fromProtocolError(error: CodexAppServerProtocolErrorShape, method: string, requestId: string): CodexAppServerRequestError;
+    /** @throws {never} */
     static fromAppServerError(error: CodexAppServerError, method: string): CodexAppServerRequestError;
+    /** @throws {never} */
     static parseError(message?: string, data?: unknown): CodexAppServerRequestError;
+    /** @throws {never} */
     static invalidRequest(message?: string, data?: unknown): CodexAppServerRequestError;
+    /** @throws {never} */
     static methodNotFound(method: string): CodexAppServerRequestError;
+    /** @throws {never} */
     static invalidParams(message?: string, data?: unknown, diagnostics?: CodexAppServerRequestDiagnostics): CodexAppServerRequestError;
+    /** @throws {never} */
     static invalidPayload(method: string, operation: "decode-payload" | "encode-payload", cause: Schema.SchemaError): CodexAppServerRequestError;
+    /** @throws {never} */
     static unexpectedPayload(method: string, operation: "decode-payload" | "encode-payload", payload: unknown): CodexAppServerRequestError;
+    /** @throws {never} */
     static internalError(message?: string, data?: unknown, diagnostics?: CodexAppServerRequestDiagnostics): CodexAppServerRequestError;
+    /** @throws {never} */
     static overloaded(message?: string, data?: unknown): CodexAppServerRequestError;
+    /** @throws {never} */
     toProtocolError(): CodexAppServerProtocolErrorShape;
 }
 export declare const CodexAppServerError: Schema.Union<readonly [typeof CodexAppServerRequestError, typeof CodexAppServerSpawnError, typeof CodexAppServerProcessExitedError, typeof CodexAppServerProtocolParseError, typeof CodexAppServerTransportError, typeof CodexAppServerIdentifierGenerationError, typeof CodexAppServerInputStreamEndedError]>;

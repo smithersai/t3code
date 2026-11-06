@@ -54,6 +54,7 @@ export interface ProviderContinuationIdentity {
     readonly driverKind: ProviderDriverKind;
     readonly continuationKey: string;
 }
+/** @throws {never} */
 export declare function defaultProviderContinuationIdentity(input: {
     readonly driverKind: ProviderDriverKind;
     readonly instanceId: ProviderInstanceId;
@@ -71,6 +72,7 @@ export interface ProviderDriver<Config, R = never, UsageR = never> {
     readonly driverKind: ProviderDriverKind;
     readonly metadata: ProviderDriverMetadata;
     readonly configSchema: Schema.Codec<Config, unknown>;
+    /** @throws {never} */
     readonly defaultConfig: () => Config;
     /** Failures become unavailable snapshots; never throw defects. */
     readonly create: (input: ProviderDriverCreateInput<Config>) => Effect.Effect<ProviderInstance, ProviderDriverError, R | Scope.Scope>;

@@ -26,7 +26,7 @@ interface CalleeChain {
 
 // Flattens `it.live.skipIf(cond)` or `it.layer(L, opts)` into the root name, the member
 // names, and the curried calls whose arguments carry options like `excludeTestServices`.
-const calleeChain = (callee: unknown): Option<CalleeChain> => {
+const calleeChain = (callee: unknown): Option.Option<CalleeChain> => {
   const members: Array<string> = []
   const calls: Array<ESTree.CallExpression> = []
   let current = unwrapExpression(callee)
@@ -55,7 +55,7 @@ const calleeChain = (callee: unknown): Option<CalleeChain> => {
 const isLayerBlock = (chain: CalleeChain): infer _ =>
   chain.root === "layer" || (TESTER_ROOTS.has(chain.root) && chain.members.includes("layer"))
 
-const testerKind = (chain: CalleeChain): Option<Tester> => {
+const testerKind = (chain: CalleeChain): Option.Option<Tester> => {
   if (!TESTER_ROOTS.has(chain.root) || chain.members.includes("layer")) return Option.none()
   if (chain.members.includes("live") || chain.members.includes("scopedLive")) {
     return Option.some("live")
@@ -88,10 +88,10 @@ const excludesTestServices = (chain: CalleeChain): infer _ =>
 
 // The clock a call runs on: the nearest enclosing test call decides, and an enclosing
 // `it.layer(_, { excludeTestServices: true })` block strips the TestClock from `it.effect`.
-const enclosingTester = (node: ESTree.Node): Option<Tester> => {
+const enclosingTester = (node: ESTree.Node): Option.Option<Tester> => {
   let child: ESTree.Node = node
   let current = node.parent
-  let tester: Option<Tester> = Option.none()
+  let tester: Option.Option<Tester> = Option.none()
   while (current) {
     if (
       current.type === "CallExpression"
@@ -113,7 +113,7 @@ const enclosingTester = (node: ESTree.Node): Option<Tester> => {
   return tester
 }
 
-const memberCallName = (callee: unknown): Option<readonly [string, string]> => {
+const memberCallName = (callee: unknown): Option.Option<readonly [string, string]> => {
   const expression = unwrapExpression(callee)
   if (Option.isNone(expression) || expression.value.type !== "MemberExpression") {
     return Option.none()

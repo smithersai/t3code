@@ -5,7 +5,7 @@
  * owns the edit's save, because a save outlives the view that started it.
  */
 import type { RunId } from "@t3tools/contracts"
-import { Atom, type AtomRegistry } from "effect/reactivity"
+import { type AtomRegistry } from "effect/reactivity"
 
 export interface QueuedRunStatus {
   readonly id: RunId

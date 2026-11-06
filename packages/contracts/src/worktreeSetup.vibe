@@ -48,18 +48,18 @@ export type WorktreeSetupSnapshot = typeof WorktreeSetupSnapshot.Type
 export const WORKTREE_SETUP_ACTIVITY_KIND = "worktree-setup"
 
 export schema WorktreeSetupSubscribeInput {
-  threadId: ThreadId
+  readonly threadId: ThreadId
 }
 
 export const WorktreeSetupStreamEvent = Schema.NullOr(WorktreeSetupSnapshot)
 export type WorktreeSetupStreamEvent = typeof WorktreeSetupStreamEvent.Type
 
 export schema WorktreeSetupCancelInput {
-  threadId: ThreadId
+  readonly threadId: ThreadId
 }
 
 export schema WorktreeSetupCancelResult {
-  cancelled: boolean
+  readonly cancelled: boolean
 }
 
 export const WORKTREE_SETUP_STAGE_ORDER: ReadonlyArray<WorktreeSetupStageId> = [

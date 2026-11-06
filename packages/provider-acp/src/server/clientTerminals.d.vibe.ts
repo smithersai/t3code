@@ -14,8 +14,12 @@ export interface AcpClientTerminals {
     readonly waitForExit: (request: EffectAcpSchema.WaitForTerminalExitRequest) => Effect.Effect<EffectAcpSchema.WaitForTerminalExitResponse, EffectAcpErrors.AcpRequestError>;
     readonly kill: (request: EffectAcpSchema.KillTerminalRequest) => Effect.Effect<EffectAcpSchema.KillTerminalResponse, EffectAcpErrors.AcpRequestError>;
     readonly release: (request: EffectAcpSchema.ReleaseTerminalRequest) => Effect.Effect<EffectAcpSchema.ReleaseTerminalResponse, EffectAcpErrors.AcpRequestError>;
-    /** Buffered output for embedded tool-call content; survives release. */
+    /**
+     * Buffered output for embedded tool-call content; survives release.
+     * @throws {never}
+     */
     readonly readOutputSnapshot: (sessionId: string, terminalId: string) => AcpTerminalOutputSnapshot | undefined;
+    /** @throws {never} */
     readonly readCommandLine: (terminalId: string) => string | undefined;
     readonly disposeAll: Effect.Effect<void>;
 }
@@ -24,8 +28,11 @@ export interface AcpClientTerminalsOptions {
     readonly shellCommands?: boolean | undefined;
     readonly defaultCwd: string;
     readonly environment?: NodeJS.ProcessEnv | undefined;
-    readonly environmentForSession?: ((sessionId: string) => NodeJS.ProcessEnv | undefined) | undefined;
+    readonly environmentForSession?: (
+    /** @throws {never} */
+    (sessionId: string) => NodeJS.ProcessEnv | undefined) | undefined;
     readonly forceKillAfter?: Duration.Input | undefined;
 }
 export declare const makeAcpClientTerminals: (options: AcpClientTerminalsOptions) => Effect.Effect<AcpClientTerminals, never, ChildProcessSpawner.ChildProcessSpawner>;
+/** @throws {never} */
 export declare function resolveEmbeddedTerminalContent(notification: EffectAcpSchema.SessionNotification, readOutputSnapshot: AcpClientTerminals["readOutputSnapshot"]): EffectAcpSchema.SessionNotification;

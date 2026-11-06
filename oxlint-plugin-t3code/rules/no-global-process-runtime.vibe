@@ -22,7 +22,7 @@ const message = (property: string): infer _ =>
     property === "arch" ? "Architecture" : "Platform"
   } instead of process.${property}; inject the runtime reference in Effect code and provide it explicitly in tests.`
 
-const getLiteralStringValue = (node: unknown): Option<string> => {
+const getLiteralStringValue = (node: unknown): Option.Option<string> => {
   if (typeof node !== "object" || node === null) return Option.none()
   if (!("type" in node) || node.type !== "Literal") return Option.none()
   if (!("value" in node) || typeof node.value !== "string") return Option.none()
@@ -79,7 +79,7 @@ export default defineRule({
       }
     }
 
-    const getNodeOsRuntimeCall = (callee: unknown): Option<string> => {
+    const getNodeOsRuntimeCall = (callee: unknown): Option.Option<string> => {
       const expression = unwrapExpression(callee)
       if (Option.isNone(expression)) return Option.none()
 

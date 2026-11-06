@@ -32,8 +32,8 @@ export schema ResourceTelemetryProcessCategory =
 export schema ResourceTelemetrySourceStatus = "starting" | "healthy" | "degraded" | "unavailable" | "stopped"
 
 export schema ResourceTelemetryProcessIdentity {
-  pid: PositiveInt
-  startTimeMs: NonNegativeInt
+  readonly pid: PositiveInt
+  readonly startTimeMs: NonNegativeInt
 }
 
 export const ResourceMonitorExternalProcess = Schema.Struct({
@@ -43,30 +43,30 @@ export const ResourceMonitorExternalProcess = Schema.Struct({
 export type ResourceMonitorExternalProcess = typeof ResourceMonitorExternalProcess.Type
 
 export schema ResourceMonitorCapabilities {
-  cumulativeCpuTime: boolean
-  currentCpuPercent: boolean
-  residentMemory: boolean
-  virtualMemory: boolean
-  ioBytes: boolean
-  processStartTime: boolean
-  processTree: boolean
+  readonly cumulativeCpuTime: boolean
+  readonly currentCpuPercent: boolean
+  readonly residentMemory: boolean
+  readonly virtualMemory: boolean
+  readonly ioBytes: boolean
+  readonly processStartTime: boolean
+  readonly processTree: boolean
 }
 
 export schema ResourceMonitorProcessSample {
-  pid: PositiveInt
-  ppid: NonNegativeInt
-  startTimeMs: NonNegativeInt
-  runTimeMs: NonNegativeInt
-  name: string
-  command: string
-  status: string
-  cpuPercent: number
-  cpuTimeMs: NonNegativeInt
-  residentBytes: NonNegativeInt
-  virtualBytes: NonNegativeInt
-  ioReadBytes: NonNegativeInt
-  ioWriteBytes: NonNegativeInt
-  ioSemantics: "storage" | "all-io"
+  readonly pid: PositiveInt
+  readonly ppid: NonNegativeInt
+  readonly startTimeMs: NonNegativeInt
+  readonly runTimeMs: NonNegativeInt
+  readonly name: string
+  readonly command: string
+  readonly status: string
+  readonly cpuPercent: number
+  readonly cpuTimeMs: NonNegativeInt
+  readonly residentBytes: NonNegativeInt
+  readonly virtualBytes: NonNegativeInt
+  readonly ioReadBytes: NonNegativeInt
+  readonly ioWriteBytes: NonNegativeInt
+  readonly ioSemantics: "storage" | "all-io"
 }
 
 export const ResourceMonitorConfigureCommand = Schema.Struct({
@@ -164,9 +164,9 @@ export const ResourceMonitorSnapshotEvent = Schema.Struct({
 export type ResourceMonitorSnapshotEvent = typeof ResourceMonitorSnapshotEvent.Type
 
 export schema ResourceMonitorProcessTableEntry {
-  pid: PositiveInt
-  ppid: NonNegativeInt
-  name: string
+  readonly pid: PositiveInt
+  readonly ppid: NonNegativeInt
+  readonly name: string
 }
 
 export const ResourceMonitorProcessTableEvent = Schema.Struct({
@@ -245,9 +245,9 @@ export const DesktopHostTelemetrySnapshot = Schema.Struct({
 export type DesktopHostTelemetrySnapshot = typeof DesktopHostTelemetrySnapshot.Type
 
 export schema DesktopHostTelemetryHello {
-  version: 1
-  type: "desktopTelemetryHello"
-  electronPid: PositiveInt
+  readonly version: 1
+  readonly type: "desktopTelemetryHello"
+  readonly electronPid: PositiveInt
 }
 
 export schema DesktopUpdateRemoteOutcome = "ready-to-install" | "up-to-date" | "failed"
@@ -268,35 +268,35 @@ export schema DesktopHostTelemetryMessage =
   | DesktopUpdateStatusReport
 
 export schema DesktopTelemetrySetDiagnosticsDemand {
-  version: 1
-  type: "setDiagnosticsDemand"
-  enabled: boolean
+  readonly version: 1
+  readonly type: "setDiagnosticsDemand"
+  readonly enabled: boolean
 }
 
 export schema DesktopTelemetrySetHostPowerIntervals {
-  version: 1
-  type: "setHostPowerIntervals"
-  activeIntervalMs: PositiveInt
-  idleIntervalMs: PositiveInt
+  readonly version: 1
+  readonly type: "setHostPowerIntervals"
+  readonly activeIntervalMs: PositiveInt
+  readonly idleIntervalMs: PositiveInt
 }
 
 /** Runs check/download/quit-and-install without local confirmation; the remote RPC click supplies consent. */
 export schema DesktopTelemetryRequestDesktopUpdate {
-  version: 1
-  type: "requestDesktopUpdate"
-  requestId: TrimmedNonEmptyString
+  readonly version: 1
+  readonly type: "requestDesktopUpdate"
+  readonly requestId: TrimmedNonEmptyString
 }
 
 export schema DesktopTelemetryCommitDesktopUpdate {
-  version: 1
-  type: "commitDesktopUpdate"
-  requestId: TrimmedNonEmptyString
+  readonly version: 1
+  readonly type: "commitDesktopUpdate"
+  readonly requestId: TrimmedNonEmptyString
 }
 
 export schema DesktopTelemetryCancelDesktopUpdate {
-  version: 1
-  type: "cancelDesktopUpdate"
-  requestId: TrimmedNonEmptyString
+  readonly version: 1
+  readonly type: "cancelDesktopUpdate"
+  readonly requestId: TrimmedNonEmptyString
 }
 
 export schema DesktopTelemetryControlMessage =
@@ -335,24 +335,24 @@ export const ResourceTelemetryProcess = Schema.Struct({
 export type ResourceTelemetryProcess = typeof ResourceTelemetryProcess.Type
 
 export schema ResourceTelemetryAggregate {
-  processCount: NonNegativeInt
-  currentCpuPercent: number
-  cpuTimeMs: NonNegativeInt
-  currentRssBytes: NonNegativeInt
-  peakRssBytes: NonNegativeInt
-  ioReadBytes: NonNegativeInt
-  ioWriteBytes: NonNegativeInt
-  ioReadBytesPerSecond: number
-  ioWriteBytesPerSecond: number
-  processStarts: NonNegativeInt
-  processExits: NonNegativeInt
+  readonly processCount: NonNegativeInt
+  readonly currentCpuPercent: number
+  readonly cpuTimeMs: NonNegativeInt
+  readonly currentRssBytes: NonNegativeInt
+  readonly peakRssBytes: NonNegativeInt
+  readonly ioReadBytes: NonNegativeInt
+  readonly ioWriteBytes: NonNegativeInt
+  readonly ioReadBytesPerSecond: number
+  readonly ioWriteBytesPerSecond: number
+  readonly processStarts: NonNegativeInt
+  readonly processExits: NonNegativeInt
 }
 
 export schema ResourceTelemetryGroups {
-  backend: ResourceTelemetryAggregate
-  electron: ResourceTelemetryAggregate
-  monitor: ResourceTelemetryAggregate
-  allT3: ResourceTelemetryAggregate
+  readonly backend: ResourceTelemetryAggregate
+  readonly electron: ResourceTelemetryAggregate
+  readonly monitor: ResourceTelemetryAggregate
+  readonly allT3: ResourceTelemetryAggregate
 }
 
 export const ResourceTelemetrySourceHealth = Schema.Struct({
@@ -376,17 +376,17 @@ export const ResourceTelemetryHealth = Schema.Struct({
 export type ResourceTelemetryHealth = typeof ResourceTelemetryHealth.Type
 
 export schema ResourceAttributionEntry {
-  component: TrimmedNonEmptyString
-  operation: TrimmedNonEmptyString
-  logicalReadBytes: NonNegativeInt
-  logicalWriteBytes: NonNegativeInt
-  count: NonNegativeInt
-  durationMs: NonNegativeInt
+  readonly component: TrimmedNonEmptyString
+  readonly operation: TrimmedNonEmptyString
+  readonly logicalReadBytes: NonNegativeInt
+  readonly logicalWriteBytes: NonNegativeInt
+  readonly count: NonNegativeInt
+  readonly durationMs: NonNegativeInt
 }
 
 export schema ResourceAttributionSnapshot {
-  readAt: Schema.DateTimeUtc
-  entries: ReadonlyArray<ResourceAttributionEntry>
+  readonly readAt: Schema.DateTimeUtc
+  readonly entries: ReadonlyArray<ResourceAttributionEntry>
 }
 
 export const ResourceTelemetrySnapshot = Schema.Struct({
@@ -402,54 +402,54 @@ export const ResourceTelemetrySnapshot = Schema.Struct({
 export type ResourceTelemetrySnapshot = typeof ResourceTelemetrySnapshot.Type
 
 export schema ResourceTelemetryHistoryInput {
-  windowMs: NonNegativeInt
-  bucketMs: NonNegativeInt
+  readonly windowMs: NonNegativeInt
+  readonly bucketMs: NonNegativeInt
 }
 
 export schema ResourceTelemetryHistoryBucket {
-  startedAt: Schema.DateTimeUtc
-  endedAt: Schema.DateTimeUtc
-  avgCpuPercent: number
-  maxCpuPercent: number
-  maxRssBytes: NonNegativeInt
-  ioReadBytes: NonNegativeInt
-  ioWriteBytes: NonNegativeInt
-  maxProcessCount: NonNegativeInt
+  readonly startedAt: Schema.DateTimeUtc
+  readonly endedAt: Schema.DateTimeUtc
+  readonly avgCpuPercent: number
+  readonly maxCpuPercent: number
+  readonly maxRssBytes: NonNegativeInt
+  readonly ioReadBytes: NonNegativeInt
+  readonly ioWriteBytes: NonNegativeInt
+  readonly maxProcessCount: NonNegativeInt
 }
 
 export schema ResourceTelemetryProcessSummary {
-  identity: ResourceTelemetryProcessIdentity
-  ppid: NonNegativeInt
-  depth: NonNegativeInt
-  name: string
-  command: string
-  category: ResourceTelemetryProcessCategory
-  firstSeenAt: Schema.DateTimeUtc
-  lastSeenAt: Schema.DateTimeUtc
-  currentCpuPercent: number
-  avgCpuPercent: number
-  maxCpuPercent: number
-  cpuTimeMs: NonNegativeInt
-  currentRssBytes: NonNegativeInt
-  peakRssBytes: NonNegativeInt
-  ioReadBytes: NonNegativeInt
-  ioWriteBytes: NonNegativeInt
-  ioSemantics: ResourceTelemetryIoSemantics
-  sampleCount: NonNegativeInt
+  readonly identity: ResourceTelemetryProcessIdentity
+  readonly ppid: NonNegativeInt
+  readonly depth: NonNegativeInt
+  readonly name: string
+  readonly command: string
+  readonly category: ResourceTelemetryProcessCategory
+  readonly firstSeenAt: Schema.DateTimeUtc
+  readonly lastSeenAt: Schema.DateTimeUtc
+  readonly currentCpuPercent: number
+  readonly avgCpuPercent: number
+  readonly maxCpuPercent: number
+  readonly cpuTimeMs: NonNegativeInt
+  readonly currentRssBytes: NonNegativeInt
+  readonly peakRssBytes: NonNegativeInt
+  readonly ioReadBytes: NonNegativeInt
+  readonly ioWriteBytes: NonNegativeInt
+  readonly ioSemantics: ResourceTelemetryIoSemantics
+  readonly sampleCount: NonNegativeInt
 }
 
 export schema ResourceTelemetryHistory {
-  readAt: Schema.DateTimeUtc
-  windowMs: NonNegativeInt
-  bucketMs: NonNegativeInt
-  sampleIntervalMs: NonNegativeInt
-  retainedSampleCount: NonNegativeInt
-  buckets: ReadonlyArray<ResourceTelemetryHistoryBucket>
-  topProcesses: ReadonlyArray<ResourceTelemetryProcessSummary>
-  health: ResourceTelemetryHealth
+  readonly readAt: Schema.DateTimeUtc
+  readonly windowMs: NonNegativeInt
+  readonly bucketMs: NonNegativeInt
+  readonly sampleIntervalMs: NonNegativeInt
+  readonly retainedSampleCount: NonNegativeInt
+  readonly buckets: ReadonlyArray<ResourceTelemetryHistoryBucket>
+  readonly topProcesses: ReadonlyArray<ResourceTelemetryProcessSummary>
+  readonly health: ResourceTelemetryHealth
 }
 
 export schema ResourceTelemetryRetryResult {
-  accepted: boolean
-  snapshot: ResourceTelemetrySnapshot
+  readonly accepted: boolean
+  readonly snapshot: ResourceTelemetrySnapshot
 }

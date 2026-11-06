@@ -17,4 +17,5 @@ export interface ProjectThreadAwarenessV2Input {
     readonly project: Pick<Project, "title">;
     readonly thread: Pick<OrchestrationV2ThreadShell, "activityRunStatus" | "id" | "lineage" | "latestRunStopRequested" | "modelSelection" | "pendingBackgroundTasks" | "pendingRuntimeRequest" | "settledOverride" | "status" | "title" | "updatedAt">;
 }
+/** @throws {never} */
 export declare function projectThreadAwarenessV2(input: ProjectThreadAwarenessV2Input): AgentAwarenessState | null;

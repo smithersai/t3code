@@ -5,10 +5,10 @@ import { ProviderDriverKind } from "./providerInstance.vibe"
 export schema ProviderOptionDescriptorType = "select" | "boolean"
 
 export schema ProviderOptionChoice {
-  id: TrimmedNonEmptyString
-  label: TrimmedNonEmptyString
-  description?: TrimmedNonEmptyString
-  isDefault?: boolean
+  readonly id: TrimmedNonEmptyString
+  readonly label: TrimmedNonEmptyString
+  readonly description?: TrimmedNonEmptyString | undefined
+  readonly isDefault?: boolean | undefined
 }
 
 const ProviderOptionDescriptorBase = {
@@ -38,8 +38,8 @@ export schema ProviderOptionDescriptor = SelectProviderOptionDescriptor | Boolea
 export schema ProviderOptionSelectionValue = TrimmedNonEmptyString | boolean
 
 export schema ProviderOptionSelection {
-  id: TrimmedNonEmptyString
-  value: ProviderOptionSelectionValue
+  readonly id: TrimmedNonEmptyString
+  readonly value: ProviderOptionSelectionValue
 }
 
 const LegacyProviderOptionSelectionsObject = Schema.Record(Schema.String, Schema.Unknown)
@@ -48,8 +48,18 @@ const ProviderOptionSelectionsFromLegacyObject = LegacyProviderOptionSelectionsO
   Schema.decodeTo(
     Schema.Array(ProviderOptionSelection),
     SchemaTransformation.transformEffect({
-      decode: effect (record) => coerceLegacyOptionsObjectToArray(record),
-      encode: effect (selections) => canonicalSelectionsToLegacyObject(selections),
+      decode: (record) => {
+        const result = coerceLegacyOptionsObjectToArray(record)
+        return effect {
+          return result
+        }
+      },
+      encode: (selections) => {
+        const result = canonicalSelectionsToLegacyObject(selections)
+        return effect {
+          return result
+        }
+      },
     }),
   ),
 )
@@ -86,13 +96,13 @@ function canonicalSelectionsToLegacyObject(
 }
 
 export schema ModelCapabilities {
-  optionDescriptors?: ReadonlyArray<ProviderOptionDescriptor>
+  readonly optionDescriptors?: ReadonlyArray<ProviderOptionDescriptor> | undefined
 }
 
 export schema CustomModelEntry {
-  slug: TrimmedNonEmptyString
-  name?: TrimmedNonEmptyString
-  capabilities?: ModelCapabilities
+  readonly slug: TrimmedNonEmptyString
+  readonly name?: TrimmedNonEmptyString | undefined
+  readonly capabilities?: ModelCapabilities | undefined
 }
 
 export schema CustomModelSetting = string | CustomModelEntry

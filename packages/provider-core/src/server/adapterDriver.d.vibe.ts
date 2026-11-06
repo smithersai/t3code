@@ -23,6 +23,7 @@ export interface ProviderAdapterDriverCreateInput<Config> {
 export interface ProviderAdapterDriver<Config, R = never> {
     readonly driverKind: ProviderDriverKind;
     readonly configSchema: Schema.Codec<Config, unknown>;
+    /** @throws {never} */
     readonly defaultConfig: () => Config;
     readonly create: (input: ProviderAdapterDriverCreateInput<Config>) => Effect.Effect<ProviderAdapter.ProviderAdapterV2["Service"], ProviderAdapterDriverCreateError, R | Scope.Scope>;
 }

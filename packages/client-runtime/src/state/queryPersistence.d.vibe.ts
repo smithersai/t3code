@@ -13,5 +13,6 @@ export interface QueryPersistence<A> {
     readonly load: (environmentId: EnvironmentId, key: string) => Effect.Effect<Option.Option<A>>;
     readonly save: (environmentId: EnvironmentId, key: string, value: A) => Effect.Effect<void>;
 }
+/** @throws {never} */
 export declare function persistQuery<A, I>(schema: Schema.Codec<A, I>): QueryPersistence<A>;
 export {};

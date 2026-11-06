@@ -100,6 +100,7 @@ export interface SupervisorConnectionState {
     readonly retryAt: number | null;
 }
 export type ConnectionProjectionPhase = "disconnected" | "synchronizing" | "ready";
+/** @throws {never} */
 export declare function connectionProjectionPhase(state: SupervisorConnectionState): ConnectionProjectionPhase;
 export declare const AVAILABLE_CONNECTION_STATE: SupervisorConnectionState;
 export {};

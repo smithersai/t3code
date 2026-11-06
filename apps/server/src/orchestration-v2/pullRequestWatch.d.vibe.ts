@@ -22,7 +22,9 @@ export interface PullRequestWatchReport {
     readonly next: ThreadPullRequestWatch;
     readonly exhausted: boolean;
 }
+/** @throws {never} */
 export declare function evaluatePullRequestWatch(watch: ThreadPullRequestWatch, detail: Pick<PullRequestDetail, "capabilities" | "headSha" | "checks" | "mergeability" | "viewer" | "author">, remarks: ReadonlyArray<PullRequestComment> | null, now: number): PullRequestWatchReport;
+/** @throws {never} */
 export declare function pullRequestWatchMessage(input: {
     readonly number: number;
     readonly url: string;

@@ -83,10 +83,10 @@ export const ClientActivityLease = Schema.Struct({
 export type ClientActivityLease = typeof ClientActivityLease.Type
 
 export schema BackgroundPolicySnapshot {
-  hostPower: HostPowerSnapshot
-  leases: ReadonlyArray<ClientActivityLease>
-  activeForegroundLeaseCount: number
-  activeScopeKeys: ReadonlyArray<string>
-  shouldRunOpportunisticWork: boolean
-  updatedAt: Schema.DateTimeUtc
+  readonly hostPower: HostPowerSnapshot
+  readonly leases: ReadonlyArray<ClientActivityLease>
+  readonly activeForegroundLeaseCount: number
+  readonly activeScopeKeys: ReadonlyArray<string>
+  readonly shouldRunOpportunisticWork: boolean
+  readonly updatedAt: Schema.DateTimeUtc
 }

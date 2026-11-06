@@ -1,5 +1,4 @@
 import { EnvironmentId } from "@t3tools/contracts"
-import * as Effect from "effect/Effect"
 import * as Schema from "effect/Schema"
 
 import { ConnectionCredential, ConnectionProfile, type ConnectionRegistration } from "../connection/catalog.vibe"
@@ -8,8 +7,8 @@ import * as TokenStore from "../authorization/tokenStore.vibe"
 import { StoredPullRequestRoutingPermission } from "../connection/pullRequestRoutingPermissions.ts"
 
 export schema StoredConnectionCredential {
-  connectionId: string
-  credential: ConnectionCredential
+  readonly connectionId: string
+  readonly credential: ConnectionCredential
 }
 
 export const ConnectionCatalogDocument = Schema.Struct({

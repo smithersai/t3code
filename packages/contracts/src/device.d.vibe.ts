@@ -738,5 +738,6 @@ export declare class DeviceToolUnavailableError extends DeviceToolUnavailableErr
 }
 export declare const DeviceToolError: Schema.Union<readonly [typeof DeviceToolUnavailableError, typeof DeviceHostUnavailableError, typeof DevicePlatformUnavailableError, typeof DeviceNotFoundError, typeof DeviceBootError, typeof DeviceOperationError, typeof DeviceActionUnavailableError]>;
 export type DeviceToolError = typeof DeviceToolError.Type;
+/** @throws {never} */
 export declare function deviceToolInstallMessage(name: string, tool: DeviceToolVersion | undefined): string;
 export {};

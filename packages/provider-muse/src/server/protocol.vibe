@@ -81,7 +81,7 @@ export const MuseSessionResult = Schema.Struct({
     }),
   ),
 })
-export const MuseTurnStartResult = Schema.Struct({ turnId: NonEmptyString })
+export schema MuseTurnStartResult { readonly turnId: NonEmptyString }
 
 export const MuseApproval = Schema.Struct({
   approvalId: NonEmptyString,
@@ -115,18 +115,18 @@ export const MuseApproval = Schema.Struct({
 export type MuseApproval = typeof MuseApproval.Type
 
 export schema MuseUserInput {
-  userInputId: NonEmptyString
-  sessionId: NonEmptyString
-  turnId: NonEmptyString
-  questions: ReadonlyArray<{
-    id: NonEmptyString
-    header: string
-    question: string
-    options: ReadonlyArray<{ label: string; description?: string }>
-    selection: {
-      mode: "single" | "multiple"
-      minSelections?: Schema.Int
-      maxSelections?: Schema.Int
+  readonly userInputId: NonEmptyString
+  readonly sessionId: NonEmptyString
+  readonly turnId: NonEmptyString
+  readonly questions: ReadonlyArray<{
+    readonly id: NonEmptyString
+    readonly header: string
+    readonly question: string
+    readonly options: ReadonlyArray<{ readonly label: string; readonly description?: string | undefined }>
+    readonly selection: {
+      readonly mode: "single" | "multiple"
+      readonly minSelections?: Schema.Int | undefined
+      readonly maxSelections?: Schema.Int | undefined
     }
   }>
 }
@@ -140,9 +140,9 @@ export const MuseContextUsage = Schema.Struct({
   usedTokens: Schema.Int.check(Schema.isGreaterThanOrEqualTo(0)),
   windowTokens: Schema.optional(Schema.Int.check(Schema.isGreaterThan(0))),
 })
-export const MuseTodoList = Schema.Struct({
-  items: Schema.Array(Schema.Struct({ text: Schema.String, status: Schema.String })),
-})
+export schema MuseTodoList {
+  readonly items: ReadonlyArray<{ readonly text: string; readonly status: string }>
+}
 export const MuseTurnCompleted = Schema.Struct({
   turnId: NonEmptyString,
   terminal: NonEmptyString,
@@ -188,7 +188,7 @@ export const MuseCompactResult = Schema.Struct({
   reason: Schema.optional(Schema.String),
 })
 
-export const MuseItemEvent = Schema.Struct({ item: MuseItem })
+export schema MuseItemEvent { readonly item: MuseItem }
 export const MuseDelta = Schema.Struct({
   itemId: NonEmptyString,
   delta: Schema.String,

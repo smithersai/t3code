@@ -14,4 +14,5 @@ export interface DispatchModeLimitValue extends DispatchModes {
     readonly refused?: Ref.Ref<DispatchModeRefusal | undefined>;
 }
 export declare const DispatchModeLimit: Context.Reference<DispatchModeLimitValue | undefined>;
+/** @throws {never} */
 export declare const exceededDispatchModeLimit: (limit: DispatchModes, modes: DispatchModes) => "runtime" | "interaction" | undefined;

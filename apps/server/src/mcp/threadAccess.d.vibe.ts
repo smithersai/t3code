@@ -11,7 +11,9 @@ import * as McpInvocationContext from "./McpInvocationContext.vibe";
  * hold; the miss only names a live thread the caller could read by its full id.
  */
 export declare const threadNotFound: (threads: Pick<ThreadManagement.ThreadManagementServiceShape, "getThreadShell">, threadId: ThreadId, message: string) => Effect.Effect<never, OrchestratorMcpFailure, never>;
+/** @throws {never} */
 export declare const unavailable: () => OrchestratorMcpFailure;
+/** @throws {never} */
 export declare const dispatchFailure: (error: OrchestratorV2Error | ThreadManagement.ThreadManagementProviderInstanceDisabledError) => OrchestratorMcpFailure;
 export interface CallerLimits {
     readonly runtimeMode: RuntimeMode;
@@ -519,7 +521,10 @@ export declare const assertTargetWithinLimits: (limits: CallerLimits, target: {
     readonly runtimeMode: RuntimeMode;
     readonly interactionMode: ProviderInteractionMode;
 }) => Effect.Effect<void, OrchestratorMcpFailure, never>;
-/** Background subagents retain credentials until provider exit; archived threads and other instances cannot act. */
+/**
+ * Background subagents retain credentials until provider exit; archived threads and other instances cannot act.
+ * @throws {never}
+ */
 export declare const isLiveCallerShell: (shell: Pick<OrchestrationV2ThreadShell, "archivedAt" | "activeRunId" | "providerInstanceId" | "pendingBackgroundTasks"> | null, providerInstanceId: ProviderInstanceId | undefined) => boolean;
 /** Thread callers need a live run or its background subagent in an unarchived thread. OAuth clients rely on their session and ceiling. */
 export declare function assertLiveCaller({ caller, scope }: Caller): Effect.Effect<void, never, never> | Effect.Effect<never, OrchestratorMcpFailure, never>;

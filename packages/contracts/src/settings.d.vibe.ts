@@ -89,8 +89,11 @@ export type SnapShotSound = typeof SnapShotSound.Type;
 export type SnapShotModifierPairShortcut = Extract<SnapShotShortcut, {
     readonly kind: string;
 }>;
+/** @throws {never} */
 export declare function isModifierPairShortcut(shortcut: SnapShotShortcut): shortcut is SnapShotModifierPairShortcut;
+/** @throws {never} */
 export declare function snapShotShortcutModifierPair(shortcut: SnapShotModifierPairShortcut): SnapShotModifier;
+/** @throws {never} */
 export declare function snapShotModifierPairLabel(modifier: SnapShotModifier, apple: boolean): string;
 export declare const NotificationMode: Schema.Literals<readonly ["off", "notifications", "sound", "notifications-and-sound"]>;
 export type NotificationMode = typeof NotificationMode.Type;
@@ -249,6 +252,7 @@ export declare const UsageModelPriceOverride: Schema.Struct<{
     readonly cacheWriteCostPerMillionTokens: Schema.optionalKey<Schema.Number>;
 }>;
 export type UsageModelPriceOverride = typeof UsageModelPriceOverride.Type;
+/** @throws {never} */
 export declare const makeBinaryPathSetting: (fallback: string) => Schema.withDecodingDefault<Schema.decodeTo<Schema.String, Schema.decodeTo<Schema.String, Schema.String, never, never>, never, never>, never>;
 export type ProviderSettingsFormControl = "text" | "password" | "textarea" | "switch" | "select";
 export interface ProviderSettingsFormOption {
@@ -262,6 +266,7 @@ export interface ProviderSettingsFormAnnotation {
     readonly clearWhenEmpty?: "omit" | "persist" | undefined;
     readonly options?: ReadonlyArray<ProviderSettingsFormOption> | undefined;
 }
+/** @throws {never} */
 export declare function secretSettingsFields(schema: {
     readonly fields: Readonly<Record<string, Schema.Top>>;
 }): ReadonlyArray<string>;
@@ -278,10 +283,15 @@ declare module "effect/Schema" {
         }
     }
 }
+/** @throws {never} */
 export declare function secretSetting<S extends Schema.Top>(schema: S): S["Rebuild"];
-/** A masked form field is a credential too, so none is saved or sent to clients as plain text. */
+/**
+ * A masked form field is a credential too, so none is saved or sent to clients as plain text.
+ * @throws {never}
+ */
 export declare function isSecretSetting(schema: Schema.Top): boolean;
 export type ProviderSettingsOrder<Fields extends Schema.Struct.Fields> = readonly Extract<keyof Fields, string>[];
+/** @throws {never} */
 export declare function makeProviderSettingsSchema<const Fields extends Schema.Struct.Fields>(fields: Fields, options?: {
     readonly order?: ProviderSettingsOrder<Fields> | undefined;
 }): Schema.Struct<Fields>;
@@ -641,7 +651,10 @@ export declare const ProjectSettingsOverrides: Schema.Struct<{
     }>>>;
 }>;
 export type ProjectSettingsOverrides = typeof ProjectSettingsOverrides.Type;
-/** True if null stores an override; otherwise null removes it. */
+/**
+ * True if null stores an override; otherwise null removes it.
+ * @throws {never}
+ */
 export declare function isNullableProjectSettingsOverride(key: ProjectScopedServerSettingKey): boolean;
 /** Reclaimable bytes from which the offline `t3 doctor` repair is worth suggesting. */
 export declare const DATABASE_COMPACTION_RECOMMENDED_BYTES: number;
@@ -655,6 +668,7 @@ export declare const DatabaseStorageStatus: Schema.Struct<{
     readonly compactCommand: Schema.String;
 }>;
 export type DatabaseStorageStatus = typeof DatabaseStorageStatus.Type;
+/** @throws {never} */
 export declare function shouldRecommendDatabaseCompaction(status: DatabaseStorageStatus): boolean;
 export declare const StorageCleanupReportEntry: Schema.Struct<{
     readonly kind: Schema.Literals<readonly ["worktree", "browser-artifacts", "logs"]>;
@@ -1074,21 +1088,35 @@ export declare const ServerSettings: Schema.Struct<{
 }>;
 export type ServerSettings = typeof ServerSettings.Type;
 export declare const DEFAULT_SERVER_SETTINGS: ServerSettings;
+/** @throws {never} */
 export declare const providerInstanceConfigEnabledFlag: (config: unknown) => boolean | undefined;
+/** @throws {never} */
 export declare const isUnconfiguredDefaultInstanceEnabled: (instanceId: ProviderInstanceId) => boolean;
+/** @throws {never} */
 export declare const resolveProviderInstanceEnabled: (instance: Pick<ProviderInstanceConfig, "driver" | "enabled" | "config">) => boolean;
+/** @throws {never} */
 export declare const resolveProjectProviderInstanceEnabled: (settings: Pick<ServerSettings, "providerInstances" | "projectSettingsOverrides">, projectId: ProjectId | null, instanceId: ProviderInstanceId) => boolean;
 type IdleCompactionSettings = Pick<ServerSettings, "compactIdleThreads" | "idleCompaction">;
-/** The environment-wide idle compaction mode, from whichever field the settings carry. */
+/**
+ * The environment-wide idle compaction mode, from whichever field the settings carry.
+ * @throws {never}
+ */
 export declare const globalIdleCompaction: (settings: IdleCompactionSettings) => IdleCompactionMode;
-/** Sets the mode, and the legacy switch shipped clients still read alongside it. */
+/**
+ * Sets the mode, and the legacy switch shipped clients still read alongside it.
+ * @throws {never}
+ */
 export declare const withIdleCompaction: <S extends IdleCompactionSettings>(settings: S, mode: IdleCompactionMode) => S;
-/** Whether a server reads modes, rather than only the boolean switch from before them. */
+/**
+ * Whether a server reads modes, rather than only the boolean switch from before them.
+ * @throws {never}
+ */
 export declare const readsIdleCompactionModes: (settings: IdleCompactionSettings) => boolean;
 /**
  * The patch that sets `mode` in the form the server's settings show it reads:
  * the mode for a server that has `idleCompaction` or kept the mode in the legacy
  * field, the boolean switch for a server from before modes.
+ * @throws {never}
  */
 export declare const idleCompactionPatch: (settings: IdleCompactionSettings, mode: IdleCompactionMode) => {
     idleCompaction: "beforeCacheExpires" | "off" | "onReturn";
@@ -1100,6 +1128,7 @@ export declare const idleCompactionPatch: (settings: IdleCompactionSettings, mod
     idleCompaction?: never;
     compactIdleThreads: boolean;
 };
+/** @throws {never} */
 export declare const resolveIdleCompaction: (settings: Pick<ServerSettings, "providerInstances" | "compactIdleThreads" | "idleCompaction">, instanceId: ProviderInstanceId) => IdleCompactionMode;
 export declare const ServerSettingsOperation: Schema.Literals<readonly ["normalize", "check-exists", "create-provider-instance", "read-file", "read-provider-history", "read-project-settings", "read-secret", "remove-secret", "remove-stale-secret", "write-secret", "write-file", "prepare-directory"]>;
 export type ServerSettingsOperation = typeof ServerSettingsOperation.Type;
@@ -1483,8 +1512,12 @@ export declare const ServerSettingsPatch: Schema.Struct<{
     readonly usageModelAliases: Schema.optionalKey<Schema.$Record<Schema.decodeTo<Schema.String, Schema.String, never, never>, Schema.NullOr<Schema.decodeTo<Schema.String, Schema.String, never, never>>>>;
 }>;
 export type ServerSettingsPatch = typeof ServerSettingsPatch.Type;
+/** @throws {never} */
 export declare function requiredScopesForServerSettingsPatch(patch: ServerSettingsPatch): ReadonlyArray<AuthEnvironmentScope>;
-/** Host-executed project scripts require settings-write authority in addition to orchestration:operate. */
+/**
+ * Host-executed project scripts require settings-write authority in addition to orchestration:operate.
+ * @throws {never}
+ */
 export declare function requiredScopesForProjectMutation(mutation: ProjectMutation): ReadonlyArray<AuthEnvironmentScope>;
 export declare const ClientSettingsPatch: Schema.Struct<{
     readonly notificationMode: Schema.optionalKey<Schema.Literals<readonly ["off", "notifications", "sound", "notifications-and-sound"]>>;

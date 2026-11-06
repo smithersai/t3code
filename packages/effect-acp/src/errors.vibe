@@ -139,7 +139,7 @@ export interface AcpRequestDiagnostics {
 
 const AcpSpawnErrorCauseField = Schema.Defect()
 export schema error AcpSpawnError {
-  command?: string
+  command?: string | undefined
   cause: AcpSpawnErrorCauseField
   override get message(): string {
     return this.command

@@ -86,5 +86,6 @@ export type ConnectionRegistration = typeof ConnectionRegistration.Type;
  */
 export declare const PlatformConnectionRegistration: Schema.Union<readonly [typeof PrimaryConnectionRegistration, typeof BearerConnectionRegistration]>;
 export type PlatformConnectionRegistration = typeof PlatformConnectionRegistration.Type;
+/** @throws {never} */
 export declare function connectionRegistrationCatalogEntry(registration: ConnectionRegistration | PrimaryConnectionRegistration): ConnectionCatalogEntry;
 export {};

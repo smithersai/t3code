@@ -77,7 +77,7 @@ export const AcpRegistrySearchResult = Schema.Struct({
 export type AcpRegistrySearchResult = typeof AcpRegistrySearchResult.Type
 
 export schema AcpRegistryPrepareInput {
-  agentId: AcpRegistryAgentId
+  readonly agentId: AcpRegistryAgentId
 }
 
 export const AcpRegistryPrepareResult = Schema.Struct({
@@ -89,12 +89,12 @@ export const AcpRegistryPrepareResult = Schema.Struct({
 export type AcpRegistryPrepareResult = typeof AcpRegistryPrepareResult.Type
 
 export schema AcpRegistryManagedBinaryUninstallInput {
-  agentId: AcpRegistryAgentId
+  readonly agentId: AcpRegistryAgentId
 }
 
 export schema AcpRegistryManagedBinaryUninstallResult {
-  agentId: AcpRegistryAgentId
-  removed: boolean
+  readonly agentId: AcpRegistryAgentId
+  readonly removed: boolean
 }
 
 const AcpRegistryProbeText = TrimmedNonEmptyString.check(Schema.isMaxLength(256))
@@ -121,12 +121,12 @@ export const AcpRegistryUrlAuthAction = Schema.Struct({
 export type AcpRegistryUrlAuthAction = typeof AcpRegistryUrlAuthAction.Type
 
 export schema AcpRegistryAcceptUrlAuthInput {
-  instanceId: ProviderInstanceId
-  elicitationId: AcpRegistryProbeText
+  readonly instanceId: ProviderInstanceId
+  readonly elicitationId: AcpRegistryProbeText
 }
 
 export schema AcpRegistryAcceptUrlAuthResult {
-  accepted: boolean
+  readonly accepted: boolean
 }
 
 const AcpRegistrySessionId = TrimmedNonEmptyString.check(Schema.isMaxLength(1_024))
@@ -169,20 +169,18 @@ export const AcpRegistryImportSessionInput = Schema.Struct({
 })
 export type AcpRegistryImportSessionInput = typeof AcpRegistryImportSessionInput.Type
 
-export const AcpRegistryImportSessionResult = Schema.Struct({
-  threadId: ThreadId,
-  imported: Schema.Boolean,
-})
-export type AcpRegistryImportSessionResult = typeof AcpRegistryImportSessionResult.Type
+export schema AcpRegistryImportSessionResult {
+  readonly threadId: ThreadId
+  readonly imported: boolean
+}
 
-export const AcpRegistryDeleteSessionInput = Schema.Struct({
-  instanceId: ProviderInstanceId,
-  projectId: ProjectId,
-  sessionId: AcpRegistrySessionId,
-})
-export type AcpRegistryDeleteSessionInput = typeof AcpRegistryDeleteSessionInput.Type
+export schema AcpRegistryDeleteSessionInput {
+  readonly instanceId: ProviderInstanceId
+  readonly projectId: ProjectId
+  readonly sessionId: AcpRegistrySessionId
+}
 
-export schema AcpRegistryDeleteSessionResult { deleted: true }
+export schema AcpRegistryDeleteSessionResult { readonly deleted: true }
 
 const AcpRegistryProviderId = TrimmedNonEmptyString.check(Schema.isMaxLength(256))
 const AcpRegistryProviderProtocol = TrimmedNonEmptyString.check(Schema.isMaxLength(64))
@@ -200,11 +198,10 @@ export const AcpRegistryConfigurableProvider = Schema.Struct({
 })
 export type AcpRegistryConfigurableProvider = typeof AcpRegistryConfigurableProvider.Type
 
-export const AcpRegistryListProvidersInput = Schema.Struct({
-  instanceId: ProviderInstanceId,
-  projectId: ProjectId,
-})
-export type AcpRegistryListProvidersInput = typeof AcpRegistryListProvidersInput.Type
+export schema AcpRegistryListProvidersInput {
+  readonly instanceId: ProviderInstanceId
+  readonly projectId: ProjectId
+}
 
 export const AcpRegistryListProvidersResult = Schema.Struct({
   providers: Schema.Array(AcpRegistryConfigurableProvider).check(Schema.isMaxLength(64)),
@@ -227,29 +224,28 @@ export const AcpRegistrySetProviderInput = Schema.Struct({
 })
 export type AcpRegistrySetProviderInput = typeof AcpRegistrySetProviderInput.Type
 
-export schema AcpRegistrySetProviderResult { configured: true }
+export schema AcpRegistrySetProviderResult { readonly configured: true }
 
-export const AcpRegistryDisableProviderInput = Schema.Struct({
-  instanceId: ProviderInstanceId,
-  projectId: ProjectId,
-  providerId: AcpRegistryProviderId,
-})
-export type AcpRegistryDisableProviderInput = typeof AcpRegistryDisableProviderInput.Type
+export schema AcpRegistryDisableProviderInput {
+  readonly instanceId: ProviderInstanceId
+  readonly projectId: ProjectId
+  readonly providerId: AcpRegistryProviderId
+}
 
-export schema AcpRegistryDisableProviderResult { disabled: true }
+export schema AcpRegistryDisableProviderResult { readonly disabled: true }
 
 export schema AcpRegistryLogoutInput {
-  instanceId: ProviderInstanceId
+  readonly instanceId: ProviderInstanceId
 }
 
 export schema AcpRegistryLogoutResult {
-  loggedOut: true
+  readonly loggedOut: true
 }
 
 export schema AcpRegistryProbeModel {
-  id: AcpRegistryProbeText
-  name: AcpRegistryProbeText
-  description: AcpRegistryProbeDescription
+  readonly id: AcpRegistryProbeText
+  readonly name: AcpRegistryProbeText
+  readonly description: AcpRegistryProbeDescription
 }
 
 export const AcpRegistryProbeResult = Schema.Struct({

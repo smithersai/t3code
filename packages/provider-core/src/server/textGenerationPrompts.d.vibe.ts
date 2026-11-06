@@ -9,6 +9,7 @@ export interface CommitMessagePromptInput {
     includeBranch?: boolean;
     policy?: TextGenerationPolicy | undefined;
 }
+/** @throws {never} */
 export declare function buildCommitMessagePrompt(input: CommitMessagePromptInput): {
     prompt: string;
     outputSchema: Schema.Struct<{
@@ -26,6 +27,7 @@ export interface PrContentPromptInput {
     threadContext?: string | undefined;
     policy?: TextGenerationPolicy | undefined;
 }
+/** @throws {never} */
 export declare function buildPrContentPrompt(input: PrContentPromptInput): {
     prompt: string;
     outputSchema: Schema.Struct<{
@@ -43,6 +45,7 @@ export interface ReviewGuidePromptInput {
     instructions?: string | undefined;
     stack?: ReadonlyArray<ReviewGuideStackLayer> | undefined;
 }
+/** @throws {never} */
 export declare function buildReviewGuidePrompt(input: ReviewGuidePromptInput): {
     prompt: string;
     outputSchema: Schema.Struct<{
@@ -80,6 +83,7 @@ export interface BranchNamePromptInput {
     attachments?: ReadonlyArray<ChatAttachment> | undefined;
     policy?: TextGenerationPolicy | undefined;
 }
+/** @throws {never} */
 export declare function buildBranchNamePrompt(input: BranchNamePromptInput): {
     prompt: string;
     outputSchema: Schema.Struct<{
@@ -99,6 +103,7 @@ export interface ThreadTitleForkSource {
     title: string;
     history: string;
 }
+/** @throws {never} */
 export declare function buildThreadTitlePrompt(input: ThreadTitlePromptInput): {
     prompt: string;
     outputSchema: Schema.Struct<{

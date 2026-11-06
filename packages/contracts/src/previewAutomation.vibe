@@ -63,9 +63,9 @@ export type PreviewAutomationTabTargetInput = typeof PreviewAutomationTabTargetI
 export const PreviewAutomationTabOwner = Schema.Literals(["agent", "human", "unclaimed"])
 
 export schema PreviewAutomationProfile {
-  id: BrowserProfileId
-  name: string
-  incognito?: boolean
+  readonly id: BrowserProfileId
+  readonly name: string
+  readonly incognito?: boolean | undefined
 }
 
 export const PreviewAutomationStatus = Schema.Struct({
@@ -245,9 +245,9 @@ export const PreviewAutomationResizeInput = Schema.Struct({
 export type PreviewAutomationResizeInput = typeof PreviewAutomationResizeInput.Type
 
 export schema PreviewAutomationResizeResult {
-  tabId: PreviewTabId
-  setting: PreviewViewportSetting
-  viewport: PreviewRenderedViewportSize
+  readonly tabId: PreviewTabId
+  readonly setting: PreviewViewportSetting
+  readonly viewport: PreviewRenderedViewportSize
 }
 
 // Mirrors DesktopPreviewColorScheme without importing ipc.ts.
@@ -260,8 +260,8 @@ export const PreviewAutomationSetColorSchemeInput = Schema.Struct({
 export type PreviewAutomationSetColorSchemeInput = typeof PreviewAutomationSetColorSchemeInput.Type
 
 export schema PreviewAutomationSetColorSchemeResult {
-  tabId: PreviewTabId
-  colorScheme: PreviewAutomationColorScheme
+  readonly tabId: PreviewTabId
+  readonly colorScheme: PreviewAutomationColorScheme
 }
 
 const Locator = TrimmedNonEmptyString
@@ -500,10 +500,10 @@ export const PreviewAutomationElement = Schema.Struct({
 export type PreviewAutomationElement = typeof PreviewAutomationElement.Type
 
 export schema PreviewAutomationConsoleEntry {
-  level: string
-  text: string
-  timestamp: string
-  source?: string
+  readonly level: string
+  readonly text: string
+  readonly timestamp: string
+  readonly source?: string | undefined
 }
 
 export const PreviewAutomationNetworkEntry = Schema.Struct({
@@ -517,29 +517,29 @@ export const PreviewAutomationNetworkEntry = Schema.Struct({
 export type PreviewAutomationNetworkEntry = typeof PreviewAutomationNetworkEntry.Type
 
 export schema PreviewAutomationActionEvent {
-  id: string
-  action: string
-  status: "running" | "succeeded" | "failed" | "interrupted"
-  startedAt: string
-  completedAt?: string
-  error?: string
+  readonly id: string
+  readonly action: string
+  readonly status: "running" | "succeeded" | "failed" | "interrupted"
+  readonly startedAt: string
+  readonly completedAt?: string | undefined
+  readonly error?: string | undefined
 }
 
 export schema PreviewAutomationSnapshot {
-  url: string
-  title: string
-  loading: boolean
-  visibleText: string
-  interactiveElements: ReadonlyArray<PreviewAutomationElement>
-  accessibilityTree: Schema.Unknown
-  consoleEntries: ReadonlyArray<PreviewAutomationConsoleEntry>
-  networkEntries: ReadonlyArray<PreviewAutomationNetworkEntry>
-  actionTimeline: ReadonlyArray<PreviewAutomationActionEvent>
-  screenshot: {
-    mimeType: "image/png"
-    data: string
-    width: Schema.Int
-    height: Schema.Int
+  readonly url: string
+  readonly title: string
+  readonly loading: boolean
+  readonly visibleText: string
+  readonly interactiveElements: ReadonlyArray<PreviewAutomationElement>
+  readonly accessibilityTree: Schema.Unknown
+  readonly consoleEntries: ReadonlyArray<PreviewAutomationConsoleEntry>
+  readonly networkEntries: ReadonlyArray<PreviewAutomationNetworkEntry>
+  readonly actionTimeline: ReadonlyArray<PreviewAutomationActionEvent>
+  readonly screenshot: {
+    readonly mimeType: "image/png"
+    readonly data: string
+    readonly width: Schema.Int
+    readonly height: Schema.Int
   }
 }
 
@@ -553,12 +553,12 @@ export type PreviewAutomationRecordingStatus = typeof PreviewAutomationRecording
 export const PREVIEW_RECORDING_STOP_TIMEOUT_MS = 120_000
 
 export schema PreviewAutomationRecordingArtifact {
-  id: string
-  tabId: PreviewTabId
-  path: string
-  mimeType: string
-  sizeBytes: Schema.Int
-  createdAt: string
+  readonly id: string
+  readonly tabId: PreviewTabId
+  readonly path: string
+  readonly mimeType: string
+  readonly sizeBytes: Schema.Int
+  readonly createdAt: string
 }
 
 export const PreviewAutomationClientId = TrimmedNonEmptyString.check(Schema.isMaxLength(128))
@@ -567,8 +567,8 @@ export const PreviewAutomationConnectionId = TrimmedNonEmptyString.check(Schema.
 export type PreviewAutomationConnectionId = typeof PreviewAutomationConnectionId.Type
 
 export schema PreviewAutomationHostIdentity {
-  clientId: PreviewAutomationClientId
-  environmentId: EnvironmentId
+  readonly clientId: PreviewAutomationClientId
+  readonly environmentId: EnvironmentId
 }
 
 export const PreviewAutomationHost = Schema.Struct({
@@ -608,25 +608,25 @@ export const PreviewAutomationRequest = Schema.Struct({
 export type PreviewAutomationRequest = typeof PreviewAutomationRequest.Type
 
 export schema PreviewAutomationStreamEvent = {
-  type: "connected"
-  connectionId: PreviewAutomationConnectionId
+  readonly type: "connected"
+  readonly connectionId: PreviewAutomationConnectionId
 } | {
-  type: "request"
-  connectionId: PreviewAutomationConnectionId
-  request: PreviewAutomationRequest
+  readonly type: "request"
+  readonly connectionId: PreviewAutomationConnectionId
+  readonly request: PreviewAutomationRequest
 }
 
 export schema PreviewAutomationResponse {
-  clientId: PreviewAutomationClientId
-  connectionId: PreviewAutomationConnectionId
-  requestId: TrimmedNonEmptyString
-  ok: boolean
-  result?: Schema.Unknown
-  error?: {
-    _tag: TrimmedNonEmptyString
-    message: string
-    detail?: Schema.Unknown
-  }
+  readonly clientId: PreviewAutomationClientId
+  readonly connectionId: PreviewAutomationConnectionId
+  readonly requestId: TrimmedNonEmptyString
+  readonly ok: boolean
+  readonly result?: Schema.Unknown | undefined
+  readonly error?: {
+    readonly _tag: TrimmedNonEmptyString
+    readonly message: string
+    readonly detail?: Schema.Unknown | undefined
+  } | undefined
 }
 
 const McpCapabilityErrorFields = {
@@ -922,7 +922,7 @@ export class PreviewAutomationMalformedResponseError
 const DefectField = Schema.Defect()
 export schema error PreviewAutomationRecordingTransferError {
   threadId: ThreadId
-  cause?: DefectField
+  cause?: DefectField | undefined
   override get message(): string {
     return "Preview recording could not be saved to the agent environment."
   }
@@ -930,7 +930,7 @@ export schema error PreviewAutomationRecordingTransferError {
 
 export schema error PreviewAutomationRecordingDesktopUpdateRequiredError {
   threadId: ThreadId
-  cause?: DefectField
+  cause?: DefectField | undefined
   override get message(): string {
     return "Update the desktop app to transfer recordings. The recording remains on the desktop."
   }
@@ -938,7 +938,7 @@ export schema error PreviewAutomationRecordingDesktopUpdateRequiredError {
 
 export schema error PreviewAutomationRecordingTooLargeError {
   threadId: ThreadId
-  cause?: DefectField
+  cause?: DefectField | undefined
   override get message(): string {
     return "The recording exceeds 50 MiB. Make a shorter recording."
   }
@@ -946,7 +946,7 @@ export schema error PreviewAutomationRecordingTooLargeError {
 
 export schema error PreviewAutomationRecordingDeadlineExpiredError {
   threadId: ThreadId
-  cause?: DefectField
+  cause?: DefectField | undefined
   override get message(): string {
     return "The recording transfer deadline expired."
   }
@@ -973,8 +973,8 @@ export schema PreviewAutomationError =
   | PreviewAutomationMalformedResponseError
 
 export schema PreviewUrlResolution {
-  requestedUrl: string
-  resolvedUrl: string
-  resolutionKind: "direct" | "direct-private-network"
-  environmentId: EnvironmentId
+  readonly requestedUrl: string
+  readonly resolvedUrl: string
+  readonly resolutionKind: "direct" | "direct-private-network"
+  readonly environmentId: EnvironmentId
 }

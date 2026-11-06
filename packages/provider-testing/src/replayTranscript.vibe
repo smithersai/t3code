@@ -22,21 +22,13 @@ export class ProviderReplayNdjsonLineParseError extends Schema.TaggedError<Provi
   }
 }
 
-export class ProviderReplayNdjsonMissingHeaderError
-  extends Schema.TaggedError<ProviderReplayNdjsonMissingHeaderError>()(
-    "ProviderReplayNdjsonMissingHeaderError",
-    {},
-  )
-{
+export schema error ProviderReplayNdjsonMissingHeaderError {
   override get message(): string {
     return "Provider replay NDJSON requires a transcript_start header or fallback transcript metadata."
   }
 }
 
-export class ProviderReplayNdjsonEmptyError extends Schema.TaggedError<ProviderReplayNdjsonEmptyError>()(
-  "ProviderReplayNdjsonEmptyError",
-  {},
-) {
+export schema error ProviderReplayNdjsonEmptyError {
   override get message(): string {
     return "Provider replay NDJSON did not contain any records."
   }

@@ -632,6 +632,7 @@ declare const ProjectSearchEntriesError_base: Schema.Class<ProjectSearchEntriesE
     readonly cause: Schema.optional<Schema.Defect>;
 }>, import("effect/Cause").YieldableError>;
 export declare class ProjectSearchEntriesError extends ProjectSearchEntriesError_base {
+    /** @throws {never} */
     constructor(props: ProjectEntriesFailureContext & {
         readonly cwd: string;
         readonly queryLength: number;
@@ -650,6 +651,7 @@ declare const ProjectSearchContentsError_base: Schema.Class<ProjectSearchContent
     readonly cause: Schema.optional<Schema.Defect>;
 }>, import("effect/Cause").YieldableError>;
 export declare class ProjectSearchContentsError extends ProjectSearchContentsError_base {
+    /** @throws {never} */
     constructor(props: ProjectEntriesFailureContext & {
         readonly cwd: string;
         readonly queryLength: number;
@@ -666,6 +668,7 @@ declare const ProjectListEntriesError_base: Schema.Class<ProjectListEntriesError
     readonly cause: Schema.optional<Schema.Defect>;
 }>, import("effect/Cause").YieldableError>;
 export declare class ProjectListEntriesError extends ProjectListEntriesError_base {
+    /** @throws {never} */
     constructor(props: ProjectEntriesFailureContext & {
         readonly cwd: string;
     });
@@ -710,6 +713,7 @@ declare const ProjectReadFileError_base: Schema.Class<ProjectReadFileError, Sche
     readonly cause: Schema.optional<Schema.Defect>;
 }>, import("effect/Cause").YieldableError>;
 export declare class ProjectReadFileError extends ProjectReadFileError_base {
+    /** @throws {never} */
     constructor(props: ProjectFileFailureContext);
 }
 export declare const ProjectWriteFileInput: Schema.Struct<{
@@ -749,6 +753,7 @@ declare const ProjectWriteFileError_base: Schema.Class<ProjectWriteFileError, Sc
     readonly cause: Schema.optional<Schema.Defect>;
 }>, import("effect/Cause").YieldableError>;
 export declare class ProjectWriteFileError extends ProjectWriteFileError_base {
+    /** @throws {never} */
     constructor(props: ProjectFileFailureContext);
 }
 export {};

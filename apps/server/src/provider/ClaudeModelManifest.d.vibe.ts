@@ -54,5 +54,6 @@ interface ClaudeManifestAdapterInput {
         }>;
     } | undefined>> | undefined;
 }
+/** @throws {never} */
 export declare function hasValidClaudeManifestAdapters(manifest: ClaudeManifestAdapterInput): boolean;
 export {};

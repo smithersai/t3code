@@ -10,6 +10,7 @@ declare const ConnectionCredentialStore_base: Context.ServiceClass<ConnectionCre
 }>;
 export declare class ConnectionCredentialStore extends ConnectionCredentialStore_base {
 }
+/** @throws {never} */
 export declare const make: (service: ConnectionCredentialStore["Service"]) => {
     readonly get: (connectionId: string) => Effect.Effect<Option.Option<ConnectionCredential>, ConnectionAttemptError>;
     readonly put: (connectionId: string, credential: ConnectionCredential) => Effect.Effect<void, ConnectionAttemptError>;

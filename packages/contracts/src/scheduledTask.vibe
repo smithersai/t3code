@@ -27,8 +27,8 @@ export const MIN_SCHEDULED_TASK_INTERVAL_MS = 60_000
 const ScheduledTaskIntervalMs = Schema.Int.check(Schema.isGreaterThan(0))
 
 schema ScheduledTaskIntervalSchedule {
-  type: "interval"
-  everyMs: ScheduledTaskIntervalMs
+  readonly type: "interval"
+  readonly everyMs: ScheduledTaskIntervalMs
 }
 
 const ScheduledTaskFixedTimeSchedule = Schema.Struct({
@@ -247,20 +247,20 @@ export const ScheduledTaskUpsertInput = Schema.Struct({
 export type ScheduledTaskUpsertInput = typeof ScheduledTaskUpsertInput.Type
 
 export schema ScheduledTaskSetEnabledInput {
-  id: ScheduledTaskId
-  enabled: boolean
+  readonly id: ScheduledTaskId
+  readonly enabled: boolean
 }
 
 export schema ScheduledTaskDeleteInput {
-  id: ScheduledTaskId
+  readonly id: ScheduledTaskId
 }
 
 export schema ScheduledTaskRunNowInput {
-  id: ScheduledTaskId
+  readonly id: ScheduledTaskId
 }
 
 export schema ScheduledTaskRotateWebhookTokenInput {
-  id: ScheduledTaskId
+  readonly id: ScheduledTaskId
 }
 
 export const ScheduledTaskWebhookDeliveryId = TrimmedNonEmptyString.pipe(
@@ -317,34 +317,34 @@ export const ScheduledTaskListWebhookDeliveriesInput = Schema.Struct({
 export type ScheduledTaskListWebhookDeliveriesInput = typeof ScheduledTaskListWebhookDeliveriesInput.Type
 
 export schema ScheduledTaskListWebhookDeliveriesResult {
-  deliveries: ReadonlyArray<ScheduledTaskWebhookDeliverySummary>
+  readonly deliveries: ReadonlyArray<ScheduledTaskWebhookDeliverySummary>
 }
 
 export schema ScheduledTaskGetWebhookDeliveryInput {
-  id: ScheduledTaskId
-  deliveryId: ScheduledTaskWebhookDeliveryId
-  acceptAnyOutcome?: boolean
+  readonly id: ScheduledTaskId
+  readonly deliveryId: ScheduledTaskWebhookDeliveryId
+  readonly acceptAnyOutcome?: boolean | undefined
 }
 
 export schema ScheduledTaskGetWebhookDeliveryResult {
-  delivery: ScheduledTaskWebhookDelivery
+  readonly delivery: ScheduledTaskWebhookDelivery
 }
 
 export schema ScheduledTaskMutationResult {
-  task: ScheduledTask
+  readonly task: ScheduledTask
 }
 
 export schema ScheduledTaskDeleteResult {
-  id: ScheduledTaskId
+  readonly id: ScheduledTaskId
 }
 
 export schema ScheduledTaskRunNowResult {
-  task: ScheduledTask
+  readonly task: ScheduledTask
 }
 
 const DefectField = Schema.Defect()
 export schema error ScheduledTaskError {
   message: string
-  taskId?: ScheduledTaskId
-  cause?: DefectField
+  taskId?: ScheduledTaskId | undefined
+  cause?: DefectField | undefined
 }

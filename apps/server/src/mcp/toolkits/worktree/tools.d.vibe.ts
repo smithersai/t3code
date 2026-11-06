@@ -25,21 +25,21 @@ export declare const WorktreeToolkit: Toolkit.Toolkit<{
                 readonly scriptName: Schema.decodeTo<Schema.String, Schema.String, never, never>;
                 readonly terminalId: Schema.decodeTo<Schema.String, Schema.String, never, never>;
             }>, Schema.Struct<{
-                readonly status: Schema.Literal<"no-script">;
+                readonly status: Schema.mutableKey<Schema.Literal<"no-script">>;
             }>, Schema.Struct<{
-                readonly status: Schema.Literal<"skipped">;
+                readonly status: Schema.mutableKey<Schema.Literal<"skipped">>;
             }>, Schema.Struct<{
-                readonly status: Schema.Literal<"failed">;
-                readonly detail: Schema.String;
+                readonly status: Schema.mutableKey<Schema.Literal<"failed">>;
+                readonly detail: Schema.mutableKey<Schema.String>;
             }>]>;
             readonly continuation: Schema.Union<readonly [Schema.Struct<{
                 readonly status: Schema.Literal<"scheduled">;
                 readonly delivery: Schema.Literals<readonly ["started", "queued", "steered", "restarted"]>;
             }>, Schema.Struct<{
-                readonly status: Schema.Literal<"skipped">;
+                readonly status: Schema.mutableKey<Schema.Literal<"skipped">>;
             }>, Schema.Struct<{
-                readonly status: Schema.Literal<"failed">;
-                readonly detail: Schema.String;
+                readonly status: Schema.mutableKey<Schema.Literal<"failed">>;
+                readonly detail: Schema.mutableKey<Schema.String>;
             }>]>;
             readonly note: Schema.String;
         }>;

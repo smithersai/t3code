@@ -1,4 +1,5 @@
 import * as Schema from "effect/Schema";
+/** @throws {never} */
 export declare function hasOnlyPairedSurrogates(value: string): boolean;
 export declare const ThreadMetadataMcpAction: Schema.Literals<readonly ["rename", "regenerate_title"]>;
 export type ThreadMetadataMcpAction = typeof ThreadMetadataMcpAction.Type;

@@ -43,4 +43,5 @@ export declare const CLIENT_GUARDED_RPC_SCOPES: {
     readonly "peerLinks.answerRequest": "access:write";
 };
 export type ClientGuardedRpcTag = keyof typeof CLIENT_GUARDED_RPC_SCOPES;
+/** @throws {never} */
 export declare function clientRpcRequiredScopes(method: string, input: unknown): readonly AuthEnvironmentScope[];

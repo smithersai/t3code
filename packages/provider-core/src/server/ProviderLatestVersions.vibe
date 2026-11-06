@@ -10,14 +10,15 @@ interface Entry {
   readonly version: string | null
 }
 
-export service ProviderLatestVersions {
-  static readonly key = "@t3tools/provider-core/server/ProviderLatestVersions"
-  cached: <E, R>(
+export service ProviderLatestVersions: {
+  readonly cached: <E, R>(
     key: string,
     lookup: (string | null)!E!R,
     options?: { readonly fresh?: boolean },
   ) => (string | null)!E!R
-  invalidate: (key: string) => void!!
+  readonly invalidate: (key: string) => void!!
+} {
+  static readonly key = "@t3tools/provider-core/server/ProviderLatestVersions"
 }
 
 export const make = effect (

@@ -40,6 +40,8 @@ declare const GitHubPullRequestSchema: Schema.Struct<{
         readonly login: Schema.optional<Schema.NullOr<Schema.String>>;
     }>>>;
 }>;
+/** @throws {never} */
 export declare function normalizeGitHubPullRequestRecord(raw: Schema.Schema.Type<typeof GitHubPullRequestSchema>): NormalizedGitHubPullRequestRecord;
+/** @throws {never} */
 export declare function decodeGitHubPullRequestListJson(raw: string): Result.Result<ReadonlyArray<NormalizedGitHubPullRequestRecord>, Cause.Cause<Schema.SchemaError>>;
 export {};

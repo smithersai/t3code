@@ -128,6 +128,7 @@ export declare const ThreadGuestShare: Schema.Struct<{
     }>>;
 }>;
 export type ThreadGuestShare = typeof ThreadGuestShare.Type;
+/** @throws {never} */
 export declare const pendingGuestMessageCount: (share: ThreadGuestShare | null | undefined) => number;
 export declare const GuestShareCreateInput: Schema.Struct<{
     readonly threadId: Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "ThreadId">;
@@ -224,6 +225,7 @@ export declare const GUEST_SHARE_PARAM = "share";
 /**
  * One session cookie per share, so a guest keeps every link they joined on a host, and a page
  * for one share never acts with another share's session.
+ * @throws {never}
  */
 export declare const guestSessionCookieName: (shareId: string) => string;
 /** Serves one HTML render in the shared thread: `?share=<share id>&item=<turn item id>`. */

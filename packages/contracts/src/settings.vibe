@@ -5,7 +5,6 @@ import {
   AuthProvidersManageScope,
   AuthSettingsWriteScope,
 } from "./auth.vibe"
-import * as Effect from "effect/Effect"
 import * as Duration from "effect/Duration"
 import * as Schema from "effect/Schema"
 import {
@@ -159,8 +158,8 @@ export const SNAP_SHOT_MODIFIERS = ["shift", "meta", "control", "alt"] as const
 export const SnapShotModifier = Schema.Literals(SNAP_SHOT_MODIFIERS)
 export type SnapShotModifier = typeof SnapShotModifier.Type
 export schema SnapShotShortcut =
-  | { kind: "both-shift-keys" }
-  | { kind: "modifier-pair"; modifier: SnapShotModifier }
+  | { readonly kind: "both-shift-keys" }
+  | { readonly kind: "modifier-pair"; readonly modifier: SnapShotModifier }
   | SnapShotKeyChord
 export schema SnapShotSound = "soft-pop" | "camera-shutter"
 const DEFAULT_SNAP_SHOT_SOUND: SnapShotSound = "soft-pop"
@@ -263,10 +262,12 @@ export const DiffColorScheme = Schema.Literals(["red-green", "blue-orange"])
 
 export schema ChatWidth = "comfortable" | "wide" | "full"
 
-export const ModelFavorite = Schema.Struct({
-  provider: ProviderInstanceId,
-  model: TrimmedNonEmptyString,
-})
+schema ModelFavoriteCodec {
+  readonly provider: ProviderInstanceId
+  readonly model: TrimmedNonEmptyString
+}
+
+export const ModelFavorite = ModelFavoriteCodec
 export const ModelFavorites = Schema.Array(ModelFavorite)
 export const ProviderModelPreferences = Schema.Record(
   ProviderInstanceId,
@@ -1310,9 +1311,10 @@ export const resolveIdleCompaction = (
   const instance = Object.hasOwn(settings.providerInstances, instanceId)
     ? settings.providerInstances[instanceId]
     : undefined
-  const override = decodeClaudeSettings(instance?.config ?? {})
-    .map((config) => config.idleCompaction)
-    .getOrElse(() => "default" as const)
+  const override = Option.getOrElse(
+    Option.map(decodeClaudeSettings(instance?.config ?? {}), (config) => config.idleCompaction),
+    () => "default" as const,
+  )
   return override === "default" ? globalIdleCompaction(settings) : override
 }
 
@@ -1334,9 +1336,9 @@ const DefectField = Schema.Defect()
 export schema error ServerSettingsError {
   settingsPath: string
   operation: ServerSettingsOperation
-  providerInstanceId?: string
-  environmentVariable?: string
-  cause?: DefectField
+  providerInstanceId?: string | undefined
+  environmentVariable?: string | undefined
+  cause?: DefectField | undefined
   override get message(): string {
     const provider = this.providerInstanceId === undefined ? "" : ` for provider ${this.providerInstanceId}`
     const variable = this.environmentVariable === undefined

@@ -200,10 +200,14 @@ export const grokUsageReader: ProviderUsageReader<GrokSettings, Path.Path> = {
       effect {
         const path = try Path.Path
         const homeDirectory = try HostProcess.HomeDirectory
-        const home = expandHomePath(
-          environment.GROK_HOME?.trim() || path.join(homeDirectory, ".grok"),
-          homeDirectory,
-        )
+        const home = try Effect.orDie(Effect.try({
+          try: () =>
+            expandHomePath(
+              environment.GROK_HOME?.trim() || path.join(homeDirectory, ".grok"),
+              homeDirectory,
+            ),
+          catch: (e) => e,
+        }))
         // Only updates.jsonl carries usage; skip large chat_history and events logs.
         return [{ dir: path.resolve(home, "sessions"), fileName: "updates.jsonl" }]
       },

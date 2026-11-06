@@ -21,19 +21,27 @@ export interface ThreadRelationshipWalkRow {
     readonly depth: number;
     readonly edge: ThreadRelationshipEdge;
 }
+/** @throws {never} */
 export declare function resolveMergeBackTargetThreadId(projection: Pick<OrchestrationV2ThreadProjection, "thread"> | null): ThreadId | null;
+/** @throws {never} */
 export declare function deriveThreadRelationshipGraph(input: {
     readonly threads: ReadonlyArray<OrchestrationV2ThreadShell>;
     readonly projection: OrchestrationV2ThreadProjection | null;
 }): ThreadRelationshipGraph;
+/** @throws {never} */
 export declare function relatedThreadIds(graph: ThreadRelationshipGraph, threadId: ThreadId): ReadonlyArray<ThreadId>;
+/** @throws {never} */
 export declare function walkThreadRelationships(graph: ThreadRelationshipGraph, threadId: ThreadId): ReadonlyArray<ThreadRelationshipWalkRow>;
+/** @throws {never} */
 export declare function immediateThreadRelationships(graph: ThreadRelationshipGraph, threadId: ThreadId): ReadonlyArray<ThreadRelationshipWalkRow>;
+/** @throws {never} */
 export declare function isParentThreadRelationship(edge: ThreadRelationshipEdge, currentThreadId: ThreadId): boolean;
+/** @throws {never} */
 export declare function threadRelationshipRowStatus(graph: ThreadRelationshipGraph, row: Pick<ThreadRelationshipWalkRow, "threadId" | "edge">): string | null;
 /**
  * Web pins the parent and distinct merge-back target before newest-created-first ordering.
  * Mobile does not share this exception; do not reuse it as the canonical relationship order.
+ * @throws {never}
  */
 export declare function orderWebThreadLineageRows(input: {
     readonly graph: ThreadRelationshipGraph;

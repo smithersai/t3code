@@ -70,7 +70,9 @@ export interface ThreadRuntimeSummary {
 }
 /** The runtime summary a thread's structure determines; see ThreadStructure. */
 export type ThreadStructureRuntime = Omit<ThreadRuntimeSummary, "updatedAt">;
+/** @throws {never} */
 export declare function threadRuntimeIsActive(runtime: ThreadStructureRuntime | null | undefined): boolean;
+/** @throws {never} */
 export declare function threadRuntimeCanArchive(runtime: ThreadRuntimeSummary | null | undefined): boolean;
 export interface EnvironmentThreadShell {
     readonly environmentId: EnvironmentId;
@@ -136,18 +138,24 @@ export interface EnvironmentThreadShell {
     readonly deletedAt: string | null;
     readonly source: OrchestrationV2ThreadShell;
 }
+/** @throws {never} */
 export declare function scopeProject(environmentId: EnvironmentId, project: OrchestrationProjectShell): EnvironmentProject;
 export type PendingSubagentRequest = "approval" | "user_input";
+/** @throws {never} */
 export declare function presentThreadShell(environmentId: EnvironmentId, thread: OrchestrationV2ThreadShell, pendingSubagentRequest?: PendingSubagentRequest | null): EnvironmentThreadShell;
+/** @throws {never} */
 export declare function scopeThreadShell(environmentId: EnvironmentId, thread: OrchestrationV2ThreadShell): EnvironmentThreadShell;
+/** @throws {never} */
 export declare function resolveThreadProviderStack(thread: Pick<EnvironmentThreadShell, "providerInstanceHistory" | "modelSelection" | "runtime">): ReadonlyArray<ProviderInstanceId>;
 /**
  * Both shell and detail timers count from the activity-owning run's work
  * start, never last activity. A wake keeps the start of the work it continues.
+ * @throws {never}
  */
 export declare function resolveThreadWorkingStartedAt(input: {
     readonly latestRun: Pick<ThreadRunSummary, "runId" | "startedAt" | "requestedAt" | "completedAt"> | null;
     readonly runtime: Pick<ThreadRuntimeSummary, "activeRunId" | "activityStartedAt"> | null;
 }): string | null;
+/** @throws {never} */
 export declare function formatWorkingDurationLabel(elapsedMs: number): string;
 export {};

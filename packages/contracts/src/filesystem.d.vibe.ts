@@ -48,6 +48,7 @@ declare const FilesystemBrowseError_base: Schema.Class<FilesystemBrowseError, Sc
     readonly cause: Schema.optional<Schema.Defect>;
 }>, import("effect/Cause").YieldableError>;
 export declare class FilesystemBrowseError extends FilesystemBrowseError_base {
+    /** @throws {never} */
     constructor(props: {
         readonly partialPath: string;
         readonly cwd?: string | undefined;

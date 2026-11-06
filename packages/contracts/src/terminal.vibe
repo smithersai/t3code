@@ -22,7 +22,7 @@ const TerminalEnvSchema = Schema.Record(TerminalEnvKeySchema, TerminalEnvValueSc
 )
 
 export schema TerminalThreadInput {
-  threadId: TrimmedNonEmptyStringSchema
+  readonly threadId: TrimmedNonEmptyStringSchema
 }
 
 // Terminal ids are client-chosen; the server never allocates them.
@@ -128,13 +128,13 @@ export const TerminalSummary = Schema.Struct({
 export type TerminalSummary = typeof TerminalSummary.Type
 
 schema TerminalMetadataSnapshotEvent {
-  type: "snapshot"
-  terminals: ReadonlyArray<TerminalSummary>
+  readonly type: "snapshot"
+  readonly terminals: ReadonlyArray<TerminalSummary>
 }
 
 schema TerminalMetadataUpsertEvent {
-  type: "upsert"
-  terminal: TerminalSummary
+  readonly type: "upsert"
+  readonly terminal: TerminalSummary
 }
 
 const TerminalMetadataRemoveEvent = Schema.Struct({
@@ -213,8 +213,8 @@ export schema TerminalEvent =
   | TerminalActivityEvent
 
 schema TerminalAttachSnapshotEvent {
-  type: "snapshot"
-  snapshot: TerminalSessionSnapshot
+  readonly type: "snapshot"
+  readonly snapshot: TerminalSessionSnapshot
 }
 
 export schema TerminalAttachStreamEvent =
@@ -227,35 +227,24 @@ export schema TerminalAttachStreamEvent =
   | TerminalRestartedEvent
   | TerminalActivityEvent
 
-export class TerminalCwdNotFoundError extends Schema.TaggedError<TerminalCwdNotFoundError>()(
-  "TerminalCwdNotFoundError",
-  {
-    cwd: Schema.String,
-  },
-) {
+export schema error TerminalCwdNotFoundError {
+  readonly cwd: string
   override get message() {
     return `Terminal cwd does not exist: ${this.cwd}`
   }
 }
 
-export class TerminalCwdNotDirectoryError extends Schema.TaggedError<TerminalCwdNotDirectoryError>()(
-  "TerminalCwdNotDirectoryError",
-  {
-    cwd: Schema.String,
-  },
-) {
+export schema error TerminalCwdNotDirectoryError {
+  readonly cwd: string
   override get message() {
     return `Terminal cwd is not a directory: ${this.cwd}`
   }
 }
 
-export class TerminalCwdStatError extends Schema.TaggedError<TerminalCwdStatError>()(
-  "TerminalCwdStatError",
-  {
-    cwd: Schema.String,
-    cause: Schema.Defect(),
-  },
-) {
+const TerminalCwdStatErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error TerminalCwdStatError {
+  readonly cwd: string
+  cause: TerminalCwdStatErrorCauseField
   override get message() {
     return `Failed to access terminal cwd: ${this.cwd}`
   }
@@ -277,78 +266,57 @@ export class TerminalHistoryError extends Schema.TaggedError<TerminalHistoryErro
   }
 }
 
-export class TerminalSessionLookupError extends Schema.TaggedError<TerminalSessionLookupError>()(
-  "TerminalSessionLookupError",
-  {
-    threadId: Schema.String,
-    terminalId: Schema.String,
-  },
-) {
+export schema error TerminalSessionLookupError {
+  readonly threadId: string
+  readonly terminalId: string
   override get message() {
     return `Unknown terminal thread: ${this.threadId}, terminal: ${this.terminalId}`
   }
 }
 
-export class TerminalProviderInstanceNotFoundError extends Schema.TaggedError<TerminalProviderInstanceNotFoundError>()(
-  "TerminalProviderInstanceNotFoundError",
-  {
-    providerInstanceId: ProviderInstanceId,
-  },
-) {
+export schema error TerminalProviderInstanceNotFoundError {
+  readonly providerInstanceId: ProviderInstanceId
   override get message() {
     return `Provider instance is not available: ${this.providerInstanceId}`
   }
 }
 
-export class TerminalProviderEnvironmentError extends Schema.TaggedError<TerminalProviderEnvironmentError>()(
-  "TerminalProviderEnvironmentError",
-  {
-    providerInstanceId: ProviderInstanceId,
-    cause: Schema.Defect(),
-  },
-) {
+const TerminalProviderEnvironmentErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error TerminalProviderEnvironmentError {
+  readonly providerInstanceId: ProviderInstanceId
+  cause: TerminalProviderEnvironmentErrorCauseField
   override get message() {
     return `Could not prepare the terminal environment for provider instance: ${this.providerInstanceId}`
   }
 }
 
-export class TerminalNotRunningError extends Schema.TaggedError<TerminalNotRunningError>()(
-  "TerminalNotRunningError",
-  {
-    threadId: Schema.String,
-    terminalId: Schema.String,
-  },
-) {
+export schema error TerminalNotRunningError {
+  readonly threadId: string
+  readonly terminalId: string
   override get message() {
     return `Terminal is not running for thread: ${this.threadId}, terminal: ${this.terminalId}`
   }
 }
 
-export class TerminalWriteError extends Schema.TaggedError<TerminalWriteError>()(
-  "TerminalWriteError",
-  {
-    threadId: Schema.String,
-    terminalId: Schema.String,
-    terminalPid: Schema.Number,
-    cause: Schema.Defect(),
-  },
-) {
+const TerminalWriteErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error TerminalWriteError {
+  readonly threadId: string
+  readonly terminalId: string
+  readonly terminalPid: number
+  cause: TerminalWriteErrorCauseField
   override get message() {
     return `Failed to write to terminal for thread: ${this.threadId}, terminal: ${this.terminalId}, PID: ${this.terminalPid}`
   }
 }
 
-export class TerminalResizeError extends Schema.TaggedError<TerminalResizeError>()(
-  "TerminalResizeError",
-  {
-    threadId: Schema.String,
-    terminalId: Schema.String,
-    terminalPid: Schema.Number,
-    cols: TerminalColsSchema,
-    rows: TerminalRowsSchema,
-    cause: Schema.Defect(),
-  },
-) {
+const TerminalResizeErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error TerminalResizeError {
+  readonly threadId: string
+  readonly terminalId: string
+  readonly terminalPid: number
+  readonly cols: TerminalColsSchema
+  readonly rows: TerminalRowsSchema
+  cause: TerminalResizeErrorCauseField
   override get message() {
     return `Failed to resize terminal for thread: ${this.threadId}, terminal: ${this.terminalId}, PID: ${this.terminalPid} to ${this.cols}x${this.rows}`
   }

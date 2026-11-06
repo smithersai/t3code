@@ -31,8 +31,8 @@ export declare const layer: McpToolAccess.HandlersLayer<{
                     readonly code: import("effect/Schema").Int;
                     readonly description: import("effect/Schema").String;
                     readonly download: import("effect/Schema").optional<import("effect/Schema").Struct<{
-                        readonly id: import("effect/Schema").String;
-                        readonly fileName: import("effect/Schema").String;
+                        readonly id: import("effect/Schema").mutableKey<import("effect/Schema").String>;
+                        readonly fileName: import("effect/Schema").mutableKey<import("effect/Schema").String>;
                     }>>;
                 }>]>;
                 readonly canGoBack: import("effect/Schema").Boolean;

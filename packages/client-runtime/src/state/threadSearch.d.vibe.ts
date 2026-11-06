@@ -6,6 +6,7 @@ import type { EnvironmentThreadShell } from "./models.vibe";
 /**
  * Records that this client opened a thread, and says whether to send the open
  * to the server now.
+ * @throws {never}
  */
 export declare function claimThreadOpen(environmentId: EnvironmentId, threadId: string, now: number): boolean;
 export interface EnvironmentThreadSearchMatch extends OrchestrationThreadSearchMatch {
@@ -31,20 +32,28 @@ export declare const ThreadSearchScope: Schema.Struct<{
     readonly titlesOnly: Schema.optionalKey<Schema.Boolean>;
 }>;
 export type ThreadSearchScope = typeof ThreadSearchScope.Type;
+/** @throws {never} */
 export declare function makeThreadSearchKey(environmentIds: ReadonlyArray<EnvironmentId>, query: string, scope?: ThreadSearchScope): string;
+/** @throws {never} */
 export declare function threadSearchMatchKey(match: Pick<EnvironmentThreadSearchMatch, "environmentId" | "threadId">): string;
 /**
  * Message matches from every environment, plus, from environments whose shells omit older settled
  * threads (`olderSettledBefore` is set), the rows of the best older matches. Callers mount those
  * rows (`rows`) so their own ranking sees them, as it sees shell rows.
+ * @throws {never}
  */
 export declare function createThreadSearchResultsAtomFamily<E>(options: {
+    /** @throws {never} */
     readonly getSearchAtom: (environmentId: EnvironmentId, input: OrchestrationV2SearchThreadsInput) => Atom.Atom<AsyncResult.AsyncResult<OrchestrationV2SearchThreadsResult, E>>;
+    /** @throws {never} */
     readonly olderSettledBefore?: (environmentId: EnvironmentId) => Atom.Atom<string | null>;
     readonly labelPrefix: string;
 }): {
     results: (arg: string) => Atom.Atom<ThreadSearchResultsState>;
-    /** One environment's older settled rows for a search key, for `mountRows`. */
+    /**
+     * One environment's older settled rows for a search key, for `mountRows`.
+     * @throws {never}
+     */
     rows: (key: string, environmentId: EnvironmentId) => Atom.Atom<readonly {
         readonly snapshotSequence: number;
         readonly threads: readonly {
@@ -286,6 +295,7 @@ export type ThreadSearchShell = Pick<EnvironmentThreadShell, "environmentId" | "
 /**
  * What the web and mobile palettes rank a thread shell by. Pass the
  * environment label only when there are two or more environments.
+ * @throws {never}
  */
 export declare function threadSearchSubject(thread: ThreadSearchShell, projectTitle: string | null | undefined, environmentLabel?: string | null): ThreadSearchSubject;
 /** Message result keys in the order a search box last showed them for `query`. */
@@ -299,6 +309,7 @@ export interface ShownOrder {
  * Keep shown rows in place so late results cannot move the pointer or keyboard target.
  * Allow up to LATE_ROOM extra rows so late best matches remain visible.
  * Reuse `previous` when unchanged to avoid a React state update.
+ * @throws {never}
  */
 export declare function nextShownOrder(previous: ShownOrder | null, query: string, ranked: ReadonlyArray<string>, limit: number): ShownOrder;
 export interface SettledThreadSearch {
@@ -310,5 +321,6 @@ export interface SettledThreadSearch {
  * (`ready`), else the previous results if `query` refines or widens their
  * query, so result rows do not blink out and back on every keystroke.
  * Results for an unrelated query clear.
+ * @throws {never}
  */
 export declare function visibleThreadSearch(query: string, ready: SettledThreadSearch | null, previous: SettledThreadSearch | null): SettledThreadSearch;

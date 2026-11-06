@@ -10,10 +10,10 @@ import {
 } from "./pullRequest.ts"
 
 export schema ThreadLinkedPullRequest {
-  projectId: ProjectId
-  repository: TrimmedNonEmptyString
-  number: PositiveInt
-  url: TrimmedNonEmptyString
+  readonly projectId: ProjectId
+  readonly repository: TrimmedNonEmptyString
+  readonly number: PositiveInt
+  readonly url: TrimmedNonEmptyString
 }
 
 /** stack-dismissed hides an unlinked native member and prevents sync from re-adding it. */
@@ -47,25 +47,25 @@ export const ThreadPullRequestSnapshot = Schema.Struct({
 export type ThreadPullRequestSnapshot = typeof ThreadPullRequestSnapshot.Type
 
 export schema ThreadPullRequestStackLayer {
-  number: PositiveInt
-  headBranch: TrimmedNonEmptyString
-  state: PullRequestState
+  readonly number: PositiveInt
+  readonly headBranch: TrimmedNonEmptyString
+  readonly state: PullRequestState
 }
 
 /** Layers run bottom to top. */
 export schema ThreadPullRequestStack {
-  kind: "native"
-  id: TrimmedNonEmptyString
-  number: PositiveInt
-  url: TrimmedNonEmptyString
-  base: TrimmedNonEmptyString
-  layers: ReadonlyArray<ThreadPullRequestStackLayer>
+  readonly kind: "native"
+  readonly id: TrimmedNonEmptyString
+  readonly number: PositiveInt
+  readonly url: TrimmedNonEmptyString
+  readonly base: TrimmedNonEmptyString
+  readonly layers: ReadonlyArray<ThreadPullRequestStackLayer>
 }
 
 export schema ThreadPullRequestKey {
-  host: TrimmedNonEmptyString
-  repository: TrimmedNonEmptyString
-  number: PositiveInt
+  readonly host: TrimmedNonEmptyString
+  readonly repository: TrimmedNonEmptyString
+  readonly number: PositiveInt
 }
 
 export const ThreadPullRequestWatch = Schema.Struct({

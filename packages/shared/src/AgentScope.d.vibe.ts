@@ -45,7 +45,10 @@ export interface AgentSystemdScope {
     readonly runtimeDir: string;
     readonly options: ReadonlyArray<string>;
 }
-/** Exec at every step preserves the agent PID, stdio, and signals; systemd-run places it and descendants in the scope. */
+/**
+ * Exec at every step preserves the agent PID, stdio, and signals; systemd-run places it and descendants in the scope.
+ * @throws {never}
+ */
 export declare function agentScopeCommand(input: {
     readonly command: string;
     readonly args: ReadonlyArray<string>;

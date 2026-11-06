@@ -28,31 +28,31 @@ const ProviderSessionStatus = Schema.Literals([
 ])
 
 export schema ProviderSession {
-  provider: ProviderDriverKind
-  providerInstanceId?: ProviderInstanceId
-  status: ProviderSessionStatus
-  runtimeMode: RuntimeMode
-  cwd?: TrimmedNonEmptyString
-  model?: TrimmedNonEmptyString
-  threadId: ThreadId
-  resumeCursor?: Schema.Unknown
-  activeTurnId?: TurnId
-  createdAt: IsoDateTime
-  updatedAt: IsoDateTime
-  lastError?: TrimmedNonEmptyString
+  readonly provider: ProviderDriverKind
+  readonly providerInstanceId?: ProviderInstanceId | undefined
+  readonly status: ProviderSessionStatus
+  readonly runtimeMode: RuntimeMode
+  readonly cwd?: TrimmedNonEmptyString | undefined
+  readonly model?: TrimmedNonEmptyString | undefined
+  readonly threadId: ThreadId
+  readonly resumeCursor?: Schema.Unknown | undefined
+  readonly activeTurnId?: TurnId | undefined
+  readonly createdAt: IsoDateTime
+  readonly updatedAt: IsoDateTime
+  readonly lastError?: TrimmedNonEmptyString | undefined
 }
 
 export schema ProviderSessionStartInput {
-  threadId: ThreadId
-  provider?: ProviderDriverKind
-  providerInstanceId?: ProviderInstanceId
-  cwd?: TrimmedNonEmptyString
-  title?: TrimmedNonEmptyString
-  modelSelection?: ModelSelection
-  resumeCursor?: Schema.Unknown
-  approvalPolicy?: ProviderApprovalPolicy
-  sandboxMode?: ProviderSandboxMode
-  runtimeMode: RuntimeMode
+  readonly threadId: ThreadId
+  readonly provider?: ProviderDriverKind | undefined
+  readonly providerInstanceId?: ProviderInstanceId | undefined
+  readonly cwd?: TrimmedNonEmptyString | undefined
+  readonly title?: TrimmedNonEmptyString | undefined
+  readonly modelSelection?: ModelSelection | undefined
+  readonly resumeCursor?: Schema.Unknown | undefined
+  readonly approvalPolicy?: ProviderApprovalPolicy | undefined
+  readonly sandboxMode?: ProviderSandboxMode | undefined
+  readonly runtimeMode: RuntimeMode
 }
 
 export const ProviderSendTurnInput = Schema.Struct({
@@ -73,46 +73,46 @@ export const ProviderSendTurnInput = Schema.Struct({
 export type ProviderSendTurnInput = typeof ProviderSendTurnInput.Type
 
 export schema ProviderTurnStartResult {
-  threadId: ThreadId
-  turnId: TurnId
-  resumeCursor?: Schema.Unknown
+  readonly threadId: ThreadId
+  readonly turnId: TurnId
+  readonly resumeCursor?: Schema.Unknown | undefined
 }
 
 export schema ProviderInterruptTurnInput {
-  threadId: ThreadId
-  turnId?: TurnId
+  readonly threadId: ThreadId
+  readonly turnId?: TurnId | undefined
 }
 
 export schema ProviderStopSessionInput {
-  threadId: ThreadId
+  readonly threadId: ThreadId
 }
 
 export schema ProviderRespondToRequestInput {
-  threadId: ThreadId
-  requestId: ApprovalRequestId
-  decision: ProviderApprovalDecision
+  readonly threadId: ThreadId
+  readonly requestId: ApprovalRequestId
+  readonly decision: ProviderApprovalDecision
 }
 
 export schema ProviderRespondToUserInputInput {
-  threadId: ThreadId
-  requestId: ApprovalRequestId
-  answers: ProviderUserInputAnswers
-  attachmentsByQuestionId?: UserInputAttachments
+  readonly threadId: ThreadId
+  readonly requestId: ApprovalRequestId
+  readonly answers: ProviderUserInputAnswers
+  readonly attachmentsByQuestionId?: UserInputAttachments | undefined
 }
 
 export schema ProviderUploadFeedbackInput {
-  threadId: ThreadId
-  reason?: TrimmedNonEmptyString
+  readonly threadId: ThreadId
+  readonly reason?: TrimmedNonEmptyString | undefined
 }
 
 export schema ProviderUploadFeedbackResult {
-  feedbackId: TrimmedNonEmptyString
+  readonly feedbackId: TrimmedNonEmptyString
 }
 
 const DefectField = Schema.Defect()
 export schema error ProviderUploadFeedbackError {
   threadId: ThreadId
-  cause?: DefectField
+  cause?: DefectField | undefined
   override get message(): string {
     return `Failed to upload feedback for thread ${this.threadId}.`
   }
@@ -121,18 +121,18 @@ export schema error ProviderUploadFeedbackError {
 const ProviderEventKind = Schema.Literals(["session", "notification", "request", "error"])
 
 export schema ProviderEvent {
-  id: EventId
-  kind: ProviderEventKind
-  provider: ProviderDriverKind
-  providerInstanceId?: ProviderInstanceId
-  threadId: ThreadId
-  createdAt: IsoDateTime
-  method: TrimmedNonEmptyString
-  message?: TrimmedNonEmptyString
-  turnId?: TurnId
-  itemId?: ProviderItemId
-  requestId?: ApprovalRequestId
-  requestKind?: ProviderRequestKind
-  textDelta?: string
-  payload?: Schema.Unknown
+  readonly id: EventId
+  readonly kind: ProviderEventKind
+  readonly provider: ProviderDriverKind
+  readonly providerInstanceId?: ProviderInstanceId | undefined
+  readonly threadId: ThreadId
+  readonly createdAt: IsoDateTime
+  readonly method: TrimmedNonEmptyString
+  readonly message?: TrimmedNonEmptyString | undefined
+  readonly turnId?: TurnId | undefined
+  readonly itemId?: ProviderItemId | undefined
+  readonly requestId?: ApprovalRequestId | undefined
+  readonly requestKind?: ProviderRequestKind | undefined
+  readonly textDelta?: string | undefined
+  readonly payload?: Schema.Unknown | undefined
 }

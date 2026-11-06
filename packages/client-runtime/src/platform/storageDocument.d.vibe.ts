@@ -26,16 +26,28 @@ export declare const ConnectionCatalogDocument: Schema.Struct<{
 }>;
 export type ConnectionCatalogDocument = typeof ConnectionCatalogDocument.Type;
 export declare const EMPTY_CONNECTION_CATALOG_DOCUMENT: ConnectionCatalogDocument;
-export declare function replaceCatalogValue<A>(values: ReadonlyArray<A>, key: (value: A) => string, next: A): ReadonlyArray<A>;
-export declare function removeCatalogValue<A>(values: ReadonlyArray<A>, key: (value: A) => string, removedKey: string): ReadonlyArray<A>;
+/** @throws {never} */
+export declare function replaceCatalogValue<A>(values: ReadonlyArray<A>, key: 
+/** @throws {never} */
+(value: A) => string, next: A): ReadonlyArray<A>;
+/** @throws {never} */
+export declare function removeCatalogValue<A>(values: ReadonlyArray<A>, key: 
+/** @throws {never} */
+(value: A) => string, removedKey: string): ReadonlyArray<A>;
+/** @throws {never} */
 export declare function catalogRoutes(document: ConnectionCatalogDocument, environmentId: EnvironmentId): ReadonlyArray<PersistedConnectionTarget>;
 /**
  * Records owned by a dropped route go with it; the environment keeps its
  * position in the catalog. An empty list leaves the environment's other records
  * in place; use `removeConnectionFromCatalog` to forget the environment.
+ * @throws {never}
  */
 export declare function setRoutesInCatalog(document: ConnectionCatalogDocument, environmentId: EnvironmentId, routes: ReadonlyArray<PersistedConnectionTarget>): ConnectionCatalogDocument;
+/** @throws {never} */
 export declare function registerConnectionInCatalog(document: ConnectionCatalogDocument, registration: ConnectionRegistration, routes?: ReadonlyArray<PersistedConnectionTarget>): ConnectionCatalogDocument;
+/** @throws {never} */
 export declare function removeConnectionFromCatalog(document: ConnectionCatalogDocument, environmentId: EnvironmentId): ConnectionCatalogDocument;
+/** @throws {never} */
 export declare function setConnectionEnabledInCatalog(document: ConnectionCatalogDocument, environmentId: EnvironmentId, enabled: boolean): ConnectionCatalogDocument;
+/** @throws {never} */
 export declare function putRemoteDpopTokenInCatalog(document: ConnectionCatalogDocument, token: TokenStore.RemoteDpopAccessToken): ConnectionCatalogDocument;

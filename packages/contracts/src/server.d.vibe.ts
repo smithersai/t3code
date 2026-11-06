@@ -147,6 +147,7 @@ export declare const ServerProviderWorkspaceSnapshot: Schema.Struct<{
 }>;
 export type ServerProviderWorkspaceSnapshot = typeof ServerProviderWorkspaceSnapshot.Type;
 export declare const PROVIDER_WORKSPACE_SNAPSHOT_TTL_MS: number;
+/** @throws {never} */
 export declare function isProviderWorkspaceSnapshotCurrent(snapshot: Pick<ServerProviderWorkspaceSnapshot, "checkedAt">, nowMs: number): boolean;
 /** Unavailable snapshots must set installed and enabled false. */
 export declare const ServerProviderAvailability: Schema.Literals<readonly ["available", "unavailable"]>;
@@ -613,8 +614,12 @@ export declare const ServerProviders: ForwardCompatibleArray<Schema.Struct<{
     }>>;
 }>>;
 export type ServerProviders = typeof ServerProviders.Type;
+/** @throws {never} */
 export declare const isProviderAvailable: (snapshot: ServerProvider) => boolean;
-/** Legacy producers omit this field and support text generation. */
+/**
+ * Legacy producers omit this field and support text generation.
+ * @throws {never}
+ */
 export declare const isProviderTextGenerationCapable: (snapshot: ServerProvider) => boolean;
 export declare const OtlpEndpointSource: Schema.Literals<readonly ["environment", "bootstrap", "settings"]>;
 export type OtlpEndpointSource = typeof OtlpEndpointSource.Type;
@@ -944,6 +949,7 @@ export declare const EnvironmentTheme: Schema.Struct<{
     readonly id: Schema.String;
 }>;
 export type EnvironmentTheme = typeof EnvironmentTheme.Type;
+/** @throws {never} */
 export declare function environmentThemeFileHasColors(file: EnvironmentThemeFile): boolean;
 /** tailnet means this machine's Tailscale interface; other private addresses are lan. */
 export declare const ServerDirectEndpointKind: Schema.Literals<readonly ["lan", "tailnet"]>;
@@ -1800,6 +1806,7 @@ export declare const ServerConfig: Schema.Struct<{
     }>>>;
 }>;
 export type ServerConfig = typeof ServerConfig.Type;
+/** @throws {never} */
 export declare function resolveEnvironmentMachineKind(config: {
     readonly environment: Pick<ExecutionEnvironmentDescriptor, "platform">;
     readonly settings?: Pick<ServerSettings, "environmentIcon">;

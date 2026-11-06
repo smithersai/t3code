@@ -225,8 +225,12 @@ export interface PullRequestProviderApi {
         readonly missing: string;
         readonly unauthenticated: string;
     };
+    /** @throws {never} */
     readonly mergeMessageRewrite?: (message: string) => string;
-    /** Use matching checkout keys instead of `owner/name`. */
+    /**
+     * Use matching checkout keys instead of `owner/name`.
+     * @throws {never}
+     */
     readonly repositoryKey?: (input: {
         readonly canonicalKey: string;
     }) => string;

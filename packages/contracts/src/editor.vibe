@@ -227,50 +227,30 @@ export const RemoteOpenTarget = Schema.Struct({
 })
 export type RemoteOpenTarget = typeof RemoteOpenTarget.Type
 
-export class ExternalLauncherUnknownEditorError extends Schema.TaggedError<ExternalLauncherUnknownEditorError>()(
-  "ExternalLauncherUnknownEditorError",
-  {
-    editor: Schema.String,
-  },
-) {
+export schema error ExternalLauncherUnknownEditorError {
+  readonly editor: string
   override get message(): string {
     return `Unknown editor: ${this.editor}`
   }
 }
 
-export class ExternalLauncherUnsupportedEditorError
-  extends Schema.TaggedError<ExternalLauncherUnsupportedEditorError>()(
-    "ExternalLauncherUnsupportedEditorError",
-    {
-      editor: EditorId,
-    },
-  )
-{
+export schema error ExternalLauncherUnsupportedEditorError {
+  readonly editor: EditorId
   override get message(): string {
     return `Unsupported editor: ${this.editor}`
   }
 }
 
-export class ExternalLauncherCommandNotFoundError extends Schema.TaggedError<ExternalLauncherCommandNotFoundError>()(
-  "ExternalLauncherCommandNotFoundError",
-  {
-    editor: EditorId,
-    command: Schema.String,
-  },
-) {
+export schema error ExternalLauncherCommandNotFoundError {
+  readonly editor: EditorId
+  readonly command: string
   override get message(): string {
     return `Editor command not found: ${this.command}`
   }
 }
 
-export class ExternalLauncherUnsupportedTargetError
-  extends Schema.TaggedError<ExternalLauncherUnsupportedTargetError>()(
-    "ExternalLauncherUnsupportedTargetError",
-    {
-      editor: EditorId,
-    },
-  )
-{
+export schema error ExternalLauncherUnsupportedTargetError {
+  readonly editor: EditorId
   override get message(): string {
     return `${this.editor} cannot open a path containing line breaks or double quotes`
   }

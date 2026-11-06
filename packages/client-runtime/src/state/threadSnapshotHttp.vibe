@@ -50,7 +50,9 @@ export const fetchEnvironmentThreadSnapshot = effect (input: {
         request: effect ({ client, headers }) =>
           try client.threadSnapshot({
             params: { threadId: input.threadId },
-            headers: withOrchestrationProtocolHeader(headers),
+            headers: try Effect.orDie(
+              Effect.try({ try: () => withOrchestrationProtocolHeader(headers), catch: (e) => e }),
+            ),
           }),
       })
     },
@@ -65,5 +67,5 @@ export service ThreadSnapshotLoader: {
       threadId: ThreadId,
     ) => ThreadSnapshotLoadResult!!;
   } {
-  static override readonly key = "@t3tools/client-runtime/state/threadSnapshotHttp/ThreadSnapshotLoader"
+  static readonly key = "@t3tools/client-runtime/state/threadSnapshotHttp/ThreadSnapshotLoader"
 }

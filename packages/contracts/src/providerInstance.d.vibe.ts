@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 export declare const ProviderDriverKind: Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "ProviderDriverKind">;
 export type ProviderDriverKind = typeof ProviderDriverKind.Type;
+/** @throws {never} */
 export declare const isProviderDriverKind: (value: unknown) => value is ProviderDriverKind;
 export declare const ProviderInstanceId: Schema.brand<Schema.decodeTo<Schema.String, Schema.String, never, never>, "ProviderInstanceId">;
 export type ProviderInstanceId = typeof ProviderInstanceId.Type;
@@ -91,5 +92,8 @@ export declare const ProviderInstanceConfigMap: Schema.$Record<Schema.brand<Sche
     readonly config: Schema.optionalKey<Schema.Unknown>;
 }>>;
 export type ProviderInstanceConfigMap = typeof ProviderInstanceConfigMap.Type;
-/** Driver-kind ids keep stored selections routable without migration. */
+/**
+ * Driver-kind ids keep stored selections routable without migration.
+ * @throws {never}
+ */
 export declare const defaultInstanceIdForDriver: (driver: ProviderDriverKind) => ProviderInstanceId;

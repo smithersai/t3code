@@ -1,4 +1,3 @@
-import * as Effect from "effect/Effect"
 import * as Schema from "effect/Schema"
 
 import { ThreadId, TrimmedNonEmptyString, TrimmedString } from "./baseSchemas.ts"
@@ -91,9 +90,9 @@ export const DeviceEasAccountInput = Schema.Struct({
 export type DeviceEasAccountInput = typeof DeviceEasAccountInput.Type
 
 export schema DeviceEasAccount {
-  signedInAs: string
-  credentialSource: "settings" | "env" | "eas-login"
-  apps: ReadonlyArray<{ id: string; fullName: string }>
+  readonly signedInAs: string
+  readonly credentialSource: "settings" | "env" | "eas-login"
+  readonly apps: ReadonlyArray<{ readonly id: string; readonly fullName: string }>
 }
 
 /** Checking an Expo credential failed; no device host is involved yet. */
@@ -111,19 +110,19 @@ export const DeviceId = TrimmedNonEmptyString.check(Schema.isMaxLength(256))
 export type DeviceId = typeof DeviceId.Type
 
 export schema DeviceSummary {
-  hostId: DeviceHostId
-  id: DeviceId
-  platform: DevicePlatform
-  name: TrimmedNonEmptyString
-  version: string
-  booted: boolean
-  physical: boolean
+  readonly hostId: DeviceHostId
+  readonly id: DeviceId
+  readonly platform: DevicePlatform
+  readonly name: TrimmedNonEmptyString
+  readonly version: string
+  readonly booted: boolean
+  readonly physical: boolean
 }
 
 export schema DevicePlatformAvailability {
-  platform: DevicePlatform
-  available: boolean
-  reason?: string
+  readonly platform: DevicePlatform
+  readonly available: boolean
+  readonly reason?: string | undefined
 }
 
 export const DeviceToolVersion = Schema.Struct({
@@ -134,8 +133,8 @@ export const DeviceToolVersion = Schema.Struct({
 export type DeviceToolVersion = typeof DeviceToolVersion.Type
 
 export schema DeviceToolVersions {
-  hub: DeviceToolVersion
-  agent: DeviceToolVersion
+  readonly hub: DeviceToolVersion
+  readonly agent: DeviceToolVersion
 }
 
 const deviceHostSummaryFields = {
@@ -160,11 +159,11 @@ export schema DeviceHostSummary = MachineDeviceHostSummary | EasDeviceHostSummar
 export schema DeviceHostStatus = "disabled" | "idle" | "installing" | "starting" | "ready" | "failed"
 
 export schema DeviceSession {
-  threadId: ThreadId
-  hostId: DeviceHostId
-  deviceId: DeviceId
-  platform: DevicePlatform
-  openedAt: string
+  readonly threadId: ThreadId
+  readonly hostId: DeviceHostId
+  readonly deviceId: DeviceId
+  readonly platform: DevicePlatform
+  readonly openedAt: string
 }
 
 export const DeviceHostStatuses = Schema.Record(
@@ -237,15 +236,15 @@ export const DeviceServiceState = DeviceServiceStateWire.pipe(
 export type DeviceServiceState = typeof DeviceServiceState.Type
 
 export schema DeviceListInput {
-  updateTool?: "hub" | "agent"
-  inspectOnly?: boolean
-  retryHostId?: DeviceHostId
+  readonly updateTool?: "hub" | "agent" | undefined
+  readonly inspectOnly?: boolean | undefined
+  readonly retryHostId?: DeviceHostId | undefined
 }
 
 export schema DeviceConfigureInput {
-  enabled?: boolean
-  agentAccessEnabled?: boolean
-  onboardingCompleted?: boolean
+  readonly enabled?: boolean | undefined
+  readonly agentAccessEnabled?: boolean | undefined
+  readonly onboardingCompleted?: boolean | undefined
 }
 
 export const DeviceOpenInput = Schema.Struct({
@@ -269,9 +268,9 @@ export const DeviceCloseInput = Schema.Struct({
 export type DeviceCloseInput = typeof DeviceCloseInput.Type
 
 export schema DeviceShutdownInput {
-  hostId?: DeviceHostId
-  deviceId: DeviceId
-  platform: DevicePlatform
+  readonly hostId?: DeviceHostId | undefined
+  readonly deviceId: DeviceId
+  readonly platform: DevicePlatform
 }
 
 export schema DeviceAppearance = "light" | "dark"
@@ -300,9 +299,9 @@ export const DeviceSettings = Schema.Struct({
 export type DeviceSettings = typeof DeviceSettings.Type
 
 export schema DeviceForegroundApp {
-  id: string
-  name?: string
-  version?: string
+  readonly id: string
+  readonly name?: string | undefined
+  readonly version?: string | undefined
 }
 
 export const DeviceDetail = Schema.Struct({
@@ -421,26 +420,18 @@ export class DeviceHostUnavailableError extends Schema.TaggedError<DeviceHostUna
   }
 }
 
-export class DevicePlatformUnavailableError extends Schema.TaggedError<DevicePlatformUnavailableError>()(
-  "DevicePlatformUnavailableError",
-  {
-    hostId: DeviceHostId,
-    platform: DevicePlatform,
-    reason: Schema.String,
-  },
-) {
+export schema error DevicePlatformUnavailableError {
+  readonly hostId: DeviceHostId
+  readonly platform: DevicePlatform
+  readonly reason: string
   override get message(): string {
     return `${this.platform} devices are unavailable on host ${this.hostId}: ${this.reason}`
   }
 }
 
-export class DeviceNotFoundError extends Schema.TaggedError<DeviceNotFoundError>()(
-  "DeviceNotFoundError",
-  {
-    hostId: DeviceHostId,
-    deviceId: DeviceId,
-  },
-) {
+export schema error DeviceNotFoundError {
+  readonly hostId: DeviceHostId
+  readonly deviceId: DeviceId
   override get message(): string {
     return `Device ${this.deviceId} was not found on host ${this.hostId}.`
   }
@@ -491,14 +482,10 @@ export class DeviceOperationError extends Schema.TaggedError<DeviceOperationErro
   }
 }
 
-export class DeviceActionUnavailableError extends Schema.TaggedError<DeviceActionUnavailableError>()(
-  "DeviceActionUnavailableError",
-  {
-    operation: Schema.String,
-    platform: DevicePlatform,
-    reason: Schema.Literals(["unsupported", "helper_missing"]),
-  },
-) {
+export schema error DeviceActionUnavailableError {
+  readonly operation: string
+  readonly platform: DevicePlatform
+  readonly reason: "unsupported" | "helper_missing"
   override get message(): string {
     return this.reason === "helper_missing"
       ? `Device ${this.operation} requires a helper missing from this install. Set up device support again.`
@@ -515,10 +502,10 @@ export schema DeviceError =
   | DeviceActionUnavailableError
 
 export schema DeviceToolListResult {
-  hostStatuses: DeviceHostStatuses
-  hosts: ReadonlyArray<DeviceHostSummary>
-  devices: ReadonlyArray<DeviceSummary>
-  open: ReadonlyArray<{ hostId: DeviceHostId; deviceId: DeviceId }>
+  readonly hostStatuses: DeviceHostStatuses
+  readonly hosts: ReadonlyArray<DeviceHostSummary>
+  readonly devices: ReadonlyArray<DeviceSummary>
+  readonly open: ReadonlyArray<{ readonly hostId: DeviceHostId; readonly deviceId: DeviceId }>
 }
 
 export const DeviceToolOpenInput = Schema.Struct({
@@ -539,12 +526,12 @@ export const DeviceToolOpenInput = Schema.Struct({
 export type DeviceToolOpenInput = typeof DeviceToolOpenInput.Type
 
 export schema DeviceToolOpenResult {
-  device: DeviceSummary
-  agentDevice: {
-    command: string
-    targetArgs: ReadonlyArray<string>
+  readonly device: DeviceSummary
+  readonly agentDevice: {
+    readonly command: string
+    readonly targetArgs: ReadonlyArray<string>
   }
-  quickStart: string
+  readonly quickStart: string
 }
 
 export const DeviceToolTargetInput = Schema.Struct({
@@ -558,12 +545,12 @@ export const DeviceToolTargetInput = Schema.Struct({
 export type DeviceToolTargetInput = typeof DeviceToolTargetInput.Type
 
 export schema DeviceToolScreenshotResult {
-  device: DeviceSummary
-  screenshot: {
-    mimeType: "image/png"
-    data: string
-    width: Schema.Int
-    height: Schema.Int
+  readonly device: DeviceSummary
+  readonly screenshot: {
+    readonly mimeType: "image/png"
+    readonly data: string
+    readonly width: Schema.Int
+    readonly height: Schema.Int
   }
 }
 

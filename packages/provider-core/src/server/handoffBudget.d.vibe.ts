@@ -2,12 +2,16 @@ import type { ChatAttachment, ModelSelection, OrchestrationV2ContextHandoff, Orc
 import * as Config from "effect/Config";
 export declare const DEFAULT_HANDOFF_TOKEN_CAP = 16000;
 export declare const handoffTokenCapConfig: Config.Config<number>;
+/** @throws {never} */
 export declare function latestNativeContextUsage(projection: Pick<OrchestrationV2ThreadProjection, "providerTurns" | "attempts" | "runs">, providerThread: OrchestrationV2ProviderThread): {
     usage: ThreadTokenUsageSnapshot;
     modelSelection: ModelSelection;
     reportedAt: string;
 } | undefined;
-/** Native occupancy survives selection changes; the previous model window and compaction threshold do not. */
+/**
+ * Native occupancy survives selection changes; the previous model window and compaction threshold do not.
+ * @throws {never}
+ */
 export declare function contextUsageForHandoff(input: {
     readonly sameNativeThread: boolean;
     readonly sameSelection: boolean;
@@ -15,7 +19,9 @@ export declare function contextUsageForHandoff(input: {
     readonly previousUsage: ThreadTokenUsageSnapshot | null | undefined;
     readonly knownModelWindow?: number | undefined;
 }): ThreadTokenUsageSnapshot | null;
+/** @throws {never} */
 export declare function attachmentTokenAllowance(attachments: ReadonlyArray<ChatAttachment>): number;
+/** @throws {never} */
 export declare function handoffBudget(input: {
     readonly tokenCap: number;
     readonly userText: string;
@@ -24,7 +30,9 @@ export declare function handoffBudget(input: {
     readonly nativeContextEstimate: number;
     readonly modelContextWindow?: number | undefined;
 }): number;
+/** @throws {never} */
 export declare function historicalMessage(item: OrchestrationV2TurnItem): OrchestrationV2HistoricalMessage | null;
+/** @throws {never} */
 export declare function historyResponseItems(messages: ReadonlyArray<OrchestrationV2HistoricalMessage>, context: string): {
     type: string;
     role: string;
@@ -33,8 +41,11 @@ export declare function historyResponseItems(messages: ReadonlyArray<Orchestrati
         text: string;
     }[];
 }[];
+/** @throws {never} */
 export declare function renderHistory(messages: ReadonlyArray<OrchestrationV2HistoricalMessage>, context: string): string;
+/** @throws {never} */
 export declare function historyCost(messages: ReadonlyArray<OrchestrationV2HistoricalMessage>, context: string): number;
+/** @throws {never} */
 export declare function selectHistory(input: {
     readonly messages: ReadonlyArray<OrchestrationV2HistoricalMessage>;
     readonly coverage: string;
@@ -56,6 +67,7 @@ export declare function selectHistory(input: {
     context: string;
     omittedItems: number;
 };
+/** @throws {never} */
 export declare function handoffCoverage(input: {
     readonly threadId: string;
     readonly coveredRunOrdinals: OrchestrationV2ContextHandoff["coveredRunOrdinals"];

@@ -66,11 +66,18 @@ export interface BitbucketPage<A> {
     readonly items: ReadonlyArray<A>;
     readonly next: string | null;
 }
+/** @throws {never} */
 export declare function decodePullRequestPageJson(raw: string): Result.Result<BitbucketPage<BitbucketPullRequest>, DecodeFailure>;
+/** @throws {never} */
 export declare function decodePullRequestJson(raw: string): Result.Result<BitbucketPullRequest, DecodeFailure>;
+/** @throws {never} */
 export declare function decodeViewerJson(raw: string): Result.Result<string | null, DecodeFailure>;
+/** @throws {never} */
 export declare function decodeRepositoryPermissionJson(raw: string): Result.Result<boolean, DecodeFailure>;
-/** Repository membership requires admin access; reviews can target any workspace member. */
+/**
+ * Repository membership requires admin access; reviews can target any workspace member.
+ * @throws {never}
+ */
 export declare function decodeWorkspaceMembersJson(raw: string): Result.Result<BitbucketPage<PullRequestReviewerCandidate>, DecodeFailure>;
 export type BitbucketRawComment = Schema.Schema.Type<typeof RawCommentSchema>;
 export interface BitbucketComments {
@@ -79,9 +86,13 @@ export interface BitbucketComments {
     readonly entries: ReadonlyArray<BitbucketRawComment>;
     readonly next: string | null;
 }
+/** @throws {never} */
 export declare function buildReviewThreads(comments: ReadonlyArray<BitbucketRawComment>): ReadonlyArray<PullRequestReviewThread>;
+/** @throws {never} */
 export declare function decodeCommentsJson(raw: string): Result.Result<BitbucketComments, DecodeFailure>;
+/** @throws {never} */
 export declare function decodeCommitsJson(raw: string): Result.Result<BitbucketPage<PullRequestCommit>, DecodeFailure>;
+/** @throws {never} */
 export declare function decodeStatusesJson(raw: string): Result.Result<BitbucketPage<PullRequestCheck>, DecodeFailure>;
 export interface BitbucketDiffStat {
     readonly additions: number;
@@ -91,6 +102,8 @@ export interface BitbucketDiffStat {
 export interface BitbucketDiffStatPage extends BitbucketDiffStat {
     readonly next: string | null;
 }
+/** @throws {never} */
 export declare function decodeDiffstatJson(raw: string): Result.Result<BitbucketDiffStatPage, DecodeFailure>;
+/** @throws {never} */
 export declare function decodeConflictsJson(raw: string): Result.Result<PullRequestMergeability, DecodeFailure>;
 export {};

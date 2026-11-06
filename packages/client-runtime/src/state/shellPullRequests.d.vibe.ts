@@ -7,8 +7,10 @@ export interface DeferredShellSnapshot extends OrchestrationV2ShellSnapshot {
 /**
  * Removes each parsed thread row's pull request links from `snapshot` in place and returns
  * them in row order, for `deferPullRequests` once the rows are decoded.
+ * @throws {never}
  */
 export declare function detachPullRequests(snapshot: unknown): ReadonlyArray<unknown>;
+/** @throws {never} */
 export declare function deferPullRequests<S extends OrchestrationV2ShellSnapshot>(snapshot: S, rawLinks: ReadonlyArray<unknown>): S & Required<Pick<DeferredShellSnapshot, "loadPullRequests">>;
 export declare const decodeShellSnapshotDeferringPullRequests: (json: unknown) => Effect.Effect<{
     readonly schemaVersion: number;

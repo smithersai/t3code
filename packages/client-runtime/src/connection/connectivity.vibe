@@ -5,10 +5,11 @@ import type * as Stream from "effect/Stream"
 
 import type { NetworkStatus } from "./model.vibe"
 
-export service Connectivity {
+export service Connectivity: {
+  readonly status: NetworkStatus!!
+  readonly changes: Stream.Stream<NetworkStatus>
+} {
   static readonly key = "@t3tools/client-runtime/connection/connectivity"
-  status: NetworkStatus!!
-  changes: Stream.Stream<NetworkStatus>
 }
 
 const make = (service: Connectivity["Service"]): infer _ => Connectivity.of(service)

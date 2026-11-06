@@ -5,6 +5,7 @@ export type IdleCompactionRecords = Pick<OrchestrationV2ThreadProjection, "threa
  * window ends when the prompt cache of Claude's last request expires (1h on
  * subscriptions, 5m on API keys); compacting after that pays a full uncached
  * read.
+ * @throws {never}
  */
 export declare function idleCompactionWindow({ thread, runs, messages, providerThreads, providerTurns, runtimeRequests, turnItems, contextTransfers, }: IdleCompactionRecords, nowMs: number): {
     readonly runId: (typeof runs)[number]["id"];

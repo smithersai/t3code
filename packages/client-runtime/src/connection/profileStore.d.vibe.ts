@@ -10,6 +10,7 @@ declare const ConnectionProfileStore_base: Context.ServiceClass<ConnectionProfil
 }>;
 export declare class ConnectionProfileStore extends ConnectionProfileStore_base {
 }
+/** @throws {never} */
 export declare const make: (service: ConnectionProfileStore["Service"]) => {
     readonly get: (connectionId: string) => Effect.Effect<Option.Option<ConnectionProfile>, ConnectionAttemptError>;
     readonly put: (profile: ConnectionProfile) => Effect.Effect<void, ConnectionAttemptError>;

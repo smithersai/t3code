@@ -27,6 +27,7 @@ declare const RemoteDpopAccessTokenStore_base: Context.ServiceClass<RemoteDpopAc
 }>;
 export declare class RemoteDpopAccessTokenStore extends RemoteDpopAccessTokenStore_base {
 }
+/** @throws {never} */
 export declare const make: (service: RemoteDpopAccessTokenStore["Service"]) => {
     readonly get: (environmentId: EnvironmentId) => Effect.Effect<Option.Option<RemoteDpopAccessToken>, ConnectionAttemptError>;
     readonly put: (token: RemoteDpopAccessToken) => Effect.Effect<void, ConnectionAttemptError>;

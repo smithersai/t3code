@@ -6,7 +6,7 @@ export schema error ProviderDriverError {
   driver: ProviderDriverKind
   instanceId: ProviderInstanceId
   detail: string
-  cause?: DefectField
+  cause?: DefectField | undefined
   override get message(): string {
     return `Provider driver '${this.driver}' failed to create instance '${this.instanceId}': ${this.detail}`
   }

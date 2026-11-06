@@ -4,11 +4,20 @@ import type { RelayDiscoveredEnvironment } from "./relay/discovery.ts";
 export type LinkRequestItem = Extract<OrchestrationV2TurnItem, {
     readonly type: "link_request";
 }>;
-/** Whether an environment offers links: it supports them and its Linked environments beta is on. */
+/**
+ * Whether an environment offers links: it supports them and its Linked environments beta is on.
+ * @throws {never}
+ */
 export declare const offersLinkedEnvironments: (config: Pick<ServerConfig, "environment" | "settings"> | null | undefined) => boolean;
-/** The access a request opens with: the agent's suggestion, else supervised. */
+/**
+ * The access a request opens with: the agent's suggestion, else supervised.
+ * @throws {never}
+ */
 export declare const linkRequestDefaultAccess: (item: Pick<LinkRequestItem, "requestedAccess">) => AuthMcpClientAccess;
-/** What the card calls the other environment: its own name, else the address asked for. */
+/**
+ * What the card calls the other environment: its own name, else the address asked for.
+ * @throws {never}
+ */
 export declare const linkRequestTargetName: (item: Pick<LinkRequestItem, "label" | "url">) => string;
 /** A machine the user could link a thread's environment to. */
 export interface LinkableMachine {
@@ -33,6 +42,7 @@ export interface LinkableMachine {
  * Connect knows. `links` are the thread environment's; an expired one no longer counts as
  * linked. `connect` is what relay discovery found, and a server reaches a machine there as a
  * browser does, so its Connect address is usable.
+ * @throws {never}
  */
 export declare function linkableMachines(input: {
     readonly environments: ReadonlyArray<EnvironmentPresentation & {
@@ -42,11 +52,17 @@ export declare function linkableMachines(input: {
     readonly links: ReadonlyArray<Pick<PeerLinkSummary, "environmentId" | "status">>;
     readonly connect: ReadonlyMap<string, RelayDiscoveredEnvironment>;
 }): ReadonlyArray<LinkableMachine>;
-/** The machines best match for the agent's hint first, each rank in catalog order. */
+/**
+ * The machines best match for the agent's hint first, each rank in catalog order.
+ * @throws {never}
+ */
 export declare function rankMachinesByHint<T extends {
     readonly label: string;
 }>(machines: ReadonlyArray<T>, hint: string | undefined): ReadonlyArray<T>;
-/** The machine a card opens on: the one it names, else the hint's best match. */
+/**
+ * The machine a card opens on: the one it names, else the hint's best match.
+ * @throws {never}
+ */
 export declare function linkRequestInitialMachine(item: Pick<LinkRequestItem, "environmentId" | "hint">, machines: ReadonlyArray<LinkableMachine>): EnvironmentId | null;
 /** What a link request card shows: the actions while pending, otherwise a one-line outcome. */
 export type LinkRequestDisplay = {
@@ -63,11 +79,15 @@ export type LinkRequestDisplay = {
  * `visibility` is the projected row's: a request inherited from another
  * thread (a fork) can only be answered where it was asked. `accessLabel`
  * names an access level the way the client's access picker does.
+ * @throws {never}
  */
-export declare function linkRequestDisplay(item: Pick<LinkRequestItem, "linkStatus" | "label" | "url" | "linkedLabel" | "linkedAccess" | "failure">, visibility: "local" | "inherited" | "synthetic", accessLabel: (access: AuthMcpClientAccess) => string): LinkRequestDisplay;
+export declare function linkRequestDisplay(item: Pick<LinkRequestItem, "linkStatus" | "label" | "url" | "linkedLabel" | "linkedAccess" | "failure">, visibility: "local" | "inherited" | "synthetic", accessLabel: 
+/** @throws {never} */
+(access: AuthMcpClientAccess) => string): LinkRequestDisplay;
 /**
  * Builds the RPC payload for an answer. A link with a blank code returns null,
  * since the server rejects it; callers keep Link disabled instead.
+ * @throws {never}
  */
 export declare function linkRequestAnswerInput(item: Pick<LinkRequestItem, "id" | "threadId">, answer: {
     readonly type: "link";
@@ -87,5 +107,6 @@ export declare function linkRequestAnswerInput(item: Pick<LinkRequestItem, "id" 
  * Inline error copy for a failed answer. Only known errors pass their message
  * through: anything else (transport or encoding failures) gets the generic
  * copy, so the pairing code can never surface in the UI.
+ * @throws {never}
  */
 export declare function linkRequestFailureMessage(failure: unknown): string;

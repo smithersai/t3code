@@ -46,16 +46,16 @@ export type ServerProviderUsageLimits = typeof ServerProviderUsageLimits.Type
 
 /** Partial updates merge windows by id; omitted windows remain unchanged. */
 export schema ProviderUsageLimitsUpdate {
-  windows: ReadonlyArray<ServerProviderUsageWindow>
+  readonly windows: ReadonlyArray<ServerProviderUsageWindow>
 }
 
 export schema UsageLimitSourceAccount {
-  id: TrimmedNonEmptyString
-  driver: ProviderDriverKind
-  email?: TrimmedNonEmptyString
-  plan?: TrimmedNonEmptyString
-  workspaceId?: TrimmedNonEmptyString
-  usageLimits: ServerProviderUsageLimits
+  readonly id: TrimmedNonEmptyString
+  readonly driver: ProviderDriverKind
+  readonly email?: TrimmedNonEmptyString | undefined
+  readonly plan?: TrimmedNonEmptyString | undefined
+  readonly workspaceId?: TrimmedNonEmptyString | undefined
+  readonly usageLimits: ServerProviderUsageLimits
 }
 
 export const UsageLimitSourceSnapshot = Schema.Struct({
@@ -72,19 +72,17 @@ export const UsageLimitSourceSnapshots = ForwardCompatibleArray(UsageLimitSource
 export type UsageLimitSourceSnapshots = typeof UsageLimitSourceSnapshots.Type
 
 export schema UsageLimitSourceConsumeResetCreditInput {
-  sourceId: UsageLimitSourceId
-  accountId: TrimmedNonEmptyString
-  creditId: TrimmedNonEmptyString
+  readonly sourceId: UsageLimitSourceId
+  readonly accountId: TrimmedNonEmptyString
+  readonly creditId: TrimmedNonEmptyString
 }
 
 export schema ProviderConsumeResetCreditInput =
-  | { instanceId: ProviderInstanceId }
+  | { readonly instanceId: ProviderInstanceId }
   | UsageLimitSourceConsumeResetCreditInput
 
-export class UsageLimitSourceError extends Schema.TaggedError<UsageLimitSourceError>()(
-  "UsageLimitSourceError",
-  { detail: Schema.String },
-) {
+export schema error UsageLimitSourceError {
+  readonly detail: string
   override get message(): string {
     return this.detail
   }
@@ -93,24 +91,24 @@ export class UsageLimitSourceError extends Schema.TaggedError<UsageLimitSourceEr
 export schema ProviderConsumeResetCreditOutcome = "reset" | "nothingToReset" | "noCredit" | "alreadyRedeemed"
 
 export schema ProviderConsumeResetCreditResult {
-  outcome: ProviderConsumeResetCreditOutcome
-  warning?: TrimmedNonEmptyString
+  readonly outcome: ProviderConsumeResetCreditOutcome
+  readonly warning?: TrimmedNonEmptyString | undefined
 }
 
 export schema UsageLimitsReport {
-  createdAt: IsoDateTime
-  accounts: ReadonlyArray<{
-    id: TrimmedNonEmptyString
-    driver: ProviderDriverKind
-    label: TrimmedNonEmptyString
-    plan?: TrimmedNonEmptyString
-    email?: TrimmedNonEmptyString
-    sourceLabel?: TrimmedNonEmptyString
-    instanceId?: ProviderInstanceId
-    resetCreditInput?: ProviderConsumeResetCreditInput
-    displayName?: string
-    accentColor?: string
-    limits: ServerProviderUsageLimits
+  readonly createdAt: IsoDateTime
+  readonly accounts: ReadonlyArray<{
+    readonly id: TrimmedNonEmptyString
+    readonly driver: ProviderDriverKind
+    readonly label: TrimmedNonEmptyString
+    readonly plan?: TrimmedNonEmptyString | undefined
+    readonly email?: TrimmedNonEmptyString | undefined
+    readonly sourceLabel?: TrimmedNonEmptyString | undefined
+    readonly instanceId?: ProviderInstanceId | undefined
+    readonly resetCreditInput?: ProviderConsumeResetCreditInput | undefined
+    readonly displayName?: string | undefined
+    readonly accentColor?: string | undefined
+    readonly limits: ServerProviderUsageLimits
   }>
-  notices: ReadonlyArray<string>
+  readonly notices: ReadonlyArray<string>
 }

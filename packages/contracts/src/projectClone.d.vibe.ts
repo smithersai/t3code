@@ -82,5 +82,7 @@ export declare const ProjectCloneActionResult: Schema.Struct<{
     readonly applied: Schema.Boolean;
 }>;
 export type ProjectCloneActionResult = typeof ProjectCloneActionResult.Type;
+/** @throws {never} */
 export declare function projectCloneDisplayName(snapshot: Pick<ProjectCloneSnapshot, "repository" | "destinationPath">): string;
+/** @throws {never} */
 export declare function projectCloneProgressSummary(snapshot: Pick<ProjectCloneSnapshot, "stage" | "percent" | "detail" | "stalled">): string;

@@ -165,7 +165,7 @@ export const ServerAuthDescriptor = Schema.Struct({
 export type ServerAuthDescriptor = typeof ServerAuthDescriptor.Type
 
 export schema AuthBrowserSessionRequest {
-  credential: TrimmedNonEmptyString
+  readonly credential: TrimmedNonEmptyString
 }
 
 export const AuthBrowserSessionResult = Schema.Struct({
@@ -213,8 +213,8 @@ export const AuthAccessTokenResult = Schema.Struct({
 export type AuthAccessTokenResult = typeof AuthAccessTokenResult.Type
 
 export schema AuthWebSocketTicketResult {
-  ticket: TrimmedNonEmptyString
-  expiresAt: Schema.DateTimeUtc
+  readonly ticket: TrimmedNonEmptyString
+  readonly expiresAt: Schema.DateTimeUtc
 }
 
 /**
@@ -226,7 +226,9 @@ export schema AuthWebSocketTicketResult {
 export const AuthWebSocketTicketUse = Schema.Literals(["rpc", "media"])
 export type AuthWebSocketTicketUse = typeof AuthWebSocketTicketUse.Type
 
-export const AuthWebSocketTicketParams = Schema.Struct({ use: AuthWebSocketTicketUse })
+schema AuthWebSocketTicketParamsCodec { readonly use: AuthWebSocketTicketUse }
+
+export const AuthWebSocketTicketParams = AuthWebSocketTicketParamsCodec
 
 export const AuthPairingCredentialResult = Schema.Struct({
   id: TrimmedNonEmptyString,
@@ -271,30 +273,30 @@ export const AuthClientSession = Schema.Struct({
 export type AuthClientSession = typeof AuthClientSession.Type
 
 export schema AuthAccessSnapshot {
-  pairingLinks: ReadonlyArray<AuthPairingLink>
-  clientSessions: ReadonlyArray<AuthClientSession>
+  readonly pairingLinks: ReadonlyArray<AuthPairingLink>
+  readonly clientSessions: ReadonlyArray<AuthClientSession>
 }
 
 export schema AuthAccessStreamSnapshotEvent {
-  version: 1
-  revision: number
-  type: "snapshot"
-  payload: AuthAccessSnapshot
+  readonly version: 1
+  readonly revision: number
+  readonly type: "snapshot"
+  readonly payload: AuthAccessSnapshot
 }
 
 export schema AuthAccessStreamPairingLinkUpsertedEvent {
-  version: 1
-  revision: number
-  type: "pairingLinkUpserted"
-  payload: AuthPairingLink
+  readonly version: 1
+  readonly revision: number
+  readonly type: "pairingLinkUpserted"
+  readonly payload: AuthPairingLink
 }
 
 export schema AuthAccessStreamPairingLinkRemovedEvent {
-  version: 1
-  revision: number
-  type: "pairingLinkRemoved"
-  payload: {
-    id: TrimmedNonEmptyString
+  readonly version: 1
+  readonly revision: number
+  readonly type: "pairingLinkRemoved"
+  readonly payload: {
+    readonly id: TrimmedNonEmptyString
   }
 }
 
@@ -312,18 +314,18 @@ export class EnvironmentAuthorizationError extends Schema.TaggedError<Environmen
 ) {}
 
 export schema AuthAccessStreamClientUpsertedEvent {
-  version: 1
-  revision: number
-  type: "clientUpserted"
-  payload: AuthClientSession
+  readonly version: 1
+  readonly revision: number
+  readonly type: "clientUpserted"
+  readonly payload: AuthClientSession
 }
 
 export schema AuthAccessStreamClientRemovedEvent {
-  version: 1
-  revision: number
-  type: "clientRemoved"
-  payload: {
-    sessionId: AuthSessionId
+  readonly version: 1
+  readonly revision: number
+  readonly type: "clientRemoved"
+  readonly payload: {
+    readonly sessionId: AuthSessionId
   }
 }
 
@@ -335,11 +337,11 @@ export schema AuthAccessStreamEvent =
   | AuthAccessStreamClientRemovedEvent
 
 export schema AuthRevokePairingLinkInput {
-  id: TrimmedNonEmptyString
+  readonly id: TrimmedNonEmptyString
 }
 
 export schema AuthRevokeClientSessionInput {
-  sessionId: AuthSessionId
+  readonly sessionId: AuthSessionId
 }
 
 export const AuthCreatePairingCredentialInput = Schema.Struct({
@@ -374,24 +376,24 @@ export const mcpClientScopes = (access: AuthMcpClientAccess): ReadonlyArray<Auth
     : [AuthOrchestrationReadScope, AuthOrchestrationOperateScope]
 
 export schema AuthMcpProtectedResourceMetadata {
-  resource: string
-  authorization_servers: ReadonlyArray<string>
-  scopes_supported: ReadonlyArray<AuthEnvironmentScope>
-  bearer_methods_supported: ReadonlyArray<"header">
-  resource_name: string
+  readonly resource: string
+  readonly authorization_servers: ReadonlyArray<string>
+  readonly scopes_supported: ReadonlyArray<AuthEnvironmentScope>
+  readonly bearer_methods_supported: ReadonlyArray<"header">
+  readonly resource_name: string
 }
 
 export schema AuthMcpAuthorizationServerMetadata {
-  issuer: string
-  authorization_endpoint: string
-  token_endpoint: string
-  registration_endpoint: string
-  response_types_supported: ReadonlyArray<"code">
-  grant_types_supported: ReadonlyArray<"authorization_code">
-  code_challenge_methods_supported: ReadonlyArray<"S256">
-  token_endpoint_auth_methods_supported: ReadonlyArray<"none">
-  scopes_supported: ReadonlyArray<AuthEnvironmentScope>
-  authorization_response_iss_parameter_supported: boolean
+  readonly issuer: string
+  readonly authorization_endpoint: string
+  readonly token_endpoint: string
+  readonly registration_endpoint: string
+  readonly response_types_supported: ReadonlyArray<"code">
+  readonly grant_types_supported: ReadonlyArray<"authorization_code">
+  readonly code_challenge_methods_supported: ReadonlyArray<"S256">
+  readonly token_endpoint_auth_methods_supported: ReadonlyArray<"none">
+  readonly scopes_supported: ReadonlyArray<AuthEnvironmentScope>
+  readonly authorization_response_iss_parameter_supported: boolean
 }
 
 /**
@@ -458,7 +460,7 @@ export const AuthMcpApprovalDetails = Schema.Struct({
 export type AuthMcpApprovalDetails = typeof AuthMcpApprovalDetails.Type
 
 export schema AuthMcpApprovalRedirect {
-  redirectTo: string
+  readonly redirectTo: string
 }
 
 export const AuthMcpApprovalDecision = Schema.Union([
@@ -475,8 +477,8 @@ export const AuthMcpApprovalDecision = Schema.Union([
 export type AuthMcpApprovalDecision = typeof AuthMcpApprovalDecision.Type
 
 export schema AuthMcpApprovalDecisionRequest {
-  authorization: AuthMcpAuthorizationRequest
-  decision: AuthMcpApprovalDecision
+  readonly authorization: AuthMcpAuthorizationRequest
+  readonly decision: AuthMcpApprovalDecision
 }
 
 export class AuthMcpApprovalError extends Schema.TaggedError<AuthMcpApprovalError>()(
@@ -496,10 +498,10 @@ export const AuthMcpTokenRequest = Schema.Struct({
 export type AuthMcpTokenRequest = typeof AuthMcpTokenRequest.Type
 
 export schema AuthMcpTokenResult {
-  access_token: string
-  token_type: "Bearer"
-  expires_in: number
-  scope: string
+  readonly access_token: string
+  readonly token_type: "Bearer"
+  readonly expires_in: number
+  readonly scope: string
 }
 
 export class AuthMcpTokenError extends Schema.Error<AuthMcpTokenError>("AuthMcpTokenError")(

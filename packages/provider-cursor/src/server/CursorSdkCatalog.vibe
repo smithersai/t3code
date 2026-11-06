@@ -25,11 +25,12 @@ export schema error CursorSdkCatalogError {
   }
 }
 
-export service CursorSdkCatalog {
-  static readonly key = "@t3tools/provider-cursor/server/CursorSdkCatalog"
-  read: (
+export service CursorSdkCatalog: {
+  readonly read: (
     apiKey: string,
   ) => CursorSdkCatalogSnapshot!CursorSdkCatalogError
+} {
+  static readonly key = "@t3tools/provider-cursor/server/CursorSdkCatalog"
 }
 
 function isAuthenticationFailure(cause: unknown): boolean {

@@ -11,17 +11,17 @@ const ModelSelectionWire = Schema.Struct({
 })
 
 schema ModelSelectionSource {
-  provider?: Schema.Unknown
-  instanceId?: Schema.Unknown
-  model: Schema.Unknown
-  options?: Schema.Unknown
+  readonly provider?: Schema.Unknown | undefined
+  readonly instanceId?: Schema.Unknown | undefined
+  readonly model: Schema.Unknown
+  readonly options?: Schema.Unknown | undefined
 }
 
 export const ModelSelection = ModelSelectionSource.pipe(
   Schema.decodeTo(
     ModelSelectionWire,
     SchemaTransformation.transformEffect({
-      decode: effect (raw) => {
+      decode: (raw) => {
         const instanceIdSource = raw.instanceId !== undefined
           ? raw.instanceId
           : typeof raw.provider === "string"
@@ -32,15 +32,21 @@ export const ModelSelection = ModelSelectionSource.pipe(
           model: raw.model,
         }
         if (raw.options !== undefined) base.options = raw.options
-        return base as typeof ModelSelectionWire.Encoded
+        const result = base as typeof ModelSelectionWire.Encoded
+        return effect {
+          return result
+        }
       },
-      encode: effect (value) => {
+      encode: (value) => {
         const base: Record<string, unknown> = {
           instanceId: value.instanceId,
           model: value.model,
         }
         if (value.options !== undefined) base.options = value.options
-        return base as typeof ModelSelectionSource.Encoded
+        const result = base as typeof ModelSelectionSource.Encoded
+        return effect {
+          return result
+        }
       },
     }),
   ),

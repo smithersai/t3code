@@ -5,10 +5,12 @@ import type { PromptLinkPullRequest, PromptLinkRepository } from "@t3tools/share
 /**
  * The repository's projects in the order given. Callers pass projects most recently active
  * first and open the first, so the user lands where they last worked.
+ * @throws {never}
  */
 export declare function findPromptLinkProjects<P extends {
     readonly repositoryIdentity?: RepositoryIdentity | null | undefined;
 }>(projects: ReadonlyArray<P>, repository: PromptLinkRepository): P[];
+/** @throws {never} */
 export declare function findPromptLinkPullRequestThread<T extends {
     readonly updatedAt: string;
     readonly pullRequests?: ReadonlyArray<ThreadPullRequestLink> | undefined;
@@ -17,6 +19,7 @@ export declare function findPromptLinkPullRequestThread<T extends {
 /**
  * The first open thread from per-environment pull request lookups, in the order given, once
  * every lookup before it has answered. `null` when none has one; `undefined` until then.
+ * @throws {never}
  */
 export declare function pickPromptLinkPullRequestThread(lookups: ReadonlyArray<{
     readonly environmentId: EnvironmentId;
@@ -29,6 +32,7 @@ export declare function pickPromptLinkPullRequestThread(lookups: ReadonlyArray<{
  * `exact` is false when the instance exists but the model does not, so its default model
  * stands in. Null when no usable instance of that provider exists; the user's default
  * applies then.
+ * @throws {never}
  */
 export declare function resolvePromptLinkModelSelection(providers: ReadonlyArray<Pick<ServerProvider, "instanceId" | "driver" | "enabled" | "availability" | "status"> & {
     readonly models: ReadonlyArray<SelectableModelOption & {

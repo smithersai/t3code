@@ -54,8 +54,11 @@ export interface RuntimeSubagent {
     readonly completedAt: string | null;
     readonly updatedAt: string;
 }
+/** @throws {never} */
 export declare function isTerminalSubagentStatus(status: RuntimeSubagentStatus): boolean;
+/** @throws {never} */
 export declare function isActiveSubagentStatus(status: RuntimeSubagentStatus): boolean;
+/** @throws {never} */
 export declare function isLiveSubagentTurnItem(item: OrchestrationV2TurnItem): boolean;
 export interface SubagentWorkflowGroup {
     readonly workflow: RuntimeSubagent;
@@ -68,6 +71,7 @@ export interface SubagentWorkflowGroup {
     }>;
     readonly unphasedMembers: ReadonlyArray<RuntimeSubagent>;
 }
+/** @throws {never} */
 export declare function projectedSubagentsToRuntime(subagents: ReadonlyArray<{
     readonly id: string;
     readonly title: string | null;
@@ -82,10 +86,12 @@ export declare function projectedSubagentsToRuntime(subagents: ReadonlyArray<{
     readonly completedAt: DateTime.Utc | null;
     readonly updatedAt: DateTime.Utc;
 }>): ReadonlyArray<RuntimeSubagent>;
+/** @throws {never} */
 export declare function deriveWorkflowGroups(agents: ReadonlyArray<RuntimeSubagent>): ReadonlyArray<SubagentWorkflowGroup>;
 /**
  * Whether a user message is the script a provider-native workflow runs. Servers mark every
  * subagent prompt either way; only threads recorded before the mark fall back to the text.
+ * @throws {never}
  */
 export declare function isWorkflowScriptMessage(message: {
     readonly role: string;
@@ -107,6 +113,7 @@ export interface WorkflowOpening {
  * The opening of a workflow coordinator's thread: its first user message is the workflow script,
  * shown as the workflow's plan. The coordinator row lives on the parent thread, so
  * `parentSubagents` is the parent projection's subagents, or null when it is not loaded.
+ * @throws {never}
  */
 export declare function resolveWorkflowOpening(input: {
     readonly thread: Pick<OrchestrationV2AppThread, "id" | "lineage" | "creationSource">;
@@ -122,12 +129,16 @@ export declare function resolveWorkflowOpening(input: {
  * The parent thread whose subagent rows describe this thread's workflow, or null when the thread
  * does not open with a workflow script. Gates loading the parent so ordinary subagent threads
  * never subscribe to their parent's detail.
+ * @throws {never}
  */
 export declare function workflowOpeningParentThreadId(input: {
     readonly thread: Pick<OrchestrationV2AppThread, "lineage" | "creationSource">;
     readonly messages: ReadonlyArray<Parameters<typeof isWorkflowScriptMessage>[0]>;
 }): OrchestrationV2AppThread["id"] | null;
-/** The opening block's heading: the workflow, what it does, and how its agents stand. */
+/**
+ * The opening block's heading: the workflow, what it does, and how its agents stand.
+ * @throws {never}
+ */
 export declare function workflowOpeningHeadline(opening: WorkflowOpening): {
     readonly title: string;
     readonly description: string | null;

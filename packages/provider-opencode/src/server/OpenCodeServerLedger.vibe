@@ -8,29 +8,30 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner"
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite"
 import { ExperimentalNodeProcess } from "vibelang-runtime/experimental/platform-node"
 import * as Process from "vibelang-runtime/experimental/Process"
-schema ProcessIdentity { pid: Schema.Int; startTime: string }
+schema ProcessIdentity { readonly pid: Schema.Int; readonly startTime: string }
 
 schema OpenCodeServerEntry {
-  version: 1
-  pgid: Schema.Int
-  pid: Schema.Int
-  startTime: string
-  command: string
-  port: Schema.Int
-  stateDir: string
-  owner: ProcessIdentity
+  readonly version: 1
+  readonly pgid: Schema.Int
+  readonly pid: Schema.Int
+  readonly startTime: string
+  readonly command: string
+  readonly port: Schema.Int
+  readonly stateDir: string
+  readonly owner: ProcessIdentity
 }
 const OpenCodeServerEntryJson = Schema.fromJsonString(OpenCodeServerEntry)
 const decodeEntry = Schema.decodeUnknownOption(OpenCodeServerEntryJson)
 const encodeEntry = Schema.encodeEffect(OpenCodeServerEntryJson)
 
-export service OpenCodeServerLedger {
-  static readonly key = "@t3tools/provider-opencode/server/OpenCodeServerLedger"
-  track: (server: {
+export service OpenCodeServerLedger: {
+  readonly track: (server: {
     readonly pid: number
     readonly port: number
     readonly args: ReadonlyArray<string>
   }) => (void!!)!!
+} {
+  static readonly key = "@t3tools/provider-opencode/server/OpenCodeServerLedger"
 }
 
 const ENTRY_DIRECTORY = "opencode-servers"

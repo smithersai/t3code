@@ -1,5 +1,6 @@
 import { Atom } from "effect/reactivity";
 import type { EnvironmentRegistry } from "../connection/registry.ts";
+/** @throws {never} */
 export declare function createShellEnvironmentAtoms<R, E>(runtime: Atom.AtomRuntime<EnvironmentRegistry | R, E>): {
     openInEditor: {
         label: string;
