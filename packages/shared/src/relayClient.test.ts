@@ -15,7 +15,7 @@ import { HttpClient, HttpClientResponse } from "effect/http";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
 import * as HostProcess from "./HostProcess.ts";
 
-import * as RelayClient from "./relayClient.ts";
+import * as RelayClient from "./relayClient.vibe";
 import * as Crypto from "./Crypto.vibe";
 
 // POSIX exec-bit checks do not apply on NTFS.

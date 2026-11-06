@@ -80,8 +80,11 @@
       "import": "./src/httpObservability.vibe"
     },
     "./editor": {
-      "types": "./src/editor.ts",
-      "import": "./src/editor.ts"
+      "types": "./src/editor.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/editor.vibe",
+        "default": "./.vibelang/js/src/editor.js"
+      }
     },
     "./shell": {
       "types": "./src/shell.ts",
@@ -168,16 +171,22 @@
       "import": "./src/orchestrationTiming.ts"
     },
     "./remote": {
-      "types": "./src/remote.ts",
-      "import": "./src/remote.ts"
+      "types": "./src/remote.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/remote.vibe",
+        "default": "./.vibelang/js/src/remote.js"
+      }
     },
     "./relaySigning": {
       "types": "./src/relaySigning.ts",
       "import": "./src/relaySigning.ts"
     },
     "./dpop": {
-      "types": "./src/dpop.ts",
-      "import": "./src/dpop.ts"
+      "types": "./src/dpop.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/dpop.vibe",
+        "default": "./.vibelang/js/src/dpop.js"
+      }
     },
     "./desktopBootstrapToken": {
       "types": "./src/desktopBootstrapToken.ts",
@@ -192,8 +201,11 @@
       "import": "./src/telemetryId.vibe"
     },
     "./relayAuth": {
-      "types": "./src/relayAuth.ts",
-      "import": "./src/relayAuth.ts"
+      "types": "./src/relayAuth.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/relayAuth.vibe",
+        "default": "./.vibelang/js/src/relayAuth.js"
+      }
     },
     "./relayUrl": {
       "types": "./src/relayUrl.ts",
@@ -204,8 +216,11 @@
       "import": "./src/relayJwt.vibe"
     },
     "./oauthScope": {
-      "types": "./src/oauthScope.ts",
-      "import": "./src/oauthScope.ts"
+      "types": "./src/oauthScope.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/oauthScope.vibe",
+        "default": "./.vibelang/js/src/oauthScope.js"
+      }
     },
     "./searchRanking": {
       "types": "./src/searchRanking.ts",
@@ -224,8 +239,11 @@
       "import": "./src/connectAuth.ts"
     },
     "./symlink": {
-      "types": "./src/symlink.ts",
-      "import": "./src/symlink.ts"
+      "types": "./src/symlink.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/symlink.vibe",
+        "default": "./.vibelang/js/src/symlink.js"
+      }
     },
     "./path": {
       "types": "./src/path.ts",
@@ -288,16 +306,25 @@
       "import": "./src/terminalLabels.ts"
     },
     "./relayClient": {
-      "types": "./src/relayClient.ts",
-      "import": "./src/relayClient.ts"
+      "types": "./src/relayClient.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/relayClient.vibe",
+        "default": "./.vibelang/js/src/relayClient.js"
+      }
     },
     "./relayTracing": {
-      "types": "./src/relayTracing.ts",
-      "import": "./src/relayTracing.ts"
+      "types": "./src/relayTracing.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/relayTracing.vibe",
+        "default": "./.vibelang/js/src/relayTracing.js"
+      }
     },
     "./preview": {
-      "types": "./src/preview.ts",
-      "import": "./src/preview.ts"
+      "types": "./src/preview.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/preview.vibe",
+        "default": "./.vibelang/js/src/preview.js"
+      }
     },
     "./previewViewport": {
       "types": "./src/previewViewport.ts",
@@ -328,8 +355,11 @@
       "import": "./src/chatList.ts"
     },
     "./nodeRuntime": {
-      "types": "./src/nodeRuntime.ts",
-      "import": "./src/nodeRuntime.ts"
+      "types": "./src/nodeRuntime.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/nodeRuntime.vibe",
+        "default": "./.vibelang/js/src/nodeRuntime.js"
+      }
     },
     "./AgentScope": {
       "types": "./src/AgentScope.vibe",
@@ -348,8 +378,11 @@
       "import": "./src/testing/symlinks.ts"
     },
     "./httpReadiness": {
-      "types": "./src/httpReadiness.ts",
-      "import": "./src/httpReadiness.ts"
+      "types": "./src/httpReadiness.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/httpReadiness.vibe",
+        "default": "./.vibelang/js/src/httpReadiness.js"
+      }
     },
     "./devHome": {
       "types": "./src/devHome.vibe",
@@ -432,8 +465,11 @@
       "import": "./src/codexAuthCallback.ts"
     },
     "./codexAuthHandoff": {
-      "types": "./src/codexAuthHandoff.ts",
-      "import": "./src/codexAuthHandoff.ts"
+      "types": "./src/codexAuthHandoff.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/codexAuthHandoff.vibe",
+        "default": "./.vibelang/js/src/codexAuthHandoff.js"
+      }
     },
     "./codexArtifactTemplates": {
       "types": "./src/codexArtifactTemplates.ts",
@@ -500,12 +536,18 @@
       "import": "./src/atomicWrite.vibe"
     },
     "./mcpResponsePayloads": {
-      "types": "./src/mcpResponsePayloads.ts",
-      "import": "./src/mcpResponsePayloads.ts"
+      "types": "./src/mcpResponsePayloads.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/mcpResponsePayloads.vibe",
+        "default": "./.vibelang/js/src/mcpResponsePayloads.js"
+      }
     },
     "./PtyAdapter": {
-      "types": "./src/PtyAdapter.ts",
-      "import": "./src/PtyAdapter.ts"
+      "types": "./src/PtyAdapter.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/PtyAdapter.vibe",
+        "default": "./.vibelang/js/src/PtyAdapter.js"
+      }
     },
     "./markdownMath": {
       "types": "./src/markdownMath.ts",

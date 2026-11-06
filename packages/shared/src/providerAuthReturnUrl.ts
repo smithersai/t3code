@@ -1,4 +1,4 @@
-import { isLoopbackHost } from "./preview.ts";
+import { isLoopbackHost } from "./preview.vibe";
 
 export function providerAuthReturnUrl(value: string | undefined): string | undefined {
   if (!value) return undefined;

@@ -1,4 +1,4 @@
-import { readHashParams } from "./remote.ts";
+import { readHashParams } from "./remote.vibe";
 
 const CONNECT_AUTH_STATE_PARAM = "state";
 const CONNECT_AUTH_CHALLENGE_PARAM = "challenge";
