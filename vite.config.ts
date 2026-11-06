@@ -157,7 +157,7 @@ export default defineConfig({
   },
   fmt: {
     ignorePatterns: [
-      ".vibelang/**",
+      "**/.vibelang/**",
       "**/*.d.vibe.ts",
       ".repos/**",
       "infra/task-cache/vendor/**",
@@ -193,7 +193,7 @@ export default defineConfig({
   },
   lint: {
     ignorePatterns: [
-      ".vibelang/**",
+      "**/.vibelang/**",
       "**/*.d.vibe.ts",
       ".repos",
       ".repos/**",
