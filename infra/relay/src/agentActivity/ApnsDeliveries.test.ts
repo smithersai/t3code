@@ -16,13 +16,13 @@ import {
   signApnsDeliveryJob,
   type SignedApnsDeliveryJob,
 } from "./apnsDeliveryJobs.ts";
-import * as DeliveryAttempts from "./DeliveryAttempts.ts";
-import * as LiveActivities from "./LiveActivities.ts";
-import * as RelayConfiguration from "../Config.ts";
+import * as DeliveryAttempts from "./DeliveryAttempts.vibe";
+import * as LiveActivities from "./LiveActivities.vibe";
+import * as RelayConfiguration from "../Config.vibe";
 import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.ts";
-import * as AgentActivityRows from "./AgentActivityRows.ts";
+import * as AgentActivityRows from "./AgentActivityRows.vibe";
 import * as ApnsDeliveries from "./ApnsDeliveries.ts";
-import * as ApnsClient from "./ApnsClient.ts";
+import * as ApnsClient from "./ApnsClient.vibe";
 import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

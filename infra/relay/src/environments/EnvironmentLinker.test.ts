@@ -13,12 +13,12 @@ import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 
-import * as DpopProofs from "../auth/DpopProofs.ts";
-import * as RelayTokens from "../auth/RelayTokens.ts";
-import * as EnvironmentCredentials from "./EnvironmentCredentials.ts";
-import * as EnvironmentLinks from "./EnvironmentLinks.ts";
-import * as RelayConfiguration from "../Config.ts";
-import * as EnvironmentLinker from "./EnvironmentLinker.ts";
+import * as DpopProofs from "../auth/DpopProofs.vibe";
+import * as RelayTokens from "../auth/RelayTokens.vibe";
+import * as EnvironmentCredentials from "./EnvironmentCredentials.vibe";
+import * as EnvironmentLinks from "./EnvironmentLinks.vibe";
+import * as RelayConfiguration from "../Config.vibe";
+import * as EnvironmentLinker from "./EnvironmentLinker.vibe";
 import * as ManagedEndpointProvider from "./ManagedEndpointProvider.ts";
 
 const relayKeyPair = NodeCrypto.generateKeyPairSync("ed25519", {

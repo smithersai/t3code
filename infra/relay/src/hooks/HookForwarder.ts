@@ -22,11 +22,11 @@ import {
   signRelayJwt,
 } from "@t3tools/shared/relayJwt";
 
-import * as RelayConfiguration from "../Config.ts";
-import { MANAGED_ENDPOINT_KEY_PATTERN } from "../deploymentConfig.ts";
-import * as HeldHooks from "./HeldHooks.ts";
-import * as HookInbox from "./HookInbox.ts";
-import { sendUpstream, TUNNEL_OFFLINE_STATUS } from "./upstream.ts";
+import * as RelayConfiguration from "../Config.vibe";
+import { MANAGED_ENDPOINT_KEY_PATTERN } from "../deploymentConfig.vibe";
+import * as HeldHooks from "./HeldHooks.vibe";
+import * as HookInbox from "./HookInbox.vibe";
+import { sendUpstream, TUNNEL_OFFLINE_STATUS } from "./upstream.vibe";
 
 export const RELAY_HOOK_PATH_PREFIX = "/v1/hooks/";
 export const RELAY_HOOK_MAX_BODY_BYTES = 1_048_576;

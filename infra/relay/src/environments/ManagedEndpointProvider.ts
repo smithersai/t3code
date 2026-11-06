@@ -20,16 +20,16 @@ import type {
   RelayManagedEndpointRuntimeConfig,
 } from "@t3tools/contracts/relay";
 
-import * as RelayConfiguration from "../Config.ts";
+import * as RelayConfiguration from "../Config.vibe";
 import {
   managedEndpointDigestInput,
   managedEndpointForHostname,
   managedEndpointHostname,
   managedEndpointTunnelName,
-} from "../deploymentConfig.ts";
-import * as CloudflareApiPause from "./CloudflareApiPause.ts";
-import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.ts";
-import * as ManagedTunnelLimits from "./ManagedTunnelLimits.ts";
+} from "../deploymentConfig.vibe";
+import * as CloudflareApiPause from "./CloudflareApiPause.vibe";
+import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.vibe";
+import * as ManagedTunnelLimits from "./ManagedTunnelLimits.vibe";
 
 export class ManagedEndpointProvisioningNotConfigured extends Schema.TaggedError<ManagedEndpointProvisioningNotConfigured>()(
   "ManagedEndpointProvisioningNotConfigured",

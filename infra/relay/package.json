@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "deploy": "alchemy deploy",
-    "push:android:smoke": "node --import vibelang/register scripts/android-push-smoke.ts",
+    "push:android:smoke": "node --import vibelang/register scripts/android-push-smoke.vibe",
     "push:android:watch": "node --import vibelang/register scripts/android-push-watch.ts",
-    "tunnels:census": "node --import vibelang/register scripts/tunnel-census.ts",
+    "tunnels:census": "node --import vibelang/register scripts/tunnel-census.vibe",
     "destroy": "alchemy destroy",
     "test": "vp test run --config ../../vite.config.ts --dir .",
     "typecheck": "vibelang --noEmit"

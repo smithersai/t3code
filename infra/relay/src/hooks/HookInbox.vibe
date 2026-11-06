@@ -1,0 +1,33 @@
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Schema from "effect/Schema"
+
+import type { HeldHook } from "./HookInboxStore.ts"
+
+const HookInboxErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error HookInboxError {
+  readonly operation: "hold" | "wake" | "clear"
+  readonly endpointKey: string
+  cause: HookInboxErrorCauseField
+  override get message(): string {
+    return `Hook inbox '${this.operation}' failed for endpoint '${this.endpointKey}'`
+  }
+}
+
+export service HookInbox: {
+  /** False when the environment's inbox is full and nothing was stored. */
+  readonly hold: (input: {
+    readonly endpointKey: string;
+    readonly baseUrl: string;
+    readonly hook: HeldHook;
+  }) => boolean!HookInboxError;
+  readonly wake: (input: {
+    readonly endpointKey: string;
+    readonly baseUrl: string;
+  }) => boolean!HookInboxError;
+  readonly clear: (input: {
+    readonly endpointKey: string;
+  }) => void!HookInboxError;
+} {
+  static readonly key = "t3code-relay/hooks/HookInbox"
+}

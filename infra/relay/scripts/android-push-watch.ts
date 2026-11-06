@@ -24,13 +24,13 @@ import * as RpcClient from "effect/rpc/RpcClient";
 import * as RpcSerialization from "effect/rpc/RpcSerialization";
 import * as Socket from "effect/socket/Socket";
 
-import * as RelayConfiguration from "../src/Config.ts";
+import * as RelayConfiguration from "../src/Config.vibe";
 import { androidActivityData, fitFcmData } from "../src/agentActivity/fcmPayloads.ts";
-import * as WebCrypto from "../src/WebCrypto.ts";
-import * as FcmAssertionSigner from "../src/agentActivity/FcmAssertionSigner.ts";
-import * as FcmClient from "../src/agentActivity/FcmClient.ts";
+import * as WebCrypto from "../src/WebCrypto.vibe";
+import * as FcmAssertionSigner from "../src/agentActivity/FcmAssertionSigner.vibe";
+import * as FcmClient from "../src/agentActivity/FcmClient.vibe";
 import * as FcmDeliveries from "../src/agentActivity/FcmDeliveries.ts";
-import { makeAggregateState } from "../src/agentActivity/agentActivityAggregate.ts";
+import { makeAggregateState } from "../src/agentActivity/agentActivityAggregate.vibe";
 
 const Device = Schema.Struct({
   token: Schema.NonEmptyString,

@@ -10,16 +10,16 @@ import * as Stream from "effect/Stream";
 import type * as Cloudflare from "@alchemy.run/cloudflare";
 import * as FcmDeliveryQueueConsumer from "./FcmDeliveryQueueConsumer.vibe";
 
-import * as RelayConfiguration from "../Config.ts";
-import * as RelayDb from "../db.ts";
-import * as EnvironmentLinks from "../environments/EnvironmentLinks.ts";
-import * as AgentActivityRows from "./AgentActivityRows.ts";
-import * as LiveActivities from "./LiveActivities.ts";
-import * as FcmDeliveryQueueSender from "./FcmDeliveryQueueSender.ts";
-import * as FcmClient from "./FcmClient.ts";
+import * as RelayConfiguration from "../Config.vibe";
+import * as RelayDb from "../db.vibe";
+import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
+import * as AgentActivityRows from "./AgentActivityRows.vibe";
+import * as LiveActivities from "./LiveActivities.vibe";
+import * as FcmDeliveryQueueSender from "./FcmDeliveryQueueSender.vibe";
+import * as FcmClient from "./FcmClient.vibe";
 import * as FcmDeliveries from "./FcmDeliveries.ts";
 import { androidActivityData, fitFcmData } from "./fcmPayloads.ts";
-import { makeAggregateState } from "./agentActivityAggregate.ts";
+import { makeAggregateState } from "./agentActivityAggregate.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const aggregateFor = (states: ReadonlyArray<RelayAgentActivityState>) =>

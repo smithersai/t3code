@@ -2,8 +2,8 @@ import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as RelayDb from "../db.ts";
-import * as DeliveryAttempts from "./DeliveryAttempts.ts";
+import * as RelayDb from "../db.vibe";
+import * as DeliveryAttempts from "./DeliveryAttempts.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 describe("DeliveryAttempts", () => {

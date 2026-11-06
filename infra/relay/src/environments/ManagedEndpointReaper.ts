@@ -5,12 +5,12 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 
-import * as RelayConfiguration from "../Config.ts";
+import * as RelayConfiguration from "../Config.vibe";
 import {
   MANAGED_ENDPOINT_ZONE_OWNER_STAGE,
   managedEndpointTunnelNamePrefix,
-} from "../deploymentConfig.ts";
-import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.ts";
+} from "../deploymentConfig.vibe";
+import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.vibe";
 import * as ManagedEndpointProvider from "./ManagedEndpointProvider.ts";
 
 export const MANAGED_ENDPOINT_GRACE_PERIOD_MINUTES = 5;

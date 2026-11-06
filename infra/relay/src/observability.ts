@@ -13,9 +13,9 @@ import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import * as Tracer from "effect/Tracer";
 
-import { relayResourceNameForStage } from "./deploymentConfig.ts";
-import { MobileMonitoring } from "./mobileTelemetry/monitoring.ts";
-import { RelayMonitoring } from "./monitoring.ts";
+import { relayResourceNameForStage } from "./deploymentConfig.vibe";
+import { MobileMonitoring } from "./mobileTelemetry/monitoring.vibe";
+import { RelayMonitoring } from "./monitoring.vibe";
 
 const relayRecentSpansQuery = (dataset: string) =>
   [

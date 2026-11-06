@@ -15,7 +15,7 @@ import {
 import {
   sanitizeAgentActivityAggregateState,
   sanitizeApnsNotificationPayload,
-} from "./agentActivityPayloads.ts";
+} from "./agentActivityPayloads.vibe";
 import {
   expiresAtForJob,
   makeApnsDeliveryJobPayload,
@@ -23,7 +23,7 @@ import {
   type ApnsDeliveryJobPayload,
   type SignedApnsDeliveryJob,
 } from "./apnsDeliveryJobs.ts";
-import * as RelayConfiguration from "../Config.ts";
+import * as RelayConfiguration from "../Config.vibe";
 
 export class ApnsDeliveryQueueSendError extends Schema.TaggedError<ApnsDeliveryQueueSendError>()(
   "ApnsDeliveryQueueSendError",

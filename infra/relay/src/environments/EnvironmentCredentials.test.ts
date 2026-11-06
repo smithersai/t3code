@@ -3,9 +3,9 @@ import { PgDialect } from "drizzle-orm/pg-core";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as RelayDb from "../db.ts";
+import * as RelayDb from "../db.vibe";
 import { relayEnvironmentCredentials } from "../persistence/schema.ts";
-import * as EnvironmentCredentials from "./EnvironmentCredentials.ts";
+import * as EnvironmentCredentials from "./EnvironmentCredentials.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 describe("EnvironmentCredentials", () => {

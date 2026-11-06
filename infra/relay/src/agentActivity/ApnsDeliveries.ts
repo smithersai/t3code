@@ -23,9 +23,9 @@ import {
   notificationForActivity,
   sanitizeAgentActivityAggregateState,
   sanitizeApnsNotificationPayload,
-} from "./agentActivityPayloads.ts";
-import { makeAggregateState } from "./agentActivityAggregate.ts";
-import * as Apns from "./ApnsClient.ts";
+} from "./agentActivityPayloads.vibe";
+import { makeAggregateState } from "./agentActivityAggregate.vibe";
+import * as Apns from "./ApnsClient.vibe";
 import {
   ApnsDeliveryJobLiveActivityAggregateMissing,
   ApnsDeliveryJobPushNotificationMissing,
@@ -37,10 +37,10 @@ import {
   verifySignedApnsDeliveryJob,
   type ApnsDeliveryJobVerificationError,
 } from "./apnsDeliveryJobs.ts";
-import * as AgentActivityRows from "./AgentActivityRows.ts";
-import * as DeliveryAttempts from "./DeliveryAttempts.ts";
-import * as LiveActivities from "./LiveActivities.ts";
-import * as RelayConfiguration from "../Config.ts";
+import * as AgentActivityRows from "./AgentActivityRows.vibe";
+import * as DeliveryAttempts from "./DeliveryAttempts.vibe";
+import * as LiveActivities from "./LiveActivities.vibe";
+import * as RelayConfiguration from "../Config.vibe";
 import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.ts";
 import { withSpanAttributes } from "../observability.ts";
 

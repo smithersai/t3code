@@ -14,17 +14,17 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
-import * as RelayConfiguration from "../Config.ts";
-import * as RelayDb from "../db.ts";
+import * as RelayConfiguration from "../Config.vibe";
+import * as RelayDb from "../db.vibe";
 import { relayMobileDevices } from "../persistence/schema.ts";
-import * as EnvironmentLinks from "../environments/EnvironmentLinks.ts";
-import * as AgentActivityRows from "./AgentActivityRows.ts";
-import * as LiveActivities from "./LiveActivities.ts";
-import * as FcmDeliveryQueueSender from "./FcmDeliveryQueueSender.ts";
-import * as FcmClient from "./FcmClient.ts";
+import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
+import * as AgentActivityRows from "./AgentActivityRows.vibe";
+import * as LiveActivities from "./LiveActivities.vibe";
+import * as FcmDeliveryQueueSender from "./FcmDeliveryQueueSender.vibe";
+import * as FcmClient from "./FcmClient.vibe";
 import { androidActivityData, fitFcmData } from "./fcmPayloads.ts";
-import { makeAggregateState, statusForPhase } from "./agentActivityAggregate.ts";
-import { isExpiredAgentActivityState, notificationForActivity } from "./agentActivityPayloads.ts";
+import { makeAggregateState, statusForPhase } from "./agentActivityAggregate.vibe";
+import { isExpiredAgentActivityState, notificationForActivity } from "./agentActivityPayloads.vibe";
 import {
   alertForActivityRows,
   attentionTransitionRows,

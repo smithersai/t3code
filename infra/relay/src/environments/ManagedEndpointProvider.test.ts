@@ -9,11 +9,11 @@ import * as Fiber from "effect/Fiber";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
-import * as RelayConfiguration from "../Config.ts";
-import * as CloudflareApiPause from "./CloudflareApiPause.ts";
-import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.ts";
+import * as RelayConfiguration from "../Config.vibe";
+import * as CloudflareApiPause from "./CloudflareApiPause.vibe";
+import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.vibe";
 import * as ManagedEndpointProvider from "./ManagedEndpointProvider.ts";
-import * as ManagedTunnelLimits from "./ManagedTunnelLimits.ts";
+import * as ManagedTunnelLimits from "./ManagedTunnelLimits.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const config = RelayConfiguration.RelayConfiguration.of({

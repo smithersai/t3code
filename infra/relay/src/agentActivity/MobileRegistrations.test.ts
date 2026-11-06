@@ -10,13 +10,13 @@ import * as Logger from "effect/Logger";
 import * as Redacted from "effect/Redacted";
 import { FetchHttpClient } from "effect/http";
 
-import * as Devices from "./Devices.ts";
-import * as AgentActivityRows from "./AgentActivityRows.ts";
-import * as DeliveryAttempts from "./DeliveryAttempts.ts";
-import * as EnvironmentLinks from "../environments/EnvironmentLinks.ts";
-import * as LiveActivities from "./LiveActivities.ts";
-import * as RelayConfiguration from "../Config.ts";
-import * as AgentActivityPublisher from "./AgentActivityPublisher.ts";
+import * as Devices from "./Devices.vibe";
+import * as AgentActivityRows from "./AgentActivityRows.vibe";
+import * as DeliveryAttempts from "./DeliveryAttempts.vibe";
+import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
+import * as LiveActivities from "./LiveActivities.vibe";
+import * as RelayConfiguration from "../Config.vibe";
+import * as AgentActivityPublisher from "./AgentActivityPublisher.vibe";
 import * as FcmDeliveries from "./FcmDeliveries.ts";
 
 const layerPublisher = AgentActivityPublisher.layer.pipe(
@@ -28,10 +28,10 @@ const layerPublisher = AgentActivityPublisher.layer.pipe(
   ),
 );
 import * as ApnsDeliveries from "./ApnsDeliveries.ts";
-import * as ApnsClient from "./ApnsClient.ts";
+import * as ApnsClient from "./ApnsClient.vibe";
 import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
 import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.ts";
-import * as MobileRegistrations from "./MobileRegistrations.ts";
+import * as MobileRegistrations from "./MobileRegistrations.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const device: RelayDeviceRegistrationRequest = {

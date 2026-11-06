@@ -4,9 +4,9 @@ import {
   RelayClientPrincipal,
   type RelayClientDeviceRecord,
 } from "@t3tools/contracts/relay";
-import * as EnvironmentLinker from "../environments/EnvironmentLinker.ts";
-import * as RelayTokens from "../auth/RelayTokens.ts";
-import * as Devices from "../agentActivity/Devices.ts";
+import * as EnvironmentLinker from "../environments/EnvironmentLinker.vibe";
+import * as RelayTokens from "../auth/RelayTokens.vibe";
+import * as Devices from "../agentActivity/Devices.vibe";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Effect's Crypto has no generateKeyPairSync.
 import * as NodeCrypto from "node:crypto";
 import { createClerkClient, verifyToken } from "@clerk/backend";
@@ -55,16 +55,16 @@ import {
   withoutCapturedParentSpan,
 } from "./Api.ts";
 import * as RelayHttpApi from "./Api.ts";
-import * as RelayConfiguration from "../Config.ts";
-import * as RelayDb from "../db.ts";
-import * as EnvironmentCredentials from "../environments/EnvironmentCredentials.ts";
-import * as HeldHooks from "../hooks/HeldHooks.ts";
-import * as HookInbox from "../hooks/HookInbox.ts";
-import * as EnvironmentLinks from "../environments/EnvironmentLinks.ts";
-import * as ManagedEndpointAllocations from "../environments/ManagedEndpointAllocations.ts";
+import * as RelayConfiguration from "../Config.vibe";
+import * as RelayDb from "../db.vibe";
+import * as EnvironmentCredentials from "../environments/EnvironmentCredentials.vibe";
+import * as HeldHooks from "../hooks/HeldHooks.vibe";
+import * as HookInbox from "../hooks/HookInbox.vibe";
+import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
+import * as ManagedEndpointAllocations from "../environments/ManagedEndpointAllocations.vibe";
 import * as ManagedEndpointProvider from "../environments/ManagedEndpointProvider.ts";
-import * as AgentActivityPublisher from "../agentActivity/AgentActivityPublisher.ts";
-import * as EnvironmentPublishSignatures from "../environments/EnvironmentPublishSignatures.ts";
+import * as AgentActivityPublisher from "../agentActivity/AgentActivityPublisher.vibe";
+import * as EnvironmentPublishSignatures from "../environments/EnvironmentPublishSignatures.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("@clerk/backend", () => ({

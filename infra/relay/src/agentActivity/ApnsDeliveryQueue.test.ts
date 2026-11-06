@@ -5,7 +5,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
-import * as RelayConfiguration from "../Config.ts";
+import * as RelayConfiguration from "../Config.vibe";
 import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

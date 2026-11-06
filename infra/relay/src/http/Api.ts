@@ -59,27 +59,27 @@ import {
   verifyRelayJwt,
 } from "@t3tools/shared/relayJwt";
 
-import * as DeliveryAttempts from "../agentActivity/DeliveryAttempts.ts";
-import * as AgentActivityRows from "../agentActivity/AgentActivityRows.ts";
-import * as Devices from "../agentActivity/Devices.ts";
-import * as DpopProofs from "../auth/DpopProofs.ts";
-import * as RelayTokens from "../auth/RelayTokens.ts";
-import * as EnvironmentCredentials from "../environments/EnvironmentCredentials.ts";
-import * as EnvironmentLinks from "../environments/EnvironmentLinks.ts";
-import * as HeldHooks from "../hooks/HeldHooks.ts";
-import * as HookInbox from "../hooks/HookInbox.ts";
-import * as LiveActivities from "../agentActivity/LiveActivities.ts";
-import * as RelayConfiguration from "../Config.ts";
-import * as AgentActivityPublisher from "../agentActivity/AgentActivityPublisher.ts";
-import * as EnvironmentConnector from "../environments/EnvironmentConnector.ts";
-import * as EnvironmentLinker from "../environments/EnvironmentLinker.ts";
+import * as DeliveryAttempts from "../agentActivity/DeliveryAttempts.vibe";
+import * as AgentActivityRows from "../agentActivity/AgentActivityRows.vibe";
+import * as Devices from "../agentActivity/Devices.vibe";
+import * as DpopProofs from "../auth/DpopProofs.vibe";
+import * as RelayTokens from "../auth/RelayTokens.vibe";
+import * as EnvironmentCredentials from "../environments/EnvironmentCredentials.vibe";
+import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
+import * as HeldHooks from "../hooks/HeldHooks.vibe";
+import * as HookInbox from "../hooks/HookInbox.vibe";
+import * as LiveActivities from "../agentActivity/LiveActivities.vibe";
+import * as RelayConfiguration from "../Config.vibe";
+import * as AgentActivityPublisher from "../agentActivity/AgentActivityPublisher.vibe";
+import * as EnvironmentConnector from "../environments/EnvironmentConnector.vibe";
+import * as EnvironmentLinker from "../environments/EnvironmentLinker.vibe";
 import * as ManagedEndpointProvider from "../environments/ManagedEndpointProvider.ts";
-import * as ManagedEndpointAllocations from "../environments/ManagedEndpointAllocations.ts";
-import * as EnvironmentPublishSignatures from "../environments/EnvironmentPublishSignatures.ts";
-import * as MobileRegistrations from "../agentActivity/MobileRegistrations.ts";
+import * as ManagedEndpointAllocations from "../environments/ManagedEndpointAllocations.vibe";
+import * as EnvironmentPublishSignatures from "../environments/EnvironmentPublishSignatures.vibe";
+import * as MobileRegistrations from "../agentActivity/MobileRegistrations.vibe";
 import { withSpanAttributes } from "../observability.ts";
 import { isRelayHookPath, redactRelayHookUrl } from "../hooks/HookForwarder.ts";
-import * as RelayDb from "../db.ts";
+import * as RelayDb from "../db.vibe";
 
 // Delegated IDs exceed the router's default 100-character limit; match the environment server.
 export const RELAY_HTTP_ROUTER_CONFIG = {
