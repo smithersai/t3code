@@ -26,7 +26,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 
-import { randomUuidV4 } from "./randomUuid.ts";
+import { randomUuidV4 } from "./randomUuid.vibe";
 
 export const IdAllocatorV2Kind = Schema.Literals([
   "command",

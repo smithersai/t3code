@@ -16,7 +16,7 @@ import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 
 import * as ProviderHost from "./ProviderHost.vibe";
-import { makeManagedServerProvider } from "./managedProvider.ts";
+import { makeManagedServerProvider } from "./managedProvider.vibe";
 
 const emptyCapabilities = createModelCapabilities({ optionDescriptors: [] });
 const fastModeCapabilities = createModelCapabilities({

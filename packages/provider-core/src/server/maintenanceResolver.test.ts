@@ -32,7 +32,7 @@ import {
   resolveProviderMaintenanceCapabilitiesEffect,
   type PackageManagedProviderMaintenanceDefinition,
   type ProviderMaintenanceCapabilities,
-} from "./maintenanceResolver.ts";
+} from "./maintenanceResolver.vibe";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
 import * as Layer from "effect/Layer";
 

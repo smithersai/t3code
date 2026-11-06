@@ -14,7 +14,7 @@ import * as DateTime from "effect/DateTime"
 import * as Cause from "effect/Cause"
 
 import * as IdAllocator from "./IdAllocator.ts"
-import type { ProviderAdapterFailureReason } from "./ProviderAdapter.ts"
+import type { ProviderAdapterFailureReason } from "./ProviderAdapter.vibe"
 import * as Schema from "effect/Schema"
 
 export schema error ContextHandoffBudgetError {

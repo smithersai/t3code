@@ -4,8 +4,11 @@
   "type": "module",
   "exports": {
     "./client": {
-      "types": "./src/client.ts",
-      "import": "./src/client.ts"
+      "types": "./src/client.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/client.vibe",
+        "default": "./.vibelang/js/src/client.js"
+      }
     },
     "./modelShortName": {
       "types": "./src/modelShortName.ts",
@@ -60,12 +63,18 @@
       "import": "./src/server/maintenance.vibe"
     },
     "./server/maintenanceResolver": {
-      "types": "./src/server/maintenanceResolver.ts",
-      "import": "./src/server/maintenanceResolver.ts"
+      "types": "./src/server/maintenanceResolver.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/maintenanceResolver.vibe",
+        "default": "./.vibelang/js/src/server/maintenanceResolver.js"
+      }
     },
     "./server/managedProvider": {
-      "types": "./src/server/managedProvider.ts",
-      "import": "./src/server/managedProvider.ts"
+      "types": "./src/server/managedProvider.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/managedProvider.vibe",
+        "default": "./.vibelang/js/src/server/managedProvider.js"
+      }
     },
     "./server/McpProviderSessions": {
       "types": "./src/server/McpProviderSessions.ts",
@@ -80,8 +89,11 @@
       "import": "./src/server/mcpToolPresentation.ts"
     },
     "./server/ModelCatalog": {
-      "types": "./src/server/ModelCatalog.ts",
-      "import": "./src/server/ModelCatalog.ts"
+      "types": "./src/server/ModelCatalog.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/ModelCatalog.vibe",
+        "default": "./.vibelang/js/src/server/ModelCatalog.js"
+      }
     },
     "./server/nativeProtocolLogging": {
       "types": "./src/server/nativeProtocolLogging.ts",
@@ -104,8 +116,11 @@
       "import": "./src/server/processGroup.ts"
     },
     "./server/ProviderAdapter": {
-      "types": "./src/server/ProviderAdapter.ts",
-      "import": "./src/server/ProviderAdapter.ts"
+      "types": "./src/server/ProviderAdapter.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/ProviderAdapter.vibe",
+        "default": "./.vibelang/js/src/server/ProviderAdapter.js"
+      }
     },
     "./server/providerAuthFlow": {
       "types": "./src/server/providerAuthFlow.vibe",
@@ -116,8 +131,11 @@
       "import": "./src/server/ProviderContinuationRequests.vibe"
     },
     "./server/ProviderEventLoggers": {
-      "types": "./src/server/ProviderEventLoggers.ts",
-      "import": "./src/server/ProviderEventLoggers.ts"
+      "types": "./src/server/ProviderEventLoggers.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/ProviderEventLoggers.vibe",
+        "default": "./.vibelang/js/src/server/ProviderEventLoggers.js"
+      }
     },
     "./server/ProviderHost": {
       "types": "./src/server/ProviderHost.vibe",
@@ -128,8 +146,11 @@
       "import": "./src/server/ProviderLatestVersions.vibe"
     },
     "./server/randomUuid": {
-      "types": "./src/server/randomUuid.ts",
-      "import": "./src/server/randomUuid.ts"
+      "types": "./src/server/randomUuid.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/randomUuid.vibe",
+        "default": "./.vibelang/js/src/server/randomUuid.js"
+      }
     },
     "./server/runtimeInstructions": {
       "types": "./src/server/runtimeInstructions.ts",
@@ -144,12 +165,18 @@
       "import": "./src/server/snapshot.vibe"
     },
     "./server/snapshotProbe": {
-      "types": "./src/server/snapshotProbe.ts",
-      "import": "./src/server/snapshotProbe.ts"
+      "types": "./src/server/snapshotProbe.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/snapshotProbe.vibe",
+        "default": "./.vibelang/js/src/server/snapshotProbe.js"
+      }
     },
     "./server/snapshotSettings": {
-      "types": "./src/server/snapshotSettings.ts",
-      "import": "./src/server/snapshotSettings.ts"
+      "types": "./src/server/snapshotSettings.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/snapshotSettings.vibe",
+        "default": "./.vibelang/js/src/server/snapshotSettings.js"
+      }
     },
     "./server/subagentProjection": {
       "types": "./src/server/subagentProjection.vibe",
@@ -160,8 +187,11 @@
       "import": "./src/server/textGeneration.vibe"
     },
     "./server/textGenerationOperations": {
-      "types": "./src/server/textGenerationOperations.ts",
-      "import": "./src/server/textGenerationOperations.ts"
+      "types": "./src/server/textGenerationOperations.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/textGenerationOperations.vibe",
+        "default": "./.vibelang/js/src/server/textGenerationOperations.js"
+      }
     },
     "./server/textGenerationPolicy": {
       "types": "./src/server/textGenerationPolicy.vibe",
