@@ -2,10 +2,10 @@ import { defineSourceControlDriver, withOwnServices } from "@t3tools/source-cont
 
 import { definition } from "../shared/definition.vibe"
 
-import * as GitCafeApi from "./GitCafeApi.ts"
-import * as GitCafeCredentials from "./GitCafeCredentials.ts"
+import * as GitCafeApi from "./GitCafeApi.vibe"
+import * as GitCafeCredentials from "./GitCafeCredentials.vibe"
 import * as GitCafePullRequestProvider from "./GitCafePullRequestProvider.ts"
-import * as GitCafeSourceControlProvider from "./GitCafeSourceControlProvider.ts"
+import * as GitCafeSourceControlProvider from "./GitCafeSourceControlProvider.vibe"
 
 const services = GitCafeApi.layer.pipe(Layer.provideMerge(GitCafeCredentials.layer))
 

@@ -17,7 +17,7 @@ import {
   type PullRequestProviderApi,
 } from "@t3tools/source-control-core/server/PullRequestProvider";
 
-import * as GitCafeApi from "./GitCafeApi.ts";
+import * as GitCafeApi from "./GitCafeApi.vibe";
 import * as GitCafeHosts from "./gitCafeHosts.ts";
 import * as Json from "./gitCafePullRequestJson.vibe";
 import { definition } from "../shared/definition.vibe";
