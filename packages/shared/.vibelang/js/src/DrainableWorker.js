@@ -4,7 +4,7 @@ import * as TxQueue from "effect/TxQueue";
 import * as TxRef from "effect/TxRef";
 import { logError, withSpan } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Scope from "effect/Scope";
 import * as Effect from "effect/Effect";
 /**

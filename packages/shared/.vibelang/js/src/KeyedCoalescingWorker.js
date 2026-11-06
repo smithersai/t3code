@@ -3,7 +3,7 @@ import * as TxQueue from "effect/TxQueue";
 import * as TxRef from "effect/TxRef";
 import { withSpan } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Scope from "effect/Scope";
 import * as Effect from "effect/Effect";
 export const makeKeyedCoalescingWorker = (options) => {

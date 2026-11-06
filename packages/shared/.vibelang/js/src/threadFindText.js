@@ -4,9 +4,9 @@ import { artifactTemplateFromHastProperties, renderCodexInlineDirectivesAsMarkdo
 import { codexArtifactTemplatePresentationLabel } from "./codexArtifactTemplates.js";
 import { buildFileLinkParentSuffixByPath, splitFilePathPosition, fileLinkLabel, } from "./fileLinks.js";
 import { isMarkdownFileLinkLabel, extractMarkdownLinkHrefs, extractInlineCodeSpans, inlineCodeFilePathCandidate, resolveMarkdownFileLinkTarget, } from "./markdownLinks.js";
-import { upgradeLegacyContextMessage } from "./composerContextLegacy.js";
+import { upgradeLegacyContextMessage } from "#vibelang/emitted/src/composerContextLegacy";
 import { parseComposerContextHref } from "./composerContextReferences.js";
-import { assistantCitationLabel, parseAssistantCitationHref } from "./assistantCitations.js";
+import { assistantCitationLabel, parseAssistantCitationHref, } from "#vibelang/emitted/src/assistantCitations";
 import { proposedPlanTitle, stripDisplayedPlanMarkdown } from "./proposedPlanText.js";
 import { unified } from "unified";
 import remarkParse from "remark-parse";

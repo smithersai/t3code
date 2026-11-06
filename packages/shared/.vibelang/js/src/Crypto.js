@@ -3,6 +3,7 @@ import * as Digest from "effect/crypto/Digest";
 import * as SecureRandom from "effect/crypto/SecureRandom";
 import { fail } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
+import * as runtime from "vibelang-runtime/internal";
 /**
  * Effect 4.0's `effect/Crypto` service, which Effect 4.1 removed in favor of
  * `effect/crypto`. Callers keep `yield* Crypto.Crypto`; UUIDs and ULIDs come
@@ -89,9 +90,13 @@ const webCryptoDigest = (algorithm, data) => {
         return yield* Effect.catchDefect(Effect_1.gen(function* () {
             // Freeze input at execution; invalid/detached buffers keep the legacy failure channel.
             const bytes = new Uint8Array(data);
-            const completion_1 = yield* Effect_1.provide(Effect_1.fnUntraced(function* () {
+            let completion_1 = runtime.$normal;
+            yield* Effect_1.provide(Effect_1.fnUntraced(function* () {
                 const digest = yield* Digest.Digest;
-                return { kind: "return", value: yield* digest.digest(digestAlgorithms[algorithm], bytes) };
+                {
+                    completion_1 = { kind: "return", value: yield* digest.digest(digestAlgorithms[algorithm], bytes) };
+                    return completion_1.value;
+                }
             })(), Digest.layerWebCrypto);
             if (completion_1.kind === "return")
                 return completion_1.value;

@@ -2,9 +2,9 @@
 import * as Exit from "effect/Exit";
 import * as SchemaGetter from "effect/SchemaGetter";
 import * as SchemaTransformation from "effect/SchemaTransformation";
-import { $catchExpression } from "vibelang-runtime";
+import { $catchExpression } from "vibelang-runtime/internal";
 import * as Effect from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Cause from "effect/Cause";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";

@@ -13,9 +13,9 @@ import * as Option from "effect/Option";
 import * as Schedule from "effect/Schedule";
 import * as Semaphore from "effect/Semaphore";
 import { withSpan } from "effect/Effect";
-import { $catchExpression, $matchCache, $schemaErrorMatcher, TaggedError } from "vibelang-runtime";
+import { $catchExpression, $matchCache, $schemaErrorMatcher, TaggedError } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Context from "effect/Context";
 import * as Crypto from "./Crypto.js";
 import * as Effect from "effect/Effect";
@@ -194,47 +194,29 @@ export const makeCloudflaredRelayClient = (options) => {
                     && compareCloudflaredVersions(entry, CLOUDFLARED_VERSION) < 0)
                     .sort((left, right) => compareCloudflaredVersions(right, left));
             });
-            const resolvePathExecutable = Effect_1.gen(runtime.$joinedFrame(function* resolvePathExecutable() {
+            const resolvePathExecutable = Effect_1.gen(function* resolvePathExecutable() {
                 // Read hydrated PATH directly; ConfigProvider may have cached it before fixPath.
                 const pathValue = (yield* HostProcess.Environment).PATH?.trim();
                 if (!pathValue)
                     return null;
                 const delimiter = platform === "win32" ? ";" : ":";
-                {
-                    let pending_1 = runtime.$normal;
-                    try {
-                        for (const directory of pathValue.split(delimiter)) {
-                            try {
-                                {
-                                    const trimmed = directory.trim().replace(/^"|"$/gu, "");
-                                    if (trimmed.length === 0)
-                                        continue;
-                                    const candidate = path.join(trimmed, executableFileName(platform));
-                                    if (!(yield* isExecutableFile(candidate)))
-                                        continue;
-                                    const available = yield* compatibleCandidate(candidate, "path");
-                                    if (available)
-                                        return available;
-                                    yield* Effect.logWarning("Skipping an incompatible relay client on PATH", {
-                                        executablePath: candidate,
-                                        minimumVersion: CLOUDFLARED_MIN_VERSION,
-                                    });
-                                }
-                            }
-                            catch (thrown_1) {
-                                pending_1 = thrown_1;
-                                break;
-                            }
-                        }
-                    }
-                    catch (thrown_2) {
-                        throw runtime.$finallyFailure(pending_1, thrown_2);
-                    }
-                    if (pending_1 !== runtime.$normal)
-                        throw pending_1;
+                for (const directory of pathValue.split(delimiter)) {
+                    const trimmed = directory.trim().replace(/^"|"$/gu, "");
+                    if (trimmed.length === 0)
+                        continue;
+                    const candidate = path.join(trimmed, executableFileName(platform));
+                    if (!(yield* isExecutableFile(candidate)))
+                        continue;
+                    const available = yield* compatibleCandidate(candidate, "path");
+                    if (available)
+                        return available;
+                    yield* Effect.logWarning("Skipping an incompatible relay client on PATH", {
+                        executablePath: candidate,
+                        minimumVersion: CLOUDFLARED_MIN_VERSION,
+                    });
                 }
                 return null;
-            }));
+            });
             const missingStatus = { status: "missing", version: CLOUDFLARED_VERSION };
             const unsupportedStatus = {
                 status: "unsupported",
@@ -242,7 +224,7 @@ export const makeCloudflaredRelayClient = (options) => {
                 arch,
                 version: CLOUDFLARED_VERSION,
             };
-            const resolve = withSpan(Effect_1.gen(runtime.$joinedFrame(function* () {
+            const resolve = withSpan(Effect_1.gen(function* () {
                 const config = yield* loadCloudflaredConfig;
                 if (Option.isSome(config.executableOverride)) {
                     const override = yield* compatibleCandidate(config.executableOverride.value, "override");
@@ -254,62 +236,26 @@ export const makeCloudflaredRelayClient = (options) => {
                 const pinned = yield* compatibleCandidate(managedPath, "managed");
                 if (pinned)
                     return pinned;
-                {
-                    let pending_2 = runtime.$normal;
-                    try {
-                        for (const version of yield* olderManagedVersions) {
-                            try {
-                                {
-                                    const older = yield* compatibleCandidate(managedPathFor(version), "managed");
-                                    if (older)
-                                        return older;
-                                }
-                            }
-                            catch (thrown_3) {
-                                pending_2 = thrown_3;
-                                break;
-                            }
-                        }
-                    }
-                    catch (thrown_4) {
-                        throw runtime.$finallyFailure(pending_2, thrown_4);
-                    }
-                    if (pending_2 !== runtime.$normal)
-                        throw pending_2;
+                for (const version of yield* olderManagedVersions) {
+                    const older = yield* compatibleCandidate(managedPathFor(version), "managed");
+                    if (older)
+                        return older;
                 }
                 const pathExecutable = yield* resolvePathExecutable;
                 if (pathExecutable)
                     return pathExecutable;
                 return releaseAsset ? missingStatus : unsupportedStatus;
-            })), "cloudflared.resolve");
-            const pruneManagedVersions = withSpan(Effect_1.gen(runtime.$joinedFrame(function* () {
+            }), "cloudflared.resolve");
+            const pruneManagedVersions = withSpan(Effect_1.gen(function* () {
                 // Retain the newest older release for rollback or older servers that cannot redownload it.
-                {
-                    let pending_3 = runtime.$normal;
-                    try {
-                        for (const version of (yield* olderManagedVersions).slice(1)) {
-                            try {
-                                {
-                                    // Windows cannot delete another server's running connector; retry next prune.
-                                    ;
-                                    yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return (Effect.tap(fileSystem.remove(path.join(managedRoot, version), { recursive: true }), () => Effect.logInfo("Removed an older managed relay client", { version }))); }); })(), (cause) => {
-                                        return Effect_1.gen(function* () { return yield* Effect.logDebug("Could not remove an older managed relay client", { version, cause }); });
-                                    });
-                                }
-                            }
-                            catch (thrown_5) {
-                                pending_3 = thrown_5;
-                                break;
-                            }
-                        }
-                    }
-                    catch (thrown_6) {
-                        throw runtime.$finallyFailure(pending_3, thrown_6);
-                    }
-                    if (pending_3 !== runtime.$normal)
-                        throw pending_3;
+                for (const version of (yield* olderManagedVersions).slice(1)) {
+                    // Windows cannot delete another server's running connector; retry next prune.
+                    ;
+                    yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return (Effect.tap(fileSystem.remove(path.join(managedRoot, version), { recursive: true }), () => Effect.logInfo("Removed an older managed relay client", { version }))); }); })(), (cause) => {
+                        return Effect_1.gen(function* () { return yield* Effect.logDebug("Could not remove an older managed relay client", { version, cause }); });
+                    });
                 }
-            })), "cloudflared.pruneManagedVersions");
+            }), "cloudflared.pruneManagedVersions");
             const renameWhenUnlocked = (from, to) => fileSystem.rename(from, to).pipe(Effect.retry({
                 times: ACTIVATE_RETRY_COUNT,
                 schedule: Schedule.spaced(ACTIVATE_RETRY_DELAY),

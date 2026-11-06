@@ -12,7 +12,7 @@ import {
   remarkCodexDirectives,
 } from "./codexMarkdownDirectives.ts";
 import { isWindowsDrivePathHref } from "./markdownLinks.ts";
-import { THREAD_LINK_PROTOCOL } from "./threadLinks.vibe";
+import { THREAD_LINK_PROTOCOL } from "#vibelang/emitted/src/threadLinks";
 
 type MarkdownImageHastNode = {
   type?: string;

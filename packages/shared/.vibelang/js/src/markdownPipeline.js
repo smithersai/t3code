@@ -8,7 +8,7 @@ import { remarkGithubAlerts } from "./markdownGithubAlerts.js";
 import { remarkNormalizeListItemIndentation } from "./markdownListIndentation.js";
 import { CODEX_ARTIFACT_TEMPLATE_HAST_PROPERTIES, remarkCodexDirectives, } from "./codexMarkdownDirectives.js";
 import { isWindowsDrivePathHref } from "./markdownLinks.js";
-import { THREAD_LINK_PROTOCOL } from "./threadLinks.js";
+import { THREAD_LINK_PROTOCOL } from "#vibelang/emitted/src/threadLinks";
 function meaningfulHastChildren(node) {
     return (node.children ?? []).filter((child) => !(child.type === "text" && child.value?.trim() === ""));
 }

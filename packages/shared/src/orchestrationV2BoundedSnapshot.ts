@@ -3,7 +3,7 @@ import type {
   OrchestrationV2ThreadProjection,
 } from "@t3tools/contracts";
 
-import { restoreSnapshotBodies } from "./orchestrationV2DedupedBodies.vibe";
+import { restoreSnapshotBodies } from "#vibelang/emitted/src/orchestrationV2DedupedBodies";
 
 function isLocalTimelineRow(
   projection: Pick<OrchestrationV2ThreadProjection, "thread">,
