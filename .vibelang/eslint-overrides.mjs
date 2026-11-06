@@ -21,7 +21,7 @@ export const nativeOverrides = (overrides) =>
     if (Object.keys(rules).length === 0) return [];
     const excluded = override.excludedFiles ?? override.ignores;
     return [{
-      files: nativePatterns(override.files ?? ["**/*"]),
+      files: nativePatterns(override.files ?? ["**/*"]).map((pattern) => [pattern, "**/*.{vibe,vibex}"]),
       ...(excluded ? { ignores: nativePatterns(excluded) } : {}),
       rules,
     }];

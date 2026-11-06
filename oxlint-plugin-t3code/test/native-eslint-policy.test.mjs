@@ -11,6 +11,10 @@ const messagesFor = (filename) =>
     .filter((message) => message.ruleId === "t3code/no-rpc-permission-bypass");
 
 describe("native modules keep the configured RPC boundary policy", () => {
+  it("keeps the native-only bridge valid for ordinary TypeScript test paths", () => {
+    const filename = root + "packages/client-runtime/src/connection/example.test.ts";
+    expect(() => new Linter({ cwd: root }).verify("export const value = 1;", nativeConfig, { filename })).not.toThrow();
+  });
   it("keeps the reviewed host update boundary allowed", () => {
     expect(messagesFor("packages/client-runtime/src/connection/outdatedHostUpdate.vibe")).toEqual([]);
   });
