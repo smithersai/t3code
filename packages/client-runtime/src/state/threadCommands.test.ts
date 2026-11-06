@@ -26,9 +26,9 @@ import { Atom, AtomRegistry } from "effect/reactivity";
 
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import type { RpcSession } from "../rpc/session.ts";
-import { createThreadEnvironmentAtoms } from "./threadCommands.ts";
-import * as ThreadHistoryController from "./threadHistoryController.ts";
+import type { RpcSession } from "../rpc/session.vibe";
+import { createThreadEnvironmentAtoms } from "./threadCommands.vibe";
+import * as ThreadHistoryController from "./threadHistoryController.vibe";
 
 const ENVIRONMENT_ID = EnvironmentId.make("remote");
 const THREAD_ID = ThreadId.make("thread");

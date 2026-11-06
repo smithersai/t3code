@@ -355,7 +355,7 @@ export default defineConfig({
         rules: { "t3code/no-rpc-permission-bypass": ["error", { allowRawClientAccess: true }] },
       },
       {
-        files: ["packages/client-runtime/src/connection/outdatedHostUpdate.ts"],
+        files: ["packages/client-runtime/src/connection/outdatedHostUpdate.vibe"],
         rules: { "t3code/no-rpc-permission-bypass": "off" },
       },
       {

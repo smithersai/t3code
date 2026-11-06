@@ -26,9 +26,9 @@ import {
 } from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
-import * as RpcSession from "../rpc/session.ts";
+import * as RpcSession from "../rpc/session.vibe";
 import { v2Now, v2Projection, v2ThreadId } from "../state/orchestrationV2TestFixtures.ts";
-import { startThreadTurn } from "./commands.ts";
+import { startThreadTurn } from "./commands.vibe";
 
 const ROW_COUNT = 600;
 const OUTPUT_BYTES_PER_ROW = 8_192;

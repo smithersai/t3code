@@ -25,11 +25,11 @@ import {
   type PreparedConnection,
 } from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import * as Persistence from "../platform/persistence.ts";
-import * as RpcSession from "../rpc/session.ts";
+import * as Persistence from "../platform/persistence.vibe";
+import * as RpcSession from "../rpc/session.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
-import { type EnvironmentShellState, makeEnvironmentShellState } from "./shell.ts";
-import * as ShellSnapshotLoader from "./shellSnapshotHttp.ts";
+import { type EnvironmentShellState, makeEnvironmentShellState } from "./shell.vibe";
+import * as ShellSnapshotLoader from "./shellSnapshotHttp.vibe";
 import { v2Project, v2ShellSnapshot, v2ThreadShell } from "./orchestrationV2TestFixtures.ts";
 
 const TARGET = new PrimaryConnectionTarget({

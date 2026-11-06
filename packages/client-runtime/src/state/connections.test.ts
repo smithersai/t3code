@@ -14,8 +14,8 @@ import {
 } from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import type * as RpcSession from "../rpc/session.ts";
-import { createEnvironmentCatalogAtoms } from "./connections.ts";
+import type * as RpcSession from "../rpc/session.vibe";
+import { createEnvironmentCatalogAtoms } from "./connections.vibe";
 
 const ENVIRONMENT_ID = EnvironmentId.make("catalog-environment");
 

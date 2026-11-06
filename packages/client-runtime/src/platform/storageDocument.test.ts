@@ -23,7 +23,7 @@ import {
 import {
   PullRequestRoutingPermissions,
   makePullRequestRoutingPermissions,
-} from "../connection/pullRequestRoutingPermissions.ts";
+} from "../connection/pullRequestRoutingPermissions.vibe";
 import {
   ConnectionCatalogDocument,
   EMPTY_CONNECTION_CATALOG_DOCUMENT,

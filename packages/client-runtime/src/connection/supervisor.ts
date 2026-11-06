@@ -26,7 +26,7 @@ import {
   type PreparedConnection,
   type SupervisorConnectionState,
 } from "./model.vibe";
-import * as RpcSession from "../rpc/session.ts";
+import * as RpcSession from "../rpc/session.vibe";
 import { safeErrorLogAttributes } from "../errors/safeLog.ts";
 import { NETWORK_BLOCKING_HINT } from "../errors/network.ts";
 import * as ConnectionWakeups from "./wakeups.vibe";
@@ -37,7 +37,7 @@ import {
   type ConnectionRouteKind,
   entryWithRoutes,
   type ReportedEndpoint,
-} from "./routes.ts";
+} from "./routes.vibe";
 
 const RETRY_BASE_DELAY_MS = 1_000;
 const RETRY_MAX_DELAY_MS = 300_000;

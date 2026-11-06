@@ -18,7 +18,7 @@ import {
   type EnvironmentRpcSuccess,
   request,
   requestGuarded,
-} from "../rpc/client.ts";
+} from "../rpc/client.vibe";
 import type { EnvironmentProject } from "./models.vibe";
 import {
   createAtomCommandScheduler,
@@ -33,16 +33,16 @@ import {
   createProject,
   deleteProject,
   updateProject,
-} from "../operations/commands.ts";
+} from "../operations/commands.vibe";
 import type { EnvironmentRegistry } from "../connection/registry.ts";
-import { createFileMetadataAtoms } from "./fileMetadata.ts";
+import { createFileMetadataAtoms } from "./fileMetadata.vibe";
 import { resolveWorkspaceFilePath } from "@t3tools/shared/path";
 
 export type {
   CreateProjectInput,
   DeleteProjectInput,
   UpdateProjectInput,
-} from "../operations/commands.ts";
+} from "../operations/commands.vibe";
 
 export interface OptimisticProjectFile {
   readonly data: ProjectReadFileResult;

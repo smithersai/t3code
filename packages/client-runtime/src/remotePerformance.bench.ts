@@ -10,9 +10,9 @@ import * as Option from "effect/Option";
 import { HttpClient, HttpClientResponse } from "effect/http";
 import { describe, test } from "vite-plus/test";
 
-import { issueRemoteWebSocketTicket } from "./authorization/remote.ts";
+import { issueRemoteWebSocketTicket } from "./authorization/remote.vibe";
 import { PrimaryConnectionTarget } from "./connection/model.vibe";
-import { fetchRemoteEnvironmentDescriptor } from "./environment/descriptor.ts";
+import { fetchRemoteEnvironmentDescriptor } from "./environment/descriptor.vibe";
 import type { RemoteEnvironmentRequestError } from "./rpc/http.ts";
 import { fetchEnvironmentThreadSnapshot } from "./state/threadSnapshotHttp.vibe";
 import { applyOrchestrationV2ProjectionEvent } from "./state/orchestrationV2Projection.ts";

@@ -8,9 +8,9 @@ import * as Schema from "effect/Schema";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as HttpClient from "effect/http/HttpClient";
 
-import { bootstrapRemoteBearerSession } from "../authorization/remote.ts";
+import { bootstrapRemoteBearerSession } from "../authorization/remote.vibe";
 import { deriveWsBaseUrl, normalizeHttpBaseUrl } from "../environment/endpoint.ts";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.ts";
+import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.vibe";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
 import {
   BearerConnectionCredential,
@@ -29,10 +29,10 @@ import {
   SshConnectionTarget,
   type ConnectionAttemptError,
 } from "./model.vibe";
-import * as Persistence from "../platform/persistence.ts";
+import * as Persistence from "../platform/persistence.vibe";
 import * as EnvironmentRegistry from "./registry.ts";
 import { orchestrationProtocolCompatibilityError } from "./compatibility.ts";
-import { connectionRoutes, routeEntry, sshTargetKey } from "./routes.ts";
+import { connectionRoutes, routeEntry, sshTargetKey } from "./routes.vibe";
 
 export interface PairingConnectionInput {
   readonly pairingUrl?: string;

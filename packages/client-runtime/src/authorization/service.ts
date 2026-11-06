@@ -10,7 +10,7 @@ import {
   type RemoteEnvironmentAuthError,
   resolveRemoteDpopWebSocketConnectionUrl,
   resolveRemoteWebSocketConnectionUrl,
-} from "./remote.ts";
+} from "./remote.vibe";
 import {
   environmentMismatchError,
   mapManagedRelayError,
@@ -22,7 +22,7 @@ import {
   ConnectionTransientError,
   type ConnectionAttemptError,
 } from "../connection/model.vibe";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.ts";
+import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.vibe";
 import { environmentEndpointUrl } from "../environment/endpoint.ts";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as ManagedRelay from "../relay/managedRelay.ts";

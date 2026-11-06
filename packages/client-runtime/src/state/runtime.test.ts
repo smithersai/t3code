@@ -31,8 +31,8 @@ import {
 } from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import { EnvironmentRpcUnavailableError } from "../rpc/client.ts";
-import type * as RpcSession from "../rpc/session.ts";
+import { EnvironmentRpcUnavailableError } from "../rpc/client.vibe";
+import type * as RpcSession from "../rpc/session.vibe";
 import { createPreviewEnvironmentAtoms } from "./preview.vibe";
 import type { QueryPersistence } from "./queryPersistence.vibe";
 import { createTerminalEnvironmentAtoms } from "./terminal.ts";

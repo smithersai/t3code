@@ -8,7 +8,7 @@ import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Semaphore from "effect/Semaphore";
-import { request } from "../rpc/client.ts";
+import { request } from "../rpc/client.vibe";
 import { AsyncResult, Atom } from "effect/reactivity";
 
 import {

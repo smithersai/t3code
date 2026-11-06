@@ -7,7 +7,7 @@ import {
   type ConnectionCatalogEntry,
   type ConnectionRoute,
 } from "./catalog.vibe";
-import { pullRequestRoutingConnectionKey } from "./pullRequestRoutingPermissions.ts";
+import { pullRequestRoutingConnectionKey } from "./pullRequestRoutingPermissions.vibe";
 import { BearerConnectionTarget, RelayConnectionTarget } from "./model.vibe";
 import {
   connectionRouteId,
@@ -22,7 +22,7 @@ import {
   sendsTokenInClear,
   upsertRoute,
   usableRoutes,
-} from "./routes.ts";
+} from "./routes.vibe";
 
 const ENVIRONMENT_ID = EnvironmentId.make("environment-1");
 

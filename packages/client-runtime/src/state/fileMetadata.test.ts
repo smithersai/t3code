@@ -22,8 +22,8 @@ import { Atom, AtomRegistry } from "effect/reactivity";
 import { AVAILABLE_CONNECTION_STATE } from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import type { RpcSession } from "../rpc/session.ts";
-import { createFileMetadataAtoms } from "./fileMetadata.ts";
+import type { RpcSession } from "../rpc/session.vibe";
+import { createFileMetadataAtoms } from "./fileMetadata.vibe";
 
 const ENVIRONMENT_ID = EnvironmentId.make("metadata-environment");
 const OTHER_ENVIRONMENT_ID = EnvironmentId.make("metadata-other-environment");

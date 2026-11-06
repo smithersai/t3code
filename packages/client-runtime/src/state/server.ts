@@ -40,8 +40,8 @@ import {
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import { safeErrorLogAttributes } from "../errors/safeLog.ts";
-import * as Persistence from "../platform/persistence.ts";
-import { runCachePersistence } from "./cachePersistence.ts";
+import * as Persistence from "../platform/persistence.vibe";
+import { runCachePersistence } from "./cachePersistence.vibe";
 import {
   isRpcClientError,
   request,
@@ -50,8 +50,8 @@ import {
   subscribe,
   subscribeDynamicWithSession,
   type EnvironmentRpcInput,
-} from "../rpc/client.ts";
-import type { RpcSession } from "../rpc/session.ts";
+} from "../rpc/client.vibe";
+import type { RpcSession } from "../rpc/session.vibe";
 import { followStreamInEnvironment } from "./runtime.ts";
 import {
   applyServerConfigProjection,

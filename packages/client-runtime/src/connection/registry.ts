@@ -35,14 +35,14 @@ import type {
   SupervisorConnectionState,
 } from "./model.vibe";
 import { ConnectionBlockedError } from "./model.vibe";
-import * as Persistence from "../platform/persistence.ts";
+import * as Persistence from "../platform/persistence.vibe";
 import * as EnvironmentSupervisor from "./supervisor.ts";
 import * as ConnectionDriver from "./driver.ts";
 import * as ConnectionWakeups from "./wakeups.vibe";
 import {
   PullRequestRoutingPermissions,
   pullRequestRoutingConnectionKey,
-} from "./pullRequestRoutingPermissions.ts";
+} from "./pullRequestRoutingPermissions.vibe";
 import {
   RELAY_ROUTE_ID,
   connectionRouteId,
@@ -55,7 +55,7 @@ import {
   routesAfterRemoving,
   upsertRoute,
   type ReportedEndpoint,
-} from "./routes.ts";
+} from "./routes.vibe";
 
 const isSshConnectionProfile = Schema.is(SshConnectionProfile);
 

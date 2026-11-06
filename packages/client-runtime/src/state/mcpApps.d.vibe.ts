@@ -19,7 +19,7 @@ export declare function createMcpAppEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
             readonly structuredContent?: unknown;
             readonly isError?: boolean | undefined;
             readonly _meta?: unknown;
-        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.ts").EnvironmentRpcUnavailableError | import("@t3tools/contracts").McpAppRequestError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").McpAppRequestError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -37,7 +37,7 @@ export declare function createMcpAppEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
             readonly readOnly: boolean;
             readonly title?: string | undefined;
             readonly tool?: unknown;
-        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.ts").EnvironmentRpcUnavailableError | import("@t3tools/contracts").McpAppRequestError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").McpAppRequestError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -54,7 +54,7 @@ export declare function createMcpAppEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
         readonly readOnly: boolean;
         readonly title?: string | undefined;
         readonly tool?: unknown;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../rpc/client.ts").EnvironmentRpcUnavailableError | Error | import("@t3tools/contracts").McpAppRequestError | import("effect/rpc/RpcClientError").RpcClientError>>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | Error | import("@t3tools/contracts").McpAppRequestError | import("effect/rpc/RpcClientError").RpcClientError>>;
     readResource: {
         label: string;
         run: (registry: import("effect/reactivity/AtomRegistry").AtomRegistry, input: {
@@ -66,7 +66,7 @@ export declare function createMcpAppEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
             };
         }) => Promise<import("./runtime.ts").AtomCommandResult<{
             readonly contents: readonly unknown[];
-        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.ts").EnvironmentRpcUnavailableError | import("@t3tools/contracts").McpAppRequestError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").McpAppRequestError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -83,7 +83,7 @@ export declare function createMcpAppEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
                     readonly [x: string]: unknown;
                 } | undefined;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.ts").EnvironmentRpcUnavailableError | import("@t3tools/contracts").McpAppRequestError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").McpAppRequestError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };

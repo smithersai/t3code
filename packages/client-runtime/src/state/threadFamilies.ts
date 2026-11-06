@@ -13,10 +13,10 @@ import { AsyncResult, Atom, type AtomRegistry } from "effect/reactivity";
 
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import type * as EnvironmentRegistry from "../connection/registry.ts";
-import { EnvironmentRpcUnavailableError, request } from "../rpc/client.ts";
-import { arrayElementsEqual } from "./entities.ts";
+import { EnvironmentRpcUnavailableError, request } from "../rpc/client.vibe";
+import { arrayElementsEqual } from "./entities.vibe";
 import { createEnvironmentQueryAtomFamily, selectEnvironmentQueryData } from "./runtime.ts";
-import type { EnvironmentShellState } from "./shell.ts";
+import type { EnvironmentShellState } from "./shell.vibe";
 
 const EMPTY_FAMILY: OrchestrationV2ThreadFamily = { snapshotSequence: 0, threads: [] };
 const EMPTY_READS: ReadonlyArray<OrchestrationV2ThreadFamily> = [];

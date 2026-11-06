@@ -1,5 +1,5 @@
 import type { QueryPersistence } from "./queryPersistence.vibe";
-import { createCommandPermissions } from "./commandPermissions.ts";
+import { createCommandPermissions } from "./commandPermissions.vibe";
 import { followStreamInEnvironment } from "./environmentStreams.vibe";
 import { reuseUnchanged } from "./serverConfigProjection.vibe";
 export { runStreamInEnvironment, followStreamInEnvironment } from "./environmentStreams.vibe";
@@ -32,9 +32,9 @@ import {
   requestGuarded,
   RpcPermissionGuard,
   subscribe,
-} from "../rpc/client.ts";
+} from "../rpc/client.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import type * as RpcSession from "../rpc/session.ts";
+import type * as RpcSession from "../rpc/session.vibe";
 
 const isEnvironmentRpcUnavailable = Schema.is(EnvironmentRpcUnavailableError);
 

@@ -11,7 +11,7 @@ import {
   issueRemoteWebSocketTicket,
   resolveRemoteDpopWebSocketConnectionUrl,
   resolveRemoteWebSocketConnectionUrl,
-} from "./remote.ts";
+} from "./remote.vibe";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as RpcHttp from "../rpc/http.ts";
 

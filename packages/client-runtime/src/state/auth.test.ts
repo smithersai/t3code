@@ -2,7 +2,7 @@ import { AuthSessionId } from "@t3tools/contracts";
 import { describe, expect, it } from "@effect/vitest";
 import * as DateTime from "effect/DateTime";
 
-import { applyAuthAccessStreamEvent, EMPTY_AUTH_ACCESS_SNAPSHOT } from "./auth.ts";
+import { applyAuthAccessStreamEvent, EMPTY_AUTH_ACCESS_SNAPSHOT } from "./auth.vibe";
 
 describe("applyAuthAccessStreamEvent", () => {
   it("accumulates rapid pairing-link and client updates into one snapshot", () => {

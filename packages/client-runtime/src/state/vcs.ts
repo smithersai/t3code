@@ -23,15 +23,15 @@ import {
 import type { EnvironmentRegistry } from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import { safeErrorLogAttributes } from "../errors/safeLog.ts";
-import * as Persistence from "../platform/persistence.ts";
-import { request, subscribe, type EnvironmentRpcInput } from "../rpc/client.ts";
+import * as Persistence from "../platform/persistence.vibe";
+import { request, subscribe, type EnvironmentRpcInput } from "../rpc/client.vibe";
 import { followStreamInEnvironment } from "./runtime.ts";
 import { vcsCommandConcurrency, vcsCommandScheduler } from "./vcsCommandScheduler.ts";
 import {
   invalidateCachedVcsRefs,
   vcsRefsCacheStateAtom,
   withVcsRefsPersistenceLock,
-} from "./vcsRefInvalidation.ts";
+} from "./vcsRefInvalidation.vibe";
 
 const OFFLINE_BRANCH_LIST_LIMIT = 100;
 const VCS_REFS_IDLE_TTL_MS = 30_000;
@@ -358,6 +358,6 @@ export function createVcsEnvironmentAtoms<R, E>(
 }
 
 export * from "./gitActions.ts";
-export * from "./vcsAction.ts";
+export * from "./vcsAction.vibe";
 export * from "./vcsRef.ts";
 export * from "./vcsStatusRevalidation.ts";

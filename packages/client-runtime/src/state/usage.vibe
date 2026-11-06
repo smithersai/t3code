@@ -1,8 +1,8 @@
 import type { EnvironmentId, ServerProvider, UsageSummary, UsageSummaryInput } from "@t3tools/contracts"
 import type { AtomRegistry } from "effect/reactivity"
 
-import { EnvironmentRpcUnavailableError } from "../rpc/client.ts"
-import type { createEnvironmentPresentationAtoms } from "./presentation.ts"
+import { EnvironmentRpcUnavailableError } from "../rpc/client.vibe"
+import type { createEnvironmentPresentationAtoms } from "./presentation.vibe"
 import { executeAtomQuery, runAtomCommand, squashAtomCommandFailure } from "./runtime.ts"
 import type { createServerEnvironmentAtoms } from "./server.ts"
 

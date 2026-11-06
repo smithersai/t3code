@@ -6,7 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Atom } from "effect/reactivity";
 import type * as Socket from "effect/socket/Socket";
 
-import { describeOutdatedHost, updateOutdatedHost } from "../connection/outdatedHostUpdate.ts";
+import { describeOutdatedHost, updateOutdatedHost } from "../connection/outdatedHostUpdate.vibe";
 import type * as ConnectionResolver from "../connection/resolver.ts";
 import type * as EnvironmentRegistry from "../connection/registry.ts";
 import type * as RelayEnvironmentDiscovery from "../relay/discovery.ts";

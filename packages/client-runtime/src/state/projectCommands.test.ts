@@ -25,14 +25,14 @@ import { AVAILABLE_CONNECTION_STATE } from "../connection/model.vibe";
 
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import type { RpcSession } from "../rpc/session.ts";
+import type { RpcSession } from "../rpc/session.vibe";
 import type { EnvironmentProject } from "./models.vibe";
 import { createProjectEnvironmentAtoms } from "./projectCommands.ts";
 
 const decodeReadFileInput = Schema.decodeUnknownSync(ProjectReadFileInput);
 const decodeReadFileResult = Schema.decodeUnknownSync(ProjectReadFileResult);
 const ENVIRONMENT_ID = EnvironmentId.make("environment-1");
-vi.mock("./session.ts", () => ({
+vi.mock("./session.vibe", () => ({
   createEnvironmentSessionAtoms: () => ({ sessionStateAtom: sessions }),
 }));
 const sessions = Atom.family((_id: EnvironmentId) =>

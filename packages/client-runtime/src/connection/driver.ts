@@ -21,9 +21,9 @@ import {
   routeHttpBaseUrl,
   sendsTokenInClear,
   usableRoutes,
-} from "./routes.ts";
-import * as RpcSession from "../rpc/session.ts";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.ts";
+} from "./routes.vibe";
+import * as RpcSession from "../rpc/session.vibe";
+import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.vibe";
 
 export type ConnectionDriverProgress =
   | {

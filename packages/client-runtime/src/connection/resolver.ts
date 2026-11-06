@@ -14,7 +14,7 @@ import {
   appendClientConnectionParams,
   type ClientOwnerParams,
   readClientOwnerParams,
-} from "../authorization/remote.ts";
+} from "../authorization/remote.vibe";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
 import {
@@ -33,7 +33,7 @@ import {
 import {
   PullRequestRoutingPermissions,
   pullRequestRoutingConnectionKey,
-} from "./pullRequestRoutingPermissions.ts";
+} from "./pullRequestRoutingPermissions.vibe";
 import type {
   BearerConnectionTarget,
   ConnectionTarget,
@@ -48,8 +48,8 @@ import {
   appendOrchestrationProtocol,
   orchestrationProtocolCompatibilityError,
 } from "./compatibility.ts";
-import { credentialConnectionId } from "./routes.ts";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.ts";
+import { credentialConnectionId } from "./routes.vibe";
+import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.vibe";
 
 export class ConnectionResolver extends Context.Service<
   ConnectionResolver,

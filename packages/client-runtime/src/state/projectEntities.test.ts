@@ -4,7 +4,7 @@ import * as Option from "effect/Option";
 import { describe, expect, it } from "vite-plus/test";
 
 import { PrimaryConnectionTarget } from "../connection/model.vibe";
-import { createEnvironmentProjectAtoms } from "./projectEntities.ts";
+import { createEnvironmentProjectAtoms } from "./projectEntities.vibe";
 import { v2Project, v2ShellSnapshot } from "./orchestrationV2TestFixtures.ts";
 
 const environmentId = EnvironmentId.make("local");

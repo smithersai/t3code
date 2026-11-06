@@ -1,4 +1,4 @@
-export * from "./remote.ts";
+export * from "./remote.vibe";
 export {
   type AuthorizedRemoteEnvironment,
   type AuthorizedRemoteHttpEnvironment,

@@ -1,5 +1,5 @@
-import { createCommandPermissions } from "./commandPermissions.ts";
-import { RpcPermissionGuard } from "../rpc/client.ts";
+import { createCommandPermissions } from "./commandPermissions.vibe";
+import { RpcPermissionGuard } from "../rpc/client.vibe";
 import { vi } from "vite-plus/test";
 import {
   EnvironmentId,
@@ -36,15 +36,15 @@ import { SshConnectionProfile, type ConnectionCatalogEntry } from "../connection
 import * as ConnectionProfileStore from "../connection/profileStore.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
-import type { RpcSession } from "../rpc/session.ts";
+import type { RpcSession } from "../rpc/session.vibe";
 import {
   createLinkedPullRequestSummaryAtomFamily,
   createPullRequestEnvironmentAtoms,
-} from "./pullRequests.ts";
-import * as PullRequestDiffLoader from "./pullRequestDiffHttp.ts";
+} from "./pullRequests.vibe";
+import * as PullRequestDiffLoader from "./pullRequestDiffHttp.vibe";
 import { executeAtomQuery } from "./runtime.ts";
 import { createPullRequestRouter } from "./pullRequestRouting.ts";
-import { PullRequestRoutingPermissions } from "../connection/pullRequestRoutingPermissions.ts";
+import { PullRequestRoutingPermissions } from "../connection/pullRequestRoutingPermissions.vibe";
 
 const trustedRouting = {
   get: () => Effect.succeed("read-write" as const),
@@ -1449,7 +1449,7 @@ it.effect("updates cached labels after successful edits without rereading the ho
   ),
 );
 
-vi.mock("./session.ts", () => ({
+vi.mock("./session.vibe", () => ({
   createEnvironmentSessionAtoms: () => ({ sessionStateAtom: grantedSessions }),
 }));
 const grantedSessions = Atom.family((_id: EnvironmentId) =>

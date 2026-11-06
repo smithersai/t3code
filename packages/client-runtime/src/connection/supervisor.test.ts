@@ -16,7 +16,7 @@ import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as ManagedRelay from "../relay/managedRelay.ts";
 import * as RpcHttp from "../rpc/http.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
-import { fetchEnvironmentSessionState } from "../state/session.ts";
+import { fetchEnvironmentSessionState } from "../state/session.vibe";
 import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.vibe";
 import * as Connectivity from "./connectivity.vibe";
 import * as ConnectionDriver from "./driver.ts";
@@ -33,11 +33,11 @@ import {
   type PreparedConnection,
   type SupervisorConnectionState,
 } from "./model.vibe";
-import * as RpcSession from "../rpc/session.ts";
+import * as RpcSession from "../rpc/session.vibe";
 import { presentConnectionState } from "./presentation.vibe";
 import * as EnvironmentSupervisor from "./supervisor.ts";
 import * as ConnectionWakeups from "./wakeups.vibe";
-import { connectionRouteId, entryWithRoutes, isLearned, mergeLearnedRoutes } from "./routes.ts";
+import { connectionRouteId, entryWithRoutes, isLearned, mergeLearnedRoutes } from "./routes.vibe";
 
 const TARGET = new PrimaryConnectionTarget({
   environmentId: EnvironmentId.make("environment-1"),

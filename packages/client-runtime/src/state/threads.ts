@@ -29,16 +29,16 @@ import * as EnvironmentRegistry from "../connection/registry.ts";
 import { connectionProjectionPhase } from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as ConnectionWakeups from "../connection/wakeups.vibe";
-import * as Persistence from "../platform/persistence.ts";
-import { runCachePersistence } from "./cachePersistence.ts";
+import * as Persistence from "../platform/persistence.vibe";
+import { runCachePersistence } from "./cachePersistence.vibe";
 import * as ManagedRelay from "../relay/managedRelay.ts";
-import { request, subscribeDynamic } from "../rpc/client.ts";
-import { parseThreadKey, threadKey } from "./entities.ts";
+import { request, subscribeDynamic } from "../rpc/client.vibe";
+import { parseThreadKey, threadKey } from "./entities.vibe";
 import { applyOrchestrationV2ProjectionEvent } from "./orchestrationV2Projection.ts";
 import { THREAD_SNAPSHOT_IDLE_TTL_MS } from "./threadRetention.ts";
 import { followStreamInEnvironment } from "./runtime.ts";
-import * as ThreadHistoryController from "./threadHistoryController.ts";
-import { fetchEnvironmentThreadHistoryPage } from "./threadHistoryHttp.ts";
+import * as ThreadHistoryController from "./threadHistoryController.vibe";
+import { fetchEnvironmentThreadHistoryPage } from "./threadHistoryHttp.vibe";
 import {
   applyHistoryPageMeta,
   clearActiveHistoryLoading,
@@ -1052,16 +1052,16 @@ export function createEnvironmentThreadStateAtoms<R, E>(
 
 export * from "./archivedThreads.vibe";
 export * from "./checkpointDiff.ts";
-export * as BoundedThreadSnapshotLoader from "./boundedThreadSnapshotHttp.ts";
-export * as ThreadHistoryController from "./threadHistoryController.ts";
-export type { ThreadHistoryLoadEarlierResult } from "./threadHistoryController.ts";
+export * as BoundedThreadSnapshotLoader from "./boundedThreadSnapshotHttp.vibe";
+export * as ThreadHistoryController from "./threadHistoryController.vibe";
+export type { ThreadHistoryLoadEarlierResult } from "./threadHistoryController.vibe";
 export * from "./threadHistoryMerge.ts";
 export * from "./threadSnapshotHttp.vibe";
 export * from "./composerPathSearch.ts";
-export * from "./threadCommands.ts";
+export * from "./threadCommands.vibe";
 export * from "./threadFeedback.ts";
-export * from "./threadDetail.ts";
+export * from "./threadDetail.vibe";
 export * from "./threadFamilies.ts";
 export * from "./olderSettledThreads.ts";
-export * from "./threadShell.ts";
+export * from "./threadShell.vibe";
 export * from "./threadState.vibe";

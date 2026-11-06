@@ -16,9 +16,9 @@ import * as Option from "effect/Option";
 import { AsyncResult, Atom, type AtomRegistry } from "effect/reactivity";
 
 import type * as EnvironmentRegistry from "../connection/registry.ts";
-import { request } from "../rpc/client.ts";
+import { request } from "../rpc/client.vibe";
 import { createEnvironmentQueryAtomFamily, selectEnvironmentQueryData } from "./runtime.ts";
-import type { EnvironmentShellState } from "./shell.ts";
+import type { EnvironmentShellState } from "./shell.vibe";
 import { threadFamilyRead } from "./threadFamilies.ts";
 
 // Rows per page of older settled threads: one "Show more" step of the Settled shelf.

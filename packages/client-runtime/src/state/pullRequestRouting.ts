@@ -20,16 +20,16 @@ import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import {
   PullRequestRoutingPermissions,
   pullRequestRoutingConnectionKey,
-} from "../connection/pullRequestRoutingPermissions.ts";
+} from "../connection/pullRequestRoutingPermissions.vibe";
 import type { ConnectionCatalogEntry } from "../connection/catalog.vibe";
 import * as ConnectionProfileStore from "../connection/profileStore.vibe";
-import type { RpcSession } from "../rpc/session.ts";
+import type { RpcSession } from "../rpc/session.vibe";
 import {
   requestGuarded as request,
   EnvironmentRpcUnavailableError,
   type EnvironmentRpcInput,
   type EnvironmentUnaryRpcTag,
-} from "../rpc/client.ts";
+} from "../rpc/client.vibe";
 
 const reads = new Set<string>([
   WS_METHODS.pullRequestsSummary,

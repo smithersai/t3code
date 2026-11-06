@@ -32,7 +32,7 @@ import {
   PullRequestRoutingPermissions,
   pullRequestRoutingConnectionKey,
   makePullRequestRoutingPermissions,
-} from "./pullRequestRoutingPermissions.ts";
+} from "./pullRequestRoutingPermissions.vibe";
 
 const ENVIRONMENT_ID = EnvironmentId.make("environment-1");
 const ENDPOINT = {

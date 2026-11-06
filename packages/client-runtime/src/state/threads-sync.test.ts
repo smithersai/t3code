@@ -38,17 +38,17 @@ import {
 } from "../connection/model.vibe";
 import * as ConnectionWakeups from "../connection/wakeups.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import * as Persistence from "../platform/persistence.ts";
+import * as Persistence from "../platform/persistence.vibe";
 import {
   ORCHESTRATION_THREAD_CACHE_SCHEMA_VERSION,
   StoredOrchestrationThreadSnapshot,
   decodeOrDiscardOrchestrationCache,
 } from "../platform/orchestrationCache.vibe";
-import * as RpcSession from "../rpc/session.ts";
+import * as RpcSession from "../rpc/session.vibe";
 import { v2Now, v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.ts";
 import { onThreadRequestsResolved, type ThreadRequestsResolved } from "./threadRequests.ts";
 import { EMPTY_THREAD_HISTORY_META } from "./threadHistoryMerge.ts";
-import * as ThreadHistoryController from "./threadHistoryController.ts";
+import * as ThreadHistoryController from "./threadHistoryController.vibe";
 import {
   EMPTY_ENVIRONMENT_THREAD_STATE,
   makeEnvironmentThreadState,

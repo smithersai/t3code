@@ -13,8 +13,8 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 
 import * as RpcHttp from "../rpc/http.ts";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
-import * as Persistence from "../platform/persistence.ts";
-import { fetchRemoteSessionState } from "../authorization/remote.ts";
+import * as Persistence from "../platform/persistence.vibe";
+import { fetchRemoteSessionState } from "../authorization/remote.vibe";
 import {
   BearerConnectionCredential,
   BearerConnectionProfile,

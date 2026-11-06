@@ -8,8 +8,8 @@ import { AVAILABLE_CONNECTION_STATE, PrimaryConnectionTarget } from "../connecti
 import {
   createEnvironmentPresentationAtoms,
   createEnvironmentSummaryAtoms,
-} from "./presentation.ts";
-import type { EnvironmentCatalogState } from "./connections.ts";
+} from "./presentation.vibe";
+import type { EnvironmentCatalogState } from "./connections.vibe";
 
 const FIRST = EnvironmentId.make("first");
 const SECOND = EnvironmentId.make("second");

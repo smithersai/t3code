@@ -1,6 +1,6 @@
 import type { EnvironmentId, ServerProvider, UsageSummary, UsageSummaryInput } from "@t3tools/contracts";
 import type { AtomRegistry } from "effect/reactivity";
-import type { createEnvironmentPresentationAtoms } from "./presentation.ts";
+import type { createEnvironmentPresentationAtoms } from "./presentation.vibe";
 import type { createServerEnvironmentAtoms } from "./server.ts";
 /** @throws {never} */
 export declare function needsCursorKeychainAccess(summary: UsageSummary | null, providers: readonly ServerProvider[] | null): boolean;

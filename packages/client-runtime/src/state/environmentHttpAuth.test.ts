@@ -32,14 +32,14 @@ import {
 import * as ManagedRelay from "../relay/managedRelay.ts";
 import { type RemoteEnvironmentRequestError } from "../rpc/http.ts";
 import * as RpcHttp from "../rpc/http.ts";
-import * as PullRequestDiffLoader from "./pullRequestDiffHttp.ts";
-import { fetchEnvironmentSessionState } from "./session.ts";
-import { fetchEnvironmentShellSnapshot } from "./shellSnapshotHttp.ts";
+import * as PullRequestDiffLoader from "./pullRequestDiffHttp.vibe";
+import { fetchEnvironmentSessionState } from "./session.vibe";
+import { fetchEnvironmentShellSnapshot } from "./shellSnapshotHttp.vibe";
 import * as ThreadSnapshotLoader from "./threadSnapshotHttp.vibe";
-import { fetchEnvironmentThreadTranscript } from "./threadTranscriptHttp.ts";
-import { fetchEnvironmentBoundedThreadSnapshot } from "./boundedThreadSnapshotHttp.ts";
-import * as BoundedThreadSnapshotHttp from "./boundedThreadSnapshotHttp.ts";
-import { fetchEnvironmentThreadHistoryPage } from "./threadHistoryHttp.ts";
+import { fetchEnvironmentThreadTranscript } from "./threadTranscriptHttp.vibe";
+import { fetchEnvironmentBoundedThreadSnapshot } from "./boundedThreadSnapshotHttp.vibe";
+import * as BoundedThreadSnapshotHttp from "./boundedThreadSnapshotHttp.vibe";
+import { fetchEnvironmentThreadHistoryPage } from "./threadHistoryHttp.vibe";
 import { v2Projection } from "./orchestrationV2TestFixtures.ts";
 
 const encodeThreadSnapshot = Schema.encodeSync(OrchestrationV2ThreadDetailSnapshot);

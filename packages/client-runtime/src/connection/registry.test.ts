@@ -41,7 +41,7 @@ import * as Connectivity from "./connectivity.vibe";
 import * as ConnectionCredentialStore from "./credentialStore.vibe";
 import * as ConnectionDriver from "./driver.ts";
 import type { RouteCheck } from "./driver.ts";
-import { connectionRouteId, connectionRouteKind } from "./routes.ts";
+import { connectionRouteId, connectionRouteKind } from "./routes.vibe";
 import {
   ConnectionTransientError,
   ConnectionBlockedError,
@@ -53,18 +53,18 @@ import {
   type PreparedConnection,
   type SupervisorConnectionState,
 } from "./model.vibe";
-import * as Persistence from "../platform/persistence.ts";
+import * as Persistence from "../platform/persistence.vibe";
 import * as ConnectionProfileStore from "./profileStore.vibe";
 import * as EnvironmentRegistry from "./registry.ts";
 import {
   PullRequestRoutingPermissions,
   type StoredPullRequestRoutingPermission,
   makePullRequestRoutingPermissions,
-} from "./pullRequestRoutingPermissions.ts";
-import * as RpcSession from "../rpc/session.ts";
+} from "./pullRequestRoutingPermissions.vibe";
+import * as RpcSession from "../rpc/session.vibe";
 import * as EnvironmentSupervisor from "./supervisor.ts";
 import * as ConnectionWakeups from "./wakeups.vibe";
-import { watchDiscoveredCompatibility } from "./layer.ts";
+import { watchDiscoveredCompatibility } from "./layer.vibe";
 import * as RelayEnvironmentDiscovery from "../relay/discovery.ts";
 import type { RelayEnvironmentStatusResponse } from "@t3tools/contracts/relay";
 import { runDesktopCommitWithReconnectObserver } from "../state/server.ts";

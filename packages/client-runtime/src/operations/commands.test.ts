@@ -32,7 +32,7 @@ import {
   type PreparedConnection,
 } from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import * as RpcSession from "../rpc/session.ts";
+import * as RpcSession from "../rpc/session.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
 import { v2Now, v2Projection, v2ThreadId } from "../state/orchestrationV2TestFixtures.ts";
 import {
@@ -41,7 +41,7 @@ import {
   revertThreadCheckpoint,
   resumeThreadQueue,
   startThreadTurn,
-} from "./commands.ts";
+} from "./commands.vibe";
 
 const layerTestCrypto = Layer.succeed(
   Crypto.Crypto,

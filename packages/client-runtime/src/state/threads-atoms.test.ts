@@ -29,12 +29,12 @@ import {
   type PreparedConnection,
 } from "../connection/model.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import * as Persistence from "../platform/persistence.ts";
+import * as Persistence from "../platform/persistence.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
-import type { RpcSession } from "../rpc/session.ts";
-import { createEnvironmentThreadDetailAtoms } from "./threadDetail.ts";
+import type { RpcSession } from "../rpc/session.vibe";
+import { createEnvironmentThreadDetailAtoms } from "./threadDetail.vibe";
 import { v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.ts";
-import * as ThreadHistoryController from "./threadHistoryController.ts";
+import * as ThreadHistoryController from "./threadHistoryController.vibe";
 import { createEnvironmentThreadStateAtoms, type EnvironmentThreadState } from "./threads.ts";
 import * as ThreadSnapshotLoader from "./threadSnapshotHttp.vibe";
 
