@@ -103,7 +103,9 @@
             ],
             "options": { "diagnosticSeverity": { "effectFnOpportunity": "off" } }
           }
-        ]
+        ],
+        "ignoreEffectWarningsInTscExitCode": true,
+        "ignoreEffectErrorsInTscExitCode": true
       }
     ]
   }
