@@ -4,8 +4,11 @@
   "type": "module",
   "exports": {
     "./shared/definition": {
-      "types": "./src/shared/definition.ts",
-      "import": "./src/shared/definition.ts"
+      "types": "./src/shared/definition.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/shared/definition.vibe",
+        "default": "./.vibelang/js/src/shared/definition.js"
+      }
     },
     "./shared/threadPullRequests": {
       "types": "./src/shared/threadPullRequests.ts",
@@ -20,8 +23,11 @@
       "import": "./src/server/discovery.ts"
     },
     "./server/driver": {
-      "types": "./src/server/driver.ts",
-      "import": "./src/server/driver.ts"
+      "types": "./src/server/driver.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/driver.vibe",
+        "default": "./.vibelang/js/src/server/driver.js"
+      }
     },
     "./server/mergeMessage": {
       "types": "./src/server/mergeMessage.ts",
@@ -36,16 +42,25 @@
       "import": "./src/server/PullRequestProvider.vibe"
     },
     "./server/SourceControlHost": {
-      "types": "./src/server/SourceControlHost.ts",
-      "import": "./src/server/SourceControlHost.ts"
+      "types": "./src/server/SourceControlHost.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/SourceControlHost.vibe",
+        "default": "./.vibelang/js/src/server/SourceControlHost.js"
+      }
     },
     "./server/SourceControlProvider": {
-      "types": "./src/server/SourceControlProvider.ts",
-      "import": "./src/server/SourceControlProvider.ts"
+      "types": "./src/server/SourceControlProvider.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/SourceControlProvider.vibe",
+        "default": "./.vibelang/js/src/server/SourceControlProvider.js"
+      }
     },
     "./server/SourceControlRateLimit": {
-      "types": "./src/server/SourceControlRateLimit.ts",
-      "import": "./src/server/SourceControlRateLimit.ts"
+      "types": "./src/server/SourceControlRateLimit.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/SourceControlRateLimit.vibe",
+        "default": "./.vibelang/js/src/server/SourceControlRateLimit.js"
+      }
     }
   },
   "scripts": {
