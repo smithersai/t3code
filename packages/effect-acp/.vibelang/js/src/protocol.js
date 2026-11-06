@@ -18,8 +18,8 @@ import * as RpcServer from "effect/rpc/RpcServer";
 import * as AcpSchema from "./schema.js";
 import * as AcpSchemaV1 from "./_generated/schema-v1.gen.js";
 import { CLIENT_METHODS } from "./_generated/meta.gen.js";
-import * as AcpError from "./errors.js";
-import { isolateNotificationHandler } from "./_internal/shared.js";
+import * as AcpError from "#vibelang/emitted/src/errors";
+import { isolateNotificationHandler } from "#vibelang/emitted/src/_internal/shared";
 const isAcpError = Schema.is(AcpError.AcpError);
 export function acpRequestIdentity(requestId) {
     const prefix = "$t3:jsonrpc:";

@@ -2,6 +2,18 @@
   "name": "effect-acp",
   "private": true,
   "type": "module",
+  "imports": {
+    "#vibelang/emitted/src/errors": {
+      "types": "./src/errors.d.vibe.ts",
+      "vibelang-source": "./src/errors.vibe",
+      "default": "./.vibelang/js/src/errors.js"
+    },
+    "#vibelang/emitted/src/_internal/shared": {
+      "types": "./src/_internal/shared.d.vibe.ts",
+      "vibelang-source": "./src/_internal/shared.vibe",
+      "default": "./.vibelang/js/src/_internal/shared.js"
+    }
+  },
   "exports": {
     "./client": {
       "types": "./src/client.d.vibe.ts",
@@ -19,7 +31,11 @@
     },
     "./schema": {
       "types": "./src/schema.ts",
-      "import": "./src/schema.ts"
+      "import": {
+        "types": "./src/schema.ts",
+        "vibelang-source": "./src/schema.ts",
+        "default": "./.vibelang/js/src/schema.js"
+      }
     },
     "./compat": {
       "types": "./src/compat.vibe",
@@ -31,7 +47,11 @@
     },
     "./protocol": {
       "types": "./src/protocol.ts",
-      "import": "./src/protocol.ts"
+      "import": {
+        "types": "./src/protocol.ts",
+        "vibelang-source": "./src/protocol.ts",
+        "default": "./.vibelang/js/src/protocol.js"
+      }
     },
     "./errors": {
       "types": "./src/errors.vibe",
@@ -39,7 +59,11 @@
     },
     "./schema-v1": {
       "types": "./src/_generated/schema-v1.gen.ts",
-      "import": "./src/_generated/schema-v1.gen.ts"
+      "import": {
+        "types": "./src/_generated/schema-v1.gen.ts",
+        "vibelang-source": "./src/_generated/schema-v1.gen.ts",
+        "default": "./.vibelang/js/src/_generated/schema-v1.gen.js"
+      }
     }
   },
   "scripts": {

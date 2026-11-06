@@ -19,7 +19,7 @@ import {
   decodeExtRequestRegistration,
   isolateNotificationHandler,
   runHandler,
-} from "./_internal/shared.ts"
+} from "./_internal/shared.vibe"
 import { makeChildStdio, makeTerminationError } from "./_internal/stdio.ts"
 
 const decodeElicitationRequest = Schema.decodeUnknownEffect(

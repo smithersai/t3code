@@ -17,7 +17,7 @@ import {
   decodeExtRequestRegistration,
   isolateNotificationHandler,
   runHandler,
-} from "./_internal/shared.ts"
+} from "./_internal/shared.vibe"
 
 export interface AcpAgentOptions {
   readonly logIncoming?: boolean

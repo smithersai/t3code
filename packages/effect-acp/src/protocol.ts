@@ -20,8 +20,8 @@ import * as RpcServer from "effect/rpc/RpcServer";
 import * as AcpSchema from "./schema.ts";
 import * as AcpSchemaV1 from "./_generated/schema-v1.gen.ts";
 import { CLIENT_METHODS } from "./_generated/meta.gen.ts";
-import * as AcpError from "./errors.vibe";
-import { isolateNotificationHandler } from "./_internal/shared.ts";
+import * as AcpError from "#vibelang/emitted/src/errors";
+import { isolateNotificationHandler } from "#vibelang/emitted/src/_internal/shared";
 const isAcpError = Schema.is(AcpError.AcpError);
 
 export interface AcpProtocolLogEvent {

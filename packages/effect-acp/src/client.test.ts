@@ -28,7 +28,7 @@ import {
   jsonRpcNotification,
   jsonRpcRequest,
   jsonRpcResponse,
-} from "./_internal/shared.ts";
+} from "./_internal/shared.vibe";
 import { makeInMemoryStdio } from "./_internal/stdio.ts";
 
 import antigravityInitialize from "../test/fixtures/antigravity-initialize.json" with { type: "json" };

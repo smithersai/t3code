@@ -4,9 +4,9 @@ import * as RpcClient from "effect/rpc/RpcClient";
 import * as RpcMessage from "effect/rpc/RpcMessage";
 import * as RpcServer from "effect/rpc/RpcServer";
 import { withSpan } from "effect/Effect";
-import { $provideService } from "vibelang-runtime";
+import { $provideService } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -27,7 +27,7 @@ const decodeCancelNotification = Schema.decodeUnknownEffect(AcpSchema.CancelNoti
 export const make = (arg_1, ...args_1) => {
     try {
         return ((stdio, options = {}) => Effect_1.gen(function* make() { return yield* withSpan((() => {
-            return Effect_1.gen(runtime.$joinedFrame(function* () {
+            return Effect_1.gen(function* () {
                 const coreHandlers = {};
                 const cancelHandlers = [];
                 const extRequestHandlers = new Map();
@@ -91,10 +91,14 @@ export const make = (arg_1, ...args_1) => {
                 yield* (Effect.forkScoped(Effect.provide(Effect.provideService(Effect.provideService(RpcServer.make(AcpRpcs.AgentRpcs, { disableFatalDefects: true }), ErrorReporter.CurrentErrorReporters, new Set()), RpcServer.Protocol, transport.serverProtocol), layerAgentHandler)));
                 let nextRpcRequestId = AcpProtocol.RPC_REQUEST_ID_START;
                 const rpc = yield* Effect_1.gen(function* () {
-                    const completion_1 = yield* runtime.$provideEntries(Effect_1.fnUntraced(function* () {
-                        return { kind: "return", value: yield* RpcClient.make(AcpRpcs.ClientRpcs, {
-                                generateRequestId: () => RpcMessage.RequestId(nextRpcRequestId++),
-                            }) };
+                    let completion_1 = runtime.$normal;
+                    yield* runtime.$provideEntries(Effect_1.fnUntraced(function* () {
+                        {
+                            completion_1 = { kind: "return", value: yield* RpcClient.make(AcpRpcs.ClientRpcs, {
+                                    generateRequestId: () => RpcMessage.RequestId(nextRpcRequestId++),
+                                }) };
+                            return completion_1.value;
+                        }
                     })(), [$provideService(RpcClient.Protocol, "Protocol", transport.clientProtocol)]);
                     if (completion_1.kind === "return")
                         return completion_1.value;
@@ -238,7 +242,7 @@ export const make = (arg_1, ...args_1) => {
                         });
                     }),
                 });
-            }));
+            });
         })(), "effect-acp/AcpAgent.make"); }))(arg_1, ...runtime.$spreadItems(args_1));
     }
     catch (e_1) {

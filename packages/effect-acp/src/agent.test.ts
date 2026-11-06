@@ -18,7 +18,7 @@ import {
   jsonRpcNotification,
   jsonRpcRequest,
   jsonRpcResponse,
-} from "./_internal/shared.ts";
+} from "./_internal/shared.vibe";
 import { makeInMemoryStdio } from "./_internal/stdio.ts";
 
 const RequestPermissionRequest = jsonRpcRequest(
