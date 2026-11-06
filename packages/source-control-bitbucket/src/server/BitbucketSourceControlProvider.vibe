@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect"
 import * as Option from "effect/Option"
 import { type ChangeRequest, SourceControlProviderError } from "@t3tools/contracts"
 
-import * as BitbucketApi from "./BitbucketApi.ts"
+import * as BitbucketApi from "./BitbucketApi.vibe"
 import type { NormalizedBitbucketPullRequestRecord } from "./bitbucketPullRequests.vibe"
 import * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider"
 import type { SourceControlApiDiscoverySpec } from "@t3tools/source-control-core/server/discovery"

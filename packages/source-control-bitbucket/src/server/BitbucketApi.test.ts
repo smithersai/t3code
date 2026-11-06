@@ -18,7 +18,7 @@ import * as SourceControlRateLimit from "@t3tools/source-control-core/server/Sou
 import type * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 
-import * as BitbucketApi from "./BitbucketApi.ts";
+import * as BitbucketApi from "./BitbucketApi.vibe";
 
 type HostGit = SourceControlHost.SourceControlHost["Service"]["git"];
 

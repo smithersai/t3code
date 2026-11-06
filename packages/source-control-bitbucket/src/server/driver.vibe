@@ -2,9 +2,9 @@ import { defineSourceControlDriver, withOwnServices } from "@t3tools/source-cont
 
 import { definition } from "../shared/definition.vibe"
 
-import * as BitbucketApi from "./BitbucketApi.ts"
+import * as BitbucketApi from "./BitbucketApi.vibe"
 import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.ts"
-import * as BitbucketPullRequestProvider from "./BitbucketPullRequestProvider.ts"
+import * as BitbucketPullRequestProvider from "./BitbucketPullRequestProvider.vibe"
 import * as BitbucketSourceControlProvider from "./BitbucketSourceControlProvider.vibe"
 
 // Every setting the API reads from the environment is optional, so reading them cannot fail.

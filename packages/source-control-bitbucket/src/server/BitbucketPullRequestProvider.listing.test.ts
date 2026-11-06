@@ -2,9 +2,9 @@ import { assert, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as BitbucketApi from "./BitbucketApi.ts";
+import * as BitbucketApi from "./BitbucketApi.vibe";
 import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.ts";
-import * as BitbucketPullRequestProvider from "./BitbucketPullRequestProvider.ts";
+import * as BitbucketPullRequestProvider from "./BitbucketPullRequestProvider.vibe";
 
 it.effect("pages through rows that share an update instant by excluding those already sent", () =>
   Effect.gen(function* () {

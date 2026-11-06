@@ -21,7 +21,7 @@ import type {
   PullRequestReviewerCandidateList,
 } from "@t3tools/contracts";
 
-import * as BitbucketApi from "./BitbucketApi.ts";
+import * as BitbucketApi from "./BitbucketApi.vibe";
 import { parseDiffFileRevisions } from "@t3tools/source-control-core/server/diffFileRevisions";
 import { sortChecks } from "@t3tools/source-control-core/server/pullRequestChecks";
 import {

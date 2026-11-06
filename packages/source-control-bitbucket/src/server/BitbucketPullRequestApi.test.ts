@@ -2,7 +2,7 @@ import { afterEach, assert, expect, it, vi } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as BitbucketApi from "./BitbucketApi.ts";
+import * as BitbucketApi from "./BitbucketApi.vibe";
 import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.ts";
 
 const mockedRequest = vi.fn<BitbucketApi.BitbucketApi["Service"]["request"]>();

@@ -2,7 +2,7 @@ import { SourceControlProviderKind } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import { type ChangeRequest, SourceControlProviderError } from "@t3tools/contracts";
-import * as BitbucketApi from "./BitbucketApi.ts";
+import * as BitbucketApi from "./BitbucketApi.vibe";
 import * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider";
 export declare const make: Effect.Effect<{
     readonly kind: SourceControlProviderKind;
