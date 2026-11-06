@@ -14,12 +14,13 @@ const webSourceFiles = NodeFS.readdirSync(NodePath.join(repoRoot, "apps/web/src"
   recursive: true,
 })
   .map(String)
-  .filter((file) => /\.(?:tsx?|vibe)$/.test(file) && !/\.(test|browser)\.(?:tsx?|vibe)$/.test(file))
+  .filter((file) => /\.(?:tsx?|vibex?)$/.test(file) && !/\.(test|browser)\.(?:tsx?|vibex?)$/.test(file))
   .filter(
     (file) =>
       !file.endsWith(".gen.ts") &&
       !file.endsWith(".d.vibe.ts") &&
-      !/\.vibe\..+\.d\.ts$/.test(file),
+      !file.endsWith(".d.vibex.ts") &&
+      !/\.vibex?\..+\.d\.ts$/.test(file),
   )
   .map((file) => `apps/web/src/${file}`);
 
