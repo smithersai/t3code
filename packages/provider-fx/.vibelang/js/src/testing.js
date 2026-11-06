@@ -4,5 +4,5 @@
  *
  * @module provider-fx/testing
  */
-export { FX_DRIVER_KIND, makeFxAdapterV2 } from "./server/adapter.js";
-export { FX_ACP_CANCEL_BEHAVIOR, makeFxAcpRuntime } from "./server/acpSupport.js";
+export { FX_DRIVER_KIND, makeFxAdapterV2 } from "#vibelang/emitted/src/server/adapter";
+export { FX_ACP_CANCEL_BEHAVIOR, makeFxAcpRuntime } from "#vibelang/emitted/src/server/acpSupport";

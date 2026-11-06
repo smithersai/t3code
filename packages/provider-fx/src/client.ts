@@ -7,7 +7,7 @@
 import { ProviderDriverKind } from "@t3tools/contracts";
 import { defineProviderClient } from "@t3tools/provider-core/client";
 
-import { FxSettings } from "./settings.vibe";
+import { FxSettings } from "#vibelang/emitted/src/settings";
 
 export const fxClient = defineProviderClient({
   driverKind: ProviderDriverKind.make("fx"),

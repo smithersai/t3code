@@ -6,7 +6,6 @@ import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 import { withSpan } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
 import {} from "@t3tools/contracts";
 import { createModelCapabilities } from "@t3tools/shared/model";
 import { resolveSpawnCommand } from "@t3tools/shared/shell";
@@ -98,7 +97,7 @@ function fxAuth(auth) {
  */
 export const checkFxProviderStatus = (settings, environment) => {
     return Effect_1.gen(function* checkFxProviderStatus() { return yield* withSpan((() => {
-        return Effect_1.gen(runtime.$joinedFrame(function* () {
+        return Effect_1.gen(function* () {
             const checkedAt = DateTime.formatIso(yield* DateTime.now);
             if (!settings.enabled) {
                 return snapshot(settings, checkedAt, {
@@ -150,7 +149,7 @@ export const checkFxProviderStatus = (settings, environment) => {
                         }
                         : { status: "ready" };
             return snapshot(settings, checkedAt, { installed: true, version, auth, ...probe }, defaultModel, Option.getOrUndefined(listed));
-        }));
+        });
     })(), "checkFxProviderStatus"); });
 };
 /** fx's id for "Default": the alias the snapshot gave it, if `fx status` reported one. */

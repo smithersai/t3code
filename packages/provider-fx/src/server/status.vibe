@@ -10,7 +10,7 @@ import {
   FX_DRIVER_KIND,
   FX_EFFORT_OPTION_DESCRIPTOR,
   FX_SUPPORTED_RUNTIME_MODES,
-} from "./acpSupport.ts"
+} from "./acpSupport.vibe"
 import {
   AUTH_PROBE_TIMEOUT_MS,
   buildServerProvider,
