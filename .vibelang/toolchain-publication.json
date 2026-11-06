@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "manager": "pnpm",
+  "versions": {
+    "vibelang": "0.0.11",
+    "vibelang-runtime": "0.0.11",
+    "vibelang-vite": "0.0.11",
+    "vibelang-unplugin": "0.0.11"
+  },
+  "packages": [
+    "apps/server/package.json"
+  ],
+  "localPins": {
+    "vibelang": "file:./.vibelang-toolchain/vibelang-0.0.11-e1c40147c6ef.tgz",
+    "vibelang-runtime": "file:./.vibelang-toolchain/vibelang-runtime-0.0.11-a019a5bb8c6d.tgz",
+    "vibelang-vite": "file:./.vibelang-toolchain/vibelang-vite-0.0.11-d23a07206819.tgz",
+    "vibelang-unplugin": "file:./.vibelang-toolchain/vibelang-unplugin-0.0.11-ccd97f398bd6.tgz"
+  },
+  "releaseRequired": [
+    {
+      "name": "vibelang-runtime",
+      "version": "0.0.11"
+    }
+  ],
+  "overrides": [
+    {
+      "name": "vibelang",
+      "value": "file:./.vibelang-toolchain/vibelang-0.0.11-e1c40147c6ef.tgz",
+      "file": "pnpm-workspace.yaml",
+      "table": "overrides",
+      "hadValue": false
+    },
+    {
+      "name": "vibelang-runtime",
+      "value": "file:./.vibelang-toolchain/vibelang-runtime-0.0.11-a019a5bb8c6d.tgz",
+      "file": "pnpm-workspace.yaml",
+      "table": "overrides",
+      "hadValue": false
+    },
+    {
+      "name": "vibelang-vite",
+      "value": "file:./.vibelang-toolchain/vibelang-vite-0.0.11-d23a07206819.tgz",
+      "file": "pnpm-workspace.yaml",
+      "table": "overrides",
+      "hadValue": false
+    },
+    {
+      "name": "vibelang-unplugin",
+      "value": "file:./.vibelang-toolchain/vibelang-unplugin-0.0.11-ccd97f398bd6.tgz",
+      "file": "pnpm-workspace.yaml",
+      "table": "overrides",
+      "hadValue": false
+    }
+  ]
+}

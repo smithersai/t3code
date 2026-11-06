@@ -438,13 +438,13 @@
     "effect": "catalog:",
     "jszip": "3.10.1",
     "three": "0.180.0",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11-f7cb56415df0.tgz"
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11-a019a5bb8c6d.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
     "@types/three": "0.180.0",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-e4c8b4de9724.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-4fa371eb3432.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-e1c40147c6ef.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-d23a07206819.tgz",
     "vite-plus": "catalog:"
   }
 }

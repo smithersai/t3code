@@ -584,7 +584,7 @@
     "remark-parse": "catalog:",
     "remark-rehype": "catalog:",
     "unified": "catalog:",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11-f7cb56415df0.tgz",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.11-a019a5bb8c6d.tgz",
     "yaml": "catalog:"
   },
   "devDependencies": {
@@ -593,8 +593,8 @@
     "@types/mdast": "^4.0.4",
     "@types/node": "catalog:",
     "micromark-util-types": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-e4c8b4de9724.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-4fa371eb3432.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.11-e1c40147c6ef.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.11-d23a07206819.tgz",
     "vite-plus": "catalog:"
   }
 }
