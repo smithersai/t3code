@@ -14,7 +14,7 @@ import { TestClock } from "effect/testing";
 import { HttpClient, HttpClientResponse } from "effect/http";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
 
-import * as SshAuth from "./auth.ts";
+import * as SshAuth from "./auth.vibe";
 import { SshCommandError } from "./errors.vibe";
 import * as SshTunnel from "./tunnel.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

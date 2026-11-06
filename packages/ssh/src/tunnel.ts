@@ -22,7 +22,7 @@ import * as Stream from "effect/Stream";
 import { HttpClient } from "effect/http";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
 
-import * as SshAuth from "./auth.ts";
+import * as SshAuth from "./auth.vibe";
 import {
   baseSshArgs,
   buildSshHostSpecEffect,
@@ -32,7 +32,7 @@ import {
   resolveSshTarget,
   runSshCommand,
   targetConnectionKey,
-} from "./command.ts";
+} from "./command.vibe";
 import {
   SshCommandError,
   SshHttpBridgeError,

@@ -7,7 +7,7 @@ import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
 
-import { parseSshResolveOutput, remoteStateKey, runSshCommand } from "./command.ts";
+import { parseSshResolveOutput, remoteStateKey, runSshCommand } from "./command.vibe";
 import { SshCommandError } from "./errors.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

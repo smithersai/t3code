@@ -4,16 +4,25 @@
   "type": "module",
   "exports": {
     "./auth": {
-      "types": "./src/auth.ts",
-      "import": "./src/auth.ts"
+      "types": "./src/auth.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/auth.vibe",
+        "default": "./.vibelang/js/src/auth.js"
+      }
     },
     "./command": {
-      "types": "./src/command.ts",
-      "import": "./src/command.ts"
+      "types": "./src/command.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/command.vibe",
+        "default": "./.vibelang/js/src/command.js"
+      }
     },
     "./config": {
-      "types": "./src/config.ts",
-      "import": "./src/config.ts"
+      "types": "./src/config.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/config.vibe",
+        "default": "./.vibelang/js/src/config.js"
+      }
     },
     "./errors": {
       "types": "./src/errors.vibe",
