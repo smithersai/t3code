@@ -42,9 +42,9 @@ import * as DesktopClientSettings from "../settings/DesktopClientSettings.ts";
 import * as DesktopWindow from "../window/DesktopWindow.ts";
 import { startGlobalShiftShortcutProcess } from "./GlobalShiftShortcutProcess.ts";
 import { startMacModifierPairShortcutProcess } from "./MacModifierPairShortcutProcess.ts";
-import { activeWindow, type ActiveWindow } from "./ActiveWindow.ts";
+import { activeWindow, type ActiveWindow } from "./ActiveWindow.vibe";
 import { captureMacWindowSnapshot, type MacSnapShotSource } from "./MacSnapShot.ts";
-import type { LinuxCaptureFeedback, LinuxWindowMetadata } from "./LinuxSnapShot.ts";
+import type { LinuxCaptureFeedback, LinuxWindowMetadata } from "./LinuxSnapShot.vibe";
 import { niriSocketPath } from "./NiriSnapShot.ts";
 import { CaptureShortcutConfig, niriCaptureConfigPath } from "./CaptureShortcutConfig.ts";
 import type { PortalCaptureShortcut } from "./PortalCaptureShortcut.ts";
@@ -494,7 +494,7 @@ async function captureSource({
         snapShotThumbnailSize(active),
       ));
     } else {
-      const { captureLinuxWindow } = await import("./LinuxSnapShot.ts");
+      const { captureLinuxWindow } = await import("./LinuxSnapShot.vibe");
       const snapshot = await captureLinuxWindow(
         linuxAppId,
         {
@@ -1577,7 +1577,7 @@ export const make = Effect.gen(function* () {
       Effect.flatMap((state) =>
         state.mode === "portal"
           ? Effect.tryPromise(async () => {
-              const { getLinuxCaptureSupport } = await import("./LinuxSnapShot.ts");
+              const { getLinuxCaptureSupport } = await import("./LinuxSnapShot.vibe");
               return getLinuxCaptureSupport(linuxAppId);
             }).pipe(
               Effect.map((support) => ({ ...state, ...support })),

@@ -1,8 +1,13 @@
 // @effect-diagnostics nodeBuiltinImport:off -- Effect's Node FileSystem is async, and pre-ready startup must not yield before the Clerk bridge registers its privileged scheme.
+import * as FileSystem from "effect/FileSystem";
+import * as Layer from "effect/Layer";
+
+module platform {
+// @effect-diagnostics nodeBuiltinImport:off -- Effect's Node FileSystem is async, and pre-ready startup must not yield before the Clerk bridge registers its privileged scheme.
+
 import * as NodeFS from "node:fs";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
-import * as Layer from "effect/Layer";
 import * as PlatformError from "effect/PlatformError";
 
 const systemErrorTag = (cause: unknown): PlatformError.SystemErrorTag => {
@@ -18,7 +23,6 @@ const systemErrorTag = (cause: unknown): PlatformError.SystemErrorTag => {
       return "Unknown";
   }
 };
-
 const syncFs = <A>(method: string, path: string, run: () => A) =>
   Effect.try({
     try: run,
@@ -31,7 +35,6 @@ const syncFs = <A>(method: string, path: string, run: () => A) =>
         cause,
       }),
   });
-
 /** @public */
 export const make = FileSystem.makeNoop({
   exists: (path) =>
@@ -54,5 +57,9 @@ export const make = FileSystem.makeNoop({
       NodeFS.writeFileSync(path, data, { flag: options?.flag ?? "w" }),
     ),
 });
+}
+
+import { make } from platform
+export { make } from platform
 
 export const layer = Layer.succeed(FileSystem.FileSystem, make);

@@ -1,151 +1,144 @@
-import * as Effect from "effect/Effect"
-import * as Layer from "effect/Layer"
-import * as Schema from "effect/Schema"
-import * as Scope from "effect/Scope"
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as Schema from "effect/Schema";
+import * as Scope from "effect/Scope";
 
-import { autoUpdater } from "electron-updater"
+import { autoUpdater } from "electron-updater";
 
-type AutoUpdater = typeof autoUpdater
+type AutoUpdater = typeof autoUpdater;
 
-export type ElectronUpdaterFeedUrl = Parameters<AutoUpdater["setFeedURL"]>[0]
+export type ElectronUpdaterFeedUrl = Parameters<AutoUpdater["setFeedURL"]>[0];
 
-const ElectronUpdaterCheckForUpdatesErrorChannelField = Schema.NullOr(Schema.String)
-const ElectronUpdaterCheckForUpdatesErrorCauseField = Schema.Defect()
+const ElectronUpdaterCheckForUpdatesErrorChannelField: Schema.NullOr<Schema.String> = Schema.NullOr(Schema.String)
+const ElectronUpdaterCheckForUpdatesErrorCauseField: Schema.Defect = Schema.Defect()
 export schema error ElectronUpdaterCheckForUpdatesError {
   channel: ElectronUpdaterCheckForUpdatesErrorChannelField
   cause: ElectronUpdaterCheckForUpdatesErrorCauseField
   override get message(): string {
-    return `Electron updater failed to check for updates on channel ${this.channel ?? "default"}.`
+    return `Electron updater failed to check for updates on channel ${this.channel ?? "default"}.`;
   }
 }
 
-const ElectronUpdaterDownloadUpdateErrorChannelField = Schema.NullOr(Schema.String)
-const ElectronUpdaterDownloadUpdateErrorCauseField = Schema.Defect()
+const ElectronUpdaterDownloadUpdateErrorChannelField: Schema.NullOr<Schema.String> = Schema.NullOr(Schema.String)
+const ElectronUpdaterDownloadUpdateErrorCauseField: Schema.Defect = Schema.Defect()
 export schema error ElectronUpdaterDownloadUpdateError {
   channel: ElectronUpdaterDownloadUpdateErrorChannelField
   cause: ElectronUpdaterDownloadUpdateErrorCauseField
   override get message(): string {
-    return `Electron updater failed to download the update on channel ${this.channel ?? "default"}.`
+    return `Electron updater failed to download the update on channel ${this.channel ?? "default"}.`;
   }
 }
 
-const ElectronUpdaterQuitAndInstallErrorChannelField = Schema.NullOr(Schema.String)
-const ElectronUpdaterQuitAndInstallErrorCauseField = Schema.Defect()
+const ElectronUpdaterQuitAndInstallErrorChannelField: Schema.NullOr<Schema.String> = Schema.NullOr(Schema.String)
+const ElectronUpdaterQuitAndInstallErrorCauseField: Schema.Defect = Schema.Defect()
 export schema error ElectronUpdaterQuitAndInstallError {
   channel: ElectronUpdaterQuitAndInstallErrorChannelField
-  isSilent: boolean
-  isForceRunAfter: boolean
+  readonly isSilent: boolean
+  readonly isForceRunAfter: boolean
   cause: ElectronUpdaterQuitAndInstallErrorCauseField
   override get message(): string {
-    return `Electron updater failed to quit and install the update on channel ${
-      this.channel ?? "default"
-    } (silent: ${this.isSilent}, force run after: ${this.isForceRunAfter}).`
+    return `Electron updater failed to quit and install the update on channel ${this.channel ?? "default"} (silent: ${this.isSilent}, force run after: ${this.isForceRunAfter}).`;
   }
 }
 
-export schema ElectronUpdaterError =
-  | ElectronUpdaterCheckForUpdatesError
-  | ElectronUpdaterDownloadUpdateError
-  | ElectronUpdaterQuitAndInstallError
+export schema ElectronUpdaterError = ElectronUpdaterCheckForUpdatesError | ElectronUpdaterDownloadUpdateError | ElectronUpdaterQuitAndInstallError;
 
-export service ElectronUpdater {
-  static readonly key = "@t3tools/desktop/electron/ElectronUpdater"
-  setFeedURL: (options: ElectronUpdaterFeedUrl) => void!!
-  setAutoDownload: (value: boolean) => void!!
-  setAutoInstallOnAppQuit: (value: boolean) => void!!
-  setChannel: (channel: string) => void!!
-  setAllowPrerelease: (value: boolean) => void!!
-  allowDowngrade: boolean!!
-  setAllowDowngrade: (value: boolean) => void!!
-  setFullChangelog: (value: boolean) => void!!
-  setDisableDifferentialDownload: (value: boolean) => void!!
-  checkForUpdates: void!ElectronUpdaterCheckForUpdatesError
-  downloadUpdate: void!ElectronUpdaterDownloadUpdateError
-  quitAndInstall: (options: {
-    readonly isSilent: boolean
-    readonly isForceRunAfter: boolean
-  }) => void!ElectronUpdaterQuitAndInstallError
-  on: <Args extends ReadonlyArray<unknown>>(
+export service ElectronUpdater: {
+  readonly setFeedURL: (options: ElectronUpdaterFeedUrl) => void!!;
+  readonly setAutoDownload: (value: boolean) => void!!;
+  readonly setAutoInstallOnAppQuit: (value: boolean) => void!!;
+  readonly setChannel: (channel: string) => void!!;
+  readonly setAllowPrerelease: (value: boolean) => void!!;
+  readonly allowDowngrade: boolean!!;
+  readonly setAllowDowngrade: (value: boolean) => void!!;
+  readonly setFullChangelog: (value: boolean) => void!!;
+  readonly setDisableDifferentialDownload: (value: boolean) => void!!;
+  readonly checkForUpdates: void!ElectronUpdaterCheckForUpdatesError;
+  readonly downloadUpdate: void!ElectronUpdaterDownloadUpdateError;
+  readonly quitAndInstall: (options: {
+    readonly isSilent: boolean;
+    readonly isForceRunAfter: boolean;
+  }) => void!ElectronUpdaterQuitAndInstallError;
+  readonly on: <Args extends ReadonlyArray<unknown>>(
     eventName: string,
     listener: (...args: Args) => void,
-  ) => void!never!Scope.Scope
-}
+  ) => void!never!Scope.Scope;
+} { static readonly key = "@t3tools/desktop/electron/ElectronUpdater" }
 
 /** @public */
 export const make = ElectronUpdater.of({
-  setFeedURL: Effect.fn("ElectronUpdater.setFeedURL")(function(options) {
+  setFeedURL: Effect.fn("ElectronUpdater.setFeedURL")(function (options) {
     return Effect.suspend(() => {
-      autoUpdater.setFeedURL(options)
-      return Effect.void
-    })
+      autoUpdater.setFeedURL(options);
+      return Effect.void;
+    });
   }),
-  setAutoDownload: Effect.fn("ElectronUpdater.setAutoDownload")(function(value) {
+  setAutoDownload: Effect.fn("ElectronUpdater.setAutoDownload")(function (value) {
     return Effect.suspend(() => {
-      autoUpdater.autoDownload = value
-      return Effect.void
-    })
+      autoUpdater.autoDownload = value;
+      return Effect.void;
+    });
   }),
-  setAutoInstallOnAppQuit: Effect.fn("ElectronUpdater.setAutoInstallOnAppQuit")(function(value) {
+  setAutoInstallOnAppQuit: Effect.fn("ElectronUpdater.setAutoInstallOnAppQuit")(function (value) {
     return Effect.suspend(() => {
-      autoUpdater.autoInstallOnAppQuit = value
-      return Effect.void
-    })
+      autoUpdater.autoInstallOnAppQuit = value;
+      return Effect.void;
+    });
   }),
-  setChannel: Effect.fn("ElectronUpdater.setChannel")(function(channel) {
+  setChannel: Effect.fn("ElectronUpdater.setChannel")(function (channel) {
     return Effect.suspend(() => {
-      autoUpdater.channel = channel
-      return Effect.void
-    })
+      autoUpdater.channel = channel;
+      return Effect.void;
+    });
   }),
-  setAllowPrerelease: Effect.fn("ElectronUpdater.setAllowPrerelease")(function(value) {
+  setAllowPrerelease: Effect.fn("ElectronUpdater.setAllowPrerelease")(function (value) {
     return Effect.suspend(() => {
-      autoUpdater.allowPrerelease = value
-      return Effect.void
-    })
+      autoUpdater.allowPrerelease = value;
+      return Effect.void;
+    });
   }),
-  allowDowngrade: effect {
-    return autoUpdater.allowDowngrade
-  },
-  setAllowDowngrade: Effect.fn("ElectronUpdater.setAllowDowngrade")(function(value) {
+  allowDowngrade: effect { return autoUpdater.allowDowngrade },
+  setAllowDowngrade: Effect.fn("ElectronUpdater.setAllowDowngrade")(function (value) {
     return Effect.suspend(() => {
-      autoUpdater.allowDowngrade = value
-      return Effect.void
-    })
+      autoUpdater.allowDowngrade = value;
+      return Effect.void;
+    });
   }),
-  setFullChangelog: Effect.fn("ElectronUpdater.setFullChangelog")(function(value) {
+  setFullChangelog: Effect.fn("ElectronUpdater.setFullChangelog")(function (value) {
     return Effect.suspend(() => {
-      autoUpdater.fullChangelog = value
-      return Effect.void
-    })
+      autoUpdater.fullChangelog = value;
+      return Effect.void;
+    });
   }),
   setDisableDifferentialDownload: Effect.fn("ElectronUpdater.setDisableDifferentialDownload")(
-    function(value) {
+    function (value) {
       return Effect.suspend(() => {
-        autoUpdater.disableDifferentialDownload = value
-        return Effect.void
-      })
+        autoUpdater.disableDifferentialDownload = value;
+        return Effect.void;
+      });
     },
   ),
   checkForUpdates: Effect.suspend(() => {
-    const channel = autoUpdater.channel
+    const channel = autoUpdater.channel;
     return Effect.tryPromise({
       try: () => autoUpdater.checkForUpdates(),
       catch: (cause) => new ElectronUpdaterCheckForUpdatesError({ channel, cause }),
-    }) |> Effect.asVoid(%)
+    }) |> Effect.asVoid(%);
   }),
   downloadUpdate: Effect.suspend(() => {
-    const channel = autoUpdater.channel
+    const channel = autoUpdater.channel;
     return Effect.tryPromise({
       try: () => autoUpdater.downloadUpdate(),
       catch: (cause) => new ElectronUpdaterDownloadUpdateError({ channel, cause }),
-    }) |> Effect.asVoid(%)
+    }) |> Effect.asVoid(%);
   }),
-  quitAndInstall: Effect.fn("ElectronUpdater.quitAndInstall")(function({
+  quitAndInstall: Effect.fn("ElectronUpdater.quitAndInstall")(function ({
     isSilent,
     isForceRunAfter,
   }) {
     return Effect.suspend(() => {
-      const channel = autoUpdater.channel
+      const channel = autoUpdater.channel;
       return Effect.try({
         try: () => autoUpdater.quitAndInstall(isSilent, isForceRunAfter),
         catch: (cause) =>
@@ -155,24 +148,25 @@ export const make = ElectronUpdater.of({
             isForceRunAfter,
             cause,
           }),
-      })
-    })
+      });
+    });
   }),
-  on: Effect.fn("ElectronUpdater.on")(function(eventName, listener) {
+  on: Effect.fn("ElectronUpdater.on")(function (eventName, listener) {
     const eventTarget = autoUpdater as unknown as {
-      on: (eventName: string, listener: (...args: Array<unknown>) => void) => void
-      removeListener: (eventName: string, listener: (...args: Array<unknown>) => void) => void
-    }
-    const untypedListener = listener as unknown as (...args: Array<unknown>) => void
+      on: (eventName: string, listener: (...args: Array<unknown>) => void) => void;
+      removeListener: (eventName: string, listener: (...args: Array<unknown>) => void) => void;
+    };
+    const untypedListener = listener as unknown as (...args: Array<unknown>) => void;
     return Effect.acquireRelease(
       effect {
-        eventTarget.on(eventName, untypedListener)
+        eventTarget.on(eventName, untypedListener);
       },
-      effect () => {
-        eventTarget.removeListener(eventName, untypedListener)
-      },
-    ) |> Effect.asVoid(%)
+      effect () =>
+        {
+          eventTarget.removeListener(eventName, untypedListener);
+        },
+    ) |> Effect.asVoid(%);
   }),
-})
+});
 
-export const layer = Layer.succeed(ElectronUpdater, make)
+export const layer = Layer.succeed(ElectronUpdater, make);

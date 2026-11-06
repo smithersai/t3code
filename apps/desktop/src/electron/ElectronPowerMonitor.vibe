@@ -1,40 +1,40 @@
-import * as Effect from "effect/Effect"
-import * as Layer from "effect/Layer"
-import * as Scope from "effect/Scope"
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as Scope from "effect/Scope";
 
-import * as Electron from "electron"
+import * as Electron from "electron";
 
-export type ElectronThermalState = ReturnType<Electron.PowerMonitor["getCurrentThermalState"]>
-export type ElectronIdleState = ReturnType<Electron.PowerMonitor["getSystemIdleState"]>
+export type ElectronThermalState = ReturnType<Electron.PowerMonitor["getCurrentThermalState"]>;
+export type ElectronIdleState = ReturnType<Electron.PowerMonitor["getSystemIdleState"]>;
 
-export service ElectronPowerMonitor {
-  static readonly key = "@t3tools/desktop/electron/ElectronPowerMonitor"
-  isOnBatteryPower: boolean!!
-  getSystemIdleTime: number!!
-  getSystemIdleState: (idleThresholdSeconds: number) => ElectronIdleState!!
-  getCurrentThermalState: ElectronThermalState!!
-  onSimpleEvent: (
+export service ElectronPowerMonitor: {
+  readonly isOnBatteryPower: boolean!!;
+  readonly getSystemIdleTime: number!!;
+  readonly getSystemIdleState: (idleThresholdSeconds: number) => ElectronIdleState!!;
+  readonly getCurrentThermalState: ElectronThermalState!!;
+  readonly onSimpleEvent: (
     eventName: "lock-screen" | "unlock-screen" | "on-ac" | "on-battery" | "suspend" | "resume",
     listener: () => void,
-  ) => void!never!Scope.Scope
-  onThermalStateChange: (
+  ) => void!never!Scope.Scope;
+  readonly onThermalStateChange: (
     listener: (state: ElectronThermalState) => void,
-  ) => void!never!Scope.Scope
-  onSpeedLimitChange: (
+  ) => void!never!Scope.Scope;
+  readonly onSpeedLimitChange: (
     listener: (limit: number) => void,
-  ) => void!never!Scope.Scope
-}
+  ) => void!never!Scope.Scope;
+} { static readonly key = "@t3tools/desktop/electron/ElectronPowerMonitor" }
 
 const onSimpleEvent: ElectronPowerMonitor["Service"]["onSimpleEvent"] = (eventName, listener) =>
   Effect.acquireRelease(
     Effect.sync(() => {
-      Electron.powerMonitor.on(eventName as any, listener as any)
+      Electron.powerMonitor.on(eventName as any, listener as any);
     }),
     () =>
       Effect.sync(() => {
-        Electron.powerMonitor.removeListener(eventName as any, listener as any)
+        Electron.powerMonitor.removeListener(eventName as any, listener as any);
       }),
-  ) |> Effect.asVoid(%)
+  ) |> Effect.asVoid(%);
 
 const onThermalStateChange: ElectronPowerMonitor["Service"]["onThermalStateChange"] = (
   listener,
@@ -42,49 +42,49 @@ const onThermalStateChange: ElectronPowerMonitor["Service"]["onThermalStateChang
   const wrapped = (
     event: Electron.Event<Electron.PowerMonitorThermalStateChangeEventParams>,
   ): void => {
-    listener(event.state)
-  }
+    listener(event.state);
+  };
   return Effect.acquireRelease(
     Effect.sync(() => {
-      Electron.powerMonitor.on("thermal-state-change", wrapped)
+      Electron.powerMonitor.on("thermal-state-change", wrapped);
     }),
     () =>
       Effect.sync(() => {
-        Electron.powerMonitor.removeListener("thermal-state-change", wrapped)
+        Electron.powerMonitor.removeListener("thermal-state-change", wrapped);
       }),
-  ) |> Effect.asVoid(%)
-}
+  ) |> Effect.asVoid(%);
+};
 
 const onSpeedLimitChange: ElectronPowerMonitor["Service"]["onSpeedLimitChange"] = (listener) => {
   const wrapped = (
     event: Electron.Event<Electron.PowerMonitorSpeedLimitChangeEventParams>,
   ): void => {
-    listener(event.limit)
-  }
+    listener(event.limit);
+  };
   return Effect.acquireRelease(
     Effect.sync(() => {
-      Electron.powerMonitor.on("speed-limit-change", wrapped)
+      Electron.powerMonitor.on("speed-limit-change", wrapped);
     }),
     () =>
       Effect.sync(() => {
-        Electron.powerMonitor.removeListener("speed-limit-change", wrapped)
+        Electron.powerMonitor.removeListener("speed-limit-change", wrapped);
       }),
-  ) |> Effect.asVoid(%)
-}
+  ) |> Effect.asVoid(%);
+};
 
 /** @public */
 export const make = ElectronPowerMonitor.of({
   isOnBatteryPower: Effect.sync(() => Electron.powerMonitor.isOnBatteryPower()),
   getSystemIdleTime: Effect.sync(() => Electron.powerMonitor.getSystemIdleTime()),
   getSystemIdleState: Effect.fn("ElectronPowerMonitor.getSystemIdleState")(
-    function(idleThresholdSeconds) {
-      return Effect.sync(() => Electron.powerMonitor.getSystemIdleState(idleThresholdSeconds))
+    function (idleThresholdSeconds) {
+      return Effect.sync(() => Electron.powerMonitor.getSystemIdleState(idleThresholdSeconds));
     },
   ),
   getCurrentThermalState: Effect.sync(() => Electron.powerMonitor.getCurrentThermalState()),
   onSimpleEvent,
   onThermalStateChange,
   onSpeedLimitChange,
-})
+});
 
-export const layer = Layer.succeed(ElectronPowerMonitor, make)
+export const layer = Layer.succeed(ElectronPowerMonitor, make);

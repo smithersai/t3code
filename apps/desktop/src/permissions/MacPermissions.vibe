@@ -1,49 +1,40 @@
-import * as Effect from "effect/Effect"
-import * as Layer from "effect/Layer"
-import * as Path from "effect/Path"
-import * as Electron from "electron"
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts"
-import { MacPermissionHelper } from "./MacPermissionHelper.ts"
-import type { MacPermission } from "./MacPermission.ts"
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as Path from "effect/Path";
+import * as Electron from "electron";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import { MacPermissionHelper } from "./MacPermissionHelper.ts";
+import type { MacPermission } from "./MacPermission.ts";
 
-export service MacPermissions {
-  static readonly key = "@t3tools/desktop/permissions/MacPermissions"
-  showHelper: (
+export service MacPermissions: {
+  readonly showHelper: (
     permission: MacPermission,
     owner: Electron.BrowserWindow | null,
     isGranted?: () => boolean | Promise<boolean>,
-  ) => void!!
-}
+  ) => void!!;
+} { static readonly key = "@t3tools/desktop/permissions/MacPermissions" }
 
 export const layer = Layer.effect(
   MacPermissions,
   effect {
-    const environment = try DesktopEnvironment.DesktopEnvironment
-    const path = try Path.Path
-    const helper = new MacPermissionHelper()
-    try Effect.addFinalizer(effect () =>
-      try Effect.orDie(Effect.try({
-        try: () => helper.close(),
-        catch: (cause) => cause,
-      }))
-    )
+    const environment = try DesktopEnvironment.DesktopEnvironment;
+    const path = try Path.Path;
+    const helper = new MacPermissionHelper();
+    try Effect.addFinalizer(() => Effect.sync(() => helper.close()));
     return MacPermissions.of({
-      showHelper: effect (permission, owner, isGranted) =>
-        try withSpan(
-          effect {
-            if (environment.platform !== "darwin" || !environment.isPackaged) return
-            Effect.tryPromise(() =>
-              helper.show(
-                permission,
-                path.join(environment.dirname, "mac-permission-preload.cjs"),
-                owner,
-                environment.resolveResourcePathCandidates("icon.png"),
-                isGranted,
-              )
-            ) catch effect (cause) => try Effect.logWarning("Could not show permission helper", cause)
-          },
-          "MacPermissions.showHelper",
-        ),
-    })
+      showHelper: effect (permission, owner, isGranted): void!never!never => try withSpan((effect (): void!never!never => {
+        if (environment.platform !== "darwin" || !environment.isPackaged) return;
+        Effect.tryPromise(() =>
+          helper.show(
+            permission,
+            path.join(environment.dirname, "mac-permission-preload.cjs"),
+            owner,
+            environment.resolveResourcePathCandidates("icon.png"),
+            isGranted,
+          ),
+        ) catch effect (cause) => try Effect.logWarning("Could not show permission helper", cause);
+      })(), "MacPermissions.showHelper"),
+    });
   },
-)
+);

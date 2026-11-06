@@ -1,40 +1,27 @@
-import * as Electron from "electron"
-import * as Schema from "effect/Schema"
+import * as Electron from "electron";
+import * as Schema from "effect/Schema";
 
-import * as DesktopLegacyLocalStorage from "../../app/DesktopLegacyLocalStorage.ts"
-import * as IpcChannels from "../channels.ts"
-import { makeIpcMethod, makeSyncIpcMethod } from "../DesktopIpc.ts"
+import * as DesktopLegacyLocalStorage from "../../app/DesktopLegacyLocalStorage.ts";
+import * as IpcChannels from "../channels.ts";
+import { makeIpcMethod, makeSyncIpcMethod } from "../DesktopIpc.ts";
 
 export const takeLegacyLocalStorage = makeSyncIpcMethod({
   channel: IpcChannels.TAKE_LEGACY_LOCAL_STORAGE_CHANNEL,
   result: Schema.NullOr(Schema.Record(Schema.String, Schema.String)),
-  handler: effect () =>
-    try withSpan(
-      effect {
-        const legacy = try DesktopLegacyLocalStorage.DesktopLegacyLocalStorage
-        return Option.getOrNull(try legacy.take)
-      },
-      "desktop.ipc.legacyLocalStorage.take",
-    ),
-})
+  handler: effect (): (Readonly<Record<string, string>> | null)!never!DesktopLegacyLocalStorage.DesktopLegacyLocalStorage => try withSpan((effect (): (Readonly<Record<string, string>> | null)!never!DesktopLegacyLocalStorage.DesktopLegacyLocalStorage => {
+    const legacy = try DesktopLegacyLocalStorage.DesktopLegacyLocalStorage;
+    return Option.getOrNull(try legacy.take);
+  })(), "desktop.ipc.legacyLocalStorage.take"),
+});
 
 export const completeLegacyLocalStorage = makeIpcMethod({
   channel: IpcChannels.COMPLETE_LEGACY_LOCAL_STORAGE_CHANNEL,
   payload: Schema.Void,
   result: Schema.Void,
-  handler: effect (_, event) =>
-    try withSpan(
-      effect {
-        const legacy = try DesktopLegacyLocalStorage.DesktopLegacyLocalStorage
-        // Flush Chromium's lazy writes before the marker prevents migration retries.
-        if (event) {
-          try Effect.orDie(Effect.try({
-            try: () => Electron.webContents.fromId(event.sender.id)?.session.flushStorageData(),
-            catch: (error) => error,
-          }))
-        }
-        try legacy.complete
-      },
-      "desktop.ipc.legacyLocalStorage.complete",
-    ),
-})
+  handler: effect (_, event): void!never!DesktopLegacyLocalStorage.DesktopLegacyLocalStorage => try withSpan((effect (): void!never!DesktopLegacyLocalStorage.DesktopLegacyLocalStorage => {
+    const legacy = try DesktopLegacyLocalStorage.DesktopLegacyLocalStorage;
+    // Flush Chromium's lazy writes before the marker prevents migration retries.
+    if (event) try Effect.orDie(Effect.try({ try: () => Electron.webContents.fromId(event.sender.id)?.session.flushStorageData(), catch: (e) => e }));
+    try legacy.complete;
+  })(), "desktop.ipc.legacyLocalStorage.complete"),
+});

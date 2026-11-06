@@ -1,0 +1,198 @@
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Layer from "effect/Layer";
+import * as Schema from "effect/Schema";
+
+import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+
+// WSL's plain Node cannot read server.asar. Electron's patched fs also reads its unpacked native siblings.
+
+export type WslServerTreeResult =
+  | { readonly ok: true; readonly root: string }
+  | { readonly ok: false; readonly reason: string; readonly fatal: boolean };
+
+const MARKER_FILE_NAME = "t3code-wsl-server-tree.json";
+const COPY_CONCURRENCY = 8;
+
+schema Marker { readonly version: string }
+const decodeMarker = Schema.decodeUnknownEffect(Schema.fromJsonString(Marker));
+const encodeMarker = Schema.encodeEffect(Schema.fromJsonString(Marker));
+
+const DesktopWslServerTreeExtractErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error DesktopWslServerTreeExtractError {
+  readonly targetDir: string
+  cause: DesktopWslServerTreeExtractErrorCauseField
+  override get message(): string {
+    return `Failed to extract the WSL server tree to ${this.targetDir}.`;
+  }
+}
+
+export service DesktopWslServerTree: {
+  readonly ensure: WslServerTreeResult!!;
+  readonly cleanupLegacy: void!!;
+} { static readonly key = "@t3tools/desktop/wsl/DesktopWslServerTree" }
+
+export const forEachBoundedTree = effect <
+  Node,
+  E,
+  R,
+>(
+  roots: readonly Node[],
+  visit: (node: Node) => ReadonlyArray<Node>!E!R,
+): void!E!R => try withSpan((effect (): void!E!R => {
+  const pending = [...roots];
+  while (pending.length > 0) {
+    const batch = pending.splice(-COPY_CONCURRENCY);
+    const children = try Effect.forEach(batch, visit, {
+      concurrency: COPY_CONCURRENCY,
+    });
+    for (const entries of children) {
+      pending.push(...entries);
+    }
+  }
+})(), "DesktopWslServerTree.forEachBoundedTree");
+
+interface CopyTreeEntry {
+  readonly sourcePath: string;
+  readonly targetPath: string;
+}
+
+const copyTree = (
+  fs: FileSystem.FileSystem,
+  join: (first: string, ...rest: string[]) => string,
+  from: string,
+  to: string,
+): void!PlatformError.PlatformError =>
+  forEachBoundedTree<CopyTreeEntry, PlatformError.PlatformError, never>(
+    [{ sourcePath: from, targetPath: to }],
+    ({ sourcePath, targetPath }) =>
+      effect {
+        const info = try fs.stat(sourcePath);
+        if (info.type === "Directory") {
+          try fs.makeDirectory(targetPath, { recursive: true });
+          const entries = try fs.readDirectory(sourcePath);
+          return entries.map((entry) => ({
+            sourcePath: join(sourcePath, entry),
+            targetPath: join(targetPath, entry),
+          }));
+        }
+        if (info.type === "File") {
+          const bytes = try fs.readFile(sourcePath);
+          try fs.writeFile(targetPath, bytes);
+        }
+        return [];
+      },
+  );
+
+/** @public */
+export const make = effect {
+  const environment = try DesktopEnvironment.DesktopEnvironment;
+  const fs = try FileSystem.FileSystem;
+  const join2 = environment.path.join;
+
+  const serverRoot = environment.serverRoot;
+  const needsExtraction = environment.isPackaged && environment.platform === "win32";
+  const treeRoot = join2(environment.stateDir, "wsl-server-tree");
+  const version = environment.appVersion;
+  const versionDir = join2(treeRoot, version);
+
+  const sweepStale = effect {
+    const entries = fs.readDirectory(treeRoot) catch () => [];
+    try Effect.forEach(
+      entries.filter((entry) => entry !== version),
+      (entry) => fs.remove(join2(treeRoot, entry), { recursive: true }) |> Effect.ignore(%),
+      { discard: true },
+    );
+  };
+
+  const markerMatches = effect {
+    const raw = try fs.readFileString(join2(versionDir, MARKER_FILE_NAME));
+    const marker = try decodeMarker(raw);
+    return marker.version === version;
+  } |> Effect.orElseSucceed(%, () => false);
+
+  const extract = effect {
+    try Effect.log(`[wsl-server-tree] Extracting ${serverRoot} to ${versionDir}...`);
+    try fs.makeDirectory(treeRoot, { recursive: true });
+    // A sibling temp directory permits atomic rename; explicit cleanup avoids a scoped finalizer failing after the move.
+    const partialDir = try fs.makeTempDirectory({
+      directory: treeRoot,
+      prefix: `.${version}.extract-`,
+    });
+    try (effect {
+      try copyTree(fs, join2, serverRoot, partialDir);
+      const markerJson = try encodeMarker({ version });
+      try fs.writeFileString(join2(partialDir, MARKER_FILE_NAME), `${markerJson}\n`);
+      try (fs.remove(versionDir, { recursive: true }) |> Effect.ignore(%));
+      try fs.rename(partialDir, versionDir);
+    }
+      |> Effect.ensuring(%, fs.remove(partialDir, { recursive: true, force: true }) |> Effect.ignore(%)));
+    try Effect.log(`[wsl-server-tree] Extraction complete at ${versionDir}.`);
+  }
+    |> Effect.mapError(
+      %, (cause) => new DesktopWslServerTreeExtractError({ targetDir: versionDir, cause }),
+    );
+
+  const gate = try Semaphore.make(1);
+
+  const cleanupLegacy = gate
+    .withPermits(1)(
+      needsExtraction
+        ? (do { const catchProgram = (effect {
+            // Delete completeness first: a locked Windows file can leave a half-deleted tree that must not be reused.
+            try fs.remove(join2(versionDir, MARKER_FILE_NAME), { force: true });
+            try fs.remove(treeRoot, { recursive: true, force: true });
+          }); effect { return catchProgram catch effect (cause) => try Effect.logWarning("[wsl-server-tree] Could not remove the legacy extraction cache.", {
+                treeRoot,
+                cause,
+              }) } })
+        : Effect.void,
+    )|> withSpan(%, "desktop.wslServerTree.cleanupLegacy");
+
+  const ensure: WslServerTreeResult!! = gate
+    .withPermits(1)(
+      effect {
+        if (!needsExtraction) {
+          return { ok: true, root: serverRoot } as const;
+        }
+        if (try markerMatches) {
+          try sweepStale;
+          return { ok: true, root: versionDir } as const;
+        }
+        const result = (extract
+          |> Effect.map(%, () => ({ ok: true, root: versionDir }) as const)) catch (error) => ({
+              ok: false,
+              reason: `WSL server files could not be extracted to ${versionDir}: ${
+                error.cause instanceof Error ? error.cause.message : String(error.cause)
+              }`,
+              fatal: false,
+            } as const);
+        if (result.ok) {
+          try sweepStale;
+        }
+        return result;
+      },
+    )|> withSpan(%, "desktop.wslServerTree.ensure");
+
+  return DesktopWslServerTree.of({ ensure, cleanupLegacy });
+};
+
+export const layer = Layer.effect(DesktopWslServerTree, make);
+
+export interface DesktopWslServerTreeTestStub {
+  readonly result?: WslServerTreeResult;
+  readonly cleanupLegacy?: void!!;
+}
+
+export const layerTest = (stub: DesktopWslServerTreeTestStub = {}) =>
+  Layer.effect(
+    DesktopWslServerTree,
+    effect {
+      const environment = try DesktopEnvironment.DesktopEnvironment;
+      return DesktopWslServerTree.of({
+        ensure: Effect.succeed(stub.result ?? { ok: true, root: environment.appRoot }),
+        cleanupLegacy: stub.cleanupLegacy ?? Effect.void,
+      });
+    },
+  );

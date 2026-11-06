@@ -2,7 +2,7 @@ import { type RemoteEnvironmentAuthError } from "@t3tools/client-runtime/authori
 import { SshHttpBridgeError } from "@t3tools/ssh/errors";
 import * as Schema from "effect/Schema";
 import * as DesktopIpc from "../DesktopIpc.ts";
-import * as DesktopSshEnvironment from "../../ssh/DesktopSshEnvironment.ts";
+import * as DesktopSshEnvironment from "../../ssh/DesktopSshEnvironment.vibe";
 import * as DesktopSshPasswordPrompts from "../../ssh/DesktopSshPasswordPrompts.ts";
 type DesktopSshEnvironmentRequestOperation = "fetch-environment-descriptor" | "bootstrap-bearer-session" | "fetch-session-state" | "issue-websocket-ticket";
 type DesktopSshEnvironmentRequestCause = RemoteEnvironmentAuthError | SshHttpBridgeError;

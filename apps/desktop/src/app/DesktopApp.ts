@@ -15,7 +15,7 @@ import { installDesktopIpcHandlers } from "../ipc/DesktopIpcHandlers.vibe";
 import * as DesktopAppActivation from "./DesktopAppActivation.ts";
 import * as DesktopAppIdentity from "./DesktopAppIdentity.ts";
 import * as DesktopClerk from "./DesktopClerk.ts";
-import * as DesktopApplicationMenu from "../window/DesktopApplicationMenu.ts";
+import * as DesktopApplicationMenu from "../window/DesktopApplicationMenu.vibe";
 import * as DesktopWindow from "../window/DesktopWindow.ts";
 import * as PreviewPasskeys from "../preview/Passkeys.ts";
 import * as DesktopBackendPool from "../backend/DesktopBackendPool.ts";

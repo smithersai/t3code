@@ -17,7 +17,7 @@ import * as DesktopConfig from "../app/DesktopConfig.vibe";
 import * as DesktopServerExposure from "./DesktopServerExposure.ts";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
 import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";
-import * as DesktopWslServerTree from "../wsl/DesktopWslServerTree.ts";
+import * as DesktopWslServerTree from "../wsl/DesktopWslServerTree.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerShellEnvironment = (prepared = true) =>

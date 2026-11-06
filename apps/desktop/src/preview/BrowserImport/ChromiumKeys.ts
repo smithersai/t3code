@@ -10,7 +10,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
-import { LinuxBrowserSecretPath } from "./LinuxBrowserSecret.vibe";
+import { LinuxBrowserSecretPath } from "./LinuxBrowserSecret.ts";
 
 const KEY_SALT = "saltysalt";
 const KEY_LENGTH = 16;

@@ -6,7 +6,7 @@ import * as NodePath from "node:path";
 import * as NodeURL from "node:url";
 import * as Schema from "effect/Schema";
 import type { DesktopCaptureHelperState } from "@t3tools/contracts";
-import type { LinuxWindowSnapshot } from "./LinuxSnapShot.ts";
+import type { LinuxWindowSnapshot } from "./LinuxSnapShot.vibe";
 import { readPortalPng } from "./linuxCaptureSession.ts";
 import { startNativeCaptureFeedback } from "./NativeCaptureFeedback.ts";
 import { HYPRLAND_CAPTURE_ACTION } from "./linuxCaptureSession.ts";

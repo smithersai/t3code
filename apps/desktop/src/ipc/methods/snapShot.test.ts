@@ -11,7 +11,7 @@ import {
   previewSnapShotConfig,
   applySnapShotConfig,
   snapShotRelativeFrame,
-} from "./snapShot.ts";
+} from "./snapShot.vibe";
 
 describe("window capture IPC", () => {
   const configPreview = {

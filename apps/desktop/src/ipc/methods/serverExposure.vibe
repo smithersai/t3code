@@ -2,83 +2,67 @@ import {
   AdvertisedEndpoint,
   DesktopServerExposureModeSchema,
   DesktopServerExposureStateSchema,
-} from "@t3tools/contracts"
-import * as Schema from "effect/Schema"
+} from "@t3tools/contracts";
+import * as Schema from "effect/Schema";
 
-import * as DesktopLifecycle from "../../app/DesktopLifecycle.ts"
-import * as DesktopServerExposure from "../../backend/DesktopServerExposure.ts"
-import * as IpcChannels from "../channels.ts"
-import * as DesktopIpc from "../DesktopIpc.ts"
+import * as DesktopLifecycle from "../../app/DesktopLifecycle.ts";
+import * as DesktopServerExposure from "../../backend/DesktopServerExposure.ts";
+import * as IpcChannels from "../channels.ts";
+import * as DesktopIpc from "../DesktopIpc.ts";
 
 const SetTailscaleServeEnabledInput = Schema.Struct({
   enabled: Schema.Boolean,
   port: Schema.optionalKey(Schema.Number),
-})
+});
 
 export const getServerExposureState = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.GET_SERVER_EXPOSURE_STATE_CHANNEL,
   payload: Schema.Void,
   result: DesktopServerExposureStateSchema,
-  handler: effect () =>
-    try withSpan(
-      effect {
-        const serverExposure = try DesktopServerExposure.DesktopServerExposure
-        return try serverExposure.getState
-      },
-      "desktop.ipc.serverExposure.getState",
-    ),
-})
+  handler: effect (): { readonly mode: "local-only" | "network-accessible"; readonly endpointUrl: string | null; readonly advertisedHost: string | null; readonly tailscaleServeEnabled: boolean; readonly tailscaleServePort: number; }!never!DesktopServerExposure.DesktopServerExposure => try withSpan((effect (): { readonly mode: "local-only" | "network-accessible"; readonly endpointUrl: string | null; readonly advertisedHost: string | null; readonly tailscaleServeEnabled: boolean; readonly tailscaleServePort: number; }!never!DesktopServerExposure.DesktopServerExposure => {
+    const serverExposure = try DesktopServerExposure.DesktopServerExposure;
+    return try serverExposure.getState;
+  })(), "desktop.ipc.serverExposure.getState"),
+});
 
 export const setServerExposureMode = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.SET_SERVER_EXPOSURE_MODE_CHANNEL,
   payload: DesktopServerExposureModeSchema,
   result: DesktopServerExposureStateSchema,
-  handler: effect (mode) =>
-    try withSpan(
-      effect {
-        const lifecycle = try DesktopLifecycle.DesktopLifecycle
-        const serverExposure = try DesktopServerExposure.DesktopServerExposure
-        const change = try serverExposure.setMode(mode)
-        if (change.requiresRelaunch) {
-          try lifecycle.relaunch(`serverExposureMode=${mode}`)
-        }
-        return change.state
-      },
-      "desktop.ipc.serverExposure.setMode",
-    ),
-})
+  handler: effect (mode): { readonly mode: "local-only" | "network-accessible"; readonly endpointUrl: string | null; readonly advertisedHost: string | null; readonly tailscaleServeEnabled: boolean; readonly tailscaleServePort: number; }!(DesktopServerExposure.DesktopServerExposureModePersistenceError | DesktopServerExposure.DesktopServerExposureNoNetworkAddressError)!(DesktopLifecycle.DesktopLifecycle | DesktopServerExposure.DesktopServerExposure | DesktopLifecycle.DesktopLifecycleRuntimeServices) => try withSpan((effect (): { readonly mode: "local-only" | "network-accessible"; readonly endpointUrl: string | null; readonly advertisedHost: string | null; readonly tailscaleServeEnabled: boolean; readonly tailscaleServePort: number; }!(DesktopServerExposure.DesktopServerExposureModePersistenceError | DesktopServerExposure.DesktopServerExposureNoNetworkAddressError)!(DesktopLifecycle.DesktopLifecycle | DesktopServerExposure.DesktopServerExposure | DesktopLifecycle.DesktopLifecycleRuntimeServices) => {
+    const lifecycle = try DesktopLifecycle.DesktopLifecycle;
+    const serverExposure = try DesktopServerExposure.DesktopServerExposure;
+    const change = try serverExposure.setMode(mode);
+    if (change.requiresRelaunch) {
+      try lifecycle.relaunch(`serverExposureMode=${mode}`);
+    }
+    return change.state;
+  })(), "desktop.ipc.serverExposure.setMode"),
+});
 
 export const setTailscaleServeEnabled = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.SET_TAILSCALE_SERVE_ENABLED_CHANNEL,
   payload: SetTailscaleServeEnabledInput,
   result: DesktopServerExposureStateSchema,
-  handler: effect (input) =>
-    try withSpan(
-      effect {
-        const lifecycle = try DesktopLifecycle.DesktopLifecycle
-        const serverExposure = try DesktopServerExposure.DesktopServerExposure
-        const change = try serverExposure.setTailscaleServeEnabled(input)
-        if (change.requiresRelaunch) {
-          try lifecycle.relaunch(
-            change.state.tailscaleServeEnabled ? "tailscale-serve-enabled" : "tailscale-serve-disabled",
-          )
-        }
-        return change.state
-      },
-      "desktop.ipc.serverExposure.setTailscaleServeEnabled",
-    ),
-})
+  handler: effect (input): { readonly mode: "local-only" | "network-accessible"; readonly endpointUrl: string | null; readonly advertisedHost: string | null; readonly tailscaleServeEnabled: boolean; readonly tailscaleServePort: number; }!DesktopServerExposure.DesktopTailscaleServePersistenceError!(DesktopLifecycle.DesktopLifecycle | DesktopServerExposure.DesktopServerExposure | DesktopLifecycle.DesktopLifecycleRuntimeServices) => try withSpan((effect (): { readonly mode: "local-only" | "network-accessible"; readonly endpointUrl: string | null; readonly advertisedHost: string | null; readonly tailscaleServeEnabled: boolean; readonly tailscaleServePort: number; }!DesktopServerExposure.DesktopTailscaleServePersistenceError!(DesktopLifecycle.DesktopLifecycle | DesktopServerExposure.DesktopServerExposure | DesktopLifecycle.DesktopLifecycleRuntimeServices) => {
+    const lifecycle = try DesktopLifecycle.DesktopLifecycle;
+    const serverExposure = try DesktopServerExposure.DesktopServerExposure;
+    const change = try serverExposure.setTailscaleServeEnabled(input);
+    if (change.requiresRelaunch) {
+      try lifecycle.relaunch(
+        change.state.tailscaleServeEnabled ? "tailscale-serve-enabled" : "tailscale-serve-disabled",
+      );
+    }
+    return change.state;
+  })(), "desktop.ipc.serverExposure.setTailscaleServeEnabled"),
+});
 
 export const getAdvertisedEndpoints = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.GET_ADVERTISED_ENDPOINTS_CHANNEL,
   payload: Schema.Void,
   result: Schema.Array(AdvertisedEndpoint),
-  handler: effect () =>
-    try withSpan(
-      effect {
-        const serverExposure = try DesktopServerExposure.DesktopServerExposure
-        return try serverExposure.getAdvertisedEndpoints
-      },
-      "desktop.ipc.serverExposure.getAdvertisedEndpoints",
-    ),
-})
+  handler: effect (): readonly { readonly id: string; readonly label: string; readonly provider: { readonly id: string; readonly label: string; readonly kind: "core" | "manual" | "private-network" | "tunnel"; readonly isAddon: boolean; }; readonly httpBaseUrl: string; readonly wsBaseUrl: string; readonly reachability: "lan" | "loopback" | "private-network" | "public"; readonly compatibility: { readonly hostedHttpsApp: "compatible" | "mixed-content-blocked" | "requires-configuration" | "unknown"; readonly desktopApp: "compatible" | "unknown"; }; readonly source: "desktop-addon" | "desktop-core" | "server" | "user"; readonly status: "available" | "unavailable" | "unknown"; readonly isDefault?: boolean | undefined; readonly description?: string | undefined; }[]!never!DesktopServerExposure.DesktopServerExposure => try withSpan((effect (): readonly { readonly id: string; readonly label: string; readonly provider: { readonly id: string; readonly label: string; readonly kind: "core" | "manual" | "private-network" | "tunnel"; readonly isAddon: boolean; }; readonly httpBaseUrl: string; readonly wsBaseUrl: string; readonly reachability: "lan" | "loopback" | "private-network" | "public"; readonly compatibility: { readonly hostedHttpsApp: "compatible" | "mixed-content-blocked" | "requires-configuration" | "unknown"; readonly desktopApp: "compatible" | "unknown"; }; readonly source: "desktop-addon" | "desktop-core" | "server" | "user"; readonly status: "available" | "unavailable" | "unknown"; readonly isDefault?: boolean | undefined; readonly description?: string | undefined; }[]!never!DesktopServerExposure.DesktopServerExposure => {
+    const serverExposure = try DesktopServerExposure.DesktopServerExposure;
+    return try serverExposure.getAdvertisedEndpoints;
+  })(), "desktop.ipc.serverExposure.getAdvertisedEndpoints"),
+});

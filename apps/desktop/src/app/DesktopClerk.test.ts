@@ -36,7 +36,7 @@ import * as ElectronWindow from "../electron/ElectronWindow.ts";
 import * as DesktopClerk from "./DesktopClerk.ts";
 import * as DesktopWebLinks from "./DesktopWebLinks.ts";
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
-import * as DesktopPreReadyFileSystem from "./DesktopPreReadyFileSystem.ts";
+import * as DesktopPreReadyFileSystem from "./DesktopPreReadyFileSystem.vibe";
 
 const ignoreWebLinks = DesktopWebLinks.DesktopWebLinks.of({
   receive: () => Effect.void,

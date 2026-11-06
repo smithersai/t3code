@@ -117,7 +117,7 @@ const {
   getSourcesMock: vi.fn(),
   macCaptureMock: vi.fn(),
   linuxCaptureMock: vi.fn<
-    () => Promise<import("./LinuxSnapShot.ts").LinuxWindowSnapshot | undefined>
+    () => Promise<import("./LinuxSnapShot.vibe").LinuxWindowSnapshot | undefined>
   >(async () => undefined),
   linuxBackendMock: vi.fn(async () => "picker"),
   niriShortcutStopMock: vi.fn(),
@@ -174,7 +174,7 @@ vi.mock("./SnapShotAccessibilityProcess.ts", () => ({
     close: accessibilityProcessCloseMock,
   }),
 }));
-vi.mock("./ActiveWindow.ts", () => ({ activeWindow: activeWindowMock }));
+vi.mock("./ActiveWindow.vibe", () => ({ activeWindow: activeWindowMock }));
 vi.mock("./RegionSnapShot.ts", async (original) => ({
   ...(await original<typeof import("./RegionSnapShot.ts")>()),
   makeRegionSnapShotPool: () => ({
@@ -188,7 +188,7 @@ vi.mock("./WindowsCaptureFeedback.ts", () => ({
   showWindowsCaptureOverlay: (window: Electron.BaseWindow) => window.showInactive(),
 }));
 vi.mock("./MacSnapShot.ts", () => ({ captureMacWindowSnapshot: macCaptureMock }));
-vi.mock("./LinuxSnapShot.ts", () => ({
+vi.mock("./LinuxSnapShot.vibe", () => ({
   captureLinuxWindow: linuxCaptureMock,
   getLinuxCaptureSupport: async () => ({
     linuxBackend: await linuxBackendMock(),

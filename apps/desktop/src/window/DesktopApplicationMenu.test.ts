@@ -9,7 +9,7 @@ import type * as Electron from "electron";
 import * as ElectronApp from "../electron/ElectronApp.ts";
 import * as ElectronDialog from "../electron/ElectronDialog.ts";
 import * as ElectronMenu from "../electron/ElectronMenu.ts";
-import * as DesktopApplicationMenu from "./DesktopApplicationMenu.ts";
+import * as DesktopApplicationMenu from "./DesktopApplicationMenu.vibe";
 import * as DesktopConfig from "../app/DesktopConfig.vibe";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
 import * as DesktopUpdates from "../updates/DesktopUpdates.ts";

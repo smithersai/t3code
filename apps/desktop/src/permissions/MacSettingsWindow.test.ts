@@ -1,6 +1,6 @@
 import * as NodeEvents from "node:events";
 import { beforeEach, expect, it, vi } from "vite-plus/test";
-import { watchMacSettingsWindow } from "./MacSettingsWindow.ts";
+import { watchMacSettingsWindow } from "./MacSettingsWindow.vibe";
 
 const mocks = vi.hoisted(() => ({ spawn: vi.fn() }));
 vi.mock("node:child_process", () => ({ spawn: mocks.spawn }));

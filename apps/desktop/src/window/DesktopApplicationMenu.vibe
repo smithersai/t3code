@@ -1,7 +1,6 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
 import type * as Electron from "electron";
@@ -13,24 +12,18 @@ import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
 import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
 import * as DesktopWindow from "./DesktopWindow.ts";
 
-export class DesktopApplicationMenuActionError extends Schema.TaggedError<DesktopApplicationMenuActionError>()(
-  "DesktopApplicationMenuActionError",
-  {
-    action: Schema.String,
-    cause: Schema.Defect(),
-  },
-) {
+const DesktopApplicationMenuActionErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error DesktopApplicationMenuActionError {
+  readonly action: string
+  cause: DesktopApplicationMenuActionErrorCauseField
   override get message(): string {
     return `Desktop menu action "${this.action}" failed.`;
   }
 }
 
-export class DesktopApplicationMenu extends Context.Service<
-  DesktopApplicationMenu,
-  {
-    readonly configure: Effect.Effect<void>;
-  }
->()("@t3tools/desktop/window/DesktopApplicationMenu") {}
+export service DesktopApplicationMenu: {
+  readonly configure: void!!;
+} { static readonly key = "@t3tools/desktop/window/DesktopApplicationMenu" }
 
 type DesktopApplicationMenuRuntimeServices =
   | DesktopUpdates.DesktopUpdates
@@ -41,44 +34,44 @@ const { logInfo: logUpdaterInfo } = makeComponentLogger("desktop-updater");
 
 const { logError: logMenuError } = makeComponentLogger("desktop-menu");
 
-const dispatchMenuAction = Effect.fn("desktop.menu.dispatchMenuAction")(function* (
+const dispatchMenuAction = effect (
   action: string,
-): Effect.fn.Return<void, DesktopWindow.DesktopWindowError, DesktopWindow.DesktopWindow> {
-  const desktopWindow = yield* DesktopWindow.DesktopWindow;
-  yield* desktopWindow.dispatchMenuAction(action, {
+): void!DesktopWindow.DesktopWindowError!DesktopWindow.DesktopWindow => try withSpan((effect (): void!DesktopWindow.DesktopWindowError!DesktopWindow.DesktopWindow => {
+  const desktopWindow = try DesktopWindow.DesktopWindow;
+  try desktopWindow.dispatchMenuAction(action, {
     reveal: action !== "paste-as-text",
   });
-});
+})(), "desktop.menu.dispatchMenuAction");
 
-const zoomMainWindow = Effect.fn("desktop.menu.zoomMainWindow")(function* (
+const zoomMainWindow = effect (
   direction: DesktopWindow.MainWindowZoomDirection,
-): Effect.fn.Return<void, never, DesktopWindow.DesktopWindow> {
-  const desktopWindow = yield* DesktopWindow.DesktopWindow;
-  yield* desktopWindow.zoomMain(direction);
-});
+): void!!DesktopWindow.DesktopWindow => try withSpan((effect (): void!!DesktopWindow.DesktopWindow => {
+  const desktopWindow = try DesktopWindow.DesktopWindow;
+  try desktopWindow.zoomMain(direction);
+})(), "desktop.menu.zoomMainWindow");
 
-const runMainContentsCommand = Effect.fn("desktop.menu.runMainContentsCommand")(function* (
+const runMainContentsCommand = effect (
   command: DesktopWindow.MainWindowContentsCommand,
-): Effect.fn.Return<void, never, DesktopWindow.DesktopWindow> {
-  const desktopWindow = yield* DesktopWindow.DesktopWindow;
-  yield* desktopWindow.runMainContentsCommand(command);
-});
+): void!!DesktopWindow.DesktopWindow => try withSpan((effect (): void!!DesktopWindow.DesktopWindow => {
+  const desktopWindow = try DesktopWindow.DesktopWindow;
+  try desktopWindow.runMainContentsCommand(command);
+})(), "desktop.menu.runMainContentsCommand");
 
-const checkForUpdatesFromMenu = Effect.gen(function* () {
-  const updates = yield* DesktopUpdates.DesktopUpdates;
-  const electronDialog = yield* ElectronDialog.ElectronDialog;
-  const result = yield* updates.check("menu");
+const checkForUpdatesFromMenu = effect {
+  const updates = try DesktopUpdates.DesktopUpdates;
+  const electronDialog = try ElectronDialog.ElectronDialog;
+  const result = try updates.check("menu");
   const updateState = result.state;
 
   if (updateState.status === "up-to-date") {
-    yield* electronDialog.showMessageBox({
+    try electronDialog.showMessageBox({
       type: "info",
       title: "You're up to date!",
       message: `T3 Code ${updateState.currentVersion} is currently the newest version available.`,
       buttons: ["OK"],
     });
   } else if (updateState.status === "error") {
-    yield* electronDialog.showMessageBox({
+    try electronDialog.showMessageBox({
       type: "warning",
       title: "Update check failed",
       message: "Could not check for updates.",
@@ -86,17 +79,17 @@ const checkForUpdatesFromMenu = Effect.gen(function* () {
       buttons: ["OK"],
     });
   }
-}).pipe(Effect.withSpan("desktop.menu.checkForUpdates"));
+} |> Effect.withSpan(%, "desktop.menu.checkForUpdates");
 
-const handleCheckForUpdatesMenuClick = Effect.gen(function* () {
-  const updates = yield* DesktopUpdates.DesktopUpdates;
-  const electronDialog = yield* ElectronDialog.ElectronDialog;
-  const disabledReason = yield* updates.disabledReason;
+const handleCheckForUpdatesMenuClick = effect {
+  const updates = try DesktopUpdates.DesktopUpdates;
+  const electronDialog = try ElectronDialog.ElectronDialog;
+  const disabledReason = try updates.disabledReason;
   if (Option.isSome(disabledReason)) {
-    yield* logUpdaterInfo("manual update check requested, but updates are disabled", {
+    try logUpdaterInfo("manual update check requested, but updates are disabled", {
       disabledReason: disabledReason.value,
     });
-    yield* electronDialog.showMessageBox({
+    try electronDialog.showMessageBox({
       type: "info",
       title: "Updates unavailable",
       message: "Automatic updates are not available right now.",
@@ -107,35 +100,34 @@ const handleCheckForUpdatesMenuClick = Effect.gen(function* () {
   }
 
   // Opening a window before backend confirmation can strand it on failed auth bootstrap.
-  const desktopWindow = yield* DesktopWindow.DesktopWindow;
-  yield* desktopWindow.activate;
-  yield* checkForUpdatesFromMenu;
-}).pipe(Effect.withSpan("desktop.menu.handleCheckForUpdatesClick"));
+  const desktopWindow = try DesktopWindow.DesktopWindow;
+  try desktopWindow.activate;
+  try checkForUpdatesFromMenu;
+} |> Effect.withSpan(%, "desktop.menu.handleCheckForUpdatesClick");
 
 /** @public */
-export const make = Effect.gen(function* () {
-  const electronMenu = yield* ElectronMenu.ElectronMenu;
-  const environment = yield* DesktopEnvironment.DesktopEnvironment;
-  const context = yield* Effect.context<DesktopApplicationMenuRuntimeServices>();
+export const make = effect {
+  const electronMenu = try ElectronMenu.ElectronMenu;
+  const environment = try DesktopEnvironment.DesktopEnvironment;
+  const context = try Effect.context<DesktopApplicationMenuRuntimeServices>();
   const runPromise = Effect.runPromiseWith(context);
 
   const runMenuEffect = <E>(
     action: string,
-    effect: Effect.Effect<void, E, DesktopApplicationMenuRuntimeServices>,
+    effect: void!E!DesktopApplicationMenuRuntimeServices,
   ) => {
     void runPromise(
-      effect.pipe(
-        Effect.annotateLogs({ action }),
-        Effect.withSpan("desktop.menu.action"),
-        Effect.catchCause((cause) => {
+      effect
+        |> Effect.annotateLogs({ action })(%)
+        |> withSpan(%, "desktop.menu.action")
+        |> Effect.catchCause(%, (cause) => {
           const error = new DesktopApplicationMenuActionError({ action, cause });
           return logMenuError(error.message, { error });
         }),
-      ),
     );
   };
 
-  const configure = Effect.gen(function* () {
+  const configure = effect {
     const checkForUpdatesClick = () => {
       runMenuEffect("check-for-updates", handleCheckForUpdatesMenuClick);
     };
@@ -314,12 +306,12 @@ export const make = Effect.gen(function* () {
       },
     );
 
-    yield* electronMenu.setApplicationMenu(template);
-  }).pipe(Effect.withSpan("desktop.menu.configure"));
+    try electronMenu.setApplicationMenu(template);
+  } |> withSpan(%, "desktop.menu.configure");
 
   return DesktopApplicationMenu.of({
     configure,
   });
-});
+};
 
 export const layer = Layer.effect(DesktopApplicationMenu, make);

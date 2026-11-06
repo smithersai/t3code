@@ -1,4 +1,4 @@
-import { Context } from "effect";
+import * as Context from "effect/Context";
 import * as Layer from "effect/Layer";
 import * as Ref from "effect/Ref";
 import * as SubscriptionRef from "effect/SubscriptionRef";

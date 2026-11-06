@@ -1,5 +1,5 @@
-import { Context } from "effect";
 import { type DesktopTheme } from "@t3tools/contracts";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";

@@ -1,47 +1,35 @@
-import * as Schema from "effect/Schema"
+import * as Schema from "effect/Schema";
 
-import * as DesktopConnectionCatalogStore from "../../app/DesktopConnectionCatalogStore.ts"
-import * as IpcChannels from "../channels.ts"
-import * as DesktopIpc from "../DesktopIpc.ts"
+import * as DesktopConnectionCatalogStore from "../../app/DesktopConnectionCatalogStore.ts";
+import * as IpcChannels from "../channels.ts";
+import * as DesktopIpc from "../DesktopIpc.ts";
 
 export const getConnectionCatalog = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.GET_CONNECTION_CATALOG_CHANNEL,
   payload: Schema.Void,
   result: Schema.NullOr(Schema.String),
-  handler: effect () =>
-    try withSpan(
-      effect {
-        const store = try DesktopConnectionCatalogStore.DesktopConnectionCatalogStore
-        return Option.getOrNull(try store.get)
-      },
-      "desktop.ipc.connectionCatalog.get",
-    ),
-})
+  handler: effect (): (string | null)!(DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreDecodeError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreDocumentDecodeError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreMigrationError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreProtectionError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreReadError)!DesktopConnectionCatalogStore.DesktopConnectionCatalogStore => try withSpan((effect (): (string | null)!(DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreDecodeError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreDocumentDecodeError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreMigrationError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreProtectionError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreReadError)!DesktopConnectionCatalogStore.DesktopConnectionCatalogStore => {
+    const store = try DesktopConnectionCatalogStore.DesktopConnectionCatalogStore;
+    return Option.getOrNull(try store.get);
+  })(), "desktop.ipc.connectionCatalog.get"),
+});
 
 export const setConnectionCatalog = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.SET_CONNECTION_CATALOG_CHANNEL,
   payload: Schema.String,
   result: Schema.Boolean,
-  handler: effect (catalog) =>
-    try withSpan(
-      effect {
-        const store = try DesktopConnectionCatalogStore.DesktopConnectionCatalogStore
-        return try store.set(catalog)
-      },
-      "desktop.ipc.connectionCatalog.set",
-    ),
-})
+  handler: effect (catalog): boolean!(DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreProtectionError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreWriteError)!DesktopConnectionCatalogStore.DesktopConnectionCatalogStore => try withSpan((effect (): boolean!(DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreProtectionError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreWriteError)!DesktopConnectionCatalogStore.DesktopConnectionCatalogStore => {
+    const store = try DesktopConnectionCatalogStore.DesktopConnectionCatalogStore;
+    return try store.set(catalog);
+  })(), "desktop.ipc.connectionCatalog.set"),
+});
 
 export const clearConnectionCatalog = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.CLEAR_CONNECTION_CATALOG_CHANNEL,
   payload: Schema.Void,
   result: Schema.Void,
-  handler: effect () =>
-    try withSpan(
-      effect {
-        const store = try DesktopConnectionCatalogStore.DesktopConnectionCatalogStore
-        try store.clear
-      },
-      "desktop.ipc.connectionCatalog.clear",
-    ),
-})
+  handler: effect (): void!never!DesktopConnectionCatalogStore.DesktopConnectionCatalogStore => try withSpan((effect (): void!never!DesktopConnectionCatalogStore.DesktopConnectionCatalogStore => {
+    const store = try DesktopConnectionCatalogStore.DesktopConnectionCatalogStore;
+    try store.clear;
+  })(), "desktop.ipc.connectionCatalog.clear"),
+});

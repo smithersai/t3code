@@ -32,7 +32,7 @@ import * as Schema from "effect/Schema"
 
 import * as IpcChannels from "../channels.ts"
 import * as DesktopIpc from "../DesktopIpc.ts"
-import * as DesktopSshEnvironment from "../../ssh/DesktopSshEnvironment.ts"
+import * as DesktopSshEnvironment from "../../ssh/DesktopSshEnvironment.vibe"
 import * as DesktopSshPasswordPrompts from "../../ssh/DesktopSshPasswordPrompts.ts"
 
 type DesktopSshEnvironmentRequestOperation =
