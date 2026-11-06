@@ -14,7 +14,7 @@ import {
 } from "@t3tools/shared/desktopBootstrapToken";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as DesktopBackendPool from "./DesktopBackendPool.ts";
+import * as DesktopBackendPool from "./DesktopBackendPool.vibe";
 import * as DesktopLocalEnvironmentAuth from "./DesktopLocalEnvironmentAuth.vibe";
 
 const config = {

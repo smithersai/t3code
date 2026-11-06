@@ -8,7 +8,7 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import * as HttpClient from "effect/http/HttpClient";
 
-import * as DesktopBackendPool from "./DesktopBackendPool.ts";
+import * as DesktopBackendPool from "./DesktopBackendPool.vibe";
 
 const BOOTSTRAP_TRANSIENT_RETRY_TIMEOUT = Duration.seconds(15);
 const BOOTSTRAP_TRANSIENT_RETRY_INTERVAL = Duration.millis(500);

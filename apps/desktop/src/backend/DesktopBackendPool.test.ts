@@ -18,7 +18,7 @@ import * as ElectronApp from "../electron/ElectronApp.ts";
 import * as DesktopWindow from "../window/DesktopWindow.ts";
 import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";
 import * as DesktopBackendConfiguration from "./DesktopBackendConfiguration.ts";
-import * as DesktopBackendPool from "./DesktopBackendPool.ts";
+import * as DesktopBackendPool from "./DesktopBackendPool.vibe";
 import type { DesktopBackendStartConfig } from "./DesktopBackendManager.vibe";
 
 function layerPool(labelRef: Ref.Ref<string>): Layer.Layer<DesktopBackendPool.DesktopBackendPool> {
