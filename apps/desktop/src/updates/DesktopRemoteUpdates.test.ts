@@ -19,7 +19,7 @@ import * as ElectronUpdater from "../electron/ElectronUpdater.vibe";
 import * as DesktopState from "../app/DesktopState.vibe";
 import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.ts";
 import * as DesktopRemoteUpdates from "./DesktopRemoteUpdates.vibe";
-import * as DesktopUpdates from "./DesktopUpdates.vibe";
+import * as DesktopUpdates from "./DesktopUpdates.ts";
 import { makeHarness } from "./updatesTestHarness.ts";
 
 // Updater runPromise handlers need real microtasks between test-runtime fiber yields.

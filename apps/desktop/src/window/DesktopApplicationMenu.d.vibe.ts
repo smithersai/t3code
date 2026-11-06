@@ -5,8 +5,8 @@ import * as Schema from "effect/Schema";
 import * as ElectronDialog from "../electron/ElectronDialog.vibe";
 import * as ElectronMenu from "../electron/ElectronMenu.vibe";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as DesktopUpdates from "../updates/DesktopUpdates.vibe";
-import * as DesktopWindow from "./DesktopWindow.vibe";
+import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
+import * as DesktopWindow from "./DesktopWindow.ts";
 declare const DesktopApplicationMenuActionError_base: Schema.Class<DesktopApplicationMenuActionError, Schema.TaggedStruct<"DesktopApplicationMenuActionError", {
     readonly action: Schema.String;
     readonly cause: Schema.Defect;

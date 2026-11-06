@@ -1,13 +1,16 @@
+import * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
+import * as Ref from "effect/Ref";
+import * as Semaphore from "effect/Semaphore";
 
 import * as NetService from "@t3tools/shared/Net";
 
 import * as DesktopObservability from "../app/DesktopObservability.ts";
 import * as DesktopBackendConfiguration from "../backend/DesktopBackendConfiguration.ts";
-import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe";
+import * as DesktopBackendPool from "../backend/DesktopBackendPool.ts";
 import * as DesktopServerExposure from "../backend/DesktopServerExposure.vibe";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
 import * as DesktopWslEnvironment from "./DesktopWslEnvironment.ts";
@@ -16,10 +19,13 @@ export const WSL_INSTANCE_ID_PREFIX = "wsl:";
 const WSL_DEFAULT_DISTRO_ID = `${WSL_INSTANCE_ID_PREFIX}default`;
 const MAX_TCP_PORT = 65_535;
 
-export service DesktopWslBackend: {
-  readonly reconcile: void!!;
-  readonly lastPreflightError: Effect.Effect<Option.Option<string>>;
-} { static readonly key = "@t3tools/desktop/wsl/DesktopWslBackend" }
+export class DesktopWslBackend extends Context.Service<
+  DesktopWslBackend,
+  {
+    readonly reconcile: Effect.Effect<void>;
+    readonly lastPreflightError: Effect.Effect<Option.Option<string>>;
+  }
+>()("@t3tools/desktop/wsl/DesktopWslBackend") {}
 
 const { logInfo: logWslBackendInfo, logWarning: logWslBackendWarning } =
   DesktopObservability.makeComponentLogger("desktop-wsl-backend");
@@ -36,56 +42,66 @@ const buildLabel = (distro: string | null): string =>
   distro === null ? "WSL (default distro)" : `WSL (${distro})`;
 
 // WSL auto-forwards loopback ports, so only IPv4 loopback availability matters.
-const scanForWslPort = effect (
+const scanForWslPort = Effect.fn("desktop.wslBackend.scanForWslPort")(function* (
   startPort: number,
-): number!NetService.NetError!NetService.NetService => try withSpan((effect (): number!NetService.NetError!NetService.NetService => {
-  const net = try NetService.NetService;
+): Effect.fn.Return<number, NetService.NetError, NetService.NetService> {
+  const net = yield* NetService.NetService;
   for (let port = startPort; port <= MAX_TCP_PORT; port += 1) {
-    if (try net.canListenOnHost(port, "127.0.0.1")) {
+    if (yield* net.canListenOnHost(port, "127.0.0.1")) {
       return port;
     }
   }
-  throw new NetService.NetError({
+  return yield* new NetService.NetError({
     message: `No loopback port available for WSL backend between ${startPort} and ${MAX_TCP_PORT}.`,
   });
-})(), "desktop.wslBackend.scanForWslPort");
+});
 
 export const layer = Layer.effect(
   DesktopWslBackend,
-  effect {
-    const pool = try DesktopBackendPool.DesktopBackendPool;
-    const configuration = try DesktopBackendConfiguration.DesktopBackendConfiguration;
-    const serverExposure = try DesktopServerExposure.DesktopServerExposure;
-    const wslEnvironment = try DesktopWslEnvironment.DesktopWslEnvironment;
-    const appSettings = try DesktopAppSettings.DesktopAppSettings;
-    const net = try NetService.NetService;
+  Effect.gen(function* () {
+    const pool = yield* DesktopBackendPool.DesktopBackendPool;
+    const configuration = yield* DesktopBackendConfiguration.DesktopBackendConfiguration;
+    const serverExposure = yield* DesktopServerExposure.DesktopServerExposure;
+    const wslEnvironment = yield* DesktopWslEnvironment.DesktopWslEnvironment;
+    const appSettings = yield* DesktopAppSettings.DesktopAppSettings;
+    const net = yield* NetService.NetService;
     // Serialize bootstrap and IPC reconciles so concurrent reads cannot register competing WSL instances.
-    const reconcileMutex = try Semaphore.make(1);
+    const reconcileMutex = yield* Semaphore.make(1);
 
-    const preflightErrorRef = try Ref.make(Option.none<string>());
-    const ownershipRefusedRef = try Ref.make(
+    const preflightErrorRef = yield* Ref.make(Option.none<string>());
+    const ownershipRefusedRef = yield* Ref.make(
       Option.none<DesktopBackendPool.BackendInstanceId>(),
     );
 
-    const findExistingWslInstance = pool.list
-      |> Effect.map(%, (instances) => instances.find((instance) => isWslInstanceId(instance.id)))
-      |> Effect.map(%, Option.fromNullishOr);
+    const findExistingWslInstance = pool.list.pipe(
+      Effect.map((instances) => instances.find((instance) => isWslInstanceId(instance.id))),
+      Effect.map(Option.fromNullishOr),
+    );
 
     const stopExisting = (id: DesktopBackendPool.BackendInstanceId) =>
-      do { const catchProgram = pool.unregister(id); effect { return catchProgram catch effect (cause) => match (cause) {
-        when { _tag: "DesktopBackendPoolCannotUnregisterPrimaryError" }: try logWslBackendWarning("refusing to unregister primary as wsl instance", {
+      pool.unregister(id).pipe(
+        Effect.catchTags({
+          DesktopBackendPoolCannotUnregisterPrimaryError: (cause) =>
+            logWslBackendWarning("refusing to unregister primary as wsl instance", {
               id,
               error: cause.message,
-            });
-      } } };
+            }),
+        }),
+      );
 
-    const startNew = effect (input: { readonly distro: string | null; }) => try withSpan(effect {
-      const primaryConfig = try serverExposure.backendConfig;
-      const port = (scanForWslPort(primaryConfig.port + 1)
-        |> Effect.provideService(%, NetService.NetService, net)
-        |> Effect.asSome(%)) catch effect (error) => try (logWslBackendWarning("could not allocate port for WSL backend", {
+    const startNew = Effect.fn("desktop.wslBackend.startNew")(function* (input: {
+      readonly distro: string | null;
+    }) {
+      const primaryConfig = yield* serverExposure.backendConfig;
+      const port = yield* scanForWslPort(primaryConfig.port + 1).pipe(
+        Effect.provideService(NetService.NetService, net),
+        Effect.asSome,
+        Effect.catch((error) =>
+          logWslBackendWarning("could not allocate port for WSL backend", {
             error: error.message,
-          }) |> Effect.as(%, Option.none<number>()));
+          }).pipe(Effect.as(Option.none<number>())),
+        ),
+      );
 
       if (Option.isNone(port)) {
         return;
@@ -93,49 +109,56 @@ export const layer = Layer.effect(
       const allocatedPort = port.value;
 
       const targetId = resolveTargetInstanceId(input.distro);
-      try logWslBackendInfo("registering WSL backend with pool", {
+      yield* logWslBackendInfo("registering WSL backend with pool", {
         id: targetId,
         port: allocatedPort,
         distro: input.distro ?? null,
       });
 
-      const instance = (pool
+      const instance = yield* pool
         .register({
           id: targetId,
           label: Effect.succeed(buildLabel(input.distro)),
           configResolve: configuration.resolveWsl({ port: allocatedPort, distro: input.distro }),
           onPreflightFailed: (failure) =>
-            Ref.set(preflightErrorRef, Option.some(failure.reason)) |> Effect.as(%, false),
+            Ref.set(preflightErrorRef, Option.some(failure.reason)).pipe(Effect.as(false)),
           onStateDirOwned: () =>
-            Ref.set(ownershipRefusedRef, Option.some(targetId))
-              |> Effect.andThen(
-                %, Ref.set(
+            Ref.set(ownershipRefusedRef, Option.some(targetId)).pipe(
+              Effect.andThen(
+                Ref.set(
                   preflightErrorRef,
                   Option.some(
                     "Another T3 Code server is using this distro's T3 home, or an older background service is set up for it. Stop that server or pair with it, or try `t3 update` in the distro. If the older launcher cannot update, run `t3 service uninstall` and optionally reinstall with `t3 service install` from a current CLI in the distro. Use `npx t3@latest` if `t3` is missing or outdated, and pass `--base-dir` with the service's T3 home to each command.",
                   ),
                 ),
               ),
+            ),
           onReady: () =>
-            Ref.set(ownershipRefusedRef, Option.none())
-              |> Effect.andThen(%, Ref.set(preflightErrorRef, Option.none())),
+            Ref.set(ownershipRefusedRef, Option.none()).pipe(
+              Effect.andThen(Ref.set(preflightErrorRef, Option.none())),
+            ),
         })
-          |> Effect.asSome(%)) catch effect (error) => try (logWslBackendWarning("WSL backend already registered, skipping start", {
+        .pipe(
+          Effect.asSome,
+          Effect.catch((error) =>
+            logWslBackendWarning("WSL backend already registered, skipping start", {
               id: targetId,
               error: error.message,
-            }) |> Effect.as(%, Option.none<DesktopBackendPool.DesktopBackendInstance>()));
+            }).pipe(Effect.as(Option.none<DesktopBackendPool.DesktopBackendInstance>())),
+          ),
+        );
 
-      { const $optionSubject = instance; const $optionHandlers: { onNone: () => void!never!never; onSome: (registered: import("../backend/DesktopBackendManager.ts").DesktopBackendInstance) => void!never!never; } = {
+      yield* Option.match(instance, {
         onNone: () => Effect.void,
         onSome: (registered) => registered.start,
-      }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): try $optionSome($optionValue); default: try $optionNone(); }; };
-    }, "desktop.wslBackend.startNew");
+      });
+    });
 
-    const reconcileBody = effect {
-      const settings = try appSettings.get;
+    const reconcileBody = Effect.gen(function* () {
+      const settings = yield* appSettings.get;
       if (!settings.localEnvironmentEnabled) return;
-      const available = try wslEnvironment.isAvailable;
-      const existing = try findExistingWslInstance;
+      const available = yield* wslEnvironment.isAvailable;
+      const existing = yield* findExistingWslInstance;
       const existingId = Option.map(existing, (instance) => instance.id);
 
       // In wsl-only mode WSL is already primary; do not start a second backend on the same distro.
@@ -153,44 +176,46 @@ export const layer = Layer.effect(
         targetId.value === existing.value.id
       ) {
         const existingInstance = existing.value;
-        const snapshot = try existingInstance.snapshot;
+        const snapshot = yield* existingInstance.snapshot;
         const isIdle =
           !snapshot.ready && Option.isNone(snapshot.activePid) && !snapshot.restartScheduled;
         if (isIdle) {
-          const refused = try Ref.get(ownershipRefusedRef);
+          const refused = yield* Ref.get(ownershipRefusedRef);
           if (Option.isSome(refused) && refused.value === existingInstance.id) return;
-          try logWslBackendInfo("retrying idle WSL backend", { id: existingInstance.id });
-          try Ref.set(preflightErrorRef, Option.none());
-          try existingInstance.start;
+          yield* logWslBackendInfo("retrying idle WSL backend", { id: existingInstance.id });
+          yield* Ref.set(preflightErrorRef, Option.none());
+          yield* existingInstance.start;
         }
         return;
       }
 
-      try Ref.set(preflightErrorRef, Option.none());
-      try Ref.set(ownershipRefusedRef, Option.none());
+      yield* Ref.set(preflightErrorRef, Option.none());
+      yield* Ref.set(ownershipRefusedRef, Option.none());
 
       if (Option.isSome(existingId)) {
-        try logWslBackendInfo("tearing down WSL backend", { id: existingId.value });
-        try stopExisting(existingId.value);
+        yield* logWslBackendInfo("tearing down WSL backend", { id: existingId.value });
+        yield* stopExisting(existingId.value);
       }
 
       if (Option.isSome(targetId)) {
         // Pre-warm WSL so readiness cannot race its cold start.
-        try wslEnvironment.preWarm(settings.wslDistro);
-        try startNew({ distro: settings.wslDistro });
+        yield* wslEnvironment.preWarm(settings.wslDistro);
+        yield* startNew({ distro: settings.wslDistro });
       }
-    };
+    });
 
     const reconcile = reconcileMutex
       .withPermits(1)(reconcileBody)
-        |> Effect.catchCause(%, (cause) =>
+      .pipe(
+        Effect.catchCause((cause) =>
           logWslBackendWarning("reconcile failed", { cause: Cause.pretty(cause) }),
-        )
-        |> withSpan(%, "desktop.wslBackend.reconcile");
+        ),
+        Effect.withSpan("desktop.wslBackend.reconcile"),
+      );
 
     return DesktopWslBackend.of({
       reconcile,
       lastPreflightError: Ref.get(preflightErrorRef),
     });
-  },
+  }),
 );

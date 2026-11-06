@@ -6,14 +6,14 @@ import * as PlatformError from "effect/PlatformError";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 
-import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe";
+import * as DesktopBackendPool from "../backend/DesktopBackendPool.ts";
 import * as DesktopConfig from "../app/DesktopConfig.vibe";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
 import * as ElectronUpdater from "../electron/ElectronUpdater.vibe";
 import * as ElectronWindow from "../electron/ElectronWindow.ts";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
 import * as DesktopState from "../app/DesktopState.vibe";
-import * as DesktopUpdates from "./DesktopUpdates.vibe";
+import * as DesktopUpdates from "./DesktopUpdates.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 export const flushCallbacks = Effect.yieldNow;

@@ -6,7 +6,7 @@ import * as ElectronApp from "../electron/ElectronApp.ts";
 import * as ElectronShell from "../electron/ElectronShell.vibe";
 import * as ElectronTheme from "../electron/ElectronTheme.vibe";
 import * as ElectronWindow from "../electron/ElectronWindow.ts";
-import * as DesktopUpdates from "../updates/DesktopUpdates.vibe";
+import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
 import * as DesktopState from "./DesktopState.vibe";
 export type StartupRecoveryOffer = {

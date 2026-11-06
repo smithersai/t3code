@@ -14,7 +14,7 @@ import * as DesktopEnvironment from "./DesktopEnvironment.ts";
 import * as DesktopLifecycle from "./DesktopLifecycle.ts";
 import * as DesktopShutdown from "./DesktopShutdown.vibe";
 import * as DesktopState from "./DesktopState.vibe";
-import * as DesktopWindow from "../window/DesktopWindow.vibe";
+import * as DesktopWindow from "../window/DesktopWindow.ts";
 
 function layerElectronApp(
   appListeners: Map<string, (...args: readonly unknown[]) => void>,

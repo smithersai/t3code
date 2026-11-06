@@ -14,8 +14,8 @@ import * as ElectronTheme from "../../electron/ElectronTheme.vibe";
 import * as ElectronWindow from "../../electron/ElectronWindow.ts";
 import * as DesktopAppSettings from "../../settings/DesktopAppSettings.ts";
 import * as DesktopClientSettings from "../../settings/DesktopClientSettings.ts";
-import * as DesktopWindow from "../../window/DesktopWindow.vibe";
-import * as DesktopWslBackend from "../../wsl/DesktopWslBackend.vibe";
+import * as DesktopWindow from "../../window/DesktopWindow.ts";
+import * as DesktopWslBackend from "../../wsl/DesktopWslBackend.ts";
 import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.ts";
 import { setWslBackendEnabled, setWslDistro, setWslOnly } from "./wsl.vibe";
 

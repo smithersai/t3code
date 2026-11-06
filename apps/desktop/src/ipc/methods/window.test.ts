@@ -19,7 +19,7 @@ vi.mock("electron", () => ({
 
 import * as DesktopBackendConfiguration from "../../backend/DesktopBackendConfiguration.ts";
 import * as DesktopBackendManager from "../../backend/DesktopBackendManager.ts";
-import * as DesktopBackendPool from "../../backend/DesktopBackendPool.vibe";
+import * as DesktopBackendPool from "../../backend/DesktopBackendPool.ts";
 import * as DesktopAppSettings from "../../settings/DesktopAppSettings.ts";
 import * as ElectronDialog from "../../electron/ElectronDialog.vibe";
 import * as ElectronWindow from "../../electron/ElectronWindow.ts";

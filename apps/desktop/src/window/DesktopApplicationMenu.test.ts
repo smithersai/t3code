@@ -12,8 +12,8 @@ import * as ElectronMenu from "../electron/ElectronMenu.vibe";
 import * as DesktopApplicationMenu from "./DesktopApplicationMenu.vibe";
 import * as DesktopConfig from "../app/DesktopConfig.vibe";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as DesktopUpdates from "../updates/DesktopUpdates.vibe";
-import * as DesktopWindow from "./DesktopWindow.vibe";
+import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
+import * as DesktopWindow from "./DesktopWindow.ts";
 
 const environmentInput = {
   dirname: "/repo/apps/desktop/dist-electron",
