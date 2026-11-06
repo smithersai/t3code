@@ -8,8 +8,11 @@
       "import": "./src/fakeCli.ts"
     },
     "./replayGate": {
-      "types": "./src/replayGate.ts",
-      "import": "./src/replayGate.ts"
+      "types": "./src/replayGate.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/replayGate.vibe",
+        "default": "./.vibelang/js/src/replayGate.js"
+      }
     },
     "./replayTranscript": {
       "types": "./src/replayTranscript.vibe",
