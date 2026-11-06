@@ -1,3 +1,4 @@
+import { nativeOverrides } from "./eslint-overrides.mjs";
 import parser from "vibelang/eslint";
 import { createRequire } from "node:module";
 import t3codePlugin from "../oxlint-plugin-t3code/index.ts";
@@ -18,4 +19,5 @@ export default [
     plugins: { t3code: eslintCompatPlugin(t3codePlugin) },
     rules: { "no-debugger": "error", "no-dupe-keys": "error", "no-unreachable": "error", ...t3codeRules },
   },
+  ...nativeOverrides(config.lint.overrides ?? []),
 ];
