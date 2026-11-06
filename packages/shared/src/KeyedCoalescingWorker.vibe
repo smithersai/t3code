@@ -1,7 +1,5 @@
 import * as Scope from "effect/Scope"
 import * as Effect from "effect/Effect"
-import * as TxQueue from "effect/TxQueue"
-import * as TxRef from "effect/TxRef"
 
 export interface KeyedCoalescingWorker<K, V> {
   readonly enqueue: (key: K, value: V) => void!!
@@ -17,7 +15,7 @@ interface KeyedCoalescingWorkerState<K, V> {
 export const makeKeyedCoalescingWorker = effect <K, V, E, R>(options: {
   readonly merge: (current: V, next: V) => V
   readonly process: (key: K, value: V) => void!E!R
-}): KeyedCoalescingWorker<K, V>!never!Scope.Scope | R =>
+}): KeyedCoalescingWorker<K, V>!never!(Scope.Scope | R) =>
   try withSpan(
     effect {
       const queue = try Effect.acquireRelease(TxQueue.unbounded<K>(), TxQueue.shutdown)

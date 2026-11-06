@@ -109,7 +109,7 @@ export interface ProviderDriver<Config, R = never, UsageR = never> {
   /** Failures become unavailable snapshots; never throw defects. */
   readonly create: (
     input: ProviderDriverCreateInput<Config>,
-  ) => ProviderInstance!ProviderDriverError!R | Scope.Scope
+  ) => ProviderInstance!ProviderDriverError!(R | Scope.Scope)
   readonly usage?: ProviderUsageReader<Config, UsageR>
 }
 

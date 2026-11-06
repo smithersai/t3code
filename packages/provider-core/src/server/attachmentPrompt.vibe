@@ -160,7 +160,7 @@ export const providerMessageTextWithAttachmentPaths = effect (input: {
   readonly attachments: ReadonlyArray<ChatAttachment>
   readonly resolveAttachmentPath: (attachment: ChatAttachment) => string | null
   readonly resolveExtractedTextPath?:
-    | ((path: string) => string | undefined!!)
+    | ((path: string) => (string | undefined)!!)
     | undefined
 }) =>
   try withSpan(

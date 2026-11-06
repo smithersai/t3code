@@ -6,7 +6,6 @@ import type * as Crypto from "@t3tools/shared/Crypto"
 import * as Effect from "effect/Effect"
 import type * as FileSystem from "effect/FileSystem"
 import type * as Path from "effect/Path"
-import * as Schema from "effect/Schema"
 import type * as Scope from "effect/Scope"
 import type * as ChildProcessSpawner from "effect/process/ChildProcessSpawner"
 import type * as EffectAcpErrors from "effect-acp/errors"
@@ -148,14 +147,14 @@ export interface FxAdapterV2Options {
   readonly environment: NodeJS.ProcessEnv
   readonly selfInvocation: SelfInvocation
   /** fx's id for "Default", the model the provider snapshot read from `fx status`. */
-  readonly defaultModel?: string | undefined!!
+  readonly defaultModel?: (string | undefined)!!
   readonly nativeLogging?: Parameters<typeof makeAcpAdapterV2>[0]["nativeLogging"]
   readonly testHooks?: Parameters<typeof makeAcpAdapterV2>[0]["testHooks"]
   /** Replaces the `fx acp` launch (replay tests). fx's session setup still applies. */
   readonly makeRuntime?: (
     input: AcpAdapterV2RuntimeInput,
   ) =>
-    AcpSessionRuntime.AcpSessionRuntime["Service"]!EffectAcpErrors.AcpError!ChildProcessSpawner.ChildProcessSpawner | Crypto.Crypto | Scope.Scope
+    AcpSessionRuntime.AcpSessionRuntime["Service"]!EffectAcpErrors.AcpError!(ChildProcessSpawner.ChildProcessSpawner | Crypto.Crypto | Scope.Scope)
   readonly assertComplete?: void!EffectAcpErrors.AcpError
 }
 
@@ -212,7 +211,7 @@ export type FxAdapterV2DriverEnv =
 
 /** `defaultModel` reads fx's id for "Default" from the provider snapshot. */
 export const makeFxAdapterV2Driver = (
-  defaultModel: string | undefined!!,
+  defaultModel: (string | undefined)!!,
 ): ProviderAdapterDriver<FxSettings, FxAdapterV2DriverEnv> => ({
   driverKind: FX_DRIVER_KIND,
   configSchema: FxSettings,

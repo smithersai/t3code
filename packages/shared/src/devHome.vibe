@@ -24,7 +24,7 @@ const pointsAtLinkedWorktree = (gitFileContents: string, path: Path.Path): boole
 
 export const resolveGitWorktreePath = effect (
   cwd: string,
-): string | undefined!never!FileSystem.FileSystem | Path.Path =>
+): (string | undefined)!never!(FileSystem.FileSystem | Path.Path) =>
   try withSpan(
     effect {
       const fileSystem = try FileSystem.FileSystem
@@ -65,7 +65,7 @@ export const resolveGitWorktreePath = effect (
  */
 export const resolveWorktreeT3Home = effect (
   cwd: string,
-): string | undefined!never!FileSystem.FileSystem | Path.Path =>
+): (string | undefined)!never!(FileSystem.FileSystem | Path.Path) =>
   try withSpan(
     effect {
       const worktreePath = try resolveGitWorktreePath(cwd)

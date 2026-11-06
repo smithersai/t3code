@@ -272,7 +272,7 @@ export interface PullRequestProviderApi {
       readonly viewer: string
       readonly credentialFingerprint: string
     }) => A!E!R,
-  ) => A!E | PullRequestProviderError!R
+  ) => A!(E | PullRequestProviderError)!R
   readonly getRoutingIdentity?: (input: {
     readonly cwd: string
     readonly host: string
@@ -357,11 +357,11 @@ export interface PullRequestProviderApi {
   /** Null means unknown; an absent method requires full watch reads. */
   readonly getChangeRequestWatchFingerprint?: (
     input: ProviderRepositoryRef & { readonly number: number },
-  ) => ProviderChangeRequestWatchFingerprint | null!PullRequestProviderError
+  ) => (ProviderChangeRequestWatchFingerprint | null)!PullRequestProviderError
 
   readonly getChangeRequestStack?: (
     input: ProviderRepositoryRef & { readonly includeDetails?: boolean; readonly number: number },
-  ) => ProviderChangeRequestStack | null!PullRequestProviderError
+  ) => (ProviderChangeRequestStack | null)!PullRequestProviderError
 
   readonly getChangeRequestActivity: (
     input: ProviderRepositoryRef & { readonly number: number },

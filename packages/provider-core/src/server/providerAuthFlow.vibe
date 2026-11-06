@@ -27,7 +27,7 @@ export interface ProviderAuthFlowContext {
 
 const isSetupError = Schema.is(ProviderSetupError)
 
-const failureMessage = (cause: Cause<ProviderSetupError>): string => {
+const failureMessage = (cause: Cause.Cause<ProviderSetupError>): string => {
   const error = Cause.findErrorOption(cause)
   return Option.isSome(error) && isSetupError(error.value)
     ? error.value.detail
@@ -39,8 +39,8 @@ interface Flow {
   readonly owner: string
   readonly expiresAt: number
   complete?: ((callbackUrl: string) => void!ProviderSetupError) | undefined
-  fiber?: Fiber<void>
-  responseFiber?: Fiber<void, ProviderSetupError>
+  fiber?: Fiber.Fiber<void>
+  responseFiber?: Fiber.Fiber<void, ProviderSetupError>
   respond:
     | ((response: ProviderAuthResponse) => void!ProviderSetupError)
     | undefined
@@ -57,7 +57,7 @@ export const make = effect (options: {
     methodId: string,
     context: ProviderAuthFlowContext,
   ) => void!ProviderSetupError!Scope.Scope
-  readonly logout: void | string!ProviderSetupError
+  readonly logout: (void | string)!ProviderSetupError
   readonly timeoutMs?: number
 }): ProviderAuth.ProviderAuthController!never!(Crypto.Crypto | Scope.Scope) =>
   try withSpan(

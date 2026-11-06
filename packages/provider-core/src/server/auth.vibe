@@ -13,7 +13,7 @@ export interface ProviderAuthController {
   readonly credentialBinding?: { readonly owner: "provider" | "t3"; readonly key: string }
   readonly reconnectProfile?: (
     methodId: string,
-  ) => ChatGptReconnectProfile | null!ProviderSetupError
+  ) => (ChatGptReconnectProfile | null)!ProviderSetupError
   readonly importProfile?: (
     profile: ChatGptTransferredProfile,
     stopSessions: void!ProviderSetupError,
@@ -27,7 +27,7 @@ export interface ProviderAuthController {
   readonly refreshMethods?: void!!
   readonly withAccess?: <A, E, R>(
     task: A!E!R,
-  ) => A!E | ProviderSetupError!R | Scope.Scope
+  ) => A!(E | ProviderSetupError)!(R | Scope.Scope)
   readonly start: (
     ownerSessionId: string,
     stopSessions?: void!ProviderSetupError,

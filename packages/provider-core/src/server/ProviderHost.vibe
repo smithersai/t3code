@@ -24,16 +24,14 @@ export interface ProviderCredentials {
   readonly remove: void!ProviderCredentialError
 }
 
-export class ProviderHost extends Context.Service<
-  ProviderHost,
-  {
+export service ProviderHost: {
     readonly paths: ProviderHostPaths
     readonly settings: {
       readonly get: ServerSettings!ServerSettingsError
       /** Runs `use` on a settings snapshot that no settings write can change until it finishes. */
       readonly withSnapshot: <A, E, R>(
         use: (settings: ServerSettings) => A!E!R,
-      ) => A!E | ServerSettingsError!R
+      ) => A!(E | ServerSettingsError)!R
       readonly changes: Stream.Stream<ServerSettings>
       /** Changes buffered from the moment the scoped subscription is acquired. */
       readonly subscribe: Stream.Stream<ServerSettings>!never!Scope.Scope
@@ -41,10 +39,9 @@ export class ProviderHost extends Context.Service<
     readonly shouldRunBackgroundWork: (scope: BackgroundScope) => boolean!!
     /** Absolute attachment path, or null if the ID does not resolve inside attachmentsDir. */
     readonly resolveAttachmentPath: (attachment: ChatAttachment) => string | null
-    readonly resolveExtractedTextPath?: (path: string) => string | undefined!!
+    readonly resolveExtractedTextPath?: (path: string) => (string | undefined)!!
     readonly credentials: (
       namespace: string,
       bindingId: string,
     ) => ProviderCredentials!!
-  }
->()("@t3tools/provider-core/server/ProviderHost") {}
+  } { static readonly key = "@t3tools/provider-core/server/ProviderHost" }

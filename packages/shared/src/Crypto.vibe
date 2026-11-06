@@ -9,7 +9,6 @@ import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as PlatformError from "effect/PlatformError"
 
-import * as Digest from "effect/crypto/Digest"
 
 const TypeId = "~@t3tools/shared/Crypto"
 
@@ -81,7 +80,7 @@ export const make = (impl: {
     }
   }
   const uuid =
-    (generate: SecureRandom.UuidGenerator): infer _ => effect (options?: UuidOptions): string | Uint8Array!! =>
+    (generate: SecureRandom.UuidGenerator): infer _ => effect (options?: UuidOptions): (string | Uint8Array)!! =>
       options?.format === "bytes" ? try generate({ format: "bytes" }) : try generate()
   return Crypto.of({
     [TypeId]: TypeId,
@@ -89,27 +88,27 @@ export const make = (impl: {
     nextDoubleUnsafe,
     randomBytes: effect (size) =>
       Number.isSafeInteger(size) && size >= 0
-        ? try Effect.sync(() => randomBytesUnsafe(size))
-        : throw PlatformError.badArgument({
+        ? randomBytesUnsafe(size)
+        : (throw PlatformError.badArgument({
           module: "Crypto",
           method: "randomBytes",
           description: "size must be a non-negative safe integer",
-        }),
+        })),
     digest: impl.digest,
     random: Effect.sync(nextDoubleUnsafe),
-    randomBoolean: Effect.sync(() => nextDoubleUnsafe() > 0.5),
+    randomBoolean: effect { return nextDoubleUnsafe() > 0.5 },
     randomInt: Effect.sync(nextIntUnsafe),
-    randomBetween: effect (min, max) => try Effect.sync(() => nextDoubleUnsafe() * (max - min) + min),
+    randomBetween: effect (min, max) => nextDoubleUnsafe() * (max - min) + min,
     randomIntBetween: effect (min, max, options) => {
       const extra = options?.halfOpen === true ? 0 : 1
-      return try Effect.sync(() => {
+      return try effect {
         const minInt = Math.ceil(min)
         const maxInt = Math.floor(max)
         return Math.floor(nextDoubleUnsafe() * (maxInt - minInt + extra)) + minInt
-      })
+      }
     },
     randomShuffle: effect (elements) =>
-      try Effect.sync(() => {
+      try effect {
         const buffer = Array.from(elements)
         for (let i = buffer.length - 1; i >= 1; i = i - 1) {
           const index = Math.min(i, Math.floor(nextDoubleUnsafe() * (i + 1)))
@@ -118,7 +117,7 @@ export const make = (impl: {
           buffer[index] = value
         }
         return buffer
-      }),
+      },
     randomUUIDv4: uuid(secure.uuidV4) as Crypto["randomUUIDv4"],
     randomUUIDv7: uuid(secure.uuidV7) as Crypto["randomUUIDv7"],
     randomULID: secure.ulid,

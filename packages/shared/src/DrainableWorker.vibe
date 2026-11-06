@@ -1,8 +1,5 @@
-import * as Cause from "effect/Cause"
 import * as Scope from "effect/Scope"
 import * as Effect from "effect/Effect"
-import * as TxQueue from "effect/TxQueue"
-import * as TxRef from "effect/TxRef"
 
 export interface DrainableWorker<A> {
   readonly enqueue: (item: A) => void!!
@@ -16,7 +13,7 @@ export interface DrainableWorker<A> {
  */
 export const makeDrainableWorker = effect <A, E, R>(
   process: (item: A) => void!E!R,
-): DrainableWorker<A>!never!Scope.Scope | R =>
+): DrainableWorker<A>!never!(Scope.Scope | R) =>
   try withSpan(
     effect {
       const outstanding = try TxRef.make(0)

@@ -64,7 +64,7 @@ function readOutput(state: OutputBufferState): string {
     }
     combined = combined.subarray(start)
   }
-  return new TextDecoder("utf-8", { ignoreBOM: true }).decode(combined)
+  return $invoke(new TextDecoder("utf-8", { ignoreBOM: true }),() => (combined))
 }
 
 function terminalExitSignal(error: unknown): string | null {
@@ -84,7 +84,7 @@ interface ManagedAcpTerminal {
   readonly sessionId: string
   readonly commandLine: string
   readonly buffer: OutputBufferState
-  readonly exit: Deferred<EffectAcpSchema.WaitForTerminalExitResponse>
+  readonly exit: Deferred.Deferred<EffectAcpSchema.WaitForTerminalExitResponse>
   readonly kill: void!!
   readonly dispose: void!!
   exitStatus: EffectAcpSchema.TerminalExitStatus | undefined
@@ -401,3 +401,8 @@ export function resolveEmbeddedTerminalContent(
   })
   return { ...notification, update: { ...update, content: mapped } }
 }
+
+module $call$ts {
+export function invoke<T extends {"decode":Function}>(target:T,arg0:()=>Parameters<Extract<T["decode"],(...args:any[])=>any>>[0]):ReturnType<Extract<T["decode"],(...args:any[])=>any>> { return target["decode"](arg0()) }
+}
+import { invoke as $invoke } from $call$ts

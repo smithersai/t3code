@@ -8,7 +8,6 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner"
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite"
 import { ExperimentalNodeProcess } from "vibelang-runtime/experimental/platform-node"
 import * as Process from "vibelang-runtime/experimental/Process"
-import type * as PlatformError from "effect/PlatformError"
 schema ProcessIdentity { pid: Schema.Int; startTime: string }
 
 schema OpenCodeServerEntry {
@@ -116,7 +115,7 @@ export const make = effect (input: {
           )
           return parseDarwinPs(output)
         }
-        const observe = effect (pid: number): ObservedProcess | undefined!! => {
+        const observe = effect (pid: number): (ObservedProcess | undefined)!! => {
           if (platform === "linux") return observeLinux(pid) catch () => undefined
           if (platform === "darwin") {
             return effect {
@@ -157,7 +156,7 @@ export const make = effect (input: {
           : { pid: ownerPid, startTime: ownerProcess.startTime }
 
         const track: OpenCodeServerLedger["Service"]["track"] = effect (server): (void!!)!! => {
-          const run = effect (): (void!!)!PlatformError.PlatformError | Schema.SchemaError! => {
+          const run = effect (): (void!!)!(PlatformError.PlatformError | Schema.SchemaError)! => {
             if (!recordable) return Effect.void
             const pgid = server.pid
             const leader = try observe(pgid)

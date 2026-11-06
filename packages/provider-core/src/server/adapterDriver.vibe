@@ -31,7 +31,7 @@ export interface ProviderAdapterDriver<Config, R = never> {
   readonly defaultConfig: () => Config
   readonly create: (
     input: ProviderAdapterDriverCreateInput<Config>,
-  ) => ProviderAdapter.ProviderAdapterV2["Service"]!ProviderAdapterDriverCreateError!R | Scope.Scope
+  ) => ProviderAdapter.ProviderAdapterV2["Service"]!ProviderAdapterDriverCreateError!(R | Scope.Scope)
 }
 
 export type AnyProviderAdapterDriver<R = never> = ProviderAdapterDriver<any, R>

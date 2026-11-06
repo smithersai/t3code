@@ -11,7 +11,7 @@ export interface ProviderMaintenanceCapabilities {
    * Deferred until update checks are enabled; `null` falls back to
    * `latestVersion`, then npm.
    */
-  readonly lookupLatestVersion?: string | null!!
+  readonly lookupLatestVersion?: (string | null)!!
   readonly compareVersions?: (current: string, latest: string) => number
   /** Resolved executable path for advisories when no update command is proven. */
   readonly installPath?: string

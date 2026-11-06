@@ -1,18 +1,8 @@
 import type { SdkCredentialStore, SdkLoginOptions, SdkLoginResult } from "@cursor/sdk"
 import { ProviderSetupError, type ProviderAuthState, type ProviderInstanceId } from "@t3tools/contracts"
-import * as Cause from "effect/Cause"
-import * as Clock from "effect/Clock"
 import * as Crypto from "@t3tools/shared/Crypto"
-import * as DateTime from "effect/DateTime"
 import * as Effect from "effect/Effect"
-import * as Exit from "effect/Exit"
-import * as Fiber from "effect/Fiber"
-import * as Option from "effect/Option"
-import * as Queue from "effect/Queue"
 import * as Scope from "effect/Scope"
-import * as Semaphore from "effect/Semaphore"
-import * as Stream from "effect/Stream"
-import * as SubscriptionRef from "effect/SubscriptionRef"
 
 import { Cursor, InMemoryCredentialStore } from "./sdk.ts"
 import type { ProviderAuthController } from "@t3tools/provider-core/server/auth"
@@ -27,12 +17,12 @@ interface AuthFlow {
 
 export interface CursorAuth {
   readonly controller: ProviderAuthController
-  readonly readApiKey: string | undefined!ProviderSetupError!
+  readonly readApiKey: (string | undefined)!ProviderSetupError!
   readonly requireApiKey: string!ProviderSetupError!
   readonly usesApiKey: boolean
   readonly withAccess: <A, E, R>(
     task: A!E!R,
-  ) => A!E | ProviderSetupError!R | Scope.Scope
+  ) => A!(E | ProviderSetupError)!(R | Scope.Scope)
 }
 
 export interface CursorAuthOptions {
@@ -262,8 +252,8 @@ export const makeCursorAuth = effect (options: CursorAuthOptions) =>
                 expiresAt: null,
                 message: Exit.isSuccess(result)
                   ? "Signed in with Cursor."
-                  : Cause.findErrorOption(result.cause).map((error) => error.detail)
-                    .getOrElse(() => "Cursor sign-in failed or expired. Start sign-in again."),
+                  : Option.getOrElse(Option.map(Cause.findErrorOption(result.cause), (error) => error.detail)
+                    , () => "Cursor sign-in failed or expired. Start sign-in again."),
               })
             })
           },
@@ -423,7 +413,7 @@ export const makeCursorAuth = effect (options: CursorAuthOptions) =>
           }
         },
         subscribe: (owner): ReturnType<ProviderAuthController["subscribe"]> =>
-          SubscriptionRef.changes(snapshot).map((current) => {
+          Stream.map(SubscriptionRef.changes(snapshot), (current) => {
             const state = {
               ...current.state,
               credentialOwner: "t3" as const,
