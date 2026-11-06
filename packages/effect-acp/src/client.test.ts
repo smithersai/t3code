@@ -17,7 +17,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { it, assert } from "@effect/vitest";
 
-import * as AcpClient from "./client.ts";
+import * as AcpClient from "./client.vibe";
 import * as AcpSchema from "./_generated/schema.gen.ts";
 import * as AcpSchemaV1 from "./_generated/schema-v1.gen.ts";
 import * as AcpError from "./errors.vibe";

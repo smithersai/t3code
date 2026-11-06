@@ -4,12 +4,18 @@
   "type": "module",
   "exports": {
     "./client": {
-      "types": "./src/client.ts",
-      "import": "./src/client.ts"
+      "types": "./src/client.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/client.vibe",
+        "default": "./.vibelang/js/src/client.js"
+      }
     },
     "./agent": {
-      "types": "./src/agent.ts",
-      "import": "./src/agent.ts"
+      "types": "./src/agent.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/agent.vibe",
+        "default": "./.vibelang/js/src/agent.js"
+      }
     },
     "./schema": {
       "types": "./src/schema.ts",
