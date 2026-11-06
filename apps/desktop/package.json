@@ -30,7 +30,7 @@
     "playwright-core": "1.60.0",
     "react-grab": "^0.1.32",
     "tldts": "catalog:",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.12-8928602aed99.tgz"
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
@@ -39,8 +39,8 @@
     "cross-env": "^10.1.0",
     "electron-builder": "26.16.1",
     "tailwindcss": "^4.0.0",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-f4c4e300ea22.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-29aa9027018d.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-794282518119.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-f8fc9d5c7262.tgz",
     "vite-plus": "catalog:",
     "vite": "catalog:"
   },

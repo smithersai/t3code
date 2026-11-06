@@ -363,12 +363,12 @@
   },
   "dependencies": {
     "effect": "catalog:",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.12-1341c3023766.tgz"
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-c3fe5cdec671.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-5ec94269b2a0.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-794282518119.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-f8fc9d5c7262.tgz",
     "vite-plus": "catalog:"
   }
 }
