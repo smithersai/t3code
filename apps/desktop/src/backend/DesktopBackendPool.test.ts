@@ -15,7 +15,7 @@ import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublish
 import * as DesktopBrowserHost from "../preview/DesktopBrowserHost.ts";
 import * as ElectronDialog from "../electron/ElectronDialog.vibe";
 import * as ElectronApp from "../electron/ElectronApp.ts";
-import * as DesktopWindow from "../window/DesktopWindow.ts";
+import * as DesktopWindow from "../window/DesktopWindow.vibe";
 import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";
 import * as DesktopBackendConfiguration from "./DesktopBackendConfiguration.ts";
 import * as DesktopBackendPool from "./DesktopBackendPool.vibe";

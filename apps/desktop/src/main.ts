@@ -72,7 +72,7 @@ import * as BrowserSession from "./preview/BrowserSession.vibe";
 import * as DesktopBrowserHost from "./preview/DesktopBrowserHost.ts";
 import * as PreviewManager from "./preview/Manager.ts";
 import * as PreviewPasskeys from "./preview/Passkeys.ts";
-import * as DesktopWindow from "./window/DesktopWindow.ts";
+import * as DesktopWindow from "./window/DesktopWindow.vibe";
 import * as DesktopWslBackend from "./wsl/DesktopWslBackend.vibe";
 import * as DesktopWslEnvironment from "./wsl/DesktopWslEnvironment.ts";
 import * as DesktopWslServerTree from "./wsl/DesktopWslServerTree.vibe";

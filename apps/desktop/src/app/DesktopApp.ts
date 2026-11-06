@@ -16,7 +16,7 @@ import * as DesktopAppActivation from "./DesktopAppActivation.ts";
 import * as DesktopAppIdentity from "./DesktopAppIdentity.vibe";
 import * as DesktopClerk from "./DesktopClerk.ts";
 import * as DesktopApplicationMenu from "../window/DesktopApplicationMenu.vibe";
-import * as DesktopWindow from "../window/DesktopWindow.ts";
+import * as DesktopWindow from "../window/DesktopWindow.vibe";
 import * as PreviewPasskeys from "../preview/Passkeys.ts";
 import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe";
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
