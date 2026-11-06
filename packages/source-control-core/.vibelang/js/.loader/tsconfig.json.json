@@ -10,7 +10,7 @@
   "root": {
    "relative": "packages/source-control-core"
   },
-  "compiler": "owaUbprwDLXQh9KdIKHEW9TY-wXpMbP8BuQIK6fWpfU",
+  "compiler": "Q7lt3fH-J_MVGVozCbnqde8qNt1usUx4WOwxLI27LEw",
   "configs": [
    {
     "path": {
@@ -62,7 +62,7 @@
      "relative": "packages/source-control-core/src/server"
     },
     null,
-    "D7tN7QI7p-dGWPj4-NJgSZqtTvwDqdmiCd8BLj7P9zA",
+    "Y6S6iY0VCGzc4xFzBZkTSvBy7Z7ne6yIfiYqrQ7uxGA",
     []
    ],
    [
@@ -151,8 +151,8 @@
     "path": {
      "relative": "pnpm-lock.yaml"
     },
-    "size": 991290,
-    "hash": "-JIRvJS04v1jyjckzi3jkbhDHC_4y9FDybgeU8GCL14"
+    "size": 991991,
+    "hash": "AVR1QNNcM-gkua_zGEN4H8H7rYzyc0gjH9dtbQFOYkA"
    },
    {
     "path": {
@@ -188,10 +188,10 @@
   "packages": [
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/package.json"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/package.json"
     },
-    "size": 7073,
-    "hash": "1lMdRA8K2GonRT1ilYg8wxY2H7YHcLIDsl7uN_a6ckY"
+    "size": 7285,
+    "hash": "BPD5Fcnt4Y6dlouVUBgiG1uH0Hc0uBQsbOJRUvixUyE"
    },
    {
     "path": {
@@ -205,14 +205,14 @@
      "relative": "packages/contracts/package.json"
     },
     "size": 967,
-    "hash": "krvxgmo-GQNAjGoNqIelibYlu8CQ9vWnj7eqcdNkIus"
+    "hash": "0Ex5yaUDk0jrUaEdrtPgF1s7wOet_DDcPcDwEsCJjz8"
    },
    {
     "path": {
      "relative": "packages/source-control-core/package.json"
     },
-    "size": 2884,
-    "hash": "mNicgQ0F_1cfhpXNrFkXifmDyP_IYqVYs_UR-XoPzk4"
+    "size": 2991,
+    "hash": "YP9mDpelQs7MXLqwceuK0AFUjHaUhjxnf6XFtguXNoo"
    },
    {
     "path": {
@@ -288,8 +288,8 @@
     "path": {
      "relative": "packages/shared/package.json"
     },
-    "size": 16421,
-    "hash": "lyX546QG3SYfkaZHdwU6GXQCq7wSEEmXTGi4lOQSFzY"
+    "size": 17836,
+    "hash": "TTZVcjS41sUP9KZggXB75hu9xkm7FuPCr5E2M-lhGQ8"
    },
    {
     "path": {
@@ -309,7 +309,7 @@
   "files": [
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/version.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/version.d.ts"
     },
     "size": 91,
     "hash": "OLhx74xVvRMxcl4krcVslmdZGXNsTNFw1VSQRYH3mpc"
@@ -1128,6 +1128,489 @@
    },
    {
     "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/calls.d.ts"
+    },
+    "size": 1383,
+    "hash": "uAwhDPR2CFdUic_UDD997dkpJaNZ3R1T_jqRSG4Cclo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/fastcalls.d.ts"
+    },
+    "size": 4751,
+    "hash": "9wxoIynrlvPe4VAUQN_yG-rNp1lwbKvt-AZOat2MRdY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/regions.d.ts"
+    },
+    "size": 6387,
+    "hash": "wHQs6G-mP3lEKiqUEa8esaj1EIdtBxzBWiKUXvaoBbY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/fork.d.ts"
+    },
+    "size": 1522,
+    "hash": "ckaaRg51IcfZbr740uLdup3qFuKS3TxgVYGSFOW2Q54"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/kernel/internals.d.ts"
+    },
+    "size": 1238,
+    "hash": "IMzEvVGIaf37peHrkUH2HsmoOemwj7YAPgBI1bNG6tk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/kernel/kernel.d.ts"
+    },
+    "size": 6338,
+    "hash": "XGJbPTQadKfJQPfra4kFdQXvD8XgBQQ6eH-by456KBs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/services.d.ts"
+    },
+    "size": 3346,
+    "hash": "JxhNAxkLVY33Lxqyh_Vd-mqQSE8dmceO3rEnpBJTbEY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/handlers.d.ts"
+    },
+    "size": 4479,
+    "hash": "ZzQU78bLBWIppynLZgOBgDkcijiAJJq_TQpkNW-JrCY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/producers.d.ts"
+    },
+    "size": 2721,
+    "hash": "ndVPafzb3N5wWv25-4h-4Omv5tqD3POjx2v8_p9Erko"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/iterators.d.ts"
+    },
+    "size": 307,
+    "hash": "R_32U0PMqjIgXtbB6rzs2OaY3x5NurDOaidBkv7uhfE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/binding-iterator.d.ts"
+    },
+    "size": 521,
+    "hash": "a5GFo1F3YhIqtKzebc3H9jA8z8NZhbnUT6KJQHrwj5Q"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/boundaries.d.ts"
+    },
+    "size": 2237,
+    "hash": "BZIaO-QAJ9Z6Fu4irKqOzSRsUYSLuUQiW1zKjGvuXfI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/hatches.d.ts"
+    },
+    "size": 4288,
+    "hash": "SHvw3j3NmkBQey39qbFcwin5cLqgq9PF9msgmFzaYKE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/fibers.d.ts"
+    },
+    "size": 6935,
+    "hash": "HFdGAWXboTtErBQoR3bK0lO0H9gJZzAfvqYG4H-Yhj4"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/provide.d.ts"
+    },
+    "size": 2355,
+    "hash": "DTx-GtW-_UHyzfF40aMg8o-NybtpBLPa3q1ln3Jpa5s"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/primitives.d.ts"
+    },
+    "size": 2785,
+    "hash": "IWg8HZdD_h5bezhO5VO0Oat3-GL3h98xoW06v-EAWOs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/match.d.ts"
+    },
+    "size": 6984,
+    "hash": "2FsfAhYwF1fwC5e0LU4278-JVGYlmyyiLdE2ulgu2A0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Runtime.d.ts"
+    },
+    "size": 10431,
+    "hash": "ZMDblKwrnP645cJKqUeLzty7Mb4P3ekyiTcDtTPJ6D8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/main.d.ts"
+    },
+    "size": 1370,
+    "hash": "S2GqpFmzvnikrJrgw5lzEqtFJy_7i20jzGlMr4mt88Y"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/prelude-core.d.ts"
+    },
+    "size": 2772,
+    "hash": "-F09SO-52bZw9ht9RpKGlrIWz0y1TQwQS5E6DXxUPQQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/resources.d.ts"
+    },
+    "size": 1670,
+    "hash": "jWScKmw8idFbB3itet51UYKNCRN74Mmu_uzZqy3V28w"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/legacy-await-types.d.ts"
+    },
+    "size": 2033,
+    "hash": "-FCwl_PxDin1gwAopKVXXRBoJCDUdKxfzIl4qN9DSoc"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/match-cache.d.ts"
+    },
+    "size": 1011,
+    "hash": "WIywkIULg3KijrFqJ52sNT5OTjhTXa32BWHk8DMkoNs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/core.d.ts"
+    },
+    "size": 1612,
+    "hash": "7teQjEXxfbpg3ExxV-mnuvIVLHwt2HKWK5u_wNRmvi0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/Animations.d.ts"
+    },
+    "size": 4126,
+    "hash": "LIh_ITVpztxGdctQldXDsjoilz47SeJfVYCfdklEYtE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/BrowserInfo.d.ts"
+    },
+    "size": 1989,
+    "hash": "mO2jTu2b39Dco34MEBt0o6UTMBWA4gEIAtZHi1IW46I"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/ChildProcess.d.ts"
+    },
+    "size": 3133,
+    "hash": "vtz-lrM1qVNbYlFgzi89KmoPI076rUvhtNoYs2UqjCE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/Crypto.d.ts"
+    },
+    "size": 6627,
+    "hash": "XwHusiTQVjE4hwkTA3zAFGJPZll6iaWLc-hZp7hAFPk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/AddressResolver.d.ts"
+    },
+    "size": 5542,
+    "hash": "m2JvnScm4Fzsua4ijv9gVDOYs0vLJHsU1ZpBxnD-FpE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/index.d.ts"
+    },
+    "size": 642,
+    "hash": "kblyErHDYnsF_P1DdrxoVsh10SnDRQ3Bwck5WGn-w3I"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/Dns.d.ts"
+    },
+    "size": 2094,
+    "hash": "a8V4vRrBPQWD6J1ZDSVUngqy4VPQYhwXW_4wp7dZbDw"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/Document.d.ts"
+    },
+    "size": 2970,
+    "hash": "wgJNU0rjtPZ9wCQ1vOFM17UzIMNuxXkAnRL6Y6k91UM"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/EncodingError.d.ts"
+    },
+    "size": 2782,
+    "hash": "Y96VGSj4hkYGUmAOZdCpJR62OOrsPw-uPQ-6eFOYaOI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64.d.ts"
+    },
+    "size": 2677,
+    "hash": "yEc8CNYNHSis4OSrmGaUexmByy2oBUfRmPnI_UsePU8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64Url.d.ts"
+    },
+    "size": 3553,
+    "hash": "LVhOA-AXlruy2l_8uj7OqYNt8HWUnwKYKe2d-khPXC4"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Csv.d.ts"
+    },
+    "size": 22389,
+    "hash": "22pSJFH0tyStth9R63Uycc30OpLzYI182QSJl5K18Vo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Hex.d.ts"
+    },
+    "size": 3101,
+    "hash": "a8-p15tzg2N4oOiyE0tOjgL17Q6t-4RKSlFK3_E5r4E"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ini.d.ts"
+    },
+    "size": 665,
+    "hash": "VEcV_gJv9YP3829kRBt6tCjrstQMEF8R7NjF5SKENTo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/JsonArray.d.ts"
+    },
+    "size": 10914,
+    "hash": "bhQR9FZAiP_7kxUnMZbhOLd_U972g4RxmHvD9KKxNuQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ndjson.d.ts"
+    },
+    "size": 16373,
+    "hash": "vI4FK4XFTqsTpUyMJLfl2acrmVs42py0MswI7Dd-R60"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/SchemaBinary.d.ts"
+    },
+    "size": 11065,
+    "hash": "_azIUMK4xCOg93NqSVtNDX-F2N8ig0YdyXCc-P0UMRI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Sse.d.ts"
+    },
+    "size": 11379,
+    "hash": "Fmwr_ayd9o5g0s8kNgVtDPEZ15dytzKkVRuOJDQAXEU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Tar.d.ts"
+    },
+    "size": 11860,
+    "hash": "E0MiYTO8ue5t1e1JKwfyHgRXfng6HCkPtYvnFh87oEQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Toml.d.ts"
+    },
+    "size": 1167,
+    "hash": "oZ9za3NAXBeYkNmhWdO_vkqutfMqcYbkXasEWODwfAI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Xml.d.ts"
+    },
+    "size": 16470,
+    "hash": "pbiCzYYwqiAZdiCFMyRVz1UG67xCJdvhrKQr2DVmlT8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Yaml.d.ts"
+    },
+    "size": 1350,
+    "hash": "v6AA9d7wPSPG8is8K3PlW3cpQrL_Nvwf1MNmOfGrhZY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Zip.d.ts"
+    },
+    "size": 16670,
+    "hash": "nOdp98PU19xagRzuttN9laEGVY6lwutoVseazCyqX7c"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/index.d.ts"
+    },
+    "size": 1360,
+    "hash": "0p_GADS7DXIS1_3swheMVC7wVT6K135y2xxkhj_sq7U"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/Encoding.d.ts"
+    },
+    "size": 852,
+    "hash": "6JHF6GIvlFYBICb2qrmb-bGQDaH1t16tgPW4ET7lViM"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/FileReader.d.ts"
+    },
+    "size": 3271,
+    "hash": "Izc4Lg3SrR_vTOYfWz0LwZeU40DjL8144EqjrGxp8AU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/Headers.d.ts"
+    },
+    "size": 1481,
+    "hash": "y3AcQqeGN8mxkJ58iTbWOmyXNdK5dRRTEUogxbFXy0s"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/FileSystem.d.ts"
+    },
+    "size": 4237,
+    "hash": "GscyJs1q8_cVZgxDm-u1CJwscBRKw-f5XSRJdUxCAP8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/Locks.d.ts"
+    },
+    "size": 5678,
+    "hash": "vA5GYo8h7qcs5a-fuxQPj_Xrbx1iP5fNyo4v0SJHAKk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/MediaQuery.d.ts"
+    },
+    "size": 2800,
+    "hash": "H2TsmsCxrAVQFpn2-nEjFgeAxGOVseTq6FcGaP1wfeE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/NetAddress.d.ts"
+    },
+    "size": 444,
+    "hash": "SgsPPjdFtiCOl0YW0Hfd-hH9BkaSftHcBv_ygK67A4U"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/NodeStream.d.ts"
+    },
+    "size": 3224,
+    "hash": "-Om0tHTgAHL2dgmRlVlG--oBT8d5mftOLPyo-yrHdSk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/ChildProcessSpawner.d.ts"
+    },
+    "size": 10049,
+    "hash": "thXsQ6k-zkFoKCmsVYtf5M6c35jjGBMUFpTT-aWMdLA"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/CommandLine.d.ts"
+    },
+    "size": 11522,
+    "hash": "lxWpSvbLSZaDoTOhUfkj6S-HePD5KBJ-tFZkDiae1Dg"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/ChildProcess.d.ts"
+    },
+    "size": 40640,
+    "hash": "AE8za_rMlCaeaidHj6lgF2rgn2xY2_8CONWi6Xw1LPU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/Process.d.ts"
+    },
+    "size": 8241,
+    "hash": "oiIVYvpaIUKJOP6geMxc4B8Dl0_JFBNWkR9ZIAKCyHs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/ResizeObserver.d.ts"
+    },
+    "size": 2495,
+    "hash": "uUMxJ3p5sbc-qhqfyWNUwnitOJtINeXL_9M1xJLWz30"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Stdio.d.ts"
+    },
+    "size": 4792,
+    "hash": "T-DnaBHPE9WMb769TDv2bHjI4UvZDZJh4ee5Dd5HAQU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/Stdio.d.ts"
+    },
+    "size": 1504,
+    "hash": "6TcF16KKXbLqEGWumgFgvLQ7WkOiGr_cWBw27JoJX6Q"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/Window.d.ts"
+    },
+    "size": 2301,
+    "hash": "Jgz07Sov3RhBpS50HAW-g5wQmxTspcjGXzQUavlym-g"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/AudioContext.d.ts"
+    },
+    "size": 2205,
+    "hash": "z0dedL-zpn1GrXaOgFyOHm7DMb1z3zCMaIMqGqR6tUk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/Request.d.ts"
+    },
+    "size": 1649,
+    "hash": "KRg2WDevqFgPetJq4CxDHh8edm0srjqhWRN7lTSenyY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/experimental/index.d.ts"
+    },
+    "size": 1574,
+    "hash": "hcZRaVCidu8HYX0HvnTobrHo2cQDv4U1txmpSQ0GSa0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/prelude.d.ts"
+    },
+    "size": 129,
+    "hash": "Tqy755Tt4ZuJDGVpmxUCXsPlRUgHYXa4ktmztNdW1DY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-a019a5bb8c6d.tgz_@eff_100e739bbbf0d17be5496168e4f2c122/node_modules/vibelang-runtime/dist/index.d.ts"
+    },
+    "size": 107,
+    "hash": "kHyPbTEwJDNbyrr9EJDBtS42mtLKhF1zop-5XYfg38g"
+   },
+   {
+    "path": {
      "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/internal/arbitrary/runner.d.ts"
     },
     "size": 165,
@@ -1373,24 +1856,10 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Runtime.d.ts"
-    },
-    "size": 10431,
-    "hash": "ZMDblKwrnP645cJKqUeLzty7Mb4P3ekyiTcDtTPJ6D8"
-   },
-   {
-    "path": {
      "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/ScopedCache.d.ts"
     },
     "size": 28156,
     "hash": "gk_Wevfqv8Pc7JGWfvptQeROHFZS3Ud0xsT5aNtK9hg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Stdio.d.ts"
-    },
-    "size": 4792,
-    "hash": "T-DnaBHPE9WMb769TDv2bHjI4UvZDZJh4ee5Dd5HAQU"
    },
    {
     "path": {
@@ -1531,461 +2000,6 @@
     },
     "size": 13254,
     "hash": "0PpqEQlrfMhrxRLRPiEmFILdAxRuOqxV7wFDHQt16vk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/calls.d.ts"
-    },
-    "size": 1375,
-    "hash": "dsRmJCNPzxmBw80oYCGtYgErjsc0O0IdrlavmcSqJgg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/fastcalls.d.ts"
-    },
-    "size": 4743,
-    "hash": "5KioEbTxBNd_QZvwfzx_Wtto96eJo5t1os1-dStu3Sg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/regions.d.ts"
-    },
-    "size": 6347,
-    "hash": "OimZR3Bn-U-YG7GsPRLkO7ojAkjKNP_YHZLHjIojefk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/fork.d.ts"
-    },
-    "size": 1450,
-    "hash": "48HdCKdKyA1Q-ImyNbFxHEH8MvHTioJ4AhPv04LWEvg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/kernel/internals.d.ts"
-    },
-    "size": 1192,
-    "hash": "7Fiel2LtGrvq-9nBG4DTXdPWPq5ssE5zGD2xtKyop7k"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/kernel/kernel.d.ts"
-    },
-    "size": 6233,
-    "hash": "SpddlG9nvj1HKpa57Bira5G8t4QoTcG4oRl4hnC1-xE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/services.d.ts"
-    },
-    "size": 3272,
-    "hash": "Aky7KJ-_at6kU0rh2fYbON-xEor5MYT7r0dKny8eFp4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/handlers.d.ts"
-    },
-    "size": 4437,
-    "hash": "dM4ZRB9CryabX-dYLCHS1WlVbZMqBRsuuvJGPL-Sc94"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/producers.d.ts"
-    },
-    "size": 2648,
-    "hash": "nSdLzVgLSb7ZsOITdmOllPu94EmFjCD7W-O0F8qihHs"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/iterators.d.ts"
-    },
-    "size": 299,
-    "hash": "D_KJoFVsbFdHLj8ECD9in36LfyVin-Znz3X0acOoUt4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/binding-iterator.d.ts"
-    },
-    "size": 521,
-    "hash": "a5GFo1F3YhIqtKzebc3H9jA8z8NZhbnUT6KJQHrwj5Q"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/boundaries.d.ts"
-    },
-    "size": 2229,
-    "hash": "J2cNQ7D_ohM_EnMxDLD02YYHFErO1YyFaZklO0hQ_Pk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/hatches.d.ts"
-    },
-    "size": 4249,
-    "hash": "6pDgm-yR3j20e3-U12dVZaDmHAAq_WLsHsbatPCEWOY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/fibers.d.ts"
-    },
-    "size": 6703,
-    "hash": "5PnLtZ4YZGxFz9KdbeNpELY0G-Ff9MsnI8ywtvAOXio"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/provide.d.ts"
-    },
-    "size": 2281,
-    "hash": "k31QBghV46lk2i0f4JI_OSQJCFzTOLh5I_FnCBfDmuU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/primitives.d.ts"
-    },
-    "size": 2714,
-    "hash": "o5vUAbZjcdzZJlJz6sxUnB-I7AasWMI-s30qQb8E7Ic"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/match.d.ts"
-    },
-    "size": 6984,
-    "hash": "2FsfAhYwF1fwC5e0LU4278-JVGYlmyyiLdE2ulgu2A0"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/main.d.ts"
-    },
-    "size": 1361,
-    "hash": "NVDMPJgJKrqMc_i-77_arVwTNhh8LBDWGq6mG7urGRk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Animations.d.ts"
-    },
-    "size": 4126,
-    "hash": "LIh_ITVpztxGdctQldXDsjoilz47SeJfVYCfdklEYtE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/BrowserInfo.d.ts"
-    },
-    "size": 1989,
-    "hash": "mO2jTu2b39Dco34MEBt0o6UTMBWA4gEIAtZHi1IW46I"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/ChildProcess.d.ts"
-    },
-    "size": 3133,
-    "hash": "vtz-lrM1qVNbYlFgzi89KmoPI076rUvhtNoYs2UqjCE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Crypto.d.ts"
-    },
-    "size": 6627,
-    "hash": "XwHusiTQVjE4hwkTA3zAFGJPZll6iaWLc-hZp7hAFPk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/AddressResolver.d.ts"
-    },
-    "size": 5542,
-    "hash": "m2JvnScm4Fzsua4ijv9gVDOYs0vLJHsU1ZpBxnD-FpE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/index.d.ts"
-    },
-    "size": 642,
-    "hash": "kblyErHDYnsF_P1DdrxoVsh10SnDRQ3Bwck5WGn-w3I"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Dns.d.ts"
-    },
-    "size": 2094,
-    "hash": "a8V4vRrBPQWD6J1ZDSVUngqy4VPQYhwXW_4wp7dZbDw"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Document.d.ts"
-    },
-    "size": 2970,
-    "hash": "wgJNU0rjtPZ9wCQ1vOFM17UzIMNuxXkAnRL6Y6k91UM"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/EncodingError.d.ts"
-    },
-    "size": 2782,
-    "hash": "Y96VGSj4hkYGUmAOZdCpJR62OOrsPw-uPQ-6eFOYaOI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64.d.ts"
-    },
-    "size": 2677,
-    "hash": "yEc8CNYNHSis4OSrmGaUexmByy2oBUfRmPnI_UsePU8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64Url.d.ts"
-    },
-    "size": 3553,
-    "hash": "LVhOA-AXlruy2l_8uj7OqYNt8HWUnwKYKe2d-khPXC4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Csv.d.ts"
-    },
-    "size": 22389,
-    "hash": "22pSJFH0tyStth9R63Uycc30OpLzYI182QSJl5K18Vo"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Hex.d.ts"
-    },
-    "size": 3101,
-    "hash": "a8-p15tzg2N4oOiyE0tOjgL17Q6t-4RKSlFK3_E5r4E"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ini.d.ts"
-    },
-    "size": 665,
-    "hash": "VEcV_gJv9YP3829kRBt6tCjrstQMEF8R7NjF5SKENTo"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/JsonArray.d.ts"
-    },
-    "size": 10914,
-    "hash": "bhQR9FZAiP_7kxUnMZbhOLd_U972g4RxmHvD9KKxNuQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ndjson.d.ts"
-    },
-    "size": 16373,
-    "hash": "vI4FK4XFTqsTpUyMJLfl2acrmVs42py0MswI7Dd-R60"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/SchemaBinary.d.ts"
-    },
-    "size": 11065,
-    "hash": "_azIUMK4xCOg93NqSVtNDX-F2N8ig0YdyXCc-P0UMRI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Sse.d.ts"
-    },
-    "size": 11379,
-    "hash": "Fmwr_ayd9o5g0s8kNgVtDPEZ15dytzKkVRuOJDQAXEU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Tar.d.ts"
-    },
-    "size": 11860,
-    "hash": "E0MiYTO8ue5t1e1JKwfyHgRXfng6HCkPtYvnFh87oEQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Toml.d.ts"
-    },
-    "size": 1167,
-    "hash": "oZ9za3NAXBeYkNmhWdO_vkqutfMqcYbkXasEWODwfAI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Xml.d.ts"
-    },
-    "size": 16470,
-    "hash": "pbiCzYYwqiAZdiCFMyRVz1UG67xCJdvhrKQr2DVmlT8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Yaml.d.ts"
-    },
-    "size": 1350,
-    "hash": "v6AA9d7wPSPG8is8K3PlW3cpQrL_Nvwf1MNmOfGrhZY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Zip.d.ts"
-    },
-    "size": 16670,
-    "hash": "nOdp98PU19xagRzuttN9laEGVY6lwutoVseazCyqX7c"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/index.d.ts"
-    },
-    "size": 1360,
-    "hash": "0p_GADS7DXIS1_3swheMVC7wVT6K135y2xxkhj_sq7U"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Encoding.d.ts"
-    },
-    "size": 852,
-    "hash": "6JHF6GIvlFYBICb2qrmb-bGQDaH1t16tgPW4ET7lViM"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/FileReader.d.ts"
-    },
-    "size": 3271,
-    "hash": "Izc4Lg3SrR_vTOYfWz0LwZeU40DjL8144EqjrGxp8AU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Headers.d.ts"
-    },
-    "size": 1481,
-    "hash": "y3AcQqeGN8mxkJ58iTbWOmyXNdK5dRRTEUogxbFXy0s"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/FileSystem.d.ts"
-    },
-    "size": 4237,
-    "hash": "GscyJs1q8_cVZgxDm-u1CJwscBRKw-f5XSRJdUxCAP8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Locks.d.ts"
-    },
-    "size": 5678,
-    "hash": "vA5GYo8h7qcs5a-fuxQPj_Xrbx1iP5fNyo4v0SJHAKk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/MediaQuery.d.ts"
-    },
-    "size": 2800,
-    "hash": "H2TsmsCxrAVQFpn2-nEjFgeAxGOVseTq6FcGaP1wfeE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/NetAddress.d.ts"
-    },
-    "size": 444,
-    "hash": "SgsPPjdFtiCOl0YW0Hfd-hH9BkaSftHcBv_ygK67A4U"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/NodeStream.d.ts"
-    },
-    "size": 3224,
-    "hash": "-Om0tHTgAHL2dgmRlVlG--oBT8d5mftOLPyo-yrHdSk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/ChildProcessSpawner.d.ts"
-    },
-    "size": 10049,
-    "hash": "thXsQ6k-zkFoKCmsVYtf5M6c35jjGBMUFpTT-aWMdLA"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/CommandLine.d.ts"
-    },
-    "size": 11522,
-    "hash": "lxWpSvbLSZaDoTOhUfkj6S-HePD5KBJ-tFZkDiae1Dg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/ChildProcess.d.ts"
-    },
-    "size": 40640,
-    "hash": "AE8za_rMlCaeaidHj6lgF2rgn2xY2_8CONWi6Xw1LPU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Process.d.ts"
-    },
-    "size": 8241,
-    "hash": "oiIVYvpaIUKJOP6geMxc4B8Dl0_JFBNWkR9ZIAKCyHs"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/ResizeObserver.d.ts"
-    },
-    "size": 2495,
-    "hash": "uUMxJ3p5sbc-qhqfyWNUwnitOJtINeXL_9M1xJLWz30"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Stdio.d.ts"
-    },
-    "size": 1504,
-    "hash": "6TcF16KKXbLqEGWumgFgvLQ7WkOiGr_cWBw27JoJX6Q"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Window.d.ts"
-    },
-    "size": 2301,
-    "hash": "Jgz07Sov3RhBpS50HAW-g5wQmxTspcjGXzQUavlym-g"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/AudioContext.d.ts"
-    },
-    "size": 2205,
-    "hash": "z0dedL-zpn1GrXaOgFyOHm7DMb1z3zCMaIMqGqR6tUk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Request.d.ts"
-    },
-    "size": 1649,
-    "hash": "KRg2WDevqFgPetJq4CxDHh8edm0srjqhWRN7lTSenyY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/index.d.ts"
-    },
-    "size": 1574,
-    "hash": "hcZRaVCidu8HYX0HvnTobrHo2cQDv4U1txmpSQ0GSa0"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/prelude.d.ts"
-    },
-    "size": 2682,
-    "hash": "lY9cy0XzDlp4a-WwT2moZ8nwmU3wfjDM4JeqmoMihTQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/resources.d.ts"
-    },
-    "size": 1599,
-    "hash": "U-JuKPY9JEuXM24F00Rd5NNsioH-5xMK4AMyix5GT4w"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/legacy-await-types.d.ts"
-    },
-    "size": 1948,
-    "hash": "yLNOHMBuLdk8f5F8zEtXmfK2YpMjr5UX54CdKqCyap4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/match-cache.d.ts"
-    },
-    "size": 722,
-    "hash": "IT8EGMnRp0-6el6sZiCOflLDbAfxip3e9Tr_dwBJLRQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/index.d.ts"
-    },
-    "size": 1608,
-    "hash": "s_8Vf5JxGZOuLAQBSNlcfdRVxvbbQ5N3X1hA9oH0k5E"
    },
    {
     "path": {
@@ -3102,10 +3116,10 @@
    },
    {
     "path": {
-     "relative": "packages/source-control-core/src/server/discovery.ts"
+     "relative": "packages/source-control-core/src/server/discovery.vibe"
     },
-    "size": 12802,
-    "hash": "87Dfb_5dL7YEIlfQiiODDq73izGBxZilfhoXVrn8KzA"
+    "size": 12331,
+    "hash": "4Tf3VZ2WYCKu-dbmAorGi0fTSJWppmQn87MTwNukAZk"
    },
    {
     "path": {
@@ -3195,8 +3209,8 @@
     "path": {
      "relative": "packages/source-control-core/src/server/driver.vibe"
     },
-    "size": 3038,
-    "hash": "cfAQN0LHWxdXvwjJNj6Op_bLWGGl9lnSoDrB3qD62KQ"
+    "size": 3040,
+    "hash": "jsBqfg8jw5K69YiKCzFIASFRN2IzGRKEXOVzin4TKPk"
    },
    {
     "path": {
@@ -4241,7 +4255,7 @@
     "relative": "packages/source-control-core/src/server/discovery.platform.ts"
    },
    {
-    "relative": "packages/source-control-core/src/server/discovery.ts"
+    "relative": "packages/source-control-core/src/server/discovery.vibe"
    },
    {
     "relative": "packages/shared/src/Crypto.vibe"
@@ -4303,7 +4317,7 @@
       "relative": "packages/source-control-core/src/server/PullRequestProvider.vibe"
      }
     ],
-    "code": "import { $schemaErrorMatcher } from \"vibelang-runtime\";\nimport * as Schema_1 from \"effect/Schema\";\nimport * as Effect from \"effect/Effect\";\nimport * as Schema from \"effect/Schema\";\nimport { SourceControlProviderKind as SourceControlProviderKindSchema } from \"@t3tools/contracts\";\nconst PullRequestProviderErrorReasonField = Schema.Literals([\n    \"missing-tool\",\n    \"unauthenticated\",\n    \"rate-limited\",\n    \"not-found\",\n    \"failed\",\n]);\nconst DefectField = Schema.Defect();\nexport class PullRequestProviderError extends Schema_1.TaggedError()(\"PullRequestProviderError\", {\n    provider: SourceControlProviderKindSchema,\n    operation: Schema_1.String,\n    reason: PullRequestProviderErrorReasonField,\n    detail: Schema_1.String,\n    retryAt: Schema_1.optional(Schema_1.Number),\n    cause: Schema_1.optional(DefectField),\n}) {\n    static {\n        $schemaErrorMatcher(this, \"PullRequestProviderError\");\n    }\n    get message() {\n        return `${this.provider} failed in ${this.operation}: ${this.detail}`;\n    }\n}\n",
+    "code": "import { $schemaErrorMatcher } from \"vibelang-runtime/internal\";\nimport * as Schema_1 from \"effect/Schema\";\nimport * as Effect from \"effect/Effect\";\nimport * as Schema from \"effect/Schema\";\nimport { SourceControlProviderKind as SourceControlProviderKindSchema } from \"@t3tools/contracts\";\nconst PullRequestProviderErrorReasonField = Schema.Literals([\n    \"missing-tool\",\n    \"unauthenticated\",\n    \"rate-limited\",\n    \"not-found\",\n    \"failed\",\n]);\nconst DefectField = Schema.Defect();\nexport class PullRequestProviderError extends Schema_1.TaggedError()(\"PullRequestProviderError\", {\n    provider: SourceControlProviderKindSchema,\n    operation: Schema_1.String,\n    reason: PullRequestProviderErrorReasonField,\n    detail: Schema_1.String,\n    retryAt: Schema_1.optional(Schema_1.Number),\n    cause: Schema_1.optional(DefectField),\n}) {\n    static {\n        $schemaErrorMatcher(this, \"PullRequestProviderError\");\n    }\n    get message() {\n        return `${this.provider} failed in ${this.operation}: ${this.detail}`;\n    }\n}\n",
     "map": {
      "version": 3,
      "file": "PullRequestProvider.js",
@@ -4314,7 +4328,7 @@
       }
      ],
      "names": [],
-     "mappings": ";;AAAA,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AAsCvC,OAAO,EAAE,yBAAyB,IAAI,+BAA+B,EAAE,MAAM,oBAAoB,CAAA;AAEjG,MAAM,mCAAmC,GAAG,MAAM,CAAC,QAAQ,CAAC;IAC1D,cAAc;IACd,iBAAiB;IACjB,cAAc;IACd,WAAW;IACX,QAAQ;CACT,CAAC,CAAA;AACF,MAAM,WAAW,GAAG,MAAM,CAAC,MAAM,EAAE,CAAA;AACnC,MAAM,OAAc,wBAAyB,SAAA,AAAtC,SAAA,WAAM,EAAA,CAAO,0BAAwB,EAAC;IAC3C,QAAQ,EAAE,+BAA+B;IACzC,SAAS,EAAE,SAAA,MAAA;IACX,MAAM,EAAE,mCAAmC;IAC3C,MAAM,EAAE,SAAA,MAAA;IACR,OAAO,EAAA,SAAA,QAAC,CAAE,SAAA,MAAA,CAAA;IACV,KAAK,EAAA,SAAA,QAAC,CAAE,WAAW,CAAA;CAIpB,CAAA;GAAA,C,CAAA;QAVmB,mBAAwB,CAAxB,IAAwB,EAAxB,0BAAwB,CAAA,CAAA;IAAC,CAAC,AAAF;IAO1C,IAAa,OAAO;QAClB,OAAO,GAAG,IAAI,CAAC,QAAQ,cAAc,IAAI,CAAC,SAAS,KAAK,IAAI,CAAC,MAAM,EAAE,CAAA;IACvE,CAAC;CACF"
+     "mappings": ";;AAAA,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AAsCvC,OAAO,EAAE,yBAAyB,IAAI,+BAA+B,EAAE,MAAM,oBAAoB,CAAA;AAEjG,MAAM,mCAAmC,GAAG,MAAM,CAAC,QAAQ,CAAC;IAC1D,cAAc;IACd,iBAAiB;IACjB,cAAc;IACd,WAAW;IACX,QAAQ;CACT,CAAC,CAAA;AACF,MAAM,WAAW,GAAG,MAAM,CAAC,MAAM,EAAE,CAAA;AACnC,MAAM,OAAc,wBAAyB,SAAA,AAAtC,SAAA,WAAM,EAAA,CAAO,0BAAwB,EAAC;IAC3C,QAAQ,EAAE,+BAA+B;IACzC,SAAS,EAAE,SAAA,MAAA;IACX,MAAM,EAAE,mCAAmC;IAC3C,MAAM,EAAE,SAAA,MAAA;IACR,OAAO,EAAA,SAAA,QAAC,CAAE,SAAA,MAAA,CAAA;IACV,KAAK,EAAA,SAAA,QAAC,CAAE,WAAW,CAAA;CAIpB,CAAA;GAAA,C,CAAA;QAVmB,mBAAwB,CAAxB,IAAwB,EAAxB,0BAAwB,CAAA,CAAA;KAAA;IAO1C,IAAa,OAAO;QAClB,OAAO,GAAG,IAAI,CAAC,QAAQ,cAAc,IAAI,CAAC,SAAS,KAAK,IAAI,CAAC,MAAM,EAAE,CAAA;IACvE,CAAC;CACF"
     }
    },
    {
@@ -4323,7 +4337,7 @@
       "relative": "packages/source-control-core/src/server/SourceControlHost.vibe"
      }
     ],
-    "code": "import * as runtime from \"vibelang-runtime\";\nimport * as Context from \"effect/Context\";\nexport class SourceControlHost extends runtime.$service(\"@t3tools/source-control-core/server/SourceControlHost\") {\n}\n",
+    "code": "import * as runtime from \"vibelang-runtime/internal\";\nimport * as Context from \"effect/Context\";\nexport class SourceControlHost extends runtime.$service(\"@t3tools/source-control-core/server/SourceControlHost\") {\n}\n",
     "map": {
      "version": 3,
      "file": "SourceControlHost.js",
@@ -4334,7 +4348,7 @@
       }
      ],
      "names": [],
-     "mappings": ";AAUA,OAAO,KAAK,OAAO,MAAM,gBAAgB,CAAA;AAqDzC,MAAM,OAAS,iBAAiB;CAkE/B"
+     "mappings": ";AAUA,OAAO,KAAK,OAAO,MAAM,gBAAgB,CAAA;AAqDzC,MAAM,OAAS,iBAAiB,0BAiER,uDAAuD;CAC9E"
     }
    },
    {
@@ -4343,7 +4357,7 @@
       "relative": "packages/source-control-core/src/server/SourceControlProvider.vibe"
      }
     ],
-    "code": "import * as runtime from \"vibelang-runtime\";\nimport * as Context from \"effect/Context\";\nimport * as Effect from \"effect/Effect\";\nconst MAX_ERROR_TRANSPORT_VALUE_LENGTH = 256;\n/**\n * The fixed product text a provider failure carries for the user, if it has one. Any other\n * detail may be upstream response text, so callers show a generic message instead.\n */\nexport function userFacingSourceControlDetail(cause) {\n    return typeof cause === \"object\"\n        && cause !== null\n        && \"userFacingDetail\" in cause\n        && typeof cause.userFacingDetail === \"string\"\n        ? cause.userFacingDetail\n        : undefined;\n}\nexport function transportSafeSourceControlErrorValue(value) {\n    let printable = \"\";\n    for (const character of value) {\n        const codePoint = character.codePointAt(0);\n        printable += codePoint !== undefined && (codePoint < 32 || codePoint === 127) ? \" \" : character;\n    }\n    const normalized = printable.trim().replace(/\\s+/gu, \" \");\n    let safe = normalized;\n    try {\n        const url = new URL(normalized);\n        url.username = \"\";\n        url.password = \"\";\n        url.search = \"\";\n        url.hash = \"\";\n        safe = url.toString();\n    }\n    catch { }\n    return safe.slice(0, MAX_ERROR_TRANSPORT_VALUE_LENGTH);\n}\nexport function parseSourceControlOwnerRef(headSelector) {\n    const match = /^([^:/\\s]+):(.+)$/u.exec(headSelector.trim());\n    const owner = match?.[1]?.trim();\n    const refName = match?.[2]?.trim();\n    return owner && refName ? { owner, refName } : undefined;\n}\nfunction normalizeSourceBranch(headSelector) {\n    return parseSourceControlOwnerRef(headSelector)?.refName ?? headSelector.trim();\n}\nexport function sourceBranch(input) {\n    return input.source?.refName ?? normalizeSourceBranch(input.headSelector);\n}\nexport function sourceControlRefFromInput(input) {\n    return input.source ?? parseSourceControlOwnerRef(input.headSelector);\n}\nexport function repositoryPathFromRemoteUrl(url) {\n    const trimmed = url?.trim() ?? \"\";\n    if (trimmed.length === 0) {\n        return null;\n    }\n    const match = /^(?:[^@/\\s]+@[^:/\\s]+:|(?:ssh|https?|git):\\/\\/[^/]+\\/)((?:[^/\\s]+\\/)+[^/\\s]+?)(?:\\.git)?\\/?$/iu.exec(trimmed);\n    const path = match?.[1]?.trim() ?? \"\";\n    return path.length > 0 ? path : null;\n}\nexport class SourceControlProvider extends runtime.$service(\"@t3tools/source-control-core/server/SourceControlProvider\") {\n}\n",
+    "code": "import * as runtime from \"vibelang-runtime/internal\";\nimport * as Context from \"effect/Context\";\nimport * as Effect from \"effect/Effect\";\nconst MAX_ERROR_TRANSPORT_VALUE_LENGTH = 256;\n/**\n * The fixed product text a provider failure carries for the user, if it has one. Any other\n * detail may be upstream response text, so callers show a generic message instead.\n */\nexport function userFacingSourceControlDetail(cause) {\n    return typeof cause === \"object\"\n        && cause !== null\n        && \"userFacingDetail\" in cause\n        && typeof cause.userFacingDetail === \"string\"\n        ? cause.userFacingDetail\n        : undefined;\n}\nexport function transportSafeSourceControlErrorValue(value) {\n    let printable = \"\";\n    for (const character of value) {\n        const codePoint = character.codePointAt(0);\n        printable += codePoint !== undefined && (codePoint < 32 || codePoint === 127) ? \" \" : character;\n    }\n    const normalized = printable.trim().replace(/\\s+/gu, \" \");\n    let safe = normalized;\n    try {\n        const url = new URL(normalized);\n        url.username = \"\";\n        url.password = \"\";\n        url.search = \"\";\n        url.hash = \"\";\n        safe = url.toString();\n    }\n    catch { }\n    return safe.slice(0, MAX_ERROR_TRANSPORT_VALUE_LENGTH);\n}\nexport function parseSourceControlOwnerRef(headSelector) {\n    const match = /^([^:/\\s]+):(.+)$/u.exec(headSelector.trim());\n    const owner = match?.[1]?.trim();\n    const refName = match?.[2]?.trim();\n    return owner && refName ? { owner, refName } : undefined;\n}\nfunction normalizeSourceBranch(headSelector) {\n    return parseSourceControlOwnerRef(headSelector)?.refName ?? headSelector.trim();\n}\nexport function sourceBranch(input) {\n    return input.source?.refName ?? normalizeSourceBranch(input.headSelector);\n}\nexport function sourceControlRefFromInput(input) {\n    return input.source ?? parseSourceControlOwnerRef(input.headSelector);\n}\nexport function repositoryPathFromRemoteUrl(url) {\n    const trimmed = url?.trim() ?? \"\";\n    if (trimmed.length === 0) {\n        return null;\n    }\n    const match = /^(?:[^@/\\s]+@[^:/\\s]+:|(?:ssh|https?|git):\\/\\/[^/]+\\/)((?:[^/\\s]+\\/)+[^/\\s]+?)(?:\\.git)?\\/?$/iu.exec(trimmed);\n    const path = match?.[1]?.trim() ?? \"\";\n    return path.length > 0 ? path : null;\n}\nexport class SourceControlProvider extends runtime.$service(\"@t3tools/source-control-core/server/SourceControlProvider\") {\n}\n",
     "map": {
      "version": 3,
      "file": "SourceControlProvider.js",
@@ -4354,7 +4368,7 @@
       }
      ],
      "names": [],
-     "mappings": "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"
+     "mappings": "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"
     }
    },
    {
@@ -4363,7 +4377,7 @@
       "relative": "packages/source-control-core/src/server/SourceControlRateLimit.vibe"
      }
     ],
-    "code": "import * as Clock from \"effect/Clock\";\nimport * as Duration from \"effect/Duration\";\nimport * as Ref from \"effect/Ref\";\nimport { withSpan } from \"effect/Effect\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime\";\nimport * as Schema_1 from \"effect/Schema\";\nimport * as Context from \"effect/Context\";\nimport * as Effect from \"effect/Effect\";\nimport * as Layer from \"effect/Layer\";\nimport * as Schema from \"effect/Schema\";\nimport { SourceControlProviderKind as SourceControlProviderKindSchema, } from \"@t3tools/contracts\";\nconst FALLBACK_COOLDOWN = Duration.seconds(30);\nconst MAX_FALLBACK_COOLDOWN = Duration.minutes(15);\nexport const CredentialScope = Context.Reference(\"@t3tools/source-control-core/server/SourceControlRateLimit/CredentialScope\", {\n    defaultValue: () => \"\",\n});\n/** Interactive requests may use reserved quota and bypass pauses caused by background reads. */\nexport const Interactive = Context.Reference(\"@t3tools/source-control-core/server/SourceControlRateLimit/Interactive\", { defaultValue: () => false });\nexport class SourceControlRateLimitPausedError extends Schema_1.TaggedError()(\"SourceControlRateLimitPausedError\", {\n    provider: SourceControlProviderKindSchema,\n    host: Schema_1.String,\n    retryAt: Schema_1.Number,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"SourceControlRateLimitPausedError\");\n    }\n    get detail() {\n        return `${this.provider} requests to ${this.host} are paused until the rate limit resets.`;\n    }\n    get message() {\n        return this.detail;\n    }\n}\nexport class SourceControlRateLimit extends runtime.$service(\"@t3tools/source-control-core/server/SourceControlRateLimit\") {\n}\nfunction normalizedKey(key, scope) {\n    return `${key.provider}\\0${key.host.trim().toLowerCase()}\\0${scope}`;\n}\nfunction fallbackCooldownMs(attempt) {\n    return Math.min(Duration.toMillis(FALLBACK_COOLDOWN) * 2 ** Math.max(0, attempt - 1), Duration.toMillis(MAX_FALLBACK_COOLDOWN));\n}\nexport function retryAtFromHeader(value, now) {\n    if (value === undefined)\n        return undefined;\n    const normalized = value.trim();\n    if (/^\\d+$/u.test(normalized)) {\n        const seconds = Number(normalized);\n        const retryAt = now + seconds * 1_000;\n        return Number.isSafeInteger(retryAt) ? retryAt : undefined;\n    }\n    const retryAt = Date.parse(normalized);\n    return Number.isFinite(retryAt) && retryAt > now ? retryAt : undefined;\n}\n/** @public */\nexport const make = Effect_1.gen(function* make() {\n    const entries = yield* Ref.make(new Map());\n    const check = (input, options) => {\n        return Effect_1.gen(function* check() { return yield* withSpan((() => {\n            return Effect_1.gen(function* () {\n                const now = yield* Clock.currentTimeMillis;\n                const key = normalizedKey(input, yield* CredentialScope);\n                const entry = (yield* Ref.get(entries)).get(key);\n                if (entry !== undefined && entry.retryAt > now && options?.allowPaused !== true) {\n                    return yield* Effect_1.fail(new SourceControlRateLimitPausedError({\n                        provider: input.provider,\n                        host: input.host.trim().toLowerCase(),\n                        retryAt: entry.retryAt,\n                    }));\n                }\n                return entry?.generation ?? 0;\n            });\n        })(), \"SourceControlRateLimit.check\"); });\n    };\n    const recordRateLimit = (input) => {\n        return Effect_1.gen(function* recordRateLimit() { return yield* withSpan((() => {\n            return Effect_1.gen(function* () {\n                const now = yield* Clock.currentTimeMillis;\n                const key = normalizedKey(input, yield* CredentialScope);\n                yield* Ref.update(entries, (current) => {\n                    const previous = current.get(key);\n                    if (previous !== undefined && previous.generation > input.lease) {\n                        if (previous.retryAt <= now && (input.retryAt === undefined || input.retryAt <= now)) {\n                            return current;\n                        }\n                        const retryAt = input.retryAt !== undefined && input.retryAt > previous.retryAt\n                            ? input.retryAt\n                            : previous.retryAt;\n                        if (retryAt === previous.retryAt)\n                            return current;\n                        const next = new Map(current);\n                        next.set(key, { ...previous, retryAt });\n                        return next;\n                    }\n                    const attempt = (previous?.attempt ?? 0) + 1;\n                    const proposedRetryAt = input.retryAt !== undefined && input.retryAt > now\n                        ? input.retryAt\n                        : now + fallbackCooldownMs(attempt);\n                    const retryAt = previous !== undefined && previous.retryAt > now\n                        ? Math.max(previous.retryAt, proposedRetryAt)\n                        : proposedRetryAt;\n                    const next = new Map(current);\n                    next.set(key, {\n                        attempt,\n                        generation: Math.max(previous?.generation ?? 0, input.lease) + 1,\n                        retryAt,\n                    });\n                    return next;\n                });\n            });\n        })(), \"SourceControlRateLimit.recordRateLimit\"); });\n    };\n    const recordSuccess = (input) => {\n        return Effect_1.gen(function* recordSuccess() { return yield* withSpan((() => {\n            return Effect_1.gen(function* () {\n                const now = yield* Clock.currentTimeMillis;\n                const key = normalizedKey(input, yield* CredentialScope);\n                yield* Ref.update(entries, (current) => {\n                    const previous = current.get(key);\n                    if (previous === undefined || previous.generation !== input.lease || previous.retryAt > now) {\n                        return current;\n                    }\n                    const next = new Map(current);\n                    next.set(key, { attempt: 0, generation: previous.generation, retryAt: 0 });\n                    return next;\n                });\n            });\n        })(), \"SourceControlRateLimit.recordSuccess\"); });\n    };\n    return SourceControlRateLimit.of({ check, recordRateLimit, recordSuccess });\n});\nexport const layer = Layer.effect(SourceControlRateLimit, make);\n",
+    "code": "import * as Clock from \"effect/Clock\";\nimport * as Duration from \"effect/Duration\";\nimport * as Ref from \"effect/Ref\";\nimport { withSpan } from \"effect/Effect\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport * as Schema_1 from \"effect/Schema\";\nimport * as Context from \"effect/Context\";\nimport * as Effect from \"effect/Effect\";\nimport * as Layer from \"effect/Layer\";\nimport * as Schema from \"effect/Schema\";\nimport { SourceControlProviderKind as SourceControlProviderKindSchema, } from \"@t3tools/contracts\";\nconst FALLBACK_COOLDOWN = Duration.seconds(30);\nconst MAX_FALLBACK_COOLDOWN = Duration.minutes(15);\nexport const CredentialScope = Context.Reference(\"@t3tools/source-control-core/server/SourceControlRateLimit/CredentialScope\", {\n    defaultValue: () => \"\",\n});\n/** Interactive requests may use reserved quota and bypass pauses caused by background reads. */\nexport const Interactive = Context.Reference(\"@t3tools/source-control-core/server/SourceControlRateLimit/Interactive\", { defaultValue: () => false });\nexport class SourceControlRateLimitPausedError extends Schema_1.TaggedError()(\"SourceControlRateLimitPausedError\", {\n    provider: SourceControlProviderKindSchema,\n    host: Schema_1.String,\n    retryAt: Schema_1.Number,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"SourceControlRateLimitPausedError\");\n    }\n    get detail() {\n        return `${this.provider} requests to ${this.host} are paused until the rate limit resets.`;\n    }\n    get message() {\n        return this.detail;\n    }\n}\nexport class SourceControlRateLimit extends runtime.$service(\"@t3tools/source-control-core/server/SourceControlRateLimit\") {\n}\nfunction normalizedKey(key, scope) {\n    return `${key.provider}\\0${key.host.trim().toLowerCase()}\\0${scope}`;\n}\nfunction fallbackCooldownMs(attempt) {\n    return Math.min(Duration.toMillis(FALLBACK_COOLDOWN) * 2 ** Math.max(0, attempt - 1), Duration.toMillis(MAX_FALLBACK_COOLDOWN));\n}\nexport function retryAtFromHeader(value, now) {\n    if (value === undefined)\n        return undefined;\n    const normalized = value.trim();\n    if (/^\\d+$/u.test(normalized)) {\n        const seconds = Number(normalized);\n        const retryAt = now + seconds * 1_000;\n        return Number.isSafeInteger(retryAt) ? retryAt : undefined;\n    }\n    const retryAt = Date.parse(normalized);\n    return Number.isFinite(retryAt) && retryAt > now ? retryAt : undefined;\n}\n/** @public */\nexport const make = Effect_1.gen(function* make() {\n    const entries = yield* Ref.make(new Map());\n    const check = (input, options) => {\n        return Effect_1.gen(function* check() { return yield* withSpan((() => {\n            return Effect_1.gen(function* () {\n                const now = yield* Clock.currentTimeMillis;\n                const key = normalizedKey(input, yield* CredentialScope);\n                const entry = (yield* Ref.get(entries)).get(key);\n                if (entry !== undefined && entry.retryAt > now && options?.allowPaused !== true) {\n                    return yield* Effect_1.fail(new SourceControlRateLimitPausedError({\n                        provider: input.provider,\n                        host: input.host.trim().toLowerCase(),\n                        retryAt: entry.retryAt,\n                    }));\n                }\n                return entry?.generation ?? 0;\n            });\n        })(), \"SourceControlRateLimit.check\"); });\n    };\n    const recordRateLimit = (input) => {\n        return Effect_1.gen(function* recordRateLimit() { return yield* withSpan((() => {\n            return Effect_1.gen(function* () {\n                const now = yield* Clock.currentTimeMillis;\n                const key = normalizedKey(input, yield* CredentialScope);\n                yield* Ref.update(entries, (current) => {\n                    const previous = current.get(key);\n                    if (previous !== undefined && previous.generation > input.lease) {\n                        if (previous.retryAt <= now && (input.retryAt === undefined || input.retryAt <= now)) {\n                            return current;\n                        }\n                        const retryAt = input.retryAt !== undefined && input.retryAt > previous.retryAt\n                            ? input.retryAt\n                            : previous.retryAt;\n                        if (retryAt === previous.retryAt)\n                            return current;\n                        const next = new Map(current);\n                        next.set(key, { ...previous, retryAt });\n                        return next;\n                    }\n                    const attempt = (previous?.attempt ?? 0) + 1;\n                    const proposedRetryAt = input.retryAt !== undefined && input.retryAt > now\n                        ? input.retryAt\n                        : now + fallbackCooldownMs(attempt);\n                    const retryAt = previous !== undefined && previous.retryAt > now\n                        ? Math.max(previous.retryAt, proposedRetryAt)\n                        : proposedRetryAt;\n                    const next = new Map(current);\n                    next.set(key, {\n                        attempt,\n                        generation: Math.max(previous?.generation ?? 0, input.lease) + 1,\n                        retryAt,\n                    });\n                    return next;\n                });\n            });\n        })(), \"SourceControlRateLimit.recordRateLimit\"); });\n    };\n    const recordSuccess = (input) => {\n        return Effect_1.gen(function* recordSuccess() { return yield* withSpan((() => {\n            return Effect_1.gen(function* () {\n                const now = yield* Clock.currentTimeMillis;\n                const key = normalizedKey(input, yield* CredentialScope);\n                yield* Ref.update(entries, (current) => {\n                    const previous = current.get(key);\n                    if (previous === undefined || previous.generation !== input.lease || previous.retryAt > now) {\n                        return current;\n                    }\n                    const next = new Map(current);\n                    next.set(key, { attempt: 0, generation: previous.generation, retryAt: 0 });\n                    return next;\n                });\n            });\n        })(), \"SourceControlRateLimit.recordSuccess\"); });\n    };\n    return SourceControlRateLimit.of({ check, recordRateLimit, recordSuccess });\n});\nexport const layer = Layer.effect(SourceControlRateLimit, make);\n",
     "map": {
      "version": 3,
      "file": "SourceControlRateLimit.js",
@@ -4374,7 +4388,27 @@
       }
      ],
      "names": [],
-     "mappings": "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"
+     "mappings": "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"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "packages/source-control-core/src/server/discovery.vibe"
+     }
+    ],
+    "code": "import * as PlatformError from \"effect/PlatformError\";\nimport * as Result from \"effect/Result\";\nimport * as Schema from \"effect/Schema\";\nimport { withSpan } from \"effect/Effect\";\nimport { $catchExpression, $schemaErrorMatcher } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport { VcsProcessSpawnError, } from \"@t3tools/contracts\";\nimport * as Effect from \"effect/Effect\";\nimport * as Option from \"effect/Option\";\nimport * as $platform from \"./discovery.platform.js\";\nconst DEFAULT_PROBE_TIMEOUT_MS = 5_000;\nfunction probeTimeoutMs(spec) {\n    return spec.probeTimeoutMs ?? DEFAULT_PROBE_TIMEOUT_MS;\n}\nexport function firstNonEmptyLine(text) {\n    return $platform.firstNonEmptyLine(text);\n}\nexport function detailFromCause(cause) {\n    if (cause instanceof Error && cause.message.trim().length > 0) {\n        return Option.some(cause.message.trim());\n    }\n    return Option.none();\n}\nfunction authAccount(account) {\n    const trimmed = account?.trim();\n    return trimmed === undefined || trimmed.length === 0 ? Option.none() : Option.some(trimmed);\n}\nfunction authHost(host) {\n    const trimmed = host?.trim();\n    return trimmed === undefined || trimmed.length === 0 ? Option.none() : Option.some(trimmed);\n}\nfunction authDetail(detail) {\n    const trimmed = detail?.trim();\n    return trimmed === undefined || trimmed.length === 0 ? Option.none() : Option.some(trimmed);\n}\nexport function providerAuth(input) {\n    return {\n        status: input.status,\n        account: authAccount(input.account),\n        host: authHost(input.host),\n        detail: authDetail(input.detail),\n    };\n}\nfunction unknownAuth(detail) {\n    return providerAuth({ status: \"unknown\", detail });\n}\nexport function combinedAuthOutput(input) {\n    const parts = [];\n    for (const entry of [input.stdout, input.stderr]) {\n        if (entry.trim().length > 0) {\n            parts.push(entry);\n        }\n    }\n    return parts.join(\"\\n\");\n}\nfunction sanitizedAuthLines(text) {\n    const lines = [];\n    for (const entry of text.split(/\\r?\\n/)) {\n        const line = entry.trim();\n        if (line.length === 0)\n            continue;\n        if (/^[-\\s]*token(?:\\s+scopes?)?:/iu.test(line))\n            continue;\n        lines.push(line);\n    }\n    return lines;\n}\nexport function firstSafeAuthLine(text) {\n    return sanitizedAuthLines(text)[0];\n}\nexport function parseCliHost(text) {\n    return sanitizedAuthLines(text)\n        .map((line) => line.replace(/^[^a-z0-9]+/iu, \"\"))\n        .find((line) => /^[a-z0-9][a-z0-9.-]*(?::\\d+)?$/iu.test(line));\n}\nexport function matchFirst(text, patterns) {\n    for (const pattern of patterns) {\n        const match = pattern.exec(text);\n        const value = match?.[1]?.trim();\n        if (value && value.length > 0)\n            return value;\n    }\n    return undefined;\n}\nfunction isCliRemoteRefinementSpec(spec) {\n    return spec.type === \"cli\" && spec.refineUnknownRemote !== undefined;\n}\nfunction probeCli(input) {\n    let $do1;\n    {\n        const catchProgram = Effect.map(input.process\n            .run({\n            operation: \"source-control.discovery.probe\",\n            command: input.spec.executable,\n            args: input.spec.versionArgs,\n            cwd: input.cwd,\n            timeoutMs: probeTimeoutMs(input.spec),\n            maxOutputBytes: 8_000,\n            appendTruncationMarker: true,\n        }), (result) => ({\n            kind: input.spec.kind,\n            label: input.spec.label,\n            executable: input.spec.executable,\n            status: \"available\",\n            version: Option.orElse(firstNonEmptyLine(result.stdout), () => firstNonEmptyLine(result.stderr)),\n            installHint: input.spec.installHint,\n            detail: Option.none(),\n        }));\n        $do1\n            =\n                Effect_1.gen(function* () {\n                    return yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return catchProgram; }); })(), (cause) => Effect_1.sync(() => { return {\n                        kind: input.spec.kind,\n                        label: input.spec.label,\n                        executable: input.spec.executable,\n                        status: \"missing\",\n                        version: Option.none(),\n                        installHint: input.spec.installHint,\n                        detail: detailFromCause(cause),\n                    }; }));\n                });\n    }\n    return $do1;\n}\nexport function probeSourceControlProvider(input) {\n    if (input.spec.type === \"managed-cli\")\n        return input.spec.probe(input.cwd);\n    if (input.spec.type === \"api\") {\n        return Effect.map(input.spec.probeAuth, (auth) => ({\n            kind: input.spec.kind,\n            label: input.spec.label,\n            status: \"available\",\n            version: Option.none(),\n            installHint: input.spec.installHint,\n            detail: Option.none(),\n            auth,\n        }));\n    }\n    const spec = input.spec;\n    return Effect.flatMap(probeCli({\n        spec,\n        process: input.process,\n        cwd: input.cwd,\n    }), (item) => {\n        if (item.status !== \"available\") {\n            return Effect.succeed({\n                ...item,\n                auth: unknownAuth(\"Hosting integration command was not found on the server PATH.\"),\n            });\n        }\n        let $do2;\n        {\n            const catchProgram = Effect.map(input.process\n                .run({\n                operation: \"source-control.discovery.auth\",\n                command: spec.executable,\n                args: spec.authArgs,\n                cwd: input.cwd,\n                allowNonZeroExit: true,\n                timeoutMs: probeTimeoutMs(spec),\n                maxOutputBytes: 8_000,\n                appendTruncationMarker: true,\n            }), (result) => ({\n                ...item,\n                auth: spec.parseAuth(result),\n            }));\n            $do2\n                =\n                    Effect_1.gen(function* () {\n                        return yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return catchProgram; }); })(), (cause) => Effect_1.sync(() => { return {\n                            ...item,\n                            auth: unknownAuth(Option.getOrUndefined(detailFromCause(cause))),\n                        }; }));\n                    });\n        }\n        return $do2;\n    });\n}\nconst isVcsProcessSpawnError = Schema.is(VcsProcessSpawnError);\n/** The spawner checks cwd first, so ChildProcess NotFound identifies the executable. */\nexport function isMissingExecutable(error) {\n    return (isVcsProcessSpawnError(error)\n        && PlatformError.isPlatformError(error.cause)\n        && error.cause.reason._tag === \"NotFound\"\n        && error.cause.reason.module === \"ChildProcess\");\n}\nclass UnknownRemoteUnanswered extends Schema.TaggedError()(\"UnknownRemoteUnanswered\", {}) {\n    static {\n        $schemaErrorMatcher(this, \"UnknownRemoteUnanswered\");\n    }\n}\nfunction refineWithSpec(input) {\n    const { spec, context } = input;\n    if (spec.type === \"managed-cli\") {\n        return spec.refineUnknownRemote({ cwd: input.cwd, context });\n    }\n    if (!isCliRemoteRefinementSpec(spec))\n        return Effect.succeed(null);\n    return Effect.flatMap(Effect.catchIf(input.process\n        .run({\n        operation: \"source-control.discovery.refine-unknown-remote\",\n        command: spec.executable,\n        args: spec.remoteRefinementArgs?.(context) ?? spec.authArgs,\n        cwd: input.cwd,\n        allowNonZeroExit: true,\n        timeoutMs: probeTimeoutMs(spec),\n        maxOutputBytes: 8_000,\n        appendTruncationMarker: true,\n    }), isMissingExecutable, () => Effect.void), (auth) => {\n        const provider = auth === undefined ? null : spec.refineUnknownRemote({ cwd: input.cwd, context, auth });\n        return provider === undefined\n            ? Effect.fail(new UnknownRemoteUnanswered())\n            : Effect.succeed(provider);\n    });\n}\nexport const refineUnknownRemoteProvider = (input) => {\n    return Effect_1.gen(function* refineUnknownRemoteProvider() { return yield* withSpan((() => {\n        return Effect_1.gen(function* () {\n            const results = yield* Effect.forEach(input.specs, (spec) => Effect.result(refineWithSpec({ ...input, spec })));\n            // An earlier integration that could not answer might have claimed this host.\n            let settled = true;\n            for (const result of results) {\n                if (Result.isFailure(result)) {\n                    settled = false;\n                }\n                else if (result.success !== null) {\n                    return { provider: result.success, settled };\n                }\n            }\n            return { provider: null, settled };\n        });\n    })(), \"refineUnknownRemoteProvider\"); });\n};\n",
+    "map": {
+     "version": 3,
+     "file": "discovery.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/source-control-core/src/server/discovery.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": ";;;;;;;AAAA,OAAO,EACL,oBAAoB,GAKrB,MAAM,oBAAoB,CAAA;AAE3B,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AAGvC,OAAO,KAAK,SAAS,MAAM,yBAAyB,CAAA;AAoDpD,MAAM,wBAAwB,GAAG,KAAK,CAAA;AACtC,SAAS,cAAc,CAAC,IAAmC;IACzD,OAAO,IAAI,CAAC,cAAc,IAAI,wBAAwB,CAAA;AACxD,CAAC;AAUD,MAAM,UAAU,iBAAiB,CAAC,IAAY;IAC5C,OAAO,SAAS,CAAC,iBAAiB,CAAC,IAAI,CAAC,CAAA;AAC1C,CAAC;AACD,MAAM,UAAU,eAAe,CAAC,KAAc;IAC5C,IAAI,KAAK,YAAY,KAAK,IAAI,KAAK,CAAC,OAAO,CAAC,IAAI,EAAE,CAAC,MAAM,GAAG,CAAC,EAAE,CAAC;QAC9D,OAAO,MAAM,CAAC,IAAI,CAAC,KAAK,CAAC,OAAO,CAAC,IAAI,EAAE,CAAC,CAAA;IAC1C,CAAC;IACD,OAAO,MAAM,CAAC,IAAI,EAAE,CAAA;AACtB,CAAC;AACD,SAAS,WAAW,CAAC,OAA2B;IAC9C,MAAM,OAAO,GAAG,OAAO,EAAE,IAAI,EAAE,CAAA;IAC/B,OAAO,OAAO,KAAK,SAAS,IAAI,OAAO,CAAC,MAAM,KAAK,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,IAAI,EAAE,CAAC,CAAC,CAAC,MAAM,CAAC,IAAI,CAAC,OAAO,CAAC,CAAA;AAC7F,CAAC;AACD,SAAS,QAAQ,CAAC,IAAwB;IACxC,MAAM,OAAO,GAAG,IAAI,EAAE,IAAI,EAAE,CAAA;IAC5B,OAAO,OAAO,KAAK,SAAS,IAAI,OAAO,CAAC,MAAM,KAAK,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,IAAI,EAAE,CAAC,CAAC,CAAC,MAAM,CAAC,IAAI,CAAC,OAAO,CAAC,CAAA;AAC7F,CAAC;AACD,SAAS,UAAU,CAAC,MAA0B;IAC5C,MAAM,OAAO,GAAG,MAAM,EAAE,IAAI,EAAE,CAAA;IAC9B,OAAO,OAAO,KAAK,SAAS,IAAI,OAAO,CAAC,MAAM,KAAK,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,IAAI,EAAE,CAAC,CAAC,CAAC,MAAM,CAAC,IAAI,CAAC,OAAO,CAAC,CAAA;AAC7F,CAAC;AACD,MAAM,UAAU,YAAY,CAAC,KAK5B;IACC,OAAO;QACL,MAAM,EAAE,KAAK,CAAC,MAAM;QACpB,OAAO,EAAE,WAAW,CAAC,KAAK,CAAC,OAAO,CAAC;QACnC,IAAI,EAAE,QAAQ,CAAC,KAAK,CAAC,IAAI,CAAC;QAC1B,MAAM,EAAE,UAAU,CAAC,KAAK,CAAC,MAAM,CAAC;KACjC,CAAA;AACH,CAAC;AACD,SAAS,WAAW,CAAC,MAAe;IAClC,OAAO,YAAY,CAAC,EAAE,MAAM,EAAE,SAAS,EAAE,MAAM,EAAE,CAAC,CAAA;AACpD,CAAC;AACD,MAAM,UAAU,kBAAkB,CAAC,KAAkC;IACnE,MAAM,KAAK,GAAa,EAAE,CAAA;IAC1B,KAAK,MAAM,KAAK,IAAI,CAAC,KAAK,CAAC,MAAM,EAAE,KAAK,CAAC,MAAM,CAAC,EAAE,CAAC;QACjD,IAAI,KAAK,CAAC,IAAI,EAAE,CAAC,MAAM,GAAG,CAAC,EAAE,CAAC;YAC5B,KAAK,CAAC,IAAI,CAAC,KAAK,CAAC,CAAA;QACnB,CAAC;IACH,CAAC;IACD,OAAO,KAAK,CAAC,IAAI,CAAC,IAAI,CAAC,CAAA;AACzB,CAAC;AACD,SAAS,kBAAkB,CAAC,IAAY;IACtC,MAAM,KAAK,GAAa,EAAE,CAAA;IAC1B,KAAK,MAAM,KAAK,IAAI,IAAI,CAAC,KAAK,CAAC,OAAO,CAAC,EAAE,CAAC;QACxC,MAAM,IAAI,GAAG,KAAK,CAAC,IAAI,EAAE,CAAA;QACzB,IAAI,IAAI,CAAC,MAAM,KAAK,CAAC;YAAE,SAAQ;QAC/B,IAAI,gCAAgC,CAAC,IAAI,CAAC,IAAI,CAAC;YAAE,SAAQ;QACzD,KAAK,CAAC,IAAI,CAAC,IAAI,CAAC,CAAA;IAClB,CAAC;IACD,OAAO,KAAK,CAAA;AACd,CAAC;AACD,MAAM,UAAU,iBAAiB,CAAC,IAAY;IAC5C,OAAO,kBAAkB,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAA;AACpC,CAAC;AACD,MAAM,UAAU,YAAY,CAAC,IAAY;IACvC,OAAO,kBAAkB,CAAC,IAAI,CAAC;SAC5B,GAAG,CAAC,CAAC,IAAI,EAAE,EAAE,CAAC,IAAI,CAAC,OAAO,CAAC,eAAe,EAAE,EAAE,CAAC,CAAC;SAChD,IAAI,CAAC,CAAC,IAAI,EAAE,EAAE,CAAC,kCAAkC,CAAC,IAAI,CAAC,IAAI,CAAC,CAAC,CAAA;AAClE,CAAC;AACD,MAAM,UAAU,UAAU,CAAC,IAAY,EAAE,QAA+B;IACtE,KAAK,MAAM,OAAO,IAAI,QAAQ,EAAE,CAAC;QAC/B,MAAM,KAAK,GAAG,OAAO,CAAC,IAAI,CAAC,IAAI,CAAC,CAAA;QAChC,MAAM,KAAK,GAAG,KAAK,EAAE,CAAC,CAAC,CAAC,EAAE,IAAI,EAAE,CAAA;QAChC,IAAI,KAAK,IAAI,KAAK,CAAC,MAAM,GAAG,CAAC;YAAE,OAAO,KAAK,CAAA;IAC7C,CAAC;IACD,OAAO,SAAS,CAAA;AAClB,CAAC;AACD,SAAS,yBAAyB,CAChC,IAAwC;IAExC,OAAO,IAAI,CAAC,IAAI,KAAK,KAAK,IAAI,IAAI,CAAC,mBAAmB,KAAK,SAAS,CAAA;AACtE,CAAC;AACD,SAAS,QAAQ,CAAC,KAIjB;IACQ,IAAA,IAAE,CAAA;IAAC,CAAC;QACT,MAAM,YAAY,GAUb,MAAM,CAAC,GAAG,CAVM,KAAK,CAAC,OAAO;aAC/B,GAAG,CAAC;YACH,SAAS,EAAE,gCAAgC;YAC3C,OAAO,EAAE,KAAK,CAAC,IAAI,CAAC,UAAU;YAC9B,IAAI,EAAE,KAAK,CAAC,IAAI,CAAC,WAAW;YAC5B,GAAG,EAAE,KAAK,CAAC,GAAG;YACd,SAAS,EAAE,cAAc,CAAC,KAAK,CAAC,IAAI,CAAC;YACrC,cAAc,EAAE,KAAK;YACrB,sBAAsB,EAAE,IAAI;SAC7B,CAAC,EAGA,CAAC,MAAM,EAAE,EAAE,CACT,CAAC;YACC,IAAI,EAAE,KAAK,CAAC,IAAI,CAAC,IAAI;YACrB,KAAK,EAAE,KAAK,CAAC,IAAI,CAAC,KAAK;YACvB,UAAU,EAAE,KAAK,CAAC,IAAI,CAAC,UAAU;YACjC,MAAM,EAAE,WAAoB;YAC5B,OAAO,EAAE,MAAM,CAAC,MAAM,CAAC,iBAAiB,CAAC,MAAM,CAAC,MAAM,CAAC,EAAE,GAAG,EAAE,CAAC,iBAAiB,CAAC,MAAM,CAAC,MAAM,CAAC,CAAC;YAChG,WAAW,EAAE,KAAK,CAAC,IAAI,CAAC,WAAW;YACnC,MAAM,EAAE,MAAM,CAAC,IAAI,EAAU;SAC9B,CAAgC,CACpC,CAAA;QACH,IAUC;;gBAVD,a,CAAA;oBACE,qC,CAAA,O,CAAA,oB,CAAA,O,CAAA,MAAO,YAAY,OAAA,KAAO,CAAC,KAAK,KAAK,c,CAAA,O,CAAA,MAAC;wBACpC,IAAI,EAAE,KAAK,CAAC,IAAI,CAAC,IAAI;wBACrB,KAAK,EAAE,KAAK,CAAC,IAAI,CAAC,KAAK;wBACvB,UAAU,EAAE,KAAK,CAAC,IAAI,CAAC,UAAU;wBACjC,MAAM,EAAE,SAAkB;wBAC1B,OAAO,EAAE,MAAM,CAAC,IAAI,EAAU;wBAC9B,WAAW,EAAE,KAAK,CAAC,IAAI,CAAC,WAAW;wBACnC,MAAM,EAAE,eAAe,CAAC,KAAK,CAAC;qBACC,IAAA,EAAA;gBACnC,CAAC,CAAA,CAAA;IACH,CAAC;IAnCD,OAAO,IAmCN,CAAA;AACH,CAAC;AACD,MAAM,UAAU,0BAA0B,CAAC,KAI1C;IACC,IAAI,KAAK,CAAC,IAAI,CAAC,IAAI,KAAK,aAAa;QAAE,OAAO,KAAK,CAAC,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,GAAG,CAAC,CAAA;IACzE,IAAI,KAAK,CAAC,IAAI,CAAC,IAAI,KAAK,KAAK,EAAE,CAAC;QAC9B,OACK,MAAM,CAAC,GAAG,CADR,KAAK,CAAC,IAAI,CAAC,SAAS,EAGvB,CAAC,IAAI,EAAE,EAAE,CACP,CAAC;YACC,IAAI,EAAE,KAAK,CAAC,IAAI,CAAC,IAAI;YACrB,KAAK,EAAE,KAAK,CAAC,IAAI,CAAC,KAAK;YACvB,MAAM,EAAE,WAAoB;YAC5B,OAAO,EAAE,MAAM,CAAC,IAAI,EAAU;YAC9B,WAAW,EAAE,KAAK,CAAC,IAAI,CAAC,WAAW;YACnC,MAAM,EAAE,MAAM,CAAC,IAAI,EAAU;YAC7B,IAAI;SACL,CAA8C,CAClD,CAAA;IACL,CAAC;IAED,MAAM,IAAI,GAAG,KAAK,CAAC,IAAI,CAAA;IAEvB,OAKK,MAAM,CAAC,OAAO,CALZ,QAAQ,CAAC;QACd,IAAI;QACJ,OAAO,EAAE,KAAK,CAAC,OAAO;QACtB,GAAG,EAAE,KAAK,CAAC,GAAG;KACf,CAAC,EACqB,CAAC,IAAI,EAAE,EAAE;QAC5B,IAAI,IAAI,CAAC,MAAM,KAAK,WAAW,EAAE,CAAC;YAChC,OAAO,MAAM,CAAC,OAAO,CACnB;gBACE,GAAG,IAAI;gBACP,IAAI,EAAE,WAAW,CAAC,+DAA+D,CAAC;aACtC,CAC/C,CAAA;QACH,CAAC;QAEM,IAAA,IAAE,CAAA;QAAC,CAAC;YACT,MAAM,YAAY,GAWb,MAAM,CAAC,GAAG,CAXM,KAAK,CAAC,OAAO;iBAC/B,GAAG,CAAC;gBACH,SAAS,EAAE,+BAA+B;gBAC1C,OAAO,EAAE,IAAI,CAAC,UAAU;gBACxB,IAAI,EAAE,IAAI,CAAC,QAAQ;gBACnB,GAAG,EAAE,KAAK,CAAC,GAAG;gBACd,gBAAgB,EAAE,IAAI;gBACtB,SAAS,EAAE,cAAc,CAAC,IAAI,CAAC;gBAC/B,cAAc,EAAE,KAAK;gBACrB,sBAAsB,EAAE,IAAI;aAC7B,CAAC,EAGA,CAAC,MAAM,EAAE,EAAE,CACT,CAAC;gBACC,GAAG,IAAI;gBACP,IAAI,EAAE,IAAI,CAAC,SAAS,CAAC,MAAM,CAAC;aAC7B,CAA8C,CAClD,CAAA;YACH,IAKC;;oBALD,a,CAAA;wBACE,qC,CAAA,O,CAAA,oB,CAAA,O,CAAA,MAAO,YAAY,OAAA,KAAO,CAAC,KAAK,KAAK,c,CAAA,O,CAAA,MAAC;4BACpC,GAAG,IAAI;4BACP,IAAI,EAAE,WAAW,CAAC,MAAM,CAAC,cAAc,CAAC,eAAe,CAAC,KAAK,CAAC,CAAC,CAAC;yBACnB,IAAA,EAAA;oBACjD,CAAC,CAAA,CAAA;QACH,CAAC;QA1BD,OAAO,IA0BN,CAAA;IACH,CAAC,CAAC,CAAA;AACN,CAAC;AACD,MAAM,sBAAsB,GAAG,MAAM,CAAC,EAAE,CAAC,oBAAoB,CAAC,CAAA;AAC9D,wFAAwF;AACxF,MAAM,UAAU,mBAAmB,CAAC,KAAc;IAChD,OAAO,CACL,sBAAsB,CAAC,KAAK,CAAC;WAC1B,aAAa,CAAC,eAAe,CAAC,KAAK,CAAC,KAAK,CAAC;WAC1C,KAAK,CAAC,KAAK,CAAC,MAAM,CAAC,IAAI,KAAK,UAAU;WACtC,KAAK,CAAC,KAAK,CAAC,MAAM,CAAC,MAAM,KAAK,cAAc,CAChD,CAAA;AACH,CAAC;AACD,MAAa,uBAAwB,SAAA,AAArC,MAAM,CAAN,WAAM,EAAA,CAAO,yBAAuB,EAAC,EAAE,CAAA;GAAA,C,CAAA;QAA1B,mBAAuB,CAAvB,IAAuB,EAAvB,yBAAuB,CAAA,CAAA;KAAA;CAAG;AAKvC,SAAS,cAAc,CAAC,KAKvB;IACC,MAAM,EAAE,IAAI,EAAE,OAAO,EAAE,GAAG,KAAK,CAAA;IAC/B,IAAI,IAAI,CAAC,IAAI,KAAK,aAAa,EAAE,CAAC;QAChC,OAAO,IAAI,CAAC,mBAAmB,CAAC,EAAE,GAAG,EAAE,KAAK,CAAC,GAAG,EAAE,OAAO,EAAE,CAAC,CAAA;IAC9D,CAAC;IACD,IAAI,CAAC,yBAAyB,CAAC,IAAI,CAAC;QAAE,OAAO,MAAM,CAAC,OAAO,CAAC,IAAI,CAAC,CAAA;IACjE,OAYK,MAAM,CAAC,OAAO,CADd,MAAM,CAAC,OAAO,CAXZ,KAAK,CAAC,OAAO;SACjB,GAAG,CAAC;QACH,SAAS,EAAE,gDAAgD;QAC3D,OAAO,EAAE,IAAI,CAAC,UAAU;QACxB,IAAI,EAAE,IAAI,CAAC,oBAAoB,EAAE,CAAC,OAAO,CAAC,IAAI,IAAI,CAAC,QAAQ;QAC3D,GAAG,EAAE,KAAK,CAAC,GAAG;QACd,gBAAgB,EAAE,IAAI;QACtB,SAAS,EAAE,cAAc,CAAC,IAAI,CAAC;QAC/B,cAAc,EAAE,KAAK;QACrB,sBAAsB,EAAE,IAAI;KAC7B,CAAC,EACmB,mBAAmB,EAAE,GAAG,EAAE,CAAC,MAAM,CAAC,IAAI,CAAC,EACvC,CAAC,IAAI,EAAE,EAAE;QAC5B,MAAM,QAAQ,GAAG,IAAI,KAAK,SAAS,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CAAC,mBAAmB,CAAC,EAAE,GAAG,EAAE,KAAK,CAAC,GAAG,EAAE,OAAO,EAAE,IAAI,EAAE,CAAC,CAAA;QACxG,OAAO,QAAQ,KAAK,SAAS;YAC3B,CAAC,CAAC,MAAM,CAAC,IAAI,CAAC,IAAI,uBAAuB,EAAE,CAAC;YAC5C,CAAC,CAAC,MAAM,CAAC,OAAO,CAAC,QAAQ,CAAC,CAAA;IAC9B,CAAC,CAAC,CAAA;AACN,CAAC;AACD,MAAM,CAAC,MAAM,2BAA2B,GAAG,CACzC,KAKC;GAAA,C,CAAA,mB,CAAA,S,CAAA,6CAEG,QAAQ,CACV,CAAC;OAAA,C,CAAA,mB,CAAA;YACC,MAAM,OAAO,UAAO,MAAM,CAAC,OAAO,CAAC,KAAK,CAAC,KAAK,EAAE,CAAC,IAAI,EAAE,EAAE,CACjB,MAAM,CAAC,MAAM,CAAnD,cAAc,CAAC,EAAE,GAAG,KAAK,EAAE,IAAI,EAAE,CAAC,CAAoB,CAAC,CAAA;YACzD,6EAA6E;YAC7E,IAAI,OAAO,GAAG,IAAI,CAAA;YAClB,KAAK,MAAM,MAAM,IAAI,OAAO,EAAE,CAAC;gBAC7B,IAAI,MAAM,CAAC,SAAS,CAAC,MAAM,CAAC,EAAE,CAAC;oBAC7B,OAAO,GAAG,KAAK,CAAA;gBACjB,CAAC;qBAAM,IAAI,MAAM,CAAC,OAAO,KAAK,IAAI,EAAE,CAAC;oBACnC,OAAO,EAAE,QAAQ,EAAE,MAAM,CAAC,OAAO,EAAE,OAAO,EAAE,CAAA;gBAC9C,CAAC;YACH,CAAC;YACD,OAAO,EAAE,QAAQ,EAAE,IAAI,EAAE,OAAO,EAAE,CAAA;QACpC,CAAC;KAAA,CAAC,EAAE,EACJ,6BAA6B,CAC9B;CAAA,CAAA"
     }
    },
    {

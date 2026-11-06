@@ -6,7 +6,7 @@ import type { HttpClient, HttpClientError, HttpClientResponse } from "effect/htt
 import * as Layer from "effect/Layer";
 import type * as Scope from "effect/Scope";
 import type { SourceControlDefinition } from "../shared/definition.vibe";
-import type { SourceControlProviderDiscoverySpec } from "./discovery.ts";
+import type { SourceControlProviderDiscoverySpec } from "./discovery.vibe";
 import type { PullRequestProviderApi } from "./PullRequestProvider.vibe";
 import type * as SourceControlHost from "./SourceControlHost.vibe";
 import type * as SourceControlProvider from "./SourceControlProvider.vibe";
