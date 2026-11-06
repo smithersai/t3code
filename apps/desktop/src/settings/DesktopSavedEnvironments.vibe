@@ -2,7 +2,6 @@ import { EnvironmentId, type PersistedSavedEnvironmentRecord } from "@t3tools/co
 import { fromLenientJson } from "@t3tools/shared/schemaJson";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Base64 from "effect/encoding/Base64";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
@@ -69,53 +68,41 @@ const DesktopSavedEnvironmentSecretProtectionOperation = Schema.Literals([
   "decrypt-secret",
 ]);
 
-export class DesktopSavedEnvironmentsReadError extends Schema.TaggedError<DesktopSavedEnvironmentsReadError>()(
-  "DesktopSavedEnvironmentsReadError",
-  {
-    registryPath: Schema.String,
-    cause: Schema.Defect(),
-  },
-) {
+const DesktopSavedEnvironmentsReadErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error DesktopSavedEnvironmentsReadError {
+  readonly registryPath: string
+  cause: DesktopSavedEnvironmentsReadErrorCauseField
   override get message(): string {
     return `Failed to read desktop saved environments at ${this.registryPath}.`;
   }
 }
 
-export class DesktopSavedEnvironmentsDocumentDecodeError extends Schema.TaggedError<DesktopSavedEnvironmentsDocumentDecodeError>()(
-  "DesktopSavedEnvironmentsDocumentDecodeError",
-  {
-    registryPath: Schema.String,
-    cause: Schema.Defect(),
-  },
-) {
+const DesktopSavedEnvironmentsDocumentDecodeErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error DesktopSavedEnvironmentsDocumentDecodeError {
+  readonly registryPath: string
+  cause: DesktopSavedEnvironmentsDocumentDecodeErrorCauseField
   override get message(): string {
     return `Failed to decode desktop saved environments at ${this.registryPath}.`;
   }
 }
 
-export class DesktopSavedEnvironmentSecretDecodeError extends Schema.TaggedError<DesktopSavedEnvironmentSecretDecodeError>()(
-  "DesktopSavedEnvironmentSecretDecodeError",
-  {
-    environmentId: Schema.String,
-    registryPath: Schema.String,
-    field: Schema.Literal("encryptedBearerToken"),
-    cause: Schema.Defect(),
-  },
-) {
+const DesktopSavedEnvironmentSecretDecodeErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error DesktopSavedEnvironmentSecretDecodeError {
+  readonly environmentId: string
+  readonly registryPath: string
+  readonly field: "encryptedBearerToken"
+  cause: DesktopSavedEnvironmentSecretDecodeErrorCauseField
   override get message(): string {
     return `Failed to decode ${this.field} for environment ${this.environmentId} at ${this.registryPath}.`;
   }
 }
 
-export class DesktopSavedEnvironmentSecretProtectionError extends Schema.TaggedError<DesktopSavedEnvironmentSecretProtectionError>()(
-  "DesktopSavedEnvironmentSecretProtectionError",
-  {
-    operation: DesktopSavedEnvironmentSecretProtectionOperation,
-    environmentId: Schema.String,
-    registryPath: Schema.String,
-    cause: Schema.Defect(),
-  },
-) {
+const DesktopSavedEnvironmentSecretProtectionErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error DesktopSavedEnvironmentSecretProtectionError {
+  readonly operation: DesktopSavedEnvironmentSecretProtectionOperation
+  readonly environmentId: string
+  readonly registryPath: string
+  cause: DesktopSavedEnvironmentSecretProtectionErrorCauseField
   override get message(): string {
     return `Desktop saved-environment secret protection failed during ${this.operation} for environment ${this.environmentId} at ${this.registryPath}.`;
   }
@@ -130,19 +117,13 @@ export type DesktopSavedEnvironmentsGetSecretError =
   | DesktopSavedEnvironmentSecretDecodeError
   | DesktopSavedEnvironmentSecretProtectionError;
 
-export class DesktopSavedEnvironments extends Context.Service<
-  DesktopSavedEnvironments,
-  {
-    readonly getRegistry: Effect.Effect<
-      readonly PersistedSavedEnvironmentRecord[],
-      DesktopSavedEnvironmentsReadRegistryError
-    >;
+export service DesktopSavedEnvironments: {
+  readonly getRegistry: readonly PersistedSavedEnvironmentRecord[]!DesktopSavedEnvironmentsReadRegistryError;
 
-    readonly getSecret: (
-      environmentId: string,
-    ) => Effect.Effect<Option.Option<string>, DesktopSavedEnvironmentsGetSecretError>;
-  }
->()("@t3tools/desktop/settings/DesktopSavedEnvironments") {}
+  readonly getSecret: (
+    environmentId: string,
+  ) => Effect.Effect<Option.Option<string>, DesktopSavedEnvironmentsGetSecretError>;
+} { static readonly key = "@t3tools/desktop/settings/DesktopSavedEnvironments" }
 
 function toPersistedSavedEnvironmentRecord(
   record: PersistedSavedEnvironmentStorageRecord,
@@ -174,19 +155,16 @@ function normalizeSavedEnvironmentRegistryDocument(
 function readRegistryDocument(
   fileSystem: FileSystem.FileSystem,
   registryPath: string,
-): Effect.Effect<SavedEnvironmentRegistryDocument, DesktopSavedEnvironmentsReadRegistryError> {
-  return fileSystem.readFileString(registryPath).pipe(
-    Effect.catch((error) =>
-      error.reason._tag === "NotFound"
+): SavedEnvironmentRegistryDocument!DesktopSavedEnvironmentsReadRegistryError {
+  return (do { const catchProgram = fileSystem.readFileString(registryPath); effect { return catchProgram catch effect (error) => try (error.reason._tag === "NotFound"
         ? Effect.succeed<string | null>(null)
         : Effect.fail(
             new DesktopSavedEnvironmentsReadError({
               registryPath,
               cause: error,
             }),
-          ),
-    ),
-    Effect.flatMap((raw) =>
+          )) } })
+    |> Effect.flatMap(%, (raw) =>
       raw === null
         ? Effect.succeed({ version: 1, records: [] })
         : decodeSavedEnvironmentRegistryDocumentJson(raw).pipe(
@@ -199,46 +177,43 @@ function readRegistryDocument(
                 }),
             ),
           ),
-    ),
-  );
+    );
 }
 
 function decodeSecretBytes(
   environmentId: string,
   registryPath: string,
   encoded: string,
-): Effect.Effect<Uint8Array, DesktopSavedEnvironmentSecretDecodeError> {
-  return Effect.fromResult(Base64.decode(encoded)).pipe(
-    Effect.mapError(
-      (cause) =>
+): Uint8Array!DesktopSavedEnvironmentSecretDecodeError {
+  return Effect.fromResult(Base64.decode(encoded))
+    |> Effect.mapError(
+      %, (cause) =>
         new DesktopSavedEnvironmentSecretDecodeError({
           environmentId,
           registryPath,
           field: "encryptedBearerToken",
           cause,
         }),
-    ),
-  );
+    );
 }
 
 /** @public */
-export const make = Effect.gen(function* () {
-  const environment = yield* DesktopEnvironment.DesktopEnvironment;
-  const fileSystem = yield* FileSystem.FileSystem;
+export const make = effect {
+  const environment = try DesktopEnvironment.DesktopEnvironment;
+  const fileSystem = try FileSystem.FileSystem;
 
-  const safeStorage = yield* ElectronSafeStorage.ElectronSafeStorage;
+  const safeStorage = try ElectronSafeStorage.ElectronSafeStorage;
 
   return DesktopSavedEnvironments.of({
-    getRegistry: readRegistryDocument(fileSystem, environment.savedEnvironmentRegistryPath).pipe(
-      Effect.map((document) =>
+    getRegistry: readRegistryDocument(fileSystem, environment.savedEnvironmentRegistryPath)
+      |> Effect.map(%, (document) =>
         document.records.map((record) => toPersistedSavedEnvironmentRecord(record)),
-      ),
-      Effect.withSpan("desktop.savedEnvironments.getRegistry"),
-    ),
+      )
+      |> withSpan(%, "desktop.savedEnvironments.getRegistry"),
 
-    getSecret: Effect.fn("desktop.savedEnvironments.getSecret")(function* (environmentId) {
-      yield* Effect.annotateCurrentSpan({ environmentId });
-      const document = yield* readRegistryDocument(
+    getSecret: effect (environmentId): Option.Option<string>!DesktopSavedEnvironmentsGetSecretError!never => try withSpan((effect (): Option.Option<string>!DesktopSavedEnvironmentsGetSecretError!never => {
+      try Effect.annotateCurrentSpan({ environmentId });
+      const document = try readRegistryDocument(
         fileSystem,
         environment.savedEnvironmentRegistryPath,
       );
@@ -249,41 +224,31 @@ export const make = Effect.gen(function* () {
       if (Option.isNone(encoded)) {
         return Option.none<string>();
       }
-      const encryptionAvailable = yield* safeStorage.isEncryptionAvailable.pipe(
-        Effect.mapError(
-          (cause) =>
-            new DesktopSavedEnvironmentSecretProtectionError({
+      const encryptionAvailable = safeStorage.isEncryptionAvailable catch effect (cause) => { throw new DesktopSavedEnvironmentSecretProtectionError({
               operation: "check-encryption-availability",
               environmentId,
               registryPath: environment.savedEnvironmentRegistryPath,
               cause,
-            }),
-        ),
-      );
+            }) };
       if (!encryptionAvailable) {
         return Option.none<string>();
       }
 
-      const secretBytes = yield* decodeSecretBytes(
+      const secretBytes = try decodeSecretBytes(
         environmentId,
         environment.savedEnvironmentRegistryPath,
         encoded.value,
       );
       return Option.some(
-        yield* safeStorage.decryptString(secretBytes).pipe(
-          Effect.mapError(
-            (cause) =>
-              new DesktopSavedEnvironmentSecretProtectionError({
+        safeStorage.decryptString(secretBytes) catch effect (cause) => { throw new DesktopSavedEnvironmentSecretProtectionError({
                 operation: "decrypt-secret",
                 environmentId,
                 registryPath: environment.savedEnvironmentRegistryPath,
                 cause,
-              }),
-          ),
-        ),
+              }) },
       );
-    }),
+    })(), "desktop.savedEnvironments.getSecret"),
   });
-});
+};
 
 export const layer = Layer.effect(DesktopSavedEnvironments, make);

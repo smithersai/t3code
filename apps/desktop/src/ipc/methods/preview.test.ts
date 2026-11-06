@@ -11,7 +11,7 @@ import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
 import * as PreviewManager from "../../preview/Manager.ts";
 import * as PreviewIpc from "./preview.vibe";
-import * as DesktopIpc from "../DesktopIpc.ts";
+import * as DesktopIpc from "../DesktopIpc.vibe";
 import * as DesktopClientSettings from "../../settings/DesktopClientSettings.ts";
 
 const { fromPartition } = vi.hoisted(() => ({

@@ -6,14 +6,13 @@ import * as Schema from "effect/Schema";
 
 import * as Electron from "electron";
 
-export class ElectronDialogPickFolderError extends Schema.TaggedError<ElectronDialogPickFolderError>()(
-  "ElectronDialogPickFolderError",
-  {
-    ownerWindowId: Schema.NullOr(Schema.Number),
-    defaultPath: Schema.NullOr(Schema.String),
-    cause: Schema.Defect(),
-  },
-) {
+const ElectronDialogPickFolderErrorOwnerWindowIdField: Schema.NullOr<Schema.Number> = Schema.NullOr(Schema.Number)
+const ElectronDialogPickFolderErrorDefaultPathField: Schema.NullOr<Schema.String> = Schema.NullOr(Schema.String)
+const ElectronDialogPickFolderErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error ElectronDialogPickFolderError {
+  ownerWindowId: ElectronDialogPickFolderErrorOwnerWindowIdField
+  defaultPath: ElectronDialogPickFolderErrorDefaultPathField
+  cause: ElectronDialogPickFolderErrorCauseField
   override get message(): string {
     const owner = this.ownerWindowId === null ? "the application" : `window ${this.ownerWindowId}`;
     const defaultPath = this.defaultPath === null ? "no default path" : this.defaultPath;
@@ -21,14 +20,13 @@ export class ElectronDialogPickFolderError extends Schema.TaggedError<ElectronDi
   }
 }
 
-export class ElectronDialogPickFilesError extends Schema.TaggedError<ElectronDialogPickFilesError>()(
-  "ElectronDialogPickFilesError",
-  {
-    ownerWindowId: Schema.NullOr(Schema.Number),
-    defaultPath: Schema.NullOr(Schema.String),
-    cause: Schema.Defect(),
-  },
-) {
+const ElectronDialogPickFilesErrorOwnerWindowIdField: Schema.NullOr<Schema.Number> = Schema.NullOr(Schema.Number)
+const ElectronDialogPickFilesErrorDefaultPathField: Schema.NullOr<Schema.String> = Schema.NullOr(Schema.String)
+const ElectronDialogPickFilesErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error ElectronDialogPickFilesError {
+  ownerWindowId: ElectronDialogPickFilesErrorOwnerWindowIdField
+  defaultPath: ElectronDialogPickFilesErrorDefaultPathField
+  cause: ElectronDialogPickFilesErrorCauseField
   override get message(): string {
     const owner = this.ownerWindowId === null ? "the application" : `window ${this.ownerWindowId}`;
     const defaultPath = this.defaultPath === null ? "no default path" : this.defaultPath;
@@ -36,43 +34,34 @@ export class ElectronDialogPickFilesError extends Schema.TaggedError<ElectronDia
   }
 }
 
-export class ElectronDialogShowMessageBoxError extends Schema.TaggedError<ElectronDialogShowMessageBoxError>()(
-  "ElectronDialogShowMessageBoxError",
-  {
-    type: Schema.NullOr(Schema.Literals(["none", "info", "error", "question", "warning"])),
-    titleLength: Schema.NullOr(Schema.Number),
-    messageLength: Schema.Number,
-    detailLength: Schema.NullOr(Schema.Number),
-    buttonCount: Schema.Number,
-    cause: Schema.Defect(),
-  },
-) {
+const ElectronDialogShowMessageBoxErrorTypeField: Schema.NullOr<Schema.Literals<readonly ["none", "info", "error", "question", "warning"]>> = Schema.NullOr(Schema.Literals(["none", "info", "error", "question", "warning"]))
+const ElectronDialogShowMessageBoxErrorTitleLengthField: Schema.NullOr<Schema.Number> = Schema.NullOr(Schema.Number)
+const ElectronDialogShowMessageBoxErrorDetailLengthField: Schema.NullOr<Schema.Number> = Schema.NullOr(Schema.Number)
+const ElectronDialogShowMessageBoxErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error ElectronDialogShowMessageBoxError {
+  type: ElectronDialogShowMessageBoxErrorTypeField
+  titleLength: ElectronDialogShowMessageBoxErrorTitleLengthField
+  readonly messageLength: number
+  detailLength: ElectronDialogShowMessageBoxErrorDetailLengthField
+  readonly buttonCount: number
+  cause: ElectronDialogShowMessageBoxErrorCauseField
   override get message(): string {
     const type = this.type === null ? "untyped" : this.type;
     return `Failed to show the Electron ${type} message box with ${this.buttonCount} buttons.`;
   }
 }
 
-export class ElectronDialogShowErrorBoxError extends Schema.TaggedError<ElectronDialogShowErrorBoxError>()(
-  "ElectronDialogShowErrorBoxError",
-  {
-    titleLength: Schema.Number,
-    contentLength: Schema.Number,
-    cause: Schema.Defect(),
-  },
-) {
+const ElectronDialogShowErrorBoxErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error ElectronDialogShowErrorBoxError {
+  readonly titleLength: number
+  readonly contentLength: number
+  cause: ElectronDialogShowErrorBoxErrorCauseField
   override get message(): string {
     return `Failed to show the Electron error box with a ${this.titleLength}-character title and ${this.contentLength}-character content.`;
   }
 }
 
-export const ElectronDialogError = Schema.Union([
-  ElectronDialogPickFolderError,
-  ElectronDialogPickFilesError,
-  ElectronDialogShowMessageBoxError,
-  ElectronDialogShowErrorBoxError,
-]);
-export type ElectronDialogError = typeof ElectronDialogError.Type;
+export schema ElectronDialogError = ElectronDialogPickFolderError | ElectronDialogPickFilesError | ElectronDialogShowMessageBoxError | ElectronDialogShowErrorBoxError;
 
 export interface ElectronDialogPickFolderInput {
   readonly owner: Option.Option<Electron.BrowserWindow>;
@@ -86,33 +75,30 @@ export interface ElectronDialogPickFilesInput {
   readonly multiple: boolean;
 }
 
-export class ElectronDialog extends Context.Service<
-  ElectronDialog,
-  {
+export service ElectronDialog: {
     readonly pickFolder: (
       input: ElectronDialogPickFolderInput,
     ) => Effect.Effect<Option.Option<string>, ElectronDialogPickFolderError>;
     readonly pickFiles: (
       input: ElectronDialogPickFilesInput,
-    ) => Effect.Effect<readonly string[], ElectronDialogPickFilesError>;
+    ) => readonly string[]!ElectronDialogPickFilesError;
     /** Pass `owner` to attach the box to that window so it cannot fall behind it. */
     readonly showMessageBox: (
       options: Electron.MessageBoxOptions,
       owner?: Electron.BrowserWindow,
-    ) => Effect.Effect<Electron.MessageBoxReturnValue, ElectronDialogShowMessageBoxError>;
-    readonly showErrorBox: (title: string, content: string) => Effect.Effect<void>;
-  }
->()("@t3tools/desktop/electron/ElectronDialog") {}
+    ) => Electron.MessageBoxReturnValue!ElectronDialogShowMessageBoxError;
+    readonly showErrorBox: (title: string, content: string) => void!!;
+  } { static readonly key = "@t3tools/desktop/electron/ElectronDialog" }
 
 /** @public */
 export const make = ElectronDialog.of({
-  pickFolder: Effect.fn("desktop.electron.dialog.pickFolder")(function* (input) {
-    const ownerWindowId = Option.match(input.owner, {
+  pickFolder: effect (input): Option.Option<string>!ElectronDialogPickFolderError!never => try withSpan((effect (): Option.Option<string>!ElectronDialogPickFolderError!never => {
+    const ownerWindowId = do { const $optionSubject = input.owner; const $optionHandlers: { onNone: () => null; onSome: (owner: Electron.BrowserWindow) => number; } = {
       onNone: () => null,
       onSome: (owner) => owner.id,
-    });
+    }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): $optionSome($optionValue); default: $optionNone(); }; };
     const defaultPath = Option.getOrNull(input.defaultPath);
-    const openDialogOptions: Electron.OpenDialogOptions = Option.match(input.defaultPath, {
+    const openDialogOptions: Electron.OpenDialogOptions = do { const $optionSubject = input.defaultPath; const $optionHandlers: { onNone: () => { properties: ("createDirectory" | "openDirectory")[]; }; onSome: (defaultPath: string) => { properties: ("createDirectory" | "openDirectory")[]; defaultPath: string; }; } = {
       onNone: () => ({
         properties: ["openDirectory", "createDirectory"],
       }),
@@ -120,8 +106,8 @@ export const make = ElectronDialog.of({
         properties: ["openDirectory", "createDirectory"],
         defaultPath,
       }),
-    });
-    const result = yield* Effect.tryPromise({
+    }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): $optionSome($optionValue); default: $optionNone(); }; };
+    const result = try Effect.tryPromise({
       try: () =>
         Option.match(input.owner, {
           onNone: () => Electron.dialog.showOpenDialog(openDialogOptions),
@@ -139,19 +125,19 @@ export const make = ElectronDialog.of({
       return Option.none();
     }
     return Option.fromNullishOr(result.filePaths[0]);
-  }),
-  pickFiles: Effect.fn("desktop.electron.dialog.pickFiles")(function* (input) {
-    const ownerWindowId = Option.match(input.owner, {
+  })(), "desktop.electron.dialog.pickFolder"),
+  pickFiles: effect (input): readonly string[]!ElectronDialogPickFilesError!never => try withSpan((effect (): readonly string[]!ElectronDialogPickFilesError!never => {
+    const ownerWindowId = do { const $optionSubject = input.owner; const $optionHandlers: { onNone: () => null; onSome: (owner: Electron.BrowserWindow) => number; } = {
       onNone: () => null,
       onSome: (owner) => owner.id,
-    });
+    }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): $optionSome($optionValue); default: $optionNone(); }; };
     const defaultPath = Option.getOrNull(input.defaultPath);
     const openDialogOptions: Electron.OpenDialogOptions = {
       properties: input.multiple ? ["openFile", "multiSelections"] : ["openFile"],
       filters: [...input.filters],
       ...(defaultPath === null ? {} : { defaultPath }),
     };
-    const result = yield* Effect.tryPromise({
+    const result = try Effect.tryPromise({
       try: () =>
         Option.match(input.owner, {
           onNone: () => Electron.dialog.showOpenDialog(openDialogOptions),
@@ -165,7 +151,7 @@ export const make = ElectronDialog.of({
         }),
     });
     return result.canceled ? [] : result.filePaths;
-  }),
+  })(), "desktop.electron.dialog.pickFiles"),
   showMessageBox: Effect.fn("ElectronDialog.showMessageBox")(function (options, owner) {
     return Effect.tryPromise({
       try: () =>
@@ -192,7 +178,7 @@ export const make = ElectronDialog.of({
           contentLength: content.length,
           cause,
         }),
-    }).pipe(Effect.orDie);
+    }) |> Effect.orDie(%);
   }),
 });
 

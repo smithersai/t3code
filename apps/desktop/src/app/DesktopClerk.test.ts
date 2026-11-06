@@ -31,10 +31,10 @@ vi.mock("@clerk/electron/storage", () => ({
 import * as Exit from "effect/Exit";
 import * as FileSystem from "effect/FileSystem";
 import * as ElectronApp from "../electron/ElectronApp.ts";
-import * as ElectronShell from "../electron/ElectronShell.ts";
+import * as ElectronShell from "../electron/ElectronShell.vibe";
 import * as ElectronWindow from "../electron/ElectronWindow.ts";
 import * as DesktopClerk from "./DesktopClerk.ts";
-import * as DesktopWebLinks from "./DesktopWebLinks.ts";
+import * as DesktopWebLinks from "./DesktopWebLinks.vibe";
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
 import * as DesktopPreReadyFileSystem from "./DesktopPreReadyFileSystem.vibe";
 

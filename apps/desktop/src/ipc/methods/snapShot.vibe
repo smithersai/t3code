@@ -15,10 +15,10 @@ import * as Schema from "effect/Schema";
 import type * as Electron from "electron";
 
 import * as ElectronWindow from "../../electron/ElectronWindow.ts";
-import * as ElectronDialog from "../../electron/ElectronDialog.ts";
+import * as ElectronDialog from "../../electron/ElectronDialog.vibe";
 import * as DesktopSnapShot from "../../snapShot/DesktopSnapShot.ts";
 import * as IpcChannels from "../channels.ts";
-import * as DesktopIpc from "../DesktopIpc.ts";
+import * as DesktopIpc from "../DesktopIpc.vibe";
 
 schema error SnapShotIpcUnauthorizedSenderError {
   override get message(): string {

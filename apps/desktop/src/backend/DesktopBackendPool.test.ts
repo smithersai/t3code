@@ -13,12 +13,12 @@ import * as DesktopState from "../app/DesktopState.vibe";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
 import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.ts";
 import * as DesktopBrowserHost from "../preview/DesktopBrowserHost.ts";
-import * as ElectronDialog from "../electron/ElectronDialog.ts";
+import * as ElectronDialog from "../electron/ElectronDialog.vibe";
 import * as ElectronApp from "../electron/ElectronApp.ts";
-import * as DesktopWindow from "../window/DesktopWindow.ts";
+import * as DesktopWindow from "../window/DesktopWindow.vibe";
 import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";
 import * as DesktopBackendConfiguration from "./DesktopBackendConfiguration.ts";
-import * as DesktopBackendPool from "./DesktopBackendPool.ts";
+import * as DesktopBackendPool from "./DesktopBackendPool.vibe";
 import type { DesktopBackendStartConfig } from "./DesktopBackendManager.ts";
 
 function layerPool(labelRef: Ref.Ref<string>): Layer.Layer<DesktopBackendPool.DesktopBackendPool> {

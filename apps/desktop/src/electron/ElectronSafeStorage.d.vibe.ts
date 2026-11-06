@@ -23,20 +23,24 @@ export declare class ElectronSafeStorageDecryptError extends ElectronSafeStorage
 }
 export declare const ElectronSafeStorageError: Schema.Union<readonly [typeof ElectronSafeStorageAvailabilityError, typeof ElectronSafeStorageEncryptError, typeof ElectronSafeStorageDecryptError]>;
 export type ElectronSafeStorageError = typeof ElectronSafeStorageError.Type;
-declare const ElectronSafeStorage_base: Context.ServiceClass<ElectronSafeStorage, "@t3tools/desktop/electron/ElectronSafeStorage", {
-    readonly isEncryptionAvailable: Effect.Effect<boolean, ElectronSafeStorageAvailabilityError>;
-    readonly encryptString: (value: string) => Effect.Effect<Uint8Array, ElectronSafeStorageEncryptError>;
-    readonly decryptString: (value: Uint8Array) => Effect.Effect<string, ElectronSafeStorageDecryptError>;
-    readonly selectedStorageBackend: Effect.Effect<Option.Option<string>>;
-}>;
+type ElectronSafeStorage_shape = {
+    isEncryptionAvailable: Effect.Effect<boolean, ElectronSafeStorageAvailabilityError>;
+    encryptString: (value: string) => Effect.Effect<Uint8Array, ElectronSafeStorageEncryptError>;
+    decryptString: (value: Uint8Array) => Effect.Effect<string, ElectronSafeStorageDecryptError>;
+    selectedStorageBackend: Effect.Effect<Option.Option<string>>;
+};
+declare const ElectronSafeStorage_base: Context.ServiceClass<ElectronSafeStorage, "@t3tools/desktop/electron/ElectronSafeStorage", ElectronSafeStorage_shape>;
 export declare class ElectronSafeStorage extends ElectronSafeStorage_base {
+}
+export declare namespace ElectronSafeStorage {
+    type Shape = ElectronSafeStorage_shape;
 }
 /** @public */
 export declare const make: Effect.Effect<{
-    readonly isEncryptionAvailable: Effect.Effect<boolean, ElectronSafeStorageAvailabilityError>;
-    readonly encryptString: (value: string) => Effect.Effect<Uint8Array, ElectronSafeStorageEncryptError>;
-    readonly decryptString: (value: Uint8Array) => Effect.Effect<string, ElectronSafeStorageDecryptError>;
-    readonly selectedStorageBackend: Effect.Effect<Option.Option<string>>;
+    isEncryptionAvailable: Effect.Effect<boolean, ElectronSafeStorageAvailabilityError>;
+    encryptString: (value: string) => Effect.Effect<Uint8Array, ElectronSafeStorageEncryptError>;
+    decryptString: (value: Uint8Array) => Effect.Effect<string, ElectronSafeStorageDecryptError>;
+    selectedStorageBackend: Effect.Effect<Option.Option<string>>;
 }, never, never>;
 export declare const layer: Layer.Layer<ElectronSafeStorage, never, never>;
 export {};

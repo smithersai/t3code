@@ -6,7 +6,7 @@ import * as Layer from "effect/Layer";
 
 import * as ElectronWindow from "../electron/ElectronWindow.ts";
 import { WEB_LINK_OPEN_CHANNEL } from "../ipc/channels.ts";
-import * as DesktopWebLinks from "./DesktopWebLinks.ts";
+import * as DesktopWebLinks from "./DesktopWebLinks.vibe";
 
 const makeWindow = () => {
   const sent: Array<string> = [];

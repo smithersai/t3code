@@ -1,8 +1,8 @@
 import * as Schema from "effect/Schema";
 
-import * as DesktopWebLinks from "../../app/DesktopWebLinks.ts";
+import * as DesktopWebLinks from "../../app/DesktopWebLinks.vibe";
 import * as IpcChannels from "../channels.ts";
-import * as DesktopIpc from "../DesktopIpc.ts";
+import * as DesktopIpc from "../DesktopIpc.vibe";
 
 export const setReady = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.WEB_LINK_READY_CHANNEL,

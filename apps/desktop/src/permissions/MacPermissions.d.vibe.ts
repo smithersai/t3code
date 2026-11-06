@@ -6,7 +6,9 @@ import * as Electron from "electron";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
 import type { MacPermission } from "./MacPermission.ts";
 declare const MacPermissions_base: Context.ServiceClass<MacPermissions, "@t3tools/desktop/permissions/MacPermissions", {
-    readonly showHelper: (permission: MacPermission, owner: Electron.BrowserWindow | null, isGranted?: () => boolean | Promise<boolean>) => Effect.Effect<void>;
+    readonly showHelper: (permission: MacPermission, owner: Electron.BrowserWindow | null, isGranted?: 
+    /** @throws {never} */
+    () => boolean | Promise<boolean>) => Effect.Effect<void>;
 }>;
 export declare class MacPermissions extends MacPermissions_base {
 }

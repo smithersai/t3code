@@ -18,10 +18,12 @@ export interface CookieReadResult {
     readonly undecryptable: number;
     readonly undecryptableHosts: ReadonlyArray<string>;
 }
+/** @throws {never} */
 export declare const cookieScope: (host: string, path: string, secure: boolean) => {
     readonly url: string;
     readonly domain: string | undefined;
 };
+/** @throws {never} */
 export declare const bareHost: (host: string) => string;
 /** Copy before reading to avoid live WAL writes and never open the source browser database for writing. */
 export declare const snapshotCookieDatabase: (cookiePath: string, tempPrefix?: any) => Effect.Effect<string, import("effect/PlatformError").PlatformError | import("effect/sql/SqlError").SqlError, FileSystem.FileSystem | Path.Path | import("effect/Scope").Scope>;

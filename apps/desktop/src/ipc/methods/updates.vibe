@@ -6,9 +6,9 @@ import {
 } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
 
-import * as DesktopUpdates from "../../updates/DesktopUpdates.ts";
+import * as DesktopUpdates from "../../updates/DesktopUpdates.vibe";
 import * as IpcChannels from "../channels.ts";
-import * as DesktopIpc from "../DesktopIpc.ts";
+import * as DesktopIpc from "../DesktopIpc.vibe";
 
 export const getUpdateState = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.UPDATE_GET_STATE_CHANNEL,

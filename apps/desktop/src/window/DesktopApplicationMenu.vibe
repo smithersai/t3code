@@ -6,11 +6,11 @@ import * as Schema from "effect/Schema";
 import type * as Electron from "electron";
 
 import { makeComponentLogger } from "../app/DesktopObservability.ts";
-import * as ElectronDialog from "../electron/ElectronDialog.ts";
-import * as ElectronMenu from "../electron/ElectronMenu.ts";
+import * as ElectronDialog from "../electron/ElectronDialog.vibe";
+import * as ElectronMenu from "../electron/ElectronMenu.vibe";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
-import * as DesktopWindow from "./DesktopWindow.ts";
+import * as DesktopUpdates from "../updates/DesktopUpdates.vibe";
+import * as DesktopWindow from "./DesktopWindow.vibe";
 
 const DesktopApplicationMenuActionErrorCauseField: Schema.Defect = Schema.Defect()
 export schema error DesktopApplicationMenuActionError {

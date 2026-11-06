@@ -12,5 +12,6 @@ export type KdlNode = {
     end: number;
     close: number | undefined;
 };
+/** @throws {never} */
 export declare function readKdlNodes(source: string): KdlNode[];
 export {};

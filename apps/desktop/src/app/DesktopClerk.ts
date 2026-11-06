@@ -10,7 +10,7 @@ import * as Scope from "effect/Scope";
 
 import { codexAuthDeliveryUrl, readCodexAuthHandoff } from "@t3tools/shared/codexAuthHandoff";
 import { receiveCodexAuthCallback, CodexAuthCallbackError } from "./CodexAuthCallback.ts";
-import * as ElectronShell from "../electron/ElectronShell.ts";
+import * as ElectronShell from "../electron/ElectronShell.vibe";
 import { providerAuthReturnUrl } from "@t3tools/shared/providerAuthReturnUrl";
 import { promptLinkAppPath } from "@t3tools/shared/promptLinks";
 import { readPairingAppLink } from "@t3tools/shared/remote";
@@ -21,7 +21,7 @@ import * as ElectronProtocol from "../electron/ElectronProtocol.ts";
 import * as ElectronWindow from "../electron/ElectronWindow.ts";
 import * as DesktopUserData from "./DesktopUserData.vibe";
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
-import * as DesktopWebLinks from "./DesktopWebLinks.ts";
+import * as DesktopWebLinks from "./DesktopWebLinks.vibe";
 
 declare const __T3CODE_BUILD_CLERK_PUBLISHABLE_KEY__: string | undefined;
 

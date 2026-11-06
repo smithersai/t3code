@@ -16,4 +16,5 @@ export type ActiveWindow = {
         readonly bundleId?: string;
     };
 };
+/** @throws {never} */
 export declare function activeWindow(platform: NodeJS.Platform): Promise<ActiveWindow | undefined>;

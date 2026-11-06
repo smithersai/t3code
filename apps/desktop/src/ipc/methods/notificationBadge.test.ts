@@ -27,8 +27,8 @@ vi.mock("electron", () => ({
 }));
 
 import * as ElectronApp from "../../electron/ElectronApp.ts";
-import * as DesktopIpc from "../DesktopIpc.ts";
-import { installNotificationBadge } from "./notificationBadge.ts";
+import * as DesktopIpc from "../DesktopIpc.vibe";
+import { installNotificationBadge } from "./notificationBadge.vibe";
 
 const badge = { count: 2, image: "data:image/png;base64,aGVsbG8=" };
 

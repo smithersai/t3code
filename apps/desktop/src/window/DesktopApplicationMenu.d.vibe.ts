@@ -2,11 +2,11 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
-import * as ElectronDialog from "../electron/ElectronDialog.ts";
-import * as ElectronMenu from "../electron/ElectronMenu.ts";
+import * as ElectronDialog from "../electron/ElectronDialog.vibe";
+import * as ElectronMenu from "../electron/ElectronMenu.vibe";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
-import * as DesktopWindow from "./DesktopWindow.ts";
+import * as DesktopUpdates from "../updates/DesktopUpdates.vibe";
+import * as DesktopWindow from "./DesktopWindow.vibe";
 declare const DesktopApplicationMenuActionError_base: Schema.Class<DesktopApplicationMenuActionError, Schema.TaggedStruct<"DesktopApplicationMenuActionError", {
     readonly action: Schema.String;
     readonly cause: Schema.Defect;

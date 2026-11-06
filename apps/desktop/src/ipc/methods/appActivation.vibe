@@ -3,7 +3,7 @@ import * as Schema from "effect/Schema";
 
 import * as DesktopAppActivation from "../../app/DesktopAppActivation.ts";
 import * as IpcChannels from "../channels.ts";
-import * as DesktopIpc from "../DesktopIpc.ts";
+import * as DesktopIpc from "../DesktopIpc.vibe";
 
 export const setReady = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.DESKTOP_APP_ACTIVATION_READY_CHANNEL,

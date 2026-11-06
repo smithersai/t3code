@@ -23,7 +23,7 @@ import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 
 import * as ElectronSafeStorage from "../electron/ElectronSafeStorage.vibe";
-import * as DesktopSavedEnvironments from "../settings/DesktopSavedEnvironments.ts";
+import * as DesktopSavedEnvironments from "../settings/DesktopSavedEnvironments.vibe";
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
 
 const EncryptedConnectionCatalogDocument = Schema.Struct({

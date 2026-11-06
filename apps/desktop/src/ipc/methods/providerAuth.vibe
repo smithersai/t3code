@@ -4,9 +4,9 @@ import {
   cancelCodexAuthCallback,
   CodexAuthCallbackError,
 } from "../../app/CodexAuthCallback.ts";
-import * as ElectronShell from "../../electron/ElectronShell.ts";
+import * as ElectronShell from "../../electron/ElectronShell.vibe";
 import * as ElectronWindow from "../../electron/ElectronWindow.ts";
-import * as DesktopIpc from "../DesktopIpc.ts";
+import * as DesktopIpc from "../DesktopIpc.vibe";
 import * as IpcChannels from "../channels.ts";
 
 const Request = Schema.String.check(Schema.isMaxLength(16_384));

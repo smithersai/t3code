@@ -20,7 +20,7 @@ import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as BrowserSession from "../BrowserSession.vibe";
 import { ChromiumCookieReadError, readChromiumCookies } from "./ChromiumCookies.ts";
 import type { CookieReadResult } from "./CookieDatabase.vibe";
-import { FirefoxCookieReadError, readFirefoxCookies } from "./FirefoxCookies.ts";
+import { FirefoxCookieReadError, readFirefoxCookies } from "./FirefoxCookies.vibe";
 import { readSafariCookies, safariAccessDenied, SafariCookieReadError } from "./SafariCookies.vibe";
 import {
   BROWSER_IMPORT_SOURCES,

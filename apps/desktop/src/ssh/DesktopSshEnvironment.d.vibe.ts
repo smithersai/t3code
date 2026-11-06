@@ -10,7 +10,7 @@ import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 import * as HttpClient from "effect/http/HttpClient";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
-import * as DesktopSshPasswordPrompts from "./DesktopSshPasswordPrompts.ts";
+import * as DesktopSshPasswordPrompts from "./DesktopSshPasswordPrompts.vibe";
 export type DesktopSshEnvironmentRuntimeServices = ChildProcessSpawner.ChildProcessSpawner | Crypto.Crypto | FileSystem.FileSystem | Path.Path | HttpClient.HttpClient | NetService.NetService;
 export type DesktopSshEnvironmentOperationError = SshCommandError | SshInvalidTargetError | SshLaunchError | SshPairingError | SshReadinessError | SshPasswordPromptError | NetService.NetError;
 export type DesktopSshEnvironmentDiscoverError = SshHostDiscoveryError;
@@ -29,6 +29,7 @@ export declare class DesktopSshEnvironment extends DesktopSshEnvironment_base {
 export interface DesktopSshEnvironmentLayerOptions {
     readonly resolveCliRunner?: Effect.Effect<SshTunnel.RemoteT3RunnerOptions>;
 }
+/** @throws {never} */
 export declare function isDesktopSshPasswordPromptCancellation(error: unknown): error is SshPasswordPromptError;
 /** @public */
 export declare const make: Effect.Effect<{

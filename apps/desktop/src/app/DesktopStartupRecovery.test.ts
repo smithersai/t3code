@@ -2,7 +2,7 @@ import type { DesktopUpdateState } from "@t3tools/contracts";
 import { describe, expect, it } from "vite-plus/test";
 
 import { createInitialDesktopUpdateState } from "../updates/updateMachine.ts";
-import { resolveStartupRecoveryOffer } from "./DesktopStartupRecovery.ts";
+import { resolveStartupRecoveryOffer } from "./DesktopStartupRecovery.vibe";
 
 const updateState = (patch: Partial<DesktopUpdateState>): DesktopUpdateState => ({
   ...createInitialDesktopUpdateState(

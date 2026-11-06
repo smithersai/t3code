@@ -2,13 +2,14 @@ import { DesktopSnapShotAnimationDestination } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
 import type * as Electron from "electron";
 import * as ElectronWindow from "../../electron/ElectronWindow.ts";
-import * as ElectronDialog from "../../electron/ElectronDialog.ts";
+import * as ElectronDialog from "../../electron/ElectronDialog.vibe";
 import * as DesktopSnapShot from "../../snapShot/DesktopSnapShot.ts";
-import * as DesktopIpc from "../DesktopIpc.ts";
+import * as DesktopIpc from "../DesktopIpc.vibe";
 declare const SnapShotIpcUnauthorizedSenderError_base: Schema.Class<SnapShotIpcUnauthorizedSenderError, Schema.TaggedStruct<"SnapShotIpcUnauthorizedSenderError", {}>, import("effect/Cause").YieldableError>;
 declare class SnapShotIpcUnauthorizedSenderError extends SnapShotIpcUnauthorizedSenderError_base {
     get message(): string;
 }
+/** @throws {never} */
 export declare function snapShotRelativeFrame(frame: DesktopSnapShotAnimationDestination["viewportFrame"], bounds: Electron.Rectangle, zoom: number): Electron.Rectangle | undefined;
 export declare const getSnapShotState: DesktopIpc.DesktopIpcMethod<Schema.SchemaError, DesktopSnapShot.DesktopSnapShot>;
 export declare const requestSnapShotPermissions: DesktopIpc.DesktopIpcMethod<Schema.SchemaError | SnapShotIpcUnauthorizedSenderError, DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow>;

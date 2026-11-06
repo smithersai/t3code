@@ -11,7 +11,7 @@ import * as NodeURL from "node:url";
 import * as PreviewManager from "../../preview/Manager.ts";
 import { PREVIEW_WEBVIEW_PREFERENCES } from "../../preview/WebviewPreferences.ts";
 import * as IpcChannels from "../channels.ts";
-import * as DesktopIpc from "../DesktopIpc.ts";
+import * as DesktopIpc from "../DesktopIpc.vibe";
 
 /** Keep the default profile's bare environment id so existing logins retain their partition. */
 export function resolvePartitionScope(

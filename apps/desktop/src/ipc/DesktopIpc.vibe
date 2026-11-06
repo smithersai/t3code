@@ -26,59 +26,46 @@ export interface DesktopIpcMain {
   on(channel: string, listener: DesktopIpcSyncListener): void;
 }
 
-export class DesktopIpcRegistrationError extends Schema.TaggedError<DesktopIpcRegistrationError>()(
-  "DesktopIpcRegistrationError",
-  {
-    handlerKind: Schema.Literals(["invoke", "sync"]),
-    channel: Schema.String,
-    cause: Schema.Defect(),
-  },
-) {
+const DesktopIpcRegistrationErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error DesktopIpcRegistrationError {
+  readonly handlerKind: "invoke" | "sync"
+  readonly channel: string
+  cause: DesktopIpcRegistrationErrorCauseField
   override get message(): string {
     return `Failed to register the ${this.handlerKind} IPC handler for ${this.channel}.`;
   }
 }
 
-export class DesktopIpcUnregistrationError extends Schema.TaggedError<DesktopIpcUnregistrationError>()(
-  "DesktopIpcUnregistrationError",
-  {
-    handlerKind: Schema.Literals(["invoke", "sync"]),
-    channel: Schema.String,
-    cause: Schema.Defect(),
-  },
-) {
+const DesktopIpcUnregistrationErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error DesktopIpcUnregistrationError {
+  readonly handlerKind: "invoke" | "sync"
+  readonly channel: string
+  cause: DesktopIpcUnregistrationErrorCauseField
   override get message(): string {
     return `Failed to unregister the ${this.handlerKind} IPC handler for ${this.channel}.`;
   }
 }
 
-export const DesktopIpcError = Schema.Union([
-  DesktopIpcRegistrationError,
-  DesktopIpcUnregistrationError,
-]);
-export type DesktopIpcError = typeof DesktopIpcError.Type;
+export schema DesktopIpcError = DesktopIpcRegistrationError | DesktopIpcUnregistrationError;
 
 export interface DesktopIpcMethod<E, R> {
   readonly channel: string;
-  readonly handler: (raw: unknown, event?: DesktopIpcInvokeEvent) => Effect.Effect<unknown, E, R>;
+  readonly handler: (raw: unknown, event?: DesktopIpcInvokeEvent) => unknown!E!R;
 }
 
 export interface DesktopSyncIpcMethod<E, R> {
   readonly channel: string;
-  readonly handler: () => Effect.Effect<unknown, E, R>;
+  readonly handler: () => unknown!E!R;
 }
 
-export class DesktopIpc extends Context.Service<
-  DesktopIpc,
-  {
-    readonly handle: <E, R>(
-      input: DesktopIpcMethod<E, R>,
-    ) => Effect.Effect<void, DesktopIpcRegistrationError, R | Scope.Scope>;
-    readonly handleSync: <E, R>(
-      input: DesktopSyncIpcMethod<E, R>,
-    ) => Effect.Effect<void, DesktopIpcRegistrationError, R | Scope.Scope>;
-  }
->()("@t3tools/desktop/ipc/DesktopIpc") {}
+export service DesktopIpc: {
+  readonly handle: <E, R>(
+    input: DesktopIpcMethod<E, R>,
+  ) => void!DesktopIpcRegistrationError!(R | Scope.Scope);
+  readonly handleSync: <E, R>(
+    input: DesktopSyncIpcMethod<E, R>,
+  ) => void!DesktopIpcRegistrationError!(R | Scope.Scope);
+} { static readonly key = "@t3tools/desktop/ipc/DesktopIpc" }
 
 export const make = (ipcMain: DesktopIpcMain): DesktopIpc["Service"] =>
   DesktopIpc.of({
@@ -99,7 +86,7 @@ export const make = (ipcMain: DesktopIpcMain): DesktopIpc["Service"] =>
                 Effect.gen(function* () {
                   yield* Effect.annotateCurrentSpan({ channel });
                   return yield* handler(raw, event);
-                }).pipe(Effect.annotateLogs({ channel }), Effect.withSpan("desktop.ipc.invoke")),
+                }) |> Effect.annotateLogs({ channel })(%) |> Effect.withSpan(%, "desktop.ipc.invoke"),
               ),
             );
           },
@@ -111,7 +98,7 @@ export const make = (ipcMain: DesktopIpcMain): DesktopIpc["Service"] =>
             try: () => ipcMain.removeHandler(channel),
             catch: (cause) =>
               new DesktopIpcUnregistrationError({ handlerKind: "invoke", channel, cause }),
-          }).pipe(Effect.orDie),
+          }) |> Effect.orDie(%),
       );
     }),
 
@@ -132,10 +119,9 @@ export const make = (ipcMain: DesktopIpcMain): DesktopIpc["Service"] =>
                 Effect.gen(function* () {
                   yield* Effect.annotateCurrentSpan({ channel });
                   return yield* handler();
-                }).pipe(
-                  Effect.annotateLogs({ channel }),
-                  Effect.withSpan("desktop.ipc.invokeSync"),
-                ),
+                })
+                  |> Effect.annotateLogs({ channel })(%)
+                  |> Effect.withSpan(%, "desktop.ipc.invokeSync"),
               );
             });
           },
@@ -147,7 +133,7 @@ export const make = (ipcMain: DesktopIpcMain): DesktopIpc["Service"] =>
             try: () => ipcMain.removeAllListeners(channel),
             catch: (cause) =>
               new DesktopIpcUnregistrationError({ handlerKind: "sync", channel, cause }),
-          }).pipe(Effect.orDie),
+          }) |> Effect.orDie(%),
       );
     }),
   });
@@ -179,7 +165,7 @@ export interface DesktopIpcMethodRegistration<
     ResultDecodingServices,
     ResultEncodingServices
   >;
-  readonly handler: (input: Payload, event?: DesktopIpcInvokeEvent) => Effect.Effect<Result, E, R>;
+  readonly handler: (input: Payload, event?: DesktopIpcInvokeEvent) => Result!E!R;
 }
 
 export const makeIpcMethod = <
@@ -216,11 +202,10 @@ export const makeIpcMethod = <
   return {
     channel: method.channel,
     handler: (raw, event) =>
-      decode(raw).pipe(
-        Effect.flatMap((input) => method.handler(input, event)),
-        Effect.flatMap(encode),
-        Effect.withSpan("desktop.ipc.method", { attributes: { channel: method.channel } }),
-      ),
+      decode(raw)
+        |> Effect.flatMap(%, (input) => method.handler(input, event))
+        |> Effect.flatMap(%, encode)
+        |> withSpan(%, "desktop.ipc.method", { attributes: { channel: method.channel } }),
   };
 };
 
@@ -239,7 +224,7 @@ export interface DesktopSyncIpcMethodRegistration<
     ResultDecodingServices,
     ResultEncodingServices
   >;
-  readonly handler: () => Effect.Effect<Result, E, R>;
+  readonly handler: () => Result!E!R;
 }
 
 export const makeSyncIpcMethod = <
@@ -266,9 +251,7 @@ export const makeSyncIpcMethod = <
     handler: () =>
       method
         .handler()
-        .pipe(
-          Effect.flatMap(encode),
-          Effect.withSpan("desktop.ipc.method", { attributes: { channel: method.channel } }),
-        ),
+          |> Effect.flatMap(%, encode)
+          |> withSpan(%, "desktop.ipc.method", { attributes: { channel: method.channel } }),
   };
 };

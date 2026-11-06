@@ -11,6 +11,7 @@ declare const DesktopUserDataInitializationError_base: Schema.Class<DesktopUserD
 }>, import("effect/Cause").YieldableError>;
 export declare class DesktopUserDataInitializationError extends DesktopUserDataInitializationError_base {
     get message(): string;
+    /** @throws {never} */
     static fromFileSystem(cause: PlatformError.PlatformError, operation: DesktopUserDataInitializationError["operation"], resourcePath: string): DesktopUserDataInitializationError;
 }
 export declare const resolveUserDataPath: (input: {

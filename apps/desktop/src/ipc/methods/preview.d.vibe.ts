@@ -4,10 +4,13 @@ import * as ElectronWindow from "../../electron/ElectronWindow.ts";
 import * as BrowserImport from "../../preview/BrowserImport/BrowserImport.ts";
 import * as PreviewManager from "../../preview/Manager.ts";
 import * as DesktopClientSettings from "../../settings/DesktopClientSettings.ts";
-import * as DesktopIpc from "../DesktopIpc.ts";
+import * as DesktopIpc from "../DesktopIpc.vibe";
 export declare const installPreviewEventForwarding: () => Effect.Effect<void, never, ElectronWindow.ElectronWindow | PreviewManager.PreviewManager | import("effect/Scope").Scope>;
 export declare const startRecording: DesktopIpc.DesktopIpcMethod<DesktopClientSettings.DesktopClientSettingsReadError | Schema.SchemaError, DesktopClientSettings.DesktopClientSettings | PreviewManager.PreviewManager>;
-/** Keep the default profile's bare environment id so existing logins retain their partition. */
+/**
+ * Keep the default profile's bare environment id so existing logins retain their partition.
+ * @throws {never}
+ */
 export declare function resolvePartitionScope(environmentId: string, profileId: string | undefined): {
     readonly scope: string;
     readonly persistent: boolean;

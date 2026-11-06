@@ -1,7 +1,6 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
 
 import * as ElectronWindow from "../electron/ElectronWindow.ts";
 import { WEB_LINK_OPEN_CHANNEL } from "../ipc/channels.ts";
@@ -14,13 +13,10 @@ export const isWebLink = (value: string) => {
 
 export const isWebPageFile = (path: string) => /\.x?html?$/i.test(path);
 
-export class DesktopWebLinks extends Context.Service<
-  DesktopWebLinks,
-  {
-    readonly receive: (url: string) => Effect.Effect<void>;
-    readonly setRendererReady: (ready: boolean) => Effect.Effect<void>;
-  }
->()("@t3tools/desktop/app/DesktopWebLinks") {}
+export service DesktopWebLinks: {
+  readonly receive: (url: string) => void!!;
+  readonly setRendererReady: (ready: boolean) => void!!;
+} { static readonly key = "@t3tools/desktop/app/DesktopWebLinks" }
 
 const make = Effect.gen(function* () {
   const electronWindow = yield* ElectronWindow.ElectronWindow;
@@ -46,9 +42,9 @@ const make = Effect.gen(function* () {
     yield* electronWindow.reveal(window.value);
   });
 
-  const startListening = Effect.gen(function* () {
-    const window = yield* electronWindow.currentMainOrFirst;
-    if (Option.isNone(window) || window.value.webContents.isDestroyed()) return;
+  const startListening = effect {
+    const window = try electronWindow.currentMainOrFirst;
+    if (Option.isNone(window) || (try Effect.orDie(Effect.try({ try: () => window.value.webContents.isDestroyed(), catch: (e) => e })))) return;
     const webContents = window.value.webContents;
     if (listening === webContents) return;
     stopListening();
@@ -58,15 +54,15 @@ const make = Effect.gen(function* () {
     ) => {
       if (event.isMainFrame && !event.isSameDocument) stopListening();
     };
-    webContents.on("did-start-navigation", onNavigation);
-    webContents.on("render-process-gone", stopListening);
-    webContents.once("destroyed", stopListening);
+    try Effect.orDie(Effect.try({ try: () => webContents.on("did-start-navigation", onNavigation), catch: (e) => e }));
+    try Effect.orDie(Effect.try({ try: () => webContents.on("render-process-gone", stopListening), catch: (e) => e }));
+    try Effect.orDie(Effect.try({ try: () => webContents.once("destroyed", stopListening), catch: (e) => e }));
     detachListening = () => {
       webContents.removeListener("did-start-navigation", onNavigation);
       webContents.removeListener("render-process-gone", stopListening);
       webContents.removeListener("destroyed", stopListening);
     };
-  });
+  };
 
   return DesktopWebLinks.of({
     receive: Effect.fn("DesktopWebLinks.receive")(function (url) {

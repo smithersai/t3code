@@ -14,7 +14,7 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
 import * as DesktopConfig from "../app/DesktopConfig.vibe";
 import * as DesktopNetworkInterfaces from "./DesktopNetworkInterfaces.ts";
-import * as DesktopServerExposure from "./DesktopServerExposure.ts";
+import * as DesktopServerExposure from "./DesktopServerExposure.vibe";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

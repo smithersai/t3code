@@ -30,7 +30,7 @@ vi.mock("electron", () => ({
   },
 }));
 
-import * as ElectronDialog from "../electron/ElectronDialog.ts";
+import * as ElectronDialog from "../electron/ElectronDialog.vibe";
 import * as BrowserSession from "./BrowserSession.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

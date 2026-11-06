@@ -1,8 +1,8 @@
 import * as Effect from "effect/Effect";
 
 import { receiveProviderAuthCallback, cancelProviderAuthCallback } from "./methods/providerAuth.vibe";
-import * as DesktopIpc from "./DesktopIpc.ts";
-import { installNotificationBadge } from "./methods/notificationBadge.ts";
+import * as DesktopIpc from "./DesktopIpc.vibe";
+import { installNotificationBadge } from "./methods/notificationBadge.vibe";
 import { getClientSettings, setClientSettings } from "./methods/clientSettings.vibe";
 import {
   clearConnectionCatalog,
@@ -55,7 +55,7 @@ import {
   pickThemeFiles,
   setTheme,
   showContextMenu,
-} from "./methods/window.ts";
+} from "./methods/window.vibe";
 import {
   acknowledgeSnapShot,
   checkSnapShotShortcut,

@@ -3,7 +3,7 @@ import * as Schema from "effect/Schema";
 
 import * as DesktopCliCommand from "../../app/DesktopCliCommand.ts";
 import * as IpcChannels from "../channels.ts";
-import { makeIpcMethod } from "../DesktopIpc.ts";
+import { makeIpcMethod } from "../DesktopIpc.vibe";
 
 export const getCliCommandState = makeIpcMethod({
   channel: IpcChannels.CLI_COMMAND_GET_STATE_CHANNEL,

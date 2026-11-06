@@ -10,9 +10,15 @@ declare const ElectronPowerMonitor_base: Context.ServiceClass<ElectronPowerMonit
     readonly getSystemIdleTime: Effect.Effect<number>;
     readonly getSystemIdleState: (idleThresholdSeconds: number) => Effect.Effect<ElectronIdleState>;
     readonly getCurrentThermalState: Effect.Effect<ElectronThermalState>;
-    readonly onSimpleEvent: (eventName: "lock-screen" | "unlock-screen" | "on-ac" | "on-battery" | "suspend" | "resume", listener: () => void) => Effect.Effect<void, never, Scope.Scope>;
-    readonly onThermalStateChange: (listener: (state: ElectronThermalState) => void) => Effect.Effect<void, never, Scope.Scope>;
-    readonly onSpeedLimitChange: (listener: (limit: number) => void) => Effect.Effect<void, never, Scope.Scope>;
+    readonly onSimpleEvent: (eventName: "lock-screen" | "unlock-screen" | "on-ac" | "on-battery" | "suspend" | "resume", listener: 
+    /** @throws {never} */
+    () => void) => Effect.Effect<void, never, Scope.Scope>;
+    readonly onThermalStateChange: (listener: 
+    /** @throws {never} */
+    (state: ElectronThermalState) => void) => Effect.Effect<void, never, Scope.Scope>;
+    readonly onSpeedLimitChange: (listener: 
+    /** @throws {never} */
+    (limit: number) => void) => Effect.Effect<void, never, Scope.Scope>;
 }>;
 export declare class ElectronPowerMonitor extends ElectronPowerMonitor_base {
 }
@@ -22,9 +28,15 @@ export declare const make: {
     readonly getSystemIdleTime: Effect.Effect<number>;
     readonly getSystemIdleState: (idleThresholdSeconds: number) => Effect.Effect<ElectronIdleState>;
     readonly getCurrentThermalState: Effect.Effect<ElectronThermalState>;
-    readonly onSimpleEvent: (eventName: "lock-screen" | "unlock-screen" | "on-ac" | "on-battery" | "suspend" | "resume", listener: () => void) => Effect.Effect<void, never, Scope.Scope>;
-    readonly onThermalStateChange: (listener: (state: ElectronThermalState) => void) => Effect.Effect<void, never, Scope.Scope>;
-    readonly onSpeedLimitChange: (listener: (limit: number) => void) => Effect.Effect<void, never, Scope.Scope>;
+    readonly onSimpleEvent: (eventName: "lock-screen" | "unlock-screen" | "on-ac" | "on-battery" | "suspend" | "resume", listener: 
+    /** @throws {never} */
+    () => void) => Effect.Effect<void, never, Scope.Scope>;
+    readonly onThermalStateChange: (listener: 
+    /** @throws {never} */
+    (state: ElectronThermalState) => void) => Effect.Effect<void, never, Scope.Scope>;
+    readonly onSpeedLimitChange: (listener: 
+    /** @throws {never} */
+    (limit: number) => void) => Effect.Effect<void, never, Scope.Scope>;
 };
 export declare const layer: Layer.Layer<ElectronPowerMonitor, never, never>;
 export {};

@@ -47,7 +47,9 @@ declare const ElectronUpdater_base: Context.ServiceClass<ElectronUpdater, "@t3to
         readonly isSilent: boolean;
         readonly isForceRunAfter: boolean;
     }) => Effect.Effect<void, ElectronUpdaterQuitAndInstallError>;
-    readonly on: <Args extends ReadonlyArray<unknown>>(eventName: string, listener: (...args: Args) => void) => Effect.Effect<void, never, Scope.Scope>;
+    readonly on: <Args extends readonly unknown[]>(eventName: string, listener: 
+    /** @throws {never} */
+    (...args: Args) => void) => Effect.Effect<void, never, Scope.Scope>;
 }>;
 export declare class ElectronUpdater extends ElectronUpdater_base {
 }
@@ -68,7 +70,9 @@ export declare const make: {
         readonly isSilent: boolean;
         readonly isForceRunAfter: boolean;
     }) => Effect.Effect<void, ElectronUpdaterQuitAndInstallError>;
-    readonly on: <Args extends ReadonlyArray<unknown>>(eventName: string, listener: (...args: Args) => void) => Effect.Effect<void, never, Scope.Scope>;
+    readonly on: <Args extends ReadonlyArray<unknown>>(eventName: string, listener: 
+    /** @throws {never} */
+    (...args: Args) => void) => Effect.Effect<void, never, Scope.Scope>;
 };
 export declare const layer: Layer.Layer<ElectronUpdater, never, never>;
 export {};

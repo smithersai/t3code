@@ -3,7 +3,7 @@ import * as Schema from "effect/Schema";
 
 import * as DesktopLegacyLocalStorage from "../../app/DesktopLegacyLocalStorage.ts";
 import * as IpcChannels from "../channels.ts";
-import { makeIpcMethod, makeSyncIpcMethod } from "../DesktopIpc.ts";
+import { makeIpcMethod, makeSyncIpcMethod } from "../DesktopIpc.vibe";
 
 export const takeLegacyLocalStorage = makeSyncIpcMethod({
   channel: IpcChannels.TAKE_LEGACY_LOCAL_STORAGE_CHANNEL,

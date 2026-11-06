@@ -1,9 +1,9 @@
 import { type RemoteEnvironmentAuthError } from "@t3tools/client-runtime/authorization";
 import { SshHttpBridgeError } from "@t3tools/ssh/errors";
 import * as Schema from "effect/Schema";
-import * as DesktopIpc from "../DesktopIpc.ts";
+import * as DesktopIpc from "../DesktopIpc.vibe";
 import * as DesktopSshEnvironment from "../../ssh/DesktopSshEnvironment.vibe";
-import * as DesktopSshPasswordPrompts from "../../ssh/DesktopSshPasswordPrompts.ts";
+import * as DesktopSshPasswordPrompts from "../../ssh/DesktopSshPasswordPrompts.vibe";
 type DesktopSshEnvironmentRequestOperation = "fetch-environment-descriptor" | "bootstrap-bearer-session" | "fetch-session-state" | "issue-websocket-ticket";
 type DesktopSshEnvironmentRequestCause = RemoteEnvironmentAuthError | SshHttpBridgeError;
 declare const DesktopSshEnvironmentRequestError_base: new <A extends Record<string, any> = {}>(args: import("effect/Types").VoidIfEmpty<{ readonly [P in keyof A as P extends "_tag" ? never : P]: A[P]; }>) => import("effect/Cause").YieldableError & {

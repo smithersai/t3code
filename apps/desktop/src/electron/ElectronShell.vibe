@@ -52,19 +52,16 @@ export function parseSafeExternalUrl(rawUrl: unknown): Option.Option<string> {
   }
 }
 
-export class ElectronShell extends Context.Service<
-  ElectronShell,
-  {
-    readonly openExternal: (rawUrl: unknown) => Effect.Effect<boolean>;
-    readonly openSystemSettings: (pane: SystemSettingsPane) => Effect.Effect<boolean>;
-    readonly copyText: (text: string) => Effect.Effect<void>;
-  }
->()("@t3tools/desktop/electron/ElectronShell") {}
+export service ElectronShell: {
+  readonly openExternal: (rawUrl: unknown) => boolean!!;
+  readonly openSystemSettings: (pane: SystemSettingsPane) => boolean!!;
+  readonly copyText: (text: string) => void!!;
+} { static readonly key = "@t3tools/desktop/electron/ElectronShell" }
 
 /** @public */
 export const make = ElectronShell.of({
   openExternal: Effect.fn("ElectronShell.openExternal")(function (rawUrl) {
-    return Option.match(parseSafeExternalUrl(rawUrl), {
+    return do { const $optionSubject = parseSafeExternalUrl(rawUrl); const $optionHandlers: { onNone: () => boolean!never!never; onSome: (externalUrl: string) => boolean!never!never; } = {
       onNone: () => Effect.succeed(false),
       onSome: (externalUrl) =>
         Effect.promise(() =>
@@ -73,7 +70,7 @@ export const make = ElectronShell.of({
             () => false,
           ),
         ),
-    });
+    }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): $optionSome($optionValue); default: $optionNone(); }; };
   }),
   openSystemSettings: Effect.fn("ElectronShell.openSystemSettings")(function (pane) {
     return Effect.promise(() =>

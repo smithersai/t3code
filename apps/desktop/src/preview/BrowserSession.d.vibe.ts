@@ -5,7 +5,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as PlatformError from "effect/PlatformError";
 import * as Schema from "effect/Schema";
-import * as ElectronDialog from "../electron/ElectronDialog.ts";
+import * as ElectronDialog from "../electron/ElectronDialog.vibe";
 export type BrowserSessionPartitionNamespace = "profile";
 declare const BrowserSessionPartitionDerivationError_base: Schema.Class<BrowserSessionPartitionDerivationError, Schema.TaggedStruct<"BrowserSessionPartitionDerivationError", {
     readonly scope: Schema.String;
@@ -42,17 +42,19 @@ export declare const BrowserSessionError: Schema.Union<readonly [typeof BrowserS
 export type BrowserSessionError = typeof BrowserSessionError.Type;
 declare const BrowserSession_base: Context.ServiceClass<BrowserSession, "@t3tools/desktop/preview/BrowserSession", {
     readonly getPartition: (scope?: string, persistent?: boolean, namespace?: BrowserSessionPartitionNamespace) => Effect.Effect<string, BrowserSessionPartitionDerivationError>;
+    /** @throws {never} */
     readonly isPartition: (partition: string) => boolean;
     readonly getSession: (scope?: string, persistent?: boolean, namespace?: BrowserSessionPartitionNamespace) => Effect.Effect<Session, BrowserSessionGetSessionError>;
     /** Omit `partitions` to clear every known partition. */
-    readonly clearCookies: (partitions?: ReadonlyArray<string>) => Effect.Effect<void, BrowserSessionStorageClearError>;
-    readonly clearCache: (partitions?: ReadonlyArray<string>) => Effect.Effect<void, BrowserSessionCacheClearError>;
+    readonly clearCookies: (partitions?: readonly string[]) => Effect.Effect<void, BrowserSessionStorageClearError>;
+    readonly clearCache: (partitions?: readonly string[]) => Effect.Effect<void, BrowserSessionCacheClearError>;
 }>;
 export declare class BrowserSession extends BrowserSession_base {
 }
 /** @public */
 export declare const make: Effect.Effect<{
     readonly getPartition: (scope?: string, persistent?: boolean, namespace?: BrowserSessionPartitionNamespace) => Effect.Effect<string, BrowserSessionPartitionDerivationError>;
+    /** @throws {never} */
     readonly isPartition: (partition: string) => boolean;
     readonly getSession: (scope?: string, persistent?: boolean, namespace?: BrowserSessionPartitionNamespace) => Effect.Effect<Session, BrowserSessionGetSessionError>;
     /** Omit `partitions` to clear every known partition. */

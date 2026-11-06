@@ -14,7 +14,9 @@ export declare class ElectronThemeSetSourceError extends ElectronThemeSetSourceE
 declare const ElectronTheme_base: Context.ServiceClass<ElectronTheme, "@t3tools/desktop/electron/ElectronTheme", {
     readonly shouldUseDarkColors: Effect.Effect<boolean>;
     readonly setSource: (theme: DesktopTheme) => Effect.Effect<void, ElectronThemeSetSourceError>;
-    readonly onUpdated: (listener: () => void) => Effect.Effect<void, never, Scope.Scope>;
+    readonly onUpdated: (listener: 
+    /** @throws {never} */
+    () => void) => Effect.Effect<void, never, Scope.Scope>;
 }>;
 export declare class ElectronTheme extends ElectronTheme_base {
 }
@@ -22,7 +24,9 @@ export declare class ElectronTheme extends ElectronTheme_base {
 export declare const make: {
     readonly shouldUseDarkColors: Effect.Effect<boolean>;
     readonly setSource: (theme: DesktopTheme) => Effect.Effect<void, ElectronThemeSetSourceError>;
-    readonly onUpdated: (listener: () => void) => Effect.Effect<void, never, Scope.Scope>;
+    readonly onUpdated: (listener: 
+    /** @throws {never} */
+    () => void) => Effect.Effect<void, never, Scope.Scope>;
 };
 export declare const layer: Layer.Layer<ElectronTheme, never, never>;
 export {};

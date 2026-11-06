@@ -9,7 +9,7 @@ import * as DesktopState from "../../app/DesktopState.vibe";
 import * as ElectronApp from "../../electron/ElectronApp.ts";
 import * as ElectronTheme from "../../electron/ElectronTheme.vibe";
 import * as DesktopAppSettings from "../../settings/DesktopAppSettings.ts";
-import * as DesktopWindow from "../../window/DesktopWindow.ts";
+import * as DesktopWindow from "../../window/DesktopWindow.vibe";
 import { getLocalEnvironmentEnabled, setLocalEnvironmentEnabled } from "./localEnvironment.vibe";
 
 const layerUnusedLifecycleRuntime = Layer.mergeAll(
