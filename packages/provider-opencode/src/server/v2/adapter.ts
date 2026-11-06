@@ -54,7 +54,7 @@ import * as Stream from "effect/Stream";
 
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import * as OpenCode2Client from "./OpenCode2Client.vibe";
-import * as OpenCode2Server from "./OpenCode2Server.ts";
+import * as OpenCode2Server from "./OpenCode2Server.vibe";
 import * as OpenCodeRuntime from "../OpenCodeRuntime.ts";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import { buildRuntimeInstructions } from "@t3tools/provider-core/server/runtimeInstructions";

@@ -1,0 +1,194 @@
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Scope from "effect/Scope"
+
+import * as OpenCodeRuntime from "./OpenCodeRuntime.ts"
+
+const OPENCODE_SERVER_IDLE_TTL = "30 seconds"
+
+interface OpenCodeServerOwnerState {
+  server: OpenCodeRuntime.OpenCodeServerProcess | null
+  serverScope: Scope.Closeable | null
+  borrowers: number
+  idleCloseFiber: Fiber.Fiber<void, never> | null
+}
+
+export service OpenCodeServerOwner: {
+  readonly withServer: <A, E, R>(
+    use: (server: OpenCodeRuntime.OpenCodeServerProcess) => A!E!R,
+  ) => A!(E | OpenCodeRuntime.OpenCodeRuntimeError)!R;
+} {
+  static readonly key = "@t3tools/provider-opencode/server/OpenCodeServerOwner"
+}
+
+export const make = effect (
+  input: {
+    readonly binaryPath: string
+    readonly directory: string
+    readonly serverPassword?: string
+    readonly environment?: NodeJS.ProcessEnv
+    readonly verify?: (url: string) => string!OpenCodeRuntime.OpenCodeRuntimeError
+  },
+) =>
+  try withSpan(
+    effect {
+      const runtime = try OpenCodeRuntime.OpenCodeRuntime
+      const ownerScope = try Effect.acquireRelease(Scope.make(), (scope) => Scope.close(scope, Exit.void))
+      const mutex = try Semaphore.make(1)
+      const state: OpenCodeServerOwnerState = {
+        server: null,
+        serverScope: null,
+        borrowers: 0,
+        idleCloseFiber: null,
+      }
+
+      const cancelIdleClose = effect () =>
+        try withSpan(
+          effect {
+            const fiber = state.idleCloseFiber
+            state.idleCloseFiber = null
+            if (fiber !== null) {
+              try (Fiber.interrupt(fiber) |> Effect.ignore(%))
+            }
+          },
+          "OpenCodeServerOwner.cancelIdleClose",
+        )
+
+      const closeServer = effect (
+        expected?: OpenCodeRuntime.OpenCodeServerProcess | undefined,
+      ) =>
+        try withSpan(
+          effect {
+            if (expected !== undefined && state.server !== expected) {
+              return
+            }
+            const scope = state.serverScope
+            state.server = null
+            state.serverScope = null
+            if (scope !== null) {
+              try (Scope.close(scope, Exit.void) |> Effect.ignore(%))
+            }
+          },
+          "OpenCodeServerOwner.closeServer",
+        )
+
+      const watchServerExit = effect (
+        server: OpenCodeRuntime.OpenCodeServerProcess,
+      ) =>
+        try withSpan(
+          effect {
+            try server.exitCode
+            try mutex.withPermit(
+              effect {
+                if (state.server !== server) {
+                  return
+                }
+                try cancelIdleClose()
+                try closeServer(server)
+              },
+            )
+          },
+          "OpenCodeServerOwner.watchServerExit",
+        )
+
+      const acquireServer = mutex.withPermit(
+        effect {
+          try cancelIdleClose()
+          if (state.server !== null) {
+            if (try state.server.isRunning) {
+              state.borrowers += 1
+              return state.server
+            }
+            try closeServer(state.server)
+          }
+
+          return try Effect.uninterruptibleMask(effect (restore) => {
+            const serverScope = try Scope.make()
+            const started = try Effect.exit(
+              restore(
+                runtime
+                  .startOpenCodeServerProcess({
+                    binaryPath: input.binaryPath,
+                    directory: input.directory,
+                    ...(input.serverPassword !== undefined
+                      ? { serverPassword: input.serverPassword }
+                      : {}),
+                    ...(input.environment ? { environment: input.environment } : {}),
+                    ...(input.verify ? { verify: input.verify } : {}),
+                  }) |> Effect.provideService(%, Scope.Scope, serverScope),
+              ),
+            )
+            if (Exit.isFailure(started)) {
+              try (Scope.close(serverScope, Exit.void) |> Effect.ignore(%))
+              return try Effect.failCause(started.cause)
+            }
+
+            const server = started.value
+            state.server = server
+            state.serverScope = serverScope
+            state.borrowers = 1
+            try (watchServerExit(server) |> Effect.forkIn(%, ownerScope))
+            return server
+          })
+        },
+      )
+
+      const releaseServer = (server: OpenCodeRuntime.OpenCodeServerProcess) =>
+        mutex.withPermit(
+          effect {
+            if (state.server !== server) {
+              return
+            }
+            state.borrowers = Math.max(0, state.borrowers - 1)
+            if (state.borrowers > 0) {
+              return
+            }
+            try cancelIdleClose()
+            state.idleCloseFiber = try (Effect.sleep(OPENCODE_SERVER_IDLE_TTL)
+              |> Effect.andThen(
+                %,
+                mutex.withPermit(
+                  effect {
+                    if (state.server !== server || state.borrowers > 0) {
+                      return
+                    }
+                    state.idleCloseFiber = null
+                    try closeServer(server)
+                  },
+                ),
+              )
+              |> Effect.forkIn(%, ownerScope))
+          },
+        )
+
+      try Effect.addFinalizer(() =>
+        mutex.withPermit(
+          effect {
+            try cancelIdleClose()
+            state.borrowers = 0
+            try closeServer()
+          },
+        )
+      )
+
+      return OpenCodeServerOwner.of({
+        withServer: Effect.fn("OpenCodeServerOwner.withServer")(function(use) {
+          return Effect.uninterruptibleMask((restore) =>
+            restore(acquireServer)
+            |> Effect.flatMap(%, (server) => restore(use(server)) |> Effect.ensuring(%, releaseServer(server)))
+          )
+        }),
+      })
+    },
+    "OpenCodeServerOwner.make",
+  )
+
+/** @public */
+export const layer = (input: {
+  readonly binaryPath: string
+  readonly directory: string
+  readonly serverPassword?: string
+  readonly environment?: NodeJS.ProcessEnv
+  readonly verify?: (url: string) => string!OpenCodeRuntime.OpenCodeRuntimeError
+}) => Layer.effect(OpenCodeServerOwner, make(input))

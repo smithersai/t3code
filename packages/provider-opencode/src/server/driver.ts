@@ -20,9 +20,9 @@ import * as OpenCode2AdapterV2 from "./v2/adapter.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import type { ProviderTextGeneration } from "@t3tools/provider-core/server/textGeneration";
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors";
-import { openCodeUsageReader, type OpenCodeUsageReaderEnv } from "./usage.ts";
-import { readOpenCodeGoUsageLimits } from "./usageLimits.ts";
-import { loadOpenCode2Catalog } from "./openCode2Catalog.ts";
+import { openCodeUsageReader, type OpenCodeUsageReaderEnv } from "./usage.vibe";
+import { readOpenCodeGoUsageLimits } from "./usageLimits.vibe";
+import { loadOpenCode2Catalog } from "./openCode2Catalog.vibe";
 import {
   checkOpenCodeProviderStatus,
   loadOpenCode2Workspace,
@@ -40,9 +40,9 @@ import {
   probeOpenCodeRuntime,
   type ProbedOpenCode,
 } from "./versionProbe.ts";
-import * as OpenCodeServerOwner from "./OpenCodeServerOwner.ts";
+import * as OpenCodeServerOwner from "./OpenCodeServerOwner.vibe";
 import * as OpenCode2Client from "./v2/OpenCode2Client.vibe";
-import * as OpenCode2Server from "./v2/OpenCode2Server.ts";
+import * as OpenCode2Server from "./v2/OpenCode2Server.vibe";
 import {
   defaultProviderContinuationIdentity,
   type ProviderDriver,

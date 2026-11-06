@@ -8,7 +8,7 @@ import { getModelSelectionStringOptionValue } from "@t3tools/shared/model";
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import * as TextGenerationOperations from "@t3tools/provider-core/server/textGenerationOperations";
 import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
-import * as OpenCodeServerOwner from "./OpenCodeServerOwner.ts";
+import * as OpenCodeServerOwner from "./OpenCodeServerOwner.vibe";
 
 const OpenCodeTextGenerationOperation = Schema.Literals([
   "generateCommitMessage",

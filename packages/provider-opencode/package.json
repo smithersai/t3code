@@ -36,8 +36,11 @@
       "import": "./src/server/v2/OpenCode2Client.vibe"
     },
     "./server/v2/OpenCode2Server": {
-      "types": "./src/server/v2/OpenCode2Server.ts",
-      "import": "./src/server/v2/OpenCode2Server.ts"
+      "types": "./src/server/v2/OpenCode2Server.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/v2/OpenCode2Server.vibe",
+        "default": "./.vibelang/js/src/server/v2/OpenCode2Server.js"
+      }
     },
     "./server/v2/textGeneration": {
       "types": "./src/server/v2/textGeneration.ts",

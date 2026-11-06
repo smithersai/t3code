@@ -23,7 +23,7 @@ import {
 import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
 import type { ProbedOpenCode } from "./versionProbe.ts";
 import type { Agent, ProviderListResponse } from "@opencode-ai/sdk/v2";
-import * as OpenCodeServerOwner from "./OpenCodeServerOwner.ts";
+import * as OpenCodeServerOwner from "./OpenCodeServerOwner.vibe";
 
 const OPENCODE_PRESENTATION = {
   displayName: "OpenCode",

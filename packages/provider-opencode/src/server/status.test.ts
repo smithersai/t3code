@@ -17,14 +17,14 @@ import { beforeEach } from "vite-plus/test";
 
 import { OpenCodeSettings } from "../settings.vibe";
 import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
-import * as OpenCodeServerOwner from "./OpenCodeServerOwner.ts";
+import * as OpenCodeServerOwner from "./OpenCodeServerOwner.vibe";
 import {
   checkOpenCodeProviderStatus,
   loadOpenCode2Workspace,
   type OpenCode2Model,
   type OpenCode2Workspace,
 } from "./status.ts";
-import { readOpenCodeGoUsageLimits } from "./usageLimits.ts";
+import { readOpenCodeGoUsageLimits } from "./usageLimits.vibe";
 import { probeOpenCodeRuntime } from "./versionProbe.ts";
 import {
   OPENCODE_1_RESPONSES,
