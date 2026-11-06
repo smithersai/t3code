@@ -2,10 +2,10 @@ import { defineSourceControlDriver, withOwnServices } from "@t3tools/source-cont
 
 import { definition } from "../shared/definition.ts"
 
-import * as GitLabCli from "./GitLabCli.ts"
-import * as GitLabPullRequestCli from "./GitLabPullRequestCli.ts"
-import * as GitLabPullRequestProvider from "./GitLabPullRequestProvider.ts"
-import * as GitLabSourceControlProvider from "./GitLabSourceControlProvider.ts"
+import * as GitLabCli from "./GitLabCli.vibe"
+import * as GitLabPullRequestCli from "./GitLabPullRequestCli.vibe"
+import * as GitLabPullRequestProvider from "./GitLabPullRequestProvider.vibe"
+import * as GitLabSourceControlProvider from "./GitLabSourceControlProvider.vibe"
 
 const services = GitLabPullRequestCli.layer.pipe(Layer.provideMerge(GitLabCli.layer))
 

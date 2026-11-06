@@ -1,20 +1,16 @@
-import { SourceControlProviderKind } from "@t3tools/contracts";
-import * as Effect from "effect/Effect";
-import type {
-  PullRequestCapabilities,
-  PullRequestReaction,
-  PullRequestViewerPermissions,
-} from "@t3tools/contracts";
+import { SourceControlProviderKind } from "@t3tools/contracts"
+import * as Effect from "effect/Effect"
+import type { PullRequestCapabilities, PullRequestReaction, PullRequestViewerPermissions } from "@t3tools/contracts"
 
-import * as GitLabPullRequestCli from "./GitLabPullRequestCli.ts";
+import * as GitLabPullRequestCli from "./GitLabPullRequestCli.vibe"
 import {
   PullRequestProviderError,
   type PullRequestProviderFailure,
   type ProviderChangeRequestActivity,
   type ProviderChangeRequestDetail,
   type PullRequestProviderApi,
-} from "@t3tools/source-control-core/server/PullRequestProvider";
-import { definition } from "../shared/definition.ts";
+} from "@t3tools/source-control-core/server/PullRequestProvider"
+import { definition } from "../shared/definition.ts"
 
 const CAPABILITIES: PullRequestCapabilities = {
   diff: true,
@@ -36,13 +32,13 @@ const CAPABILITIES: PullRequestCapabilities = {
   },
   reviewers: { request: true, listCandidates: true },
   edit: { changeRequest: true, comment: true },
-};
+}
 
 const UNAVAILABLE_REQUIREMENT = {
   missing:
     "GitLab CLI (`glab`) is required to browse change requests on this host. Install it from https://gitlab.com/gitlab-org/cli and reload.",
   unauthenticated: "GitLab CLI is not authenticated. Run `glab auth login` and retry.",
-};
+}
 
 /**
  * The actions `user.can_merge` answers for. Rebasing writes to the source branch rather than to
@@ -54,11 +50,11 @@ const MERGE_ACTIONS: ReadonlySet<string> = new Set([
   "update-branch",
   "enable-auto-merge",
   "disable-auto-merge",
-]);
+])
 
 /** Authors may close/reopen/change draft state regardless of role; REST omits authorship. */
 export function gitLabViewerPermissions(input: {
-  readonly viewerCanMerge: boolean;
+  readonly viewerCanMerge: boolean
 }): PullRequestViewerPermissions {
   return {
     actions: CAPABILITIES.actions.filter(
@@ -69,21 +65,21 @@ export function gitLabViewerPermissions(input: {
     verdicts: CAPABILITIES.review.verdicts,
     requestReviewers: true,
     ...(input.viewerCanMerge ? { updateMethods: CAPABILITIES.updateMethods } : {}),
-  };
+  }
 }
 
 function gitLabProviderFailure(
   error: GitLabPullRequestCli.GitLabPullRequestCliError,
 ): PullRequestProviderFailure {
-  if (error._tag === "GitLabCliUnavailableError") return { reason: "missing-tool" };
-  if (error._tag === "GitLabCliAuthenticationError") return { reason: "unauthenticated" };
-  if (error._tag === "GitLabCliRateLimitError") return { reason: "rate-limited" };
-  if (error._tag === "GitLabMergeRequestNotFoundError") return { reason: "not-found" };
-  return { reason: "failed" };
+  if (error._tag === "GitLabCliUnavailableError") return { reason: "missing-tool" }
+  if (error._tag === "GitLabCliAuthenticationError") return { reason: "unauthenticated" }
+  if (error._tag === "GitLabCliRateLimitError") return { reason: "rate-limited" }
+  if (error._tag === "GitLabMergeRequestNotFoundError") return { reason: "not-found" }
+  return { reason: "failed" }
 }
 
-export const make = Effect.gen(function* () {
-  const cli = yield* GitLabPullRequestCli.GitLabPullRequestCli;
+export const make = effect {
+  const cli = try GitLabPullRequestCli.GitLabPullRequestCli
 
   const fail = (operation: string) => (error: GitLabPullRequestCli.GitLabPullRequestCliError) =>
     new PullRequestProviderError({
@@ -92,32 +88,30 @@ export const make = Effect.gen(function* () {
       ...gitLabProviderFailure(error),
       detail: error.detail,
       cause: error,
-    });
+    })
 
   // Optional endpoints may lose part of the activity, but an unusable CLI or account must
   // reach the caller so it can report authentication failures and pause a throttled host.
   const recoverRead = <A>(
-    read: Effect.Effect<A, GitLabPullRequestCli.GitLabPullRequestCliError>,
+    read: A!GitLabPullRequestCli.GitLabPullRequestCliError,
     fallback: A,
   ) =>
-    read.pipe(
-      Effect.catch((error) => {
-        const { reason } = gitLabProviderFailure(error);
-        return reason === "rate-limited" ||
-          reason === "unauthenticated" ||
-          reason === "missing-tool"
-          ? Effect.fail(error)
-          : Effect.succeed(fallback);
-      }),
-    );
+    read
+    |> Effect.catch(%, (error) => {
+      const { reason } = gitLabProviderFailure(error)
+      return reason === "rate-limited"
+          || reason === "unauthenticated"
+          || reason === "missing-tool"
+        ? Effect.fail(error)
+        : Effect.succeed(fallback)
+    })
 
   const provider: PullRequestProviderApi = {
     kind: SourceControlProviderKind.make("gitlab"),
     capabilities: CAPABILITIES,
     unavailableRequirement: UNAVAILABLE_REQUIREMENT,
 
-    getViewer: (input) =>
-      cli.getViewerUsername({ cwd: input.cwd }).pipe(Effect.mapError(fail("getViewer"))),
+    getViewer: (input) => cli.getViewerUsername({ cwd: input.cwd }) |> Effect.mapError(%, fail("getViewer")),
 
     listChangeRequests: (input) =>
       cli
@@ -132,23 +126,20 @@ export const make = Effect.gen(function* () {
           cursor: input.cursor,
           filters: input.filters,
         })
-        .pipe(
-          Effect.mapError(fail("listChangeRequests")),
-          Effect.map((batch) => ({ ...batch, continues: true })),
-        ),
+      |> Effect.mapError(%, fail("listChangeRequests"))
+      |> Effect.map(%, (batch) => ({ ...batch, continues: true })),
 
     getChangeRequestChecks: (input) =>
-      cli.getMergeRequestDetail(input).pipe(
-        Effect.map(({ state, checks }) => ({ state, checks })),
-        Effect.mapError(fail("getChangeRequestChecks")),
-      ),
+      cli.getMergeRequestDetail(input)
+      |> Effect.map(%, ({ state, checks }) => ({ state, checks }))
+      |> Effect.mapError(%, fail("getChangeRequestChecks")),
 
     // Merge settings only affect the detail panel's actions.
     getChangeRequestPreview: (input) =>
-      cli.getMergeRequestDetail(input).pipe(Effect.mapError(fail("getChangeRequestPreview"))),
+      cli.getMergeRequestDetail(input) |> Effect.mapError(%, fail("getChangeRequestPreview")),
 
     getChangeRequestSummary: (input) =>
-      cli.getMergeRequestDetail(input).pipe(Effect.mapError(fail("getChangeRequestSummary"))),
+      cli.getMergeRequestDetail(input) |> Effect.mapError(%, fail("getChangeRequestSummary")),
 
     getChangeRequest: (input) =>
       Effect.all(
@@ -157,24 +148,22 @@ export const make = Effect.gen(function* () {
           cli.getProjectMergeCapabilities({ cwd: input.cwd, repository: input.repository }),
         ],
         { concurrency: 2 },
-      ).pipe(
-        Effect.mapError(fail("getChangeRequest")),
-        Effect.map(([mergeRequest, mergeCapabilities]): ProviderChangeRequestDetail => ({
-          ...mergeRequest,
-          mergeCapabilities,
-          viewerPermissions: gitLabViewerPermissions(mergeRequest),
-          // Missing divergence counts mean unknown, not up to date.
-          baseComparison:
-            mergeRequest.divergedCommits === undefined
-              ? "unknown"
-              : mergeRequest.divergedCommits > 0
-                ? "behind"
-                : "up-to-date",
-          ...(mergeRequest.divergedCommits === undefined
-            ? {}
-            : { behindBy: mergeRequest.divergedCommits }),
-        })),
-      ),
+      )
+      |> Effect.mapError(%, fail("getChangeRequest"))
+      |> Effect.map(%, ([mergeRequest, mergeCapabilities]): ProviderChangeRequestDetail => ({
+        ...mergeRequest,
+        mergeCapabilities,
+        viewerPermissions: gitLabViewerPermissions(mergeRequest),
+        // Missing divergence counts mean unknown, not up to date.
+        baseComparison: mergeRequest.divergedCommits === undefined
+          ? "unknown"
+          : mergeRequest.divergedCommits > 0
+          ? "behind"
+          : "up-to-date",
+        ...(mergeRequest.divergedCommits === undefined
+          ? {}
+          : { behindBy: mergeRequest.divergedCommits }),
+      })),
 
     getChangeRequestActivity: (input) =>
       Effect.all(
@@ -188,42 +177,40 @@ export const make = Effect.gen(function* () {
           }),
         ],
         { concurrency: 4 },
-      ).pipe(
-        Effect.mapError(fail("getChangeRequestActivity")),
-        Effect.map(([notes, commits, discussions, awards]): ProviderChangeRequestActivity => ({
-          reactions: awards.reactions,
-          comments: notes.comments.map((comment) => ({
+      )
+      |> Effect.mapError(%, fail("getChangeRequestActivity"))
+      |> Effect.map(%, ([notes, commits, discussions, awards]): ProviderChangeRequestActivity => ({
+        reactions: awards.reactions,
+        comments: notes.comments.map((comment) => ({
+          ...comment,
+          reactions: awards.reactionsByNoteId.get(comment.id) ?? [],
+        })),
+        commentCount: notes.comments.length,
+        commentsTruncated: notes.truncated || discussions.truncated,
+        reviewThreads: discussions.threads.map((thread) => ({
+          ...thread,
+          comments: thread.comments.map((comment) => ({
             ...comment,
             reactions: awards.reactionsByNoteId.get(comment.id) ?? [],
           })),
-          commentCount: notes.comments.length,
-          commentsTruncated: notes.truncated || discussions.truncated,
-          reviewThreads: discussions.threads.map((thread) => ({
-            ...thread,
-            comments: thread.comments.map((comment) => ({
-              ...comment,
-              reactions: awards.reactionsByNoteId.get(comment.id) ?? [],
-            })),
-          })),
-          commits,
         })),
-      ),
+        commits,
+      })),
 
     getViewerPermissions: (input) =>
       cli
         .getMergeRequestDetail(input)
-        .pipe(Effect.mapError(fail("getViewerPermissions")), Effect.map(gitLabViewerPermissions)),
+      |> Effect.mapError(%, fail("getViewerPermissions")) |> Effect.map(%, gitLabViewerPermissions),
 
-    getDiff: (input) => cli.getMergeRequestDiff(input).pipe(Effect.mapError(fail("getDiff"))),
+    getDiff: (input) => cli.getMergeRequestDiff(input) |> Effect.mapError(%, fail("getDiff")),
 
     getDiffFileContents: (input) =>
-      cli.getMergeRequestDiffFileContents(input).pipe(Effect.mapError(fail("getDiffFileContents"))),
+      cli.getMergeRequestDiffFileContents(input) |> Effect.mapError(%, fail("getDiffFileContents")),
 
     getFileRevisions: (input) =>
-      cli.getFileRevisions(input).pipe(
-        Effect.mapError(fail("getFileRevisions")),
-        Effect.map((revisions) => ({ revisions })),
-      ),
+      cli.getFileRevisions(input)
+      |> Effect.mapError(%, fail("getFileRevisions"))
+      |> Effect.map(%, (revisions) => ({ revisions })),
 
     // MR reviewers are users; groups belong to approval rules.
     listReviewerCandidates: (input) =>
@@ -232,18 +219,17 @@ export const make = Effect.gen(function* () {
           cwd: input.cwd,
           repository: input.repository,
           number: input.number,
-        })
-        .pipe(Effect.mapError(fail("listReviewerCandidates"))),
+        }) |> Effect.mapError(%, fail("listReviewerCandidates")),
 
     listRepositoryLabels: (input) =>
       cli
         .listProjectLabels({ cwd: input.cwd, repository: input.repository, search: input.query })
-        .pipe(Effect.mapError(fail("listRepositoryLabels"))),
+      |> Effect.mapError(%, fail("listRepositoryLabels")),
 
     searchRepositoryAuthors: (input) =>
       cli
         .listProjectUsers({ cwd: input.cwd, repository: input.repository, search: input.query })
-        .pipe(Effect.mapError(fail("searchRepositoryAuthors"))),
+      |> Effect.mapError(%, fail("searchRepositoryAuthors")),
 
     setReviewerRequest: (input) =>
       cli
@@ -253,8 +239,7 @@ export const make = Effect.gen(function* () {
           number: input.number,
           reviewers: input.reviewers,
           requested: input.requested,
-        })
-        .pipe(Effect.mapError(fail("setReviewerRequest"))),
+        }) |> Effect.mapError(%, fail("setReviewerRequest")),
 
     runAction: (input) =>
       cli
@@ -264,8 +249,7 @@ export const make = Effect.gen(function* () {
           number: input.number,
           action: input.action,
           ...(input.mergeMethod === undefined ? {} : { mergeMethod: input.mergeMethod }),
-        })
-        .pipe(Effect.mapError(fail("runAction"))),
+        }) |> Effect.mapError(%, fail("runAction")),
 
     updateChangeRequest: (input) =>
       cli
@@ -275,10 +259,9 @@ export const make = Effect.gen(function* () {
           number: input.number,
           ...(input.title === undefined ? {} : { title: input.title }),
           ...(input.body === undefined ? {} : { description: input.body }),
-        })
-        .pipe(Effect.mapError(fail("updateChangeRequest"))),
+        }) |> Effect.mapError(%, fail("updateChangeRequest")),
 
-    comment: (input) => cli.commentOnMergeRequest(input).pipe(Effect.mapError(fail("comment"))),
+    comment: (input) => cli.commentOnMergeRequest(input) |> Effect.mapError(%, fail("comment")),
 
     updateComment: (input) =>
       cli
@@ -288,10 +271,9 @@ export const make = Effect.gen(function* () {
           number: input.number,
           noteId: input.commentId,
           body: input.body,
-        })
-        .pipe(Effect.mapError(fail("updateComment"))),
+        }) |> Effect.mapError(%, fail("updateComment")),
 
-    submitReview: (input) => cli.submitReview(input).pipe(Effect.mapError(fail("submitReview"))),
+    submitReview: (input) => cli.submitReview(input) |> Effect.mapError(%, fail("submitReview")),
 
     replyToThread: (input) =>
       cli
@@ -301,8 +283,7 @@ export const make = Effect.gen(function* () {
           number: input.number,
           discussionId: input.threadId,
           body: input.body,
-        })
-        .pipe(Effect.mapError(fail("replyToThread"))),
+        }) |> Effect.mapError(%, fail("replyToThread")),
 
     setReaction: (input) =>
       cli
@@ -313,8 +294,7 @@ export const make = Effect.gen(function* () {
           ...(input.subjectId === undefined ? {} : { noteId: input.subjectId }),
           content: input.content,
           reacted: input.reacted,
-        })
-        .pipe(Effect.mapError(fail("setReaction"))),
+        }) |> Effect.mapError(%, fail("setReaction")),
 
     setThreadResolution: (input) =>
       cli
@@ -324,9 +304,8 @@ export const make = Effect.gen(function* () {
           number: input.number,
           discussionId: input.threadId,
           resolved: input.resolved,
-        })
-        .pipe(Effect.mapError(fail("setThreadResolution"))),
-  };
+        }) |> Effect.mapError(%, fail("setThreadResolution")),
+  }
 
-  return provider;
-});
+  return provider
+}

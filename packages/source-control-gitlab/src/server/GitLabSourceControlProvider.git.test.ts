@@ -12,8 +12,8 @@ import * as Option from "effect/Option";
 import * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 
-import * as GitLabCli from "./GitLabCli.ts";
-import * as GitLabSourceControlProvider from "./GitLabSourceControlProvider.ts";
+import * as GitLabCli from "./GitLabCli.vibe";
+import * as GitLabSourceControlProvider from "./GitLabSourceControlProvider.vibe";
 
 it.effect("lists a nested-group fork's merge requests by source branch and names its project", () =>
   Effect.gen(function* () {
