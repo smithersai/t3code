@@ -39,7 +39,7 @@ const sourceFiles = NodeFS.readdirSync(NodePath.join(mobileRoot, "src"), { recur
   .map(String)
   .filter(
     (file) =>
-      /\.(?:tsx?|vibe)$/.test(file) && !/\.(test\.(?:tsx?|vibe)|d\.ts|d\.vibe\.ts)$/.test(file),
+      /\.(?:tsx?|vibex?)$/.test(file) && !/\.(test\.(?:tsx?|vibex?)|d\.ts|d\.vibex?\.ts)$/.test(file),
   )
   .map((file) => `src/${file.split(NodePath.sep).join("/")}`)
   .sort();

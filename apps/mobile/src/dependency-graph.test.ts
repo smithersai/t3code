@@ -11,23 +11,29 @@ const PLATFORM_EXTENSION_ORDER = {
     ".android.ts",
     ".android.vibe",
     ".android.tsx",
+    ".android.vibex",
     ".native.ts",
     ".native.vibe",
     ".native.tsx",
+    ".native.vibex",
     ".ts",
     ".vibe",
     ".tsx",
+    ".vibex",
   ],
   ios: [
     ".ios.ts",
     ".ios.vibe",
     ".ios.tsx",
+    ".ios.vibex",
     ".native.ts",
     ".native.vibe",
     ".native.tsx",
+    ".native.vibex",
     ".ts",
     ".vibe",
     ".tsx",
+    ".vibex",
   ],
 } as const;
 
@@ -36,11 +42,12 @@ type Platform = keyof typeof PLATFORM_EXTENSION_ORDER;
 const PLATFORMS = Object.keys(PLATFORM_EXTENSION_ORDER) as ReadonlyArray<Platform>;
 
 const isGraphFile = (filePath: string): boolean =>
-  /\.(?:tsx?|vibe)$/.test(filePath) &&
+  /\.(?:tsx?|vibex?)$/.test(filePath) &&
   !filePath.includes(".test.") &&
   !filePath.includes("test-support") &&
   !filePath.endsWith(".d.ts") &&
-  !filePath.endsWith(".d.vibe.ts");
+  !filePath.endsWith(".d.vibe.ts") &&
+  !filePath.endsWith(".d.vibex.ts");
 
 function isRelevantForPlatform(filePath: string, platform: Platform): boolean {
   const name = NodePath.basename(filePath);
@@ -71,7 +78,7 @@ function resolveRelative(
     return null;
   }
   const base = NodePath.resolve(NodePath.dirname(fromFile), specifier);
-  const candidates = /\.(?:tsx?|vibe)$/.test(base)
+  const candidates = /\.(?:tsx?|vibex?)$/.test(base)
     ? [base]
     : extensionOrder.flatMap((ext) => [base + ext, NodePath.join(base, `index${ext}`)]);
   for (const candidate of candidates) {

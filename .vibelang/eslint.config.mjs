@@ -13,7 +13,7 @@ const t3codeRules = Object.fromEntries(
 export default [
   { ignores: ["**/node_modules/**", "**/dist/**", "**/build/**"] },
   {
-    files: ["**/*.vibe"],
+    files: ["**/*.vibe", "**/*.vibex"],
     languageOptions: { parser },
     plugins: { t3code: eslintCompatPlugin(t3codePlugin) },
     rules: { "no-debugger": "error", "no-dupe-keys": "error", "no-unreachable": "error", ...t3codeRules },

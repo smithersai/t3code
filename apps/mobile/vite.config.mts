@@ -71,8 +71,8 @@ export default defineConfig({
             async transform(code, id) {
               if (
                 !normalizePath(id).startsWith(sourceRoot) ||
-                !/\.tsx?$/.test(id) ||
-                /\.test\.tsx?$/.test(id)
+                !/\.(?:tsx?|vibex?)$/.test(id) ||
+                /\.test\.(?:tsx?|vibex?)$/.test(id)
               ) {
                 return;
               }
