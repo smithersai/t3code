@@ -6,7 +6,7 @@ import {
 import type { PullRequestDetail } from "@t3tools/contracts";
 import { useEnvironmentServerConfig } from "../../state/entities";
 import { composerPullRequests } from "../../state/pull-requests";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { usePullRequestConnected } from "./usePullRequestConnected";
 import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
 

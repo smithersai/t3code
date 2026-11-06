@@ -37,11 +37,11 @@ import {
   NativeStackScreenOptions,
   nativeHeaderScrollEdgeEffects,
 } from "../../../native/StackHeader";
-import { useEnvironmentQuery } from "../../../state/query";
-import { useThreadSelection } from "../../../state/use-thread-selection";
-import { useSelectedThreadGitActions } from "../../../state/use-selected-thread-git-actions";
+import { useEnvironmentQuery } from "../../../state/query.vibe";
+import { useThreadSelection } from "../../../state/use-thread-selection.vibe";
+import { useSelectedThreadGitActions } from "../../../state/use-selected-thread-git-actions.vibe";
 import { useSelectedThreadGitState } from "../../../state/use-selected-thread-git-state";
-import { useSelectedThreadWorktree } from "../../../state/use-selected-thread-worktree";
+import { useSelectedThreadWorktree } from "../../../state/use-selected-thread-worktree.vibe";
 import { vcsEnvironment } from "../../../state/vcs";
 import { resolveGitOverviewReviewNavigationAction } from "./git-overview-navigation";
 import { menuItemIconName, statusSummary } from "./gitSheetComponents";

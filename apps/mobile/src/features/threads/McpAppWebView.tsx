@@ -34,14 +34,14 @@ import { shareGeneratedAttachment } from "../../lib/attachmentDownload";
 import { mobileHtmlRenderTheme } from "../../lib/htmlRenderTheme";
 import { tryOpenExternalUrl } from "../../lib/openExternalUrl";
 import { uuidv4 } from "../../lib/uuid";
-import { useAssetUrlState } from "../../state/assets";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { useAssetUrlState } from "../../state/assets.vibe";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { useThreadShell } from "../../state/entities";
 import { mcpAppEnvironment } from "../../state/mcpApps";
 import { orchestrationEnvironment } from "../../state/orchestration";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { enqueueThreadOutboxMessage } from "../../state/thread-outbox";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import { MCP_APP_INLINE_MAX_HEIGHT, mcpAppInlineHeight } from "./mcpAppSizing";
 

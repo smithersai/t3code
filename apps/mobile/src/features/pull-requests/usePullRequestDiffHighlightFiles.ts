@@ -3,9 +3,9 @@ import { EnvironmentId } from "@t3tools/contracts";
 import * as Option from "effect/Option";
 
 import { environmentCatalog } from "../../connection/catalog";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { composerPullRequests } from "../../state/pull-requests";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import type { NativeReviewDiffFile } from "../diffs/nativeReviewDiffTypes";
 import { diffHighlightTraceHash, traceDiffHighlight } from "../diffs/nativeReviewDiffTrace";
 import type { ReviewParsedDiff } from "../review/reviewModel";

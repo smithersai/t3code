@@ -4,7 +4,7 @@ import {
   AuthOrchestrationOperateScope,
   resolveProjectProviderInstanceEnabled,
 } from "@t3tools/contracts";
-import { readEnvironmentScope } from "../../state/session";
+import { readEnvironmentScope } from "../../state/session.vibe";
 import type {
   EnvironmentId,
   ProjectId,
@@ -52,13 +52,13 @@ import { SegmentedControl } from "../../components/ui/SegmentedControl";
 import { ThemedSwitch } from "../../components/ui/ThemedSwitch";
 import { webhookAddress } from "@t3tools/client-runtime/webhook-address";
 import { tryCopyTextWithHaptic } from "../../lib/copyTextWithHaptic";
-import { usePreparedConnection } from "../../state/session";
+import { usePreparedConnection } from "../../state/session.vibe";
 import { buildModelOptions } from "../../lib/modelOptions";
 import { NativeStackScreenOptions } from "../../native/StackHeader";
 import { useProjects, useEnvironmentServerConfig } from "../../state/entities";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { withNativeGlassHeaderItem } from "../layout/native-glass-header-items";
 import { resolveNewTaskBranchLabel } from "../threads/new-task-context-presentation";
 import { useVoiceInputController } from "../voice-input/useVoiceInputController";
@@ -82,8 +82,8 @@ import {
   discardScheduledTaskEditor,
   markScheduledTaskEditorSaved,
   scheduledTaskEditorSessionAtom,
-} from "./scheduled-task-editor-state";
-import { appAtomRegistry } from "../../state/atom-registry";
+} from "./scheduled-task-editor-state.vibe";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import {
   formatNextScheduledTaskRun,
   formatScheduledTaskInterval,

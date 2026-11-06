@@ -1,7 +1,7 @@
-import { useEnvironmentQuery } from "../../state/query";
-import { useSelectedThreadGitActions } from "../../state/use-selected-thread-git-actions";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useSelectedThreadGitActions } from "../../state/use-selected-thread-git-actions.vibe";
 import { useSelectedThreadGitState } from "../../state/use-selected-thread-git-state";
-import { useThreadSelection } from "../../state/use-thread-selection";
+import { useThreadSelection } from "../../state/use-thread-selection.vibe";
 import { vcsEnvironment } from "../../state/vcs";
 import { useThreadGitMenuDefinition } from "../threads/ThreadGitControls";
 import type { EnvironmentId, ThreadId } from "@t3tools/contracts";

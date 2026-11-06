@@ -7,7 +7,7 @@ import { AppActivityIndicator } from "./ui/AppActivityIndicator";
 import { AppText } from "./ui/AppText";
 import { SymbolView } from "./ui/AppSymbol";
 import { VideoThumbnailImage } from "./VideoThumbnailImage";
-import { useMediaActions } from "../state/mediaActions";
+import { useMediaActions } from "../state/mediaActions.vibe";
 import { type MediaActionsSource } from "../lib/mediaActionsSource";
 import { useMediaVideoPlayback } from "../lib/useMediaVideoPlayback";
 import { MediaActionsMenu } from "./MediaActionsMenu";

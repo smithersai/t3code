@@ -24,7 +24,7 @@ import { SymbolView } from "../../components/ui/AppSymbol";
 import { AppText as Text } from "../../components/ui/AppText";
 import { ProviderIcon } from "../../components/ProviderIcon";
 import { SettingsScreen } from "../settings/components/SettingsScreen";
-import { environmentPresentations } from "../../state/presentation";
+import { environmentPresentations } from "../../state/presentation.vibe";
 import { ResetCredits } from "./UsageLimitsSection";
 import { usageProviderKind, useProviderColors } from "./usageProviders";
 

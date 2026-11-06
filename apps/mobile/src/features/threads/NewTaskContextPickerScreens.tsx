@@ -33,8 +33,8 @@ import { EnvironmentMachineSymbol } from "../../components/EnvironmentMachineSym
 import { ThemedSwitch } from "../../components/ui/ThemedSwitch";
 import { cn } from "../../lib/cn";
 import { NativeStackScreenOptions } from "../../native/StackHeader";
-import { useEnvironmentScope } from "../../state/session";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useEnvironmentScope } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { vcsEnvironment } from "../../state/vcs";
 import {
   createNativeMailSearchToolbarItem,
@@ -42,13 +42,13 @@ import {
 } from "../layout/native-mail-search-toolbar";
 import { useNativeMailSearchToolbar } from "../../native/use-native-mail-search-toolbar";
 import { branchBadgeLabel, useNewTaskFlow } from "./new-task-flow-provider";
-import { checkoutNewTaskBranch } from "./checkout-new-task-branch";
+import { checkoutNewTaskBranch } from "./checkout-new-task-branch.vibe";
 import { filterNewTaskBranches } from "./new-task-context-presentation";
 import { useDebouncedValue, usePaginatedBranches } from "../../state/queries";
-import { setPendingConnectionError } from "../../state/use-remote-environment-registry";
+import { setPendingConnectionError } from "../../state/use-remote-environment-registry.vibe";
 
-import { useEnvironmentPresentation } from "../../state/presentation";
-import { useRemoteConnections } from "../../state/use-remote-environment-registry";
+import { useEnvironmentPresentation } from "../../state/presentation.vibe";
+import { useRemoteConnections } from "../../state/use-remote-environment-registry.vibe";
 import { ConnectionStatusDot } from "../connection/ConnectionStatusDot";
 import {
   ConnectionDiagnosisDetails,

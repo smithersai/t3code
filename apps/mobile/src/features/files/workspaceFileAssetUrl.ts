@@ -1,7 +1,7 @@
 import type { AssetResource, EnvironmentId, ThreadId } from "@t3tools/contracts";
 import { useMemo } from "react";
 
-import { useAssetUrlState, useRefreshAssetUrl } from "../../state/assets";
+import { useAssetUrlState, useRefreshAssetUrl } from "../../state/assets.vibe";
 import {
   isAbsolutePath,
   isAudioPreviewFile,

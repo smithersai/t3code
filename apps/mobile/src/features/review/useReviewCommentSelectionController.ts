@@ -19,7 +19,7 @@ import {
   startReviewCommentRange,
   useReviewCommentSelection,
 } from "./reviewCommentSelection";
-import type { NativeReviewDiffData } from "./nativeReviewDiffAdapter";
+import type { NativeReviewDiffData } from "./nativeReviewDiffAdapter.vibe";
 import type { ReviewSectionItem } from "./reviewModel";
 
 export function useReviewCommentSelectionController(input: {

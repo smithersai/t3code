@@ -1,5 +1,5 @@
 import type { ProviderOptionSelection } from "@t3tools/contracts";
-import { appAtomRegistry } from "./atom-registry";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import {
   modelOptionMemoryAtom,
   schedulePersistComposerState,

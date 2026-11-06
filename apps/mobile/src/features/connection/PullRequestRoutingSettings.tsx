@@ -13,7 +13,7 @@ import { Pressable, View } from "react-native";
 import { AppText as Text } from "../../components/ui/AppText";
 import { SymbolView } from "../../components/ui/AppSymbol";
 import { environmentCatalog } from "../../connection/catalog";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { SettingsSection } from "../settings/components/SettingsSection";
 
 const options: ReadonlyArray<{

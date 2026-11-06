@@ -7,18 +7,18 @@ import type { PullRequestReviewVerdict } from "@t3tools/contracts";
 import { useRef, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { Platform, Pressable, View } from "react-native";
-import { clearSubmittedReview } from "./pullRequestReviewDrafts";
+import { clearSubmittedReview } from "./pullRequestReviewDrafts.vibe";
 import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft";
 import { reviewPositionLabel } from "./pullRequestDiffComments";
 import { AppText as Text, AppTextInput as TextInput } from "../../components/ui/AppText";
 import { Button } from "../../components/ui/Button";
 import { SegmentedControl } from "../../components/ui/SegmentedControl";
 import { composerPullRequests } from "../../state/pull-requests";
-import { useEnvironmentQuery } from "../../state/query";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { PullRequestSheetContent as SheetContent } from "./PullRequestSheetContent";
 import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
-import { usePullRequestPermissions } from "./usePullRequestPermissions";
+import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";
 
 function useActionSubmission(params: PullRequestParams) {
   const navigation = useNavigation();

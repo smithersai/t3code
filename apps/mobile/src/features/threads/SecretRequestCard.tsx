@@ -17,7 +17,7 @@ import { View, type ColorValue } from "react-native";
 import { SymbolView, type AppSymbolName } from "../../components/ui/AppSymbol";
 import { AppText as Text, AppTextInput as TextInput } from "../../components/ui/AppText";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Button } from "../../components/ui/Button";
 
 const LOCK_SYMBOL: AppSymbolName = { ios: "lock", android: "lock" };

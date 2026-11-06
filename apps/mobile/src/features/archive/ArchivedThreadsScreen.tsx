@@ -27,9 +27,9 @@ import { ProjectFavicon } from "../../components/ProjectFavicon";
 import { relativeTime } from "../../lib/time";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
 import { useServerConfigs } from "../../state/entities";
-import { useEnvironmentScope } from "../../state/session";
+import { useEnvironmentScope } from "../../state/session.vibe";
 import { ThreadSwipeable } from "../home/thread-swipe-actions";
-import type { ArchivedThreadGroup, ArchivedThreadSortOrder } from "./archivedThreadList";
+import type { ArchivedThreadGroup, ArchivedThreadSortOrder } from "./archivedThreadList.vibe";
 import { SettingsScreenContent } from "../settings/components/SettingsScreen";
 
 export interface ArchivedThreadsHeaderEnvironment {

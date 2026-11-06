@@ -31,8 +31,8 @@ import { AndroidScreenHeader } from "../../components/ui/AndroidScreenHeader";
 import { ScreenContent } from "../../components/ui/ScreenContent";
 import { cn } from "../../lib/cn";
 import { environmentCatalog } from "../../connection/catalog";
-import { useEnvironmentPresentation } from "../../state/presentation";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useEnvironmentPresentation } from "../../state/presentation.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
 import { useThreadDraftForThread } from "../../state/use-thread-composer-state";
 import { EnvironmentConnectionNotice } from "../connection/EnvironmentConnectionNotice";
@@ -42,19 +42,19 @@ import {
   useAdaptiveWorkspacePaneRole,
   useRegisterWorkspaceInspector,
 } from "../layout/AdaptiveWorkspaceLayout";
-import { useSelectedThreadWorktree } from "../../state/use-selected-thread-worktree";
-import { useReviewCacheForThread } from "./reviewState";
+import { useSelectedThreadWorktree } from "../../state/use-selected-thread-worktree.vibe";
+import { useReviewCacheForThread } from "./reviewState.vibe";
 import {
   isNativeReviewDiffDrawEvent,
   type NativeReviewDiffViewHandle,
   resolveNativeReviewDiffView,
 } from "../diffs/nativeReviewDiffSurface";
-import { NATIVE_REVIEW_DIFF_CONTENT_WIDTH } from "./nativeReviewDiffAdapter";
+import { NATIVE_REVIEW_DIFF_CONTENT_WIDTH } from "./nativeReviewDiffAdapter.vibe";
 import { useAppearanceCodeSurface } from "../settings/appearance/useAppearanceCodeSurface";
 import { useReviewDiffData } from "./useReviewDiffData";
 import { useReviewDiffPrewarming } from "./useReviewDiffPrewarming";
 import { useReviewFileVisibility } from "./reviewFileVisibility";
-import { useReviewSections } from "./useReviewSections";
+import { useReviewSections } from "./useReviewSections.vibe";
 import { useNativeReviewDiffBridge } from "./useNativeReviewDiffBridge";
 import { useReviewCommentSelectionController } from "./useReviewCommentSelectionController";
 import { resolveReviewAvailability } from "./reviewAvailability";

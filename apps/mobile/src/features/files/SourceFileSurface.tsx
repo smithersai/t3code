@@ -20,7 +20,7 @@ import {
   type NativeReviewDiffViewProps,
   resolveNativeReviewDiffView,
 } from "../diffs/nativeReviewDiffSurface";
-import { createNativeReviewDiffTheme } from "../review/nativeReviewDiffAdapter";
+import { createNativeReviewDiffTheme } from "../review/nativeReviewDiffAdapter.vibe";
 import { REVIEW_MONO_FONT_FAMILY, renderVisibleWhitespace } from "../review/reviewDiffRendering";
 import type { HighlightedToken } from "../../lib/highlights";
 import { cn } from "../../lib/cn";
@@ -36,7 +36,7 @@ import {
 import { SourceText } from "@t3tools/mobile-source-text";
 
 import { boundedSelectableSourceTokens, prepareSourceFileDocument } from "./source-file-document";
-import { sourceHighlightAtom } from "./sourceHighlightingState";
+import { sourceHighlightAtom } from "./sourceHighlightingState.vibe";
 import { createSourceLineScroll } from "./source-file-scroll";
 
 interface SourceFileSurfaceProps {

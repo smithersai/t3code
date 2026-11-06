@@ -8,8 +8,8 @@ import {
   loadRecentThreadShortcuts,
   saveRecentThreadShortcuts,
   type RecentThreadShortcut,
-} from "../../persistence/imperative";
-import { appAtomRegistry } from "../../state/atom-registry";
+} from "../../persistence/imperative.vibe";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { environmentThreadShells } from "../../state/threads";
 import {
   activeThreadRef,

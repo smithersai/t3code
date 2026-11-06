@@ -19,9 +19,9 @@ import { Button } from "../../components/ui/Button";
 import { AppText as Text } from "../../components/ui/AppText";
 import { SymbolView } from "../../components/ui/AppSymbol";
 import * as Dialog from "../../components/ui/Dialog";
-import { useEnvironmentScope } from "../../state/session";
+import { useEnvironmentScope } from "../../state/session.vibe";
 import { environmentThreadDetails, threadEnvironment } from "../../state/threads";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { GUEST_PENDING_BUBBLE_CLASS_NAME, GuestMessageName } from "./guestMessageStyle";
 
 const NO_GUEST_SHARE_ATOM = Atom.make<ThreadGuestShare | null>(null);

@@ -41,7 +41,7 @@ import { cn } from "../../lib/cn";
 import { SettingsScreen } from "../settings/components/SettingsScreen";
 import { useUsage, type EnvironmentUsageStatus } from "../../state/usage";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { SettingsSection } from "../settings/components/SettingsSection";
 import { UsageDailyChart } from "./UsageDailyChart";
 import { toggleUsageEnvironment } from "./usageEnvironmentSelection";

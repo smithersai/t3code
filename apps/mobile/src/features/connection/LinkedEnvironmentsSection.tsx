@@ -8,9 +8,9 @@ import { AppState, View } from "react-native";
 
 import { AppText as Text } from "../../components/ui/AppText";
 import { useEnvironmentServerConfig } from "../../state/entities";
-import { peerLinkEnvironment } from "../../state/peerLinks";
-import { useEnvironmentQuery } from "../../state/query";
-import { useEnvironmentScope } from "../../state/session";
+import { peerLinkEnvironment } from "../../state/peerLinks.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useEnvironmentScope } from "../../state/session.vibe";
 import { SettingsSection } from "../settings/components/SettingsSection";
 
 export function LinkedEnvironmentsSection(props: {

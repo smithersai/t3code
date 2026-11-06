@@ -1,7 +1,7 @@
 import type { EnvironmentId, ProjectId } from "@t3tools/contracts";
 
 import { deriveThreadTitleFromPrompt } from "../lib/projectThreadStartTurn";
-import type { QueuedThreadCreation, QueuedThreadMessage } from "./thread-outbox-model";
+import type { QueuedThreadCreation, QueuedThreadMessage } from "./thread-outbox-model.vibe";
 import { isNewTaskDraftKey } from "./new-task-draft-key";
 import type { ComposerDraft } from "./use-composer-drafts";
 import { resolveNewTaskDraftWorkspace } from "../features/threads/new-task-context-presentation";

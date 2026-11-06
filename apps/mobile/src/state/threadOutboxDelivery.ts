@@ -28,8 +28,8 @@ import { AsyncResult, Atom } from "effect/reactivity";
 import { createDebugLogger } from "../lib/debugLog";
 import { scopedThreadKey } from "../lib/scopedEntities";
 import { buildProjectThreadStartTurnInput } from "../lib/projectThreadStartTurn";
-import { serializeComposerMessageForServer, uploadedComposerContext } from "../lib/composerContext";
-import { prepareTurnAttachments, type PreparedTurnAttachments } from "../lib/attachmentUpload";
+import { serializeComposerMessageForServer, uploadedComposerContext } from "../lib/composerContext.vibe";
+import { prepareTurnAttachments, type PreparedTurnAttachments } from "../lib/attachmentUpload.vibe";
 import { randomHex } from "../lib/uuid";
 import {
   describeUnavailableModelSelection,
@@ -38,18 +38,18 @@ import {
 import {
   retainAcknowledgedThreadMessage,
   forgetAcknowledgedThreadMessage,
-} from "./acknowledged-thread-messages";
-import { appAtomRegistry } from "./atom-registry";
+} from "./acknowledged-thread-messages.vibe";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import { restoredNewTaskDraftKey } from "./new-task-draft-key";
 import {
   clearPendingThreadCreationOutcome,
   pendingThreadCreationOutcomesAtom,
   recordPendingThreadCreationOutcome,
-} from "./pending-thread-creation";
+} from "./pending-thread-creation.vibe";
 import { environmentProjects } from "./projects";
 import { environmentServerConfigsAtom, serverEnvironment } from "./server";
 import { gitEnvironment } from "./git";
-import { environmentSession, readEnvironmentScope, sessionHasScope } from "./session";
+import { environmentSession, readEnvironmentScope, sessionHasScope } from "./session.vibe";
 import {
   confirmThreadOutboxMessageQueued,
   threadOutboxManager,
@@ -69,7 +69,7 @@ import {
   type QueuedThreadMessage,
   type ThreadOutboxCommandStage,
   type ThreadOutboxFailureAction,
-} from "./thread-outbox-model";
+} from "./thread-outbox-model.vibe";
 import { environmentThreadShells, threadEnvironment, threadFamilies } from "./threads";
 import {
   appendComposerDraftAttachments,
@@ -88,9 +88,9 @@ import {
   dispatchingQueuedMessageIdAtom,
   editingQueuedMessageIdsAtom,
   threadOutboxShellStatusesAtom,
-} from "./use-thread-outbox";
-import { clearThreadComposerError, setThreadComposerError } from "./thread-composer-error";
-import { workspaceConnections } from "./workspace";
+} from "./use-thread-outbox.vibe";
+import { clearThreadComposerError, setThreadComposerError } from "./thread-composer-error.vibe";
+import { workspaceConnections } from "./workspace.vibe";
 
 const threadOutboxDebug = createDebugLogger("thread-outbox");
 

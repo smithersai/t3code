@@ -6,7 +6,7 @@ import { useSelectWorkspaceDetail } from "../features/workspace/useSelectWorkspa
 import { EnvironmentId, ThreadId } from "@t3tools/contracts";
 import { useProjects, useThreadShell } from "../state/entities";
 import { tryOpenExternalUrl } from "../lib/openExternalUrl";
-import { appAtomRegistry } from "../state/atom-registry";
+import { appAtomRegistry } from "../state/atom-registry.vibe";
 import { environmentServerConfigsAtom } from "../state/server";
 
 type PullRequestContext = { readonly environmentId: string; readonly projectId: string };

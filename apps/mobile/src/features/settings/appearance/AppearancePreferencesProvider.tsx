@@ -17,8 +17,11 @@ import {
   resolveAppearancePreferences,
   type ResolvedAppearance,
 } from "../../../lib/appearancePreferences";
-import { appAtomRegistry } from "../../../state/atom-registry";
-import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../../state/preferences";
+import { appAtomRegistry } from "../../../state/atom-registry.vibe";
+import {
+  mobilePreferencesAtom,
+  updateMobilePreferencesAtom,
+} from "../../../state/preferences.vibe";
 import type { Preferences } from "../../../persistence/mobile-preferences";
 import {
   isSystemColorsAvailable,

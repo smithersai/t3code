@@ -15,7 +15,7 @@ import { useAppForeground } from "../../lib/appState";
 import { AppBar } from "../../components/ui/AppBar";
 
 import { useThreadServerBrowserTabs } from "../../state/preview";
-import { usePreparedConnection } from "../../state/session";
+import { usePreparedConnection } from "../../state/session.vibe";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import { BrowserTabMenu } from "./BrowserTabMenu";
 import { browserTabTitle, browserTabUrl, latestBrowserTab } from "./browserTabs";

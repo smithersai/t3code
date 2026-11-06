@@ -53,7 +53,7 @@ import {
 import { useAtomValue } from "@effect/atom-react";
 import { scopeThreadRef } from "@t3tools/client-runtime/environment";
 import { environmentThreadDetails, threadEnvironment } from "../../state/threads";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { toolActivityFaviconUrl } from "@t3tools/shared/favicon";
 import { isJavaScriptReplTool } from "@t3tools/shared/toolActivity";
 import { useMarkdownCodeHighlight } from "./markdownCodeHighlightState";
@@ -69,7 +69,7 @@ import {
   formatItemFullDetail,
   type ThreadFeedActivity,
   workEntryRowLabel,
-} from "../../lib/threadActivity";
+} from "../../lib/threadActivity.vibe";
 import {
   toolCallLines,
   turnItemOutputImages,
@@ -102,7 +102,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { useAssetUrl } from "../../state/assets";
+import { useAssetUrl } from "../../state/assets.vibe";
 import { PullRequestGlyph } from "../pull-requests/pullRequestGlyphs";
 import { useOpenLinkedThread } from "./useOpenLinkedThread";
 

@@ -12,7 +12,7 @@ import {
   type SavedRemoteConnection,
   toStableSavedRemoteConnection,
 } from "../lib/connection";
-import * as MobileSecureStorage from "./mobile-secure-storage";
+import * as MobileSecureStorage from "./mobile-secure-storage.vibe";
 
 const CONNECTIONS_KEY = "t3code.connections";
 const AGENT_AWARENESS_DEVICE_ID_KEY = "t3code.agent-awareness.device-id";

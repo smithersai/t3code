@@ -23,12 +23,12 @@ import { useAppearancePreferences } from "../settings/appearance/AppearancePrefe
 import { SettingsScreen } from "../settings/components/SettingsScreen";
 import { AppText as Text, AppTextInput, type AppTextInputProps } from "../../components/ui/AppText";
 import { FrostedCutout } from "../../components/ui/FrostedCutout";
-import { buildPairingUrl, extractPairingUrlFromQrPayload, parsePairingUrl } from "./pairing";
-import { useRemoteConnections } from "../../state/use-remote-environment-registry";
+import { buildPairingUrl, extractPairingUrlFromQrPayload, parsePairingUrl } from "./pairing.vibe";
+import { useRemoteConnections } from "../../state/use-remote-environment-registry.vibe";
 import { SymbolView } from "../../components/ui/AppSymbol";
-import { hasCloudPublicConfig } from "../cloud/publicConfig";
+import { hasCloudPublicConfig } from "../cloud/publicConfig.vibe";
 import { CloudEnvironmentRows } from "./CloudEnvironmentRows";
-import { autoConnectReport, devAutoConnectAttemptAtom } from "./devAutoConnect";
+import { autoConnectReport, devAutoConnectAttemptAtom } from "./devAutoConnect.vibe";
 import { splitEnvironmentSections } from "./environmentSections";
 import { leaveSettingsPage } from "../settings/settings-navigation";
 import { workspaceHasColumns } from "../workspace/workspace-selection-store";

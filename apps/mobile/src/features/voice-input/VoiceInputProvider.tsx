@@ -18,7 +18,7 @@ import {
   rememberMicrophones,
 } from "../../lib/microphonePriority";
 import { getLocalVoiceTranscriber } from "../../native/voiceTranscription";
-import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences";
+import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
 import { getNativeShowcaseScene } from "../showcase/nativeShowcaseScene";
 import { voiceInputBlocksSubmission } from "@t3tools/client-runtime/voice-input";
 import { createLazyVoiceRecorder } from "./lazyVoiceRecorder";

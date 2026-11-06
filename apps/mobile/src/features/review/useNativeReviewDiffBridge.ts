@@ -1,7 +1,10 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import type { NativeSyntheticEvent } from "react-native";
 
-import { createNativeReviewDiffTheme, type NativeReviewDiffData } from "./nativeReviewDiffAdapter";
+import {
+  createNativeReviewDiffTheme,
+  type NativeReviewDiffData,
+} from "./nativeReviewDiffAdapter.vibe";
 import { useAppearanceCodeSurface } from "../settings/appearance/useAppearanceCodeSurface";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import { useNativeReviewDiffHighlighting } from "./useNativeReviewDiffHighlighting";

@@ -42,15 +42,15 @@ import { ScreenContent } from "../../components/ui/ScreenContent";
 import { Button } from "../../components/ui/Button";
 import { IconButton } from "../../components/ui/IconButton";
 import { environmentCatalog } from "../../connection/catalog";
-import { useEnvironmentPresentation } from "../../state/presentation";
+import { useEnvironmentPresentation } from "../../state/presentation.vibe";
 import { terminalEnvironment } from "../../state/terminal";
-import { environmentSession, readEnvironmentScope } from "../../state/session";
-import { useEnvironmentQuery } from "../../state/query";
-import { appAtomRegistry } from "../../state/atom-registry";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { environmentSession, readEnvironmentScope } from "../../state/session.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { uuidv4 } from "../../lib/uuid";
 import { useServerConfigs } from "../../state/entities";
-import { useConnectionsReady } from "../../state/workspace";
+import { useConnectionsReady } from "../../state/workspace.vibe";
 import {
   MAX_TERMINAL_FONT_SIZE,
   MIN_TERMINAL_FONT_SIZE,
@@ -62,8 +62,8 @@ import {
   useAttachedTerminalSession,
   useKnownTerminalSessions,
 } from "../../state/use-terminal-session";
-import { useThreadSelection } from "../../state/use-thread-selection";
-import { useSelectedThreadProjection } from "../../state/use-thread-detail";
+import { useThreadSelection } from "../../state/use-thread-selection.vibe";
+import { useSelectedThreadProjection } from "../../state/use-thread-detail.vibe";
 import { EnvironmentConnectionNotice } from "../connection/EnvironmentConnectionNotice";
 import { TerminalSurface, type TerminalSurfaceHandle } from "./NativeTerminalSurface";
 import { getMobileTerminalTheme } from "./terminalTheme";
@@ -82,7 +82,7 @@ import {
   previousLiveTerminalId,
   resolveTerminalSessionLabel,
   type TerminalMenuSession,
-} from "./terminalMenu";
+} from "./terminalMenu.vibe";
 import {
   hostPlatformFromOs,
   resolveModifiedTerminalInput,

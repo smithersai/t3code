@@ -4,8 +4,8 @@ import { useAtomRefresh } from "@effect/atom-react";
 import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 
 import { composerPullRequests } from "../../state/pull-requests";
-import { useEnvironmentQuery } from "../../state/query";
-import { usePullToRefresh } from "../../state/use-pull-to-refresh";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { usePullToRefresh } from "../../state/use-pull-to-refresh.vibe";
 import {
   getCachedPullRequestDiffPages,
   retainPullRequestDiffPage,

@@ -9,7 +9,7 @@ import { View } from "react-native";
 import { AppText as Text } from "../../components/ui/AppText";
 import { useDeadlinePassed } from "../../lib/clock";
 import { threadEnvironment } from "../../state/threads";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 export function UsageLimitRecoveryCard({
   thread,

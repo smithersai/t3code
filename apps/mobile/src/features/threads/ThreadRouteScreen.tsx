@@ -1,5 +1,5 @@
 import * as Dialog from "../../components/ui/Dialog";
-import { useRememberThreadProject } from "./useRememberThreadProject";
+import { useRememberThreadProject } from "./useRememberThreadProject.vibe";
 import { useOpenPullRequest } from "../../native/useOpenPullRequest";
 import { makeTurnCommandMetadata } from "../../lib/commandMetadata";
 import { buildProjectThreadStartTurnInput } from "../../lib/projectThreadStartTurn";
@@ -32,12 +32,12 @@ import {
 import { Platform } from "react-native";
 import { ScreenScrollView as ScrollView } from "../../components/ui/ScreenScrollView";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useConnectionsReady } from "../../state/workspace";
-import { useEnvironmentShellReadiness } from "../../state/shell";
+import { useConnectionsReady } from "../../state/workspace.vibe";
+import { useEnvironmentShellReadiness } from "../../state/shell.vibe";
 import { restoredNewTaskDraftKey } from "../../state/new-task-draft-key";
-import { clearPendingThreadCreationOutcome } from "../../state/pending-thread-creation";
+import { clearPendingThreadCreationOutcome } from "../../state/pending-thread-creation.vibe";
 import { recoverFailedThreadDraft } from "../../state/recover-failed-thread-draft";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { dismissGitActionResult, useGitActionProgress } from "../../state/use-vcs-action-state";
 import { vcsEnvironment } from "../../state/vcs";
 import { EmptyState } from "../../components/ui/EmptyState";
@@ -51,18 +51,18 @@ import {
   useRemoteConnections,
   useRemoteConnectionStatus,
   useRemoteEnvironmentRuntime,
-} from "../../state/use-remote-environment-registry";
+} from "../../state/use-remote-environment-registry.vibe";
 import { useKnownTerminalSessions } from "../../state/use-terminal-session";
 import { uuidv4 } from "../../lib/uuid";
-import { readEnvironmentScope, useEnvironmentScope } from "../../state/session";
-import { useSelectedThreadDetailState } from "../../state/use-thread-detail";
-import { useThreadSelection } from "../../state/use-thread-selection";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
+import { useSelectedThreadDetailState } from "../../state/use-thread-detail.vibe";
+import { useThreadSelection } from "../../state/use-thread-selection.vibe";
 import { GitActionProgressOverlay } from "./GitActionProgressOverlay";
 import {
   buildTerminalMenuSessions,
   nextOpenTerminalId,
   resolveProjectScriptTerminalId,
-} from "../terminal/terminalMenu";
+} from "../terminal/terminalMenu.vibe";
 import {
   resolvePreferredThreadWorktreePath,
   stagePendingTerminalLaunch,
@@ -73,11 +73,11 @@ import { ThreadScreenBinding, ThreadScreenFallback, ThreadScreenHost } from "./T
 import { draftRouteIdentity } from "./thread-route-state";
 import { NewTaskDraftRouteScreen, type NewTaskDraftRouteParams } from "./NewTaskDraftRouteScreen";
 import { GitOverviewSheet } from "./git/GitOverviewSheet";
-import { useAtomCommand } from "../../state/use-atom-command";
-import { useSelectedThreadGitActions } from "../../state/use-selected-thread-git-actions";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { useSelectedThreadGitActions } from "../../state/use-selected-thread-git-actions.vibe";
 import { useSelectedThreadGitState } from "../../state/use-selected-thread-git-state";
-import { useSelectedThreadRequests } from "../../state/use-selected-thread-requests";
-import { useSelectedThreadWorktree } from "../../state/use-selected-thread-worktree";
+import { useSelectedThreadRequests } from "../../state/use-selected-thread-requests.vibe";
+import { useSelectedThreadWorktree } from "../../state/use-selected-thread-worktree.vibe";
 import { useThreadComposerState } from "../../state/use-thread-composer-state";
 import { resolveMergeBackTargetThreadId } from "@t3tools/client-runtime/state/thread-relationships";
 import { resolveLatestMergeBackRun } from "@t3tools/client-runtime/state/thread-workflows";

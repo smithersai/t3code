@@ -19,7 +19,7 @@ import { useDebouncedValue } from "../../state/queries";
 import { pullRequestFilterChoices, pullRequestLabelColors } from "./pullRequestList";
 import { PullRequestLabelDot } from "./PullRequestLabelDot";
 import { PullRequestSearchSheet } from "./PullRequestSearchSheet";
-import { usePullRequestListControls } from "./usePullRequestListControls";
+import { usePullRequestListControls } from "./usePullRequestListControls.vibe";
 
 export type PullRequestFilterSearchParams = {
   readonly kind: PullRequestFilterOptionKind;

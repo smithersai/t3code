@@ -20,7 +20,7 @@ import type { FollowUpBehavior } from "../lib/followUpBehavior";
 import { isMicrophoneKind, type MicrophoneEntry } from "../lib/microphonePriority";
 import { MOBILE_THEME_IDS, type MobileThemeId, type MobileThemeMode } from "../lib/mobileTheme";
 import * as MobileDatabase from "./mobile-database";
-import * as MobileSecureStorage from "./mobile-secure-storage";
+import * as MobileSecureStorage from "./mobile-secure-storage.vibe";
 import { MobileStorageDecodeError, MobileStorageEncodeError } from "./mobile-storage";
 
 const PREFERENCES_KEY = "t3code.preferences";

@@ -14,7 +14,7 @@ import {
   buildNativeReviewSnippetRows,
   createNativeReviewDiffTheme,
   NATIVE_REVIEW_DIFF_CONTENT_WIDTH,
-} from "./nativeReviewDiffAdapter";
+} from "./nativeReviewDiffAdapter.vibe";
 import { buildReviewParsedDiff } from "./reviewModel";
 import { REVIEW_MONO_FONT_FAMILY } from "./reviewDiffRendering";
 import type { ReviewInlineComment } from "./reviewCommentSelection";

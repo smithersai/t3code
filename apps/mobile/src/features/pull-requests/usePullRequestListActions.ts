@@ -12,7 +12,7 @@ import { use, useRef, useState } from "react";
 import { Linking, Platform } from "react-native";
 import type { MenuProps } from "../../components/ui/Menu.types";
 import { composerPullRequests } from "../../state/pull-requests";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {
   canPerformPullRequestAction,
   openOnProviderLabel,

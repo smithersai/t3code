@@ -1,4 +1,4 @@
-import { installPermissionUpdateNotice } from "./features/connection/permissionUpdateNotice";
+import { installPermissionUpdateNotice } from "./features/connection/permissionUpdateNotice.vibe";
 import { installComposerAttachmentUploads } from "./state/composer-attachment-uploads";
 import { installThreadOutboxDelivery } from "./state/threadOutboxDelivery";
 import * as Linking from "expo-linking";
@@ -44,23 +44,26 @@ import {
   useAppearancePreferences,
 } from "./features/settings/appearance/AppearancePreferencesProvider";
 import { RootStack, rootPathnameFromState, workspaceLocationFromState } from "./Stack";
-import { appAtomRegistry } from "./state/atom-registry";
+import { appAtomRegistry } from "./state/atom-registry.vibe";
 import { subscribeComposerDraftModelReconciliation } from "./state/use-composer-drafts";
 import { environmentThreadShells } from "./state/threads";
-import { environmentShell } from "./state/shell";
+import { environmentShell } from "./state/shell.vibe";
 import { OverlayPortalHost } from "./components/ui/OverlayPortal";
 import { shouldHandleAppLink, restoreDraftLinkState } from "./lib/appLinking";
-import { hasCloudPublicConfig } from "./features/cloud/publicConfig";
-import { takeScheduledTaskNewLink } from "./features/settings/scheduled-task-editor-state";
-import { pairingFormLinkAction, startDevAutoConnect } from "./features/connection/devAutoConnect";
+import { hasCloudPublicConfig } from "./features/cloud/publicConfig.vibe";
+import { takeScheduledTaskNewLink } from "./features/settings/scheduled-task-editor-state.vibe";
+import {
+  pairingFormLinkAction,
+  startDevAutoConnect,
+} from "./features/connection/devAutoConnect.vibe";
 import {
   resolvePendingNewTaskPromptLink,
   takeNewTaskPromptLink,
-} from "./features/prompt-links/newTaskPromptLink";
+} from "./features/prompt-links/newTaskPromptLink.vibe";
 import {
   resolvePendingThreadPromptLink,
   takeThreadPromptLink,
-} from "./features/prompt-links/threadPromptLink";
+} from "./features/prompt-links/threadPromptLink.vibe";
 import {
   disposeOnFoundationReplace,
   type FoundationHotModule,
@@ -85,7 +88,7 @@ import {
   linkToRootPath,
   rootNavigationRef,
 } from "./lib/rootNavigation";
-import { pruneNewTaskFlowStates } from "./features/threads/new-task-flow-state";
+import { pruneNewTaskFlowStates } from "./features/threads/new-task-flow-state.vibe";
 import { pruneNewTaskBranchCheckouts } from "./features/threads/NewTaskDraftRouteScreen";
 import { installAppUpdateChecks } from "./features/updates/app-updates";
 

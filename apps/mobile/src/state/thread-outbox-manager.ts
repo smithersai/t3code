@@ -6,8 +6,8 @@ import {
   flattenQueuedThreadMessages,
   groupQueuedThreadMessages,
   type QueuedThreadMessage,
-} from "./thread-outbox-model";
-import type { ThreadOutboxStorage } from "./thread-outbox-storage";
+} from "./thread-outbox-model.vibe";
+import type { ThreadOutboxStorage } from "./thread-outbox-storage.vibe";
 
 export class ThreadOutboxManagerError extends Schema.TaggedError<ThreadOutboxManagerError>()(
   "ThreadOutboxManagerError",

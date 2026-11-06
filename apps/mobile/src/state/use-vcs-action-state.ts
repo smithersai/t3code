@@ -5,7 +5,7 @@ import { Atom } from "effect/reactivity";
 import * as Haptics from "expo-haptics";
 import { useSyncExternalStore } from "react";
 
-import { appAtomRegistry } from "./atom-registry";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import { vcsActionManager } from "./vcs";
 
 export function useVcsActionState(target: VcsActionTarget): VcsActionState {

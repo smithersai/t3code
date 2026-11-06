@@ -14,7 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SymbolView } from "../../components/ui/AppSymbol";
 import { AppText as Text } from "../../components/ui/AppText";
 import { tryCopyTextWithHaptic } from "../../lib/copyTextWithHaptic";
-import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences";
+import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
 import { crashReportingAvailable, setCrashReportsEnabled } from "../observability/observe";
 import { SettingsActionRow } from "../settings/components/SettingsActionRow";
 import { SettingsScreen } from "../settings/components/SettingsScreen";

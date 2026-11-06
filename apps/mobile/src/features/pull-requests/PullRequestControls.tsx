@@ -15,7 +15,7 @@ import { Menu } from "../../components/ui/Menu";
 
 import { useNativeLayoutMetrics } from "../../native/native-layout-metrics";
 import { type PullRequestParams } from "./usePullRequestDiff";
-import { usePullRequestPermissions } from "./usePullRequestPermissions";
+import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft";
 import { usePullRequestAgentActions } from "./usePullRequestAgentActions";

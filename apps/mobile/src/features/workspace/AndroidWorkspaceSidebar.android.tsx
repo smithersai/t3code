@@ -1,6 +1,6 @@
 import { useAndroidFloatingTabs } from "../settings/appearance/AppearancePreferencesProvider";
 import { WorkspaceNoTabs } from "./WorkspaceNoTabs";
-import { useEnabledNavigationTabs } from "./navigation-tabs";
+import { useEnabledNavigationTabs } from "./navigation-tabs.vibe";
 import { NAVIGATION_TAB_ORDER } from "./navigation-tab-order";
 import { useMemo, type ReactNode } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

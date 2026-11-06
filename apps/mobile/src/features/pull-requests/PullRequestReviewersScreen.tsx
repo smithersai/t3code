@@ -25,8 +25,8 @@ import { SymbolView } from "../../components/ui/AppSymbol";
 import { NativeStackScreenOptions } from "../../native/StackHeader";
 import { useNativeLayoutMetrics } from "../../native/native-layout-metrics";
 import { composerPullRequests } from "../../state/pull-requests";
-import { useEnvironmentQuery } from "../../state/query";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {
   createNativeMailSearchToolbarItem,
   NATIVE_MAIL_SEARCH_TOOLBAR_SUPPORTED,

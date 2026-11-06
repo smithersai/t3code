@@ -12,7 +12,7 @@ import type { EnvironmentId, ProjectId } from "@t3tools/contracts";
 import { Atom } from "effect/reactivity";
 import { useEffect, useState } from "react";
 
-import { appAtomRegistry } from "./atom-registry";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import { olderSettledThreads, threadFamilies } from "./threads";
 
 const NO_PAGES: ReadonlyMap<EnvironmentId, number> = new Map();

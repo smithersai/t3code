@@ -2,9 +2,9 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { formatDiffCount } from "@t3tools/client-runtime/diff-count";
 
 import { countReviewCommentContexts, parseReviewInlineComments } from "./reviewCommentSelection";
-import { getCachedNativeReviewDiffData } from "./nativeReviewDiffAdapter";
+import { getCachedNativeReviewDiffData } from "./nativeReviewDiffAdapter.vibe";
 import { markReviewEvent, measureReviewWork } from "./reviewPerf";
-import { getCachedReviewParsedDiff } from "./reviewState";
+import { getCachedReviewParsedDiff } from "./reviewState.vibe";
 import {
   applyReviewDiffMetadata,
   buildReviewParsedDiff,
@@ -21,7 +21,7 @@ import type {
 import { RegistryContext, useAtomValue } from "@effect/atom-react";
 import * as AsyncResult from "effect/reactivity/AsyncResult";
 import * as Atom from "effect/reactivity/Atom";
-import { reviewEnvironment } from "../../state/review";
+import { reviewEnvironment } from "../../state/review.vibe";
 
 const EMPTY_INLINE_REVIEW_COMMENTS = Object.freeze([]);
 type ParsedFilePatch = AsyncResult.AsyncResult<

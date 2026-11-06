@@ -28,9 +28,9 @@ import { reviewGuideState } from "./reviewGuideState";
 import { GuideNotice } from "./GuideNotice";
 import Animated from "react-native-reanimated";
 import { PR_ROW_ENTER, PR_ROW_EXIT, PR_ROW_LAYOUT } from "../pullRequestAnimations";
-import { useEnvironmentQuery } from "../../../state/query";
+import { useEnvironmentQuery } from "../../../state/query.vibe";
 import { composerPullRequests } from "../../../state/pull-requests";
-import { usePullRequestPermissions } from "../usePullRequestPermissions";
+import { usePullRequestPermissions } from "../usePullRequestPermissions.vibe";
 import { pullRequestTarget } from "../usePullRequestDiff";
 import { useReviewGuide } from "./useReviewGuide";
 

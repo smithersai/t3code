@@ -8,8 +8,8 @@ import { SettingsScreen } from "./components/SettingsScreen";
 import {
   mobileProjectGroupingModePatch,
   resolveMobileProjectGroupingSettings,
-} from "../../state/project-grouping";
-import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences";
+} from "../../state/project-grouping.vibe";
+import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
 import { SettingsChoiceRow } from "./components/SettingsChoiceRow";
 import { SettingsSection } from "./components/SettingsSection";
 import { NewThreadSettingsSection, WorkingSectionSettings } from "./ThreadSettingsSections";

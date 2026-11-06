@@ -3,8 +3,8 @@ import {
   filterComposerPullRequestMatches,
 } from "@t3tools/shared/composerPullRequestMatches";
 import { resolveFilesystemReadAccess } from "@t3tools/client-runtime/state/filesystem";
-import { environmentSession } from "./session";
-import { useEnvironmentPresentation } from "./presentation";
+import { environmentSession } from "./session.vibe";
+import { useEnvironmentPresentation } from "./presentation.vibe";
 import type { VcsRefTarget } from "@t3tools/client-runtime/state/vcs";
 import type {
   EnvironmentId,
@@ -32,11 +32,11 @@ import * as Option from "effect/Option";
 import { AsyncResult, Atom } from "effect/reactivity";
 import { useEffect, useMemo, useState } from "react";
 
-import { appAtomRegistry } from "./atom-registry";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import { orchestrationEnvironment } from "./orchestration";
 import { olderSettledThreads, threadFamilies } from "./threads";
 import { projectEnvironment } from "./projects";
-import { useEnvironmentQuery } from "./query";
+import { useEnvironmentQuery } from "./query.vibe";
 import { vcsEnvironment } from "./vcs";
 import { composerPullRequests } from "./pull-requests";
 import {

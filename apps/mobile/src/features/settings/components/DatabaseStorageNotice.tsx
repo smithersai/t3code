@@ -2,7 +2,10 @@ import { useAtomSet, useAtomValue } from "@effect/atom-react";
 import { AsyncResult } from "effect/reactivity";
 
 import { copyTextWithHaptic } from "../../../lib/copyTextWithHaptic";
-import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../../state/preferences";
+import {
+  mobilePreferencesAtom,
+  updateMobilePreferencesAtom,
+} from "../../../state/preferences.vibe";
 import { serverEnvironment } from "../../../state/server";
 import type { SettingsTarget } from "../settings-environment-filter";
 import { SettingsActionRow } from "./SettingsActionRow";

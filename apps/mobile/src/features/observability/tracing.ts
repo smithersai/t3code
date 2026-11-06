@@ -2,7 +2,7 @@ import Constants from "expo-constants";
 import { type ReleaseChannel, releaseResourceAttributes } from "@t3tools/shared/releaseResource";
 import * as RelayTracing from "@t3tools/shared/relayTracing";
 
-import { hasTracingPublicConfig, resolveCloudPublicConfig } from "../cloud/publicConfig";
+import { hasTracingPublicConfig, resolveCloudPublicConfig } from "../cloud/publicConfig.vibe";
 
 export interface TracingConfig {
   readonly tracesUrl: string;

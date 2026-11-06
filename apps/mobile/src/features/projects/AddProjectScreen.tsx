@@ -75,9 +75,13 @@ import { cn } from "../../lib/cn";
 import { useProjects, useServerConfigs, waitForProject } from "../../state/entities";
 import { filesystemEnvironment } from "../../state/filesystem";
 import { projectEnvironment } from "../../state/projects";
-import { useEnvironmentQuery } from "../../state/query";
-import { environmentSession, useEnvironmentScope, readEnvironmentScope } from "../../state/session";
-import { useEnvironmentPresentation } from "../../state/presentation";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import {
+  environmentSession,
+  useEnvironmentScope,
+  readEnvironmentScope,
+} from "../../state/session.vibe";
+import { useEnvironmentPresentation } from "../../state/presentation.vibe";
 import { sourceControlEnvironment } from "../../state/sourceControl";
 import { AppText as Text, AppTextInput as TextInput } from "../../components/ui/AppText";
 import { EnvironmentMachineSymbol } from "../../components/EnvironmentMachineSymbol";
@@ -86,13 +90,13 @@ import { SourceControlIcon } from "./SourceControlIcon";
 import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";
 import { ThemedSwitch } from "../../components/ui/ThemedSwitch";
 import { uuidv4 } from "../../lib/uuid";
-import { useAtomCommand } from "../../state/use-atom-command";
-import { useAtomQueryRunner } from "../../state/use-atom-query-runner";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe";
 import {
   useRemoteConnectionStatus,
   useRemoteEnvironmentRuntime,
   useSavedRemoteConnections,
-} from "../../state/use-remote-environment-registry";
+} from "../../state/use-remote-environment-registry.vibe";
 import { resolveAddProjectEnvironment } from "./AddProjectScreen.logic";
 import {
   createNewTaskDraft,

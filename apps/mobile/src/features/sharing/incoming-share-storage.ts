@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
 
-import { decodeIncomingShareDraft, type IncomingShareDraft } from "./incoming-share-model";
+import { decodeIncomingShareDraft, type IncomingShareDraft } from "./incoming-share-model.vibe";
 
 const INCOMING_SHARE_DIRECTORY = "incoming-shares";
 

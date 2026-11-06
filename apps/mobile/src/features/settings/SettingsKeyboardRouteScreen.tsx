@@ -12,7 +12,7 @@ import {
   DEFAULT_COMPOSER_ENTER_BEHAVIOR,
   type ComposerEnterBehavior,
 } from "../../lib/composerEnterBehavior";
-import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences";
+import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
 import { SettingsChoiceRow } from "./components/SettingsChoiceRow";
 import { SettingsSection } from "./components/SettingsSection";
 

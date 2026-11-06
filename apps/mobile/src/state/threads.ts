@@ -15,14 +15,14 @@ import { AsyncResult, Atom } from "effect/reactivity";
 import { useEffect } from "react";
 
 import { environmentCatalog } from "../connection/catalog";
-import { connectionAtomRuntime } from "../connection/runtime";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
 import { scopedThreadKey } from "../lib/scopedEntities";
-import { appAtomRegistry } from "./atom-registry";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import {
   pendingThreadCreationOutcomesAtom,
   selectThreadCreationDetail,
-} from "./pending-thread-creation";
-import { environmentShell } from "./shell";
+} from "./pending-thread-creation.vibe";
+import { environmentShell } from "./shell.vibe";
 import { threadOutboxManager } from "./thread-outbox";
 
 export const threadFamilies = createThreadFamilyAtoms(

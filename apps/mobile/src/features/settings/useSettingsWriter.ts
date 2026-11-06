@@ -6,7 +6,7 @@ import {
 
 import * as Dialog from "../../components/ui/Dialog";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import type { ScopedMobileSettingsTarget } from "./settings-scoped-server";
 
 export function useSettingsWriter() {

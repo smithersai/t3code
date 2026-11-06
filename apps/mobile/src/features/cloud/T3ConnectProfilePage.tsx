@@ -14,11 +14,11 @@ import { SymbolView } from "../../components/ui/AppSymbol";
 import * as Dialog from "../../components/ui/Dialog";
 import { Menu } from "../../components/ui/Menu";
 import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {
   deregisterManagedRelayEnvironmentCommand,
   useManagedRelayEnvironments,
-} from "./managedRelayState";
+} from "./managedRelayState.vibe";
 
 const linkedAtFormatter = new Intl.DateTimeFormat(undefined, { dateStyle: "medium" });
 

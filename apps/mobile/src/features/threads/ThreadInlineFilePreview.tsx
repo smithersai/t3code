@@ -9,7 +9,7 @@ import { PierreEntryIcon } from "../../components/PierreEntryIcon";
 import { AppText as Text } from "../../components/ui/AppText";
 import { SymbolView } from "../../components/ui/AppSymbol";
 import { useFullscreenVideoOpen, useMediaAudioSessionHold } from "../../lib/videoAudioSession";
-import { useRefreshAssetUrl } from "../../state/assets";
+import { useRefreshAssetUrl } from "../../state/assets.vibe";
 import { ThreadMediaVisibleContext } from "./ThreadMarkdownVideo";
 import {
   acquireAudioSession,

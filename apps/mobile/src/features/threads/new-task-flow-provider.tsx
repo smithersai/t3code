@@ -34,10 +34,10 @@ import {
 } from "../../lib/modelOptions";
 import { scopedProjectKey } from "../../lib/scopedEntities";
 import { useAtomValue } from "@effect/atom-react";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { projectEnvironment } from "../../state/projects";
-import { useEnvironmentQuery } from "../../state/query";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {
   appendComposerDraftAttachments,
   type ComposerDraftInsertion,
@@ -66,7 +66,7 @@ import {
   setPendingConnectionError,
   useRemoteConnectionStatus,
   useSavedRemoteConnections,
-} from "../../state/use-remote-environment-registry";
+} from "../../state/use-remote-environment-registry.vibe";
 import { availableScratchWorkspaceRoot } from "@t3tools/client-runtime/operations/projects";
 import {
   isAtomCommandInterrupted,
@@ -78,13 +78,13 @@ import {
   buildHomeProjectScopes,
   sortHomeProjectScopes,
   type HomeProjectScope,
-} from "../home/homeThreadList";
-import { useMobileProjectGroupingSettings } from "../../state/project-grouping";
+} from "../home/homeThreadList.vibe";
+import { useMobileProjectGroupingSettings } from "../../state/project-grouping.vibe";
 import {
   resolvePendingTaskInteractionMode,
   resolveProviderInteractionMode,
 } from "../../state/legacy-plan-mode";
-import { useLegacyPlanModeState } from "./use-legacy-plan-mode-enabled";
+import { useLegacyPlanModeState } from "./use-legacy-plan-mode-enabled.vibe";
 import {
   resolveNewTaskDraftWorkspace,
   resolveNewTaskBranchWorktreePath,
@@ -92,7 +92,7 @@ import {
 } from "./new-task-context-presentation";
 import { resolveEnvironmentProjectMatch } from "./new-task-project-selection";
 import { useNewTaskProjectDefaults } from "./use-new-task-project-defaults";
-import { resolveProjectThreadCreationBranch } from "./projectThreadCreationValidation";
+import { resolveProjectThreadCreationBranch } from "./projectThreadCreationValidation.vibe";
 import {
   INACTIVE_FLOW_KEY,
   type NewTaskFlowState,
@@ -102,9 +102,9 @@ import {
   type RouteDraftResolution,
   stampedEnvironmentProjectsLoading,
   updateNewTaskFlowState,
-} from "./new-task-flow-state";
-import { useEnvironmentShellReadiness } from "../../state/shell";
-import { useConnectionsReady, useWorkspaceEnvironments } from "../../state/workspace";
+} from "./new-task-flow-state.vibe";
+import { useEnvironmentShellReadiness } from "../../state/shell.vibe";
+import { useConnectionsReady, useWorkspaceEnvironments } from "../../state/workspace.vibe";
 
 type WorkspaceMode = "local" | "worktree";
 

@@ -10,20 +10,20 @@ import { runAtomCommand } from "@t3tools/client-runtime/state/runtime";
 import { AsyncResult } from "effect/reactivity";
 import { requireOptionalNativeModule } from "expo";
 
-import { connectPairingUrl } from "../../connection/onboarding";
+import { connectPairingUrl } from "../../connection/onboarding.vibe";
 import {
   createMobileThemePairPatch,
   resolveMobileThemeIds,
   type MobileThemeId,
 } from "../../lib/mobileTheme";
 import { rootNavigationRef } from "../../lib/rootNavigation";
-import { appAtomRegistry } from "../../state/atom-registry";
-import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
+import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
 import { environmentProjects } from "../../state/projects";
 import { enqueueThreadOutboxMessage } from "../../state/thread-outbox";
 import { environmentThreadShells } from "../../state/threads";
-import { holdEditingQueuedMessage } from "../../state/use-thread-outbox";
-import { workspaceConnections } from "../../state/workspace";
+import { holdEditingQueuedMessage } from "../../state/use-thread-outbox.vibe";
+import { workspaceConnections } from "../../state/workspace.vibe";
 import { resolveThemeAppearance } from "../settings/appearance/AppearancePreferencesProvider";
 import {
   applyNativeShowcaseOrientation,

@@ -20,7 +20,7 @@ import { AppText as Text } from "../../components/ui/AppText";
 import { environmentThreadDetails } from "../../state/threads";
 import { NativeStackScreenOptions, nativeHeaderScrollEdgeEffects } from "../../native/StackHeader";
 import { NativeHeader, NativeScreen } from "../../native/ThemedScreenStack";
-import { useEnvironments } from "../../state/environments";
+import { useEnvironments } from "../../state/environments.vibe";
 import { SubagentRow } from "./SubagentRow";
 import { useVisibleSecondClock } from "./use-visible-second-clock";
 import { ScreenContent } from "../../components/ui/ScreenContent";

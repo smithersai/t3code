@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { AppState } from "react-native";
 import * as Atom from "effect/reactivity/Atom";
 import * as Schema from "effect/Schema";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { writeFileAtomically } from "../../lib/atomic-file";
 import { SerializedAsyncQueue } from "../../lib/serialized-async-queue";
 import {
@@ -11,7 +11,7 @@ import {
   ReviewDraftDocument,
   pullRequestReviewKey,
   type ReviewDraft,
-} from "./pullRequestReviewDrafts";
+} from "./pullRequestReviewDrafts.vibe";
 import type { PullRequestParams } from "./usePullRequestDiff";
 
 const state = Atom.make<{

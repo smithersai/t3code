@@ -25,7 +25,7 @@ import {
 import { AppText as Text } from "../../components/ui/AppText";
 import { VideoPreviewModal, type VideoPreviewSource } from "../../components/VideoPreviewModal";
 import { FilePreviewModal, type FilePreviewSource } from "../../components/FilePreviewModal";
-import { useMarkdownImageSource } from "../../native/useMarkdownImageSource";
+import { useMarkdownImageSource } from "../../native/useMarkdownImageSource.vibe";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import {
   SelectableMarkdownText,

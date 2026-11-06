@@ -1,0 +1,146 @@
+import { AsyncResult, Atom } from "effect/reactivity";
+import * as MobilePreferences from "../persistence/mobile-preferences";
+type PreferencesUpdate = Partial<MobilePreferences.Preferences> | {
+    readonly transform: (current: MobilePreferences.Preferences) => Partial<MobilePreferences.Preferences>;
+};
+/** Keep optimistic patches separate so hydration cannot overwrite pending writes. */
+export declare function createMobilePreferencesState(runtime: Atom.AtomRuntime<MobilePreferences.MobilePreferencesStore>): {
+    readonly preferencesAtom: Atom.Atom<AsyncResult.AsyncResult<{
+        navigationTabOrder?: readonly string[];
+        hiddenNavigationTabs?: readonly string[];
+        pullRequestHideTestFiles?: boolean;
+        pullRequestMergeMethod?: import("@t3tools/contracts").PullRequestMergeMethod;
+        liveActivitiesEnabled?: boolean;
+        themeId?: import("../lib/mobileTheme").MobileThemeId;
+        lightThemeId?: import("../lib/mobileTheme").MobileThemeId;
+        darkThemeId?: import("../lib/mobileTheme").MobileThemeId;
+        themeMode?: import("../lib/mobileTheme").MobileThemeMode;
+        androidNavigationStyle?: import("../lib/androidNavigationStyle").AndroidNavigationStyle;
+        baseFontSize?: number;
+        terminalFontSize?: number | null;
+        markdownFontSize?: number;
+        codeFontSize?: number | null;
+        codeWordBreak?: boolean;
+        mathRenderingEnabled?: boolean;
+        crashReportsEnabled?: boolean;
+        connectOnboardingOptOutAccounts?: ReadonlyArray<string>;
+        collapsedProjectGroups?: readonly string[];
+        dismissedDatabaseStorageNotices?: readonly string[];
+        composerEnterBehavior?: import("../lib/composerEnterBehavior").ComposerEnterBehavior;
+        followUpBehavior?: import("../lib/followUpBehavior").FollowUpBehavior;
+        microphones?: ReadonlyArray<import("../lib/microphonePriority").MicrophoneEntry>;
+        projectGroupingEnabled?: boolean;
+        projectGroupingMode?: import("@t3tools/contracts").SidebarProjectGroupingMode;
+        planModeEnabled?: boolean;
+        workingShelfEnabled?: boolean;
+        useLastProjectForNewThreads?: boolean;
+        lastThreadProject?: {
+            readonly environmentId: string;
+            readonly projectId: string;
+        };
+        modelFavorites?: ReadonlyArray<{
+            readonly provider: import("@t3tools/contracts").ProviderInstanceId;
+            readonly model: string;
+        }>;
+        threadListSettledShelfExpanded?: boolean;
+        threadListSnoozedShelfExpanded?: boolean;
+        threadListWorkingShelfExpanded?: boolean;
+        threadListFilters?: MobilePreferences.ThreadListFilters;
+        pullRequestListFilters?: MobilePreferences.PullRequestListPreferences;
+        workspaceSelections?: MobilePreferences.WorkspaceSelections;
+    }, never>>;
+    readonly updatePreferencesAtom: Atom.AtomResultFn<PreferencesUpdate, MobilePreferences.Preferences, MobilePreferences.MobilePreferencesSaveError>;
+};
+export declare const mobilePreferencesState: {
+    readonly preferencesAtom: Atom.Atom<AsyncResult.AsyncResult<{
+        navigationTabOrder?: readonly string[];
+        hiddenNavigationTabs?: readonly string[];
+        pullRequestHideTestFiles?: boolean;
+        pullRequestMergeMethod?: import("@t3tools/contracts").PullRequestMergeMethod;
+        liveActivitiesEnabled?: boolean;
+        themeId?: import("../lib/mobileTheme").MobileThemeId;
+        lightThemeId?: import("../lib/mobileTheme").MobileThemeId;
+        darkThemeId?: import("../lib/mobileTheme").MobileThemeId;
+        themeMode?: import("../lib/mobileTheme").MobileThemeMode;
+        androidNavigationStyle?: import("../lib/androidNavigationStyle").AndroidNavigationStyle;
+        baseFontSize?: number;
+        terminalFontSize?: number | null;
+        markdownFontSize?: number;
+        codeFontSize?: number | null;
+        codeWordBreak?: boolean;
+        mathRenderingEnabled?: boolean;
+        crashReportsEnabled?: boolean;
+        connectOnboardingOptOutAccounts?: ReadonlyArray<string>;
+        collapsedProjectGroups?: readonly string[];
+        dismissedDatabaseStorageNotices?: readonly string[];
+        composerEnterBehavior?: import("../lib/composerEnterBehavior").ComposerEnterBehavior;
+        followUpBehavior?: import("../lib/followUpBehavior").FollowUpBehavior;
+        microphones?: ReadonlyArray<import("../lib/microphonePriority").MicrophoneEntry>;
+        projectGroupingEnabled?: boolean;
+        projectGroupingMode?: import("@t3tools/contracts").SidebarProjectGroupingMode;
+        planModeEnabled?: boolean;
+        workingShelfEnabled?: boolean;
+        useLastProjectForNewThreads?: boolean;
+        lastThreadProject?: {
+            readonly environmentId: string;
+            readonly projectId: string;
+        };
+        modelFavorites?: ReadonlyArray<{
+            readonly provider: import("@t3tools/contracts").ProviderInstanceId;
+            readonly model: string;
+        }>;
+        threadListSettledShelfExpanded?: boolean;
+        threadListSnoozedShelfExpanded?: boolean;
+        threadListWorkingShelfExpanded?: boolean;
+        threadListFilters?: MobilePreferences.ThreadListFilters;
+        pullRequestListFilters?: MobilePreferences.PullRequestListPreferences;
+        workspaceSelections?: MobilePreferences.WorkspaceSelections;
+    }, never>>;
+    readonly updatePreferencesAtom: Atom.AtomResultFn<PreferencesUpdate, MobilePreferences.Preferences, MobilePreferences.MobilePreferencesSaveError>;
+};
+export declare const mobilePreferencesAtom: Atom.Atom<AsyncResult.AsyncResult<{
+    navigationTabOrder?: readonly string[];
+    hiddenNavigationTabs?: readonly string[];
+    pullRequestHideTestFiles?: boolean;
+    pullRequestMergeMethod?: import("@t3tools/contracts").PullRequestMergeMethod;
+    liveActivitiesEnabled?: boolean;
+    themeId?: import("../lib/mobileTheme").MobileThemeId;
+    lightThemeId?: import("../lib/mobileTheme").MobileThemeId;
+    darkThemeId?: import("../lib/mobileTheme").MobileThemeId;
+    themeMode?: import("../lib/mobileTheme").MobileThemeMode;
+    androidNavigationStyle?: import("../lib/androidNavigationStyle").AndroidNavigationStyle;
+    baseFontSize?: number;
+    terminalFontSize?: number | null;
+    markdownFontSize?: number;
+    codeFontSize?: number | null;
+    codeWordBreak?: boolean;
+    mathRenderingEnabled?: boolean;
+    crashReportsEnabled?: boolean;
+    connectOnboardingOptOutAccounts?: ReadonlyArray<string>;
+    collapsedProjectGroups?: readonly string[];
+    dismissedDatabaseStorageNotices?: readonly string[];
+    composerEnterBehavior?: import("../lib/composerEnterBehavior").ComposerEnterBehavior;
+    followUpBehavior?: import("../lib/followUpBehavior").FollowUpBehavior;
+    microphones?: ReadonlyArray<import("../lib/microphonePriority").MicrophoneEntry>;
+    projectGroupingEnabled?: boolean;
+    projectGroupingMode?: import("@t3tools/contracts").SidebarProjectGroupingMode;
+    planModeEnabled?: boolean;
+    workingShelfEnabled?: boolean;
+    useLastProjectForNewThreads?: boolean;
+    lastThreadProject?: {
+        readonly environmentId: string;
+        readonly projectId: string;
+    };
+    modelFavorites?: ReadonlyArray<{
+        readonly provider: import("@t3tools/contracts").ProviderInstanceId;
+        readonly model: string;
+    }>;
+    threadListSettledShelfExpanded?: boolean;
+    threadListSnoozedShelfExpanded?: boolean;
+    threadListWorkingShelfExpanded?: boolean;
+    threadListFilters?: MobilePreferences.ThreadListFilters;
+    pullRequestListFilters?: MobilePreferences.PullRequestListPreferences;
+    workspaceSelections?: MobilePreferences.WorkspaceSelections;
+}, never>>;
+export declare const updateMobilePreferencesAtom: Atom.AtomResultFn<PreferencesUpdate, MobilePreferences.Preferences, MobilePreferences.MobilePreferencesSaveError>;
+export {};

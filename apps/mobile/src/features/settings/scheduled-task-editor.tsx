@@ -14,7 +14,7 @@ import {
   updateScheduledTaskEditor,
   readScheduledTaskEditor,
   type ScheduledTaskEditor,
-} from "./scheduled-task-editor-state";
+} from "./scheduled-task-editor-state.vibe";
 
 /** The form draft lives in an atom, so it survives while its native picker routes are on top. */
 export function useScheduledTaskEditor() {

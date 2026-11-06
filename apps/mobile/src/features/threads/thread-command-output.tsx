@@ -7,7 +7,7 @@ import { ScrollView, View } from "react-native";
 import { AppText as Text } from "../../components/ui/AppText";
 import { useServerConfigs } from "../../state/entities";
 import { orchestrationEnvironment } from "../../state/orchestration";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 
 const FOLLOW_SLACK = 8;
 

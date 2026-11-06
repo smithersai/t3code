@@ -3,7 +3,7 @@ import * as Dialog from "../../components/ui/Dialog";
 import { useOpenPullRequest } from "../../native/useOpenPullRequest";
 import { useWorkspaceSettledContentWidth } from "../layout/workspace-content-width";
 import { ThreadMarkdownVideo, ThreadMediaVisibleContext } from "./ThreadMarkdownVideo";
-import { useMarkdownImageSource } from "../../native/useMarkdownImageSource";
+import { useMarkdownImageSource } from "../../native/useMarkdownImageSource.vibe";
 import {
   enrichedContextLinkCustomization,
   enrichedThreadLinkCustomization,
@@ -161,7 +161,7 @@ import { markdownFileEmbedLabel, resolveMarkdownMediaPreview } from "../../lib/m
 import { attachmentVideoPreviewSource } from "../../lib/videoPreviewSource";
 import { CopyTextButton } from "./CopyTextButton";
 import { getReviewSectionIdForCheckpoint } from "../review/reviewModel";
-import { setReviewSelectedSectionId } from "../review/reviewState";
+import { setReviewSelectedSectionId } from "../review/reviewState.vibe";
 import { Menu } from "../../components/ui/Menu";
 import { copyPromptLink } from "../prompt-links/prompt-link-actions";
 import { parseReviewCommentMessageSegments } from "../review/reviewCommentSelection";
@@ -198,7 +198,7 @@ import {
   type ThreadFeedEntry,
   type ThreadFeedLatestRun,
   messageFoldRunId,
-} from "../../lib/threadActivity";
+} from "../../lib/threadActivity.vibe";
 import type { ThreadContentPresentation } from "./threadContentPresentation";
 import {
   resolveThreadFeedLiveFollow,
@@ -224,14 +224,14 @@ import {
   isCompactionCommandFeedEntry,
   type ThreadFeedRow,
 } from "./pending-thread-feed";
-import type { QueuedThreadMessage } from "../../state/thread-outbox-model";
+import type { QueuedThreadMessage } from "../../state/thread-outbox-model.vibe";
 import { resolveThreadFeedFixedItemSize } from "./thread-feed-item-size";
 import { htmlRenderFrameHeight } from "@t3tools/shared/htmlRender";
 import { htmlRenderRowHeight, ThreadHtmlRender } from "./HtmlRenderWebView";
 import { ThreadMcpApp } from "./McpAppWebView";
-import { assetEnvironment, useAssetUrl, useRefreshAssetUrl } from "../../state/assets";
-import { useAtomQueryRunner } from "../../state/use-atom-query-runner";
-import { readEnvironmentScope, usePreparedConnection } from "../../state/session";
+import { assetEnvironment, useAssetUrl, useRefreshAssetUrl } from "../../state/assets.vibe";
+import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe";
+import { readEnvironmentScope, usePreparedConnection } from "../../state/session.vibe";
 import { projectEnvironment } from "../../state/projects";
 import {
   needsWorkspaceBasenameLookup,
@@ -243,15 +243,15 @@ import {
   useQuietThreadShell,
   useThreadChipIcons,
 } from "../../state/entities";
-import { useThreadSelection } from "../../state/use-thread-selection";
-import { useEnvironmentQuery } from "../../state/query";
+import { useThreadSelection } from "../../state/use-thread-selection.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { serverEnvironment } from "../../state/server";
-import { composerDocumentAttachmentRecord } from "../../lib/composerContext";
+import { composerDocumentAttachmentRecord } from "../../lib/composerContext.vibe";
 import * as Option from "effect/Option";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { environmentThreadShells, threadEnvironment } from "../../state/threads";
 import { ThreadWorkflowOpening, useWorkflowOpening } from "./thread-workflow-opening";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useV2ItemSupport } from "../../state/v2-item-support";
 import {
   fileRoutePathSegments,
@@ -262,7 +262,7 @@ import {
 import { waitForThreadShellReady } from "./threadForkNavigation";
 import { resolveUserMessageIntentBadge } from "./userMessageIntentBadge";
 import { fileChipClipboardPath, fileChipMenu, resolveFileChipTarget } from "./fileChipMenu";
-import { useFileChipShare } from "./useFileChipShare";
+import { useFileChipShare } from "./useFileChipShare.vibe";
 import { useOpenLinkedThread } from "./useOpenLinkedThread";
 import {
   MarkdownImageAvailableWidthContext,

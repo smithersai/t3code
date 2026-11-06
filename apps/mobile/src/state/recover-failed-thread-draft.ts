@@ -1,4 +1,4 @@
-import type { QueuedThreadMessage } from "./thread-outbox-model";
+import type { QueuedThreadMessage } from "./thread-outbox-model.vibe";
 import { scopedThreadKey } from "../lib/scopedEntities";
 import { restoredNewTaskDraftKey } from "./new-task-draft-key";
 import {

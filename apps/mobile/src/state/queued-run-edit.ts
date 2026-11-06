@@ -12,11 +12,11 @@ import {
   type QueuedRunsAtom,
 } from "@t3tools/client-runtime/queued-run-edit";
 
-import { uploadedComposerContext } from "../lib/composerContext";
-import { appAtomRegistry } from "./atom-registry";
+import { uploadedComposerContext } from "../lib/composerContext.vibe";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import { abortComposerDraftOperations } from "./composerDraftOperations";
 import { queuedEditDraftKey } from "./queued-edit-draft-key";
-import { setThreadComposerError } from "./thread-composer-error";
+import { setThreadComposerError } from "./thread-composer-error.vibe";
 import {
   clearComposerDraft,
   getComposerDraftSnapshot,

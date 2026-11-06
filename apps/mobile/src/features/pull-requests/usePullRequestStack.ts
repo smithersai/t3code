@@ -4,7 +4,7 @@ import { sourceControlClients } from "@t3tools/client-runtime/source-control-cli
 import { useMemo } from "react";
 import { useEnvironmentServerConfig, useNavigationThreadShells } from "../../state/entities";
 import { pullRequestStackAtom } from "../../state/pull-requests";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { savedPullRequestStack } from "./pullRequestStack";
 import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
 

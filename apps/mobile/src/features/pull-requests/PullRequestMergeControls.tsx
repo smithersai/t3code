@@ -12,9 +12,9 @@ import { SymbolView } from "../../components/ui/AppSymbol";
 import { Menu } from "../../components/ui/Menu";
 import { Button } from "../../components/ui/Button";
 import { IconButton } from "../../components/ui/IconButton";
-import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences";
+import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
 import { composerPullRequests } from "../../state/pull-requests";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {
   allowedMergeMethods,
   canPerformPullRequestAction,
@@ -25,7 +25,7 @@ import {
 } from "./pullRequestActions";
 import { pullRequestStackMerge, singlePullRequestMergeAllowed } from "./pullRequestStack";
 import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
-import { usePullRequestPermissions } from "./usePullRequestPermissions";
+import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";
 import type { PullRequestStackState } from "./usePullRequestStack";
 import { PullRequestGlyph } from "./pullRequestGlyphs";
 

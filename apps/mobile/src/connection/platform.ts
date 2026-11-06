@@ -23,12 +23,12 @@ import { AppState } from "react-native";
 import { authClientMetadata } from "../lib/authClientMetadata";
 import * as Runtime from "../lib/runtime";
 import * as MobileStorage from "../persistence/mobile-storage";
-import { appAtomRegistry } from "../state/atom-registry";
+import { appAtomRegistry } from "../state/atom-registry.vibe";
 import { clearThreadOutboxEnvironment } from "../state/thread-outbox-removal";
 import { clearComposerDraftsEnvironment } from "../state/use-composer-drafts";
-import { clearThreadComposerErrorsForEnvironment } from "../state/thread-composer-error";
+import { clearThreadComposerErrorsForEnvironment } from "../state/thread-composer-error.vibe";
 import { mobileApplicationActiveWakeup } from "./app-state-wakeups";
-import * as ConnectionStorage from "./storage";
+import * as ConnectionStorage from "./storage.vibe";
 
 function networkStatus(state: Network.NetworkState): "unknown" | "offline" | "online" {
   if (state.isConnected === false) {

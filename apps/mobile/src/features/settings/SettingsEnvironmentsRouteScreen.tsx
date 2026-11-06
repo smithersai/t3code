@@ -15,9 +15,9 @@ import { LocalEnvironmentList } from "../connection/LocalEnvironmentList";
 import { PullRequestRoutingSettings } from "../connection/PullRequestRoutingSettings";
 import { splitEnvironmentSections } from "../connection/environmentSections";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
-import { useRemoteConnections } from "../../state/use-remote-environment-registry";
+import { useRemoteConnections } from "../../state/use-remote-environment-registry.vibe";
 import { relayEnvironmentDiscovery } from "../../state/relay";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {
   applyShowcaseLocalEnvironmentDisplayUrls,
   resolveShowcaseEnvironmentUpdateDisplayUrl,

@@ -23,17 +23,17 @@ import { Linking, Pressable, View } from "react-native";
 
 import { AppText as Text } from "../../components/ui/AppText";
 import { ProviderIcon } from "../../components/ProviderIcon";
-import { environmentPresentations } from "../../state/presentation";
+import { environmentPresentations } from "../../state/presentation.vibe";
 import { serverEnvironment } from "../../state/server";
-import { readEnvironmentScope, useEnvironmentScope } from "../../state/session";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useNowMinuteMs } from "../../lib/clock";
 import {
   environmentIdsKey,
   limitsAutoRefreshSetAtom,
   limitsRefreshFailuresAtom,
   refreshEnvironmentLimits,
-} from "./usageLimitsRefresh";
+} from "./usageLimitsRefresh.vibe";
 import { usageProviderKind, useProviderColors } from "./usageProviders";
 
 const PACE_LABEL = { ahead: "ahead of pace", on: "on pace", under: "under pace" } as const;

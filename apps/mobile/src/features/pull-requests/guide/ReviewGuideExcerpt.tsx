@@ -6,7 +6,7 @@ import { excerptRows, fileDiffRows, rowsToPatch } from "@t3tools/client-runtime/
 import { AppText as Text } from "../../../components/ui/AppText";
 import { SymbolView } from "../../../components/ui/AppSymbol";
 import { resolveNativeReviewDiffView } from "../../diffs/nativeReviewDiffSurface";
-import { buildNativeReviewDiffData } from "../../review/nativeReviewDiffAdapter";
+import { buildNativeReviewDiffData } from "../../review/nativeReviewDiffAdapter.vibe";
 import { buildReviewParsedDiff } from "../../review/reviewModel";
 import { useNativeReviewDiffBridge } from "../../review/useNativeReviewDiffBridge";
 import { useAppearanceCodeSurface } from "../../settings/appearance/useAppearanceCodeSurface";

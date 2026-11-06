@@ -5,9 +5,9 @@ import { AsyncResult } from "effect/reactivity";
 import { useRef, useState } from "react";
 import { usePullRequestConnected } from "../usePullRequestConnected";
 import { composerPullRequests } from "../../../state/pull-requests";
-import { useEnvironmentQuery } from "../../../state/query";
+import { useEnvironmentQuery } from "../../../state/query.vibe";
 import { serverEnvironment } from "../../../state/server";
-import { useAtomCommand } from "../../../state/use-atom-command";
+import { useAtomCommand } from "../../../state/use-atom-command.vibe";
 import { pullRequestTarget, type PullRequestParams } from "../usePullRequestDiff";
 
 export function useReviewGuidesEnabled(params: PullRequestParams) {

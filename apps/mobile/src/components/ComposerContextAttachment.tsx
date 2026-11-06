@@ -11,10 +11,10 @@ import { composerAttachmentInlineUri, isFileBackedComposerAttachment } from "../
 import {
   loadLocalAttachmentPreview,
   useLocalAttachmentPreview,
-} from "../lib/localAttachmentPreview";
+} from "../lib/localAttachmentPreview.vibe";
 import { downloadAndShareAttachment } from "../lib/attachmentDownload";
 import { assetImageSource } from "../lib/assetImageSource";
-import { useAssetUrlState, useRefreshAssetUrl } from "../state/assets";
+import { useAssetUrlState, useRefreshAssetUrl } from "../state/assets.vibe";
 import { AppText as Text } from "./ui/AppText";
 import { FilePreviewModal } from "./FilePreviewModal";
 import { PresentationSource } from "./ui/NativePresentation";

@@ -4,12 +4,12 @@ import { settlePromise, squashAtomCommandFailure } from "@t3tools/client-runtime
 import { AsyncResult } from "effect/reactivity";
 import { useEffect, useEffectEvent, useId } from "react";
 
-import { loadLocalAttachmentPreview } from "../lib/localAttachmentPreview";
+import { loadLocalAttachmentPreview } from "../lib/localAttachmentPreview.vibe";
 import { usePreviewPresentation, videoPreviewKey } from "../lib/previewPresentation";
 import { fullscreenVideoClosed, fullscreenVideoOpened } from "../lib/videoAudioSession";
 import { mediaVideoPreviewUri, type VideoPreviewSource } from "../lib/videoPreviewSource";
-import { refreshAssetUrl } from "../state/assets";
-import { usePreparedConnection } from "../state/session";
+import { refreshAssetUrl } from "../state/assets.vibe";
+import { usePreparedConnection } from "../state/session.vibe";
 import {
   acquireAudioSession,
   activateAudioSession,

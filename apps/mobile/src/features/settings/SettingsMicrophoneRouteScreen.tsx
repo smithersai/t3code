@@ -10,7 +10,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { type AppSymbolName } from "../../components/ui/AppSymbol";
 import { AppText as Text } from "../../components/ui/AppText";
 import { cn } from "../../lib/cn";
-import { makePermissionStatusAtom } from "../../lib/permissionStatusAtom";
+import { makePermissionStatusAtom } from "../../lib/permissionStatusAtom.vibe";
 import {
   isMicrophoneDevice,
   type MicrophoneEntry,
@@ -18,7 +18,7 @@ import {
   microphoneEntryKey,
   microphoneOrder,
 } from "../../lib/microphonePriority";
-import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences";
+import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
 import { ListRowLayout } from "../../components/ui/ListRowLayout";
 import { ThreadSwipeable } from "../home/thread-swipe-actions";
 import { SettingsActionRow } from "./components/SettingsActionRow";

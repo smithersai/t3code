@@ -13,10 +13,10 @@ import * as Option from "effect/Option";
 import { AsyncResult, Atom } from "effect/reactivity";
 import { useCallback, useMemo } from "react";
 
-import { appAtomRegistry } from "./atom-registry";
-import { environmentPresentations } from "./presentation";
+import { appAtomRegistry } from "./atom-registry.vibe";
+import { environmentPresentations } from "./presentation.vibe";
 import { serverEnvironment } from "./server";
-import { environmentSession, readEnvironmentScope } from "./session";
+import { environmentSession, readEnvironmentScope } from "./session.vibe";
 
 export interface EnvironmentUsageStatus {
   readonly environmentId: EnvironmentId;

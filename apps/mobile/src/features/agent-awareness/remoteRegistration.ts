@@ -25,7 +25,7 @@ import {
 
 import type { SavedRemoteConnection } from "../../lib/connection";
 import { runtime } from "../../lib/runtime";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { environmentServerConfigsAtom } from "../../state/server";
 import type { Preferences } from "../../persistence/mobile-preferences";
 import {
@@ -35,14 +35,14 @@ import {
   loadOrCreateAgentAwarenessDeviceId,
   loadPreferences,
   saveAgentAwarenessRegistrationRecord,
-} from "../../persistence/imperative";
+} from "../../persistence/imperative.vibe";
 import type { AgentActivityProps } from "../../widgets/AgentActivity";
 import {
   dismissEndedAgentLiveActivities,
   getAgentLiveActivities,
   startAgentLiveActivity,
 } from "./agentLiveActivity";
-import { resolveCloudPublicConfig } from "../cloud/publicConfig";
+import { resolveCloudPublicConfig } from "../cloud/publicConfig.vibe";
 import { supportsAgentAwarenessPush } from "./capabilities";
 import { makeRelayDeviceRegistrationRequest, resolveApsEnvironment } from "./registrationPayload";
 

@@ -6,7 +6,7 @@ import {
 } from "./pullRequestAgentTasks";
 import type { PullRequestParams } from "./usePullRequestDiff";
 import { usePullRequestConnected } from "./usePullRequestConnected";
-import { usePullRequestThreads } from "./usePullRequestThreads";
+import { usePullRequestThreads } from "./usePullRequestThreads.vibe";
 
 export function usePullRequestAgentActions(
   params: PullRequestParams,

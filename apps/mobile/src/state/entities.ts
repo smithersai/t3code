@@ -1,7 +1,7 @@
 import { useAtomValue } from "@effect/atom-react";
 import { deriveReportedModelSelection } from "@t3tools/client-runtime/state/thread-execution";
 
-import { appAtomRegistry } from "./atom-registry";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import type {
   EnvironmentProject,
   EnvironmentThread,
@@ -29,7 +29,7 @@ import { useMemo } from "react";
 import { threadChipTargets } from "../lib/enrichedLinkPresentation";
 import { resolveProjectChipIcon } from "../lib/projectIcon";
 import { projectGlyphImageAtom, projectGlyphKey } from "../native/ProjectChipIconImages";
-import { projectFaviconUrlAtom } from "./assets";
+import { projectFaviconUrlAtom } from "./assets.vibe";
 import { environmentProjects } from "./projects";
 import { environmentServerConfigsAtom, serverEnvironment } from "./server";
 import { environmentThreadDetails, environmentThreadShells } from "./threads";

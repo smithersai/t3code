@@ -2,7 +2,7 @@ import { RegistryContext, useAtomValue } from "@effect/atom-react";
 import { AsyncResult, Atom } from "effect/reactivity";
 import { createContext, use, useState, type Dispatch, type ReactNode } from "react";
 
-import { mobilePreferencesAtom } from "../../state/preferences";
+import { mobilePreferencesAtom } from "../../state/preferences.vibe";
 import {
   navigationCustomizationAvailable,
   resolveHiddenNavigationTabs,

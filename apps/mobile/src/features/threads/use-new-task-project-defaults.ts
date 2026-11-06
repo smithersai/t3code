@@ -7,11 +7,11 @@ import { resolveNewThreadEnvMode, resolveProjectSettings } from "@t3tools/shared
 import { parseT3ProjectFile } from "@t3tools/shared/t3ProjectFile";
 
 import { useEnvironmentServerConfig } from "../../state/entities";
-import { useEnvironmentPresentation } from "../../state/presentation";
-import { useProjectHasThreads } from "../../state/project-has-threads";
+import { useEnvironmentPresentation } from "../../state/presentation.vibe";
+import { useProjectHasThreads } from "../../state/project-has-threads.vibe";
 import { projectEnvironment } from "../../state/projects";
-import { useEnvironmentQuery } from "../../state/query";
-import { environmentSession } from "../../state/session";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { environmentSession } from "../../state/session.vibe";
 
 /**
  * A project's new-task defaults: server settings merged with its t3.json. The

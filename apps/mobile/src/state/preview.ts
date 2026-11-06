@@ -15,10 +15,10 @@ import * as Option from "effect/Option";
 import { AsyncResult, Atom } from "effect/reactivity";
 import { useMemo } from "react";
 
-import { connectionAtomRuntime } from "../connection/runtime";
-import { appAtomRegistry } from "./atom-registry";
-import { useEnvironmentQuery } from "./query";
-import { environmentSession, usePreparedConnection } from "./session";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
+import { appAtomRegistry } from "./atom-registry.vibe";
+import { useEnvironmentQuery } from "./query.vibe";
+import { environmentSession, usePreparedConnection } from "./session.vibe";
 
 export const previewEnvironment = createPreviewEnvironmentAtoms(connectionAtomRuntime);
 

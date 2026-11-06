@@ -132,12 +132,12 @@ import {
   type LayoutVariant,
 } from "../../lib/layout";
 import { editPendingThreadMessage } from "../../state/edit-pending-thread-message";
-import { deviceEnvironment } from "../../state/device";
-import { useEnvironmentQuery } from "../../state/query";
+import { deviceEnvironment } from "../../state/device.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { threadDevicePreviews } from "../devices/threadDevicePreviews";
 import { ThreadBrowserFloat } from "../browser/ThreadBrowserFloat";
 import { useThreadServerBrowserTabs } from "../../state/preview";
-import type { QueuedThreadMessage } from "../../state/thread-outbox-model";
+import type { QueuedThreadMessage } from "../../state/thread-outbox-model.vibe";
 import { scopedThreadKey } from "../../lib/scopedEntities";
 import {
   finishThreadMessageJump,
@@ -147,15 +147,15 @@ import {
 import {
   clearThreadComposerError,
   threadComposerErrorsAtom,
-} from "../../state/thread-composer-error";
+} from "../../state/thread-composer-error.vibe";
 import {
   environmentThreadDetails,
   environmentThreadShells,
   threadEnvironment,
 } from "../../state/threads";
-import { appAtomRegistry } from "../../state/atom-registry";
-import { threadStreamHaptics } from "./threadStreamHaptics";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
+import { threadStreamHaptics } from "./threadStreamHaptics.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useDelayedStatus } from "../../lib/useDelayedStatus";
 import type {
   PendingApproval,
@@ -163,7 +163,7 @@ import type {
   PendingUserInputDraftAnswer,
   ThreadFeedEntry,
   ThreadFeedLatestRun,
-} from "../../lib/threadActivity";
+} from "../../lib/threadActivity.vibe";
 import { PendingApprovalCard } from "./PendingApprovalCard";
 import { ComposerErrorNotice } from "./ComposerErrorNotice";
 import { ComposerFeedback } from "./ComposerFeedback";
