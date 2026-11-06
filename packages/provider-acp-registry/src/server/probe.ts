@@ -33,7 +33,7 @@ import {
   acpProviderOptionDescriptors,
   flattenSelectChoices,
 } from "@t3tools/provider-acp/server/sessionConfig";
-import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.ts";
+import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.vibe";
 import * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
 
 const MAX_AUTH_METHODS = 32;

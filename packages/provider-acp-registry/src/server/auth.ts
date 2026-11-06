@@ -19,7 +19,7 @@ import * as PtyAdapter from "@t3tools/shared/PtyAdapter";
 import * as ProviderAuthFlow from "@t3tools/provider-core/server/providerAuthFlow";
 import { normalizeAcpRegistryAuthMethods, normalizeAcpRegistryWebUrl } from "./probe.ts";
 import * as AcpRegistrySupport from "./AcpRegistrySupport.ts";
-import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.ts";
+import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.vibe";
 import * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
 
 type Runtime = Pick<

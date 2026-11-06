@@ -13,7 +13,7 @@ import {
   copilotClientCapabilitiesMeta,
   extractCopilotSubagentUpdate,
   makeCopilotSubagentRouting,
-} from "./copilotAcp.ts";
+} from "./copilotAcp.vibe";
 import { defaultInstanceIdForDriver, ProviderDriverKind } from "@t3tools/contracts";
 import { readCustomModelEntries } from "@t3tools/shared/model";
 import { AcpRegistrySettings } from "../settings.vibe";
@@ -39,7 +39,7 @@ import {
   normalizeAcpRegistryWebUrl,
 } from "./probe.ts";
 import * as AcpRegistrySupport from "./AcpRegistrySupport.ts";
-import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.ts";
+import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.vibe";
 import * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
 import { makeAcpNativeLoggerFactory } from "@t3tools/provider-acp/server/nativeLogging";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";

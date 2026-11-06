@@ -12,7 +12,7 @@ import {
   buildCheckedAcpRegistrySnapshot,
   checkAcpRegistryProviderReadiness,
   checkAcpRegistryProviderStatus,
-} from "./driver.ts";
+} from "./driver.vibe";
 
 const decodeSettings = Schema.decodeSync(AcpRegistrySettings);
 const identity = {

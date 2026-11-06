@@ -10,7 +10,7 @@ export {
   normalizeDevinSessionUpdate,
   normalizeDevinToolCall,
 } from "./server/devinAcp.ts";
-export { extractCopilotSubagentUpdate, makeCopilotSubagentRouting } from "./server/copilotAcp.ts";
+export { extractCopilotSubagentUpdate, makeCopilotSubagentRouting } from "./server/copilotAcp.vibe";
 export {
   acpRegistryProbeFailure,
   acpRegistryProbeResult,

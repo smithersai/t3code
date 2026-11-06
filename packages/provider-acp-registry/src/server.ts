@@ -1,4 +1,4 @@
-export { AcpRegistryDriver, type AcpRegistryDriverEnv } from "./server/driver.ts";
+export { AcpRegistryDriver, type AcpRegistryDriverEnv } from "./server/driver.vibe";
 export {
   AcpRegistryAdapterV2Driver,
   type AcpRegistryAdapterV2DriverEnv,

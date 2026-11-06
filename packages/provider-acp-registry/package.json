@@ -24,8 +24,11 @@
       "import": "./src/server/AcpRegistrySupport.ts"
     },
     "./server/AcpRegistryRuntimeCoordinator": {
-      "types": "./src/server/AcpRegistryRuntimeCoordinator.ts",
-      "import": "./src/server/AcpRegistryRuntimeCoordinator.ts"
+      "types": "./src/server/AcpRegistryRuntimeCoordinator.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/AcpRegistryRuntimeCoordinator.vibe",
+        "default": "./.vibelang/js/src/server/AcpRegistryRuntimeCoordinator.js"
+      }
     }
   },
   "scripts": {

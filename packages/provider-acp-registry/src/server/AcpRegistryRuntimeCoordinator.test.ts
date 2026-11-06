@@ -6,7 +6,7 @@ import * as Fiber from "effect/Fiber";
 import * as Option from "effect/Option";
 
 import type { AcpRegistryAvailableCommands } from "./probe.ts";
-import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.ts";
+import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.vibe";
 
 describe("AcpRegistryRuntimeCoordinator", () => {
   it.effect("suppresses a background probe while foreground startup is active", () =>
