@@ -11,8 +11,8 @@ import * as PlatformError from "effect/PlatformError";
 import * as Redacted from "effect/Redacted";
 import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
-import * as WriterRegistry from "./WriterRegistry.ts";
-import { WriterSecrets } from "./deploymentConfig.ts";
+import * as WriterRegistry from "./WriterRegistry.vibe";
+import { WriterSecrets } from "./deploymentConfig.vibe";
 
 const readKeys = Config.Redacted("DEVELOPER_KEYS").pipe(Effect.provide(WriterSecrets));
 

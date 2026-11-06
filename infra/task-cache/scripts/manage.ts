@@ -11,7 +11,7 @@ import * as Flag from "effect/cli/Flag";
 import * as Argument from "effect/cli/Argument";
 import * as Command from "effect/cli/Command";
 
-import * as WriterRegistry from "../src/WriterRegistry.ts";
+import * as WriterRegistry from "../src/WriterRegistry.vibe";
 
 const decodeDeployment = Schema.decodeEffect(
   Schema.fromJsonString(Schema.Struct({ url: Schema.String })),

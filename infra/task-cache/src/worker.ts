@@ -1,16 +1,16 @@
 import * as Axiom from "@alchemy.run/axiom";
-import { Observability } from "./observability.ts";
+import { Observability } from "./observability.vibe";
 import * as Cloudflare from "@alchemy.run/cloudflare";
 import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as HttpServerResponse from "effect/http/HttpServerResponse";
-import * as Admission from "./Admission.ts";
+import * as Admission from "./Admission.vibe";
 import * as Cache from "./Cache.ts";
 import * as Cleanup from "./Cleanup.vibe";
 import * as NativeClients from "./NativeClients.ts";
-import * as Savings from "./Savings.ts";
+import * as Savings from "./Savings.vibe";
 import type { ProtocolBindings } from "./protocolTypes.ts";
 import * as Resources from "./resources.ts";
 
