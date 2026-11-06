@@ -17,7 +17,7 @@ import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import type { PiSettings } from "../settings.vibe";
-import { PiDriver } from "./driver.ts";
+import { PiDriver } from "./driver.vibe";
 
 const layerTest = Layer.mergeAll(
   TestProviderHost.layer({

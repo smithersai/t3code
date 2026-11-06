@@ -1,0 +1,11 @@
+import { PiSettings } from "../settings.vibe";
+import * as FileSystem from "effect/FileSystem";
+import * as Path from "effect/Path";
+import * as HttpClient from "effect/http/HttpClient";
+import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
+import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
+import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
+import { type PiAdapterV2DriverEnv } from "./adapter.ts";
+import { type ProviderDriver } from "@t3tools/provider-core/server/driver";
+export type PiDriverEnv = PiAdapterV2DriverEnv | ProviderHost.ProviderHost | ChildProcessSpawner.ChildProcessSpawner | FileSystem.FileSystem | HttpClient.HttpClient | ProviderLatestVersions.ProviderLatestVersions | Path.Path;
+export declare const PiDriver: ProviderDriver<PiSettings, PiDriverEnv, Path.Path>;
