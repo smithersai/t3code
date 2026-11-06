@@ -11,7 +11,7 @@ import * as DesktopBackendPool from "../backend/DesktopBackendPool.ts";
 import type {
   DesktopBackendSnapshot,
   DesktopBackendStartConfig,
-} from "../backend/DesktopBackendManager.ts";
+} from "../backend/DesktopBackendManager.vibe";
 import * as DesktopServerExposure from "../backend/DesktopServerExposure.vibe";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
 import * as DesktopWslEnvironment from "./DesktopWslEnvironment.ts";

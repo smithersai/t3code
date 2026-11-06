@@ -2,19 +2,14 @@ import * as Brand from "effect/Brand";
 import * as Cause from "effect/Cause";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
-import * as Fiber from "effect/Fiber";
 import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";
 import * as PlatformError from "effect/PlatformError";
-import * as Ref from "effect/Ref";
-import * as Schedule from "effect/Schedule";
 import * as Schema from "effect/Schema";
-import * as Semaphore from "effect/Semaphore";
 import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import { HttpClient } from "effect/http";
-import { ChildProcess, ChildProcessSpawner } from "effect/process";
+import { ChildProcessSpawner } from "effect/process";
 
 import {
   SERVER_EXIT_CODE_STATE_DIR_OWNED,
@@ -178,31 +173,26 @@ export class BackendProcessExitStatusError extends Schema.TaggedError<BackendPro
   }
 }
 
-export const BackendProcessError = Schema.Union([
-  BackendProcessBootstrapEncodeError,
-  BackendProcessSpawnError,
-  BackendProcessExitStatusError,
-]);
-export type BackendProcessError = typeof BackendProcessError.Type;
+export schema BackendProcessError = BackendProcessBootstrapEncodeError | BackendProcessSpawnError | BackendProcessExitStatusError;
 
 interface RunBackendProcessOptions extends DesktopBackendStartConfig {
   readonly desktopTelemetryStream: Stream.Stream<Uint8Array>;
   readonly desktopBrowserStream?: Stream.Stream<Uint8Array>;
-  readonly onDesktopBrowserCommand?: (line: string) => Effect.Effect<void>;
+  readonly onDesktopBrowserCommand?: (line: string) => void!!;
   readonly onDesktopTelemetryControl?: (
     message: DesktopTelemetryControlMessageValue,
-  ) => Effect.Effect<void>;
+  ) => void!!;
   readonly readinessTimeout?: Duration.Duration;
   readonly outputDrainTimeout?: Duration.Duration;
-  readonly onStarted?: (pid: number) => Effect.Effect<void>;
-  readonly onExitObserved?: () => Effect.Effect<void>;
-  readonly onReady?: () => Effect.Effect<void>;
-  readonly onReadinessFailure?: (error: BackendReadinessTimeoutError) => Effect.Effect<void>;
+  readonly onStarted?: (pid: number) => void!!;
+  readonly onExitObserved?: () => void!!;
+  readonly onReady?: () => void!!;
+  readonly onReadinessFailure?: (error: BackendReadinessTimeoutError) => void!!;
   readonly onOutput?: (
     streamName: BackendProcessOutputStream,
     chunk: Uint8Array,
-  ) => Effect.Effect<void, Error>;
-  readonly onOutputFailure?: (error: BackendProcessOutputError) => Effect.Effect<void>;
+  ) => void!Error;
+  readonly onOutputFailure?: (error: BackendProcessOutputError) => void!!;
 }
 
 export interface DesktopBackendSnapshot {
@@ -228,25 +218,25 @@ export interface BackendStartupFailure {
 
 export interface DesktopBackendInstance {
   readonly id: BackendInstanceId;
-  readonly label: Effect.Effect<string>;
-  readonly start: Effect.Effect<void>;
-  readonly stop: (options?: { readonly timeout?: Duration.Duration }) => Effect.Effect<void>;
-  readonly currentConfig: Effect.Effect<Option.Option<DesktopBackendStartConfig>>;
-  readonly snapshot: Effect.Effect<DesktopBackendSnapshot>;
-  readonly waitForReady: (timeout: Duration.Duration) => Effect.Effect<boolean>;
+  readonly label: string!!;
+  readonly start: void!!;
+  readonly stop: (options?: { readonly timeout?: Duration.Duration }) => void!!;
+  readonly currentConfig: Option.Option<DesktopBackendStartConfig>!!;
+  readonly snapshot: DesktopBackendSnapshot!!;
+  readonly waitForReady: (timeout: Duration.Duration) => boolean!!;
 }
 
 export interface BackendInstanceSpec {
   readonly id: BackendInstanceId;
-  readonly label: Effect.Effect<string>;
-  readonly configResolve: Effect.Effect<DesktopBackendStartConfig, PlatformError.PlatformError>;
+  readonly label: string!!;
+  readonly configResolve: DesktopBackendStartConfig!PlatformError.PlatformError;
   /** Receives the ready run's resolved URL; reading current config could race a subsequent restart. */
-  readonly onReady?: (httpBaseUrl: URL) => Effect.Effect<void>;
-  readonly onShutdown?: () => Effect.Effect<void>;
-  readonly onPreflightFailed?: (failure: PreflightFailure) => Effect.Effect<boolean>;
-  readonly onStateDirOwned?: () => Effect.Effect<void>;
+  readonly onReady?: (httpBaseUrl: URL) => void!!;
+  readonly onShutdown?: () => void!!;
+  readonly onPreflightFailed?: (failure: PreflightFailure) => boolean!!;
+  readonly onStateDirOwned?: () => void!!;
   /** Fires on each repeated crash or readiness timeout until the backend becomes ready. */
-  readonly onStartupFailure?: (failure: BackendStartupFailure) => Effect.Effect<void>;
+  readonly onStartupFailure?: (failure: BackendStartupFailure) => void!!;
 }
 
 interface ActiveBackendRun {
@@ -297,28 +287,27 @@ const closeRun = (
   run: ActiveBackendRun,
   parentScope: Scope.Scope,
   options?: { readonly timeout?: Duration.Duration },
-): Effect.Effect<boolean> => {
-  const waitForFiber = Option.match(run.fiber, {
+): boolean!! => {
+  const waitForFiber = do { const $optionSubject = run.fiber; const $optionHandlers: { onNone: () => void!!; onSome: (fiber: Fiber.Fiber<void, never>) => void!!; } = {
     onNone: () => Effect.void,
-    onSome: (fiber) => Fiber.await(fiber).pipe(Effect.asVoid),
-  });
-  const close = Scope.close(run.scope, Exit.void).pipe(Effect.andThen(waitForFiber));
+    onSome: (fiber) => Fiber.await(fiber) |> Effect.asVoid(%),
+  }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): $optionSome($optionValue); default: $optionNone(); }; };
+  const close = Scope.close(run.scope, Exit.void) |> Effect.andThen(%, waitForFiber);
   const timeout = options?.timeout;
 
   if (!timeout) {
-    return close.pipe(Effect.as(true));
+    return close |> Effect.as(%, true);
   }
 
-  return Effect.forkIn(close, parentScope).pipe(
-    Effect.flatMap((closeFiber) =>
-      Fiber.await(closeFiber).pipe(Effect.timeoutOption(timeout), Effect.map(Option.isSome)),
-    ),
-  );
+  return Effect.forkIn(close, parentScope)
+    |> Effect.flatMap(%, (closeFiber) =>
+      Fiber.await(closeFiber) |> Effect.timeoutOption(%, timeout) |> Effect.map(%, Option.isSome),
+    );
 };
 
 const waitForHttpReady = (
   options: BackendProcessContext & { readonly timeout: Duration.Duration },
-): Effect.Effect<void, BackendReadinessTimeoutError, HttpClient.HttpClient> => {
+): void!BackendReadinessTimeoutError!HttpClient.HttpClient => {
   const readinessUrl = new URL(BACKEND_READINESS_PATH, options.httpBaseUrl);
   return waitForHttpReadyShared({
     baseUrl: options.httpBaseUrl.href,
@@ -346,9 +335,9 @@ function drainBackendOutput(
   onOutput: (
     streamName: BackendProcessOutputStream,
     chunk: Uint8Array,
-  ) => Effect.Effect<void, Error>,
-  onOutputFailure: (error: BackendProcessOutputError) => Effect.Effect<void>,
-): Effect.Effect<void> {
+  ) => void!Error,
+  onOutputFailure: (error: BackendProcessOutputError) => void!!,
+): void!! {
   return stream.pipe(
     Stream.mapError(
       (cause) =>
@@ -383,22 +372,17 @@ const decodeDesktopTelemetryControlLine = Schema.decodeUnknownEffect(
   Schema.fromJsonString(DesktopTelemetryControlMessage),
 );
 
-export const runBackendProcess = Effect.fn("runBackendProcess")(function* (
+export const runBackendProcess = effect (
   options: RunBackendProcessOptions,
-): Effect.fn.Return<BackendProcessExit, BackendProcessError, BackendProcessRunRequirements> {
-  const spawner = yield* ChildProcessSpawner.ChildProcessSpawner;
-  const bootstrapJson = yield* encodeBootstrapJson(options.bootstrap).pipe(
-    Effect.mapError(
-      (cause) =>
-        new BackendProcessBootstrapEncodeError({
+): BackendProcessExit!BackendProcessError!BackendProcessRunRequirements => try withSpan((effect (): BackendProcessExit!BackendProcessError!BackendProcessRunRequirements => {
+  const spawner = try ChildProcessSpawner.ChildProcessSpawner;
+  const bootstrapJson = encodeBootstrapJson(options.bootstrap) catch effect (cause) => { throw new BackendProcessBootstrapEncodeError({
           executablePath: options.executablePath,
           entryPath: options.entryPath,
           cwd: options.cwd,
           httpBaseUrl: options.httpBaseUrl,
           cause,
-        }),
-    ),
-  );
+        }) };
   const onOutput = options.onOutput ?? (() => Effect.void);
   const bootstrapStream = Stream.encodeText(Stream.make(`${bootstrapJson}\n`));
   const additionalFds: Record<`fd${number}`, ChildProcess.AdditionalFdConfig> = {};
@@ -444,28 +428,23 @@ export const runBackendProcess = Effect.fn("runBackendProcess")(function* (
     ...(options.bootstrapDelivery === "fd3" ? { additionalFds } : {}),
   });
 
-  const handle = yield* spawner.spawn(command).pipe(
-    Effect.mapError(
-      (cause) =>
-        new BackendProcessSpawnError({
+  const handle = spawner.spawn(command) catch effect (cause) => { throw new BackendProcessSpawnError({
           executablePath: options.executablePath,
           entryPath: options.entryPath,
           cwd: options.cwd,
           httpBaseUrl: options.httpBaseUrl,
           cause,
-        }),
-    ),
-  );
+        }) };
   const outputFibers: Array<Fiber.Fiber<void, never>> = [];
 
-  yield* options.onStarted?.(handle.pid) ?? Effect.void;
+  try (options.onStarted?.(handle.pid) ?? Effect.void);
   if (
     options.bootstrap.desktopTelemetryControlFd !== undefined &&
     options.onDesktopTelemetryControl !== undefined
   ) {
     const controlFd = options.bootstrap.desktopTelemetryControlFd;
     const handleControl = options.onDesktopTelemetryControl;
-    yield* handle.getOutputFd(controlFd).pipe(
+    try (handle.getOutputFd(controlFd).pipe(
       Stream.decodeText(),
       Stream.splitLines,
       Stream.filter((line) => line.trim().length > 0),
@@ -494,7 +473,7 @@ export const runBackendProcess = Effect.fn("runBackendProcess")(function* (
         }),
       ),
       Effect.forkScoped,
-    );
+    ));
   }
   if (
     options.bootstrap.desktopBrowserControlFd !== undefined &&
@@ -502,7 +481,7 @@ export const runBackendProcess = Effect.fn("runBackendProcess")(function* (
   ) {
     const browserFd = options.bootstrap.desktopBrowserControlFd;
     const handleCommand = options.onDesktopBrowserCommand;
-    yield* handle.getOutputFd(browserFd).pipe(
+    try (handle.getOutputFd(browserFd).pipe(
       Stream.decodeText(),
       Stream.splitLines,
       Stream.filter((line) => line.length > 0),
@@ -514,7 +493,7 @@ export const runBackendProcess = Effect.fn("runBackendProcess")(function* (
         }),
       ),
       Effect.forkScoped,
-    );
+    ));
   }
   if (options.captureOutput) {
     const outputContext = {
@@ -526,43 +505,40 @@ export const runBackendProcess = Effect.fn("runBackendProcess")(function* (
     };
     const onOutputFailure = options.onOutputFailure ?? (() => Effect.void);
     outputFibers.push(
-      yield* drainBackendOutput(
+      try (drainBackendOutput(
         outputContext,
         "stdout",
         handle.stdout,
         onOutput,
         onOutputFailure,
-      ).pipe(Effect.forkScoped),
-      yield* drainBackendOutput(
+      ) |> Effect.forkScoped(%)),
+      try (drainBackendOutput(
         outputContext,
         "stderr",
         handle.stderr,
         onOutput,
         onOutputFailure,
-      ).pipe(Effect.forkScoped),
+      ) |> Effect.forkScoped(%)),
     );
   }
   // Cold WSL boots across /mnt/c can exceed one probe budget; retry while the backend is alive.
   const probeReadiness = Effect.fn("desktop.backendProcess.probeReadiness")(() =>
-    waitForHttpReady({
+    do { const catchProgram = (waitForHttpReady({
       executablePath: options.executablePath,
       entryPath: options.entryPath,
       cwd: options.cwd,
       httpBaseUrl: options.httpBaseUrl,
       timeout: options.readinessTimeout ?? DEFAULT_BACKEND_READINESS_TIMEOUT,
-    }).pipe(
-      Effect.flatMap(() => options.onReady?.() ?? Effect.void),
-      Effect.as(true),
-      Effect.catchTags({
-        BackendReadinessTimeoutError: (error) =>
-          (options.onReadinessFailure?.(error) ?? Effect.void).pipe(Effect.as(false)),
-      }),
-    ),
+    })
+      |> Effect.flatMap(%, () => options.onReady?.() ?? Effect.void)
+      |> Effect.as(%, true)); effect { return catchProgram catch effect (error) => match (error) {
+      when { _tag: "BackendReadinessTimeoutError" }: try ((options.onReadinessFailure?.(error) ?? Effect.void) |> Effect.as(%, false));
+    } } },
   );
 
-  yield* probeReadiness().pipe(Effect.repeat({ while: (ready) => !ready }), Effect.forkScoped);
+  try (probeReadiness() |> Effect.repeat(%, { while: (ready) => !ready }) |> Effect.forkScoped(%));
 
-  const exit = yield* handle.exitCode.pipe(
+  const exit = try (handle.exitCode.pipe(
     Effect.map((exitCode) => ({
       code: Option.some(exitCode),
       reason: `code=${exitCode}`,
@@ -590,20 +566,19 @@ export const runBackendProcess = Effect.fn("runBackendProcess")(function* (
       );
     }),
     Effect.exit,
-  );
-  yield* options.onExitObserved?.() ?? Effect.void;
-  yield* Effect.forEach(outputFibers, Fiber.await, {
+  ));
+  try (options.onExitObserved?.() ?? Effect.void);
+  try (Effect.forEach(outputFibers, Fiber.await, {
     concurrency: "unbounded",
     discard: true,
-  }).pipe(
-    Effect.timeout(options.outputDrainTimeout ?? DEFAULT_BACKEND_OUTPUT_DRAIN_TIMEOUT),
-    Effect.ignore,
-  );
+  })
+    |> Effect.timeout(%, options.outputDrainTimeout ?? DEFAULT_BACKEND_OUTPUT_DRAIN_TIMEOUT)
+    |> Effect.ignore(%));
   if (Exit.isFailure(exit)) {
-    return yield* Effect.failCause(exit.cause);
+    return try Effect.failCause(exit.cause);
   }
   return exit.value;
-});
+})(), "runBackendProcess");
 
 export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
   spec: BackendInstanceSpec,
@@ -635,9 +610,8 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
   const makeOutputDecoders = () => ({ stdout: new TextDecoder(), stderr: new TextDecoder() });
   let outputDecoders = makeOutputDecoders();
   const reportStartupFailure = (reason: string) =>
-    Ref.get(outputTail).pipe(
-      Effect.flatMap((output) => spec.onStartupFailure?.({ reason, output }) ?? Effect.void),
-    );
+    Ref.get(outputTail)
+      |> Effect.flatMap(%, (output) => spec.onStartupFailure?.({ reason, output }) ?? Effect.void);
 
   const { logWarning: logInstanceWarning, logError: logInstanceError } =
     DesktopObservability.makeComponentLogger(`desktop-backend-instance:${spec.id}`);
@@ -645,19 +619,18 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
   const updateActiveRun = (runId: number, f: (run: ActiveBackendRun) => ActiveBackendRun) =>
     Ref.update(state, withActiveRun(runId, f));
 
-  const snapshot = Ref.get(state).pipe(
-    Effect.map((current): DesktopBackendSnapshot => ({
+  const snapshot = Ref.get(state)
+    |> Effect.map(%, (current): DesktopBackendSnapshot => ({
       desiredRunning: current.desiredRunning,
       ready: current.ready,
       activePid: activePid(current.active),
       restartAttempt: current.restartAttempt,
       restartScheduled: Option.isSome(current.restartFiber),
-    })),
-  );
-  const currentConfig = Ref.get(state).pipe(Effect.map((current) => current.config));
+    }));
+  const currentConfig = Ref.get(state) |> Effect.map(%, (current) => current.config);
 
-  const cancelRestart = Effect.gen(function* () {
-    const restartFiber = yield* Ref.modify(state, (current) => [
+  const cancelRestart = effect {
+    const restartFiber = try Ref.modify(state, (current) => [
       current.restartFiber,
       {
         ...current,
@@ -665,19 +638,19 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
       },
     ]);
 
-    yield* Option.match(restartFiber, {
+    try Option.match(restartFiber, {
       onNone: () => Effect.void,
-      onSome: (fiber) => Fiber.interrupt(fiber).pipe(Effect.asVoid),
+      onSome: (fiber) => Fiber.interrupt(fiber) |> Effect.asVoid(%),
     });
-  });
+  };
 
-  const start: Effect.Effect<void> = Effect.suspend(() =>
-    mutex.withPermits(1)(
-      Effect.gen(function* () {
-        const current = yield* Ref.get(state);
+  const start: void!! = (() => {
+    const pipe$program = effect { return try mutex.withPermits(1)(
+      effect {
+        const current = try Ref.get(state);
         if (Option.isSome(current.active)) {
           if (!current.desiredRunning) {
-            yield* Ref.update(state, (latest) => ({
+            try Ref.update(state, (latest) => ({
               ...latest,
               desiredRunning: true,
             }));
@@ -686,33 +659,31 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
         }
 
         if (current.ready) {
-          yield* spec.onShutdown?.() ?? Effect.void;
-          yield* Ref.update(state, (latest) =>
+          try (spec.onShutdown?.() ?? Effect.void);
+          try Ref.update(state, (latest) =>
             latest.ready ? { ...latest, ready: false } : latest,
           );
         }
-        const config = yield* spec.configResolve.pipe(
-          Effect.tapError((error) =>
+        const config = try (spec.configResolve
+          |> Effect.tapError(%, (error) =>
             logInstanceError("failed to generate desktop backend configuration", {
               cause: error.message,
             }),
-          ),
-          Effect.option,
-        );
+          )
+          |> Effect.option(%));
         if (Option.isNone(config)) {
           if (current.desiredRunning) {
-            yield* scheduleRestart("failed to generate desktop backend configuration");
+            try scheduleRestart("failed to generate desktop backend configuration");
           }
           return;
         }
-        const entryExists = yield* fileSystem
-          .exists(config.value.entryPath)
-          .pipe(Effect.orElseSucceed(() => false));
+        const entryExists = fileSystem
+          .exists(config.value.entryPath) catch () => false;
 
         const resetFatalPreflightCounter =
           !current.desiredRunning && current.preflightFailureAttempt > 0;
-        yield* cancelRestart;
-        yield* Ref.update(state, (latest) => ({
+        try cancelRestart;
+        try Ref.update(state, (latest) => ({
           ...latest,
           desiredRunning: true,
           ready: false,
@@ -724,25 +695,25 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
         if (Option.isSome(preflightFailure)) {
           const { reason, fatal, retryLimit } = preflightFailure.value;
           if (!fatal && retryLimit === undefined) {
-            yield* Ref.update(state, (latest) =>
+            try Ref.update(state, (latest) =>
               latest.preflightFailureAttempt === 0
                 ? latest
                 : { ...latest, preflightFailureAttempt: 0 },
             );
-            yield* scheduleRestart(reason);
+            try scheduleRestart(reason);
             return;
           }
           const attemptLimit = retryLimit ?? MAX_PREFLIGHT_FAILURE_ATTEMPTS;
-          const attempt = yield* Ref.modify(state, (latest) => {
+          const attempt = try Ref.modify(state, (latest) => {
             const next = latest.preflightFailureAttempt + 1;
             return [next, { ...latest, preflightFailureAttempt: next }] as const;
           });
           if (attempt > attemptLimit) {
-            yield* logInstanceError("backend preflight still failing after fallback; stopping", {
+            try logInstanceError("backend preflight still failing after fallback; stopping", {
               reason,
               attempt,
             });
-            yield* Ref.update(state, (latest) => ({
+            try Ref.update(state, (latest) => ({
               ...latest,
               desiredRunning: false,
               ready: false,
@@ -750,17 +721,17 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
             return;
           }
           if (attempt === attemptLimit) {
-            yield* logInstanceError(
+            try logInstanceError(
               "backend preflight failed repeatedly; surfacing and falling back",
               { reason, attempt },
             );
-            const shouldRestart = yield* (
+            const shouldRestart = try (
               spec.onPreflightFailed?.(preflightFailure.value) ?? Effect.succeed(false)
             );
             if (shouldRestart) {
-              yield* scheduleRestart(reason);
+              try scheduleRestart(reason);
             } else {
-              yield* Ref.update(state, (latest) => ({
+              try Ref.update(state, (latest) => ({
                 ...latest,
                 desiredRunning: false,
                 ready: false,
@@ -768,20 +739,20 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
             }
             return;
           }
-          yield* scheduleRestart(reason);
+          try scheduleRestart(reason);
           return;
         }
-        yield* Ref.update(state, (latest) =>
+        try Ref.update(state, (latest) =>
           latest.preflightFailureAttempt === 0 ? latest : { ...latest, preflightFailureAttempt: 0 },
         );
 
         if (!entryExists) {
-          yield* scheduleRestart(`missing server entry at ${config.value.entryPath}`);
+          try scheduleRestart(`missing server entry at ${config.value.entryPath}`);
           return;
         }
 
-        const runScope = yield* Scope.make("sequential");
-        const runId = yield* Ref.modify(state, (latest) => [
+        const runScope = try Scope.make("sequential");
+        const runId = try Ref.modify(state, (latest) => [
           latest.nextRunId,
           {
             ...latest,
@@ -797,15 +768,15 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
           },
         ]);
 
-        const finalizeRun = Effect.fn("desktop.backendInstance.finalizeRun")(function* (
+        const finalizeRun = effect (
           reason: string,
-          exitCode?: number,
-        ) {
+          exitCode?: number | undefined,
+        ) => try withSpan(effect {
           const stateDirOwned = exitCode === SERVER_EXIT_CODE_STATE_DIR_OWNED;
-          yield* mutex.withPermits(1)(
-            Effect.gen(function* () {
+          try mutex.withPermits(1)(
+            effect {
               const { isCurrentRun, nextState, pid, exitObserved, stopRequested, wasReady } =
-                yield* Ref.modify(
+                try Ref.modify(
                   state,
                   (
                     latest,
@@ -855,32 +826,32 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
                 );
 
               if (isCurrentRun) {
-                yield* desktopTelemetryPublisher.removeControlSource(spec.id);
+                try desktopTelemetryPublisher.removeControlSource(spec.id);
                 if (Option.isSome(pid)) {
                   if (exitObserved && !stopRequested) {
-                    yield* backendOutputLog.persistFailure({
+                    try backendOutputLog.persistFailure({
                       details: `pid=${pid.value} ${reason}`,
                     });
                   } else {
-                    yield* backendOutputLog.discardSession;
+                    try backendOutputLog.discardSession;
                   }
                 }
                 if (wasReady) {
-                  yield* spec.onShutdown?.() ?? Effect.void;
+                  try (spec.onShutdown?.() ?? Effect.void);
                 }
               }
 
               if (isCurrentRun && nextState.desiredRunning) {
                 if (stateDirOwned && !stopRequested) {
-                  yield* Ref.update(state, (latest) => ({ ...latest, desiredRunning: false }));
-                  yield* (spec.onStateDirOwned?.() ?? Effect.void).pipe(Effect.ignore);
+                  try Ref.update(state, (latest) => ({ ...latest, desiredRunning: false }));
+                  try ((spec.onStateDirOwned?.() ?? Effect.void) |> Effect.ignore(%));
                   return;
                 }
-                yield* scheduleRestart(reason);
+                try scheduleRestart(reason);
               }
-            }),
+            },
           );
-        });
+        }, "desktop.backendInstance.finalizeRun");
 
         const program = runBackendProcess({
           ...config.value,
@@ -889,24 +860,24 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
           onDesktopBrowserCommand: desktopBrowserHost.handleCommandLine,
           onDesktopTelemetryControl: (message) =>
             desktopTelemetryPublisher.handleControlForSource(spec.id, message),
-          onStarted: Effect.fn("desktop.backendInstance.onStarted")(function* (pid) {
-            yield* updateActiveRun(runId, (run) => ({
+          onStarted: effect (pid): void!never!never => try withSpan((effect (): void!never!never => {
+            try updateActiveRun(runId, (run) => ({
               ...run,
               pid: Option.some(pid),
             }));
-            yield* Ref.set(outputTail, "");
+            try Ref.set(outputTail, "");
             outputDecoders = makeOutputDecoders();
-            yield* backendOutputLog.beginSession({
+            try backendOutputLog.beginSession({
               details: `pid=${pid} port=${config.value.bootstrap.port} cwd=${config.value.cwd}`,
             });
-          }),
+          })(), "desktop.backendInstance.onStarted"),
           onExitObserved: () =>
             updateActiveRun(runId, (run) => ({
               ...run,
               exitObserved: true,
             })),
-          onReady: Effect.fn("desktop.backendInstance.onReady")(function* () {
-            const isCurrentRun = yield* Ref.modify(state, (latest) => {
+          onReady: effect (): void!never!never => try withSpan((effect (): void!never!never => {
+            const isCurrentRun = try Ref.modify(state, (latest) => {
               const activeRun = Option.getOrUndefined(latest.active);
               if (activeRun?.id !== runId) {
                 return [false, latest] as const;
@@ -925,54 +896,53 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
               return;
             }
 
-            yield* spec.onReady?.(config.value.httpBaseUrl) ?? Effect.void;
+            try (spec.onReady?.(config.value.httpBaseUrl) ?? Effect.void);
             if (
               config.value.runningDistro !== undefined &&
               config.value.wslRuntimeId !== undefined
             ) {
-              yield* wslEnvironment.pruneRuntimes(
+              try wslEnvironment.pruneRuntimes(
                 config.value.runningDistro,
                 config.value.wslRuntimeId,
               );
             }
-          }),
-          onReadinessFailure: Effect.fn("desktop.backendInstance.onReadinessFailure")(
-            function* (error) {
-              yield* logInstanceWarning("backend readiness check failed during bootstrap", {
-                error: error.message,
-              });
-              yield* backendOutputLog.persistFailureSnapshot({
-                details: error.message,
-              });
-              yield* reportStartupFailure("The server started but did not become ready in time.");
-            },
-          ),
+          })(), "desktop.backendInstance.onReady"),
+          onReadinessFailure: effect (error): void!never!never => try withSpan((effect (): void!never!never => {
+            try logInstanceWarning("backend readiness check failed during bootstrap", {
+              error: error.message,
+            });
+            try backendOutputLog.persistFailureSnapshot({
+              details: error.message,
+            });
+            try reportStartupFailure("The server started but did not become ready in time.");
+          })(), "desktop.backendInstance.onReadinessFailure"),
           onOutput: (streamName, chunk) =>
             Ref.update(outputTail, (tail) =>
               // A cut through a surrogate pair would make encodeURIComponent throw when rendering.
-              (tail + outputDecoders[streamName].decode(chunk, { stream: true }))
+              (tail + $invoke(outputDecoders[streamName],() => (chunk), () => ({ stream: true })))
                 .slice(-STARTUP_FAILURE_OUTPUT_CHARS)
                 .toWellFormed(),
-            ).pipe(Effect.andThen(backendOutputLog.writeOutputChunk(streamName, chunk))),
-        }).pipe(
-          Effect.provideService(ChildProcessSpawner.ChildProcessSpawner, spawner),
-          Effect.provideService(HttpClient.HttpClient, httpClient),
-          Scope.provide(runScope),
-          Effect.matchEffect({
+            ) |> Effect.andThen(%, backendOutputLog.writeOutputChunk(streamName, chunk)),
+        })
+          |> Effect.provideService(%, ChildProcessSpawner.ChildProcessSpawner, spawner)
+          |> Effect.provideService(%, HttpClient.HttpClient, httpClient)
+          |> Scope.provide(%, runScope)
+          |> Effect.matchEffect(%, {
             onFailure: (error) => finalizeRun(error.message),
             onSuccess: (exit) => finalizeRun(exit.reason, Option.getOrUndefined(exit.code)),
-          }),
-          Effect.ensuring(Scope.close(runScope, Exit.void).pipe(Effect.ignore)),
-        );
+          })
+          |> Effect.ensuring(%, Scope.close(runScope, Exit.void) |> Effect.ignore(%));
 
-        const fiber = yield* Effect.forkIn(program, parentScope);
-        yield* updateActiveRun(runId, (run) => ({
+        const fiber = try Effect.forkIn(program, parentScope);
+        try updateActiveRun(runId, (run) => ({
           ...run,
           fiber: Option.some(fiber),
         }));
-      }),
-    ),
-  ).pipe(Effect.withSpan("desktop.backendInstance.start", { attributes: { id: spec.id } }));
+      },
+    ) };
+    const pipe$stage0 = withSpan("desktop.backendInstance.start", { attributes: { id: spec.id } });
+    return pipe$program |> pipe$stage0(%);
+  })();
 
   const scheduleRestart = Effect.fn("desktop.backendInstance.scheduleRestart")(function* (
     reason: string,
@@ -1003,9 +973,9 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
           yield* reportStartupFailure(`The server could not start (${reason}).`);
         }
         const restartFiber = yield* Effect.forkIn(
-          Effect.sleep(delay).pipe(
-            Effect.andThen(
-              Ref.modify(state, (latest) => {
+          Effect.sleep(delay)
+            |> Effect.andThen(
+              %, Ref.modify(state, (latest) => {
                 const shouldRestart = latest.desiredRunning;
                 return [
                   shouldRestart,
@@ -1015,14 +985,13 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
                   },
                 ] as const;
               }),
-            ),
-            Effect.flatMap((shouldRestart) => (shouldRestart ? start : Effect.void)),
-            Effect.catchCause((cause) =>
+            )
+            |> Effect.flatMap(%, (shouldRestart) => (shouldRestart ? start : Effect.void))
+            |> Effect.catchCause(%, (cause) =>
               logInstanceError("desktop backend restart fiber failed", {
                 cause: Cause.pretty(cause),
               }),
             ),
-          ),
           parentScope,
         );
         yield* Ref.update(state, (latest) =>
@@ -1037,12 +1006,10 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
     });
   });
 
-  const stop = Effect.fn("desktop.backendInstance.stop")(function* (options?: {
-    readonly timeout?: Duration.Duration;
-  }) {
-    const { active, restartFiber, notifyShutdown } = yield* mutex.withPermits(1)(
-      Effect.gen(function* () {
-        const result = yield* Ref.modify(state, (latest) => {
+  const stop = effect (options?: { readonly timeout?: Duration.Duration; } | undefined) => try withSpan(effect {
+    const { active, restartFiber, notifyShutdown } = try mutex.withPermits(1)(
+      effect {
+        const result = try Ref.modify(state, (latest) => {
           const active = Option.map(latest.active, (run) =>
             run.exitObserved ? run : { ...run, stopRequested: true },
           );
@@ -1062,25 +1029,25 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
           ] as const;
         });
         return result;
-      }),
+      },
     );
 
     if (notifyShutdown) {
-      yield* (spec.onShutdown?.() ?? Effect.void).pipe(Effect.ignore);
+      try ((spec.onShutdown?.() ?? Effect.void) |> Effect.ignore(%));
     }
-    yield* Option.match(restartFiber, {
+    try Option.match(restartFiber, {
       onNone: () => Effect.void,
-      onSome: (fiber) => Fiber.interrupt(fiber).pipe(Effect.asVoid),
+      onSome: (fiber) => Fiber.interrupt(fiber) |> Effect.asVoid(%),
     });
-    yield* Option.match(active, {
+    try Option.match(active, {
       onNone: () => Effect.void,
       // The enclosing operation owns the span for this inline handler.
-      onSome: Effect.fnUntraced(function* (run) {
-        const closed = yield* closeRun(run, parentScope, options);
+      onSome: (run) => effect {
+        const closed = try closeRun(run, parentScope, options);
         if (!closed) {
           return;
         }
-        const cleanup = yield* mutex.withPermits(1)(
+        const cleanup = try mutex.withPermits(1)(
           Ref.modify(
             state,
             (
@@ -1119,17 +1086,17 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
           ),
         );
         if (cleanup.needsCleanup) {
-          yield* desktopTelemetryPublisher.removeControlSource(spec.id);
-          yield* backendOutputLog.discardSession;
+          try desktopTelemetryPublisher.removeControlSource(spec.id);
+          try backendOutputLog.discardSession;
         }
         if (cleanup.shouldStart) {
-          yield* start;
+          try start;
         }
-      }),
+      },
     });
-  });
+  }, "desktop.backendInstance.stop");
 
-  const waitForReady: (timeout: Duration.Duration) => Effect.Effect<boolean> = Effect.fn(
+  const waitForReady: (timeout: Duration.Duration) => boolean!! = Effect.fn(
     "DesktopBackendManager.waitForReady",
   )(
     function* (_timeout: Duration.Duration) {
@@ -1161,3 +1128,8 @@ export const makeBackendInstance = Effect.fn("makeBackendInstance")(function* (
     waitForReady,
   } satisfies DesktopBackendInstance;
 });
+
+module $call$ts {
+export function invoke<T extends {"decode":Function}>(target:T,arg0:()=>Parameters<Extract<T["decode"],(...args:any[])=>any>>[0],arg1:()=>Parameters<Extract<T["decode"],(...args:any[])=>any>>[1]):ReturnType<Extract<T["decode"],(...args:any[])=>any>> { return target["decode"](arg0(),arg1()) }
+}
+import { invoke as $invoke } from $call$ts

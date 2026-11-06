@@ -9,7 +9,7 @@ import * as ElectronShell from "../electron/ElectronShell.vibe";
 import * as ElectronTheme from "../electron/ElectronTheme.vibe";
 import * as ElectronWindow from "../electron/ElectronWindow.ts";
 import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
-import type { BackendStartupFailure } from "../backend/DesktopBackendManager.ts";
+import type { BackendStartupFailure } from "../backend/DesktopBackendManager.vibe";
 import * as DesktopEnvironment from "./DesktopEnvironment.ts";
 import * as DesktopObservability from "./DesktopObservability.ts";
 import * as DesktopState from "./DesktopState.vibe";

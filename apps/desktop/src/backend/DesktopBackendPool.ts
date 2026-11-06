@@ -14,7 +14,7 @@ import { HttpClient } from "effect/http";
 import { ChildProcessSpawner } from "effect/process";
 
 import * as DesktopBackendConfiguration from "./DesktopBackendConfiguration.ts";
-import * as DesktopBackendManager from "./DesktopBackendManager.ts";
+import * as DesktopBackendManager from "./DesktopBackendManager.vibe";
 import * as DesktopObservability from "../app/DesktopObservability.ts";
 import * as DesktopState from "../app/DesktopState.vibe";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";

@@ -16,7 +16,7 @@ import * as SynchronizedRef from "effect/SynchronizedRef";
 
 import serverPackageJson from "../../../server/package.json" with { type: "json" };
 
-import * as DesktopBackendManager from "./DesktopBackendManager.ts";
+import * as DesktopBackendManager from "./DesktopBackendManager.vibe";
 import * as DesktopCliShim from "../app/DesktopCliShim.ts";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
 import * as DesktopServerExposure from "./DesktopServerExposure.vibe";
