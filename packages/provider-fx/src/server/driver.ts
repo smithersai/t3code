@@ -15,7 +15,7 @@ import {
   buildInitialFxProviderSnapshot,
   checkFxProviderStatus,
   fxDefaultModelId,
-} from "./status.ts";
+} from "./status.vibe";
 import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider";
 import {
   defaultProviderContinuationIdentity,

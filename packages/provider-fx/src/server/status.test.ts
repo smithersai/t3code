@@ -8,7 +8,7 @@ import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import { FxSettings } from "../settings.vibe";
-import { checkFxProviderStatus } from "./status.ts";
+import { checkFxProviderStatus } from "./status.vibe";
 
 const encoder = new TextEncoder();
 const settings = Schema.decodeSync(FxSettings)({ enabled: true });
