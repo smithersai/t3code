@@ -26,10 +26,10 @@ import * as HostProcess from "@t3tools/shared/HostProcess";
 import { decodeJsonResult } from "@t3tools/shared/schemaJson";
 import { isSshRemoteUrl } from "@t3tools/shared/sourceControl";
 
-import { GH_PROCESS_CONCURRENCY } from "./GitHubCredentials.ts";
-import * as GitHubRest from "./GitHubRest.ts";
-import * as GitHubRequestPolicy from "./GitHubRequestPolicy.ts";
-import * as GitHubChangeRequestTemplate from "./gitHubChangeRequestTemplate.ts";
+import { GH_PROCESS_CONCURRENCY } from "./GitHubCredentials.vibe";
+import * as GitHubRest from "./GitHubRest.vibe";
+import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe";
+import * as GitHubChangeRequestTemplate from "./gitHubChangeRequestTemplate.vibe";
 import * as GitHubGraphQlClient from "./gitHubGraphQlClient.ts";
 import {
   normalizeGitHubPullRequestRecord,

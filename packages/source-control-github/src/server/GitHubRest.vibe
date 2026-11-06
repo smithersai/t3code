@@ -1,0 +1,248 @@
+import * as Context from "effect/Context"
+import * as Duration from "effect/Duration"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Redacted from "effect/Redacted"
+import { HttpClient } from "effect/http"
+
+import { collectUint8StreamText } from "@t3tools/provider-core/server/collectStreamText"
+import * as GitHubCredentials from "./GitHubCredentials.vibe"
+import * as GitHubQuota from "./GitHubQuota.vibe"
+import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe"
+import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit"
+
+const DEFAULT_MAX_RESPONSE_BYTES = 8 * 1024 * 1024
+const { gitHubApiUrls, normalizeHost } = GitHubRequestPolicy
+type GitHubApiError = GitHubRequestPolicy.GitHubApiError
+
+export interface GitHubRestResponse {
+  readonly status: number
+  readonly headers: Readonly<Record<string, string | undefined>>
+  readonly body: string
+  readonly truncated: boolean
+  /** Invalid UTF-8 indicates a binary raw file. */
+  readonly invalidUtf8: boolean
+}
+
+export interface GitHubRestInput {
+  readonly host: string
+  readonly operation: string
+  readonly method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
+  /** Relative to the API root, including query string. */
+  readonly path: string
+  readonly body?: unknown
+  /** Defaults to `application/vnd.github+json`. */
+  readonly accept?: string
+  /** Revalidate cached answers; 304 returns successfully without spending quota. */
+  readonly ifNoneMatch?: string
+  readonly maxResponseBytes?: number
+  /** Defaults to 30 seconds; a whole pull request's patch may need longer. */
+  readonly timeout?: Duration.Input
+  /** Overrides `SourceControlRateLimit.Interactive` for this one request. */
+  readonly allowReserve?: boolean
+}
+
+export service GitHubRest: {
+  readonly rest: (input: GitHubRestInput) => GitHubRestResponse!GitHubApiError;
+  readonly credential: (
+    host: string,
+  ) => Effect.Effect<
+    { readonly token: Redacted.Redacted<string>; readonly fingerprint: string },
+    GitHubApiError
+  >;
+} {
+  static readonly key = "@t3tools/source-control-github/server/GitHubRest"
+}
+
+const decodeRestErrors = Schema.decodeUnknownOption(
+  Schema.fromJsonString(
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      errors: Schema.optional(
+        Schema.Array(
+          Schema.Union([
+            Schema.String,
+            Schema.Struct({
+              message: Schema.optional(Schema.String),
+              field: Schema.optional(Schema.String),
+              code: Schema.optional(Schema.String),
+            }),
+          ]),
+        ),
+      ),
+    }),
+  ),
+)
+
+function restErrorMessages(body: string): ReadonlyArray<string> | undefined {
+  return do {
+    const $optionSubject = decodeRestErrors(body)
+    const $optionHandlers: {
+      onNone: () => undefined
+      onSome: (
+        decoded: {
+          readonly message?: string | undefined
+          readonly errors?:
+            | readonly (string | {
+              readonly message?: string | undefined
+              readonly field?: string | undefined
+              readonly code?: string | undefined
+            })[]
+            | undefined
+        },
+      ) => string[] | undefined
+    } = {
+      onNone: () => undefined,
+      onSome: (decoded) => {
+        const details = (decoded.errors ?? []).flatMap((error) =>
+          typeof error === "string"
+            ? [error]
+            : error.message !== undefined
+            ? [error.message]
+            : error.field !== undefined && error.code !== undefined
+            ? [`${error.field} ${error.code}`]
+            : []
+        )
+        const messages = [...(decoded.message === undefined ? [] : [decoded.message]), ...details]
+        return messages.length > 0 ? messages : undefined
+      },
+    }
+    const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers
+    match ($optionSubject) {
+      when Option.Some(let $optionValue): $optionSome($optionValue);
+      default: $optionNone();
+    }
+  }
+}
+
+/** Accept 304 only for cache revalidation. */
+function classify(input: {
+  readonly answer: GitHubRestResponse
+  readonly acceptNotModified: boolean
+}): GitHubRequestPolicy.GitHubAnswer<GitHubRestResponse> {
+  const { status, headers, body } = input.answer
+  const meta = { status, headers }
+  if (GitHubRequestPolicy.isRateLimited({ status, headers, body })) {
+    return { _tag: "RateLimited", ...meta }
+  }
+  if (status === 401) return { _tag: "Unauthorized", ...meta }
+  if (status === 404) return { _tag: "NotFound", ...meta }
+  if ((status >= 200 && status < 300) || (status === 304 && input.acceptNotModified)) {
+    return { _tag: "Ok", value: input.answer, ...meta }
+  }
+  return { _tag: "Failed", messages: restErrorMessages(body), ...meta }
+}
+
+/** @public */
+export const make = effect {
+  const httpClient = try HttpClient.HttpClient
+  const policy = try GitHubRequestPolicy.GitHubRequestPolicy
+
+  const send = effect (
+    input: {
+      readonly host: string
+      readonly operation: string
+      readonly request: HttpClientRequest.HttpClientRequest
+      readonly maxResponseBytes: number
+      readonly timeout?: Duration.Input | undefined
+      readonly allowReserve: boolean
+      readonly acceptNotModified: boolean
+    },
+  ) =>
+    try withSpan(
+      effect {
+        const host = normalizeHost(input.host)
+        // Query strings can expose SHAs or branches in traces.
+        try Effect.annotateCurrentSpan({
+          "github.kind": "rest",
+          "http.request.method": input.request.method,
+          "url.path": new URL(input.request.url).pathname,
+        })
+        return try policy.request(
+          {
+            host,
+            operation: input.operation,
+            // All current paths spend `core`; search would need a different resource.
+            resource: "core",
+            allowReserve: input.allowReserve,
+            timeout: input.timeout,
+          },
+          (headers) =>
+            effect {
+              const response: HttpClientResponse.HttpClientResponse = try (httpClient
+                .execute(input.request.pipe(HttpClientRequest.setHeaders(headers)))
+                // Client spans expose SHAs and branches through url.full/url.query.
+                |> Effect.provideService(%, HttpClient.TracerDisabledWhen, () => true))
+              const collected = try (collectUint8StreamText({
+                stream: response.stream,
+                maxBytes: input.maxResponseBytes,
+              })
+                |> Effect.catchIf(
+                  %,
+                  (error) => error.reason._tag === "EmptyBodyError",
+                  () => Effect.succeed({ text: "", truncated: false, invalidUtf8: false }),
+                ))
+              const { status, headers: responseHeaders } = response
+              const answer = {
+                status,
+                headers: responseHeaders,
+                body: collected.text,
+                truncated: collected.truncated,
+                invalidUtf8: collected.invalidUtf8,
+              }
+              return classify({ answer, acceptNotModified: input.acceptNotModified })
+            }
+            |> Effect.mapError(
+              %,
+              (cause) =>
+                new GitHubRequestPolicy.GitHubApiRequestError({
+                  host,
+                  operation: input.operation,
+                  cause,
+                }),
+            ),
+        )
+      },
+      "GitHubRest.send",
+    )
+
+  const rest: GitHubRest["Service"]["rest"] = (input) => {
+    const url = `${gitHubApiUrls(input.host).rest}/${input.path.replace(/^\/+/, "")}`
+    const base = HttpClientRequest.make(input.method ?? "GET")(url).pipe(
+      HttpClientRequest.setHeader("accept", input.accept ?? "application/vnd.github+json"),
+    )
+    const withEtag = input.ifNoneMatch === undefined
+      ? base
+      : base.pipe(HttpClientRequest.setHeader("if-none-match", input.ifNoneMatch))
+    const request = input.body === undefined
+      ? withEtag
+      : withEtag.pipe(HttpClientRequest.bodyJsonUnsafe(input.body))
+    return SourceControlRateLimit.Interactive
+      |> Effect.flatMap(%, (interactive) =>
+        send({
+          host: input.host,
+          operation: input.operation,
+          request,
+          maxResponseBytes: input.maxResponseBytes ?? DEFAULT_MAX_RESPONSE_BYTES,
+          timeout: input.timeout,
+          allowReserve: input.allowReserve ?? interactive,
+          acceptNotModified: input.ifNoneMatch !== undefined,
+        }))
+  }
+
+  return GitHubRest.of({ rest, credential: policy.credential })
+}
+
+export const layer = Layer.effect(GitHubRest, make).pipe(
+  Layer.provideMerge(GitHubRequestPolicy.layer),
+)
+
+/**
+ * REST and the request policy, with the credential and quota reserve the policy reads through.
+ * Built once, so every GitHub reader shares one view of each quota per host. The rate-limit pause
+ * comes from the server, which every host's change request reads share.
+ */
+export const layerWithDependencies = layer.pipe(
+  Layer.provideMerge(GitHubCredentials.layer),
+  Layer.provideMerge(GitHubQuota.layer),
+)

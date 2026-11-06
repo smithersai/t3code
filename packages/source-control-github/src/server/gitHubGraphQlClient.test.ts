@@ -8,10 +8,10 @@ import { HttpClient, HttpClientResponse, type HttpClientRequest } from "effect/h
 import { GraphQLClient, GraphQLResolver } from "effect/graphql";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
 
-import * as GitHubRest from "./GitHubRest.ts";
-import * as GitHubCredentials from "./GitHubCredentials.ts";
+import * as GitHubRest from "./GitHubRest.vibe";
+import * as GitHubCredentials from "./GitHubCredentials.vibe";
 import * as GitHubGraphQlClient from "./gitHubGraphQlClient.ts";
-import * as GitHubQuota from "./GitHubQuota.ts";
+import * as GitHubQuota from "./GitHubQuota.vibe";
 import { PullRequestBatchesGraphQLGroup } from "./pullRequestBatches.graphql.ts";
 
 const NOW = Date.parse("2026-10-05T12:00:00.000Z");

@@ -4,8 +4,8 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { HttpClient, HttpClientResponse } from "effect/http";
 
-import * as GitHubCredentials from "./GitHubCredentials.ts";
-import * as GitHubMediaFetch from "./gitHubMediaFetch.ts";
+import * as GitHubCredentials from "./GitHubCredentials.vibe";
+import * as GitHubMediaFetch from "./gitHubMediaFetch.vibe";
 
 describe("GitHubMediaFetch", () => {
   it.effect("loads private media immediately after login with the GitHub credential", () => {

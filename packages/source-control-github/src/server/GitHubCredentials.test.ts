@@ -8,7 +8,7 @@ import { DEFAULT_SERVER_SETTINGS } from "@t3tools/contracts";
 import type * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost";
 import { applyServerSettingsPatch } from "@t3tools/shared/serverSettings";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
-import * as GitHubCredentials from "./GitHubCredentials.ts";
+import * as GitHubCredentials from "./GitHubCredentials.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const TOKEN_VARIABLES = [

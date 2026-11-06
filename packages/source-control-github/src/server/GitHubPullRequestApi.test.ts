@@ -11,15 +11,15 @@ import * as Redacted from "effect/Redacted";
 
 import { HttpClient, HttpClientResponse } from "effect/http";
 
-import * as GitHubRest from "./GitHubRest.ts";
-import * as GitHubRequestPolicy from "./GitHubRequestPolicy.ts";
-import * as GitHubCredentials from "./GitHubCredentials.ts";
-import * as GitHubQuota from "./GitHubQuota.ts";
+import * as GitHubRest from "./GitHubRest.vibe";
+import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe";
+import * as GitHubCredentials from "./GitHubCredentials.vibe";
+import * as GitHubQuota from "./GitHubQuota.vibe";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 import * as GitHubPullRequestApi from "./GitHubPullRequestApi.ts";
 import * as GitHubPullRequestProvider from "./GitHubPullRequestProvider.ts";
-import { KnownWorkflowRuns } from "./gitHubConditionalChecks.ts";
+import { KnownWorkflowRuns } from "./gitHubConditionalChecks.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown));

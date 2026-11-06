@@ -1,5 +1,5 @@
 import { removeAgentCredits } from "@t3tools/source-control-core/server/mergeMessage";
-import { KnownWorkflowRuns, makeChecksRevalidator } from "./gitHubConditionalChecks.ts";
+import { KnownWorkflowRuns, makeChecksRevalidator } from "./gitHubConditionalChecks.vibe";
 import { runGitHubStackAction, type GitHubStackActionError } from "./githubStackActions.ts";
 import * as Cache from "effect/Cache";
 import * as Context from "effect/Context";
@@ -44,8 +44,8 @@ import {
   type PullRequestPreview,
 } from "@t3tools/contracts";
 
-import * as GitHubRest from "./GitHubRest.ts";
-import * as GitHubRequestPolicy from "./GitHubRequestPolicy.ts";
+import * as GitHubRest from "./GitHubRest.vibe";
+import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe";
 import * as GitHubGraphQlClient from "./gitHubGraphQlClient.ts";
 import { PullRequestBatchesGraphQLGroup } from "./pullRequestBatches.graphql.ts";
 import { PullRequestMutationsGraphQLGroup } from "./pullRequestMutations.graphql.ts";

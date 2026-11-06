@@ -16,10 +16,10 @@ import * as SourceControlRateLimit from "@t3tools/source-control-core/server/Sou
 
 import type * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
-import * as GitHubRest from "./GitHubRest.ts";
-import * as GitHubRequestPolicy from "./GitHubRequestPolicy.ts";
-import * as GitHubCredentials from "./GitHubCredentials.ts";
-import * as GitHubQuota from "./GitHubQuota.ts";
+import * as GitHubRest from "./GitHubRest.vibe";
+import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe";
+import * as GitHubCredentials from "./GitHubCredentials.vibe";
+import * as GitHubQuota from "./GitHubQuota.vibe";
 import { parseGitHubAuthStatus } from "./gitHubAuthStatus.vibe";
 import * as GitHubSourceControlProvider from "./GitHubSourceControlProvider.ts";
 

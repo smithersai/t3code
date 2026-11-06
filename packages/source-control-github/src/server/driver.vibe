@@ -2,10 +2,10 @@ import { defineSourceControlDriver, withOwnServices } from "@t3tools/source-cont
 
 import { definition } from "../shared/definition.ts"
 
-import * as GitHubMediaFetch from "./gitHubMediaFetch.ts"
+import * as GitHubMediaFetch from "./gitHubMediaFetch.vibe"
 import * as GitHubPullRequestApi from "./GitHubPullRequestApi.ts"
 import * as GitHubPullRequestProvider from "./GitHubPullRequestProvider.ts"
-import * as GitHubRest from "./GitHubRest.ts"
+import * as GitHubRest from "./GitHubRest.vibe"
 import * as GitHubSourceControlProvider from "./GitHubSourceControlProvider.ts"
 
 // `GitHubRest.layerWithDependencies` carries the quota reserve every GitHub reader shares, so it

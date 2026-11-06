@@ -5,7 +5,7 @@ import * as Redacted from "effect/Redacted";
 import * as TestClock from "effect/testing/TestClock";
 import type { PullRequestReaction } from "@t3tools/contracts";
 
-import * as GitHubRequestPolicy from "./GitHubRequestPolicy.ts";
+import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
 import * as GitHubPullRequestApi from "./GitHubPullRequestApi.ts";
 import type {

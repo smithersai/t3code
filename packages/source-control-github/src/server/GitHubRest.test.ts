@@ -8,10 +8,10 @@ import { ChildProcessSpawner } from "effect/process";
 import { VcsProcessTimeoutError } from "@t3tools/contracts";
 import { HttpClient, HttpClientResponse, type HttpClientRequest } from "effect/http";
 
-import * as GitHubRest from "./GitHubRest.ts";
-import * as GitHubRequestPolicy from "./GitHubRequestPolicy.ts";
-import * as GitHubCredentials from "./GitHubCredentials.ts";
-import * as GitHubQuota from "./GitHubQuota.ts";
+import * as GitHubRest from "./GitHubRest.vibe";
+import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe";
+import * as GitHubCredentials from "./GitHubCredentials.vibe";
+import * as GitHubQuota from "./GitHubQuota.vibe";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
 import type * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";

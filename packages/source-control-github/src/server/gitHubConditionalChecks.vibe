@@ -1,0 +1,199 @@
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Schema from "effect/Schema"
+import { PositiveInt, type PullRequestChecks } from "@t3tools/contracts"
+
+import * as GitHubRest from "./GitHubRest.vibe"
+import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe"
+import type { GitHubPullRequestDetail } from "./gitHubPullRequestJson.vibe"
+import type { GitHubPullRequestApiError } from "./GitHubPullRequestApi.ts"
+import type { ProviderRepositoryRef } from "@t3tools/source-control-core/server/PullRequestProvider"
+
+const HeadSchema = Schema.Struct({
+  head: Schema.Struct({
+    sha: Schema.String.check(Schema.isPattern(/^[a-f0-9]{40,64}$/)),
+    // Null once the fork a pull request came from has been deleted.
+    repo: Schema.NullOr(Schema.Struct({ id: PositiveInt })),
+  }),
+  base: Schema.Struct({ repo: Schema.Struct({ id: PositiveInt }) }),
+})
+const decodeHead = Schema.decodeUnknownEffect(Schema.fromJsonString(HeadSchema))
+
+schema error ChecksUnavailable {}
+
+const WorkflowRunSchema = Schema.Struct({
+  id: Schema.Int,
+  name: Schema.optional(Schema.NullOr(Schema.String)),
+  html_url: Schema.optional(Schema.NullOr(Schema.String)),
+  status: Schema.optional(Schema.NullOr(Schema.String)),
+  conclusion: Schema.optional(Schema.NullOr(Schema.String)),
+  head_branch: Schema.optional(Schema.NullOr(Schema.String)),
+})
+const decodeWorkflowRuns = Schema.decodeUnknownOption(
+  Schema.fromJsonString(Schema.Struct({ workflow_runs: Schema.Array(WorkflowRunSchema) })),
+)
+
+export type KnownWorkflowRun = typeof WorkflowRunSchema.Type
+
+export const KnownWorkflowRuns = Context.Reference<
+  {
+    readonly headSha: string
+    readonly runs: ReadonlyArray<KnownWorkflowRun>
+  } | null
+>("@t3tools/source-control-github/server/gitHubConditionalChecks/KnownWorkflowRuns", {
+  defaultValue: () => null,
+})
+
+type Validator = { etag: string | undefined; next: boolean; body: string }
+
+const UNSUPPORTED_STATUSES = new Set([404, 405, 501])
+
+export const makeChecksRevalidator = effect {
+  const api = try GitHubRest.GitHubRest
+  const entries = try Cache.makeWith(
+    effect (_key: string) => ({
+      gate: Semaphore.makeUnsafe(1),
+      validators: new Map<string, Validator>(),
+      head: null as typeof HeadSchema.Type | null,
+      value: null as PullRequestChecks | null,
+      readAt: 0,
+      supported: true,
+    }),
+    { capacity: 128, timeToLive: () => "30 minutes" },
+  )
+  return effect (
+    input: ProviderRepositoryRef & { readonly number: number },
+    read: (Pick<GitHubPullRequestDetail, "state" | "checks" | "headSha"> & {
+        workflowApprovalsRequired?: number;
+      })!GitHubPullRequestApiError,
+  ) => {
+    const credential = try GitHubRequestPolicy.PinnedGitHubCredential
+    if (credential === null) return try read
+    const key = `${credential.credentialFingerprint}\0${input.host}\0${input.repository}\0${input.number}`
+    const entry = try Cache.get(entries, key)
+    return try entry.gate.withPermit(
+      effect {
+        if (!entry.supported) return try read
+        const fail = (status: number) =>
+          new GitHubRequestPolicy.GitHubApiResponseError({
+            host: input.host,
+            operation: "revalidateChecks",
+            status,
+          })
+        const get = effect (
+          endpoint: string,
+          head = false,
+        ) =>
+          try withSpan(
+            effect {
+              const previous = entry.validators.get(endpoint)
+              const response = api
+                .rest({
+                  host: input.host,
+                  operation: "revalidateChecks",
+                  path: endpoint,
+                  ...(previous?.etag ? { ifNoneMatch: previous.etag } : {}),
+                }) catch effect (error) => match (error) {
+                  when { _tag: "GitHubApiNotFoundError" }: try effect {
+                    entry.supported = false
+                    return null
+                  };
+                  when { _tag: "GitHubApiResponseError" }: try effect {
+                    entry.supported &&= !UNSUPPORTED_STATUSES.has(error.status)
+                    return null
+                  };
+                  default: throw error;
+                }
+              if (response === null) {
+                entry.value = null
+                return null
+              }
+              if (response.status === 304 && previous) return previous.next
+              if (response.status !== 200 || response.truncated) {
+                throw fail(response.status)
+              }
+              entry.value = null
+              if (head) {
+                const decoded = decodeHead(response.body) catch effect () => {
+                  throw fail(response.status)
+                }
+                if (entry.head?.head.sha !== decoded.head.sha) entry.validators.clear()
+                entry.head = decoded
+              }
+              const validator = {
+                etag: response.headers["etag"]?.trim(),
+                next: /rel="next"/.test(response.headers["link"] ?? ""),
+                body: response.body,
+              }
+              entry.validators.set(endpoint, validator)
+              return validator.next
+            },
+            "gitHubConditionalChecks.get",
+          )
+        const root = `repos/${input.repository}`
+        if ((try get(`${root}/pulls/${input.number}`, true)) === null) return try read
+        const head = entry.head
+        if (head === null) throw fail(200)
+        const runsEndpoint = head.head.repo?.id !== head.base.repo.id
+          ? `${root}/actions/runs?head_sha=${head.head.sha}&event=pull_request`
+          : null
+        const endpoints = [
+          `${root}/commits/${head.head.sha}/check-runs?filter=all`,
+          `${root}/commits/${head.head.sha}/status`,
+          ...(runsEndpoint === null ? [] : [runsEndpoint]),
+        ]
+        const runPages: Array<string> = []
+        // Each endpoint has its own cursor; only pages within one endpoint depend on each other.
+        // An unavailable endpoint interrupts the others so the fallback read starts at once.
+        const available = (Effect.forEach(
+          endpoints,
+          effect (
+            endpoint,
+          ): undefined!(ChecksUnavailable | GitHubRequestPolicy.GitHubApiAuthenticationError | GitHubRequestPolicy.GitHubApiRateLimitError | GitHubRequestPolicy.GitHubApiRequestError | GitHubRequestPolicy.GitHubApiResponseError | import("@t3tools/source-control-core/server/SourceControlRateLimit").SourceControlRateLimitPausedError | import("./GitHubCredentials.vibe").GitHubCredentialUnavailableError)!never =>
+            try withSpan(
+              (effect (): undefined!(ChecksUnavailable | GitHubRequestPolicy.GitHubApiAuthenticationError | GitHubRequestPolicy.GitHubApiRateLimitError | GitHubRequestPolicy.GitHubApiRequestError | GitHubRequestPolicy.GitHubApiResponseError | import("@t3tools/source-control-core/server/SourceControlRateLimit").SourceControlRateLimitPausedError | import("./GitHubCredentials.vibe").GitHubCredentialUnavailableError)!never => {
+                for (let page = 1;; page++) {
+                  if (page > 100) throw fail(200)
+                  const paged = `${endpoint}${endpoint.includes("?") ? "&" : "?"}per_page=100&page=${page}`
+                  const next = try get(paged)
+                  if (next === null) throw new ChecksUnavailable()
+                  if (endpoint === runsEndpoint) runPages.push(paged)
+                  if (!next) return
+                }
+              })(),
+              "gitHubConditionalChecks.revalidateEndpoint",
+            ),
+          { concurrency: 3, discard: true },
+        )
+          |> Effect.as(%, true)) catch effect (e) => match (e) {
+            when { _tag: "ChecksUnavailable" }: false;
+            default: throw e;
+          }
+        if (!available) return try read
+        const now = try Clock.currentTimeMillis
+        if (entry.value !== null && now - entry.readAt < 5 * 60_000) return entry.value
+        const pages = runPages.map((endpoint) => decodeWorkflowRuns(entry.validators.get(endpoint)?.body ?? ""))
+        const known = runsEndpoint !== null && pages.every(Option.isSome)
+          ? {
+            headSha: head.head.sha,
+            runs: pages.flatMap((page) => Option.isSome(page) ? page.value.workflow_runs : []),
+          }
+          : null
+        const fresh = try effect {
+          provide KnownWorkflowRuns = known {
+            return try read
+          }
+        }
+        const value = {
+          state: fresh.state,
+          checks: fresh.checks,
+        }
+        entry.value = fresh.workflowApprovalsRequired !== undefined && fresh.headSha === head.head.sha
+          ? value
+          : null
+        entry.readAt = now
+        return value
+      },
+    )
+  }
+}
