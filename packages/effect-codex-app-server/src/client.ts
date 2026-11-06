@@ -11,13 +11,13 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import * as CodexRpc from "./_generated/meta.gen.ts";
 import * as CodexSchema from "./_generated/schema.gen.ts";
 import * as CodexError from "./errors.vibe";
-import * as CodexProtocol from "./protocol.ts";
+import * as CodexProtocol from "./protocol.vibe";
 import {
   decodeNotificationPayload,
   decodeOptionalPayload,
   encodeOptionalPayload,
   runHandler,
-} from "./_internal/shared.ts";
+} from "./_internal/shared.vibe";
 import { makeChildStdio, makeTerminationError } from "./_internal/stdio.ts";
 
 export interface CodexAppServerClientOptions {

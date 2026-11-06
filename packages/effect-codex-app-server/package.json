@@ -16,12 +16,18 @@
       "import": "./src/rpc.ts"
     },
     "./protocol": {
-      "types": "./src/protocol.ts",
-      "import": "./src/protocol.ts"
+      "types": "./src/protocol.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/protocol.vibe",
+        "default": "./.vibelang/js/src/protocol.js"
+      }
     },
     "./replay": {
-      "types": "./src/replay.ts",
-      "import": "./src/replay.ts"
+      "types": "./src/replay.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/replay.vibe",
+        "default": "./.vibelang/js/src/replay.js"
+      }
     },
     "./errors": {
       "types": "./src/errors.vibe",

@@ -1,0 +1,487 @@
+import * as Effect from "effect/Effect"
+import * as Scope from "effect/Scope"
+import * as Stdio from "effect/Stdio"
+import * as Stream from "effect/Stream"
+
+import * as CodexError from "./errors.vibe"
+import { JsonRpcId, JsonRpcResponseEnvelope } from "./_internal/shared.vibe"
+const isJsonRpcId = Schema.is(JsonRpcId)
+const isJsonRpcResponseEnvelope = Schema.is(JsonRpcResponseEnvelope)
+const isCodexAppServerError = Schema.is(CodexError.CodexAppServerError)
+const MAX_BUFFERED_RAW_MESSAGES = 32
+// Bound JSONL lines before joining and parsing; the LF delimiter is excluded.
+const MAX_INCOMING_MESSAGE_BYTES = 128 * 1024 * 1024
+const EXIT_STATUS_GRACE = "250 millis"
+
+export interface CodexAppServerProtocolLogEvent {
+  readonly direction: "incoming" | "outgoing"
+  readonly stage: "raw" | "decoded" | "decode_failed"
+  readonly payload: unknown
+}
+
+export interface CodexAppServerIncomingNotification {
+  readonly method: string
+  readonly params?: unknown
+}
+
+export interface CodexAppServerIncomingRequest {
+  readonly id: string | number
+  readonly method: string
+  readonly params?: unknown
+}
+
+export interface CodexAppServerPatchedProtocolOptions {
+  readonly stdio: Stdio.Stdio
+  readonly terminationError?: CodexError.CodexAppServerError!!
+  readonly logIncoming?: boolean
+  readonly logOutgoing?: boolean
+  // Test override; production uses MAX_INCOMING_MESSAGE_BYTES.
+  readonly maxIncomingMessageBytes?: number
+  readonly logger?: (event: CodexAppServerProtocolLogEvent) => void!never
+  readonly onNotification?: (
+    notification: CodexAppServerIncomingNotification,
+  ) => void!never
+  readonly onRequest?: (
+    request: CodexAppServerIncomingRequest,
+  ) => unknown!CodexError.CodexAppServerError
+  readonly onTermination?: (error: CodexError.CodexAppServerError) => void!never
+}
+
+export interface CodexAppServerPatchedProtocol {
+  readonly incomingNotifications: Stream.Stream<CodexAppServerIncomingNotification>
+  readonly incomingRequests: Stream.Stream<CodexAppServerIncomingRequest>
+  readonly request: (
+    method: string,
+    payload?: unknown,
+  ) => unknown!CodexError.CodexAppServerError
+  readonly notify: (
+    method: string,
+    payload?: unknown,
+  ) => void!CodexError.CodexAppServerError
+  readonly respond: (
+    requestId: string | number,
+    result: unknown,
+  ) => void!CodexError.CodexAppServerError
+  readonly respondError: (
+    requestId: string | number,
+    error: CodexError.CodexAppServerRequestError,
+  ) => void!CodexError.CodexAppServerError
+}
+
+interface CodexAppServerPendingRequest {
+  readonly deferred: Deferred.Deferred<unknown, CodexError.CodexAppServerError>
+  readonly method: string
+}
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null
+}
+
+function isIncomingRequest(value: unknown): value is CodexAppServerIncomingRequest {
+  if (!isObject(value) || typeof value.method !== "string") {
+    return false
+  }
+  return isJsonRpcId(value.id)
+}
+
+function isIncomingNotification(value: unknown): value is CodexAppServerIncomingNotification {
+  return isObject(value) && typeof value.method === "string" && !("id" in value)
+}
+
+function isIncomingResponse(value: unknown): value is typeof JsonRpcResponseEnvelope.Type {
+  return isJsonRpcResponseEnvelope(value)
+}
+
+const encodeJsonString = Schema.encodeUnknownEffect(Schema.fromJsonString(Schema.Unknown))
+const decodeJsonString = Schema.decodeUnknownEffect(Schema.fromJsonString(Schema.Unknown))
+
+const encodeWireMessage = (
+  message: Record<string, unknown>,
+): string!CodexError.CodexAppServerProtocolParseError =>
+  encodeJsonString(message)
+  |> Effect.map(%, (encoded) => `${encoded}\n`)
+  |> Effect.mapError(%, (cause) => {
+    const method = typeof message.method === "string" ? message.method : undefined
+    const requestId = typeof message.id === "string" || typeof message.id === "number"
+      ? String(message.id)
+      : undefined
+    return CodexError.CodexAppServerProtocolParseError.fromSchemaError(
+      "encode-wire-message",
+      cause,
+      {
+        ...(method === undefined ? {} : { method }),
+        ...(requestId === undefined ? {} : { requestId }),
+      },
+    )
+  })
+
+const decodeWireMessage = (
+  line: string,
+): unknown!CodexError.CodexAppServerProtocolParseError =>
+  decodeJsonString(line)
+  |> Effect.mapError(%, (cause) =>
+    CodexError.CodexAppServerProtocolParseError.fromSchemaError("decode-wire-message", cause))
+
+const normalizeIncomingError = (
+  error: unknown,
+  operation: CodexError.CodexAppServerTransportOperation,
+): CodexError.CodexAppServerError =>
+  isCodexAppServerError(error)
+    ? error
+    : new CodexError.CodexAppServerTransportError({
+      operation,
+      cause: error,
+    })
+
+const toProtocolMessage = (
+  requestId: string | number,
+  fields: {
+    readonly result?: unknown
+    readonly error?: CodexError.CodexAppServerProtocolErrorShape
+  },
+): { readonly [key: string]: unknown } => ({
+  id: requestId,
+  ...(fields.result !== undefined ? { result: fields.result } : {}),
+  ...(fields.error !== undefined ? { error: fields.error } : {}),
+})
+
+export const makeCodexAppServerPatchedProtocol = effect (
+  options: CodexAppServerPatchedProtocolOptions,
+): CodexAppServerPatchedProtocol!never!Scope.Scope =>
+  try withSpan(
+    (effect (): CodexAppServerPatchedProtocol!never!Scope.Scope => {
+      const protocolScope = try Scope.Scope
+      const requestHandlerScope = try Scope.fork(protocolScope, "parallel")
+      const outgoing = try Queue.unbounded<string, Cause.Done<void>>()
+      const incomingNotifications = try Queue.sliding<CodexAppServerIncomingNotification>(MAX_BUFFERED_RAW_MESSAGES)
+      const incomingRequests = try Queue.sliding<CodexAppServerIncomingRequest>(MAX_BUFFERED_RAW_MESSAGES)
+      const pending = try Ref.make(new Map<string, CodexAppServerPendingRequest>())
+      const nextRequestId = try Ref.make(1)
+      const maxIncomingMessageBytes = options.maxIncomingMessageBytes ?? MAX_INCOMING_MESSAGE_BYTES
+      const remainder: Array<string> = []
+      let remainderBytes = 0
+      const terminationHandled = try Ref.make(false)
+      const terminationFailure = try Ref.make(Option.none<CodexError.CodexAppServerError>())
+      const terminationSignal = try Deferred.make<void>()
+      const activeRequestHandlers = try Ref.make(0)
+
+      const logProtocol = (event: CodexAppServerProtocolLogEvent) => {
+        if (event.direction === "incoming" && !options.logIncoming) {
+          return Effect.void
+        }
+        if (event.direction === "outgoing" && !options.logOutgoing) {
+          return Effect.void
+        }
+        return (
+          options.logger?.(event)
+            ?? (Effect.logDebug("Codex App Server protocol event") |> Effect.annotateLogs({ event })(%))
+        )
+      }
+
+      const failAllPending = (error: CodexError.CodexAppServerError) =>
+        Ref.get(pending)
+        |> Effect.flatMap(%, (current) =>
+          Effect.forEach([...current.values()], ({ deferred }) => Deferred.fail(deferred, error), {
+            discard: true,
+          }))
+        |> Effect.andThen(%, Ref.set(pending, new Map()))
+
+      const handleTermination = (classify: () => CodexError.CodexAppServerError!!) =>
+        Ref.modify(terminationHandled, (handled) => {
+          if (handled) {
+            return [Effect.void, true] as const
+          }
+          return [
+            effect {
+              const error = try classify()
+              try Ref.set(terminationFailure, Option.some(error))
+              try failAllPending(error)
+              try Queue.end(outgoing)
+              try Deferred.succeed(terminationSignal, undefined)
+              try (Scope.close(requestHandlerScope, Exit.void)
+                |> Effect.forkIn(%, protocolScope, { startImmediately: true })
+                |> Effect.asVoid(%))
+              if (options.onTermination) {
+                try options.onTermination(error)
+              }
+            },
+            true,
+          ] as const
+        }) |> Effect.flatten(%)
+
+      const offerOutgoing =
+        /* Every protocol write reaches this helper; request spans cover the operation. */
+        effect (message: Record<string, unknown>) => {
+          const failure = try Ref.get(terminationFailure)
+          if (Option.isSome(failure)) throw failure.value
+
+          try logProtocol({
+            direction: "outgoing",
+            stage: "decoded",
+            payload: message,
+          })
+          const encoded = try encodeWireMessage(message)
+          try logProtocol({
+            direction: "outgoing",
+            stage: "raw",
+            payload: encoded,
+          })
+          const accepted = try Queue.offer(outgoing, encoded)
+          if (!accepted) {
+            const closed = try Ref.get(terminationFailure)
+            throw Option.getOrElse(
+              closed,
+              () => new CodexError.CodexAppServerInputStreamEndedError({}),
+            )
+          }
+        }
+
+      const removePending = (requestId: string) =>
+        Ref.update(pending, (current) => {
+          if (!current.has(requestId)) {
+            return current
+          }
+          const next = new Map(current)
+          next.delete(requestId)
+          return next
+        })
+
+      const resolvePending = (
+        requestId: string,
+        handler: (pendingRequest: CodexAppServerPendingRequest) => void!!,
+      ) =>
+        Ref.modify(pending, (current) => {
+          const pendingRequest = current.get(requestId)
+          if (!pendingRequest) {
+            return [Effect.void, current] as const
+          }
+          const next = new Map(current)
+          next.delete(requestId)
+          return [handler(pendingRequest), next] as const
+        }) |> Effect.flatten(%)
+
+      const respond = (requestId: string | number, result: unknown) =>
+        offerOutgoing(toProtocolMessage(requestId, { result }))
+
+      const respondError = (
+        requestId: string | number,
+        error: CodexError.CodexAppServerRequestError,
+      ) => offerOutgoing(toProtocolMessage(requestId, { error: error.toProtocolError() }))
+
+      const handleResponse = (response: typeof JsonRpcResponseEnvelope.Type) => {
+        const requestId = String(response.id)
+        const protocolError = response.error
+        if (protocolError !== undefined) {
+          return resolvePending(requestId, ({ deferred, method }) =>
+            Deferred.fail(
+              deferred,
+              CodexError.CodexAppServerRequestError.fromProtocolError(
+                protocolError,
+                method,
+                requestId,
+              ),
+            ))
+        }
+        return resolvePending(requestId, ({ deferred }) => Deferred.succeed(deferred, response.result))
+      }
+
+      const handleRequest = (request: CodexAppServerIncomingRequest) =>
+        Queue.offer(incomingRequests, request)
+        |> Effect.flatMap(%, () => {
+          const handler = options.onRequest
+          if (!handler) return Effect.void
+
+          return Ref.modify(activeRequestHandlers, (count) =>
+            count >= MAX_BUFFERED_RAW_MESSAGES ? [false, count] : [true, count + 1])
+            |> Effect.flatMap(%, (accepted) => {
+              if (!accepted) {
+                return respondError(
+                  request.id,
+                  CodexError.CodexAppServerRequestError.overloaded(
+                    "Too many Codex requests are already active.",
+                  ),
+                )
+              }
+
+              return handler(request)
+                |> Effect.matchEffect(%, {
+                  onFailure: (error) =>
+                    respondError(
+                      request.id,
+                      CodexError.CodexAppServerRequestError.fromAppServerError(
+                        error,
+                        request.method,
+                      ),
+                    ),
+                  onSuccess: (result) =>
+                    respond(request.id, result),
+                })
+                |> Effect.ensuring(
+                  %,
+                  Ref.update(activeRequestHandlers, (count) => Math.max(0, count - 1)),
+                )
+                |> Effect.catch(%, (error) =>
+                  handleTermination(() => Effect.succeed(error))
+                  |> Effect.forkIn(%, protocolScope)
+                  |> Effect.asVoid(%))
+                |> Effect.forkIn(%, requestHandlerScope, { startImmediately: true })
+                |> Effect.asVoid(%)
+            })
+        })
+        |> Effect.asVoid(%)
+
+      const handleNotification = (notification: CodexAppServerIncomingNotification) =>
+        Queue.offer(incomingNotifications, notification)
+        |> Effect.andThen(%, options.onNotification ? options.onNotification(notification) : Effect.void)
+        |> Effect.asVoid(%)
+
+      const routeMessage = effect (message: unknown) => {
+        if (Option.isSome(try Ref.get(terminationFailure))) return
+        if (isIncomingRequest(message)) return try handleRequest(message)
+        if (isIncomingNotification(message)) return try handleNotification(message)
+        if (isIncomingResponse(message)) return try handleResponse(message)
+        throw CodexError.CodexAppServerProtocolParseError.fromUnroutableMessage(message)
+      }
+
+      const handleLine = (line: string): void!CodexError.CodexAppServerError => {
+        if (line.trim().length === 0) {
+          return Effect.void
+        }
+        return logProtocol({
+          direction: "incoming",
+          stage: "raw",
+          payload: line,
+        })
+          |> Effect.flatMap(%, () => decodeWireMessage(line))
+          |> Effect.tap(%, (decoded) =>
+            logProtocol({
+              direction: "incoming",
+              stage: "decoded",
+              payload: decoded,
+            }))
+          |> Effect.tapErrorTag(%, "CodexAppServerProtocolParseError", (error) =>
+            logProtocol({
+              direction: "incoming",
+              stage: "decode_failed",
+              payload: {
+                operation: error.operation,
+                ...(error.method === undefined ? {} : { method: error.method }),
+                ...(error.requestId === undefined ? {} : { requestId: error.requestId }),
+                ...(error.issueCount === undefined ? {} : { issueCount: error.issueCount }),
+                ...(error.issueKinds === undefined ? {} : { issueKinds: error.issueKinds }),
+                ...(error.maximumPathDepth === undefined
+                  ? {}
+                  : { maximumPathDepth: error.maximumPathDepth }),
+              },
+            }))
+          |> Effect.flatMap(%, routeMessage)
+      }
+
+      try (options.stdio.stdin.pipe(
+        Stream.interruptWhen(Deferred.await(terminationSignal)),
+        Stream.decodeText(),
+        Stream.runForEach(
+          effect (chunk) => {
+            let start = 0
+            while (start < chunk.length) {
+              const newline = chunk.indexOf("\n", start)
+              const fragment = chunk.slice(start, newline === -1 ? chunk.length : newline)
+              // decodeText holds back split UTF-8 sequences, so fragment byte sums are exact.
+              remainderBytes += new TextEncoder().encode(fragment).length
+              if (remainderBytes > maxIncomingMessageBytes) {
+                remainder.length = 0
+                throw new CodexError.CodexAppServerTransportError({
+                  operation: "read-input-stream",
+                  cause: new Error(`Incoming message exceeded ${maxIncomingMessageBytes} bytes.`),
+                })
+              }
+              remainder.push(fragment)
+              if (newline === -1) break
+              const line = remainder.join("").replace(/\r$/, "")
+              remainder.length = 0
+              remainderBytes = 0
+              try handleLine(line)
+              start = newline + 1
+            }
+          },
+        ),
+        Effect.matchEffect({
+          onFailure: (error) =>
+            handleTermination(() => Effect.succeed(normalizeIncomingError(error, "read-input-stream"))),
+          onSuccess: () =>
+            Effect.sync(() => {
+              const line = remainder.join("")
+              remainder.length = 0
+              return line
+            }).pipe(
+              Effect.flatMap(handleLine),
+              Effect.matchEffect({
+                onFailure: (error) => handleTermination(() => Effect.succeed(error)),
+                onSuccess: () =>
+                  handleTermination(() => {
+                    const ended = new CodexError.CodexAppServerInputStreamEndedError({})
+                    // Node ends stdout before it reports the exit of a crashed process, so
+                    // wait briefly for the exit status. stdout can also close while the
+                    // process keeps running, so the wait must not hang pending requests.
+                    return options.terminationError === undefined
+                      ? Effect.succeed(ended)
+                      : options.terminationError.pipe(
+                        Effect.timeoutOrElse({
+                          duration: EXIT_STATUS_GRACE,
+                          orElse: () => Effect.succeed(ended),
+                        }),
+                      )
+                  }),
+              }),
+            ),
+        }),
+        Effect.forkScoped,
+      ))
+
+      try ((() => {
+        const pipe$program = Stream.fromQueue(outgoing)
+        const pipe$stage0 = Stream.run(options.stdio.stdout())
+        const pipe$stage1 = Effect.forkScoped
+        return pipe$program |> pipe$stage0(%) |> pipe$stage1(%)
+      })())
+
+      const request = effect (
+        method: string,
+        payload?: unknown,
+      ) =>
+        try withSpan(
+          effect {
+            const requestId = try Ref.modify(
+              nextRequestId,
+              (current) => [current, current + 1] as const,
+            )
+            const deferred = try Deferred.make<unknown, CodexError.CodexAppServerError>()
+            try Ref.update(pending, (current) => new Map(current).set(String(requestId), { deferred, method }))
+            try (offerOutgoing({
+              id: requestId,
+              method,
+              ...(payload !== undefined ? { params: payload } : {}),
+            }) |> Effect.tapError(%, () => removePending(String(requestId))))
+            return try (Deferred.await(deferred)
+              |> Effect.onInterrupt(%, () => removePending(String(requestId))))
+          },
+          "CodexAppServerProtocol.request",
+        )
+
+      const notify = (method: string, payload?: unknown) =>
+        offerOutgoing({
+          method,
+          ...(payload !== undefined ? { params: payload } : {}),
+        })
+
+      return {
+        incomingNotifications: Stream.fromQueue(incomingNotifications),
+        incomingRequests: Stream.fromQueue(incomingRequests),
+        request,
+        notify,
+        respond,
+        respondError,
+      } satisfies CodexAppServerPatchedProtocol
+    })(),
+    "makeCodexAppServerPatchedProtocol",
+  )

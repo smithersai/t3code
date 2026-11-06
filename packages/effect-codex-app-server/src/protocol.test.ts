@@ -11,7 +11,7 @@ import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it } from "@effect/vitest";
 
 import * as CodexError from "./errors.vibe";
-import * as CodexProtocol from "./protocol.ts";
+import * as CodexProtocol from "./protocol.vibe";
 import { makeInMemoryStdio } from "./_internal/stdio.ts";
 const encodeUnknownJsonString = Schema.encodeUnknownSync(Schema.fromJsonString(Schema.Unknown));
 
