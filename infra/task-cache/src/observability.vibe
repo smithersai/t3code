@@ -1,7 +1,7 @@
 import * as Axiom from "@alchemy.run/axiom"
 import * as Output from "alchemy/Output"
 import * as Effect from "effect/Effect"
-import { cacheName } from "./resources.ts"
+import { cacheName } from "./resources.vibe"
 
 // Native summaries may be observed by nested launchers and retried after a lost response.
 // Deduplicate before summing; task runtime is a compute proxy, not measured CPU or critical-path time.

@@ -12,7 +12,7 @@ import * as Cleanup from "./Cleanup.vibe";
 import * as NativeClients from "./NativeClients.vibe";
 import * as Savings from "./Savings.vibe";
 import type { ProtocolBindings } from "./protocolTypes.ts";
-import * as Resources from "./resources.ts";
+import * as Resources from "./resources.vibe";
 
 export class Worker extends Cloudflare.Worker<Worker, {}>()("Cache") {}
 
