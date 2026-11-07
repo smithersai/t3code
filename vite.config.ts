@@ -160,6 +160,8 @@ export default defineConfig({
       "**/.vibelang/**",
       "**/*.d.vibe.ts",
       "**/*.d.vibex.ts",
+      "**/*.vibe.*.d.ts",
+      "**/*.vibex.*.d.ts",
       ".repos/**",
       "infra/task-cache/vendor/**",
       // Macroscope requires one glob per line; Markdown formatting corrupts it.
@@ -197,6 +199,8 @@ export default defineConfig({
       "**/.vibelang/**",
       "**/*.d.vibe.ts",
       "**/*.d.vibex.ts",
+      "**/*.vibe.*.d.ts",
+      "**/*.vibex.*.d.ts",
       ".repos",
       ".repos/**",
       "infra/task-cache/vendor/**",
