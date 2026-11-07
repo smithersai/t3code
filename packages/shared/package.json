@@ -2,6 +2,48 @@
   "name": "@t3tools/shared",
   "private": true,
   "type": "module",
+  "imports": {
+    "#vibelang/emitted/src/remote": {
+      "types": "./src/remote.d.vibe.ts",
+      "vibelang-source": "./src/remote.vibe",
+      "default": "./.vibelang/js/src/remote.js"
+    },
+    "#vibelang/emitted/src/threadLinks": {
+      "types": "./src/threadLinks.d.vibe.ts",
+      "vibelang-source": "./src/threadLinks.vibe",
+      "default": "./.vibelang/js/src/threadLinks.js"
+    },
+    "#vibelang/emitted/src/orchestrationV2DedupedBodies": {
+      "types": "./src/orchestrationV2DedupedBodies.d.vibe.ts",
+      "vibelang-source": "./src/orchestrationV2DedupedBodies.vibe",
+      "default": "./.vibelang/js/src/orchestrationV2DedupedBodies.js"
+    },
+    "#vibelang/emitted/src/git": {
+      "types": "./src/git.d.vibe.ts",
+      "vibelang-source": "./src/git.vibe",
+      "default": "./.vibelang/js/src/git.js"
+    },
+    "#vibelang/emitted/src/serverSettings": {
+      "types": "./src/serverSettings.d.vibe.ts",
+      "vibelang-source": "./src/serverSettings.vibe",
+      "default": "./.vibelang/js/src/serverSettings.js"
+    },
+    "#vibelang/emitted/src/preview": {
+      "types": "./src/preview.d.vibe.ts",
+      "vibelang-source": "./src/preview.vibe",
+      "default": "./.vibelang/js/src/preview.js"
+    },
+    "#vibelang/emitted/src/composerContextLegacy": {
+      "types": "./src/composerContextLegacy.d.vibe.ts",
+      "vibelang-source": "./src/composerContextLegacy.vibe",
+      "default": "./.vibelang/js/src/composerContextLegacy.js"
+    },
+    "#vibelang/emitted/src/assistantCitations": {
+      "types": "./src/assistantCitations.d.vibe.ts",
+      "vibelang-source": "./src/assistantCitations.vibe",
+      "default": "./.vibelang/js/src/assistantCitations.js"
+    }
+  },
   "exports": {
     "./changedFileKind": {
       "types": "./src/changedFileKind.ts",
@@ -142,10 +184,10 @@
       }
     },
     "./shell": {
-      "types": "./src/shell.ts",
+      "types": "./src/shell.d.vibe.ts",
       "import": {
-        "types": "./src/shell.ts",
-        "vibelang-source": "./src/shell.ts",
+        "types": "./src/shell.d.vibe.ts",
+        "vibelang-source": "./src/shell.vibe",
         "default": "./.vibelang/js/src/shell.js"
       }
     },
@@ -648,10 +690,10 @@
       }
     },
     "./nodeSqliteClient": {
-      "types": "./src/nodeSqliteClient.ts",
+      "types": "./src/nodeSqliteClient.d.vibe.ts",
       "import": {
-        "types": "./src/nodeSqliteClient.ts",
-        "vibelang-source": "./src/nodeSqliteClient.ts",
+        "types": "./src/nodeSqliteClient.d.vibe.ts",
+        "vibelang-source": "./src/nodeSqliteClient.vibe",
         "default": "./.vibelang/js/src/nodeSqliteClient.js"
       }
     },
@@ -728,10 +770,10 @@
       }
     },
     "./codexAuthCallback": {
-      "types": "./src/codexAuthCallback.ts",
+      "types": "./src/codexAuthCallback.d.vibe.ts",
       "import": {
-        "types": "./src/codexAuthCallback.ts",
-        "vibelang-source": "./src/codexAuthCallback.ts",
+        "types": "./src/codexAuthCallback.d.vibe.ts",
+        "vibelang-source": "./src/codexAuthCallback.vibe",
         "default": "./.vibelang/js/src/codexAuthCallback.js"
       }
     },
@@ -931,47 +973,5 @@
     "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
     "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
     "vite-plus": "catalog:"
-  },
-  "imports": {
-    "#vibelang/emitted/src/remote": {
-      "types": "./src/remote.d.vibe.ts",
-      "vibelang-source": "./src/remote.vibe",
-      "default": "./.vibelang/js/src/remote.js"
-    },
-    "#vibelang/emitted/src/threadLinks": {
-      "types": "./src/threadLinks.d.vibe.ts",
-      "vibelang-source": "./src/threadLinks.vibe",
-      "default": "./.vibelang/js/src/threadLinks.js"
-    },
-    "#vibelang/emitted/src/orchestrationV2DedupedBodies": {
-      "types": "./src/orchestrationV2DedupedBodies.d.vibe.ts",
-      "vibelang-source": "./src/orchestrationV2DedupedBodies.vibe",
-      "default": "./.vibelang/js/src/orchestrationV2DedupedBodies.js"
-    },
-    "#vibelang/emitted/src/git": {
-      "types": "./src/git.d.vibe.ts",
-      "vibelang-source": "./src/git.vibe",
-      "default": "./.vibelang/js/src/git.js"
-    },
-    "#vibelang/emitted/src/serverSettings": {
-      "types": "./src/serverSettings.d.vibe.ts",
-      "vibelang-source": "./src/serverSettings.vibe",
-      "default": "./.vibelang/js/src/serverSettings.js"
-    },
-    "#vibelang/emitted/src/preview": {
-      "types": "./src/preview.d.vibe.ts",
-      "vibelang-source": "./src/preview.vibe",
-      "default": "./.vibelang/js/src/preview.js"
-    },
-    "#vibelang/emitted/src/composerContextLegacy": {
-      "types": "./src/composerContextLegacy.d.vibe.ts",
-      "vibelang-source": "./src/composerContextLegacy.vibe",
-      "default": "./.vibelang/js/src/composerContextLegacy.js"
-    },
-    "#vibelang/emitted/src/assistantCitations": {
-      "types": "./src/assistantCitations.d.vibe.ts",
-      "vibelang-source": "./src/assistantCitations.vibe",
-      "default": "./.vibelang/js/src/assistantCitations.js"
-    }
   }
 }

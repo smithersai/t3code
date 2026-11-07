@@ -12,7 +12,7 @@ import * as Statement from "effect/sql/Statement";
 import type * as Tracer from "effect/Tracer";
 import { vi } from "vite-plus/test";
 
-import * as SqliteClient from "./nodeSqliteClient.ts";
+import * as SqliteClient from "./nodeSqliteClient.vibe";
 
 const startedWorkers = vi.hoisted((): Array<NodeWorkerThreads.Worker> => []);
 const silentWorkers = vi.hoisted(() => ({ on: false, readyOnTerminate: false }));

@@ -4,7 +4,7 @@ import * as Path from "effect/Path"
 import * as Schema from "effect/Schema"
 
 import * as HostProcess from "./HostProcess.ts"
-import { CommandResolutionCache, resolveCommandPath } from "./shell.ts"
+import { CommandResolutionCache, resolveCommandPath } from "./shell.vibe"
 
 const NodeRuntimeFeature = Schema.Literals([
   "Local device support",
