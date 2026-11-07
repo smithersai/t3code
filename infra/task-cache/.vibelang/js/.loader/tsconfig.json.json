@@ -3,14 +3,14 @@
  "base": "../../../../..",
  "entry": {
   "format": 12,
-  "version": "0.0.11",
+  "version": "0.0.12",
   "project": {
    "relative": "infra/task-cache/tsconfig.json"
   },
   "root": {
    "relative": "infra/task-cache"
   },
-  "compiler": "owaUbprwDLXQh9KdIKHEW9TY-wXpMbP8BuQIK6fWpfU",
+  "compiler": "F40CemHem_W_Eops96ecRVPP2gHHMg8PznFVNJXlKiE",
   "configs": [
    {
     "path": {
@@ -41,7 +41,7 @@
      "relative": "infra/task-cache/src"
     },
     null,
-    "YC5NHABEGKCGUzheOPdiz3BVESHhPcDMAh3ac25uKIM",
+    "zqATzorjQD66L7ZncoTrYZjNY88WcsdU9-oBkZCUbqk",
     []
    ],
    [
@@ -138,8 +138,8 @@
     "path": {
      "relative": "pnpm-lock.yaml"
     },
-    "size": 991290,
-    "hash": "-JIRvJS04v1jyjckzi3jkbhDHC_4y9FDybgeU8GCL14"
+    "size": 992538,
+    "hash": "waQi6S7q6UTJgQ4QVsngTVv50gBZjbLzPA7d17ZFZ9M"
    },
    {
     "path": {
@@ -175,10 +175,10 @@
   "packages": [
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/package.json"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/package.json"
     },
-    "size": 7073,
-    "hash": "1lMdRA8K2GonRT1ilYg8wxY2H7YHcLIDsl7uN_a6ckY"
+    "size": 7285,
+    "hash": "xjl50PJ1-UYHIIuSuMFl661MsBKTYZbY3moinJbPOAc"
    },
    {
     "path": {
@@ -325,7 +325,7 @@
      "relative": "infra/task-cache/package.json"
     },
     "size": 1074,
-    "hash": "eHlnHc_6JhjnkoqGzQ5gAy17djoKVdJ7J6mFW2g8uWw"
+    "hash": "uZN052ddT26eZqnNVrnkb32dI23SoqUoXIymNLZhXcs"
    },
    {
     "path": {
@@ -436,7 +436,7 @@
   "files": [
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/version.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/version.d.ts"
     },
     "size": 91,
     "hash": "OLhx74xVvRMxcl4krcVslmdZGXNsTNFw1VSQRYH3mpc"
@@ -1255,6 +1255,489 @@
    },
    {
     "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/calls.d.ts"
+    },
+    "size": 1383,
+    "hash": "uAwhDPR2CFdUic_UDD997dkpJaNZ3R1T_jqRSG4Cclo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/fastcalls.d.ts"
+    },
+    "size": 4751,
+    "hash": "9wxoIynrlvPe4VAUQN_yG-rNp1lwbKvt-AZOat2MRdY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/regions.d.ts"
+    },
+    "size": 6387,
+    "hash": "wHQs6G-mP3lEKiqUEa8esaj1EIdtBxzBWiKUXvaoBbY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/fork.d.ts"
+    },
+    "size": 1522,
+    "hash": "ckaaRg51IcfZbr740uLdup3qFuKS3TxgVYGSFOW2Q54"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/kernel/internals.d.ts"
+    },
+    "size": 1238,
+    "hash": "IMzEvVGIaf37peHrkUH2HsmoOemwj7YAPgBI1bNG6tk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/kernel/kernel.d.ts"
+    },
+    "size": 6338,
+    "hash": "XGJbPTQadKfJQPfra4kFdQXvD8XgBQQ6eH-by456KBs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/services.d.ts"
+    },
+    "size": 3346,
+    "hash": "JxhNAxkLVY33Lxqyh_Vd-mqQSE8dmceO3rEnpBJTbEY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/handlers.d.ts"
+    },
+    "size": 4479,
+    "hash": "ZzQU78bLBWIppynLZgOBgDkcijiAJJq_TQpkNW-JrCY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/producers.d.ts"
+    },
+    "size": 2721,
+    "hash": "ndVPafzb3N5wWv25-4h-4Omv5tqD3POjx2v8_p9Erko"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/iterators.d.ts"
+    },
+    "size": 307,
+    "hash": "R_32U0PMqjIgXtbB6rzs2OaY3x5NurDOaidBkv7uhfE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/binding-iterator.d.ts"
+    },
+    "size": 521,
+    "hash": "a5GFo1F3YhIqtKzebc3H9jA8z8NZhbnUT6KJQHrwj5Q"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/boundaries.d.ts"
+    },
+    "size": 2237,
+    "hash": "BZIaO-QAJ9Z6Fu4irKqOzSRsUYSLuUQiW1zKjGvuXfI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/hatches.d.ts"
+    },
+    "size": 4288,
+    "hash": "SHvw3j3NmkBQey39qbFcwin5cLqgq9PF9msgmFzaYKE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/fibers.d.ts"
+    },
+    "size": 7629,
+    "hash": "EiZ7kFH915KwfM4-KJZsdiawtJ_7Ty4raruq4BAIkGU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/provide.d.ts"
+    },
+    "size": 2355,
+    "hash": "DTx-GtW-_UHyzfF40aMg8o-NybtpBLPa3q1ln3Jpa5s"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/primitives.d.ts"
+    },
+    "size": 2785,
+    "hash": "IWg8HZdD_h5bezhO5VO0Oat3-GL3h98xoW06v-EAWOs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/match.d.ts"
+    },
+    "size": 6984,
+    "hash": "2FsfAhYwF1fwC5e0LU4278-JVGYlmyyiLdE2ulgu2A0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Runtime.d.ts"
+    },
+    "size": 10431,
+    "hash": "ZMDblKwrnP645cJKqUeLzty7Mb4P3ekyiTcDtTPJ6D8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/main.d.ts"
+    },
+    "size": 1370,
+    "hash": "S2GqpFmzvnikrJrgw5lzEqtFJy_7i20jzGlMr4mt88Y"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/prelude-core.d.ts"
+    },
+    "size": 2772,
+    "hash": "-F09SO-52bZw9ht9RpKGlrIWz0y1TQwQS5E6DXxUPQQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/resources.d.ts"
+    },
+    "size": 1670,
+    "hash": "jWScKmw8idFbB3itet51UYKNCRN74Mmu_uzZqy3V28w"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/legacy-await-types.d.ts"
+    },
+    "size": 2033,
+    "hash": "-FCwl_PxDin1gwAopKVXXRBoJCDUdKxfzIl4qN9DSoc"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/match-cache.d.ts"
+    },
+    "size": 1848,
+    "hash": "--YGTy05Qg7JNLPVUPyXp00E4F2Em5j1uTY_Bfe8lIQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/core.d.ts"
+    },
+    "size": 1612,
+    "hash": "7teQjEXxfbpg3ExxV-mnuvIVLHwt2HKWK5u_wNRmvi0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Animations.d.ts"
+    },
+    "size": 4126,
+    "hash": "LIh_ITVpztxGdctQldXDsjoilz47SeJfVYCfdklEYtE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/BrowserInfo.d.ts"
+    },
+    "size": 1989,
+    "hash": "mO2jTu2b39Dco34MEBt0o6UTMBWA4gEIAtZHi1IW46I"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/ChildProcess.d.ts"
+    },
+    "size": 3133,
+    "hash": "vtz-lrM1qVNbYlFgzi89KmoPI076rUvhtNoYs2UqjCE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Crypto.d.ts"
+    },
+    "size": 6627,
+    "hash": "XwHusiTQVjE4hwkTA3zAFGJPZll6iaWLc-hZp7hAFPk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/AddressResolver.d.ts"
+    },
+    "size": 5542,
+    "hash": "m2JvnScm4Fzsua4ijv9gVDOYs0vLJHsU1ZpBxnD-FpE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/index.d.ts"
+    },
+    "size": 642,
+    "hash": "kblyErHDYnsF_P1DdrxoVsh10SnDRQ3Bwck5WGn-w3I"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Dns.d.ts"
+    },
+    "size": 2094,
+    "hash": "a8V4vRrBPQWD6J1ZDSVUngqy4VPQYhwXW_4wp7dZbDw"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Document.d.ts"
+    },
+    "size": 2970,
+    "hash": "wgJNU0rjtPZ9wCQ1vOFM17UzIMNuxXkAnRL6Y6k91UM"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/EncodingError.d.ts"
+    },
+    "size": 2782,
+    "hash": "Y96VGSj4hkYGUmAOZdCpJR62OOrsPw-uPQ-6eFOYaOI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64.d.ts"
+    },
+    "size": 2677,
+    "hash": "yEc8CNYNHSis4OSrmGaUexmByy2oBUfRmPnI_UsePU8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64Url.d.ts"
+    },
+    "size": 3553,
+    "hash": "LVhOA-AXlruy2l_8uj7OqYNt8HWUnwKYKe2d-khPXC4"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Csv.d.ts"
+    },
+    "size": 22389,
+    "hash": "22pSJFH0tyStth9R63Uycc30OpLzYI182QSJl5K18Vo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Hex.d.ts"
+    },
+    "size": 3101,
+    "hash": "a8-p15tzg2N4oOiyE0tOjgL17Q6t-4RKSlFK3_E5r4E"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ini.d.ts"
+    },
+    "size": 665,
+    "hash": "VEcV_gJv9YP3829kRBt6tCjrstQMEF8R7NjF5SKENTo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/JsonArray.d.ts"
+    },
+    "size": 10914,
+    "hash": "bhQR9FZAiP_7kxUnMZbhOLd_U972g4RxmHvD9KKxNuQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ndjson.d.ts"
+    },
+    "size": 16373,
+    "hash": "vI4FK4XFTqsTpUyMJLfl2acrmVs42py0MswI7Dd-R60"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/SchemaBinary.d.ts"
+    },
+    "size": 11065,
+    "hash": "_azIUMK4xCOg93NqSVtNDX-F2N8ig0YdyXCc-P0UMRI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Sse.d.ts"
+    },
+    "size": 11379,
+    "hash": "Fmwr_ayd9o5g0s8kNgVtDPEZ15dytzKkVRuOJDQAXEU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Tar.d.ts"
+    },
+    "size": 11860,
+    "hash": "E0MiYTO8ue5t1e1JKwfyHgRXfng6HCkPtYvnFh87oEQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Toml.d.ts"
+    },
+    "size": 1167,
+    "hash": "oZ9za3NAXBeYkNmhWdO_vkqutfMqcYbkXasEWODwfAI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Xml.d.ts"
+    },
+    "size": 16470,
+    "hash": "pbiCzYYwqiAZdiCFMyRVz1UG67xCJdvhrKQr2DVmlT8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Yaml.d.ts"
+    },
+    "size": 1350,
+    "hash": "v6AA9d7wPSPG8is8K3PlW3cpQrL_Nvwf1MNmOfGrhZY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Zip.d.ts"
+    },
+    "size": 16670,
+    "hash": "nOdp98PU19xagRzuttN9laEGVY6lwutoVseazCyqX7c"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/index.d.ts"
+    },
+    "size": 1360,
+    "hash": "0p_GADS7DXIS1_3swheMVC7wVT6K135y2xxkhj_sq7U"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Encoding.d.ts"
+    },
+    "size": 852,
+    "hash": "6JHF6GIvlFYBICb2qrmb-bGQDaH1t16tgPW4ET7lViM"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/FileReader.d.ts"
+    },
+    "size": 3271,
+    "hash": "Izc4Lg3SrR_vTOYfWz0LwZeU40DjL8144EqjrGxp8AU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Headers.d.ts"
+    },
+    "size": 1481,
+    "hash": "y3AcQqeGN8mxkJ58iTbWOmyXNdK5dRRTEUogxbFXy0s"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/FileSystem.d.ts"
+    },
+    "size": 4237,
+    "hash": "GscyJs1q8_cVZgxDm-u1CJwscBRKw-f5XSRJdUxCAP8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Locks.d.ts"
+    },
+    "size": 5678,
+    "hash": "vA5GYo8h7qcs5a-fuxQPj_Xrbx1iP5fNyo4v0SJHAKk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/MediaQuery.d.ts"
+    },
+    "size": 2800,
+    "hash": "H2TsmsCxrAVQFpn2-nEjFgeAxGOVseTq6FcGaP1wfeE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/NetAddress.d.ts"
+    },
+    "size": 444,
+    "hash": "SgsPPjdFtiCOl0YW0Hfd-hH9BkaSftHcBv_ygK67A4U"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/NodeStream.d.ts"
+    },
+    "size": 3224,
+    "hash": "-Om0tHTgAHL2dgmRlVlG--oBT8d5mftOLPyo-yrHdSk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/ChildProcessSpawner.d.ts"
+    },
+    "size": 10049,
+    "hash": "thXsQ6k-zkFoKCmsVYtf5M6c35jjGBMUFpTT-aWMdLA"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/CommandLine.d.ts"
+    },
+    "size": 11522,
+    "hash": "lxWpSvbLSZaDoTOhUfkj6S-HePD5KBJ-tFZkDiae1Dg"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/ChildProcess.d.ts"
+    },
+    "size": 40640,
+    "hash": "AE8za_rMlCaeaidHj6lgF2rgn2xY2_8CONWi6Xw1LPU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Process.d.ts"
+    },
+    "size": 8241,
+    "hash": "oiIVYvpaIUKJOP6geMxc4B8Dl0_JFBNWkR9ZIAKCyHs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/ResizeObserver.d.ts"
+    },
+    "size": 2495,
+    "hash": "uUMxJ3p5sbc-qhqfyWNUwnitOJtINeXL_9M1xJLWz30"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Stdio.d.ts"
+    },
+    "size": 4792,
+    "hash": "T-DnaBHPE9WMb769TDv2bHjI4UvZDZJh4ee5Dd5HAQU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Stdio.d.ts"
+    },
+    "size": 1504,
+    "hash": "6TcF16KKXbLqEGWumgFgvLQ7WkOiGr_cWBw27JoJX6Q"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Window.d.ts"
+    },
+    "size": 2301,
+    "hash": "Jgz07Sov3RhBpS50HAW-g5wQmxTspcjGXzQUavlym-g"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/AudioContext.d.ts"
+    },
+    "size": 2205,
+    "hash": "z0dedL-zpn1GrXaOgFyOHm7DMb1z3zCMaIMqGqR6tUk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Request.d.ts"
+    },
+    "size": 1649,
+    "hash": "KRg2WDevqFgPetJq4CxDHh8edm0srjqhWRN7lTSenyY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/index.d.ts"
+    },
+    "size": 1574,
+    "hash": "hcZRaVCidu8HYX0HvnTobrHo2cQDv4U1txmpSQ0GSa0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/prelude.d.ts"
+    },
+    "size": 129,
+    "hash": "Tqy755Tt4ZuJDGVpmxUCXsPlRUgHYXa4ktmztNdW1DY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/index.d.ts"
+    },
+    "size": 107,
+    "hash": "kHyPbTEwJDNbyrr9EJDBtS42mtLKhF1zop-5XYfg38g"
+   },
+   {
+    "path": {
      "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/internal/arbitrary/runner.d.ts"
     },
     "size": 165,
@@ -1500,24 +1983,10 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Runtime.d.ts"
-    },
-    "size": 10431,
-    "hash": "ZMDblKwrnP645cJKqUeLzty7Mb4P3ekyiTcDtTPJ6D8"
-   },
-   {
-    "path": {
      "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/ScopedCache.d.ts"
     },
     "size": 28156,
     "hash": "gk_Wevfqv8Pc7JGWfvptQeROHFZS3Ud0xsT5aNtK9hg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Stdio.d.ts"
-    },
-    "size": 4792,
-    "hash": "T-DnaBHPE9WMb769TDv2bHjI4UvZDZJh4ee5Dd5HAQU"
    },
    {
     "path": {
@@ -1658,461 +2127,6 @@
     },
     "size": 13254,
     "hash": "0PpqEQlrfMhrxRLRPiEmFILdAxRuOqxV7wFDHQt16vk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/calls.d.ts"
-    },
-    "size": 1375,
-    "hash": "dsRmJCNPzxmBw80oYCGtYgErjsc0O0IdrlavmcSqJgg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/fastcalls.d.ts"
-    },
-    "size": 4743,
-    "hash": "5KioEbTxBNd_QZvwfzx_Wtto96eJo5t1os1-dStu3Sg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/regions.d.ts"
-    },
-    "size": 6347,
-    "hash": "OimZR3Bn-U-YG7GsPRLkO7ojAkjKNP_YHZLHjIojefk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/fork.d.ts"
-    },
-    "size": 1450,
-    "hash": "48HdCKdKyA1Q-ImyNbFxHEH8MvHTioJ4AhPv04LWEvg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/kernel/internals.d.ts"
-    },
-    "size": 1192,
-    "hash": "7Fiel2LtGrvq-9nBG4DTXdPWPq5ssE5zGD2xtKyop7k"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/kernel/kernel.d.ts"
-    },
-    "size": 6233,
-    "hash": "SpddlG9nvj1HKpa57Bira5G8t4QoTcG4oRl4hnC1-xE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/services.d.ts"
-    },
-    "size": 3272,
-    "hash": "Aky7KJ-_at6kU0rh2fYbON-xEor5MYT7r0dKny8eFp4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/handlers.d.ts"
-    },
-    "size": 4437,
-    "hash": "dM4ZRB9CryabX-dYLCHS1WlVbZMqBRsuuvJGPL-Sc94"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/producers.d.ts"
-    },
-    "size": 2648,
-    "hash": "nSdLzVgLSb7ZsOITdmOllPu94EmFjCD7W-O0F8qihHs"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/iterators.d.ts"
-    },
-    "size": 299,
-    "hash": "D_KJoFVsbFdHLj8ECD9in36LfyVin-Znz3X0acOoUt4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/binding-iterator.d.ts"
-    },
-    "size": 521,
-    "hash": "a5GFo1F3YhIqtKzebc3H9jA8z8NZhbnUT6KJQHrwj5Q"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/boundaries.d.ts"
-    },
-    "size": 2229,
-    "hash": "J2cNQ7D_ohM_EnMxDLD02YYHFErO1YyFaZklO0hQ_Pk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/hatches.d.ts"
-    },
-    "size": 4249,
-    "hash": "6pDgm-yR3j20e3-U12dVZaDmHAAq_WLsHsbatPCEWOY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/fibers.d.ts"
-    },
-    "size": 6703,
-    "hash": "5PnLtZ4YZGxFz9KdbeNpELY0G-Ff9MsnI8ywtvAOXio"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/provide.d.ts"
-    },
-    "size": 2281,
-    "hash": "k31QBghV46lk2i0f4JI_OSQJCFzTOLh5I_FnCBfDmuU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/primitives.d.ts"
-    },
-    "size": 2714,
-    "hash": "o5vUAbZjcdzZJlJz6sxUnB-I7AasWMI-s30qQb8E7Ic"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/match.d.ts"
-    },
-    "size": 6984,
-    "hash": "2FsfAhYwF1fwC5e0LU4278-JVGYlmyyiLdE2ulgu2A0"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/main.d.ts"
-    },
-    "size": 1361,
-    "hash": "NVDMPJgJKrqMc_i-77_arVwTNhh8LBDWGq6mG7urGRk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Animations.d.ts"
-    },
-    "size": 4126,
-    "hash": "LIh_ITVpztxGdctQldXDsjoilz47SeJfVYCfdklEYtE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/BrowserInfo.d.ts"
-    },
-    "size": 1989,
-    "hash": "mO2jTu2b39Dco34MEBt0o6UTMBWA4gEIAtZHi1IW46I"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/ChildProcess.d.ts"
-    },
-    "size": 3133,
-    "hash": "vtz-lrM1qVNbYlFgzi89KmoPI076rUvhtNoYs2UqjCE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Crypto.d.ts"
-    },
-    "size": 6627,
-    "hash": "XwHusiTQVjE4hwkTA3zAFGJPZll6iaWLc-hZp7hAFPk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/AddressResolver.d.ts"
-    },
-    "size": 5542,
-    "hash": "m2JvnScm4Fzsua4ijv9gVDOYs0vLJHsU1ZpBxnD-FpE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/index.d.ts"
-    },
-    "size": 642,
-    "hash": "kblyErHDYnsF_P1DdrxoVsh10SnDRQ3Bwck5WGn-w3I"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Dns.d.ts"
-    },
-    "size": 2094,
-    "hash": "a8V4vRrBPQWD6J1ZDSVUngqy4VPQYhwXW_4wp7dZbDw"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Document.d.ts"
-    },
-    "size": 2970,
-    "hash": "wgJNU0rjtPZ9wCQ1vOFM17UzIMNuxXkAnRL6Y6k91UM"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/EncodingError.d.ts"
-    },
-    "size": 2782,
-    "hash": "Y96VGSj4hkYGUmAOZdCpJR62OOrsPw-uPQ-6eFOYaOI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64.d.ts"
-    },
-    "size": 2677,
-    "hash": "yEc8CNYNHSis4OSrmGaUexmByy2oBUfRmPnI_UsePU8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64Url.d.ts"
-    },
-    "size": 3553,
-    "hash": "LVhOA-AXlruy2l_8uj7OqYNt8HWUnwKYKe2d-khPXC4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Csv.d.ts"
-    },
-    "size": 22389,
-    "hash": "22pSJFH0tyStth9R63Uycc30OpLzYI182QSJl5K18Vo"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Hex.d.ts"
-    },
-    "size": 3101,
-    "hash": "a8-p15tzg2N4oOiyE0tOjgL17Q6t-4RKSlFK3_E5r4E"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ini.d.ts"
-    },
-    "size": 665,
-    "hash": "VEcV_gJv9YP3829kRBt6tCjrstQMEF8R7NjF5SKENTo"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/JsonArray.d.ts"
-    },
-    "size": 10914,
-    "hash": "bhQR9FZAiP_7kxUnMZbhOLd_U972g4RxmHvD9KKxNuQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ndjson.d.ts"
-    },
-    "size": 16373,
-    "hash": "vI4FK4XFTqsTpUyMJLfl2acrmVs42py0MswI7Dd-R60"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/SchemaBinary.d.ts"
-    },
-    "size": 11065,
-    "hash": "_azIUMK4xCOg93NqSVtNDX-F2N8ig0YdyXCc-P0UMRI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Sse.d.ts"
-    },
-    "size": 11379,
-    "hash": "Fmwr_ayd9o5g0s8kNgVtDPEZ15dytzKkVRuOJDQAXEU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Tar.d.ts"
-    },
-    "size": 11860,
-    "hash": "E0MiYTO8ue5t1e1JKwfyHgRXfng6HCkPtYvnFh87oEQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Toml.d.ts"
-    },
-    "size": 1167,
-    "hash": "oZ9za3NAXBeYkNmhWdO_vkqutfMqcYbkXasEWODwfAI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Xml.d.ts"
-    },
-    "size": 16470,
-    "hash": "pbiCzYYwqiAZdiCFMyRVz1UG67xCJdvhrKQr2DVmlT8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Yaml.d.ts"
-    },
-    "size": 1350,
-    "hash": "v6AA9d7wPSPG8is8K3PlW3cpQrL_Nvwf1MNmOfGrhZY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Zip.d.ts"
-    },
-    "size": 16670,
-    "hash": "nOdp98PU19xagRzuttN9laEGVY6lwutoVseazCyqX7c"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/index.d.ts"
-    },
-    "size": 1360,
-    "hash": "0p_GADS7DXIS1_3swheMVC7wVT6K135y2xxkhj_sq7U"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Encoding.d.ts"
-    },
-    "size": 852,
-    "hash": "6JHF6GIvlFYBICb2qrmb-bGQDaH1t16tgPW4ET7lViM"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/FileReader.d.ts"
-    },
-    "size": 3271,
-    "hash": "Izc4Lg3SrR_vTOYfWz0LwZeU40DjL8144EqjrGxp8AU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Headers.d.ts"
-    },
-    "size": 1481,
-    "hash": "y3AcQqeGN8mxkJ58iTbWOmyXNdK5dRRTEUogxbFXy0s"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/FileSystem.d.ts"
-    },
-    "size": 4237,
-    "hash": "GscyJs1q8_cVZgxDm-u1CJwscBRKw-f5XSRJdUxCAP8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Locks.d.ts"
-    },
-    "size": 5678,
-    "hash": "vA5GYo8h7qcs5a-fuxQPj_Xrbx1iP5fNyo4v0SJHAKk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/MediaQuery.d.ts"
-    },
-    "size": 2800,
-    "hash": "H2TsmsCxrAVQFpn2-nEjFgeAxGOVseTq6FcGaP1wfeE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/NetAddress.d.ts"
-    },
-    "size": 444,
-    "hash": "SgsPPjdFtiCOl0YW0Hfd-hH9BkaSftHcBv_ygK67A4U"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/NodeStream.d.ts"
-    },
-    "size": 3224,
-    "hash": "-Om0tHTgAHL2dgmRlVlG--oBT8d5mftOLPyo-yrHdSk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/ChildProcessSpawner.d.ts"
-    },
-    "size": 10049,
-    "hash": "thXsQ6k-zkFoKCmsVYtf5M6c35jjGBMUFpTT-aWMdLA"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/CommandLine.d.ts"
-    },
-    "size": 11522,
-    "hash": "lxWpSvbLSZaDoTOhUfkj6S-HePD5KBJ-tFZkDiae1Dg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/ChildProcess.d.ts"
-    },
-    "size": 40640,
-    "hash": "AE8za_rMlCaeaidHj6lgF2rgn2xY2_8CONWi6Xw1LPU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Process.d.ts"
-    },
-    "size": 8241,
-    "hash": "oiIVYvpaIUKJOP6geMxc4B8Dl0_JFBNWkR9ZIAKCyHs"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/ResizeObserver.d.ts"
-    },
-    "size": 2495,
-    "hash": "uUMxJ3p5sbc-qhqfyWNUwnitOJtINeXL_9M1xJLWz30"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Stdio.d.ts"
-    },
-    "size": 1504,
-    "hash": "6TcF16KKXbLqEGWumgFgvLQ7WkOiGr_cWBw27JoJX6Q"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Window.d.ts"
-    },
-    "size": 2301,
-    "hash": "Jgz07Sov3RhBpS50HAW-g5wQmxTspcjGXzQUavlym-g"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/AudioContext.d.ts"
-    },
-    "size": 2205,
-    "hash": "z0dedL-zpn1GrXaOgFyOHm7DMb1z3zCMaIMqGqR6tUk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Request.d.ts"
-    },
-    "size": 1649,
-    "hash": "KRg2WDevqFgPetJq4CxDHh8edm0srjqhWRN7lTSenyY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/index.d.ts"
-    },
-    "size": 1574,
-    "hash": "hcZRaVCidu8HYX0HvnTobrHo2cQDv4U1txmpSQ0GSa0"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/prelude.d.ts"
-    },
-    "size": 2682,
-    "hash": "lY9cy0XzDlp4a-WwT2moZ8nwmU3wfjDM4JeqmoMihTQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/resources.d.ts"
-    },
-    "size": 1599,
-    "hash": "U-JuKPY9JEuXM24F00Rd5NNsioH-5xMK4AMyix5GT4w"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/legacy-await-types.d.ts"
-    },
-    "size": 1948,
-    "hash": "yLNOHMBuLdk8f5F8zEtXmfK2YpMjr5UX54CdKqCyap4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/match-cache.d.ts"
-    },
-    "size": 722,
-    "hash": "IT8EGMnRp0-6el6sZiCOflLDbAfxip3e9Tr_dwBJLRQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/index.d.ts"
-    },
-    "size": 1608,
-    "hash": "s_8Vf5JxGZOuLAQBSNlcfdRVxvbbQ5N3X1hA9oH0k5E"
    },
    {
     "path": {
@@ -9816,17 +9830,17 @@
    },
    {
     "path": {
-     "relative": "infra/task-cache/src/NativeClients.ts"
+     "relative": "infra/task-cache/src/NativeClients.vibe"
     },
-    "size": 7991,
-    "hash": "byp8HqxVhBcVANUJmdiis6r9IpyOlewWHez50z98A1M"
+    "size": 8519,
+    "hash": "a3aiATcweBSPz_hDNVW0lxqwQQfVSjeF_AHpeY0fs6I"
    },
    {
     "path": {
      "relative": "infra/task-cache/src/worker.ts"
     },
-    "size": 4689,
-    "hash": "Yeup3fAaGQrEUm9AZEsXIiLseKTyuaYr_mT2m4K-ueA"
+    "size": 4691,
+    "hash": "VN0D6gpFYhYQxbV-7MTjN5XCpk3w5TYXKN_DyvhmPEo"
    },
    {
     "path": {
@@ -10056,8 +10070,8 @@
     "path": {
      "relative": "infra/task-cache/src/NativeClients.test.ts"
     },
-    "size": 5204,
-    "hash": "hDLyJ0tJrJcHatbY6z5Bc3XGNYARSwFeN939-v8SMiQ"
+    "size": 5206,
+    "hash": "dYsydNzGsruISZ-tD3tPSKrlhg9oxsbuUNznbe1KqWM"
    },
    {
     "path": {
@@ -11090,7 +11104,7 @@
     "relative": "infra/task-cache/src/Cleanup.vibe"
    },
    {
-    "relative": "infra/task-cache/src/NativeClients.ts"
+    "relative": "infra/task-cache/src/NativeClients.vibe"
    },
    {
     "relative": "infra/task-cache/src/worker.ts"
@@ -11181,7 +11195,7 @@
     "column": 17,
     "category": "warning",
     "code": "EK3010",
-    "text": "trustedPackages is deprecated and ignored; remove this retired option. Use a signature contract or an explicit Effect.try boundary for foreign calls."
+    "text": "trustedPackages is deprecated and ignored; remove this retired option. Use a signature contract or an explicit Effect.try boundary for foreign calls.\nbundled:///libs/lib.es5.d.ts\nbundled:///libs/lib.es2015.d.ts\nbundled:///libs/lib.es2016.d.ts\nbundled:///libs/lib.es2017.d.ts\nbundled:///libs/lib.es2018.d.ts\nbundled:///libs/lib.es2019.d.ts\nbundled:///libs/lib.es2020.d.ts\nbundled:///libs/lib.es2021.d.ts\nbundled:///libs/lib.es2022.d.ts\nbundled:///libs/lib.es2023.d.ts\nbundled:///libs/lib.es2024.d.ts\nbundled:///libs/lib.es2025.d.ts\nbundled:///libs/lib.es2026.d.ts\nbundled:///libs/lib.esnext.d.ts\nbundled:///libs/lib.dom.d.ts\nbundled:///libs/lib.es2015.core.d.ts\nbundled:///libs/lib.es2015.collection.d.ts\nbundled:///libs/lib.es2015.generator.d.ts\nbundled:///libs/lib.es2015.iterable.d.ts\nbundled:///libs/lib.es2015.promise.d.ts\nbundled:///libs/lib.es2015.proxy.d.ts\nbundled:///libs/lib.es2015.reflect.d.ts\nbundled:///libs/lib.es2015.symbol.d.ts\nbundled:///libs/lib.es2015.symbol.wellknown.d.ts\nbundled:///libs/lib.es2016.array.include.d.ts\nbundled:///libs/lib.es2016.intl.d.ts\nbundled:///libs/lib.es2017.arraybuffer.d.ts\nbundled:///libs/lib.es2017.date.d.ts\nbundled:///libs/lib.es2017.object.d.ts\nbundled:///libs/lib.es2017.sharedmemory.d.ts\nbundled:///libs/lib.es2017.string.d.ts\nbundled:///libs/lib.es2017.intl.d.ts\nbundled:///libs/lib.es2017.typedarrays.d.ts\nbundled:///libs/lib.es2018.asyncgenerator.d.ts\nbundled:///libs/lib.es2018.asynciterable.d.ts\nbundled:///libs/lib.es2018.intl.d.ts\nbundled:///libs/lib.es2018.promise.d.ts\nbundled:///libs/lib.es2018.regexp.d.ts\nbundled:///libs/lib.es2019.array.d.ts\nbundled:///libs/lib.es2019.object.d.ts\nbundled:///libs/lib.es2019.string.d.ts\nbundled:///libs/lib.es2019.symbol.d.ts\nbundled:///libs/lib.es2019.intl.d.ts\nbundled:///libs/lib.es2020.bigint.d.ts\nbundled:///libs/lib.es2020.date.d.ts\nbundled:///libs/lib.es2020.promise.d.ts\nbundled:///libs/lib.es2020.sharedmemory.d.ts\nbundled:///libs/lib.es2020.string.d.ts\nbundled:///libs/lib.es2020.symbol.wellknown.d.ts\nbundled:///libs/lib.es2020.intl.d.ts\nbundled:///libs/lib.es2020.number.d.ts\nbundled:///libs/lib.es2021.promise.d.ts\nbundled:///libs/lib.es2021.string.d.ts\nbundled:///libs/lib.es2021.weakref.d.ts\nbundled:///libs/lib.es2021.intl.d.ts\nbundled:///libs/lib.es2022.array.d.ts\nbundled:///libs/lib.es2022.error.d.ts\nbundled:///libs/lib.es2022.intl.d.ts\nbundled:///libs/lib.es2022.object.d.ts\nbundled:///libs/lib.es2022.string.d.ts\nbundled:///libs/lib.es2022.regexp.d.ts\nbundled:///libs/lib.es2023.array.d.ts\nbundled:///libs/lib.es2023.collection.d.ts\nbundled:///libs/lib.es2023.intl.d.ts\nbundled:///libs/lib.es2024.arraybuffer.d.ts\nbundled:///libs/lib.es2024.collection.d.ts\nbundled:///libs/lib.es2024.object.d.ts\nbundled:///libs/lib.es2024.promise.d.ts\nbundled:///libs/lib.es2024.regexp.d.ts\nbundled:///libs/lib.es2024.sharedmemory.d.ts\nbundled:///libs/lib.es2024.string.d.ts\nbundled:///libs/lib.es2025.collection.d.ts\nbundled:///libs/lib.es2025.float16.d.ts\nbundled:///libs/lib.es2025.intl.d.ts\nbundled:///libs/lib.es2025.iterator.d.ts\nbundled:///libs/lib.es2025.promise.d.ts\nbundled:///libs/lib.es2025.regexp.d.ts\nbundled:///libs/lib.es2026.array.d.ts\nbundled:///libs/lib.es2026.collection.d.ts\nbundled:///libs/lib.es2026.error.d.ts\nbundled:///libs/lib.es2026.iterator.d.ts\nbundled:///libs/lib.es2026.json.d.ts\nbundled:///libs/lib.es2026.math.d.ts\nbundled:///libs/lib.es2026.typedarrays.d.ts\nbundled:///libs/lib.esnext.iterator.d.ts\nbundled:///libs/lib.esnext.promise.d.ts\nbundled:///libs/lib.esnext.date.d.ts\nbundled:///libs/lib.esnext.decorators.d.ts\nbundled:///libs/lib.esnext.disposable.d.ts\nbundled:///libs/lib.esnext.intl.d.ts\nbundled:///libs/lib.esnext.modulesource.d.ts\nbundled:///libs/lib.esnext.sharedmemory.d.ts\nbundled:///libs/lib.esnext.temporal.d.ts\nbundled:///libs/lib.decorators.d.ts\nbundled:///libs/lib.decorators.legacy.d.ts"
    }
   ],
   "outputs": [
@@ -11191,7 +11205,7 @@
       "relative": "infra/task-cache/src/observability.vibe"
      }
     ],
-    "code": "import * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime\";\nimport * as Axiom from \"@alchemy.run/axiom\";\nimport * as Output from \"alchemy/Output\";\nimport * as Effect from \"effect/Effect\";\nimport { cacheName } from \"./resources.js\";\n// Native summaries may be observed by nested launchers and retried after a lost response.\n// Deduplicate before summing; task runtime is a compute proxy, not measured CPU or critical-path time.\nexport const savingsQuery = (dataset, group, lifetime = false) => [\n    `['${dataset}']`,\n    `| where name == '${lifetime ? \"TaskCache.lifetime\" : \"TaskCache.summary\"}'`,\n    `| extend a = ['attributes.custom']`,\n    `| extend event_id = tostring(a['cache.event_id']), developer = tostring(a['developer.id']), host = tostring(['attributes.host.name']), ci = tobool(a['ci']), recorded_at = tolong(a['cache.recorded_at']), unspecified_ms = coalesce(tolong(a['cache.unspecified_saved_ms']), 0), unspecified_hits = coalesce(tolong(a['cache.unspecified_hits']), 0), local_ms = tolong(a['cache.local_saved_ms']), remote_ms = tolong(a['cache.remote_saved_ms']), local_hits = tolong(a['cache.local_hits']), remote_hits = tolong(a['cache.remote_hits']), executed = tolong(a['cache.executed']), restore_failures = tolong(a['cache.restore_failures'])`,\n    `| summarize arg_max(_time, unspecified_ms, unspecified_hits, local_ms, remote_ms, local_hits, remote_hits, executed, restore_failures${lifetime ? \"\" : \", developer, host, ci, recorded_at\"}) by ${lifetime\n        ? \"developer, host, ci, platform = tostring(a['host.os']), arch = tostring(['attributes.host.arch'])\"\n        : \"event_id\"}`,\n    ...(!lifetime ? [\"| extend _time = unixtime_milliseconds_todatetime(recorded_at)\"] : []),\n    `| where local_hits + remote_hits + unspecified_hits + executed + restore_failures > 0`,\n    `| summarize saved_task_hours = sum(local_ms + remote_ms + unspecified_ms) / 3600000.0, remote_saved_hours = sum(remote_ms) / 3600000.0, local_saved_hours = sum(local_ms) / 3600000.0, unspecified_saved_hours = sum(unspecified_ms) / 3600000.0, unspecified_hits = sum(unspecified_hits), local_hits = sum(local_hits), remote_hits = sum(remote_hits), executed = sum(executed), restore_failures = sum(restore_failures)${group ? ` by ${group}` : \"\"}`,\n].join(\"\\n\");\nconst summaryRows = (dataset) => savingsQuery(dataset).split(\"\\n\").slice(0, -1).join(\"\\n\");\n// One row per native-client install report (scripts/mobile-native-client.ts), deduplicated by report id.\nconst nativeInstalls = (dataset) => [\n    `['${dataset}']`,\n    `| where name == 'TaskCache.task'`,\n    `| extend a = ['attributes.custom']`,\n    `| where tostring(a['task.package']) == '@t3tools/mobile' and tostring(a['task.name']) startswith 'native-client'`,\n    `| extend event_id = tostring(a['cache.event_id']), task = tostring(a['task.name']), source = tostring(a['cache.source']), saved_ms = tolong(a['cache.saved_ms']), host = tostring(['attributes.host.name']), developer = tostring(a['developer.id'])`,\n    `| summarize arg_max(_time, task, source, saved_ms, host, developer) by event_id`,\n].join(\"\\n\");\nconst nativeCounts = \"local = countif(source == 'local'), remote = countif(source == 'remote'), built = countif(source == 'executed'), failed = countif(source == 'failed')\";\nexport const Observability = Effect_1.gen(runtime.$joinedFrame(function* Observability() {\n    const name = yield* cacheName;\n    const traces = yield* Axiom.Dataset(\"CacheTraces\", {\n        name: `${name}-traces`,\n        kind: \"otel:traces:v1\",\n        description: \"Shared task cache: service traces and unsampled native task savings reports.\",\n        retentionDays: 30,\n        useRetentionPeriod: true,\n    });\n    const token = yield* Axiom.ApiToken(\"CacheIngestToken\", {\n        name: `${name}-otel-ingest`,\n        datasetCapabilities: yield* Effect.orDie(Effect.try({\n            try: () => Output.map(traces.name, (dataset) => ({\n                [dataset]: { ingest: [\"create\"] },\n            })),\n            catch: (e) => e,\n        })),\n    });\n    const charts = [\n        {\n            id: \"total\",\n            name: \"⏳ Task hours given back · lifetime\",\n            type: \"Statistic\",\n            x: 0,\n            y: 0,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${savingsQuery(dataset, undefined, true)}\\n| project saved_task_hours`,\n        },\n        {\n            id: \"remote\",\n            name: \"🌍 Remote hours shared · lifetime\",\n            type: \"Statistic\",\n            x: 3,\n            y: 0,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${savingsQuery(dataset, undefined, true)}\\n| project remote_saved_hours`,\n        },\n        {\n            id: \"hit-rate\",\n            name: \"🎯 Cache hit rate · lifetime (%)\",\n            type: \"Statistic\",\n            x: 6,\n            y: 0,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${savingsQuery(dataset, undefined, true)}\\n| project hit_rate = round(100.0 * (local_hits + remote_hits + unspecified_hits) / (local_hits + remote_hits + unspecified_hits + executed), 1)`,\n        },\n        {\n            id: \"skipped\",\n            name: \"⚡ Tasks we skipped · lifetime\",\n            type: \"Statistic\",\n            x: 9,\n            y: 0,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${savingsQuery(dataset, undefined, true)}\\n| project cached_tasks = local_hits + remote_hits + unspecified_hits`,\n        },\n        {\n            id: \"savings-trend\",\n            name: \"📈 Minutes given back over time\",\n            type: \"TimeSeries\",\n            x: 0,\n            y: 3,\n            w: 8,\n            h: 5,\n            query: (dataset) => `${summaryRows(dataset)}\\n| summarize local_minutes = sum(local_ms) / 60000.0, remote_minutes = sum(remote_ms) / 60000.0, unspecified_minutes = sum(unspecified_ms) / 60000.0 by bin_auto(_time)`,\n        },\n        {\n            id: \"developer\",\n            name: \"🏆 Who is saving the most?\",\n            type: \"Pie\",\n            x: 8,\n            y: 3,\n            w: 4,\n            h: 5,\n            query: (dataset) => `${savingsQuery(dataset, \"developer\", true)}\\n| project developer, saved_task_hours\\n| order by saved_task_hours desc`,\n        },\n        {\n            id: \"tasks-trend\",\n            name: \"🔥 Cache hits vs actual execution\",\n            type: \"TimeSeries\",\n            x: 0,\n            y: 8,\n            w: 8,\n            h: 5,\n            query: (dataset) => `${summaryRows(dataset)}\\n| summarize local_hits = sum(local_hits), remote_hits = sum(remote_hits), unspecified_hits = sum(unspecified_hits), executed = sum(executed) by bin_auto(_time)`,\n        },\n        {\n            id: \"host\",\n            name: \"🖥️ The machine leaderboard\",\n            type: \"Pie\",\n            x: 8,\n            y: 8,\n            w: 4,\n            h: 5,\n            query: (dataset) => `${savingsQuery(dataset, \"host\", true)}\\n| project host, saved_task_hours\\n| order by saved_task_hours desc`,\n        },\n        {\n            id: \"leaderboard\",\n            name: \"🏅 Developer scorecard · lifetime\",\n            type: \"Table\",\n            x: 0,\n            y: 13,\n            w: 8,\n            h: 4,\n            query: (dataset) => `${savingsQuery(dataset, \"developer\", true)}\\n| project developer, saved_task_hours, remote_saved_hours, cached_tasks = local_hits + remote_hits + unspecified_hits, executed\\n| order by saved_task_hours desc`,\n        },\n        {\n            id: \"ci\",\n            name: \"🤖 CI vs developer machines · hours saved\",\n            type: \"Pie\",\n            x: 8,\n            y: 13,\n            w: 4,\n            h: 4,\n            query: (dataset) => `${savingsQuery(dataset, \"ci\", true)}\\n| summarize saved_task_hours = sum(saved_task_hours) by environment = iff(ci, \"CI\", \"Developer machines\")`,\n        },\n        {\n            id: \"native-hit-rate\",\n            name: \"📱 Native client hit rate (%)\",\n            type: \"Statistic\",\n            x: 0,\n            y: 17,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize ${nativeCounts}\\n| project hit_rate = round(100.0 * (local + remote) / (local + remote + built), 1)`,\n        },\n        {\n            id: \"native-saved\",\n            name: \"📱 Native build hours saved\",\n            type: \"Statistic\",\n            x: 3,\n            y: 17,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize build_hours_saved = round(sum(saved_ms) / 3600000.0, 1)`,\n        },\n        {\n            id: \"native-builds\",\n            name: \"📱 Native builds (cache misses)\",\n            type: \"Statistic\",\n            x: 6,\n            y: 17,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize builds = countif(source == 'executed')`,\n        },\n        {\n            id: \"native-failures\",\n            name: \"📱 Native install failures\",\n            type: \"Statistic\",\n            x: 9,\n            y: 17,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize failures = countif(source == 'failed')`,\n        },\n        {\n            id: \"native-trend\",\n            name: \"📱 Native installs: local, shared, built, failed\",\n            type: \"TimeSeries\",\n            x: 0,\n            y: 20,\n            w: 8,\n            h: 5,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize ${nativeCounts} by bin_auto(_time)`,\n        },\n        {\n            id: \"native-host\",\n            name: \"📱 Native installs by machine\",\n            type: \"Pie\",\n            x: 8,\n            y: 20,\n            w: 4,\n            h: 5,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize installs = count() by host\\n| order by installs desc`,\n        },\n        {\n            id: \"native-platforms\",\n            name: \"📱 Native clients by platform\",\n            type: \"Table\",\n            x: 0,\n            y: 25,\n            w: 8,\n            h: 4,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize ${nativeCounts}, hours_saved = round(sum(saved_ms) / 3600000.0, 2) by task\\n| extend hit_rate = round(100.0 * (local + remote) / (local + remote + built), 1)\\n| order by local + remote + built desc`,\n        },\n        {\n            id: \"native-shared\",\n            name: \"📱 Shared cache downloads: hit vs miss\",\n            type: \"TimeSeries\",\n            x: 8,\n            y: 25,\n            w: 4,\n            h: 4,\n            query: (dataset) => `['${dataset}']\\n| where name == 'NativeClients.handle' and tostring(['attributes.custom']['native.operation']) == 'download'\\n| extend result = tostring(['attributes.custom']['native.result'])\\n| summarize hits = countif(result == 'hit'), misses = countif(result == 'miss') by bin_auto(_time)`,\n        },\n    ];\n    {\n        let pending_1 = runtime.$normal;\n        try {\n            for (const chart of charts) {\n                try {\n                    {\n                        yield* Axiom.View(`CacheSavings-${chart.id}`, {\n                            name: `${name}-${chart.id}-savings`,\n                            description: chart.name,\n                            datasets: [traces.name],\n                            aplQuery: yield* Effect.orDie(Effect.try({ try: () => Output.map(traces.name, chart.query), catch: (e) => e })),\n                        });\n                    }\n                }\n                catch (thrown_1) {\n                    pending_1 = thrown_1;\n                    break;\n                }\n            }\n        }\n        catch (thrown_2) {\n            throw runtime.$finallyFailure(pending_1, thrown_2);\n        }\n        if (pending_1 !== runtime.$normal)\n            throw pending_1;\n    }\n    const dashboard = yield* Axiom.Dashboard(\"CacheSavingsDashboard\", {\n        dashboard: {\n            name: \"⚡ Task Cache · Time Back\",\n            owner: \"X-AXIOM-EVERYONE\",\n            schemaVersion: 2,\n            refreshTime: 60,\n            description: \"Avoided task execution time, not CPU seconds or elapsed developer time. Local and remote hits; deduplicated native Vite+ summaries. Lifetime counters are retained in D1 and refreshed hourly. Raw traces have 30-day retention.\",\n            timeWindowStart: \"qr-now-30d\",\n            timeWindowEnd: \"qr-now\",\n            charts: charts.map((chart) => {\n                const common = {\n                    id: chart.id,\n                    name: chart.name,\n                    query: { apl: Output.map(traces.name, chart.query) },\n                };\n                switch (chart.type) {\n                    case \"Statistic\":\n                        return { ...common, type: \"Statistic\" };\n                    case \"TimeSeries\":\n                        return {\n                            ...common,\n                            type: \"TimeSeries\",\n                            query: {\n                                ...common.query,\n                                queryOptions: {\n                                    timeSeriesVariant: chart.id === \"savings-trend\" ? \"area\" : \"bars\",\n                                    displayNull: \"zero\",\n                                    overlayCharts: \"true\",\n                                },\n                            },\n                        };\n                    case \"Pie\":\n                        return { ...common, type: \"Pie\" };\n                    case \"Table\":\n                        return { ...common, type: \"Table\" };\n                }\n            }),\n            layout: charts.map(({ id, x, y, w, h }) => ({ i: id, x, y, w, h })),\n        },\n    });\n    return { traces, token, dashboard };\n}));\n",
+    "code": "import * as Effect_1 from \"effect/Effect\";\nimport * as Axiom from \"@alchemy.run/axiom\";\nimport * as Output from \"alchemy/Output\";\nimport * as Effect from \"effect/Effect\";\nimport { cacheName } from \"./resources.js\";\n// Native summaries may be observed by nested launchers and retried after a lost response.\n// Deduplicate before summing; task runtime is a compute proxy, not measured CPU or critical-path time.\nexport const savingsQuery = (dataset, group, lifetime = false) => [\n    `['${dataset}']`,\n    `| where name == '${lifetime ? \"TaskCache.lifetime\" : \"TaskCache.summary\"}'`,\n    `| extend a = ['attributes.custom']`,\n    `| extend event_id = tostring(a['cache.event_id']), developer = tostring(a['developer.id']), host = tostring(['attributes.host.name']), ci = tobool(a['ci']), recorded_at = tolong(a['cache.recorded_at']), unspecified_ms = coalesce(tolong(a['cache.unspecified_saved_ms']), 0), unspecified_hits = coalesce(tolong(a['cache.unspecified_hits']), 0), local_ms = tolong(a['cache.local_saved_ms']), remote_ms = tolong(a['cache.remote_saved_ms']), local_hits = tolong(a['cache.local_hits']), remote_hits = tolong(a['cache.remote_hits']), executed = tolong(a['cache.executed']), restore_failures = tolong(a['cache.restore_failures'])`,\n    `| summarize arg_max(_time, unspecified_ms, unspecified_hits, local_ms, remote_ms, local_hits, remote_hits, executed, restore_failures${lifetime ? \"\" : \", developer, host, ci, recorded_at\"}) by ${lifetime\n        ? \"developer, host, ci, platform = tostring(a['host.os']), arch = tostring(['attributes.host.arch'])\"\n        : \"event_id\"}`,\n    ...(!lifetime ? [\"| extend _time = unixtime_milliseconds_todatetime(recorded_at)\"] : []),\n    `| where local_hits + remote_hits + unspecified_hits + executed + restore_failures > 0`,\n    `| summarize saved_task_hours = sum(local_ms + remote_ms + unspecified_ms) / 3600000.0, remote_saved_hours = sum(remote_ms) / 3600000.0, local_saved_hours = sum(local_ms) / 3600000.0, unspecified_saved_hours = sum(unspecified_ms) / 3600000.0, unspecified_hits = sum(unspecified_hits), local_hits = sum(local_hits), remote_hits = sum(remote_hits), executed = sum(executed), restore_failures = sum(restore_failures)${group ? ` by ${group}` : \"\"}`,\n].join(\"\\n\");\nconst summaryRows = (dataset) => savingsQuery(dataset).split(\"\\n\").slice(0, -1).join(\"\\n\");\n// One row per native-client install report (scripts/mobile-native-client.ts), deduplicated by report id.\nconst nativeInstalls = (dataset) => [\n    `['${dataset}']`,\n    `| where name == 'TaskCache.task'`,\n    `| extend a = ['attributes.custom']`,\n    `| where tostring(a['task.package']) == '@t3tools/mobile' and tostring(a['task.name']) startswith 'native-client'`,\n    `| extend event_id = tostring(a['cache.event_id']), task = tostring(a['task.name']), source = tostring(a['cache.source']), saved_ms = tolong(a['cache.saved_ms']), host = tostring(['attributes.host.name']), developer = tostring(a['developer.id'])`,\n    `| summarize arg_max(_time, task, source, saved_ms, host, developer) by event_id`,\n].join(\"\\n\");\nconst nativeCounts = \"local = countif(source == 'local'), remote = countif(source == 'remote'), built = countif(source == 'executed'), failed = countif(source == 'failed')\";\nexport const Observability = Effect_1.gen(function* Observability() {\n    const name = yield* cacheName;\n    const traces = yield* Axiom.Dataset(\"CacheTraces\", {\n        name: `${name}-traces`,\n        kind: \"otel:traces:v1\",\n        description: \"Shared task cache: service traces and unsampled native task savings reports.\",\n        retentionDays: 30,\n        useRetentionPeriod: true,\n    });\n    const token = yield* Axiom.ApiToken(\"CacheIngestToken\", {\n        name: `${name}-otel-ingest`,\n        datasetCapabilities: yield* Effect.orDie(Effect.try({\n            try: () => Output.map(traces.name, (dataset) => ({\n                [dataset]: { ingest: [\"create\"] },\n            })),\n            catch: (e) => e,\n        })),\n    });\n    const charts = [\n        {\n            id: \"total\",\n            name: \"⏳ Task hours given back · lifetime\",\n            type: \"Statistic\",\n            x: 0,\n            y: 0,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${savingsQuery(dataset, undefined, true)}\\n| project saved_task_hours`,\n        },\n        {\n            id: \"remote\",\n            name: \"🌍 Remote hours shared · lifetime\",\n            type: \"Statistic\",\n            x: 3,\n            y: 0,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${savingsQuery(dataset, undefined, true)}\\n| project remote_saved_hours`,\n        },\n        {\n            id: \"hit-rate\",\n            name: \"🎯 Cache hit rate · lifetime (%)\",\n            type: \"Statistic\",\n            x: 6,\n            y: 0,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${savingsQuery(dataset, undefined, true)}\\n| project hit_rate = round(100.0 * (local_hits + remote_hits + unspecified_hits) / (local_hits + remote_hits + unspecified_hits + executed), 1)`,\n        },\n        {\n            id: \"skipped\",\n            name: \"⚡ Tasks we skipped · lifetime\",\n            type: \"Statistic\",\n            x: 9,\n            y: 0,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${savingsQuery(dataset, undefined, true)}\\n| project cached_tasks = local_hits + remote_hits + unspecified_hits`,\n        },\n        {\n            id: \"savings-trend\",\n            name: \"📈 Minutes given back over time\",\n            type: \"TimeSeries\",\n            x: 0,\n            y: 3,\n            w: 8,\n            h: 5,\n            query: (dataset) => `${summaryRows(dataset)}\\n| summarize local_minutes = sum(local_ms) / 60000.0, remote_minutes = sum(remote_ms) / 60000.0, unspecified_minutes = sum(unspecified_ms) / 60000.0 by bin_auto(_time)`,\n        },\n        {\n            id: \"developer\",\n            name: \"🏆 Who is saving the most?\",\n            type: \"Pie\",\n            x: 8,\n            y: 3,\n            w: 4,\n            h: 5,\n            query: (dataset) => `${savingsQuery(dataset, \"developer\", true)}\\n| project developer, saved_task_hours\\n| order by saved_task_hours desc`,\n        },\n        {\n            id: \"tasks-trend\",\n            name: \"🔥 Cache hits vs actual execution\",\n            type: \"TimeSeries\",\n            x: 0,\n            y: 8,\n            w: 8,\n            h: 5,\n            query: (dataset) => `${summaryRows(dataset)}\\n| summarize local_hits = sum(local_hits), remote_hits = sum(remote_hits), unspecified_hits = sum(unspecified_hits), executed = sum(executed) by bin_auto(_time)`,\n        },\n        {\n            id: \"host\",\n            name: \"🖥️ The machine leaderboard\",\n            type: \"Pie\",\n            x: 8,\n            y: 8,\n            w: 4,\n            h: 5,\n            query: (dataset) => `${savingsQuery(dataset, \"host\", true)}\\n| project host, saved_task_hours\\n| order by saved_task_hours desc`,\n        },\n        {\n            id: \"leaderboard\",\n            name: \"🏅 Developer scorecard · lifetime\",\n            type: \"Table\",\n            x: 0,\n            y: 13,\n            w: 8,\n            h: 4,\n            query: (dataset) => `${savingsQuery(dataset, \"developer\", true)}\\n| project developer, saved_task_hours, remote_saved_hours, cached_tasks = local_hits + remote_hits + unspecified_hits, executed\\n| order by saved_task_hours desc`,\n        },\n        {\n            id: \"ci\",\n            name: \"🤖 CI vs developer machines · hours saved\",\n            type: \"Pie\",\n            x: 8,\n            y: 13,\n            w: 4,\n            h: 4,\n            query: (dataset) => `${savingsQuery(dataset, \"ci\", true)}\\n| summarize saved_task_hours = sum(saved_task_hours) by environment = iff(ci, \"CI\", \"Developer machines\")`,\n        },\n        {\n            id: \"native-hit-rate\",\n            name: \"📱 Native client hit rate (%)\",\n            type: \"Statistic\",\n            x: 0,\n            y: 17,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize ${nativeCounts}\\n| project hit_rate = round(100.0 * (local + remote) / (local + remote + built), 1)`,\n        },\n        {\n            id: \"native-saved\",\n            name: \"📱 Native build hours saved\",\n            type: \"Statistic\",\n            x: 3,\n            y: 17,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize build_hours_saved = round(sum(saved_ms) / 3600000.0, 1)`,\n        },\n        {\n            id: \"native-builds\",\n            name: \"📱 Native builds (cache misses)\",\n            type: \"Statistic\",\n            x: 6,\n            y: 17,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize builds = countif(source == 'executed')`,\n        },\n        {\n            id: \"native-failures\",\n            name: \"📱 Native install failures\",\n            type: \"Statistic\",\n            x: 9,\n            y: 17,\n            w: 3,\n            h: 3,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize failures = countif(source == 'failed')`,\n        },\n        {\n            id: \"native-trend\",\n            name: \"📱 Native installs: local, shared, built, failed\",\n            type: \"TimeSeries\",\n            x: 0,\n            y: 20,\n            w: 8,\n            h: 5,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize ${nativeCounts} by bin_auto(_time)`,\n        },\n        {\n            id: \"native-host\",\n            name: \"📱 Native installs by machine\",\n            type: \"Pie\",\n            x: 8,\n            y: 20,\n            w: 4,\n            h: 5,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize installs = count() by host\\n| order by installs desc`,\n        },\n        {\n            id: \"native-platforms\",\n            name: \"📱 Native clients by platform\",\n            type: \"Table\",\n            x: 0,\n            y: 25,\n            w: 8,\n            h: 4,\n            query: (dataset) => `${nativeInstalls(dataset)}\\n| summarize ${nativeCounts}, hours_saved = round(sum(saved_ms) / 3600000.0, 2) by task\\n| extend hit_rate = round(100.0 * (local + remote) / (local + remote + built), 1)\\n| order by local + remote + built desc`,\n        },\n        {\n            id: \"native-shared\",\n            name: \"📱 Shared cache downloads: hit vs miss\",\n            type: \"TimeSeries\",\n            x: 8,\n            y: 25,\n            w: 4,\n            h: 4,\n            query: (dataset) => `['${dataset}']\\n| where name == 'NativeClients.handle' and tostring(['attributes.custom']['native.operation']) == 'download'\\n| extend result = tostring(['attributes.custom']['native.result'])\\n| summarize hits = countif(result == 'hit'), misses = countif(result == 'miss') by bin_auto(_time)`,\n        },\n    ];\n    for (const chart of charts) {\n        yield* Axiom.View(`CacheSavings-${chart.id}`, {\n            name: `${name}-${chart.id}-savings`,\n            description: chart.name,\n            datasets: [traces.name],\n            aplQuery: yield* Effect.orDie(Effect.try({ try: () => Output.map(traces.name, chart.query), catch: (e) => e })),\n        });\n    }\n    const dashboard = yield* Axiom.Dashboard(\"CacheSavingsDashboard\", {\n        dashboard: {\n            name: \"⚡ Task Cache · Time Back\",\n            owner: \"X-AXIOM-EVERYONE\",\n            schemaVersion: 2,\n            refreshTime: 60,\n            description: \"Avoided task execution time, not CPU seconds or elapsed developer time. Local and remote hits; deduplicated native Vite+ summaries. Lifetime counters are retained in D1 and refreshed hourly. Raw traces have 30-day retention.\",\n            timeWindowStart: \"qr-now-30d\",\n            timeWindowEnd: \"qr-now\",\n            charts: charts.map((chart) => {\n                const common = {\n                    id: chart.id,\n                    name: chart.name,\n                    query: { apl: Output.map(traces.name, chart.query) },\n                };\n                switch (chart.type) {\n                    case \"Statistic\":\n                        return { ...common, type: \"Statistic\" };\n                    case \"TimeSeries\":\n                        return {\n                            ...common,\n                            type: \"TimeSeries\",\n                            query: {\n                                ...common.query,\n                                queryOptions: {\n                                    timeSeriesVariant: chart.id === \"savings-trend\" ? \"area\" : \"bars\",\n                                    displayNull: \"zero\",\n                                    overlayCharts: \"true\",\n                                },\n                            },\n                        };\n                    case \"Pie\":\n                        return { ...common, type: \"Pie\" };\n                    case \"Table\":\n                        return { ...common, type: \"Table\" };\n                }\n            }),\n            layout: charts.map(({ id, x, y, w, h }) => ({ i: id, x, y, w, h })),\n        },\n    });\n    return { traces, token, dashboard };\n});\n",
     "map": {
      "version": 3,
      "file": "observability.js",
@@ -11202,7 +11216,7 @@
       }
      ],
      "names": [],
-     "mappings": "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"
+     "mappings": "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"
     }
    },
    {
@@ -11211,7 +11225,7 @@
       "relative": "infra/task-cache/src/WriterRegistry.vibe"
      }
     ],
-    "code": "import { withSpan } from \"effect/Effect\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime\";\nimport * as Schema_1 from \"effect/Schema\";\nimport * as Config from \"effect/Config\";\nimport * as Context from \"effect/Context\";\nimport * as Digest from \"effect/crypto/Digest\";\nimport * as SecureRandom from \"effect/crypto/SecureRandom\";\nimport * as Effect from \"effect/Effect\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as Layer from \"effect/Layer\";\nimport * as Schema from \"effect/Schema\";\nconst Writers = Schema.fromJsonString(Schema.Record(Schema.String, Schema.String));\nconst decodeWriters = Schema.decodeEffect(Writers);\nconst encodeWriters = Schema.encodeEffect(Writers);\nconst stateDirectory = Effect.map(Config.String(\"HOME\"), (home) => `${home}/.config/t3-task-cache`);\nconst Credential = Schema.fromJsonString(Schema.Struct({ endpoint: Schema.String, name: Schema.String, token: Schema.String }));\nclass ManagementError extends Schema_1.TaggedError()(\"ManagementError\", {\n    message: Schema_1.String,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"ManagementError\");\n    }\n}\nexport const isWriterName = (name) => /^(?!writers$|credentials$|readers$|ci-reader$)[a-z0-9-]{1,64}$/.test(name);\nconst encodeCredential = Schema.encodeEffect(Credential);\nexport class WriterRegistry extends runtime.$service(\"@t3tools/task-cache/WriterRegistry\") {\n}\nconst make = Effect_1.gen(function* make() {\n    const fs = yield* FileSystem.FileSystem;\n    const random = yield* SecureRandom.SecureRandom;\n    const digest = yield* Digest.Digest;\n    const state = yield* stateDirectory;\n    const readWriters = () => {\n        return Effect_1.gen(function* readWriters() { return yield* withSpan(Effect_1.gen(function* () {\n            return yield* decodeWriters(yield* fs.readFileString(`${state}/writers.json`));\n        }), \"TaskCache.readWriters\"); });\n    };\n    const save = (entries) => {\n        return Effect_1.gen(function* save() { return yield* withSpan(Effect_1.gen(function* () {\n            yield* fs.makeDirectory(state, { recursive: true, mode: 0o700 });\n            yield* Effect.scoped(Effect_1.gen(runtime.$joinedFrame(function* () {\n                const directory = yield* fs.makeTempDirectoryScoped({\n                    directory: state,\n                    prefix: \".writer-\",\n                });\n                {\n                    let pending_1 = runtime.$normal;\n                    try {\n                        for (const value_1 of entries) {\n                            try {\n                                const [name, value] = value_1;\n                                {\n                                    yield* fs.writeFileString(`${directory}/${name}.json`, value + \"\\n\", { mode: 0o600 });\n                                }\n                            }\n                            catch (thrown_1) {\n                                pending_1 = thrown_1;\n                                break;\n                            }\n                        }\n                    }\n                    catch (thrown_2) {\n                        throw runtime.$finallyFailure(pending_1, thrown_2);\n                    }\n                    if (pending_1 !== runtime.$normal)\n                        throw pending_1;\n                }\n                // The registry is the authorization commit point and must publish last.\n                {\n                    let pending_2 = runtime.$normal;\n                    try {\n                        for (const value_2 of entries) {\n                            try {\n                                const [name] = value_2;\n                                {\n                                    yield* fs.rename(`${directory}/${name}.json`, `${state}/${name}.json`);\n                                }\n                            }\n                            catch (thrown_3) {\n                                pending_2 = thrown_3;\n                                break;\n                            }\n                        }\n                    }\n                    catch (thrown_4) {\n                        throw runtime.$finallyFailure(pending_2, thrown_4);\n                    }\n                    if (pending_2 !== runtime.$normal)\n                        throw pending_2;\n                }\n            })));\n        }), \"TaskCache.save\"); });\n    };\n    const updateWriter = (arg_1, arg_2, arg_3, ...args_1) => {\n        try {\n            return ((name, revoke, endpoint, initialize = false) => Effect_1.gen(function* updateWriter() { return yield* withSpan(Effect_1.gen(function* () {\n                if (!isWriterName(name))\n                    return yield* Effect_1.fail(new ManagementError({ message: \"Invalid writer name.\" }));\n                if (!revoke && !endpoint) {\n                    return yield* Effect_1.fail(new ManagementError({ message: \"A deployed cache endpoint is required.\" }));\n                }\n                return yield* Effect.scoped(Effect_1.gen(function* () {\n                    yield* fs.makeDirectory(state, { recursive: true, mode: 0o700 });\n                    // Exclusive creation coordinates separate management processes as well as fibers.\n                    yield* runtime.acquireRelease(Effect.mapError(fs.makeDirectory(`${state}/writers.lock`), (error) => error.reason._tag === \"AlreadyExists\"\n                        ? new ManagementError({\n                            message: \"Writer registry is locked by another update. Retry after it completes; remove writers.lock only if that process has stopped.\",\n                        })\n                        : error), () => Effect.orDie(fs.remove(`${state}/writers.lock`, { recursive: true })));\n                    const exists = yield* fs.exists(`${state}/writers.json`);\n                    if (!exists && !initialize) {\n                        return yield* Effect_1.fail(new ManagementError({\n                            message: \"Writer registry is missing. Copy the existing private registry from its administrator; use --new-registry only when creating a new cache.\",\n                        }));\n                    }\n                    const writers = { ...(exists || revoke ? yield* readWriters() : {}) };\n                    const token = hex(yield* random.randomBytes(32));\n                    if (revoke)\n                        delete writers[name];\n                    else {\n                        writers[name] = hex(yield* digest.digest(Digest.sha256, new TextEncoder().encode(token)));\n                    }\n                    const entries = [];\n                    if (!revoke && endpoint) {\n                        entries.push([name, yield* encodeCredential({ endpoint, name, token })]);\n                    }\n                    entries.push([\"writers\", yield* encodeWriters(writers)]);\n                    yield* save(entries);\n                    return revoke ? undefined : `${state}/${name}.json`;\n                }));\n            }), \"TaskCache.updateWriter\"); }))(arg_1, arg_2, arg_3, ...runtime.$spreadItems(args_1));\n        }\n        catch (e_1) {\n            return Effect_1.die(e_1);\n        }\n    };\n    return WriterRegistry.of({ read: readWriters, update: updateWriter });\n});\nexport const layer = Layer.effect(WriterRegistry, make);\nconst hex = (bytes) => Array.from(bytes, (byte) => byte.toString(16).padStart(2, \"0\")).join(\"\");\n",
+    "code": "import { withSpan } from \"effect/Effect\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport * as Schema_1 from \"effect/Schema\";\nimport * as Config from \"effect/Config\";\nimport * as Context from \"effect/Context\";\nimport * as Digest from \"effect/crypto/Digest\";\nimport * as SecureRandom from \"effect/crypto/SecureRandom\";\nimport * as Effect from \"effect/Effect\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as Layer from \"effect/Layer\";\nimport * as Schema from \"effect/Schema\";\nconst Writers = Schema.fromJsonString(Schema.Record(Schema.String, Schema.String));\nconst decodeWriters = Schema.decodeEffect(Writers);\nconst encodeWriters = Schema.encodeEffect(Writers);\nconst stateDirectory = Effect.map(Config.String(\"HOME\"), (home) => `${home}/.config/t3-task-cache`);\nconst Credential = Schema.fromJsonString(Schema.Struct({ endpoint: Schema.String, name: Schema.String, token: Schema.String }));\nclass ManagementError extends Schema_1.TaggedError()(\"ManagementError\", {\n    message: Schema_1.String,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"ManagementError\");\n    }\n}\nexport const isWriterName = (name) => /^(?!writers$|credentials$|readers$|ci-reader$)[a-z0-9-]{1,64}$/.test(name);\nconst encodeCredential = Schema.encodeEffect(Credential);\nexport class WriterRegistry extends runtime.$service(\"@t3tools/task-cache/WriterRegistry\") {\n}\nconst make = Effect_1.gen(function* make() {\n    const fs = yield* FileSystem.FileSystem;\n    const random = yield* SecureRandom.SecureRandom;\n    const digest = yield* Digest.Digest;\n    const state = yield* stateDirectory;\n    const readWriters = () => {\n        return Effect_1.gen(function* readWriters() { return yield* withSpan(Effect_1.gen(function* () {\n            return yield* decodeWriters(yield* fs.readFileString(`${state}/writers.json`));\n        }), \"TaskCache.readWriters\"); });\n    };\n    const save = (entries) => {\n        return Effect_1.gen(function* save() { return yield* withSpan(Effect_1.gen(function* () {\n            yield* fs.makeDirectory(state, { recursive: true, mode: 0o700 });\n            yield* Effect.scoped(Effect_1.gen(function* () {\n                const directory = yield* fs.makeTempDirectoryScoped({\n                    directory: state,\n                    prefix: \".writer-\",\n                });\n                for (const [name, value] of entries) {\n                    yield* fs.writeFileString(`${directory}/${name}.json`, value + \"\\n\", { mode: 0o600 });\n                }\n                // The registry is the authorization commit point and must publish last.\n                for (const [name] of entries) {\n                    yield* fs.rename(`${directory}/${name}.json`, `${state}/${name}.json`);\n                }\n            }));\n        }), \"TaskCache.save\"); });\n    };\n    const updateWriter = (arg_1, arg_2, arg_3, ...args_1) => {\n        try {\n            return ((name, revoke, endpoint, initialize = false) => Effect_1.gen(function* updateWriter() { return yield* withSpan(Effect_1.gen(function* () {\n                if (!isWriterName(name))\n                    return yield* Effect_1.fail(new ManagementError({ message: \"Invalid writer name.\" }));\n                if (!revoke && !endpoint) {\n                    return yield* Effect_1.fail(new ManagementError({ message: \"A deployed cache endpoint is required.\" }));\n                }\n                return yield* Effect.scoped(Effect_1.gen(function* () {\n                    yield* fs.makeDirectory(state, { recursive: true, mode: 0o700 });\n                    // Exclusive creation coordinates separate management processes as well as fibers.\n                    yield* runtime.acquireRelease(Effect.mapError(fs.makeDirectory(`${state}/writers.lock`), (error) => error.reason._tag === \"AlreadyExists\"\n                        ? new ManagementError({\n                            message: \"Writer registry is locked by another update. Retry after it completes; remove writers.lock only if that process has stopped.\",\n                        })\n                        : error), () => Effect.orDie(fs.remove(`${state}/writers.lock`, { recursive: true })));\n                    const exists = yield* fs.exists(`${state}/writers.json`);\n                    if (!exists && !initialize) {\n                        return yield* Effect_1.fail(new ManagementError({\n                            message: \"Writer registry is missing. Copy the existing private registry from its administrator; use --new-registry only when creating a new cache.\",\n                        }));\n                    }\n                    const writers = { ...(exists || revoke ? yield* readWriters() : {}) };\n                    const token = hex(yield* random.randomBytes(32));\n                    if (revoke)\n                        delete writers[name];\n                    else {\n                        writers[name] = hex(yield* digest.digest(Digest.sha256, new TextEncoder().encode(token)));\n                    }\n                    const entries = [];\n                    if (!revoke && endpoint) {\n                        entries.push([name, yield* encodeCredential({ endpoint, name, token })]);\n                    }\n                    entries.push([\"writers\", yield* encodeWriters(writers)]);\n                    yield* save(entries);\n                    return revoke ? undefined : `${state}/${name}.json`;\n                }));\n            }), \"TaskCache.updateWriter\"); }))(arg_1, arg_2, arg_3, ...runtime.$spreadItems(args_1));\n        }\n        catch (e_1) {\n            return Effect_1.die(e_1);\n        }\n    };\n    return WriterRegistry.of({ read: readWriters, update: updateWriter });\n});\nexport const layer = Layer.effect(WriterRegistry, make);\nconst hex = (bytes) => Array.from(bytes, (byte) => byte.toString(16).padStart(2, \"0\")).join(\"\");\n",
     "map": {
      "version": 3,
      "file": "WriterRegistry.js",
@@ -11222,7 +11236,7 @@
       }
      ],
      "names": [],
-     "mappings": "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"
+     "mappings": "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"
     }
    },
    {
@@ -11231,7 +11245,7 @@
       "relative": "infra/task-cache/src/deploymentConfig.vibe"
      }
     ],
-    "code": "import * as ConfigProvider from \"effect/ConfigProvider\";\nimport * as Effect from \"effect/Effect\";\nimport * as Option from \"effect/Option\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as Layer from \"effect/Layer\";\nimport * as NodeCrypto from \"@effect/platform-node/NodeCrypto\";\nimport * as Schema from \"effect/Schema\";\nimport * as Config from \"effect/Config\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as WriterRegistry from \"./WriterRegistry.js\";\nconst encodeWriters = Schema.encodeEffect(Schema.fromJsonString(Schema.Record(Schema.String, Schema.String)));\n// An absent registry must fail deployment rather than revoke every existing writer.\nexport const WriterSecrets = ConfigProvider.layerAdd(Effect_1.gen(function* () {\n    const configured = yield* Config.Redacted(\"DEVELOPER_KEYS\").pipe(Config.option);\n    const readers = yield* Config.Redacted(\"READER_KEYS\").pipe(Config.option);\n    const fs = yield* FileSystem.FileSystem;\n    const readerKeys = Option.isSome(readers)\n        ? {}\n        : {\n            READER_KEYS: yield* fs.readFileString(`${yield* Config.String(\"HOME\")}/.config/t3-task-cache/readers.json`),\n        };\n    if (Option.isSome(configured))\n        return ConfigProvider.fromUnknown(readerKeys);\n    return ConfigProvider.fromUnknown({\n        ...readerKeys,\n        DEVELOPER_KEYS: yield* encodeWriters(yield* Effect_1.gen(function* () {\n            const completion_1 = yield* Effect_1.provide(Effect_1.fnUntraced(function* () {\n                return { kind: \"return\", value: yield* (Effect.flatMap(WriterRegistry.WriterRegistry, (registry) => registry.read())) };\n            })(), WriterRegistry.layer.pipe(Layer.provide(NodeCrypto.layer)));\n            if (completion_1.kind === \"return\")\n                return completion_1.value;\n        })),\n    });\n}));\n",
+    "code": "import * as ConfigProvider from \"effect/ConfigProvider\";\nimport * as Effect from \"effect/Effect\";\nimport * as Option from \"effect/Option\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport * as Layer from \"effect/Layer\";\nimport * as NodeCrypto from \"@effect/platform-node/NodeCrypto\";\nimport * as Schema from \"effect/Schema\";\nimport * as Config from \"effect/Config\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as WriterRegistry from \"./WriterRegistry.js\";\nconst encodeWriters = Schema.encodeEffect(Schema.fromJsonString(Schema.Record(Schema.String, Schema.String)));\n// An absent registry must fail deployment rather than revoke every existing writer.\nexport const WriterSecrets = ConfigProvider.layerAdd(Effect_1.gen(function* () {\n    const configured = yield* Config.Redacted(\"DEVELOPER_KEYS\").pipe(Config.option);\n    const readers = yield* Config.Redacted(\"READER_KEYS\").pipe(Config.option);\n    const fs = yield* FileSystem.FileSystem;\n    const readerKeys = Option.isSome(readers)\n        ? {}\n        : {\n            READER_KEYS: yield* fs.readFileString(`${yield* Config.String(\"HOME\")}/.config/t3-task-cache/readers.json`),\n        };\n    if (Option.isSome(configured))\n        return ConfigProvider.fromUnknown(readerKeys);\n    return ConfigProvider.fromUnknown({\n        ...readerKeys,\n        DEVELOPER_KEYS: yield* encodeWriters(yield* Effect_1.gen(function* () {\n            let completion_1 = runtime.$normal;\n            yield* Effect_1.provide(Effect_1.fnUntraced(function* () {\n                {\n                    completion_1 = { kind: \"return\", value: yield* (Effect.flatMap(WriterRegistry.WriterRegistry, (registry) => registry.read())) };\n                    return completion_1.value;\n                }\n            })(), WriterRegistry.layer.pipe(Layer.provide(NodeCrypto.layer)));\n            if (completion_1.kind === \"return\")\n                return completion_1.value;\n        })),\n    });\n}));\n",
     "map": {
      "version": 3,
      "file": "deploymentConfig.js",
@@ -11242,7 +11256,7 @@
       }
      ],
      "names": [],
-     "mappings": ";;;;AAAA,OAAO,KAAK,KAAK,MAAM,cAAc,CAAA;AACrC,OAAO,KAAK,UAAU,MAAM,kCAAkC,CAAA;AAC9D,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,UAAU,MAAM,mBAAmB,CAAA;AAC/C,OAAO,KAAK,cAAc,MAAM,qBAAuB,CAAA;AAEvD,MAAM,aAAa,GAAG,MAAM,CAAC,YAAY,CACvC,MAAM,CAAC,cAAc,CAAC,MAAM,CAAC,MAAM,CAAC,MAAM,CAAC,MAAM,EAAE,MAAM,CAAC,MAAM,CAAC,CAAC,CACnE,CAAA;AAED,oFAAoF;AACpF,MAAM,CAAC,MAAM,aAAa,GAAG,cAAc,CAAC,QAAQ,CAClD,a,CAAA;IACE,MAAM,UAAU,UAAO,MAAM,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,MAAM,CAAC,CAAA;IAC5E,MAAM,OAAO,UAAO,MAAM,CAAC,QAAQ,CAAC,aAAa,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,MAAM,CAAC,CAAA;IACtE,MAAM,EAAE,UAAO,UAAU,CAAC,UAAU,CAAA;IACpC,MAAM,UAAU,GAAG,MAAM,CAAC,MAAM,CAAC,OAAO,CAAC;QACvC,CAAC,CAAC,EAAE;QACJ,CAAC,CAAC;YACA,WAAW,SAAM,EAAE,CAAC,cAAc,CAChC,GAAG,OAAI,MAAM,CAAC,MAAM,CAAC,MAAM,CAAC,qCAAqC,CAClE;SACF,CAAA;IACH,IAAI,MAAM,CAAC,MAAM,CAAC,UAAU,CAAC;QAAE,OAAO,cAAc,CAAC,WAAW,CAAC,UAAU,CAAC,CAAA;IAC5E,OAAO,cAAc,CAAC,WAAW,CAAC;QAChC,GAAG,UAAU;QACb,cAAc,SAAM,aAAa,QAC3B,a,CAAA;YACF,6CAAA,oB,CAAA;gBACE,uCAAW,CACN,MAAM,CAAC,OAAO,CADP,cAAc,CAAC,cAAc,EAClB,CAAC,QAAQ,EAAE,EAAE,CAAC,QAAQ,CAAC,IAAI,EAAE,CAAC,CAAC,GAAA;cACvD,IAHO,cAAc,CAAC,KAAK,CAAC,IAAI,CAAC,KAAK,CAAC,OAAO,CAAC,UAAU,CAAC,KAAK,CAAC,CAAC,EAGjE;;;QACH,CAAC,CAAA,CACF;KACF,CAAC,CAAA;AACJ,CAAC,CAAA,CACF,CAAA"
+     "mappings": ";;;;;AAAA,OAAO,KAAK,KAAK,MAAM,cAAc,CAAA;AACrC,OAAO,KAAK,UAAU,MAAM,kCAAkC,CAAA;AAC9D,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,UAAU,MAAM,mBAAmB,CAAA;AAC/C,OAAO,KAAK,cAAc,MAAM,qBAAuB,CAAA;AAEvD,MAAM,aAAa,GAAG,MAAM,CAAC,YAAY,CACvC,MAAM,CAAC,cAAc,CAAC,MAAM,CAAC,MAAM,CAAC,MAAM,CAAC,MAAM,EAAE,MAAM,CAAC,MAAM,CAAC,CAAC,CACnE,CAAA;AAED,oFAAoF;AACpF,MAAM,CAAC,MAAM,aAAa,GAAG,cAAc,CAAC,QAAQ,CAClD,a,CAAA;IACE,MAAM,UAAU,UAAO,MAAM,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,MAAM,CAAC,CAAA;IAC5E,MAAM,OAAO,UAAO,MAAM,CAAC,QAAQ,CAAC,aAAa,CAAC,CAAC,IAAI,CAAC,MAAM,CAAC,MAAM,CAAC,CAAA;IACtE,MAAM,EAAE,UAAO,UAAU,CAAC,UAAU,CAAA;IACpC,MAAM,UAAU,GAAG,MAAM,CAAC,MAAM,CAAC,OAAO,CAAC;QACvC,CAAC,CAAC,EAAE;QACJ,CAAC,CAAC;YACA,WAAW,SAAM,EAAE,CAAC,cAAc,CAChC,GAAG,OAAI,MAAM,CAAC,MAAM,CAAC,MAAM,CAAC,qCAAqC,CAClE;SACF,CAAA;IACH,IAAI,MAAM,CAAC,MAAM,CAAC,UAAU,CAAC;QAAE,OAAO,cAAc,CAAC,WAAW,CAAC,UAAU,CAAC,CAAA;IAC5E,OAAO,cAAc,CAAC,WAAW,CAAC;QAChC,GAAG,UAAU;QACb,cAAc,SAAM,aAAa,QAC3B,a,CAAA;;YACF,wBAAA,oB,CAAA;gBACE,CAAC;mEAAU,CACN,MAAM,CAAC,OAAO,CADP,cAAc,CAAC,cAAc,EAClB,CAAC,QAAQ,EAAE,EAAE,CAAC,QAAQ,CAAC,IAAI,EAAE,CAAC,CAAC;;iBAAA;cACvD,IAHO,cAAc,CAAC,KAAK,CAAC,IAAI,CAAC,KAAK,CAAC,OAAO,CAAC,UAAU,CAAC,KAAK,CAAC,CAAC,EAGjE;;;QACH,CAAC,CAAA,CACF;KACF,CAAC,CAAA;AACJ,CAAC,CAAA,CACF,CAAA"
     }
    },
    {
@@ -11251,7 +11265,7 @@
       "relative": "infra/task-cache/src/Admission.vibe"
      }
     ],
-    "code": "import * as Option from \"effect/Option\";\nimport * as Semaphore from \"effect/Semaphore\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime\";\nimport * as Schema_1 from \"effect/Schema\";\nimport * as Context from \"effect/Context\";\nimport * as Effect from \"effect/Effect\";\nimport * as Layer from \"effect/Layer\";\nimport * as Schema from \"effect/Schema\";\nexport class AdmissionRejected extends Schema_1.TaggedError()(\"AdmissionRejected\", {}) {\n    static {\n        $schemaErrorMatcher(this, \"AdmissionRejected\");\n    }\n}\nexport class Admission extends runtime.$service(\"@t3tools/task-cache/Admission\") {\n}\nconst make = Effect_1.gen(function* make() {\n    // Never queue fibers across Worker requests: their async contexts cannot cross request boundaries.\n    const stores = yield* Semaphore.make(2);\n    const reads = yield* Semaphore.make(4);\n    return Admission.of({\n        // The caller owns the request span; admission adds no second span per request.\n        withPermit: (store, task) => {\n            return Effect_1.gen(function* withPermit() {\n                const result = yield* (store ? stores : reads).withPermitsIfAvailable(1)(task);\n                return Option.isSome(result) ? result.value : yield* (() => { return (_tail_1 => { return Effect_1.gen(function* () {\n                    const _completion_1 = _tail_1(), _value_1 = _completion_1[1];\n                    return _completion_1[0] ? yield* _value_1 : _value_1;\n                }); })(() => { return [true, Effect_1.fail(new AdmissionRejected())]; }); })();\n            });\n        },\n    });\n});\nexport const layer = Layer.effect(Admission, make);\n",
+    "code": "import * as Option from \"effect/Option\";\nimport * as Semaphore from \"effect/Semaphore\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport * as Schema_1 from \"effect/Schema\";\nimport * as Context from \"effect/Context\";\nimport * as Effect from \"effect/Effect\";\nimport * as Layer from \"effect/Layer\";\nimport * as Schema from \"effect/Schema\";\nexport class AdmissionRejected extends Schema_1.TaggedError()(\"AdmissionRejected\", {}) {\n    static {\n        $schemaErrorMatcher(this, \"AdmissionRejected\");\n    }\n}\nexport class Admission extends runtime.$service(\"@t3tools/task-cache/Admission\") {\n}\nconst make = Effect_1.gen(function* make() {\n    // Never queue fibers across Worker requests: their async contexts cannot cross request boundaries.\n    const stores = yield* Semaphore.make(2);\n    const reads = yield* Semaphore.make(4);\n    return Admission.of({\n        // The caller owns the request span; admission adds no second span per request.\n        withPermit: (store, task) => {\n            return Effect_1.gen(function* withPermit() {\n                const result = yield* (store ? stores : reads).withPermitsIfAvailable(1)(task);\n                return Option.isSome(result) ? result.value : yield* (() => { return (_tail_1 => { return Effect_1.gen(function* () {\n                    const _completion_1 = _tail_1(), _value_1 = _completion_1[1];\n                    return _completion_1[0] ? yield* _value_1 : _value_1;\n                }); })(() => { return [true, Effect_1.fail(new AdmissionRejected())]; }); })();\n            });\n        },\n    });\n});\nexport const layer = Layer.effect(Admission, make);\n",
     "map": {
      "version": 3,
      "file": "Admission.js",
@@ -11262,7 +11276,7 @@
       }
      ],
      "names": [],
-     "mappings": ";;;;;;AAAA,OAAO,KAAK,OAAO,MAAM,gBAAgB,CAAA;AACzC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,KAAK,MAAM,cAAc,CAAA;AACrC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AAEvC,MAAM,OAAc,iBAAkB,SAAA,AAA/B,SAAA,WAAM,EAAA,CAAO,mBAAiB,EAAC,EAAE,CAAA;GAAA,C,CAAA;QAApB,mBAAiB,CAAjB,IAAiB,EAAjB,mBAAiB,CAAA,CAAA;IAAC,CAAC,AAAF;CAAG;AAExC,MAAM,OAAS,SAAS;CAOvB;AAED,MAAM,IAAI,GAAG,a,CAAA,S,CAAA;IACX,mGAAmG;IACnG,MAAM,MAAM,UAAO,SAAS,CAAC,IAAI,CAAC,CAAC,CAAC,CAAA;IACpC,MAAM,KAAK,UAAO,SAAS,CAAC,IAAI,CAAC,CAAC,CAAC,CAAA;IACnC,OAAO,SAAS,CAAC,EAAE,CAAC;QAClB,+EAA+E;QAC/E,UAAU,EAAE,CAAQ,KAAK,EAAE,IAAI;WAAA,C,CAAA,mB,CAAA,S,CAAA;gBAC7B,MAAM,MAAM,UAAO,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,sBAAsB,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAA;gBAC3E,OAAO,MAAM,CAAC,MAAM,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,CAAC,QAAC,C,CAAA,O,CAAA,O,CAAA,Y,CAAA,mB,CAAA;;;sBAAA,C,CAAA,O,CAAA,2BAAM,IAAI,iBAAiB,EAAE,SAAA,CAAA,EAAA,CAAA;YAC7E,CAAC;SAAA;KACF,CAAC,CAAA;AACJ,CAAC,CAAA,CAAA;AAED,MAAM,CAAC,MAAM,KAAK,GAAG,KAAK,CAAC,MAAM,CAAC,SAAS,EAAE,IAAI,CAAC,CAAA"
+     "mappings": ";;;;;;AAAA,OAAO,KAAK,OAAO,MAAM,gBAAgB,CAAA;AACzC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,KAAK,MAAM,cAAc,CAAA;AACrC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AAEvC,MAAM,OAAc,iBAAkB,SAAA,AAA/B,SAAA,WAAM,EAAA,CAAO,mBAAiB,EAAC,EAAE,CAAA;GAAA,C,CAAA;QAApB,mBAAiB,CAAjB,IAAiB,EAAjB,mBAAiB,CAAA,CAAA;KAAA;CAAG;AAExC,MAAM,OAAS,SAAS,0BAMA,+BAA+B;CACtD;AAED,MAAM,IAAI,GAAG,a,CAAA,S,CAAA;IACX,mGAAmG;IACnG,MAAM,MAAM,UAAO,SAAS,CAAC,IAAI,CAAC,CAAC,CAAC,CAAA;IACpC,MAAM,KAAK,UAAO,SAAS,CAAC,IAAI,CAAC,CAAC,CAAC,CAAA;IACnC,OAAO,SAAS,CAAC,EAAE,CAAC;QAClB,+EAA+E;QAC/E,UAAU,EAAE,CAAQ,KAAK,EAAE,IAAI;WAAA,C,CAAA,mB,CAAA,S,CAAA;gBAC7B,MAAM,MAAM,UAAO,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,sBAAsB,CAAC,CAAC,CAAC,CAAC,IAAI,CAAC,CAAA;gBAC3E,OAAO,MAAM,CAAC,MAAM,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,KAAK,CAAC,CAAC,QAAC,C,CAAA,O,CAAA,O,CAAA,Y,CAAA,mB,CAAA;;;sBAAA,C,CAAA,O,CAAA,2BAAM,IAAI,iBAAiB,EAAE,SAAA,CAAA,EAAA,CAAA;YAC7E,CAAC;SAAA;KACF,CAAC,CAAA;AACJ,CAAC,CAAA,CAAA;AAED,MAAM,CAAC,MAAM,KAAK,GAAG,KAAK,CAAC,MAAM,CAAC,SAAS,EAAE,IAAI,CAAC,CAAA"
     }
    },
    {
@@ -11291,7 +11305,7 @@
       "relative": "infra/task-cache/src/Savings.vibe"
      }
     ],
-    "code": "import * as Clock from \"effect/Clock\";\nimport { withSpan } from \"effect/Effect\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime\";\nimport * as Schema_1 from \"effect/Schema\";\nimport * as Effect from \"effect/Effect\";\nimport * as Context from \"effect/Context\";\nimport * as Layer from \"effect/Layer\";\nimport * as Schema from \"effect/Schema\";\nconst SavingsErrorCauseField = Schema.Defect();\nexport class SavingsError extends Schema_1.TaggedError()(\"SavingsError\", {\n    operation: Schema_1.Literals([\"record\", \"read\", \"cleanup\"]),\n    cause: SavingsErrorCauseField,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"SavingsError\");\n    }\n    get message() {\n        return `Failed to ${this.operation} task-cache savings.`;\n    }\n}\nexport class Database extends runtime.$service(\"@t3tools/task-cache/Savings/Database\") {\n}\nexport class Savings extends runtime.$service(\"@t3tools/task-cache/Savings\") {\n}\nconst make = Effect_1.gen(function* make() {\n    const database = yield* Database;\n    const record = (summary, developer) => {\n        return Effect_1.gen(function* record() { return yield* withSpan(Effect_1.gen(function* () {\n            const local = summary.tasks.filter((task) => task.source === \"local\");\n            const unspecified = summary.tasks.filter((task) => task.source === \"unspecified\");\n            const remote = summary.tasks.filter((task) => task.source === \"remote\");\n            // D1 batch is transactional. changes() gates the increment on the preceding receipt insertion.\n            yield* Effect.tryPromise({\n                try: () => database.batch([\n                    database\n                        .prepare(\"INSERT INTO receipts(id, recorded_at) VALUES (?, ?) ON CONFLICT DO NOTHING\")\n                        .bind(summary.id, summary.recordedAt),\n                    database\n                        .prepare(`INSERT INTO savings(developer, host, platform, arch, ci, local_ms, remote_ms, local_hits, remote_hits, executed, restore_failures, unspecified_ms, unspecified_hits) SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? WHERE changes() = 1\n      ON CONFLICT DO UPDATE SET\n        local_ms = local_ms + excluded.local_ms, remote_ms = remote_ms + excluded.remote_ms,\n        local_hits = local_hits + excluded.local_hits, remote_hits = remote_hits + excluded.remote_hits,\n        executed = executed + excluded.executed, restore_failures = restore_failures + excluded.restore_failures,\n        unspecified_ms = unspecified_ms + excluded.unspecified_ms, unspecified_hits = unspecified_hits + excluded.unspecified_hits`)\n                        .bind(developer, summary.host, summary.platform, summary.arch, Number(summary.ci), local.reduce((sum, task) => sum + task.savedMs, 0), remote.reduce((sum, task) => sum + task.savedMs, 0), local.length, remote.length, summary.tasks.filter((task) => task.source === \"executed\").length, summary.tasks.filter((task) => task.source === \"failed\").length, unspecified.reduce((sum, task) => sum + task.savedMs, 0), unspecified.length),\n                ]),\n                catch: (cause) => new SavingsError({ operation: \"record\", cause }),\n            });\n        }), \"TaskCache.persistSavings\"); });\n    };\n    const emitTotals = (developer, host) => {\n        return Effect_1.gen(function* emitTotals() { return yield* withSpan(Effect_1.gen(function* () {\n            const rows = yield* Effect.tryPromise({\n                try: () => (developer === undefined\n                    ? database.prepare(\"SELECT * FROM savings\")\n                    : database\n                        .prepare(\"SELECT * FROM savings WHERE developer = ? AND host = ?\")\n                        .bind(developer, host)).all(),\n                catch: (cause) => new SavingsError({ operation: \"read\", cause }),\n            });\n            yield* Effect.forEach(rows.results, (row) => withSpan(Effect.annotateCurrentSpan({\n                \"developer.id\": row.developer,\n                \"host.name\": row.host,\n                \"host.os\": row.platform,\n                \"host.arch\": row.arch,\n                ci: Boolean(row.ci),\n                \"cache.local_saved_ms\": row.local_ms,\n                \"cache.unspecified_saved_ms\": row.unspecified_ms,\n                \"cache.unspecified_hits\": row.unspecified_hits,\n                \"cache.remote_saved_ms\": row.remote_ms,\n                \"cache.local_hits\": row.local_hits,\n                \"cache.remote_hits\": row.remote_hits,\n                \"cache.executed\": row.executed,\n                \"cache.restore_failures\": row.restore_failures,\n            }), \"TaskCache.lifetime\"));\n        }), \"TaskCache.emitTotals\"); });\n    };\n    const cleanup = Effect_1.gen(function* cleanup() {\n        const now = yield* Clock.currentTimeMillis;\n        yield* Effect.tryPromise({\n            try: () => database\n                .prepare(\"DELETE FROM receipts WHERE recorded_at < ?\")\n                .bind(now - 31 * 86400_000)\n                .run(),\n            catch: (cause) => new SavingsError({ operation: \"cleanup\", cause }),\n        });\n    });\n    return Savings.of({ record, emitTotals, cleanup });\n});\nexport const layer = Layer.effect(Savings, make);\n",
+    "code": "import * as Clock from \"effect/Clock\";\nimport { withSpan } from \"effect/Effect\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport * as Schema_1 from \"effect/Schema\";\nimport * as Effect from \"effect/Effect\";\nimport * as Context from \"effect/Context\";\nimport * as Layer from \"effect/Layer\";\nimport * as Schema from \"effect/Schema\";\nconst SavingsErrorCauseField = Schema.Defect();\nexport class SavingsError extends Schema_1.TaggedError()(\"SavingsError\", {\n    operation: Schema_1.Literals([\"record\", \"read\", \"cleanup\"]),\n    cause: SavingsErrorCauseField,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"SavingsError\");\n    }\n    get message() {\n        return `Failed to ${this.operation} task-cache savings.`;\n    }\n}\nexport class Database extends runtime.$service(\"@t3tools/task-cache/Savings/Database\") {\n}\nexport class Savings extends runtime.$service(\"@t3tools/task-cache/Savings\") {\n}\nconst make = Effect_1.gen(function* make() {\n    const database = yield* Database;\n    const record = (summary, developer) => {\n        return Effect_1.gen(function* record() { return yield* withSpan(Effect_1.gen(function* () {\n            const local = summary.tasks.filter((task) => task.source === \"local\");\n            const unspecified = summary.tasks.filter((task) => task.source === \"unspecified\");\n            const remote = summary.tasks.filter((task) => task.source === \"remote\");\n            // D1 batch is transactional. changes() gates the increment on the preceding receipt insertion.\n            yield* Effect.tryPromise({\n                try: () => database.batch([\n                    database\n                        .prepare(\"INSERT INTO receipts(id, recorded_at) VALUES (?, ?) ON CONFLICT DO NOTHING\")\n                        .bind(summary.id, summary.recordedAt),\n                    database\n                        .prepare(`INSERT INTO savings(developer, host, platform, arch, ci, local_ms, remote_ms, local_hits, remote_hits, executed, restore_failures, unspecified_ms, unspecified_hits) SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? WHERE changes() = 1\n      ON CONFLICT DO UPDATE SET\n        local_ms = local_ms + excluded.local_ms, remote_ms = remote_ms + excluded.remote_ms,\n        local_hits = local_hits + excluded.local_hits, remote_hits = remote_hits + excluded.remote_hits,\n        executed = executed + excluded.executed, restore_failures = restore_failures + excluded.restore_failures,\n        unspecified_ms = unspecified_ms + excluded.unspecified_ms, unspecified_hits = unspecified_hits + excluded.unspecified_hits`)\n                        .bind(developer, summary.host, summary.platform, summary.arch, Number(summary.ci), local.reduce((sum, task) => sum + task.savedMs, 0), remote.reduce((sum, task) => sum + task.savedMs, 0), local.length, remote.length, summary.tasks.filter((task) => task.source === \"executed\").length, summary.tasks.filter((task) => task.source === \"failed\").length, unspecified.reduce((sum, task) => sum + task.savedMs, 0), unspecified.length),\n                ]),\n                catch: (cause) => new SavingsError({ operation: \"record\", cause }),\n            });\n        }), \"TaskCache.persistSavings\"); });\n    };\n    const emitTotals = (developer, host) => {\n        return Effect_1.gen(function* emitTotals() { return yield* withSpan(Effect_1.gen(function* () {\n            const rows = yield* Effect.tryPromise({\n                try: () => (developer === undefined\n                    ? database.prepare(\"SELECT * FROM savings\")\n                    : database\n                        .prepare(\"SELECT * FROM savings WHERE developer = ? AND host = ?\")\n                        .bind(developer, host)).all(),\n                catch: (cause) => new SavingsError({ operation: \"read\", cause }),\n            });\n            yield* Effect.forEach(rows.results, (row) => withSpan(Effect.annotateCurrentSpan({\n                \"developer.id\": row.developer,\n                \"host.name\": row.host,\n                \"host.os\": row.platform,\n                \"host.arch\": row.arch,\n                ci: Boolean(row.ci),\n                \"cache.local_saved_ms\": row.local_ms,\n                \"cache.unspecified_saved_ms\": row.unspecified_ms,\n                \"cache.unspecified_hits\": row.unspecified_hits,\n                \"cache.remote_saved_ms\": row.remote_ms,\n                \"cache.local_hits\": row.local_hits,\n                \"cache.remote_hits\": row.remote_hits,\n                \"cache.executed\": row.executed,\n                \"cache.restore_failures\": row.restore_failures,\n            }), \"TaskCache.lifetime\"));\n        }), \"TaskCache.emitTotals\"); });\n    };\n    const cleanup = Effect_1.gen(function* cleanup() {\n        const now = yield* Clock.currentTimeMillis;\n        yield* Effect.tryPromise({\n            try: () => database\n                .prepare(\"DELETE FROM receipts WHERE recorded_at < ?\")\n                .bind(now - 31 * 86400_000)\n                .run(),\n            catch: (cause) => new SavingsError({ operation: \"cleanup\", cause }),\n        });\n    });\n    return Savings.of({ record, emitTotals, cleanup });\n});\nexport const layer = Layer.effect(Savings, make);\n",
     "map": {
      "version": 3,
      "file": "Savings.js",
@@ -11302,7 +11316,7 @@
       }
      ],
      "names": [],
-     "mappings": "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"
+     "mappings": "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"
     }
    },
    {
@@ -11323,6 +11337,46 @@
      ],
      "names": [],
      "mappings": ";;AAAA,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,KAAK,MAAM,YAAY,CAAA;AAEnC,MAAM,CAAC,MAAM,SAAS,GAAG,GAAG,CAAA;AAE5B,MAAM,CAAC,MAAM,GAAG,GAAG;GAAA,C,CAAA,mB,CAAA,S,CAAA,qBACb,QAAQ,CACV,a,CAAA;QACE,MAAM,KAAK,UAAO,KAAK,CAAC,KAAK,CAAA;QAC7B,mEAAmE;QACnE,OAAI,MAAM,CAAC,GAAG,CAAC,CAAC,KAAK,CAAC,OAAO,EAAE,KAAK,CAAC,OAAO,EAAE,KAAK,CAAC,OAAO,CAAC,EAAE;YAC5D,WAAW,EAAE,CAAC;YACd,OAAO,EAAE,IAAI;SACd,CAAC,CAAA;IACJ,CAAC,CAAA,EACD,mBAAmB,CACpB;CAAA,CAAA"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "infra/task-cache/src/NativeClients.vibe"
+     }
+    ],
+    "code": "import * as Layer from \"effect/Layer\";\nimport { NativeClients, make } from \"./NativeClients.vibe.platform.js\";\nexport { Bindings, NativeClients, NativeClientsError, routePrefix } from \"./NativeClients.vibe.platform.js\";\nexport const layer = Layer.effect(NativeClients, make);\n",
+    "map": {
+     "version": 3,
+     "file": "NativeClients.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "infra/task-cache/src/NativeClients.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "AAAA,OAAO,KAAK,KAAK,MAAM,cAAc,CAAA;AAsMrC,OAAO,EAAE,aAAa,EAAE,IAAI,EAAE,MAAM,kCAAQ,CAAA;AAC5C,OAAO,EAAE,QAAQ,EAAE,aAAa,EAAE,kBAAkB,EAAE,WAAW,EAAE,MAAM,kCAAQ,CAAA;AAEjF,MAAM,CAAC,MAAM,KAAK,GAAG,KAAK,CAAC,MAAM,CAAC,aAAa,EAAE,IAAI,CAAC,CAAA"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "infra/task-cache/src/NativeClients.vibe.platform.js"
+     }
+    ],
+    "code": "import * as Context from \"effect/Context\";\nimport * as Effect from \"effect/Effect\";\nimport * as Schema from \"effect/Schema\";\nimport { developerIdentity } from \"./developerAuth.js\";\nexport const routePrefix = \"/projects/t3code/native-clients/\";\nexport class NativeClientsError extends Schema.TaggedError()(\"NativeClientsError\", { status: Schema.Number, reason: Schema.String, cause: Schema.optional(Schema.Defect()) }) {\n}\nexport class Bindings extends Context.Service()(\"@t3tools/task-cache/NativeClients/Bindings\") {\n}\nexport class NativeClients extends Context.Service()(\"@t3tools/task-cache/NativeClients\") {\n}\nconst CompleteBody = Schema.fromJsonString(Schema.Struct({\n    parts: Schema.Array(Schema.Struct({ partNumber: Schema.Number, etag: Schema.String })).check(Schema.isMinLength(1), Schema.isMaxLength(64)),\n}));\nconst decodeComplete = Schema.decodeUnknownEffect(CompleteBody);\n// <platform>/<variant>/<fingerprint>[/uploads[/<uploadId>[/<part>|/complete]]]\nconst route = /^((?:ios|android)\\/[a-z0-9_-]{1,32}\\/[a-f0-9]{40,64})(?:\\/uploads(?:\\/([^/]{1,1024})(?:\\/(complete|[1-9][0-9]?))?)?)?$/;\nconst digestPattern = /^[a-f0-9]{64}$/;\nexport const make = Effect.gen(function* () {\n    const bindings = yield* Bindings;\n    const r2 = (run) => Effect.tryPromise({\n        try: run,\n        catch: (cause) => new NativeClientsError({ status: 503, reason: \"storage_unavailable\", cause }),\n    });\n    const limit = Effect.fn(\"NativeClients.limit\")(function* (writing) {\n        const allowed = yield* r2(() => (writing ? bindings.storeLimit : bindings.readLimit).limit({\n            key: writing ? \"t3code:native-store\" : \"t3code:native-read\",\n        }));\n        if (!allowed.success) {\n            return yield* new NativeClientsError({ status: 429, reason: \"rate_limit\" });\n        }\n    });\n    const handle = Effect.fn(\"NativeClients.handle\")(function* (request) {\n        const url = new URL(request.url);\n        const match = route.exec(url.pathname.slice(routePrefix.length));\n        if (!match || url.search || !url.pathname.startsWith(routePrefix)) {\n            return yield* new NativeClientsError({ status: 404, reason: \"unknown_route\" });\n        }\n        const [, key, uploadId, part] = match;\n        const operation = uploadId === undefined\n            ? url.pathname.endsWith(\"/uploads\")\n                ? \"create\"\n                : \"download\"\n            : part === undefined\n                ? \"abort\"\n                : part === \"complete\"\n                    ? \"complete\"\n                    : \"part\";\n        const method = {\n            download: \"GET\",\n            create: \"POST\",\n            part: \"PUT\",\n            complete: \"POST\",\n            abort: \"DELETE\",\n        }[operation];\n        yield* Effect.annotateCurrentSpan({ \"native.operation\": operation, \"native.key\": key });\n        if (request.method !== method) {\n            return yield* new NativeClientsError({ status: 405, reason: \"method_not_allowed\" });\n        }\n        if (!request.headers.has(\"authorization\")) {\n            return yield* new NativeClientsError({ status: 401, reason: \"missing_identity\" });\n        }\n        const developer = yield* developerIdentity(request, bindings.developerKeys);\n        const writing = operation !== \"download\";\n        if (writing) {\n            if (typeof developer !== \"string\") {\n                return yield* new NativeClientsError({ status: 403, reason: \"write_denied\" });\n            }\n        }\n        else if (typeof developer !== \"string\"\n            && typeof (yield* developerIdentity(request, bindings.readerKeys)) !== \"string\") {\n            return yield* new NativeClientsError({ status: 403, reason: \"read_denied\" });\n        }\n        yield* limit(writing);\n        if (operation === \"download\") {\n            const object = yield* r2(() => bindings.CLIENTS.get(key));\n            yield* Effect.annotateCurrentSpan({ \"native.result\": object ? \"hit\" : \"miss\" });\n            if (!object)\n                return yield* new NativeClientsError({ status: 404, reason: \"missing\" });\n            return new Response(object.body, {\n                headers: {\n                    \"Content-Type\": \"application/octet-stream\",\n                    \"Content-Length\": String(object.size),\n                    \"Cache-Control\": \"no-store\",\n                    // agent-device install-from-source picks the archive type from this name.\n                    // iOS clients are uploaded as a tarred .app, Android ones as the bare APK.\n                    \"Content-Disposition\": `attachment; filename=\"${key.split(\"/\").at(-1)}.${key.startsWith(\"ios/\") ? \"tgz\" : \"apk\"}\"`,\n                    \"X-T3-Digest\": object.customMetadata?.digest ?? \"\",\n                    \"X-T3-Build-Ms\": object.customMetadata?.buildMs ?? \"0\",\n                },\n            });\n        }\n        if (operation === \"create\") {\n            const digest = request.headers.get(\"x-t3-digest\") ?? \"\";\n            if (!digestPattern.test(digest)) {\n                return yield* new NativeClientsError({ status: 400, reason: \"invalid_digest\" });\n            }\n            if (yield* r2(() => bindings.CLIENTS.head(key))) {\n                yield* Effect.annotateCurrentSpan({ \"native.result\": \"exists\" });\n                return Response.json({ exists: true });\n            }\n            const buildMs = request.headers.get(\"x-t3-build-ms\") ?? \"\";\n            const upload = yield* r2(() => bindings.CLIENTS.createMultipartUpload(key, {\n                customMetadata: {\n                    digest,\n                    writer: developer,\n                    buildMs: /^\\d{1,10}$/.test(buildMs) ? buildMs : \"0\",\n                },\n            }));\n            return Response.json({ uploadId: upload.uploadId });\n        }\n        const decodedId = yield* Effect.try({\n            try: () => decodeURIComponent(uploadId),\n            catch: () => new NativeClientsError({ status: 400, reason: \"invalid_upload_id\" }),\n        });\n        const upload = bindings.CLIENTS.resumeMultipartUpload(key, decodedId);\n        if (operation === \"abort\") {\n            yield* r2(() => upload.abort());\n            return new Response(null, { status: 204 });\n        }\n        if (operation === \"part\") {\n            if (!request.body || !request.headers.has(\"content-length\")) {\n                return yield* new NativeClientsError({ status: 411, reason: \"length_required\" });\n            }\n            const uploaded = yield* r2(() => upload.uploadPart(Number(part), request.body));\n            return Response.json({ etag: uploaded.etag });\n        }\n        // A missing length would let text() buffer an unbounded body.\n        const length = request.headers.get(\"content-length\");\n        if (length === null || !(Number(length) <= 64 * 1024)) {\n            return yield* new NativeClientsError({ status: 413, reason: \"parts_too_large\" });\n        }\n        const body = yield* decodeComplete(yield* r2(() => request.text())).pipe(Effect.mapError(() => new NativeClientsError({ status: 400, reason: \"invalid_parts\" })));\n        yield* r2(() => upload.complete([...body.parts]));\n        yield* Effect.annotateCurrentSpan({ \"native.result\": \"stored\" });\n        return new Response(null, { status: 204 });\n    }, Effect.catchTags({\n        // The enclosing operation owns the span for this inline handler.\n        NativeClientsError: Effect.fnUntraced(function* (error) {\n            if (error.status >= 500) {\n                yield* Effect.logWarning(\"Native client request failed\", { reason: error.reason });\n            }\n            return Response.json({ error: error.reason }, { status: error.status });\n        }),\n    }));\n    return NativeClients.of({ handle });\n});\n",
+    "map": {
+     "version": 3,
+     "file": "NativeClients.vibe.platform.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "infra/task-cache/src/NativeClients.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "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"
     }
    },
    {

@@ -3,6 +3,7 @@ import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Effect_1 from "effect/Effect";
+import * as runtime from "vibelang-runtime/internal";
 import * as Layer from "effect/Layer";
 import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as Schema from "effect/Schema";
@@ -25,8 +26,12 @@ export const WriterSecrets = ConfigProvider.layerAdd(Effect_1.gen(function* () {
     return ConfigProvider.fromUnknown({
         ...readerKeys,
         DEVELOPER_KEYS: yield* encodeWriters(yield* Effect_1.gen(function* () {
-            const completion_1 = yield* Effect_1.provide(Effect_1.fnUntraced(function* () {
-                return { kind: "return", value: yield* (Effect.flatMap(WriterRegistry.WriterRegistry, (registry) => registry.read())) };
+            let completion_1 = runtime.$normal;
+            yield* Effect_1.provide(Effect_1.fnUntraced(function* () {
+                {
+                    completion_1 = { kind: "return", value: yield* (Effect.flatMap(WriterRegistry.WriterRegistry, (registry) => registry.read())) };
+                    return completion_1.value;
+                }
             })(), WriterRegistry.layer.pipe(Layer.provide(NodeCrypto.layer)));
             if (completion_1.kind === "return")
                 return completion_1.value;

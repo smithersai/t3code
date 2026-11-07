@@ -9,7 +9,7 @@ import * as HttpServerResponse from "effect/http/HttpServerResponse";
 import * as Admission from "./Admission.vibe";
 import * as Cache from "./Cache.ts";
 import * as Cleanup from "./Cleanup.vibe";
-import * as NativeClients from "./NativeClients.ts";
+import * as NativeClients from "./NativeClients.vibe";
 import * as Savings from "./Savings.vibe";
 import type { ProtocolBindings } from "./protocolTypes.ts";
 import * as Resources from "./resources.ts";
