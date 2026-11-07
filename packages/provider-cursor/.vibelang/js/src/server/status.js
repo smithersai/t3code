@@ -4,7 +4,7 @@ import * as Option from "effect/Option";
 import * as Result from "effect/Result";
 import { withSpan } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import { createModelCapabilities } from "@t3tools/shared/model";
 import * as Effect from "effect/Effect";
 import { cursorSdkParameterPriority, cursorSdkProviderOptionId } from "./sdkModel.js";
@@ -21,7 +21,7 @@ const EMPTY_CAPABILITIES = createModelCapabilities({
 const CURSOR_SDK_CATALOG_TIMEOUT_MS = 15_000;
 export const buildInitialCursorProviderSnapshot = (cursorSettings) => {
     return Effect_1.gen(function* buildInitialCursorProviderSnapshot() { return yield* withSpan((() => {
-        return Effect_1.gen(runtime.$joinedFrame(function* () {
+        return Effect_1.gen(function* () {
             const checkedAt = yield* Effect.map(DateTime.now, DateTime.formatIso);
             const models = getCursorFallbackModels(cursorSettings);
             if (!cursorSettings.enabled) {
@@ -52,7 +52,7 @@ export const buildInitialCursorProviderSnapshot = (cursorSettings) => {
                     message: "Checking Cursor SDK availability...",
                 },
             });
-        }));
+        });
     })(), "CursorProviderStatus.buildInitialCursorProviderSnapshot"); });
 };
 function getCursorFallbackModels(cursorSettings) {
@@ -190,7 +190,7 @@ export function buildCursorProviderSnapshot(input) {
 export const checkCursorProviderStatus = (arg_1, arg_2, ...args_1) => {
     try {
         return ((cursorSettings, environment, authenticationType = "api-key") => Effect_1.gen(function* checkCursorProviderStatus() { return yield* withSpan((() => {
-            return Effect_1.gen(runtime.$joinedFrame(function* () {
+            return Effect_1.gen(function* () {
                 const checkedAt = DateTime.formatIso(yield* DateTime.now);
                 const fallbackModels = getCursorFallbackModels(cursorSettings);
                 if (!cursorSettings.enabled) {
@@ -287,7 +287,7 @@ export const checkCursorProviderStatus = (arg_1, arg_2, ...args_1) => {
                         ? { discoveryWarning: "Cursor SDK model discovery returned no built-in models." }
                         : {}),
                 });
-            }));
+            });
         })(), "checkCursorProviderStatus"); }))(arg_1, arg_2, ...runtime.$spreadItems(args_1));
     }
     catch (e_1) {

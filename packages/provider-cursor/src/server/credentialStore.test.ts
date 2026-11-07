@@ -8,7 +8,7 @@ import * as Path from "effect/Path";
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import * as Layer from "effect/Layer";
-import { makeCursorCredentialStore } from "./credentialStore.ts";
+import { makeCursorCredentialStore } from "./credentialStore.vibe";
 
 const layerHost = Layer.provideMerge(TestProviderHost.layer(), NodeServices.layer);
 const legacyFileText = `{

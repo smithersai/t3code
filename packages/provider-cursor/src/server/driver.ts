@@ -34,7 +34,7 @@ import {
 } from "@t3tools/provider-core/server/snapshotSettings";
 import { probeCursorSkills } from "#vibelang/emitted/src/server/skills";
 import { makeCursorAuth } from "#vibelang/emitted/src/server/auth";
-import * as CursorCredentialStore from "./credentialStore.ts";
+import * as CursorCredentialStore from "#vibelang/emitted/src/server/credentialStore";
 import * as CursorAgentSdk from "#vibelang/emitted/src/server/CursorAgentSdk";
 import * as CursorSdk from "./CursorSdk.ts";
 import * as CursorKeychain from "#vibelang/emitted/src/server/CursorKeychain";

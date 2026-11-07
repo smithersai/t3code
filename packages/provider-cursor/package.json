@@ -134,6 +134,11 @@
       "vibelang-source": "./src/server/auth.vibe",
       "default": "./.vibelang/js/src/server/auth.js"
     },
+    "#vibelang/emitted/src/server/credentialStore": {
+      "types": "./src/server/credentialStore.d.vibe.ts",
+      "vibelang-source": "./src/server/credentialStore.vibe",
+      "default": "./.vibelang/js/src/server/credentialStore.js"
+    },
     "#vibelang/emitted/src/server/CursorAgentSdk": {
       "types": "./src/server/CursorAgentSdk.d.vibe.ts",
       "vibelang-source": "./src/server/CursorAgentSdk.vibe",

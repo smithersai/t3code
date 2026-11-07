@@ -8,9 +8,9 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as PlatformError from "effect/PlatformError";
 import * as Result from "effect/Result";
 import { withSpan } from "effect/Effect";
-import { $catchExpression, $schemaErrorMatcher } from "vibelang-runtime";
+import { $catchExpression, $schemaErrorMatcher } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Schema_1 from "effect/Schema";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
@@ -117,7 +117,7 @@ export const readCursorAccountUsage = (arg_1, arg_2, arg_3, ...args_1) => {
                     };
                 }
                 let accountKey = null;
-                const read = Effect_1.gen(runtime.$joinedFrame(function* read() {
+                const read = Effect_1.gen(function* read() {
                     const payload = Base64Url.decodeString(accessToken.split(".")[1] ?? "");
                     if (Result.isFailure(payload))
                         return yield* invalid("Invalid authentication");
@@ -221,121 +221,67 @@ export const readCursorAccountUsage = (arg_1, arg_2, arg_3, ...args_1) => {
                     }
                     let removalsRemaining = total === undefined ? 0 : rawCount - total;
                     let previousKeys = [];
-                    {
-                        let pending_1 = runtime.$normal;
-                        try {
-                            for (const events of pages) {
-                                try {
-                                    {
-                                        const eventKeys = removalsRemaining > 0
-                                            ? yield* Effect.forEach(events, (event) => accountHash(canonicalJson(event))) : [];
-                                        const removalCount = Math.min(removalsRemaining, boundaryOverlap(previousKeys, eventKeys));
-                                        removalsRemaining -= removalCount;
-                                        previousKeys = eventKeys;
-                                        {
-                                            let pending_2 = runtime.$normal;
-                                            try {
-                                                for (const raw of events.slice(removalCount)) {
-                                                    try {
-                                                        {
-                                                            const event = object(raw);
-                                                            const usage = object(event.tokenUsage);
-                                                            if (event.tokenUsage === undefined || event.tokenUsage === null)
-                                                                continue;
-                                                            {
-                                                                let pending_3 = runtime.$normal;
-                                                                try {
-                                                                    for (const key of [
-                                                                        "inputTokens",
-                                                                        "outputTokens",
-                                                                        "cacheReadTokens",
-                                                                        "cacheWriteTokens",
-                                                                        "totalCents",
-                                                                    ]) {
-                                                                        try {
-                                                                            {
-                                                                                const value = usage[key];
-                                                                                if (value !== undefined
-                                                                                    && (typeof value !== "number" || !Number.isFinite(value) || value < 0)) {
-                                                                                    return yield* invalid("Invalid account usage totals");
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                        catch (thrown_1) {
-                                                                            pending_3 = thrown_1;
-                                                                            break;
-                                                                        }
-                                                                    }
-                                                                }
-                                                                catch (thrown_2) {
-                                                                    throw runtime.$finallyFailure(pending_3, thrown_2);
-                                                                }
-                                                                if (pending_3 !== runtime.$normal)
-                                                                    throw pending_3;
-                                                            }
-                                                            const timestampMs = typeof event.timestamp === "string" && event.timestamp.trim() !== ""
-                                                                ? Number(event.timestamp)
-                                                                : event.timestamp;
-                                                            if (typeof timestampMs !== "number"
-                                                                || !Number.isFinite(timestampMs)
-                                                                || typeof event.model !== "string"
-                                                                || !event.model) {
-                                                                return yield* invalid("Invalid account usage event");
-                                                            }
-                                                            if (timestampMs < sinceMs || timestampMs > endDate)
-                                                                continue;
-                                                            const totals = {
-                                                                uncachedInputTokens: tokens(usage.inputTokens),
-                                                                cachedInputTokens: tokens(usage.cacheReadTokens),
-                                                                cacheCreationTokens: tokens(usage.cacheWriteTokens),
-                                                                outputTokens: tokens(usage.outputTokens),
-                                                                reasoningTokens: 0,
-                                                            };
-                                                            const reportedCostUsd = typeof usage.totalCents === "number" ? usage.totalCents / 100 : null;
-                                                            const sessionId = typeof event.conversationId === "string" ? event.conversationId : "";
-                                                            // No event ID is provided. Preserve identical billed rows with an occurrence index.
-                                                            const key = yield* accountHash(billedEventIdentity(timestampMs, event.model, sessionId, totals, reportedCostUsd));
-                                                            const occurrence = occurrences.get(key) ?? 0;
-                                                            occurrences.set(key, occurrence + 1);
-                                                            records.push({
-                                                                provider: "cursor",
-                                                                timestampMs,
-                                                                model: event.model,
-                                                                rateModel: cursorRateModel(event.model),
-                                                                sessionId,
-                                                                totals,
-                                                                reportedCostUsd,
-                                                                speed: "standard",
-                                                                dedupeKey: `cursor-account:${accountKey}:${key}:${occurrence}`,
-                                                            });
-                                                        }
-                                                    }
-                                                    catch (thrown_3) {
-                                                        pending_2 = thrown_3;
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                            catch (thrown_4) {
-                                                throw runtime.$finallyFailure(pending_2, thrown_4);
-                                            }
-                                            if (pending_2 !== runtime.$normal)
-                                                throw pending_2;
-                                        }
-                                        yield* Effect.yieldNow;
-                                    }
-                                }
-                                catch (thrown_5) {
-                                    pending_1 = thrown_5;
-                                    break;
+                    for (const events of pages) {
+                        const eventKeys = removalsRemaining > 0
+                            ? yield* Effect.forEach(events, (event) => accountHash(canonicalJson(event))) : [];
+                        const removalCount = Math.min(removalsRemaining, boundaryOverlap(previousKeys, eventKeys));
+                        removalsRemaining -= removalCount;
+                        previousKeys = eventKeys;
+                        for (const raw of events.slice(removalCount)) {
+                            const event = object(raw);
+                            const usage = object(event.tokenUsage);
+                            if (event.tokenUsage === undefined || event.tokenUsage === null)
+                                continue;
+                            for (const key of [
+                                "inputTokens",
+                                "outputTokens",
+                                "cacheReadTokens",
+                                "cacheWriteTokens",
+                                "totalCents",
+                            ]) {
+                                const value = usage[key];
+                                if (value !== undefined
+                                    && (typeof value !== "number" || !Number.isFinite(value) || value < 0)) {
+                                    return yield* invalid("Invalid account usage totals");
                                 }
                             }
+                            const timestampMs = typeof event.timestamp === "string" && event.timestamp.trim() !== ""
+                                ? Number(event.timestamp)
+                                : event.timestamp;
+                            if (typeof timestampMs !== "number"
+                                || !Number.isFinite(timestampMs)
+                                || typeof event.model !== "string"
+                                || !event.model) {
+                                return yield* invalid("Invalid account usage event");
+                            }
+                            if (timestampMs < sinceMs || timestampMs > endDate)
+                                continue;
+                            const totals = {
+                                uncachedInputTokens: tokens(usage.inputTokens),
+                                cachedInputTokens: tokens(usage.cacheReadTokens),
+                                cacheCreationTokens: tokens(usage.cacheWriteTokens),
+                                outputTokens: tokens(usage.outputTokens),
+                                reasoningTokens: 0,
+                            };
+                            const reportedCostUsd = typeof usage.totalCents === "number" ? usage.totalCents / 100 : null;
+                            const sessionId = typeof event.conversationId === "string" ? event.conversationId : "";
+                            // No event ID is provided. Preserve identical billed rows with an occurrence index.
+                            const key = yield* accountHash(billedEventIdentity(timestampMs, event.model, sessionId, totals, reportedCostUsd));
+                            const occurrence = occurrences.get(key) ?? 0;
+                            occurrences.set(key, occurrence + 1);
+                            records.push({
+                                provider: "cursor",
+                                timestampMs,
+                                model: event.model,
+                                rateModel: cursorRateModel(event.model),
+                                sessionId,
+                                totals,
+                                reportedCostUsd,
+                                speed: "standard",
+                                dedupeKey: `cursor-account:${accountKey}:${key}:${occurrence}`,
+                            });
                         }
-                        catch (thrown_6) {
-                            throw runtime.$finallyFailure(pending_1, thrown_6);
-                        }
-                        if (pending_1 !== runtime.$normal)
-                            throw pending_1;
+                        yield* Effect.yieldNow;
                     }
                     if (removalsRemaining !== 0)
                         return yield* invalid("Inconsistent account usage boundaries");
@@ -345,7 +291,7 @@ export const readCursorAccountUsage = (arg_1, arg_2, arg_3, ...args_1) => {
                         missing: false,
                         error: null,
                     };
-                }));
+                });
                 return yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return (Effect.timeoutOrElse(Effect.scoped(read), {
                     duration: Duration.seconds(60),
                     orElse: () => invalid("Account usage read timed out"),

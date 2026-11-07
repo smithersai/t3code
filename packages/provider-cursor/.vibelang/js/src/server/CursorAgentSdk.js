@@ -2,9 +2,9 @@
 import * as Deferred from "effect/Deferred";
 import * as Ref from "effect/Ref";
 import { withSpan } from "effect/Effect";
-import { $schemaErrorMatcher } from "vibelang-runtime";
+import { $schemaErrorMatcher } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime_1 from "vibelang-runtime";
+import * as runtime_1 from "vibelang-runtime/internal";
 import * as Schema_1 from "effect/Schema";
 import { ProviderDriverKind } from "@t3tools/contracts";
 import * as Context from "effect/Context";

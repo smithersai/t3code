@@ -10,9 +10,9 @@ import * as Semaphore from "effect/Semaphore";
 import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import { exit, withSpan } from "effect/Effect";
-import { $catchExpression, $forConcurrent, $provideService } from "vibelang-runtime";
+import { $catchExpression, $forConcurrent, $provideService } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import { ProviderSetupError } from "@t3tools/contracts";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
@@ -104,8 +104,12 @@ export const makeCursorAuth = (options) => {
                         return child;
                     }));
                     const forkTask = Effect_1.gen(function* forkTask() {
-                        const completion_1 = yield* runtime.$provideEntries(Effect_1.fnUntraced(function* forkTask$provide() {
-                            return { kind: "return", value: yield* Effect.forkIn(restore(task), child) };
+                        let completion_1 = runtime.$normal;
+                        yield* runtime.$provideEntries(Effect_1.fnUntraced(function* forkTask$provide() {
+                            {
+                                completion_1 = { kind: "return", value: yield* Effect.forkIn(restore(task), child) };
+                                return completion_1.value;
+                            }
                         })(), [$provideService(Scope.Scope, "Scope", child)]);
                         if (completion_1.kind === "return")
                             return completion_1.value;
@@ -124,13 +128,13 @@ export const makeCursorAuth = (options) => {
             }); });
         };
         const stopSessionsWithCredentials = Effect_1.gen(function* stopSessionsWithCredentials() {
-            var operand_1;
             $concurrentHead1: {
-                yield* $forConcurrent((operand_1 = void 0, Array.from(sessions)), operand_1, Effect_1.fnUntraced(function* (session) {
+                yield* Effect_1.forEach(Array.from(sessions), Effect_1.fnUntraced(function* ($concurrentItem) {
+                    const session = $concurrentItem;
                     {
                         yield* Scope.close(session, Exit.void);
                     }
-                }));
+                }), { concurrency: "unbounded", discard: true });
                 break $concurrentHead1;
                 let session;
             }
@@ -174,9 +178,12 @@ export const makeCursorAuth = (options) => {
                     });
                     // Commit and publish together: interrupting the SDK Promise cannot undo a late write.
                     yield* lock.withPermits(1)(Effect_1.gen(function* () {
-                        const completion_2 = yield* runtime.uninterruptible(Effect_1.fnUntraced(function* () {
-                            if (active !== flow)
-                                return { kind: "return" };
+                        let completion_2 = runtime.$normal;
+                        yield* runtime.uninterruptible(Effect_1.fnUntraced(function* () {
+                            if (active !== flow) {
+                                completion_2 = { kind: "return" };
+                                return completion_2.value;
+                            }
                             yield* publish(flow, {
                                 phase: "verifying",
                                 authorizationUrl: null,
@@ -207,7 +214,10 @@ export const makeCursorAuth = (options) => {
                                         cause,
                                     }),
                                 });
-                                return { kind: "return", value: yield* Effect.failCause(verified.cause) };
+                                {
+                                    completion_2 = { kind: "return", value: yield* Effect.failCause(verified.cause) };
+                                    return completion_2.value;
+                                }
                             }
                             active = undefined;
                             operation = "idle";
@@ -217,7 +227,6 @@ export const makeCursorAuth = (options) => {
                                 expiresAt: null,
                                 message: "Signed in with Cursor.",
                             });
-                            return runtime.$normal;
                         })());
                         if (completion_2.kind === "return")
                             return completion_2.value;
@@ -267,7 +276,8 @@ export const makeCursorAuth = (options) => {
             start: (arg_1, ...args_1) => {
                 try {
                     return ((owner, stopSessions = Effect.void) => Effect_1.gen(function* start() { return yield* lock.withPermits(1)(Effect_1.gen(function* () {
-                        const completion_3 = yield* runtime.uninterruptible(Effect_1.fnUntraced(function* () {
+                        let completion_3 = runtime.$normal;
+                        yield* runtime.uninterruptible(Effect_1.fnUntraced(function* () {
                             if (!options.enabled) {
                                 return yield* Effect_1.fail(new ProviderSetupError({
                                     instanceId: options.instanceId,
@@ -282,8 +292,10 @@ export const makeCursorAuth = (options) => {
                                     detail: "Remove CURSOR_API_KEY from this provider's environment before using browser sign-in.",
                                 }));
                             }
-                            if (active?.owner === owner && operation === "login")
-                                return { kind: "return", value: snapshot.value.state };
+                            if (active?.owner === owner && operation === "login") {
+                                completion_3 = { kind: "return", value: snapshot.value.state };
+                                return completion_3.value;
+                            }
                             if (operation !== "idle") {
                                 return yield* Effect_1.fail(new ProviderSetupError({
                                     instanceId: options.instanceId,
@@ -317,7 +329,10 @@ export const makeCursorAuth = (options) => {
                                     yield* runLogin(flow, stopSessions);
                                 })());
                             }), scope);
-                            return { kind: "return", value: state };
+                            {
+                                completion_3 = { kind: "return", value: state };
+                                return completion_3.value;
+                            }
                         })());
                         if (completion_3.kind === "return")
                             return completion_3.value;
@@ -337,7 +352,8 @@ export const makeCursorAuth = (options) => {
                     }))]; } }.complete),
             cancel: (owner, id) => {
                 return Effect_1.gen(function* cancel() {
-                    const completion_4 = yield* runtime.uninterruptible(Effect_1.fnUntraced(function* cancel$uninterruptible() {
+                    let completion_4 = runtime.$normal;
+                    yield* runtime.uninterruptible(Effect_1.fnUntraced(function* cancel$uninterruptible() {
                         const flow = yield* lock.withPermits(1)(Effect_1.gen(function* () {
                             const flow = yield* requireFlow(owner, id, "cancel");
                             active = undefined;
@@ -353,7 +369,10 @@ export const makeCursorAuth = (options) => {
                         if (flow.fiber)
                             yield* Fiber.interrupt(flow.fiber);
                         operation = "idle";
-                        return { kind: "return", value: snapshot.value.state };
+                        {
+                            completion_4 = { kind: "return", value: snapshot.value.state };
+                            return completion_4.value;
+                        }
                     })());
                     if (completion_4.kind === "return")
                         return completion_4.value;
@@ -361,7 +380,8 @@ export const makeCursorAuth = (options) => {
             },
             logout: (stopSessions) => {
                 return Effect_1.gen(function* logout() {
-                    const completion_5 = yield* runtime.uninterruptible(Effect_1.fnUntraced(function* logout$uninterruptible() {
+                    let completion_5 = runtime.$normal;
+                    yield* runtime.uninterruptible(Effect_1.fnUntraced(function* logout$uninterruptible() {
                         const flow = yield* lock.withPermits(1)(Effect_1.gen(function* () {
                             if (configuredKey) {
                                 return yield* Effect_1.fail(new ProviderSetupError({
@@ -404,9 +424,14 @@ export const makeCursorAuth = (options) => {
                             message: Exit.isSuccess(result) ? "Signed out of Cursor." : "Cursor sign-out failed. Try again.",
                         };
                         yield* SubscriptionRef.set(snapshot, { owner: null, state });
-                        if (Exit.isFailure(result))
-                            return { kind: "return", value: yield* Effect.failCause(result.cause) };
-                        return { kind: "return", value: state };
+                        if (Exit.isFailure(result)) {
+                            completion_5 = { kind: "return", value: yield* Effect.failCause(result.cause) };
+                            return completion_5.value;
+                        }
+                        {
+                            completion_5 = { kind: "return", value: state };
+                            return completion_5.value;
+                        }
                     })());
                     if (completion_5.kind === "return")
                         return completion_5.value;
