@@ -56,7 +56,7 @@ module platform {
     type AcpParsedSessionEvent,
     type AcpSessionModeState,
     type AcpToolCallState,
-  } from "./runtimeModel.ts"
+  } from "./runtimeModel.vibe"
 
   const MAX_SHOWN_TOOL_CALL_IDS = 256
   export interface AcpToolCallTrackedState {

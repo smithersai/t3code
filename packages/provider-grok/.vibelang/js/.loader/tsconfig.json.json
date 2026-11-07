@@ -3885,7 +3885,7 @@
    },
    {
     "path": {
-     "relative": "packages/provider-acp/src/server/runtimeModel.ts"
+     "relative": "packages/provider-acp/src/server/runtimeModel.vibe"
     },
     "size": 52783,
     "hash": "o5_Q8bLXUc3vHPzs_AUQYKlkUYXArE5cLOrqVNSI-nc"
@@ -5180,7 +5180,7 @@
    },
    {
     "path": {
-     "relative": "packages/provider-acp/src/server/adapter.ts"
+     "relative": "packages/provider-acp/src/server/adapter.vibe"
     },
     "size": 369655,
     "hash": "QEd9d297fjmUJzXLVj9JXPynVIRkCUwURPALzd6RtKQ"
@@ -6617,7 +6617,7 @@
     "relative": "packages/shared/src/t3McpToolPresentation.ts"
    },
    {
-    "relative": "packages/provider-acp/src/server/runtimeModel.ts"
+    "relative": "packages/provider-acp/src/server/runtimeModel.vibe"
    },
    {
     "relative": "packages/provider-acp/src/server/AcpSessionRuntime.ts"
@@ -6758,7 +6758,7 @@
     "relative": "packages/provider-core/src/server/subagentProjection.vibe"
    },
    {
-    "relative": "packages/provider-acp/src/server/adapter.ts"
+    "relative": "packages/provider-acp/src/server/adapter.vibe"
    },
    {
     "relative": "packages/provider-grok/src/server/adapter.vibe"
