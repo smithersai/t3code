@@ -40,7 +40,7 @@
   "scripts": {
     "typecheck": "vibelang --noEmit",
     "test": "vp test run --config ../../vite.config.ts --dir .",
-    "generate": "node --import vibelang/register scripts/generate.ts",
+    "generate": "node --import vibelang/register scripts/generate.vibe",
     "probe": "node --import vibelang/register test/examples/codex-app-server-probe.ts"
   },
   "dependencies": {

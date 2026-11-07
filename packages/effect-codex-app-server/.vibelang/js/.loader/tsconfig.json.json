@@ -2574,7 +2574,7 @@
    },
    {
     "path": {
-     "relative": "packages/effect-codex-app-server/scripts/generate.ts"
+     "relative": "packages/effect-codex-app-server/scripts/generate.vibe"
     },
     "size": 28301,
     "hash": "eVnYi4bsA-M1JRCRkEDqKut8GGgCLmp2POU7SUITGIo"
@@ -3393,7 +3393,7 @@
     "relative": "packages/effect-codex-app-server/src/_internal/stdio.test.ts"
    },
    {
-    "relative": "packages/effect-codex-app-server/scripts/generate.ts"
+    "relative": "packages/effect-codex-app-server/scripts/generate.vibe"
    },
    {
     "relative": "packages/effect-codex-app-server/test/examples/codex-app-server-probe.ts"
