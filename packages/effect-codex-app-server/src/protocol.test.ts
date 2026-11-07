@@ -12,7 +12,7 @@ import { assert, it } from "@effect/vitest";
 
 import * as CodexError from "./errors.vibe";
 import * as CodexProtocol from "./protocol.vibe";
-import { makeInMemoryStdio } from "./_internal/stdio.ts";
+import { makeInMemoryStdio } from "./_internal/stdio.vibe";
 const encodeUnknownJsonString = Schema.encodeUnknownSync(Schema.fromJsonString(Schema.Unknown));
 
 const encoder = new TextEncoder();

@@ -4,8 +4,11 @@
   "type": "module",
   "exports": {
     "./client": {
-      "types": "./src/client.ts",
-      "import": "./src/client.ts"
+      "types": "./src/client.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/client.vibe",
+        "default": "./.vibelang/js/src/client.js"
+      }
     },
     "./schema": {
       "types": "./src/schema.ts",

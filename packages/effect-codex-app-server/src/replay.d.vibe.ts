@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";
-import * as CodexClient from "./client.ts";
+import * as CodexClient from "./client.vibe";
 export declare const CodexAppServerReplayEntry: Schema.Union<readonly [Schema.Struct<{
     readonly type: Schema.Literal<"expect_outbound">;
     readonly label: Schema.optional<Schema.String>;

@@ -2245,14 +2245,14 @@
    },
    {
     "path": {
-     "relative": "packages/effect-codex-app-server/src/_internal/stdio.ts"
+     "relative": "packages/effect-codex-app-server/src/_internal/stdio.vibe"
     },
     "size": 1928,
     "hash": "-V4IrgecKQ5AAFhtr6KGOngEwwre6t0X9-nPWwvfzVc"
    },
    {
     "path": {
-     "relative": "packages/effect-codex-app-server/src/client.ts"
+     "relative": "packages/effect-codex-app-server/src/client.vibe"
     },
     "size": 11734,
     "hash": "v4KiBwUQd9OPsq68YYRha_Socom5ZRS2X8ICPbGPuDg"
@@ -3360,10 +3360,10 @@
     "relative": "packages/effect-codex-app-server/src/protocol.vibe"
    },
    {
-    "relative": "packages/effect-codex-app-server/src/_internal/stdio.ts"
+    "relative": "packages/effect-codex-app-server/src/_internal/stdio.vibe"
    },
    {
-    "relative": "packages/effect-codex-app-server/src/client.ts"
+    "relative": "packages/effect-codex-app-server/src/client.vibe"
    },
    {
     "relative": "packages/effect-codex-app-server/src/client.test.ts"
