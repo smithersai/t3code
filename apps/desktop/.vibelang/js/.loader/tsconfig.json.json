@@ -9705,7 +9705,7 @@
    },
    {
     "path": {
-     "relative": "scripts/lib/linux-arm64-sea.ts"
+     "relative": "scripts/lib/linux-arm64-sea.vibe"
     },
     "size": 4743,
     "hash": "ggmrgl81ruPoFjWyAZGt3qzYQD5BsErSyH519j8eX58"
@@ -11184,7 +11184,7 @@
     "relative": "scripts/lib/icon-export.test.ts"
    },
    {
-    "relative": "scripts/lib/linux-arm64-sea.ts"
+    "relative": "scripts/lib/linux-arm64-sea.vibe"
    },
    {
     "relative": "scripts/lib/linux-arm64-sea.test.ts"

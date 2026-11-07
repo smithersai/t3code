@@ -3,14 +3,14 @@
  "base": "../../../..",
  "entry": {
   "format": 12,
-  "version": "0.0.11",
+  "version": "0.0.12",
   "project": {
    "relative": "scripts/tsconfig.json"
   },
   "root": {
    "relative": "scripts"
   },
-  "compiler": "owaUbprwDLXQh9KdIKHEW9TY-wXpMbP8BuQIK6fWpfU",
+  "compiler": "F40CemHem_W_Eops96ecRVPP2gHHMg8PznFVNJXlKiE",
   "configs": [
    {
     "path": {
@@ -54,7 +54,7 @@
      "relative": "scripts"
     },
     null,
-    "VqCnTq-B3ZCMFY7njm9zXDo8S5csC6H8nrOikyVe7Uo",
+    "Hv7iMPPTfzh69AzGmdlTwOva_aptZ8Oui5T5jvvNTXg",
     []
    ],
    [
@@ -94,7 +94,7 @@
      "relative": "scripts/lib"
     },
     null,
-    "ZDaq9ypZH4oH9Gsc-jI0wZ0Jau8SMDU0MRyZWiBxuVQ",
+    "w6pK9C3X8qy91BerMPJh8Bj3Vj9MD-JOES8Qbr5hS-U",
     []
    ],
    [
@@ -155,8 +155,8 @@
     "path": {
      "relative": "pnpm-lock.yaml"
     },
-    "size": 991582,
-    "hash": "iU9dxy5Nl1T7GbBQoD0SHagUhdzTWxLOTQvpUw1m9Rk"
+    "size": 992538,
+    "hash": "waQi6S7q6UTJgQ4QVsngTVv50gBZjbLzPA7d17ZFZ9M"
    },
    {
     "path": {
@@ -208,22 +208,22 @@
     "path": {
      "relative": "scripts/package.json"
     },
-    "size": 1027,
-    "hash": "L0Yxq2QdB30hVtIMCpMV0nfjWb19HOgGfFw6QMBJrcE"
+    "size": 1144,
+    "hash": "blcCsaZqlrpkgzzy9Jjc5WEslHrwjDqL2QXnX90TJNs"
    },
    {
     "path": {
      "relative": "packages/shared/package.json"
     },
-    "size": 17836,
-    "hash": "7ONfC3o8qsY0SA4k9uVO4T13wjC0xEyDsq55RylChwg"
+    "size": 31317,
+    "hash": "MlqzxoMXGlI3kE-ahOHrBEck4AezJrw-rzgNyY6715s"
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/package.json"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/package.json"
     },
-    "size": 7073,
-    "hash": "1lMdRA8K2GonRT1ilYg8wxY2H7YHcLIDsl7uN_a6ckY"
+    "size": 7285,
+    "hash": "xjl50PJ1-UYHIIuSuMFl661MsBKTYZbY3moinJbPOAc"
    },
    {
     "path": {
@@ -236,15 +236,15 @@
     "path": {
      "relative": "package.json"
     },
-    "size": 7317,
-    "hash": "NYPs_9_45vAVCod-wHB4zaBXfaodelNo0Y1d3qDAUyE"
+    "size": 7372,
+    "hash": "mFwecut9JNFS42rXHMPhlX7RRxqcs7yuvXnE6EDrFgY"
    },
    {
     "path": {
      "relative": "apps/server/package.json"
     },
-    "size": 4086,
-    "hash": "w6bG03BvyNcFLb6mZXXEbPlDJVZZsL3Foq6dYaR2Ewc"
+    "size": 4021,
+    "hash": "Ijnw3a83Xfda93MUg3ZEip8e6xsIoUnIQLDe5Qbm_ck"
    },
    {
     "path": {
@@ -321,7 +321,7 @@
      "relative": "apps/desktop/package.json"
     },
     "size": 1586,
-    "hash": "ti_Yodo-PIChQ5qn66EiYGHHsBg91svhB8SCdak-LNk"
+    "hash": "Rymb2xzCVLLqHtqx3JM-N_rzU424oU8JGOD0BE-NaOE"
    },
    {
     "path": {
@@ -398,7 +398,7 @@
      "relative": "packages/tailscale/package.json"
     },
     "size": 783,
-    "hash": "Hw4ma4C1WPFCSxfZTZhOHe35Ye-D7qrGWJwP_OIH6xg"
+    "hash": "32TCPl76vWackC6lnOForjO2HaxQBmT9T1RDl9srQ28"
    },
    {
     "path": {
@@ -1804,10 +1804,458 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/version.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/version.d.ts"
     },
     "size": 91,
     "hash": "OLhx74xVvRMxcl4krcVslmdZGXNsTNFw1VSQRYH3mpc"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/calls.d.ts"
+    },
+    "size": 1383,
+    "hash": "uAwhDPR2CFdUic_UDD997dkpJaNZ3R1T_jqRSG4Cclo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/fastcalls.d.ts"
+    },
+    "size": 4751,
+    "hash": "9wxoIynrlvPe4VAUQN_yG-rNp1lwbKvt-AZOat2MRdY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/regions.d.ts"
+    },
+    "size": 6387,
+    "hash": "wHQs6G-mP3lEKiqUEa8esaj1EIdtBxzBWiKUXvaoBbY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/fork.d.ts"
+    },
+    "size": 1522,
+    "hash": "ckaaRg51IcfZbr740uLdup3qFuKS3TxgVYGSFOW2Q54"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/kernel/internals.d.ts"
+    },
+    "size": 1238,
+    "hash": "IMzEvVGIaf37peHrkUH2HsmoOemwj7YAPgBI1bNG6tk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/kernel/kernel.d.ts"
+    },
+    "size": 6338,
+    "hash": "XGJbPTQadKfJQPfra4kFdQXvD8XgBQQ6eH-by456KBs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/services.d.ts"
+    },
+    "size": 3346,
+    "hash": "JxhNAxkLVY33Lxqyh_Vd-mqQSE8dmceO3rEnpBJTbEY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/handlers.d.ts"
+    },
+    "size": 4479,
+    "hash": "ZzQU78bLBWIppynLZgOBgDkcijiAJJq_TQpkNW-JrCY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/producers.d.ts"
+    },
+    "size": 2721,
+    "hash": "ndVPafzb3N5wWv25-4h-4Omv5tqD3POjx2v8_p9Erko"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/iterators.d.ts"
+    },
+    "size": 307,
+    "hash": "R_32U0PMqjIgXtbB6rzs2OaY3x5NurDOaidBkv7uhfE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/binding-iterator.d.ts"
+    },
+    "size": 521,
+    "hash": "a5GFo1F3YhIqtKzebc3H9jA8z8NZhbnUT6KJQHrwj5Q"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/boundaries.d.ts"
+    },
+    "size": 2237,
+    "hash": "BZIaO-QAJ9Z6Fu4irKqOzSRsUYSLuUQiW1zKjGvuXfI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/hatches.d.ts"
+    },
+    "size": 4288,
+    "hash": "SHvw3j3NmkBQey39qbFcwin5cLqgq9PF9msgmFzaYKE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/fibers.d.ts"
+    },
+    "size": 7629,
+    "hash": "EiZ7kFH915KwfM4-KJZsdiawtJ_7Ty4raruq4BAIkGU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/provide.d.ts"
+    },
+    "size": 2355,
+    "hash": "DTx-GtW-_UHyzfF40aMg8o-NybtpBLPa3q1ln3Jpa5s"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/primitives.d.ts"
+    },
+    "size": 2785,
+    "hash": "IWg8HZdD_h5bezhO5VO0Oat3-GL3h98xoW06v-EAWOs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/match.d.ts"
+    },
+    "size": 6984,
+    "hash": "2FsfAhYwF1fwC5e0LU4278-JVGYlmyyiLdE2ulgu2A0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/main.d.ts"
+    },
+    "size": 1370,
+    "hash": "S2GqpFmzvnikrJrgw5lzEqtFJy_7i20jzGlMr4mt88Y"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/prelude-core.d.ts"
+    },
+    "size": 2772,
+    "hash": "-F09SO-52bZw9ht9RpKGlrIWz0y1TQwQS5E6DXxUPQQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/resources.d.ts"
+    },
+    "size": 1670,
+    "hash": "jWScKmw8idFbB3itet51UYKNCRN74Mmu_uzZqy3V28w"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/legacy-await-types.d.ts"
+    },
+    "size": 2033,
+    "hash": "-FCwl_PxDin1gwAopKVXXRBoJCDUdKxfzIl4qN9DSoc"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/match-cache.d.ts"
+    },
+    "size": 1848,
+    "hash": "--YGTy05Qg7JNLPVUPyXp00E4F2Em5j1uTY_Bfe8lIQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/core.d.ts"
+    },
+    "size": 1612,
+    "hash": "7teQjEXxfbpg3ExxV-mnuvIVLHwt2HKWK5u_wNRmvi0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Animations.d.ts"
+    },
+    "size": 4126,
+    "hash": "LIh_ITVpztxGdctQldXDsjoilz47SeJfVYCfdklEYtE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/BrowserInfo.d.ts"
+    },
+    "size": 1989,
+    "hash": "mO2jTu2b39Dco34MEBt0o6UTMBWA4gEIAtZHi1IW46I"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/ChildProcess.d.ts"
+    },
+    "size": 3133,
+    "hash": "vtz-lrM1qVNbYlFgzi89KmoPI076rUvhtNoYs2UqjCE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Crypto.d.ts"
+    },
+    "size": 6627,
+    "hash": "XwHusiTQVjE4hwkTA3zAFGJPZll6iaWLc-hZp7hAFPk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/AddressResolver.d.ts"
+    },
+    "size": 5542,
+    "hash": "m2JvnScm4Fzsua4ijv9gVDOYs0vLJHsU1ZpBxnD-FpE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/index.d.ts"
+    },
+    "size": 642,
+    "hash": "kblyErHDYnsF_P1DdrxoVsh10SnDRQ3Bwck5WGn-w3I"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Dns.d.ts"
+    },
+    "size": 2094,
+    "hash": "a8V4vRrBPQWD6J1ZDSVUngqy4VPQYhwXW_4wp7dZbDw"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Document.d.ts"
+    },
+    "size": 2970,
+    "hash": "wgJNU0rjtPZ9wCQ1vOFM17UzIMNuxXkAnRL6Y6k91UM"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/EncodingError.d.ts"
+    },
+    "size": 2782,
+    "hash": "Y96VGSj4hkYGUmAOZdCpJR62OOrsPw-uPQ-6eFOYaOI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64.d.ts"
+    },
+    "size": 2677,
+    "hash": "yEc8CNYNHSis4OSrmGaUexmByy2oBUfRmPnI_UsePU8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64Url.d.ts"
+    },
+    "size": 3553,
+    "hash": "LVhOA-AXlruy2l_8uj7OqYNt8HWUnwKYKe2d-khPXC4"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Csv.d.ts"
+    },
+    "size": 22389,
+    "hash": "22pSJFH0tyStth9R63Uycc30OpLzYI182QSJl5K18Vo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Hex.d.ts"
+    },
+    "size": 3101,
+    "hash": "a8-p15tzg2N4oOiyE0tOjgL17Q6t-4RKSlFK3_E5r4E"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ini.d.ts"
+    },
+    "size": 665,
+    "hash": "VEcV_gJv9YP3829kRBt6tCjrstQMEF8R7NjF5SKENTo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/JsonArray.d.ts"
+    },
+    "size": 10914,
+    "hash": "bhQR9FZAiP_7kxUnMZbhOLd_U972g4RxmHvD9KKxNuQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ndjson.d.ts"
+    },
+    "size": 16373,
+    "hash": "vI4FK4XFTqsTpUyMJLfl2acrmVs42py0MswI7Dd-R60"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/SchemaBinary.d.ts"
+    },
+    "size": 11065,
+    "hash": "_azIUMK4xCOg93NqSVtNDX-F2N8ig0YdyXCc-P0UMRI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Sse.d.ts"
+    },
+    "size": 11379,
+    "hash": "Fmwr_ayd9o5g0s8kNgVtDPEZ15dytzKkVRuOJDQAXEU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Tar.d.ts"
+    },
+    "size": 11860,
+    "hash": "E0MiYTO8ue5t1e1JKwfyHgRXfng6HCkPtYvnFh87oEQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Toml.d.ts"
+    },
+    "size": 1167,
+    "hash": "oZ9za3NAXBeYkNmhWdO_vkqutfMqcYbkXasEWODwfAI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Xml.d.ts"
+    },
+    "size": 16470,
+    "hash": "pbiCzYYwqiAZdiCFMyRVz1UG67xCJdvhrKQr2DVmlT8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Yaml.d.ts"
+    },
+    "size": 1350,
+    "hash": "v6AA9d7wPSPG8is8K3PlW3cpQrL_Nvwf1MNmOfGrhZY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Zip.d.ts"
+    },
+    "size": 16670,
+    "hash": "nOdp98PU19xagRzuttN9laEGVY6lwutoVseazCyqX7c"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/index.d.ts"
+    },
+    "size": 1360,
+    "hash": "0p_GADS7DXIS1_3swheMVC7wVT6K135y2xxkhj_sq7U"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Encoding.d.ts"
+    },
+    "size": 852,
+    "hash": "6JHF6GIvlFYBICb2qrmb-bGQDaH1t16tgPW4ET7lViM"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/FileReader.d.ts"
+    },
+    "size": 3271,
+    "hash": "Izc4Lg3SrR_vTOYfWz0LwZeU40DjL8144EqjrGxp8AU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Headers.d.ts"
+    },
+    "size": 1481,
+    "hash": "y3AcQqeGN8mxkJ58iTbWOmyXNdK5dRRTEUogxbFXy0s"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/FileSystem.d.ts"
+    },
+    "size": 4237,
+    "hash": "GscyJs1q8_cVZgxDm-u1CJwscBRKw-f5XSRJdUxCAP8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Locks.d.ts"
+    },
+    "size": 5678,
+    "hash": "vA5GYo8h7qcs5a-fuxQPj_Xrbx1iP5fNyo4v0SJHAKk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/MediaQuery.d.ts"
+    },
+    "size": 2800,
+    "hash": "H2TsmsCxrAVQFpn2-nEjFgeAxGOVseTq6FcGaP1wfeE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/NetAddress.d.ts"
+    },
+    "size": 444,
+    "hash": "SgsPPjdFtiCOl0YW0Hfd-hH9BkaSftHcBv_ygK67A4U"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/NodeStream.d.ts"
+    },
+    "size": 3224,
+    "hash": "-Om0tHTgAHL2dgmRlVlG--oBT8d5mftOLPyo-yrHdSk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Process.d.ts"
+    },
+    "size": 8241,
+    "hash": "oiIVYvpaIUKJOP6geMxc4B8Dl0_JFBNWkR9ZIAKCyHs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/ResizeObserver.d.ts"
+    },
+    "size": 2495,
+    "hash": "uUMxJ3p5sbc-qhqfyWNUwnitOJtINeXL_9M1xJLWz30"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Stdio.d.ts"
+    },
+    "size": 1504,
+    "hash": "6TcF16KKXbLqEGWumgFgvLQ7WkOiGr_cWBw27JoJX6Q"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Window.d.ts"
+    },
+    "size": 2301,
+    "hash": "Jgz07Sov3RhBpS50HAW-g5wQmxTspcjGXzQUavlym-g"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/AudioContext.d.ts"
+    },
+    "size": 2205,
+    "hash": "z0dedL-zpn1GrXaOgFyOHm7DMb1z3zCMaIMqGqR6tUk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Request.d.ts"
+    },
+    "size": 1649,
+    "hash": "KRg2WDevqFgPetJq4CxDHh8edm0srjqhWRN7lTSenyY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/index.d.ts"
+    },
+    "size": 1574,
+    "hash": "hcZRaVCidu8HYX0HvnTobrHo2cQDv4U1txmpSQ0GSa0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/prelude.d.ts"
+    },
+    "size": 129,
+    "hash": "Tqy755Tt4ZuJDGVpmxUCXsPlRUgHYXa4ktmztNdW1DY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/index.d.ts"
+    },
+    "size": 107,
+    "hash": "kHyPbTEwJDNbyrr9EJDBtS42mtLKhF1zop-5XYfg38g"
    },
    {
     "path": {
@@ -2182,440 +2630,6 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/calls.d.ts"
-    },
-    "size": 1375,
-    "hash": "dsRmJCNPzxmBw80oYCGtYgErjsc0O0IdrlavmcSqJgg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/fastcalls.d.ts"
-    },
-    "size": 4743,
-    "hash": "5KioEbTxBNd_QZvwfzx_Wtto96eJo5t1os1-dStu3Sg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/regions.d.ts"
-    },
-    "size": 6347,
-    "hash": "OimZR3Bn-U-YG7GsPRLkO7ojAkjKNP_YHZLHjIojefk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/fork.d.ts"
-    },
-    "size": 1450,
-    "hash": "48HdCKdKyA1Q-ImyNbFxHEH8MvHTioJ4AhPv04LWEvg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/kernel/internals.d.ts"
-    },
-    "size": 1192,
-    "hash": "7Fiel2LtGrvq-9nBG4DTXdPWPq5ssE5zGD2xtKyop7k"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/kernel/kernel.d.ts"
-    },
-    "size": 6233,
-    "hash": "SpddlG9nvj1HKpa57Bira5G8t4QoTcG4oRl4hnC1-xE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/services.d.ts"
-    },
-    "size": 3272,
-    "hash": "Aky7KJ-_at6kU0rh2fYbON-xEor5MYT7r0dKny8eFp4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/handlers.d.ts"
-    },
-    "size": 4437,
-    "hash": "dM4ZRB9CryabX-dYLCHS1WlVbZMqBRsuuvJGPL-Sc94"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/producers.d.ts"
-    },
-    "size": 2648,
-    "hash": "nSdLzVgLSb7ZsOITdmOllPu94EmFjCD7W-O0F8qihHs"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/iterators.d.ts"
-    },
-    "size": 299,
-    "hash": "D_KJoFVsbFdHLj8ECD9in36LfyVin-Znz3X0acOoUt4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/binding-iterator.d.ts"
-    },
-    "size": 521,
-    "hash": "a5GFo1F3YhIqtKzebc3H9jA8z8NZhbnUT6KJQHrwj5Q"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/boundaries.d.ts"
-    },
-    "size": 2229,
-    "hash": "J2cNQ7D_ohM_EnMxDLD02YYHFErO1YyFaZklO0hQ_Pk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/hatches.d.ts"
-    },
-    "size": 4249,
-    "hash": "6pDgm-yR3j20e3-U12dVZaDmHAAq_WLsHsbatPCEWOY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/fibers.d.ts"
-    },
-    "size": 6703,
-    "hash": "5PnLtZ4YZGxFz9KdbeNpELY0G-Ff9MsnI8ywtvAOXio"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/provide.d.ts"
-    },
-    "size": 2281,
-    "hash": "k31QBghV46lk2i0f4JI_OSQJCFzTOLh5I_FnCBfDmuU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/primitives.d.ts"
-    },
-    "size": 2714,
-    "hash": "o5vUAbZjcdzZJlJz6sxUnB-I7AasWMI-s30qQb8E7Ic"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/match.d.ts"
-    },
-    "size": 6984,
-    "hash": "2FsfAhYwF1fwC5e0LU4278-JVGYlmyyiLdE2ulgu2A0"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/main.d.ts"
-    },
-    "size": 1361,
-    "hash": "NVDMPJgJKrqMc_i-77_arVwTNhh8LBDWGq6mG7urGRk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Animations.d.ts"
-    },
-    "size": 4126,
-    "hash": "LIh_ITVpztxGdctQldXDsjoilz47SeJfVYCfdklEYtE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/BrowserInfo.d.ts"
-    },
-    "size": 1989,
-    "hash": "mO2jTu2b39Dco34MEBt0o6UTMBWA4gEIAtZHi1IW46I"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/ChildProcess.d.ts"
-    },
-    "size": 3133,
-    "hash": "vtz-lrM1qVNbYlFgzi89KmoPI076rUvhtNoYs2UqjCE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Crypto.d.ts"
-    },
-    "size": 6627,
-    "hash": "XwHusiTQVjE4hwkTA3zAFGJPZll6iaWLc-hZp7hAFPk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/AddressResolver.d.ts"
-    },
-    "size": 5542,
-    "hash": "m2JvnScm4Fzsua4ijv9gVDOYs0vLJHsU1ZpBxnD-FpE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/index.d.ts"
-    },
-    "size": 642,
-    "hash": "kblyErHDYnsF_P1DdrxoVsh10SnDRQ3Bwck5WGn-w3I"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Dns.d.ts"
-    },
-    "size": 2094,
-    "hash": "a8V4vRrBPQWD6J1ZDSVUngqy4VPQYhwXW_4wp7dZbDw"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Document.d.ts"
-    },
-    "size": 2970,
-    "hash": "wgJNU0rjtPZ9wCQ1vOFM17UzIMNuxXkAnRL6Y6k91UM"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/EncodingError.d.ts"
-    },
-    "size": 2782,
-    "hash": "Y96VGSj4hkYGUmAOZdCpJR62OOrsPw-uPQ-6eFOYaOI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64.d.ts"
-    },
-    "size": 2677,
-    "hash": "yEc8CNYNHSis4OSrmGaUexmByy2oBUfRmPnI_UsePU8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64Url.d.ts"
-    },
-    "size": 3553,
-    "hash": "LVhOA-AXlruy2l_8uj7OqYNt8HWUnwKYKe2d-khPXC4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Csv.d.ts"
-    },
-    "size": 22389,
-    "hash": "22pSJFH0tyStth9R63Uycc30OpLzYI182QSJl5K18Vo"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Hex.d.ts"
-    },
-    "size": 3101,
-    "hash": "a8-p15tzg2N4oOiyE0tOjgL17Q6t-4RKSlFK3_E5r4E"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ini.d.ts"
-    },
-    "size": 665,
-    "hash": "VEcV_gJv9YP3829kRBt6tCjrstQMEF8R7NjF5SKENTo"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/JsonArray.d.ts"
-    },
-    "size": 10914,
-    "hash": "bhQR9FZAiP_7kxUnMZbhOLd_U972g4RxmHvD9KKxNuQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ndjson.d.ts"
-    },
-    "size": 16373,
-    "hash": "vI4FK4XFTqsTpUyMJLfl2acrmVs42py0MswI7Dd-R60"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/SchemaBinary.d.ts"
-    },
-    "size": 11065,
-    "hash": "_azIUMK4xCOg93NqSVtNDX-F2N8ig0YdyXCc-P0UMRI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Sse.d.ts"
-    },
-    "size": 11379,
-    "hash": "Fmwr_ayd9o5g0s8kNgVtDPEZ15dytzKkVRuOJDQAXEU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Tar.d.ts"
-    },
-    "size": 11860,
-    "hash": "E0MiYTO8ue5t1e1JKwfyHgRXfng6HCkPtYvnFh87oEQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Toml.d.ts"
-    },
-    "size": 1167,
-    "hash": "oZ9za3NAXBeYkNmhWdO_vkqutfMqcYbkXasEWODwfAI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Xml.d.ts"
-    },
-    "size": 16470,
-    "hash": "pbiCzYYwqiAZdiCFMyRVz1UG67xCJdvhrKQr2DVmlT8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Yaml.d.ts"
-    },
-    "size": 1350,
-    "hash": "v6AA9d7wPSPG8is8K3PlW3cpQrL_Nvwf1MNmOfGrhZY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Zip.d.ts"
-    },
-    "size": 16670,
-    "hash": "nOdp98PU19xagRzuttN9laEGVY6lwutoVseazCyqX7c"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/index.d.ts"
-    },
-    "size": 1360,
-    "hash": "0p_GADS7DXIS1_3swheMVC7wVT6K135y2xxkhj_sq7U"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Encoding.d.ts"
-    },
-    "size": 852,
-    "hash": "6JHF6GIvlFYBICb2qrmb-bGQDaH1t16tgPW4ET7lViM"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/FileReader.d.ts"
-    },
-    "size": 3271,
-    "hash": "Izc4Lg3SrR_vTOYfWz0LwZeU40DjL8144EqjrGxp8AU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Headers.d.ts"
-    },
-    "size": 1481,
-    "hash": "y3AcQqeGN8mxkJ58iTbWOmyXNdK5dRRTEUogxbFXy0s"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/FileSystem.d.ts"
-    },
-    "size": 4237,
-    "hash": "GscyJs1q8_cVZgxDm-u1CJwscBRKw-f5XSRJdUxCAP8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Locks.d.ts"
-    },
-    "size": 5678,
-    "hash": "vA5GYo8h7qcs5a-fuxQPj_Xrbx1iP5fNyo4v0SJHAKk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/MediaQuery.d.ts"
-    },
-    "size": 2800,
-    "hash": "H2TsmsCxrAVQFpn2-nEjFgeAxGOVseTq6FcGaP1wfeE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/NetAddress.d.ts"
-    },
-    "size": 444,
-    "hash": "SgsPPjdFtiCOl0YW0Hfd-hH9BkaSftHcBv_ygK67A4U"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/NodeStream.d.ts"
-    },
-    "size": 3224,
-    "hash": "-Om0tHTgAHL2dgmRlVlG--oBT8d5mftOLPyo-yrHdSk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Process.d.ts"
-    },
-    "size": 8241,
-    "hash": "oiIVYvpaIUKJOP6geMxc4B8Dl0_JFBNWkR9ZIAKCyHs"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/ResizeObserver.d.ts"
-    },
-    "size": 2495,
-    "hash": "uUMxJ3p5sbc-qhqfyWNUwnitOJtINeXL_9M1xJLWz30"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Stdio.d.ts"
-    },
-    "size": 1504,
-    "hash": "6TcF16KKXbLqEGWumgFgvLQ7WkOiGr_cWBw27JoJX6Q"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Window.d.ts"
-    },
-    "size": 2301,
-    "hash": "Jgz07Sov3RhBpS50HAW-g5wQmxTspcjGXzQUavlym-g"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/AudioContext.d.ts"
-    },
-    "size": 2205,
-    "hash": "z0dedL-zpn1GrXaOgFyOHm7DMb1z3zCMaIMqGqR6tUk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Request.d.ts"
-    },
-    "size": 1649,
-    "hash": "KRg2WDevqFgPetJq4CxDHh8edm0srjqhWRN7lTSenyY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/index.d.ts"
-    },
-    "size": 1574,
-    "hash": "hcZRaVCidu8HYX0HvnTobrHo2cQDv4U1txmpSQ0GSa0"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/prelude.d.ts"
-    },
-    "size": 2682,
-    "hash": "lY9cy0XzDlp4a-WwT2moZ8nwmU3wfjDM4JeqmoMihTQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/resources.d.ts"
-    },
-    "size": 1599,
-    "hash": "U-JuKPY9JEuXM24F00Rd5NNsioH-5xMK4AMyix5GT4w"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/legacy-await-types.d.ts"
-    },
-    "size": 1948,
-    "hash": "yLNOHMBuLdk8f5F8zEtXmfK2YpMjr5UX54CdKqCyap4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/match-cache.d.ts"
-    },
-    "size": 722,
-    "hash": "IT8EGMnRp0-6el6sZiCOflLDbAfxip3e9Tr_dwBJLRQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/index.d.ts"
-    },
-    "size": 1608,
-    "hash": "s_8Vf5JxGZOuLAQBSNlcfdRVxvbbQ5N3X1hA9oH0k5E"
-   },
-   {
-    "path": {
      "relative": "node_modules/.pnpm/yaml@2.9.0/node_modules/yaml/dist/parse/line-counter.d.ts"
     },
     "size": 733,
@@ -2910,24 +2924,24 @@
    },
    {
     "path": {
-     "relative": "packages/shared/src/shell.ts"
+     "relative": "packages/shared/src/shell.vibe"
     },
-    "size": 33105,
-    "hash": "nVOhSyf72m3r2C_5YnEowdICTjiQq6mIVtQU5radyBY"
+    "size": 35840,
+    "hash": "Fd2bIjUspsSqSGz0tD1ZQ9OSe8sxKKjm3SPn9nF73qE"
    },
    {
     "path": {
      "relative": "package.json"
     },
-    "size": 7317,
-    "hash": "NYPs_9_45vAVCod-wHB4zaBXfaodelNo0Y1d3qDAUyE"
+    "size": 7372,
+    "hash": "mFwecut9JNFS42rXHMPhlX7RRxqcs7yuvXnE6EDrFgY"
    },
    {
     "path": {
      "relative": "apps/server/package.json"
     },
-    "size": 4086,
-    "hash": "w6bG03BvyNcFLb6mZXXEbPlDJVZZsL3Foq6dYaR2Ewc"
+    "size": 4021,
+    "hash": "Ijnw3a83Xfda93MUg3ZEip8e6xsIoUnIQLDe5Qbm_ck"
    },
    {
     "path": {
@@ -3844,7 +3858,7 @@
      "relative": "apps/desktop/package.json"
     },
     "size": 1586,
-    "hash": "ti_Yodo-PIChQ5qn66EiYGHHsBg91svhB8SCdak-LNk"
+    "hash": "Rymb2xzCVLLqHtqx3JM-N_rzU424oU8JGOD0BE-NaOE"
    },
    {
     "path": {
@@ -3911,10 +3925,10 @@
    },
    {
     "path": {
-     "relative": "scripts/lib/linux-arm64-sea.ts"
+     "relative": "scripts/lib/linux-arm64-sea.vibe"
     },
-    "size": 4743,
-    "hash": "ggmrgl81ruPoFjWyAZGt3qzYQD5BsErSyH519j8eX58"
+    "size": 5518,
+    "hash": "GamZ4fWo4Nf5YLrjpndXdWkkeIShKzD_zTOhGgPqBG0"
    },
    {
     "path": {
@@ -3934,8 +3948,8 @@
     "path": {
      "relative": "scripts/build-cli-archive.ts"
     },
-    "size": 21733,
-    "hash": "bh_9vWknSi902rM5Q7mioDfi3vXDrR8apbkY00UcsuQ"
+    "size": 21735,
+    "hash": "FcqFNAa7IFciyRBMlfFpcn3RahZqJhauUiJmMzsObuI"
    },
    {
     "path": {
@@ -7903,8 +7917,8 @@
     "path": {
      "relative": "scripts/release-smoke.ts"
     },
-    "size": 13841,
-    "hash": "Y0JTNM9aKyFQSnkIMf8AEAzjb5ngRh9BO-a0LNQS6bs"
+    "size": 14378,
+    "hash": "GT8JLIFKjdiDDxJhDAqJz2e_AbFQsEHmi2U0Y2N3iHE"
    },
    {
     "path": {
@@ -9387,8 +9401,8 @@
     "path": {
      "relative": "scripts/lib/linux-arm64-sea.test.ts"
     },
-    "size": 2263,
-    "hash": "FPioK3KLPh1VVEbRYDPVoQSBTDKzKkxpCHep9ycywxQ"
+    "size": 2265,
+    "hash": "uXpnMXBW8maeAWHpR6DyFZWV7uMjrs3xoOCzOA0zLyU"
    },
    {
     "path": {
@@ -9440,7 +9454,7 @@
     "relative": "packages/shared/src/schemaYaml.vibe"
    },
    {
-    "relative": "packages/shared/src/shell.ts"
+    "relative": "packages/shared/src/shell.vibe"
    },
    {
     "relative": "package.json"
@@ -9482,7 +9496,7 @@
     "relative": "scripts/build-desktop-artifact.ts"
    },
    {
-    "relative": "scripts/lib/linux-arm64-sea.ts"
+    "relative": "scripts/lib/linux-arm64-sea.vibe"
    },
    {
     "relative": "scripts/lib/windows-jsign.ts"
@@ -9734,7 +9748,7 @@
     "column": 14,
     "category": "warning",
     "code": "EK4837",
-    "text": "DevServeFailedError extends Schema.TaggedError; a schema error declaration, schema error DevServeFailedError { … }, writes the same failure with its Schema.\n  No quick fix: the optional codec accepts undefined; keep the explicit Effect class to preserve its schema API."
+    "text": "DevServeFailedError extends Schema.TaggedError; a schema error declaration, schema error DevServeFailedError { … }, writes the same failure with its Schema.\n  No quick fix: the optional codec accepts undefined; keep the explicit Effect class to preserve its schema API.\nlib/dev-share.vibe(48,61): suggestion EK38106: schemaClassMissingBrand: Add `{ readonly brand: unique symbol }` as the second type argument. Without a brand, TypeScript may accept structurally compatible values where this class instance type is expected. effect(schemaClassMissingBrand)\nlib/linux-arm64-sea.vibe(75,14): suggestion EK38106: schemaClassMissingBrand: Add `{ readonly brand: unique symbol }` as the second type argument. Without a brand, TypeScript may accept structurally compatible values where this class instance type is expected. effect(schemaClassMissingBrand)\nlib/resolve-catalog.vibe(1,14): suggestion EK38106: schemaClassMissingBrand: Add `{ readonly brand: unique symbol }` as the second type argument. Without a brand, TypeScript may accept structurally compatible values where this class instance type is expected. effect(schemaClassMissingBrand)\nbundled:///libs/lib.es5.d.ts\nbundled:///libs/lib.es2015.d.ts\nbundled:///libs/lib.es2016.d.ts\nbundled:///libs/lib.es2017.d.ts\nbundled:///libs/lib.es2018.d.ts\nbundled:///libs/lib.es2019.d.ts\nbundled:///libs/lib.es2020.d.ts\nbundled:///libs/lib.es2021.d.ts\nbundled:///libs/lib.es2022.d.ts\nbundled:///libs/lib.es2023.d.ts\nbundled:///libs/lib.es2024.d.ts\nbundled:///libs/lib.es2025.d.ts\nbundled:///libs/lib.es2026.d.ts\nbundled:///libs/lib.esnext.d.ts\nbundled:///libs/lib.es2015.core.d.ts\nbundled:///libs/lib.es2015.collection.d.ts\nbundled:///libs/lib.es2015.generator.d.ts\nbundled:///libs/lib.es2015.iterable.d.ts\nbundled:///libs/lib.es2015.promise.d.ts\nbundled:///libs/lib.es2015.proxy.d.ts\nbundled:///libs/lib.es2015.reflect.d.ts\nbundled:///libs/lib.es2015.symbol.d.ts\nbundled:///libs/lib.es2015.symbol.wellknown.d.ts\nbundled:///libs/lib.es2016.array.include.d.ts\nbundled:///libs/lib.es2016.intl.d.ts\nbundled:///libs/lib.es2017.arraybuffer.d.ts\nbundled:///libs/lib.es2017.date.d.ts\nbundled:///libs/lib.es2017.object.d.ts\nbundled:///libs/lib.es2017.sharedmemory.d.ts\nbundled:///libs/lib.es2017.string.d.ts\nbundled:///libs/lib.es2017.intl.d.ts\nbundled:///libs/lib.es2017.typedarrays.d.ts\nbundled:///libs/lib.es2018.asyncgenerator.d.ts\nbundled:///libs/lib.es2018.asynciterable.d.ts\nbundled:///libs/lib.es2018.intl.d.ts\nbundled:///libs/lib.es2018.promise.d.ts\nbundled:///libs/lib.es2018.regexp.d.ts\nbundled:///libs/lib.es2019.array.d.ts\nbundled:///libs/lib.es2019.object.d.ts\nbundled:///libs/lib.es2019.string.d.ts\nbundled:///libs/lib.es2019.symbol.d.ts\nbundled:///libs/lib.es2019.intl.d.ts\nbundled:///libs/lib.es2020.bigint.d.ts\nbundled:///libs/lib.es2020.date.d.ts\nbundled:///libs/lib.es2020.promise.d.ts\nbundled:///libs/lib.es2020.sharedmemory.d.ts\nbundled:///libs/lib.es2020.string.d.ts\nbundled:///libs/lib.es2020.symbol.wellknown.d.ts\nbundled:///libs/lib.es2020.intl.d.ts\nbundled:///libs/lib.es2020.number.d.ts\nbundled:///libs/lib.es2021.promise.d.ts\nbundled:///libs/lib.es2021.string.d.ts\nbundled:///libs/lib.es2021.weakref.d.ts\nbundled:///libs/lib.es2021.intl.d.ts\nbundled:///libs/lib.es2022.array.d.ts\nbundled:///libs/lib.es2022.error.d.ts\nbundled:///libs/lib.es2022.intl.d.ts\nbundled:///libs/lib.es2022.object.d.ts\nbundled:///libs/lib.es2022.string.d.ts\nbundled:///libs/lib.es2022.regexp.d.ts\nbundled:///libs/lib.es2023.array.d.ts\nbundled:///libs/lib.es2023.collection.d.ts\nbundled:///libs/lib.es2023.intl.d.ts\nbundled:///libs/lib.es2024.arraybuffer.d.ts\nbundled:///libs/lib.es2024.collection.d.ts\nbundled:///libs/lib.es2024.object.d.ts\nbundled:///libs/lib.es2024.promise.d.ts\nbundled:///libs/lib.es2024.regexp.d.ts\nbundled:///libs/lib.es2024.sharedmemory.d.ts\nbundled:///libs/lib.es2024.string.d.ts\nbundled:///libs/lib.es2025.collection.d.ts\nbundled:///libs/lib.es2025.float16.d.ts\nbundled:///libs/lib.es2025.intl.d.ts\nbundled:///libs/lib.es2025.iterator.d.ts\nbundled:///libs/lib.es2025.promise.d.ts\nbundled:///libs/lib.es2025.regexp.d.ts\nbundled:///libs/lib.es2026.array.d.ts\nbundled:///libs/lib.es2026.collection.d.ts\nbundled:///libs/lib.es2026.error.d.ts\nbundled:///libs/lib.es2026.iterator.d.ts\nbundled:///libs/lib.es2026.json.d.ts\nbundled:///libs/lib.es2026.math.d.ts\nbundled:///libs/lib.es2026.typedarrays.d.ts\nbundled:///libs/lib.esnext.iterator.d.ts\nbundled:///libs/lib.esnext.promise.d.ts\nbundled:///libs/lib.esnext.date.d.ts\nbundled:///libs/lib.esnext.decorators.d.ts\nbundled:///libs/lib.esnext.disposable.d.ts\nbundled:///libs/lib.esnext.intl.d.ts\nbundled:///libs/lib.esnext.modulesource.d.ts\nbundled:///libs/lib.esnext.sharedmemory.d.ts\nbundled:///libs/lib.esnext.temporal.d.ts\nbundled:///libs/lib.decorators.d.ts\nbundled:///libs/lib.decorators.legacy.d.ts"
    }
   ],
   "outputs": [
@@ -9764,7 +9778,7 @@
       "relative": "scripts/lib/resolve-catalog.vibe"
      }
     ],
-    "code": "import * as Schema from \"effect/Schema\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime\";\nclass CatalogDependencyResolutionError extends Schema.TaggedError()(\"CatalogDependencyResolutionError\", {\n    workspacePackage: Schema.String,\n    dependencyName: Schema.String,\n    catalogSpec: Schema.String,\n    catalogKey: Schema.String,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"CatalogDependencyResolutionError\");\n    }\n    get message() {\n        return `Unable to resolve '${this.catalogSpec}' for ${this.workspacePackage} dependency '${this.dependencyName}'. Expected key '${this.catalogKey}' in root workspace catalog.`;\n    }\n}\nexport function resolveCatalogDependencies(dependencies, catalog, workspacePackage) {\n    return Object.fromEntries(Object.entries(dependencies).map(([name, spec]) => {\n        if (typeof spec !== \"string\" || !spec.startsWith(\"catalog:\")) {\n            return [name, spec];\n        }\n        const catalogKey = spec.slice(\"catalog:\".length).trim();\n        const selector = name.split(\">\").at(-1) ?? name;\n        const versionIndex = selector.indexOf(\"@\", 1);\n        const packageName = versionIndex === -1 ? selector : selector.slice(0, versionIndex);\n        const lookupKey = catalogKey.length > 0 ? catalogKey : packageName;\n        const resolved = catalog[lookupKey];\n        if (typeof resolved !== \"string\" || resolved.length === 0) {\n            $raise(new CatalogDependencyResolutionError({\n                workspacePackage,\n                dependencyName: name,\n                catalogSpec: spec,\n                catalogKey: lookupKey,\n            }));\n        }\n        return [name, resolved];\n    }));\n}\nimport { raise as $raise } from \"./resolve-catalog.vibe.-24-throw-24-ts.js\";\n",
+    "code": "import * as Schema from \"effect/Schema\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime/internal\";\nclass CatalogDependencyResolutionError extends Schema.TaggedError()(\"CatalogDependencyResolutionError\", {\n    workspacePackage: Schema.String,\n    dependencyName: Schema.String,\n    catalogSpec: Schema.String,\n    catalogKey: Schema.String,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"CatalogDependencyResolutionError\");\n    }\n    get message() {\n        return `Unable to resolve '${this.catalogSpec}' for ${this.workspacePackage} dependency '${this.dependencyName}'. Expected key '${this.catalogKey}' in root workspace catalog.`;\n    }\n}\nexport function resolveCatalogDependencies(dependencies, catalog, workspacePackage) {\n    return Object.fromEntries(Object.entries(dependencies).map(([name, spec]) => {\n        if (typeof spec !== \"string\" || !spec.startsWith(\"catalog:\")) {\n            return [name, spec];\n        }\n        const catalogKey = spec.slice(\"catalog:\".length).trim();\n        const selector = name.split(\">\").at(-1) ?? name;\n        const versionIndex = selector.indexOf(\"@\", 1);\n        const packageName = versionIndex === -1 ? selector : selector.slice(0, versionIndex);\n        const lookupKey = catalogKey.length > 0 ? catalogKey : packageName;\n        const resolved = catalog[lookupKey];\n        if (typeof resolved !== \"string\" || resolved.length === 0) {\n            $raise(new CatalogDependencyResolutionError({\n                workspacePackage,\n                dependencyName: name,\n                catalogSpec: spec,\n                catalogKey: lookupKey,\n            }));\n        }\n        return [name, resolved];\n    }));\n}\nimport { raise as $raise } from \"./resolve-catalog.vibe.-24-throw-24-ts.js\";\n",
     "map": {
      "version": 3,
      "file": "resolve-catalog.js",
@@ -9775,7 +9789,7 @@
       }
      ],
      "names": [],
-     "mappings": ";;AAAA,MAAa,gCAAiC,SAAA,AAA9C,MAAM,CAAN,WAAM,EAAA,CAAO,kCAAgC,EAAC;IACnC,gBAAgB,EAAE,MAAA,CAAA,MAAA;IAClB,cAAc,EAAE,MAAA,CAAA,MAAA;IAChB,WAAW,EAAE,MAAA,CAAA,MAAA;IACb,UAAU,EAAE,MAAA,CAAA,MAAA;CAItB,CAAA;GAAA,C,CAAA;QARY,mBAAgC,CAAhC,IAAgC,EAAhC,kCAAgC,CAAA,CAAA;IAAC,CAAC,AAAF;IAK3C,IAAa,OAAO;QAClB,OAAO,sBAAsB,IAAI,CAAC,WAAW,SAAS,IAAI,CAAC,gBAAgB,gBAAgB,IAAI,CAAC,cAAc,oBAAoB,IAAI,CAAC,UAAU,8BAA8B,CAAA;IACjL,CAAC;CACF;AAED,MAAM,UAAU,0BAA0B,CACxC,YAAoC,EACpC,OAA+B,EAC/B,gBAAwB;IAExB,OAAO,MAAM,CAAC,WAAW,CACvB,MAAM,CAAC,OAAO,CAAC,YAAY,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,IAAI,EAAE,IAAI,CAAC,EAAE,EAAE;QAChD,IAAI,OAAO,IAAI,KAAK,QAAQ,IAAI,CAAC,IAAI,CAAC,UAAU,CAAC,UAAU,CAAC,EAAE,CAAC;YAC7D,OAAO,CAAC,IAAI,EAAE,IAAI,CAAC,CAAA;QACrB,CAAC;QAED,MAAM,UAAU,GAAG,IAAI,CAAC,KAAK,CAAC,UAAU,CAAC,MAAM,CAAC,CAAC,IAAI,EAAE,CAAA;QACvD,MAAM,QAAQ,GAAG,IAAI,CAAC,KAAK,CAAC,GAAG,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,IAAI,IAAI,CAAA;QAC/C,MAAM,YAAY,GAAG,QAAQ,CAAC,OAAO,CAAC,GAAG,EAAE,CAAC,CAAC,CAAA;QAC7C,MAAM,WAAW,GAAG,YAAY,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,QAAQ,CAAC,KAAK,CAAC,CAAC,EAAE,YAAY,CAAC,CAAA;QACpF,MAAM,SAAS,GAAG,UAAU,CAAC,MAAM,GAAG,CAAC,CAAC,CAAC,CAAC,UAAU,CAAC,CAAC,CAAC,WAAW,CAAA;QAClE,MAAM,QAAQ,GAAG,OAAO,CAAC,SAAS,CAAC,CAAA;QAEnC,IAAI,OAAO,QAAQ,KAAK,QAAQ,IAAI,QAAQ,CAAC,MAAM,KAAK,CAAC,EAAE,CAAC;YAC1D,MAAM,CACJ,IAAI,gCAAgC,CAAC;gBACnC,gBAAgB;gBAChB,cAAc,EAAE,IAAI;gBACpB,WAAW,EAAE,IAAI;gBACjB,UAAU,EAAE,SAAS;aACtB,CAAC,CACH,CAAA;QACH,CAAC;QAED,OAAO,CAAC,IAAI,EAAE,QAAQ,CAAC,CAAA;IACzB,CAAC,CAAC,CACH,CAAA;AACH,CAAC;AAOD,OAAO,EAAE,KAAK,IAAI,MAAM,EAAE,MAAM,2CAAS,CAAA"
+     "mappings": ";;AAAA,MAAa,gCAAiC,SAAA,AAA9C,MAAM,CAAN,WAAM,EAAA,CAAO,kCAAgC,EAAC;IACnC,gBAAgB,EAAE,MAAA,CAAA,MAAA;IAClB,cAAc,EAAE,MAAA,CAAA,MAAA;IAChB,WAAW,EAAE,MAAA,CAAA,MAAA;IACb,UAAU,EAAE,MAAA,CAAA,MAAA;CAItB,CAAA;GAAA,C,CAAA;QARY,mBAAgC,CAAhC,IAAgC,EAAhC,kCAAgC,CAAA,CAAA;KAAA;IAK3C,IAAa,OAAO;QAClB,OAAO,sBAAsB,IAAI,CAAC,WAAW,SAAS,IAAI,CAAC,gBAAgB,gBAAgB,IAAI,CAAC,cAAc,oBAAoB,IAAI,CAAC,UAAU,8BAA8B,CAAA;IACjL,CAAC;CACF;AAED,MAAM,UAAU,0BAA0B,CACxC,YAAoC,EACpC,OAA+B,EAC/B,gBAAwB;IAExB,OAAO,MAAM,CAAC,WAAW,CACvB,MAAM,CAAC,OAAO,CAAC,YAAY,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,IAAI,EAAE,IAAI,CAAC,EAAE,EAAE;QAChD,IAAI,OAAO,IAAI,KAAK,QAAQ,IAAI,CAAC,IAAI,CAAC,UAAU,CAAC,UAAU,CAAC,EAAE,CAAC;YAC7D,OAAO,CAAC,IAAI,EAAE,IAAI,CAAC,CAAA;QACrB,CAAC;QAED,MAAM,UAAU,GAAG,IAAI,CAAC,KAAK,CAAC,UAAU,CAAC,MAAM,CAAC,CAAC,IAAI,EAAE,CAAA;QACvD,MAAM,QAAQ,GAAG,IAAI,CAAC,KAAK,CAAC,GAAG,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC,CAAC,IAAI,IAAI,CAAA;QAC/C,MAAM,YAAY,GAAG,QAAQ,CAAC,OAAO,CAAC,GAAG,EAAE,CAAC,CAAC,CAAA;QAC7C,MAAM,WAAW,GAAG,YAAY,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,QAAQ,CAAC,KAAK,CAAC,CAAC,EAAE,YAAY,CAAC,CAAA;QACpF,MAAM,SAAS,GAAG,UAAU,CAAC,MAAM,GAAG,CAAC,CAAC,CAAC,CAAC,UAAU,CAAC,CAAC,CAAC,WAAW,CAAA;QAClE,MAAM,QAAQ,GAAG,OAAO,CAAC,SAAS,CAAC,CAAA;QAEnC,IAAI,OAAO,QAAQ,KAAK,QAAQ,IAAI,QAAQ,CAAC,MAAM,KAAK,CAAC,EAAE,CAAC;YAC1D,MAAM,CACJ,IAAI,gCAAgC,CAAC;gBACnC,gBAAgB;gBAChB,cAAc,EAAE,IAAI;gBACpB,WAAW,EAAE,IAAI;gBACjB,UAAU,EAAE,SAAS;aACtB,CAAC,CACH,CAAA;QACH,CAAC;QAED,OAAO,CAAC,IAAI,EAAE,QAAQ,CAAC,CAAA;IACzB,CAAC,CAAC,CACH,CAAA;AACH,CAAC;AAOD,OAAO,EAAE,KAAK,IAAI,MAAM,EAAE,MAAM,2CAAS,CAAA"
     }
    },
    {
@@ -9801,10 +9815,50 @@
    {
     "paths": [
      {
+      "relative": "scripts/lib/linux-arm64-sea.vibe"
+     }
+    ],
+    "code": "import * as ChildProcess from \"effect/process/ChildProcess\";\nimport { withSpan } from \"effect/Effect\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as Schema_1 from \"effect/Schema\";\n// TEMPORARY one-time workaround for a Node --build-sea bug on Linux arm64.\n// It breaks kernels with 16 KiB or 64 KiB pages. Revert when Node ships a fix.\n// Node issue: https://github.com/nodejs/node/issues/67048\n// Workaround PR: https://github.com/pingdotgg/t3code/pull/25825\nimport * as Effect from \"effect/Effect\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as Path from \"effect/Path\";\nimport * as Schema from \"effect/Schema\";\nimport { ChildProcessSpawner } from \"effect/process\";\nimport { $NodeModule_createRequire, $process_execPath, $process_versions_node } from \"./linux-arm64-sea.vibe.platform.js\";\nexport { assertLinuxArm64PageCompatibility } from \"./linux-arm64-sea.vibe.platform.js\";\nclass LinuxArm64SeaError extends Schema_1.TaggedError()(\"LinuxArm64SeaError\", {\n    message: Schema_1.String,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"LinuxArm64SeaError\");\n    }\n}\nconst encodeJson = Schema.encodeEffect(Schema.fromJsonString(Schema.Unknown));\nconst run = (args, verbose) => {\n    return Effect_1.gen(function* run() { return yield* withSpan(Effect_1.gen(function* () {\n        const spawner = yield* ChildProcessSpawner.ChildProcessSpawner;\n        const child = yield* spawner.spawn(ChildProcess.make($process_execPath(), args, {\n            stdout: verbose ? \"inherit\" : \"ignore\",\n            stderr: \"inherit\",\n        }));\n        const exitCode = yield* child.exitCode;\n        if (exitCode !== 0) {\n            return yield* Effect_1.fail(new LinuxArm64SeaError({ message: `${args[0]} exited with code ${exitCode}.` }));\n        }\n    }), \"LinuxArm64Sea.run\"); });\n};\n// Builds the SEA blob with this Node and injects it into a copy of this Node with postject.\nexport const injectLinuxArm64Sea = (input) => {\n    return Effect_1.gen(function* injectLinuxArm64Sea() { return yield* withSpan(Effect.scoped(Effect_1.gen(function* () {\n        // The copied execPath is the shipped runtime; vp pack only checks its own Node.\n        if ($process_versions_node() !== input.nodeVersion) {\n            return yield* Effect_1.fail(new LinuxArm64SeaError({\n                message: `Linux ARM64 executables must be built with Node ${input.nodeVersion}; running ${$process_versions_node()}.`,\n            }));\n        }\n        const fs = yield* FileSystem.FileSystem;\n        const path = yield* Path.Path;\n        const temp = yield* fs.makeTempDirectoryScoped({ prefix: \"t3-sea-\" });\n        const blobPath = path.join(temp, \"sea.blob\");\n        const configPath = path.join(temp, \"sea.json\");\n        yield* fs.writeFileString(configPath, yield* encodeJson({\n            main: input.bundlePath,\n            output: blobPath,\n            mainFormat: \"module\",\n            disableExperimentalSEAWarning: true,\n            // Node SEA useCodeCache breaks import(), which the server needs.\n            useCodeCache: false,\n        }));\n        yield* run([\"--experimental-sea-config\", configPath], input.verbose);\n        yield* fs.copyFile($process_execPath(), input.outputPath);\n        yield* fs.chmod(input.outputPath, 0o755);\n        const require = $NodeModule_createRequire(import.meta.url);\n        yield* run([\n            require.resolve(\"postject/dist/cli.js\"),\n            input.outputPath,\n            \"NODE_SEA_BLOB\",\n            blobPath,\n            \"--sentinel-fuse\",\n            \"NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2\",\n        ], input.verbose);\n    })), \"LinuxArm64Sea.inject\"); });\n};\n",
+    "map": {
+     "version": 3,
+     "file": "linux-arm64-sea.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "scripts/lib/linux-arm64-sea.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "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"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "scripts/lib/linux-arm64-sea.vibe.platform.js"
+     }
+    ],
+    "code": "import * as NodeModule from \"node:module\";\n// Kernels map LOAD segments in whole pages. Checking at 64 KiB covers 4, 16, and 64 KiB kernels.\nexport function assertLinuxArm64PageCompatibility(bytes) {\n    const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);\n    if (bytes.length < 64\n        || view.getUint32(0, false) !== 0x7f454c46\n        || bytes[4] !== 2\n        || bytes[5] !== 1\n        || view.getUint16(18, true) !== 183) {\n        throw new Error(\"Expected a little-endian ELF64 ARM64 executable.\");\n    }\n    const tableOffset = Number(view.getBigUint64(32, true));\n    const entrySize = view.getUint16(54, true);\n    const count = view.getUint16(56, true);\n    if (!Number.isSafeInteger(tableOffset)\n        || entrySize < 56\n        || count === 0\n        || tableOffset + entrySize * count > bytes.length) {\n        throw new Error(\"Invalid ELF program header table.\");\n    }\n    const pageSize = 0x10000n;\n    const ranges = [];\n    for (let index = 0; index < count; index++) {\n        const header = tableOffset + index * entrySize;\n        if (view.getUint32(header, true) !== 1)\n            continue;\n        const offset = view.getBigUint64(header + 8, true);\n        const address = view.getBigUint64(header + 16, true);\n        const size = view.getBigUint64(header + 40, true);\n        if (offset % pageSize !== address % pageSize) {\n            throw new Error(`ARM64 LOAD segment ${index} is incompatible with 64 KiB pages.`);\n        }\n        if (size === 0n)\n            continue;\n        const start = address / pageSize;\n        const end = (address + size + pageSize - 1n) / pageSize;\n        if (ranges.some((range) => start < range.end && range.start < end)) {\n            throw new Error(`ARM64 LOAD segments overlap on a 64 KiB page (segment ${index}).`);\n        }\n        ranges.push({ start, end });\n    }\n    if (ranges.length === 0)\n        throw new Error(\"ELF executable has no LOAD segments.\");\n}\n/** @throws {never} */\nexport function $process_execPath() {\n    return process.execPath;\n}\n/** @throws {never} */\nexport function $process_versions_node() {\n    return process.versions.node;\n}\nexport const $NodeModule_createRequire = ((...args) => NodeModule.createRequire(...args));\n",
+    "map": {
+     "version": 3,
+     "file": "linux-arm64-sea.vibe.platform.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "scripts/lib/linux-arm64-sea.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "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"
+    }
+   },
+   {
+    "paths": [
+     {
       "relative": "scripts/lib/dev-share.vibe"
      }
     ],
-    "code": "/** Vite proxies the backend, so only the web port needs a share mapping. */\nimport { withSpan } from \"effect/Effect\";\nimport { $catchExpression, $schemaErrorMatcher } from \"vibelang-runtime\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime\";\nimport * as Schema_1 from \"effect/Schema\";\nimport { buildTailscaleHttpsBaseUrl, disableTailscaleServe, ensureTailscaleServe, readTailscaleStatus, } from \"@t3tools/tailscale\";\nimport * as Effect from \"effect/Effect\";\nimport * as Schema from \"effect/Schema\";\n/** Log fixed diagnostics; tailscale stderr can contain auth keys and node names. */\nconst DIAGNOSTIC_EXPLANATIONS = {\n    \"no-existing-handler\": \"no mapping existed for that port\",\n    \"not-logged-in\": \"this machine is not logged into a tailnet — run `tailscale up`\",\n    \"permission-denied\": \"permission denied — `tailscale serve` may need elevated privileges\",\n    unknown: undefined,\n};\nconst explainCommandFailure = (error) => error._tag === \"TailscaleCommandExitError\" && error.stderrDiagnostic !== undefined\n    ? (DIAGNOSTIC_EXPLANATIONS[error.stderrDiagnostic] ?? \"run the command by hand to see why\")\n    : undefined;\nconst TailscaleUnavailableErrorCauseField = Schema.Defect();\nexport class TailscaleUnavailableError extends Schema_1.TaggedError()(\"TailscaleUnavailableError\", {\n    cause: TailscaleUnavailableErrorCauseField,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"TailscaleUnavailableError\");\n    }\n    get message() {\n        return \"could not talk to tailscale\";\n    }\n    get hint() {\n        return \"Is Tailscale installed and tailscaled running? Try `tailscale status` — or drop --share and open the printed localhost URL.\";\n    }\n}\nexport class TailnetNameMissingError extends Schema_1.TaggedError()(\"TailnetNameMissingError\", {}) {\n    static {\n        $schemaErrorMatcher(this, \"TailnetNameMissingError\");\n    }\n    get message() {\n        return \"this machine has no tailnet DNS name\";\n    }\n    get hint() {\n        return \"Run `tailscale up` and make sure MagicDNS is enabled.\";\n    }\n}\nexport class DevServeFailedError extends Schema.TaggedError()(\"DevServeFailedError\", {\n    stage: Schema.Literals([\"clear-existing\", \"serve\"]),\n    webPort: Schema.Number,\n    explanation: Schema.optional(Schema.String),\n    cause: Schema.optional(Schema.Defect()),\n}) {\n    get message() {\n        const port = String(this.webPort);\n        const base = this.stage === \"clear-existing\"\n            ? `could not clear the existing mapping for port ${port}. Run \\`tailscale serve --https=${port} off\\` and retry`\n            : `could not serve port ${port} on the tailnet (it is no longer served; any previous mapping for it was cleared before this attempt)`;\n        return this.explanation ? `${base}: ${this.explanation}` : base;\n    }\n    get hint() {\n        return undefined;\n    }\n}\n/** Finalizer cleanup must be uninterruptible or cancellation can leave stale mappings. */\nexport const unshareDevServer = (webPort) => Effect.uninterruptible(Effect.catch(Effect.as(disableTailscaleServe({ servePort: webPort }), { cleared: true }), (error) => Effect.succeed(error._tag === \"TailscaleCommandExitError\"\n    && error.stderrDiagnostic === \"no-existing-handler\"\n    ? { cleared: true }\n    : {\n        cleared: false,\n        ...(explainCommandFailure(error) !== undefined\n            ? { explanation: explainCommandFailure(error) }\n            : {}),\n        cause: error,\n    })));\n/**\n * Publishes `webPort` on the tailnet. The tailnet port always matches the web\n * port so the URL is stable; `localTarget` points it at the backend instead\n * when the backend serves a built client (`--built`).\n */\nexport const shareDevServer = (input) => {\n    return Effect_1.gen(function* shareDevServer() { return yield* withSpan(Effect_1.gen(function* () {\n        const status = yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return readTailscaleStatus; }); })(), (error) => (_tail_1 => { return Effect_1.gen(function* () {\n            const _completion_1 = _tail_1(), _value_1 = _completion_1[1];\n            return _completion_1[0] ? yield* _value_1 : _value_1;\n        }); })(() => { return [true, Effect_1.fail(new TailscaleUnavailableError({ cause: error }))]; }));\n        if (status.magicDnsName === null) {\n            return yield* Effect_1.fail(new TailnetNameMissingError());\n        }\n        const cleared = yield* unshareDevServer(input.webPort);\n        if (!cleared.cleared) {\n            // Refuse stale routes: the page could load while /ws and /api still point at a dead backend.\n            return yield* Effect_1.fail(new DevServeFailedError({\n                stage: \"clear-existing\",\n                webPort: input.webPort,\n                ...(cleared.explanation !== undefined ? { explanation: cleared.explanation } : {}),\n                ...(cleared.cause !== undefined ? { cause: cleared.cause } : {}),\n            }));\n        }\n        // Vite's localhost can bind only ::1; a 127.0.0.1 proxy target would return 502.\n        yield* (Effect.mapError(ensureTailscaleServe({\n            localPort: input.localTarget?.port ?? input.webPort,\n            servePort: input.webPort,\n            localHost: input.localTarget?.host ?? \"localhost\",\n        }), (error) => {\n            const explanation = explainCommandFailure(error);\n            return new DevServeFailedError({\n                stage: \"serve\",\n                webPort: input.webPort,\n                ...(explanation !== undefined ? { explanation } : {}),\n                cause: error,\n            });\n        }));\n        return {\n            url: buildTailscaleHttpsBaseUrl({\n                magicDnsName: status.magicDnsName,\n                servePort: input.webPort,\n            }),\n            host: status.magicDnsName,\n        };\n    }), \"devShare.shareDevServer\"); });\n};\n",
+    "code": "/** Vite proxies the backend, so only the web port needs a share mapping. */\nimport { withSpan } from \"effect/Effect\";\nimport { $catchExpression, $schemaErrorMatcher } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport * as Schema_1 from \"effect/Schema\";\nimport { buildTailscaleHttpsBaseUrl, disableTailscaleServe, ensureTailscaleServe, readTailscaleStatus, } from \"@t3tools/tailscale\";\nimport * as Effect from \"effect/Effect\";\nimport * as Schema from \"effect/Schema\";\n/** Log fixed diagnostics; tailscale stderr can contain auth keys and node names. */\nconst DIAGNOSTIC_EXPLANATIONS = {\n    \"no-existing-handler\": \"no mapping existed for that port\",\n    \"not-logged-in\": \"this machine is not logged into a tailnet — run `tailscale up`\",\n    \"permission-denied\": \"permission denied — `tailscale serve` may need elevated privileges\",\n    unknown: undefined,\n};\nconst explainCommandFailure = (error) => error._tag === \"TailscaleCommandExitError\" && error.stderrDiagnostic !== undefined\n    ? (DIAGNOSTIC_EXPLANATIONS[error.stderrDiagnostic] ?? \"run the command by hand to see why\")\n    : undefined;\nconst TailscaleUnavailableErrorCauseField = Schema.Defect();\nexport class TailscaleUnavailableError extends Schema_1.TaggedError()(\"TailscaleUnavailableError\", {\n    cause: TailscaleUnavailableErrorCauseField,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"TailscaleUnavailableError\");\n    }\n    get message() {\n        return \"could not talk to tailscale\";\n    }\n    get hint() {\n        return \"Is Tailscale installed and tailscaled running? Try `tailscale status` — or drop --share and open the printed localhost URL.\";\n    }\n}\nexport class TailnetNameMissingError extends Schema_1.TaggedError()(\"TailnetNameMissingError\", {}) {\n    static {\n        $schemaErrorMatcher(this, \"TailnetNameMissingError\");\n    }\n    get message() {\n        return \"this machine has no tailnet DNS name\";\n    }\n    get hint() {\n        return \"Run `tailscale up` and make sure MagicDNS is enabled.\";\n    }\n}\nexport class DevServeFailedError extends Schema.TaggedError()(\"DevServeFailedError\", {\n    stage: Schema.Literals([\"clear-existing\", \"serve\"]),\n    webPort: Schema.Number,\n    explanation: Schema.optional(Schema.String),\n    cause: Schema.optional(Schema.Defect()),\n}) {\n    get message() {\n        const port = String(this.webPort);\n        const base = this.stage === \"clear-existing\"\n            ? `could not clear the existing mapping for port ${port}. Run \\`tailscale serve --https=${port} off\\` and retry`\n            : `could not serve port ${port} on the tailnet (it is no longer served; any previous mapping for it was cleared before this attempt)`;\n        return this.explanation ? `${base}: ${this.explanation}` : base;\n    }\n    get hint() {\n        return undefined;\n    }\n}\n/** Finalizer cleanup must be uninterruptible or cancellation can leave stale mappings. */\nexport const unshareDevServer = (webPort) => Effect.uninterruptible(Effect.catch(Effect.as(disableTailscaleServe({ servePort: webPort }), { cleared: true }), (error) => Effect.succeed(error._tag === \"TailscaleCommandExitError\"\n    && error.stderrDiagnostic === \"no-existing-handler\"\n    ? { cleared: true }\n    : {\n        cleared: false,\n        ...(explainCommandFailure(error) !== undefined\n            ? { explanation: explainCommandFailure(error) }\n            : {}),\n        cause: error,\n    })));\n/**\n * Publishes `webPort` on the tailnet. The tailnet port always matches the web\n * port so the URL is stable; `localTarget` points it at the backend instead\n * when the backend serves a built client (`--built`).\n */\nexport const shareDevServer = (input) => {\n    return Effect_1.gen(function* shareDevServer() { return yield* withSpan(Effect_1.gen(function* () {\n        const status = yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return readTailscaleStatus; }); })(), (error) => (_tail_1 => { return Effect_1.gen(function* () {\n            const _completion_1 = _tail_1(), _value_1 = _completion_1[1];\n            return _completion_1[0] ? yield* _value_1 : _value_1;\n        }); })(() => { return [true, Effect_1.fail(new TailscaleUnavailableError({ cause: error }))]; }));\n        if (status.magicDnsName === null) {\n            return yield* Effect_1.fail(new TailnetNameMissingError());\n        }\n        const cleared = yield* unshareDevServer(input.webPort);\n        if (!cleared.cleared) {\n            // Refuse stale routes: the page could load while /ws and /api still point at a dead backend.\n            return yield* Effect_1.fail(new DevServeFailedError({\n                stage: \"clear-existing\",\n                webPort: input.webPort,\n                ...(cleared.explanation !== undefined ? { explanation: cleared.explanation } : {}),\n                ...(cleared.cause !== undefined ? { cause: cleared.cause } : {}),\n            }));\n        }\n        // Vite's localhost can bind only ::1; a 127.0.0.1 proxy target would return 502.\n        yield* (Effect.mapError(ensureTailscaleServe({\n            localPort: input.localTarget?.port ?? input.webPort,\n            servePort: input.webPort,\n            localHost: input.localTarget?.host ?? \"localhost\",\n        }), (error) => {\n            const explanation = explainCommandFailure(error);\n            return new DevServeFailedError({\n                stage: \"serve\",\n                webPort: input.webPort,\n                ...(explanation !== undefined ? { explanation } : {}),\n                cause: error,\n            });\n        }));\n        return {\n            url: buildTailscaleHttpsBaseUrl({\n                magicDnsName: status.magicDnsName,\n                servePort: input.webPort,\n            }),\n            host: status.magicDnsName,\n        };\n    }), \"devShare.shareDevServer\"); });\n};\n",
     "map": {
      "version": 3,
      "file": "dev-share.js",
@@ -9815,7 +9869,7 @@
       }
      ],
      "names": [],
-     "mappings": "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"
+     "mappings": "AAAA,4EAA4E;;;;;;AAE5E,OAAO,EACL,0BAA0B,EAC1B,qBAAqB,EACrB,oBAAoB,EACpB,mBAAmB,GAGpB,MAAM,oBAAoB,CAAA;AAC3B,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AAGvC,oFAAoF;AACpF,MAAM,uBAAuB,GAA0D;IACrF,qBAAqB,EAAE,kCAAkC;IACzD,eAAe,EAAE,gEAAgE;IACjF,mBAAmB,EAAE,oEAAoE;IACzF,OAAO,EAAE,SAAS;CACnB,CAAA;AAED,MAAM,qBAAqB,GAAG,CAAC,KAA4B,EAAsB,EAAE,CACjF,KAAK,CAAC,IAAI,KAAK,2BAA2B,IAAI,KAAK,CAAC,gBAAgB,KAAK,SAAS;IAChF,CAAC,CAAC,CAAC,uBAAuB,CAAC,KAAK,CAAC,gBAAgB,CAAC,IAAI,oCAAoC,CAAC;IAC3F,CAAC,CAAC,SAAS,CAAA;AAEf,MAAM,mCAAmC,GAAkB,MAAM,CAAC,MAAM,EAAE,CAAA;AAC1E,MAAM,OAAc,yBAA0B,SAAA,AAAvC,SAAA,WAAM,EAAA,CAAO,2BAAyB,EAAC;IAC5C,KAAK,EAAE,mCAAmC;CAO3C,CAAA;GAAA,C,CAAA;QARmB,mBAAyB,CAAzB,IAAyB,EAAzB,2BAAyB,CAAA,CAAA;KAAA;IAE3C,IAAa,OAAO;QAClB,OAAO,6BAA6B,CAAA;IACtC,CAAC;IACD,IAAI,IAAI;QACN,OAAO,6HAA6H,CAAA;IACtI,CAAC;CACF;AAED,MAAM,OAAc,uBAAwB,SAAA,AAArC,SAAA,WAAM,EAAA,CAAO,yBAAuB,EAAC,EAO3C,CAAA;GAAA,C,CAAA;QAPmB,mBAAuB,CAAvB,IAAuB,EAAvB,yBAAuB,CAAA,CAAA;KAAA;IACzC,IAAa,OAAO;QAClB,OAAO,sCAAsC,CAAA;IAC/C,CAAC;IACD,IAAI,IAAI;QACN,OAAO,uDAAuD,CAAA;IAChE,CAAC;CACF;AAED,MAAM,OAAO,mBAAoB,SAAQ,MAAM,CAAC,WAAW,EAAuB,CAChF,qBAAqB,EACrB;IACE,KAAK,EAAE,MAAM,CAAC,QAAQ,CAAC,CAAC,gBAAgB,EAAE,OAAO,CAAC,CAAC;IACnD,OAAO,EAAE,MAAM,CAAC,MAAM;IACtB,WAAW,EAAE,MAAM,CAAC,QAAQ,CAAC,MAAM,CAAC,MAAM,CAAC;IAC3C,KAAK,EAAE,MAAM,CAAC,QAAQ,CAAC,MAAM,CAAC,MAAM,EAAE,CAAC;CACxC,CACF;IACC,IAAa,OAAO;QAClB,MAAM,IAAI,GAAG,MAAM,CAAC,IAAI,CAAC,OAAO,CAAC,CAAA;QACjC,MAAM,IAAI,GAAG,IAAI,CAAC,KAAK,KAAK,gBAAgB;YAC1C,CAAC,CAAC,iDAAiD,IAAI,mCAAmC,IAAI,kBAAkB;YAChH,CAAC,CAAC,wBAAwB,IAAI,uGAAuG,CAAA;QACvI,OAAO,IAAI,CAAC,WAAW,CAAC,CAAC,CAAC,GAAG,IAAI,KAAK,IAAI,CAAC,WAAW,EAAE,CAAC,CAAC,CAAC,IAAI,CAAA;IACjE,CAAC;IAED,IAAI,IAAI;QACN,OAAO,SAAS,CAAA;IAClB,CAAC;CACF;AAOD,0FAA0F;AAC1F,MAAM,CAAC,MAAM,gBAAgB,GAAG,CAC9B,OAAe,EAKiC,EAAE,CAgB/C,MAAM,CAAC,eAAe,CAbtB,MAAM,CAAC,KAAK,CADZ,MAAM,CAAC,EAAE,CADZ,qBAAqB,CAAC,EAAE,SAAS,EAAE,OAAO,EAAE,CAAC,EAC7B,EAAE,OAAO,EAAE,IAAI,EAAW,CAAC,EACxB,CAAC,KAA4B,EAAE,EAAE,CAClD,MAAM,CAAC,OAAO,CACZ,KAAK,CAAC,IAAI,KAAK,2BAA2B;OACrC,KAAK,CAAC,gBAAgB,KAAK,qBAAqB;IACnD,CAAC,CAAE,EAAE,OAAO,EAAE,IAAI,EAAY;IAC9B,CAAC,CAAE;QACD,OAAO,EAAE,KAAK;QACd,GAAG,CAAC,qBAAqB,CAAC,KAAK,CAAC,KAAK,SAAS;YAC5C,CAAC,CAAC,EAAE,WAAW,EAAE,qBAAqB,CAAC,KAAK,CAAC,EAAE;YAC/C,CAAC,CAAC,EAAE,CAAC;QACP,KAAK,EAAE,KAAK;KACH,CACd,CAAC,CACwB,CAAA;AAO9B;;;;GAIG;AACH,MAAM,CAAC,MAAM,cAAc,GAAG,CAC5B,KAA4G;GAAA,C,CAAA,mB,CAAA,S,CAAA,gCAExG,QAAQ,CACV,a,CAAA;QACE,MAAM,MAAM,iC,CAAA,O,CAAA,oB,CAAA,O,CAAA,MAAG,mBAAmB,OAAA,KAAO,CAAQ,KAAK,M,CAAA,Y,CAAA,mB,CAAA;;;cAAA,C,CAAA,O,CAAA,2BAC9C,IAAI,yBAAyB,CAAC,EAAE,KAAK,EAAE,KAAK,EAAE,CAAC,MACtD,CAAA,CAAA;QACD,IAAI,MAAM,CAAC,YAAY,KAAK,IAAI,EAAE,CAAC;YACjC,4BAAM,IAAI,uBAAuB,EAAE,EAAA;QACrC,CAAC;QAED,MAAM,OAAO,UAAO,gBAAgB,CAAC,KAAK,CAAC,OAAO,CAAC,CAAA;QACnD,IAAI,CAAC,OAAO,CAAC,OAAO,EAAE,CAAC;YACrB,6FAA6F;YAC7F,4BAAM,IAAI,mBAAmB,CAAC;gBAC5B,KAAK,EAAE,gBAAgB;gBACvB,OAAO,EAAE,KAAK,CAAC,OAAO;gBACtB,GAAG,CAAC,OAAO,CAAC,WAAW,KAAK,SAAS,CAAC,CAAC,CAAC,EAAE,WAAW,EAAE,OAAO,CAAC,WAAW,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC;gBAClF,GAAG,CAAC,OAAO,CAAC,KAAK,KAAK,SAAS,CAAC,CAAC,CAAC,EAAE,KAAK,EAAE,OAAO,CAAC,KAAK,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC;aACjE,CAAC,EAAA;QACJ,CAAC;QAED,iFAAiF;QACjF,OAAI,CAKC,MAAM,CAAC,QAAQ,CALf,oBAAoB,CAAC;YACxB,SAAS,EAAE,KAAK,CAAC,WAAW,EAAE,IAAI,IAAI,KAAK,CAAC,OAAO;YACnD,SAAS,EAAE,KAAK,CAAC,OAAO;YACxB,SAAS,EAAE,KAAK,CAAC,WAAW,EAAE,IAAI,IAAI,WAAW;SAClD,CAAC,EACsB,CAAC,KAAK,EAAE,EAAE;YAC9B,MAAM,WAAW,GAAG,qBAAqB,CAAC,KAAK,CAAC,CAAA;YAChD,OAAO,IAAI,mBAAmB,CAAC;gBAC7B,KAAK,EAAE,OAAO;gBACd,OAAO,EAAE,KAAK,CAAC,OAAO;gBACtB,GAAG,CAAC,WAAW,KAAK,SAAS,CAAC,CAAC,CAAC,EAAE,WAAW,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC;gBACrD,KAAK,EAAE,KAAK;aACb,CAAC,CAAA;QACJ,CAAC,CAAC,CAAC,CAAA;QAEL,OAAO;YACL,GAAG,EAAE,0BAA0B,CAAC;gBAC9B,YAAY,EAAE,MAAM,CAAC,YAAY;gBACjC,SAAS,EAAE,KAAK,CAAC,OAAO;aACzB,CAAC;YACF,IAAI,EAAE,MAAM,CAAC,YAAY;SACD,CAAA;IAC5B,CAAC,CAAA,EACD,yBAAyB,CAC1B;CAAA,CAAA"
     }
    }
   ]

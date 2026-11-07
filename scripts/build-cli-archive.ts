@@ -26,7 +26,7 @@ import {
   resolveFffNativeDependencies,
   STAGE_INSTALL_ARGS,
 } from "./build-desktop-artifact.ts";
-import { assertLinuxArm64PageCompatibility } from "./lib/linux-arm64-sea.ts";
+import { assertLinuxArm64PageCompatibility } from "./lib/linux-arm64-sea.vibe";
 import { selectCliRuntimeExternalDependencies } from "./lib/cli-external-packages.ts";
 import { signWithJsign } from "./lib/windows-jsign.ts";
 import { windowsSystemTar } from "./lib/windows-tar.ts";
