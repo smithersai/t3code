@@ -30,8 +30,8 @@ import { normalizeCaptureFailure } from "../../preview/captureErrors.vibe"
 import * as DesktopClientSettings from "../../settings/DesktopClientSettings.vibe"
 import * as IpcChannels from "../channels.ts"
 import * as DesktopIpc from "../DesktopIpc.vibe"
-import * as $platform from "./preview.platform.ts"
-import { getPreviewConfig } from "./preview.platform.ts"
+import * as $platform from "./preview.platform.vibe"
+import { getPreviewConfig } from "./preview.platform.vibe"
 
 export const installPreviewEventForwarding = effect () =>
   try withSpan(

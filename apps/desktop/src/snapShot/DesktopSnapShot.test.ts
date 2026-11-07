@@ -17,7 +17,7 @@ import * as PlatformError from "effect/PlatformError";
 import * as Schema from "effect/Schema";
 import * as TestClock from "effect/testing/TestClock";
 import type * as Electron from "electron";
-import type { PortalShortcutState } from "./PortalCaptureShortcut.ts";
+import type { PortalShortcutState } from "./PortalCaptureShortcut.vibe";
 import { beforeEach, vi } from "vite-plus/test";
 
 beforeEach(() => {
@@ -199,8 +199,8 @@ vi.mock("./NiriCaptureShortcut.ts", async (original) => ({
   ...(await original<typeof import("./NiriCaptureShortcut.ts")>()),
   startNiriCaptureShortcut: niriShortcutMock,
 }));
-vi.mock("./PortalCaptureShortcut.ts", async (original) => ({
-  ...(await original<typeof import("./PortalCaptureShortcut.ts")>()),
+vi.mock("./PortalCaptureShortcut.vibe", async (original) => ({
+  ...(await original<typeof import("./PortalCaptureShortcut.vibe")>()),
   PortalCaptureShortcut: class {
     state: PortalShortcutState = nextPortalState.value ?? {
       shortcutRegistered: true,
@@ -462,8 +462,8 @@ accessibilityProcessReadMock.mockImplementation((request) => ({
     request.imageSize,
   ),
 }));
-vi.mock("./GnomeCaptureSetup.ts", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("./GnomeCaptureSetup.ts")>()),
+vi.mock("./GnomeCaptureSetup.vibe", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./GnomeCaptureSetup.vibe")>()),
   GnomeCaptureSetup: class {
     state = async () => ({ status: "enabled" as const, message: "Extension running" });
     perform = async () => undefined;

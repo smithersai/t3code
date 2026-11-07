@@ -1,5 +1,5 @@
-import { type KdeCapturePaths } from "./KdeSnapShot.ts";
-import { type HyprlandCapturePaths } from "./HyprlandSnapShot.ts";
+import { type KdeCapturePaths } from "./KdeSnapShot.vibe";
+import { type HyprlandCapturePaths } from "./HyprlandSnapShot.vibe";
 import type { FeedbackOptions, LinuxWindowSnapshot } from "./LinuxSnapShot.vibe.platform.js";
 export type { LinuxCaptureBackend, LinuxCaptureFeedback, LinuxWindowMetadata, LinuxWindowSnapshot } from "./LinuxSnapShot.vibe.platform.js";
 export { readPortalPng } from "./linuxCaptureSession.ts";

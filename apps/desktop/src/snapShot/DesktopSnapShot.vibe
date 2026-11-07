@@ -49,7 +49,7 @@ import { captureMacWindowSnapshot, type MacSnapShotSource } from "./MacSnapShot.
 import type { LinuxCaptureFeedback, LinuxWindowMetadata } from "./LinuxSnapShot.vibe";
 import { niriSocketPath } from "./NiriSnapShot.vibe";
 import { CaptureShortcutConfig, niriCaptureConfigPath } from "./CaptureShortcutConfig.ts";
-import type { PortalCaptureShortcut } from "./PortalCaptureShortcut.ts";
+import type { PortalCaptureShortcut } from "./PortalCaptureShortcut.vibe";
 import {
   isGnomeCaptureSession,
   niriCaptureBinding,
@@ -61,13 +61,13 @@ import {
   isHyprlandCaptureSession,
   hyprlandCaptureShortcut,
   type HyprlandCapturePaths,
-} from "./HyprlandSnapShot.ts";
+} from "./HyprlandSnapShot.vibe";
 import {
   KdeCaptureSetup,
   KDE_CAPTURE_EXECUTABLE,
   isKdeCaptureSession,
   type KdeCapturePaths,
-} from "./KdeSnapShot.ts";
+} from "./KdeSnapShot.vibe";
 import {
   captureRegionWindowSnapshot,
   makeRegionSnapShotPool,
@@ -1214,7 +1214,7 @@ export const make = Effect.gen(function* () {
         message: null,
       });
       yield* Effect.tryPromise(async () => {
-        const { PortalCaptureShortcut } = await import("./PortalCaptureShortcut.ts");
+        const { PortalCaptureShortcut } = await import("./PortalCaptureShortcut.vibe");
         return new PortalCaptureShortcut(
           linuxAppId,
           isModifierPairShortcut(shortcut)
@@ -1434,7 +1434,7 @@ export const make = Effect.gen(function* () {
         });
       yield* Effect.tryPromise({
         try: async () => {
-          const { GnomeCaptureSetup } = await import("./GnomeCaptureSetup.ts");
+          const { GnomeCaptureSetup } = await import("./GnomeCaptureSetup.vibe");
           const setup = new GnomeCaptureSetup(gnomeSetupPaths);
           try {
             await setup.perform(action);
@@ -1596,7 +1596,7 @@ export const make = Effect.gen(function* () {
               : undefined;
           const gnomeExtension = hasGnomeSetup()
             ? yield* Effect.promise(async () => {
-                const { GnomeCaptureSetup } = await import("./GnomeCaptureSetup.ts");
+                const { GnomeCaptureSetup } = await import("./GnomeCaptureSetup.vibe");
                 const setup = new GnomeCaptureSetup(gnomeSetupPaths);
                 try {
                   return await setup.state();

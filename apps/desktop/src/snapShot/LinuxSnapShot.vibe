@@ -1,8 +1,8 @@
 // @effect-diagnostics globalTimers:off -- D-Bus deadlines run at a native async boundary.
 // @effect-diagnostics nodeBuiltinImport:off -- Read the portal file through one bounded file descriptor at the native adapter boundary.
 
-import { type KdeCapturePaths } from "./KdeSnapShot.ts"
-import { isHyprlandCaptureSession, type HyprlandCapturePaths } from "./HyprlandSnapShot.ts";
+import { type KdeCapturePaths } from "./KdeSnapShot.vibe"
+import { isHyprlandCaptureSession, type HyprlandCapturePaths } from "./HyprlandSnapShot.vibe";
 
 module platform {
 // @effect-diagnostics globalTimers:off -- D-Bus deadlines run at a native async boundary.
@@ -22,7 +22,7 @@ import {
   type MessageLike,
 } from "dbus-next";
 import * as Schema from "effect/Schema";
-import { isKdeCaptureSession } from "./KdeSnapShot.ts"
+import { isKdeCaptureSession } from "./KdeSnapShot.vibe"
 import { isGnomeCaptureSession, readPortalPng, resizeLinuxCapture } from "./linuxCaptureSession.ts";
 
 const PORTAL = "org.freedesktop.portal.Desktop";
@@ -396,7 +396,7 @@ export async function captureLinuxWindow(
 ): Promise<LinuxWindowSnapshot | undefined> {
   if (isHyprlandCaptureSession()) {
     if (!hyprlandPaths) throw new Error("Hyprland capture setup is unavailable in this build.");
-    const { captureHyprlandWindow } = await import("./HyprlandSnapShot.ts");
+    const { captureHyprlandWindow } = await import("./HyprlandSnapShot.vibe");
     return captureHyprlandWindow(hyprlandPaths, options);
   }
   const { niriSocketPath, captureNiriWindow } = await import("./NiriSnapShot.vibe");
@@ -408,7 +408,7 @@ export async function captureLinuxWindow(
     switch (await connection.backend(appId)) {
       case "kde": {
         if (!kdePaths) throw new Error("KDE capture setup is unavailable in this build.");
-        const { captureKdeWindow } = await import("./KdeSnapShot.ts");
+        const { captureKdeWindow } = await import("./KdeSnapShot.vibe");
         return await captureKdeWindow(kdePaths, options);
       }
       case "screenshot-portal":

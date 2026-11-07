@@ -9,7 +9,7 @@ import * as Stream from "effect/Stream";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import * as DesktopCliCommand from "./DesktopCliCommand.vibe";
-import * as DesktopCliShim from "./DesktopCliShim.ts";
+import * as DesktopCliShim from "./DesktopCliShim.vibe";
 import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 
 const environmentFor = (
