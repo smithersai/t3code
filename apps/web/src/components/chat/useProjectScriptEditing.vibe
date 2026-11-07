@@ -31,7 +31,7 @@ import { serverEnvironment } from "../../state/server";
 import { readEnvironmentScope } from "../../state/session.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useProjects } from "../../state/entities";
-import { type NewProjectScriptInput } from "../ProjectScriptsControl";
+import { type NewProjectScriptInput } from "../ProjectScriptsControl.vibex";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 
 /** Write script settings before reconciling shortcuts in environment keybindings. */

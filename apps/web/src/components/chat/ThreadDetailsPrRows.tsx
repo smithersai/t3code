@@ -17,7 +17,7 @@ import { threadEnvironment } from "~/state/threads";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 import { MorphIcon } from "~/components/MorphIcon";
-import { linkedPullRequestSnapshotStatus, prStatusIndicator } from "../ThreadStatusIndicators";
+import { linkedPullRequestSnapshotStatus, prStatusIndicator } from "../ThreadStatusIndicators.vibex";
 
 import { ThreadDetailsPrRow } from "./ThreadDetailsPrRow";
 

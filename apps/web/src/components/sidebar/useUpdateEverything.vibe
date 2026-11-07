@@ -11,7 +11,7 @@ import { environmentUpdateStatesAtom } from "~/state/server";
 import { environmentSessionStatesAtom } from "../../state/session.vibe";
 import { getProviderUpdateRunOutcome } from "../ProviderUpdateLaunchNotification.logic";
 import { useProviderUpdates } from "../ProviderUpdatesAction";
-import { canUpdateServer, type ServerUpdateOutcome, useServerUpdate } from "../ServerUpdateAction";
+import { canUpdateServer, type ServerUpdateOutcome, useServerUpdate } from "../ServerUpdateAction.vibex";
 import {
   closeFinishedUpdateRun,
   collectRestartingMachines,

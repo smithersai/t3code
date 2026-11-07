@@ -8,7 +8,7 @@ import {
 import type { EnvironmentPresentation } from "../../state/environments.vibe";
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "../ui/select";
 import { Switch } from "../ui/switch";
-import { EnvironmentRow, environmentTransportLabel } from "./EnvironmentRow";
+import { EnvironmentRow, environmentTransportLabel } from "./EnvironmentRow.vibex";
 import { FoldedSettingsSection } from "./FoldedSettingsSection";
 import { searchableSetting } from "./settingsSearch";
 

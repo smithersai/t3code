@@ -45,7 +45,7 @@ import {
 import { cn } from "~/lib/utils";
 import { formatUpcomingTimestamp } from "../../timestampFormat";
 import { FetchedToolOutput, V2ItemInspector } from "./V2ItemInspector";
-import { SubagentNotificationLink } from "./V2LifecycleRow";
+import { SubagentNotificationLink } from "./V2LifecycleRow.vibex";
 import {
   TimelineRowCtx,
   TimelineRowActivityCtx,

@@ -6,7 +6,7 @@ import { PullRequestStackPopover } from "./PullRequestStackPopover";
 import {
   PullRequestSpeedActions,
   type PullRequestSpeedActionResult,
-} from "./PullRequestSpeedActions";
+} from "./PullRequestSpeedActions.vibex";
 import { memo, type RefCallback } from "react";
 
 import { cn } from "~/lib/utils";

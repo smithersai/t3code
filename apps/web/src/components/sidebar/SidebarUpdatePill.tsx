@@ -35,7 +35,7 @@ import {
 } from "./DesktopUpdateStatusIcon";
 import { SidebarUpdateReleaseNotes } from "./SidebarUpdateReleaseNotes";
 import { SidebarUpdateCapsule } from "./SidebarUpdateCapsule";
-import { UpdateEverythingDialog } from "./UpdateEverythingDialog";
+import { UpdateEverythingDialog } from "./UpdateEverythingDialog.vibex";
 import type { UpdateEverythingRun, UpdateRunLocalState } from "./updateEverything.logic";
 import {
   clearSavedUpdateEverythingResult,

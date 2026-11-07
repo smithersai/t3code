@@ -80,7 +80,7 @@ import { useOpenPrLink } from "~/lib/openPullRequestLink";
 import { useMediaQuery } from "~/hooks/useMediaQuery";
 import { cn } from "~/lib/utils";
 import { type TimestampFormat } from "@t3tools/contracts/settings";
-import { type HandoffTimelineRun } from "./V2LifecycleRow";
+import { type HandoffTimelineRun } from "./V2LifecycleRow.vibex";
 import { TimelineSystemDivider } from "./TimelineSystemDivider";
 
 import { forwardWheelToTimeline } from "./timelineMinimapWheel";
@@ -109,7 +109,7 @@ import {
   HtmlRenderTimelineRow,
   McpAppTimelineRow,
 } from "./TimelineAssistantRows";
-import { V2EventTimelineRow } from "./TimelineV2EventRow";
+import { V2EventTimelineRow } from "./TimelineV2EventRow.vibex";
 import { startTimelinePositionRestore } from "./useTimelinePositionRestore";
 import {
   attachTimelineViewport,

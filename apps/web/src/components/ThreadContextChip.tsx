@@ -5,7 +5,7 @@ import { MessagesSquareIcon } from "lucide-react";
 
 import { useProject, useThreadShell } from "~/state/entities";
 import { ContextChip, ContextChipLabel } from "./ContextChip";
-import { ProjectFavicon } from "./ProjectFavicon";
+import { ProjectFavicon } from "./ProjectFavicon.vibex";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "./ui/tooltip";
 
 export function ThreadContextChip(props: {

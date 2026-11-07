@@ -14,7 +14,7 @@ import { useEffect, useRef } from "react";
 import { selectActiveRightPanelSurface, useRightPanelStore } from "../../rightPanelStore";
 import { threadEnvironment } from "../../state/threads";
 import { useOrchestrationCommand } from "../../state/use-orchestration-command.vibe";
-import { useLinkedThreadPullRequest } from "../ThreadStatusIndicators";
+import { useLinkedThreadPullRequest } from "../ThreadStatusIndicators.vibex";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 
 /** Relink replaced closed/merged requests to the newer open request on the same branch, moving its panel. */

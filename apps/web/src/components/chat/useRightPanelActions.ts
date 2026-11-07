@@ -28,7 +28,7 @@ import { browserMiniPlayerSource, usePreviewMiniPlayerStore } from "../../previe
 import type { threadPullRequestPanelTarget } from "../pullRequest/pullRequestDetail.logic.vibe";
 import type { useDeviceState } from "../../state/device.vibe";
 import { stackedThreadToast, toastManager } from "../ui/toast";
-import { openDeviceSetupDialog } from "./ChatOverlayHosts";
+import { openDeviceSetupDialog } from "./ChatOverlayHosts.vibex";
 import { previewEnvironment } from "../../state/preview";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import type { ChatShortcutCommands } from "./useChatShortcuts";

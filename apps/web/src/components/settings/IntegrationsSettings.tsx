@@ -2,8 +2,8 @@ import { DeviceHostUpdates } from "../device/DeviceHostUpdates";
 import { DeviceToolVersions } from "../device/DeviceToolVersions";
 import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings.ts";
 import { ScopedSwitch } from "./ScopedSwitch";
-import { DeviceHostsSettings } from "./DeviceHostsSettings";
-import { EasDeviceHostsSettings } from "./EasDeviceHostsSettings";
+import { DeviceHostsSettings } from "./DeviceHostsSettings.vibex";
+import { EasDeviceHostsSettings } from "./EasDeviceHostsSettings.vibex";
 import {
   AuthSettingsWriteScope,
   BrowserImportFailureReason,
@@ -63,7 +63,7 @@ import {
   deviceHubDescription,
   agentDeviceDescription,
   DeviceHostDiagnostics,
-} from "~/components/device/DeviceSetup";
+} from "../device/DeviceSetup.vibex";
 import { isElectron } from "../../env";
 
 import { Badge } from "../ui/badge";

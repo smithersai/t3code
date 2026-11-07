@@ -43,7 +43,7 @@ import { Input } from "../ui/input";
 import { OpenAI } from "../Icons";
 import { RedactedSensitiveText } from "./RedactedSensitiveText";
 import { SettingsRow } from "./settingsLayout";
-import { AddCodexAccountDialog } from "./AddCodexAccountDialog";
+import { AddCodexAccountDialog } from "./AddCodexAccountDialog.vibex";
 import { getOnboardingProviderState } from "../../onboarding/providerReadiness.logic.vibe";
 import { getProviderSummary } from "./providerStatus";
 import {

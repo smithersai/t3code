@@ -22,7 +22,7 @@ import { type AssistantCitationTarget } from "./AssistantCitationSource";
 import { type MessagesTimelineRow, type WorkGroupScrollAnchor } from "./MessagesTimeline.logic.vibe";
 import { type TimestampFormat } from "@t3tools/contracts/settings";
 import type { TurnItemDetailSource } from "../../state/queries";
-import { type HandoffTimelineRun } from "./V2LifecycleRow";
+import { type HandoffTimelineRun } from "./V2LifecycleRow.vibex";
 
 /**
  * Where an expanded row reads an item's detail and a command's output. The owner's rows read them

@@ -12,7 +12,7 @@ import {
   resolveSidebarStageBackdropVariant,
   SidebarStageBackdrop,
   useEnvironmentStageLabel,
-} from "../SidebarStageBackdrop";
+} from "../SidebarStageBackdrop.vibex";
 import { Badge } from "../ui/badge";
 import {
   SidebarFooter,

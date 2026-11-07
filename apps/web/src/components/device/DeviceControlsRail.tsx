@@ -31,7 +31,7 @@ import {
   MenuRadioItemIndicator,
 } from "~/components/ui/menu";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "~/components/ui/tooltip";
-import type { DeviceStreamHandle, DeviceViewControls } from "./DeviceStreamView";
+import type { DeviceStreamHandle, DeviceViewControls } from "./DeviceStreamView.vibex";
 import type { DeviceControls } from "./useDeviceControls.vibe";
 
 export function DeviceControlsRail(props: {

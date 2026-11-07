@@ -11,18 +11,18 @@ import type { DraftId } from "../../composerDraftStore";
 import { useT3ProjectFileScripts } from "../../hooks/useT3ProjectFileScripts";
 import { type EnvMode, type EnvironmentOption } from "../BranchToolbar.logic.vibe";
 import { BranchToolbar } from "../BranchToolbar";
-import BaseGitActionsControl from "../GitActionsControl";
+import BaseGitActionsControl from "../GitActionsControl.vibex";
 import ProjectScriptsControl, {
   type NewProjectScriptInput,
   type ProjectScriptActionResult,
-} from "../ProjectScriptsControl";
+} from "../ProjectScriptsControl.vibex";
 import { memo, type ComponentProps } from "react";
 import { ThreadDetailsCard } from "./ThreadDetailsCard";
 import { OpenInPicker } from "./OpenInPicker";
 import { ThreadDetailsSection } from "./ThreadDetailsSection";
-import { ThreadAutomationsPanel } from "./ThreadAutomationsPanel";
-import { ThreadRelationshipsPanel } from "./ThreadRelationshipsControl";
-import { ThreadServersPanel } from "./ThreadServersPanel";
+import { ThreadAutomationsPanel } from "./ThreadAutomationsPanel.vibex";
+import { ThreadRelationshipsPanel } from "./ThreadRelationshipsControl.vibex";
+import { ThreadServersPanel } from "./ThreadServersPanel.vibex";
 
 const GitActionsControl = memo(BaseGitActionsControl);
 

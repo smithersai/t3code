@@ -61,7 +61,7 @@ import {
   prStatusIndicator,
   resolveThreadPullRequestBadge,
   useLinkedThreadPullRequest,
-} from "./ThreadStatusIndicators";
+} from "./ThreadStatusIndicators.vibex";
 
 import { ComboboxItem, ComboboxTrigger } from "./ui/combobox";
 import { ComposerControl } from "./chat/ComposerControl";

@@ -25,7 +25,7 @@ import { buildThreadRouteParams } from "../../threadRoutes.vibe";
 import { useComposerDraftStore } from "../../composerDraftStore";
 import { threadEnvironment } from "../../state/threads";
 import { waitForThreadShell } from "../../state/entities";
-import { openRevertConfirm } from "./ChatOverlayHosts";
+import { openRevertConfirm } from "./ChatOverlayHosts.vibex";
 import { assetEnvironment } from "../../state/assets.vibe";
 import { readEnvironmentScope } from "../../state/session.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
