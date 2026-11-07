@@ -4,9 +4,9 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import { withSpan } from "effect/Effect";
-import { $schemaErrorMatcher } from "vibelang-runtime";
+import { $schemaErrorMatcher } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Schema_1 from "effect/Schema";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as Effect from "effect/Effect";
@@ -38,7 +38,7 @@ function runGit(cwd, args) {
 function makeCheckpointWorkspaceEffect(arg_1) {
     try {
         return ((fixtureName, files = {}) => Effect_1.gen(function* makeCheckpointWorkspaceEffect() {
-            return yield* withSpan(Effect_1.gen(runtime.$joinedFrame(function* () {
+            return yield* withSpan(Effect_1.gen(function* () {
                 const fs = yield* FileSystem.FileSystem;
                 const path = yield* Path.Path;
                 const cwd = yield* fs.makeTempDirectory({
@@ -48,34 +48,15 @@ function makeCheckpointWorkspaceEffect(arg_1) {
                 yield* runGit(cwd, ["config", "user.name", "T3 Code Test"]);
                 yield* runGit(cwd, ["config", "user.email", "t3code-test@example.com"]);
                 yield* fs.writeFileString(path.join(cwd, "README.md"), `# ${fixtureName}\n`);
-                {
-                    let pending_1 = runtime.$normal;
-                    try {
-                        for (const value_1 of Object.entries(files)) {
-                            try {
-                                const [relativePath, contents] = value_1;
-                                {
-                                    const filePath = path.join(cwd, relativePath);
-                                    yield* fs.makeDirectory(path.dirname(filePath), { recursive: true });
-                                    yield* fs.writeFileString(filePath, contents);
-                                }
-                            }
-                            catch (thrown_1) {
-                                pending_1 = thrown_1;
-                                break;
-                            }
-                        }
-                    }
-                    catch (thrown_2) {
-                        throw runtime.$finallyFailure(pending_1, thrown_2);
-                    }
-                    if (pending_1 !== runtime.$normal)
-                        throw pending_1;
+                for (const [relativePath, contents] of Object.entries(files)) {
+                    const filePath = path.join(cwd, relativePath);
+                    yield* fs.makeDirectory(path.dirname(filePath), { recursive: true });
+                    yield* fs.writeFileString(filePath, contents);
                 }
                 yield* runGit(cwd, ["add", "README.md", ...Object.keys(files)]);
                 yield* runGit(cwd, ["commit", "-m", "initial"]);
                 return cwd;
-            })), "makeCheckpointWorkspace");
+            }), "makeCheckpointWorkspace");
         }))(...runtime.$spreadItems(arguments));
     }
     catch (e_1) {
@@ -92,12 +73,16 @@ function removeCheckpointWorkspaceEffect(cwd) {
 }
 export const checkpointWorkspace = (fixtureName, files) => {
     return Effect_1.gen(function* checkpointWorkspace() {
-        const completion_1 = yield* Effect_1.provide(Effect_1.fnUntraced(function* checkpointWorkspace$provide() {
-            return { kind: "return", value: yield* runtime.acquireRelease(makeCheckpointWorkspaceEffect(fixtureName, files), (cwd) => {
-                    return Effect_1.gen(function* () {
-                        yield* Effect.orDie(removeCheckpointWorkspaceEffect(cwd));
-                    });
-                }) };
+        let completion_1 = runtime.$normal;
+        yield* Effect_1.provide(Effect_1.fnUntraced(function* checkpointWorkspace$provide() {
+            {
+                completion_1 = { kind: "return", value: yield* runtime.acquireRelease(makeCheckpointWorkspaceEffect(fixtureName, files), (cwd) => {
+                        return Effect_1.gen(function* () {
+                            yield* Effect.orDie(removeCheckpointWorkspaceEffect(cwd));
+                        });
+                    }) };
+                return completion_1.value;
+            }
         })(), NodeServices.layer);
         if (completion_1.kind === "return")
             return completion_1.value;
@@ -105,8 +90,12 @@ export const checkpointWorkspace = (fixtureName, files) => {
 };
 export async function makeCheckpointWorkspace(fixtureName, files) {
     return await Effect.runPromise(Effect_1.gen(function* () {
-        const completion_2 = yield* Effect_1.provide(Effect_1.fnUntraced(function* () {
-            return { kind: "return", value: yield* makeCheckpointWorkspaceEffect(fixtureName, files) };
+        let completion_2 = runtime.$normal;
+        yield* Effect_1.provide(Effect_1.fnUntraced(function* () {
+            {
+                completion_2 = { kind: "return", value: yield* makeCheckpointWorkspaceEffect(fixtureName, files) };
+                return completion_2.value;
+            }
         })(), NodeServices.layer);
         if (completion_2.kind === "return")
             return completion_2.value;

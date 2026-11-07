@@ -23,8 +23,11 @@
       "import": "./src/replayWorkspace.vibe"
     },
     "./TestProviderHost": {
-      "types": "./src/TestProviderHost.ts",
-      "import": "./src/TestProviderHost.ts"
+      "types": "./src/TestProviderHost.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/TestProviderHost.vibe",
+        "default": "./.vibelang/js/src/TestProviderHost.js"
+      }
     }
   },
   "scripts": {

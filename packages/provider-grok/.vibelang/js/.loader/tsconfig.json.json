@@ -5516,7 +5516,7 @@
    },
    {
     "path": {
-     "relative": "packages/provider-testing/src/TestProviderHost.ts"
+     "relative": "packages/provider-testing/src/TestProviderHost.vibe"
     },
     "size": 3325,
     "hash": "t_v35SdmNthvLk4WjpRxWWtg27n93MVyObO2A8T3cSc"
@@ -6826,7 +6826,7 @@
     "relative": "packages/provider-grok/src/server/acpSupport.test.ts"
    },
    {
-    "relative": "packages/provider-testing/src/TestProviderHost.ts"
+    "relative": "packages/provider-testing/src/TestProviderHost.vibe"
    },
    {
     "relative": "packages/provider-grok/src/server/driver.test.ts"

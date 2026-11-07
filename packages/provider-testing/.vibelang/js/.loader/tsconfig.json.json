@@ -3,14 +3,14 @@
  "base": "../../../../..",
  "entry": {
   "format": 12,
-  "version": "0.0.11",
+  "version": "0.0.12",
   "project": {
    "relative": "packages/provider-testing/tsconfig.json"
   },
   "root": {
    "relative": "packages/provider-testing"
   },
-  "compiler": "owaUbprwDLXQh9KdIKHEW9TY-wXpMbP8BuQIK6fWpfU",
+  "compiler": "F40CemHem_W_Eops96ecRVPP2gHHMg8PznFVNJXlKiE",
   "configs": [
    {
     "path": {
@@ -54,7 +54,7 @@
      "relative": "packages/provider-testing/src"
     },
     null,
-    "PasKJy0x5z5v1fSXCdSAxwlQiE6Zw0GZXcRwSp8JzKw",
+    "Ie4GmP1Et-nl0pAYn2t5C31wE-DoaO5bhdaDtXPuIrc",
     []
    ]
   ],
@@ -135,8 +135,8 @@
     "path": {
      "relative": "pnpm-lock.yaml"
     },
-    "size": 991290,
-    "hash": "-JIRvJS04v1jyjckzi3jkbhDHC_4y9FDybgeU8GCL14"
+    "size": 992538,
+    "hash": "waQi6S7q6UTJgQ4QVsngTVv50gBZjbLzPA7d17ZFZ9M"
    },
    {
     "path": {
@@ -172,10 +172,10 @@
   "packages": [
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/package.json"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/package.json"
     },
-    "size": 7073,
-    "hash": "1lMdRA8K2GonRT1ilYg8wxY2H7YHcLIDsl7uN_a6ckY"
+    "size": 7285,
+    "hash": "xjl50PJ1-UYHIIuSuMFl661MsBKTYZbY3moinJbPOAc"
    },
    {
     "path": {
@@ -188,29 +188,29 @@
     "path": {
      "relative": "packages/contracts/package.json"
     },
-    "size": 967,
-    "hash": "krvxgmo-GQNAjGoNqIelibYlu8CQ9vWnj7eqcdNkIus"
+    "size": 14644,
+    "hash": "AigBo6_1z0GNS1CtGXPBxG5SRjPznQCwBcvq7dJNgXU"
    },
    {
     "path": {
      "relative": "packages/provider-core/package.json"
     },
-    "size": 8449,
-    "hash": "G6GIsenvHcF5C7yfH9S0bZK_qfe3uFNq8C5gPELCruM"
+    "size": 10772,
+    "hash": "TssBcjWbmpucdXHkt_MV517gETBGjT0FxcQfqkCrepw"
    },
    {
     "path": {
      "relative": "packages/provider-testing/package.json"
     },
-    "size": 1381,
-    "hash": "QVC-eyY9m-0Q94bRPOoZ-6Zilrej2mzqHrMjq8UX1rc"
+    "size": 1488,
+    "hash": "XI96X2p1JDEnQ1XV_0D6ha6mUKyt1IPSf-qnFSDMo4w"
    },
    {
     "path": {
      "relative": "packages/shared/package.json"
     },
-    "size": 17942,
-    "hash": "KWcM57VItgE-qDmoMgqq6paaG0FeqDAGJS4uWK7zmtg"
+    "size": 31317,
+    "hash": "MlqzxoMXGlI3kE-ahOHrBEck4AezJrw-rzgNyY6715s"
    },
    {
     "path": {
@@ -237,7 +237,7 @@
   "files": [
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/version.d.ts"
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/version.d.ts"
     },
     "size": 91,
     "hash": "OLhx74xVvRMxcl4krcVslmdZGXNsTNFw1VSQRYH3mpc"
@@ -1056,6 +1056,489 @@
    },
    {
     "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/calls.d.ts"
+    },
+    "size": 1383,
+    "hash": "uAwhDPR2CFdUic_UDD997dkpJaNZ3R1T_jqRSG4Cclo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/fastcalls.d.ts"
+    },
+    "size": 4751,
+    "hash": "9wxoIynrlvPe4VAUQN_yG-rNp1lwbKvt-AZOat2MRdY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/regions.d.ts"
+    },
+    "size": 6387,
+    "hash": "wHQs6G-mP3lEKiqUEa8esaj1EIdtBxzBWiKUXvaoBbY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/fork.d.ts"
+    },
+    "size": 1522,
+    "hash": "ckaaRg51IcfZbr740uLdup3qFuKS3TxgVYGSFOW2Q54"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/kernel/internals.d.ts"
+    },
+    "size": 1238,
+    "hash": "IMzEvVGIaf37peHrkUH2HsmoOemwj7YAPgBI1bNG6tk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/kernel/kernel.d.ts"
+    },
+    "size": 6338,
+    "hash": "XGJbPTQadKfJQPfra4kFdQXvD8XgBQQ6eH-by456KBs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/services.d.ts"
+    },
+    "size": 3346,
+    "hash": "JxhNAxkLVY33Lxqyh_Vd-mqQSE8dmceO3rEnpBJTbEY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/handlers.d.ts"
+    },
+    "size": 4479,
+    "hash": "ZzQU78bLBWIppynLZgOBgDkcijiAJJq_TQpkNW-JrCY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/producers.d.ts"
+    },
+    "size": 2721,
+    "hash": "ndVPafzb3N5wWv25-4h-4Omv5tqD3POjx2v8_p9Erko"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/iterators.d.ts"
+    },
+    "size": 307,
+    "hash": "R_32U0PMqjIgXtbB6rzs2OaY3x5NurDOaidBkv7uhfE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/binding-iterator.d.ts"
+    },
+    "size": 521,
+    "hash": "a5GFo1F3YhIqtKzebc3H9jA8z8NZhbnUT6KJQHrwj5Q"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/boundaries.d.ts"
+    },
+    "size": 2237,
+    "hash": "BZIaO-QAJ9Z6Fu4irKqOzSRsUYSLuUQiW1zKjGvuXfI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/hatches.d.ts"
+    },
+    "size": 4288,
+    "hash": "SHvw3j3NmkBQey39qbFcwin5cLqgq9PF9msgmFzaYKE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/fibers.d.ts"
+    },
+    "size": 7629,
+    "hash": "EiZ7kFH915KwfM4-KJZsdiawtJ_7Ty4raruq4BAIkGU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/provide.d.ts"
+    },
+    "size": 2355,
+    "hash": "DTx-GtW-_UHyzfF40aMg8o-NybtpBLPa3q1ln3Jpa5s"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/primitives.d.ts"
+    },
+    "size": 2785,
+    "hash": "IWg8HZdD_h5bezhO5VO0Oat3-GL3h98xoW06v-EAWOs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/match.d.ts"
+    },
+    "size": 6984,
+    "hash": "2FsfAhYwF1fwC5e0LU4278-JVGYlmyyiLdE2ulgu2A0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Runtime.d.ts"
+    },
+    "size": 10431,
+    "hash": "ZMDblKwrnP645cJKqUeLzty7Mb4P3ekyiTcDtTPJ6D8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/main.d.ts"
+    },
+    "size": 1370,
+    "hash": "S2GqpFmzvnikrJrgw5lzEqtFJy_7i20jzGlMr4mt88Y"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/prelude-core.d.ts"
+    },
+    "size": 2772,
+    "hash": "-F09SO-52bZw9ht9RpKGlrIWz0y1TQwQS5E6DXxUPQQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/resources.d.ts"
+    },
+    "size": 1670,
+    "hash": "jWScKmw8idFbB3itet51UYKNCRN74Mmu_uzZqy3V28w"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/legacy-await-types.d.ts"
+    },
+    "size": 2033,
+    "hash": "-FCwl_PxDin1gwAopKVXXRBoJCDUdKxfzIl4qN9DSoc"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/match-cache.d.ts"
+    },
+    "size": 1848,
+    "hash": "--YGTy05Qg7JNLPVUPyXp00E4F2Em5j1uTY_Bfe8lIQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/core.d.ts"
+    },
+    "size": 1612,
+    "hash": "7teQjEXxfbpg3ExxV-mnuvIVLHwt2HKWK5u_wNRmvi0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Animations.d.ts"
+    },
+    "size": 4126,
+    "hash": "LIh_ITVpztxGdctQldXDsjoilz47SeJfVYCfdklEYtE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/BrowserInfo.d.ts"
+    },
+    "size": 1989,
+    "hash": "mO2jTu2b39Dco34MEBt0o6UTMBWA4gEIAtZHi1IW46I"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/ChildProcess.d.ts"
+    },
+    "size": 3133,
+    "hash": "vtz-lrM1qVNbYlFgzi89KmoPI076rUvhtNoYs2UqjCE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Crypto.d.ts"
+    },
+    "size": 6627,
+    "hash": "XwHusiTQVjE4hwkTA3zAFGJPZll6iaWLc-hZp7hAFPk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/AddressResolver.d.ts"
+    },
+    "size": 5542,
+    "hash": "m2JvnScm4Fzsua4ijv9gVDOYs0vLJHsU1ZpBxnD-FpE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/index.d.ts"
+    },
+    "size": 642,
+    "hash": "kblyErHDYnsF_P1DdrxoVsh10SnDRQ3Bwck5WGn-w3I"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Dns.d.ts"
+    },
+    "size": 2094,
+    "hash": "a8V4vRrBPQWD6J1ZDSVUngqy4VPQYhwXW_4wp7dZbDw"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Document.d.ts"
+    },
+    "size": 2970,
+    "hash": "wgJNU0rjtPZ9wCQ1vOFM17UzIMNuxXkAnRL6Y6k91UM"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/EncodingError.d.ts"
+    },
+    "size": 2782,
+    "hash": "Y96VGSj4hkYGUmAOZdCpJR62OOrsPw-uPQ-6eFOYaOI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64.d.ts"
+    },
+    "size": 2677,
+    "hash": "yEc8CNYNHSis4OSrmGaUexmByy2oBUfRmPnI_UsePU8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64Url.d.ts"
+    },
+    "size": 3553,
+    "hash": "LVhOA-AXlruy2l_8uj7OqYNt8HWUnwKYKe2d-khPXC4"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Csv.d.ts"
+    },
+    "size": 22389,
+    "hash": "22pSJFH0tyStth9R63Uycc30OpLzYI182QSJl5K18Vo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Hex.d.ts"
+    },
+    "size": 3101,
+    "hash": "a8-p15tzg2N4oOiyE0tOjgL17Q6t-4RKSlFK3_E5r4E"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ini.d.ts"
+    },
+    "size": 665,
+    "hash": "VEcV_gJv9YP3829kRBt6tCjrstQMEF8R7NjF5SKENTo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/JsonArray.d.ts"
+    },
+    "size": 10914,
+    "hash": "bhQR9FZAiP_7kxUnMZbhOLd_U972g4RxmHvD9KKxNuQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ndjson.d.ts"
+    },
+    "size": 16373,
+    "hash": "vI4FK4XFTqsTpUyMJLfl2acrmVs42py0MswI7Dd-R60"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/SchemaBinary.d.ts"
+    },
+    "size": 11065,
+    "hash": "_azIUMK4xCOg93NqSVtNDX-F2N8ig0YdyXCc-P0UMRI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Sse.d.ts"
+    },
+    "size": 11379,
+    "hash": "Fmwr_ayd9o5g0s8kNgVtDPEZ15dytzKkVRuOJDQAXEU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Tar.d.ts"
+    },
+    "size": 11860,
+    "hash": "E0MiYTO8ue5t1e1JKwfyHgRXfng6HCkPtYvnFh87oEQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Toml.d.ts"
+    },
+    "size": 1167,
+    "hash": "oZ9za3NAXBeYkNmhWdO_vkqutfMqcYbkXasEWODwfAI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Xml.d.ts"
+    },
+    "size": 16470,
+    "hash": "pbiCzYYwqiAZdiCFMyRVz1UG67xCJdvhrKQr2DVmlT8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Yaml.d.ts"
+    },
+    "size": 1350,
+    "hash": "v6AA9d7wPSPG8is8K3PlW3cpQrL_Nvwf1MNmOfGrhZY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Zip.d.ts"
+    },
+    "size": 16670,
+    "hash": "nOdp98PU19xagRzuttN9laEGVY6lwutoVseazCyqX7c"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/index.d.ts"
+    },
+    "size": 1360,
+    "hash": "0p_GADS7DXIS1_3swheMVC7wVT6K135y2xxkhj_sq7U"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Encoding.d.ts"
+    },
+    "size": 852,
+    "hash": "6JHF6GIvlFYBICb2qrmb-bGQDaH1t16tgPW4ET7lViM"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/FileReader.d.ts"
+    },
+    "size": 3271,
+    "hash": "Izc4Lg3SrR_vTOYfWz0LwZeU40DjL8144EqjrGxp8AU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Headers.d.ts"
+    },
+    "size": 1481,
+    "hash": "y3AcQqeGN8mxkJ58iTbWOmyXNdK5dRRTEUogxbFXy0s"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/FileSystem.d.ts"
+    },
+    "size": 4237,
+    "hash": "GscyJs1q8_cVZgxDm-u1CJwscBRKw-f5XSRJdUxCAP8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Locks.d.ts"
+    },
+    "size": 5678,
+    "hash": "vA5GYo8h7qcs5a-fuxQPj_Xrbx1iP5fNyo4v0SJHAKk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/MediaQuery.d.ts"
+    },
+    "size": 2800,
+    "hash": "H2TsmsCxrAVQFpn2-nEjFgeAxGOVseTq6FcGaP1wfeE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/NetAddress.d.ts"
+    },
+    "size": 444,
+    "hash": "SgsPPjdFtiCOl0YW0Hfd-hH9BkaSftHcBv_ygK67A4U"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/NodeStream.d.ts"
+    },
+    "size": 3224,
+    "hash": "-Om0tHTgAHL2dgmRlVlG--oBT8d5mftOLPyo-yrHdSk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/ChildProcessSpawner.d.ts"
+    },
+    "size": 10049,
+    "hash": "thXsQ6k-zkFoKCmsVYtf5M6c35jjGBMUFpTT-aWMdLA"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/CommandLine.d.ts"
+    },
+    "size": 11522,
+    "hash": "lxWpSvbLSZaDoTOhUfkj6S-HePD5KBJ-tFZkDiae1Dg"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/ChildProcess.d.ts"
+    },
+    "size": 40640,
+    "hash": "AE8za_rMlCaeaidHj6lgF2rgn2xY2_8CONWi6Xw1LPU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Process.d.ts"
+    },
+    "size": 8241,
+    "hash": "oiIVYvpaIUKJOP6geMxc4B8Dl0_JFBNWkR9ZIAKCyHs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/ResizeObserver.d.ts"
+    },
+    "size": 2495,
+    "hash": "uUMxJ3p5sbc-qhqfyWNUwnitOJtINeXL_9M1xJLWz30"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Stdio.d.ts"
+    },
+    "size": 4792,
+    "hash": "T-DnaBHPE9WMb769TDv2bHjI4UvZDZJh4ee5Dd5HAQU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Stdio.d.ts"
+    },
+    "size": 1504,
+    "hash": "6TcF16KKXbLqEGWumgFgvLQ7WkOiGr_cWBw27JoJX6Q"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Window.d.ts"
+    },
+    "size": 2301,
+    "hash": "Jgz07Sov3RhBpS50HAW-g5wQmxTspcjGXzQUavlym-g"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/AudioContext.d.ts"
+    },
+    "size": 2205,
+    "hash": "z0dedL-zpn1GrXaOgFyOHm7DMb1z3zCMaIMqGqR6tUk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/Request.d.ts"
+    },
+    "size": 1649,
+    "hash": "KRg2WDevqFgPetJq4CxDHh8edm0srjqhWRN7lTSenyY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/experimental/index.d.ts"
+    },
+    "size": 1574,
+    "hash": "hcZRaVCidu8HYX0HvnTobrHo2cQDv4U1txmpSQ0GSa0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/prelude.d.ts"
+    },
+    "size": 129,
+    "hash": "Tqy755Tt4ZuJDGVpmxUCXsPlRUgHYXa4ktmztNdW1DY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.12-2217230d953a.tgz_@eff_452fcf92efe51cb6c2f60bde1796b1c4/node_modules/vibelang-runtime/dist/index.d.ts"
+    },
+    "size": 107,
+    "hash": "kHyPbTEwJDNbyrr9EJDBtS42mtLKhF1zop-5XYfg38g"
+   },
+   {
+    "path": {
      "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/internal/arbitrary/runner.d.ts"
     },
     "size": 165,
@@ -1301,24 +1784,10 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Runtime.d.ts"
-    },
-    "size": 10431,
-    "hash": "ZMDblKwrnP645cJKqUeLzty7Mb4P3ekyiTcDtTPJ6D8"
-   },
-   {
-    "path": {
      "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/ScopedCache.d.ts"
     },
     "size": 28156,
     "hash": "gk_Wevfqv8Pc7JGWfvptQeROHFZS3Ud0xsT5aNtK9hg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/Stdio.d.ts"
-    },
-    "size": 4792,
-    "hash": "T-DnaBHPE9WMb769TDv2bHjI4UvZDZJh4ee5Dd5HAQU"
    },
    {
     "path": {
@@ -1462,465 +1931,10 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/calls.d.ts"
-    },
-    "size": 1375,
-    "hash": "dsRmJCNPzxmBw80oYCGtYgErjsc0O0IdrlavmcSqJgg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/fastcalls.d.ts"
-    },
-    "size": 4743,
-    "hash": "5KioEbTxBNd_QZvwfzx_Wtto96eJo5t1os1-dStu3Sg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/regions.d.ts"
-    },
-    "size": 6347,
-    "hash": "OimZR3Bn-U-YG7GsPRLkO7ojAkjKNP_YHZLHjIojefk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/fork.d.ts"
-    },
-    "size": 1450,
-    "hash": "48HdCKdKyA1Q-ImyNbFxHEH8MvHTioJ4AhPv04LWEvg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/kernel/internals.d.ts"
-    },
-    "size": 1192,
-    "hash": "7Fiel2LtGrvq-9nBG4DTXdPWPq5ssE5zGD2xtKyop7k"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/kernel/kernel.d.ts"
-    },
-    "size": 6233,
-    "hash": "SpddlG9nvj1HKpa57Bira5G8t4QoTcG4oRl4hnC1-xE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/services.d.ts"
-    },
-    "size": 3272,
-    "hash": "Aky7KJ-_at6kU0rh2fYbON-xEor5MYT7r0dKny8eFp4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/handlers.d.ts"
-    },
-    "size": 4437,
-    "hash": "dM4ZRB9CryabX-dYLCHS1WlVbZMqBRsuuvJGPL-Sc94"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/producers.d.ts"
-    },
-    "size": 2648,
-    "hash": "nSdLzVgLSb7ZsOITdmOllPu94EmFjCD7W-O0F8qihHs"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/iterators.d.ts"
-    },
-    "size": 299,
-    "hash": "D_KJoFVsbFdHLj8ECD9in36LfyVin-Znz3X0acOoUt4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/binding-iterator.d.ts"
-    },
-    "size": 521,
-    "hash": "a5GFo1F3YhIqtKzebc3H9jA8z8NZhbnUT6KJQHrwj5Q"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/boundaries.d.ts"
-    },
-    "size": 2229,
-    "hash": "J2cNQ7D_ohM_EnMxDLD02YYHFErO1YyFaZklO0hQ_Pk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/hatches.d.ts"
-    },
-    "size": 4249,
-    "hash": "6pDgm-yR3j20e3-U12dVZaDmHAAq_WLsHsbatPCEWOY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/fibers.d.ts"
-    },
-    "size": 6703,
-    "hash": "5PnLtZ4YZGxFz9KdbeNpELY0G-Ff9MsnI8ywtvAOXio"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/provide.d.ts"
-    },
-    "size": 2281,
-    "hash": "k31QBghV46lk2i0f4JI_OSQJCFzTOLh5I_FnCBfDmuU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/primitives.d.ts"
-    },
-    "size": 2714,
-    "hash": "o5vUAbZjcdzZJlJz6sxUnB-I7AasWMI-s30qQb8E7Ic"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/match.d.ts"
-    },
-    "size": 6984,
-    "hash": "2FsfAhYwF1fwC5e0LU4278-JVGYlmyyiLdE2ulgu2A0"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/main.d.ts"
-    },
-    "size": 1361,
-    "hash": "NVDMPJgJKrqMc_i-77_arVwTNhh8LBDWGq6mG7urGRk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Animations.d.ts"
-    },
-    "size": 4126,
-    "hash": "LIh_ITVpztxGdctQldXDsjoilz47SeJfVYCfdklEYtE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/BrowserInfo.d.ts"
-    },
-    "size": 1989,
-    "hash": "mO2jTu2b39Dco34MEBt0o6UTMBWA4gEIAtZHi1IW46I"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/ChildProcess.d.ts"
-    },
-    "size": 3133,
-    "hash": "vtz-lrM1qVNbYlFgzi89KmoPI076rUvhtNoYs2UqjCE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Crypto.d.ts"
-    },
-    "size": 6627,
-    "hash": "XwHusiTQVjE4hwkTA3zAFGJPZll6iaWLc-hZp7hAFPk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/AddressResolver.d.ts"
-    },
-    "size": 5542,
-    "hash": "m2JvnScm4Fzsua4ijv9gVDOYs0vLJHsU1ZpBxnD-FpE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/net/index.d.ts"
-    },
-    "size": 642,
-    "hash": "kblyErHDYnsF_P1DdrxoVsh10SnDRQ3Bwck5WGn-w3I"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Dns.d.ts"
-    },
-    "size": 2094,
-    "hash": "a8V4vRrBPQWD6J1ZDSVUngqy4VPQYhwXW_4wp7dZbDw"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Document.d.ts"
-    },
-    "size": 2970,
-    "hash": "wgJNU0rjtPZ9wCQ1vOFM17UzIMNuxXkAnRL6Y6k91UM"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/EncodingError.d.ts"
-    },
-    "size": 2782,
-    "hash": "Y96VGSj4hkYGUmAOZdCpJR62OOrsPw-uPQ-6eFOYaOI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64.d.ts"
-    },
-    "size": 2677,
-    "hash": "yEc8CNYNHSis4OSrmGaUexmByy2oBUfRmPnI_UsePU8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Base64Url.d.ts"
-    },
-    "size": 3553,
-    "hash": "LVhOA-AXlruy2l_8uj7OqYNt8HWUnwKYKe2d-khPXC4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Csv.d.ts"
-    },
-    "size": 22389,
-    "hash": "22pSJFH0tyStth9R63Uycc30OpLzYI182QSJl5K18Vo"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Hex.d.ts"
-    },
-    "size": 3101,
-    "hash": "a8-p15tzg2N4oOiyE0tOjgL17Q6t-4RKSlFK3_E5r4E"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ini.d.ts"
-    },
-    "size": 665,
-    "hash": "VEcV_gJv9YP3829kRBt6tCjrstQMEF8R7NjF5SKENTo"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/JsonArray.d.ts"
-    },
-    "size": 10914,
-    "hash": "bhQR9FZAiP_7kxUnMZbhOLd_U972g4RxmHvD9KKxNuQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Ndjson.d.ts"
-    },
-    "size": 16373,
-    "hash": "vI4FK4XFTqsTpUyMJLfl2acrmVs42py0MswI7Dd-R60"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/SchemaBinary.d.ts"
-    },
-    "size": 11065,
-    "hash": "_azIUMK4xCOg93NqSVtNDX-F2N8ig0YdyXCc-P0UMRI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Sse.d.ts"
-    },
-    "size": 11379,
-    "hash": "Fmwr_ayd9o5g0s8kNgVtDPEZ15dytzKkVRuOJDQAXEU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Tar.d.ts"
-    },
-    "size": 11860,
-    "hash": "E0MiYTO8ue5t1e1JKwfyHgRXfng6HCkPtYvnFh87oEQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Toml.d.ts"
-    },
-    "size": 1167,
-    "hash": "oZ9za3NAXBeYkNmhWdO_vkqutfMqcYbkXasEWODwfAI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Xml.d.ts"
-    },
-    "size": 16470,
-    "hash": "pbiCzYYwqiAZdiCFMyRVz1UG67xCJdvhrKQr2DVmlT8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Yaml.d.ts"
-    },
-    "size": 1350,
-    "hash": "v6AA9d7wPSPG8is8K3PlW3cpQrL_Nvwf1MNmOfGrhZY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/Zip.d.ts"
-    },
-    "size": 16670,
-    "hash": "nOdp98PU19xagRzuttN9laEGVY6lwutoVseazCyqX7c"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/encoding/index.d.ts"
-    },
-    "size": 1360,
-    "hash": "0p_GADS7DXIS1_3swheMVC7wVT6K135y2xxkhj_sq7U"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Encoding.d.ts"
-    },
-    "size": 852,
-    "hash": "6JHF6GIvlFYBICb2qrmb-bGQDaH1t16tgPW4ET7lViM"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/FileReader.d.ts"
-    },
-    "size": 3271,
-    "hash": "Izc4Lg3SrR_vTOYfWz0LwZeU40DjL8144EqjrGxp8AU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Headers.d.ts"
-    },
-    "size": 1481,
-    "hash": "y3AcQqeGN8mxkJ58iTbWOmyXNdK5dRRTEUogxbFXy0s"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/FileSystem.d.ts"
-    },
-    "size": 4237,
-    "hash": "GscyJs1q8_cVZgxDm-u1CJwscBRKw-f5XSRJdUxCAP8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Locks.d.ts"
-    },
-    "size": 5678,
-    "hash": "vA5GYo8h7qcs5a-fuxQPj_Xrbx1iP5fNyo4v0SJHAKk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/MediaQuery.d.ts"
-    },
-    "size": 2800,
-    "hash": "H2TsmsCxrAVQFpn2-nEjFgeAxGOVseTq6FcGaP1wfeE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/NetAddress.d.ts"
-    },
-    "size": 444,
-    "hash": "SgsPPjdFtiCOl0YW0Hfd-hH9BkaSftHcBv_ygK67A4U"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/NodeStream.d.ts"
-    },
-    "size": 3224,
-    "hash": "-Om0tHTgAHL2dgmRlVlG--oBT8d5mftOLPyo-yrHdSk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/ChildProcessSpawner.d.ts"
-    },
-    "size": 10049,
-    "hash": "thXsQ6k-zkFoKCmsVYtf5M6c35jjGBMUFpTT-aWMdLA"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/CommandLine.d.ts"
-    },
-    "size": 11522,
-    "hash": "lxWpSvbLSZaDoTOhUfkj6S-HePD5KBJ-tFZkDiae1Dg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/ChildProcess.d.ts"
-    },
-    "size": 40640,
-    "hash": "AE8za_rMlCaeaidHj6lgF2rgn2xY2_8CONWi6Xw1LPU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Process.d.ts"
-    },
-    "size": 8241,
-    "hash": "oiIVYvpaIUKJOP6geMxc4B8Dl0_JFBNWkR9ZIAKCyHs"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/ResizeObserver.d.ts"
-    },
-    "size": 2495,
-    "hash": "uUMxJ3p5sbc-qhqfyWNUwnitOJtINeXL_9M1xJLWz30"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Stdio.d.ts"
-    },
-    "size": 1504,
-    "hash": "6TcF16KKXbLqEGWumgFgvLQ7WkOiGr_cWBw27JoJX6Q"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Window.d.ts"
-    },
-    "size": 2301,
-    "hash": "Jgz07Sov3RhBpS50HAW-g5wQmxTspcjGXzQUavlym-g"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/AudioContext.d.ts"
-    },
-    "size": 2205,
-    "hash": "z0dedL-zpn1GrXaOgFyOHm7DMb1z3zCMaIMqGqR6tUk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/Request.d.ts"
-    },
-    "size": 1649,
-    "hash": "KRg2WDevqFgPetJq4CxDHh8edm0srjqhWRN7lTSenyY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/experimental/index.d.ts"
-    },
-    "size": 1574,
-    "hash": "hcZRaVCidu8HYX0HvnTobrHo2cQDv4U1txmpSQ0GSa0"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/prelude.d.ts"
-    },
-    "size": 2682,
-    "hash": "lY9cy0XzDlp4a-WwT2moZ8nwmU3wfjDM4JeqmoMihTQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/resources.d.ts"
-    },
-    "size": 1599,
-    "hash": "U-JuKPY9JEuXM24F00Rd5NNsioH-5xMK4AMyix5GT4w"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/legacy-await-types.d.ts"
-    },
-    "size": 1948,
-    "hash": "yLNOHMBuLdk8f5F8zEtXmfK2YpMjr5UX54CdKqCyap4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/match-cache.d.ts"
-    },
-    "size": 722,
-    "hash": "IT8EGMnRp0-6el6sZiCOflLDbAfxip3e9Tr_dwBJLRQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/vibelang-runtime@file+.vibelang-toolchain+vibelang-runtime-0.0.11-f7cb56415df0.tgz_@eff_6b9a3c6168e7e2e64331bf4381663c9d/node_modules/vibelang-runtime/dist/index.d.ts"
-    },
-    "size": 1608,
-    "hash": "s_8Vf5JxGZOuLAQBSNlcfdRVxvbbQ5N3X1hA9oH0k5E"
-   },
-   {
-    "path": {
      "relative": "packages/contracts/src/baseSchemas.vibe"
     },
-    "size": 12597,
-    "hash": "SFU51sinDPBhvjF-T38Y9LpIjjkB6dIGw68-UJMSy9Y"
+    "size": 12508,
+    "hash": "k1uozdECldF0YZHXyq4XeH4xYdh-ghbZvlgrWKouJkQ"
    },
    {
     "path": {
@@ -2276,8 +2290,8 @@
     "path": {
      "relative": "packages/contracts/src/vcs.vibe"
     },
-    "size": 7923,
-    "hash": "Vx0ul951hTK70Y29A6srBnnzgzZ_Ao_4wmN_U_9JV5s"
+    "size": 7887,
+    "hash": "EfciRNT9SEDdbEmqqGPs-TlxH7KtAGO3i5w5CkvbOpo"
    },
    {
     "path": {
@@ -2325,8 +2339,8 @@
     "path": {
      "relative": "packages/contracts/src/pullRequest.vibe"
     },
-    "size": 32118,
-    "hash": "L0s1wjMrfxYHhrR5AkVTmWbu1KXawLA_vY2OXweW4x8"
+    "size": 32031,
+    "hash": "XgyVV571-w9uhpErnt3F0STODNDl94g9yF50NDTyYEM"
    },
    {
     "path": {
@@ -2379,10 +2393,10 @@
    },
    {
     "path": {
-     "relative": "packages/contracts/src/orchestrationV2.vibe"
+     "relative": "packages/contracts/src/orchestrationV2.ts"
     },
-    "size": 150321,
-    "hash": "YO_FIR69DCx63hfzVOmwwI04o-b-d7FmpxE7bYRUfrI"
+    "size": 156942,
+    "hash": "krUf43eKK5YI5BVjrFoAxLRVhDqVblzyk7c6z9pXB3Y"
    },
    {
     "path": {
@@ -2393,10 +2407,10 @@
    },
    {
     "path": {
-     "relative": "packages/contracts/src/environmentHttp.vibe"
+     "relative": "packages/contracts/src/environmentHttp.ts"
     },
-    "size": 29343,
-    "hash": "KyKR7BLy2CMbxgHdF96SCkvqgxtILi05-uII12BaOy8"
+    "size": 30405,
+    "hash": "_3ooWDbBzTmmB9w7IGtYSmsLGW74w24rhVUT-v5OS9k"
    },
    {
     "path": {
@@ -2554,24 +2568,24 @@
    },
    {
     "path": {
-     "relative": "packages/contracts/src/guestStream.vibe"
+     "relative": "packages/contracts/src/guestStream.ts"
     },
-    "size": 1725,
-    "hash": "pTJ_onQoNbpa1Q1x_OJ7nrj4WlnbfA1t7reaNv1XvRg"
+    "size": 1755,
+    "hash": "Ija_mj23Bh5nQ4WDQ7xAakwdq2FjRCdqhPCSRz8DcRI"
    },
    {
     "path": {
      "relative": "packages/contracts/src/applicationEvent.vibe"
     },
-    "size": 4186,
-    "hash": "oVkvbDVTFKFiuqILHhpip-nlUQcc58Gpkrcg7uQbVoc"
+    "size": 4184,
+    "hash": "hPcABQAZKZR7mlkrUoFJid9_y0C8_6u-hCvoqgv8kow"
    },
    {
     "path": {
      "relative": "packages/contracts/src/scheduledTask.vibe"
     },
-    "size": 12244,
-    "hash": "8whZffHRv2V7sx4MRRmG4JKSdAOaIh57dPrKuKMiUlQ"
+    "size": 12242,
+    "hash": "BUs0FuHJ4deiacyPpCHZtzIppCdwi8vu2yFPwo8E1a0"
    },
    {
     "path": {
@@ -2591,8 +2605,8 @@
     "path": {
      "relative": "packages/contracts/src/orchestratorMcp.vibe"
     },
-    "size": 32341,
-    "hash": "drskPkeDnjOJmy3RQ796GXF7z8bv8qDyW3_jR6eSbFQ"
+    "size": 32339,
+    "hash": "F6JLCZuM4AlGydOvG220XzEPGSatmrOqT7d84asGbpM"
    },
    {
     "path": {
@@ -2736,24 +2750,24 @@
    },
    {
     "path": {
-     "relative": "packages/contracts/src/rpc.vibe"
+     "relative": "packages/contracts/src/rpc.ts"
     },
-    "size": 76935,
-    "hash": "E1Sj9h9fAom8cGIanV3pJh-65lE9Z-wV3QBjsIob8m4"
+    "size": 76931,
+    "hash": "6ObYQpdSuKwaniMIVB2uf2zgjM1yKtRyel_E44V0Dk0"
    },
    {
     "path": {
      "relative": "packages/contracts/src/clientRpcPermissions.vibe"
     },
-    "size": 4758,
-    "hash": "XRkoSPTbeDkZ6QgHMQG2rtyUPe0hY6p60kHg_ew4TVM"
+    "size": 4754,
+    "hash": "t3f7_vnKIV5w6IJ33uq4ssY1PL60bT6WMRHkTXbREVE"
    },
    {
     "path": {
      "relative": "packages/contracts/src/index.ts"
     },
-    "size": 2641,
-    "hash": "kTHq4sWnmU0G_3ST3sNZMITBDrsE-rI-gvsqLvvggkI"
+    "size": 2633,
+    "hash": "cPZxwNtzYkW__wjhf3_7ybd1h8Q_a1oqKhiz6loqCr4"
    },
    {
     "path": {
@@ -2771,10 +2785,10 @@
    },
    {
     "path": {
-     "relative": "packages/provider-testing/src/TestProviderHost.ts"
+     "relative": "packages/provider-testing/src/TestProviderHost.vibe"
     },
-    "size": 3325,
-    "hash": "t_v35SdmNthvLk4WjpRxWWtg27n93MVyObO2A8T3cSc"
+    "size": 3346,
+    "hash": "5ZsQESMnxUPbA4aLXEcX0iJkglbAb99I7rRXQ4CWJNY"
    },
    {
     "path": {
@@ -3655,13 +3669,13 @@
     "relative": "packages/contracts/src/providerRuntime.vibe"
    },
    {
-    "relative": "packages/contracts/src/orchestrationV2.vibe"
+    "relative": "packages/contracts/src/orchestrationV2.ts"
    },
    {
     "relative": "packages/contracts/src/relay.vibe"
    },
    {
-    "relative": "packages/contracts/src/environmentHttp.vibe"
+    "relative": "packages/contracts/src/environmentHttp.ts"
    },
    {
     "relative": "packages/contracts/src/relayClient.vibe"
@@ -3730,7 +3744,7 @@
     "relative": "packages/contracts/src/orchestrationDispatch.vibe"
    },
    {
-    "relative": "packages/contracts/src/guestStream.vibe"
+    "relative": "packages/contracts/src/guestStream.ts"
    },
    {
     "relative": "packages/contracts/src/applicationEvent.vibe"
@@ -3787,7 +3801,7 @@
     "relative": "packages/contracts/src/secretRequest.vibe"
    },
    {
-    "relative": "packages/contracts/src/rpc.vibe"
+    "relative": "packages/contracts/src/rpc.ts"
    },
    {
     "relative": "packages/contracts/src/clientRpcPermissions.vibe"
@@ -3802,7 +3816,7 @@
     "relative": "packages/provider-core/src/server/ProviderHost.vibe"
    },
    {
-    "relative": "packages/provider-testing/src/TestProviderHost.ts"
+    "relative": "packages/provider-testing/src/TestProviderHost.vibe"
    },
    {
     "relative": "packages/shared/src/HostProcess.ts"
@@ -3849,7 +3863,7 @@
     "column": 14,
     "category": "warning",
     "code": "EK4837",
-    "text": "ProviderReplayNdjsonLineParseError extends Schema.TaggedError; a schema error declaration, schema error ProviderReplayNdjsonLineParseError { … }, writes the same failure with its Schema.\n  No quick fix: the optional codec accepts undefined; keep the explicit Effect class to preserve its schema API."
+    "text": "ProviderReplayNdjsonLineParseError extends Schema.TaggedError; a schema error declaration, schema error ProviderReplayNdjsonLineParseError { … }, writes the same failure with its Schema.\n  No quick fix: the optional codec accepts undefined; keep the explicit Effect class to preserve its schema API.\nsrc/replayTranscript.vibe(12,76): suggestion EK38106: schemaClassMissingBrand: Add `{ readonly brand: unique symbol }` as the second type argument. Without a brand, TypeScript may accept structurally compatible values where this class instance type is expected. effect(schemaClassMissingBrand)\nsrc/replayTranscript.vibe(25,21): suggestion EK38106: schemaClassMissingBrand: Add `{ readonly brand: unique symbol }` as the second type argument. Without a brand, TypeScript may accept structurally compatible values where this class instance type is expected. effect(schemaClassMissingBrand)\nsrc/replayTranscript.vibe(31,21): suggestion EK38106: schemaClassMissingBrand: Add `{ readonly brand: unique symbol }` as the second type argument. Without a brand, TypeScript may accept structurally compatible values where this class instance type is expected. effect(schemaClassMissingBrand)\nsrc/replayWorkspace.vibe(6,14): suggestion EK38106: schemaClassMissingBrand: Add `{ readonly brand: unique symbol }` as the second type argument. Without a brand, TypeScript may accept structurally compatible values where this class instance type is expected. effect(schemaClassMissingBrand)"
    },
    {
     "file": {
@@ -3859,10 +3873,50 @@
     "column": 17,
     "category": "warning",
     "code": "EK3010",
-    "text": "trustedPackages is deprecated and ignored; remove this retired option. Use a signature contract or an explicit Effect.try boundary for foreign calls."
+    "text": "trustedPackages is deprecated and ignored; remove this retired option. Use a signature contract or an explicit Effect.try boundary for foreign calls.\nbundled:///libs/lib.es5.d.ts\nbundled:///libs/lib.es2015.d.ts\nbundled:///libs/lib.es2016.d.ts\nbundled:///libs/lib.es2017.d.ts\nbundled:///libs/lib.es2018.d.ts\nbundled:///libs/lib.es2019.d.ts\nbundled:///libs/lib.es2020.d.ts\nbundled:///libs/lib.es2021.d.ts\nbundled:///libs/lib.es2022.d.ts\nbundled:///libs/lib.es2023.d.ts\nbundled:///libs/lib.es2024.d.ts\nbundled:///libs/lib.es2025.d.ts\nbundled:///libs/lib.es2026.d.ts\nbundled:///libs/lib.esnext.d.ts\nbundled:///libs/lib.dom.d.ts\nbundled:///libs/lib.dom.iterable.d.ts\nbundled:///libs/lib.dom.asynciterable.d.ts\nbundled:///libs/lib.webworker.importscripts.d.ts\nbundled:///libs/lib.scripthost.d.ts\nbundled:///libs/lib.es2015.core.d.ts\nbundled:///libs/lib.es2015.collection.d.ts\nbundled:///libs/lib.es2015.generator.d.ts\nbundled:///libs/lib.es2015.iterable.d.ts\nbundled:///libs/lib.es2015.promise.d.ts\nbundled:///libs/lib.es2015.proxy.d.ts\nbundled:///libs/lib.es2015.reflect.d.ts\nbundled:///libs/lib.es2015.symbol.d.ts\nbundled:///libs/lib.es2015.symbol.wellknown.d.ts\nbundled:///libs/lib.es2016.array.include.d.ts\nbundled:///libs/lib.es2016.intl.d.ts\nbundled:///libs/lib.es2017.arraybuffer.d.ts\nbundled:///libs/lib.es2017.date.d.ts\nbundled:///libs/lib.es2017.object.d.ts\nbundled:///libs/lib.es2017.sharedmemory.d.ts\nbundled:///libs/lib.es2017.string.d.ts\nbundled:///libs/lib.es2017.intl.d.ts\nbundled:///libs/lib.es2017.typedarrays.d.ts\nbundled:///libs/lib.es2018.asyncgenerator.d.ts\nbundled:///libs/lib.es2018.asynciterable.d.ts\nbundled:///libs/lib.es2018.intl.d.ts\nbundled:///libs/lib.es2018.promise.d.ts\nbundled:///libs/lib.es2018.regexp.d.ts\nbundled:///libs/lib.es2019.array.d.ts\nbundled:///libs/lib.es2019.object.d.ts\nbundled:///libs/lib.es2019.string.d.ts\nbundled:///libs/lib.es2019.symbol.d.ts\nbundled:///libs/lib.es2019.intl.d.ts\nbundled:///libs/lib.es2020.bigint.d.ts\nbundled:///libs/lib.es2020.date.d.ts\nbundled:///libs/lib.es2020.promise.d.ts\nbundled:///libs/lib.es2020.sharedmemory.d.ts\nbundled:///libs/lib.es2020.string.d.ts\nbundled:///libs/lib.es2020.symbol.wellknown.d.ts\nbundled:///libs/lib.es2020.intl.d.ts\nbundled:///libs/lib.es2020.number.d.ts\nbundled:///libs/lib.es2021.promise.d.ts\nbundled:///libs/lib.es2021.string.d.ts\nbundled:///libs/lib.es2021.weakref.d.ts\nbundled:///libs/lib.es2021.intl.d.ts\nbundled:///libs/lib.es2022.array.d.ts\nbundled:///libs/lib.es2022.error.d.ts\nbundled:///libs/lib.es2022.intl.d.ts\nbundled:///libs/lib.es2022.object.d.ts\nbundled:///libs/lib.es2022.string.d.ts\nbundled:///libs/lib.es2022.regexp.d.ts\nbundled:///libs/lib.es2023.array.d.ts\nbundled:///libs/lib.es2023.collection.d.ts\nbundled:///libs/lib.es2023.intl.d.ts\nbundled:///libs/lib.es2024.arraybuffer.d.ts\nbundled:///libs/lib.es2024.collection.d.ts\nbundled:///libs/lib.es2024.object.d.ts\nbundled:///libs/lib.es2024.promise.d.ts\nbundled:///libs/lib.es2024.regexp.d.ts\nbundled:///libs/lib.es2024.sharedmemory.d.ts\nbundled:///libs/lib.es2024.string.d.ts\nbundled:///libs/lib.es2025.collection.d.ts\nbundled:///libs/lib.es2025.float16.d.ts\nbundled:///libs/lib.es2025.intl.d.ts\nbundled:///libs/lib.es2025.iterator.d.ts\nbundled:///libs/lib.es2025.promise.d.ts\nbundled:///libs/lib.es2025.regexp.d.ts\nbundled:///libs/lib.es2026.array.d.ts\nbundled:///libs/lib.es2026.collection.d.ts\nbundled:///libs/lib.es2026.error.d.ts\nbundled:///libs/lib.es2026.iterator.d.ts\nbundled:///libs/lib.es2026.json.d.ts\nbundled:///libs/lib.es2026.math.d.ts\nbundled:///libs/lib.es2026.typedarrays.d.ts\nbundled:///libs/lib.esnext.iterator.d.ts\nbundled:///libs/lib.esnext.promise.d.ts\nbundled:///libs/lib.esnext.date.d.ts\nbundled:///libs/lib.esnext.decorators.d.ts\nbundled:///libs/lib.esnext.disposable.d.ts\nbundled:///libs/lib.esnext.intl.d.ts\nbundled:///libs/lib.esnext.modulesource.d.ts\nbundled:///libs/lib.esnext.sharedmemory.d.ts\nbundled:///libs/lib.esnext.temporal.d.ts\nbundled:///libs/lib.decorators.d.ts\nbundled:///libs/lib.decorators.legacy.d.ts\nbundled:///libs/lib.esnext.full.d.ts"
    }
   ],
   "outputs": [
+   {
+    "paths": [
+     {
+      "relative": "packages/provider-testing/src/TestProviderHost.vibe"
+     }
+    ],
+    "code": "import * as Option from \"effect/Option\";\nimport * as Ref from \"effect/Ref\";\nimport * as Stream from \"effect/Stream\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport { DEFAULT_SERVER_SETTINGS } from \"@t3tools/contracts\";\nimport * as ProviderHost from \"@t3tools/provider-core/server/ProviderHost\";\nimport * as Context from \"effect/Context\";\nimport * as Effect from \"effect/Effect\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as Layer from \"effect/Layer\";\nimport * as Path from \"effect/Path\";\nimport { $process_cwd } from \"./TestProviderHost.vibe.platform.js\";\nexport class TestProviderHostSettings extends runtime.$service(\"@t3tools/provider-testing/TestProviderHost/TestProviderHostSettings\") {\n}\nexport const layer = (options = {}) => Layer.effectContext(Effect_1.gen(function* () {\n    const fileSystem = yield* FileSystem.FileSystem;\n    const path = yield* Path.Path;\n    const baseDir = yield* (Effect.orDie(fileSystem\n        .makeTempDirectoryScoped({ prefix: \"t3-provider-host-\" })));\n    const stateDir = path.join(baseDir, \"userdata\");\n    const providerStatusCacheDir = path.join(baseDir, \"caches\");\n    const attachmentsDir = path.join(stateDir, \"attachments\");\n    for (const directory of [stateDir, providerStatusCacheDir, attachmentsDir]) {\n        yield* (Effect.orDie(fileSystem.makeDirectory(directory, { recursive: true })));\n    }\n    const settings = yield* Ref.make(options.settings ?? DEFAULT_SERVER_SETTINGS);\n    const credentials = new Map();\n    const host = ProviderHost.ProviderHost.of({\n        paths: {\n            cwd: options.cwd ?? $process_cwd(),\n            baseDir,\n            stateDir,\n            providerStatusCacheDir,\n            attachmentsDir,\n        },\n        settings: {\n            get: Ref.get(settings),\n            withSnapshot: (use) => Effect.flatMap(Ref.get(settings), use),\n            changes: Stream.empty,\n            subscribe: Effect.succeed(Stream.empty),\n        },\n        shouldRunBackgroundWork: Effect.fn(\"ProviderHost.shouldRunBackgroundWork\")(function () {\n            return Effect.succeed(options.runBackgroundWork ?? true);\n        }),\n        resolveAttachmentPath: (attachment) => path.join(attachmentsDir, attachment.id),\n        credentials: Effect.fn(\"ProviderHost.credentials\")(function (namespace, bindingId) {\n            return Effect.sync(() => {\n                const key = `${namespace}:${bindingId}`;\n                return {\n                    binding: { owner: \"t3\", key },\n                    get: Effect_1.sync({ get: () => { return Option.fromUndefinedOr(credentials.get(key)); } }.get),\n                    set: (value) => Effect_1.sync({ set: () => { return void credentials.set(key, value); } }.set),\n                    remove: Effect_1.sync({ remove: () => { return void credentials.delete(key); } }.remove),\n                };\n            });\n        }),\n    });\n    return Context.make(ProviderHost.ProviderHost, host).pipe(Context.add(TestProviderHostSettings, {\n        set: (next) => Ref.set(settings, next),\n    }));\n}));\n",
+    "map": {
+     "version": 3,
+     "file": "TestProviderHost.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/provider-testing/src/TestProviderHost.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "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"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "packages/provider-testing/src/TestProviderHost.vibe.platform.js"
+     }
+    ],
+    "code": "export const $process_cwd = ((...args) => process.cwd(...args));\n",
+    "map": {
+     "version": 3,
+     "file": "TestProviderHost.vibe.platform.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/provider-testing/src/TestProviderHost.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "AASE,MAAM,CAAC,MAAM,YAAY,GACvB,CAAC,CAAC,GAAG,IAAoC,EAAE,EAAE,CAAC,OAAO,CAAC,GAAG,CAAC,GAAG,IAAI,CAAC,CAAuB,CAAA"
+    }
+   },
    {
     "paths": [
      {
@@ -3909,7 +3963,7 @@
       "relative": "packages/provider-testing/src/replayTranscript.vibe"
      }
     ],
-    "code": "import { withSpan } from \"effect/Effect\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime\";\nimport * as Schema_1 from \"effect/Schema\";\nimport { ProviderReplayEntry, ProviderReplayNdjsonRecord, ProviderReplayTranscript, } from \"@t3tools/contracts\";\nimport * as Effect from \"effect/Effect\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as Path from \"effect/Path\";\nimport * as Schema from \"effect/Schema\";\nexport class ProviderReplayNdjsonLineParseError extends Schema.TaggedError()(\"ProviderReplayNdjsonLineParseError\", {\n    lineNumber: Schema.Number,\n    line: Schema.String,\n    cause: Schema.optional(Schema.Defect()),\n}) {\n    get message() {\n        return `Failed to parse provider replay NDJSON line ${this.lineNumber}.`;\n    }\n}\nexport class ProviderReplayNdjsonMissingHeaderError extends Schema_1.TaggedError()(\"ProviderReplayNdjsonMissingHeaderError\", {}) {\n    static {\n        $schemaErrorMatcher(this, \"ProviderReplayNdjsonMissingHeaderError\");\n    }\n    get message() {\n        return \"Provider replay NDJSON requires a transcript_start header or fallback transcript metadata.\";\n    }\n}\nexport class ProviderReplayNdjsonEmptyError extends Schema_1.TaggedError()(\"ProviderReplayNdjsonEmptyError\", {}) {\n    static {\n        $schemaErrorMatcher(this, \"ProviderReplayNdjsonEmptyError\");\n    }\n    get message() {\n        return \"Provider replay NDJSON did not contain any records.\";\n    }\n}\nexport const ProviderReplayNdjsonParseError = Schema_1.Union([ProviderReplayNdjsonLineParseError,\n    ProviderReplayNdjsonMissingHeaderError,\n    ProviderReplayNdjsonEmptyError]);\nconst REPLAY_TRANSCRIPT_WORKSPACE_PLACEHOLDER = \"<workspace>\";\nfunction materializeWorkspacePlaceholder(value, workspace) {\n    if (value === REPLAY_TRANSCRIPT_WORKSPACE_PLACEHOLDER) {\n        return workspace;\n    }\n    if (Array.isArray(value)) {\n        return value.map((entry) => materializeWorkspacePlaceholder(entry, workspace));\n    }\n    if (typeof value !== \"object\" || value === null) {\n        return value;\n    }\n    return Object.fromEntries(Object.entries(value).map(([key, entry]) => [\n        key,\n        materializeWorkspacePlaceholder(entry, workspace),\n    ]));\n}\nexport function materializeReplayTranscriptWorkspace(transcript, workspace) {\n    return {\n        ...transcript,\n        entries: transcript.entries.map((entry) => entry.type === \"expect_outbound\"\n            ? {\n                ...entry,\n                frame: materializeWorkspacePlaceholder(entry.frame, workspace),\n            }\n            : entry),\n    };\n}\nconst decodeReplayRecord = Schema.decodeUnknownSync(Schema.fromJsonString(ProviderReplayNdjsonRecord));\nconst decodeTranscript = Schema.decodeUnknownSync(ProviderReplayTranscript);\nfunction parseReplayRecord(line, lineNumber) {\n    return Effect_1.gen(function* parseReplayRecord() {\n        return yield* Effect.try({\n            try: () => decodeReplayRecord(line),\n            catch: (cause) => new ProviderReplayNdjsonLineParseError({\n                lineNumber,\n                line,\n                cause,\n            }),\n        });\n    });\n}\nfunction metadataFromHeader(header) {\n    const { type: _type, ...metadata } = header;\n    return metadata;\n}\nexport function decodeProviderReplayNdjson(input, fallbackMetadata) {\n    return Effect_1.gen(runtime.$joinedFrame(function* decodeProviderReplayNdjson() {\n        const lines = input\n            .split(/\\r?\\n/u)\n            .map((line, index) => ({ line: line.trim(), lineNumber: index + 1 }))\n            .filter(({ line }) => line.length > 0);\n        if (lines.length === 0) {\n            return yield* Effect_1.fail(new ProviderReplayNdjsonEmptyError());\n        }\n        const firstRecord = yield* parseReplayRecord(lines[0].line, lines[0].lineNumber);\n        const metadata = firstRecord.type === \"transcript_start\" ? metadataFromHeader(firstRecord) : fallbackMetadata;\n        if (!metadata) {\n            return yield* Effect_1.fail(new ProviderReplayNdjsonMissingHeaderError());\n        }\n        const entries = [];\n        if (firstRecord.type !== \"transcript_start\") {\n            entries.push(firstRecord);\n        }\n        {\n            let pending_1 = runtime.$normal;\n            try {\n                for (const value_1 of lines.slice(1)) {\n                    try {\n                        const { line, lineNumber } = value_1;\n                        {\n                            const record = yield* parseReplayRecord(line, lineNumber);\n                            if (record.type === \"transcript_start\") {\n                                return yield* Effect_1.fail(new ProviderReplayNdjsonLineParseError({\n                                    lineNumber,\n                                    line,\n                                    cause: \"transcript_start is only valid as the first replay record\",\n                                }));\n                            }\n                            entries.push(record);\n                        }\n                    }\n                    catch (thrown_1) {\n                        pending_1 = thrown_1;\n                        break;\n                    }\n                }\n            }\n            catch (thrown_2) {\n                throw runtime.$finallyFailure(pending_1, thrown_2);\n            }\n            if (pending_1 !== runtime.$normal)\n                throw pending_1;\n        }\n        return decodeTranscript({\n            ...metadata,\n            entries,\n        });\n    }));\n}\n/** Use Path to resolve Windows drive/UNC fixture URLs into native paths. */\nexport const readProviderReplayTranscript = (file) => {\n    return Effect_1.gen(function* readProviderReplayTranscript() { return yield* withSpan(Effect_1.gen(function* () {\n        const fs = yield* FileSystem.FileSystem;\n        const path = yield* Path.Path;\n        const text = yield* fs.readFileString(yield* path.fromFileUrl(file));\n        return yield* decodeProviderReplayNdjson(text);\n    }), \"readProviderReplayTranscript\"); });\n};\n",
+    "code": "import { withSpan } from \"effect/Effect\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as Schema_1 from \"effect/Schema\";\nimport { ProviderReplayEntry, ProviderReplayNdjsonRecord, ProviderReplayTranscript, } from \"@t3tools/contracts\";\nimport * as Effect from \"effect/Effect\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as Path from \"effect/Path\";\nimport * as Schema from \"effect/Schema\";\nexport class ProviderReplayNdjsonLineParseError extends Schema.TaggedError()(\"ProviderReplayNdjsonLineParseError\", {\n    lineNumber: Schema.Number,\n    line: Schema.String,\n    cause: Schema.optional(Schema.Defect()),\n}) {\n    get message() {\n        return `Failed to parse provider replay NDJSON line ${this.lineNumber}.`;\n    }\n}\nexport class ProviderReplayNdjsonMissingHeaderError extends Schema_1.TaggedError()(\"ProviderReplayNdjsonMissingHeaderError\", {}) {\n    static {\n        $schemaErrorMatcher(this, \"ProviderReplayNdjsonMissingHeaderError\");\n    }\n    get message() {\n        return \"Provider replay NDJSON requires a transcript_start header or fallback transcript metadata.\";\n    }\n}\nexport class ProviderReplayNdjsonEmptyError extends Schema_1.TaggedError()(\"ProviderReplayNdjsonEmptyError\", {}) {\n    static {\n        $schemaErrorMatcher(this, \"ProviderReplayNdjsonEmptyError\");\n    }\n    get message() {\n        return \"Provider replay NDJSON did not contain any records.\";\n    }\n}\nexport const ProviderReplayNdjsonParseError = Schema_1.Union([ProviderReplayNdjsonLineParseError,\n    ProviderReplayNdjsonMissingHeaderError,\n    ProviderReplayNdjsonEmptyError]);\nconst REPLAY_TRANSCRIPT_WORKSPACE_PLACEHOLDER = \"<workspace>\";\nfunction materializeWorkspacePlaceholder(value, workspace) {\n    if (value === REPLAY_TRANSCRIPT_WORKSPACE_PLACEHOLDER) {\n        return workspace;\n    }\n    if (Array.isArray(value)) {\n        return value.map((entry) => materializeWorkspacePlaceholder(entry, workspace));\n    }\n    if (typeof value !== \"object\" || value === null) {\n        return value;\n    }\n    return Object.fromEntries(Object.entries(value).map(([key, entry]) => [\n        key,\n        materializeWorkspacePlaceholder(entry, workspace),\n    ]));\n}\nexport function materializeReplayTranscriptWorkspace(transcript, workspace) {\n    return {\n        ...transcript,\n        entries: transcript.entries.map((entry) => entry.type === \"expect_outbound\"\n            ? {\n                ...entry,\n                frame: materializeWorkspacePlaceholder(entry.frame, workspace),\n            }\n            : entry),\n    };\n}\nconst decodeReplayRecord = Schema.decodeUnknownSync(Schema.fromJsonString(ProviderReplayNdjsonRecord));\nconst decodeTranscript = Schema.decodeUnknownSync(ProviderReplayTranscript);\nfunction parseReplayRecord(line, lineNumber) {\n    return Effect_1.gen(function* parseReplayRecord() {\n        return yield* Effect.try({\n            try: () => decodeReplayRecord(line),\n            catch: (cause) => new ProviderReplayNdjsonLineParseError({\n                lineNumber,\n                line,\n                cause,\n            }),\n        });\n    });\n}\nfunction metadataFromHeader(header) {\n    const { type: _type, ...metadata } = header;\n    return metadata;\n}\nexport function decodeProviderReplayNdjson(input, fallbackMetadata) {\n    return Effect_1.gen(function* decodeProviderReplayNdjson() {\n        const lines = input\n            .split(/\\r?\\n/u)\n            .map((line, index) => ({ line: line.trim(), lineNumber: index + 1 }))\n            .filter(({ line }) => line.length > 0);\n        if (lines.length === 0) {\n            return yield* Effect_1.fail(new ProviderReplayNdjsonEmptyError());\n        }\n        const firstRecord = yield* parseReplayRecord(lines[0].line, lines[0].lineNumber);\n        const metadata = firstRecord.type === \"transcript_start\" ? metadataFromHeader(firstRecord) : fallbackMetadata;\n        if (!metadata) {\n            return yield* Effect_1.fail(new ProviderReplayNdjsonMissingHeaderError());\n        }\n        const entries = [];\n        if (firstRecord.type !== \"transcript_start\") {\n            entries.push(firstRecord);\n        }\n        for (const { line, lineNumber } of lines.slice(1)) {\n            const record = yield* parseReplayRecord(line, lineNumber);\n            if (record.type === \"transcript_start\") {\n                return yield* Effect_1.fail(new ProviderReplayNdjsonLineParseError({\n                    lineNumber,\n                    line,\n                    cause: \"transcript_start is only valid as the first replay record\",\n                }));\n            }\n            entries.push(record);\n        }\n        return decodeTranscript({\n            ...metadata,\n            entries,\n        });\n    });\n}\n/** Use Path to resolve Windows drive/UNC fixture URLs into native paths. */\nexport const readProviderReplayTranscript = (file) => {\n    return Effect_1.gen(function* readProviderReplayTranscript() { return yield* withSpan(Effect_1.gen(function* () {\n        const fs = yield* FileSystem.FileSystem;\n        const path = yield* Path.Path;\n        const text = yield* fs.readFileString(yield* path.fromFileUrl(file));\n        return yield* decodeProviderReplayNdjson(text);\n    }), \"readProviderReplayTranscript\"); });\n};\n",
     "map": {
      "version": 3,
      "file": "replayTranscript.js",
@@ -3920,7 +3974,7 @@
       }
      ],
      "names": [],
-     "mappings": "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"
+     "mappings": "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"
     }
    },
    {
@@ -3929,7 +3983,7 @@
       "relative": "packages/provider-testing/src/replayWorkspace.vibe"
      }
     ],
-    "code": "import * as ChildProcess from \"effect/process/ChildProcess\";\nimport * as ChildProcessSpawner from \"effect/process/ChildProcessSpawner\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as Path from \"effect/Path\";\nimport { withSpan } from \"effect/Effect\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime\";\nimport * as Schema_1 from \"effect/Schema\";\nimport * as NodeServices from \"@effect/platform-node/NodeServices\";\nimport * as Effect from \"effect/Effect\";\nimport * as PlatformError from \"effect/PlatformError\";\nimport * as Schema from \"effect/Schema\";\nclass ReplayFixtureGitCommandError extends Schema_1.TaggedError()(\"ReplayFixtureGitCommandError\", {\n    command: Schema_1.String,\n    exitCode: Schema_1.Number,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"ReplayFixtureGitCommandError\");\n    }\n    get message() {\n        return `${this.command} failed with exit ${this.exitCode}.`;\n    }\n}\nfunction runGit(cwd, args) {\n    return Effect_1.gen(function* runGit() {\n        const spawner = yield* ChildProcessSpawner.ChildProcessSpawner;\n        const exitCode = yield* spawner.exitCode(ChildProcess.make(\"git\", args, { cwd }));\n        if (Number(exitCode) !== 0) {\n            return yield* Effect_1.fail(new ReplayFixtureGitCommandError({\n                command: `git ${args.join(\" \")}`,\n                exitCode: Number(exitCode),\n            }));\n        }\n    });\n}\nfunction makeCheckpointWorkspaceEffect(arg_1) {\n    try {\n        return ((fixtureName, files = {}) => Effect_1.gen(function* makeCheckpointWorkspaceEffect() {\n            return yield* withSpan(Effect_1.gen(runtime.$joinedFrame(function* () {\n                const fs = yield* FileSystem.FileSystem;\n                const path = yield* Path.Path;\n                const cwd = yield* fs.makeTempDirectory({\n                    prefix: `t3-orchestrator-v2-${fixtureName}-`,\n                });\n                yield* runGit(cwd, [\"init\"]);\n                yield* runGit(cwd, [\"config\", \"user.name\", \"T3 Code Test\"]);\n                yield* runGit(cwd, [\"config\", \"user.email\", \"t3code-test@example.com\"]);\n                yield* fs.writeFileString(path.join(cwd, \"README.md\"), `# ${fixtureName}\\n`);\n                {\n                    let pending_1 = runtime.$normal;\n                    try {\n                        for (const value_1 of Object.entries(files)) {\n                            try {\n                                const [relativePath, contents] = value_1;\n                                {\n                                    const filePath = path.join(cwd, relativePath);\n                                    yield* fs.makeDirectory(path.dirname(filePath), { recursive: true });\n                                    yield* fs.writeFileString(filePath, contents);\n                                }\n                            }\n                            catch (thrown_1) {\n                                pending_1 = thrown_1;\n                                break;\n                            }\n                        }\n                    }\n                    catch (thrown_2) {\n                        throw runtime.$finallyFailure(pending_1, thrown_2);\n                    }\n                    if (pending_1 !== runtime.$normal)\n                        throw pending_1;\n                }\n                yield* runGit(cwd, [\"add\", \"README.md\", ...Object.keys(files)]);\n                yield* runGit(cwd, [\"commit\", \"-m\", \"initial\"]);\n                return cwd;\n            })), \"makeCheckpointWorkspace\");\n        }))(...runtime.$spreadItems(arguments));\n    }\n    catch (e_1) {\n        return Effect_1.die(e_1);\n    }\n}\nfunction removeCheckpointWorkspaceEffect(cwd) {\n    return Effect_1.gen(function* removeCheckpointWorkspaceEffect() {\n        return yield* withSpan(Effect_1.gen(function* () {\n            const fs = yield* FileSystem.FileSystem;\n            yield* fs.remove(cwd, { recursive: true });\n        }), \"removeCheckpointWorkspace\");\n    });\n}\nexport const checkpointWorkspace = (fixtureName, files) => {\n    return Effect_1.gen(function* checkpointWorkspace() {\n        const completion_1 = yield* Effect_1.provide(Effect_1.fnUntraced(function* checkpointWorkspace$provide() {\n            return { kind: \"return\", value: yield* runtime.acquireRelease(makeCheckpointWorkspaceEffect(fixtureName, files), (cwd) => {\n                    return Effect_1.gen(function* () {\n                        yield* Effect.orDie(removeCheckpointWorkspaceEffect(cwd));\n                    });\n                }) };\n        })(), NodeServices.layer);\n        if (completion_1.kind === \"return\")\n            return completion_1.value;\n    });\n};\nexport async function makeCheckpointWorkspace(fixtureName, files) {\n    return await Effect.runPromise(Effect_1.gen(function* () {\n        const completion_2 = yield* Effect_1.provide(Effect_1.fnUntraced(function* () {\n            return { kind: \"return\", value: yield* makeCheckpointWorkspaceEffect(fixtureName, files) };\n        })(), NodeServices.layer);\n        if (completion_2.kind === \"return\")\n            return completion_2.value;\n    }));\n}\n",
+    "code": "import * as ChildProcess from \"effect/process/ChildProcess\";\nimport * as ChildProcessSpawner from \"effect/process/ChildProcessSpawner\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as Path from \"effect/Path\";\nimport { withSpan } from \"effect/Effect\";\nimport { $schemaErrorMatcher } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport * as Schema_1 from \"effect/Schema\";\nimport * as NodeServices from \"@effect/platform-node/NodeServices\";\nimport * as Effect from \"effect/Effect\";\nimport * as PlatformError from \"effect/PlatformError\";\nimport * as Schema from \"effect/Schema\";\nclass ReplayFixtureGitCommandError extends Schema_1.TaggedError()(\"ReplayFixtureGitCommandError\", {\n    command: Schema_1.String,\n    exitCode: Schema_1.Number,\n}) {\n    static {\n        $schemaErrorMatcher(this, \"ReplayFixtureGitCommandError\");\n    }\n    get message() {\n        return `${this.command} failed with exit ${this.exitCode}.`;\n    }\n}\nfunction runGit(cwd, args) {\n    return Effect_1.gen(function* runGit() {\n        const spawner = yield* ChildProcessSpawner.ChildProcessSpawner;\n        const exitCode = yield* spawner.exitCode(ChildProcess.make(\"git\", args, { cwd }));\n        if (Number(exitCode) !== 0) {\n            return yield* Effect_1.fail(new ReplayFixtureGitCommandError({\n                command: `git ${args.join(\" \")}`,\n                exitCode: Number(exitCode),\n            }));\n        }\n    });\n}\nfunction makeCheckpointWorkspaceEffect(arg_1) {\n    try {\n        return ((fixtureName, files = {}) => Effect_1.gen(function* makeCheckpointWorkspaceEffect() {\n            return yield* withSpan(Effect_1.gen(function* () {\n                const fs = yield* FileSystem.FileSystem;\n                const path = yield* Path.Path;\n                const cwd = yield* fs.makeTempDirectory({\n                    prefix: `t3-orchestrator-v2-${fixtureName}-`,\n                });\n                yield* runGit(cwd, [\"init\"]);\n                yield* runGit(cwd, [\"config\", \"user.name\", \"T3 Code Test\"]);\n                yield* runGit(cwd, [\"config\", \"user.email\", \"t3code-test@example.com\"]);\n                yield* fs.writeFileString(path.join(cwd, \"README.md\"), `# ${fixtureName}\\n`);\n                for (const [relativePath, contents] of Object.entries(files)) {\n                    const filePath = path.join(cwd, relativePath);\n                    yield* fs.makeDirectory(path.dirname(filePath), { recursive: true });\n                    yield* fs.writeFileString(filePath, contents);\n                }\n                yield* runGit(cwd, [\"add\", \"README.md\", ...Object.keys(files)]);\n                yield* runGit(cwd, [\"commit\", \"-m\", \"initial\"]);\n                return cwd;\n            }), \"makeCheckpointWorkspace\");\n        }))(...runtime.$spreadItems(arguments));\n    }\n    catch (e_1) {\n        return Effect_1.die(e_1);\n    }\n}\nfunction removeCheckpointWorkspaceEffect(cwd) {\n    return Effect_1.gen(function* removeCheckpointWorkspaceEffect() {\n        return yield* withSpan(Effect_1.gen(function* () {\n            const fs = yield* FileSystem.FileSystem;\n            yield* fs.remove(cwd, { recursive: true });\n        }), \"removeCheckpointWorkspace\");\n    });\n}\nexport const checkpointWorkspace = (fixtureName, files) => {\n    return Effect_1.gen(function* checkpointWorkspace() {\n        let completion_1 = runtime.$normal;\n        yield* Effect_1.provide(Effect_1.fnUntraced(function* checkpointWorkspace$provide() {\n            {\n                completion_1 = { kind: \"return\", value: yield* runtime.acquireRelease(makeCheckpointWorkspaceEffect(fixtureName, files), (cwd) => {\n                        return Effect_1.gen(function* () {\n                            yield* Effect.orDie(removeCheckpointWorkspaceEffect(cwd));\n                        });\n                    }) };\n                return completion_1.value;\n            }\n        })(), NodeServices.layer);\n        if (completion_1.kind === \"return\")\n            return completion_1.value;\n    });\n};\nexport async function makeCheckpointWorkspace(fixtureName, files) {\n    return await Effect.runPromise(Effect_1.gen(function* () {\n        let completion_2 = runtime.$normal;\n        yield* Effect_1.provide(Effect_1.fnUntraced(function* () {\n            {\n                completion_2 = { kind: \"return\", value: yield* makeCheckpointWorkspaceEffect(fixtureName, files) };\n                return completion_2.value;\n            }\n        })(), NodeServices.layer);\n        if (completion_2.kind === \"return\")\n            return completion_2.value;\n    }));\n}\n",
     "map": {
      "version": 3,
      "file": "replayWorkspace.js",
@@ -3940,7 +3994,7 @@
       }
      ],
      "names": [],
-     "mappings": ";;;;;;;;;AAAA,OAAO,KAAK,YAAY,MAAM,oCAAoC,CAAA;AAClE,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,aAAa,MAAM,sBAAsB,CAAA;AACrD,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AAEvC,MAAa,4BAA6B,SAAA,AAA1C,SAAA,WAAM,EAAA,CAAO,8BAA4B,EAAC;IACxC,OAAO,EAAE,SAAA,MAAA;IACT,QAAQ,EAAE,SAAA,MAAA;CAKX,CAAA;GAAA,C,CAAA;QAPY,mBAA4B,CAA5B,IAA4B,EAA5B,8BAA4B,CAAA,CAAA;IAAC,CAAC,AAAF;IAIvC,IAAa,OAAO;QAClB,OAAO,GAAG,IAAI,CAAC,OAAO,qBAAqB,IAAI,CAAC,QAAQ,GAAG,CAAA;IAC7D,CAAC;CACF;AAED,SAAgB,MAAM,CACpB,GAAW,EACX,IAA2B;GAAA,C,CAAA,mB,CAAA,S,CAAA;QAE3B,MAAM,OAAO,UAAO,mBAAmB,CAAC,mBAAmB,CAAA;QAC3D,MAAM,QAAQ,UAAO,OAAO,CAAC,QAAQ,CAAC,YAAY,CAAC,IAAI,CAAC,KAAK,EAAE,IAAI,EAAE,EAAE,GAAG,EAAE,CAAC,CAAC,CAAA;QAC9E,IAAI,MAAM,CAAC,QAAQ,CAAC,KAAK,CAAC,EAAE,CAAC;YAC3B,4BAAM,IAAI,4BAA4B,CAAC;gBACrC,OAAO,EAAE,OAAO,IAAI,CAAC,IAAI,CAAC,GAAG,CAAC,EAAE;gBAChC,QAAQ,EAAE,MAAM,CAAC,QAAQ,CAAC;aAC3B,CAAC,EAAA;QACJ,CAAC;IACH,CAAC;CAAA;AAID,SAAgB,6BAA6B;GAAA,C,CAAA;iBAC3C,WAAmB,EACnB,KAAK,GAAyB,EAAE,kB,CAAA,S,CAAA;YAEhC,cAAW,QAAQ,CACjB,kC,CAAA;gBACE,MAAM,EAAE,UAAO,UAAU,CAAC,UAAU,CAAA;gBACpC,MAAM,IAAI,UAAO,IAAI,CAAC,IAAI,CAAA;gBAC1B,MAAM,GAAG,UAAO,EAAE,CAAC,iBAAiB,CAAC;oBACnC,MAAM,EAAE,sBAAsB,WAAW,GAAG;iBAC7C,CAAC,CAAA;gBACF,OAAI,MAAM,CAAC,GAAG,EAAE,CAAC,MAAM,CAAC,CAAC,CAAA;gBACzB,OAAI,MAAM,CAAC,GAAG,EAAE,CAAC,QAAQ,EAAE,WAAW,EAAE,cAAc,CAAC,CAAC,CAAA;gBACxD,OAAI,MAAM,CAAC,GAAG,EAAE,CAAC,QAAQ,EAAE,YAAY,EAAE,yBAAyB,CAAC,CAAC,CAAA;gBACpE,OAAI,EAAE,CAAC,eAAe,CAAC,IAAI,CAAC,IAAI,CAAC,GAAG,EAAE,WAAW,CAAC,EAAE,KAAK,WAAW,IAAI,CAAC,CAAA;gBACzE,CAAC;;;wBAAD,sBAAuC,MAAM,CAAC,OAAO,CAAC,KAAK,CAAC;;sCAAjD,CAAC,YAAY,EAAE,QAAQ,CAAC;gCAA2B,CAAC;oCAC7D,MAAM,QAAQ,GAAG,IAAI,CAAC,IAAI,CAAC,GAAG,EAAE,YAAY,CAAC,CAAA;oCAC7C,OAAI,EAAE,CAAC,aAAa,CAAC,IAAI,CAAC,OAAO,CAAC,QAAQ,CAAC,EAAE,EAAE,SAAS,EAAE,IAAI,EAAE,CAAC,CAAA;oCACjE,OAAI,EAAE,CAAC,eAAe,CAAC,QAAQ,EAAE,QAAQ,CAAC,CAAA;gCAC5C,CAAC;;;;;;yBAAA;;;;;;;iBAAA;gBACD,OAAI,MAAM,CAAC,GAAG,EAAE,CAAC,KAAK,EAAE,WAAW,EAAE,GAAG,MAAM,CAAC,IAAI,CAAC,KAAK,CAAC,CAAC,CAAC,CAAA;gBAC5D,OAAI,MAAM,CAAC,GAAG,EAAE,CAAC,QAAQ,EAAE,IAAI,EAAE,SAAS,CAAC,CAAC,CAAA;gBAC5C,OAAO,GAAG,CAAA;YACZ,CAAC,EAAA,EACD,yBAAyB,CAC1B,CAAA;QACH,CAAC,M,CAAA;;;OAAA,C,CAAA;;CAAA;AAED,SAAgB,+BAA+B,CAAC,GAAW;GAAA,C,CAAA,mB,CAAA,S,CAAA;QACzD,cAAW,QAAQ,CACjB,a,CAAA;YACE,MAAM,EAAE,UAAO,UAAU,CAAC,UAAU,CAAA;YACpC,OAAI,EAAE,CAAC,MAAM,CAAC,GAAG,EAAE,EAAE,SAAS,EAAE,IAAI,EAAE,CAAC,CAAA;QACzC,CAAC,CAAA,EACD,2BAA2B,CAC5B,CAAA;IACH,CAAC;CAAA;AAED,MAAM,CAAC,MAAM,mBAAmB,GAAG,CACjC,WAAmB,EACnB,KAA4B;GAAA,C,CAAA,mB,CAAA,S,CAAA;QAE5B,6CAAA,oB,CAAA,S,CAAA;YACE,uCAAW,sBAAqB,CAC9B,6BAA6B,CAAC,WAAW,EAAE,KAAK,CAAC,EACjD,CAAQ,GAAG;mBAAA,C,CAAA,mB,CAAA;wBACT,OAAI,MAAM,CAAC,KAAK,CAAC,+BAA+B,CAAC,GAAG,CAAC,CAAC,CAAA;oBACxD,CAAC;iBAAA,CACF,GAAA;UACF,IAPO,YAAY,CAAC,KAAK,EAOzB;;;IACH,CAAC;CAAA,CAAA;AAED,MAAM,CAAC,KAAK,UAAU,uBAAuB,CAC3C,WAAmB,EACnB,KAA4B;IAE5B,OAAO,MAAM,MAAM,CAAC,UAAU,CAAC,a,CAAA;QAC7B,6CAAA,oB,CAAA;YACE,uCAAW,6BAA6B,CAAC,WAAW,EAAE,KAAK,CAAC,GAAA;UAC7D,IAFO,YAAY,CAAC,KAAK,EAEzB;;;IACH,CAAC,CAAA,CAAC,CAAA;AACJ,CAAC"
+     "mappings": ";;;;;;;;;AAAA,OAAO,KAAK,YAAY,MAAM,oCAAoC,CAAA;AAClE,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,aAAa,MAAM,sBAAsB,CAAA;AACrD,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AAEvC,MAAa,4BAA6B,SAAA,AAA1C,SAAA,WAAM,EAAA,CAAO,8BAA4B,EAAC;IACxC,OAAO,EAAE,SAAA,MAAA;IACT,QAAQ,EAAE,SAAA,MAAA;CAKX,CAAA;GAAA,C,CAAA;QAPY,mBAA4B,CAA5B,IAA4B,EAA5B,8BAA4B,CAAA,CAAA;KAAA;IAIvC,IAAa,OAAO;QAClB,OAAO,GAAG,IAAI,CAAC,OAAO,qBAAqB,IAAI,CAAC,QAAQ,GAAG,CAAA;IAC7D,CAAC;CACF;AAED,SAAgB,MAAM,CACpB,GAAW,EACX,IAA2B;GAAA,C,CAAA,mB,CAAA,S,CAAA;QAE3B,MAAM,OAAO,UAAO,mBAAmB,CAAC,mBAAmB,CAAA;QAC3D,MAAM,QAAQ,UAAO,OAAO,CAAC,QAAQ,CAAC,YAAY,CAAC,IAAI,CAAC,KAAK,EAAE,IAAI,EAAE,EAAE,GAAG,EAAE,CAAC,CAAC,CAAA;QAC9E,IAAI,MAAM,CAAC,QAAQ,CAAC,KAAK,CAAC,EAAE,CAAC;YAC3B,4BAAM,IAAI,4BAA4B,CAAC;gBACrC,OAAO,EAAE,OAAO,IAAI,CAAC,IAAI,CAAC,GAAG,CAAC,EAAE;gBAChC,QAAQ,EAAE,MAAM,CAAC,QAAQ,CAAC;aAC3B,CAAC,EAAA;QACJ,CAAC;IACH,CAAC;CAAA;AAID,SAAgB,6BAA6B;GAAA,C,CAAA;iBAC3C,WAAmB,EACnB,KAAK,GAAyB,EAAE,kB,CAAA,S,CAAA;YAEhC,cAAW,QAAQ,CACjB,a,CAAA;gBACE,MAAM,EAAE,UAAO,UAAU,CAAC,UAAU,CAAA;gBACpC,MAAM,IAAI,UAAO,IAAI,CAAC,IAAI,CAAA;gBAC1B,MAAM,GAAG,UAAO,EAAE,CAAC,iBAAiB,CAAC;oBACnC,MAAM,EAAE,sBAAsB,WAAW,GAAG;iBAC7C,CAAC,CAAA;gBACF,OAAI,MAAM,CAAC,GAAG,EAAE,CAAC,MAAM,CAAC,CAAC,CAAA;gBACzB,OAAI,MAAM,CAAC,GAAG,EAAE,CAAC,QAAQ,EAAE,WAAW,EAAE,cAAc,CAAC,CAAC,CAAA;gBACxD,OAAI,MAAM,CAAC,GAAG,EAAE,CAAC,QAAQ,EAAE,YAAY,EAAE,yBAAyB,CAAC,CAAC,CAAA;gBACpE,OAAI,EAAE,CAAC,eAAe,CAAC,IAAI,CAAC,IAAI,CAAC,GAAG,EAAE,WAAW,CAAC,EAAE,KAAK,WAAW,IAAI,CAAC,CAAA;gBACzE,KAAK,MAAM,CAAC,YAAY,EAAE,QAAQ,CAAC,IAAI,MAAM,CAAC,OAAO,CAAC,KAAK,CAAC,EAAE,CAAC;oBAC7D,MAAM,QAAQ,GAAG,IAAI,CAAC,IAAI,CAAC,GAAG,EAAE,YAAY,CAAC,CAAA;oBAC7C,OAAI,EAAE,CAAC,aAAa,CAAC,IAAI,CAAC,OAAO,CAAC,QAAQ,CAAC,EAAE,EAAE,SAAS,EAAE,IAAI,EAAE,CAAC,CAAA;oBACjE,OAAI,EAAE,CAAC,eAAe,CAAC,QAAQ,EAAE,QAAQ,CAAC,CAAA;gBAC5C,CAAC;gBACD,OAAI,MAAM,CAAC,GAAG,EAAE,CAAC,KAAK,EAAE,WAAW,EAAE,GAAG,MAAM,CAAC,IAAI,CAAC,KAAK,CAAC,CAAC,CAAC,CAAA;gBAC5D,OAAI,MAAM,CAAC,GAAG,EAAE,CAAC,QAAQ,EAAE,IAAI,EAAE,SAAS,CAAC,CAAC,CAAA;gBAC5C,OAAO,GAAG,CAAA;YACZ,CAAC,CAAA,EACD,yBAAyB,CAC1B,CAAA;QACH,CAAC,M,CAAA;;;OAAA,C,CAAA;;CAAA;AAED,SAAgB,+BAA+B,CAAC,GAAW;GAAA,C,CAAA,mB,CAAA,S,CAAA;QACzD,cAAW,QAAQ,CACjB,a,CAAA;YACE,MAAM,EAAE,UAAO,UAAU,CAAC,UAAU,CAAA;YACpC,OAAI,EAAE,CAAC,MAAM,CAAC,GAAG,EAAE,EAAE,SAAS,EAAE,IAAI,EAAE,CAAC,CAAA;QACzC,CAAC,CAAA,EACD,2BAA2B,CAC5B,CAAA;IACH,CAAC;CAAA;AAED,MAAM,CAAC,MAAM,mBAAmB,GAAG,CACjC,WAAmB,EACnB,KAA4B;GAAA,C,CAAA,mB,CAAA,S,CAAA;;QAE5B,wBAAA,oB,CAAA,S,CAAA;YACE,CAAC;+DAAU,QAAO,cAAc,CAC9B,6BAA6B,CAAC,WAAW,EAAE,KAAK,CAAC,EACjD,CAAQ,GAAG;uBAAA,C,CAAA,mB,CAAA;4BACT,OAAI,MAAM,CAAC,KAAK,CAAC,+BAA+B,CAAC,GAAG,CAAC,CAAC,CAAA;wBACxD,CAAC;qBAAA,CACF;;aAAA;UACF,IAPO,YAAY,CAAC,KAAK,EAOzB;;;IACH,CAAC;CAAA,CAAA;AAED,MAAM,CAAC,KAAK,UAAU,uBAAuB,CAC3C,WAAmB,EACnB,KAA4B;IAE5B,OAAO,MAAM,MAAM,CAAC,UAAU,CAAC,a,CAAA;;QAC7B,wBAAA,oB,CAAA;YACE,CAAC;+DAAU,6BAA6B,CAAC,WAAW,EAAE,KAAK,CAAC;;aAAA;UAC7D,IAFO,YAAY,CAAC,KAAK,EAEzB;;;IACH,CAAC,CAAA,CAAC,CAAA;AACJ,CAAC"
     }
    }
   ]
