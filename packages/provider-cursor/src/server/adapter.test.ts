@@ -33,7 +33,7 @@ import {
   makeCursorAgentOptions,
   makeCursorAdapterV2,
   nestedToolCallFromEnvelope,
-} from "./adapter.ts";
+} from "./adapter.vibe";
 import * as CursorAgentSdk from "./CursorAgentSdk.vibe";
 import { ConfigurationError } from "./sdk.ts";
 
