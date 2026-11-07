@@ -11,7 +11,7 @@ import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSour
 import { processOutput } from "@t3tools/source-control-testing/TestSourceControlHost";
 
 import * as ForgejoCli from "./ForgejoCli.ts";
-import * as ForgejoSourceControlProvider from "./ForgejoSourceControlProvider.ts";
+import * as ForgejoSourceControlProvider from "./ForgejoSourceControlProvider.vibe";
 
 const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown));
 

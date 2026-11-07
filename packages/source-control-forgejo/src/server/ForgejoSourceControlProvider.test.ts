@@ -16,7 +16,7 @@ import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSour
 
 import * as ForgejoCli from "./ForgejoCli.ts";
 import * as ForgejoPullRequestProvider from "./ForgejoPullRequestProvider.ts";
-import * as ForgejoSourceControlProvider from "./ForgejoSourceControlProvider.ts";
+import * as ForgejoSourceControlProvider from "./ForgejoSourceControlProvider.vibe";
 import { markRequiredForgejoChecks } from "./forgejoRequiredChecks.vibe";
 
 const processOutput = TestSourceControlHost.processOutput;

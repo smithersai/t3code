@@ -4,7 +4,7 @@ import { definition } from "../shared/definition.ts"
 
 import * as ForgejoCli from "./ForgejoCli.ts"
 import * as ForgejoPullRequestProvider from "./ForgejoPullRequestProvider.ts"
-import * as ForgejoSourceControlProvider from "./ForgejoSourceControlProvider.ts"
+import * as ForgejoSourceControlProvider from "./ForgejoSourceControlProvider.vibe"
 
 const services = ForgejoCli.layer
 

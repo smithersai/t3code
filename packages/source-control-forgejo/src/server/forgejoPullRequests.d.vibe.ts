@@ -13,7 +13,7 @@ export declare const ForgejoPullRequestSchema: Schema.Struct<{
         readonly repo: Schema.NullOr<Schema.Struct<{
             readonly full_name: Schema.String;
             readonly owner: Schema.Struct<{
-                readonly login: Schema.mutableKey<Schema.String>;
+                readonly login: Schema.String;
             }>;
         }>>;
     }>;
@@ -23,7 +23,7 @@ export declare const ForgejoPullRequestSchema: Schema.Struct<{
         readonly repo: Schema.NullOr<Schema.Struct<{
             readonly full_name: Schema.String;
             readonly owner: Schema.Struct<{
-                readonly login: Schema.mutableKey<Schema.String>;
+                readonly login: Schema.String;
             }>;
         }>>;
     }>;

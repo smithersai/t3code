@@ -5,7 +5,11 @@
   "exports": {
     "./shared/definition": {
       "types": "./src/shared/definition.ts",
-      "import": "./src/shared/definition.ts"
+      "import": {
+        "types": "./src/shared/definition.ts",
+        "vibelang-source": "./src/shared/definition.ts",
+        "default": "./.vibelang/js/src/shared/definition.js"
+      }
     },
     "./server/driver": {
       "types": "./src/server/driver.d.vibe.ts",
@@ -29,8 +33,8 @@
     "@effect/vitest": "catalog:",
     "@t3tools/source-control-testing": "workspace:*",
     "@types/node": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-794282518119.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-f8fc9d5c7262.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
     "vite-plus": "catalog:"
   }
 }

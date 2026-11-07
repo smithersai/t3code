@@ -2,7 +2,7 @@ import { expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 
-import { repositoryNameFromRemoteUrl } from "./ForgejoSourceControlProvider.ts";
+import { repositoryNameFromRemoteUrl } from "./ForgejoSourceControlProvider.vibe";
 import { ForgejoPullRequestSchema, toForgejoChangeRequest } from "./forgejoPullRequests.vibe";
 
 const decodeForgejoPullRequest = Schema.decodeEffect(ForgejoPullRequestSchema);
