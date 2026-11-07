@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import { SourceControlProviderError } from "@t3tools/contracts";
 import * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost";
-import * as ForgejoCli from "./ForgejoCli.ts";
+import * as ForgejoCli from "./ForgejoCli.vibe";
 import * as SourceControlProvider from "@t3tools/source-control-core/server/SourceControlProvider";
 export declare const discovery: {
     type: "cli";

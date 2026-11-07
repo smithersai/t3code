@@ -2,7 +2,7 @@ import { defineSourceControlDriver, withOwnServices } from "@t3tools/source-cont
 
 import { definition } from "../shared/definition.ts"
 
-import * as ForgejoCli from "./ForgejoCli.ts"
+import * as ForgejoCli from "./ForgejoCli.vibe"
 import * as ForgejoPullRequestProvider from "./ForgejoPullRequestProvider.ts"
 import * as ForgejoSourceControlProvider from "./ForgejoSourceControlProvider.vibe"
 

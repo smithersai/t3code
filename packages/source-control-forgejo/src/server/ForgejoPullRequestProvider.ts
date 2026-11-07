@@ -4,7 +4,7 @@ import * as Schema from "effect/Schema";
 import * as Result from "effect/Result";
 import type { PullRequestCapabilities, PullRequestViewerPermissions } from "@t3tools/contracts";
 import { decodeJsonResult } from "@t3tools/shared/schemaJson";
-import * as ForgejoCli from "./ForgejoCli.ts";
+import * as ForgejoCli from "./ForgejoCli.vibe";
 import { parseDiffFileRevisions } from "@t3tools/source-control-core/server/diffFileRevisions";
 import {
   PullRequestProviderError,

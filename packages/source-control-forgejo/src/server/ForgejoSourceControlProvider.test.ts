@@ -14,7 +14,7 @@ import { VcsProcessSpawnError } from "@t3tools/contracts";
 import { firstNonEmptyLine } from "@t3tools/source-control-core/server/discovery";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 
-import * as ForgejoCli from "./ForgejoCli.ts";
+import * as ForgejoCli from "./ForgejoCli.vibe";
 import * as ForgejoPullRequestProvider from "./ForgejoPullRequestProvider.ts";
 import * as ForgejoSourceControlProvider from "./ForgejoSourceControlProvider.vibe";
 import { markRequiredForgejoChecks } from "./forgejoRequiredChecks.vibe";
