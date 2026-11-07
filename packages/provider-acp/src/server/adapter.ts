@@ -95,7 +95,7 @@ import {
   type AcpClientTerminals,
 } from "./clientTerminals.vibe";
 import { ACP_EMPTY_OPTION_VALUE, ACP_SESSION_MODE_OPTION_ID } from "./sessionConfig.ts";
-import * as AcpSessionRuntime from "./AcpSessionRuntime.ts";
+import * as AcpSessionRuntime from "./AcpSessionRuntime.vibe";
 import {
   t3AcpPromptWithInstructions,
   type T3AcpInstructionState,

@@ -9,7 +9,7 @@ import {
   structuralProtocolMethod,
   summarizeNativeProtocolPayload,
 } from "@t3tools/provider-core/server/nativeProtocolLogging"
-import type * as AcpSessionRuntime from "./AcpSessionRuntime.ts"
+import type * as AcpSessionRuntime from "./AcpSessionRuntime.vibe"
 
 const transientProtocolUpdates = new Set(["agent_message_chunk", "agent_thought_chunk"])
 

@@ -3262,7 +3262,7 @@
    },
    {
     "path": {
-     "relative": "packages/provider-acp/src/server/AcpSessionRuntime.ts"
+     "relative": "packages/provider-acp/src/server/AcpSessionRuntime.vibe"
     },
     "size": 112391,
     "hash": "JLZwK8F6jurE_VSil3i7r5Ud6Zwq5S-UfA6s0IWkIdA"
@@ -4991,7 +4991,7 @@
     "relative": "packages/provider-acp/src/server/runtimeModel.ts"
    },
    {
-    "relative": "packages/provider-acp/src/server/AcpSessionRuntime.ts"
+    "relative": "packages/provider-acp/src/server/AcpSessionRuntime.vibe"
    },
    {
     "relative": "packages/shared/src/themePalettes.ts"

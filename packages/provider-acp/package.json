@@ -4,8 +4,11 @@
   "type": "module",
   "exports": {
     "./server/AcpSessionRuntime": {
-      "types": "./src/server/AcpSessionRuntime.ts",
-      "import": "./src/server/AcpSessionRuntime.ts"
+      "types": "./src/server/AcpSessionRuntime.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/AcpSessionRuntime.vibe",
+        "default": "./.vibelang/js/src/server/AcpSessionRuntime.js"
+      }
     },
     "./server/adapter": {
       "types": "./src/server/adapter.ts",
