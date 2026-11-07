@@ -5124,7 +5124,7 @@
    },
    {
     "path": {
-     "relative": "packages/provider-acp/src/server/mcpOverAcpBridge.ts"
+     "relative": "packages/provider-acp/src/server/mcpOverAcpBridge.vibe"
     },
     "size": 8886,
     "hash": "y_CpMdskV3Twx1s3TivxJ2QuSQBjoiIiO1Q91h2y2lc"
@@ -6742,7 +6742,7 @@
     "relative": "packages/shared/src/mcpResponsePayloads.vibe"
    },
    {
-    "relative": "packages/provider-acp/src/server/mcpOverAcpBridge.ts"
+    "relative": "packages/provider-acp/src/server/mcpOverAcpBridge.vibe"
    },
    {
     "relative": "packages/provider-core/src/server/mcpToolPresentation.ts"

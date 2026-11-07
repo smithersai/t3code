@@ -26,8 +26,11 @@
       "import": "./src/server/clientTerminals.vibe"
     },
     "./server/mcpOverAcpBridge": {
-      "types": "./src/server/mcpOverAcpBridge.ts",
-      "import": "./src/server/mcpOverAcpBridge.ts"
+      "types": "./src/server/mcpOverAcpBridge.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/mcpOverAcpBridge.vibe",
+        "default": "./.vibelang/js/src/server/mcpOverAcpBridge.js"
+      }
     },
     "./server/nativeLogging": {
       "types": "./src/server/nativeLogging.d.vibe.ts",
