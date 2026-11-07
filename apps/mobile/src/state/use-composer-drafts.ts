@@ -925,7 +925,7 @@ export async function releaseUnusedComposerAttachmentFiles(
 
   let incomingShareFileUris: ReadonlySet<string>;
   try {
-    const { loadIncomingShareDrafts } = await import("../features/sharing/incoming-share-storage");
+    const { loadIncomingShareDrafts } = await import("../features/sharing/incoming-share-storage.vibe");
     const incomingShares = await loadIncomingShareDrafts({ strict: true });
     incomingShareFileUris = new Set(
       incomingShares.flatMap((share) =>

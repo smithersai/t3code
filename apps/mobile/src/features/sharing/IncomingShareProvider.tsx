@@ -46,7 +46,7 @@ import {
   loadIncomingShareDrafts,
   removeIncomingShareDraft,
   writeIncomingShareDraft,
-} from "./incoming-share-storage";
+} from "./incoming-share-storage.vibe";
 
 function receiveSharingEnabled(): boolean {
   if (Platform.OS === "android") {
