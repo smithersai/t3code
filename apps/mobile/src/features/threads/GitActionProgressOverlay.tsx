@@ -1,4 +1,4 @@
-import { tryOpenExternalUrl } from "../../lib/openExternalUrl";
+import { tryOpenExternalUrl } from "../../lib/openExternalUrl.vibe";
 import { HeaderHeightContext } from "@react-navigation/elements";
 import { useContext } from "react";
 import { Platform } from "react-native";

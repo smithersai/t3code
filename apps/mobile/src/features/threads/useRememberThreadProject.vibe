@@ -5,7 +5,7 @@ import type { EnvironmentProject } from "@t3tools/client-runtime/state/shell";
 import { useCallback } from "react";
 
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
-import { useEnvironmentServerConfig } from "../../state/entities";
+import { useEnvironmentServerConfig } from "../../state/entities.vibe";
 import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
 
 export function useRememberThreadProject(project: EnvironmentProject | null) {

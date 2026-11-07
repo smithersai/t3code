@@ -47,8 +47,8 @@ import {
   useServerConfigs,
   useThreadShell,
   useThreadShells,
-} from "../../state/entities";
-import { useThreadSearch } from "../../state/queries";
+} from "../../state/entities.vibe";
+import { useThreadSearch } from "../../state/queries.vibe";
 import { requestThreadMessageJump } from "../threads/threadMessageJump";
 import { threadEnvironment } from "../../state/threads";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";

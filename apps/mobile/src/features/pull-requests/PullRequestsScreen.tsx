@@ -24,7 +24,7 @@ import { EmptyState } from "../../components/ui/EmptyState";
 import { NativePrimaryColumnContext } from "../../native/v5-workspace-context";
 import { useNativeColumnLayoutMetrics } from "../../native/native-layout-metrics";
 import { useWorkspaceState } from "../../state/workspace.vibe";
-import { useProjects } from "../../state/entities";
+import { useProjects } from "../../state/entities.vibe";
 import { environmentServerConfigsAtom } from "../../state/server";
 import { PullRequestListRow } from "./PullRequestListRow";
 import {
@@ -33,9 +33,9 @@ import {
   type PullRequestFilterMenu,
 } from "./PullRequestListFilters";
 import { PullRequestCardRow } from "./PullRequestControls";
-import { usePullRequestList } from "./usePullRequestList";
+import { usePullRequestList } from "./usePullRequestList.vibe";
 import { usePullRequestListControls } from "./usePullRequestListControls.vibe";
-import { usePullRequestListActions } from "./usePullRequestListActions";
+import { usePullRequestListActions } from "./usePullRequestListActions.vibe";
 import {
   filterPullRequestList,
   pullRequestListFacets,
@@ -45,7 +45,7 @@ import {
   type EnvironmentPullRequestListEntry,
   withoutScratchProjectScope,
 } from "./pullRequestList";
-import { useDebouncedValue } from "../../state/queries";
+import { useDebouncedValue } from "../../state/queries.vibe";
 import { useWorkspaceTabs } from "../workspace/WorkspaceTabsContext";
 import { useSelectWorkspaceDetail } from "../workspace/useSelectWorkspaceDetail";
 

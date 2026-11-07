@@ -7,7 +7,7 @@ import {
 } from "./nativeReviewDiffAdapter.vibe";
 import { useAppearanceCodeSurface } from "../settings/appearance/useAppearanceCodeSurface";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
-import { useNativeReviewDiffHighlighting } from "./useNativeReviewDiffHighlighting";
+import { useNativeReviewDiffHighlighting } from "./useNativeReviewDiffHighlighting.vibe";
 import { buildNativeReviewTokensResetKey } from "./reviewDiffBridgeKeys";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
 

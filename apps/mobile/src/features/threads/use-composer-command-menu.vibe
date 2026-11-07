@@ -59,7 +59,7 @@ import {
   useComposerPathSearch,
   useComposerPullRequestSearch,
   useThreadSearch,
-} from "../../state/queries";
+} from "../../state/queries.vibe";
 import type { ComposerCommandItem } from "./ComposerCommandPopover";
 import { matchesSlashSkillQuery } from "./composerSlashSkillSearch";
 

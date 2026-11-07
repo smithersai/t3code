@@ -44,7 +44,7 @@ import { EmptyState } from "../../components/ui/EmptyState";
 import { LoadingScreen } from "../../components/LoadingScreen";
 import { scopedThreadKey } from "../../lib/scopedEntities";
 import { scopeThreadRef } from "@t3tools/client-runtime/environment";
-import { useThreadShell } from "../../state/entities";
+import { useThreadShell } from "../../state/entities.vibe";
 import { NATIVE_LIQUID_GLASS_SUPPORTED } from "../../native/native-glass";
 import { connectionTone } from "../connection/connectionTone";
 import {
@@ -83,7 +83,7 @@ import { resolveMergeBackTargetThreadId } from "@t3tools/client-runtime/state/th
 import { resolveLatestMergeBackRun } from "@t3tools/client-runtime/state/thread-workflows";
 import { threadEnvironment, useThreadFamily } from "../../state/threads";
 import { EMPTY_ENVIRONMENT_THREAD_STATE } from "@t3tools/client-runtime/state/threads";
-import { useProjects } from "../../state/entities";
+import { useProjects } from "../../state/entities.vibe";
 import { projectThreadContentPresentation } from "./threadContentPresentation";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import {

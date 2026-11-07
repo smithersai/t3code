@@ -40,7 +40,7 @@ import {
 import { scopedThreadKey } from "../../lib/scopedEntities";
 import type { ThreadListFilters } from "../../persistence/mobile-preferences";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
-import { useProjects } from "../../state/entities";
+import { useProjects } from "../../state/entities.vibe";
 import { useThreadCwd } from "../../state/use-selected-thread-worktree.vibe";
 import { environmentThreadShells } from "../../state/threads";
 import { mobilePreferencesAtom } from "../../state/preferences.vibe";

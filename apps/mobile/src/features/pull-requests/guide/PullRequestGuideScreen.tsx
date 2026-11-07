@@ -32,7 +32,7 @@ import { useEnvironmentQuery } from "../../../state/query.vibe";
 import { composerPullRequests } from "../../../state/pull-requests";
 import { usePullRequestPermissions } from "../usePullRequestPermissions.vibe";
 import { pullRequestTarget } from "../usePullRequestDiff.vibe";
-import { useReviewGuide } from "./useReviewGuide";
+import { useReviewGuide } from "./useReviewGuide.vibe";
 
 export type GuideStopParams = PullRequestParams & {
   readonly position: number;

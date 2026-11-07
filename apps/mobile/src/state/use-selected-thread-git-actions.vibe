@@ -20,7 +20,7 @@ import {
   sanitizeFeatureBranchName,
 } from "@t3tools/shared/git";
 
-import { useBranches } from "../state/queries";
+import { useBranches } from "../state/queries.vibe";
 import { threadEnvironment } from "../state/threads";
 import { vcsActionManager, vcsEnvironment } from "../state/vcs";
 import { uuidv4 } from "../lib/uuid";

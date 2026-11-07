@@ -2,7 +2,7 @@ import { useAtomValue } from "@effect/atom-react";
 import type { EnvironmentId } from "@t3tools/contracts";
 import { useMemo, useCallback, type Dispatch, type SetStateAction } from "react";
 
-import { useProjects, useServerConfigs } from "../../state/entities";
+import { useProjects, useServerConfigs } from "../../state/entities.vibe";
 import { createDraft, scheduledTaskDefaultModel } from "./scheduledTaskDraft";
 import { useSettingsEnvironmentFilter } from "./settings-environment-filter";
 import { settingsTargetsForProject } from "./settings-environment-filter.logic";

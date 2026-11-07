@@ -4,8 +4,8 @@ import { useCallback } from "react";
 import { Platform } from "react-native";
 import { useSelectWorkspaceDetail } from "../features/workspace/useSelectWorkspaceDetail";
 import { EnvironmentId, ThreadId } from "@t3tools/contracts";
-import { useProjects, useThreadShell } from "../state/entities";
-import { tryOpenExternalUrl } from "../lib/openExternalUrl";
+import { useProjects, useThreadShell } from "../state/entities.vibe";
+import { tryOpenExternalUrl } from "../lib/openExternalUrl.vibe";
 import { appAtomRegistry } from "../state/atom-registry.vibe";
 import { environmentServerConfigsAtom } from "../state/server";
 

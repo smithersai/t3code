@@ -39,7 +39,7 @@ import { AppText as Text } from "../../components/ui/AppText";
 import { ProviderIcon } from "../../components/ProviderIcon";
 import { cn } from "../../lib/cn";
 import { SettingsScreen } from "../settings/components/SettingsScreen";
-import { useUsage, type EnvironmentUsageStatus } from "../../state/usage";
+import { useUsage, type EnvironmentUsageStatus } from "../../state/usage.vibe";
 import { serverEnvironment } from "../../state/server";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { SettingsSection } from "../settings/components/SettingsSection";

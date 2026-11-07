@@ -6,7 +6,7 @@ import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { environmentCatalog } from "../../connection/catalog";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { projectEnvironment } from "../../state/projects";
-import { useDebouncedValue } from "../../state/queries";
+import { useDebouncedValue } from "../../state/queries.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 
 function createDirectories() {

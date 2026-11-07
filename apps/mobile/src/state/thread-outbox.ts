@@ -1,5 +1,5 @@
 import { appAtomRegistry } from "./atom-registry.vibe";
-import { createThreadOutboxManager } from "./thread-outbox-manager";
+import { createThreadOutboxManager } from "./thread-outbox-manager.vibe";
 import type { QueuedThreadMessage } from "./thread-outbox-model.vibe";
 import { expoThreadOutboxStorage, flushThreadOutboxWrites } from "./thread-outbox-storage.vibe";
 

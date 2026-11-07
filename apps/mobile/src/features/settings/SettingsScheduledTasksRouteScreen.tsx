@@ -55,7 +55,7 @@ import { tryCopyTextWithHaptic } from "../../lib/copyTextWithHaptic.vibe";
 import { usePreparedConnection } from "../../state/session.vibe";
 import { buildModelOptions } from "../../lib/modelOptions";
 import { NativeStackScreenOptions } from "../../native/StackHeader";
-import { useProjects, useEnvironmentServerConfig } from "../../state/entities";
+import { useProjects, useEnvironmentServerConfig } from "../../state/entities.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { serverEnvironment } from "../../state/server";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";

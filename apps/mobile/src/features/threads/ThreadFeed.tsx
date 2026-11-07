@@ -242,7 +242,7 @@ import {
   useLiveThreadLinkLabels,
   useQuietThreadShell,
   useThreadChipIcons,
-} from "../../state/entities";
+} from "../../state/entities.vibe";
 import { useThreadSelection } from "../../state/use-thread-selection.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { serverEnvironment } from "../../state/server";
@@ -252,7 +252,7 @@ import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { environmentThreadShells, threadEnvironment } from "../../state/threads";
 import { ThreadWorkflowOpening, useWorkflowOpening } from "./thread-workflow-opening";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
-import { useV2ItemSupport } from "../../state/v2-item-support";
+import { useV2ItemSupport } from "../../state/v2-item-support.vibe";
 import {
   fileRoutePathSegments,
   resolveFileLinkPath,

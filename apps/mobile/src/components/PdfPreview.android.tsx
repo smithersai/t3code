@@ -8,7 +8,7 @@ import Pdf from "react-native-pdf-jsi";
 
 import { FilePreviewLoading, FilePreviewNotice } from "../features/files/FilePreviewFeedback";
 import { pdfInitialPage, pdfLinkUrl, preparePdfPreview } from "../lib/pdfPreview";
-import { tryOpenExternalUrl } from "../lib/openExternalUrl";
+import { tryOpenExternalUrl } from "../lib/openExternalUrl.vibe";
 import { ControlPill } from "./ui/ControlPill";
 
 const preparedPdfAtom = Atom.family((uri: string) =>

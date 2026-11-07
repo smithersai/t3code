@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 import { dedupeRemoteBranchesWithLocalMatches } from "@t3tools/shared/git";
 
-import { useBranches } from "./queries";
+import { useBranches } from "./queries.vibe";
 import { useEnvironmentQuery } from "./query.vibe";
 import { sourceControlEnvironment } from "./sourceControl";
 import { useVcsActionState } from "./use-vcs-action-state";

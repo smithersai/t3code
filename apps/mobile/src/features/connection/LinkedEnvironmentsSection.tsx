@@ -7,7 +7,7 @@ import { useCallback, useState } from "react";
 import { AppState, View } from "react-native";
 
 import { AppText as Text } from "../../components/ui/AppText";
-import { useEnvironmentServerConfig } from "../../state/entities";
+import { useEnvironmentServerConfig } from "../../state/entities.vibe";
 import { peerLinkEnvironment } from "../../state/peerLinks.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { useEnvironmentScope } from "../../state/session.vibe";

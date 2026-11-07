@@ -17,7 +17,7 @@ import { Platform, Pressable, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { projectEnvironment } from "../../state/projects";
-import { useThreadShells } from "../../state/entities";
+import { useThreadShells } from "../../state/entities.vibe";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import {
   clearComposerDraft,
@@ -42,7 +42,7 @@ import { useSettingsEnvironmentFilter, type SettingsTarget } from "./settings-en
 import { leaveSettingsPage } from "./settings-navigation";
 import { workspaceHasColumns } from "../workspace/workspace-selection-store";
 import { DEFAULT_SETTINGS_PAGE } from "../workspace/workspace-tab-navigation";
-import { readUnloadedThreadCount } from "../../state/olderSettledShelf";
+import { readUnloadedThreadCount } from "../../state/olderSettledShelf.vibe";
 
 export function SettingsProjectOverviewRouteScreen() {
   const insets = useSafeAreaInsets();

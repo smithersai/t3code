@@ -26,7 +26,7 @@ import { FilePreviewModal, type FilePreviewSource } from "../../components/FileP
 import { LoadingScreen } from "../../components/LoadingScreen";
 import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic.vibe";
 import { isPdfFile } from "../../lib/filePreview";
-import { tryOpenExternalUrl } from "../../lib/openExternalUrl";
+import { tryOpenExternalUrl } from "../../lib/openExternalUrl.vibe";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
 import type { MediaVideoPreviewSource } from "../../lib/videoPreviewSource";
 import { useMediaActions } from "../../state/mediaActions.vibe";

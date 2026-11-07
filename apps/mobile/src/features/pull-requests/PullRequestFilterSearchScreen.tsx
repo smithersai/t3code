@@ -15,7 +15,7 @@ import { AppActivityIndicator } from "../../components/ui/AppActivityIndicator";
 import { EmptyState } from "../../components/ui/EmptyState";
 import { SelectionRow } from "../../components/ui/SelectionRow";
 import { composerPullRequests } from "../../state/pull-requests";
-import { useDebouncedValue } from "../../state/queries";
+import { useDebouncedValue } from "../../state/queries.vibe";
 import { pullRequestFilterChoices, pullRequestLabelColors } from "./pullRequestList";
 import { PullRequestLabelDot } from "./PullRequestLabelDot";
 import { PullRequestSearchSheet } from "./PullRequestSearchSheet";

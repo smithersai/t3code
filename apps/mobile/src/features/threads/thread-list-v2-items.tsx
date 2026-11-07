@@ -49,7 +49,7 @@ import {
   pendingDraftBranchNeedsRefs,
   resolvePendingDraftBranch,
 } from "../../state/pending-new-tasks-model";
-import { useBranches } from "../../state/queries";
+import { useBranches } from "../../state/queries.vibe";
 import { useNewTaskProjectDefaults } from "./use-new-task-project-defaults";
 import {
   resolveThreadPrBadgeAction,

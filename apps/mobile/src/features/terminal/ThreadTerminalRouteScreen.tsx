@@ -49,7 +49,7 @@ import { useEnvironmentQuery } from "../../state/query.vibe";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { uuidv4 } from "../../lib/uuid";
-import { useServerConfigs } from "../../state/entities";
+import { useServerConfigs } from "../../state/entities.vibe";
 import { useConnectionsReady } from "../../state/workspace.vibe";
 import {
   MAX_TERMINAL_FONT_SIZE,

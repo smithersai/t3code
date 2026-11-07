@@ -46,7 +46,7 @@ import {
 } from "../../native/native-layout-metrics";
 import { NATIVE_LIQUID_GLASS_SUPPORTED } from "../../native/native-glass";
 import { useNativeWorkspaceColumnsSupported } from "../../native/NativeWorkspaceColumns";
-import { useThreadSearch } from "../../state/queries";
+import { useThreadSearch } from "../../state/queries.vibe";
 import { requestThreadMessageJump } from "../threads/threadMessageJump";
 import { useThreadListSearchMatches } from "../threads/useThreadListSearchMatches";
 import { useThreadListV2 } from "../threads/useThreadListV2";

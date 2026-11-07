@@ -4,7 +4,7 @@ import { Chip } from "../../components/ui/Chip";
 import { pullRequestTabOffset } from "./pullRequestTabScroll";
 import { guideFocusedRows, type GuideDiffFocus } from "./guide/guideDiffFocus";
 import { PullRequestGuideContent } from "./guide/PullRequestGuideScreen";
-import { useReviewGuidesEnabled } from "./guide/useReviewGuide";
+import { useReviewGuidesEnabled } from "./guide/useReviewGuide.vibe";
 import {
   filterPullRequestActivity,
   DEFAULT_ACTIVITY_FILTER,
@@ -30,7 +30,7 @@ import * as Clipboard from "expo-clipboard";
 import { Menu } from "../../components/ui/Menu";
 import { IconButton } from "../../components/ui/IconButton";
 import { Button } from "../../components/ui/Button";
-import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft";
+import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft.vibe";
 import { usePullRequestFilesViewed } from "./usePullRequestFilesViewed.vibe";
 import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";
 import { usePullRequestAction } from "./usePullRequestAction.vibe";
@@ -40,7 +40,7 @@ import {
   handlePullRequestDiffDebugEvent,
   pullRequestDiffInitialPosition,
 } from "./pullRequestDiffDebug";
-import { usePullRequestDiffHighlightFiles } from "./usePullRequestDiffHighlightFiles";
+import { usePullRequestDiffHighlightFiles } from "./usePullRequestDiffHighlightFiles.vibe";
 import { isPullRequestTestFile } from "./pullRequestFileFilters";
 import { useFocusEffect, useNavigation, type StaticScreenProps } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";

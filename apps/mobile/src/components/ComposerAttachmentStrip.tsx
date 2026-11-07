@@ -9,7 +9,7 @@ import { Paths } from "expo-file-system";
 import { Image, Pressable, ScrollView, View } from "react-native";
 
 import { AppText as Text } from "./ui/AppText";
-import { MaterializedPreviewKey, materializedPreviewAtom } from "../lib/composerImagePreview";
+import { MaterializedPreviewKey, materializedPreviewAtom } from "../lib/composerImagePreview.vibe";
 import { PierreEntryIcon } from "./PierreEntryIcon";
 import {
   isFileBackedComposerAttachment,

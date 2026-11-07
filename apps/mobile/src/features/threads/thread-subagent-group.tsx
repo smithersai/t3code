@@ -19,7 +19,7 @@ import { serverEnvironment } from "../../state/server";
 import { environmentThreadDetails } from "../../state/threads";
 import { subagentCardElapsed } from "./subagent-card-presentation.vibe";
 import { useEnvironments } from "../../state/environments.vibe";
-import { useServerConfigs } from "../../state/entities";
+import { useServerConfigs } from "../../state/entities.vibe";
 import { SubagentRow } from "./SubagentRow";
 import { useVisibleSecondClock } from "./use-visible-second-clock";
 import { subagentThreadTarget } from "./threadAgentsPresentation";

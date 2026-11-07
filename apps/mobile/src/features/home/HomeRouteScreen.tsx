@@ -13,7 +13,7 @@ import type { EnvironmentThreadShell } from "@t3tools/client-runtime/state/shell
 import { resolveScratchProjectScopeKey } from "@t3tools/client-runtime/state/project-grouping";
 
 import { NativeStackScreenOptions } from "../../native/StackHeader";
-import { useProjects } from "../../state/entities";
+import { useProjects } from "../../state/entities.vibe";
 import { environmentThreadShells } from "../../state/threads";
 import { usePendingNewTasks } from "../../state/use-pending-new-tasks.vibe";
 import { useWorkspaceState } from "../../state/workspace.vibe";

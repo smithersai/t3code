@@ -62,7 +62,7 @@ import {
   updateComposerDraftSettings,
   scheduleUnusedComposerAttachmentCleanup,
 } from "../../state/use-composer-drafts";
-import { useEnvironmentServerConfig, useProjects } from "../../state/entities";
+import { useEnvironmentServerConfig, useProjects } from "../../state/entities.vibe";
 import { useProjectClone } from "../../state/projectClones.vibe";
 import { projectEnvironment } from "../../state/projects";
 import { sourceControlEnvironment } from "../../state/sourceControl";

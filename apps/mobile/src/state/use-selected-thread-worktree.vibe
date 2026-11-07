@@ -1,7 +1,7 @@
 import type { ScopedThreadRef } from "@t3tools/contracts";
 import { useMemo } from "react";
 
-import { useProject, useQuietThreadShell } from "./entities";
+import { useProject, useQuietThreadShell } from "./entities.vibe";
 import { useEnvironmentThread } from "./threads";
 import { useSelectedThreadWorktreePath, useThreadWorktreePath } from "./use-thread-detail.vibe";
 import { useThreadSelection } from "./use-thread-selection.vibe";

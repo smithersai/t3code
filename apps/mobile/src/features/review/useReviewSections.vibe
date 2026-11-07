@@ -4,7 +4,7 @@ import { resolveFilesystemReadAccess } from "@t3tools/client-runtime/state/files
 import { deriveThreadCheckpointSummaries } from "@t3tools/client-runtime/state/thread-checkpoints";
 import type { EnvironmentId, ReviewDiffPreviewSource, ThreadId } from "@t3tools/contracts";
 
-import { useCheckpointDiff } from "../../state/queries";
+import { useCheckpointDiff } from "../../state/queries.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { useEnvironmentPresentation } from "../../state/presentation.vibe";
 import { lastReviewGitSectionsAtom, reviewEnvironment } from "../../state/review.vibe";

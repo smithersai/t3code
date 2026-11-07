@@ -13,7 +13,7 @@ import {
 } from "react";
 
 import { useEnvironments, type EnvironmentPresentation } from "../../state/environments.vibe";
-import { useProjects } from "../../state/entities";
+import { useProjects } from "../../state/entities.vibe";
 import { useMobileProjectGroupingSettings } from "../../state/project-grouping.vibe";
 import { toggleSettingsEnvironment } from "./settings-environment-filter.logic";
 

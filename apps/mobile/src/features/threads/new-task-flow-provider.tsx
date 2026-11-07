@@ -21,7 +21,7 @@ import { threadContextsOutsideEnvironment } from "@t3tools/shared/composerContex
 import * as Arr from "effect/Array";
 import { pipe } from "effect/Function";
 
-import { useProjects, useServerConfigs, useThreadShells } from "../../state/entities";
+import { useProjects, useServerConfigs, useThreadShells } from "../../state/entities.vibe";
 import type { TurnCommandMetadata } from "../../lib/commandMetadata";
 import type { DraftComposerAttachment } from "../../lib/composerImages";
 import type { ModelOption, ProviderGroup } from "../../lib/modelOptions";
@@ -59,7 +59,7 @@ import {
   rememberModelOptions,
   withRememberedModelOptions,
 } from "../../state/use-model-option-memory";
-import { useBranches, usePaginatedBranches } from "../../state/queries";
+import { useBranches, usePaginatedBranches } from "../../state/queries.vibe";
 import { vcsEnvironment } from "../../state/vcs";
 import { type QueuedThreadMessage } from "../../state/thread-outbox";
 import {

@@ -5,7 +5,7 @@ import { useMemo, useRef } from "react";
 import { ScrollView, View } from "react-native";
 
 import { AppText as Text } from "../../components/ui/AppText";
-import { useServerConfigs } from "../../state/entities";
+import { useServerConfigs } from "../../state/entities.vibe";
 import { orchestrationEnvironment } from "../../state/orchestration";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 

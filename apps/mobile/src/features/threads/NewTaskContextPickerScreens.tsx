@@ -44,7 +44,7 @@ import { useNativeMailSearchToolbar } from "../../native/use-native-mail-search-
 import { branchBadgeLabel, useNewTaskFlow } from "./new-task-flow-provider";
 import { checkoutNewTaskBranch } from "./checkout-new-task-branch.vibe";
 import { filterNewTaskBranches } from "./new-task-context-presentation";
-import { useDebouncedValue, usePaginatedBranches } from "../../state/queries";
+import { useDebouncedValue, usePaginatedBranches } from "../../state/queries.vibe";
 import { setPendingConnectionError } from "../../state/use-remote-environment-registry.vibe";
 
 import { useEnvironmentPresentation } from "../../state/presentation.vibe";

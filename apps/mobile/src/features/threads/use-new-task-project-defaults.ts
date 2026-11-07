@@ -6,7 +6,7 @@ import { DEFAULT_SERVER_SETTINGS, T3_PROJECT_FILE_NAME } from "@t3tools/contract
 import { resolveNewThreadEnvMode, resolveProjectSettings } from "@t3tools/shared/projectSettings";
 import { parseT3ProjectFile } from "@t3tools/shared/t3ProjectFile";
 
-import { useEnvironmentServerConfig } from "../../state/entities";
+import { useEnvironmentServerConfig } from "../../state/entities.vibe";
 import { useEnvironmentPresentation } from "../../state/presentation.vibe";
 import { useProjectHasThreads } from "../../state/project-has-threads.vibe";
 import { projectEnvironment } from "../../state/projects";

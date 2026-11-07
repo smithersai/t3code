@@ -11,7 +11,7 @@ import { uuidv4 } from "../../lib/uuid";
 import { composerPullRequests } from "../../state/pull-requests";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { PullRequestSheetContent } from "./PullRequestSheetContent";
-import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft";
+import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft.vibe";
 import { reviewPositionLabel } from "./pullRequestDiffComments";
 import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";

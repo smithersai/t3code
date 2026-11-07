@@ -65,7 +65,7 @@ import {
 } from "../../state/use-composer-drafts";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import type { ComposerDocumentAttachment } from "../../lib/composerContext.vibe";
-import { useProject, useThreadShells } from "../../state/entities";
+import { useProject, useThreadShells } from "../../state/entities.vibe";
 import { useMentionableEnvironments } from "../../state/environments.vibe";
 import { scopeProjectRef } from "@t3tools/client-runtime/environment";
 

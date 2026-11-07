@@ -7,7 +7,7 @@ import { useState } from "react";
 import { StackActions, useNavigation } from "@react-navigation/native";
 import { RefreshControl, ScrollView, View } from "react-native";
 
-import { tryOpenExternalUrl } from "../../lib/openExternalUrl";
+import { tryOpenExternalUrl } from "../../lib/openExternalUrl.vibe";
 import { FONT_FAMILIES } from "../../lib/fontFamilies";
 import { resolveNativeMarkdownTypography } from "../../lib/appearancePreferences";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";

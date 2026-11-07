@@ -8,7 +8,7 @@ import { useRef, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { Platform, Pressable, View } from "react-native";
 import { clearSubmittedReview } from "./pullRequestReviewDrafts.vibe";
-import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft";
+import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft.vibe";
 import { reviewPositionLabel } from "./pullRequestDiffComments";
 import { AppText as Text, AppTextInput as TextInput } from "../../components/ui/AppText";
 import { Button } from "../../components/ui/Button";

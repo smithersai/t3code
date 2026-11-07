@@ -75,7 +75,7 @@ import {
   turnItemOutputImages,
   turnItemOutputText,
 } from "@t3tools/client-runtime/work-log/item-detail";
-import { useTurnItemDetail } from "../../state/queries";
+import { useTurnItemDetail } from "../../state/queries.vibe";
 import {
   resolveThreadWorkGroupInitialScroll,
   shouldFollowThreadWorkGroupAppend,

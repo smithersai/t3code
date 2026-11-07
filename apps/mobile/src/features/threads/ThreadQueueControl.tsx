@@ -29,7 +29,7 @@ import { scopedThreadKey } from "../../lib/scopedEntities";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
 import { NativeStackScreenOptions, nativeHeaderScrollEdgeEffects } from "../../native/StackHeader";
 import { useAssetUrl } from "../../state/assets.vibe";
-import { useQuietThreadShell } from "../../state/entities";
+import { useQuietThreadShell } from "../../state/entities.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { serverEnvironment } from "../../state/server";
 import { assetImageSource } from "../../lib/assetImageSource";

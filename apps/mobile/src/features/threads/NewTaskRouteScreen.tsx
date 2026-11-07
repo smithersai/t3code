@@ -26,7 +26,7 @@ import { Button } from "../../components/ui/Button";
 import { ScreenScrollView as ScrollView } from "../../components/ui/ScreenScrollView";
 import { AppText as Text } from "../../components/ui/AppText";
 import { ProjectFavicon } from "../../components/ProjectFavicon";
-import { useProjects, useServerConfigs } from "../../state/entities";
+import { useProjects, useServerConfigs } from "../../state/entities.vibe";
 import { projectEnvironment } from "../../state/projects";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useRemoteConnectionStatus } from "../../state/use-remote-environment-registry.vibe";

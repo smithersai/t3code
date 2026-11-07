@@ -16,7 +16,7 @@ import {
 } from "@t3tools/client-runtime/state/runtime";
 import { AsyncResult, Atom } from "effect/reactivity";
 import { AppText as Text } from "../../components/ui/AppText";
-import { useProjects } from "../../state/entities";
+import { useProjects } from "../../state/entities.vibe";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { rootNavigationRef } from "../../lib/rootNavigation";
 import { threadSelectionDeferral } from "../layout/deferred-navigation";

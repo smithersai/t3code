@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useMemo } from "react";
 
-import { useProjects } from "../../state/entities";
+import { useProjects } from "../../state/entities.vibe";
 import { useConnectionsReady, useWorkspaceEnvironments } from "../../state/workspace.vibe";
 import {
   pullRequestFallbackEnvironment,

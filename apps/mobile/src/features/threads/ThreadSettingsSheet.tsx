@@ -79,7 +79,7 @@ import { ChatGptSharingStatus } from "./ChatGptSharingStatus";
 import { environmentCatalog } from "../../connection/catalog";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { scopedThreadKey } from "../../lib/scopedEntities";
-import { useThreadReportedModelSelection } from "../../state/entities";
+import { useThreadReportedModelSelection } from "../../state/entities.vibe";
 import {
   setComposerDraftText,
   updateComposerDraftSettings,

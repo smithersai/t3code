@@ -72,7 +72,7 @@ import * as Cause from "effect/Cause";
 import * as Order from "effect/Order";
 import { AsyncResult } from "effect/reactivity";
 import { cn } from "../../lib/cn";
-import { useProjects, useServerConfigs, waitForProject } from "../../state/entities";
+import { useProjects, useServerConfigs, waitForProject } from "../../state/entities.vibe";
 import { filesystemEnvironment } from "../../state/filesystem";
 import { projectEnvironment } from "../../state/projects";
 import { useEnvironmentQuery } from "../../state/query.vibe";

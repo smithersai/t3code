@@ -16,7 +16,7 @@ import { useThreadSelection } from "../../state/use-thread-selection.vibe";
 import { useNavigation } from "@react-navigation/native";
 import { FilePreviewModal, type FilePreviewSource } from "../../components/FilePreviewModal";
 import { VideoPreviewModal, type VideoPreviewSource } from "../../components/VideoPreviewModal";
-import { useServerConfigs } from "../../state/entities";
+import { useServerConfigs } from "../../state/entities.vibe";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import {
   appendComposerDraftAttachments,
