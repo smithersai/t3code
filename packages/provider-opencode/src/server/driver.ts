@@ -15,7 +15,7 @@ import * as OpenCode2TextGeneration from "#vibelang/emitted/src/server/v2/textGe
 import { makeOpenCodeTextGeneration } from "./textGeneration.ts";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
-import * as OpenCodeAdapterV2 from "./adapter.ts";
+import * as OpenCodeAdapterV2 from "./adapter.vibe";
 import * as OpenCode2AdapterV2 from "./v2/adapter.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import type { ProviderTextGeneration } from "@t3tools/provider-core/server/textGeneration";
@@ -42,7 +42,7 @@ import {
   makeOpenCodeRuntimeProbe,
   probeOpenCodeRuntime,
   type ProbedOpenCode,
-} from "./versionProbe.ts";
+} from "./versionProbe.vibe";
 import * as OpenCodeServerOwner from "#vibelang/emitted/src/server/OpenCodeServerOwner";
 import * as OpenCode2Client from "#vibelang/emitted/src/server/v2/OpenCode2Client";
 import * as OpenCode2Server from "#vibelang/emitted/src/server/v2/OpenCode2Server";

@@ -25,7 +25,7 @@ import {
   type OpenCode2Workspace,
 } from "./status.vibe";
 import { readOpenCodeGoUsageLimits } from "./usageLimits.vibe";
-import { probeOpenCodeRuntime } from "./versionProbe.ts";
+import { probeOpenCodeRuntime } from "./versionProbe.vibe";
 import {
   OPENCODE_1_RESPONSES,
   OPENCODE_2_RESPONSES,

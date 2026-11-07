@@ -2,7 +2,7 @@ import { type ServerProviderSkill, type ServerProviderSlashCommand } from "@t3to
 import * as Effect from "effect/Effect";
 import { type ServerProviderDraft } from "@t3tools/provider-core/server/snapshotProbe";
 import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
-import type { ProbedOpenCode } from "./versionProbe.ts";
+import type { ProbedOpenCode } from "./versionProbe.vibe";
 import * as OpenCodeServerOwner from "./OpenCodeServerOwner.vibe";
 interface OpenCodeRelease {
     readonly providerID: string;

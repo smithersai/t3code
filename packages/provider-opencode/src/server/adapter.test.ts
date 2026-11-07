@@ -46,7 +46,7 @@ import {
   makeOpenCodeAdapterV2,
   OPENCODE_PROVIDER,
   reconcileOpenCodePromptAdmissionStatus,
-} from "./adapter.ts";
+} from "./adapter.vibe";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 
 const encodeUnknownJson = Schema.encodeUnknownSync(Schema.fromJsonString(Schema.Unknown));

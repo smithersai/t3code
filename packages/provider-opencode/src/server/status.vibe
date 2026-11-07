@@ -17,7 +17,7 @@ import {
   type ServerProviderDraft,
 } from "@t3tools/provider-core/server/snapshotProbe"
 import * as OpenCodeRuntime from "./OpenCodeRuntime.ts"
-import type { ProbedOpenCode } from "./versionProbe.ts"
+import type { ProbedOpenCode } from "./versionProbe.vibe"
 import type { Agent, ProviderListResponse } from "@opencode-ai/sdk/v2"
 import * as OpenCodeServerOwner from "./OpenCodeServerOwner.vibe"
 

@@ -1,0 +1,12 @@
+import { OpenCodeSettings } from "#vibelang/emitted/src/settings";
+import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
+import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
+import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
+import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
+import { type ProviderAdapterDriver } from "@t3tools/provider-core/server/adapterDriver";
+export { OPENCODE_PROVIDER, OPENCODE_SDK_PROTOCOL, advanceOpenCodePromptAdmission, cancelOpenCodePromptAdmission, makeOpenCodeAdapterV2, makeOpenCodeProtocolLogger, openCodeBoundaryAfterProviderTurn, openCodeChildPermissionRules, openCodePermissionRequestKind, openCodePermissionRules, reconcileOpenCodePromptAdmissionStatus, } from "./adapter.vibe.throwing.js";
+export type { OpenCodeAdapterV2Options, OpenCodeProtocolLogEvent } from "./adapter.vibe.throwing.js";
+export declare const OPENCODE_DEFAULT_INSTANCE_ID: string & import("effect/Brand").Brand<"ProviderInstanceId">;
+export type OpenCodeAdapterV2DriverEnv = OpenCodeRuntime.OpenCodeRuntime | IdAllocator.IdAllocatorV2 | McpProviderSessions.McpProviderSessions | ProviderEventLoggers.ProviderEventLoggers | ProviderHost.ProviderHost;
+export declare const OpenCodeAdapterV2Driver: ProviderAdapterDriver<OpenCodeSettings, OpenCodeAdapterV2DriverEnv>;
