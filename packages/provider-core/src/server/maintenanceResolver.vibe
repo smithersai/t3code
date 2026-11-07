@@ -354,11 +354,18 @@ const runProbe = effect (
         |> Effect.timeoutOption(%, Duration.millis(PROBE_TIMEOUT_MS))
         |> Effect.map(%, Option.getOrNull)
         |> Effect.catchCause(%, (cause) =>
-          Effect.logWarning("Maintenance probe failed", {
-            command,
-            subcommand: args[0],
-            errorTag: causeErrorTag(cause),
-          }) |> Effect.as(%, null)))
+          effect {
+            const errorTag = try Effect.orDie(Effect.try({
+              try: () => causeErrorTag(cause),
+              catch: (error) => error,
+            }))
+            try Effect.logWarning("Maintenance probe failed", {
+              command,
+              subcommand: args[0],
+              errorTag,
+            })
+            return null
+          }))
     },
     "runProbe",
   )
