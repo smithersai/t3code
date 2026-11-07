@@ -1,4 +1,4 @@
-export { AcpRegistryDriver, type AcpRegistryDriverEnv } from "./server/driver.vibe";
+export { AcpRegistryDriver, type AcpRegistryDriverEnv } from "#vibelang/emitted/src/server/driver";
 export {
   AcpRegistryAdapterV2Driver,
   type AcpRegistryAdapterV2DriverEnv,

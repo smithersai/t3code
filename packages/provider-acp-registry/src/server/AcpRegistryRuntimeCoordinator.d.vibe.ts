@@ -3,7 +3,7 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
-import type { AcpRegistryAvailableCommands, AcpRegistryLiveConfiguration } from "./probe.ts";
+import type { AcpRegistryAvailableCommands, AcpRegistryLiveConfiguration } from "./probe.vibe";
 declare const AcpRegistryRuntimeCoordinator_base: Context.ServiceClass<AcpRegistryRuntimeCoordinator, "@t3tools/provider-acp-registry/server/AcpRegistryRuntimeCoordinator", {
     readonly withForegroundStartup: <A, E, R>(agentId: string, effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, R>;
     readonly runBackgroundProbe: <A, E, R>(agentId: string, effect: Effect.Effect<A, E, R>) => Effect.Effect<Option.Option<A>, E, R>;

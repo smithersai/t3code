@@ -44,10 +44,10 @@ import {
   logoutAcpRegistry,
   probeAcpRegistryConfiguration,
   setAcpRegistryProvider,
-} from "./probe.ts"
+} from "./probe.vibe"
 import * as AcpRegistrySupport from "./AcpRegistrySupport.ts"
 import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.vibe"
-import * as AcpRegistryAuth from "./auth.ts"
+import * as AcpRegistryAuth from "./auth.vibe"
 import * as AcpRegistryAuthenticationState from "./authenticationState.vibe"
 
 const DRIVER_KIND = ProviderDriverKind.make("acpRegistry")

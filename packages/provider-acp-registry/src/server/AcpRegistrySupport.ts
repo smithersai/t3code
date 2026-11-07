@@ -30,7 +30,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Path from "effect/Path";
-import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.vibe";
+import * as AcpRegistryRuntimeCoordinator from "#vibelang/emitted/src/server/AcpRegistryRuntimeCoordinator";
 import * as PlatformError from "effect/PlatformError";
 import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";

@@ -7,9 +7,8 @@ import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 import * as Semaphore from "effect/Semaphore";
 import { withSpan } from "effect/Effect";
-import { $extract } from "vibelang-runtime";
+import { $extract } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
 import * as Option_1 from "effect/Option";
 import { officialAcpRegistryIconUrlForAgentId, ProviderDriverKind, resolveOfficialAcpRegistryIconUrl, TextGenerationError, } from "@t3tools/contracts";
 import { AcpRegistrySettings } from "../settings.js";
@@ -240,7 +239,7 @@ function applyAcpRegistryUrlAuthAction(provider, action) {
     };
 }
 const buildInitialAcpRegistrySnapshot = (input) => {
-    return Effect_1.gen(function* buildInitialAcpRegistrySnapshot() { return yield* withSpan(Effect_1.gen(runtime.$joinedFrame(function* () {
+    return Effect_1.gen(function* buildInitialAcpRegistrySnapshot() { return yield* withSpan(Effect_1.gen(function* () {
         const checkedAt = DateTime.formatIso(yield* DateTime.now);
         return baseSnapshot({
             ...input,
@@ -253,7 +252,7 @@ const buildInitialAcpRegistrySnapshot = (input) => {
                 ? "Checking ACP Registry agent readiness..."
                 : "ACP Registry is disabled in T3 Code settings.",
         });
-    })), "AcpRegistryDriver.buildInitialSnapshot"); });
+    }), "AcpRegistryDriver.buildInitialSnapshot"); });
 };
 export function buildCheckedAcpRegistrySnapshot(input) {
     const readiness = acpRegistrySnapshotReadiness(input.inspection);
@@ -304,7 +303,7 @@ export function buildCheckedAcpRegistrySnapshot(input) {
 }
 export const checkAcpRegistryProviderStatus = (input, probeConfiguration) => {
     return Effect_1.gen(function* checkAcpRegistryProviderStatus() { return yield* withSpan((() => {
-        return Effect_1.gen(runtime.$joinedFrame(function* () {
+        return Effect_1.gen(function* () {
             const checkedAt = DateTime.formatIso(yield* DateTime.now);
             if (!input.settings.enabled) {
                 return yield* buildInitialAcpRegistrySnapshot(input);
@@ -347,12 +346,12 @@ export const checkAcpRegistryProviderStatus = (input, probeConfiguration) => {
                     inspection: inspected.success,
                     probe: probed.success,
                 });
-        }));
+        });
     })(), "AcpRegistryDriver.checkProviderStatus"); });
 };
 export const checkAcpRegistryProviderReadiness = (input) => {
     return Effect_1.gen(function* checkAcpRegistryProviderReadiness() { return yield* withSpan((() => {
-        return Effect_1.gen(runtime.$joinedFrame(function* () {
+        return Effect_1.gen(function* () {
             const checkedAt = DateTime.formatIso(yield* DateTime.now);
             if (!input.settings.enabled) {
                 return yield* buildInitialAcpRegistrySnapshot(input);
@@ -375,7 +374,7 @@ export const checkAcpRegistryProviderReadiness = (input) => {
                     message: "Checking ACP authentication, models, and commands in the background...",
                 }
                 : snapshot;
-        }));
+        });
     })(), "AcpRegistryDriver.checkProviderReadiness"); });
 };
 export const AcpRegistryDriver = {
@@ -438,7 +437,7 @@ export const AcpRegistryDriver = {
             processEnvironment,
         });
         const withLiveRuntimeState = (input) => {
-            return Effect_1.gen(function* withLiveRuntimeState() { return yield* withSpan(Effect_1.gen(runtime.$joinedFrame(function* () {
+            return Effect_1.gen(function* withLiveRuntimeState() { return yield* withSpan(Effect_1.gen(function* () {
                 if (input.auth.status === "unauthenticated")
                     yield* confirmedAuthentication.set(false);
                 const provider = input.enabled
@@ -461,7 +460,7 @@ export const AcpRegistryDriver = {
                         });
                         return applyAcpRegistryUrlAuthAction(withConfiguration, authAction);
                     })));
-            })), "AcpRegistryDriver.withLiveRuntimeState"); });
+            }), "AcpRegistryDriver.withLiveRuntimeState"); });
         };
         const checkProvider = Effect.flatMap(Effect.provideService(checkAcpRegistryProviderReadiness(readinessInput), AcpRegistrySupport.AcpRegistryCatalog, catalog), withLiveRuntimeState);
         const enrichProvider = Effect.provideService(Effect.provideService(Effect.provideService(checkAcpRegistryProviderStatus({

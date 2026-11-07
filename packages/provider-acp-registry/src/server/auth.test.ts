@@ -11,7 +11,7 @@ import type * as AcpSchema from "effect-acp/compat";
 import { AcpRequestError } from "effect-acp/errors";
 
 import * as PtyAdapter from "@t3tools/shared/PtyAdapter";
-import { makeAcpRegistryAuth } from "./auth.ts";
+import { makeAcpRegistryAuth } from "./auth.vibe";
 import * as AcpRegistrySupport from "./AcpRegistrySupport.ts";
 import type * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
 import * as Layer from "effect/Layer";

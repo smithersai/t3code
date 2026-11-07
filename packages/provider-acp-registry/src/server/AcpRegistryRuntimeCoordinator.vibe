@@ -8,7 +8,7 @@ import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as Option from "effect/Option"
 
-import type { AcpRegistryAvailableCommands, AcpRegistryLiveConfiguration } from "./probe.ts"
+import type { AcpRegistryAvailableCommands, AcpRegistryLiveConfiguration } from "./probe.vibe"
 
 interface AvailableCommandsUpdate {
   readonly instanceId: ProviderInstanceId
