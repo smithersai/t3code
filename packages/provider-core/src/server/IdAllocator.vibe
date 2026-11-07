@@ -20,36 +20,34 @@ import {
   RuntimeRequestId,
   ThreadId,
   TurnItemId,
-} from "@t3tools/contracts";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Schema from "effect/Schema";
+} from "@t3tools/contracts"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Schema from "effect/Schema"
 
-import { randomUuidV4 } from "#vibelang/emitted/src/server/randomUuid";
+import { randomUuidV4 } from "./randomUuid.vibe"
 
-export const IdAllocatorV2Kind = Schema.Literals([
-  "command",
-  "event",
-  "raw_event",
-  "project",
-  "thread",
-  "message",
-  "run",
-  "run_attempt",
-  "node",
-  "provider_session",
-  "provider_thread",
-  "provider_turn",
-  "runtime_request",
-  "turn_item",
-  "checkpoint_scope",
-  "checkpoint",
-  "context_handoff",
-  "context_transfer",
-  "plan",
-]);
-export type IdAllocatorV2Kind = typeof IdAllocatorV2Kind.Type;
+export schema IdAllocatorV2Kind =
+  | "command"
+  | "event"
+  | "raw_event"
+  | "project"
+  | "thread"
+  | "message"
+  | "run"
+  | "run_attempt"
+  | "node"
+  | "provider_session"
+  | "provider_thread"
+  | "provider_turn"
+  | "runtime_request"
+  | "turn_item"
+  | "checkpoint_scope"
+  | "checkpoint"
+  | "context_handoff"
+  | "context_transfer"
+  | "plan"
 
 export class IdAllocatorV2AllocationError extends Schema.TaggedError<IdAllocatorV2AllocationError>()(
   "IdAllocatorV2AllocationError",
@@ -60,143 +58,142 @@ export class IdAllocatorV2AllocationError extends Schema.TaggedError<IdAllocator
   },
 ) {
   override get message(): string {
-    return `Failed to allocate orchestration ${this.kind} id.`;
+    return `Failed to allocate orchestration ${this.kind} id.`
   }
 }
 
-export const IdAllocatorV2Error = Schema.Union([IdAllocatorV2AllocationError]);
-export type IdAllocatorV2Error = typeof IdAllocatorV2Error.Type;
+export const IdAllocatorV2Error = Schema.Union([IdAllocatorV2AllocationError])
+export type IdAllocatorV2Error = typeof IdAllocatorV2Error.Type
 
 export interface IdAllocatorV2Allocate {
   readonly command: (input: {
-    readonly fixtureName: string;
-    readonly commandName: string;
-  }) => Effect.Effect<CommandId, IdAllocatorV2Error>;
+    readonly fixtureName: string
+    readonly commandName: string
+  }) => CommandId!IdAllocatorV2Error
   readonly event: (input: {
-    readonly threadId?: ThreadId;
-    readonly commandId?: CommandId;
-    readonly providerSessionId?: ProviderSessionId;
-  }) => Effect.Effect<EventId, IdAllocatorV2Error>;
+    readonly threadId?: ThreadId
+    readonly commandId?: CommandId
+    readonly providerSessionId?: ProviderSessionId
+  }) => EventId!IdAllocatorV2Error
   readonly rawEvent: (input: {
-    readonly providerSessionId: ProviderSessionId;
-    readonly method: string | null;
-  }) => Effect.Effect<RawEventId, IdAllocatorV2Error>;
+    readonly providerSessionId: ProviderSessionId
+    readonly method: string | null
+  }) => RawEventId!IdAllocatorV2Error
   readonly project: (input: {
-    readonly fixtureName: string;
-  }) => Effect.Effect<ProjectId, IdAllocatorV2Error>;
+    readonly fixtureName: string
+  }) => ProjectId!IdAllocatorV2Error
   readonly thread: (input: {
-    readonly fixtureName?: string;
-    readonly projectId?: ProjectId;
-  }) => Effect.Effect<ThreadId, IdAllocatorV2Error>;
+    readonly fixtureName?: string
+    readonly projectId?: ProjectId
+  }) => ThreadId!IdAllocatorV2Error
   readonly message: (input: {
-    readonly threadId: ThreadId;
-    readonly ordinal: number;
-  }) => Effect.Effect<MessageId, IdAllocatorV2Error>;
+    readonly threadId: ThreadId
+    readonly ordinal: number
+  }) => MessageId!IdAllocatorV2Error
   readonly providerSession: (input: {
-    readonly providerInstanceId: ProviderInstanceId;
-    readonly threadId: ThreadId;
-  }) => Effect.Effect<ProviderSessionId, IdAllocatorV2Error>;
+    readonly providerInstanceId: ProviderInstanceId
+    readonly threadId: ThreadId
+  }) => ProviderSessionId!IdAllocatorV2Error
   readonly runtimeRequest: (input: {
-    readonly driver: ProviderDriverKind;
-    readonly providerTurnId?: ProviderTurnId;
-    readonly nativeRequestId?: string;
-  }) => Effect.Effect<RuntimeRequestId, IdAllocatorV2Error>;
+    readonly driver: ProviderDriverKind
+    readonly providerTurnId?: ProviderTurnId
+    readonly nativeRequestId?: string
+  }) => RuntimeRequestId!IdAllocatorV2Error
   readonly checkpointScope: (input: {
-    readonly threadId: ThreadId;
-    readonly name: string;
-  }) => Effect.Effect<CheckpointScopeId, IdAllocatorV2Error>;
+    readonly threadId: ThreadId
+    readonly name: string
+  }) => CheckpointScopeId!IdAllocatorV2Error
   readonly checkpoint: (input: {
-    readonly checkpointScopeId: CheckpointScopeId;
-    readonly name: string;
-  }) => Effect.Effect<CheckpointId, IdAllocatorV2Error>;
+    readonly checkpointScopeId: CheckpointScopeId
+    readonly name: string
+  }) => CheckpointId!IdAllocatorV2Error
   readonly contextHandoff: (input: {
-    readonly threadId: ThreadId;
-    readonly fromProviderInstanceId: ProviderInstanceId;
-    readonly toProviderInstanceId: ProviderInstanceId;
-  }) => Effect.Effect<ContextHandoffId, IdAllocatorV2Error>;
+    readonly threadId: ThreadId
+    readonly fromProviderInstanceId: ProviderInstanceId
+    readonly toProviderInstanceId: ProviderInstanceId
+  }) => ContextHandoffId!IdAllocatorV2Error
   readonly contextTransfer: (input: {
-    readonly sourceThreadId: ThreadId;
-    readonly targetThreadId: ThreadId;
-    readonly type: string;
-  }) => Effect.Effect<ContextTransferId, IdAllocatorV2Error>;
+    readonly sourceThreadId: ThreadId
+    readonly targetThreadId: ThreadId
+    readonly type: string
+  }) => ContextTransferId!IdAllocatorV2Error
   readonly plan: (input: {
-    readonly threadId: ThreadId;
-    readonly runId?: RunId;
-    readonly driver: ProviderDriverKind;
-  }) => Effect.Effect<PlanId, IdAllocatorV2Error>;
+    readonly threadId: ThreadId
+    readonly runId?: RunId
+    readonly driver: ProviderDriverKind
+  }) => PlanId!IdAllocatorV2Error
 }
 
 export interface IdAllocatorV2Derive {
   readonly providerSession: (input: {
-    readonly providerInstanceId: ProviderInstanceId;
-  }) => ProviderSessionId;
-  readonly delegatedTaskNode: (input: { readonly commandId: CommandId }) => NodeId;
-  readonly delegatedTaskThread: (input: { readonly commandId: CommandId }) => ThreadId;
-  readonly delegatedTaskMessage: (input: { readonly commandId: CommandId }) => MessageId;
-  readonly delegatedTaskTurnItem: (input: { readonly commandId: CommandId }) => TurnItemId;
-  readonly createdThreadTurnItem: (input: { readonly commandId: CommandId }) => TurnItemId;
+    readonly providerInstanceId: ProviderInstanceId
+  }) => ProviderSessionId
+  readonly delegatedTaskNode: (input: { readonly commandId: CommandId }) => NodeId
+  readonly delegatedTaskThread: (input: { readonly commandId: CommandId }) => ThreadId
+  readonly delegatedTaskMessage: (input: { readonly commandId: CommandId }) => MessageId
+  readonly delegatedTaskTurnItem: (input: { readonly commandId: CommandId }) => TurnItemId
+  readonly createdThreadTurnItem: (input: { readonly commandId: CommandId }) => TurnItemId
   readonly threadFromProviderThread: (input: {
-    readonly driver: ProviderDriverKind;
-    readonly nativeThreadId: string;
-    readonly providerInstanceId?: ProviderInstanceId;
-  }) => ThreadId;
-  readonly run: (input: { readonly threadId: ThreadId; readonly ordinal: number }) => RunId;
+    readonly driver: ProviderDriverKind
+    readonly nativeThreadId: string
+    readonly providerInstanceId?: ProviderInstanceId
+  }) => ThreadId
+  readonly run: (input: { readonly threadId: ThreadId; readonly ordinal: number }) => RunId
   readonly runAttempt: (input: {
-    readonly runId: RunId;
-    readonly attemptOrdinal: number;
-  }) => RunAttemptId;
-  readonly rootNode: (input: { readonly runId: RunId }) => NodeId;
+    readonly runId: RunId
+    readonly attemptOrdinal: number
+  }) => RunAttemptId
+  readonly rootNode: (input: { readonly runId: RunId }) => NodeId
   readonly rootNodeAttempt: (input: {
-    readonly runId: RunId;
-    readonly attemptOrdinal: number;
-  }) => NodeId;
-  readonly userTurnItem: (input: { readonly messageId: MessageId }) => TurnItemId;
+    readonly runId: RunId
+    readonly attemptOrdinal: number
+  }) => NodeId
+  readonly userTurnItem: (input: { readonly messageId: MessageId }) => TurnItemId
   readonly runSignalTurnItem: (input: {
-    readonly runId: RunId;
-    readonly signal: string;
-  }) => TurnItemId;
+    readonly runId: RunId
+    readonly signal: string
+  }) => TurnItemId
   readonly providerThread: (input: {
-    readonly driver: ProviderDriverKind;
-    readonly nativeThreadId: string;
-    readonly providerInstanceId?: ProviderInstanceId;
-  }) => ProviderThreadId;
+    readonly driver: ProviderDriverKind
+    readonly nativeThreadId: string
+    readonly providerInstanceId?: ProviderInstanceId
+  }) => ProviderThreadId
   readonly providerTurn: (input: {
-    readonly driver: ProviderDriverKind;
-    readonly nativeTurnId: string;
-  }) => ProviderTurnId;
+    readonly driver: ProviderDriverKind
+    readonly nativeTurnId: string
+  }) => ProviderTurnId
   readonly nodeFromProviderItem: (input: {
-    readonly driver: ProviderDriverKind;
-    readonly nativeItemId: string;
-  }) => NodeId;
+    readonly driver: ProviderDriverKind
+    readonly nativeItemId: string
+  }) => NodeId
   readonly messageFromProviderItem: (input: {
-    readonly driver: ProviderDriverKind;
-    readonly nativeItemId: string;
-  }) => MessageId;
+    readonly driver: ProviderDriverKind
+    readonly nativeItemId: string
+  }) => MessageId
   readonly turnItemFromProviderItem: (input: {
-    readonly driver: ProviderDriverKind;
-    readonly nativeItemId: string;
-  }) => TurnItemId;
-  readonly approvalNode: (input: { readonly requestId: RuntimeRequestId }) => NodeId;
-  readonly approvalTurnItem: (input: { readonly requestId: RuntimeRequestId }) => TurnItemId;
+    readonly driver: ProviderDriverKind
+    readonly nativeItemId: string
+  }) => TurnItemId
+  readonly approvalNode: (input: { readonly requestId: RuntimeRequestId }) => NodeId
+  readonly approvalTurnItem: (input: { readonly requestId: RuntimeRequestId }) => TurnItemId
 }
 
-export class IdAllocatorV2 extends Context.Service<
-  IdAllocatorV2,
-  {
-    readonly allocate: IdAllocatorV2Allocate;
-    readonly derive: IdAllocatorV2Derive;
-  }
->()("@t3tools/provider-core/server/IdAllocator/IdAllocatorV2") {}
+export service IdAllocatorV2: {
+  readonly allocate: IdAllocatorV2Allocate;
+  readonly derive: IdAllocatorV2Derive;
+} {
+  static readonly key = "@t3tools/provider-core/server/IdAllocator/IdAllocatorV2"
+}
 
-const encodePart = (part: string | number): string => encodeURIComponent(String(part));
+const encodePart = (part: string | number): string => encodeURIComponent(String(part))
 
 const joinId = (prefix: string, ...parts: ReadonlyArray<string | number>): string =>
-  [prefix, ...parts.map(encodePart)].join(":");
+  [prefix, ...parts.map(encodePart)].join(":")
 
 export function deriveThreadFromProviderThread(input: {
-  readonly driver: ProviderDriverKind;
-  readonly providerInstanceId?: ProviderInstanceId;
-  readonly nativeThreadId: string;
+  readonly driver: ProviderDriverKind
+  readonly providerInstanceId?: ProviderInstanceId
+  readonly nativeThreadId: string
 }): ThreadId {
   return ThreadId.make(
     joinId(
@@ -209,13 +206,13 @@ export function deriveThreadFromProviderThread(input: {
       "native-thread",
       input.nativeThreadId,
     ),
-  );
+  )
 }
 
 export function deriveProviderThread(input: {
-  readonly driver: ProviderDriverKind;
-  readonly providerInstanceId?: ProviderInstanceId;
-  readonly nativeThreadId: string;
+  readonly driver: ProviderDriverKind
+  readonly providerInstanceId?: ProviderInstanceId
+  readonly nativeThreadId: string
 }): ProviderThreadId {
   return ProviderThreadId.make(
     joinId(
@@ -228,28 +225,33 @@ export function deriveProviderThread(input: {
       "native-thread",
       input.nativeThreadId,
     ),
-  );
+  )
 }
 
-const randomId =
-  <Id, Input>(input: {
-    readonly kind: IdAllocatorV2Kind;
-    readonly prefix: string;
-    readonly parts: ReadonlyArray<string | number>;
-    readonly make: (value: string) => Id;
-  }) =>
-  (allocationInput: Input): Effect.Effect<Id, IdAllocatorV2Error> =>
-    randomUuidV4.pipe(
-      Effect.map((uuid) => input.make(joinId(input.prefix, ...input.parts, uuid))),
-      Effect.mapError(
-        (cause) =>
-          new IdAllocatorV2AllocationError({
-            kind: input.kind,
-            input: allocationInput,
-            cause,
-          }),
-      ),
-    );
+const randomId = <Id, Input>(input: {
+  readonly kind: IdAllocatorV2Kind
+  readonly prefix: string
+  readonly parts: ReadonlyArray<string | number>
+  readonly make: (value: string) => Id!!
+}) =>
+(allocationInput: Input): Id!IdAllocatorV2Error =>
+  effect {
+    const uuid = try randomUuidV4
+    const value = try Effect.orDie(Effect.try({
+      try: () => joinId(input.prefix, ...input.parts, uuid),
+      catch: (cause) => cause,
+    }))
+    return try input.make(value)
+  }
+  |> Effect.mapError(
+    %,
+    (cause) =>
+      new IdAllocatorV2AllocationError({
+        kind: input.kind,
+        input: allocationInput,
+        cause,
+      }),
+  )
 
 export const derive: IdAllocatorV2Derive = {
   providerSession: (input) =>
@@ -257,24 +259,17 @@ export const derive: IdAllocatorV2Derive = {
       joinId("provider-session", "provider-instance", input.providerInstanceId, "shared"),
     ),
   delegatedTaskNode: (input) => NodeId.make(joinId("node", "delegated-task", input.commandId)),
-  delegatedTaskThread: (input) =>
-    ThreadId.make(joinId("thread", "delegated-task", input.commandId)),
-  delegatedTaskMessage: (input) =>
-    MessageId.make(joinId("message", "delegated-task", input.commandId)),
-  delegatedTaskTurnItem: (input) =>
-    TurnItemId.make(joinId("turn-item", "delegated-task", input.commandId)),
-  createdThreadTurnItem: (input) =>
-    TurnItemId.make(joinId("turn-item", "created-thread", input.commandId)),
+  delegatedTaskThread: (input) => ThreadId.make(joinId("thread", "delegated-task", input.commandId)),
+  delegatedTaskMessage: (input) => MessageId.make(joinId("message", "delegated-task", input.commandId)),
+  delegatedTaskTurnItem: (input) => TurnItemId.make(joinId("turn-item", "delegated-task", input.commandId)),
+  createdThreadTurnItem: (input) => TurnItemId.make(joinId("turn-item", "created-thread", input.commandId)),
   threadFromProviderThread: deriveThreadFromProviderThread,
   run: (input) => RunId.make(joinId("run", "thread", input.threadId, "ordinal", input.ordinal)),
-  runAttempt: (input) =>
-    RunAttemptId.make(joinId("run-attempt", "run", input.runId, "attempt", input.attemptOrdinal)),
+  runAttempt: (input) => RunAttemptId.make(joinId("run-attempt", "run", input.runId, "attempt", input.attemptOrdinal)),
   rootNode: (input) => NodeId.make(joinId("node", "run", input.runId, "root")),
-  rootNodeAttempt: (input) =>
-    NodeId.make(joinId("node", "run", input.runId, "attempt", input.attemptOrdinal, "root")),
+  rootNodeAttempt: (input) => NodeId.make(joinId("node", "run", input.runId, "attempt", input.attemptOrdinal, "root")),
   userTurnItem: (input) => TurnItemId.make(joinId("turn-item", "message", input.messageId)),
-  runSignalTurnItem: (input) =>
-    TurnItemId.make(joinId("turn-item", "run", input.runId, "signal", input.signal)),
+  runSignalTurnItem: (input) => TurnItemId.make(joinId("turn-item", "run", input.runId, "signal", input.signal)),
   providerThread: deriveProviderThread,
   providerTurn: (input) =>
     ProviderTurnId.make(
@@ -289,9 +284,8 @@ export const derive: IdAllocatorV2Derive = {
       joinId("turn-item", "provider", input.driver, "native-item", input.nativeItemId),
     ),
   approvalNode: (input) => NodeId.make(joinId("node", "runtime-request", input.requestId)),
-  approvalTurnItem: (input) =>
-    TurnItemId.make(joinId("turn-item", "runtime-request", input.requestId)),
-};
+  approvalTurnItem: (input) => TurnItemId.make(joinId("turn-item", "runtime-request", input.requestId)),
+}
 
 export const layer: Layer.Layer<IdAllocatorV2> = Layer.succeed(
   IdAllocatorV2,
@@ -302,7 +296,7 @@ export const layer: Layer.Layer<IdAllocatorV2> = Layer.succeed(
           kind: "command",
           prefix: "command",
           parts: ["fixture", input.fixtureName, input.commandName],
-          make: CommandId.make,
+          make: (value) => Effect.orDie(Effect.try({ try: () => CommandId.make(value), catch: (cause) => cause })),
         })(input),
       event: (input) =>
         randomId<EventId, typeof input>({
@@ -315,7 +309,7 @@ export const layer: Layer.Layer<IdAllocatorV2> = Layer.succeed(
               ? []
               : ["provider-session", input.providerSessionId]),
           ],
-          make: EventId.make,
+          make: (value) => Effect.orDie(Effect.try({ try: () => EventId.make(value), catch: (cause) => cause })),
         })(input),
       rawEvent: (input) =>
         randomId<RawEventId, typeof input>({
@@ -326,14 +320,14 @@ export const layer: Layer.Layer<IdAllocatorV2> = Layer.succeed(
             input.providerSessionId,
             ...(input.method === null ? [] : ["method", input.method]),
           ],
-          make: RawEventId.make,
+          make: (value) => Effect.orDie(Effect.try({ try: () => RawEventId.make(value), catch: (cause) => cause })),
         })(input),
       project: (input) =>
         randomId<ProjectId, typeof input>({
           kind: "project",
           prefix: "project",
           parts: ["fixture", input.fixtureName],
-          make: ProjectId.make,
+          make: (value) => Effect.orDie(Effect.try({ try: () => ProjectId.make(value), catch: (cause) => cause })),
         })(input),
       thread: (input) =>
         randomId<ThreadId, typeof input>({
@@ -343,21 +337,22 @@ export const layer: Layer.Layer<IdAllocatorV2> = Layer.succeed(
             ...(input.fixtureName === undefined ? [] : ["fixture", input.fixtureName]),
             ...(input.projectId === undefined ? [] : ["project", input.projectId]),
           ],
-          make: ThreadId.make,
+          make: (value) => Effect.orDie(Effect.try({ try: () => ThreadId.make(value), catch: (cause) => cause })),
         })(input),
       message: (input) =>
         randomId<MessageId, typeof input>({
           kind: "message",
           prefix: "message",
           parts: ["thread", input.threadId, "ordinal", input.ordinal],
-          make: MessageId.make,
+          make: (value) => Effect.orDie(Effect.try({ try: () => MessageId.make(value), catch: (cause) => cause })),
         })(input),
       providerSession: (input) =>
         randomId<ProviderSessionId, typeof input>({
           kind: "provider_session",
           prefix: "provider-session",
           parts: ["provider-instance", input.providerInstanceId, "thread", input.threadId],
-          make: ProviderSessionId.make,
+          make: (value) =>
+            Effect.orDie(Effect.try({ try: () => ProviderSessionId.make(value), catch: (cause) => cause })),
         })(input),
       runtimeRequest: (input) =>
         randomId<RuntimeRequestId, typeof input>({
@@ -371,7 +366,8 @@ export const layer: Layer.Layer<IdAllocatorV2> = Layer.succeed(
               ? []
               : ["native-request", input.nativeRequestId]),
           ],
-          make: RuntimeRequestId.make,
+          make: (value) =>
+            Effect.orDie(Effect.try({ try: () => RuntimeRequestId.make(value), catch: (cause) => cause })),
         })(input),
       checkpointScope: (input) =>
         Effect.succeed(
@@ -397,7 +393,8 @@ export const layer: Layer.Layer<IdAllocatorV2> = Layer.succeed(
             "to-provider-instance",
             input.toProviderInstanceId,
           ],
-          make: ContextHandoffId.make,
+          make: (value) =>
+            Effect.orDie(Effect.try({ try: () => ContextHandoffId.make(value), catch: (cause) => cause })),
         })(input),
       contextTransfer: (input) =>
         randomId<ContextTransferId, typeof input>({
@@ -411,7 +408,8 @@ export const layer: Layer.Layer<IdAllocatorV2> = Layer.succeed(
             "target-thread",
             input.targetThreadId,
           ],
-          make: ContextTransferId.make,
+          make: (value) =>
+            Effect.orDie(Effect.try({ try: () => ContextTransferId.make(value), catch: (cause) => cause })),
         })(input),
       plan: (input) =>
         randomId<PlanId, typeof input>({
@@ -424,9 +422,9 @@ export const layer: Layer.Layer<IdAllocatorV2> = Layer.succeed(
             input.driver,
             ...(input.runId === undefined ? [] : ["run", input.runId]),
           ],
-          make: PlanId.make,
+          make: (value) => Effect.orDie(Effect.try({ try: () => PlanId.make(value), catch: (cause) => cause })),
         })(input),
     },
     derive,
   }),
-);
+)

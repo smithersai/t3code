@@ -11,9 +11,9 @@ import * as Semaphore from "effect/Semaphore";
 import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import { exit, withSpan } from "effect/Effect";
-import { $catchExpression, $forConcurrent, $provideService } from "vibelang-runtime";
+import { $catchExpression, $forConcurrent, $provideService } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import { ProviderSetupError, } from "@t3tools/contracts";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
@@ -46,13 +46,13 @@ export const make = (options) => {
         let operation = "idle";
         const sessions = new Set();
         const stopOwnedSessions = Effect_1.gen(function* stopOwnedSessions() {
-            var operand_1;
             $concurrentHead1: {
-                yield* $forConcurrent((operand_1 = void 0, Array.from(sessions)), operand_1, Effect_1.fnUntraced(function* (session) {
+                yield* Effect_1.forEach(Array.from(sessions), Effect_1.fnUntraced(function* ($concurrentItem) {
+                    const session = $concurrentItem;
                     {
                         yield* Scope.close(session, Exit.void);
                     }
-                }));
+                }), { concurrency: "unbounded", discard: true });
                 break $concurrentHead1;
                 let session;
             }
@@ -101,7 +101,8 @@ export const make = (options) => {
             credentialBinding: options.credentialBinding,
             adoptCredentials: (update, stopSessions) => {
                 return Effect_1.gen(function* adoptCredentials() { return yield* withSpan(Effect_1.gen(function* () {
-                    const completion_1 = yield* runtime.uninterruptible(Effect_1.fnUntraced(function* () {
+                    let completion_1 = runtime.$normal;
+                    yield* runtime.uninterruptible(Effect_1.fnUntraced(function* () {
                         yield* lock.withPermit(Effect_1.gen(function* () {
                             if (operation !== "idle") {
                                 return yield* Effect_1.fail(new ProviderSetupError({
@@ -130,7 +131,10 @@ export const make = (options) => {
                         }));
                         if (Exit.isFailure(result))
                             yield* Effect.failCause(result.cause);
-                        return { kind: "return", value: state };
+                        {
+                            completion_1 = { kind: "return", value: state };
+                            return completion_1.value;
+                        }
                     })());
                     if (completion_1.kind === "return")
                         return completion_1.value;
@@ -175,8 +179,12 @@ export const make = (options) => {
                             return child;
                         }));
                         const forkTask = Effect_1.gen(function* forkTask() {
-                            const completion_2 = yield* runtime.$provideEntries(Effect_1.fnUntraced(function* forkTask$provide() {
-                                return { kind: "return", value: yield* Effect.forkIn(restore(task), child) };
+                            let completion_2 = runtime.$normal;
+                            yield* runtime.$provideEntries(Effect_1.fnUntraced(function* forkTask$provide() {
+                                {
+                                    completion_2 = { kind: "return", value: yield* Effect.forkIn(restore(task), child) };
+                                    return completion_2.value;
+                                }
                             })(), [$provideService(Scope.Scope, "Scope", child)]);
                             if (completion_2.kind === "return")
                                 return completion_2.value;
@@ -197,9 +205,12 @@ export const make = (options) => {
             start: (arg_1, ...args_1) => {
                 try {
                     return ((owner, stopSessions = Effect.void, selectedMethodId, returnUrl, callbackMode) => Effect_1.gen(function* start() { return yield* lock.withPermit(Effect_1.gen(function* () {
-                        const completion_3 = yield* runtime.uninterruptible(Effect_1.fnUntraced(function* () {
-                            if (operation === "auth" && active?.owner === owner)
-                                return { kind: "return", value: snapshot.value.state };
+                        let completion_3 = runtime.$normal;
+                        yield* runtime.uninterruptible(Effect_1.fnUntraced(function* () {
+                            if (operation === "auth" && active?.owner === owner) {
+                                completion_3 = { kind: "return", value: snapshot.value.state };
+                                return completion_3.value;
+                            }
                             if (operation !== "idle") {
                                 return yield* Effect_1.fail(new ProviderSetupError({
                                     instanceId: options.instanceId,
@@ -233,7 +244,8 @@ export const make = (options) => {
                             };
                             yield* SubscriptionRef.set(snapshot, { owner, state });
                             flow.fiber = yield* Effect.forkIn(Effect_1.gen(function* () {
-                                const completion_4 = yield* runtime.interruptible(Effect_1.fnUntraced(function* () {
+                                let completion_4 = runtime.$normal;
+                                yield* runtime.interruptible(Effect_1.fnUntraced(function* () {
                                     const result = yield* exit(Effect.timeoutOrElse(Effect.scoped(Effect_1.gen(function* () {
                                         const methods = yield* options.methods;
                                         yield* publish(flow, { methods });
@@ -296,8 +308,10 @@ export const make = (options) => {
                                         operation = "stopping";
                                         return true;
                                     }));
-                                    if (!finishing)
-                                        return { kind: "return" };
+                                    if (!finishing) {
+                                        completion_4 = { kind: "return" };
+                                        return completion_4.value;
+                                    }
                                     if (flow.responseFiber)
                                         yield* Fiber.interrupt(flow.responseFiber);
                                     yield* lock.withPermit(Effect_1.gen(function* () {
@@ -317,12 +331,14 @@ export const make = (options) => {
                                         active = undefined;
                                         operation = "idle";
                                     }));
-                                    return runtime.$normal;
                                 })());
                                 if (completion_4.kind === "return")
                                     return completion_4.value;
                             }), scope);
-                            return { kind: "return", value: state };
+                            {
+                                completion_3 = { kind: "return", value: state };
+                                return completion_3.value;
+                            }
                         })());
                         if (completion_3.kind === "return")
                             return completion_3.value;
@@ -334,7 +350,8 @@ export const make = (options) => {
             },
             respond: (owner, input) => {
                 return Effect_1.gen(function* respond() {
-                    const completion_5 = yield* runtime.uninterruptible(Effect_1.fnUntraced(function* respond$uninterruptible() {
+                    let completion_5 = runtime.$normal;
+                    yield* runtime.uninterruptible(Effect_1.fnUntraced(function* respond$uninterruptible() {
                         const { flow, fiber, ready } = yield* lock.withPermit(Effect_1.gen(function* () {
                             const flow = yield* requireFlow(owner, input.flowId);
                             const interaction = snapshot.value.state.interaction;
@@ -375,7 +392,10 @@ export const make = (options) => {
                                     delete flow.responseFiber;
                             })));
                         })());
-                        return { kind: "return", value: snapshot.value.state };
+                        {
+                            completion_5 = { kind: "return", value: snapshot.value.state };
+                            return completion_5.value;
+                        }
                     })());
                     if (completion_5.kind === "return")
                         return completion_5.value;
@@ -399,7 +419,8 @@ export const make = (options) => {
             },
             cancel: (owner, id) => {
                 return Effect_1.gen(function* cancel() { return yield* withSpan(Effect_1.gen(function* () {
-                    const completion_6 = yield* runtime.uninterruptible(Effect_1.fnUntraced(function* () {
+                    let completion_6 = runtime.$normal;
+                    yield* runtime.uninterruptible(Effect_1.fnUntraced(function* () {
                         const flow = yield* lock.withPermit(Effect_1.gen(function* () {
                             const flow = yield* requireFlow(owner, id);
                             yield* publish(flow, {
@@ -418,7 +439,10 @@ export const make = (options) => {
                         if (flow.fiber)
                             yield* Fiber.interrupt(flow.fiber);
                         operation = "idle";
-                        return { kind: "return", value: snapshot.value.state };
+                        {
+                            completion_6 = { kind: "return", value: snapshot.value.state };
+                            return completion_6.value;
+                        }
                     })());
                     if (completion_6.kind === "return")
                         return completion_6.value;
@@ -426,7 +450,8 @@ export const make = (options) => {
             },
             logout: (stopSessions) => {
                 return Effect_1.gen(function* logout() { return yield* withSpan(Effect_1.gen(function* () {
-                    const completion_7 = yield* runtime.uninterruptible(Effect_1.fnUntraced(function* () {
+                    let completion_7 = runtime.$normal;
+                    yield* runtime.uninterruptible(Effect_1.fnUntraced(function* () {
                         const flow = yield* lock.withPermit(Effect_1.gen(function* () {
                             if (operation !== "idle" && operation !== "auth") {
                                 return yield* Effect_1.fail(new ProviderSetupError({
@@ -465,7 +490,10 @@ export const make = (options) => {
                         }));
                         if (Exit.isFailure(result))
                             yield* Effect.failCause(result.cause);
-                        return { kind: "return", value: state };
+                        {
+                            completion_7 = { kind: "return", value: state };
+                            return completion_7.value;
+                        }
                     })());
                     if (completion_7.kind === "return")
                         return completion_7.value;

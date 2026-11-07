@@ -9,9 +9,9 @@ import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { withSpan } from "effect/Effect";
-import { $catchExpression, $extract } from "vibelang-runtime";
+import { $catchExpression, $extract } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Option_1 from "effect/Option";
 import { ProviderDriverKind } from "@t3tools/contracts";
 import { compareSemverVersions, satisfiesSemverRange } from "@t3tools/shared/semver";
@@ -231,7 +231,7 @@ const runProbe = (arg_1, arg_2, arg_3, ...args_1) => {
     try {
         return ((command, args, env, okExitCodes = [0]) => Effect_1.gen(function* runProbe() { return yield* withSpan(Effect_1.gen(function* () {
             const spawner = yield* ChildProcessSpawner.ChildProcessSpawner;
-            const collect = Effect_1.gen(runtime.$joinedFrame(function* collect() {
+            const collect = Effect_1.gen(function* collect() {
                 // Windows package managers are `.cmd` shims that need the shell.
                 const resolved = yield* resolveSpawnCommand(command, args, { env, extendEnv: true });
                 const child = yield* spawner.spawn(ChildProcess.make(resolved.command, resolved.args, {
@@ -247,7 +247,7 @@ const runProbe = (arg_1, arg_2, arg_3, ...args_1) => {
                     Stream.runDrain(child.stderr),
                 ], { concurrency: "unbounded" });
                 return !okExitCodes.includes(Number(exitCode)) || stdout.truncated ? null : stdout.text;
-            }));
+            });
             return yield* (Effect.catchCause(Effect.map(Effect.timeoutOption(Effect.scoped(collect), Duration.millis(PROBE_TIMEOUT_MS)), Option.getOrNull), (cause) => Effect.as(Effect.logWarning("Maintenance probe failed", {
                 command,
                 subcommand: args[0],

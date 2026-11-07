@@ -13,7 +13,7 @@ import type {
 import * as DateTime from "effect/DateTime"
 import * as Cause from "effect/Cause"
 
-import * as IdAllocator from "./IdAllocator.ts"
+import * as IdAllocator from "./IdAllocator.vibe"
 import type { ProviderAdapterFailureReason } from "./ProviderAdapter.vibe"
 import * as Schema from "effect/Schema"
 

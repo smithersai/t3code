@@ -51,20 +51,16 @@
       "import": "./src/server/handoffBudget.vibe"
     },
     "./server/IdAllocator": {
-      "types": "./src/server/IdAllocator.ts",
+      "types": "./src/server/IdAllocator.d.vibe.ts",
       "import": {
-        "types": "./src/server/IdAllocator.ts",
-        "vibelang-source": "./src/server/IdAllocator.ts",
+        "types": "./src/server/IdAllocator.d.vibe.ts",
+        "vibelang-source": "./src/server/IdAllocator.vibe",
         "default": "./.vibelang/js/src/server/IdAllocator.js"
       }
     },
     "./server/instanceEnvironment": {
       "types": "./src/server/instanceEnvironment.ts",
-      "import": {
-        "types": "./src/server/instanceEnvironment.ts",
-        "vibelang-source": "./src/server/instanceEnvironment.ts",
-        "default": "./.vibelang/js/src/server/instanceEnvironment.js"
-      }
+      "import": "./src/server/instanceEnvironment.ts"
     },
     "./server/instanceIdentity": {
       "types": "./src/server/instanceIdentity.ts",
@@ -298,12 +294,5 @@
     "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
     "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
     "vite-plus": "catalog:"
-  },
-  "imports": {
-    "#vibelang/emitted/src/server/randomUuid": {
-      "types": "./src/server/randomUuid.d.vibe.ts",
-      "vibelang-source": "./src/server/randomUuid.vibe",
-      "default": "./.vibelang/js/src/server/randomUuid.js"
-    }
   }
 }
