@@ -49,8 +49,8 @@ import {
   PiAdapterV2Driver,
   PI_PROVIDER,
   type PiAdapterV2Options,
-} from "./adapter.ts";
-import { makePiRpcConnection, type PiRpcRecord } from "./rpc.ts";
+} from "./adapter.vibe";
+import { makePiRpcConnection, type PiRpcRecord } from "./rpc.vibe";
 import { loadMcpBridge } from "./mcpBridge.testkit.ts";
 import { turnItemOutputText } from "../../../client-runtime/src/work-log/itemDetail.vibe";
 

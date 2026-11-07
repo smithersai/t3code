@@ -7,7 +7,7 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import { TextGenerationError } from "@t3tools/contracts";
 import type { PiSettings } from "../settings.vibe";
 
-import { makePiRpcConnection, parsePiModelSlug } from "./rpc.ts";
+import { makePiRpcConnection, parsePiModelSlug } from "./rpc.vibe";
 import { buildPiRpcLaunch, resolvePiLaunchArgs } from "./mcpInjection.vibe";
 import * as TextGenerationOperations from "@t3tools/provider-core/server/textGenerationOperations";
 

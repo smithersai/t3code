@@ -10,14 +10,14 @@ import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderL
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost"
 import { piUsageReader } from "./usage.vibe"
 import { makePiTextGeneration } from "./textGeneration.ts"
-import { PiAdapterV2Driver, type PiAdapterV2DriverEnv } from "./adapter.ts"
+import { PiAdapterV2Driver, type PiAdapterV2DriverEnv } from "./adapter.vibe"
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors"
 import {
   buildInitialPiProviderSnapshot,
   checkPiProviderStatus,
   discoverPiCommandsForCwd,
   enrichPiSnapshot,
-} from "./status.ts"
+} from "./status.vibe"
 import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider"
 import {
   defaultProviderContinuationIdentity,
