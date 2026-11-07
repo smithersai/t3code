@@ -3,7 +3,7 @@ import * as HostProcess from "@t3tools/shared/HostProcess";
 import { getModelSelectionStringOptionValue } from "@t3tools/shared/model";
 import { causeErrorTag } from "@t3tools/shared/observability";
 import { defaultInstanceIdForDriver, ProviderDriverKind, } from "@t3tools/contracts";
-import { OpenCodeSettings } from "../settings.js";
+import { OpenCodeSettings } from "#vibelang/emitted/src/settings";
 import * as Cause from "effect/Cause";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";

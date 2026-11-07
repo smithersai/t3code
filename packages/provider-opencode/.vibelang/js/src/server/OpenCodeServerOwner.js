@@ -4,7 +4,7 @@ import * as Fiber from "effect/Fiber";
 import * as Semaphore from "effect/Semaphore";
 import { withSpan } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
-import * as runtime_1 from "vibelang-runtime";
+import * as runtime_1 from "vibelang-runtime/internal";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";

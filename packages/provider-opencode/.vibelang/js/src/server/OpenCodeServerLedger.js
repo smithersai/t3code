@@ -3,9 +3,9 @@ import * as ChildProcess from "effect/process/ChildProcess";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import { logInfo, logWarning, sleep, timeout, withSpan } from "effect/Effect";
-import { $catchExpression, $forConcurrent, $provideService } from "vibelang-runtime";
+import { $catchExpression, $forConcurrent, $provideService } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -56,7 +56,8 @@ const parseDarwinPs = (output) => output.split("\n").flatMap((line) => {
 });
 export const make = (input) => {
     return Effect_1.gen(function* make() { return yield* withSpan(Effect_1.gen(function* () {
-        const completion_1 = yield* Effect_1.provide(Effect_1.fnUntraced(function* () {
+        let completion_1 = runtime.$normal;
+        yield* Effect_1.provide(Effect_1.fnUntraced(function* () {
             const fs = yield* FileSystem.FileSystem;
             const path = yield* Path.Path;
             const spawner = yield* ChildProcessSpawner.ChildProcessSpawner;
@@ -129,12 +130,12 @@ export const make = (input) => {
                             {
                                 const $concurrentLimit1 = 16;
                                 $concurrentHead1: {
-                                    yield* $forConcurrent(names.entries(), $concurrentLimit1, Effect_1.fnUntraced(function* ($concurrentItem) {
+                                    yield* Effect_1.forEach(names.entries(), Effect_1.fnUntraced(function* ($concurrentItem) {
                                         const [index, name] = $concurrentItem;
                                         {
                                             found[index] = yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return observeLinux(Number(name), pgid); }); })(), () => Effect_1.sync(() => { return undefined; }));
                                         }
-                                    }), true);
+                                    }), { concurrency: $concurrentLimit1, discard: true });
                                     break $concurrentHead1;
                                     let index;
                                     let name;
@@ -251,19 +252,22 @@ export const make = (input) => {
                 }), "OpenCodeServerLedger.reapEntry"); });
             };
             const reapOrphans = Effect_1.gen(function* reapOrphans() {
-                var operand_1;
                 const names = yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return fs.readDirectory(directory); }); })(), () => Effect_1.sync(() => { return []; }));
                 $concurrentHead2: {
-                    yield* $forConcurrent((operand_1 = void 0, names.filter((name) => ENTRY_FILE.test(name))), operand_1, Effect_1.fnUntraced(function* (name) {
+                    yield* Effect_1.forEach(names.filter((name) => ENTRY_FILE.test(name)), Effect_1.fnUntraced(function* ($concurrentItem) {
+                        const name = $concurrentItem;
                         {
                             yield* reapEntry(path.join(directory, name));
                         }
-                    }));
+                    }), { concurrency: "unbounded", discard: true });
                     break $concurrentHead2;
                     let name;
                 }
             });
-            return { kind: "return", value: { track, reapOrphans } };
+            {
+                completion_1 = { kind: "return", value: { track, reapOrphans } };
+                return completion_1.value;
+            }
         })(), ExperimentalNodeProcess.layer);
         if (completion_1.kind === "return")
             return completion_1.value;

@@ -36,7 +36,7 @@ import {
   type RuntimeRequestId,
   type ThreadId,
 } from "@t3tools/contracts";
-import { OpenCodeSettings } from "../settings.vibe";
+import { OpenCodeSettings } from "#vibelang/emitted/src/settings";
 import * as Cause from "effect/Cause";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";

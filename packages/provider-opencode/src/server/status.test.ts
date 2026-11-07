@@ -23,7 +23,7 @@ import {
   loadOpenCode2Workspace,
   type OpenCode2Model,
   type OpenCode2Workspace,
-} from "./status.ts";
+} from "./status.vibe";
 import { readOpenCodeGoUsageLimits } from "./usageLimits.vibe";
 import { probeOpenCodeRuntime } from "./versionProbe.ts";
 import {

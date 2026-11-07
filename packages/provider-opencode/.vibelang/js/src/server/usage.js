@@ -2,9 +2,9 @@
 import * as Option from "effect/Option";
 import * as SqlClient from "effect/sql/SqlClient";
 import { withSpan } from "effect/Effect";
-import { $catchExpression, $matchCache } from "vibelang-runtime";
+import { $catchExpression, $matchCache } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion";
 import { totalTokens } from "@t3tools/provider-core/server/usage";
 import * as HostProcess from "@t3tools/shared/HostProcess";
@@ -87,7 +87,7 @@ const LEGACY_STAT_CONCURRENCY = 4;
 const LEGACY_STAT_BATCH = 256;
 export const readOpenCodeUsage = (root, sinceMs) => {
     return Effect_1.gen(function* readOpenCodeUsage() { return yield* withSpan((() => {
-        return Effect_1.gen(runtime.$joinedFrame(function* () {
+        return Effect_1.gen(function* () {
             const fileSystem = yield* FileSystem.FileSystem;
             const path = yield* Path.Path;
             const files = [];
@@ -144,112 +144,58 @@ export const readOpenCodeUsage = (root, sinceMs) => {
                     return Effect.succeed([]);
                 },
             }));
-            {
-                let pending_1 = runtime.$normal;
-                try {
-                    for (const name of databases) {
-                        try {
-                            {
-                                found = true;
-                                const file = { path: path.join(root, name), records: [] };
-                                files.push(file);
-                                yield* (Effect.catchTags(Effect.provide(Effect_1.gen(runtime.$joinedFrame(function* () {
-                                    var topic_1;
-                                    const sql = yield* SqlClient.SqlClient;
-                                    // Fail promptly on live-writer locks instead of stalling the server.
-                                    yield* sql.unsafe("PRAGMA busy_timeout = 100");
-                                    const tables = new Set((yield* sql.unsafe("SELECT name FROM sqlite_master WHERE type = 'table'")).map((row) => row.name));
-                                    if (!tables.has("message") && !tables.has("session_message"))
-                                        error = true;
-                                    {
-                                        let pending_2 = runtime.$normal;
-                                        try {
-                                            for (const table of ["message", "session_message"]) {
-                                                try {
-                                                    {
-                                                        if (!tables.has(table))
-                                                            continue;
-                                                        const columns = new Set((yield* sql.unsafe(`PRAGMA table_info(${table})`)).map((row) => row.name));
-                                                        const timestamp = columns.has("time_created") ? "time_created" : "NULL";
-                                                        const predicates = table === "session_message" ? ["type = 'assistant'"] : [];
-                                                        if (timestamp !== "NULL")
-                                                            predicates.push("time_created >= ?");
-                                                        predicates.push("rowid > ?", "rowid <= ?");
-                                                        const [range] = yield* sql.unsafe(`SELECT (SELECT MIN(rowid) FROM ${table}) AS first_row_id, (SELECT MAX(rowid) FROM ${table}) AS last_row_id`);
-                                                        const firstRowId = range?.first_row_id;
-                                                        const lastRowId = range?.last_row_id;
-                                                        if (typeof firstRowId !== "number" || typeof lastRowId !== "number")
-                                                            continue;
-                                                        // StatementSync.all materializes results; page by rowid and exclude mid-scan appends.
-                                                        // Omit tracing because large histories require thousands of statements.
-                                                        for (let after = firstRowId - 1; after < lastRowId; after += MESSAGE_PAGE_SIZE) {
-                                                            const rows = yield* ((topic_1 = sql
-                                                                .unsafe(`SELECT id, session_id, data, ${timestamp} AS created
+            for (const name of databases) {
+                found = true;
+                const file = { path: path.join(root, name), records: [] };
+                files.push(file);
+                yield* (Effect.catchTags(Effect.provide(Effect_1.gen(function* () {
+                    var topic_1;
+                    const sql = yield* SqlClient.SqlClient;
+                    // Fail promptly on live-writer locks instead of stalling the server.
+                    yield* sql.unsafe("PRAGMA busy_timeout = 100");
+                    const tables = new Set((yield* sql.unsafe("SELECT name FROM sqlite_master WHERE type = 'table'")).map((row) => row.name));
+                    if (!tables.has("message") && !tables.has("session_message"))
+                        error = true;
+                    for (const table of ["message", "session_message"]) {
+                        if (!tables.has(table))
+                            continue;
+                        const columns = new Set((yield* sql.unsafe(`PRAGMA table_info(${table})`)).map((row) => row.name));
+                        const timestamp = columns.has("time_created") ? "time_created" : "NULL";
+                        const predicates = table === "session_message" ? ["type = 'assistant'"] : [];
+                        if (timestamp !== "NULL")
+                            predicates.push("time_created >= ?");
+                        predicates.push("rowid > ?", "rowid <= ?");
+                        const [range] = yield* sql.unsafe(`SELECT (SELECT MIN(rowid) FROM ${table}) AS first_row_id, (SELECT MAX(rowid) FROM ${table}) AS last_row_id`);
+                        const firstRowId = range?.first_row_id;
+                        const lastRowId = range?.last_row_id;
+                        if (typeof firstRowId !== "number" || typeof lastRowId !== "number")
+                            continue;
+                        // StatementSync.all materializes results; page by rowid and exclude mid-scan appends.
+                        // Omit tracing because large histories require thousands of statements.
+                        for (let after = firstRowId - 1; after < lastRowId; after += MESSAGE_PAGE_SIZE) {
+                            const rows = yield* ((topic_1 = sql
+                                .unsafe(`SELECT id, session_id, data, ${timestamp} AS created
                FROM ${table} WHERE ${predicates.join(" AND ")} ORDER BY rowid`, [
-                                                                ...(timestamp === "NULL" ? [] : [sinceMs]),
-                                                                after,
-                                                                Math.min(after + MESSAGE_PAGE_SIZE, lastRowId),
-                                                            ]), Effect.withTracerEnabled(false)(topic_1)));
-                                                            {
-                                                                let pending_3 = runtime.$normal;
-                                                                try {
-                                                                    for (const row of rows) {
-                                                                        try {
-                                                                            {
-                                                                                append(file.records, parseOpenCodeMessage(text(row.data), {
-                                                                                    id: text(row.id),
-                                                                                    sessionId: text(row.session_id),
-                                                                                    ...(typeof row.created === "number" ? { timestampMs: row.created } : {}),
-                                                                                }));
-                                                                            }
-                                                                        }
-                                                                        catch (thrown_3) {
-                                                                            pending_3 = thrown_3;
-                                                                            break;
-                                                                        }
-                                                                    }
-                                                                }
-                                                                catch (thrown_4) {
-                                                                    throw runtime.$finallyFailure(pending_3, thrown_4);
-                                                                }
-                                                                if (pending_3 !== runtime.$normal)
-                                                                    throw pending_3;
-                                                            }
-                                                            yield* Effect.yieldNow;
-                                                        }
-                                                    }
-                                                }
-                                                catch (thrown_5) {
-                                                    pending_2 = thrown_5;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        catch (thrown_6) {
-                                            throw runtime.$finallyFailure(pending_2, thrown_6);
-                                        }
-                                        if (pending_2 !== runtime.$normal)
-                                            throw pending_2;
-                                    }
-                                })), NodeSqliteClient.layer({ filename: file.path, readonly: true })), {
-                                    SqlError: () => {
-                                        error = true;
-                                        return Effect.void;
-                                    },
+                                ...(timestamp === "NULL" ? [] : [sinceMs]),
+                                after,
+                                Math.min(after + MESSAGE_PAGE_SIZE, lastRowId),
+                            ]), Effect.withTracerEnabled(false)(topic_1)));
+                            for (const row of rows) {
+                                append(file.records, parseOpenCodeMessage(text(row.data), {
+                                    id: text(row.id),
+                                    sessionId: text(row.session_id),
+                                    ...(typeof row.created === "number" ? { timestampMs: row.created } : {}),
                                 }));
                             }
-                        }
-                        catch (thrown_1) {
-                            pending_1 = thrown_1;
-                            break;
+                            yield* Effect.yieldNow;
                         }
                     }
-                }
-                catch (thrown_2) {
-                    throw runtime.$finallyFailure(pending_1, thrown_2);
-                }
-                if (pending_1 !== runtime.$normal)
-                    throw pending_1;
+                }), NodeSqliteClient.layer({ filename: file.path, readonly: true })), {
+                    SqlError: () => {
+                        error = true;
+                        return Effect.void;
+                    },
+                }));
             }
             const directories = [path.join(root, "storage", "message")];
             while (directories.length > 0) {
@@ -296,11 +242,7 @@ export const readOpenCodeUsage = (root, sinceMs) => {
                             }
                             return Effect.exit(($do2));
                         }, { concurrency: LEGACY_STAT_CONCURRENCY });
-                        yield* runtime.$forOf((function* (iterable_1) {
-                            for (const value_1 of iterable_1)
-                                yield value_1;
-                        })(batch.entries()), Effect_1.fnUntraced(function* (error_1) {
-                            const [index, name] = error_1;
+                        for (const [index, name] of batch.entries()) {
                             const entry = entries[index];
                             const info = yield* infos[index];
                             if (info?.type === "Directory") {
@@ -313,12 +255,12 @@ export const readOpenCodeUsage = (root, sinceMs) => {
                                 const skip = seen.has(`opencode:${id}`)
                                     || Option.exists(info.mtime, (mtime) => mtime.getTime() < sinceMs);
                                 if (found && skip)
-                                    return { kind: "continue", label: "" };
+                                    continue;
                                 if (yield* isSymbolicLink(entry))
-                                    return { kind: "continue", label: "" };
+                                    continue;
                                 found = true;
                                 if (skip)
-                                    return { kind: "continue", label: "" };
+                                    continue;
                                 const file = { path: entry, records: [] };
                                 files.push(file);
                                 yield* (Effect.catchTags(Effect.map(fileSystem.readFileString(entry), (source) => append(file.records, parseOpenCodeMessage(source, { id }))), {
@@ -329,8 +271,7 @@ export const readOpenCodeUsage = (root, sinceMs) => {
                                     },
                                 }));
                             }
-                            return runtime.$normal;
-                        }));
+                        }
                     }
                 }), {
                     PlatformError: (cause) => {
@@ -341,11 +282,11 @@ export const readOpenCodeUsage = (root, sinceMs) => {
                 }));
             }
             return { files, missing: !found && !error, error };
-        }));
+        });
     })(), "readOpenCodeUsage"); });
 };
 const resolveOpenCodeDataDirs = (environment) => {
-    return Effect_1.gen(function* resolveOpenCodeDataDirs() { return yield* withSpan(Effect_1.gen(runtime.$joinedFrame(function* () {
+    return Effect_1.gen(function* resolveOpenCodeDataDirs() { return yield* withSpan(Effect_1.gen(function* () {
         const fileSystem = yield* FileSystem.FileSystem;
         const path = yield* Path.Path;
         const homeDirectory = yield* HostProcess.HomeDirectory;
@@ -360,30 +301,12 @@ const resolveOpenCodeDataDirs = (environment) => {
                 : path.join(homeDirectory, ".local", "share"), "opencode"),
         ];
         const canonical = new Set();
-        {
-            let pending_4 = runtime.$normal;
-            try {
-                for (const root of roots?.length ? roots : defaults) {
-                    try {
-                        {
-                            const resolved = path.resolve(yield* Effect.orDie(Effect.try({ try: () => expandHomePath(root, homeDirectory), catch: (e) => e })));
-                            canonical.add(yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return fileSystem.realPath(resolved); }); })(), () => Effect_1.sync(() => { return resolved; })));
-                        }
-                    }
-                    catch (thrown_7) {
-                        pending_4 = thrown_7;
-                        break;
-                    }
-                }
-            }
-            catch (thrown_8) {
-                throw runtime.$finallyFailure(pending_4, thrown_8);
-            }
-            if (pending_4 !== runtime.$normal)
-                throw pending_4;
+        for (const root of roots?.length ? roots : defaults) {
+            const resolved = path.resolve(yield* Effect.orDie(Effect.try({ try: () => expandHomePath(root, homeDirectory), catch: (e) => e })));
+            canonical.add(yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return fileSystem.realPath(resolved); }); })(), () => Effect_1.sync(() => { return resolved; })));
         }
         return [...canonical];
-    })), "resolveOpenCodeDataDirs"); });
+    }), "resolveOpenCodeDataDirs"); });
 };
 export const openCodeUsageReader = {
     kind: "scan",

@@ -53,8 +53,8 @@ import * as Semaphore from "effect/Semaphore";
 import * as Stream from "effect/Stream";
 
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
-import * as OpenCode2Client from "./OpenCode2Client.vibe";
-import * as OpenCode2Server from "./OpenCode2Server.vibe";
+import * as OpenCode2Client from "#vibelang/emitted/src/server/v2/OpenCode2Client";
+import * as OpenCode2Server from "#vibelang/emitted/src/server/v2/OpenCode2Server";
 import * as OpenCodeRuntime from "../OpenCodeRuntime.ts";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import { buildRuntimeInstructions } from "@t3tools/provider-core/server/runtimeInstructions";

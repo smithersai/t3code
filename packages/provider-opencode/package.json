@@ -2,10 +2,66 @@
   "name": "@t3tools/provider-opencode",
   "private": true,
   "type": "module",
+  "imports": {
+    "#vibelang/emitted/src/settings": {
+      "types": "./src/settings.d.vibe.ts",
+      "vibelang-source": "./src/settings.vibe",
+      "default": "./.vibelang/js/src/settings.js"
+    },
+    "#vibelang/emitted/src/server/OpenCodeServerLedger": {
+      "types": "./src/server/OpenCodeServerLedger.d.vibe.ts",
+      "vibelang-source": "./src/server/OpenCodeServerLedger.vibe",
+      "default": "./.vibelang/js/src/server/OpenCodeServerLedger.js"
+    },
+    "#vibelang/emitted/src/server/v2/textGeneration": {
+      "types": "./src/server/v2/textGeneration.d.vibe.ts",
+      "vibelang-source": "./src/server/v2/textGeneration.vibe",
+      "default": "./.vibelang/js/src/server/v2/textGeneration.js"
+    },
+    "#vibelang/emitted/src/server/usage": {
+      "types": "./src/server/usage.d.vibe.ts",
+      "vibelang-source": "./src/server/usage.vibe",
+      "default": "./.vibelang/js/src/server/usage.js"
+    },
+    "#vibelang/emitted/src/server/usageLimits": {
+      "types": "./src/server/usageLimits.d.vibe.ts",
+      "vibelang-source": "./src/server/usageLimits.vibe",
+      "default": "./.vibelang/js/src/server/usageLimits.js"
+    },
+    "#vibelang/emitted/src/server/openCode2Catalog": {
+      "types": "./src/server/openCode2Catalog.d.vibe.ts",
+      "vibelang-source": "./src/server/openCode2Catalog.vibe",
+      "default": "./.vibelang/js/src/server/openCode2Catalog.js"
+    },
+    "#vibelang/emitted/src/server/status": {
+      "types": "./src/server/status.d.vibe.ts",
+      "vibelang-source": "./src/server/status.vibe",
+      "default": "./.vibelang/js/src/server/status.js"
+    },
+    "#vibelang/emitted/src/server/OpenCodeServerOwner": {
+      "types": "./src/server/OpenCodeServerOwner.d.vibe.ts",
+      "vibelang-source": "./src/server/OpenCodeServerOwner.vibe",
+      "default": "./.vibelang/js/src/server/OpenCodeServerOwner.js"
+    },
+    "#vibelang/emitted/src/server/v2/OpenCode2Client": {
+      "types": "./src/server/v2/OpenCode2Client.d.vibe.ts",
+      "vibelang-source": "./src/server/v2/OpenCode2Client.vibe",
+      "default": "./.vibelang/js/src/server/v2/OpenCode2Client.js"
+    },
+    "#vibelang/emitted/src/server/v2/OpenCode2Server": {
+      "types": "./src/server/v2/OpenCode2Server.d.vibe.ts",
+      "vibelang-source": "./src/server/v2/OpenCode2Server.vibe",
+      "default": "./.vibelang/js/src/server/v2/OpenCode2Server.js"
+    }
+  },
   "exports": {
     "./client": {
       "types": "./src/client.ts",
-      "import": "./src/client.ts"
+      "import": {
+        "types": "./src/client.ts",
+        "vibelang-source": "./src/client.ts",
+        "default": "./.vibelang/js/src/client.js"
+      }
     },
     "./settings": {
       "types": "./src/settings.vibe",
@@ -13,15 +69,27 @@
     },
     "./server": {
       "types": "./src/server.ts",
-      "import": "./src/server.ts"
+      "import": {
+        "types": "./src/server.ts",
+        "vibelang-source": "./src/server.ts",
+        "default": "./.vibelang/js/src/server.js"
+      }
     },
     "./testing": {
       "types": "./src/testing.ts",
-      "import": "./src/testing.ts"
+      "import": {
+        "types": "./src/testing.ts",
+        "vibelang-source": "./src/testing.ts",
+        "default": "./.vibelang/js/src/testing.js"
+      }
     },
     "./server/OpenCodeRuntime": {
       "types": "./src/server/OpenCodeRuntime.ts",
-      "import": "./src/server/OpenCodeRuntime.ts"
+      "import": {
+        "types": "./src/server/OpenCodeRuntime.ts",
+        "vibelang-source": "./src/server/OpenCodeRuntime.ts",
+        "default": "./.vibelang/js/src/server/OpenCodeRuntime.js"
+      }
     },
     "./server/OpenCodeServerLedger": {
       "types": "./src/server/OpenCodeServerLedger.vibe",
@@ -29,7 +97,11 @@
     },
     "./server/v2/adapter": {
       "types": "./src/server/v2/adapter.ts",
-      "import": "./src/server/v2/adapter.ts"
+      "import": {
+        "types": "./src/server/v2/adapter.ts",
+        "vibelang-source": "./src/server/v2/adapter.ts",
+        "default": "./.vibelang/js/src/server/v2/adapter.js"
+      }
     },
     "./server/v2/OpenCode2Client": {
       "types": "./src/server/v2/OpenCode2Client.vibe",
@@ -43,8 +115,11 @@
       }
     },
     "./server/v2/textGeneration": {
-      "types": "./src/server/v2/textGeneration.ts",
-      "import": "./src/server/v2/textGeneration.ts"
+      "types": "./src/server/v2/textGeneration.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/v2/textGeneration.vibe",
+        "default": "./.vibelang/js/src/server/v2/textGeneration.js"
+      }
     }
   },
   "scripts": {

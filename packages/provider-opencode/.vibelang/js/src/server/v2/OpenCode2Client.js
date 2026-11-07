@@ -5,9 +5,9 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Option from "effect/Option";
 import * as Result from "effect/Result";
 import { logDebug, logWarning, withSpan } from "effect/Effect";
-import { $provideService, $schemaErrorMatcher } from "vibelang-runtime";
+import { $provideService, $schemaErrorMatcher } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Stream_1 from "effect/Stream";
 import * as Schema_1 from "effect/Schema";
 import { OpenCode } from "@opencode/client/effect";
@@ -96,15 +96,23 @@ export const make = Effect_1.gen(function* make() {
                 const { baseUrl, password } = input;
                 const authenticated = HttpClient.mapRequest(httpClient, HttpClientRequest.setHeader("Authorization", basicAuthorization(password)));
                 const client = Effect_1.gen(function* client() {
-                    const completion_1 = yield* runtime.$provideEntries(Effect_1.fnUntraced(function* client$provide() {
-                        return { kind: "return", value: yield* OpenCode.make({ baseUrl }) };
+                    let completion_1 = runtime.$normal;
+                    yield* runtime.$provideEntries(Effect_1.fnUntraced(function* client$provide() {
+                        {
+                            completion_1 = { kind: "return", value: yield* OpenCode.make({ baseUrl }) };
+                            return completion_1.value;
+                        }
                     })(), [$provideService(HttpClient.HttpClient, "HttpClient", authenticated)]);
                     if (completion_1.kind === "return")
                         return completion_1.value;
                 });
                 const events = Effect_1.gen(function* events() {
-                    const completion_2 = yield* runtime.$provideEntries(Effect_1.fnUntraced(function* events$provide() {
-                        return { kind: "return", value: yield* readEvents };
+                    let completion_2 = runtime.$normal;
+                    yield* runtime.$provideEntries(Effect_1.fnUntraced(function* events$provide() {
+                        {
+                            completion_2 = { kind: "return", value: yield* readEvents };
+                            return completion_2.value;
+                        }
                     })(), [$provideService(HttpClient.HttpClient, "HttpClient", HttpClient.mapRequest(authenticated, HttpClientRequest.prependUrl(baseUrl)))]);
                     if (completion_2.kind === "return")
                         return completion_2.value;

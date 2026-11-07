@@ -2,9 +2,9 @@
 import * as Base64Url from "effect/encoding/Base64Url";
 import * as HttpClientError from "effect/http/HttpClientError";
 import { withSpan } from "effect/Effect";
-import { $catchExpression, $matchCache } from "vibelang-runtime";
+import { $catchExpression, $matchCache } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Context from "effect/Context";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
