@@ -133,6 +133,11 @@
       "vibelang-source": "./src/platform/orchestrationCache.vibe",
       "default": "./.vibelang/js/src/platform/orchestrationCache.js"
     },
+    "#vibelang/emitted/src/platform/shellCacheEncoding": {
+      "types": "./src/platform/shellCacheEncoding.d.vibe.ts",
+      "vibelang-source": "./src/platform/shellCacheEncoding.vibe",
+      "default": "./.vibelang/js/src/platform/shellCacheEncoding.js"
+    },
     "#vibelang/emitted/src/platform/threadCacheEncoding": {
       "types": "./src/platform/threadCacheEncoding.d.vibe.ts",
       "vibelang-source": "./src/platform/threadCacheEncoding.vibe",
@@ -366,7 +371,8 @@
     },
     "./prompt-links": {
       "types": "./src/promptLinks.d.vibe.ts",
-      "default": "./src/promptLinks.vibe"
+      "vibelang-source": "./src/promptLinks.vibe",
+      "default": "./.vibelang/js/src/promptLinks.js"
     },
     "./secret-request": {
       "types": "./src/secretRequest.ts",
@@ -525,7 +531,8 @@
     },
     "./state/attachments": {
       "types": "./src/state/attachments.d.vibe.ts",
-      "default": "./src/state/attachments.vibe"
+      "vibelang-source": "./src/state/attachments.vibe",
+      "default": "./.vibelang/js/src/state/attachments.js"
     },
     "./text-paste": {
       "types": "./src/textPaste.ts",
@@ -580,7 +587,8 @@
     },
     "./state/git": {
       "types": "./src/state/git.d.vibe.ts",
-      "default": "./src/state/git.vibe"
+      "vibelang-source": "./src/state/git.vibe",
+      "default": "./.vibelang/js/src/state/git.js"
     },
     "./state/command-output": {
       "types": "./src/state/commandOutput.ts",
@@ -642,7 +650,8 @@
     },
     "./state/preview": {
       "types": "./src/state/preview.d.vibe.ts",
-      "default": "./src/state/preview.vibe"
+      "vibelang-source": "./src/state/preview.vibe",
+      "default": "./.vibelang/js/src/state/preview.js"
     },
     "./state/projects": {
       "types": "./src/state/projects.ts",
@@ -690,7 +699,8 @@
     },
     "./state/usage": {
       "types": "./src/state/usage.d.vibe.ts",
-      "default": "./src/state/usage.vibe"
+      "vibelang-source": "./src/state/usage.vibe",
+      "default": "./.vibelang/js/src/state/usage.js"
     },
     "./state/usage-progress": {
       "types": "./src/state/usageProgress.ts",
@@ -706,8 +716,8 @@
       "default": "./.vibelang/js/src/state/server.js"
     },
     "./state/outdatedServerUpdate": {
-      "types": "./src/state/outdatedServerUpdate.ts",
-      "vibelang-source": "./src/state/outdatedServerUpdate.ts",
+      "types": "./src/state/outdatedServerUpdate.d.vibe.ts",
+      "vibelang-source": "./src/state/outdatedServerUpdate.vibe",
       "default": "./.vibelang/js/src/state/outdatedServerUpdate.js"
     },
     "./state/session": {
@@ -781,7 +791,8 @@
     },
     "./state/thread-checkpoints": {
       "types": "./src/state/threadCheckpoints.d.vibe.ts",
-      "default": "./src/state/threadCheckpoints.vibe"
+      "vibelang-source": "./src/state/threadCheckpoints.vibe",
+      "default": "./.vibelang/js/src/state/threadCheckpoints.js"
     },
     "./state/thread-execution": {
       "types": "./src/state/threadExecution.vibe",
@@ -810,7 +821,8 @@
     },
     "./state/thread-subagents": {
       "types": "./src/state/threadSubagents.d.vibe.ts",
-      "default": "./src/state/threadSubagents.vibe"
+      "vibelang-source": "./src/state/threadSubagents.vibe",
+      "default": "./.vibelang/js/src/state/threadSubagents.js"
     },
     "./state/thread-undo": {
       "types": "./src/state/threadUndo.ts",
@@ -856,7 +868,8 @@
     },
     "./work-log/item-detail": {
       "types": "./src/work-log/itemDetail.d.vibe.ts",
-      "default": "./src/work-log/itemDetail.vibe"
+      "vibelang-source": "./src/work-log/itemDetail.vibe",
+      "default": "./.vibelang/js/src/work-log/itemDetail.js"
     },
     "./work-log/presentation": {
       "types": "./src/work-log/presentation.ts",
@@ -1011,13 +1024,14 @@
       }
     },
     "./mcp-apps": {
-      "types": "./src/mcpApps/host.ts",
-      "vibelang-source": "./src/mcpApps/host.ts",
+      "types": "./src/mcpApps/host.d.vibe.ts",
+      "vibelang-source": "./src/mcpApps/host.vibe",
       "default": "./.vibelang/js/src/mcpApps/host.js"
     },
     "./state/mcp-apps": {
       "types": "./src/state/mcpApps.d.vibe.ts",
-      "default": "./src/state/mcpApps.vibe"
+      "vibelang-source": "./src/state/mcpApps.vibe",
+      "default": "./.vibelang/js/src/state/mcpApps.js"
     },
     "./source-control-clients": {
       "types": "./src/sourceControlClients.ts",
