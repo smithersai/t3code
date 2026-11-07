@@ -8,7 +8,7 @@ import { Summary, recordSummary } from "./Summary.vibe";
 import * as Savings from "./Savings.vibe";
 import type { ProtocolBindings } from "./protocolTypes.ts";
 import * as Admission from "./Admission.vibe";
-import { developerIdentity } from "./developerAuth.ts";
+import { developerIdentity } from "./developerAuth.vibe";
 
 const decodeSummary = Schema.decodeEffect(Schema.fromJsonString(Summary));
 

@@ -5,7 +5,7 @@ module platform {
   import * as Context from "effect/Context"
   import * as Effect from "effect/Effect"
   import * as Schema from "effect/Schema"
-  import { developerIdentity } from "./developerAuth.ts"
+  import { developerIdentity } from "./developerAuth.vibe"
 
   export const routePrefix = "/projects/t3code/native-clients/"
   export class NativeClientsError extends Schema.TaggedError<NativeClientsError>()(
