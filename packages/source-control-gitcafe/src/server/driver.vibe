@@ -4,7 +4,7 @@ import { definition } from "../shared/definition.vibe"
 
 import * as GitCafeApi from "./GitCafeApi.vibe"
 import * as GitCafeCredentials from "./GitCafeCredentials.vibe"
-import * as GitCafePullRequestProvider from "./GitCafePullRequestProvider.ts"
+import * as GitCafePullRequestProvider from "./GitCafePullRequestProvider.vibe"
 import * as GitCafeSourceControlProvider from "./GitCafeSourceControlProvider.vibe"
 
 const services = GitCafeApi.layer.pipe(Layer.provideMerge(GitCafeCredentials.layer))

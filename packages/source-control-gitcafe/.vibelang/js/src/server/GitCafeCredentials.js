@@ -5,9 +5,9 @@ import * as Exit from "effect/Exit";
 import * as Option from "effect/Option";
 import * as PlatformError from "effect/PlatformError";
 import { withSpan } from "effect/Effect";
-import { $schemaErrorMatcher } from "vibelang-runtime";
+import { $schemaErrorMatcher } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Schema_1 from "effect/Schema";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -74,7 +74,7 @@ function credentialPassword(output) {
     return null;
 }
 /** @public */
-export const make = Effect_1.gen(runtime.$joinedFrame(function* make() {
+export const make = Effect_1.gen(function* make() {
     const sourceControlHost = yield* SourceControlHost.SourceControlHost;
     const { process } = sourceControlHost;
     const environment = yield* HostProcess.Environment;
@@ -101,11 +101,11 @@ export const make = Effect_1.gen(runtime.$joinedFrame(function* make() {
         : (Effect.orElseSucceed(Effect.map(sourceControlHost.settings.get, (settings) => readSourceControlHostSettings(GitCafeClient.settings, settings.sourceControlHosts[GitCafeClient.definition.kind]).token || null), () => null));
     const lookup = (host) => {
         return Effect_1.gen(function* lookup() { return yield* withSpan((() => {
-            return Effect_1.gen(runtime.$joinedFrame(function* () {
+            return Effect_1.gen(function* () {
                 const fromEnv = environmentToken(host, environment);
                 const token = fromEnv ?? (yield* fromCafe(host));
                 return { host, token: Redacted.make(token), source: fromEnv !== null ? "env" : "cafe" };
-            }));
+            });
         })(), "GitCafeCredentials.lookup"); });
     };
     const cache = yield* Cache.makeWith(lookup, {
@@ -133,5 +133,5 @@ export const make = Effect_1.gen(runtime.$joinedFrame(function* make() {
             return Effect.map(fromSettings(host), (saved) => (saved === null ? {} : { CAFE_TOKEN: saved }));
         }),
     });
-}));
+});
 export const layer = Layer.effect(GitCafeCredentials, make);

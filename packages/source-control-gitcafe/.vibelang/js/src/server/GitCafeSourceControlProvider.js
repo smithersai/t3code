@@ -3,9 +3,9 @@ import * as Result from "effect/Result";
 import * as Schedule from "effect/Schedule";
 import * as Schema from "effect/Schema";
 import { withSpan } from "effect/Effect";
-import { $catchExpression } from "vibelang-runtime";
+import { $catchExpression } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import { SourceControlProviderKind } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -216,7 +216,7 @@ export const make = Effect.gen(function* () {
         getChangeRequest: getPull,
         listChangeRequests: (input) => {
             return Effect_1.gen(function* listChangeRequests() { return yield* withSpan((() => {
-                return Effect_1.gen(runtime.$joinedFrame(function* () {
+                return Effect_1.gen(function* () {
                     const target = yield* resolveTarget("listChangeRequests", input);
                     const source = SourceControlProvider.sourceControlRefFromInput(input);
                     const branch = SourceControlProvider.sourceBranch(input);
@@ -234,41 +234,23 @@ export const make = Effect.gen(function* () {
                         if (after !== null)
                             query.set("after", after);
                         const page = yield* read("listChangeRequests", input.cwd, { host: target.host, path: `/repos/${target.repository}/pulls?${query}` }, Pulls);
-                        {
-                            let pending_1 = runtime.$normal;
-                            try {
-                                for (const pull of page.items) {
-                                    try {
-                                        {
-                                            if (pull.sourceBranch !== branch || items.length >= limit)
-                                                continue;
-                                            // List rows omit fork identity; read matching branches in full.
-                                            const detail = yield* getPull({
-                                                cwd: input.cwd,
-                                                reference: `https://${target.host}/${target.repository}/pulls/${pull.number}`,
-                                            });
-                                            if ((!source?.repository || detail.headRepositoryNameWithOwner === source.repository)
-                                                && (!source?.owner || detail.headRepositoryOwnerLogin === source.owner)) {
-                                                items.push(detail);
-                                            }
-                                        }
-                                    }
-                                    catch (thrown_1) {
-                                        pending_1 = thrown_1;
-                                        break;
-                                    }
-                                }
+                        for (const pull of page.items) {
+                            if (pull.sourceBranch !== branch || items.length >= limit)
+                                continue;
+                            // List rows omit fork identity; read matching branches in full.
+                            const detail = yield* getPull({
+                                cwd: input.cwd,
+                                reference: `https://${target.host}/${target.repository}/pulls/${pull.number}`,
+                            });
+                            if ((!source?.repository || detail.headRepositoryNameWithOwner === source.repository)
+                                && (!source?.owner || detail.headRepositoryOwnerLogin === source.owner)) {
+                                items.push(detail);
                             }
-                            catch (thrown_2) {
-                                throw runtime.$finallyFailure(pending_1, thrown_2);
-                            }
-                            if (pending_1 !== runtime.$normal)
-                                throw pending_1;
                         }
                         after = page.items.length === 0 || page.next === after ? null : page.next;
                     } while (after !== null && items.length < limit);
                     return items;
-                }));
+                });
             })(), "GitCafeSourceControlProvider.listChangeRequests"); });
         },
         createChangeRequest: (input) => {

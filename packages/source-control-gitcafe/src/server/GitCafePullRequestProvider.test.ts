@@ -12,7 +12,7 @@ import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSour
 
 import * as GitCafeApi from "./GitCafeApi.vibe";
 import * as GitCafeCredentials from "./GitCafeCredentials.vibe";
-import * as GitCafePullRequestProvider from "./GitCafePullRequestProvider.ts";
+import * as GitCafePullRequestProvider from "./GitCafePullRequestProvider.vibe";
 
 const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown));
 const decodeJson = Schema.decodeUnknownSync(Schema.fromJsonString(Schema.Unknown));
