@@ -1,6 +1,6 @@
 import * as HostProcess from "@t3tools/shared/HostProcess"
 import { defaultInstanceIdForDriver } from "@t3tools/contracts"
-import { OpenCodeSettings } from "#vibelang/emitted/src/settings"
+import { OpenCodeSettings } from "../settings.vibe"
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost"
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions"
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers"
@@ -50,7 +50,7 @@ module throwing {
     type RuntimeRequestId,
     type ThreadId,
   } from "@t3tools/contracts"
-  import { OpenCodeSettings } from "#vibelang/emitted/src/settings"
+  import { OpenCodeSettings } from "../settings.vibe"
   import * as Cause from "effect/Cause"
   import * as DateTime from "effect/DateTime"
   import * as Deferred from "effect/Deferred"

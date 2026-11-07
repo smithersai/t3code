@@ -1,0 +1,7 @@
+// The platform code of usageLimits.vibe, which a .vibe file does not import as a value (EK4402).
+
+import * as $platform from "./usageLimits.platform.platform.ts"
+
+// Select before decoding so an OAuth or self-hosted connection cannot fall
+// through to another stored account. NULL-active rows predate the selection flag.
+export const readConsoleApiKey = (databasePath: string) => $platform.readConsoleApiKey(databasePath)

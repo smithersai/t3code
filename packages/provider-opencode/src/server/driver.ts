@@ -1,5 +1,5 @@
 import { ProviderDriverKind } from "@t3tools/contracts";
-import { OpenCodeSettings } from "#vibelang/emitted/src/settings";
+import { OpenCodeSettings } from "../settings.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
@@ -11,7 +11,7 @@ import * as Stream from "effect/Stream";
 import * as HttpClient from "effect/http/HttpClient";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import * as OpenCode2TextGeneration from "#vibelang/emitted/src/server/v2/textGeneration";
+import * as OpenCode2TextGeneration from "./v2/textGeneration.vibe";
 import { makeOpenCodeTextGeneration } from "./textGeneration.ts";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
@@ -23,9 +23,9 @@ import { ProviderDriverError } from "@t3tools/provider-core/server/errors";
 import {
   openCodeUsageReader,
   type OpenCodeUsageReaderEnv,
-} from "#vibelang/emitted/src/server/usage";
-import { readOpenCodeGoUsageLimits } from "#vibelang/emitted/src/server/usageLimits";
-import { loadOpenCode2Catalog } from "#vibelang/emitted/src/server/openCode2Catalog";
+} from "./usage.vibe";
+import { readOpenCodeGoUsageLimits } from "./usageLimits.vibe";
+import { loadOpenCode2Catalog } from "./openCode2Catalog.vibe";
 import {
   checkOpenCodeProviderStatus,
   loadOpenCode2Workspace,
@@ -35,7 +35,7 @@ import {
   openCode2SkillsToServerProviderSkills,
   openCodeSkillsToServerProviderSkills,
   openCodeCommandsToServerProviderSlashCommands,
-} from "#vibelang/emitted/src/server/status";
+} from "./status.vibe";
 import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider";
 import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
 import {
@@ -43,9 +43,9 @@ import {
   probeOpenCodeRuntime,
   type ProbedOpenCode,
 } from "./versionProbe.vibe";
-import * as OpenCodeServerOwner from "#vibelang/emitted/src/server/OpenCodeServerOwner";
-import * as OpenCode2Client from "#vibelang/emitted/src/server/v2/OpenCode2Client";
-import * as OpenCode2Server from "#vibelang/emitted/src/server/v2/OpenCode2Server";
+import * as OpenCodeServerOwner from "./OpenCodeServerOwner.vibe";
+import * as OpenCode2Client from "./v2/OpenCode2Client.vibe";
+import * as OpenCode2Server from "./v2/OpenCode2Server.vibe";
 import {
   defaultProviderContinuationIdentity,
   type ProviderDriver,

@@ -5,7 +5,7 @@ import { withSpan } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { defaultInstanceIdForDriver } from "@t3tools/contracts";
-import { OpenCodeSettings } from "#vibelang/emitted/src/settings";
+import { OpenCodeSettings } from "../settings.js";
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";

@@ -1,4 +1,4 @@
-import { OpenCodeSettings } from "#vibelang/emitted/src/settings";
+import { OpenCodeSettings } from "../settings.vibe";
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";

@@ -2,7 +2,7 @@
 import { getModelSelectionStringOptionValue } from "@t3tools/shared/model";
 import { causeErrorTag } from "@t3tools/shared/observability";
 import { ProviderDriverKind, } from "@t3tools/contracts";
-import { OpenCodeSettings } from "#vibelang/emitted/src/settings";
+import { OpenCodeSettings } from "../settings.js";
 import * as Cause from "effect/Cause";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";

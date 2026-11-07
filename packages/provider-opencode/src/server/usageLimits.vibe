@@ -6,7 +6,7 @@ import * as Path from "effect/Path"
 import * as HttpClient from "effect/http/HttpClient"
 import { clampPercent, makeUnavailableUsageLimits, makeUsageLimits } from "@t3tools/provider-core/server/usageLimits"
 import * as HostProcess from "@t3tools/shared/HostProcess"
-import { readConsoleApiKey as readConsoleApiKey$platform } from "./usageLimits.platform.ts"
+import { readConsoleApiKey as readConsoleApiKey$platform } from "./usageLimits.platform.vibe"
 
 const AuthFile = Schema.Struct({ "opencode-go": Schema.optionalKey(Schema.Unknown) })
 schema ApiAuth { readonly type: "api"; readonly key: string }

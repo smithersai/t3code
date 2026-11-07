@@ -1,5 +1,7 @@
 // The platform code of usageLimits.vibe, which a .vibe file does not import as a value (EK4402).
 
+// The platform code of usageLimits.platform.vibe, which a .vibe file does not import as a value (EK4402).
+
 import * as NodeSqlite from "node:sqlite";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
