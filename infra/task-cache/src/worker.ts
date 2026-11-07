@@ -7,7 +7,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as HttpServerResponse from "effect/http/HttpServerResponse";
 import * as Admission from "./Admission.vibe";
-import * as Cache from "./Cache.ts";
+import * as Cache from "./Cache.vibe";
 import * as Cleanup from "./Cleanup.vibe";
 import * as NativeClients from "./NativeClients.vibe";
 import * as Savings from "./Savings.vibe";

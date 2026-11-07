@@ -41,7 +41,7 @@
      "relative": "infra/task-cache/src"
     },
     null,
-    "dbdmWvjTHH7K87ju6B9_UPd7BPo-WyXoItu_cWXKIuI",
+    "RHs2V923-qxvrJzVKCcfJoS7CrGBeoq8uoOuqHZzsPY",
     []
    ],
    [
@@ -9816,17 +9816,17 @@
    },
    {
     "path": {
-     "relative": "infra/task-cache/src/Cache.ts"
+     "relative": "infra/task-cache/src/Cache.vibe"
     },
-    "size": 10072,
-    "hash": "RSZ5G5kHyISEnhAY4oI8GAeeVTFzv6tIw_v9adGsvTE"
+    "size": 10564,
+    "hash": "tvO9Ac7uqCtq-ov-27h-fiTGi1ALAl3oJ_1UOK0atUI"
    },
    {
     "path": {
      "relative": "infra/task-cache/src/Cleanup.vibe"
     },
-    "size": 442,
-    "hash": "DPS4_5tXTISHSvq_DeRG0m870rsWlWV2p86oDNE2S3k"
+    "size": 444,
+    "hash": "OZmvLIK1UsYKgYPRvh6gHj5GasADiEM_Nvwk-LF5Xrk"
    },
    {
     "path": {
@@ -9839,8 +9839,8 @@
     "path": {
      "relative": "infra/task-cache/src/worker.ts"
     },
-    "size": 4693,
-    "hash": "pbZNINBrzW5C1duV-3L0OpInwKKfFKxDQrXJTIJ_O18"
+    "size": 4695,
+    "hash": "Elx5RyMFf8_SyvMB77IPM5ou5qLcZcIe3dkVby7SjZw"
    },
    {
     "path": {
@@ -10056,15 +10056,15 @@
     "path": {
      "relative": "infra/task-cache/src/Cache.test.ts"
     },
-    "size": 13368,
-    "hash": "Xp-6ZRMNDLsbFjMukEE-b6_O_-UvPAsJm_KljXJb_m4"
+    "size": 13370,
+    "hash": "99YZ4Zq5mCrBTwYA1P5aUCXqInHUedbgPqcZTC5QiZg"
    },
    {
     "path": {
      "relative": "infra/task-cache/src/Cleanup.test.ts"
     },
-    "size": 4477,
-    "hash": "pIqMkuSBGbj54gqiUWhgLSBI7g-9IDXtIOr7CnrTXI0"
+    "size": 4479,
+    "hash": "Jxk5s4Bdzr0-cAO7I3TGaCk6nYagr4zgZeflErTEZLY"
    },
    {
     "path": {
@@ -11098,7 +11098,7 @@
     "relative": "infra/task-cache/src/protocol.ts"
    },
    {
-    "relative": "infra/task-cache/src/Cache.ts"
+    "relative": "infra/task-cache/src/Cache.vibe"
    },
    {
     "relative": "infra/task-cache/src/Cleanup.vibe"
@@ -11402,6 +11402,46 @@
    {
     "paths": [
      {
+      "relative": "infra/task-cache/src/Cache.vibe"
+     }
+    ],
+    "code": "import * as Layer from \"effect/Layer\";\nimport { Cache, make } from \"./Cache.vibe.platform.js\";\nexport { Bindings, Cache, CacheError } from \"./Cache.vibe.platform.js\";\nexport const layer = Layer.effect(Cache, make);\n",
+    "map": {
+     "version": 3,
+     "file": "Cache.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "infra/task-cache/src/Cache.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "AAAA,OAAO,KAAK,KAAK,MAAM,cAAc,CAAA;AAkPrC,OAAO,EAAE,KAAK,EAAE,IAAI,EAAE,MAAM,0BAAQ,CAAA;AACpC,OAAO,EAAE,QAAQ,EAAE,KAAK,EAAE,UAAU,EAAE,MAAM,0BAAQ,CAAA;AAEpD,MAAM,CAAC,MAAM,KAAK,GAAG,KAAK,CAAC,MAAM,CAAC,KAAK,EAAE,IAAI,CAAC,CAAA"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "infra/task-cache/src/Cache.vibe.platform.js"
+     }
+    ],
+    "code": "import * as Context from \"effect/Context\";\nimport * as Effect from \"effect/Effect\";\nimport * as Clock from \"effect/Clock\";\nimport * as Schema from \"effect/Schema\";\nimport { Summary, recordSummary } from \"./Summary.js\";\nimport * as Savings from \"./Savings.js\";\nimport * as Admission from \"./Admission.js\";\nimport { developerIdentity } from \"./developerAuth.js\";\nconst decodeSummary = Schema.decodeEffect(Schema.fromJsonString(Summary));\nexport class CacheError extends Schema.TaggedError()(\"CacheError\", {\n    status: Schema.Number,\n    reason: Schema.String,\n}) {\n}\nexport class Bindings extends Context.Service()(\"@t3tools/task-cache/Cache/Bindings\") {\n}\nexport class Cache extends Context.Service()(\"@t3tools/task-cache/Cache\") {\n}\nexport const make = Effect.gen(function* () {\n    const bindings = yield* Bindings;\n    const admission = yield* Admission.Admission;\n    const savings = yield* Savings.Savings;\n    // The source-only protocol dependency is bundled for Workers, never evaluated by Node during deployment.\n    const { authorizeCacheWrite, authorizeTelemetry, keys, cborResponse, cleanup, getScope, selectBlob, errorResponse, HttpError, fetchMetadata, defaults, store, readBody, Deadline, Observations, } = yield* Effect.promise(() => import(\"./protocol.js\"));\n    // The upstream adapter owns the experimental wire format and atomic D1 publication.\n    const protocol = (run) => Effect.tryPromise({\n        try: run,\n        catch: (cause) => new CacheError({\n            status: cause instanceof HttpError ? cause.status : 503,\n            reason: cause instanceof HttpError ? cause.code : \"unavailable\",\n        }),\n    });\n    const checkLimit = Effect.fn(\"TaskCache.checkLimit\")(function* (operation) {\n        const allowed = yield* protocol(() => (operation === \"store\" ? bindings.storeLimit : bindings.readLimit).limit({\n            key: `t3code:${operation.startsWith(\"blob/\") ? \"blob\" : operation}`,\n        }));\n        if (!allowed.success)\n            return yield* new CacheError({ status: 429, reason: \"rate_limit\" });\n    });\n    const handle = Effect.fn(\"TaskCache.handle\")(function* (request, context) {\n        const url = new URL(request.url);\n        const route = /^\\/projects\\/t3code\\/(fetch|store|telemetry|blob\\/([0-9a-f-]{36}))$/.exec(url.pathname);\n        const operation = route?.[1] ?? \"unknown\";\n        const writing = operation === \"store\";\n        yield* Effect.annotateCurrentSpan({\n            \"cache.operation\": operation.startsWith(\"blob/\") ? \"blob\" : operation,\n        });\n        if (!route\n            || url.search\n            || request.method !== (operation.startsWith(\"blob/\") ? \"GET\" : \"POST\")) {\n            return yield* new CacheError({ status: 404, reason: \"unknown_route\" });\n        }\n        if (!request.headers.has(\"authorization\")) {\n            return yield* new CacheError({ status: 401, reason: \"missing_identity\" });\n        }\n        const developer = yield* developerIdentity(request, bindings.developerKeys);\n        if (writing || operation === \"telemetry\") {\n            if (developer === null) {\n                return yield* new CacheError({ status: 403, reason: \"invalid_identity\" });\n            }\n        }\n        else {\n            const reader = developer ?? (yield* developerIdentity(request, bindings.readerKeys));\n            if (typeof reader !== \"string\") {\n                return yield* new CacheError({ status: 403, reason: \"read_denied\" });\n            }\n        }\n        return yield* admission\n            .withPermit(writing, Effect.scoped(Effect.gen(function* () {\n            const controller = yield* Effect.acquireRelease(Effect.sync(() => new AbortController()), (value) => Effect.sync(() => value.abort()));\n            const deadline = yield* Effect.acquireRelease(Effect.sync(() => new Deadline(writing ? defaults.deadlineMs : 15000, AbortSignal.any([request.signal, controller.signal]))), (value) => Effect.sync(() => {\n                controller.abort();\n                value.dispose();\n            }));\n            const stats = new Observations();\n            yield* Effect.addFinalizer(() => Effect.annotateCurrentSpan(Object.fromEntries(Object.entries(stats.toJSON()).map(([key, value]) => [`cache.${key}`, value]))));\n            if (!writing && operation !== \"telemetry\")\n                yield* checkLimit(operation);\n            const scope = yield* protocol(() => getScope(bindings.INDEX, \"t3code\", stats));\n            if (operation === \"telemetry\") {\n                let identity = developer ?? undefined;\n                if (identity === undefined) {\n                    identity = yield* protocol(() => authorizeTelemetry(request, scope, keys));\n                }\n                yield* checkLimit(operation);\n                const bytes = yield* protocol(() => readBody(request.body, 256 * 1024, deadline));\n                const summary = yield* decodeSummary(new TextDecoder().decode(bytes)).pipe(Effect.mapError(() => new CacheError({ status: 400, reason: \"invalid_summary\" })));\n                if (summary.tasks.length === 0)\n                    return new Response(null, { status: 204 });\n                const now = yield* Clock.currentTimeMillis;\n                if (summary.recordedAt > now + 60_000 || summary.recordedAt < now - 30 * 86400_000) {\n                    return yield* new CacheError({ status: 400, reason: \"summary_expired\" });\n                }\n                yield* savings\n                    .record(summary, identity)\n                    .pipe(Effect.mapError(() => new CacheError({ status: 503, reason: \"telemetry_unavailable\" })));\n                yield* recordSummary(summary, identity);\n                yield* savings\n                    .emitTotals(identity, summary.host)\n                    .pipe(Effect.mapError(() => new CacheError({ status: 503, reason: \"telemetry_unavailable\" })));\n                return new Response(null, { status: 204 });\n            }\n            if (writing) {\n                if (developer !== undefined && !scope.writes_enabled) {\n                    return yield* new CacheError({ status: 403, reason: \"developer_write_denied\" });\n                }\n                const now = yield* Clock.currentTimeMillis;\n                const identity = developer === undefined\n                    ? yield* protocol(() => authorizeCacheWrite(request, scope, keys))\n                    : {\n                        exp: Math.floor(now / 1000) + 900,\n                        repository_id: scope.repository_id,\n                        workflow_ref: `developer/${developer}`,\n                    };\n                yield* checkLimit(operation);\n                return yield* protocol(() => store(request, bindings, context, scope, identity, defaults, deadline, stats));\n            }\n            if (operation === \"fetch\") {\n                const result = yield* protocol(() => fetchMetadata(request, bindings, \"t3code\", defaults, deadline, stats));\n                return cborResponse(result);\n            }\n            const selected = yield* protocol(() => selectBlob(bindings.INDEX, \"t3code\", route[2], stats));\n            if (!selected)\n                return yield* new CacheError({ status: 404, reason: \"blob_missing\" });\n            stats.r2_operations++;\n            const object = yield* protocol(() => bindings.ARTIFACTS.get(selected.blob_object));\n            if (!object)\n                return yield* new CacheError({ status: 404, reason: \"blob_missing\" });\n            if (object.size !== selected.blob_size) {\n                return yield* new CacheError({ status: 503, reason: \"blob_size\" });\n            }\n            return new Response(object.body, {\n                headers: {\n                    \"Content-Type\": \"application/octet-stream\",\n                    \"Content-Length\": String(object.size),\n                    \"Cache-Control\": \"no-store\",\n                },\n            });\n        })))\n            .pipe(Effect.timeout(writing ? \"2 minutes\" : \"15 seconds\"), Effect.catchTags({\n            AdmissionRejected: () => Effect.fail(new CacheError({ status: 503, reason: \"concurrency_limit\" })),\n            TimeoutError: () => Effect.fail(new CacheError({ status: 503, reason: \"deadline\" })),\n        }));\n    }, Effect.catchTags({\n        // The enclosing operation owns the span for this inline handler.\n        CacheError: Effect.fnUntraced(function* (error) {\n            if (error.status >= 500) {\n                yield* Effect.logWarning(\"Cache request failed\", { reason: error.reason });\n            }\n            return errorResponse(new HttpError(error.status, error.reason));\n        }),\n    }));\n    return Cache.of({ handle, cleanup: protocol(() => cleanup(bindings)) });\n});\n",
+    "map": {
+     "version": 3,
+     "file": "Cache.vibe.platform.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "infra/task-cache/src/Cache.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "AAGE,OAAO,KAAK,OAAO,MAAM,gBAAgB,CAAA;AACzC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,KAAK,MAAM,cAAc,CAAA;AACrC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AAEvC,OAAO,EAAE,OAAO,EAAE,aAAa,EAAE,MAAM,cAAgB,CAAA;AACvD,OAAO,KAAK,OAAO,MAAM,cAAgB,CAAA;AAEzC,OAAO,KAAK,SAAS,MAAM,gBAAkB,CAAA;AAC7C,OAAO,EAAE,iBAAiB,EAAE,MAAM,oBAAsB,CAAA;AAExD,MAAM,aAAa,GAAG,MAAM,CAAC,YAAY,CAAC,MAAM,CAAC,cAAc,CAAC,OAAO,CAAC,CAAC,CAAA;AACzE,MAAM,OAAO,UAAW,SAAQ,MAAM,CAAC,WAAW,EAAc,CAAC,YAAY,EAAE;IAC7E,MAAM,EAAE,MAAM,CAAC,MAAM;IACrB,MAAM,EAAE,MAAM,CAAC,MAAM;CACtB,CAAC;CAAG;AACL,MAAM,OAAO,QAAS,SAAQ,OAAO,CAAC,OAAO,EAQ1C,CAAC,oCAAoC,CAAC;CAAG;AAC5C,MAAM,OAAO,KAAM,SAAQ,OAAO,CAAC,OAAO,EASvC,CAAC,2BAA2B,CAAC;CAAG;AACnC,MAAM,CAAC,MAAM,IAAI,GAAG,MAAM,CAAC,GAAG,CAAC,QAAQ,CAAC;IACtC,MAAM,QAAQ,GAAG,KAAK,CAAC,CAAC,QAAQ,CAAA;IAChC,MAAM,SAAS,GAAG,KAAK,CAAC,CAAC,SAAS,CAAC,SAAS,CAAA;IAC5C,MAAM,OAAO,GAAG,KAAK,CAAC,CAAC,OAAO,CAAC,OAAO,CAAA;IACtC,yGAAyG;IACzG,MAAM,EACJ,mBAAmB,EACnB,kBAAkB,EAClB,IAAI,EACJ,YAAY,EACZ,OAAO,EACP,QAAQ,EACR,UAAU,EACV,aAAa,EACb,SAAS,EACT,aAAa,EACb,QAAQ,EACR,KAAK,EACL,QAAQ,EACR,QAAQ,EACR,YAAY,GACb,GAAG,KAAK,CAAC,CAAC,MAAM,CAAC,OAAO,CAAC,GAAG,EAAE,CAAC,MAAM,CAAC,eAAe,CAAC,CAAC,CAAA;IAExD,oFAAoF;IACpF,MAAM,QAAQ,GAAG,CAAI,GAAwC,EAAE,EAAE,CAC/D,MAAM,CAAC,UAAU,CAAC;QAChB,GAAG,EAAE,GAAG;QACR,KAAK,EAAE,CAAC,KAAK,EAAE,EAAE,CACf,IAAI,UAAU,CAAC;YACb,MAAM,EAAE,KAAK,YAAY,SAAS,CAAC,CAAC,CAAC,KAAK,CAAC,MAAM,CAAC,CAAC,CAAC,GAAG;YACvD,MAAM,EAAE,KAAK,YAAY,SAAS,CAAC,CAAC,CAAC,KAAK,CAAC,IAAI,CAAC,CAAC,CAAC,aAAa;SAChE,CAAC;KACL,CAAC,CAAA;IAEJ,MAAM,UAAU,GAAG,MAAM,CAAC,EAAE,CAAC,sBAAsB,CAAC,CAAC,QAAQ,CAAC,EAAC,SAAiB;QAC9E,MAAM,OAAO,GAAG,KAAK,CAAC,CAAC,QAAQ,CAAC,GAAG,EAAE,CACnC,CAAC,SAAS,KAAK,OAAO,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,CAAC,CAAC,CAAC,QAAQ,CAAC,SAAS,CAAC,CAAC,KAAK,CAAC;YACvE,GAAG,EAAE,UAAU,SAAS,CAAC,UAAU,CAAC,OAAO,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,SAAS,EAAE;SACpE,CAAC,CACH,CAAA;QACD,IAAI,CAAC,OAAO,CAAC,OAAO;YAAE,OAAO,KAAK,CAAC,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,YAAY,EAAE,CAAC,CAAA;IAC3F,CAAC,CAAC,CAAA;IAEF,MAAM,MAAM,GAAG,MAAM,CAAC,EAAE,CAAC,kBAAkB,CAAC,CAC1C,QAAQ,CAAC,EAAC,OAAgB,EAAE,OAAuD;QACjF,MAAM,GAAG,GAAG,IAAI,GAAG,CAAC,OAAO,CAAC,GAAG,CAAC,CAAA;QAChC,MAAM,KAAK,GAAG,qEAAqE,CAAC,IAAI,CACtF,GAAG,CAAC,QAAQ,CACb,CAAA;QACD,MAAM,SAAS,GAAG,KAAK,EAAE,CAAC,CAAC,CAAC,IAAI,SAAS,CAAA;QACzC,MAAM,OAAO,GAAG,SAAS,KAAK,OAAO,CAAA;QACrC,KAAK,CAAC,CAAC,MAAM,CAAC,mBAAmB,CAAC;YAChC,iBAAiB,EAAE,SAAS,CAAC,UAAU,CAAC,OAAO,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,SAAS;SACtE,CAAC,CAAA;QACF,IACE,CAAC,KAAK;eACH,GAAG,CAAC,MAAM;eACV,OAAO,CAAC,MAAM,KAAK,CAAC,SAAS,CAAC,UAAU,CAAC,OAAO,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,EACtE,CAAC;YACD,OAAO,KAAK,CAAC,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,eAAe,EAAE,CAAC,CAAA;QACxE,CAAC;QACD,IAAI,CAAC,OAAO,CAAC,OAAO,CAAC,GAAG,CAAC,eAAe,CAAC,EAAE,CAAC;YAC1C,OAAO,KAAK,CAAC,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,kBAAkB,EAAE,CAAC,CAAA;QAC3E,CAAC;QACD,MAAM,SAAS,GAAG,KAAK,CAAC,CAAC,iBAAiB,CAAC,OAAO,EAAE,QAAQ,CAAC,aAAa,CAAC,CAAA;QAC3E,IAAI,OAAO,IAAI,SAAS,KAAK,WAAW,EAAE,CAAC;YACzC,IAAI,SAAS,KAAK,IAAI,EAAE,CAAC;gBACvB,OAAO,KAAK,CAAC,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,kBAAkB,EAAE,CAAC,CAAA;YAC3E,CAAC;QACH,CAAC;aAAM,CAAC;YACN,MAAM,MAAM,GAAG,SAAS,IAAI,CAAC,KAAK,CAAC,CAAC,iBAAiB,CAAC,OAAO,EAAE,QAAQ,CAAC,UAAU,CAAC,CAAC,CAAA;YACpF,IAAI,OAAO,MAAM,KAAK,QAAQ,EAAE,CAAC;gBAC/B,OAAO,KAAK,CAAC,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,aAAa,EAAE,CAAC,CAAA;YACtE,CAAC;QACH,CAAC;QACD,OAAO,KAAK,CAAC,CAAC,SAAS;aACpB,UAAU,CACT,OAAO,EACP,MAAM,CAAC,MAAM,CACX,MAAM,CAAC,GAAG,CAAC,QAAQ,CAAC;YAClB,MAAM,UAAU,GAAG,KAAK,CAAC,CAAC,MAAM,CAAC,cAAc,CAC7C,MAAM,CAAC,IAAI,CAAC,GAAG,EAAE,CAAC,IAAI,eAAe,EAAE,CAAC,EACxC,CAAC,KAAK,EAAE,EAAE,CAAC,MAAM,CAAC,IAAI,CAAC,GAAG,EAAE,CAAC,KAAK,CAAC,KAAK,EAAE,CAAC,CAC5C,CAAA;YACD,MAAM,QAAQ,GAAG,KAAK,CAAC,CAAC,MAAM,CAAC,cAAc,CAC3C,MAAM,CAAC,IAAI,CACT,GAAG,EAAE,CACH,IAAI,QAAQ,CACV,OAAO,CAAC,CAAC,CAAC,QAAQ,CAAC,UAAU,CAAC,CAAC,CAAC,KAAK,EACrC,WAAW,CAAC,GAAG,CAAC,CAAC,OAAO,CAAC,MAAM,EAAE,UAAU,CAAC,MAAM,CAAC,CAAC,CACrD,CACJ,EACD,CAAC,KAAK,EAAE,EAAE,CACR,MAAM,CAAC,IAAI,CAAC,GAAG,EAAE;gBACf,UAAU,CAAC,KAAK,EAAE,CAAA;gBAClB,KAAK,CAAC,OAAO,EAAE,CAAA;YACjB,CAAC,CAAC,CACL,CAAA;YACD,MAAM,KAAK,GAAG,IAAI,YAAY,EAAE,CAAA;YAChC,KAAK,CAAC,CAAC,MAAM,CAAC,YAAY,CAAC,GAAG,EAAE,CAC9B,MAAM,CAAC,mBAAmB,CACxB,MAAM,CAAC,WAAW,CAChB,MAAM,CAAC,OAAO,CAAC,KAAK,CAAC,MAAM,EAAE,CAAC,CAAC,GAAG,CAAC,CAAC,CAAC,GAAG,EAAE,KAAK,CAAC,EAAE,EAAE,CAAC,CAAC,SAAS,GAAG,EAAE,EAAE,KAAK,CAAC,CAAC,CAC9E,CACF,CACF,CAAA;YACD,IAAI,CAAC,OAAO,IAAI,SAAS,KAAK,WAAW;gBAAE,KAAK,CAAC,CAAC,UAAU,CAAC,SAAS,CAAC,CAAA;YACvE,MAAM,KAAK,GAAG,KAAK,CAAC,CAAC,QAAQ,CAAC,GAAG,EAAE,CAAC,QAAQ,CAAC,QAAQ,CAAC,KAAK,EAAE,QAAQ,EAAE,KAAK,CAAC,CAAC,CAAA;YAC9E,IAAI,SAAS,KAAK,WAAW,EAAE,CAAC;gBAC9B,IAAI,QAAQ,GAAG,SAAS,IAAI,SAAS,CAAA;gBACrC,IAAI,QAAQ,KAAK,SAAS,EAAE,CAAC;oBAC3B,QAAQ,GAAG,KAAK,CAAC,CAAC,QAAQ,CAAC,GAAG,EAAE,CAAC,kBAAkB,CAAC,OAAO,EAAE,KAAK,EAAE,IAAI,CAAC,CAAC,CAAA;gBAC5E,CAAC;gBACD,KAAK,CAAC,CAAC,UAAU,CAAC,SAAS,CAAC,CAAA;gBAC5B,MAAM,KAAK,GAAG,KAAK,CAAC,CAAC,QAAQ,CAAC,GAAG,EAAE,CAAC,QAAQ,CAAC,OAAO,CAAC,IAAI,EAAE,GAAG,GAAG,IAAI,EAAE,QAAQ,CAAC,CAAC,CAAA;gBACjF,MAAM,OAAO,GAAG,KAAK,CAAC,CAAC,aAAa,CAAC,IAAI,WAAW,EAAE,CAAC,MAAM,CAAC,KAAK,CAAC,CAAC,CAAC,IAAI,CACxE,MAAM,CAAC,QAAQ,CAAC,GAAG,EAAE,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,iBAAiB,EAAE,CAAC,CAAC,CAClF,CAAA;gBACD,IAAI,OAAO,CAAC,KAAK,CAAC,MAAM,KAAK,CAAC;oBAAE,OAAO,IAAI,QAAQ,CAAC,IAAI,EAAE,EAAE,MAAM,EAAE,GAAG,EAAE,CAAC,CAAA;gBAC1E,MAAM,GAAG,GAAG,KAAK,CAAC,CAAC,KAAK,CAAC,iBAAiB,CAAA;gBAC1C,IAAI,OAAO,CAAC,UAAU,GAAG,GAAG,GAAG,MAAM,IAAI,OAAO,CAAC,UAAU,GAAG,GAAG,GAAG,EAAE,GAAG,SAAS,EAAE,CAAC;oBACnF,OAAO,KAAK,CAAC,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,iBAAiB,EAAE,CAAC,CAAA;gBAC1E,CAAC;gBACD,KAAK,CAAC,CAAC,OAAO;qBACX,MAAM,CAAC,OAAO,EAAE,QAAQ,CAAC;qBACzB,IAAI,CACH,MAAM,CAAC,QAAQ,CACb,GAAG,EAAE,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,uBAAuB,EAAE,CAAC,CACvE,CACF,CAAA;gBACH,KAAK,CAAC,CAAC,aAAa,CAAC,OAAO,EAAE,QAAQ,CAAC,CAAA;gBACvC,KAAK,CAAC,CAAC,OAAO;qBACX,UAAU,CAAC,QAAQ,EAAE,OAAO,CAAC,IAAI,CAAC;qBAClC,IAAI,CACH,MAAM,CAAC,QAAQ,CACb,GAAG,EAAE,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,uBAAuB,EAAE,CAAC,CACvE,CACF,CAAA;gBACH,OAAO,IAAI,QAAQ,CAAC,IAAI,EAAE,EAAE,MAAM,EAAE,GAAG,EAAE,CAAC,CAAA;YAC5C,CAAC;YACD,IAAI,OAAO,EAAE,CAAC;gBACZ,IAAI,SAAS,KAAK,SAAS,IAAI,CAAC,KAAK,CAAC,cAAc,EAAE,CAAC;oBACrD,OAAO,KAAK,CAAC,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,wBAAwB,EAAE,CAAC,CAAA;gBACjF,CAAC;gBACD,MAAM,GAAG,GAAG,KAAK,CAAC,CAAC,KAAK,CAAC,iBAAiB,CAAA;gBAC1C,MAAM,QAAQ,GAAG,SAAS,KAAK,SAAS;oBACtC,CAAC,CAAC,KAAK,CAAC,CAAC,QAAQ,CAAC,GAAG,EAAE,CAAC,mBAAmB,CAAC,OAAO,EAAE,KAAK,EAAE,IAAI,CAAC,CAAC;oBAClE,CAAC,CAAC;wBACA,GAAG,EAAE,IAAI,CAAC,KAAK,CAAC,GAAG,GAAG,IAAI,CAAC,GAAG,GAAG;wBACjC,aAAa,EAAE,KAAK,CAAC,aAAa;wBAClC,YAAY,EAAE,aAAa,SAAS,EAAE;qBACvC,CAAA;gBACH,KAAK,CAAC,CAAC,UAAU,CAAC,SAAS,CAAC,CAAA;gBAC5B,OAAO,KAAK,CAAC,CAAC,QAAQ,CAAC,GAAG,EAAE,CAC1B,KAAK,CAAC,OAAO,EAAE,QAAQ,EAAE,OAAO,EAAE,KAAK,EAAE,QAAQ,EAAE,QAAQ,EAAE,QAAQ,EAAE,KAAK,CAAC,CAC9E,CAAA;YACH,CAAC;YACD,IAAI,SAAS,KAAK,OAAO,EAAE,CAAC;gBAC1B,MAAM,MAAM,GAAG,KAAK,CAAC,CAAC,QAAQ,CAAC,GAAG,EAAE,CAClC,aAAa,CAAC,OAAO,EAAE,QAAQ,EAAE,QAAQ,EAAE,QAAQ,EAAE,QAAQ,EAAE,KAAK,CAAC,CACtE,CAAA;gBACD,OAAO,YAAY,CAAC,MAAM,CAAC,CAAA;YAC7B,CAAC;YACD,MAAM,QAAQ,GAAG,KAAK,CAAC,CAAC,QAAQ,CAAC,GAAG,EAAE,CAAC,UAAU,CAAC,QAAQ,CAAC,KAAK,EAAE,QAAQ,EAAE,KAAK,CAAC,CAAC,CAAE,EAAE,KAAK,CAAC,CAAC,CAAA;YAC9F,IAAI,CAAC,QAAQ;gBAAE,OAAO,KAAK,CAAC,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,cAAc,EAAE,CAAC,CAAA;YACpF,KAAK,CAAC,aAAa,EAAE,CAAA;YACrB,MAAM,MAAM,GAAG,KAAK,CAAC,CAAC,QAAQ,CAAC,GAAG,EAAE,CAAC,QAAQ,CAAC,SAAS,CAAC,GAAG,CAAC,QAAQ,CAAC,WAAW,CAAC,CAAC,CAAA;YAClF,IAAI,CAAC,MAAM;gBAAE,OAAO,KAAK,CAAC,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,cAAc,EAAE,CAAC,CAAA;YAClF,IAAI,MAAM,CAAC,IAAI,KAAK,QAAQ,CAAC,SAAS,EAAE,CAAC;gBACvC,OAAO,KAAK,CAAC,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,WAAW,EAAE,CAAC,CAAA;YACpE,CAAC;YACD,OAAO,IAAI,QAAQ,CAAC,MAAM,CAAC,IAAI,EAAE;gBAC/B,OAAO,EAAE;oBACP,cAAc,EAAE,0BAA0B;oBAC1C,gBAAgB,EAAE,MAAM,CAAC,MAAM,CAAC,IAAI,CAAC;oBACrC,eAAe,EAAE,UAAU;iBAC5B;aACF,CAAC,CAAA;QACJ,CAAC,CAAC,CACH,CACF;aACA,IAAI,CACH,MAAM,CAAC,OAAO,CAAC,OAAO,CAAC,CAAC,CAAC,WAAW,CAAC,CAAC,CAAC,YAAY,CAAC,EACpD,MAAM,CAAC,SAAS,CAAC;YACf,iBAAiB,EAAE,GAAG,EAAE,CAAC,MAAM,CAAC,IAAI,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,mBAAmB,EAAE,CAAC,CAAC;YAClG,YAAY,EAAE,GAAG,EAAE,CAAC,MAAM,CAAC,IAAI,CAAC,IAAI,UAAU,CAAC,EAAE,MAAM,EAAE,GAAG,EAAE,MAAM,EAAE,UAAU,EAAE,CAAC,CAAC;SACrF,CAAC,CACH,CAAA;IACL,CAAC,EACD,MAAM,CAAC,SAAS,CAAC;QACf,iEAAiE;QACjE,UAAU,EAAE,MAAM,CAAC,UAAU,CAAC,QAAQ,CAAC,EAAC,KAAK;YAC3C,IAAI,KAAK,CAAC,MAAM,IAAI,GAAG,EAAE,CAAC;gBACxB,KAAK,CAAC,CAAC,MAAM,CAAC,UAAU,CAAC,sBAAsB,EAAE,EAAE,MAAM,EAAE,KAAK,CAAC,MAAM,EAAE,CAAC,CAAA;YAC5E,CAAC;YACD,OAAO,aAAa,CAAC,IAAI,SAAS,CAAC,KAAK,CAAC,MAAM,EAAE,KAAK,CAAC,MAAM,CAAC,CAAC,CAAA;QACjE,CAAC,CAAC;KACH,CAAC,CACH,CAAA;IAED,OAAO,KAAK,CAAC,EAAE,CAAC,EAAE,MAAM,EAAE,OAAO,EAAE,QAAQ,CAAC,GAAG,EAAE,CAAC,OAAO,CAAC,QAAQ,CAAC,CAAC,EAAE,CAAC,CAAA;AACzE,CAAC,CAAC,CAAA"
+    }
+   },
+   {
+    "paths": [
+     {
       "relative": "infra/task-cache/src/Cleanup.vibe"
      }
     ],
@@ -11416,7 +11456,7 @@
       }
      ],
      "names": [],
-     "mappings": ";;AAAA,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,KAAK,MAAM,YAAY,CAAA;AAEnC,MAAM,CAAC,MAAM,SAAS,GAAG,GAAG,CAAA;AAE5B,MAAM,CAAC,MAAM,GAAG,GAAG;GAAA,C,CAAA,mB,CAAA,S,CAAA,qBACb,QAAQ,CACV,a,CAAA;QACE,MAAM,KAAK,UAAO,KAAK,CAAC,KAAK,CAAA;QAC7B,mEAAmE;QACnE,OAAI,MAAM,CAAC,GAAG,CAAC,CAAC,KAAK,CAAC,OAAO,EAAE,KAAK,CAAC,OAAO,EAAE,KAAK,CAAC,OAAO,CAAC,EAAE;YAC5D,WAAW,EAAE,CAAC;YACd,OAAO,EAAE,IAAI;SACd,CAAC,CAAA;IACJ,CAAC,CAAA,EACD,mBAAmB,CACpB;CAAA,CAAA"
+     "mappings": ";;AAAA,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,KAAK,MAAM,YAAc,CAAA;AAErC,MAAM,CAAC,MAAM,SAAS,GAAG,GAAG,CAAA;AAE5B,MAAM,CAAC,MAAM,GAAG,GAAG;GAAA,C,CAAA,mB,CAAA,S,CAAA,qBACb,QAAQ,CACV,a,CAAA;QACE,MAAM,KAAK,UAAO,KAAK,CAAC,KAAK,CAAA;QAC7B,mEAAmE;QACnE,OAAI,MAAM,CAAC,GAAG,CAAC,CAAC,KAAK,CAAC,OAAO,EAAE,KAAK,CAAC,OAAO,EAAE,KAAK,CAAC,OAAO,CAAC,EAAE;YAC5D,WAAW,EAAE,CAAC;YACd,OAAO,EAAE,IAAI;SACd,CAAC,CAAA;IACJ,CAAC,CAAA,EACD,mBAAmB,CACpB;CAAA,CAAA"
     }
    },
    {
