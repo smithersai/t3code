@@ -51,12 +51,12 @@ export default defineRule({
       ImportDeclaration(node): infer _ {
         if (typeof node.source.value !== "string") return
         const source = node.source.value
-        if (/(?:^|\/)rpc\/protocol(?:\.ts)?$/.test(source) && node.importKind !== "type") {
+        if (/(?:^|\/)rpc\/protocol(?:\.(?:ts|vibe))?$/.test(source) && node.importKind !== "type") {
           report(node)
         }
         if (
           !allowGuardInstallation
-          && /(?:^|\/)rpc(?:\/(?:client|index)(?:\.ts)?)?$/.test(source)
+          && /(?:^|\/)rpc(?:\/(?:client|index)(?:\.(?:ts|vibe))?)?$/.test(source)
         ) {
           for (const specifier of node.specifiers) {
             if (

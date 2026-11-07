@@ -15,6 +15,7 @@
   "devDependencies": {
     "@effect/vitest": "catalog:",
     "vibelang": "file:../.vibelang-toolchain/vibelang-0.0.12-794282518119.tgz",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "fast-check": "4.10.2"
   }
 }
