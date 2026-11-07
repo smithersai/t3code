@@ -1,9 +1,9 @@
 import { DesktopSnapShotAnimationDestination } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
 import type * as Electron from "electron";
-import * as ElectronWindow from "../../electron/ElectronWindow.ts";
+import * as ElectronWindow from "../../electron/ElectronWindow.vibe";
 import * as ElectronDialog from "../../electron/ElectronDialog.vibe";
-import * as DesktopSnapShot from "../../snapShot/DesktopSnapShot.ts";
+import * as DesktopSnapShot from "../../snapShot/DesktopSnapShot.vibe";
 import * as DesktopIpc from "../DesktopIpc.vibe";
 declare const SnapShotIpcUnauthorizedSenderError_base: Schema.Class<SnapShotIpcUnauthorizedSenderError, Schema.TaggedStruct<"SnapShotIpcUnauthorizedSenderError", {}>, import("effect/Cause").YieldableError>;
 declare class SnapShotIpcUnauthorizedSenderError extends SnapShotIpcUnauthorizedSenderError_base {

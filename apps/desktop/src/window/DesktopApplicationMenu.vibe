@@ -5,7 +5,7 @@ import * as Schema from "effect/Schema";
 
 import type * as Electron from "electron";
 
-import { makeComponentLogger } from "../app/DesktopObservability.ts";
+import { makeComponentLogger } from "../app/DesktopObservability.vibe";
 import * as ElectronDialog from "../electron/ElectronDialog.vibe";
 import * as ElectronMenu from "../electron/ElectronMenu.vibe";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";

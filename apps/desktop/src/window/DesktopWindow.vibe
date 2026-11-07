@@ -8,7 +8,7 @@ import { type DesktopSnapShotEvent, DEFAULT_CLIENT_SETTINGS } from "@t3tools/con
 
 import * as DesktopAssets from "../app/DesktopAssets.vibe";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
-import { makeComponentLogger } from "../app/DesktopObservability.ts";
+import { makeComponentLogger } from "../app/DesktopObservability.vibe";
 import * as DesktopState from "../app/DesktopState.vibe";
 import * as ElectronMenu from "../electron/ElectronMenu.vibe";
 import { getDesktopUrl } from "../electron/ElectronProtocol.ts";

@@ -5,8 +5,8 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
-import * as DesktopNetworkInterfaces from "./DesktopNetworkInterfaces.ts";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
+import * as DesktopNetworkInterfaces from "./DesktopNetworkInterfaces.vibe";
 declare const DesktopServerExposureNoNetworkAddressError_base: Schema.Class<DesktopServerExposureNoNetworkAddressError, Schema.TaggedStruct<"DesktopServerExposureNoNetworkAddressError", {
     readonly port: Schema.Number;
 }>, import("effect/Cause").YieldableError>;

@@ -10,7 +10,7 @@ import * as Fiber from "effect/Fiber";
 import * as Path from "effect/Path";
 import * as Queue from "effect/Queue";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
-import { makeRotatingLogFileWriter } from "../app/DesktopObservability.ts";
+import { makeRotatingLogFileWriter } from "../app/DesktopObservability.vibe";
 
 export interface RendererIdentity {
   readonly surface: "main" | "preview" | "splash" | "picture-in-picture" | "devtools";

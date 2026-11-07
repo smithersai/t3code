@@ -4,7 +4,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";
 
 import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
-import { makeComponentLogger } from "./DesktopObservability.ts";
+import { makeComponentLogger } from "./DesktopObservability.vibe";
 
 // AppImage mounts change each run; the launcher must mount the image itself.
 const { logInfo, logWarning } = makeComponentLogger("desktop-cli-shim");

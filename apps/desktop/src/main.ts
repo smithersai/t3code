@@ -50,7 +50,7 @@ import * as DesktopEnvironment from "./app/DesktopEnvironment.vibe";
 import * as DesktopLifecycle from "./app/DesktopLifecycle.vibe";
 import * as DesktopLinuxUrlHandler from "./app/DesktopLinuxUrlHandler.ts";
 import * as DesktopShutdown from "./app/DesktopShutdown.vibe";
-import * as DesktopObservability from "./app/DesktopObservability.ts";
+import * as DesktopObservability from "./app/DesktopObservability.vibe";
 import * as DesktopServerExposure from "./backend/DesktopServerExposure.vibe";
 import * as DesktopClientSettings from "./settings/DesktopClientSettings.vibe";
 import * as DesktopSavedEnvironments from "./settings/DesktopSavedEnvironments.ts";

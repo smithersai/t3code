@@ -3,9 +3,9 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
-import * as ElectronApp from "../electron/ElectronApp.ts";
-import * as DesktopAssets from "./DesktopAssets.ts";
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as ElectronApp from "../electron/ElectronApp.vibe";
+import * as DesktopAssets from "./DesktopAssets.vibe";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 import * as DesktopUserData from "./DesktopUserData.vibe";
 declare const DesktopAppIdentity_base: Context.ServiceClass<DesktopAppIdentity, "@t3tools/desktop/app/DesktopAppIdentity", {
     readonly resolveUserDataPath: Effect.Effect<string, DesktopUserData.DesktopUserDataInitializationError>;

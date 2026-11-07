@@ -8,7 +8,7 @@ import * as Stream from "effect/Stream";
 import { HttpClient } from "effect/http";
 import { ChildProcessSpawner } from "effect/process";
 
-import * as DesktopObservability from "../app/DesktopObservability.ts";
+import * as DesktopObservability from "../app/DesktopObservability.vibe";
 import * as DesktopState from "../app/DesktopState.vibe";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
 import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.vibe";

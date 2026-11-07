@@ -15,26 +15,31 @@ import {
   type PersistedServerObservabilitySettings,
 } from "@t3tools/shared/serverSettings";
 import * as Context from "effect/Context";
-import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
-import * as Logger from "effect/Logger";
-import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import * as PlatformError from "effect/PlatformError";
-import * as References from "effect/References";
-import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";
-import * as Scope from "effect/Scope";
-import * as Semaphore from "effect/Semaphore";
-import * as SynchronizedRef from "effect/SynchronizedRef";
-import * as Tracer from "effect/Tracer";
-import { OtlpExporter, OtlpLogger, OtlpTracer } from "effect/observability";
-
 import desktopPackageJson from "../../package.json" with { type: "json" };
-
 import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
+module consoleOutputPlatform {
+// The platform code of DesktopObservability.vibe, which a .vibe file does not import as a value (EK4402).
+
+import * as Effect from "effect/Effect";
+
+export const writeDevelopmentConsoleOutput = (
+  streamName: "stdout" | "stderr",
+  chunk: Uint8Array,
+): Effect.Effect<void> =>
+  Effect.sync(() => {
+    const output = streamName === "stderr" ? process.stderr : process.stdout;
+    output.write(chunk);
+  }).pipe(Effect.ignore);
+
+}
+
+import { writeDevelopmentConsoleOutput as writeDevelopmentConsoleOutput$platform } from consoleOutputPlatform
 
 const DESKTOP_LOG_FILE_MAX_BYTES = 10 * 1024 * 1024;
 const DESKTOP_LOG_FILE_MAX_FILES = 10;
@@ -42,57 +47,46 @@ const DESKTOP_BACKEND_CHILD_LOG_FIBER_ID = "#backend-child";
 const DESKTOP_TRACE_BATCH_WINDOW_MS = 1_000;
 const DESKTOP_BACKEND_OUTPUT_BUFFER_MAX_BYTES = 1024 * 1024;
 const DESKTOP_BACKEND_OUTPUT_BUFFER_MAX_CHUNKS = 256;
-
 export interface RotatingLogFileWriter {
-  readonly writeBytes: (chunk: Uint8Array) => Effect.Effect<void>;
-  readonly writeText: (chunk: string) => Effect.Effect<void>;
+  readonly writeBytes: (chunk: Uint8Array) => void!!;
+  readonly writeText: (chunk: string) => void!!;
 }
-
 export interface DesktopBackendOutputLogShape {
-  readonly beginSession: (input: { readonly details: string }) => Effect.Effect<void>;
+  readonly beginSession: (input: { readonly details: string }) => void!!;
   readonly writeOutputChunk: (
     streamName: "stdout" | "stderr",
     chunk: Uint8Array,
-  ) => Effect.Effect<void>;
-  readonly persistFailureSnapshot: (input: { readonly details: string }) => Effect.Effect<void>;
-  readonly persistFailure: (input: { readonly details: string }) => Effect.Effect<void>;
-  readonly discardSession: Effect.Effect<void>;
+  ) => void!!;
+  readonly persistFailureSnapshot: (input: { readonly details: string }) => void!!;
+  readonly persistFailure: (input: { readonly details: string }) => void!!;
+  readonly discardSession: void!!;
 }
-
-export class DesktopBackendOutputLogFactory extends Context.Service<
-  DesktopBackendOutputLogFactory,
-  {
-    readonly forInstance: (id: string) => Effect.Effect<DesktopBackendOutputLogShape>;
-  }
->()("@t3tools/desktop/app/DesktopObservability/DesktopBackendOutputLogFactory") {}
-
+export service DesktopBackendOutputLogFactory: {
+  readonly forInstance: (id: string) => DesktopBackendOutputLogShape!!;
+} { static readonly key = "@t3tools/desktop/app/DesktopObservability/DesktopBackendOutputLogFactory" }
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
-
 export type DesktopLogAnnotations = Record<string, unknown>;
-
 export interface DesktopComponentLogger {
   readonly annotate: <A, E, R>(
-    effect: Effect.Effect<A, E, R>,
+    effect: A!E!R,
     annotations?: DesktopLogAnnotations,
-  ) => Effect.Effect<A, E, R>;
-  readonly logDebug: (message: string, annotations?: DesktopLogAnnotations) => Effect.Effect<void>;
-  readonly logInfo: (message: string, annotations?: DesktopLogAnnotations) => Effect.Effect<void>;
+  ) => A!E!R;
+  readonly logDebug: (message: string, annotations?: DesktopLogAnnotations) => void!!;
+  readonly logInfo: (message: string, annotations?: DesktopLogAnnotations) => void!!;
   readonly logWarning: (
     message: string,
     annotations?: DesktopLogAnnotations,
-  ) => Effect.Effect<void>;
-  readonly logError: (message: string, annotations?: DesktopLogAnnotations) => Effect.Effect<void>;
+  ) => void!!;
+  readonly logError: (message: string, annotations?: DesktopLogAnnotations) => void!!;
 }
-
 export function makeComponentLogger(component: string): DesktopComponentLogger {
   const annotate: DesktopComponentLogger["annotate"] = (effect, annotations) =>
-    effect.pipe(
-      Effect.annotateLogs({
+    effect
+      |> Effect.annotateLogs({
         component,
         ...annotations,
-      }),
-    );
+      })(%);
 
   return {
     annotate,
@@ -102,38 +96,28 @@ export function makeComponentLogger(component: string): DesktopComponentLogger {
     logError: (message, annotations) => annotate(Effect.logError(message), annotations),
   };
 }
-
-class DesktopLogFileWriterConfigurationError extends Schema.TaggedError<DesktopLogFileWriterConfigurationError>()(
-  "DesktopLogFileWriterConfigurationError",
-  {
-    option: Schema.Literals(["maxBytes", "maxFiles"]),
-    value: Schema.Number,
-  },
-) {
+schema error DesktopLogFileWriterConfigurationError {
+  readonly option: "maxBytes" | "maxFiles"
+  readonly value: number
   override get message() {
     return `${this.option} must be >= 1 (received ${this.value})`;
   }
 }
-
 type DesktopLogFileWriterError =
   | DesktopLogFileWriterConfigurationError
   | PlatformError.PlatformError;
-
 const sanitizeLogValue = (value: string): string => value.replace(/\s+/g, " ").trim();
-
-const DesktopBackendChildLogRecord = Schema.Struct({
-  message: Schema.String,
-  level: Schema.Literals(["INFO", "ERROR"]),
-  timestamp: Schema.String,
-  annotations: Schema.Record(Schema.String, Schema.Unknown),
-  spans: Schema.Record(Schema.String, Schema.Unknown),
-  fiberId: Schema.String,
-});
-
+schema DesktopBackendChildLogRecord {
+  readonly message: string
+  readonly level: "INFO" | "ERROR"
+  readonly timestamp: string
+  readonly annotations: Readonly<Record<string, Schema.Unknown>>
+  readonly spans: Readonly<Record<string, Schema.Unknown>>
+  readonly fiberId: string
+}
 const encodeDesktopBackendChildLogRecord = Schema.encodeEffect(
   Schema.fromJsonString(DesktopBackendChildLogRecord),
 );
-
 const DesktopBackendOutputLogNoop: DesktopBackendOutputLogShape = {
   beginSession: () => Effect.void,
   writeOutputChunk: () => Effect.void,
@@ -141,20 +125,17 @@ const DesktopBackendOutputLogNoop: DesktopBackendOutputLogShape = {
   persistFailure: () => Effect.void,
   discardSession: Effect.void,
 };
-
 interface BufferedBackendOutputChunk {
   readonly streamName: "stdout" | "stderr";
   readonly chunk: Uint8Array;
   readonly offset: number;
 }
-
 interface BackendOutputSession {
   readonly runId: string;
   readonly startDetails: string;
   readonly chunks: ReadonlyArray<BufferedBackendOutputChunk>;
   readonly byteLength: number;
 }
-
 function appendBoundedOutputChunk(
   session: BackendOutputSession,
   streamName: "stdout" | "stderr",
@@ -208,147 +189,117 @@ function appendBoundedOutputChunk(
     byteLength,
   };
 }
-
-const currentDesktopRunId = Effect.gen(function* () {
-  const annotations = yield* References.CurrentLogAnnotations;
+const currentDesktopRunId = effect {
+  const annotations = try References.CurrentLogAnnotations;
   const runId = annotations.runId;
   return typeof runId === "string" && runId.length > 0 ? runId : "unknown";
-});
-
+};
 const refreshFileSize = (
   fileSystem: FileSystem.FileSystem,
   filePath: string,
-): Effect.Effect<number, never> =>
-  fileSystem.stat(filePath).pipe(
-    Effect.map((stat) => Number(stat.size)),
-    Effect.orElseSucceed(() => 0),
-  );
-
-export const makeRotatingLogFileWriter = Effect.fn("makeRotatingLogFileWriter")(function* (input: {
-  readonly filePath: string;
-  readonly maxBytes?: number;
-  readonly maxFiles?: number;
-}): Effect.fn.Return<
-  RotatingLogFileWriter,
-  DesktopLogFileWriterError,
-  FileSystem.FileSystem | Path.Path
-> {
-  const fileSystem = yield* FileSystem.FileSystem;
-  const path = yield* Path.Path;
+): number!! =>
+  fileSystem.stat(filePath)
+    |> Effect.map(%, (stat) => Number(stat.size))
+    |> Effect.orElseSucceed(%, () => 0);
+export const makeRotatingLogFileWriter = effect (input: { readonly filePath: string; readonly maxBytes?: number; readonly maxFiles?: number; }): RotatingLogFileWriter!DesktopLogFileWriterError!(FileSystem.FileSystem | Path.Path) => try withSpan((effect (): RotatingLogFileWriter!DesktopLogFileWriterError!(FileSystem.FileSystem | Path.Path) => {
+  const fileSystem = try FileSystem.FileSystem;
+  const path = try Path.Path;
   const maxBytes = input.maxBytes ?? DESKTOP_LOG_FILE_MAX_BYTES;
   const maxFiles = input.maxFiles ?? DESKTOP_LOG_FILE_MAX_FILES;
   const directory = path.dirname(input.filePath);
   const baseName = path.basename(input.filePath);
 
   if (maxBytes < 1) {
-    return yield* new DesktopLogFileWriterConfigurationError({
+    throw new DesktopLogFileWriterConfigurationError({
       option: "maxBytes",
       value: maxBytes,
     });
   }
   if (maxFiles < 1) {
-    return yield* new DesktopLogFileWriterConfigurationError({
+    throw new DesktopLogFileWriterConfigurationError({
       option: "maxFiles",
       value: maxFiles,
     });
   }
 
-  yield* fileSystem.makeDirectory(directory, { recursive: true });
+  try fileSystem.makeDirectory(directory, { recursive: true });
 
   const withSuffix = (index: number) => `${input.filePath}.${index}`;
-  const currentSize = yield* Ref.make(yield* refreshFileSize(fileSystem, input.filePath));
-  const mutex = yield* Semaphore.make(1);
+  const currentSize = try Ref.make(try refreshFileSize(fileSystem, input.filePath));
+  const mutex = try Semaphore.make(1);
 
-  const pruneOverflowBackups = Effect.gen(function* () {
-    const entries = yield* fileSystem.readDirectory(directory).pipe(Effect.orElseSucceed(() => []));
+  const pruneOverflowBackups = effect {
+    const entries = fileSystem.readDirectory(directory) catch () => [];
     for (const entry of entries) {
       if (!entry.startsWith(`${baseName}.`)) continue;
       const suffix = Number(entry.slice(baseName.length + 1));
       if (!Number.isInteger(suffix) || suffix <= maxFiles) continue;
-      yield* fileSystem.remove(path.join(directory, entry), { force: true }).pipe(Effect.ignore);
+      try (fileSystem.remove(path.join(directory, entry), { force: true }) |> Effect.ignore(%));
     }
-  });
+  };
 
-  const rotate = Effect.gen(function* () {
-    yield* fileSystem.remove(withSuffix(maxFiles), { force: true }).pipe(Effect.ignore);
+  const rotate = do { const catchProgram = (effect {
+    try (fileSystem.remove(withSuffix(maxFiles), { force: true }) |> Effect.ignore(%));
     for (let index = maxFiles - 1; index >= 1; index -= 1) {
       const source = withSuffix(index);
-      const sourceExists = yield* fileSystem.exists(source).pipe(Effect.orElseSucceed(() => false));
+      const sourceExists = fileSystem.exists(source) catch () => false;
       if (sourceExists) {
-        yield* fileSystem.rename(source, withSuffix(index + 1));
+        try fileSystem.rename(source, withSuffix(index + 1));
       }
     }
-    const currentExists = yield* fileSystem
-      .exists(input.filePath)
-      .pipe(Effect.orElseSucceed(() => false));
+    const currentExists = fileSystem
+      .exists(input.filePath) catch () => false;
     if (currentExists) {
-      yield* fileSystem.rename(input.filePath, withSuffix(1));
+      try fileSystem.rename(input.filePath, withSuffix(1));
     }
-    yield* Ref.set(currentSize, 0);
-  }).pipe(
-    Effect.catch(() =>
-      refreshFileSize(fileSystem, input.filePath).pipe(
-        Effect.flatMap((size) => Ref.set(currentSize, size)),
-      ),
-    ),
-  );
+    try Ref.set(currentSize, 0);
+  }); effect { return catchProgram catch effect () => try (refreshFileSize(fileSystem, input.filePath)
+        |> Effect.flatMap(%, (size) => Ref.set(currentSize, size))) } };
 
-  const writeBytes = (chunk: Uint8Array): Effect.Effect<void> => {
+  const writeBytes = (chunk: Uint8Array): void!! => {
     if (chunk.byteLength === 0) return Effect.void;
 
     return mutex.withPermits(1)(
-      Effect.gen(function* () {
-        const beforeSize = yield* Ref.get(currentSize);
+      do { const catchProgram = (effect {
+        const beforeSize = try Ref.get(currentSize);
         if (beforeSize > 0 && beforeSize + chunk.byteLength > maxBytes) {
-          yield* rotate;
+          try rotate;
         }
 
-        yield* fileSystem.writeFile(input.filePath, chunk, { flag: "a" });
-        const afterSize = (yield* Ref.get(currentSize)) + chunk.byteLength;
-        yield* Ref.set(currentSize, afterSize);
+        try fileSystem.writeFile(input.filePath, chunk, { flag: "a" });
+        const afterSize = (try Ref.get(currentSize)) + chunk.byteLength;
+        try Ref.set(currentSize, afterSize);
 
         if (afterSize > maxBytes) {
-          yield* rotate;
+          try rotate;
         }
-      }).pipe(
-        Effect.catch(() =>
-          refreshFileSize(fileSystem, input.filePath).pipe(
-            Effect.flatMap((size) => Ref.set(currentSize, size)),
-          ),
-        ),
-      ),
+      }); effect { return catchProgram catch effect () => try (refreshFileSize(fileSystem, input.filePath)
+            |> Effect.flatMap(%, (size) => Ref.set(currentSize, size))) } },
     );
   };
 
-  yield* pruneOverflowBackups;
+  try pruneOverflowBackups;
 
   return {
     writeBytes,
     writeText: (chunk) => writeBytes(textEncoder.encode(chunk)),
   } satisfies RotatingLogFileWriter;
-});
-
+})(), "makeRotatingLogFileWriter");
 const noPersistedObservabilitySettings: PersistedServerObservabilitySettings = {
   otlpTracesUrl: undefined,
   otlpMetricsUrl: undefined,
   otlpLogsUrl: undefined,
 };
-
-const readPersistedObservabilitySettings: Effect.Effect<
-  PersistedServerObservabilitySettings,
-  never,
-  FileSystem.FileSystem | DesktopEnvironment.DesktopEnvironment
-> = Effect.gen(function* () {
-  const fileSystem = yield* FileSystem.FileSystem;
-  const environment = yield* DesktopEnvironment.DesktopEnvironment;
-  const raw = yield* fileSystem.readFileString(environment.serverSettingsPath).pipe(Effect.option);
+const readPersistedObservabilitySettings: PersistedServerObservabilitySettings!never!(FileSystem.FileSystem | DesktopEnvironment.DesktopEnvironment) = effect {
+  const fileSystem = try FileSystem.FileSystem;
+  const environment = try DesktopEnvironment.DesktopEnvironment;
+  const raw = try (fileSystem.readFileString(environment.serverSettingsPath) |> Effect.option(%));
   return Option.isNone(raw)
     ? noPersistedObservabilitySettings
     : parsePersistedServerObservabilitySettings(raw.value);
-});
-
-const resolveOtlpEndpoints = Effect.gen(function* () {
-  const otel = yield* OtelEnvironment.load;
+};
+const resolveOtlpEndpoints = effect {
+  const otel = try OtelEnvironment.load;
   if (otel.disabled) {
     return {
       traces: undefined,
@@ -359,8 +310,8 @@ const resolveOtlpEndpoints = Effect.gen(function* () {
     };
   }
 
-  const environment = yield* DesktopEnvironment.DesktopEnvironment;
-  const persisted = yield* readPersistedObservabilitySettings;
+  const environment = try DesktopEnvironment.DesktopEnvironment;
+  const persisted = try readPersistedObservabilitySettings;
   const signalExport: SignalExport = {
     protocol: environment.otlpProtocol,
     headers: Option.getOrUndefined(environment.otlpHeaders),
@@ -388,45 +339,27 @@ const resolveOtlpEndpoints = Effect.gen(function* () {
     warnings: otel.warnings,
     resourceAttributes: otel.resourceAttributes,
   };
-});
-
-const writeDevelopmentConsoleOutput = (
-  streamName: "stdout" | "stderr",
-  chunk: Uint8Array,
-): Effect.Effect<void> =>
-  Effect.sync(() => {
-    const output = streamName === "stderr" ? process.stderr : process.stdout;
-    output.write(chunk);
-  }).pipe(Effect.ignore);
-
-const writeBackendChildLogRecord = Effect.fn("desktop.observability.writeBackendChildLogRecord")(
-  function* (
+};
+const writeDevelopmentConsoleOutput: typeof writeDevelopmentConsoleOutput$platform = writeDevelopmentConsoleOutput$platform
+const writeBackendChildLogRecord = effect (
     logFile: RotatingLogFileWriter,
-    input: {
-      readonly message: string;
-      readonly level: "INFO" | "ERROR";
-      readonly annotations: Record<string, unknown>;
-    },
-  ): Effect.fn.Return<void> {
-    return yield* Effect.gen(function* () {
-      const timestamp = DateTime.formatIso(yield* DateTime.now);
-      const encoded = yield* encodeDesktopBackendChildLogRecord({
-        message: input.message,
-        level: input.level,
-        timestamp,
-        annotations: input.annotations,
-        spans: {},
-        fiberId: DESKTOP_BACKEND_CHILD_LOG_FIBER_ID,
-      });
-      yield* logFile.writeText(`${encoded}\n`);
-    }).pipe(Effect.ignore({ log: true }));
-  },
-);
-
+    input: { readonly message: string; readonly level: "INFO" | "ERROR"; readonly annotations: Record<string, unknown>; },
+  ): void!! => try withSpan((effect (): void!! => {
+  return try (effect {
+    const timestamp = DateTime.formatIso(try DateTime.now);
+    const encoded = try encodeDesktopBackendChildLogRecord({
+      message: input.message,
+      level: input.level,
+      timestamp,
+      annotations: input.annotations,
+      spans: {},
+      fiberId: DESKTOP_BACKEND_CHILD_LOG_FIBER_ID,
+    });
+    try logFile.writeText(`${encoded}\n`);
+  } |> Effect.ignore({ log: true })(%));
+})(), "desktop.observability.writeBackendChildLogRecord");
 const PRIMARY_BACKEND_LOG_INSTANCE_ID = PRIMARY_LOCAL_ENVIRONMENT_ID;
-
 const sanitizeInstanceIdForFileName = (id: string): string => id.replace(/[^a-zA-Z0-9._-]+/g, "_");
-
 const backendLogFilePathForInstance = (
   environment: DesktopEnvironment.DesktopEnvironment["Service"],
   id: string,
@@ -438,35 +371,29 @@ const backendLogFilePathForInstance = (
   const sanitized = sanitizeInstanceIdForFileName(id);
   return environment.path.join(environment.logDir, `server-child-${sanitized}.log`);
 };
-
 // IDs sharing a sanitized filename must share a writer to avoid currentSize races.
 const makeBackendOutputSinkForInstance = (
   environment: DesktopEnvironment.DesktopEnvironment["Service"],
   id: string,
-): Effect.Effect<
-  Option.Option<RotatingLogFileWriter>,
-  never,
-  FileSystem.FileSystem | Path.Path | Scope.Scope
-> =>
+): Option.Option<RotatingLogFileWriter>!never!(FileSystem.FileSystem | Path.Path | Scope.Scope) =>
   makeRotatingLogFileWriter({
     filePath: backendLogFilePathForInstance(environment, id),
-  }).pipe(Effect.option);
-
+  }) |> Effect.option(%);
 const makeBackendOutputLogShape = (
   environment: DesktopEnvironment.DesktopEnvironment["Service"],
   id: string,
   sink: Option.Option<RotatingLogFileWriter>,
-): Effect.Effect<DesktopBackendOutputLogShape> =>
+): DesktopBackendOutputLogShape!! =>
   Option.match(sink, {
     onNone: () => Effect.succeed(DesktopBackendOutputLogNoop),
     // The enclosing operation owns the span for this inline handler.
     onSome: Effect.fnUntraced(function* (logFile) {
       const sessionRef = yield* Ref.make(Option.none<BackendOutputSession>());
-      const writeFailure = Effect.fn("desktop.observability.backendOutput.writeFailure")(function* (
+      const writeFailure = effect (
         session: BackendOutputSession,
         details: string,
-      ) {
-        yield* writeBackendChildLogRecord(logFile, {
+      ) => try withSpan(effect {
+        try writeBackendChildLogRecord(logFile, {
           message: "backend child process failure output start",
           level: "ERROR",
           annotations: {
@@ -478,7 +405,7 @@ const makeBackendOutputLogShape = (
           },
         });
         for (const output of session.chunks) {
-          yield* writeBackendChildLogRecord(logFile, {
+          try writeBackendChildLogRecord(logFile, {
             message: "backend child process output",
             level: output.streamName === "stderr" ? "ERROR" : "INFO",
             annotations: {
@@ -486,11 +413,11 @@ const makeBackendOutputLogShape = (
               runId: session.runId,
               instanceId: id,
               stream: output.streamName,
-              text: textDecoder.decode(output.chunk.subarray(output.offset)),
+              text: try Effect.orDie(Effect.try({ try: () => $invoke(textDecoder,() => (output.chunk.subarray(output.offset))), catch: (e) => e })),
             },
           });
         }
-        yield* writeBackendChildLogRecord(logFile, {
+        try writeBackendChildLogRecord(logFile, {
           message: "backend child process failure output end",
           level: "ERROR",
           annotations: {
@@ -501,7 +428,7 @@ const makeBackendOutputLogShape = (
             details: sanitizeLogValue(details),
           },
         });
-      });
+      }, "desktop.observability.backendOutput.writeFailure");
       return {
         beginSession: Effect.fn("desktop.observability.backendOutput.beginSession")(function* ({
           details,
@@ -517,15 +444,15 @@ const makeBackendOutputLogShape = (
             }),
           );
         }),
-        writeOutputChunk: Effect.fnUntraced(function* (streamName, chunk) {
+        writeOutputChunk: effect (streamName, chunk) => {
           if (environment.isDevelopment) {
-            yield* writeDevelopmentConsoleOutput(streamName, chunk);
+            try writeDevelopmentConsoleOutput(streamName, chunk);
           }
-          yield* Ref.update(
+          try Ref.update(
             sessionRef,
             Option.map((session) => appendBoundedOutputChunk(session, streamName, chunk)),
           );
-        }),
+        },
         persistFailureSnapshot: Effect.fn(
           "desktop.observability.backendOutput.persistFailureSnapshot",
         )(function* ({ details }) {
@@ -545,48 +472,44 @@ const makeBackendOutputLogShape = (
       } satisfies DesktopBackendOutputLogShape;
     }),
   });
-
 const layerBackendOutputLogFactory = Layer.effect(
   DesktopBackendOutputLogFactory,
-  Effect.gen(function* () {
-    const environment = yield* DesktopEnvironment.DesktopEnvironment;
-    const fileSystem = yield* FileSystem.FileSystem;
-    const path = yield* Path.Path;
-    const factoryScope = yield* Scope.Scope;
-    const cacheRef = yield* SynchronizedRef.make<
+  effect {
+    const environment = try DesktopEnvironment.DesktopEnvironment;
+    const fileSystem = try FileSystem.FileSystem;
+    const path = try Path.Path;
+    const factoryScope = try Scope.Scope;
+    const cacheRef = try SynchronizedRef.make<
       ReadonlyMap<string, Option.Option<RotatingLogFileWriter>>
     >(new Map());
 
-    const makeForId = (id: string): Effect.Effect<DesktopBackendOutputLogShape> =>
+    const makeForId = (id: string): DesktopBackendOutputLogShape!! =>
       SynchronizedRef.modifyEffect(cacheRef, (cache) => {
         const cacheKey = backendLogFilePathForInstance(environment, id);
         const cached = cache.get(cacheKey);
         if (cached !== undefined) {
-          return makeBackendOutputLogShape(environment, id, cached).pipe(
-            Effect.map((outputLog) => [outputLog, cache] as const),
-          );
+          return makeBackendOutputLogShape(environment, id, cached)
+            |> Effect.map(%, (outputLog) => [outputLog, cache] as const);
         }
-        return makeBackendOutputSinkForInstance(environment, id).pipe(
-          Effect.provideService(FileSystem.FileSystem, fileSystem),
-          Effect.provideService(Path.Path, path),
-          Scope.provide(factoryScope),
-          Effect.map((sink) => {
+        return makeBackendOutputSinkForInstance(environment, id)
+          |> Effect.provideService(%, FileSystem.FileSystem, fileSystem)
+          |> Effect.provideService(%, Path.Path, path)
+          |> Scope.provide(%, factoryScope)
+          |> Effect.map(%, (sink) => {
             const next = new Map(cache);
             next.set(cacheKey, sink);
             return { sink, next };
-          }),
-          Effect.flatMap(({ sink, next }) =>
-            makeBackendOutputLogShape(environment, id, sink).pipe(
-              Effect.map(
-                (outputLog) =>
+          })
+          |> Effect.flatMap(%, ({ sink, next }) =>
+            makeBackendOutputLogShape(environment, id, sink)
+              |> Effect.map(
+                %, (outputLog) =>
                   [
                     outputLog,
                     next as ReadonlyMap<string, Option.Option<RotatingLogFileWriter>>,
                   ] as const,
               ),
-            ),
-          ),
-        );
+          );
       });
 
     return DesktopBackendOutputLogFactory.of({
@@ -594,13 +517,12 @@ const layerBackendOutputLogFactory = Layer.effect(
         return makeForId(id);
       }),
     });
-  }),
+  },
 );
-
 const layerTelemetry = Layer.unwrap(
-  Effect.gen(function* () {
-    const environment = yield* DesktopEnvironment.DesktopEnvironment;
-    const endpoints = yield* resolveOtlpEndpoints;
+  effect {
+    const environment = try DesktopEnvironment.DesktopEnvironment;
+    const endpoints = try resolveOtlpEndpoints;
     // Unpackaged runs launch a script, so Electron reports its own version.
     const serviceVersion = environment.isPackaged
       ? environment.appVersion
@@ -612,13 +534,13 @@ const layerTelemetry = Layer.unwrap(
         "service.namespace": "t3code",
         "service.runtime": "desktop",
         "t3code.desktop.mode": environment.isDevelopment ? "development" : "packaged",
-        "service.instance.id": processServiceInstanceId(endpoints.resourceAttributes),
-        ...releaseResourceAttributes(
+        "service.instance.id": try Effect.orDie(Effect.try({ try: () => processServiceInstanceId(endpoints.resourceAttributes), catch: (e) => e })),
+        ...try Effect.orDie(Effect.try({ try: () => releaseResourceAttributes(
           environment.isDevelopment ? "dev" : releaseChannelOf(serviceVersion),
           endpoints.resourceAttributes,
-        ),
-        "host.name": endpoints.resourceAttributes["host.name"] || (yield* HostProcess.Hostname),
-        ...nodeProcessRuntimeAttributes(),
+        ), catch: (e) => e })),
+        "host.name": endpoints.resourceAttributes["host.name"] || (try HostProcess.Hostname),
+        ...try Effect.orDie(Effect.try({ try: () => nodeProcessRuntimeAttributes(), catch: (e) => e })),
       },
     };
 
@@ -646,9 +568,9 @@ const layerTelemetry = Layer.unwrap(
     );
 
     const layerTracer = Layer.unwrap(
-      Effect.gen(function* () {
+      effect {
         const tracePath = environment.path.join(environment.logDir, "desktop.trace.ndjson");
-        const sink = yield* makeTraceSink({
+        const sink = try makeTraceSink({
           filePath: tracePath,
           maxBytes: DESKTOP_LOG_FILE_MAX_BYTES,
           maxFiles: DESKTOP_LOG_FILE_MAX_FILES,
@@ -657,17 +579,16 @@ const layerTelemetry = Layer.unwrap(
         const delegate =
           endpoints.traces === undefined
             ? undefined
-            : yield* OtlpTracer.make({
+            : try (OtlpTracer.make({
                 url: endpoints.traces.url,
                 exportInterval: `${endpoints.traces.export.exportIntervalMs} millis`,
                 headers: endpoints.traces.export.headers,
                 resource,
-              }).pipe(
-                Effect.provide(
-                  SharedObservability.layerOtlpSerialization(endpoints.traces.export.protocol),
-                ),
-              );
-        const tracer = yield* makeLocalFileTracer({
+              })
+                |> Effect.provide(
+                  %, SharedObservability.layerOtlpSerialization(endpoints.traces.export.protocol),
+                ));
+        const tracer = try makeLocalFileTracer({
           filePath: tracePath,
           maxBytes: DESKTOP_LOG_FILE_MAX_BYTES,
           maxFiles: DESKTOP_LOG_FILE_MAX_FILES,
@@ -677,7 +598,7 @@ const layerTelemetry = Layer.unwrap(
         });
 
         return Layer.succeed(Tracer.Tracer, tracer);
-      }),
+      },
     ).pipe(Layer.provide(OtlpExporter.layerFlusher));
 
     const layerOtelWarnings = Layer.effectDiscard(
@@ -688,9 +609,8 @@ const layerTelemetry = Layer.unwrap(
       Layer.provideMerge(Layer.mergeAll(layerLogger, layerTracer)),
       Layer.provide(OtelEnvironment.layerResourceAttributes(endpoints.resourceAttributes)),
     );
-  }),
+  },
 );
-
 export const layer = Layer.mergeAll(
   layerBackendOutputLogFactory,
   layerTelemetry,
@@ -698,3 +618,8 @@ export const layer = Layer.mergeAll(
   Layer.succeed(Tracer.MinimumTraceLevel, "Info"),
   Layer.succeed(References.TracerTimingEnabled, true),
 );
+
+module $call$ts {
+export function invoke<T extends {"decode":Function}>(target:T,arg0:()=>Parameters<Extract<T["decode"],(...args:any[])=>any>>[0]):ReturnType<Extract<T["decode"],(...args:any[])=>any>> { return target["decode"](arg0()) }
+}
+import { invoke as $invoke } from $call$ts

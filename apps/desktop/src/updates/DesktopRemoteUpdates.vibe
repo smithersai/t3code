@@ -6,7 +6,7 @@ import type {
 import * as Effect from "effect/Effect";
 import type * as Scope from "effect/Scope";
 
-import * as DesktopObservability from "../app/DesktopObservability.ts";
+import * as DesktopObservability from "../app/DesktopObservability.vibe";
 import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.vibe";
 import * as DesktopUpdates from "./DesktopUpdates.vibe";
 import {

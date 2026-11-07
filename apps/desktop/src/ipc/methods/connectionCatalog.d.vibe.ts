@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import * as DesktopConnectionCatalogStore from "../../app/DesktopConnectionCatalogStore.ts";
+import * as DesktopConnectionCatalogStore from "../../app/DesktopConnectionCatalogStore.vibe";
 import * as DesktopIpc from "../DesktopIpc.vibe";
 export declare const getConnectionCatalog: DesktopIpc.DesktopIpcMethod<DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreDecodeError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreDocumentDecodeError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreMigrationError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreProtectionError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreReadError | Schema.SchemaError, DesktopConnectionCatalogStore.DesktopConnectionCatalogStore>;
 export declare const setConnectionCatalog: DesktopIpc.DesktopIpcMethod<DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreProtectionError | DesktopConnectionCatalogStore.DesktopConnectionCatalogStoreWriteError | Schema.SchemaError, DesktopConnectionCatalogStore.DesktopConnectionCatalogStore>;

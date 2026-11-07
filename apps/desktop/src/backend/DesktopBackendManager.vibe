@@ -21,7 +21,7 @@ import {
 } from "@t3tools/contracts";
 import { waitForHttpReady as waitForHttpReadyShared } from "@t3tools/shared/httpReadiness";
 
-import * as DesktopObservability from "../app/DesktopObservability.ts";
+import * as DesktopObservability from "../app/DesktopObservability.vibe";
 import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.vibe";
 import * as DesktopBrowserHost from "../preview/DesktopBrowserHost.vibe";
 import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";

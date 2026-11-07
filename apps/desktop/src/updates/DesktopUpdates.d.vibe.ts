@@ -9,11 +9,11 @@ import * as Schema from "effect/Schema";
 import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe";
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import * as DesktopState from "../app/DesktopState.vibe";
 import * as ElectronUpdater from "../electron/ElectronUpdater.vibe";
-import * as ElectronWindow from "../electron/ElectronWindow.ts";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
+import * as ElectronWindow from "../electron/ElectronWindow.vibe";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
 interface DesktopPreparedUpdateInstallResult extends DesktopUpdateActionResult {
     readonly failed: boolean;
 }

@@ -2,7 +2,7 @@ import * as Context from "effect/Context";
 import * as Layer from "effect/Layer";
 import * as Ref from "effect/Ref";
 import * as SubscriptionRef from "effect/SubscriptionRef";
-import type { BackendStartupFailure } from "../backend/DesktopBackendManager.ts";
+import type { BackendStartupFailure } from "../backend/DesktopBackendManager.vibe";
 /** Startup health of the primary local backend, read by the startup recovery window. */
 export type PrimaryBackendStartup = {
     readonly _tag: "Starting";

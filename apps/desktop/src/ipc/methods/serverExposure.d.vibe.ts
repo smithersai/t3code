@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import * as DesktopLifecycle from "../../app/DesktopLifecycle.ts";
+import * as DesktopLifecycle from "../../app/DesktopLifecycle.vibe";
 import * as DesktopServerExposure from "../../backend/DesktopServerExposure.vibe";
 import * as DesktopIpc from "../DesktopIpc.vibe";
 export declare const getServerExposureState: DesktopIpc.DesktopIpcMethod<Schema.SchemaError, DesktopServerExposure.DesktopServerExposure>;

@@ -23,7 +23,7 @@ import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 import * as DesktopLegacyLocalStorage from "./DesktopLegacyLocalStorage.ts";
 import * as DesktopLifecycle from "./DesktopLifecycle.vibe";
 import * as DesktopLinuxUrlHandler from "./DesktopLinuxUrlHandler.ts";
-import * as DesktopObservability from "./DesktopObservability.ts";
+import * as DesktopObservability from "./DesktopObservability.vibe";
 import * as DesktopPreReadyPlatform from "./DesktopPreReadyPlatform.vibe";
 import * as DesktopShutdown from "./DesktopShutdown.vibe";
 import * as DesktopServerExposure from "../backend/DesktopServerExposure.vibe";

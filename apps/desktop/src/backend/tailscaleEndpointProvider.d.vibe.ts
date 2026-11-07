@@ -3,7 +3,7 @@ import { type TailscaleStatus } from "@t3tools/tailscale";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
-import type { NetworkInterfaces } from "./DesktopNetworkInterfaces.ts";
+import type { NetworkInterfaces } from "./DesktopNetworkInterfaces.vibe";
 export declare const resolveTailscaleAdvertisedEndpoints: (input: {
     readonly port: number;
     readonly serveEnabled?: boolean;

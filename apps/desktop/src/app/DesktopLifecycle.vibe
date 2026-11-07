@@ -10,7 +10,7 @@ import * as Schema from "effect/Schema";
 import * as Scope from "effect/Scope";
 import type * as Electron from "electron";
 import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
-import { makeComponentLogger } from "./DesktopObservability.ts";
+import { makeComponentLogger } from "./DesktopObservability.vibe";
 import * as DesktopShutdown from "./DesktopShutdown.vibe";
 import * as ElectronApp from "../electron/ElectronApp.vibe";
 import * as ElectronTheme from "../electron/ElectronTheme.vibe";

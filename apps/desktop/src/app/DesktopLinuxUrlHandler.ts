@@ -10,7 +10,7 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import * as ElectronProtocol from "../electron/ElectronProtocol.ts";
 import * as DesktopAssets from "./DesktopAssets.vibe";
 import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
-import { makeComponentLogger } from "./DesktopObservability.ts";
+import { makeComponentLogger } from "./DesktopObservability.vibe";
 
 // AppImage integrators choose the .desktop filename, so setDesktopName cannot identify it for protocol registration.
 const { logInfo, logWarning } = makeComponentLogger("desktop-linux-url-handler");

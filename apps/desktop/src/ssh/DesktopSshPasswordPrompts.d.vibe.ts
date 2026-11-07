@@ -5,7 +5,7 @@ import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
-import * as ElectronWindow from "../electron/ElectronWindow.ts";
+import * as ElectronWindow from "../electron/ElectronWindow.vibe";
 type DesktopSshPasswordPromptResolutionInput = typeof DesktopSshPasswordPromptResolutionInputSchema.Type;
 declare const DesktopSshPromptRequestIdGenerationError_base: Schema.Class<DesktopSshPromptRequestIdGenerationError, Schema.TaggedStruct<"DesktopSshPromptRequestIdGenerationError", {
     readonly destination: Schema.String;

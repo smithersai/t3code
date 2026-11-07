@@ -2,12 +2,12 @@ import type { DesktopUpdateState } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import type * as Scope from "effect/Scope";
-import * as ElectronApp from "../electron/ElectronApp.ts";
+import * as ElectronApp from "../electron/ElectronApp.vibe";
 import * as ElectronShell from "../electron/ElectronShell.vibe";
 import * as ElectronTheme from "../electron/ElectronTheme.vibe";
-import * as ElectronWindow from "../electron/ElectronWindow.ts";
-import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as ElectronWindow from "../electron/ElectronWindow.vibe";
+import * as DesktopUpdates from "../updates/DesktopUpdates.vibe";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 import * as DesktopState from "./DesktopState.vibe";
 export type StartupRecoveryOffer = {
     readonly _tag: "Checking";

@@ -1,9 +1,9 @@
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import * as ElectronWindow from "../../electron/ElectronWindow.ts";
-import * as BrowserImport from "../../preview/BrowserImport/BrowserImport.ts";
+import * as ElectronWindow from "../../electron/ElectronWindow.vibe";
+import * as BrowserImport from "../../preview/BrowserImport/BrowserImport.vibe";
 import * as PreviewManager from "../../preview/Manager.ts";
-import * as DesktopClientSettings from "../../settings/DesktopClientSettings.ts";
+import * as DesktopClientSettings from "../../settings/DesktopClientSettings.vibe";
 import * as DesktopIpc from "../DesktopIpc.vibe";
 export declare const installPreviewEventForwarding: () => Effect.Effect<void, never, ElectronWindow.ElectronWindow | PreviewManager.PreviewManager | import("effect/Scope").Scope>;
 export declare const startRecording: DesktopIpc.DesktopIpcMethod<DesktopClientSettings.DesktopClientSettingsReadError | Schema.SchemaError, DesktopClientSettings.DesktopClientSettings | PreviewManager.PreviewManager>;

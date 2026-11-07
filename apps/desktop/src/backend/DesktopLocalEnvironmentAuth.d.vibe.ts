@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import * as HttpClient from "effect/http/HttpClient";
-import * as DesktopBackendPool from "./DesktopBackendPool.ts";
+import * as DesktopBackendPool from "./DesktopBackendPool.vibe";
 declare const DesktopLocalEnvironmentAuthBackendNotConfiguredError_base: Schema.Class<DesktopLocalEnvironmentAuthBackendNotConfiguredError, Schema.TaggedStruct<"DesktopLocalEnvironmentAuthBackendNotConfiguredError", {}>, import("effect/Cause").YieldableError>;
 export declare class DesktopLocalEnvironmentAuthBackendNotConfiguredError extends DesktopLocalEnvironmentAuthBackendNotConfiguredError_base {
     get message(): string;

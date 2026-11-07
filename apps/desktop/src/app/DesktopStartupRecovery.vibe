@@ -11,7 +11,7 @@ import * as ElectronWindow from "../electron/ElectronWindow.vibe";
 import * as DesktopUpdates from "../updates/DesktopUpdates.vibe";
 import type { BackendStartupFailure } from "../backend/DesktopBackendManager.vibe";
 import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
-import * as DesktopObservability from "./DesktopObservability.ts";
+import * as DesktopObservability from "./DesktopObservability.vibe";
 import * as DesktopState from "./DesktopState.vibe";
 
 const RELEASES_URL = "https://github.com/pingdotgg/t3code/releases";
