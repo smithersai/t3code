@@ -27,6 +27,7 @@ import * as VcsProjectConfig from "../../apps/server/src/vcs/VcsProjectConfig.ts
 import * as GitVcsDriver from "../../apps/server/src/vcs/GitVcsDriver.ts";
 import * as ProcessRunner from "../../apps/server/src/processRunner.ts";
 import * as ServerConfig from "../../apps/server/src/config.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const { values } = NodeUtil.parseArgs({
   options: {
@@ -153,7 +154,7 @@ await Effect.runPromise(
         Layer.provideMerge(
           ServerConfig.layerTest(process.cwd(), { prefix: "t3-title-evaluation-state-" }),
         ),
-        Layer.provideMerge(NodeServices.layer),
+        Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       ),
     ),
     Effect.scoped,

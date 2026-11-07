@@ -8,10 +8,10 @@ import * as Schema from "effect/Schema";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as HttpClient from "effect/http/HttpClient";
 
-import { bootstrapRemoteBearerSession } from "../authorization/remote.ts";
+import { bootstrapRemoteBearerSession } from "#vibelang/emitted/src/authorization/remote";
 import { deriveWsBaseUrl, normalizeHttpBaseUrl } from "../environment/endpoint.ts";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
+import { fetchRemoteEnvironmentDescriptor } from "#vibelang/emitted/src/environment/descriptor";
+import * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities";
 import {
   BearerConnectionCredential,
   BearerConnectionProfile,
@@ -20,19 +20,23 @@ import {
   type ConnectionCredential,
   SshConnectionProfile,
   SshConnectionRegistration,
-} from "./catalog.ts";
-import * as ConnectionCredentialStore from "./credentialStore.ts";
+} from "#vibelang/emitted/src/connection/catalog";
+import * as ConnectionCredentialStore from "#vibelang/emitted/src/connection/credentialStore";
 import { mapRemoteEnvironmentError } from "./errors.ts";
 import {
   BearerConnectionTarget,
   ConnectionBlockedError,
   SshConnectionTarget,
   type ConnectionAttemptError,
-} from "./model.ts";
-import * as Persistence from "../platform/persistence.ts";
+} from "#vibelang/emitted/src/connection/model";
+import * as Persistence from "#vibelang/emitted/src/platform/persistence";
 import * as EnvironmentRegistry from "./registry.ts";
 import { orchestrationProtocolCompatibilityError } from "./compatibility.ts";
-import { connectionRoutes, routeEntry, sshTargetKey } from "./routes.ts";
+import {
+  connectionRoutes,
+  routeEntry,
+  sshTargetKey,
+} from "#vibelang/emitted/src/connection/routes";
 
 export interface PairingConnectionInput {
   readonly pairingUrl?: string;

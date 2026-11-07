@@ -10,10 +10,10 @@ import * as RequestResolver from "effect/RequestResolver";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 
-import * as GitHubRest from "./GitHubRest.ts";
+import * as GitHubRest from "./GitHubRest.vibe";
 import * as GitHubGraphQlClient from "./gitHubGraphQlClient.ts";
-import { decodePullRequestStacksJson, toCanWrite } from "./gitHubPullRequestJson.ts";
-import { cascadeRebaseStack } from "./githubStackRebase.ts";
+import { decodePullRequestStacksJson, toCanWrite } from "./gitHubPullRequestJson.vibe";
+import { cascadeRebaseStack } from "./githubStackRebase.vibe";
 import { StackActionsGraphQLGroup } from "./stackActions.graphql.ts";
 
 const stackErrorIdentity = {

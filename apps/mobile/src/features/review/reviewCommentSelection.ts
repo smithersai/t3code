@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 import { replaceComposerContextReferences } from "@t3tools/shared/composerContextReferences";
 
-import type { ReviewRenderableLineRow } from "./reviewModel";
+import type { ReviewRenderableLineRow } from "./reviewModel.vibe";
 
 export interface ReviewCommentTarget {
   readonly sectionId: string;

@@ -53,7 +53,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
 import { themeColorWithAlpha } from "../../lib/mobileTheme";
-import { armAgentAwarenessLiveActivityForLocalWork } from "../agent-awareness/remoteRegistration";
+import { armAgentAwarenessLiveActivityForLocalWork } from "../agent-awareness/remoteRegistration.vibe";
 import { scopedThreadKey } from "../../lib/scopedEntities";
 import {
   getComposerDraftSnapshot,
@@ -63,10 +63,10 @@ import {
   countComposerDraftAttachmentsAfterSelection,
   useComposerDraft,
 } from "../../state/use-composer-drafts";
-import { appAtomRegistry } from "../../state/atom-registry";
-import type { ComposerDocumentAttachment } from "../../lib/composerContext";
-import { useProject, useThreadShells } from "../../state/entities";
-import { useMentionableEnvironments } from "../../state/environments";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
+import type { ComposerDocumentAttachment } from "../../lib/composerContext.vibe";
+import { useProject, useThreadShells } from "../../state/entities.vibe";
+import { useMentionableEnvironments } from "../../state/environments.vibe";
 import { scopeProjectRef } from "@t3tools/client-runtime/environment";
 
 import { AppText as Text } from "../../components/ui/AppText";
@@ -99,7 +99,7 @@ import {
 import { ComposerCommandPopover } from "./ComposerCommandPopover";
 import { ComposerPopoverAnchor } from "./ComposerPopoverAnchor";
 import { ComposerQueuedEditAttachments } from "./ComposerQueuedEdit";
-import { useComposerCommandMenu } from "./use-composer-command-menu";
+import { useComposerCommandMenu } from "./use-composer-command-menu.vibe";
 import type { ComposerEnvironmentCandidate } from "@t3tools/client-runtime/composerThreadItems";
 import { offersLinkedEnvironments } from "@t3tools/client-runtime/link-request";
 import {

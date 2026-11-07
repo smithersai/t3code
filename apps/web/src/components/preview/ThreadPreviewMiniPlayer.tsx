@@ -1,6 +1,6 @@
 import { FILL_PREVIEW_VIEWPORT, type ScopedThreadRef } from "@t3tools/contracts";
 import { previewPdfAssetUrl } from "@t3tools/shared/preview";
-import { useEnvironmentHttpBaseUrl } from "~/state/environments";
+import { useEnvironmentHttpBaseUrl } from "../../state/environments.vibe";
 import { PanelRightIcon, PictureInPicture2, XIcon } from "lucide-react";
 import {
   type PointerEvent as ReactPointerEvent,
@@ -23,8 +23,8 @@ import {
 import { useBrowserSurfaceStore } from "~/browser/browserSurfaceStore";
 import type { BrowserViewportResizeDirection } from "~/browser/browserViewportLayout";
 import { previewRuntimeTabId } from "~/browser/previewRuntimeTabId";
-import { rendersServerTabNatively } from "~/browser/previewRuntime";
-import { primaryEnvironmentIdAtom } from "~/state/primaryEnvironment";
+import { rendersServerTabNatively } from "../../browser/previewRuntime.vibe";
+import { primaryEnvironmentIdAtom } from "../../state/primaryEnvironment.vibe";
 import { type ServerBrowserHandle, ServerBrowserSurface } from "~/browser/ServerBrowserSurface";
 import {
   closeServerPictureInPicture,
@@ -48,7 +48,7 @@ import {
   usePreviewMiniPlayerStore,
 } from "~/previewMiniPlayerStore";
 import { useRightPanelStore } from "~/rightPanelStore";
-import { useDeviceState } from "~/state/device";
+import { useDeviceState } from "../../state/device.vibe";
 
 import { DeviceStreamView } from "../device/DeviceStreamView";
 import type { DeviceScreenSize } from "@t3tools/client-runtime/device/stream";

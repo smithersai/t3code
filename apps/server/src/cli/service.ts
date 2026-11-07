@@ -12,7 +12,7 @@ import { compareExactServiceVersions } from "../cloud/serviceProtocol.ts";
 import type * as ServerConfig from "../config.ts";
 import * as ProcessRunner from "../processRunner.ts";
 import { projectLocationFlags, resolveCliAuthConfig } from "./config.ts";
-import { resolveEntryPath } from "./invocation.ts";
+import { resolveEntryPath } from "./invocation.vibe";
 
 export const layer = (config: ServerConfig.ServerConfig["Service"]) =>
   BootService.layer({

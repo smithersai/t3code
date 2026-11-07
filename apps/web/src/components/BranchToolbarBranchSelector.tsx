@@ -34,10 +34,10 @@ import { readLocalApi } from "../localApi";
 import { useOpenPrLink } from "../lib/openPullRequestLink";
 import { usePaginatedBranches } from "../state/queries";
 import { useProject, useQuietThreadShell } from "../state/entities";
-import { useEnvironmentQuery } from "../state/query";
-import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
+import { useEnvironmentQuery } from "../state/query.vibe";
+import { readEnvironmentScope, useEnvironmentScope } from "../state/session.vibe";
 import { threadEnvironment } from "../state/threads";
-import { useAtomCommand } from "../state/use-atom-command";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { vcsEnvironment } from "../state/vcs";
 import { cn } from "../lib/utils";
 import { THREAD_DETAILS_PANEL_ICON_CLASS } from "./chat/threadDetailsPanelStyles";
@@ -55,13 +55,13 @@ import {
   resolveEffectiveEnvMode,
   sanitizeNewRefName,
   shouldIncludeBranchPickerItem,
-} from "./BranchToolbar.logic";
+} from "./BranchToolbar.logic.vibe";
 import {
   ThreadPullRequestBadgeControl,
   prStatusIndicator,
   resolveThreadPullRequestBadge,
   useLinkedThreadPullRequest,
-} from "./ThreadStatusIndicators";
+} from "./ThreadStatusIndicators.vibex";
 
 import { ComboboxItem, ComboboxTrigger } from "./ui/combobox";
 import { ComposerControl } from "./chat/ComposerControl";

@@ -45,7 +45,7 @@ import * as EventStore from "./EventStore.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderEventIngestor from "./ProviderEventIngestor.ts";
-import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
+import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
 import {
   makeProviderEventRoutingState,
@@ -53,6 +53,7 @@ import {
   routeProviderEvent,
   selectInheritedBackgroundTurnItems,
 } from "./RunExecutionService.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerTestDatabase = SqlitePersistence.layerMemory;
 const layerTestStores = Layer.merge(EventStore.layer, ProjectionStore.layer).pipe(
@@ -65,7 +66,7 @@ const layerTestEventSink = EventSink.layer.pipe(
 
 const layerGit = GitVcsDriver.layer.pipe(
   Layer.provide(ServerConfig.layerTest(process.cwd(), { prefix: "ingestor-git-" })),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 const makeLayerTest = <E>(ingestorEventSink: Layer.Layer<EventSink.EventSinkV2, E>) =>

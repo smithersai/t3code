@@ -29,6 +29,7 @@ import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as PullRequestReviewGuideService from "./PullRequestReviewGuideService.ts";
 import * as PullRequestService from "./PullRequestService.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const projectId = ProjectId.make("project-1");
 const ACME_APP = {
@@ -221,7 +222,7 @@ const layerBase = Layer.mergeAll(
     Layer.provideMerge(VcsProcess.layer),
   ),
   SqlitePersistence.layerMemory,
-).pipe(Layer.provideMerge(NodeServices.layer));
+).pipe(Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
 
 type Repositories = Effect.Success<typeof makeRepositories>;
 

@@ -6,7 +6,7 @@ import * as Metric from "effect/Metric";
 import * as Ref from "effect/Ref";
 
 import * as ServerConfig from "../config.ts";
-import { metricAttributes } from "../observability/Metrics.ts";
+import { metricAttributes } from "../observability/Metrics.vibe";
 import * as ResourceTelemetry from "./ResourceTelemetry.ts";
 
 const SAMPLE_INTERVAL = "1 minute";

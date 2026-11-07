@@ -8,10 +8,10 @@ import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 
-import * as RelayConfiguration from "../src/Config.ts";
-import * as WebCrypto from "../src/WebCrypto.ts";
-import * as FcmAssertionSigner from "../src/agentActivity/FcmAssertionSigner.ts";
-import * as FcmClient from "../src/agentActivity/FcmClient.ts";
+import * as RelayConfiguration from "../src/Config.vibe";
+import * as WebCrypto from "../src/WebCrypto.vibe";
+import * as FcmAssertionSigner from "../src/agentActivity/FcmAssertionSigner.vibe";
+import * as FcmClient from "../src/agentActivity/FcmClient.vibe";
 
 const Device = Schema.Struct({
   token: Schema.NonEmptyString,

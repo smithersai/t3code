@@ -11,11 +11,11 @@ import { useRef, useState } from "react";
 import { AppText as Text, AppTextInput as TextInput } from "../../components/ui/AppText";
 import { Button } from "../../components/ui/Button";
 import { composerPullRequests } from "../../state/pull-requests";
-import { useEnvironmentQuery } from "../../state/query";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { PullRequestSheetContent } from "./PullRequestSheetContent";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
-import { usePullRequestPermissions } from "./usePullRequestPermissions";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
+import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";
 
 export type PullRequestEditParams = PullRequestParams &
   (

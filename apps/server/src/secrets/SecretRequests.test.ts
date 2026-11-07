@@ -1,4 +1,3 @@
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it } from "@effect/vitest";
 import * as HostProcess from "@t3tools/shared/HostProcess";
@@ -22,6 +21,7 @@ import * as TestClock from "effect/testing/TestClock";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
 import * as SecretRequests from "./SecretRequests.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const threadId = ThreadId.make("thread-orchestrator");
 const turnItemId = TurnItemId.make("turn-item:secret-request:1");
@@ -50,7 +50,7 @@ const withService = <A, E>(
     let failedRecords = options.failedRecords ?? 0;
     const requestThreadId = options.threadId ?? threadId;
     const layerDependencies = Layer.mergeAll(
-      NodeCrypto.layer,
+      Crypto.layerWebCrypto,
       NodeServices.layer,
       Layer.succeed(
         ServerSecretStore.ServerSecretStore,

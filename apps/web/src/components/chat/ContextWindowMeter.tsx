@@ -1,5 +1,5 @@
 import { Button } from "../ui/button";
-import { type ContextWindowSnapshot, formatContextWindowTokens } from "~/lib/contextWindow";
+import { type ContextWindowSnapshot, formatContextWindowTokens } from "../../lib/contextWindow.vibe";
 import { Popover, PopoverPopup, PopoverTrigger } from "../ui/popover";
 import {
   formatContextWindowCompactionMessage,

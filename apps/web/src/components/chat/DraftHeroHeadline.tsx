@@ -25,7 +25,7 @@ import {
   projectGroupsSpanEnvironments,
 } from "~/sidebarProjectGrouping";
 import { useProjects, useThreadShells } from "~/state/entities";
-import { useEnvironments, usePrimaryEnvironmentId } from "~/state/environments";
+import { useEnvironments, usePrimaryEnvironmentId } from "../../state/environments.vibe";
 import { ProjectEnvironmentBadge } from "../ProjectEnvironmentBadge";
 import { ProjectFavicon } from "../ProjectFavicon";
 import { sortLogicalProjectsForSidebar } from "../Sidebar.logic";

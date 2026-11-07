@@ -11,9 +11,9 @@ import {
   squashAtomCommandFailure,
 } from "@t3tools/client-runtime/state/runtime";
 import { formatBytes } from "../../lib/formatBytes";
-import { environmentAtomList, environmentIdsKey } from "../../state/environmentAtomList";
+import { environmentAtomList, environmentIdsKey } from "../../state/environmentAtomList.vibe";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { formatRelativeTimeLabel } from "../../timestampFormat";
 import { useNowMinute } from "../../hooks/useNowMinute";
 import { Button } from "../ui/button";
@@ -35,7 +35,7 @@ import { AdvancedSettings } from "./AdvancedSettings";
 import { FoldedSettingsSection } from "./FoldedSettingsSection";
 import { SettingsScopeNotice } from "./SettingsScopeNotice";
 import { SettingsGroup } from "./SettingsGroup";
-import type { ScopedSettingsTarget } from "./scopedSettings";
+import type { ScopedSettingsTarget } from "./scopedSettings.vibe";
 import { useSettingsScope } from "./SettingsScopeContext";
 import { searchableSetting } from "./settingsSearch";
 import {
@@ -43,7 +43,7 @@ import {
   useScopedSettings,
   useScopedSettingsMixed,
   useUpdateScopedSettings,
-} from "./useScopedSettings";
+} from "./useScopedSettings.ts";
 import { settingsScopeEnvironmentLabel } from "./settingsScopeAxis";
 
 export function WorktreesDirectoryRow() {

@@ -12,14 +12,14 @@ import {
   serverEnvironment,
   updateOutdatedServer,
 } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { SettingsActionRow } from "./components/SettingsActionRow";
 import { SettingsSection } from "./components/SettingsSection";
 import {
   environmentReleaseCheckAtom,
   releaseCheckError,
   releaseCheckValue,
-} from "./environmentUpdateCheck";
+} from "./environmentUpdateCheck.vibe";
 
 export function OutdatedServerUpdateSection({
   environmentId,

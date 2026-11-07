@@ -5,7 +5,7 @@ import {
   AuthProvidersManageScope,
   AuthOrchestrationReadScope,
 } from "@t3tools/contracts";
-import { useEnvironmentScope, readEnvironmentScope } from "../../state/session";
+import { useEnvironmentScope, readEnvironmentScope } from "../../state/session.vibe";
 import { useAtomValue } from "@effect/atom-react";
 import { connectionStatusTitle } from "@t3tools/client-runtime/connection";
 import { safeErrorLogAttributes } from "@t3tools/client-runtime/errors";
@@ -49,20 +49,20 @@ import {
 import { useStableCallback } from "../../hooks/useStableCallback";
 import { EnvironmentMachineIcon } from "../EnvironmentMachineIcon";
 import { cn } from "../../lib/utils";
-import { resolveAppModelSelectionState } from "../../modelSelection";
+import { resolveAppModelSelectionState } from "../../modelSelection.vibe";
 import {
   useEnvironments,
   usePrimaryEnvironmentId,
   type EnvironmentPresentation,
-} from "../../state/environments";
+} from "../../state/environments.vibe";
 import {
   EMPTY_SERVER_PROVIDERS,
   providersIgnoringCheckedAtAtom,
   serverEnvironment,
 } from "../../state/server";
-import { useEnvironmentSessionState } from "../../state/session";
+import { useEnvironmentSessionState } from "../../state/session.vibe";
 import { useProjects } from "../../state/entities";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useRelativeTimeState } from "../../hooks/useRelativeTimeState";
 import {
   ConnectionStatusDot,

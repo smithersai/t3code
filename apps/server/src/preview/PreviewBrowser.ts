@@ -19,7 +19,7 @@ import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http";
 import * as NodeCrypto from "node:crypto";
 
 import * as ServerConfig from "../config.ts";
-import { openZipArchive } from "../zipArchive.ts";
+import { openZipArchive } from "../zipArchive.vibe";
 
 // Update the version, sizes and hashes from each chrome-headless-shell zip listed at
 // https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json

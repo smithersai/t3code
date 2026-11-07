@@ -23,11 +23,11 @@ import {
   type ComposerImageAttachment,
   type ComposerThreadTarget,
 } from "../composerDraftStore";
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { environmentCatalog } from "../connection/catalog";
-import { assetEnvironment } from "../state/assets";
+import { assetEnvironment } from "../state/assets.vibe";
 import { attachmentEnvironment } from "../state/attachments";
-import { readEnvironmentScope, readPreparedConnection } from "../state/session";
+import { readEnvironmentScope, readPreparedConnection } from "../state/session.vibe";
 import type { AttachmentUploadState, ReadyAttachmentUpload } from "./attachmentUploadState";
 
 const MAX_UPLOADS_PER_ENVIRONMENT = 3;

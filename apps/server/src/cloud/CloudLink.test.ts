@@ -24,6 +24,7 @@ import {
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_URL_SECRET,
 } from "./config.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const encode = (value: string) => new TextEncoder().encode(value);
 
@@ -108,7 +109,7 @@ const withService = <A, E>(
         HttpClient.HttpClient,
         HttpClient.make(() => Effect.die("unused")),
       ),
-      NodeServices.layer,
+      Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
     );
     return yield* Effect.gen(function* () {
       const link = yield* CloudLink.CloudLink;

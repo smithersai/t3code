@@ -20,6 +20,8 @@ import {
   normalizeAcpRegistryCommands,
 } from "@t3tools/provider-acp-registry/testing";
 import * as AcpRegistrySupport from "@t3tools/provider-acp-registry/server/AcpRegistrySupport";
+import * as Layer from "effect/Layer";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const instanceId = ProviderInstanceId.make("acpRegistry_codex");
 const __dirname = NodePath.dirname(NodeURL.fileURLToPath(import.meta.url));
@@ -369,7 +371,7 @@ describe("ACP Registry probe", () => {
       yield* logoutAcpRegistry(input);
     }).pipe(
       Effect.provideService(AcpRegistrySupport.AcpRegistryCatalog, catalog),
-      Effect.provide(NodeServices.layer),
+      Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       Effect.scoped,
     );
   });

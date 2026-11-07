@@ -63,7 +63,7 @@ import {
   WEB_SEARCH_PROMPT,
 } from "../src/orchestration-v2/testkit/fixtures/shared.ts";
 import { codexReplayRecordingOutputRecords } from "./codexReplayRecordingRecords.ts";
-import { makeReplayRecorderDeferredRegistry } from "./replayRecorderDeferredRegistry.ts";
+import { makeReplayRecorderDeferredRegistry } from "./replayRecorderDeferredRegistry.vibe";
 
 const CODEX_REPLAY_PLAN_MODE_DEVELOPER_INSTRUCTIONS =
   process.env.T3_CODEX_REPLAY_PLAN_DEVELOPER_INSTRUCTIONS ??

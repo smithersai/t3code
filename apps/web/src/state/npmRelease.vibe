@@ -1,0 +1,33 @@
+import { useAtomValue } from "@effect/atom-react";
+
+export const npmReleasePublishedAtom = Atom.family((version: string) =>
+  Atom.make(
+    effect {
+      const response = try HttpClient.get(
+        `https://registry.npmjs.org/t3/${encodeURIComponent(version)}`,
+      );
+      if (response.status === 404) return false;
+      const body = try (HttpClientResponse.filterStatusOk(response)
+        |> Effect.flatMap(%, (ok) => ok.json));
+      return typeof body === "object" && body !== null && "version" in body
+        ? body.version === version
+        : false;
+    }
+      // Tracing headers would make the browser send a CORS preflight, which npm rejects.
+      |> Effect.provideService(%, HttpClient.TracerPropagationEnabled, false)
+      |> Effect.provide(%, FetchHttpClient.layer),
+  ).pipe(
+    Atom.withRefresh("5 minutes"),
+    Atom.keepAlive,
+    Atom.withLabel(`npm-release-published:${version}`),
+  ),
+);
+
+const NO_VERSION_ATOM = Atom.make(AsyncResult.success(false)).pipe(
+  Atom.withLabel("npm-release-published:none"),
+);
+
+export function useNpmReleasePublished(version: string | null): boolean {
+  const result = useAtomValue(version ? npmReleasePublishedAtom(version) : NO_VERSION_ATOM);
+  return AsyncResult.getOrElse(result, () => false);
+}

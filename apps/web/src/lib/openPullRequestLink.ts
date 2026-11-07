@@ -13,10 +13,10 @@ import { useClientSettings } from "../hooks/useSettings";
 import { stackedThreadToast, toastManager } from "../components/ui/toast";
 import { useRightPanelStore } from "../rightPanelStore";
 
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { readProjects, useProjects } from "../state/entities";
 import { environmentServerConfigsAtom, serverEnvironment } from "../state/server";
-import { usePrimaryEnvironmentId } from "../state/environments";
+import { usePrimaryEnvironmentId } from "../state/environments.vibe";
 
 export function usePullRequestPreviewTarget(environmentId: EnvironmentId | null, url: string) {
   const projects = useProjects();

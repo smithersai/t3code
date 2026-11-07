@@ -130,7 +130,7 @@ import {
   useConnectedEnvironmentIds,
   useEnvironmentMachines,
   usePrimaryEnvironmentId,
-} from "../state/environments";
+} from "../state/environments.vibe";
 import {
   readThreadShell,
   useAllEnvironmentProjectSnapshotsReady,
@@ -139,22 +139,22 @@ import {
   useServerConfigs,
   useQuietThreadShells,
 } from "../state/entities";
-import { environmentPresentations } from "../state/presentation";
+import { environmentPresentations } from "../state/presentation.vibe";
 import { primaryServerKeybindingsAtom } from "../state/server";
 import { environmentProjects } from "../state/projects";
 import { threadEnvironment } from "../state/threads";
-import { useOlderSettledShelf, useOlderSettledShelfGrowth } from "../state/olderSettledShelf";
+import { useOlderSettledShelf, useOlderSettledShelfGrowth } from "../state/olderSettledShelf.vibe";
 import { useThreadSearch } from "../state/queries";
-import { useOrchestrationCommand } from "../state/use-orchestration-command";
-import { readEnvironmentScope, useEnvironmentScope } from "../state/session";
-import { appAtomRegistry } from "../rpc/atomRegistry";
-import { canShareWithGuestAtom } from "./chat/guestShareAvailability";
-import { openGuestShareDialog } from "./chat/guestShareDialogState";
+import { useOrchestrationCommand } from "../state/use-orchestration-command.vibe";
+import { readEnvironmentScope, useEnvironmentScope } from "../state/session.vibe";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
+import { canShareWithGuestAtom } from "./chat/guestShareAvailability.vibe";
+import { openGuestShareDialog } from "./chat/guestShareDialogState.vibe";
 import {
   buildThreadRouteParams,
   resolveActiveThreadRouteRef,
   resolveThreadRouteTarget,
-} from "../threadRoutes";
+} from "../threadRoutes.vibe";
 import type { SidebarThreadSummary } from "../types";
 import { isScratchProject } from "@t3tools/client-runtime/state/projects";
 import { cn } from "~/lib/utils";

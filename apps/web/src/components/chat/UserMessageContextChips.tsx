@@ -58,8 +58,8 @@ import {
   buildReviewCommentRenderablePatch,
   formatReviewCommentFence,
   type ReviewCommentContext,
-} from "../../reviewCommentContext";
-import { TimelineRowCtx } from "./timelineRowContext";
+} from "../../reviewCommentContext.vibe";
+import { TimelineRowCtx } from "./timelineRowContext.vibe";
 
 function UserMessageMentionChip(props: {
   record: Extract<KnownComposerContextRecord, { kind: "mention" }>;

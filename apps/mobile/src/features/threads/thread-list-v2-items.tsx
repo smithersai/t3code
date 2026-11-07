@@ -10,10 +10,10 @@ import {
 } from "./thread-list-v2-row-appearance";
 import { RowPressable } from "../../components/ui/RowPressable";
 import { CustomSnoozeSheet } from "./CustomSnoozeSheet";
-import { appAtomRegistry } from "../../state/atom-registry";
-import { threadArrangementOpenAtom } from "../../state/thread-order";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
+import { threadArrangementOpenAtom } from "../../state/thread-order.vibe";
 import { threadEnvironment } from "../../state/threads";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useVisibleSecondClock } from "./use-visible-second-clock";
 import type { ThreadMoveDestination } from "./threadOrder";
 import type {
@@ -32,7 +32,7 @@ import { memo, useCallback, useMemo, useState, type ComponentProps } from "react
 import { Pressable, useWindowDimensions, View } from "react-native";
 import type { SwipeableMethods } from "react-native-gesture-handler/ReanimatedSwipeable";
 
-import type { ThreadListProvider } from "../../state/thread-list-environments";
+import type { ThreadListProvider } from "../../state/thread-list-environments.vibe";
 import { SymbolView, type AppSymbolName } from "../../components/ui/AppSymbol";
 import { AppText as Text } from "../../components/ui/AppText";
 import { Menu } from "../../components/ui/Menu";
@@ -41,21 +41,21 @@ import { ProjectFavicon } from "../../components/ProjectFavicon";
 import { ProviderIcon, ProviderInstanceIcon } from "../../components/ProviderIcon";
 import { useNowAfter } from "../../lib/clock";
 import { cn } from "../../lib/cn";
-import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic";
+import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic.vibe";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
-import { useEnvironmentScope } from "../../state/session";
-import type { PendingNewTask } from "../../state/use-pending-new-tasks";
+import { useEnvironmentScope } from "../../state/session.vibe";
+import type { PendingNewTask } from "../../state/use-pending-new-tasks.vibe";
 import {
   pendingDraftBranchNeedsRefs,
   resolvePendingDraftBranch,
 } from "../../state/pending-new-tasks-model";
-import { useBranches } from "../../state/queries";
+import { useBranches } from "../../state/queries.vibe";
 import { useNewTaskProjectDefaults } from "./use-new-task-project-defaults";
 import {
   resolveThreadPrBadgeAction,
   type ThreadPrPresentation,
 } from "../../state/thread-pr-presentation";
-import { useThreadPr } from "../../state/use-thread-pr";
+import { useThreadPr } from "../../state/use-thread-pr.vibe";
 import { useSwipeRowDormant } from "../home/swipe-row-activation";
 import { ThreadSwipeable } from "../home/thread-swipe-actions";
 import { buildThreadTitleRegenerationMenuItems } from "./thread-title-regeneration-menu";

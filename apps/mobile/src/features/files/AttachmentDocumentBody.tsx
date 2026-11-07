@@ -2,7 +2,7 @@ import type { EnvironmentId } from "@t3tools/contracts";
 import { View } from "react-native";
 
 import { EmptyState } from "../../components/ui/EmptyState";
-import type { useAttachmentDocument } from "../../lib/attachmentDocument";
+import type { useAttachmentDocument } from "../../lib/attachmentDocument.vibe";
 import { HtmlRenderWebView } from "../threads/HtmlRenderWebView";
 import { AudioFilePreview } from "./AudioFilePreview";
 import { DelimitedFilePreview } from "./DelimitedFilePreview";

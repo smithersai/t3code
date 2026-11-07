@@ -12,10 +12,10 @@ import { useStableCallback } from "../../hooks/useStableCallback";
 import { randomUUID } from "~/lib/utils";
 import { selectThreadRightPanelState, useRightPanelStore } from "../../rightPanelStore";
 import { useProject, useQuietThreadShell } from "../../state/entities";
-import { readEnvironmentScope } from "../../state/session";
+import { readEnvironmentScope } from "../../state/session.vibe";
 import { terminalEnvironment } from "../../state/terminal";
-import { useKnownTerminalSessions } from "../../state/terminalSessions";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useKnownTerminalSessions } from "../../state/terminalSessions.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { selectThreadTerminalUiState, useTerminalUiStateStore } from "../../terminalUiStateStore";
 
 /** Where a new terminal starts. Omitted fields fall back to the thread's project and worktree. */

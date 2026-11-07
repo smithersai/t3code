@@ -17,7 +17,7 @@ import {
   attachProjectFaviconDatabase,
   projectFaviconDatabaseCache,
 } from "../lib/projectFaviconDatabaseCache";
-import { decodeStoredShellSnapshot } from "./shell-cache-decoding";
+import { decodeStoredShellSnapshot } from "./shell-cache-decoding.vibe";
 
 const SERVER_CONFIG_CACHE_SCHEMA_VERSION = 1;
 const VCS_REFS_CACHE_SCHEMA_VERSION = 1;

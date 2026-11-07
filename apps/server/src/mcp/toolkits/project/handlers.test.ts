@@ -8,7 +8,6 @@ import {
   type RuntimeMode,
   type OrchestrationV2ThreadShell,
 } from "@t3tools/contracts";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
@@ -25,14 +24,15 @@ import * as ThreadManagement from "../../../orchestration-v2/ThreadManagementSer
 import * as ServerConfig from "../../../config.ts";
 import * as ServerSettings from "../../../serverSettings.ts";
 import * as Project from "../../../project/ProjectService.ts";
-import * as ManagedProjectFolders from "../../../project/ManagedProjectFolders.ts";
+import * as ManagedProjectFolders from "../../../project/ManagedProjectFolders.vibe";
 import * as PeerForwarding from "../../../peer/PeerForwarding.ts";
 import * as GitVcsDriver from "../../../vcs/GitVcsDriver.ts";
 import * as VcsProcess from "../../../vcs/VcsProcess.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import * as ProjectHandlers from "./handlers.ts";
-import { ProjectToolkit } from "./tools.ts";
+import { ProjectToolkit } from "./tools.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const clientLaunchHarness = (input: {
   readonly runtimeModeCeiling: RuntimeMode;
@@ -66,7 +66,7 @@ const clientLaunchHarness = (input: {
             },
           }),
     }),
-    NodeCrypto.layer,
+    Crypto.layerWebCrypto,
     Layer.succeed(McpInvocationContext.McpInvocationContext, {
       environmentId: EnvironmentId.make("environment"),
       requestNamespace: "client:session-1",
@@ -128,16 +128,18 @@ const clientLaunchHarness = (input: {
     }),
     Layer.mock(PeerForwarding.PeerForwarding)({}),
     Layer.mock(ManagedProjectFolders.ManagedProjectFolders)({ namedProjectsRoot: "/projects" }),
-    DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer)),
+    DocumentText.layer.pipe(
+      Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+    ),
   ).pipe(
     Layer.provideMerge(GitVcsDriver.layer),
     Layer.provideMerge(VcsProcess.layer),
     Layer.provideMerge(
       ServerConfig.layerTest(process.cwd(), { prefix: "t3-client-launch-" }).pipe(
-        Layer.provide(NodeServices.layer),
+        Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       ),
     ),
-    Layer.provideMerge(NodeServices.layer),
+    Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
   return { projectId, modelSelection, projectDefaults, dependencies: layerDependencies };
 };
@@ -374,7 +376,7 @@ it.effect("a launch binds only an existing checkout that is one of the project's
     expect((yield* launchInto(worktree)).at(-1)?.result).toMatchObject({
       code: "invalid_request",
     });
-  }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+  }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 it.effect("a launch into a new worktree creates nothing when its base ref has no commit", () =>

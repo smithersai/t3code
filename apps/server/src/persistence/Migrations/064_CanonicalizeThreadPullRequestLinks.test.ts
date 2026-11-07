@@ -11,7 +11,7 @@ import * as EventStore from "../../orchestration-v2/EventStore.ts";
 import * as ProjectionStore from "../../orchestration-v2/ProjectionStore.ts";
 import * as ProjectionMaintenance from "../../orchestration-v2/ProjectionMaintenance.ts";
 import { listLinkedPullRequestThreads } from "../../pullRequest/linkedThreads.ts";
-import { runMigrations } from "../Migrations.ts";
+import { runMigrations } from "../Migrations.vibe";
 
 const decodeThread = Schema.decodeSync(Schema.fromJsonString(OrchestrationV2AppThreadJson));
 const updatedAt = "2026-09-01T00:00:00.000Z";

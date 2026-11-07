@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --import=vibelang/register
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as Effect from "effect/Effect";
@@ -11,7 +11,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 
 import { DEVELOPMENT_ICON_OVERRIDES } from "../../../scripts/lib/brand-assets.ts";
 import { findEsmImportsOfExternalPackages } from "../../../scripts/lib/cli-executable-imports.ts";
-import { injectLinuxArm64Sea } from "../../../scripts/lib/linux-arm64-sea.ts";
+import { injectLinuxArm64Sea } from "../../../scripts/lib/linux-arm64-sea.vibe";
 import rootPackageJson from "../../../package.json" with { type: "json" };
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { resolveSpawnCommand } from "@t3tools/shared/shell";
@@ -21,7 +21,9 @@ import {
   ServerCliDevelopmentIconSourceMissingError,
   ServerCliDevelopmentIconTargetMissingError,
   ServerCliExecutableImportError,
-} from "./cliErrors.ts";
+} from "./cliErrors.vibe";
+import * as Layer from "effect/Layer";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const RepoRoot = Effect.service(Path.Path).pipe(
   Effect.flatMap((path) => path.fromFileUrl(new URL("../../..", import.meta.url))),
@@ -35,7 +37,7 @@ const runCommand = Effect.fn("runCommand")(function* (command: ChildProcess.Stan
   if (exitCode !== 0) {
     return yield* new ServerCliCommandExitError({
       command: command.command,
-      args: command.args,
+      args: command.args.map(String),
       cwd: command.options.cwd,
       exitCode,
     });
@@ -212,6 +214,9 @@ const cli = Command.make("cli").pipe(
 
 Command.run(cli, { version: "0.0.0" }).pipe(
   Effect.scoped,
-  Effect.provide([Logger.layer([Logger.consolePretty()]), NodeServices.layer]),
+  Effect.provide([
+    Logger.layer([Logger.consolePretty()]),
+    Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+  ]),
   NodeRuntime.runMain,
 );

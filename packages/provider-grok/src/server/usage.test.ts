@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@effect/vitest";
 
-import { GROK_COST_USD_TICKS_PER_DOLLAR, parseGrokLine } from "./usage.ts";
+import { GROK_COST_USD_TICKS_PER_DOLLAR, parseGrokLine } from "./usage.vibe";
 
 describe("parseGrokLine", () => {
   function turnCompleted(overrides?: {

@@ -11,7 +11,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import { normalizeHostname } from "~/browser/browserTargetResolver";
 import { readThreadShell, useQuietThreadShell } from "~/state/entities";
-import { readPreparedConnection, usePreparedConnection } from "~/state/session";
+import { readPreparedConnection, usePreparedConnection } from "./state/session.vibe";
 
 import {
   BROWSER_FAVICON_MAX_ALIASES_PER_ENTRY,

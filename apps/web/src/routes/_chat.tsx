@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ThreadRouteView } from "../components/ThreadRouteView";
 import { isAppModalPage } from "../components/sidebar/mainAppLocation";
 import { SidebarInset } from "../components/ui/sidebar";
-import { resolveThreadRouteTarget, type ThreadRouteTarget } from "../threadRoutes";
+import { resolveThreadRouteTarget, type ThreadRouteTarget } from "../threadRoutes.vibe";
 import { retainThreadFindForRoute } from "../components/chat/threadFindStore";
 import { ThreadLinkPrompt } from "../components/promptLinks/ThreadLinkPrompt";
 import { useThreadRouteTarget } from "../hooks/useThreadRouteTarget";

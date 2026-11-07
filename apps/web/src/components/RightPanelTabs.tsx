@@ -75,14 +75,14 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import { PanelTabCloseButton } from "~/components/ui/panel-tab-close-button";
 import { faviconUrlForOrigin } from "~/lib/favicon";
 import { useTheme } from "~/hooks/useTheme";
-import { useDeviceState } from "~/state/device";
+import { useDeviceState } from "../state/device.vibe";
 import type { PreviewPanelInlineSize } from "~/hooks/usePreviewPanelInlineSize";
 import {
   newestPullRequestSummary,
   pullRequestEnvironment,
   useSharedPullRequestSummary,
 } from "~/state/pullRequests";
-import { useEnvironmentQuery } from "~/state/query";
+import { useEnvironmentQuery } from "../state/query.vibe";
 import { COLLAPSED_SIDEBAR_TITLEBAR_INSET_CLASS } from "~/workspaceTitlebar";
 
 import { PreviewPanelShell, type PreviewPanelMode } from "./preview/PreviewPanelShell";

@@ -12,7 +12,7 @@ import type { AtomRegistry } from "effect/reactivity";
 import { useContext } from "react";
 
 import { stackedThreadToast, toastManager } from "~/components/ui/toast";
-import { type EnvironmentPresentation, useEnvironments } from "~/state/environments";
+import { type EnvironmentPresentation, useEnvironments } from "../state/environments.vibe";
 import { projectEnvironment } from "~/state/projects";
 import { type NewThreadHandler, useNewThreadHandler } from "./useHandleNewThread";
 

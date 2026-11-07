@@ -1,14 +1,14 @@
 import * as Dialog from "./ui/Dialog";
 import { useContext, useEffect, useEffectEvent, useState } from "react";
 
-import { loadLocalAttachmentPreview } from "../lib/localAttachmentPreview";
+import { loadLocalAttachmentPreview } from "../lib/localAttachmentPreview.vibe";
 import {
   downloadAndShareAttachment,
   nativeViewerErrorMessage,
   shareLocalAttachment,
 } from "../lib/attachmentDownload";
 import { usePreviewPresentation } from "../lib/previewPresentation";
-import { refreshAssetUrl } from "../state/assets";
+import { refreshAssetUrl } from "../state/assets.vibe";
 import { filePreviewGallery, filePreviewKey, filePreviewName } from "../lib/filePreviewGallery";
 import { FilePreviewGallery } from "./FilePreviewGallery";
 import { FilePreview } from "./FilePreview";

@@ -1,0 +1,248 @@
+import * as FileSystem from "effect/FileSystem"
+import type { AgentOptions, RunResult } from "@cursor/sdk"
+import * as Effect from "effect/Effect"
+import { type ProviderSetupError, TextGenerationError } from "@t3tools/contracts"
+import type { CursorSettings } from "../settings.vibe"
+import * as TextGenerationOperations from "@t3tools/provider-core/server/textGenerationOperations"
+import { cursorSdkModelSelection } from "./sdkModel.ts"
+import type { CursorAuth } from "./auth.vibe"
+import * as CursorSdk from "./CursorSdk.ts"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+
+module platform {
+  /** @throws {never} */
+  export function $process_env() {
+    return process.env
+  }
+}
+
+import { $process_env } from platform
+
+const CURSOR_TIMEOUT_MS = 180_000
+const isTextGenerationError = Schema.is(TextGenerationError)
+function cursorSdkResultDetail(result: RunResult): string {
+  switch (result.status) {
+    case "cancelled":
+      return "Cursor SDK request was cancelled."
+    case "error":
+      return "Cursor SDK request finished with an error."
+    case "finished":
+      return "Cursor SDK returned empty output."
+  }
+}
+// Sandboxing fails without cursorsandbox or after a process-wide unsupported result.
+function cursorSandboxUnsupported(cause: unknown): boolean {
+  const seen = new Set<object>()
+  let current = cause
+  while (typeof current === "object" && current !== null && !seen.has(current)) {
+    seen.add(current)
+    if (current instanceof Error && current.message.includes("sandboxing is not supported")) {
+      return true
+    }
+    current = Reflect.get(current, "cause")
+  }
+  return false
+}
+export const makeCursorTextGeneration = effect (
+  cursorSettings: {
+    readonly enabled: boolean
+    readonly binaryPath?: string
+    readonly apiEndpoint?: string
+    readonly customModels: readonly (string | {
+      readonly slug: string
+      readonly name?: string | undefined
+      readonly capabilities?: {
+        readonly optionDescriptors?:
+          | readonly ({
+            readonly id: string
+            readonly label: string
+            readonly description?: string | undefined
+            readonly type: "select"
+            readonly options: readonly {
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly isDefault?: boolean | undefined
+            }[]
+            readonly currentValue?: string | undefined
+            readonly promptInjectedValues?: readonly string[] | undefined
+          } | {
+            readonly id: string
+            readonly label: string
+            readonly description?: string | undefined
+            readonly type: "boolean"
+            readonly currentValue?: boolean | undefined
+          })[]
+          | undefined
+      } | undefined
+    })[]
+  },
+  environment?: NodeJS.ProcessEnv | undefined,
+  resolveApiKey?: (string!ProviderSetupError!never) | undefined,
+  withAccess?: (CursorAuth["withAccess"]) | undefined,
+) =>
+  try withSpan(
+    effect {
+      const fs = try FileSystem.FileSystem
+      const { Agent, SqliteLocalAgentStore } = try CursorSdk.CursorSdk
+      const resolvedEnvironment = environment ?? $process_env()
+
+      const resolveCursorApiKey = effect (
+        operation: TextGenerationOperations.Operation,
+      ) =>
+        try withSpan(
+          effect {
+            if (!cursorSettings.enabled) {
+              throw new TextGenerationError({
+                operation,
+                detail: "Cursor is disabled in T3 Code settings.",
+              })
+            }
+
+            const apiKey = resolveApiKey
+              ? try resolveApiKey
+              : resolvedEnvironment.CURSOR_API_KEY?.trim()
+            if (!apiKey) {
+              throw new TextGenerationError({
+                operation,
+                detail: "Sign in with Cursor or add CURSOR_API_KEY in provider settings.",
+              })
+            }
+
+            return apiKey
+          },
+          "CursorTextGeneration.resolveCursorApiKey",
+        )
+
+      const runCursorJson: TextGenerationOperations.Runner = effect (input) =>
+        try withSpan(
+          effect {
+            const { operation, prompt, modelSelection } = input
+
+            const apiKey = try resolveCursorApiKey(operation)
+            // sandbox.json expands writable paths independently of settingSources; the public API cannot override it.
+            if (try fs.exists(`${try HostProcess.HomeDirectory}/.cursor/sandbox.json`)) {
+              throw new TextGenerationError({
+                operation,
+                detail:
+                  "Cursor text generation cannot enforce workspace isolation with a custom ~/.cursor/sandbox.json. Use another text-generation provider.",
+              })
+            }
+            const cwd = try fs.makeTempDirectoryScoped({ prefix: "t3-cursor-text-" })
+            // Only store disposal releases SDK SQLite handles; keep state outside the empty workspace.
+            const stateRoot = try fs.makeTempDirectoryScoped({ prefix: "t3-cursor-text-state-" })
+            const store = try Effect.acquireRelease(
+              Effect.tryPromise(() => SqliteLocalAgentStore.open({ workspaceRef: cwd, stateRoot })),
+              (store) => Effect.tryPromise(() => store.dispose()) |> Effect.ignore({ log: true })(%),
+            )
+            const agentOptions = {
+              apiKey,
+              mode: "plan",
+              model: try Effect.orDie(
+                Effect.try({ try: () => cursorSdkModelSelection(modelSelection), catch: (e) => e }),
+              ),
+              local: {
+                cwd,
+                store,
+                autoReview: false,
+                sandboxOptions: { enabled: true },
+                settingSources: [],
+                enableAgentRetries: true,
+              },
+            } satisfies AgentOptions
+            const createCursorAgent = (sandboxEnabled: boolean) =>
+              Effect.tryPromise((signal) =>
+                Agent.create(
+                  sandboxEnabled
+                    ? agentOptions
+                    : {
+                      ...agentOptions,
+                      local: {
+                        ...agentOptions.local,
+                        sandboxOptions: { enabled: false },
+                      },
+                    },
+                ).then((agent) => {
+                  if (signal.aborted) agent.close()
+                  return agent
+                })
+              )
+
+            const request = effect {
+              // Empty cwd and setting sources isolate the run from user projects even if sandboxing fails.
+              const agent = try Effect.acquireRelease(
+                createCursorAgent(true)
+                  |> Effect.catchIf(%, cursorSandboxUnsupported, () => createCursorAgent(false)),
+                (agent) =>
+                  Effect.tryPromise(() => agent[Symbol.asyncDispose]())
+                  |> Effect.timeout(%, "5 seconds")
+                  |> Effect.ignore({ log: true })(%),
+                { interruptible: true },
+              )
+              const run = try Effect.tryPromise((signal) =>
+                agent.send(prompt).then((run) => {
+                  if (signal.aborted) void run.cancel().catch(() => undefined)
+                  return run
+                })
+              )
+              try Effect.addFinalizer(() =>
+                run.status === "running"
+                  ? (Effect.tryPromise(() => run.cancel())
+                    |> Effect.timeout(%, "5 seconds")
+                    |> Effect.ignore({ log: true })(%))
+                  : Effect.void
+              )
+              return try Effect.tryPromise(() => run.wait())
+            } |> Effect.scoped(%)
+            const promptResult = try (request
+              |> Effect.timeoutOption(%, CURSOR_TIMEOUT_MS)
+              |> Effect.flatMap(
+                %,
+                Option.match({
+                  onNone: () =>
+                    Effect.fail(
+                      new TextGenerationError({
+                        operation,
+                        detail: "Cursor SDK request timed out.",
+                      }),
+                    ),
+                  onSome: (value) => Effect.succeed(value),
+                }),
+              ))
+
+            const rawResult = promptResult.result?.trim() ?? ""
+            if (promptResult.status !== "finished" || !rawResult) {
+              throw new TextGenerationError({
+                operation,
+                detail: cursorSdkResultDetail(promptResult),
+              })
+            }
+
+            return try TextGenerationOperations.decodeJsonReply(input, "Cursor SDK", rawResult)
+          } |> ((effect, input) => {
+            const { operation } = input
+            return effect.pipe(
+              Effect.scoped,
+              (effect) => (withAccess ? withAccess(effect) : effect),
+              Effect.scoped,
+              Effect.mapError((cause) =>
+                isTextGenerationError(cause)
+                  ? cause
+                  : new TextGenerationError({
+                    operation,
+                    detail: "Cursor SDK text generation failed.",
+                    cause,
+                  })
+              ),
+            )
+          })(%, input),
+          "CursorTextGeneration.runCursorJson",
+        )
+
+      return TextGenerationOperations.fromRunner(
+        "CursorTextGeneration",
+        TextGenerationOperations.withoutInvestigation("Cursor", runCursorJson),
+      )
+    },
+    "makeCursorTextGeneration",
+  )

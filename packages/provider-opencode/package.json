@@ -2,50 +2,128 @@
   "name": "@t3tools/provider-opencode",
   "private": true,
   "type": "module",
+  "imports": {
+    "#vibelang/emitted/src/settings": {
+      "types": "./src/settings.d.vibe.ts",
+      "vibelang-source": "./src/settings.vibe",
+      "default": "./.vibelang/js/src/settings.js"
+    },
+    "#vibelang/emitted/src/server/OpenCodeServerLedger": {
+      "types": "./src/server/OpenCodeServerLedger.d.vibe.ts",
+      "vibelang-source": "./src/server/OpenCodeServerLedger.vibe",
+      "default": "./.vibelang/js/src/server/OpenCodeServerLedger.js"
+    },
+    "#vibelang/emitted/src/server/v2/textGeneration": {
+      "types": "./src/server/v2/textGeneration.d.vibe.ts",
+      "vibelang-source": "./src/server/v2/textGeneration.vibe",
+      "default": "./.vibelang/js/src/server/v2/textGeneration.js"
+    },
+    "#vibelang/emitted/src/server/usage": {
+      "types": "./src/server/usage.d.vibe.ts",
+      "vibelang-source": "./src/server/usage.vibe",
+      "default": "./.vibelang/js/src/server/usage.js"
+    },
+    "#vibelang/emitted/src/server/usageLimits": {
+      "types": "./src/server/usageLimits.d.vibe.ts",
+      "vibelang-source": "./src/server/usageLimits.vibe",
+      "default": "./.vibelang/js/src/server/usageLimits.js"
+    },
+    "#vibelang/emitted/src/server/openCode2Catalog": {
+      "types": "./src/server/openCode2Catalog.d.vibe.ts",
+      "vibelang-source": "./src/server/openCode2Catalog.vibe",
+      "default": "./.vibelang/js/src/server/openCode2Catalog.js"
+    },
+    "#vibelang/emitted/src/server/status": {
+      "types": "./src/server/status.d.vibe.ts",
+      "vibelang-source": "./src/server/status.vibe",
+      "default": "./.vibelang/js/src/server/status.js"
+    },
+    "#vibelang/emitted/src/server/OpenCodeServerOwner": {
+      "types": "./src/server/OpenCodeServerOwner.d.vibe.ts",
+      "vibelang-source": "./src/server/OpenCodeServerOwner.vibe",
+      "default": "./.vibelang/js/src/server/OpenCodeServerOwner.js"
+    },
+    "#vibelang/emitted/src/server/v2/OpenCode2Client": {
+      "types": "./src/server/v2/OpenCode2Client.d.vibe.ts",
+      "vibelang-source": "./src/server/v2/OpenCode2Client.vibe",
+      "default": "./.vibelang/js/src/server/v2/OpenCode2Client.js"
+    },
+    "#vibelang/emitted/src/server/v2/OpenCode2Server": {
+      "types": "./src/server/v2/OpenCode2Server.d.vibe.ts",
+      "vibelang-source": "./src/server/v2/OpenCode2Server.vibe",
+      "default": "./.vibelang/js/src/server/v2/OpenCode2Server.js"
+    }
+  },
   "exports": {
     "./client": {
       "types": "./src/client.ts",
-      "import": "./src/client.ts"
+      "import": {
+        "types": "./src/client.ts",
+        "vibelang-source": "./src/client.ts",
+        "default": "./.vibelang/js/src/client.js"
+      }
     },
     "./settings": {
-      "types": "./src/settings.ts",
-      "import": "./src/settings.ts"
+      "types": "./src/settings.vibe",
+      "import": "./src/settings.vibe"
     },
     "./server": {
       "types": "./src/server.ts",
-      "import": "./src/server.ts"
+      "import": {
+        "types": "./src/server.ts",
+        "vibelang-source": "./src/server.ts",
+        "default": "./.vibelang/js/src/server.js"
+      }
     },
     "./testing": {
       "types": "./src/testing.ts",
-      "import": "./src/testing.ts"
+      "import": {
+        "types": "./src/testing.ts",
+        "vibelang-source": "./src/testing.ts",
+        "default": "./.vibelang/js/src/testing.js"
+      }
     },
     "./server/OpenCodeRuntime": {
       "types": "./src/server/OpenCodeRuntime.ts",
-      "import": "./src/server/OpenCodeRuntime.ts"
+      "import": {
+        "types": "./src/server/OpenCodeRuntime.ts",
+        "vibelang-source": "./src/server/OpenCodeRuntime.ts",
+        "default": "./.vibelang/js/src/server/OpenCodeRuntime.js"
+      }
     },
     "./server/OpenCodeServerLedger": {
-      "types": "./src/server/OpenCodeServerLedger.ts",
-      "import": "./src/server/OpenCodeServerLedger.ts"
+      "types": "./src/server/OpenCodeServerLedger.vibe",
+      "import": "./src/server/OpenCodeServerLedger.vibe"
     },
     "./server/v2/adapter": {
       "types": "./src/server/v2/adapter.ts",
-      "import": "./src/server/v2/adapter.ts"
+      "import": {
+        "types": "./src/server/v2/adapter.ts",
+        "vibelang-source": "./src/server/v2/adapter.ts",
+        "default": "./.vibelang/js/src/server/v2/adapter.js"
+      }
     },
     "./server/v2/OpenCode2Client": {
-      "types": "./src/server/v2/OpenCode2Client.ts",
-      "import": "./src/server/v2/OpenCode2Client.ts"
+      "types": "./src/server/v2/OpenCode2Client.vibe",
+      "import": "./src/server/v2/OpenCode2Client.vibe"
     },
     "./server/v2/OpenCode2Server": {
-      "types": "./src/server/v2/OpenCode2Server.ts",
-      "import": "./src/server/v2/OpenCode2Server.ts"
+      "types": "./src/server/v2/OpenCode2Server.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/v2/OpenCode2Server.vibe",
+        "default": "./.vibelang/js/src/server/v2/OpenCode2Server.js"
+      }
     },
     "./server/v2/textGeneration": {
-      "types": "./src/server/v2/textGeneration.ts",
-      "import": "./src/server/v2/textGeneration.ts"
+      "types": "./src/server/v2/textGeneration.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/v2/textGeneration.vibe",
+        "default": "./.vibelang/js/src/server/v2/textGeneration.js"
+      }
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vibelang --noEmit",
     "test": "vp test run --config ../../vite.config.ts --dir ."
   },
   "dependencies": {
@@ -56,13 +134,16 @@
     "@t3tools/contracts": "workspace:*",
     "@t3tools/provider-core": "workspace:*",
     "@t3tools/shared": "workspace:*",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz"
   },
   "devDependencies": {
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
     "@t3tools/provider-testing": "workspace:*",
     "@types/node": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
     "vite-plus": "catalog:"
   }
 }

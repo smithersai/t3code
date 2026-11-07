@@ -14,7 +14,7 @@ import { ChevronRightIcon, DownloadIcon, Trash2Icon, WrapTextIcon, XIcon } from 
 import { Check, Code2, Copy, Eye, Table2 } from "lucide";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
-import { useAssetUrlRefresh } from "~/assets/assetUrls";
+import { useAssetUrlRefresh } from "../../assets/assetUrls.vibe";
 import ChatMarkdown from "~/components/ChatMarkdown";
 import { maskMarkdownFrontmatter } from "@t3tools/shared/markdownFrontmatter";
 import { MorphIcon } from "~/components/MorphIcon";

@@ -8,8 +8,8 @@ import type { MenuProps } from "../../components/ui/Menu.types";
 import { ListFilterMenu } from "../workspace/ListFilterMenu";
 import { environmentProjects } from "../../state/projects";
 import { environmentThreadShells } from "../../state/threads";
-import { useMobileProjectGroupingSettings } from "../../state/project-grouping";
-import { buildHomeProjectScopes, sortHomeProjectScopes } from "../home/homeThreadList";
+import { useMobileProjectGroupingSettings } from "../../state/project-grouping.vibe";
+import { buildHomeProjectScopes, sortHomeProjectScopes } from "../home/homeThreadList.vibe";
 import { DEFAULT_PR_LIST_CONTROLS, type PullRequestListControls } from "./pullRequestList";
 
 const STATES = { open: "Open", closed: "Closed", merged: "Merged", all: "All states" } as const;

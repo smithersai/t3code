@@ -1,0 +1,491 @@
+import type {
+  RelayClientEnvironmentRecord,
+  RelayEnvironmentLinkProofPayload,
+  RelayEnvironmentLinkRequest,
+  RelayManagedEndpoint,
+} from "@t3tools/contracts/relay"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Schema from "effect/Schema"
+import { and, eq, isNull, or, sql } from "drizzle-orm"
+
+import * as RelayDb from "../db.vibe"
+import { relayEnvironmentLinks } from "../persistence/schema.ts"
+
+export interface RelayLinkedEnvironmentRecord extends RelayClientEnvironmentRecord {
+  readonly environmentPublicKey: string
+}
+
+export interface AgentAwarenessDeliveryUserRecord {
+  readonly userId: string
+  readonly notificationsEnabled: boolean
+  readonly liveActivitiesEnabled: boolean
+}
+
+export class EnvironmentLinkUpsertPersistenceError extends Schema.TaggedError<EnvironmentLinkUpsertPersistenceError>()(
+  "EnvironmentLinkUpsertPersistenceError",
+  {
+    userId: Schema.String,
+    environmentId: Schema.String,
+    deviceId: Schema.optionalKey(Schema.String),
+    cause: Schema.Defect(),
+  },
+) {
+  override get message(): string {
+    return `Failed to persist environment link for user '${this.userId}', environment '${this.environmentId}'`
+  }
+}
+
+const EnvironmentLinkUserListPersistenceErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error EnvironmentLinkUserListPersistenceError {
+  readonly environmentId: string
+  cause: EnvironmentLinkUserListPersistenceErrorCauseField
+  override get message(): string {
+    return `Environment link user query 'list-delivery-users' failed for environment '${this.environmentId}'`
+  }
+}
+
+const EnvironmentLinkListPersistenceErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error EnvironmentLinkListPersistenceError {
+  readonly userId: string
+  cause: EnvironmentLinkListPersistenceErrorCauseField
+  override get message(): string {
+    return `Failed to list environment links for user '${this.userId}'`
+  }
+}
+
+const EnvironmentLinkLookupPersistenceErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error EnvironmentLinkLookupPersistenceError {
+  readonly userId: string
+  readonly environmentId: string
+  cause: EnvironmentLinkLookupPersistenceErrorCauseField
+  override get message(): string {
+    return `Failed to look up environment link for user '${this.userId}', environment '${this.environmentId}'`
+  }
+}
+
+const EnvironmentLinkEnvironmentLookupPersistenceErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error EnvironmentLinkEnvironmentLookupPersistenceError {
+  readonly environmentId: string
+  cause: EnvironmentLinkEnvironmentLookupPersistenceErrorCauseField
+  override get message(): string {
+    return `Failed to look up active managed links for environment '${this.environmentId}'`
+  }
+}
+
+const EnvironmentLinkRevokePersistenceErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error EnvironmentLinkRevokePersistenceError {
+  readonly userId: string
+  readonly environmentId: string
+  cause: EnvironmentLinkRevokePersistenceErrorCauseField
+  override get message(): string {
+    return `Failed to revoke environment link for user '${this.userId}', environment '${this.environmentId}'`
+  }
+}
+
+export service EnvironmentLinks: {
+  readonly upsert: (input: {
+    readonly userId: string;
+    readonly request: RelayEnvironmentLinkRequest;
+    readonly proof: RelayEnvironmentLinkProofPayload;
+    readonly endpoint: RelayManagedEndpoint;
+  }) => void!EnvironmentLinkUpsertPersistenceError;
+  readonly listDeliveryUsersForEnvironment: (input: {
+    readonly environmentId: string;
+    readonly environmentPublicKey: string;
+  }) => ReadonlyArray<AgentAwarenessDeliveryUserRecord>!EnvironmentLinkUserListPersistenceError;
+  readonly listForUser: (input: {
+    readonly userId: string;
+  }) => ReadonlyArray<RelayClientEnvironmentRecord>!EnvironmentLinkListPersistenceError;
+  readonly getForUser: (input: {
+    readonly userId: string;
+    readonly environmentId: string;
+  }) => (RelayLinkedEnvironmentRecord | null)!EnvironmentLinkLookupPersistenceError;
+  /** Narrow by user or proven key: a public environment id alone does not authorize access to its links. */
+  readonly findActiveManagedForEnvironment: (input: {
+    readonly environmentId: string;
+    readonly userId?: string;
+    readonly environmentPublicKey?: string;
+  }) => ReadonlyArray<
+      RelayLinkedEnvironmentRecord & {
+        readonly userId: string;
+        readonly holdWebhooksWhileOffline: boolean;
+      }
+    >!EnvironmentLinkEnvironmentLookupPersistenceError;
+  readonly setHoldWebhooksWhileOffline: (input: {
+    readonly environmentId: string;
+    readonly environmentPublicKey: string;
+    readonly holdWebhooksWhileOffline: boolean;
+  }) => void!EnvironmentLinkEnvironmentLookupPersistenceError;
+  readonly revokeForUser: (input: {
+    readonly userId: string;
+    readonly environmentId: string;
+  }) => boolean!EnvironmentLinkRevokePersistenceError;
+} {
+  static readonly key = "t3code-relay/environments/EnvironmentLinks"
+}
+
+function agentAwarenessDeliveryUserKeyCondition(input: {
+  readonly environmentId: string
+  readonly environmentPublicKey: string
+}) {
+  return and(
+    eq(relayEnvironmentLinks.environmentId, input.environmentId),
+    isNull(relayEnvironmentLinks.revokedAt),
+    or(
+      eq(relayEnvironmentLinks.notificationsEnabled, true),
+      eq(relayEnvironmentLinks.liveActivitiesEnabled, true),
+    ),
+    eq(relayEnvironmentLinks.environmentPublicKey, input.environmentPublicKey),
+  )
+}
+
+const make = effect {
+  const db = try RelayDb.RelayDb
+
+  return EnvironmentLinks.of({
+    upsert: effect (input): void!EnvironmentLinkUpsertPersistenceError =>
+      try withSpan(
+        (effect (): void!EnvironmentLinkUpsertPersistenceError => {
+          try Effect.annotateCurrentSpan({
+            "relay.environment_id": input.proof.environmentId,
+          })
+          const now = DateTime.formatIso(try DateTime.now)
+          const { request, proof } = input
+          const environmentId = proof.environmentId
+          // Inherit opt-in only from links proven by the same key; anyone can claim the public environment id.
+          const inheritedHoldWebhooks = try Effect.orDie(Effect.try({
+            try: () =>
+              sql<boolean>`EXISTS (
+        SELECT 1 FROM ${relayEnvironmentLinks} AS other
+        WHERE other.environment_id = ${environmentId}
+          AND other.environment_public_key = ${proof.environmentPublicKey}
+          AND other.revoked_at IS NULL
+          AND other.hold_webhooks_while_offline
+      )`,
+            catch: (e) => e,
+          }))
+          const { endpoint } = input
+          ;(try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .insert(relayEnvironmentLinks)
+                .values({
+                  userId: input.userId,
+                  environmentId,
+                  holdWebhooksWhileOffline: inheritedHoldWebhooks,
+                  environmentLabel: proof.descriptor.label,
+                  environmentPublicKey: proof.environmentPublicKey,
+                  endpointHttpBaseUrl: endpoint.httpBaseUrl,
+                  endpointWsBaseUrl: endpoint.wsBaseUrl,
+                  endpointProviderKind: endpoint.providerKind,
+                  notificationsEnabled: request.notificationsEnabled,
+                  liveActivitiesEnabled: request.liveActivitiesEnabled,
+                  managedTunnelsEnabled: request.managedTunnelsEnabled,
+                  createdByDeviceId: request.deviceId ?? null,
+                  revokedAt: null,
+                  createdAt: now,
+                  updatedAt: now,
+                }),
+            catch: (e) => e,
+          })))
+            .onConflictDoUpdate({
+              target: [relayEnvironmentLinks.userId, relayEnvironmentLinks.environmentId],
+              set: {
+                environmentPublicKey: proof.environmentPublicKey,
+                environmentLabel: proof.descriptor.label,
+                endpointHttpBaseUrl: endpoint.httpBaseUrl,
+                endpointWsBaseUrl: endpoint.wsBaseUrl,
+                endpointProviderKind: endpoint.providerKind,
+                notificationsEnabled: request.notificationsEnabled,
+                liveActivitiesEnabled: request.liveActivitiesEnabled,
+                managedTunnelsEnabled: request.managedTunnelsEnabled,
+                createdByDeviceId: request.deviceId ?? null,
+                revokedAt: null,
+                updatedAt: now,
+                holdWebhooksWhileOffline: inheritedHoldWebhooks,
+              },
+            }) catch effect (cause) => {
+              throw new EnvironmentLinkUpsertPersistenceError({
+                userId: input.userId,
+                environmentId,
+                ...(request.deviceId === undefined ? {} : { deviceId: request.deviceId }),
+                cause,
+              })
+            }
+        })(),
+        "relay.environment_links.upsert",
+      ),
+
+    listDeliveryUsersForEnvironment: effect (
+      input,
+    ): readonly AgentAwarenessDeliveryUserRecord[]!EnvironmentLinkUserListPersistenceError =>
+      try withSpan(
+        (effect (): readonly AgentAwarenessDeliveryUserRecord[]!EnvironmentLinkUserListPersistenceError => {
+          try Effect.annotateCurrentSpan({ "relay.environment_id": input.environmentId })
+          return ((try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .select({
+                  userId: relayEnvironmentLinks.userId,
+                  notificationsEnabled: relayEnvironmentLinks.notificationsEnabled,
+                  liveActivitiesEnabled: relayEnvironmentLinks.liveActivitiesEnabled,
+                })
+                .from(relayEnvironmentLinks),
+            catch: (e) => e,
+          })))
+            .where(agentAwarenessDeliveryUserKeyCondition(input))
+            |> Effect.map(%, (rows) =>
+              rows.map((row) => ({
+                userId: row.userId,
+                notificationsEnabled: row.notificationsEnabled,
+                liveActivitiesEnabled: row.liveActivitiesEnabled,
+              })))) catch effect (cause) => {
+              throw new EnvironmentLinkUserListPersistenceError({
+                environmentId: input.environmentId,
+                cause,
+              })
+            }
+        })(),
+        "relay.environment_links.list_delivery_users_for_environment",
+      ),
+
+    listForUser: effect (
+      input,
+    ): readonly { readonly environmentId: string & import("effect/Brand").Brand<"EnvironmentId">; readonly label: string; readonly endpoint: { readonly httpBaseUrl: string; readonly wsBaseUrl: string; readonly providerKind: "cloudflare_tunnel" | "manual" | "t3_relay"; }; readonly linkedAt: string; }[]!EnvironmentLinkListPersistenceError =>
+      try withSpan(
+        (effect (): readonly { readonly environmentId: string & import("effect/Brand").Brand<"EnvironmentId">; readonly label: string; readonly endpoint: { readonly httpBaseUrl: string; readonly wsBaseUrl: string; readonly providerKind: "cloudflare_tunnel" | "manual" | "t3_relay"; }; readonly linkedAt: string; }[]!EnvironmentLinkListPersistenceError => {
+          return ((try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .select({
+                  environmentId: relayEnvironmentLinks.environmentId,
+                  environmentLabel: relayEnvironmentLinks.environmentLabel,
+                  endpointHttpBaseUrl: relayEnvironmentLinks.endpointHttpBaseUrl,
+                  endpointWsBaseUrl: relayEnvironmentLinks.endpointWsBaseUrl,
+                  endpointProviderKind: relayEnvironmentLinks.endpointProviderKind,
+                  createdAt: relayEnvironmentLinks.createdAt,
+                })
+                .from(relayEnvironmentLinks),
+            catch: (e) => e,
+          })))
+            .where(
+              try Effect.orDie(Effect.try({
+                try: () =>
+                  and(
+                    eq(relayEnvironmentLinks.userId, input.userId),
+                    isNull(relayEnvironmentLinks.revokedAt),
+                  ),
+                catch: (e) => e,
+              })),
+            )
+            |> Effect.map(%, (rows) =>
+              rows.map((row) => ({
+                environmentId: row.environmentId as RelayClientEnvironmentRecord["environmentId"],
+                label: row.environmentLabel.trim().length > 0 ? row.environmentLabel : row.environmentId,
+                endpoint: {
+                  httpBaseUrl: row.endpointHttpBaseUrl,
+                  wsBaseUrl: row.endpointWsBaseUrl,
+                  providerKind: row.endpointProviderKind as RelayClientEnvironmentRecord["endpoint"]["providerKind"],
+                },
+                linkedAt: row.createdAt,
+              })))) catch effect (cause) => {
+              throw new EnvironmentLinkListPersistenceError({
+                userId: input.userId,
+                cause,
+              })
+            }
+        })(),
+        "relay.environment_links.list_for_user",
+      ),
+
+    getForUser: effect (input): (RelayLinkedEnvironmentRecord | null)!EnvironmentLinkLookupPersistenceError!never =>
+      try withSpan(
+        (effect (): (RelayLinkedEnvironmentRecord | null)!EnvironmentLinkLookupPersistenceError!never => {
+          try Effect.annotateCurrentSpan({
+            "relay.environment_id": input.environmentId,
+          })
+          return ((try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .select({
+                  environmentId: relayEnvironmentLinks.environmentId,
+                  environmentLabel: relayEnvironmentLinks.environmentLabel,
+                  environmentPublicKey: relayEnvironmentLinks.environmentPublicKey,
+                  endpointHttpBaseUrl: relayEnvironmentLinks.endpointHttpBaseUrl,
+                  endpointWsBaseUrl: relayEnvironmentLinks.endpointWsBaseUrl,
+                  endpointProviderKind: relayEnvironmentLinks.endpointProviderKind,
+                  createdAt: relayEnvironmentLinks.createdAt,
+                })
+                .from(relayEnvironmentLinks)
+                .where(
+                  and(
+                    eq(relayEnvironmentLinks.userId, input.userId),
+                    eq(relayEnvironmentLinks.environmentId, input.environmentId),
+                    isNull(relayEnvironmentLinks.revokedAt),
+                  ),
+                ),
+            catch: (e) => e,
+          })))
+            .limit(1)
+            |> Effect.map(%, (rows) => {
+              const row = rows[0]
+              return row
+                ? {
+                  environmentId: row.environmentId as RelayClientEnvironmentRecord["environmentId"],
+                  label: row.environmentLabel.trim().length > 0
+                    ? row.environmentLabel
+                    : row.environmentId,
+                  endpoint: {
+                    httpBaseUrl: row.endpointHttpBaseUrl,
+                    wsBaseUrl: row.endpointWsBaseUrl,
+                    providerKind: row.endpointProviderKind as RelayClientEnvironmentRecord["endpoint"]["providerKind"],
+                  },
+                  environmentPublicKey: row.environmentPublicKey,
+                  linkedAt: row.createdAt,
+                }
+                : null
+            })) catch effect (cause) => {
+              throw new EnvironmentLinkLookupPersistenceError({
+                userId: input.userId,
+                environmentId: input.environmentId,
+                cause,
+              })
+            }
+        })(),
+        "relay.environment_links.get_for_user",
+      ),
+
+    findActiveManagedForEnvironment: effect (
+      input,
+    ): readonly (RelayLinkedEnvironmentRecord & { readonly userId: string; readonly holdWebhooksWhileOffline: boolean; })[]!EnvironmentLinkEnvironmentLookupPersistenceError =>
+      try withSpan(
+        (effect (): readonly (RelayLinkedEnvironmentRecord & { readonly userId: string; readonly holdWebhooksWhileOffline: boolean; })[]!EnvironmentLinkEnvironmentLookupPersistenceError => {
+          try Effect.annotateCurrentSpan({ "relay.environment_id": input.environmentId })
+          return ((try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .select({
+                  userId: relayEnvironmentLinks.userId,
+                  environmentId: relayEnvironmentLinks.environmentId,
+                  environmentLabel: relayEnvironmentLinks.environmentLabel,
+                  environmentPublicKey: relayEnvironmentLinks.environmentPublicKey,
+                  endpointHttpBaseUrl: relayEnvironmentLinks.endpointHttpBaseUrl,
+                  endpointWsBaseUrl: relayEnvironmentLinks.endpointWsBaseUrl,
+                  endpointProviderKind: relayEnvironmentLinks.endpointProviderKind,
+                  createdAt: relayEnvironmentLinks.createdAt,
+                  holdWebhooksWhileOffline: relayEnvironmentLinks.holdWebhooksWhileOffline,
+                })
+                .from(relayEnvironmentLinks),
+            catch: (e) => e,
+          })))
+            .where(
+              try Effect.orDie(Effect.try({
+                try: () =>
+                  and(
+                    eq(relayEnvironmentLinks.environmentId, input.environmentId),
+                    isNull(relayEnvironmentLinks.revokedAt),
+                    eq(relayEnvironmentLinks.endpointProviderKind, "cloudflare_tunnel"),
+                    eq(relayEnvironmentLinks.managedTunnelsEnabled, true),
+                    input.userId === undefined ? undefined : eq(relayEnvironmentLinks.userId, input.userId),
+                    input.environmentPublicKey === undefined
+                      ? undefined
+                      : eq(relayEnvironmentLinks.environmentPublicKey, input.environmentPublicKey),
+                  ),
+                catch: (e) => e,
+              })),
+            )
+            |> Effect.map(%, (rows) =>
+              rows.map((row) => ({
+                userId: row.userId,
+                environmentId: row.environmentId as RelayClientEnvironmentRecord["environmentId"],
+                label: row.environmentLabel.trim().length > 0 ? row.environmentLabel : row.environmentId,
+                endpoint: {
+                  httpBaseUrl: row.endpointHttpBaseUrl,
+                  wsBaseUrl: row.endpointWsBaseUrl,
+                  providerKind: row.endpointProviderKind as RelayClientEnvironmentRecord["endpoint"]["providerKind"],
+                },
+                environmentPublicKey: row.environmentPublicKey,
+                linkedAt: row.createdAt,
+                holdWebhooksWhileOffline: row.holdWebhooksWhileOffline,
+              })))) catch effect (cause) => {
+              throw new EnvironmentLinkEnvironmentLookupPersistenceError({
+                environmentId: input.environmentId,
+                cause,
+              })
+            }
+        })(),
+        "relay.environment_links.find_active_managed_for_environment",
+      ),
+
+    setHoldWebhooksWhileOffline: effect (input): void!EnvironmentLinkEnvironmentLookupPersistenceError =>
+      try withSpan(
+        (effect (): void!EnvironmentLinkEnvironmentLookupPersistenceError => {
+          try Effect.annotateCurrentSpan({ "relay.environment_id": input.environmentId })
+          ;(try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .update(relayEnvironmentLinks)
+                .set({ holdWebhooksWhileOffline: input.holdWebhooksWhileOffline }),
+            catch: (e) => e,
+          })))
+            .where(
+              try Effect.orDie(Effect.try({
+                try: () =>
+                  and(
+                    eq(relayEnvironmentLinks.environmentId, input.environmentId),
+                    eq(relayEnvironmentLinks.environmentPublicKey, input.environmentPublicKey),
+                    isNull(relayEnvironmentLinks.revokedAt),
+                  ),
+                catch: (e) => e,
+              })),
+            ) catch effect (cause) => {
+              throw new EnvironmentLinkEnvironmentLookupPersistenceError({
+                environmentId: input.environmentId,
+                cause,
+              })
+            }
+        })(),
+        "relay.environment_links.set_hold_webhooks_while_offline",
+      ),
+
+    revokeForUser: effect (input): boolean!EnvironmentLinkRevokePersistenceError =>
+      try withSpan(
+        (effect (): boolean!EnvironmentLinkRevokePersistenceError => {
+          try Effect.annotateCurrentSpan({
+            "relay.environment_id": input.environmentId,
+          })
+          const revokedAt = DateTime.formatIso(try DateTime.now)
+          const rows = (try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .update(relayEnvironmentLinks)
+                .set({
+                  revokedAt,
+                  updatedAt: revokedAt,
+                })
+                .where(
+                  and(
+                    eq(relayEnvironmentLinks.userId, input.userId),
+                    eq(relayEnvironmentLinks.environmentId, input.environmentId),
+                    isNull(relayEnvironmentLinks.revokedAt),
+                  ),
+                ),
+            catch: (e) => e,
+          })))
+            .returning({ environmentId: relayEnvironmentLinks.environmentId }) catch effect (cause) => {
+              throw new EnvironmentLinkRevokePersistenceError({
+                userId: input.userId,
+                environmentId: input.environmentId,
+                cause,
+              })
+            }
+          return rows.length > 0
+        })(),
+        "relay.environment_links.revoke_for_user",
+      ),
+  })
+}
+
+export const layer = Layer.effect(EnvironmentLinks, make)

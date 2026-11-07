@@ -2,7 +2,7 @@ import { Platform, Pressable, View, type StyleProp, type ViewStyle } from "react
 
 import { cn } from "../lib/cn";
 import type { DraftComposerFileAttachment } from "../lib/composerImages";
-import { useMediaActions } from "../state/mediaActions";
+import { useMediaActions } from "../state/mediaActions.vibe";
 import { type MediaActionsSource } from "../lib/mediaActionsSource";
 import { SymbolView } from "./ui/AppSymbol";
 import { AppText } from "./ui/AppText";

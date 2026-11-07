@@ -7,11 +7,11 @@ import { HttpClient, HttpClientResponse } from "effect/http";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 
-import * as GitHubCredentials from "./GitHubCredentials.ts";
+import * as GitHubCredentials from "./GitHubCredentials.vibe";
 import * as GitHubPullRequestApi from "./GitHubPullRequestApi.ts";
 import * as GitHubPullRequestProvider from "./GitHubPullRequestProvider.ts";
-import * as GitHubQuota from "./GitHubQuota.ts";
-import * as GitHubRest from "./GitHubRest.ts";
+import * as GitHubQuota from "./GitHubQuota.vibe";
+import * as GitHubRest from "./GitHubRest.vibe";
 
 it.effect("keeps branch deletion on the credential that passed source repository permissions", () =>
   Effect.gen(function* () {

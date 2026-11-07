@@ -8,7 +8,7 @@ import {
 import { runSshCommand, baseSshArgs, resolveSshCommand } from "@t3tools/ssh/command";
 import * as NetService from "@t3tools/shared/Net";
 import { waitForHttpReady } from "@t3tools/shared/httpReadiness";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Exit from "effect/Exit";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";

@@ -1,5 +1,5 @@
 import { CodexSettings, ProviderDriverKind } from "@t3tools/contracts";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
@@ -18,7 +18,7 @@ import {
   createCodexAdapterV2,
   type CodexAdapterV2DriverEnv,
 } from "../../orchestration-v2/Adapters/CodexAdapterV2.ts";
-import { ProviderDriverError } from "../Errors.ts";
+import { ProviderDriverError } from "../Errors.vibe";
 import * as ResetCreditCoordinator from "../resetCreditCoordinator.ts";
 import {
   checkCodexProviderStatus,
@@ -29,7 +29,7 @@ import {
 import { resolveCodexLaunchArgs } from "../codexLaunchArgs.ts";
 import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider";
 import * as ModelCatalog from "@t3tools/provider-core/server/ModelCatalog";
-import { applyCodexModelCatalog } from "../codexModelCatalog.ts";
+import { applyCodexModelCatalog } from "../codexModelCatalog.vibe";
 import type { ProviderDriver, ProviderInstance } from "@t3tools/provider-core/server/driver";
 import { withInstanceIdentity } from "@t3tools/provider-core/server/instanceIdentity";
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";

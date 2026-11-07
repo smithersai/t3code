@@ -29,6 +29,7 @@ import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { AntigravityDriver } from "./AntigravityDriver.ts";
 import * as ProviderHostLive from "../ProviderHostLive.ts";
 import * as ServerSecretStore from "../../auth/ServerSecretStore.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const hostPlatform = HostProcess.Platform.defaultValue();
 const windowsHost = hostPlatform === "win32";
@@ -159,10 +160,15 @@ const makeHarness = Effect.fn("makeAntigravityDriverHarness")(function* (
       if (command._tag !== "StandardCommand")
         return yield* Effect.die("Unexpected process pipeline.");
       const handle = yield* spawner.spawn(command);
-      const environment = command.options.env ?? {};
+      const environment = Object.fromEntries(
+        Object.entries(command.options.env ?? {}).map(([key, value]) => [
+          key,
+          value === undefined ? undefined : String(value),
+        ]),
+      );
       launches.push({
         command: command.command,
-        args: command.args,
+        args: command.args.map(String),
         cwd: command.options.cwd,
         extendEnv: command.options.extendEnv,
         profileDirectory: environment.GEMINI_HOME,
@@ -240,7 +246,7 @@ const makeHarness = Effect.fn("makeAntigravityDriverHarness")(function* (
 const layerDeps = ServerConfig.layerTest(process.cwd(), {
   prefix: "t3-antigravity-driver-config-",
 }).pipe(
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   Layer.provideMerge(
     Layer.succeed(
       HttpClient.HttpClient,

@@ -5,7 +5,7 @@ import * as Option from "effect/Option";
 import { AsyncResult, Atom } from "effect/reactivity";
 
 import { isLocalEnvironmentDisabled } from "../../localEnvironment";
-import { appAtomRegistry } from "../../rpc/atomRegistry";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
 import { fetchSessionState } from "./auth";
 
 const primarySessionStateAtom = Atom.make(

@@ -14,7 +14,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 
 import * as ServerConfig from "../config.ts";
 import * as SqlitePersistence from "./Sqlite.ts";
-import { runMigrations } from "./Migrations.ts";
+import { runMigrations } from "./Migrations.vibe";
 import { initializeV2Database } from "./initializeV2Database.ts";
 import * as EventStore from "../orchestration-v2/EventStore.ts";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";

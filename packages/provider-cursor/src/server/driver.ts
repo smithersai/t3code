@@ -3,21 +3,27 @@ import {
   ProviderSetupError,
   type ServerProviderModel,
 } from "@t3tools/contracts";
-import { CursorSettings } from "../settings.ts";
+import { CursorSettings } from "#vibelang/emitted/src/settings";
 import * as Effect from "effect/Effect";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 import * as HttpClient from "effect/http/HttpClient";
-import { readCursorUsageLimits } from "./usageLimits.ts";
+import { readCursorUsageLimits } from "#vibelang/emitted/src/server/usageLimits";
 
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
-import { makeCursorTextGeneration } from "./textGeneration.ts";
-import { makeCursorAdapterV2, type CursorAdapterV2DriverEnv } from "./adapter.ts";
+import { makeCursorTextGeneration } from "#vibelang/emitted/src/server/textGeneration";
+import {
+  makeCursorAdapterV2,
+  type CursorAdapterV2DriverEnv,
+} from "#vibelang/emitted/src/server/adapter";
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors";
-import { buildInitialCursorProviderSnapshot, checkCursorProviderStatus } from "./status.ts";
-import * as CursorSdkCatalog from "./CursorSdkCatalog.ts";
+import {
+  buildInitialCursorProviderSnapshot,
+  checkCursorProviderStatus,
+} from "#vibelang/emitted/src/server/status";
+import * as CursorSdkCatalog from "#vibelang/emitted/src/server/CursorSdkCatalog";
 import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider";
 import {
   defaultProviderContinuationIdentity,
@@ -32,13 +38,13 @@ import {
   makeProviderSnapshotSettingsSource,
   type ProviderSnapshotSettings,
 } from "@t3tools/provider-core/server/snapshotSettings";
-import { probeCursorSkills } from "./skills.ts";
-import { makeCursorAuth } from "./auth.ts";
-import * as CursorCredentialStore from "./credentialStore.ts";
-import * as CursorAgentSdk from "./CursorAgentSdk.ts";
+import { probeCursorSkills } from "#vibelang/emitted/src/server/skills";
+import { makeCursorAuth } from "#vibelang/emitted/src/server/auth";
+import * as CursorCredentialStore from "#vibelang/emitted/src/server/credentialStore";
+import * as CursorAgentSdk from "#vibelang/emitted/src/server/CursorAgentSdk";
 import * as CursorSdk from "./CursorSdk.ts";
-import * as CursorKeychain from "./CursorKeychain.ts";
-import * as CursorUsageAccounts from "./CursorUsageAccounts.ts";
+import * as CursorKeychain from "#vibelang/emitted/src/server/CursorKeychain";
+import * as CursorUsageAccounts from "#vibelang/emitted/src/server/CursorUsageAccounts";
 
 const decodeCursorSettings = Schema.decodeSync(CursorSettings);
 const isSdkRunnerError = Schema.is(CursorAgentSdk.CursorAgentSdkRunnerError);

@@ -13,7 +13,7 @@ import {
 import * as Effect from "effect/Effect";
 
 import { runtime } from "../../lib/runtime";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import {
   getComposerCloudAccountId,
   restoreCloudComposerDrafts,
@@ -22,10 +22,10 @@ import {
   releaseAgentAwarenessRelayTokenProvider,
   setAgentAwarenessRelayTokenProvider,
   unregisterAgentAwarenessDeviceForCurrentUser,
-} from "../agent-awareness/remoteRegistration";
-import { removeCloudEnvironments } from "./cloud-drafts";
+} from "../agent-awareness/remoteRegistration.vibe";
+import { removeCloudEnvironments } from "./cloud-drafts.vibe";
 import { clearConnectOnboardingRequest, requestConnectOnboarding } from "./connectOnboarding";
-import { resolveRelayClerkTokenOptions } from "./publicConfig";
+import { resolveRelayClerkTokenOptions } from "./publicConfig.vibe";
 
 type ClerkInstance = ReturnType<typeof getClerkInstance>;
 

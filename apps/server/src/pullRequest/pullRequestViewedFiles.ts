@@ -10,7 +10,7 @@ import {
   type PullRequestSetFilesViewedInput,
 } from "@t3tools/contracts";
 
-import type * as PullRequestFilesViewed from "../persistence/PullRequestFilesViewed.ts";
+import type * as PullRequestFilesViewed from "../persistence/PullRequestFilesViewed.vibe";
 import type {
   ProviderFileRevisions,
   PullRequestProviderError,

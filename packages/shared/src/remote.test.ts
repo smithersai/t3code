@@ -7,7 +7,7 @@ import {
   RemotePairingTokenMissingError,
   RemotePairingUrlInvalidError,
   resolveRemotePairingTarget,
-} from "./remote.ts";
+} from "./remote.vibe";
 
 describe("remote", () => {
   it("derives backend urls and token from a pairing url", () => {

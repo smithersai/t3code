@@ -1,9 +1,20 @@
 {
+  // vibelang --fix-vip-only refused 1 call that may have run before VIP-1 (decided detail 274): EK4802 is an error until each is migrated by hand; remove this setting when --fix-vip-only refuses none.
+  "vibe": {"severities": {"EK4802": "error"}},
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "rewriteRelativeImportExtensions": true,
     "target": "ES2023",
     "lib": ["ES2023", "WebWorker"],
     "types": ["@cloudflare/workers-types", "node"]
   },
-  "include": ["alchemy.run.ts", "scripts/**/*.ts", "src/**/*.ts"]
+  "include": [
+    "alchemy.run.ts",
+    "alchemy.run.vibe",
+    "scripts/**/*.ts",
+    "scripts/**/*.vibe",
+    "src/**/*.ts",
+    "src/**/*.vibe"
+  ],
+  "vibelang": { "trustedPackages": ["@t3tools/*"] }
 }

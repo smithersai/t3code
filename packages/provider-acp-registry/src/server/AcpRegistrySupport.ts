@@ -11,8 +11,8 @@ import {
   type AcpRegistrySearchResult,
   type AcpRegistryDistribution as AcpRegistryDistributionKind,
 } from "@t3tools/contracts";
-import type { AcpRegistryDistributionPreference } from "../settings.ts";
-import type { AcpRegistrySettings } from "../settings.ts";
+import type { AcpRegistryDistributionPreference } from "../settings.vibe";
+import type { AcpRegistrySettings } from "../settings.vibe";
 import { cliArchiveTarCommand } from "@t3tools/shared/cliRelease";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import {
@@ -23,14 +23,14 @@ import {
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Hex from "effect/encoding/Hex";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Path from "effect/Path";
-import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.ts";
+import * as AcpRegistryRuntimeCoordinator from "#vibelang/emitted/src/server/AcpRegistryRuntimeCoordinator";
 import * as PlatformError from "effect/PlatformError";
 import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";

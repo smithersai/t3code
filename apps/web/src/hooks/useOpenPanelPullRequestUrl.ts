@@ -4,12 +4,12 @@ import { EnvironmentId, ProjectId, type ScopedThreadRef } from "@t3tools/contrac
 import {
   readPullRequestDetailSnapshot,
   resolvePullRequestReferenceHost,
-} from "../components/pullRequest/pullRequestDetail.logic";
+} from "../components/pullRequest/pullRequestDetail.logic.vibe";
 import { projectChangeRequestUrl } from "@t3tools/client-runtime/change-request-links";
 import { selectActiveRightPanelSurface, useRightPanelStore } from "../rightPanelStore";
 import { useProject } from "../state/entities";
 import { pullRequestEnvironment } from "../state/pullRequests";
-import { useEnvironmentQuery } from "../state/query";
+import { useEnvironmentQuery } from "../state/query.vibe";
 import { useSupportsMultiplePullRequests } from "./useSupportsMultiplePullRequests";
 
 type PanelPullRequestSurface = Extract<

@@ -1,5 +1,6 @@
 import "vite-plus/test/config";
 import { defineConfig } from "vite-plus";
+import vibelang from "vibelang-vite";
 import * as NodeURL from "node:url";
 import { remoteCacheUrl } from "./infra/task-cache/src/remoteCache.ts";
 import { cachedTestTasks } from "./scripts/lib/cached-tests.ts";
@@ -88,6 +89,7 @@ const taskCacheConfig = {
 };
 
 export default defineConfig({
+  plugins: [vibelang({ register: true })],
   run: {
     cache: taskCacheConfig,
     tasks: cachedTestTasks(process.env.T3_CACHED_TESTS),
@@ -155,6 +157,11 @@ export default defineConfig({
   },
   fmt: {
     ignorePatterns: [
+      "**/.vibelang/**",
+      "**/*.d.vibe.ts",
+      "**/*.d.vibex.ts",
+      "**/*.vibe.*.d.ts",
+      "**/*.vibex.*.d.ts",
       ".repos/**",
       "infra/task-cache/vendor/**",
       // Macroscope requires one glob per line; Markdown formatting corrupts it.
@@ -189,6 +196,11 @@ export default defineConfig({
   },
   lint: {
     ignorePatterns: [
+      "**/.vibelang/**",
+      "**/*.d.vibe.ts",
+      "**/*.d.vibex.ts",
+      "**/*.vibe.*.d.ts",
+      "**/*.vibex.*.d.ts",
       ".repos",
       ".repos/**",
       "infra/task-cache/vendor/**",
@@ -327,7 +339,7 @@ export default defineConfig({
       {
         files: [
           "packages/client-runtime/src/state/runtime.ts",
-          "packages/client-runtime/src/state/vcsAction.ts",
+          "packages/client-runtime/src/state/vcsAction.vibe",
         ],
         rules: {
           "t3code/no-rpc-permission-bypass": [
@@ -347,7 +359,7 @@ export default defineConfig({
         rules: { "t3code/no-rpc-permission-bypass": ["error", { allowRawClientAccess: true }] },
       },
       {
-        files: ["packages/client-runtime/src/connection/outdatedHostUpdate.ts"],
+        files: ["packages/client-runtime/src/connection/outdatedHostUpdate.vibe"],
         rules: { "t3code/no-rpc-permission-bypass": "off" },
       },
       {

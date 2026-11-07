@@ -21,8 +21,8 @@ import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
-import * as ClientCapabilities from "../platform/capabilities.ts";
-import * as TokenStore from "../authorization/tokenStore.ts";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
+import * as TokenStore from "../authorization/tokenStore.vibe";
 import {
   BearerConnectionCredential,
   BearerConnectionProfile,
@@ -36,12 +36,12 @@ import {
   SshConnectionRegistration,
   type ConnectionCredential,
   type ConnectionProfile,
-} from "./catalog.ts";
-import * as Connectivity from "./connectivity.ts";
-import * as ConnectionCredentialStore from "./credentialStore.ts";
+} from "./catalog.vibe";
+import * as Connectivity from "./connectivity.vibe";
+import * as ConnectionCredentialStore from "./credentialStore.vibe";
 import * as ConnectionDriver from "./driver.ts";
 import type { RouteCheck } from "./driver.ts";
-import { connectionRouteId, connectionRouteKind } from "./routes.ts";
+import { connectionRouteId, connectionRouteKind } from "./routes.vibe";
 import {
   ConnectionTransientError,
   ConnectionBlockedError,
@@ -52,19 +52,19 @@ import {
   type ConnectionTarget,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "./model.ts";
-import * as Persistence from "../platform/persistence.ts";
-import * as ConnectionProfileStore from "./profileStore.ts";
+} from "./model.vibe";
+import * as Persistence from "../platform/persistence.vibe";
+import * as ConnectionProfileStore from "./profileStore.vibe";
 import * as EnvironmentRegistry from "./registry.ts";
 import {
   PullRequestRoutingPermissions,
   type StoredPullRequestRoutingPermission,
   makePullRequestRoutingPermissions,
-} from "./pullRequestRoutingPermissions.ts";
-import * as RpcSession from "../rpc/session.ts";
+} from "./pullRequestRoutingPermissions.vibe";
+import * as RpcSession from "../rpc/session.vibe";
 import * as EnvironmentSupervisor from "./supervisor.ts";
-import * as ConnectionWakeups from "./wakeups.ts";
-import { watchDiscoveredCompatibility } from "./layer.ts";
+import * as ConnectionWakeups from "./wakeups.vibe";
+import { watchDiscoveredCompatibility } from "./layer.vibe";
 import * as RelayEnvironmentDiscovery from "../relay/discovery.ts";
 import type { RelayEnvironmentStatusResponse } from "@t3tools/contracts/relay";
 import { runDesktopCommitWithReconnectObserver } from "../state/server.ts";

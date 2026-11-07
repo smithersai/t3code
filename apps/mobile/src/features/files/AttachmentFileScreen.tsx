@@ -17,14 +17,14 @@ import {
 } from "../../components/ui/AndroidScreenHeader";
 import { Menu } from "../../components/ui/Menu";
 import { FilePreviewModal, type FilePreviewSource } from "../../components/FilePreviewModal";
-import { useAttachmentDocument } from "../../lib/attachmentDocument";
+import { useAttachmentDocument } from "../../lib/attachmentDocument.vibe";
 import { nativeViewerErrorMessage } from "../../lib/attachmentDownload";
 import { isFileBackedComposerAttachment } from "../../lib/composerImages";
-import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic";
+import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic.vibe";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
 import { removeComposerDraftAttachment, useComposerDraft } from "../../state/use-composer-drafts";
-import { useEnvironmentServerConfig } from "../../state/entities";
-import { useRefreshAssetUrl } from "../../state/assets";
+import { useEnvironmentServerConfig } from "../../state/entities.vibe";
+import { useRefreshAssetUrl } from "../../state/assets.vibe";
 import { scopedThreadKey } from "../../lib/scopedEntities";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import { isZipFile, ZipArchiveView } from "./ZipArchiveView";

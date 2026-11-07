@@ -11,7 +11,7 @@ import * as Path from "effect/Path";
 import * as SqlClient from "effect/sql/SqlClient";
 import { vi } from "vite-plus/test";
 
-import { openCodeUsageReader, readOpenCodeUsage } from "./usage.ts";
+import { openCodeUsageReader, readOpenCodeUsage } from "./usage.vibe";
 
 const openDatabase = (filename: string) =>
   Layer.build(NodeSqliteClient.layer({ filename })).pipe(

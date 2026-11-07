@@ -1,4 +1,3 @@
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
@@ -6,6 +5,7 @@ import * as TestClock from "effect/testing/TestClock";
 import { HttpClient, HttpClientError, HttpClientResponse } from "effect/http";
 
 import { makeCliproxyApi } from "./cliproxyApi.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const config = {
   kind: "cliproxy",
@@ -114,7 +114,7 @@ function fixture(
     requests,
     api: makeCliproxyApi.pipe(
       Effect.provideService(HttpClient.HttpClient, http),
-      Effect.provide(NodeCrypto.layer),
+      Effect.provide(Crypto.layerWebCrypto),
     ),
   };
 }
@@ -129,7 +129,7 @@ const unreachableHub = (
       HttpClient.HttpClient,
       HttpClient.make((request) => Effect.fail(fail(request))),
     ),
-    Effect.provide(NodeCrypto.layer),
+    Effect.provide(Crypto.layerWebCrypto),
   );
 
 describe("CLIProxyAPI hub failures", () => {
@@ -184,7 +184,7 @@ describe("CLIProxyAPI hub failures", () => {
       );
       const api = yield* makeCliproxyApi.pipe(
         Effect.provideService(HttpClient.HttpClient, test),
-        Effect.provide(NodeCrypto.layer),
+        Effect.provide(Crypto.layerWebCrypto),
       );
       const error = yield* Effect.flip(api.readAccounts(config));
       expect(error.detail).toContain("401");

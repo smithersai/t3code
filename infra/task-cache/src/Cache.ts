@@ -4,11 +4,11 @@ import * as Clock from "effect/Clock";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import type * as Cloudflare from "@cloudflare/workers-types";
-import { Summary, recordSummary } from "./Summary.ts";
-import * as Savings from "./Savings.ts";
+import { Summary, recordSummary } from "./Summary.vibe";
+import * as Savings from "./Savings.vibe";
 import type { ProtocolBindings } from "./protocolTypes.ts";
-import * as Admission from "./Admission.ts";
-import { developerIdentity } from "./developerAuth.ts";
+import * as Admission from "./Admission.vibe";
+import { developerIdentity } from "./developerAuth.vibe";
 
 const decodeSummary = Schema.decodeEffect(Schema.fromJsonString(Summary));
 

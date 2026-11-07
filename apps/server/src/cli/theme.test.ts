@@ -14,13 +14,20 @@ import { Command } from "effect/cli";
 import { cli } from "../binCli.ts";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
 import * as HostProcess from "@t3tools/shared/HostProcess";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 // Windows chmod cannot force these directory or file permission failures.
 const windowsHost = HostProcess.Platform.defaultValue() === "win32";
 
 const runCli = (args: ReadonlyArray<string>) =>
   Command.runWith(cli, { version: "0.0.0" })(args).pipe(
-    Effect.provide(Layer.mergeAll(NodeServices.layer, NetService.layer, TestConsole.layer)),
+    Effect.provide(
+      Layer.mergeAll(
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        NetService.layer,
+        TestConsole.layer,
+      ),
+    ),
   );
 
 const makeBaseDir = () => NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "t3code-theme-cli-"));

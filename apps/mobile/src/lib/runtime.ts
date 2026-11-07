@@ -6,8 +6,8 @@ import * as Socket from "effect/socket/Socket";
 import { layerRemoteHttpClient } from "@t3tools/client-runtime/rpc";
 
 import * as Dpop from "../features/cloud/dpop";
-import * as ManagedRelayLayer from "../features/cloud/managedRelayLayer";
-import { resolveCloudPublicConfig } from "../features/cloud/publicConfig";
+import * as ManagedRelayLayer from "../features/cloud/managedRelayLayer.vibe";
+import { resolveCloudPublicConfig } from "../features/cloud/publicConfig.vibe";
 import * as Tracing from "../features/observability/tracing";
 import * as Persistence from "../persistence/layer";
 import { disposeOnFoundationReplace, type FoundationHotModule } from "./foundation-fast-refresh";

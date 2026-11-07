@@ -11,7 +11,7 @@ import {
 } from "@t3tools/contracts";
 import * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
@@ -22,7 +22,7 @@ import * as ProjectService from "../project/ProjectService.ts";
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.ts";
-import type { McpInvocationScope, McpThreadInvocationScope } from "./McpInvocationContext.ts";
+import type { McpInvocationScope, McpThreadInvocationScope } from "./McpInvocationContext.vibe";
 
 export class WorktreeMcpService extends Context.Service<
   WorktreeMcpService,

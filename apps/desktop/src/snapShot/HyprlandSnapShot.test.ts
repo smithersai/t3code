@@ -17,7 +17,7 @@ import {
   captureHyprlandWindow,
   hyprlandCaptureExecutable,
   hyprlandCaptureShortcut,
-} from "./HyprlandSnapShot.ts";
+} from "./HyprlandSnapShot.vibe";
 
 let directory: string;
 let paths: { bundle: string; dataHome: string };

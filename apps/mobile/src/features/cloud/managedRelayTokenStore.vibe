@@ -1,0 +1,122 @@
+import { ManagedRelay } from "@t3tools/client-runtime/relay";
+import * as Schema from "effect/Schema";
+import * as SecureStore from "expo-secure-store";
+
+const MANAGED_RELAY_TOKEN_CACHE_KEY = "t3code.cloud.relay-access-tokens";
+const MANAGED_RELAY_TOKEN_CACHE_VERSION = 1;
+
+schema ManagedRelayAccessTokenCacheEntrySchema {
+  readonly accountId: string
+  readonly clientId: "t3-mobile" | "t3-web"
+  readonly relayUrl: string
+  readonly thumbprint: string
+  readonly scopes: ReadonlyArray<"environment:connect" | "environment:status" | "mobile:registration">
+  readonly accessToken: string
+  readonly expiresAtMillis: number
+}
+
+const ManagedRelayAccessTokenCacheSchema = Schema.fromJsonString(
+  Schema.Struct({
+    version: Schema.Literal(MANAGED_RELAY_TOKEN_CACHE_VERSION),
+    entries: Schema.Array(ManagedRelayAccessTokenCacheEntrySchema),
+  }),
+);
+
+const decodeManagedRelayAccessTokenCache = Schema.decodeUnknownEffect(
+  ManagedRelayAccessTokenCacheSchema,
+);
+const encodeManagedRelayAccessTokenCache = Schema.encodeEffect(ManagedRelayAccessTokenCacheSchema);
+
+const ManagedRelayTokenStoreErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error ManagedRelayTokenStoreError {
+  readonly operation: "read" | "decode" | "encode" | "write" | "clear"
+  readonly storageKey: string
+  cause: ManagedRelayTokenStoreErrorCauseField
+  override get message(): string {
+    return `Managed relay token store operation "${this.operation}" failed for key "${this.storageKey}".`;
+  }
+}
+
+function logStoreFailure(error: ManagedRelayTokenStoreError) {
+  return Effect.logWarning("Managed relay token store operation failed.", {
+    errorTag: error._tag,
+    operation: error.operation,
+    storageKey: error.storageKey,
+    cause: error,
+  });
+}
+
+const loadManagedRelayAccessTokens = Effect.tryPromise({
+  try: () => SecureStore.getItemAsync(MANAGED_RELAY_TOKEN_CACHE_KEY),
+  catch: (cause) =>
+    new ManagedRelayTokenStoreError({
+      operation: "read",
+      storageKey: MANAGED_RELAY_TOKEN_CACHE_KEY,
+      cause,
+    }),
+})
+  |> Effect.flatMap(%, (encoded) =>
+    encoded === null
+      ? Effect.succeed<ReadonlyArray<ManagedRelay.ManagedRelayAccessTokenCacheEntry>>([])
+      : (decodeManagedRelayAccessTokenCache(encoded)
+          |> Effect.map(%, (cache) => cache.entries)
+          |> Effect.mapError(
+            %, (cause) =>
+              new ManagedRelayTokenStoreError({
+                operation: "decode",
+                storageKey: MANAGED_RELAY_TOKEN_CACHE_KEY,
+                cause,
+              }),
+          )),
+  );
+
+const saveManagedRelayAccessTokens = (
+  entries: ReadonlyArray<ManagedRelay.ManagedRelayAccessTokenCacheEntry>,
+) =>
+  encodeManagedRelayAccessTokenCache({
+    version: MANAGED_RELAY_TOKEN_CACHE_VERSION,
+    entries,
+  })
+    |> Effect.mapError(
+      %, (cause) =>
+        new ManagedRelayTokenStoreError({
+          operation: "encode",
+          storageKey: MANAGED_RELAY_TOKEN_CACHE_KEY,
+          cause,
+        }),
+    )
+    |> Effect.flatMap(%, (encoded) =>
+      Effect.tryPromise({
+        try: () => SecureStore.setItemAsync(MANAGED_RELAY_TOKEN_CACHE_KEY, encoded),
+        catch: (cause) =>
+          new ManagedRelayTokenStoreError({
+            operation: "write",
+            storageKey: MANAGED_RELAY_TOKEN_CACHE_KEY,
+            cause,
+          }),
+      }),
+    );
+
+const clearManagedRelayAccessTokens = Effect.tryPromise({
+  try: () => SecureStore.deleteItemAsync(MANAGED_RELAY_TOKEN_CACHE_KEY),
+  catch: (cause) =>
+    new ManagedRelayTokenStoreError({
+      operation: "clear",
+      storageKey: MANAGED_RELAY_TOKEN_CACHE_KEY,
+      cause,
+    }),
+});
+
+export const managedRelayAccessTokenStore: ManagedRelay.ManagedRelayAccessTokenStore = {
+  load: loadManagedRelayAccessTokens
+    |> Effect.tapError(%, logStoreFailure)
+    |> Effect.orElseSucceed(%, () => [])
+    |> Effect.withSpan(%, "mobile.managedRelayTokenStore.load"),
+  save: Effect.fn("mobile.managedRelayTokenStore.save")((entries) =>
+    saveManagedRelayAccessTokens(entries) |> Effect.tapError(%, logStoreFailure) |> Effect.ignore(%),
+  ),
+  clear: clearManagedRelayAccessTokens
+    |> Effect.tapError(%, logStoreFailure)
+    |> Effect.ignore(%)
+    |> Effect.withSpan(%, "mobile.managedRelayTokenStore.clear"),
+};

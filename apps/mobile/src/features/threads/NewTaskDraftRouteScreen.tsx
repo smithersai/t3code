@@ -16,20 +16,20 @@ import {
 } from "@t3tools/client-runtime/state/runtime";
 import { AsyncResult, Atom } from "effect/reactivity";
 import { AppText as Text } from "../../components/ui/AppText";
-import { useProjects } from "../../state/entities";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { useProjects } from "../../state/entities.vibe";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { rootNavigationRef } from "../../lib/rootNavigation";
 import { threadSelectionDeferral } from "../layout/deferred-navigation";
-import { useWorkspaceState } from "../../state/workspace";
+import { useWorkspaceState } from "../../state/workspace.vibe";
 import { vcsEnvironment } from "../../state/vcs";
-import { checkoutNewTaskBranch } from "./checkout-new-task-branch";
+import { checkoutNewTaskBranch } from "./checkout-new-task-branch.vibe";
 import { resolveNewTaskBranchWorktreePath } from "./new-task-context-presentation";
 import {
   type BranchCheckoutResult,
   branchCheckoutRequestKey,
   makeNewTaskBranchCheckouts,
-} from "./new-task-branch-checkout";
-import { liveNewTaskFlowKeys, newTaskFlowKey } from "./new-task-flow-state";
+} from "./new-task-branch-checkout.vibe";
+import { liveNewTaskFlowKeys, newTaskFlowKey } from "./new-task-flow-state.vibe";
 import { NativeStackScreenOptions } from "../../native/StackHeader";
 
 import { ThreadScreenFallback } from "./ThreadScreenHost";

@@ -46,7 +46,7 @@ import { useLocalStorage } from "~/hooks/useLocalStorage";
 import { useClientSettings, updateClientSettings } from "~/hooks/useSettings";
 import { useRenderedAppearance } from "~/hooks/useTheme";
 import { areAllDiffFilesCollapsed } from "~/lib/diffCollapse";
-import { pullRequestFindingKey, type PullRequestFinding } from "./pullRequestDetail.logic";
+import { pullRequestFindingKey, type PullRequestFinding } from "./pullRequestDetail.logic.vibe";
 import {
   canEditPullRequestComment,
   canResolvePullRequestThread,
@@ -70,10 +70,10 @@ import {
   buildDiffReviewComment,
   resolveDiffReviewAnchor,
   type ReviewCommentContext,
-} from "~/reviewCommentContext";
+} from "../../reviewCommentContext.vibe";
 import { pullRequestEnvironment } from "~/state/pullRequests";
-import { useEnvironmentQuery } from "~/state/query";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 import { DiffPanelLoadingState } from "../DiffPanelShell";
 import { useDiffWorkerPool } from "../DiffWorkerPoolProvider";

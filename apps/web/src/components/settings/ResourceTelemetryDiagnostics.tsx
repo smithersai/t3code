@@ -38,13 +38,13 @@ import {
 import {
   useResourceTelemetry,
   useResourceTelemetryHistory,
-} from "../../lib/resourceTelemetryState";
+} from "../../lib/resourceTelemetryState.vibe";
 import { cn } from "../../lib/utils";
 import { formatBytes } from "../../lib/formatBytes";
 import { ensureLocalApi } from "../../localApi";
 import { serverEnvironment } from "../../state/server";
-import { readEnvironmentScope, useEnvironmentScope } from "../../state/session";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useRelativeTimeState } from "../../hooks/useRelativeTimeState";
 import { Button } from "../ui/button";
 import { MorphIcon } from "~/components/MorphIcon";

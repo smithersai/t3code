@@ -16,9 +16,9 @@ import { AppText as Text } from "../../components/ui/AppText";
 import type { FilePreviewSource } from "../../components/FilePreviewModal";
 import { MediaActionsMenu } from "../../components/MediaActionsMenu";
 import { PresentationSource } from "../../components/ui/NativePresentation";
-import { useMediaActions } from "../../state/mediaActions";
+import { useMediaActions } from "../../state/mediaActions.vibe";
 import type { MediaActionsSource } from "../../lib/mediaActionsSource";
-import { useAssetUrlState } from "../../state/assets";
+import { useAssetUrlState } from "../../state/assets.vibe";
 import {
   MARKDOWN_IMAGE_MAX_WIDTH,
   type MarkdownImageDisplaySize,

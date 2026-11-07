@@ -5,7 +5,7 @@ import * as NodeSqlite from "node:sqlite";
 
 import { SERVER_EXIT_CODE_STATE_DIR_OWNED } from "@t3tools/contracts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";

@@ -6,7 +6,7 @@ import type {
   ServerProvider,
 } from "@t3tools/contracts";
 
-import type { ThreadStructure } from "./state/models.ts";
+import type { ThreadStructure } from "./state/models.vibe";
 
 export type HandoffTimelineRun = Pick<
   OrchestrationV2Run,

@@ -7,7 +7,7 @@ import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
-import { buildSshChildEnvironment, isSshAuthFailure } from "./auth.ts";
+import { buildSshChildEnvironment, isSshAuthFailure } from "./auth.vibe";
 
 describe("ssh auth", () => {
   it.effect("detects ssh auth failures from common permission denied messages", () =>

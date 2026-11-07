@@ -11,7 +11,7 @@ import { useBrowserPointerStore } from "~/browser/browserPointerStore";
 import { acquireBrowserSurfaceActivity } from "~/browser/browserSurfaceStore";
 import { applyPreviewDesktopState, type DesktopPreviewOverlay } from "~/previewStateStore";
 import { previewEnvironment } from "~/state/preview";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 import { previewBridge } from "./previewBridge";
 

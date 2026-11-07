@@ -18,19 +18,19 @@ import {
   squashAtomCommandFailure,
 } from "@t3tools/client-runtime/state/runtime";
 import { readLocalApi } from "../../localApi";
-import { findRevertCheckpoint } from "../../session-logic";
+import { findRevertCheckpoint } from "../../session-logic.vibe";
 import { type ChatMessage } from "../../types";
 import { newThreadId } from "~/lib/utils";
-import { buildThreadRouteParams } from "../../threadRoutes";
+import { buildThreadRouteParams } from "../../threadRoutes.vibe";
 import { useComposerDraftStore } from "../../composerDraftStore";
 import { threadEnvironment } from "../../state/threads";
 import { waitForThreadShell } from "../../state/entities";
-import { openRevertConfirm } from "./ChatOverlayHosts";
-import { assetEnvironment } from "../../state/assets";
-import { readEnvironmentScope } from "../../state/session";
-import { useAtomCommand } from "../../state/use-atom-command";
-import { useOrchestrationCommand } from "../../state/use-orchestration-command";
-import { useAtomQueryRunner } from "../../state/use-atom-query-runner";
+import { openRevertConfirm } from "./ChatOverlayHosts.vibex";
+import { assetEnvironment } from "../../state/assets.vibe";
+import { readEnvironmentScope } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { useOrchestrationCommand } from "../../state/use-orchestration-command.vibe";
+import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe";
 import { rewindToMessage } from "./chatViewSend";
 import { makeThreadErrorSetter } from "../ChatView.logic";
 interface TimelineRewindInput {

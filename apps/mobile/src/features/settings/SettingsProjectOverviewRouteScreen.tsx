@@ -17,8 +17,8 @@ import { Platform, Pressable, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { projectEnvironment } from "../../state/projects";
-import { useThreadShells } from "../../state/entities";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { useThreadShells } from "../../state/entities.vibe";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import {
   clearComposerDraft,
   composerDraftsAtom,
@@ -29,8 +29,8 @@ import {
   readEnvironmentScope,
   useEnvironmentScope,
   useEnvironmentsWithScope,
-} from "../../state/session";
-import { useAtomCommand } from "../../state/use-atom-command";
+} from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { SettingsScreen } from "./components/SettingsScreen";
 import { SettingsSection } from "./components/SettingsSection";
 import { SettingsActionRow } from "./components/SettingsActionRow";
@@ -42,7 +42,7 @@ import { useSettingsEnvironmentFilter, type SettingsTarget } from "./settings-en
 import { leaveSettingsPage } from "./settings-navigation";
 import { workspaceHasColumns } from "../workspace/workspace-selection-store";
 import { DEFAULT_SETTINGS_PAGE } from "../workspace/workspace-tab-navigation";
-import { readUnloadedThreadCount } from "../../state/olderSettledShelf";
+import { readUnloadedThreadCount } from "../../state/olderSettledShelf.vibe";
 
 export function SettingsProjectOverviewRouteScreen() {
   const insets = useSafeAreaInsets();

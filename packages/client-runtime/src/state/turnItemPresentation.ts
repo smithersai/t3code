@@ -4,7 +4,7 @@ import {
   type OrchestrationV2TurnItem,
 } from "@t3tools/contracts";
 
-import type { ThreadStructureTurnItem } from "./models.ts";
+import type { ThreadStructureTurnItem } from "./models.vibe";
 
 const WORKSPACE_PREPARATION_INPUT = "Preparing workspace";
 

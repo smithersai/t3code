@@ -20,8 +20,8 @@ import type { FollowUpBehavior } from "../lib/followUpBehavior";
 import { isMicrophoneKind, type MicrophoneEntry } from "../lib/microphonePriority";
 import { MOBILE_THEME_IDS, type MobileThemeId, type MobileThemeMode } from "../lib/mobileTheme";
 import * as MobileDatabase from "./mobile-database";
-import * as MobileSecureStorage from "./mobile-secure-storage";
-import { MobileStorageDecodeError, MobileStorageEncodeError } from "./mobile-storage";
+import * as MobileSecureStorage from "./mobile-secure-storage.vibe";
+import { MobileStorageDecodeError, MobileStorageEncodeError } from "./mobile-storage.vibe";
 
 const PREFERENCES_KEY = "t3code.preferences";
 const PREFERENCES_FALLBACK_KEY = "t3code.preferences.fallback";

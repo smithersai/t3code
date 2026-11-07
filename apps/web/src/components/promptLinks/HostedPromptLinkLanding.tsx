@@ -12,7 +12,7 @@ import { type ReactNode, useEffect, useRef, useState } from "react";
 import { DESKTOP_DOWNLOAD_URL } from "~/branding";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import { isHostedStaticApp } from "~/hostedPairing";
-import { useEnvironments } from "~/state/environments";
+import { useEnvironments } from "../../state/environments.vibe";
 
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";

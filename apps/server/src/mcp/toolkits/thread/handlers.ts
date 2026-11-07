@@ -18,11 +18,11 @@ import {
   readCaller,
   readThread,
   unavailable,
-} from "../../threadAccess.ts";
+} from "../../threadAccess.vibe";
 import * as ThreadSearch from "../../../orchestration-v2/ThreadSearch.ts";
 import * as ScheduledTasks from "../../../scheduledTasks/ScheduledTaskService.ts";
 import { queuedRunsInDeliveryOrder } from "../../../orchestration-v2/QueuedRunOrder.ts";
-import { ThreadToolkit } from "./tools.ts";
+import { ThreadToolkit } from "./tools.vibe";
 
 function queueEntry(
   projection: Pick<OrchestrationV2ThreadProjection, "runs" | "messages">,

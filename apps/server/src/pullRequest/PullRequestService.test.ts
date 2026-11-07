@@ -24,7 +24,7 @@ import { PullRequestOperationError } from "@t3tools/contracts";
 
 import * as ProjectService from "../project/ProjectService.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as PullRequestFilesViewed from "../persistence/PullRequestFilesViewed.ts";
+import * as PullRequestFilesViewed from "../persistence/PullRequestFilesViewed.vibe";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.ts";
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
 import type { SourceControlProvider } from "@t3tools/source-control-core/server/SourceControlProvider";
@@ -39,6 +39,7 @@ import {
 import * as PullRequestProviderRegistry from "./PullRequestProviderRegistry.ts";
 import * as PullRequestService from "./PullRequestService.ts";
 import * as PullRequestReadCache from "./PullRequestReadCache.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 function project(input: {
   readonly id: string;
@@ -234,7 +235,7 @@ function makeService(input: {
         PullRequestFilesViewed.layer.pipe(Layer.provide(SqlitePersistence.layerMemory)),
         Layer.effect(PullRequestReadCache.PullRequestReadCache, PullRequestReadCache.make).pipe(
           Layer.provide(KeyValueStore.layerMemory),
-          Layer.provide(NodeServices.layer),
+          Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         ),
       ),
     ),

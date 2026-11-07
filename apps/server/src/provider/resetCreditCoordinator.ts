@@ -1,7 +1,7 @@
 /** Instances sharing a login directory share credits; serialize redemptions on that directory. */
 import type { ProviderConsumeResetCreditOutcome } from "@t3tools/contracts";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as PlatformError from "effect/PlatformError";

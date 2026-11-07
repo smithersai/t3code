@@ -31,13 +31,13 @@ import * as Option from "effect/Option";
 import { AsyncResult, Atom } from "effect/reactivity";
 import { useEffect, useState } from "react";
 
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { useFilesystemReadAccess } from "./filesystem";
 import { orchestrationEnvironment } from "./orchestration";
 import { olderSettledThreads, threadFamilies } from "./threads";
-import { isPaginatedBranchesNextPagePending } from "./paginatedBranches";
+import { isPaginatedBranchesNextPagePending } from "./paginatedBranches.vibe";
 import { projectContentSearch, projectEnvironment } from "./projects";
-import { useEnvironmentQuery } from "./query";
+import { useEnvironmentQuery } from "./query.vibe";
 import { vcsEnvironment } from "./vcs";
 
 const PROJECT_PATH_SEARCH_DEBOUNCE_MS = 120;

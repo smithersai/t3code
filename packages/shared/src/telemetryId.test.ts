@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { hashTelemetryId, isTelemetryIdHash } from "./telemetryId.ts";
+import { hashTelemetryId, isTelemetryIdHash } from "./telemetryId.vibe";
 
 describe("telemetry ids", () => {
   it("accepts only hashes, never a raw id", () => {

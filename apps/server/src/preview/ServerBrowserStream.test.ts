@@ -21,7 +21,7 @@ import * as Schema from "effect/Schema";
 import { HttpRouter, HttpServer } from "effect/http";
 
 import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
-import * as PreviewBrowserHost from "./PreviewBrowserHost.ts";
+import * as PreviewBrowserHost from "./PreviewBrowserHost.vibe";
 import * as ServerBrowser from "./ServerBrowser.ts";
 import { routeLayer } from "./ServerBrowserStream.ts";
 
@@ -34,7 +34,7 @@ const makeAuth = (
   const requests: string[] = [];
   const layer = Layer.mock(EnvironmentAuth.EnvironmentAuth, {
     authenticateWebSocketUpgrade: (request) => {
-      requests.push(request.originalUrl);
+      requests.push(request.url);
       return error
         ? Effect.fail(error)
         : Effect.succeed({

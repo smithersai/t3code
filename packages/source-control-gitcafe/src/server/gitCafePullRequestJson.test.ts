@@ -1,7 +1,7 @@
 import { assert, describe, it } from "@effect/vitest";
 import * as Schema from "effect/Schema";
 
-import * as GitCafePullRequestJson from "./gitCafePullRequestJson.ts";
+import * as GitCafePullRequestJson from "./gitCafePullRequestJson.vibe";
 
 const decodePull = Schema.decodeUnknownSync(GitCafePullRequestJson.GitCafePull);
 const decodePullDetail = Schema.decodeUnknownSync(GitCafePullRequestJson.GitCafePullDetail);

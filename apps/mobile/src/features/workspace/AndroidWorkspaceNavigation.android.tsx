@@ -15,7 +15,7 @@ import { useKeyboardState } from "react-native-keyboard-controller";
 import { useAndroidControlSizing } from "../../components/ui/useAndroidControlSizing";
 import { useToolbarLayout } from "../../components/ui/useToolbarLayout";
 import { rootNavigationRef } from "../../lib/rootNavigation";
-import { useWorkspaceConnectionState } from "../../state/workspace";
+import { useWorkspaceConnectionState } from "../../state/workspace.vibe";
 import { androidWorkspaceNavigationColors } from "./android-workspace-navigation-colors";
 import {
   androidWorkspaceTabNavigationState,
@@ -23,7 +23,7 @@ import {
 } from "./android-workspace-tabs";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import { useAndroidWorkspaceRoot } from "./AndroidWorkspaceTabsProvider";
-import { useNavigationTabOrder, useHiddenNavigationTabs } from "./navigation-tabs";
+import { useNavigationTabOrder, useHiddenNavigationTabs } from "./navigation-tabs.vibe";
 import { useWorkspaceTabs } from "./WorkspaceTabsContext";
 import { FLOATING_TABS, floatingTabsMetrics } from "./floating-workspace-tabs";
 

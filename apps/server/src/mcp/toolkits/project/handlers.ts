@@ -5,7 +5,7 @@ import {
   OrchestratorMcpFailure,
   ProjectId,
 } from "@t3tools/contracts";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Hex from "effect/encoding/Hex";
 import * as FileSystem from "effect/FileSystem";
@@ -14,17 +14,17 @@ import * as ThreadLaunch from "../../../orchestration-v2/ThreadLaunchService.ts"
 import * as ThreadMessageIntake from "../../../orchestration-v2/ThreadMessageIntake.ts";
 import * as Claims from "../../../orchestration-v2/AttachmentClaims.ts";
 import * as Project from "../../../project/ProjectService.ts";
-import * as ManagedProjectFolders from "../../../project/ManagedProjectFolders.ts";
+import * as ManagedProjectFolders from "../../../project/ManagedProjectFolders.vibe";
 import * as Repositories from "../../../sourceControl/SourceControlRepositoryService.ts";
 import * as GitVcsDriver from "../../../vcs/GitVcsDriver.ts";
 import * as ServerSettings from "../../../serverSettings.ts";
 import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
 import { formatThreadLink } from "@t3tools/shared/threadLinks";
 import { resolveRuntimeMode } from "../../delegatedTaskModes.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
-import { newCommandId, readCaller, resolveProjectId, unavailable } from "../../threadAccess.ts";
-import { ProjectToolkit } from "./tools.ts";
+import { newCommandId, readCaller, resolveProjectId, unavailable } from "../../threadAccess.vibe";
+import { ProjectToolkit } from "./tools.vibe";
 
 function projectFailure(error: Project.ProjectServiceError) {
   if (error._tag === "ProjectOperationError") return unavailable();

@@ -7,13 +7,13 @@ import * as Scope from "effect/Scope";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as HttpClient from "effect/http/HttpClient";
 
-import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.ts";
+import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.vibe";
 import type {
   ConnectionAttemptError,
   ConnectionAttemptStage,
   PreparedConnection,
-} from "./model.ts";
-import { ConnectionTransientError } from "./model.ts";
+} from "./model.vibe";
+import { ConnectionTransientError } from "#vibelang/emitted/src/connection/model";
 import * as ConnectionResolver from "./resolver.ts";
 import {
   connectionRoutes,
@@ -21,9 +21,9 @@ import {
   routeHttpBaseUrl,
   sendsTokenInClear,
   usableRoutes,
-} from "./routes.ts";
-import * as RpcSession from "../rpc/session.ts";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.ts";
+} from "#vibelang/emitted/src/connection/routes";
+import * as RpcSession from "#vibelang/emitted/src/rpc/session";
+import { fetchRemoteEnvironmentDescriptor } from "#vibelang/emitted/src/environment/descriptor";
 
 export type ConnectionDriverProgress =
   | {

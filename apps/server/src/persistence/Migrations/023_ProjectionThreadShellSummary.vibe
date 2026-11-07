@@ -1,0 +1,26 @@
+import * as SqlClient from "effect/sql/SqlClient";
+import * as Effect from "effect/Effect";
+
+export default effect {
+  const sql = try SqlClient.SqlClient;
+
+  try (sql`
+    ALTER TABLE projection_threads
+    ADD COLUMN latest_user_message_at TEXT
+  ` |> Effect.catch(%, () => Effect.void));
+
+  try (sql`
+    ALTER TABLE projection_threads
+    ADD COLUMN pending_approval_count INTEGER NOT NULL DEFAULT 0
+  ` |> Effect.catch(%, () => Effect.void));
+
+  try (sql`
+    ALTER TABLE projection_threads
+    ADD COLUMN pending_user_input_count INTEGER NOT NULL DEFAULT 0
+  ` |> Effect.catch(%, () => Effect.void));
+
+  try (sql`
+    ALTER TABLE projection_threads
+    ADD COLUMN has_actionable_proposed_plan INTEGER NOT NULL DEFAULT 0
+  ` |> Effect.catch(%, () => Effect.void));
+};

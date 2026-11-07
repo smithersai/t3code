@@ -1,4 +1,4 @@
-import type { EnvironmentProject, EnvironmentThreadShell } from "./models.ts";
+import type { EnvironmentProject, EnvironmentThreadShell } from "./models.vibe";
 
 export function planProjectRemoval<
   Thread extends Pick<EnvironmentThreadShell, "environmentId" | "projectId">,

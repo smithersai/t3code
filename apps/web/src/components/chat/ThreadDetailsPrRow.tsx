@@ -30,7 +30,7 @@ import {
   useEnvironmentQueryIsNewer,
   useEnvironmentQueryRefresh,
   useEnvironmentQuerySelector,
-} from "~/state/query";
+} from "../../state/query.vibe";
 
 import {
   buildFixFindingsHandoff,
@@ -41,7 +41,7 @@ import {
   resolvePullRequestMergeMethod,
   allowedPullRequestMergeMethods,
   resolveThreadPanelPullRequestAction,
-} from "../pullRequest/pullRequestDetail.logic";
+} from "../pullRequest/pullRequestDetail.logic.vibe";
 import { PullRequestChecksPopover } from "../pullRequest/PullRequestChecksPopover";
 import {
   pullRequestChecksState,

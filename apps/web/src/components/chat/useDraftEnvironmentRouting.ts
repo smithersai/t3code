@@ -1,6 +1,6 @@
 import { useLoadBalancedEnvironment } from "../../hooks/useLoadBalancedEnvironment";
 import { useLogicalProjectEnvironments } from "../../hooks/useLogicalProjectEnvironments";
-import { useScratchProject } from "../../hooks/useScratchProject";
+import { useScratchProject } from "../../hooks/useScratchProject.ts";
 import { useStableCallback } from "../../hooks/useStableCallback";
 import {
   type EnvironmentId,
@@ -17,7 +17,10 @@ import {
   selectProjectGroupingSettings,
 } from "../../logicalProject";
 import { useComposerDraftStore, DraftId } from "../../composerDraftStore";
-import { type EnvironmentPresentation, useEnvironmentProviders } from "../../state/environments";
+import {
+  type EnvironmentPresentation,
+  useEnvironmentProviders,
+} from "../../state/environments.vibe";
 import { useProjects } from "../../state/entities";
 import type { DraftSessionState } from "../../composerDraftStore";
 

@@ -16,7 +16,7 @@ vi.mock("electron", () => ({
   protocol: { handle: handleMock, unhandle: unhandleMock },
 }));
 
-import * as ElectronProtocol from "./ElectronProtocol.ts";
+import * as ElectronProtocol from "./ElectronProtocol.vibe";
 
 const layerProtocol = ElectronProtocol.layer.pipe(Layer.provide(NodeServices.layer));
 

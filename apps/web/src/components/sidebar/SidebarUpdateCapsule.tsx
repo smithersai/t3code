@@ -2,7 +2,7 @@ import { useAtomValue } from "@effect/atom-react";
 import { type ReactNode, useSyncExternalStore } from "react";
 
 import { cn } from "~/lib/utils";
-import { environmentIdsKey } from "~/state/environmentAtomList";
+import { environmentIdsKey } from "../../state/environmentAtomList.vibe";
 import { environmentUpdateStatesAtom } from "~/state/server";
 import { useServerUpdate } from "../ServerUpdateAction";
 import { Button } from "../ui/button";

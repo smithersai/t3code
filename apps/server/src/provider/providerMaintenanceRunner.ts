@@ -25,9 +25,9 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 import * as NodeUtil from "node:util";
 
 import * as ModelManifest from "./ModelManifest.ts";
-import { resolveProviderCompatibility } from "./providerCompatibility.ts";
+import { resolveProviderCompatibility } from "./providerCompatibility.vibe";
 import * as ProviderRegistry from "./ProviderRegistry.ts";
-import { makeProviderMaintenanceCommandCoordinator } from "./providerMaintenanceCommandCoordinator.ts";
+import { makeProviderMaintenanceCommandCoordinator } from "./providerMaintenanceCommandCoordinator.vibe";
 import {
   enrichProviderSnapshotWithVersionAdvisory,
   invalidateLatestProviderVersion,

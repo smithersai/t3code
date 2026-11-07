@@ -9,7 +9,7 @@ import { Atom } from "effect/reactivity";
 
 import { previewBridge } from "~/components/preview/previewBridge";
 import { ensureClientSettingsHydrated, getClientSettings } from "~/hooks/useSettings";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 
 import { createRecordingCompositor } from "./recordingCompositor";
 

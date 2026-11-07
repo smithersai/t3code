@@ -1,14 +1,14 @@
 import { AuthEnvironmentMaintainScope } from "@t3tools/contracts";
 
-import { usePrimaryCloudLinkState } from "~/cloud/primaryCloudLinkState";
+import { usePrimaryCloudLinkState } from "../../cloud/primaryCloudLinkState.vibe";
 import { hasCloudPublicConfig } from "~/cloud/publicConfig";
 import { isElectron } from "~/env";
 import { isLocalEnvironmentDisabled } from "~/localEnvironment";
 import { desktopWslStateAtom } from "~/state/desktopWslState";
-import { useEnvironments, usePrimaryEnvironmentId } from "~/state/environments";
-import { usePeerLinkHosts } from "~/state/peerLinks";
-import { useEnvironmentQuery } from "~/state/query";
-import { useEnvironmentScope } from "~/state/session";
+import { useEnvironments, usePrimaryEnvironmentId } from "../../state/environments.vibe";
+import { usePeerLinkHosts } from "../../state/peerLinks.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useEnvironmentScope } from "../../state/session.vibe";
 import { isWslSettingsRowVisible } from "./ConnectionsSettings.logic";
 import { isProviderSettingsEnvironmentAvailable } from "./ProviderSettingsPanel.logic";
 import type { SettingsScopeSearch } from "./settingsScope";

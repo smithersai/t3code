@@ -39,21 +39,21 @@ import {
 } from "../../lib/layout";
 import { scopedThreadKey } from "../../lib/scopedEntities";
 import type { ThreadListFilters } from "../../persistence/mobile-preferences";
-import { appAtomRegistry } from "../../state/atom-registry";
-import { useProjects } from "../../state/entities";
-import { useThreadCwd } from "../../state/use-selected-thread-worktree";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
+import { useProjects } from "../../state/entities.vibe";
+import { useThreadCwd } from "../../state/use-selected-thread-worktree.vibe";
 import { environmentThreadShells } from "../../state/threads";
-import { mobilePreferencesAtom } from "../../state/preferences";
+import { mobilePreferencesAtom } from "../../state/preferences.vibe";
 import {
   DEFAULT_MOBILE_PROJECT_GROUPING_SETTINGS,
   resolveMobileProjectGroupingSettings,
-} from "../../state/project-grouping";
+} from "../../state/project-grouping.vibe";
 import {
   parseActiveThreadPath,
   useHardwareKeyboardCommand,
 } from "../keyboard/hardwareKeyboardCommands";
 import { useAndroidControlSizing } from "../../components/ui/useAndroidControlSizing";
-import { useEnabledNavigationTabs } from "../workspace/navigation-tabs";
+import { useEnabledNavigationTabs } from "../workspace/navigation-tabs.vibe";
 import { FLOATING_TABS, floatingTabsMetrics } from "../workspace/floating-workspace-tabs";
 import { AndroidHomeFabLayout } from "../home/AndroidHomeFab";
 import {
@@ -69,7 +69,7 @@ import {
 } from "../workspace/workspace-detail-selection";
 import { startOpeningDetail } from "../workspace/useSelectWorkspaceDetail";
 import { useWorkspaceTabs } from "../workspace/WorkspaceTabsContext";
-import { HomeListOptionsProvider } from "../home/home-list-options";
+import { HomeListOptionsProvider } from "../home/home-list-options.vibe";
 import { newTaskDestination } from "../threads/new-task-project-selection";
 import { usePendingTaskListActions } from "../home/usePendingTaskListActions";
 import { ThreadNavigationSidebar } from "../threads/ThreadNavigationSidebar";

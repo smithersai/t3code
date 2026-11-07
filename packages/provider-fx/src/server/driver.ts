@@ -1,7 +1,7 @@
 import { TextGenerationError } from "@t3tools/contracts";
-import { FxSettings } from "../settings.ts";
+import { FxSettings } from "#vibelang/emitted/src/settings";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import type * as Crypto from "effect/Crypto";
+import type * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
@@ -9,13 +9,16 @@ import * as Schema from "effect/Schema";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import type * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
-import { type FxAdapterV2DriverEnv, makeFxAdapterV2Driver } from "./adapter.ts";
+import {
+  type FxAdapterV2DriverEnv,
+  makeFxAdapterV2Driver,
+} from "#vibelang/emitted/src/server/adapter";
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors";
 import {
   buildInitialFxProviderSnapshot,
   checkFxProviderStatus,
   fxDefaultModelId,
-} from "./status.ts";
+} from "#vibelang/emitted/src/server/status";
 import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider";
 import {
   defaultProviderContinuationIdentity,
@@ -24,7 +27,7 @@ import {
 } from "@t3tools/provider-core/server/driver";
 import { withInstanceIdentity } from "@t3tools/provider-core/server/instanceIdentity";
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";
-import { discoverFxSkills } from "./skills.ts";
+import { discoverFxSkills } from "#vibelang/emitted/src/server/skills";
 import { makeManualOnlyProviderMaintenanceCapabilities } from "@t3tools/provider-core/server/maintenanceResolver";
 import {
   haveProviderSnapshotSettingsChanged,
@@ -32,7 +35,7 @@ import {
   type ProviderSnapshotSettings,
 } from "@t3tools/provider-core/server/snapshotSettings";
 import type { ProviderTextGeneration } from "@t3tools/provider-core/server/textGeneration";
-import { FX_DRIVER_KIND } from "./acpSupport.ts";
+import { FX_DRIVER_KIND } from "#vibelang/emitted/src/server/acpSupport";
 
 const decodeFxSettings = Schema.decodeSync(FxSettings);
 // fx installs from its own setup script and updates with `fx upgrade`; there

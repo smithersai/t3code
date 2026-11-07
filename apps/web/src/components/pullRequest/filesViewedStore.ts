@@ -11,7 +11,7 @@ import type {
 import * as Option from "effect/Option";
 import { AsyncResult } from "effect/reactivity";
 
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
 import { pullRequestEnvironment } from "~/state/pullRequests";
 
 import { toastManager } from "../ui/toast";

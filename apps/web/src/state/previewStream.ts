@@ -9,9 +9,9 @@ import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
-import { connectionAtomRuntime } from "../connection/runtime";
-import { appAtomRegistry } from "../rpc/atomRegistry";
-import { environmentSession } from "./session";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
+import { environmentSession } from "./session.vibe";
 
 const ACCESS_RETRY_INTERVAL_MS = 10_000;
 

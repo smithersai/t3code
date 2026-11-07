@@ -9,13 +9,13 @@ import type * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Metric from "effect/Metric";
 
-import { normalizeModelMetricLabel } from "../observability/Attributes.ts";
+import { normalizeModelMetricLabel } from "../observability/Attributes.vibe";
 import {
   metricAttributes,
   runDuration,
   runQueueWait,
   runsTotal,
-} from "../observability/Metrics.ts";
+} from "../observability/Metrics.vibe";
 
 const REMEMBERED_RUNS = 4096;
 // A rollback rewrites runs that already finished, stamping the rollback time as their completion,

@@ -14,13 +14,13 @@ import {
   type ReactNode,
 } from "react";
 
-import { tryCopyTextWithHaptic } from "../../lib/copyTextWithHaptic";
+import { tryCopyTextWithHaptic } from "../../lib/copyTextWithHaptic.vibe";
 import {
   firstWorkspaceDetailOpen,
   workspaceHasColumns,
 } from "../workspace/workspace-selection-store";
 import { T3KeyboardCommands } from "../../native/T3KeyboardCommands";
-import { useThreadShell } from "../../state/entities";
+import { useThreadShell } from "../../state/entities.vibe";
 import type { GitActionProgress } from "../../state/use-vcs-action-state";
 import { GitActionProgressOverlay } from "../threads/GitActionProgressOverlay";
 import { CommandPalette } from "./CommandPalette";

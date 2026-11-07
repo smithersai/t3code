@@ -12,7 +12,7 @@ import * as Queue from "effect/Queue";
 import * as Ref from "effect/Ref";
 import type * as Scope from "effect/Scope";
 
-import * as ProjectFaviconResolver from "./ProjectFaviconResolver.ts";
+import * as ProjectFaviconResolver from "./ProjectFaviconResolver.vibe";
 import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.ts";
 
 const DEFAULT_CACHE_CAPACITY = 512;

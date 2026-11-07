@@ -13,7 +13,7 @@ import { resolveDesktopAppControlAddress } from "@t3tools/shared/desktopAppContr
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as Config from "effect/Config";
 import * as Console from "effect/Console";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Path from "effect/Path";

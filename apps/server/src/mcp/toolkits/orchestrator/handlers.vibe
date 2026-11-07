@@ -1,0 +1,185 @@
+import { OrchestratorMcpFailure } from "@t3tools/contracts"
+import { OrchestratorToolkit } from "./tools.vibe"
+
+import * as PeerForwarding from "../../../peer/PeerForwarding.ts"
+import * as PeerLinkRequests from "../../../peer/PeerLinkRequests.ts"
+import * as PeerLinks from "../../../peer/PeerLinks.ts"
+import { readCaller } from "../../threadAccess.vibe"
+import * as McpInvocationContext from "../../McpInvocationContext.vibe"
+import * as McpToolAccess from "../../McpToolAccess.ts"
+import * as OrchestratorMcpService from "../../OrchestratorMcpService.ts"
+import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.ts"
+
+const handlers = {
+  orchestrator_capabilities: McpToolAccess.reads(effect (input) => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const service = try OrchestratorMcpService.OrchestratorMcpService
+    return try service.capabilities(scope, input)
+  }),
+  delegate_task: McpToolAccess.actsAsCaller(effect (input) => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const service = try OrchestratorMcpService.OrchestratorMcpService
+    return try service.delegateTask(scope, input)
+  }),
+  task_status: McpToolAccess.actsAsCaller(({ taskId }) =>
+    effect {
+      const scope = try McpInvocationContext.McpInvocationContext
+      const service = try OrchestratorMcpService.OrchestratorMcpService
+      return try service.taskStatus(scope, taskId)
+    }
+  ),
+  task_cancel: McpToolAccess.actsAsCaller(effect (input) => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const service = try OrchestratorMcpService.OrchestratorMcpService
+    return try service.cancelTask(scope, input)
+  }),
+  t3_workflow_stop: McpToolAccess.writesThreads(
+    (input) => [input.threadId],
+    effect (input) => {
+      const { threads } = try readCaller()
+      return (threads.stopWorkflow(input)
+        |> Effect.as(%, {})) catch effect (cause) => {
+          throw new OrchestratorMcpFailure({
+            code: cause.reason === "unavailable" || cause.reason === "stop-failed"
+              ? "orchestration_error"
+              : "invalid_request",
+            message: cause.message,
+          })
+        }
+    },
+  ),
+  t3_background_wait: McpToolAccess.actsAsCaller(effect (input) => {
+    const { scope, threads } = try readCaller()
+    const caller = try McpInvocationContext.requireThreadScope(scope, "t3_background_wait")
+    return threads
+      .awaitBackgroundTasks({
+        threadId: caller.thread.threadId,
+        taskIds: input.taskIds,
+        awaited: input.waiting ?? true,
+      }) catch effect (cause) => {
+        throw new OrchestratorMcpFailure({
+          code: cause.reason === "unsupported" ? "invalid_request" : "orchestration_error",
+          message: cause.message,
+        })
+      }
+  }),
+  schedule_task: McpToolAccess.either(
+    (input) => input.scheduledTaskId === undefined,
+    McpToolAccess.startsThreads(
+      () => ({}),
+      ({ prompt, schedule, ...input }) =>
+        effect {
+          if (prompt === undefined || schedule === undefined) {
+            throw new OrchestratorMcpFailure({
+              code: "invalid_request",
+              message: "A new scheduled task needs `prompt` and `schedule`.",
+            })
+          }
+          const scope = try McpInvocationContext.McpInvocationContext
+          const service = try OrchestratorMcpService.OrchestratorMcpService
+          return try service.scheduleTask(scope, { ...input, prompt, schedule })
+        },
+      // A scheduled run starts long after its caller, with nothing to carry the link.
+      { refused: "schedule tasks in this environment" },
+    ),
+    McpToolAccess.writes(
+      ({ scheduledTaskId, prompt, title, schedule, enabled, bindToCurrentThread }) =>
+        effect {
+          if (scheduledTaskId === undefined) return try Effect.die("unreachable")
+          const scope = try McpInvocationContext.McpInvocationContext
+          const service = try OrchestratorMcpService.OrchestratorMcpService
+          return try service.updateScheduledTask(scope, {
+            scheduledTaskId,
+            prompt,
+            title,
+            schedule,
+            enabled,
+            bindToCurrentThread,
+          })
+        },
+    ),
+  ),
+  list_scheduled_tasks: McpToolAccess.reads(effect (input) => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const service = try OrchestratorMcpService.OrchestratorMcpService
+    return try service.listScheduledTasks(scope, input)
+  }),
+  delete_scheduled_task: McpToolAccess.writes(effect (input) => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const service = try OrchestratorMcpService.OrchestratorMcpService
+    return try service.deleteScheduledTask(scope, input)
+  }),
+  request_secret: McpToolAccess.actsAsCaller(effect (input) => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const service = try OrchestratorMcpService.OrchestratorMcpService
+    return try service.requestSecret(scope, input)
+  }),
+  create_threads: McpToolAccess.actsAsCaller(effect (input) => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const service = try OrchestratorMcpService.OrchestratorMcpService
+    return try service.createThreads(scope, input)
+  }),
+  t3_thread_list: McpToolAccess.reads(effect (input) => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const service = try OrchestratorMcpService.OrchestratorMcpService
+    return try service.listThreads(scope, input)
+  }),
+  t3_thread_read: McpToolAccess.reads(effect (input) => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const service = try OrchestratorMcpService.OrchestratorMcpService
+    return try service.readThread(scope, input)
+  }),
+  t3_thread_update: McpToolAccess.writesThreads(
+    (input) => [input.threadId],
+    effect (input) => {
+      const scope = try McpInvocationContext.McpInvocationContext
+      const service = try ThreadMetadataMcpService.ThreadMetadataMcpService
+      return try service.update(scope, input)
+    },
+  ),
+  t3_thread_send: McpToolAccess.writesThreads(
+    (input) => [input.threadId],
+    effect (input) => {
+      const scope = try McpInvocationContext.McpInvocationContext
+      const service = try OrchestratorMcpService.OrchestratorMcpService
+      return try service.sendToThread(scope, input)
+    },
+  ),
+  t3_thread_wait: McpToolAccess.reads(effect (input) => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const service = try OrchestratorMcpService.OrchestratorMcpService
+    return try service.waitForThread(scope, input)
+  }),
+  t3_environment_links: McpToolAccess.reads(effect () => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const forwarding = try PeerForwarding.PeerForwarding
+    return try forwarding.links(scope)
+  }),
+  // A link lets every agent here reach the other environment, so it is an
+  // environment setting: full access, and never for linked work.
+  t3_environment_link: McpToolAccess.writesEnvironment(effect (input) => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const requests = try PeerLinkRequests.PeerLinkRequests
+    return try requests.request(scope, input)
+  }),
+  t3_environment_unlink: McpToolAccess.writesEnvironment(({ environmentId }) =>
+    effect {
+      const links = try PeerLinks.PeerLinks
+      const removed = links
+        .unlink(environmentId) catch effect (error) => {
+          throw new OrchestratorMcpFailure({ code: "orchestration_error", message: error.message })
+        }
+      return { environmentId, removed }
+    }
+  ),
+  t3_thread_interrupt: McpToolAccess.writesThreads(
+    (input) => [input.threadId],
+    effect (input) => {
+      const scope = try McpInvocationContext.McpInvocationContext
+      const service = try OrchestratorMcpService.OrchestratorMcpService
+      return try service.interruptThread(scope, input)
+    },
+  ),
+} satisfies McpToolAccess.Handlers<typeof OrchestratorToolkit.tools>
+
+export const layer = McpToolAccess.toLayer(OrchestratorToolkit, handlers)

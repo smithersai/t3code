@@ -37,19 +37,20 @@ import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.
 import * as ServerSettings from "../serverSettings.ts";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
 import * as EventSink from "./EventSink.ts";
 import * as Orchestrator from "./Orchestrator.ts";
 import { continueRestartedRun } from "./RestartContinuation.ts";
-import * as RuntimeLayer from "./runtimeLayer.ts";
-import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
+import * as RuntimeLayer from "./runtimeLayer.vibe";
+import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import * as ProviderTurnStartServiceTestkit from "./ProviderTurnStartService.testkit.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerPlatformTest = Layer.merge(
-  NodeServices.layer,
+  Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
   Layer.mock(SourceControlProviderRegistry.SourceControlProviderRegistry)({
     resolveLink: () => Effect.die("unused title link"),
   }),

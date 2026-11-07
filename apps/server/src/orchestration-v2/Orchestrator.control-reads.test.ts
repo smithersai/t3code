@@ -29,7 +29,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 import {
   orchestrationCommandDuration,
   orchestrationCommandsTotal,
-} from "../observability/Metrics.ts";
+} from "../observability/Metrics.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
 import * as DelegatedTaskQuestionReactor from "./DelegatedTaskQuestionReactor.ts";

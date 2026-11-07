@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { Platform } from "react-native";
 import { useAppearancePreferences } from "../features/settings/appearance/AppearancePreferencesProvider";
 import { environmentCatalog } from "../connection/catalog";
-import { environmentPresentations } from "../state/presentation";
+import { environmentPresentations } from "../state/presentation.vibe";
 import { publishSubscriptionUsage } from "./publishSubscriptionUsage";
 import { buildSubscriptionUsageSnapshot } from "./subscriptionUsageSnapshot";
 import { createWidgetTheme } from "./widgetTheme";

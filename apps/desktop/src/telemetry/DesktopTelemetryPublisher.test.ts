@@ -13,11 +13,11 @@ import * as TestClock from "effect/testing/TestClock";
 import type * as Electron from "electron";
 import * as NodeEvents from "node:events";
 
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as ElectronApp from "../electron/ElectronApp.ts";
-import * as ElectronPowerMonitor from "../electron/ElectronPowerMonitor.ts";
-import * as DesktopTelemetryPublisher from "./DesktopTelemetryPublisher.ts";
-import * as DesktopRendererHistory from "./DesktopRendererHistory.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
+import * as ElectronApp from "../electron/ElectronApp.vibe";
+import * as ElectronPowerMonitor from "../electron/ElectronPowerMonitor.vibe";
+import * as DesktopTelemetryPublisher from "./DesktopTelemetryPublisher.vibe";
+import * as DesktopRendererHistory from "./DesktopRendererHistory.vibe";
 
 const layerHistory = Layer.succeed(DesktopRendererHistory.DesktopRendererHistory, {
   register: () => Effect.void,

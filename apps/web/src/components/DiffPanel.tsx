@@ -22,8 +22,8 @@ import * as Schema from "effect/Schema";
 import { useEffect, useRef, useState } from "react";
 import { useCodeViewFileReveal } from "./diffs/useCodeViewFileReveal";
 import { useFilesystemReadAccess } from "~/state/filesystem";
-import { useOpenInPreferredEditor } from "../editorPreferences";
-import { useFileContextMenuHandler } from "../fileContextMenu";
+import { useOpenInPreferredEditor } from "../editorPreferences.vibe";
+import { useFileContextMenuHandler } from "../fileContextMenu.vibe";
 import { type DraftId } from "../composerDraftStore";
 import { openDiffFilePrimaryAction } from "../diffFileActions";
 import { useCheckpointDiff } from "~/lib/checkpointDiffState";
@@ -81,15 +81,15 @@ import {
   DropdownMenuTrigger,
 } from "./ui/menu";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "./ui/tooltip";
-import { useEnvironmentQuery } from "../state/query";
-import { useAtomCommand } from "../state/use-atom-command";
+import { useEnvironmentQuery } from "../state/query.vibe";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { serverEnvironment } from "../state/server";
 import { reviewEnvironment } from "../state/review";
 import { vcsEnvironment } from "../state/vcs";
 import { buildBaseRefChoices, filterBaseRefChoices } from "../lib/baseRefChoices";
 import { createGitDiffFileContentsLoader } from "../lib/diffFileContents";
 
-import { useReviewFilePatches } from "./diffs/useReviewFilePatches";
+import { useReviewFilePatches } from "./diffs/useReviewFilePatches.vibe";
 import { DiffFileLoadingBoundary } from "./diffs/DiffFileLoadingBoundary";
 import { DiffFileStatus } from "./diffs/DiffFileStatus";
 import { useThreadRouteRef } from "../hooks/useThreadRouteTarget";

@@ -16,7 +16,7 @@ vi.mock("electron", () => ({
   },
 }));
 
-import * as ElectronShell from "./ElectronShell.ts";
+import * as ElectronShell from "./ElectronShell.vibe";
 
 describe("ElectronShell", () => {
   beforeEach(() => {

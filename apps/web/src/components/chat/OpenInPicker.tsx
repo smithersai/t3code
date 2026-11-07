@@ -10,7 +10,7 @@ import { memo, use, useRef } from "react";
 import { BackgroundThreadContext } from "./backgroundThread";
 import { shortcutLabelForCommand } from "../../keybindings";
 import { OPEN_FAVORITE_EDITOR_ATTRIBUTE } from "./OpenInPickerShortcut";
-import { usePreferredEditor } from "../../editorPreferences";
+import { usePreferredEditor } from "../../editorPreferences.vibe";
 import { editorLabelForPlatform } from "../../editorLabels";
 import {
   openRemoteEditorUrl,
@@ -18,7 +18,7 @@ import {
   useRemoteOpenHint,
   useRemoteOpenState,
 } from "../../remoteOpen";
-import { useEnvironment } from "../../state/environments";
+import { useEnvironment } from "../../state/environments.vibe";
 import { ChevronDownIcon, FolderClosedIcon, SquareArrowOutUpRightIcon } from "lucide-react";
 
 import { Group, GroupSeparator } from "../ui/group";
@@ -62,8 +62,8 @@ import {
 } from "../JetBrainsIcons";
 import { announce } from "~/lib/announce";
 import { cn, isMacPlatform, isWindowsPlatform } from "~/lib/utils";
-import { shellEnvironment } from "~/state/shell";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { shellEnvironment } from "../../state/shell.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {
   THREAD_DETAILS_PANEL_CHEVRON_CLASS,
   THREAD_DETAILS_PANEL_ICON_CLASS,
@@ -71,7 +71,7 @@ import {
   THREAD_DETAILS_PANEL_SPLIT_GROUP_CLASS,
   THREAD_DETAILS_PANEL_SPLIT_SEPARATOR_CLASS,
 } from "./threadDetailsPanelStyles";
-import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
 import { useComposerMenuState } from "./useComposerMenuState";
 
 type OpenInOption = {

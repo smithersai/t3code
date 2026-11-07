@@ -1,7 +1,6 @@
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Effect's Crypto has no createHmac.
 import * as NodeCrypto from "node:crypto";
 
-import * as NodePlatformCrypto from "@effect/platform-node/NodeCrypto";
 import { assert, it } from "@effect/vitest";
 import {
   ScheduledTaskUpsertInput,
@@ -9,7 +8,7 @@ import {
   SecretRequestError,
 } from "@t3tools/contracts";
 import * as DateTime from "effect/DateTime";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
@@ -24,9 +23,9 @@ import * as Tracer from "effect/Tracer";
 import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
-import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
+import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as Scheduler from "../scheduling/Scheduler.ts";
+import * as Scheduler from "../scheduling/Scheduler.vibe";
 import * as ScheduledTaskService from "./ScheduledTaskService.ts";
 import { renderWebhookPrompt } from "./webhookTemplate.ts";
 
@@ -179,7 +178,7 @@ const withService = <A, E>(
     const secretsByRef = new Map<string, string>();
     const layerDependencies = Layer.mergeAll(
       options.frameGate === undefined && options.onFrame === undefined
-        ? NodePlatformCrypto.layer
+        ? Crypto.layerWebCrypto
         : Layer.effect(
             Crypto.Crypto,
             Effect.gen(function* () {
@@ -198,7 +197,7 @@ const withService = <A, E>(
                   }),
               };
             }),
-          ).pipe(Layer.provide(NodePlatformCrypto.layer)),
+          ).pipe(Layer.provide(Crypto.layerWebCrypto)),
       options.workers === undefined
         ? Scheduler.layer
         : Layer.succeed(Scheduler.Scheduler, {

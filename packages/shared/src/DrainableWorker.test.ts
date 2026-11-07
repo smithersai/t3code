@@ -8,7 +8,7 @@ import * as Fiber from "effect/Fiber";
 import * as Logger from "effect/Logger";
 import * as Scope from "effect/Scope";
 
-import { makeDrainableWorker } from "./DrainableWorker.ts";
+import { makeDrainableWorker } from "./DrainableWorker.vibe";
 
 const captureErrorLogs = () => {
   const loggedErrors: Array<unknown> = [];

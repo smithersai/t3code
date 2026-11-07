@@ -17,7 +17,7 @@ import { buildTriageLaunchPrompt } from "../triage/triagePrompt.ts";
 import { describeServerProcess, writeTriageSession } from "../triage/triageSession.ts";
 import { baseDirFlag } from "./config.ts";
 import { interactiveStdin } from "./consoleStdin.ts";
-import { resolveCliCommand } from "./invocation.ts";
+import { resolveCliCommand } from "./invocation.vibe";
 
 interface TriageAgent {
   readonly id: "claude" | "codex";

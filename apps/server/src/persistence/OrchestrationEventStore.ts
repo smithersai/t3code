@@ -31,7 +31,7 @@ import {
   toPersistenceDecodeError,
   toPersistenceSqlError,
   type OrchestrationEventStoreError,
-} from "./Errors.ts";
+} from "./Errors.vibe";
 
 export type UnsequencedProjectEvent = ApplicationProjectEvent extends infer Event
   ? Event extends ApplicationProjectEvent

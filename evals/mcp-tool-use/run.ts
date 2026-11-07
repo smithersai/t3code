@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --import=vibelang/register
 // @effect-diagnostics nodeBuiltinImport:off
 /**
  * Replays small fake threads on a Claude or Codex model to check T3's MCP tool use. A trimmed
@@ -27,25 +27,25 @@ import * as McpSchema from "effect/ai/McpSchema";
 import { FetchHttpClient, HttpClient, HttpClientRequest } from "effect/http";
 
 import { taskPrompt } from "../../apps/server/src/mcp/delegatedTaskModes.ts";
-import * as McpInvocationContext from "../../apps/server/src/mcp/McpInvocationContext.ts";
-import { advertisedJsonSchema } from "../../apps/server/src/mcp/advertisedJsonSchema.ts";
+import * as McpInvocationContext from "../../apps/server/src/mcp/McpInvocationContext.vibe";
+import { advertisedJsonSchema } from "../../apps/server/src/mcp/advertisedJsonSchema.vibe";
 import { ORCHESTRATOR_MCP_RUNNING_TASK_NEXT } from "@t3tools/contracts";
 import { formatThreadLink } from "@t3tools/shared/threadLinks";
 import { buildCodexAdditionalContext } from "../../apps/server/src/provider/CodexDeveloperInstructions.ts";
-import { AttachmentToolkit } from "../../apps/server/src/mcp/toolkits/attachment/tools.ts";
-import { DeviceToolkit } from "../../apps/server/src/mcp/toolkits/device/tools.ts";
-import { EnvironmentToolkit } from "../../apps/server/src/mcp/toolkits/environment/tools.ts";
-import { HtmlToolkit } from "../../apps/server/src/mcp/toolkits/html/tools.ts";
-import { OrchestratorToolkit } from "../../apps/server/src/mcp/toolkits/orchestrator/tools.ts";
-import { PreviewToolkit } from "../../apps/server/src/mcp/toolkits/preview/tools.ts";
-import { PreviewControlsToolkit } from "../../apps/server/src/mcp/toolkits/previewControls/tools.ts";
-import { ProjectToolkit } from "../../apps/server/src/mcp/toolkits/project/tools.ts";
+import { AttachmentToolkit } from "../../apps/server/src/mcp/toolkits/attachment/tools.vibe";
+import { DeviceToolkit } from "../../apps/server/src/mcp/toolkits/device/tools.vibe";
+import { EnvironmentToolkit } from "../../apps/server/src/mcp/toolkits/environment/tools.vibe";
+import { HtmlToolkit } from "../../apps/server/src/mcp/toolkits/html/tools.vibe";
+import { OrchestratorToolkit } from "../../apps/server/src/mcp/toolkits/orchestrator/tools.vibe";
+import { PreviewToolkit } from "../../apps/server/src/mcp/toolkits/preview/tools.vibe";
+import { PreviewControlsToolkit } from "../../apps/server/src/mcp/toolkits/previewControls/tools.vibe";
+import { ProjectToolkit } from "../../apps/server/src/mcp/toolkits/project/tools.vibe";
 import {
   CHILD_PULL_REQUEST_REPORT_NEXT,
   PullRequestsToolkit,
-} from "../../apps/server/src/mcp/toolkits/pullRequests/tools.ts";
-import { ThreadToolkit } from "../../apps/server/src/mcp/toolkits/thread/tools.ts";
-import { WorktreeToolkit } from "../../apps/server/src/mcp/toolkits/worktree/tools.ts";
+} from "../../apps/server/src/mcp/toolkits/pullRequests/tools.vibe";
+import { ThreadToolkit } from "../../apps/server/src/mcp/toolkits/thread/tools.vibe";
+import { WorktreeToolkit } from "../../apps/server/src/mcp/toolkits/worktree/tools.vibe";
 import {
   CLAUDE_PROVIDER,
   makeClaudeQueryOptions,

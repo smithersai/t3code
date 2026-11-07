@@ -4,7 +4,7 @@ import * as NodeChildProcess from "node:child_process";
 import * as NodeFSP from "node:fs/promises";
 
 import * as Electron from "electron";
-import type { ActiveWindow } from "./ActiveWindow.ts";
+import type { ActiveWindow } from "./ActiveWindow.vibe";
 
 const MAC_SCREEN_CAPTURE_PATH = "/usr/sbin/screencapture";
 const MAC_SCREEN_CAPTURE_TIMEOUT_MS = 15_000;

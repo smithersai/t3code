@@ -1,0 +1,128 @@
+import type { ServerProviderUsageWindow } from "@t3tools/contracts"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Path from "effect/Path"
+import * as HttpClient from "effect/http/HttpClient"
+import { clampPercent, makeUnavailableUsageLimits, makeUsageLimits } from "@t3tools/provider-core/server/usageLimits"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+import { readConsoleApiKey as readConsoleApiKey$platform } from "./usageLimits.platform.ts"
+
+const AuthFile = Schema.Struct({ "opencode-go": Schema.optionalKey(Schema.Unknown) })
+schema ApiAuth { readonly type: "api"; readonly key: string }
+const decodeAuthFile = Schema.decodeEffect(Schema.fromJsonString(AuthFile))
+const decodeApiAuth = Schema.decodeUnknownOption(ApiAuth)
+schema UsageWindow {
+  readonly percent: Schema.Finite
+  readonly resetsAt: Schema.DateTimeUtcFromString
+}
+schema UsageResponse {
+  readonly usage: { readonly rolling: UsageWindow; readonly weekly: UsageWindow; readonly monthly: UsageWindow }
+}
+const readConsoleApiKey = readConsoleApiKey$platform
+/** External OpenCode servers own their credentials; never read the host's account for them. */
+export const readOpenCodeGoUsageLimits = effect (
+  input: { readonly enabled: boolean; readonly serverUrl: string; readonly environment: NodeJS.ProcessEnv },
+) =>
+  try withSpan(
+    effect {
+      const checkedAt = DateTime.formatIso(try DateTime.now)
+      const unsupported = try Effect.orDie(
+        Effect.try({ try: () => makeUnavailableUsageLimits({ checkedAt, reason: "unsupported" }), catch: (e) => e }),
+      )
+      if (!input.enabled || input.serverUrl.trim()) return unsupported
+
+      return (effect {
+        const fs = try FileSystem.FileSystem
+        const path = try Path.Path
+        const env = input.environment
+        const dataHome = env.XDG_DATA_HOME
+          || path.join(
+            env.HOME || env.USERPROFILE || (try HostProcess.HomeDirectory),
+            ".local",
+            "share",
+          )
+        const authPath = path.join(dataHome, "opencode", "auth.json")
+        const contents = env.OPENCODE_AUTH_CONTENT
+          || (fs.readFileString(authPath) catch effect (error) => match (error) {
+            when { _tag: "PlatformError" }:
+              try (error.reason._tag === "NotFound" ? Effect.succeed("{}") : Effect.fail(error));
+          })
+        const auth = try decodeAuthFile(contents)
+        const apiAuth = decodeApiAuth(auth["opencode-go"])
+        // OpenCode overlays stored API credentials after environment credentials.
+        const goKey = (Option.isSome(apiAuth) ? apiAuth.value.key : env.OPENCODE_API_KEY)?.trim()
+        // Console supplies Go credentials in OpenCode 2. Inline auth explicitly
+        // overrides local credentials, including the Console connection.
+        const databaseFile = env.OPENCODE_DB ?? "opencode.db"
+        const consoleKey = env.OPENCODE_AUTH_CONTENT || databaseFile === ":memory:"
+          ? undefined
+          : try readConsoleApiKey(path.resolve(dataHome, "opencode", databaseFile))
+        let apiKey = consoleKey || goKey
+        if (!apiKey) return unsupported
+
+        const client = try HttpClient.HttpClient
+        const readUsage = (key: string) =>
+          client.execute(
+            HttpClientRequest.get("https://opencode.ai/zen/go/v1/usage")
+              |> HttpClientRequest.bearerToken(%, key),
+          )
+        let response = try readUsage(apiKey)
+        if ((response.status === 401 || response.status === 403) && goKey && goKey !== apiKey) {
+          apiKey = goKey
+          response = try readUsage(apiKey)
+        }
+        // A valid Zen key can exist without a Go subscription.
+        if (response.status === 403) return unsupported
+        const body = try (HttpClientResponse.filterStatusOk(response)
+          |> Effect.flatMap(%, HttpClientResponse.schemaBodyJson(UsageResponse)))
+        const windows: ServerProviderUsageWindow[] = [
+          {
+            id: "go_rolling",
+            kind: "session",
+            label: "Go · Session",
+            windowDurationMins: 5 * 60,
+            usedPercent: try Effect.orDie(
+              Effect.try({ try: () => clampPercent(body.usage.rolling.percent), catch: (e) => e }),
+            ),
+            resetsAt: DateTime.formatIso(body.usage.rolling.resetsAt),
+          },
+          {
+            id: "go_weekly",
+            kind: "weekly",
+            label: "Go · Weekly",
+            windowDurationMins: 7 * 24 * 60,
+            usedPercent: try Effect.orDie(
+              Effect.try({ try: () => clampPercent(body.usage.weekly.percent), catch: (e) => e }),
+            ),
+            resetsAt: DateTime.formatIso(body.usage.weekly.resetsAt),
+          },
+          {
+            id: "go_monthly",
+            kind: "monthly",
+            label: "Go · Monthly",
+            usedPercent: try Effect.orDie(
+              Effect.try({ try: () => clampPercent(body.usage.monthly.percent), catch: (e) => e }),
+            ),
+            resetsAt: DateTime.formatIso(body.usage.monthly.resetsAt),
+          },
+        ]
+        const crypto = try Crypto.Crypto
+        // Unkeyed hashes match across environments; random Go keys resist offline guessing.
+        const credentialFingerprint = try (crypto
+          .digest("SHA-256", new TextEncoder().encode(`opencode-go\0${apiKey}`))
+          |> Effect.map(%, Hex.encode) |> Effect.orDie(%))
+        return {
+          ...try Effect.orDie(Effect.try({ try: () => makeUsageLimits({ checkedAt, windows }), catch: (e) => e })),
+          credentialFingerprint,
+        }
+      }
+        |> Effect.timeout(%, "5 seconds")) catch () =>
+          makeUnavailableUsageLimits({
+            checkedAt,
+            reason: "probeFailed",
+            message: "OpenCode Go could not read usage.",
+          })
+    },
+    "readOpenCodeGoUsageLimits",
+  )

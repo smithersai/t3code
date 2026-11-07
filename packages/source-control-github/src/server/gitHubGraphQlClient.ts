@@ -10,7 +10,7 @@ import { GraphQLClientError, GraphQLMiddleware, GraphQLProtocol } from "effect/g
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
 import { collectUint8StreamText } from "@t3tools/provider-core/server/collectStreamText";
 
-import * as GitHubRequestPolicy from "./GitHubRequestPolicy.ts";
+import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe";
 
 const DEFAULT_MAX_RESPONSE_BYTES = 8 * 1024 * 1024;
 

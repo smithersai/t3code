@@ -18,8 +18,8 @@ import {
 
 import { getClientSettings, subscribeClientSettings } from "../hooks/useSettings";
 import { isWindowsPlatform } from "../lib/utils";
-import { environmentSummaries } from "../state/presentation";
-import { environmentShell } from "../state/shell";
+import { environmentSummaries } from "../state/presentation.vibe";
+import { environmentShell } from "../state/shell.vibe";
 import { environmentThreadShells } from "../state/threads";
 import {
   hasDesktopNotifications,

@@ -6,7 +6,7 @@ import {
   INCOGNITO_BROWSER_PROFILE_ID,
   resolveBrowserProfiles,
   type BrowserProfile,
-} from "./browserProfile.ts";
+} from "./browserProfile.vibe";
 
 const work: BrowserProfile = { id: "profile-work", name: "Work", kind: "persistent" };
 

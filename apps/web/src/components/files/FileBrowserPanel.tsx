@@ -22,7 +22,7 @@ import { writeTextToClipboard } from "~/hooks/useCopyToClipboard";
 import { useStableCallback } from "~/hooks/useStableCallback";
 import { useTheme } from "~/hooks/useTheme";
 import { useWorkspaceMutationRefresh } from "~/hooks/useWorkspaceMutationRefresh";
-import { useFileContextMenu, type FileContextMenuAction } from "~/fileContextMenu";
+import { useFileContextMenu, type FileContextMenuAction } from "../../fileContextMenu.vibe";
 import { readLocalApi } from "~/localApi";
 import { T3_PIERRE_ICONS } from "~/pierre-icons";
 import { PIERRE_TREE_UNSAFE_CSS, pierreTreeStyle } from "~/pierre-tree-theme";
@@ -32,7 +32,7 @@ import { createFileTreeDragMentionController } from "./fileTreeDragMention";
 import { areAllDirectoriesExpanded, setAllDirectoriesExpanded } from "./fileTreeExpansion";
 import { buildFileTreePathUpdates } from "./fileTreePathReconciliation";
 import { loadFileAncestors } from "./loadFileAncestors";
-import { useDirectoryEntries } from "./useDirectoryEntries";
+import { useDirectoryEntries } from "./useDirectoryEntries.vibe";
 import { useProjectPathSearch } from "~/state/queries";
 
 interface FileBrowserPanelProps {

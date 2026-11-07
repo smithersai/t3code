@@ -3,7 +3,7 @@ import { insertAttachmentReferencesForDraft } from "./composerAttachmentReferenc
 import { DESKTOP_PASTE_AS_TEXT_EVENT } from "../../lib/desktopPasteAsText";
 import { runtimeModeConfig, runtimeModeOptions as runtimeModes } from "./runtimeModeConfig";
 import { isLocalEnvironmentDisabled } from "../../localEnvironment";
-import { usePrimaryEnvironmentId } from "../../state/environments";
+import { usePrimaryEnvironmentId } from "../../state/environments.vibe";
 import { useRightPanelStore } from "~/rightPanelStore";
 import { importPastedComposerText, readPastedComposerContext } from "../composerInlineTokenPaste";
 import {
@@ -83,7 +83,7 @@ import {
 import {
   dataTransferHasComposerMention,
   makeComposerMentionDragHandlers,
-} from "./composerMentionDrag";
+} from "./composerMentionDrag.vibe";
 import {
   isInsideCollapsedComposerControls,
   isInsideRestingComposerControlScope,
@@ -102,7 +102,7 @@ import {
 import { ComposerStashBadge } from "./ComposerStashBadge";
 import { ComposerStashMenu } from "./ComposerStashMenu";
 import { useComposerTriggerState } from "./useComposerTriggerState";
-import { useComposerMenuItems } from "./useComposerMenuItems";
+import { useComposerMenuItems } from "./useComposerMenuItems.vibe";
 import { useComposerFocusState } from "./useComposerFocusState";
 import { useComposerMultilinePrompt } from "./useComposerMultilinePrompt";
 import {
@@ -199,7 +199,7 @@ import { ComposerPendingApprovalPanel } from "./ComposerPendingApprovalPanel";
 import { ComposerPendingUserInputPanel } from "./ComposerPendingUserInputPanel";
 import { ComposerPlanFollowUpBanner } from "./ComposerPlanFollowUpBanner";
 import { resolveComposerMenuActiveItemId } from "./composerMenuHighlight";
-import { buildPullRequestReferenceContext } from "../pullRequest/pullRequestDetail.logic";
+import { buildPullRequestReferenceContext } from "../pullRequest/pullRequestDetail.logic.vibe";
 import { getComposerPromptInjectionState, getComposerReasoningStep } from "./composerProviderState";
 import { readPromptUltrathink } from "./TraitsPicker";
 import {
@@ -239,7 +239,7 @@ import { toastManager } from "../ui/toast";
 import { PlayIcon, ShieldIcon } from "lucide-react";
 import { proposedPlanTitle } from "@t3tools/shared/proposedPlanText";
 import { hasProviderSetup } from "./ProviderStatusBanner";
-import { type AppModelOption, getAppModelOptionsForInstance } from "../../modelSelection";
+import { type AppModelOption, getAppModelOptionsForInstance } from "../../modelSelection.vibe";
 import type { UnifiedSettings } from "@t3tools/contracts/settings";
 import {
   isVideoAttachment,
@@ -254,12 +254,12 @@ import type {
   LatestProposedPlanState,
   PendingApproval,
   PendingUserInput,
-} from "../../session-logic";
+} from "../../session-logic.vibe";
 import {
   resolveComposerDispatchMode,
   type ComposerDispatchMode,
 } from "@t3tools/client-runtime/state/composer-dispatch";
-import type { ContextWindowSnapshot } from "../../lib/contextWindow";
+import type { ContextWindowSnapshot } from "../../lib/contextWindow.vibe";
 import {
   resolveProviderSkillsForCwd,
   resolveProviderSlashCommandsForCwd,
@@ -268,12 +268,12 @@ import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { useSoftwareKeyboardOpen } from "../../hooks/useSoftwareKeyboardOpen";
 import { useStableCallback } from "../../hooks/useStableCallback";
 import { usePanelAnimationSettings } from "../../panelAnimations";
-import { readEnvironmentScope } from "../../state/session";
-import type { ReviewCommentContext } from "../../reviewCommentContext";
+import { readEnvironmentScope } from "../../state/session.vibe";
+import type { ReviewCommentContext } from "../../reviewCommentContext.vibe";
 import { useComposerRestingTransition } from "./useComposerRestingTransition";
 import { ComposerCommandMenuLayer } from "./ComposerCommandMenuLayer";
 import { useRestingComposerControlsLayout } from "./useRestingComposerControlsLayout";
-import { useProviderWorkspaceSnapshotRefresh } from "./useProviderWorkspaceSnapshotRefresh";
+import { useProviderWorkspaceSnapshotRefresh } from "./useProviderWorkspaceSnapshotRefresh.vibe";
 import { useComposerProviderModel } from "./useComposerProviderModel";
 import { useComposerImageGroups } from "./useComposerImageGroups";
 import { useComposerStash } from "./useComposerStash";

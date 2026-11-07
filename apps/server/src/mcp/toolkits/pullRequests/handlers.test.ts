@@ -12,7 +12,7 @@ import {
   SourceControlProviderKind,
 } from "@t3tools/contracts";
 import { describe, expect, it } from "@effect/vitest";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
@@ -27,12 +27,12 @@ import {
 } from "../../../orchestration-v2/testkit/pullRequestFixtures.ts";
 import * as ProjectService from "../../../project/ProjectService.ts";
 import * as PullRequestReviewGuideService from "../../../pullRequest/PullRequestReviewGuideService.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import * as McpToolAccessTestkit from "../../McpToolAccess.testkit.ts";
 import { listThreadPullRequests } from "./handlers.ts";
 import * as PullRequestsHandlers from "./handlers.ts";
-import { CHILD_PULL_REQUEST_REPORT_NEXT, PullRequestsToolkit } from "./tools.ts";
+import { CHILD_PULL_REQUEST_REPORT_NEXT, PullRequestsToolkit } from "./tools.vibe";
 
 const PROJECT_ID = ProjectId.make("project-1");
 const THREAD_ID = ThreadId.make("thread-1");

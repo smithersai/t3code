@@ -15,7 +15,7 @@ import {
   type ThreadId,
 } from "@t3tools/contracts";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -25,8 +25,8 @@ import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import type * as Tool from "effect/ai/Tool";
 
-import type * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
-import { ProjectToolkit } from "../mcp/toolkits/project/tools.ts";
+import type * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
+import { ProjectToolkit } from "../mcp/toolkits/project/tools.vibe";
 import {
   resolveInteractionMode,
   resolveRuntimeMode,

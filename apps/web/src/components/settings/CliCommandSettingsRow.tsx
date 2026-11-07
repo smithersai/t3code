@@ -5,7 +5,7 @@ import {
   getDesktopCliCommandBridge,
   refreshDesktopCliCommandState,
 } from "~/state/desktopCliCommand";
-import { useEnvironmentQuery } from "~/state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { Button } from "../ui/button";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 import { SettingsRow } from "./settingsLayout";

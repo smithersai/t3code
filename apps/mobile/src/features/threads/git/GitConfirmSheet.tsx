@@ -13,9 +13,9 @@ import { AndroidSheetHeader } from "../../../components/ui/AndroidScreenHeader";
 import { ScreenContent } from "../../../components/ui/ScreenContent";
 import { NativeStackScreenOptions } from "../../../native/StackHeader";
 import { AppText as Text } from "../../../components/ui/AppText";
-import { useSelectedThreadGitActions } from "../../../state/use-selected-thread-git-actions";
+import { useSelectedThreadGitActions } from "../../../state/use-selected-thread-git-actions.vibe";
 import { useSelectedThreadGitState } from "../../../state/use-selected-thread-git-state";
-import { useThreadSelection } from "../../../state/use-thread-selection";
+import { useThreadSelection } from "../../../state/use-thread-selection.vibe";
 import { SheetActionButton } from "./gitSheetComponents";
 
 type GitConfirmSheetProps = StaticScreenProps<{

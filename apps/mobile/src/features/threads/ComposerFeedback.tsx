@@ -7,7 +7,7 @@ import { Pressable, View } from "react-native";
 
 import { AppText as Text } from "../../components/ui/AppText";
 import { SymbolView } from "../../components/ui/AppSymbol";
-import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic";
+import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic.vibe";
 
 export function ComposerFeedback({
   submission,

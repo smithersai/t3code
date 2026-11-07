@@ -3,9 +3,9 @@ import { Modal, Pressable, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { AppActivityIndicator } from "./ui/AppActivityIndicator";
-import { useLocalAttachmentPreview } from "../lib/localAttachmentPreview";
+import { useLocalAttachmentPreview } from "../lib/localAttachmentPreview.vibe";
 import { usePreviewPresentation, videoPreviewKey } from "../lib/previewPresentation";
-import { useMediaActions } from "../state/mediaActions";
+import { useMediaActions } from "../state/mediaActions.vibe";
 import { type MediaActionsSource } from "../lib/mediaActionsSource";
 import {
   mediaVideoPreviewUri,
@@ -14,8 +14,8 @@ import {
   type MediaVideoPreviewSource,
   type VideoPreviewSource,
 } from "../lib/videoPreviewSource";
-import { useAssetUrlState, useRefreshAssetUrl } from "../state/assets";
-import { usePreparedConnection } from "../state/session";
+import { useAssetUrlState, useRefreshAssetUrl } from "../state/assets.vibe";
+import { usePreparedConnection } from "../state/session.vibe";
 import { AppText } from "./ui/AppText";
 import { SymbolView } from "./ui/AppSymbol";
 import { MediaActionsMenu } from "./MediaActionsMenu";

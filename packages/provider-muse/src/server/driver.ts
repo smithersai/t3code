@@ -1,5 +1,5 @@
 import { ProviderDriverKind } from "@t3tools/contracts";
-import { MuseSettings } from "../settings.ts";
+import { MuseSettings } from "../settings.vibe";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -20,10 +20,10 @@ import * as ProviderContinuationRequests from "@t3tools/provider-core/server/Pro
 import { checkMuseProviderStatus, makePendingMuseProvider } from "./status.ts";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider";
-import { enrichMuseSnapshot, latestMuseVersion, museMaintenance } from "./maintenance.ts";
+import { enrichMuseSnapshot, latestMuseVersion, museMaintenance } from "./maintenance.vibe";
 import { makeMuseEnvironment } from "./sdk.ts";
-import { museUsageReader } from "./usage.ts";
-import type * as MuseUsageHome from "./MuseUsageHome.ts";
+import { museUsageReader } from "./usage.vibe";
+import type * as MuseUsageHome from "./MuseUsageHome.vibe";
 import {
   defaultProviderContinuationIdentity,
   type ProviderDriver,

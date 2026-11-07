@@ -1,7 +1,7 @@
 import { ProviderInstanceId, ThreadId } from "@t3tools/contracts";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as SynchronizedRef from "effect/SynchronizedRef";
@@ -9,7 +9,7 @@ import { HttpServer } from "effect/http";
 import * as NetAddress from "effect/net/NetAddress";
 
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as McpInvocationContext from "./McpInvocationContext.ts";
+import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as McpProviderSession from "@t3tools/provider-core/server/mcpSession";
 
 export interface McpCredentialRequest {

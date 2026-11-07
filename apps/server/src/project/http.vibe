@@ -1,0 +1,70 @@
+import {
+  AuthOrchestrationReadScope,
+  EnvironmentHttpApi,
+  requiredScopesForProjectMutation,
+} from "@t3tools/contracts";
+
+import {
+  annotateEnvironmentRequest,
+  failEnvironmentInternal,
+  failEnvironmentInvalidRequest,
+  requireEnvironmentScope,
+} from "../auth/http.ts";
+import { traceLocalHandlerWork } from "../cloud/traceRelayRequest.vibe";
+import * as ServerRuntimeStartup from "../serverRuntimeStartup.ts";
+import * as ProjectService from "./ProjectService.ts";
+import { projectMutationOperation } from "./ProjectMutation.vibe";
+
+const failProjectMutation = effect (
+  cause: ServerRuntimeStartup.ServerRuntimeStartupError | ProjectService.ProjectServiceError,
+) => try withSpan(effect {
+  if (
+    cause._tag === "ProjectNotFoundError" ||
+    cause._tag === "ProjectConflictError" ||
+    cause._tag === "ProjectNotEmptyError"
+  ) {
+    return try failEnvironmentInvalidRequest("invalid_command");
+  }
+  return try failEnvironmentInternal("project_mutation_failed", cause);
+}, "environment.projects.failMutation");
+
+export const layer = HttpApiBuilder.group(
+  EnvironmentHttpApi,
+  "projects",
+  effect (handlers) => {
+    const projects = try ProjectService.ProjectService;
+    const startup = try ServerRuntimeStartup.ServerRuntimeStartup;
+
+    return handlers
+      .handle(
+        "snapshot",
+        effect (args): (import("effect/http/HttpServerResponse").HttpServerResponse | { readonly projects: readonly { readonly id: string & import("effect/Brand").Brand<"ProjectId">; readonly title: string; readonly workspaceRoot: string; readonly repositoryIdentity?: { readonly canonicalKey: string; readonly locator: { readonly source: "git-remote"; readonly remoteName: string; readonly remoteUrl: string; }; readonly webUrl?: string; readonly rootPath?: string; readonly displayName?: string; readonly provider?: string & import("effect/Brand").Brand<"SourceControlProviderKind">; readonly owner?: string; readonly name?: string; readonly origin?: { readonly canonicalKey: string; readonly remoteUrl?: string; readonly displayName?: string; }; } | null | undefined; readonly faviconPath?: string | null | undefined; readonly projectIcon?: { readonly kind: "lucide"; readonly name: string; readonly color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "teal" | "violet" | "yellow"; } | { readonly kind: "emoji"; readonly emoji: string; } | { readonly kind: "monogram"; readonly text: string; readonly color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "teal" | "violet" | "yellow"; } | null | undefined; readonly defaultModelSelection: { readonly instanceId: string & import("effect/Brand").Brand<"ProviderInstanceId">; readonly model: string; readonly options?: readonly { readonly id: string; readonly value: string | boolean; }[]; } | null; readonly defaultThreadEnvMode?: "local" | "worktree" | null | undefined; readonly autoPull?: boolean | undefined; readonly scripts: readonly { readonly id: string; readonly name: string; readonly command: string; readonly icon: "build" | "configure" | "debug" | "lint" | "play" | "test"; readonly runOnWorktreeCreate: boolean; readonly runOnSettle?: boolean | undefined; readonly async?: boolean | undefined; readonly previewUrl?: string | undefined; readonly autoOpenPreview?: boolean | undefined; }[]; readonly createdAt: string; readonly updatedAt: string; readonly deletedAt: string | null; }[]; readonly updatedAt: string; })!(import("@t3tools/contracts").EnvironmentAuthInvalidError | import("@t3tools/contracts").EnvironmentInternalError | import("@t3tools/contracts").EnvironmentScopeRequiredError)!(import("@t3tools/contracts").EnvironmentAuthenticatedPrincipal | import("effect/http/HttpServerRequest").HttpServerRequest | import("effect/Scope").Scope) => try withSpan((effect (): (import("effect/http/HttpServerResponse").HttpServerResponse | { readonly projects: readonly { readonly id: string & import("effect/Brand").Brand<"ProjectId">; readonly title: string; readonly workspaceRoot: string; readonly repositoryIdentity?: { readonly canonicalKey: string; readonly locator: { readonly source: "git-remote"; readonly remoteName: string; readonly remoteUrl: string; }; readonly webUrl?: string; readonly rootPath?: string; readonly displayName?: string; readonly provider?: string & import("effect/Brand").Brand<"SourceControlProviderKind">; readonly owner?: string; readonly name?: string; readonly origin?: { readonly canonicalKey: string; readonly remoteUrl?: string; readonly displayName?: string; }; } | null | undefined; readonly faviconPath?: string | null | undefined; readonly projectIcon?: { readonly kind: "lucide"; readonly name: string; readonly color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "teal" | "violet" | "yellow"; } | { readonly kind: "emoji"; readonly emoji: string; } | { readonly kind: "monogram"; readonly text: string; readonly color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "teal" | "violet" | "yellow"; } | null | undefined; readonly defaultModelSelection: { readonly instanceId: string & import("effect/Brand").Brand<"ProviderInstanceId">; readonly model: string; readonly options?: readonly { readonly id: string; readonly value: string | boolean; }[]; } | null; readonly defaultThreadEnvMode?: "local" | "worktree" | null | undefined; readonly autoPull?: boolean | undefined; readonly scripts: readonly { readonly id: string; readonly name: string; readonly command: string; readonly icon: "build" | "configure" | "debug" | "lint" | "play" | "test"; readonly runOnWorktreeCreate: boolean; readonly runOnSettle?: boolean | undefined; readonly async?: boolean | undefined; readonly previewUrl?: string | undefined; readonly autoOpenPreview?: boolean | undefined; }[]; readonly createdAt: string; readonly updatedAt: string; readonly deletedAt: string | null; }[]; readonly updatedAt: string; })!(import("@t3tools/contracts").EnvironmentAuthInvalidError | import("@t3tools/contracts").EnvironmentInternalError | import("@t3tools/contracts").EnvironmentScopeRequiredError)!(import("@t3tools/contracts").EnvironmentAuthenticatedPrincipal | import("effect/http/HttpServerRequest").HttpServerRequest | import("effect/Scope").Scope) => {
+          try annotateEnvironmentRequest(args.endpoint.name);
+          try requireEnvironmentScope(AuthOrchestrationReadScope);
+          return try ((() => {
+            const pipe$program = projects.snapshot;
+            const pipe$stage0 = traceLocalHandlerWork;
+            const pipe$stage1 = Effect.catch((cause) => failEnvironmentInternal("project_snapshot_failed", cause));
+            return pipe$program |> pipe$stage0(%) |> pipe$stage1(%);
+          })());
+        })(), "environment.projects.snapshot"),
+      )
+      .handle(
+        "mutate",
+        effect (args): (import("effect/http/HttpServerResponse").HttpServerResponse | { readonly id: string & import("effect/Brand").Brand<"ProjectId">; readonly title: string; readonly workspaceRoot: string; readonly repositoryIdentity?: { readonly canonicalKey: string; readonly locator: { readonly source: "git-remote"; readonly remoteName: string; readonly remoteUrl: string; }; readonly webUrl?: string; readonly rootPath?: string; readonly displayName?: string; readonly provider?: string & import("effect/Brand").Brand<"SourceControlProviderKind">; readonly owner?: string; readonly name?: string; readonly origin?: { readonly canonicalKey: string; readonly remoteUrl?: string; readonly displayName?: string; }; } | null | undefined; readonly faviconPath?: string | null | undefined; readonly projectIcon?: { readonly kind: "lucide"; readonly name: string; readonly color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "teal" | "violet" | "yellow"; } | { readonly kind: "emoji"; readonly emoji: string; } | { readonly kind: "monogram"; readonly text: string; readonly color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "teal" | "violet" | "yellow"; } | null | undefined; readonly defaultModelSelection: { readonly instanceId: string & import("effect/Brand").Brand<"ProviderInstanceId">; readonly model: string; readonly options?: readonly { readonly id: string; readonly value: string | boolean; }[]; } | null; readonly defaultThreadEnvMode?: "local" | "worktree" | null | undefined; readonly autoPull?: boolean | undefined; readonly scripts: readonly { readonly id: string; readonly name: string; readonly command: string; readonly icon: "build" | "configure" | "debug" | "lint" | "play" | "test"; readonly runOnWorktreeCreate: boolean; readonly runOnSettle?: boolean | undefined; readonly async?: boolean | undefined; readonly previewUrl?: string | undefined; readonly autoOpenPreview?: boolean | undefined; }[]; readonly createdAt: string; readonly updatedAt: string; readonly deletedAt: string | null; })!(import("@t3tools/contracts").EnvironmentAuthInvalidError | import("@t3tools/contracts").EnvironmentInternalError | import("@t3tools/contracts").EnvironmentRequestInvalidError | import("@t3tools/contracts").EnvironmentScopeRequiredError)!(import("@t3tools/contracts").EnvironmentAuthenticatedPrincipal | import("effect/http/HttpServerRequest").HttpServerRequest | import("effect/Scope").Scope) => try withSpan((effect (): (import("effect/http/HttpServerResponse").HttpServerResponse | { readonly id: string & import("effect/Brand").Brand<"ProjectId">; readonly title: string; readonly workspaceRoot: string; readonly repositoryIdentity?: { readonly canonicalKey: string; readonly locator: { readonly source: "git-remote"; readonly remoteName: string; readonly remoteUrl: string; }; readonly webUrl?: string; readonly rootPath?: string; readonly displayName?: string; readonly provider?: string & import("effect/Brand").Brand<"SourceControlProviderKind">; readonly owner?: string; readonly name?: string; readonly origin?: { readonly canonicalKey: string; readonly remoteUrl?: string; readonly displayName?: string; }; } | null | undefined; readonly faviconPath?: string | null | undefined; readonly projectIcon?: { readonly kind: "lucide"; readonly name: string; readonly color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "teal" | "violet" | "yellow"; } | { readonly kind: "emoji"; readonly emoji: string; } | { readonly kind: "monogram"; readonly text: string; readonly color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "teal" | "violet" | "yellow"; } | null | undefined; readonly defaultModelSelection: { readonly instanceId: string & import("effect/Brand").Brand<"ProviderInstanceId">; readonly model: string; readonly options?: readonly { readonly id: string; readonly value: string | boolean; }[]; } | null; readonly defaultThreadEnvMode?: "local" | "worktree" | null | undefined; readonly autoPull?: boolean | undefined; readonly scripts: readonly { readonly id: string; readonly name: string; readonly command: string; readonly icon: "build" | "configure" | "debug" | "lint" | "play" | "test"; readonly runOnWorktreeCreate: boolean; readonly runOnSettle?: boolean | undefined; readonly async?: boolean | undefined; readonly previewUrl?: string | undefined; readonly autoOpenPreview?: boolean | undefined; }[]; readonly createdAt: string; readonly updatedAt: string; readonly deletedAt: string | null; })!(import("@t3tools/contracts").EnvironmentAuthInvalidError | import("@t3tools/contracts").EnvironmentInternalError | import("@t3tools/contracts").EnvironmentRequestInvalidError | import("@t3tools/contracts").EnvironmentScopeRequiredError)!(import("@t3tools/contracts").EnvironmentAuthenticatedPrincipal | import("effect/http/HttpServerRequest").HttpServerRequest | import("effect/Scope").Scope) => {
+          try annotateEnvironmentRequest(args.endpoint.name);
+          for (const scope of requiredScopesForProjectMutation(args.payload)) {
+            try requireEnvironmentScope(scope);
+          }
+          const operation = projectMutationOperation(projects, args.payload);
+          return try ((() => {
+            const pipe$program = startup
+            .enqueueCommand(operation);
+            const pipe$stage0 = traceLocalHandlerWork;
+            const pipe$stage1 = Effect.catch(failProjectMutation);
+            return pipe$program |> pipe$stage0(%) |> pipe$stage1(%);
+          })());
+        })(), "environment.projects.mutate"),
+      );
+  },
+);

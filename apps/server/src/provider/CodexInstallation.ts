@@ -6,7 +6,7 @@ import { resolveCommandPath, resolveSpawnCommand } from "@t3tools/shared/shell";
 import * as Clock from "effect/Clock";
 import * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as Fiber from "effect/Fiber";
@@ -25,7 +25,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 import * as NodeCrypto from "node:crypto";
 import * as ServerConfig from "../config.ts";
 import * as ModelManifest from "./ModelManifest.ts";
-import { resolveProviderCompatibility } from "./providerCompatibility.ts";
+import { resolveProviderCompatibility } from "./providerCompatibility.vibe";
 
 const DRIVER = ProviderDriverKind.make("codex");
 const STAGING_STALE_AFTER_MS = 24 * 60 * 60_000;

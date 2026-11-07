@@ -1,0 +1,602 @@
+import type {
+  RelayAgentActivityAggregateState,
+  RelayDeliveryKind,
+  RelayLiveActivityRegistrationRequest,
+} from "@t3tools/contracts/relay"
+import {
+  RelayAgentActivityAggregateState as RelayAgentActivityAggregateStateSchema,
+  RelayDeliveryKind as RelayDeliveryKindSchema,
+} from "@t3tools/contracts/relay"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Fn from "effect/Function"
+import * as Layer from "effect/Layer"
+import * as Schema from "effect/Schema"
+import { and, eq, isNotNull, sql } from "drizzle-orm"
+
+import * as RelayDb from "../db.vibe"
+import { relayLiveActivities, relayMobileDevices } from "../persistence/schema.ts"
+
+const LiveActivityRegistrationPersistenceErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error LiveActivityRegistrationPersistenceError {
+  readonly userId: string
+  readonly deviceId: string
+  cause: LiveActivityRegistrationPersistenceErrorCauseField
+  override get message(): string {
+    return `Failed to persist Live Activity registration for user ${this.userId} and device ${this.deviceId}.`
+  }
+}
+
+const LiveActivityTargetListPersistenceErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error LiveActivityTargetListPersistenceError {
+  readonly userId: string
+  cause: LiveActivityTargetListPersistenceErrorCauseField
+  override get message(): string {
+    return `Failed to list Live Activity delivery targets for user ${this.userId}.`
+  }
+}
+
+const LiveActivityIdleTargetListPersistenceErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error LiveActivityIdleTargetListPersistenceError {
+  readonly deliveredBefore: string
+  cause: LiveActivityIdleTargetListPersistenceErrorCauseField
+  override get message(): string {
+    return `Failed to list idle Live Activities delivered before ${this.deliveredBefore}.`
+  }
+}
+
+const LiveActivityDeliveryMarkPersistenceErrorKindField: Schema.NullOr<
+  Schema.Literals<readonly ["live_activity_start", "live_activity_update", "live_activity_end", "push_notification"]>
+> = Schema.NullOr(RelayDeliveryKindSchema)
+const LiveActivityDeliveryMarkPersistenceErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error LiveActivityDeliveryMarkPersistenceError {
+  readonly operation: "mark-delivery" | "mark-start-queued" | "clear-start-queued" | "invalidate-delivery-token"
+  readonly userId: string
+  readonly deviceId: string
+  kind: LiveActivityDeliveryMarkPersistenceErrorKindField
+  cause: LiveActivityDeliveryMarkPersistenceErrorCauseField
+  override get message(): string {
+    return `Failed to persist Live Activity state during ${this.operation} for user ${this.userId} and device ${this.deviceId}.`
+  }
+}
+
+export interface DeviceRow {
+  readonly user_id: string
+  readonly device_id: string
+  readonly platform: "ios" | "android"
+  readonly ios_major_version: number | null
+  readonly app_version: string | null
+  readonly bundle_id: string | null
+  readonly aps_environment: "sandbox" | "production" | null
+  readonly push_token: string | null
+  readonly push_to_start_token: string | null
+  readonly preferences_json: string
+}
+
+export interface LiveActivityRow {
+  readonly activity_push_token: string | null
+  readonly remote_start_queued_at: string | null
+  readonly remote_started_at: string | null
+  readonly ended_at: string | null
+  readonly last_aggregate_json: string | null
+  readonly last_live_activity_delivery_at: string | null
+}
+
+export type TargetRow = DeviceRow & LiveActivityRow
+
+export service LiveActivities: {
+  readonly register: (input: {
+    readonly userId: string;
+    readonly registration: RelayLiveActivityRegistrationRequest;
+  }) => void!LiveActivityRegistrationPersistenceError;
+  readonly listTargets: (input: {
+    readonly userId: string;
+  }) => ReadonlyArray<TargetRow>!LiveActivityTargetListPersistenceError;
+  readonly listIdleArmedTargets: (input: {
+    readonly deliveredBefore: string;
+  }) => ReadonlyArray<{ readonly user_id: string; readonly device_id: string }>!LiveActivityIdleTargetListPersistenceError;
+  readonly markDelivery: (input: {
+    readonly userId: string;
+    readonly deviceId: string;
+    readonly kind: RelayDeliveryKind;
+    readonly aggregate: RelayAgentActivityAggregateState | null;
+    readonly deliveredAt: string;
+  }) => void!LiveActivityDeliveryMarkPersistenceError;
+  readonly markStartQueued: (input: {
+    readonly userId: string;
+    readonly deviceId: string;
+    readonly queuedAt: string;
+  }) => void!LiveActivityDeliveryMarkPersistenceError;
+  readonly clearStartQueued: (input: {
+    readonly userId: string;
+    readonly deviceId: string;
+  }) => void!LiveActivityDeliveryMarkPersistenceError;
+  readonly invalidateDeliveryToken: (input: {
+    readonly userId: string;
+    readonly deviceId: string;
+    readonly kind: RelayDeliveryKind;
+    readonly invalidatedAt: string;
+  }) => void!LiveActivityDeliveryMarkPersistenceError;
+} {
+  static readonly key = "t3code-relay/agentActivity/LiveActivities"
+}
+
+const decodeJsonString = Schema.decodeEffect(Schema.fromJsonString(Schema.Unknown))
+const encodeJsonValue = Schema.encodeEffect(Schema.fromJsonString(Schema.Unknown))
+
+const encodeRelayAgentActivityAggregateStateJson = Schema.encodeEffect(
+  Schema.fromJsonString(RelayAgentActivityAggregateStateSchema),
+)
+
+export const make = effect {
+  const db = try RelayDb.RelayDb
+
+  return LiveActivities.of({
+    register: effect (input): void!LiveActivityRegistrationPersistenceError!never =>
+      try withSpan(
+        (effect (): void!LiveActivityRegistrationPersistenceError!never => {
+          try Effect.annotateCurrentSpan({
+            "relay.mobile.device_id": input.registration.deviceId,
+          })
+          ;(effect {
+            const updatedAt = DateTime.formatIso(try DateTime.now)
+            const registration = input.registration
+            const [current] = try (try Effect.orDie(Effect.try({
+              try: () =>
+                db
+                  .select({
+                    activityPushToken: relayLiveActivities.activityPushToken,
+                    remoteStartedAt: relayLiveActivities.remoteStartedAt,
+                  })
+                  .from(relayLiveActivities),
+              catch: (e) => e,
+            })))
+              .where(
+                try Effect.orDie(Effect.try({
+                  try: () =>
+                    and(
+                      eq(relayLiveActivities.userId, input.userId),
+                      eq(relayLiveActivities.deviceId, registration.deviceId),
+                    ),
+                  catch: (e) => e,
+                })),
+              )
+            // Foreground token refresh must retain the original arming time or grace can swallow an owed end event.
+            const armedAt = (current?.activityPushToken === registration.activityPushToken
+              ? current.remoteStartedAt
+              : null) ?? updatedAt
+
+            try (try Effect.orDie(Effect.try({
+              try: () =>
+                db
+                  .update(relayLiveActivities)
+                  .set({
+                    activityPushToken: null,
+                    remoteStartQueuedAt: null,
+                    remoteStartedAt: null,
+                    endedAt: updatedAt,
+                    updatedAt,
+                  }),
+              catch: (e) => e,
+            })))
+              .where(
+                try Effect.orDie(
+                  Effect.try({
+                    try: () => eq(relayLiveActivities.activityPushToken, registration.activityPushToken),
+                    catch: (e) => e,
+                  }),
+                ),
+              )
+
+            try (try Effect.orDie(Effect.try({
+              try: () =>
+                db
+                  .insert(relayLiveActivities)
+                  .values({
+                    userId: input.userId,
+                    deviceId: registration.deviceId,
+                    activityPushToken: registration.activityPushToken,
+                    remoteStartQueuedAt: null,
+                    remoteStartedAt: armedAt,
+                    endedAt: null,
+                    lastAggregateJson: null,
+                    lastLiveActivityDeliveryAt: null,
+                    createdAt: updatedAt,
+                    updatedAt,
+                  }),
+              catch: (e) => e,
+            })))
+              .onConflictDoUpdate({
+                target: [relayLiveActivities.userId, relayLiveActivities.deviceId],
+                set: {
+                  activityPushToken: registration.activityPushToken,
+                  remoteStartQueuedAt: null,
+                  remoteStartedAt: armedAt,
+                  endedAt: null,
+                  lastAggregateJson: null,
+                  lastLiveActivityDeliveryAt: null,
+                  updatedAt,
+                },
+              })
+          }) catch effect (cause) => {
+            throw new LiveActivityRegistrationPersistenceError({
+              userId: input.userId,
+              deviceId: input.registration.deviceId,
+              cause,
+            })
+          }
+        })(),
+        "relay.live_activities.register",
+      ),
+
+    listTargets: effect (input): readonly TargetRow[]!LiveActivityTargetListPersistenceError!never =>
+      try withSpan(
+        (effect (): readonly TargetRow[]!LiveActivityTargetListPersistenceError!never => {
+          return ((try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .select({
+                  device_id: relayMobileDevices.deviceId,
+                  user_id: relayMobileDevices.userId,
+                  platform: relayMobileDevices.platform,
+                  ios_major_version: relayMobileDevices.iosMajorVersion,
+                  app_version: relayMobileDevices.appVersion,
+                  bundle_id: relayMobileDevices.bundleId,
+                  aps_environment: relayMobileDevices.apsEnvironment,
+                  push_token: relayMobileDevices.pushToken,
+                  push_to_start_token: relayMobileDevices.pushToStartToken,
+                  preferences_json: relayMobileDevices.preferencesJson,
+                  activity_push_token: relayLiveActivities.activityPushToken,
+                  remote_start_queued_at: relayLiveActivities.remoteStartQueuedAt,
+                  remote_started_at: relayLiveActivities.remoteStartedAt,
+                  ended_at: relayLiveActivities.endedAt,
+                  last_aggregate_json: relayLiveActivities.lastAggregateJson,
+                  last_live_activity_delivery_at: relayLiveActivities.lastLiveActivityDeliveryAt,
+                })
+                .from(relayMobileDevices)
+                .leftJoin(
+                  relayLiveActivities,
+                  and(
+                    eq(relayLiveActivities.userId, relayMobileDevices.userId),
+                    eq(relayLiveActivities.deviceId, relayMobileDevices.deviceId),
+                  ),
+                ),
+            catch: (e) => e,
+          })))
+            .where(
+              try Effect.orDie(
+                Effect.try({ try: () => eq(relayMobileDevices.userId, input.userId), catch: (e) => e }),
+              ),
+            )
+            |> Effect.flatMap(%, (rows) =>
+              Effect.forEach(
+                rows,
+                (row) =>
+                  Effect.all({
+                    preferences_json: encodeJsonValue(row.preferences_json),
+                    last_aggregate_json: row.last_aggregate_json === null
+                      ? Effect.succeed(null)
+                      : encodeJsonValue(row.last_aggregate_json),
+                  })
+                  |> Effect.map(%, (json) => ({
+                    ...row,
+                    ...json,
+                  })),
+                { concurrency: "unbounded" },
+              ))
+            |> Effect.map(%, (rows): ReadonlyArray<TargetRow> => rows)) catch effect (cause) => {
+              throw new LiveActivityTargetListPersistenceError({
+                userId: input.userId,
+                cause,
+              })
+            }
+        })(),
+        "relay.live_activities.list_targets",
+      ),
+
+    listIdleArmedTargets: effect (
+      input,
+    ): readonly { readonly user_id: string; readonly device_id: string; }[]!LiveActivityIdleTargetListPersistenceError!never =>
+      try withSpan(
+        (effect (): readonly { readonly user_id: string; readonly device_id: string; }[]!LiveActivityIdleTargetListPersistenceError!never => {
+          return (try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .select({
+                  user_id: relayLiveActivities.userId,
+                  device_id: relayLiveActivities.deviceId,
+                })
+                .from(relayLiveActivities),
+            catch: (e) => e,
+          })))
+            .where(
+              try Effect.orDie(Effect.try({
+                try: () =>
+                  and(
+                    isNotNull(relayLiveActivities.activityPushToken),
+                    sql`coalesce(${relayLiveActivities.lastLiveActivityDeliveryAt}, ${relayLiveActivities.remoteStartedAt}, ${relayLiveActivities.updatedAt}) < ${input.deliveredBefore}`,
+                  ),
+                catch: (e) => e,
+              })),
+            ) catch effect (cause) => {
+              throw new LiveActivityIdleTargetListPersistenceError({
+                deliveredBefore: input.deliveredBefore,
+                cause,
+              })
+            }
+        })(),
+        "relay.live_activities.list_idle_armed_targets",
+      ),
+
+    markDelivery: effect (input): void!LiveActivityDeliveryMarkPersistenceError!never =>
+      try withSpan(
+        (effect (): void!LiveActivityDeliveryMarkPersistenceError!never => {
+          try Effect.annotateCurrentSpan({
+            "relay.mobile.device_id": input.deviceId,
+            "relay.delivery.kind": input.kind,
+          })
+          ;(effect {
+            const aggregateJson = input.aggregate === null
+              ? null
+              : try (encodeRelayAgentActivityAggregateStateJson(input.aggregate)
+                |> Effect.flatMap(%, decodeJsonString)
+                |> Effect.map(%, Fn.cast<unknown, RelayAgentActivityAggregateState>))
+
+            try (try Effect.orDie(Effect.try({
+              try: () =>
+                db
+                  .insert(relayLiveActivities)
+                  .values({
+                    userId: input.userId,
+                    deviceId: input.deviceId,
+                    remoteStartedAt: input.kind === "live_activity_start" ? input.deliveredAt : null,
+                    remoteStartQueuedAt: null,
+                    endedAt: input.kind === "live_activity_end" ? input.deliveredAt : null,
+                    lastAggregateJson: aggregateJson,
+                    lastLiveActivityDeliveryAt: input.deliveredAt,
+                    createdAt: input.deliveredAt,
+                    updatedAt: input.deliveredAt,
+                  }),
+              catch: (e) => e,
+            })))
+              .onConflictDoUpdate({
+                target: [relayLiveActivities.userId, relayLiveActivities.deviceId],
+                set: {
+                  // Starts create new activity generations; only plain updates can reuse the previous update token.
+                  activityPushToken: input.kind === "live_activity_update"
+                    ? try Effect.orDie(
+                      Effect.try({ try: () => sql`${relayLiveActivities.activityPushToken}`, catch: (e) => e }),
+                    )
+                    : null,
+                  remoteStartedAt: input.kind === "live_activity_start"
+                    ? input.deliveredAt
+                    : try Effect.orDie(Effect.try({
+                      try: () =>
+                        sql`coalesce(
+                      ${relayLiveActivities.remoteStartedAt},
+                      excluded.remote_started_at
+                    )`,
+                      catch: (e) => e,
+                    })),
+                  remoteStartQueuedAt: null,
+                  endedAt: input.kind === "live_activity_start"
+                    ? null
+                    : input.kind === "live_activity_end"
+                    ? input.deliveredAt
+                    : relayLiveActivities.endedAt,
+                  lastAggregateJson: aggregateJson,
+                  lastLiveActivityDeliveryAt: input.deliveredAt,
+                  updatedAt: input.deliveredAt,
+                },
+              })
+          }) catch effect (cause) => {
+            throw new LiveActivityDeliveryMarkPersistenceError({
+              operation: "mark-delivery",
+              userId: input.userId,
+              deviceId: input.deviceId,
+              kind: input.kind,
+              cause,
+            })
+          }
+        })(),
+        "relay.live_activities.mark_delivery",
+      ),
+
+    markStartQueued: effect (input): void!LiveActivityDeliveryMarkPersistenceError!never =>
+      try withSpan(
+        (effect (): void!LiveActivityDeliveryMarkPersistenceError!never => {
+          try Effect.annotateCurrentSpan({
+            "relay.mobile.device_id": input.deviceId,
+          })
+          ;(try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .insert(relayLiveActivities)
+                .values({
+                  userId: input.userId,
+                  deviceId: input.deviceId,
+                  remoteStartQueuedAt: input.queuedAt,
+                  remoteStartedAt: null,
+                  endedAt: null,
+                  createdAt: input.queuedAt,
+                  updatedAt: input.queuedAt,
+                }),
+            catch: (e) => e,
+          })))
+            .onConflictDoUpdate({
+              target: [relayLiveActivities.userId, relayLiveActivities.deviceId],
+              set: {
+                remoteStartQueuedAt: try Effect.orDie(Effect.try({
+                  try: () =>
+                    sql`coalesce(
+              ${relayLiveActivities.remoteStartQueuedAt},
+              excluded.remote_start_queued_at
+            )`,
+                  catch: (e) => e,
+                })),
+                endedAt: null,
+                updatedAt: input.queuedAt,
+              },
+            }) catch effect (cause) => {
+              throw new LiveActivityDeliveryMarkPersistenceError({
+                operation: "mark-start-queued",
+                userId: input.userId,
+                deviceId: input.deviceId,
+                kind: null,
+                cause,
+              })
+            }
+        })(),
+        "relay.live_activities.mark_start_queued",
+      ),
+
+    clearStartQueued: effect (input): void!LiveActivityDeliveryMarkPersistenceError!never =>
+      try withSpan(
+        (effect (): void!LiveActivityDeliveryMarkPersistenceError!never => {
+          try Effect.annotateCurrentSpan({
+            "relay.mobile.device_id": input.deviceId,
+          })
+          ;(try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .update(relayLiveActivities)
+                .set({ remoteStartQueuedAt: null }),
+            catch: (e) => e,
+          })))
+            .where(
+              try Effect.orDie(Effect.try({
+                try: () =>
+                  and(
+                    eq(relayLiveActivities.userId, input.userId),
+                    eq(relayLiveActivities.deviceId, input.deviceId),
+                  ),
+                catch: (e) => e,
+              })),
+            ) catch effect (cause) => {
+              throw new LiveActivityDeliveryMarkPersistenceError({
+                operation: "clear-start-queued",
+                userId: input.userId,
+                deviceId: input.deviceId,
+                kind: null,
+                cause,
+              })
+            }
+        })(),
+        "relay.live_activities.clear_start_queued",
+      ),
+
+    invalidateDeliveryToken: effect (input): void!LiveActivityDeliveryMarkPersistenceError!never =>
+      try withSpan(
+        (effect (): void!LiveActivityDeliveryMarkPersistenceError!never => {
+          try Effect.annotateCurrentSpan({
+            "relay.mobile.device_id": input.deviceId,
+            "relay.delivery.kind": input.kind,
+          })
+          ;(effect {
+            if (input.kind === "push_notification") {
+              try (try Effect.orDie(Effect.try({
+                try: () =>
+                  db
+                    .update(relayMobileDevices)
+                    .set({
+                      pushToken: null,
+                      updatedAt: input.invalidatedAt,
+                    }),
+                catch: (e) => e,
+              })))
+                .where(
+                  try Effect.orDie(Effect.try({
+                    try: () =>
+                      and(
+                        eq(relayMobileDevices.userId, input.userId),
+                        eq(relayMobileDevices.deviceId, input.deviceId),
+                      ),
+                    catch: (e) => e,
+                  })),
+                )
+              return
+            }
+
+            if (input.kind === "live_activity_start") {
+              try (try Effect.orDie(Effect.try({
+                try: () =>
+                  db
+                    .update(relayMobileDevices)
+                    .set({
+                      pushToStartToken: null,
+                      updatedAt: input.invalidatedAt,
+                    }),
+                catch: (e) => e,
+              })))
+                .where(
+                  try Effect.orDie(Effect.try({
+                    try: () =>
+                      and(
+                        eq(relayMobileDevices.userId, input.userId),
+                        eq(relayMobileDevices.deviceId, input.deviceId),
+                      ),
+                    catch: (e) => e,
+                  })),
+                )
+              try (try Effect.orDie(Effect.try({
+                try: () =>
+                  db
+                    .update(relayLiveActivities)
+                    .set({
+                      remoteStartQueuedAt: null,
+                      updatedAt: input.invalidatedAt,
+                    }),
+                catch: (e) => e,
+              })))
+                .where(
+                  try Effect.orDie(Effect.try({
+                    try: () =>
+                      and(
+                        eq(relayLiveActivities.userId, input.userId),
+                        eq(relayLiveActivities.deviceId, input.deviceId),
+                      ),
+                    catch: (e) => e,
+                  })),
+                )
+              return
+            }
+
+            try (try Effect.orDie(Effect.try({
+              try: () =>
+                db
+                  .update(relayLiveActivities)
+                  .set({
+                    activityPushToken: null,
+                    remoteStartQueuedAt: null,
+                    remoteStartedAt: null,
+                    endedAt: input.invalidatedAt,
+                    updatedAt: input.invalidatedAt,
+                  }),
+              catch: (e) => e,
+            })))
+              .where(
+                try Effect.orDie(Effect.try({
+                  try: () =>
+                    and(
+                      eq(relayLiveActivities.userId, input.userId),
+                      eq(relayLiveActivities.deviceId, input.deviceId),
+                    ),
+                  catch: (e) => e,
+                })),
+              )
+          }) catch effect (cause) => {
+            throw new LiveActivityDeliveryMarkPersistenceError({
+              operation: "invalidate-delivery-token",
+              userId: input.userId,
+              deviceId: input.deviceId,
+              kind: input.kind,
+              cause,
+            })
+          }
+        })(),
+        "relay.live_activities.invalidate_delivery_token",
+      ),
+  })
+}
+
+export const layer = Layer.effect(LiveActivities, make)

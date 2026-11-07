@@ -40,7 +40,7 @@ import { useStableCallback } from "~/hooks/useStableCallback";
 import { useTheme } from "~/hooks/useTheme";
 import { observeResize } from "~/lib/observeResize";
 import { cn } from "~/lib/utils";
-import { deriveActiveWorkStartedAt, derivePhase } from "~/session-logic";
+import { deriveActiveWorkStartedAt, derivePhase } from "../../session-logic.vibe";
 import type { ChatComposerHandle } from "../chat/ChatComposer";
 import { ComposerControl, ComposerControlIcon } from "../chat/ComposerControl";
 import type { ExpandedImagePreview } from "../chat/ExpandedImagePreview";
@@ -51,7 +51,7 @@ import { MessagesTimeline } from "../chat/MessagesTimeline";
 import { ProviderInstanceIcon } from "../chat/ProviderInstanceIcon";
 import { getDisplayModelName, getTriggerDisplayModelName } from "../chat/providerIconUtils";
 import { ScrollToEndButton } from "../chat/TimelineOverlays";
-import type { TimelineRow } from "../chat/timelineRowContext";
+import type { TimelineRow } from "../chat/timelineRowContext.vibe";
 import { useTimelineFollow } from "../chat/useTimelineFollow";
 import { GuestHtmlRender } from "./GuestHtmlRender";
 import { Button } from "../ui/button";
@@ -67,7 +67,7 @@ import {
   type GuestStreamState,
   parseGuestStreamEvent,
   unplacedGuestMessages,
-} from "./guestStream.logic";
+} from "./guestStream.logic.vibe";
 import { guestTurnItemSource } from "./guestTurnItemSource";
 
 interface GuestEntry {

@@ -7,7 +7,7 @@ import {
   NodeRuntimeUnavailableError,
   nodeRuntimeUnavailableMessage,
 } from "@t3tools/shared/nodeRuntime";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
@@ -52,7 +52,7 @@ import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
 import { makeAntigravityAdapterV2 } from "../../orchestration-v2/Adapters/AntigravityAdapterV2.ts";
 import { makeAcpNativeLoggerFactory } from "@t3tools/provider-acp/server/nativeLogging";
-import { ProviderDriverError } from "../Errors.ts";
+import { ProviderDriverError } from "../Errors.vibe";
 import { makeAntigravityProvider } from "../AntigravityProvider.ts";
 import { makeAntigravityUsageProbe } from "../antigravityUsageLimits.ts";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";

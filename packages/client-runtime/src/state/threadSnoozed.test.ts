@@ -12,7 +12,7 @@ import {
   threadWokeAt,
   isThreadWokeUnseen,
   type ThreadSnoozeShell,
-} from "./threadSettled.ts";
+} from "./threadSettled.vibe";
 
 const NOW = "2026-04-10T12:00:00.000Z";
 const SNOOZED_AT = "2026-04-10T09:00:00.000Z";

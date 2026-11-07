@@ -20,7 +20,7 @@ import * as GitWorkflowService from "../git/GitWorkflowService.ts";
 import type * as ServerConfig from "../config.ts";
 import type * as ServerSettings from "../serverSettings.ts";
 import { makeIsManagedWorktreePath } from "../worktreesDirectory.ts";
-import { withWorkspaceLease } from "../workspace/workspaceLease.ts";
+import { withWorkspaceLease } from "../workspace/workspaceLease.vibe";
 import {
   isCheckpointRestoreIsolated,
   SHARED_WORKSPACE_RESTORE_MESSAGE,
@@ -34,7 +34,7 @@ import * as ProjectStore from "./ProjectStore.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import { ProviderSessionManagerV2 } from "./ProviderSessionManager.ts";
 import { RuntimePolicyV2 } from "./RuntimePolicy.ts";
-import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
+import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 
 export const ROLLBACK_FAILED_MESSAGE =
   "The provider could not roll back this conversation. Try again; if it keeps failing, check the provider and server logs.";

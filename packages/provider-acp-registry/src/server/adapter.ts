@@ -2,24 +2,24 @@ import {
   extractClaudeSubagentUpdate,
   extractClaudeSubagentSessionEvent,
   isClaudeProvisionalSubagentTool,
-} from "./claudeAcp.ts";
+} from "#vibelang/emitted/src/server/claudeAcp";
 import {
   normalizeDevinSessionUpdate,
   normalizeDevinToolCall,
   extractDevinSubagentUpdate,
 } from "./devinAcp.ts";
-import { extractDroidElicitationForm } from "./droidAcp.ts";
+import { extractDroidElicitationForm } from "#vibelang/emitted/src/server/droidAcp";
 import {
   copilotClientCapabilitiesMeta,
   extractCopilotSubagentUpdate,
   makeCopilotSubagentRouting,
-} from "./copilotAcp.ts";
+} from "#vibelang/emitted/src/server/copilotAcp";
 import { defaultInstanceIdForDriver, ProviderDriverKind } from "@t3tools/contracts";
 import { readCustomModelEntries } from "@t3tools/shared/model";
-import { AcpRegistrySettings } from "../settings.ts";
+import { AcpRegistrySettings } from "#vibelang/emitted/src/settings";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { resolveSelfInvocation, type SelfInvocation } from "@t3tools/shared/nodeRuntime";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
@@ -37,9 +37,9 @@ import {
   normalizeAcpRegistryCommands,
   normalizeAcpRegistryLiveConfiguration,
   normalizeAcpRegistryWebUrl,
-} from "./probe.ts";
+} from "#vibelang/emitted/src/server/probe";
 import * as AcpRegistrySupport from "./AcpRegistrySupport.ts";
-import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.ts";
+import * as AcpRegistryRuntimeCoordinator from "#vibelang/emitted/src/server/AcpRegistryRuntimeCoordinator";
 import * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
 import { makeAcpNativeLoggerFactory } from "@t3tools/provider-acp/server/nativeLogging";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";

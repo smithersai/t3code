@@ -6,7 +6,7 @@ import {
   resolveAddressBarInput,
   previewPdfAssetUrl,
   resolveSearchUrlTemplate,
-} from "./preview.ts";
+} from "./preview.vibe";
 
 describe("previewPdfAssetUrl", () => {
   it.each([

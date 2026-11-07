@@ -6,7 +6,7 @@ import {
   type ProviderSetupError,
 } from "@t3tools/contracts";
 import type { SelfInvocation } from "@t3tools/shared/nodeRuntime";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";

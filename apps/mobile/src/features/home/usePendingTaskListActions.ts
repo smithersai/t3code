@@ -3,13 +3,13 @@ import { useCallback } from "react";
 
 import { removeThreadOutboxMessage } from "../../state/thread-outbox-removal";
 import { clearComposerDraftContent } from "../../state/use-composer-drafts";
-import type { PendingNewTask } from "../../state/use-pending-new-tasks";
-import { appAtomRegistry } from "../../state/atom-registry";
+import type { PendingNewTask } from "../../state/use-pending-new-tasks.vibe";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import {
   editingQueuedMessageIdsAtom,
   holdEditingQueuedMessage,
   releaseEditingQueuedMessage,
-} from "../../state/use-thread-outbox";
+} from "../../state/use-thread-outbox.vibe";
 import { withThreadDismissal } from "./thread-dismissal";
 
 export function usePendingTaskListActions(

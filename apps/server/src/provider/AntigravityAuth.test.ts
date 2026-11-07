@@ -18,6 +18,8 @@ import {
   type AntigravityAuthRuntime,
 } from "./AntigravityAuth.ts";
 import type * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
+import * as Layer from "effect/Layer";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const instanceId = ProviderInstanceId.make("antigravity-auth-test");
 const owner = "t3-auth-session-owner";
@@ -145,7 +147,7 @@ const makeHarness = Effect.fn("makeAuthTestHarness")(function* (
   };
 });
 
-it.layer(NodeServices.layer)("AntigravityAuth", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("AntigravityAuth", (it) => {
   it.effect("accepts a delayed duplicate after callback completion starts", () =>
     Effect.gen(function* () {
       const harness = yield* makeHarness();

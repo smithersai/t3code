@@ -19,6 +19,7 @@ import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as ServerConfig from "../config.ts";
 import { getTelemetryIdentity } from "./Identify.ts";
 import * as AnalyticsService from "./AnalyticsService.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 interface RecordedBatchRequest {
   readonly path: string;
@@ -164,7 +165,7 @@ const sendFor = (
     return batches;
   });
 
-it.layer(NodeServices.layer)("AnalyticsService test", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("AnalyticsService test", (it) => {
   it.effect("client owner reports cannot use up the server's owner cap", () =>
     Effect.gen(function* () {
       const batches = yield* sendFor(

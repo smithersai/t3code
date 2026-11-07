@@ -7,7 +7,7 @@ import {
   type ThreadId,
 } from "@t3tools/contracts";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
@@ -22,7 +22,7 @@ import {
   CheckpointTurnRangeUnavailableError,
   CheckpointWorkspacePathMissingError,
   type CheckpointServiceError,
-} from "./Errors.ts";
+} from "./Errors.vibe";
 import * as CheckpointStore from "./CheckpointStore.ts";
 import { isGitImport, parseTurnDiffFilesFromNumstat, type TurnDiffFileSummary } from "./Diffs.ts";
 

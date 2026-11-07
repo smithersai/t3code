@@ -6,7 +6,7 @@ import {
   type UsageLimitSourceConfig,
 } from "@t3tools/contracts";
 import * as Cause from "effect/Cause";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Hex from "effect/encoding/Hex";
@@ -14,7 +14,7 @@ import * as Schema from "effect/Schema";
 import { HttpClient, HttpClientError, HttpClientRequest, HttpClientResponse } from "effect/http";
 
 import { codexPlanLabel } from "../provider/CodexProvider.ts";
-import { codexRateLimitsToLimits } from "../provider/codexUsageLimits.ts";
+import { codexRateLimitsToLimits } from "../provider/codexUsageLimits.vibe";
 import { claudeUsageResponseToLimits } from "../provider/claudeUsageLimits.ts";
 import { makeUnavailableUsageLimits } from "@t3tools/provider-core/server/usageLimits";
 

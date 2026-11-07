@@ -35,14 +35,14 @@ import {
   resolveWebAssetBrandForChannel,
   type WebAssetBrand,
 } from "./lib/brand-assets.ts";
-import { getDefaultBuildArch } from "./lib/build-target-arch.ts";
+import { getDefaultBuildArch } from "./lib/build-target-arch.vibe";
 import {
   findInlinedExternalPackages,
   selectCliRuntimeExternalDependencies,
 } from "./lib/cli-external-packages.ts";
 import { loadRepoEnv } from "./lib/public-config.ts";
 import { selectDesktopRuntimeExternalDependencies } from "./lib/desktop-external-packages.ts";
-import { resolveCatalogDependencies } from "./lib/resolve-catalog.ts";
+import { resolveCatalogDependencies } from "./lib/resolve-catalog.vibe";
 
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime";
 import * as NodeServices from "@effect/platform-node/NodeServices";

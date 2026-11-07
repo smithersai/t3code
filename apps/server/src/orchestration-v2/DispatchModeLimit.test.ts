@@ -10,7 +10,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import { DispatchModeLimit } from "./DispatchModeLimit.ts";
+import { DispatchModeLimit } from "./DispatchModeLimit.vibe";
 import * as Orchestrator from "./Orchestrator.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";

@@ -12,23 +12,23 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
 import * as RpcHttp from "../rpc/http.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
-import * as Persistence from "../platform/persistence.ts";
-import { fetchRemoteSessionState } from "../authorization/remote.ts";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
+import * as Persistence from "../platform/persistence.vibe";
+import { fetchRemoteSessionState } from "../authorization/remote.vibe";
 import {
   BearerConnectionCredential,
   BearerConnectionProfile,
   BearerConnectionRegistration,
   PrimaryConnectionRegistration,
-} from "./catalog.ts";
-import * as Connectivity from "./connectivity.ts";
-import * as ConnectionCredentialStore from "./credentialStore.ts";
+} from "./catalog.vibe";
+import * as Connectivity from "./connectivity.vibe";
+import * as ConnectionCredentialStore from "./credentialStore.vibe";
 import * as ConnectionDriver from "./driver.ts";
 import {
   BearerConnectionTarget,
   ConnectionBlockedError,
   PrimaryConnectionTarget,
-} from "./model.ts";
+} from "./model.vibe";
 import * as Onboarding from "./onboarding.ts";
 import {
   prepareBearerConnectionUpdate,
@@ -36,8 +36,8 @@ import {
   prepareSshRegistration,
 } from "./onboarding.ts";
 import * as EnvironmentRegistry from "./registry.ts";
-import * as ConnectionProfileStore from "./profileStore.ts";
-import * as ConnectionWakeups from "./wakeups.ts";
+import * as ConnectionProfileStore from "./profileStore.vibe";
+import * as ConnectionWakeups from "./wakeups.vibe";
 
 const layerClientPresentation = Layer.succeed(
   ClientCapabilities.ClientPresentation,

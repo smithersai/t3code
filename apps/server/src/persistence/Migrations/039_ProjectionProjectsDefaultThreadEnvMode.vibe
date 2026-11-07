@@ -1,0 +1,15 @@
+import * as SqlClient from "effect/sql/SqlClient"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+  const columns = try sql<{ readonly name: string }>`
+    PRAGMA table_info(projection_projects)
+  `
+
+  if (!columns.some((column) => column.name === "default_thread_env_mode")) {
+    try sql`
+      ALTER TABLE projection_projects
+      ADD COLUMN default_thread_env_mode TEXT
+    `
+  }
+}

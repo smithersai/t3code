@@ -103,7 +103,7 @@ import {
   resolveMessageDispatchIntent,
 } from "./CommandPolicy.ts";
 import { CommandReceiptStoreV2 } from "./CommandReceiptStore.ts";
-import { ContextHandoffServiceV2 } from "./ContextHandoffService.ts";
+import { ContextHandoffServiceV2 } from "./ContextHandoffService.vibe";
 import { notificationTurnItem } from "@t3tools/provider-core/server/notification";
 import {
   cancelledBeforeStart,
@@ -122,13 +122,13 @@ import {
   withoutGuestAttribution,
   decideGuestShareCommand,
   type GuestShareCommand,
-} from "./GuestShareDecider.ts";
+} from "./GuestShareDecider.vibe";
 import * as EffectOutbox from "./EffectOutbox.ts";
-import { withCommandMetrics } from "../observability/Metrics.ts";
+import { withCommandMetrics } from "../observability/Metrics.vibe";
 import type { OrchestrationEffectRequestV2, PendingOrchestrationEffectV2 } from "./EffectOutbox.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
-import { DispatchModeLimit, exceededDispatchModeLimit } from "./DispatchModeLimit.ts";
+import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
+import { DispatchModeLimit, exceededDispatchModeLimit } from "./DispatchModeLimit.vibe";
 import {
   applyToProjection,
   emptyProjection,
@@ -164,7 +164,7 @@ import {
   forkableSourceRunStatusError,
   isForkableSourceRunStatus,
   ThreadForkServiceV2,
-} from "./ThreadForkService.ts";
+} from "./ThreadForkService.vibe";
 import { planThreadDeletion } from "./ThreadDeletion.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ServerSettings from "../serverSettings.ts";

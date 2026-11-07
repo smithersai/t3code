@@ -38,18 +38,18 @@ import {
   AuthWebSocketTicketParams,
   AuthWebSocketTicketResult,
   ServerAuthSessionMethod,
-} from "./auth.ts";
+} from "./auth.vibe";
 import {
   ExecutionEnvironmentDescriptor,
   ORCHESTRATION_PROTOCOL_HEADER,
   ORCHESTRATION_PROTOCOL_VERSION_TEXT,
-} from "./environment.ts";
+} from "./environment.vibe";
 import {
   DpopFailureReason,
   AuthSessionId,
   ThreadId,
   TrimmedNonEmptyString,
-} from "./baseSchemas.ts";
+} from "./baseSchemas.vibe";
 import {
   OrchestrationV2ShellSnapshot,
   OrchestrationV2ThreadBoundedSnapshot,
@@ -57,13 +57,13 @@ import {
   OrchestrationV2ThreadHistoryPage,
   OrchestrationV2ThreadTranscript,
 } from "./orchestrationV2.ts";
-import { Project, ProjectMutation, ProjectSnapshot } from "./project.ts";
+import { Project, ProjectMutation, ProjectSnapshot } from "./project.vibe";
 import {
   PullRequestDiffInput,
   PullRequestDiffResult,
   PullRequestOperationError,
   PullRequestUnavailableError,
-} from "./pullRequest.ts";
+} from "./pullRequest.vibe";
 import {
   RelayCloudEnvironmentHealthRequest,
   RelayCloudMintCredentialRequest,
@@ -72,7 +72,7 @@ import {
   RelayEnvironmentLinkProof,
   RelayEnvironmentMintResponse,
   RelayLinkProofRequest,
-} from "./relay.ts";
+} from "./relay.vibe";
 
 const OptionalBearerHeaders = Schema.Struct({
   authorization: Schema.optionalKey(Schema.String),

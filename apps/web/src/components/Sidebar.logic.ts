@@ -30,7 +30,7 @@ import {
 } from "../lib/threadSort";
 import type { SidebarThreadSummary, Thread } from "../types";
 import { normalizeSearchText } from "../lib/utils";
-import { isLatestRunSettled } from "../session-logic";
+import { isLatestRunSettled } from "../session-logic.vibe";
 import { observeIntersection } from "../lib/observeIntersection";
 import { deadlineAfter, deadlineStore } from "@t3tools/client-runtime/clock";
 import { useDeadlinePassed } from "../hooks/useDeadline";

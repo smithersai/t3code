@@ -2,7 +2,7 @@ import type { ServerSettings } from "@t3tools/contracts";
 import type { ComponentProps } from "react";
 
 import { Switch } from "../ui/switch";
-import { useScopedSettingsMixed } from "./useScopedSettings";
+import { useScopedSettingsMixed } from "./useScopedSettings.ts";
 
 export function ScopedSwitch({
   settingKeys,

@@ -1,0 +1,8 @@
+// The platform code of discovery.vibe, which a .vibe file does not import as a value (EK4402).
+
+import * as Option from "effect/Option"
+import * as $platform from "./discovery.platform.platform.ts"
+
+export function firstNonEmptyLine(text: string): Option.Option<string> {
+  return $platform.firstNonEmptyLine(text)
+}

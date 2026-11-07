@@ -18,12 +18,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AppText as Text } from "../../components/ui/AppText";
 import { ProviderIcon } from "../../components/ProviderIcon";
 import { ScreenScrollView } from "../../components/ui/ScreenScrollView";
-import { appAtomRegistry } from "../../state/atom-registry";
-import { environmentPresentations } from "../../state/presentation";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
+import { environmentPresentations } from "../../state/presentation.vibe";
 import { serverEnvironment } from "../../state/server";
-import { environmentSession, useEnvironmentScope, readEnvironmentScope } from "../../state/session";
-import { useAtomCommand } from "../../state/use-atom-command";
-import { useRemoteConnections } from "../../state/use-remote-environment-registry";
+import {
+  environmentSession,
+  useEnvironmentScope,
+  readEnvironmentScope,
+} from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { useRemoteConnections } from "../../state/use-remote-environment-registry.vibe";
 import { ConnectionEnvironmentRow } from "../connection/ConnectionEnvironmentRow";
 import { EnvironmentRoutesSection } from "./EnvironmentRoutesSection";
 import { OutdatedServerUpdateSection } from "./OutdatedServerUpdateSection";
@@ -34,8 +38,8 @@ import {
   canMaintainEnvironment,
   canUpdateEnvironmentProvider,
   supportsEnvironmentUpdate,
-} from "./environment-maintenance";
-import { environmentReleaseCheckAtom, releaseCheckValue } from "./environmentUpdateCheck";
+} from "./environment-maintenance.vibe";
+import { environmentReleaseCheckAtom, releaseCheckValue } from "./environmentUpdateCheck.vibe";
 
 export function SettingsEnvironmentDetailRouteScreen({
   route,

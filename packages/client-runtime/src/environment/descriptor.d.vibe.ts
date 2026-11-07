@@ -1,0 +1,80 @@
+import * as Effect from "effect/Effect";
+export declare const fetchRemoteEnvironmentDescriptor: (input: {
+    readonly httpBaseUrl: string;
+    readonly timeoutMs?: number;
+}) => Effect.Effect<{
+    readonly environmentId: string & import("effect/Brand").Brand<"EnvironmentId">;
+    readonly label: string;
+    readonly platform: {
+        readonly os: "darwin" | "linux" | "unknown" | "windows";
+        readonly arch: "arm64" | "other" | "x64";
+        readonly machine?: "cloud" | "desktop" | "laptop" | "linux" | "mac-mini" | "mac-studio" | "server" | undefined;
+    };
+    readonly serverVersion: string;
+    readonly orchestrationProtocolVersion?: number;
+    readonly capabilities: {
+        readonly repositoryIdentity: boolean;
+        readonly connectionProbe?: boolean;
+        readonly attachmentUploads?: boolean;
+        readonly questionAttachments?: boolean;
+        readonly fileAttachments?: {
+            readonly maxUploadBytes: number;
+        };
+        readonly pullRequests?: boolean;
+        readonly pullRequestChecks?: boolean;
+        readonly inlineMessageContext?: boolean;
+        readonly requiredWorktreeBootstrap?: boolean;
+        readonly threadSettlement?: boolean;
+        readonly threadAutoSettlement?: boolean;
+        readonly storageCleanup?: boolean;
+        readonly storageCleanupRun?: boolean;
+        readonly databaseStorage?: boolean;
+        readonly otlpEndpointCheck?: boolean;
+        readonly projectWorktreeCleanup?: boolean;
+        readonly settledWorktreeCleanup?: boolean;
+        readonly worktreesDirectory?: boolean;
+        readonly threadAutoSettlementScope?: boolean;
+        readonly threadRestartContinuation?: boolean;
+        readonly projectSettingsOverrides?: boolean;
+        readonly projectProviderInstanceOverrides?: boolean;
+        readonly threadSnooze?: boolean;
+        readonly environmentThemes?: boolean;
+        readonly usageLimitSources?: boolean;
+        readonly providerWorkspaceSnapshotsOnDemand?: boolean;
+        readonly usagePriceOverrides?: boolean;
+        readonly usageModelAliases?: boolean;
+        readonly threadPinning?: boolean;
+        readonly threadPinReorder?: boolean;
+        readonly threadActiveReorder?: boolean;
+        readonly threadAutoSettleOptOut?: boolean;
+        readonly threadTitleRegeneration?: boolean;
+        readonly threadVisitedTracking?: boolean;
+        readonly threadPullRequestLinking?: boolean;
+        readonly serverResolvedCommandContext?: boolean;
+        readonly threadStop?: boolean;
+        readonly localServerStop?: boolean;
+        readonly threadPullRequests?: boolean;
+        readonly threadPullRequestWatch?: boolean;
+        readonly pullRequestStackActions?: boolean;
+        readonly serverSelfUpdate?: "boot-service" | "desktop-managed" | "respawn";
+        readonly serverInstallation?: {
+            readonly kind: "bunx" | "npx" | "pnpm-dlx";
+        } | {
+            readonly kind: "npm-global";
+            readonly prefix: string;
+        } | undefined;
+        readonly serverSelfUpdateProgress?: boolean;
+        readonly serverUpdateThreadContinuation?: boolean;
+        readonly agentActivityPublishing?: boolean;
+        readonly projectCloneTracking?: boolean;
+        readonly ignoredFileListing?: boolean;
+        readonly environmentIcon?: boolean;
+        readonly desktopAppUpdate?: boolean;
+        readonly commandOutputStreaming?: boolean;
+        readonly serverBrowser?: boolean;
+        readonly peerLinks?: boolean;
+        readonly mcpModeLimitHeader?: boolean;
+        readonly linkFence?: boolean;
+        readonly triage?: boolean;
+    };
+}, import("../rpc/http.ts").RemoteEnvironmentRequestError, import("effect/http/HttpClient").HttpClient>;

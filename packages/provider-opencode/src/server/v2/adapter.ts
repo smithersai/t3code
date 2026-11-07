@@ -40,7 +40,7 @@ import {
 import type * as Cause from "effect/Cause";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Hex from "effect/encoding/Hex";
 import * as Exit from "effect/Exit";
@@ -53,8 +53,8 @@ import * as Semaphore from "effect/Semaphore";
 import * as Stream from "effect/Stream";
 
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
-import * as OpenCode2Client from "./OpenCode2Client.ts";
-import * as OpenCode2Server from "./OpenCode2Server.ts";
+import * as OpenCode2Client from "#vibelang/emitted/src/server/v2/OpenCode2Client";
+import * as OpenCode2Server from "#vibelang/emitted/src/server/v2/OpenCode2Server";
 import * as OpenCodeRuntime from "../OpenCodeRuntime.ts";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import { buildRuntimeInstructions } from "@t3tools/provider-core/server/runtimeInstructions";
@@ -85,7 +85,7 @@ import {
 } from "@t3tools/provider-core/server/subagentProjection";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import { turnScopedSelectionTransition } from "@t3tools/provider-core/server/selectionTransition";
-import { OPENCODE_PROVIDER, openCodePermissionRequestKind } from "../adapter.ts";
+import { OPENCODE_PROVIDER, openCodePermissionRequestKind } from "../adapter.vibe";
 import { openCodeToolTurnItem } from "../toolItems.ts";
 
 const OpenCode2ProviderCapabilities = {

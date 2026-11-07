@@ -2,9 +2,9 @@ import { assert, describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as GitLabCli from "./GitLabCli.ts";
-import * as GitLabPullRequestCli from "./GitLabPullRequestCli.ts";
-import { gitLabViewerPermissions, make } from "./GitLabPullRequestProvider.ts";
+import * as GitLabCli from "./GitLabCli.vibe";
+import * as GitLabPullRequestCli from "./GitLabPullRequestCli.vibe";
+import { gitLabViewerPermissions, make } from "./GitLabPullRequestProvider.vibe";
 
 describe("gitLabViewerPermissions", () => {
   it("offers everything to a viewer GitLab says can merge", () => {

@@ -5,7 +5,7 @@ import {
   hasIncomingShareContent,
   type IncomingShareDestination,
   type IncomingShareDraft,
-} from "./incoming-share-model";
+} from "./incoming-share-model.vibe";
 
 export interface IncomingShareInboxDependencies {
   readonly loadDrafts: () => Promise<ReadonlyArray<IncomingShareDraft>>;

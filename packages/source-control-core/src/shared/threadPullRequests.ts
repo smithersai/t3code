@@ -6,7 +6,7 @@ import type {
 } from "@t3tools/contracts";
 import { visibleThreadPullRequests } from "@t3tools/shared/threadPullRequests";
 
-import type { SourceControlDefinitionRegistry } from "./definition.ts";
+import type { SourceControlDefinitionRegistry } from "./definition.vibe";
 
 type ThreadPullRequestKeySource = ThreadPullRequestKey & {
   readonly authority?: string;

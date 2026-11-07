@@ -5,7 +5,7 @@ import * as Arr from "effect/Array";
 import * as Cause from "effect/Cause";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as DateTime from "effect/DateTime";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -20,16 +20,16 @@ import type {
   RelayManagedEndpointRuntimeConfig,
 } from "@t3tools/contracts/relay";
 
-import * as RelayConfiguration from "../Config.ts";
+import * as RelayConfiguration from "../Config.vibe";
 import {
   managedEndpointDigestInput,
   managedEndpointForHostname,
   managedEndpointHostname,
   managedEndpointTunnelName,
-} from "../deploymentConfig.ts";
-import * as CloudflareApiPause from "./CloudflareApiPause.ts";
-import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.ts";
-import * as ManagedTunnelLimits from "./ManagedTunnelLimits.ts";
+} from "../deploymentConfig.vibe";
+import * as CloudflareApiPause from "./CloudflareApiPause.vibe";
+import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.vibe";
+import * as ManagedTunnelLimits from "./ManagedTunnelLimits.vibe";
 
 export class ManagedEndpointProvisioningNotConfigured extends Schema.TaggedError<ManagedEndpointProvisioningNotConfigured>()(
   "ManagedEndpointProvisioningNotConfigured",

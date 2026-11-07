@@ -1,0 +1,139 @@
+import {
+  type EnvironmentId,
+  type OrchestrationV2ShellSnapshot,
+  type OrchestrationV2ThreadDetailSnapshot,
+  type ServerConfig,
+  type ThreadId,
+  type VcsListRefsResult,
+} from "@t3tools/contracts"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Option from "effect/Option"
+import * as Schema from "effect/Schema"
+
+import type { ConnectionRegistration } from "../connection/catalog.vibe"
+import type { DeferredShellSnapshot } from "../state/shellPullRequests.vibe"
+import type { ConnectionTarget, PersistedConnectionTarget } from "../connection/model.vibe"
+
+export schema error ConnectionPersistenceError {
+  readonly operation:
+    | "list-targets"
+    | "list-disabled-targets"
+    | "register-connection"
+    | "set-connection-routes"
+    | "remove-connection"
+    | "set-connection-enabled"
+    | "load-shell"
+    | "save-shell"
+    | "load-thread"
+    | "save-thread"
+    | "remove-thread"
+    | "load-server-config"
+    | "save-server-config"
+    | "load-vcs-refs"
+    | "save-vcs-refs"
+    | "remove-vcs-refs"
+    | "clear-vcs-refs"
+    | "clear-environment"
+  readonly message: string
+}
+
+export service ConnectionTargetStore: {
+  readonly list: ReadonlyArray<ConnectionTarget>!ConnectionPersistenceError;
+  readonly listDisabled: ReadonlyArray<EnvironmentId>!ConnectionPersistenceError;
+} {
+  static readonly key = "@t3tools/client-runtime/platform/persistence/ConnectionTargetStore"
+}
+
+export service ConnectionRegistrationStore: {
+    /**
+     * Records of routes missing from `routes` are dropped.
+     */
+    readonly register: (
+      registration: ConnectionRegistration,
+      routes: ReadonlyArray<PersistedConnectionTarget>,
+    ) => void!ConnectionPersistenceError;
+    /**
+     * `routes` must not be empty.
+     */
+    readonly setRoutes: (
+      environmentId: EnvironmentId,
+      routes: ReadonlyArray<PersistedConnectionTarget>,
+    ) => void!ConnectionPersistenceError;
+    readonly remove: (
+      environmentId: EnvironmentId,
+    ) => void!ConnectionPersistenceError;
+    readonly setEnabled: (
+      environmentId: EnvironmentId,
+      enabled: boolean,
+    ) => void!ConnectionPersistenceError;
+  } {
+  static readonly key = "@t3tools/client-runtime/platform/persistence/ConnectionRegistrationStore"
+}
+
+export class EnvironmentCacheStore extends Context.Service<
+  EnvironmentCacheStore,
+  {
+    readonly loadShell: (
+      environmentId: EnvironmentId,
+    ) => Option.Option<DeferredShellSnapshot>!ConnectionPersistenceError
+    readonly saveShell: (
+      environmentId: EnvironmentId,
+      snapshot: OrchestrationV2ShellSnapshot,
+    ) => void!ConnectionPersistenceError
+    readonly loadThread: (
+      environmentId: EnvironmentId,
+      threadId: ThreadId,
+    ) => Option.Option<OrchestrationV2ThreadDetailSnapshot>!ConnectionPersistenceError
+    readonly saveThread: (
+      environmentId: EnvironmentId,
+      snapshot: OrchestrationV2ThreadDetailSnapshot,
+    ) => void!ConnectionPersistenceError
+    readonly removeThread: (
+      environmentId: EnvironmentId,
+      threadId: ThreadId,
+    ) => void!ConnectionPersistenceError
+    readonly loadServerConfig: (
+      environmentId: EnvironmentId,
+    ) => Option.Option<ServerConfig>!ConnectionPersistenceError
+    readonly saveServerConfig: (
+      environmentId: EnvironmentId,
+      config: ServerConfig,
+    ) => void!ConnectionPersistenceError
+    /**
+     * Query-specific lists are not cached because they are incomplete and unsafe
+     * to present as a full picker.
+     */
+    readonly loadVcsRefs: (
+      environmentId: EnvironmentId,
+      cwd: string,
+    ) => Option.Option<VcsListRefsResult>!ConnectionPersistenceError
+    readonly saveVcsRefs: (
+      environmentId: EnvironmentId,
+      cwd: string,
+      refs: VcsListRefsResult,
+    ) => void!ConnectionPersistenceError
+    readonly removeVcsRefs: (
+      environmentId: EnvironmentId,
+      cwd: string,
+    ) => void!ConnectionPersistenceError
+    /**
+     * Git ref mutations are repository-wide, and linked worktrees may have
+     * cached the same refs under different working-directory keys.
+     */
+    readonly clearVcsRefs: (
+      environmentId: EnvironmentId,
+    ) => void!ConnectionPersistenceError
+    readonly clear: (
+      environmentId: EnvironmentId,
+    ) => void!ConnectionPersistenceError
+  }
+>()("@t3tools/client-runtime/platform/persistence/EnvironmentCacheStore") {}
+
+export class EnvironmentOwnedDataCleanup extends Context.Reference<{
+  readonly clear: (environmentId: EnvironmentId) => void!!
+}>("@t3tools/client-runtime/platform/persistence/EnvironmentOwnedDataCleanup", {
+  defaultValue: () => ({
+    clear: () => Effect.void,
+  }),
+}) {}

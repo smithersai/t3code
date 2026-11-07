@@ -57,7 +57,7 @@ vi.mock("node:child_process", () => ({
   execFileSync: execFileSyncMock,
 }));
 
-import * as DesktopPreReadyPlatform from "./DesktopPreReadyPlatform.ts";
+import * as DesktopPreReadyPlatform from "./DesktopPreReadyPlatform.vibe";
 
 describe("DesktopPreReadyPlatform", () => {
   beforeEach(() => {

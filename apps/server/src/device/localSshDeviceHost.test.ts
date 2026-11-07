@@ -9,6 +9,8 @@ import {
   LocalDeviceHostAddresses,
   remoteSshDeviceHosts,
 } from "./localSshDeviceHost.ts";
+import * as Layer from "effect/Layer";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const host = (target: string, port?: number) => ({
   kind: "ssh" as const,
@@ -21,7 +23,7 @@ const spawner = ChildProcessSpawner.make((command) =>
   Effect.gen(function* () {
     if (command._tag !== "StandardCommand") return yield* Effect.die("Unexpected command");
     expect(command.args).toContain("-G");
-    const target = command.args.at(-1);
+    const target = command.args.map(String).at(-1);
     const configs: Record<string, string> = {
       "mac-mini": "hostname 100.65.180.100\nport 22\n",
       remote: "hostname 192.0.2.1\nport 22\n",
@@ -53,7 +55,7 @@ const provide = <A, E>(
   effect.pipe(
     Effect.provideService(ChildProcessSpawner.ChildProcessSpawner, spawner),
     Effect.provideService(LocalDeviceHostAddresses, new Set(["100.65.180.100"])),
-    Effect.provide(NodeServices.layer),
+    Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
 
 it.effect("skips SSH aliases resolving to this machine, including loopback", () =>

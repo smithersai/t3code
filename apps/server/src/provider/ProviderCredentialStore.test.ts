@@ -1,9 +1,9 @@
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import { assert, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as ProviderCredentialStore from "./ProviderCredentialStore.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 it.effect("isolates provider bindings and preserves opaque credentials", () =>
   Effect.gen(function* () {
@@ -51,5 +51,5 @@ it.effect("isolates provider bindings and preserves opaque credentials", () =>
     assert.notStrictEqual(delimiter.binding.key, a.binding.key);
     yield* a.remove;
     assert.isTrue(Option.isNone(yield* a.get));
-  }).pipe(Effect.provide(NodeCrypto.layer)),
+  }).pipe(Effect.provide(Crypto.layerWebCrypto)),
 );

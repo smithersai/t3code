@@ -35,9 +35,10 @@ import * as ModelManifest from "./ModelManifest.ts";
 import * as ResetCreditCoordinator from "./resetCreditCoordinator.ts";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import { makeProviderInstanceRegistry } from "./ProviderInstanceRegistry.ts";
-import * as ProviderOrchestrationAdapterInfrastructure from "./ProviderOrchestrationAdapterInfrastructure.ts";
+import * as ProviderOrchestrationAdapterInfrastructure from "./ProviderOrchestrationAdapterInfrastructure.vibe";
 import * as PortScanner from "../preview/PortScanner.ts";
 import * as ProviderHostLive from "./ProviderHostLive.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("@anthropic-ai/claude-agent-sdk", { spy: true });
 
@@ -161,7 +162,7 @@ describe("ProviderInstanceRegistry — multi-instance codex slice", () => {
         endpoint: Effect.succeed("unused-private-pipe"),
       }),
     ),
-    Layer.provideMerge(NodeServices.layer),
+    Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Layer.provideMerge(
       Layer.mock(CodexInstallation.CodexInstallation)({
         managedDirectory: "unused-managed-installation",

@@ -16,7 +16,7 @@ import * as Cause from "effect/Cause";
 import * as Clock from "effect/Clock";
 import * as Config from "effect/Config";
 import * as Console from "effect/Console";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
@@ -35,7 +35,7 @@ import * as BootService from "../cloud/bootService.ts";
 import * as CliState from "../cloud/CliState.ts";
 import * as CliTokenManager from "../cloud/CliTokenManager.ts";
 import { formatReachabilityFailure } from "../cloud/ConnectReachability.ts";
-import { filterRelayResponse } from "../cloud/relayResponse.ts";
+import { filterRelayResponse } from "../cloud/relayResponse.vibe";
 import {
   CLOUD_LINK_REVOKED,
   CLOUD_LINKED_USER_ID,
@@ -50,7 +50,7 @@ import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as ExternalLauncher from "../process/externalLauncher.ts";
 import { readPersistedServerRuntimeState } from "../serverRuntimeState.ts";
 import { projectLocationFlags, resolveCliAuthConfig } from "./config.ts";
-import { resolveCliCommand } from "./invocation.ts";
+import { resolveCliCommand } from "./invocation.vibe";
 import * as CliService from "./service.ts";
 
 const jsonFlag = Flag.Boolean("json").pipe(

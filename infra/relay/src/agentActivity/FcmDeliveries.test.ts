@@ -1,7 +1,6 @@
 import { EnvironmentId, ThreadId } from "@t3tools/contracts";
 import type { RelayAgentActivityState } from "@t3tools/contracts/relay";
 import { describe, expect, it } from "@effect/vitest";
-import * as NodeCryptoLayer from "@effect/platform-node/NodeCrypto";
 import * as Effect from "effect/Effect";
 import * as DateTime from "effect/DateTime";
 import * as Layer from "effect/Layer";
@@ -9,18 +8,19 @@ import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import type * as Cloudflare from "@alchemy.run/cloudflare";
-import * as FcmDeliveryQueueConsumer from "./FcmDeliveryQueueConsumer.ts";
+import * as FcmDeliveryQueueConsumer from "./FcmDeliveryQueueConsumer.vibe";
 
-import * as RelayConfiguration from "../Config.ts";
-import * as RelayDb from "../db.ts";
-import * as EnvironmentLinks from "../environments/EnvironmentLinks.ts";
-import * as AgentActivityRows from "./AgentActivityRows.ts";
-import * as LiveActivities from "./LiveActivities.ts";
-import * as FcmDeliveryQueueSender from "./FcmDeliveryQueueSender.ts";
-import * as FcmClient from "./FcmClient.ts";
+import * as RelayConfiguration from "../Config.vibe";
+import * as RelayDb from "../db.vibe";
+import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
+import * as AgentActivityRows from "./AgentActivityRows.vibe";
+import * as LiveActivities from "./LiveActivities.vibe";
+import * as FcmDeliveryQueueSender from "./FcmDeliveryQueueSender.vibe";
+import * as FcmClient from "./FcmClient.vibe";
 import * as FcmDeliveries from "./FcmDeliveries.ts";
 import { androidActivityData, fitFcmData } from "./fcmPayloads.ts";
-import { makeAggregateState } from "./agentActivityAggregate.ts";
+import { makeAggregateState } from "./agentActivityAggregate.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const aggregateFor = (states: ReadonlyArray<RelayAgentActivityState>) =>
   makeAggregateState({ activeStates: states, terminalState: null, nowMs: 0 })!;
@@ -98,7 +98,7 @@ function harness() {
     deliveryFailure: null as FcmClient.FcmClientError | null,
   };
   const layerServices = Layer.mergeAll(
-    NodeCryptoLayer.layer,
+    Crypto.layerWebCrypto,
     Layer.succeed(RelayConfiguration.RelayConfiguration, config),
     Layer.succeed(FcmDeliveryQueueSender.FcmDeliveryQueueSender, {
       send: (job) =>

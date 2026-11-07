@@ -20,7 +20,7 @@ import {
 } from "@t3tools/contracts";
 import { htmlRenderFromToolItem } from "@t3tools/shared/toolOutput";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as DateTime from "effect/DateTime";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -48,7 +48,7 @@ import {
 import * as ServerConfig from "../config.ts";
 import { CloudManagedEndpointRuntime } from "../cloud/ManagedEndpointRuntime.ts";
 import * as CommandOutputHub from "../orchestration-v2/CommandOutputHub.ts";
-import { GUEST_FAILURE } from "../orchestration-v2/GuestShareDecider.ts";
+import { GUEST_FAILURE } from "../orchestration-v2/GuestShareDecider.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
 import { coalesceThreadLiveStream } from "../orchestration-v2/ThreadLiveEventCoalescer.ts";
 import { buildBoundedThreadStreamSnapshot } from "../orchestration-v2/ThreadStream.ts";

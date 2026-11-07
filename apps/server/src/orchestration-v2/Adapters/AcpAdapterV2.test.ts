@@ -94,15 +94,18 @@ import {
   acpRegistryPromptFailure,
   registerMistralVibeAcpExtensions,
 } from "@t3tools/provider-acp-registry/testing";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const DEFAULT_GROK_SETTINGS = Schema.decodeSync(GrokSettings)({});
 const DROID_SETTINGS = Schema.decodeSync(AcpRegistrySettings)({ agentId: "factory-droid" });
 
-const layerHost = TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer));
+const layerHost = TestProviderHost.layer().pipe(
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+);
 
 const layerTest = Layer.mergeAll(
-  DocumentText.layer.pipe(Layer.provide(NodeServices.layer)),
-  NodeServices.layer,
+  DocumentText.layer.pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
+  Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
   IdAllocator.layer,
   McpProviderSessions.layer,
   layerHost,

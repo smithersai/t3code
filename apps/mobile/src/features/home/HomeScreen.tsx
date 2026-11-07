@@ -46,16 +46,16 @@ import {
 } from "../../native/native-layout-metrics";
 import { NATIVE_LIQUID_GLASS_SUPPORTED } from "../../native/native-glass";
 import { useNativeWorkspaceColumnsSupported } from "../../native/NativeWorkspaceColumns";
-import { useThreadSearch } from "../../state/queries";
+import { useThreadSearch } from "../../state/queries.vibe";
 import { requestThreadMessageJump } from "../threads/threadMessageJump";
 import { useThreadListSearchMatches } from "../threads/useThreadListSearchMatches";
 import { useThreadListV2 } from "../threads/useThreadListV2";
 import { useThreadListNow } from "../threads/use-thread-list-now";
 import { useThreadJumpShortcuts } from "../keyboard/threadKeyboardShortcuts";
-import { usePendingThreadOrder } from "../../state/thread-order";
+import { usePendingThreadOrder } from "../../state/thread-order.vibe";
 import { threadListEnvironmentsAtom } from "../../state/server";
-import type { PendingNewTask } from "../../state/use-pending-new-tasks";
-import { useQueuedThreadKeys } from "../../state/use-thread-outbox";
+import type { PendingNewTask } from "../../state/use-pending-new-tasks.vibe";
+import { useQueuedThreadKeys } from "../../state/use-thread-outbox.vibe";
 import {
   ThreadListV2PendingRow,
   ThreadListV2Row,
@@ -73,13 +73,13 @@ import {
   THREAD_LIST_V2_SETTLED_PAGE_COUNT,
   type ThreadListV2ListItem,
 } from "../threads/threadListV2";
-import { useThreadListV2ShelfPreferences } from "../threads/use-thread-list-v2-shelf-preferences";
+import { useThreadListV2ShelfPreferences } from "../threads/use-thread-list-v2-shelf-preferences.vibe";
 import type { HomeListFilterMenuEnvironment } from "./home-list-filter-menu";
 import {
   buildHomeProjectScopes,
   findHomeProjectScope,
   type HomeProjectSortOrder,
-} from "./homeThreadList";
+} from "./homeThreadList.vibe";
 import { createSwipeRowActivation } from "./swipe-row-activation";
 import { SwipeableScrollGateProvider, useSwipeableScrollGate } from "./thread-swipe-actions";
 import { useFabScroll } from "./FabScrollContext";

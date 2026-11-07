@@ -4,11 +4,11 @@ import {
   captureDeviceScreenshot,
   DeviceScreenshotError,
 } from "@t3tools/client-runtime/device/screenshot";
-import { refreshDeviceHubAccess, useDeviceHubAccess } from "~/state/device";
+import { refreshDeviceHubAccess, useDeviceHubAccess } from "../../state/device.vibe";
 import { DeviceControlsRail } from "./DeviceControlsRail";
-import { DeviceStreamView } from "./DeviceStreamView";
-import { DeviceToolsPanel } from "./DeviceToolsPanel";
-import { useDeviceControls } from "./useDeviceControls";
+import { DeviceStreamView } from "./DeviceStreamView.vibex";
+import { DeviceToolsPanel } from "./DeviceToolsPanel.vibex";
+import { useDeviceControls } from "./useDeviceControls.vibe";
 
 const DOWNLOAD_URL_LIFETIME_MS = 60_000;
 

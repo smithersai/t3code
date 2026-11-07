@@ -1,8 +1,11 @@
-import type { QueryPersistence } from "./queryPersistence.ts";
-import { createCommandPermissions } from "./commandPermissions.ts";
-import { followStreamInEnvironment } from "./environmentStreams.ts";
-import { reuseUnchanged } from "./serverConfigProjection.ts";
-export { runStreamInEnvironment, followStreamInEnvironment } from "./environmentStreams.ts";
+import type { QueryPersistence } from "./queryPersistence.vibe";
+import { createCommandPermissions } from "#vibelang/emitted/src/state/commandPermissions";
+import { followStreamInEnvironment } from "#vibelang/emitted/src/state/environmentStreams";
+import { reuseUnchanged } from "#vibelang/emitted/src/state/serverConfigProjection";
+export {
+  runStreamInEnvironment,
+  followStreamInEnvironment,
+} from "#vibelang/emitted/src/state/environmentStreams";
 import {
   type ClientGuardedRpcTag,
   EnvironmentId,
@@ -17,7 +20,7 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
-import type { ConnectionAttemptError, SupervisorConnectionState } from "../connection/model.ts";
+import type { ConnectionAttemptError, SupervisorConnectionState } from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import {
   type EnvironmentRpcInput,
@@ -32,9 +35,9 @@ import {
   requestGuarded,
   RpcPermissionGuard,
   subscribe,
-} from "../rpc/client.ts";
+} from "#vibelang/emitted/src/rpc/client";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import type * as RpcSession from "../rpc/session.ts";
+import type * as RpcSession from "../rpc/session.vibe";
 
 const isEnvironmentRpcUnavailable = Schema.is(EnvironmentRpcUnavailableError);
 

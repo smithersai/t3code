@@ -11,7 +11,7 @@ import {
 import { Atom } from "effect/reactivity";
 
 import { PREVIEW_RECENT_URL_LIMIT } from "./components/preview/previewConstants";
-import { appAtomRegistry } from "./rpc/atomRegistry";
+import { appAtomRegistry } from "./rpc/atomRegistry.vibe";
 
 export interface DesktopPreviewOverlay {
   hasWebContents: boolean;

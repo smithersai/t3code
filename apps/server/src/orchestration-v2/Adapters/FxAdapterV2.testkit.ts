@@ -26,6 +26,7 @@ import {
   makeAcpReplayCompletenessAssertion,
   makeAcpReplayRuntime,
 } from "./AcpAdapterV2.testkit.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const DEFAULT_FX_SETTINGS = Schema.decodeSync(FxSettings)({});
 const FX_INSTANCE_ID = ProviderInstanceId.make("fx");
@@ -34,7 +35,9 @@ function layerFxProviderAdapterRegistryReplay(
   transcript: AcpReplayTranscript,
   options: { readonly replayGate?: ProviderReplayGate } = {},
 ) {
-  const layerHost = TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer));
+  const layerHost = TestProviderHost.layer().pipe(
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+  );
 
   return ProviderAdapterRegistry.layerFromAdaptersEffect(
     Effect.gen(function* () {
@@ -79,7 +82,13 @@ function layerFxProviderAdapterRegistryReplay(
       return [adapter];
     }),
   ).pipe(
-    Layer.provide(Layer.mergeAll(layerHost, NodeServices.layer, IdAllocator.layer)),
+    Layer.provide(
+      Layer.mergeAll(
+        layerHost,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        IdAllocator.layer,
+      ),
+    ),
     Layer.merge(
       Layer.effectDiscard(
         Effect.addFinalizer(() => Effect.sync(() => options.replayGate?.releaseAll())),

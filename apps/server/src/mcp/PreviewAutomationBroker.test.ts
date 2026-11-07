@@ -20,8 +20,12 @@ import * as Result from "effect/Result";
 import * as Stream from "effect/Stream";
 
 import * as PreviewAutomationBroker from "./PreviewAutomationBroker.ts";
+import * as Layer from "effect/Layer";
+import * as Crypto from "@t3tools/shared/Crypto";
 
-const makeBroker = PreviewAutomationBroker.make.pipe(Effect.provide(NodeServices.layer));
+const makeBroker = PreviewAutomationBroker.make.pipe(
+  Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+);
 
 const scope = {
   environmentId: EnvironmentId.make("environment-1"),

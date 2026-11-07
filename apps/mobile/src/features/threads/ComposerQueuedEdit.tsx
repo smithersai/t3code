@@ -5,7 +5,7 @@ import { Pressable, ScrollView, View } from "react-native";
 
 import { AppText as Text } from "../../components/ui/AppText";
 import { SymbolView } from "../../components/ui/AppSymbol";
-import { useAssetUrl } from "../../state/assets";
+import { useAssetUrl } from "../../state/assets.vibe";
 import { assetImageSource } from "../../lib/assetImageSource";
 
 export function ComposerQueuedEditBanner(props: {

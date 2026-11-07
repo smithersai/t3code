@@ -3,7 +3,7 @@ import { parseThreadLinkPrompt, withoutPromptLinkParams } from "@t3tools/shared/
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 
-import { isThreadRoutePathname } from "../../threadRoutes";
+import { isThreadRoutePathname } from "../../threadRoutes.vibe";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 import { placeLinkedPrompt } from "./linkedPrompt";
 

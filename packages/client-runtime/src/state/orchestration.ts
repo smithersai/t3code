@@ -22,9 +22,9 @@ import {
 import type { EnvironmentRegistry } from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
-import * as ManagedRelayDpopSigner from "../relay/managedRelay.ts";
-import { EnvironmentRpcUnavailableError } from "../rpc/client.ts";
-import { fetchEnvironmentThreadTranscript } from "./threadTranscriptHttp.ts";
+import * as ManagedRelayDpopSigner from "#vibelang/emitted/src/relay/managedRelay";
+import { EnvironmentRpcUnavailableError } from "#vibelang/emitted/src/rpc/client";
+import { fetchEnvironmentThreadTranscript } from "#vibelang/emitted/src/state/threadTranscriptHttp";
 
 export function createOrchestrationEnvironmentAtoms<R, E>(
   runtime: Atom.AtomRuntime<EnvironmentRegistry | HttpClient.HttpClient | R, E>,

@@ -24,8 +24,8 @@ import {
 } from "../state/use-composer-drafts";
 import { importComposerContextClipboard } from "../lib/composerContextClipboard";
 import { startComposerDraftOperation } from "../state/composerDraftOperations";
-import { appAtomRegistry } from "../state/atom-registry";
-import { mobilePreferencesAtom } from "../state/preferences";
+import { appAtomRegistry } from "../state/atom-registry.vibe";
+import { mobilePreferencesAtom } from "../state/preferences.vibe";
 import { useOpenLinkedThread } from "../features/threads/useOpenLinkedThread";
 import { ComposerContextSheet } from "./ComposerContextSheet";
 import { AppText as Text } from "./ui/AppText";
@@ -33,7 +33,7 @@ import {
   composerDocumentAttachment,
   composerMentionPath,
   type ComposerDocumentAttachment,
-} from "../lib/composerContext";
+} from "../lib/composerContext.vibe";
 
 export type ComposerEditorProps = NativeComposerEditorProps & {
   readonly draftKey?: string | null;

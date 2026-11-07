@@ -21,7 +21,7 @@ import {
   composerFileNeedsReattach,
   useComposerDraftStore,
 } from "../../composerDraftStore";
-import { type PendingUserInput } from "../../session-logic";
+import { type PendingUserInput } from "../../session-logic.vibe";
 import {
   asKnownContextRecord,
   composerContextImportLookupIds,
@@ -36,23 +36,23 @@ import {
   terminalContextRecord,
   terminalContextReference,
 } from "~/lib/composerContextRecords";
-import { assetEnvironment } from "~/state/assets";
+import { assetEnvironment } from "../../state/assets.vibe";
 import { copiedComposerAttachmentFile } from "~/lib/copiedComposerAttachments";
 import { countQuestionAttachments, questionAttachmentDraftId } from "../../questionAttachments";
 import { elementContextToPreviewAnnotation } from "../../lib/elementContext";
 import { orchestrationEnvironment } from "~/state/orchestration";
 import { pendingDraftWork } from "./pendingDraftWork";
 import { randomUUID } from "~/lib/utils";
-import { readPreparedConnection } from "~/state/session";
-import { resolveAssetUrl } from "~/assets/assetUrls";
+import { readPreparedConnection } from "../../state/session.vibe";
+import { resolveAssetUrl } from "../../assets/assetUrls.vibe";
 import { toKindScopedComposerContextId } from "@t3tools/shared/composerContextReferences";
 import { toastManager } from "../ui/toast";
 import {
   type ComposerDraftContextRecords,
   uploadedContextRecordFromDraft,
 } from "../composerContextPresentation";
-import { useAtomCommand } from "../../state/use-atom-command";
-import { useAtomQueryRunner } from "~/state/use-atom-query-runner";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe";
 import { useStableCallback } from "../../hooks/useStableCallback";
 import { countPreparingComposerImages } from "./preparingComposerImages";
 

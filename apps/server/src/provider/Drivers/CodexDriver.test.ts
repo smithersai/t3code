@@ -41,11 +41,12 @@ import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProviderCredentialStore from "../ProviderCredentialStore.ts";
 import * as ProviderHostLive from "../ProviderHostLive.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerDeps = ServerConfig.layerTest(process.cwd(), {
   prefix: "t3-codex-driver-maintenance-",
 }).pipe(
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   Layer.provideMerge(IdAllocator.layer),
   Layer.provideMerge(McpProviderSessions.layer),
   Layer.provideMerge(
@@ -534,7 +535,7 @@ it.layer(layerTest)("CodexDriver", (it) => {
           if (!ChildProcess.isStandardCommand(command) || command.command !== brewPath) {
             return Effect.die("Provider resolution must not execute a provider or updater");
           }
-          probes.push(command.args);
+          probes.push(command.args.map(String));
           const stdout =
             command.args[0] === "--prefix"
               ? brewPrefix

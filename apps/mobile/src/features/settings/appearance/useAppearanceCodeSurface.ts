@@ -4,7 +4,7 @@ import {
   resolveMobileCodeSurface,
   type ResolvedMobileCodeSurface,
 } from "../../../lib/appearancePreferences";
-import { createNativeReviewDiffStyle } from "../../review/nativeReviewDiffAdapter";
+import { createNativeReviewDiffStyle } from "../../review/nativeReviewDiffAdapter.vibe";
 import { createNativeSourceStyle } from "../../files/nativeSourceFileAdapter";
 import { useAppearancePreferences } from "./AppearancePreferencesProvider";
 

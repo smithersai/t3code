@@ -48,10 +48,10 @@ import {
   useScopedSettings,
   useScopedSettingsMixed,
   useUpdateScopedSettings,
-} from "./useScopedSettings";
+} from "./useScopedSettings.ts";
 import { useScopedModelDisabledReason } from "./useScopedModelAvailability";
 import { useOptionalSettingsScope, useSettingsScope } from "./SettingsScopeContext";
-import { scopedIdleCompaction } from "./scopedSettings";
+import { scopedIdleCompaction } from "./scopedSettings.vibe";
 import { ProjectDefaultsSettings } from "./ProjectDefaultsSettings";
 import { ThreadTitleInstructionsSettings } from "./ThreadTitleInstructionsSettings";
 import { useDesktopUpdateState } from "../../state/desktopUpdate";
@@ -59,7 +59,7 @@ import {
   getCustomModelOptionsByInstance,
   resolveAppModelSelectionState,
   selectsPlanAgent,
-} from "../../modelSelection";
+} from "../../modelSelection.vibe";
 import {
   applyProviderInstanceSettings,
   deriveProviderInstanceEntries,
@@ -67,7 +67,7 @@ import {
 } from "../../providerInstances";
 import { ensureLocalApi, readLocalApi } from "../../localApi";
 import { isMacPlatform } from "../../lib/utils";
-import { useEnvironmentProviders } from "../../state/environments";
+import { useEnvironmentProviders } from "../../state/environments.vibe";
 import { EMPTY_SERVER_PROVIDERS } from "../../state/server";
 import { Button } from "../ui/button";
 import { DraftInput } from "../ui/draft-input";

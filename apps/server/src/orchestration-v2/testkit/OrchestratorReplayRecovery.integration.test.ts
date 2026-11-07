@@ -62,6 +62,7 @@ import {
   materializeReplayTranscriptWorkspace,
   readProviderReplayTranscript,
 } from "@t3tools/provider-testing/replayTranscript";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const FIRST_FINAL = "provider thread resume fixture first turn complete";
 const SECOND_FINAL = "provider thread resume fixture second turn complete";
@@ -206,7 +207,9 @@ const runCursorRecovery = Effect.fn("runCursorRecovery")(function* (input: {
   const { phase1Commands, phase1Steps, phase2Commands, phase2Steps } =
     splitAfterFirstIdle(materialized);
   const options = {
-    databaseLayer: SqlitePersistence.layerFromPath(dbPath).pipe(Layer.provide(NodeServices.layer)),
+    databaseLayer: SqlitePersistence.layerFromPath(dbPath).pipe(
+      Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+    ),
   };
   const harness = {
     ...CursorOrchestratorReplayHarness,
@@ -310,7 +313,7 @@ describe("orchestrator replay recovery", () => {
           };
           const options = {
             databaseLayer: SqlitePersistence.layerFromPath(dbPath).pipe(
-              Layer.provide(NodeServices.layer),
+              Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
             ),
           };
 
@@ -360,7 +363,9 @@ describe("orchestrator replay recovery", () => {
           assert.lengthOf(projection.providerThreads, 1);
         }).pipe(
           provideDeterministicTestRuntime,
-          Effect.provide(Layer.merge(IdAllocator.layer, NodeServices.layer)),
+          Effect.provide(
+            Layer.merge(IdAllocator.layer, Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+          ),
         ),
       ),
   );
@@ -376,7 +381,9 @@ describe("orchestrator replay recovery", () => {
           yield* runner.assertComplete;
         }).pipe(
           provideDeterministicTestRuntime,
-          Effect.provide(Layer.merge(IdAllocator.layer, NodeServices.layer)),
+          Effect.provide(
+            Layer.merge(IdAllocator.layer, Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+          ),
         ),
       ),
   );
@@ -408,7 +415,7 @@ describe("orchestrator replay recovery", () => {
         const { harness, assertComplete } = makeClaudeRestartReplayHarness(transcript);
         const options = {
           databaseLayer: SqlitePersistence.layerFromPath(path.join(tempDir, "state.sqlite")).pipe(
-            Layer.provide(NodeServices.layer),
+            Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
           ),
         };
 
@@ -488,7 +495,9 @@ describe("orchestrator replay recovery", () => {
         );
       }).pipe(
         provideDeterministicTestRuntime,
-        Effect.provide(Layer.merge(IdAllocator.layer, NodeServices.layer)),
+        Effect.provide(
+          Layer.merge(IdAllocator.layer, Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+        ),
       ),
     ),
   );
@@ -520,7 +529,7 @@ describe("orchestrator replay recovery", () => {
         const { harness, assertComplete } = makeClaudeRestartReplayHarness(transcript);
         const options = {
           databaseLayer: SqlitePersistence.layerFromPath(path.join(tempDir, "state.sqlite")).pipe(
-            Layer.provide(NodeServices.layer),
+            Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
           ),
         };
         const childThreadOf = (result: OrchestratorV2ScenarioResult, parentThreadId: ThreadId) =>
@@ -574,7 +583,7 @@ describe("orchestrator replay recovery", () => {
             harness,
             {
               databaseLayer: SqlitePersistence.layerFromPath(snapshotPath).pipe(
-                Layer.provide(NodeServices.layer),
+                Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
               ),
               recoverOnStartup: true,
               continueThreadsAfterServerUpdate: false,
@@ -609,7 +618,9 @@ describe("orchestrator replay recovery", () => {
         );
       }).pipe(
         provideDeterministicTestRuntime,
-        Effect.provide(Layer.merge(IdAllocator.layer, NodeServices.layer)),
+        Effect.provide(
+          Layer.merge(IdAllocator.layer, Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+        ),
       ),
     ),
   );

@@ -21,10 +21,10 @@ import * as Dialog from "../../components/ui/Dialog";
 import { Menu } from "../../components/ui/Menu";
 import { cn } from "../../lib/cn";
 import { composerPullRequests } from "../../state/pull-requests";
-import { useEnvironmentQuery } from "../../state/query";
-import { useAtomCommand } from "../../state/use-atom-command";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
-import { usePullRequestPermissions } from "./usePullRequestPermissions";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
+import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";
 
 const EMPTY_PENDING: ReadonlyMap<PullRequestReactionContent, boolean> = new Map();
 const PILL = "min-h-8 flex-row items-center gap-1 rounded-full border px-2.5 active:opacity-70";

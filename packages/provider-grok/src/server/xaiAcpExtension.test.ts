@@ -26,7 +26,7 @@ import {
   xAiPromptCompleteFromSessionUpdate,
   xAiSubagentFinishedNotice,
   XAiAskUserQuestionRequest,
-} from "./xaiAcpExtension.ts";
+} from "./xaiAcpExtension.vibe";
 import * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
 import {
   type AcpToolCallState,

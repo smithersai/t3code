@@ -38,7 +38,7 @@ import {
 import { isNetworkPath } from "@t3tools/shared/path";
 import { MAX_TOOL_OUTPUT_IMAGE_BASE64_LENGTH, toolOutputImages } from "@t3tools/shared/toolOutput";
 import * as Clock from "effect/Clock";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Hex from "effect/encoding/Hex";
 import * as FileSystem from "effect/FileSystem";
@@ -59,9 +59,9 @@ import { parseAttachmentFileExtension, resolveAttachmentPathById } from "../atta
 import * as ServerConfig from "../config.ts";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
 import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion";
-import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.ts";
+import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.vibe";
 import { isWithinRoot } from "../workspace/KnownWorkspaces.ts";
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as NativeAppIconResolver from "./NativeAppIconResolver.ts";
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts";
 import { extractIcnsPng } from "./icns.ts";

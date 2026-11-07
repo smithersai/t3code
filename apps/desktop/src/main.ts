@@ -1,4 +1,4 @@
-import * as MacPermissions from "./permissions/MacPermissions.ts";
+import * as MacPermissions from "./permissions/MacPermissions.vibe";
 for (const stream of [process.stdout, process.stderr]) {
   stream.on("error", (err: NodeJS.ErrnoException) => {
     if (err.code !== "EPIPE") throw err;
@@ -22,60 +22,61 @@ import * as HostProcess from "@t3tools/shared/HostProcess";
 import type { RemoteT3RunnerOptions } from "@t3tools/ssh/tunnel";
 import serverPackageJson from "../../server/package.json" with { type: "json" };
 
-import * as DesktopIpc from "./ipc/DesktopIpc.ts";
-import * as ElectronApp from "./electron/ElectronApp.ts";
-import * as ElectronDialog from "./electron/ElectronDialog.ts";
-import * as ElectronMenu from "./electron/ElectronMenu.ts";
-import * as ElectronPowerMonitor from "./electron/ElectronPowerMonitor.ts";
-import * as ElectronProtocol from "./electron/ElectronProtocol.ts";
-import * as ElectronSafeStorage from "./electron/ElectronSafeStorage.ts";
-import * as ElectronShell from "./electron/ElectronShell.ts";
-import * as ElectronTheme from "./electron/ElectronTheme.ts";
-import * as ElectronUpdater from "./electron/ElectronUpdater.ts";
-import * as ElectronWindow from "./electron/ElectronWindow.ts";
+import * as DesktopIpc from "./ipc/DesktopIpc.vibe";
+import * as ElectronApp from "./electron/ElectronApp.vibe";
+import * as ElectronDialog from "./electron/ElectronDialog.vibe";
+import * as ElectronMenu from "./electron/ElectronMenu.vibe";
+import * as ElectronPowerMonitor from "./electron/ElectronPowerMonitor.vibe";
+import * as ElectronProtocol from "./electron/ElectronProtocol.vibe";
+import * as ElectronSafeStorage from "./electron/ElectronSafeStorage.vibe";
+import * as ElectronShell from "./electron/ElectronShell.vibe";
+import * as ElectronTheme from "./electron/ElectronTheme.vibe";
+import * as ElectronUpdater from "./electron/ElectronUpdater.vibe";
+import * as ElectronWindow from "./electron/ElectronWindow.vibe";
 import * as DesktopApp from "./app/DesktopApp.ts";
-import * as DesktopAppActivation from "./app/DesktopAppActivation.ts";
-import * as DesktopWebLinks from "./app/DesktopWebLinks.ts";
-import * as DesktopAppIdentity from "./app/DesktopAppIdentity.ts";
-import * as DesktopConnectionCatalogStore from "./app/DesktopConnectionCatalogStore.ts";
-import * as DesktopClerk from "./app/DesktopClerk.ts";
-import * as DesktopCliCommand from "./app/DesktopCliCommand.ts";
-import * as DesktopApplicationMenu from "./window/DesktopApplicationMenu.ts";
-import * as DesktopAssets from "./app/DesktopAssets.ts";
-import * as DesktopBackendConfiguration from "./backend/DesktopBackendConfiguration.ts";
-import * as DesktopBackendPool from "./backend/DesktopBackendPool.ts";
-import * as DesktopLocalEnvironmentAuth from "./backend/DesktopLocalEnvironmentAuth.ts";
-import * as DesktopNetworkInterfaces from "./backend/DesktopNetworkInterfaces.ts";
-import * as DesktopEnvironment from "./app/DesktopEnvironment.ts";
-import * as DesktopLifecycle from "./app/DesktopLifecycle.ts";
-import * as DesktopLinuxUrlHandler from "./app/DesktopLinuxUrlHandler.ts";
-import * as DesktopShutdown from "./app/DesktopShutdown.ts";
-import * as DesktopObservability from "./app/DesktopObservability.ts";
-import * as DesktopServerExposure from "./backend/DesktopServerExposure.ts";
-import * as DesktopClientSettings from "./settings/DesktopClientSettings.ts";
+import * as DesktopAppActivation from "./app/DesktopAppActivation.vibe";
+import * as DesktopWebLinks from "./app/DesktopWebLinks.vibe";
+import * as DesktopAppIdentity from "./app/DesktopAppIdentity.vibe";
+import * as DesktopConnectionCatalogStore from "./app/DesktopConnectionCatalogStore.vibe";
+import * as DesktopClerk from "./app/DesktopClerk.vibe";
+import * as DesktopCliCommand from "./app/DesktopCliCommand.vibe";
+import * as DesktopApplicationMenu from "./window/DesktopApplicationMenu.vibe";
+import * as DesktopAssets from "./app/DesktopAssets.vibe";
+import * as DesktopBackendConfiguration from "./backend/DesktopBackendConfiguration.vibe";
+import * as DesktopBackendPool from "./backend/DesktopBackendPool.vibe";
+import * as DesktopLocalEnvironmentAuth from "./backend/DesktopLocalEnvironmentAuth.vibe";
+import * as DesktopNetworkInterfaces from "./backend/DesktopNetworkInterfaces.vibe";
+import * as DesktopEnvironment from "./app/DesktopEnvironment.vibe";
+import * as DesktopLifecycle from "./app/DesktopLifecycle.vibe";
+import * as DesktopLinuxUrlHandler from "./app/DesktopLinuxUrlHandler.vibe";
+import * as DesktopShutdown from "./app/DesktopShutdown.vibe";
+import * as DesktopObservability from "./app/DesktopObservability.vibe";
+import * as DesktopServerExposure from "./backend/DesktopServerExposure.vibe";
+import * as DesktopClientSettings from "./settings/DesktopClientSettings.vibe";
 import * as DesktopSavedEnvironments from "./settings/DesktopSavedEnvironments.ts";
-import * as DesktopSnapShot from "./snapShot/DesktopSnapShot.ts";
-import * as DesktopAppSettings from "./settings/DesktopAppSettings.ts";
-import * as DesktopPreReadyFileSystem from "./app/DesktopPreReadyFileSystem.ts";
-import * as DesktopPreReadyPlatform from "./app/DesktopPreReadyPlatform.ts";
-import * as DesktopShellEnvironment from "./shell/DesktopShellEnvironment.ts";
-import * as DesktopSshEnvironment from "./ssh/DesktopSshEnvironment.ts";
-import * as DesktopSshPasswordPrompts from "./ssh/DesktopSshPasswordPrompts.ts";
-import * as DesktopState from "./app/DesktopState.ts";
-import * as DesktopLegacyLocalStorage from "./app/DesktopLegacyLocalStorage.ts";
-import * as DesktopTelemetryPublisher from "./telemetry/DesktopTelemetryPublisher.ts";
-import * as DesktopRendererHistory from "./telemetry/DesktopRendererHistory.ts";
-import * as DesktopUpdates from "./updates/DesktopUpdates.ts";
-import * as BrowserImport from "./preview/BrowserImport/BrowserImport.ts";
-import * as LinuxBrowserSecret from "./preview/BrowserImport/LinuxBrowserSecret.ts";
-import * as BrowserSession from "./preview/BrowserSession.ts";
-import * as DesktopBrowserHost from "./preview/DesktopBrowserHost.ts";
+import * as DesktopSnapShot from "./snapShot/DesktopSnapShot.vibe";
+import * as DesktopAppSettings from "./settings/DesktopAppSettings.vibe";
+import * as DesktopPreReadyFileSystem from "./app/DesktopPreReadyFileSystem.vibe";
+import * as DesktopPreReadyPlatform from "./app/DesktopPreReadyPlatform.vibe";
+import * as DesktopShellEnvironment from "./shell/DesktopShellEnvironment.vibe";
+import * as DesktopSshEnvironment from "./ssh/DesktopSshEnvironment.vibe";
+import * as DesktopSshPasswordPrompts from "./ssh/DesktopSshPasswordPrompts.vibe";
+import * as DesktopState from "./app/DesktopState.vibe";
+import * as DesktopLegacyLocalStorage from "./app/DesktopLegacyLocalStorage.vibe";
+import * as DesktopTelemetryPublisher from "./telemetry/DesktopTelemetryPublisher.vibe";
+import * as DesktopRendererHistory from "./telemetry/DesktopRendererHistory.vibe";
+import * as DesktopUpdates from "./updates/DesktopUpdates.vibe";
+import * as BrowserImport from "./preview/BrowserImport/BrowserImport.vibe";
+import * as LinuxBrowserSecret from "./preview/BrowserImport/LinuxBrowserSecret.vibe";
+import * as BrowserSession from "./preview/BrowserSession.vibe";
+import * as DesktopBrowserHost from "./preview/DesktopBrowserHost.vibe";
 import * as PreviewManager from "./preview/Manager.ts";
-import * as PreviewPasskeys from "./preview/Passkeys.ts";
-import * as DesktopWindow from "./window/DesktopWindow.ts";
-import * as DesktopWslBackend from "./wsl/DesktopWslBackend.ts";
-import * as DesktopWslEnvironment from "./wsl/DesktopWslEnvironment.ts";
-import * as DesktopWslServerTree from "./wsl/DesktopWslServerTree.ts";
+import * as PreviewPasskeys from "./preview/Passkeys.vibe";
+import * as DesktopWindow from "./window/DesktopWindow.vibe";
+import * as DesktopWslBackend from "./wsl/DesktopWslBackend.vibe";
+import * as DesktopWslEnvironment from "./wsl/DesktopWslEnvironment.vibe";
+import * as DesktopWslServerTree from "./wsl/DesktopWslServerTree.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 if (process.argv.includes("--version")) {
   try {
@@ -221,12 +222,12 @@ const layerDesktopClerk = DesktopClerk.layer.pipe(
   Layer.provide(DesktopPreReadyFileSystem.layer),
   Layer.provideMerge(ElectronShell.layer),
   Layer.provideMerge(layerDesktopEnvironment),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   Layer.provideMerge(ElectronApp.layer),
 );
 
 const layerDesktopApplicationRuntime = layerDesktopApplication.pipe(
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   Layer.provideMerge(NodeHttpClient.layerUndici),
   Layer.provideMerge(NetService.layer),
   Layer.provideMerge(layerElectron),

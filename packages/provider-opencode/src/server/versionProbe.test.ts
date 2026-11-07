@@ -9,7 +9,7 @@ import {
   classifyOpenCodeCliVersion,
   makeOpenCodeRuntimeProbe,
   probeOpenCodeRuntime,
-} from "./versionProbe.ts";
+} from "./versionProbe.vibe";
 import {
   OPENCODE_1_RESPONSES,
   OPENCODE_2_RESPONSES,

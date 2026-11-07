@@ -8,7 +8,7 @@ import {
   ProjectId,
 } from "@t3tools/contracts";
 import * as Console from "effect/Console";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -28,19 +28,19 @@ import * as ServerConfig from "../config.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as ProcessRunner from "../processRunner.ts";
 import * as ServerOwnership from "../serverOwnership.ts";
-import * as RuntimeLayer from "../orchestration-v2/runtimeLayer.ts";
+import * as RuntimeLayer from "../orchestration-v2/runtimeLayer.vibe";
 import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
-import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.ts";
+import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.vibe";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.ts";
 import * as ProjectService from "../project/ProjectService.ts";
-import { projectMutationOperation } from "../project/ProjectMutation.ts";
-import * as T3ProjectFileLoader from "../project/T3ProjectFileLoader.ts";
+import { projectMutationOperation } from "../project/ProjectMutation.vibe";
+import * as T3ProjectFileLoader from "../project/T3ProjectFileLoader.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import {
   clearPersistedServerRuntimeState,
   readPersistedServerRuntimeState,
 } from "../serverRuntimeState.ts";
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import { type CliAuthLocationFlags, projectLocationFlags, resolveCliAuthConfig } from "./config.ts";
 
 type ProjectMutationTarget = {

@@ -6,7 +6,7 @@ import {
 } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 
-import type { Caller } from "./threadAccess.ts";
+import type { Caller } from "./threadAccess.vibe";
 
 /**
  * Below full access, work a link starts here (all of it carries that session in `linkOrigin`)

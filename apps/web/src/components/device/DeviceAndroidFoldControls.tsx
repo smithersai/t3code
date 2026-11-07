@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "~/components/ui/tooltip";
 import { AndroidFoldError, setAndroidFold, type AndroidFoldPosture } from "./deviceFold";
-import { androidFoldReadAtom, androidFoldViewAtom, foldAngle, NOOP_ATOM } from "./deviceHubAtoms";
+import { androidFoldReadAtom, androidFoldViewAtom, foldAngle, NOOP_ATOM } from "./deviceHubAtoms.vibe";
 import { DeviceDuoGlyph } from "./DeviceDuoGlyph";
 
 export function DeviceAndroidFoldControls(props: {

@@ -9,16 +9,19 @@
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vibelang --noEmit",
     "test": "vp test run --config ../../vite.config.ts --dir ."
   },
   "dependencies": {
     "@t3tools/shared": "workspace:*",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
     "vite-plus": "catalog:"
   }
 }

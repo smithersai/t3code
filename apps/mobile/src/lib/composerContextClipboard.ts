@@ -17,22 +17,22 @@ import { threadContextsOutsideEnvironment } from "@t3tools/shared/composerContex
 import { executeAtomQuery, squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
 import { resolveAssetUrl } from "@t3tools/client-runtime/state/assets";
 import * as Option from "effect/Option";
-import { appAtomRegistry } from "../state/atom-registry";
-import { assetEnvironment } from "../state/assets";
-import { environmentSession } from "../state/session";
+import { appAtomRegistry } from "../state/atom-registry.vibe";
+import { assetEnvironment } from "../state/assets.vibe";
+import { environmentSession } from "../state/session.vibe";
 import { downloadAttachmentForPreview } from "./attachmentDownload";
 import {
   persistComposerAttachmentFile,
   removePersistedComposerAttachmentFile,
   type DraftComposerAttachment,
 } from "./composerImages";
-import { referencedComposerContext, reidentifyComposerContext } from "./composerContext";
+import { referencedComposerContext, reidentifyComposerContext } from "./composerContext.vibe";
 import { uuidv4 } from "./uuid";
 import {
   findLocalComposerClipboardAttachment,
   waitForComposerDraftsLoaded,
 } from "../state/use-composer-drafts";
-import { loadLocalAttachmentPreview } from "./localAttachmentPreview";
+import { loadLocalAttachmentPreview } from "./localAttachmentPreview.vibe";
 
 export interface NativeContextClipboard {
   readonly text: string;

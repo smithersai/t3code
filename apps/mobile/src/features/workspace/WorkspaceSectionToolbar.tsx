@@ -7,7 +7,7 @@ import {
   WORKSPACE_TAB_LABELS,
   useNavigationTabOrder,
   useHiddenNavigationTabs,
-} from "./navigation-tabs";
+} from "./navigation-tabs.vibe";
 import { useWorkspaceTabs } from "./WorkspaceTabsContext";
 import { useSelectWorkspaceTab } from "./useSelectWorkspaceTab";
 import { useCompactWorkspaceTabs, useSidebarWorkspaceTabs } from "./useSystemWorkspaceTabBar";

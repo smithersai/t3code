@@ -24,7 +24,7 @@ import * as Semaphore from "effect/Semaphore";
 
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import * as ModelManifest from "./ModelManifest.ts";
-import { applyProviderCompatibility } from "./providerCompatibility.ts";
+import { applyProviderCompatibility } from "./providerCompatibility.vibe";
 import * as ServerConfig from "../config.ts";
 import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.ts";
 import {
@@ -43,7 +43,7 @@ import {
   makeManualOnlyProviderMaintenanceCapabilities,
   type ProviderMaintenanceCapabilities,
 } from "@t3tools/provider-core/server/maintenanceResolver";
-import type { ProviderSnapshotSource } from "./builtInProviderCatalog.ts";
+import type { ProviderSnapshotSource } from "./builtInProviderCatalog.vibe";
 
 export type ProviderMaintenanceActionKind = "update";
 

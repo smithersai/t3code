@@ -29,12 +29,12 @@ import {
   PrimaryConnectionTarget,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import * as Persistence from "../platform/persistence.ts";
+import * as Persistence from "../platform/persistence.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
-import type { RpcSession } from "../rpc/session.ts";
+import type { RpcSession } from "../rpc/session.vibe";
 import { createServerEnvironmentAtoms } from "./server.ts";
 
 const TARGET = new PrimaryConnectionTarget({

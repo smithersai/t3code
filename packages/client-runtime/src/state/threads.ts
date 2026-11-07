@@ -26,19 +26,19 @@ import { Atom } from "effect/reactivity";
 
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
 import * as EnvironmentRegistry from "../connection/registry.ts";
-import { connectionProjectionPhase } from "../connection/model.ts";
+import { connectionProjectionPhase } from "#vibelang/emitted/src/connection/model";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import * as ConnectionWakeups from "../connection/wakeups.ts";
-import * as Persistence from "../platform/persistence.ts";
-import { runCachePersistence } from "./cachePersistence.ts";
-import * as ManagedRelay from "../relay/managedRelay.ts";
-import { request, subscribeDynamic } from "../rpc/client.ts";
-import { parseThreadKey, threadKey } from "./entities.ts";
+import * as ConnectionWakeups from "#vibelang/emitted/src/connection/wakeups";
+import * as Persistence from "#vibelang/emitted/src/platform/persistence";
+import { runCachePersistence } from "#vibelang/emitted/src/state/cachePersistence";
+import * as ManagedRelay from "#vibelang/emitted/src/relay/managedRelay";
+import { request, subscribeDynamic } from "#vibelang/emitted/src/rpc/client";
+import { parseThreadKey, threadKey } from "#vibelang/emitted/src/state/entities";
 import { applyOrchestrationV2ProjectionEvent } from "./orchestrationV2Projection.ts";
 import { THREAD_SNAPSHOT_IDLE_TTL_MS } from "./threadRetention.ts";
 import { followStreamInEnvironment } from "./runtime.ts";
-import * as ThreadHistoryController from "./threadHistoryController.ts";
-import { fetchEnvironmentThreadHistoryPage } from "./threadHistoryHttp.ts";
+import * as ThreadHistoryController from "#vibelang/emitted/src/state/threadHistoryController";
+import { fetchEnvironmentThreadHistoryPage } from "#vibelang/emitted/src/state/threadHistoryHttp";
 import {
   applyHistoryPageMeta,
   clearActiveHistoryLoading,
@@ -47,13 +47,16 @@ import {
   mergeOlderHistoryIntoProjection,
   type ThreadHistoryMeta,
 } from "./threadHistoryMerge.ts";
-import * as ThreadSnapshotLoader from "./threadSnapshotHttp.ts";
-import { makeThreadRequestsResolvedAnnouncer, pendingRuntimeRequestIds } from "./threadRequests.ts";
+import * as ThreadSnapshotLoader from "#vibelang/emitted/src/state/threadSnapshotHttp";
+import {
+  makeThreadRequestsResolvedAnnouncer,
+  pendingRuntimeRequestIds,
+} from "#vibelang/emitted/src/state/threadRequests";
 import {
   EMPTY_ENVIRONMENT_THREAD_STATE,
   type EnvironmentThreadState,
   type EnvironmentThreadStatus,
-} from "./threadState.ts";
+} from "#vibelang/emitted/src/state/threadState";
 
 function statusWithoutLiveData(
   data: Option.Option<OrchestrationV2ThreadProjection>,
@@ -1050,18 +1053,18 @@ export function createEnvironmentThreadStateAtoms<R, E>(
   };
 }
 
-export * from "./archivedThreads.ts";
+export * from "#vibelang/emitted/src/state/archivedThreads";
 export * from "./checkpointDiff.ts";
-export * as BoundedThreadSnapshotLoader from "./boundedThreadSnapshotHttp.ts";
-export * as ThreadHistoryController from "./threadHistoryController.ts";
-export type { ThreadHistoryLoadEarlierResult } from "./threadHistoryController.ts";
+export * as BoundedThreadSnapshotLoader from "#vibelang/emitted/src/state/boundedThreadSnapshotHttp";
+export * as ThreadHistoryController from "#vibelang/emitted/src/state/threadHistoryController";
+export type { ThreadHistoryLoadEarlierResult } from "./threadHistoryController.vibe";
 export * from "./threadHistoryMerge.ts";
-export * from "./threadSnapshotHttp.ts";
+export * from "#vibelang/emitted/src/state/threadSnapshotHttp";
 export * from "./composerPathSearch.ts";
-export * from "./threadCommands.ts";
+export * from "#vibelang/emitted/src/state/threadCommands";
 export * from "./threadFeedback.ts";
-export * from "./threadDetail.ts";
+export * from "#vibelang/emitted/src/state/threadDetail";
 export * from "./threadFamilies.ts";
 export * from "./olderSettledThreads.ts";
-export * from "./threadShell.ts";
-export * from "./threadState.ts";
+export * from "#vibelang/emitted/src/state/threadShell";
+export * from "#vibelang/emitted/src/state/threadState";

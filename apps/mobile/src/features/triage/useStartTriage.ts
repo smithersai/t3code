@@ -11,7 +11,7 @@ import * as Dialog from "../../components/ui/Dialog";
 import { authClientMetadata } from "../../lib/authClientMetadata";
 import { projectEnvironment } from "../../state/projects";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {
   createNewTaskDraft,
   setComposerDraftText,

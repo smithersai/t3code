@@ -1,5 +1,5 @@
 import { SheetHeader } from "../../components/ui/SheetHeader";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { useAtomValue } from "@effect/atom-react";
 import type { EnvironmentThreadShell } from "@t3tools/client-runtime/state/shell";
 import { effectiveSnoozed } from "@t3tools/client-runtime/state/thread-settled";
@@ -17,14 +17,14 @@ import { scopedThreadKey } from "../../lib/scopedEntities";
 import { environmentServerConfigsAtom } from "../../state/server";
 import { environmentThreadShells } from "../../state/threads";
 import { sortSettledThreads } from "@t3tools/client-runtime/state/thread-sort";
-import { useOlderSettledShelf, useOlderSettledShelfGrowth } from "../../state/olderSettledShelf";
+import { useOlderSettledShelf, useOlderSettledShelfGrowth } from "../../state/olderSettledShelf.vibe";
 import {
   pendingThreadOrderAtom,
   threadDropBusyAtom,
   threadArrangementOpenAtom,
-} from "../../state/thread-order";
-import { queuedThreadKeysAtom } from "../../state/use-thread-outbox";
-import { useThreadListActions } from "../home/useThreadListActions";
+} from "../../state/thread-order.vibe";
+import { queuedThreadKeysAtom } from "../../state/use-thread-outbox.vibe";
+import { useThreadListActions } from "../home/useThreadListActions.vibe";
 import {
   createThreadMovePlanner,
   threadDragAction,
@@ -37,7 +37,7 @@ import {
   threadListInboxReturns,
 } from "./threadListV2";
 import { useThreadListNow } from "./use-thread-list-now";
-import { useThreadListV2ShelfPreferences } from "./use-thread-list-v2-shelf-preferences";
+import { useThreadListV2ShelfPreferences } from "./use-thread-list-v2-shelf-preferences.vibe";
 
 const ROW_HEIGHT = 56;
 const HEADER_HEIGHT = 48;

@@ -28,17 +28,17 @@ import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import { AsyncResult, Atom, type AtomRegistry } from "effect/reactivity";
 
-import { connectionAtomRuntime } from "../connection/runtime";
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import {
   mergePullRequestLists,
   type EnvironmentPullRequestStat,
   type MergedPullRequestList,
 } from "../components/pullRequest/pullRequestList.logic";
-import { writePullRequestDetailSnapshot } from "../components/pullRequest/pullRequestDetail.logic";
+import { writePullRequestDetailSnapshot } from "../components/pullRequest/pullRequestDetail.logic.vibe";
 import { pullRequestChecksState } from "../components/pullRequest/pullRequestPresentation";
 import { useGuideRunStore } from "../components/pullRequest/guide/guideRunStore";
-import { formatEnvironmentQueryError } from "./query";
+import { formatEnvironmentQueryError } from "./query.vibe";
 import { environmentThreadShells } from "./threads";
 
 export interface ObservedPullRequestSummary {

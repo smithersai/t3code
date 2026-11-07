@@ -35,7 +35,7 @@ import {
 import * as Cause from "effect/Cause";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
@@ -54,12 +54,12 @@ import * as Schedule from "effect/Schedule";
 import * as Scope from "effect/Scope";
 import * as SynchronizedRef from "effect/SynchronizedRef";
 
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
+import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.vibe";
 import { MENU_ACTION_CHANNEL, PREVIEW_PICTURE_IN_PICTURE_FRAME_CHANNEL } from "../ipc/channels.ts";
-import * as DesktopBrowserHost from "./DesktopBrowserHost.ts";
-import * as PreviewPasskeys from "./Passkeys.ts";
-import * as BrowserSession from "./BrowserSession.ts";
+import * as DesktopBrowserHost from "./DesktopBrowserHost.vibe";
+import * as PreviewPasskeys from "./Passkeys.vibe";
+import * as BrowserSession from "./BrowserSession.vibe";
 import {
   ANNOTATION_CAPTURED_CHANNEL,
   ANNOTATION_SEND_ENABLED_CHANNEL,

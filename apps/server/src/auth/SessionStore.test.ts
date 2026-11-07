@@ -19,6 +19,7 @@ import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as SessionStore from "./SessionStore.ts";
 import * as ServerSecretStore from "./ServerSecretStore.ts";
 import { base64UrlDecodeUtf8, base64UrlEncode, signPayload } from "./utils.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerServerConfig = (overrides?: Partial<ServerConfig.ServerConfig["Service"]>) =>
   Layer.effect(
@@ -82,7 +83,7 @@ const makeDiskSessionStoreLayer = Effect.fn("makeDiskSessionStoreLayer")(functio
   );
 });
 
-it.layer(NodeServices.layer)("SessionStore.layer", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("SessionStore.layer", (it) => {
   it.effect.each(["revoke", "revokeAllExcept", "replace"] as const)(
     "invalidates every connection for a session on %s and leaves other sessions active",
     (operation) =>

@@ -25,7 +25,7 @@ import {
 } from "@t3tools/contracts";
 import * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Data from "effect/Data";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
@@ -44,12 +44,12 @@ import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";
-import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
-import * as Metrics from "../observability/Metrics.ts";
+import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
+import * as Metrics from "../observability/Metrics.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
-import * as Scheduler from "../scheduling/Scheduler.ts";
-import { isMissedFixedTimeRun, isSameSchedule, nextScheduledRunAt } from "./Schedule.ts";
+import * as Scheduler from "../scheduling/Scheduler.vibe";
+import { isMissedFixedTimeRun, isSameSchedule, nextScheduledRunAt } from "./Schedule.vibe";
 import {
   redactHeaders,
   redactQuery,

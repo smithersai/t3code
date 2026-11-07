@@ -8,7 +8,7 @@ import {
 } from "@t3tools/contracts";
 
 import { useUpdateEnvironmentSettings } from "../../hooks/useSettings";
-import { useEnvironmentScope } from "../../state/session";
+import { useEnvironmentScope } from "../../state/session.vibe";
 import { ENVIRONMENT_MACHINE_KIND_LABELS, EnvironmentMachineIcon } from "../EnvironmentMachineIcon";
 import {
   MenuItem,

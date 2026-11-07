@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { Atom } from "effect/reactivity";
 
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 
 type DesktopCliCommandBridge = NonNullable<DesktopBridge["cliCommand"]>;
 

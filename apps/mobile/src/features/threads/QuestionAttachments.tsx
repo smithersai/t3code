@@ -12,12 +12,12 @@ import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { ComposerAttachmentButton } from "./ComposerAttachmentButton";
 import { ComposerAttachmentStrip } from "../../components/ComposerAttachmentStrip";
 import { pickComposerFiles, pickComposerMedia } from "../../lib/composerImages";
-import { useThreadSelection } from "../../state/use-thread-selection";
+import { useThreadSelection } from "../../state/use-thread-selection.vibe";
 import { useNavigation } from "@react-navigation/native";
 import { FilePreviewModal, type FilePreviewSource } from "../../components/FilePreviewModal";
 import { VideoPreviewModal, type VideoPreviewSource } from "../../components/VideoPreviewModal";
-import { useServerConfigs } from "../../state/entities";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { useServerConfigs } from "../../state/entities.vibe";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import {
   appendComposerDraftAttachments,
   composerDraftsAtom,
@@ -28,7 +28,7 @@ import {
   changeQuestionAttachmentPreparation,
   questionAttachmentDraftKey,
   questionAttachmentPreparationAtom,
-} from "../../state/question-attachments";
+} from "../../state/question-attachments.vibe";
 
 export function QuestionAttachments(props: {
   requestId: string;

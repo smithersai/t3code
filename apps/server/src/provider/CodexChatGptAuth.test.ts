@@ -23,6 +23,7 @@ import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as ProviderCredentialStore from "./ProviderCredentialStore.ts";
 import * as AnalyticsService from "../telemetry/AnalyticsService.ts";
 import { makeCodexChatGptAuth } from "./CodexChatGptAuth.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const assertSameCallback = (actual: string | null, expected: string | null) => {
   const left = new URL(actual!);
@@ -403,7 +404,9 @@ const makeHarness = makeHarnessFor(instanceId);
 const provision = <A, E, R>(effect: Effect.Effect<A, E, R>) =>
   effect.pipe(
     Effect.scoped,
-    Effect.provide(Layer.mergeAll(FetchHttpClient.layer, NodeServices.layer)),
+    Effect.provide(
+      Layer.mergeAll(FetchHttpClient.layer, Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+    ),
   );
 it.effect(
   "changing account registers a new user-owned client and then reuses that registration",
@@ -920,7 +923,12 @@ it.effect(
       assert.strictEqual(harness.exchanges.length, 2);
     }).pipe(
       Effect.scoped,
-      Effect.provide(Layer.mergeAll(NodeServices.layer, FetchHttpClient.layer)),
+      Effect.provide(
+        Layer.mergeAll(
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          FetchHttpClient.layer,
+        ),
+      ),
     ),
 );
 
@@ -957,7 +965,12 @@ it.effect(
       yield* harness.phase("succeeded");
     }).pipe(
       Effect.scoped,
-      Effect.provide(Layer.mergeAll(NodeServices.layer, FetchHttpClient.layer)),
+      Effect.provide(
+        Layer.mergeAll(
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          FetchHttpClient.layer,
+        ),
+      ),
     ),
 );
 
@@ -991,7 +1004,12 @@ it.effect("keeps simultaneous remote accounts and environments independent", () 
     yield* second.phase("succeeded");
     assert.strictEqual(Option.getOrThrow(yield* first.auth.read).subject, "user-test");
     assert.strictEqual(Option.getOrThrow(yield* second.auth.read).subject, "other-user");
-  }).pipe(Effect.scoped, Effect.provide(Layer.mergeAll(NodeServices.layer, FetchHttpClient.layer))),
+  }).pipe(
+    Effect.scoped,
+    Effect.provide(
+      Layer.mergeAll(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto), FetchHttpClient.layer),
+    ),
+  ),
 );
 
 it.effect(
@@ -1762,7 +1780,7 @@ const provideBroker = <A, E, R>(effect: Effect.Effect<A, E, R>) =>
     Effect.scoped,
     Effect.provide(
       ServerConfig.layerTest(process.cwd(), { prefix: "t3-renewal-test-" }).pipe(
-        Layer.provideMerge(NodeServices.layer),
+        Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       ),
     ),
   );

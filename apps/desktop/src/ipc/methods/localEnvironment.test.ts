@@ -2,15 +2,15 @@ import { assert, describe, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as DesktopEnvironment from "../../app/DesktopEnvironment.ts";
-import * as DesktopLifecycle from "../../app/DesktopLifecycle.ts";
-import * as DesktopShutdown from "../../app/DesktopShutdown.ts";
-import * as DesktopState from "../../app/DesktopState.ts";
-import * as ElectronApp from "../../electron/ElectronApp.ts";
-import * as ElectronTheme from "../../electron/ElectronTheme.ts";
-import * as DesktopAppSettings from "../../settings/DesktopAppSettings.ts";
-import * as DesktopWindow from "../../window/DesktopWindow.ts";
-import { getLocalEnvironmentEnabled, setLocalEnvironmentEnabled } from "./localEnvironment.ts";
+import * as DesktopEnvironment from "../../app/DesktopEnvironment.vibe";
+import * as DesktopLifecycle from "../../app/DesktopLifecycle.vibe";
+import * as DesktopShutdown from "../../app/DesktopShutdown.vibe";
+import * as DesktopState from "../../app/DesktopState.vibe";
+import * as ElectronApp from "../../electron/ElectronApp.vibe";
+import * as ElectronTheme from "../../electron/ElectronTheme.vibe";
+import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe";
+import * as DesktopWindow from "../../window/DesktopWindow.vibe";
+import { getLocalEnvironmentEnabled, setLocalEnvironmentEnabled } from "./localEnvironment.vibe";
 
 const layerUnusedLifecycleRuntime = Layer.mergeAll(
   DesktopShutdown.layer,

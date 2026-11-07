@@ -47,14 +47,14 @@ import {
   useServerConfigs,
   useThreadShell,
   useThreadShells,
-} from "../../state/entities";
-import { useThreadSearch } from "../../state/queries";
+} from "../../state/entities.vibe";
+import { useThreadSearch } from "../../state/queries.vibe";
 import { requestThreadMessageJump } from "../threads/threadMessageJump";
 import { threadEnvironment } from "../../state/threads";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { serverEnvironment } from "../../state/server";
-import { useWorkspaceEnvironments } from "../../state/workspace";
-import { useSavedRemoteConnections } from "../../state/use-remote-environment-registry";
+import { useWorkspaceEnvironments } from "../../state/workspace.vibe";
+import { useSavedRemoteConnections } from "../../state/use-remote-environment-registry.vibe";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import { ThreadSearchMatchExcerpt } from "../threads/thread-search-match";
 import { pickTriageEnvironment } from "../triage/triageTarget";

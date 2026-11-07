@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from "react";
 
 import { useAllEnvironmentShellsBootstrapped, useProjects } from "~/state/entities";
-import { useEnvironments } from "~/state/environments";
+import { useEnvironments } from "../../state/environments.vibe";
 import {
   applyPullRequestOverrides,
   findProjectForRepository,

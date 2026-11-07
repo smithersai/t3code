@@ -1,6 +1,6 @@
 import * as Dialog from "../../components/ui/Dialog";
 import { AuthRelayWriteScope } from "@t3tools/contracts";
-import { readEnvironmentScope } from "../../state/session";
+import { readEnvironmentScope } from "../../state/session.vibe";
 import { ScreenScrollView as ScrollView } from "../../components/ui/ScreenScrollView";
 import { useAuth } from "@clerk/expo";
 import { useAtomSet, useAtomValue } from "@effect/atom-react";
@@ -25,19 +25,19 @@ import {
   openAndroidLiveUpdateSettings,
   supportsAndroidLiveUpdateSettings,
 } from "../agent-awareness/androidNotifications";
-import { setLiveActivityUpdatesEnabled } from "../agent-awareness/liveActivityPreferences";
-import { requestAgentNotificationPermission } from "../agent-awareness/notificationPermissions";
+import { setLiveActivityUpdatesEnabled } from "../agent-awareness/liveActivityPreferences.vibe";
+import { requestAgentNotificationPermission } from "../agent-awareness/notificationPermissions.vibe";
 import {
   getAgentAwarenessRegistrationStatus,
   refreshAgentAwarenessRegistration,
   subscribeAgentAwarenessRegistrationStatus,
-} from "../agent-awareness/remoteRegistration";
-import { refreshManagedRelayEnvironments } from "../cloud/managedRelayState";
-import { hasCloudPublicConfig, resolveRelayClerkTokenOptions } from "../cloud/publicConfig";
-import { makePermissionStatusAtom } from "../../lib/permissionStatusAtom";
+} from "../agent-awareness/remoteRegistration.vibe";
+import { refreshManagedRelayEnvironments } from "../cloud/managedRelayState.vibe";
+import { hasCloudPublicConfig, resolveRelayClerkTokenOptions } from "../cloud/publicConfig.vibe";
+import { makePermissionStatusAtom } from "../../lib/permissionStatusAtom.vibe";
 import { runtime } from "../../lib/runtime";
-import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences";
-import { useSavedRemoteConnections } from "../../state/use-remote-environment-registry";
+import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
+import { useSavedRemoteConnections } from "../../state/use-remote-environment-registry.vibe";
 import { SettingsRow } from "./components/SettingsRow";
 import { SettingsSection } from "./components/SettingsSection";
 import { SettingsSwitchRow } from "./components/SettingsSwitchRow";

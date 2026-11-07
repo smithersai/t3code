@@ -82,12 +82,14 @@
     "unbash": "^5.0.0",
     "unified": "catalog:",
     "use-sync-external-store": "^1.6.0",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz",
     "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
     "@tailwindcss/vite": "^4.0.0",
+    "@tanstack/router-core": "1.171.8",
     "@tanstack/router-plugin": "^1.161.0",
     "@types/compression": "^1.8.1",
     "@types/culori": "^4.0.1",
@@ -103,6 +105,8 @@
     "oxc-transform-react": "~0.152.0",
     "playwright": "1.60.0",
     "tailwindcss": "^4.0.0",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   }

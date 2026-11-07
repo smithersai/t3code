@@ -22,7 +22,7 @@ import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import { request } from "../rpc/client.ts";
+import { request } from "#vibelang/emitted/src/rpc/client";
 import type { ProjectFaviconCache, ProjectFaviconTarget } from "../projectFaviconCache.ts";
 import { createEnvironmentQueryAtomFamily } from "./runtime.ts";
 

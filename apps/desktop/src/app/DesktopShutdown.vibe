@@ -1,0 +1,29 @@
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+
+export service DesktopShutdown: {
+  readonly request: void!!;
+  readonly awaitRequest: void!!;
+  readonly markComplete: void!!;
+  readonly awaitComplete: void!!;
+  readonly isComplete: boolean!!;
+} { static readonly key = "@t3tools/desktop/app/DesktopShutdown" }
+
+const make = effect {
+  const requested = try Deferred.make<void>();
+  const completed = try Deferred.make<void>();
+  const completedRef = try Ref.make(false);
+
+  return DesktopShutdown.of({
+    request: Deferred.succeed(requested, undefined) |> Effect.asVoid(%),
+    awaitRequest: Deferred.await(requested),
+    markComplete: Ref.set(completedRef, true)
+      |> Effect.andThen(%, Deferred.succeed(completed, undefined))
+      |> Effect.asVoid(%),
+    awaitComplete: Deferred.await(completed),
+    isComplete: Ref.get(completedRef),
+  });
+};
+
+export const layer = Layer.effect(DesktopShutdown, make);

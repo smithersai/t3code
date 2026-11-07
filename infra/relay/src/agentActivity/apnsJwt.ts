@@ -9,7 +9,7 @@ import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 
-import type { ApnsCredentials } from "../Config.ts";
+import type { ApnsCredentials } from "../Config.vibe";
 
 export class ApnsJwtEncodingError extends Schema.TaggedError<ApnsJwtEncodingError>()(
   "ApnsJwtEncodingError",

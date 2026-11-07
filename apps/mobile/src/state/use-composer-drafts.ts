@@ -32,7 +32,7 @@ import type {
 import { draftModelPickMatchesThread } from "@t3tools/shared/model";
 
 import { writeFileAtomically } from "../lib/atomic-file";
-import { createComposerContextHistory, referencedComposerContext } from "../lib/composerContext";
+import { createComposerContextHistory, referencedComposerContext } from "../lib/composerContext.vibe";
 import { isQueuedEditDraftKey } from "./queued-edit-draft-key";
 import {
   collectComposerContextReferences,
@@ -42,7 +42,7 @@ import {
 } from "@t3tools/shared/composerContextReferences";
 import { imageMimeType } from "@t3tools/shared/image";
 import { videoMimeType } from "@t3tools/shared/video";
-import { DraftComposerAttachmentSchema } from "../lib/composer-image-schema";
+import { DraftComposerAttachmentSchema } from "../lib/composer-image-schema.vibe";
 import {
   composerAttachmentFileReferenceKey,
   isComposerAttachmentFileRetained,
@@ -53,7 +53,7 @@ import {
 } from "../lib/composerAttachmentPreviewRetention";
 import type { DraftComposerAttachment, FileBackedComposerAttachment } from "../lib/composerImages";
 import { SerializedAsyncQueue } from "../lib/serialized-async-queue";
-import { appAtomRegistry } from "./atom-registry";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import {
   abortComposerDraftOperations,
   abortComposerDraftOperationsWhere,
@@ -68,7 +68,7 @@ import {
   encodeQueuedThreadMessage,
   QueuedThreadMessageSchema,
   type QueuedThreadMessage,
-} from "./thread-outbox-model";
+} from "./thread-outbox-model.vibe";
 import { flushThreadOutbox, threadOutboxManager } from "./thread-outbox";
 import { composerDraftEnvironmentId } from "../lib/composerAttachmentUploadQueue";
 
@@ -925,7 +925,7 @@ export async function releaseUnusedComposerAttachmentFiles(
 
   let incomingShareFileUris: ReadonlySet<string>;
   try {
-    const { loadIncomingShareDrafts } = await import("../features/sharing/incoming-share-storage");
+    const { loadIncomingShareDrafts } = await import("../features/sharing/incoming-share-storage.vibe");
     const incomingShares = await loadIncomingShareDrafts({ strict: true });
     incomingShareFileUris = new Set(
       incomingShares.flatMap((share) =>
@@ -954,7 +954,7 @@ export async function releaseUnusedComposerAttachmentFiles(
   }
 
   if (uploadCandidates.size > 0) {
-    const { releasePendingAttachmentUploads } = await import("../lib/attachmentUpload");
+    const { releasePendingAttachmentUploads } = await import("../lib/attachmentUpload.vibe");
     for (const [environmentId, attachmentIds] of uploadCandidates) {
       for (const attachmentId of attachmentIds) {
         if (isComposerAttachmentUploadReferenced(environmentId, attachmentId)) {

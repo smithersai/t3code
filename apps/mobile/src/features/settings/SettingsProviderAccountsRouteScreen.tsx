@@ -21,11 +21,11 @@ import { AppText as Text } from "../../components/ui/AppText";
 import { ControlPill } from "../../components/ui/ControlPill";
 import { Menu } from "../../components/ui/Menu";
 import { ScreenScrollView } from "../../components/ui/ScreenScrollView";
-import { environmentPresentations } from "../../state/presentation";
-import { useEnvironmentQuery } from "../../state/query";
+import { environmentPresentations } from "../../state/presentation.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { serverEnvironment } from "../../state/server";
-import { useEnvironmentsWithScope } from "../../state/session";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useEnvironmentsWithScope } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { SettingsActionRow } from "./components/SettingsActionRow";
 import {
   AndroidSettingsEnvironmentFilter,

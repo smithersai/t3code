@@ -1,0 +1,10 @@
+import * as SqlClient from "effect/sql/SqlClient"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+
+  try sql`
+    ALTER TABLE projection_thread_messages
+    ADD COLUMN attachments_json TEXT
+  `
+}

@@ -2,13 +2,13 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 
 import { NonNegativeInt, TextGenerationError } from "@t3tools/contracts";
-import type { OpenCodeSettings } from "../settings.ts";
+import type { OpenCodeSettings } from "../settings.vibe";
 import { getModelSelectionStringOptionValue } from "@t3tools/shared/model";
 
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import * as TextGenerationOperations from "@t3tools/provider-core/server/textGenerationOperations";
 import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
-import * as OpenCodeServerOwner from "./OpenCodeServerOwner.ts";
+import * as OpenCodeServerOwner from "#vibelang/emitted/src/server/OpenCodeServerOwner";
 
 const OpenCodeTextGenerationOperation = Schema.Literals([
   "generateCommitMessage",

@@ -1,7 +1,7 @@
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Effect's Crypto digest is effectful; a sync hash keeps historyPath a plain function.
 import * as NodeCrypto from "node:crypto";
 
-import { withWorkspaceLease } from "../workspace/workspaceLease.ts";
+import { withWorkspaceLease } from "../workspace/workspaceLease.vibe";
 import {
   DEFAULT_TERMINAL_ID,
   DEFAULT_MAX_TERMINAL_BUFFER_BYTES,
@@ -70,7 +70,7 @@ import {
   increment,
   terminalRestartsTotal,
   terminalSessionsTotal,
-} from "../observability/Metrics.ts";
+} from "../observability/Metrics.vibe";
 import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion";
 import * as ProcessRunner from "../processRunner.ts";
 import * as PortScanner from "../preview/PortScanner.ts";

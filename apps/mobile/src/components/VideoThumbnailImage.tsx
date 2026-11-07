@@ -7,7 +7,7 @@ import type { VideoThumbnail } from "expo-video";
 import { StyleSheet } from "react-native";
 
 import type { DraftComposerFileAttachment } from "../lib/composerImages";
-import { loadLocalAttachmentPreview } from "../lib/localAttachmentPreview";
+import { loadLocalAttachmentPreview } from "../lib/localAttachmentPreview.vibe";
 import { cachedVideoThumbnail, loadVideoThumbnail } from "../lib/videoThumbnails";
 
 interface VideoThumbnailTarget {

@@ -1,4 +1,3 @@
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { it } from "@effect/vitest";
 import { type PreviewEvent, ThreadId } from "@t3tools/contracts";
@@ -9,6 +8,7 @@ import { expect } from "vite-plus/test";
 
 import * as ServerConfig from "../config.ts";
 import * as PreviewManager from "./Manager.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const DRAIN_LIMIT = 100;
 
@@ -32,8 +32,8 @@ const collectEvents = Effect.gen(function* () {
 
 const layer = PreviewManager.layer.pipe(
   Layer.provide(ServerConfig.layerTest(process.cwd(), { prefix: "t3-preview-manager-" })),
-  Layer.provide(NodeCrypto.layer),
-  Layer.provide(NodeServices.layer),
+  Layer.provide(Crypto.layerWebCrypto),
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 it.layer(layer)("PreviewManager", (it) => {

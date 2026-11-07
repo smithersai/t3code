@@ -1,9 +1,9 @@
 import { DeviceHostUpdates } from "../device/DeviceHostUpdates";
 import { DeviceToolVersions } from "../device/DeviceToolVersions";
-import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings";
+import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings.ts";
 import { ScopedSwitch } from "./ScopedSwitch";
-import { DeviceHostsSettings } from "./DeviceHostsSettings";
-import { EasDeviceHostsSettings } from "./EasDeviceHostsSettings";
+import { DeviceHostsSettings } from "./DeviceHostsSettings.vibex";
+import { EasDeviceHostsSettings } from "./EasDeviceHostsSettings.vibex";
 import {
   AuthSettingsWriteScope,
   BrowserImportFailureReason,
@@ -43,14 +43,14 @@ import { useRef, useState } from "react";
 
 import { ScreenRotationIcon } from "~/browser/ScreenRotationIcon";
 import { AnimatedHeight } from "~/components/AnimatedHeight";
-import { resolveEnvironmentOptionLabel } from "~/components/BranchToolbar.logic";
+import { resolveEnvironmentOptionLabel } from "../BranchToolbar.logic.vibe";
 import { previewBridge } from "~/components/preview/previewBridge";
 import { cn, randomUUID } from "~/lib/utils";
-import { useEnvironments, usePrimaryEnvironment } from "~/state/environments";
-import { deviceEnvironment, useDeviceState } from "~/state/device";
-import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
-import { useAtomCommand } from "~/state/use-atom-command";
-import { formatEnvironmentQueryError } from "~/state/query";
+import { useEnvironments, usePrimaryEnvironment } from "../../state/environments.vibe";
+import { deviceEnvironment, useDeviceState } from "../../state/device.vibe";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { formatEnvironmentQueryError } from "../../state/query.vibe";
 import { previewEnvironment } from "~/state/preview";
 import { useServerConfigs } from "~/state/entities";
 import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
@@ -63,7 +63,7 @@ import {
   deviceHubDescription,
   agentDeviceDescription,
   DeviceHostDiagnostics,
-} from "~/components/device/DeviceSetup";
+} from "../device/DeviceSetup.vibex";
 import { isElectron } from "../../env";
 
 import { Badge } from "../ui/badge";

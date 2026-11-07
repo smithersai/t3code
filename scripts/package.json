@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "test": "vp test run --config ../vite.config.ts --dir ."
+    "typecheck": "vibelang --noEmit",
+    "test": "node --test release-smoke.native-loader.node-test.mjs ci-changes-native.node-test.mjs && vp test run --config ../vite.config.ts --dir ."
   },
   "dependencies": {
     "@effect/platform-node": "catalog:",
@@ -17,16 +17,19 @@
     "playwright-core": "1.60.0",
     "plist": "catalog:",
     "pngjs": "7.0.0",
-    "sharp": "0.35.4"
+    "sharp": "0.35.4",
+    "vibelang-runtime": "file:../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
     "@types/plist": "catalog:",
     "@types/pngjs": "6.0.5",
     "esbuild": "0.28.2",
+    "fast-check": "4.10.2",
     "postject": "1.0.0-alpha.6",
     "typescript": "catalog:",
     "typescript-legacy": "npm:typescript@~6.0.3",
+    "vibelang": "file:../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
     "vite-plus": "catalog:"
   }
 }

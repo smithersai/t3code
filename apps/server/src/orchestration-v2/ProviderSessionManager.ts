@@ -33,14 +33,14 @@ import * as Scope from "effect/Scope";
 import * as Semaphore from "effect/Semaphore";
 import * as Stream from "effect/Stream";
 
-import { normalizeModelMetricLabel } from "../observability/Attributes.ts";
+import { normalizeModelMetricLabel } from "../observability/Attributes.vibe";
 import {
   providerSessionsTotal,
   providerTurnDuration,
   providerTurnsTotal,
   withMetrics,
-} from "../observability/Metrics.ts";
-import { ProviderWorkspaceMissingError } from "../provider/Errors.ts";
+} from "../observability/Metrics.vibe";
+import { ProviderWorkspaceMissingError } from "../provider/Errors.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as ServerSettings from "../serverSettings.ts";
@@ -426,7 +426,7 @@ export const layerWithOptions = (
                 const { browser: browserToolsAvailable, device: deviceToolsAvailable } =
                   yield* agentAccessSettings(threadId);
                 const capabilities = new Set<
-                  import("../mcp/McpInvocationContext.ts").McpCapability
+                  import("../mcp/McpInvocationContext.vibe").McpCapability
                 >(["orchestration", "worktree", "pull-requests"]);
                 if (browserToolsAvailable) capabilities.add("preview");
                 if (deviceToolsAvailable) capabilities.add("device");

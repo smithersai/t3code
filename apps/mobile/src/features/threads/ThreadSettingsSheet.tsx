@@ -77,23 +77,23 @@ import { NativeStackScreenOptions, nativeHeaderScrollEdgeEffects } from "../../n
 import { NATIVE_LIQUID_GLASS_SUPPORTED } from "../../native/native-glass";
 import { ChatGptSharingStatus } from "./ChatGptSharingStatus";
 import { environmentCatalog } from "../../connection/catalog";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { scopedThreadKey } from "../../lib/scopedEntities";
-import { useThreadReportedModelSelection } from "../../state/entities";
+import { useThreadReportedModelSelection } from "../../state/entities.vibe";
 import {
   setComposerDraftText,
   updateComposerDraftSettings,
   useComposerDraft,
   useComposerDraftSettings,
 } from "../../state/use-composer-drafts";
-import { useQuietThreadStructure } from "../../state/use-thread-detail";
+import { useQuietThreadStructure } from "../../state/use-thread-detail.vibe";
 import { activeComposerDraftKey, useQueuedRunEdit } from "../../state/queued-run-edit";
 import { updateThreadDraftModelSelection } from "../../state/use-thread-composer-state";
-import { useThreadSelection } from "../../state/use-thread-selection";
+import { useThreadSelection } from "../../state/use-thread-selection.vibe";
 import { threadAllowsProviderSwitch } from "../../state/thread-provider-switching";
 import { environmentServerConfigsAtom, serverEnvironment } from "../../state/server";
-import { mobilePreferencesAtom } from "../../state/preferences";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { mobilePreferencesAtom } from "../../state/preferences.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useNewTaskFlow } from "./new-task-flow-provider";
 import { ScreenContent } from "../../components/ui/ScreenContent";
 import {

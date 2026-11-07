@@ -1,5 +1,4 @@
 import * as DocumentText from "../provider/DocumentText.ts";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it } from "@effect/vitest";
 import {
@@ -25,12 +24,12 @@ import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.ts";
 import { makeSubagentChildThread } from "@t3tools/provider-core/server/subagentProjection";
-import * as ThreadForkService from "../orchestration-v2/ThreadForkService.ts";
+import * as ThreadForkService from "../orchestration-v2/ThreadForkService.vibe";
 import * as ThreadLaunch from "../orchestration-v2/ThreadLaunchService.ts";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
+import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
@@ -41,11 +40,12 @@ import * as RemoteDelegation from "../peer/RemoteDelegation.ts";
 import * as SourceControlRepositoryService from "../sourceControl/SourceControlRepositoryService.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as McpHttpServer from "./McpHttpServer.ts";
-import * as McpInvocationContext from "./McpInvocationContext.ts";
+import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as PeerForwarding from "../peer/PeerForwarding.ts";
 import * as ThreadSearch from "../orchestration-v2/ThreadSearch.ts";
 import * as PeerLinkRequests from "../peer/PeerLinkRequests.ts";
 import * as PeerLinks from "../peer/PeerLinks.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 // A linked environment's session drives this one's real orchestrator through
 // its real T3 tools. What the link starts carries its origin, and the link
@@ -117,10 +117,15 @@ const layerTools = Layer.mergeAll(
   McpHttpServer.layerThreadToolkit,
   McpHttpServer.layerProjectRegistration,
 ).pipe(
-  Layer.provide(DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer))),
+  Layer.provide(
+    DocumentText.layer.pipe(
+      Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+    ),
+  ),
+  Layer.provide(McpHttpServer.layerCallerInvocation),
   Layer.provideMerge(McpServer.McpServer.layer),
   Layer.provide(layerLaunches),
-  Layer.provide(NodeCrypto.layer),
+  Layer.provide(Crypto.layerWebCrypto),
   Layer.provide(
     Layer.mock(ProviderRegistry.ProviderRegistry)({ getProviders: Effect.succeed([]) }),
   ),
@@ -179,10 +184,10 @@ const layerTools = Layer.mergeAll(
   ),
   Layer.provide(
     ServerConfig.layerTest(process.cwd(), { prefix: "t3-link-origin-" }).pipe(
-      Layer.provide(NodeServices.layer),
+      Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     ),
   ),
-  Layer.provide(NodeServices.layer),
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 const mcpClient = McpSchema.McpServerClient.of({

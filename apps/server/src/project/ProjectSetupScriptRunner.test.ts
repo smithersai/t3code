@@ -1,4 +1,3 @@
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import { describe, expect, it } from "@effect/vitest";
 import { ProjectId, type TerminalEvent, type TerminalSessionSnapshot } from "@t3tools/contracts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
@@ -14,6 +13,7 @@ import * as TerminalManager from "../terminal/Manager.ts";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ProjectService from "./ProjectService.ts";
 import * as ProjectSetupScriptRunner from "./ProjectSetupScriptRunner.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const threadId = "thread-1";
 const terminalId = "setup-setup";
@@ -63,7 +63,7 @@ const makeHarness = Effect.fn(function* (options: {
           getThreadShell: () => Effect.succeed(null),
         }),
         ServerSettings.layerTest(),
-        NodeCrypto.layer,
+        Crypto.layerWebCrypto,
       ),
     ),
     Effect.provideService(HostProcess.Platform, "darwin"),

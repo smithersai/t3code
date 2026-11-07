@@ -13,6 +13,7 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import * as ServerConfig from "../config.ts";
 import * as DeviceHost from "./DeviceHost.ts";
 import * as SshDeviceHost from "./SshDeviceHost.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 it.effect("preserves installed status after probes and cleans failed agent activation", () =>
   Effect.gen(function* () {
@@ -30,7 +31,7 @@ it.effect("preserves installed status after probes and cleans failed agent activ
       Effect.gen(function* () {
         if (command._tag !== "StandardCommand") return yield* Effect.die("Unexpected command");
         const forwarding = command.args.includes("-L");
-        (forwarding ? tunnelArgs : commandArgs).push([...command.args]);
+        (forwarding ? tunnelArgs : commandArgs).push(command.args.map(String));
         if (forwarding) tunnelStdins.push(command.options.stdin);
         let output = "";
         let exitCode = 0;
@@ -181,5 +182,5 @@ it.effect("preserves installed status after probes and cleans failed agent activ
     }
     yield* host.stop;
     expect(forwards).toBe(0);
-  }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+  }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );

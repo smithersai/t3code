@@ -12,7 +12,7 @@ import * as Queue from "effect/Queue";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
 import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
-import * as OpenCodeServerLedger from "./OpenCodeServerLedger.ts";
+import * as OpenCodeServerLedger from "./OpenCodeServerLedger.vibe";
 
 const layerTest = OpenCodeRuntime.layer.pipe(
   Layer.provide(OpenCodeServerLedger.layerTest),

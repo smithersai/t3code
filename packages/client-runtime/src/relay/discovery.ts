@@ -16,12 +16,15 @@ import * as Semaphore from "effect/Semaphore";
 import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
-import * as ManagedRelay from "./managedRelay.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
-import * as Connectivity from "../connection/connectivity.ts";
+import * as ManagedRelay from "#vibelang/emitted/src/relay/managedRelay";
+import * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities";
+import * as Connectivity from "#vibelang/emitted/src/connection/connectivity";
 import { mapManagedRelayError } from "../connection/errors.ts";
-import { ConnectionBlockedError, type ConnectionAttemptError } from "../connection/model.ts";
-import * as ConnectionWakeups from "../connection/wakeups.ts";
+import {
+  ConnectionBlockedError,
+  type ConnectionAttemptError,
+} from "#vibelang/emitted/src/connection/model";
+import * as ConnectionWakeups from "#vibelang/emitted/src/connection/wakeups";
 
 export type RelayEnvironmentAvailability = "checking" | "online" | "offline" | "error";
 

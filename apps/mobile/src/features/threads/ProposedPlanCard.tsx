@@ -12,7 +12,7 @@ import { AppText as Text } from "../../components/ui/AppText";
 import { Button } from "../../components/ui/Button";
 import * as Dialog from "../../components/ui/Dialog";
 import { projectEnvironment } from "../../state/projects";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { CopyTextButton } from "./CopyTextButton";
 
 export function ProposedPlanCard(props: {

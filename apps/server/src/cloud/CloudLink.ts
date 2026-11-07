@@ -43,7 +43,7 @@ import {
 } from "@t3tools/shared/relayJwt";
 import { isSecureRelayUrl } from "@t3tools/shared/relayUrl";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as DateTime from "effect/DateTime";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -104,7 +104,7 @@ import {
   relayRequestError,
   type RelayRequestError,
   shouldRetryRelayRequest,
-} from "./relayResponse.ts";
+} from "./relayResponse.vibe";
 import {
   hasBoundedCloudProofLifetime,
   hasExactScope,

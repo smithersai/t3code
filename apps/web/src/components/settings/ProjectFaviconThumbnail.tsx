@@ -1,7 +1,7 @@
 import type { EnvironmentId } from "@t3tools/contracts";
 import { type ReactNode, useState } from "react";
 
-import { useAssetUrlState } from "~/assets/assetUrls";
+import { useAssetUrlState } from "../../assets/assetUrls.vibe";
 import { observeIntersection } from "~/lib/observeIntersection";
 
 export function ProjectFaviconThumbnail(props: {

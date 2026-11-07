@@ -25,13 +25,13 @@ import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1Thre
 import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.ts";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
-import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.ts";
+import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.vibe";
 import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as ProjectEnrichmentService from "./ProjectEnrichmentService.ts";
-import * as ProjectFaviconResolver from "./ProjectFaviconResolver.ts";
+import * as ProjectFaviconResolver from "./ProjectFaviconResolver.vibe";
 import * as ProjectService from "./ProjectService.ts";
 import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.ts";
 

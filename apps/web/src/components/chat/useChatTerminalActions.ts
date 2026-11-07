@@ -25,7 +25,7 @@ import {
 import { MAX_TERMINALS_PER_GROUP } from "../../types";
 import { type RightPanelSurface, useRightPanelStore } from "../../rightPanelStore";
 import { isPreviewSupportedInRuntime } from "../../previewStateStore";
-import { openUrlInPreview } from "../../browser/openFileInPreview";
+import { openUrlInPreview } from "../../browser/openFileInPreview.vibe";
 import { resolveDiscoveredServerUrl } from "../../browser/browserTargetResolver";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 import { confirmTerminalClose } from "../../lib/terminalCloseConfirm";
@@ -44,8 +44,8 @@ import {
 } from "../ChatView.logic";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import { previewEnvironment } from "../../state/preview";
-import { readEnvironmentScope } from "../../state/session";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { readEnvironmentScope } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import type { ChatShortcutCommands } from "./useChatShortcuts";
 const SCRIPT_TERMINAL_COLS = 120;
 const SCRIPT_TERMINAL_ROWS = 30;

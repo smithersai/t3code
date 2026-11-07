@@ -4,7 +4,7 @@ import { Chip } from "../../components/ui/Chip";
 import { pullRequestTabOffset } from "./pullRequestTabScroll";
 import { guideFocusedRows, type GuideDiffFocus } from "./guide/guideDiffFocus";
 import { PullRequestGuideContent } from "./guide/PullRequestGuideScreen";
-import { useReviewGuidesEnabled } from "./guide/useReviewGuide";
+import { useReviewGuidesEnabled } from "./guide/useReviewGuide.vibe";
 import {
   filterPullRequestActivity,
   DEFAULT_ACTIVITY_FILTER,
@@ -30,22 +30,22 @@ import * as Clipboard from "expo-clipboard";
 import { Menu } from "../../components/ui/Menu";
 import { IconButton } from "../../components/ui/IconButton";
 import { Button } from "../../components/ui/Button";
-import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft";
-import { usePullRequestFilesViewed } from "./usePullRequestFilesViewed";
-import { usePullRequestPermissions } from "./usePullRequestPermissions";
-import { usePullRequestAction } from "./usePullRequestAction";
+import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft.vibe";
+import { usePullRequestFilesViewed } from "./usePullRequestFilesViewed.vibe";
+import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";
+import { usePullRequestAction } from "./usePullRequestAction.vibe";
 import { annotatePullRequestDiff, reviewPosition } from "./pullRequestDiffComments";
-import { usePullRequestFileFilter } from "./usePullRequestFileFilter";
+import { usePullRequestFileFilter } from "./usePullRequestFileFilter.vibe";
 import {
   handlePullRequestDiffDebugEvent,
   pullRequestDiffInitialPosition,
 } from "./pullRequestDiffDebug";
-import { usePullRequestDiffHighlightFiles } from "./usePullRequestDiffHighlightFiles";
+import { usePullRequestDiffHighlightFiles } from "./usePullRequestDiffHighlightFiles.vibe";
 import { isPullRequestTestFile } from "./pullRequestFileFilters";
 import { useFocusEffect, useNavigation, type StaticScreenProps } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RegistryContext, useAtomRefresh, useAtomValue } from "@effect/atom-react";
-import { pullRequestReviewKey } from "./pullRequestReviewDrafts";
+import { pullRequestReviewKey } from "./pullRequestReviewDrafts.vibe";
 import { type PullRequestDetail, type PullRequestListEntry } from "@t3tools/contracts";
 import { PullRequestOverviewLoading } from "./PullRequestOverviewLoading";
 import { copyPullRequestLink, sharePullRequestLink } from "./pullRequestLink";
@@ -81,8 +81,8 @@ import { usePullRequestLiveChecks } from "./usePullRequestLiveChecks";
 import { pullRequestLabelColor } from "./pullRequestList";
 import { PullRequestReactions } from "./PullRequestReactions";
 import { composerPullRequests } from "../../state/pull-requests";
-import { useEnvironmentQuery } from "../../state/query";
-import { usePullToRefresh } from "../../state/use-pull-to-refresh";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { usePullToRefresh } from "../../state/use-pull-to-refresh.vibe";
 import {
   resolveNativeReviewDiffView,
   type NativeReviewDiffViewHandle,
@@ -91,7 +91,7 @@ import {
 import {
   getCachedNativeReviewDiffData,
   NATIVE_REVIEW_DIFF_CONTENT_WIDTH,
-} from "../review/nativeReviewDiffAdapter";
+} from "../review/nativeReviewDiffAdapter.vibe";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import { useAppearanceCodeSurface } from "../settings/appearance/useAppearanceCodeSurface";
 import { useNativeReviewDiffBridge } from "../review/useNativeReviewDiffBridge";
@@ -103,7 +103,7 @@ import {
   usePullRequestDiffEntry,
   type PullRequestDiffParams,
   type PullRequestParams,
-} from "./usePullRequestDiff";
+} from "./usePullRequestDiff.vibe";
 import {
   PullRequestAvatar,
   PullRequestDiffStats,

@@ -8,6 +8,9 @@ import ts from "typescript-legacy";
 
 const schemaTypeId = "~effect/Schema/Schema";
 
+// A .vibe module's types are in its declaration sidecar, which this TypeScript reads.
+const declarationOf = (file: string) => file.replace(/\.vibe$/, ".d.vibe.ts");
+
 // One tsconfig's files, each with the export names its issues mention. Only
 // those names are checked: inferring the type of every export cost seconds.
 interface Project {
@@ -66,13 +69,13 @@ function findSchemas({ cwd, configPath, files }: Project) {
     );
   };
   const program = ts.createProgram(
-    files.map(([file]) => NodePath.resolve(cwd, file)),
+    files.map(([file]) => NodePath.resolve(cwd, declarationOf(file))),
     options,
     host,
   );
   const checker = program.getTypeChecker();
   return files.flatMap(([filePath, names]) => {
-    const source = program.getSourceFile(NodePath.resolve(cwd, filePath));
+    const source = program.getSourceFile(NodePath.resolve(cwd, declarationOf(filePath)));
     const module = source && checker.getSymbolAtLocation(source);
     if (!source || !module) return [];
     const schemas = checker

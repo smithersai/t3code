@@ -1,0 +1,104 @@
+import { SourceControlProviderKind } from "@t3tools/contracts"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+
+import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit"
+
+const RESERVE_RATIO = 0.1
+
+type GitHubQuotaResource = string
+
+interface QuotaSnapshot {
+  readonly limit: number
+  readonly remaining: number
+  readonly resetAtMs: number
+}
+
+function quotaFromHeaders(
+  headers: Readonly<Record<string, string | undefined>>,
+): (QuotaSnapshot & { readonly resource: GitHubQuotaResource }) | null {
+  const resource = headers["x-ratelimit-resource"]?.trim()
+  const limit = Number(headers["x-ratelimit-limit"])
+  const remaining = Number(headers["x-ratelimit-remaining"])
+  const reset = Number(headers["x-ratelimit-reset"])
+  if (
+    !resource
+    || !Number.isFinite(limit)
+    || limit <= 0
+    || !Number.isFinite(remaining)
+    || remaining < 0
+    || !Number.isFinite(reset)
+  ) {
+    return null
+  }
+  return { resource, limit, remaining, resetAtMs: reset * 1_000 }
+}
+
+/** Local debits would drift: 304s and requests that never reach GitHub spend nothing. */
+export service GitHubQuota: {
+  readonly admit: (
+    host: string,
+    resource: GitHubQuotaResource,
+    options?: { readonly allowReserve: boolean },
+  ) => void!SourceControlRateLimit.SourceControlRateLimitPausedError;
+  readonly observe: (
+    host: string,
+    headers: Readonly<Record<string, string | undefined>>,
+  ) => void!!;
+} {
+  static readonly key = "@t3tools/source-control-github/server/GitHubQuota"
+}
+
+const make = effect {
+  const snapshots = try Ref.make<ReadonlyMap<string, QuotaSnapshot>>(new Map())
+  const keyOf = (host: string, resource: string, scope: string) => `${host.trim().toLowerCase()}\0${resource}\0${scope}`
+
+  const admit: GitHubQuota["Service"]["admit"] = effect (
+    host,
+    resource,
+    options,
+  ): void!SourceControlRateLimit.SourceControlRateLimitPausedError =>
+    try withSpan(
+      (effect (): void!SourceControlRateLimit.SourceControlRateLimitPausedError => {
+        const now = try Clock.currentTimeMillis
+        const key = keyOf(host, resource, try SourceControlRateLimit.CredentialScope)
+        const snapshot = (try Ref.get(snapshots)).get(key)
+        if (snapshot === undefined || snapshot.resetAtMs <= now) return
+        const floor = options?.allowReserve === true ? 1 : snapshot.limit * RESERVE_RATIO
+        if (snapshot.remaining >= floor) return
+        throw new SourceControlRateLimit.SourceControlRateLimitPausedError({
+          provider: SourceControlProviderKind.make("github"),
+          host: host.trim().toLowerCase(),
+          retryAt: snapshot.resetAtMs,
+        })
+      })(),
+      "GitHubQuota.admit",
+    )
+
+  const observe: GitHubQuota["Service"]["observe"] = effect (host, headers): void!! =>
+    try withSpan(
+      (effect (): void!! => {
+        const quota = quotaFromHeaders(headers)
+        if (quota === null) return
+        const key = keyOf(host, quota.resource, try SourceControlRateLimit.CredentialScope)
+        try Ref.update(snapshots, (current) => {
+          const previous = current.get(key)
+          // Regional responses can increase the balance within a window.
+          if (previous !== undefined && quota.resetAtMs < previous.resetAtMs) return current
+          const next = new Map(current)
+          next.set(key, {
+            limit: quota.limit,
+            remaining: quota.remaining,
+            resetAtMs: quota.resetAtMs,
+          })
+          return next
+        })
+      })(),
+      "GitHubQuota.observe",
+    )
+
+  return GitHubQuota.of({ admit, observe })
+}
+
+export const layer = Layer.effect(GitHubQuota, make)

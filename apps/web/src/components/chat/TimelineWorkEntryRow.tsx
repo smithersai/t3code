@@ -27,12 +27,12 @@ import {
   workEntryDisplayIndicatesToolFailure,
   workEntrySignalsSevereFailure,
   workLogEntryIsToolLike,
-} from "../../session-logic";
+} from "../../session-logic.vibe";
 import ChatMarkdown from "../ChatMarkdown";
 import { ChatMarkdownAssetImage } from "./ChatMarkdownMedia";
 import { ChevronRightIcon, CircleAlertIcon, XIcon, RotateCcwIcon } from "lucide-react";
 import { Button, InlineButton } from "../ui/button";
-import { useAssetUrls } from "../../assets/assetUrls";
+import { useAssetUrls } from "../../assets/assetUrls.vibe";
 import { useThreadShell } from "../../state/entities";
 import {
   threadReadLabelPrefix,
@@ -41,17 +41,17 @@ import {
   toolGroupAction,
   workEntryDisplayLabel,
   workEntryReadOutput,
-} from "./MessagesTimeline.logic";
+} from "./MessagesTimeline.logic.vibe";
 import { cn } from "~/lib/utils";
 import { formatUpcomingTimestamp } from "../../timestampFormat";
 import { FetchedToolOutput, V2ItemInspector } from "./V2ItemInspector";
-import { SubagentNotificationLink } from "./V2LifecycleRow";
+import { SubagentNotificationLink } from "./V2LifecycleRow.vibex";
 import {
   TimelineRowCtx,
   TimelineRowActivityCtx,
   WorkGroupViewCtx,
   type TimelineWorkEntry,
-} from "./timelineRowContext";
+} from "./timelineRowContext.vibe";
 import { MESSAGE_HEADING_LEVEL, TimelineRowTimestamp } from "./TimelineRowParts";
 import {
   failedToolIconClassName,

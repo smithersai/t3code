@@ -5,7 +5,7 @@ import {
   type ScopedProjectRef,
   WS_METHODS,
 } from "@t3tools/contracts";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Predicate from "effect/Predicate";
@@ -18,8 +18,8 @@ import {
   type EnvironmentRpcSuccess,
   request,
   requestGuarded,
-} from "../rpc/client.ts";
-import type { EnvironmentProject } from "./models.ts";
+} from "#vibelang/emitted/src/rpc/client";
+import type { EnvironmentProject } from "./models.vibe";
 import {
   createAtomCommandScheduler,
   createEnvironmentCommand,
@@ -33,16 +33,16 @@ import {
   createProject,
   deleteProject,
   updateProject,
-} from "../operations/commands.ts";
+} from "#vibelang/emitted/src/operations/commands";
 import type { EnvironmentRegistry } from "../connection/registry.ts";
-import { createFileMetadataAtoms } from "./fileMetadata.ts";
+import { createFileMetadataAtoms } from "#vibelang/emitted/src/state/fileMetadata";
 import { resolveWorkspaceFilePath } from "@t3tools/shared/path";
 
 export type {
   CreateProjectInput,
   DeleteProjectInput,
   UpdateProjectInput,
-} from "../operations/commands.ts";
+} from "../operations/commands.vibe";
 
 export interface OptimisticProjectFile {
   readonly data: ProjectReadFileResult;

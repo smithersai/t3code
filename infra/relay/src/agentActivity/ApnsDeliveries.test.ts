@@ -3,7 +3,6 @@ import type {
   RelayAgentActivityAggregateState,
   RelayAgentActivityState,
 } from "@t3tools/contracts/relay";
-import * as NodeCryptoLayer from "@effect/platform-node/NodeCrypto";
 import { describe, expect, it } from "@effect/vitest";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Effect's Crypto has no generateKeyPairSync.
 import * as NodeCrypto from "node:crypto";
@@ -17,14 +16,15 @@ import {
   signApnsDeliveryJob,
   type SignedApnsDeliveryJob,
 } from "./apnsDeliveryJobs.ts";
-import * as DeliveryAttempts from "./DeliveryAttempts.ts";
-import * as LiveActivities from "./LiveActivities.ts";
-import * as RelayConfiguration from "../Config.ts";
+import * as DeliveryAttempts from "./DeliveryAttempts.vibe";
+import * as LiveActivities from "./LiveActivities.vibe";
+import * as RelayConfiguration from "../Config.vibe";
 import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.ts";
-import * as AgentActivityRows from "./AgentActivityRows.ts";
+import * as AgentActivityRows from "./AgentActivityRows.vibe";
 import * as ApnsDeliveries from "./ApnsDeliveries.ts";
-import * as ApnsClient from "./ApnsClient.ts";
+import * as ApnsClient from "./ApnsClient.vibe";
 import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const config = RelayConfiguration.RelayConfiguration.of({
   relayIssuer: "https://relay.example.test",
@@ -164,7 +164,7 @@ function layerFor(input: {
   return ApnsDeliveries.layer.pipe(
     Layer.provide(ApnsClient.layer),
     Layer.provide(ApnsProviderTokens.layer),
-    Layer.provide(ApnsDeliveryQueue.layer.pipe(Layer.provide(NodeCryptoLayer.layer))),
+    Layer.provide(ApnsDeliveryQueue.layer.pipe(Layer.provide(Crypto.layerWebCrypto))),
     Layer.provide(
       Layer.mergeAll(
         Layer.succeed(AgentActivityRows.AgentActivityRows, {

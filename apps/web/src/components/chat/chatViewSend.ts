@@ -18,7 +18,7 @@ import {
 } from "@t3tools/client-runtime/state/runtime";
 import { readLocalApi } from "../../localApi";
 import { getUploadedAttachments } from "../../lib/attachmentUploadQueue";
-import { findRevertCheckpoint } from "../../session-logic";
+import { findRevertCheckpoint } from "../../session-logic.vibe";
 import { type ChatMessage } from "../../types";
 import { randomUUID } from "~/lib/utils";
 import { stackedThreadToast, toastManager } from "../ui/toast";
@@ -43,7 +43,7 @@ import {
   prepareRevertedMessageAttachments,
   waitForRevertedMessage,
 } from "../ChatView.logic";
-import { readPreparedConnection } from "../../state/session";
+import { readPreparedConnection } from "../../state/session.vibe";
 import { recallableComposerPrompt } from "./composerPromptHistory";
 
 // Kept per route so a send in flight, and the multiple-model selections, survive

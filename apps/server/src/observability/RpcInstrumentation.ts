@@ -5,7 +5,7 @@ import * as References from "effect/References";
 import type * as RpcGroup from "effect/rpc/RpcGroup";
 import * as RpcMiddleware from "effect/rpc/RpcMiddleware";
 
-import { rpcRequestDuration, rpcRequestsTotal, withMetrics } from "./Metrics.ts";
+import { rpcRequestDuration, rpcRequestsTotal, withMetrics } from "./Metrics.vibe";
 
 type WsRpcMethod = RpcGroup.Rpcs<typeof WsRpcGroup>["_tag"];
 

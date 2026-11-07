@@ -6,15 +6,15 @@ import {
 import { recordVisitForThread } from "~/browserHistoryStore";
 import { readLocalApi } from "~/localApi";
 import { previewEnvironment } from "~/state/preview";
-import { readEnvironmentScope } from "~/state/session";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { readEnvironmentScope } from "../state/session.vibe";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 
 import {
   canOpenLinksInApp,
   resolveBrowserLinkTargetPreference,
   resolveLinkTarget,
 } from "./browserLinkTarget";
-import { BrowserSettingsReadError, openUrlInPreview } from "./openFileInPreview";
+import { BrowserSettingsReadError, openUrlInPreview } from "./openFileInPreview.vibe";
 
 const NO_MODIFIER = { metaKey: false, ctrlKey: false } as const;
 

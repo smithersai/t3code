@@ -9,7 +9,7 @@ import {
   ITEM_ICON_CLASS,
 } from "./CommandPalette.logic";
 import { EnvironmentMachineIcon } from "./EnvironmentMachineIcon";
-import { ProjectFavicon } from "./ProjectFavicon";
+import { ProjectFavicon } from "./ProjectFavicon.vibex";
 import { COMMAND_PALETTE_META_ICON_CLASS, CommandPaletteMetaDot } from "./ThreadCommandSubtitle";
 
 export interface CommandPaletteProjectLocation {

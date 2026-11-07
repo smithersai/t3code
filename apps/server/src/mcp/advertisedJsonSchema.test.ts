@@ -2,7 +2,7 @@ import { expect, it } from "@effect/vitest";
 import * as Schema from "effect/Schema";
 import { Tool } from "effect/ai";
 
-import { advertisedJsonSchema } from "./advertisedJsonSchema.ts";
+import { advertisedJsonSchema } from "./advertisedJsonSchema.vibe";
 
 it("drops JSON noise, merges tagged unions, and keeps null where it is required", () => {
   const Every = Schema.Struct({ ms: Schema.Int });

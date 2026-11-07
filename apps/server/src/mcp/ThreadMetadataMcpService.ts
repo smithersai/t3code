@@ -9,14 +9,14 @@ import {
   ThreadId,
 } from "@t3tools/contracts";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
-import type { McpInvocationScope } from "./McpInvocationContext.ts";
-import { threadNotFound } from "./threadAccess.ts";
+import type { McpInvocationScope } from "./McpInvocationContext.vibe";
+import { threadNotFound } from "./threadAccess.vibe";
 
 export class ThreadMetadataMcpService extends Context.Service<
   ThreadMetadataMcpService,

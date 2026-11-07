@@ -1,6 +1,6 @@
 import { OrchestrationDispatchCommandError } from "@t3tools/contracts";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Orchestrator from "./orchestration-v2/Orchestrator.ts";
 import * as PeerLinkRequests from "./peer/PeerLinkRequests.ts";
 import * as PeerLinks from "./peer/PeerLinks.ts";
@@ -18,7 +18,7 @@ import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";
 import * as Result from "effect/Result";
 import * as Stream from "effect/Stream";
-import { rpcInitialItems } from "./rpcInitialItems.ts";
+import { rpcInitialItems } from "./rpcInitialItems.vibe";
 import { subscribeChatGptHandoff } from "./provider/CodexChatGptHandoff.ts";
 import { subscribeCodexAuthCallback } from "./provider/CodexAuthCallback.ts";
 import {
@@ -169,7 +169,7 @@ import { dedupeSnapshotBodies } from "@t3tools/shared/orchestrationV2DedupedBodi
 import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
 import * as ThreadSearch from "./orchestration-v2/ThreadSearch.ts";
 import * as OrchestrationEventStore from "./persistence/OrchestrationEventStore.ts";
-import { userFacingDispatchErrorMessage } from "./orchestration-v2/UserFacingErrors.ts";
+import { userFacingDispatchErrorMessage } from "./orchestration-v2/UserFacingErrors.vibe";
 import * as ProviderRegistry from "./provider/ProviderRegistry.ts";
 import * as ProviderInstanceRegistry from "./provider/ProviderInstanceRegistry.ts";
 import * as AcpRegistrySupport from "@t3tools/provider-acp-registry/server/AcpRegistrySupport";
@@ -199,14 +199,14 @@ import {
   chatAttachmentStableKey,
   createDeterministicAttachmentId,
 } from "./attachmentStore.ts";
-import { parseBase64DataUrl } from "./imageMime.ts";
+import { parseBase64DataUrl } from "./imageMime.vibe";
 import { deletePendingAttachment, issueAttachmentUploadUrl } from "./assets/AttachmentUpload.ts";
 import * as PortScanner from "./preview/PortScanner.ts";
 import * as WorkspaceEntries from "./workspace/WorkspaceEntries.ts";
 import * as KnownWorkspaces from "./workspace/KnownWorkspaces.ts";
 import * as WorkspaceFileSystem from "./workspace/WorkspaceFileSystem.ts";
 import { readWorkflowScript } from "./orchestration-v2/workflowScriptQuery.ts";
-import * as WorkspacePaths from "./workspace/WorkspacePaths.ts";
+import * as WorkspacePaths from "./workspace/WorkspacePaths.vibe";
 import * as VcsStatusBroadcaster from "./vcs/VcsStatusBroadcaster.ts";
 import * as VcsProvisioningService from "./vcs/VcsProvisioningService.ts";
 import * as GitWorkflowService from "./git/GitWorkflowService.ts";
@@ -215,16 +215,16 @@ import { linkCreatedPullRequest } from "./git/linkCreatedPullRequest.ts";
 import * as ReviewService from "./review/ReviewService.ts";
 import * as ProjectEnrichmentService from "./project/ProjectEnrichmentService.ts";
 import * as ProjectService from "./project/ProjectService.ts";
-import { threadWorkspaceRoot } from "./project/threadWorkspaceRoot.ts";
-import * as ManagedProjectFolders from "./project/ManagedProjectFolders.ts";
-import { projectMutationOperation } from "./project/ProjectMutation.ts";
-import * as ProjectCloneTracker from "./project/ProjectCloneTracker.ts";
+import { threadWorkspaceRoot } from "./project/threadWorkspaceRoot.vibe";
+import * as ManagedProjectFolders from "./project/ManagedProjectFolders.vibe";
+import { projectMutationOperation } from "./project/ProjectMutation.vibe";
+import * as ProjectCloneTracker from "./project/ProjectCloneTracker.vibe";
 import * as RepositoryIdentityResolver from "./project/RepositoryIdentityResolver.ts";
-import * as WorktreeSetupTracker from "./project/WorktreeSetupTracker.ts";
+import * as WorktreeSetupTracker from "./project/WorktreeSetupTracker.vibe";
 import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
 import * as DirectEndpoints from "./environment/DirectEndpoints.ts";
 import * as RemoteOpenTargets from "./environment/RemoteOpenTargets.ts";
-import * as DefectReporter from "./observability/DefectReporter.ts";
+import * as DefectReporter from "./observability/DefectReporter.vibe";
 import * as EventLoopMonitor from "./observability/EventLoopMonitor.ts";
 import * as BackgroundPolicy from "./background/BackgroundPolicy.ts";
 import * as EnvironmentAuth from "./auth/EnvironmentAuth.ts";
@@ -268,6 +268,7 @@ import {
 import * as AgentSessionScanner from "./project/AgentSessionScanner.ts";
 import * as AgentSessionImporter from "./project/AgentSessionImporter.ts";
 import * as UsageLimitSources from "./usage/UsageLimitSources.ts";
+import * as RequestUrl from "./RequestUrl.vibe";
 
 const CONFIG_DISCOVERY_TIMEOUT = Duration.seconds(5);
 const isProviderUploadFeedbackError = Schema.is(ProviderUploadFeedbackError);
@@ -649,7 +650,7 @@ function shouldUseBoundedThreadSnapshot(input: {
 function readClientConnectionOrigin(
   request: HttpServerRequest.HttpServerRequest,
 ): OrchestrationClientOrigin {
-  const url = HttpServerRequest.toURL(request);
+  const url = RequestUrl.toURL(request);
   if (Option.isNone(url)) {
     return {};
   }
@@ -665,7 +666,7 @@ function readClientConnectionOrigin(
 
 // Keep telemetry per socket; several client types can connect simultaneously.
 function readClientAnalyticsProps(request: HttpServerRequest.HttpServerRequest) {
-  const url = HttpServerRequest.toURL(request);
+  const url = RequestUrl.toURL(request);
   if (Option.isNone(url)) {
     return {};
   }
@@ -715,7 +716,7 @@ function readClientAnalyticsProps(request: HttpServerRequest.HttpServerRequest) 
 function readClientOwners(
   request: HttpServerRequest.HttpServerRequest,
 ): ReadonlyArray<TelemetryOwner> {
-  const url = HttpServerRequest.toURL(request);
+  const url = RequestUrl.toURL(request);
   if (Option.isNone(url)) {
     return [];
   }
@@ -3330,7 +3331,7 @@ export const layer = Layer.unwrap(
       "/ws",
       Effect.gen(function* () {
         const request = yield* HttpServerRequest.HttpServerRequest;
-        const requestUrl = HttpServerRequest.toURL(request);
+        const requestUrl = RequestUrl.toURL(request);
         if (Option.isNone(requestUrl) || !hasCompatibleOrchestrationProtocol(requestUrl.value)) {
           return HttpServerResponse.jsonUnsafe(
             {

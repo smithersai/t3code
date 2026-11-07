@@ -14,8 +14,8 @@ import {
   traceDiffHighlight,
 } from "../diffs/nativeReviewDiffTrace";
 import type { NativeReviewDiffFile, NativeReviewDiffSource } from "../diffs/nativeReviewDiffTypes";
-import type { ReviewParsedDiff, ReviewRenderableFile } from "../review/reviewModel";
-import type { pullRequestTarget } from "./usePullRequestDiff";
+import type { ReviewParsedDiff, ReviewRenderableFile } from "../review/reviewModel.vibe";
+import type { pullRequestTarget } from "./usePullRequestDiff.vibe";
 
 type FetchContents<E> = (request: {
   readonly environmentId: ReturnType<typeof pullRequestTarget>["environmentId"];

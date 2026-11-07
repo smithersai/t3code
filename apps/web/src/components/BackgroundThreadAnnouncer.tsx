@@ -5,9 +5,9 @@ import type { AtomRegistry } from "effect/reactivity";
 
 import { useComposerDraftStore } from "../composerDraftStore";
 import { createLiveRegion } from "../hooks/useLiveRegion";
-import { liveShellEnvironmentIdsAtom } from "../state/shell";
+import { liveShellEnvironmentIdsAtom } from "../state/shell.vibe";
 import { environmentThreadShells } from "../state/threads";
-import { resolveActiveThreadRouteRef, resolveThreadRouteTarget } from "../threadRoutes";
+import { resolveActiveThreadRouteRef, resolveThreadRouteTarget } from "../threadRoutes.vibe";
 import {
   type BackgroundThreadMemory,
   type BackgroundThreadSnapshot,

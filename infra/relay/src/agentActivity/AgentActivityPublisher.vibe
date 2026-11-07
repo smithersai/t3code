@@ -1,0 +1,252 @@
+import { makeAggregateState, TERMINAL_AGENT_ACTIVITY_DISPLAY_TTL_MS } from "./agentActivityAggregate.vibe"
+export { makeAggregateState, TERMINAL_AGENT_ACTIVITY_DISPLAY_TTL_MS } from "./agentActivityAggregate.vibe"
+import type { RelayAgentActivityState, RelayDeliveryResult, RelayPublishResponse } from "@t3tools/contracts/relay"
+import * as Arr from "effect/Array"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+
+import { isTerminalPhase } from "./agentActivityPayloads.vibe"
+
+export { isExpiredAgentActivityState } from "./agentActivityPayloads.vibe"
+import * as AgentActivityRows from "./AgentActivityRows.vibe"
+import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe"
+import * as LiveActivities from "./LiveActivities.vibe"
+import * as ApnsDeliveries from "./ApnsDeliveries.ts"
+import * as FcmDeliveries from "./FcmDeliveries.ts"
+
+export type AgentActivityPublishError =
+  | FcmDeliveries.FcmDeliveryError
+  | AgentActivityRows.AgentActivityRowUpsertPersistenceError
+  | AgentActivityRows.AgentActivityRowDeletePersistenceError
+  | AgentActivityRows.AgentActivityRowListPersistenceError
+  | EnvironmentLinks.EnvironmentLinkUserListPersistenceError
+  | LiveActivities.LiveActivityTargetListPersistenceError
+  | ApnsDeliveries.ApnsDeliveryError
+
+export service AgentActivityPublisher: {
+  readonly publish: (input: {
+    readonly environmentId: string;
+    readonly environmentPublicKey: string;
+    readonly threadId: string;
+    readonly state: RelayAgentActivityState | null;
+  }) => RelayPublishResponse!AgentActivityPublishError;
+  readonly replayForLiveActivityRegistration: (input: {
+    readonly userId: string;
+    readonly deviceId: string;
+  }) => (RelayDeliveryResult | null)!AgentActivityPublishError;
+  readonly endIdleLiveActivities: void!LiveActivities.LiveActivityIdleTargetListPersistenceError;
+} {
+  static readonly key = "t3code-relay/agentActivity/AgentActivityPublisher"
+}
+
+export const make = effect {
+  const rows = try AgentActivityRows.AgentActivityRows
+  const links = try EnvironmentLinks.EnvironmentLinks
+  const liveActivities = try LiveActivities.LiveActivities
+  const apnsDeliveries = try ApnsDeliveries.ApnsDeliveries
+  const fcmDeliveries = try FcmDeliveries.FcmDeliveries
+
+  const publishForDeliveryUser = effect (
+    input: {
+      readonly deliveryUser: EnvironmentLinks.AgentAwarenessDeliveryUserRecord
+      readonly state: RelayAgentActivityState | null
+      readonly nowMs: number
+    },
+  ) => {
+    const activeStates = input.deliveryUser.liveActivitiesEnabled
+      ? try rows.listForUser({ userId: input.deliveryUser.userId })
+      : []
+    const liveActivityAggregate = input.deliveryUser.liveActivitiesEnabled
+      ? makeAggregateState({
+        activeStates,
+        terminalState: input.state && isTerminalPhase(input.state) ? input.state : null,
+        nowMs: input.nowMs,
+      })
+      : null
+    const notificationOnlyAggregate = input.deliveryUser.notificationsEnabled
+        && !input.deliveryUser.liveActivitiesEnabled
+        && input.state !== null
+      ? makeAggregateState({
+        activeStates: isTerminalPhase(input.state) ? [] : [input.state],
+        terminalState: isTerminalPhase(input.state) ? input.state : null,
+        nowMs: input.nowMs,
+      })
+      : null
+    const targets = try liveActivities.listTargets({ userId: input.deliveryUser.userId })
+    const deliveriesByTarget = try Effect.forEach(
+      targets,
+      effect (target) => {
+        if (target.platform === "android") {
+          return [try fcmDeliveries.enqueue({ target, state: input.state })]
+        }
+        return try Effect.all(
+          [
+            apnsDeliveries.sendForTarget({
+              target,
+              aggregate: liveActivityAggregate,
+              nowMs: input.nowMs,
+            }),
+            notificationOnlyAggregate === null
+              ? Effect.succeed(null)
+              : apnsDeliveries.sendPushNotificationForTarget({
+                target,
+                aggregate: notificationOnlyAggregate,
+              }),
+          ],
+          { concurrency: 2 },
+        )
+      },
+      { concurrency: 4 },
+    )
+    return deliveriesByTarget.flat()
+  }
+
+  return AgentActivityPublisher.of({
+    replayForLiveActivityRegistration: effect (
+      input,
+    ): ({ readonly deviceId: string; readonly kind: "live_activity_end" | "live_activity_start" | "live_activity_update" | "push_notification"; readonly ok: boolean; readonly queued?: boolean | undefined; readonly apnsStatus: number | null; readonly apnsReason: string | null; readonly apnsId: string | null; } | null)!AgentActivityPublishError!never =>
+      try withSpan(
+        (effect (): ({ readonly deviceId: string; readonly kind: "live_activity_end" | "live_activity_start" | "live_activity_update" | "push_notification"; readonly ok: boolean; readonly queued?: boolean | undefined; readonly apnsStatus: number | null; readonly apnsReason: string | null; readonly apnsId: string | null; } | null)!AgentActivityPublishError!never => {
+          try Effect.annotateCurrentSpan({
+            "relay.mobile.device_id": input.deviceId,
+            "relay.operation": "replayForLiveActivityRegistration",
+          })
+          const { activeStates, targets } = try Effect.all(
+            {
+              activeStates: rows.listForUser({ userId: input.userId }),
+              targets: liveActivities.listTargets({ userId: input.userId }),
+            },
+            { concurrency: 2 },
+          )
+          const target = targets.find((row) => row.device_id === input.deviceId) ?? null
+          if (target === null) {
+            return null
+          }
+          if (target.platform === "android") {
+            return try fcmDeliveries.enqueue({ target, state: null, replay: true })
+          }
+          const now = try DateTime.now
+          const aggregate = makeAggregateState({
+            activeStates,
+            terminalState: null,
+            nowMs: now.epochMilliseconds,
+          })
+          return try apnsDeliveries.sendForTarget({
+            target,
+            aggregate,
+            nowMs: now.epochMilliseconds,
+            replay: true,
+          })
+        })(),
+        "relay.agent_activity_publisher.replay_for_live_activity_registration",
+      ),
+    // An idle card receives no more publishes to clear its expired finished rows.
+    endIdleLiveActivities: effect {
+      const now = try DateTime.now
+      const idleTargets = try liveActivities.listIdleArmedTargets({
+        deliveredBefore: DateTime.formatIso(
+          DateTime.subtract(now, { milliseconds: TERMINAL_AGENT_ACTIVITY_DISPLAY_TTL_MS }),
+        ),
+      })
+      try Effect.annotateCurrentSpan({ "relay.live_activities.idle_count": idleTargets.length })
+      try Effect.forEach(
+        Object.entries(Arr.groupBy(idleTargets, (target) => target.user_id)),
+        ([userId, candidates]) =>
+          do {
+            const catchProgram = effect {
+              const activeStates = try rows.listForUser({ userId })
+              const aggregate = makeAggregateState({
+                activeStates,
+                terminalState: null,
+                nowMs: now.epochMilliseconds,
+              })
+              if (aggregate !== null) return
+              const targets = try liveActivities.listTargets({ userId })
+              const idleDeviceIds = new Set(candidates.map((target) => target.device_id))
+              try Effect.forEach(
+                targets.filter((target) => idleDeviceIds.has(target.device_id)),
+                (target) =>
+                  do {
+                    const catchProgram2 = apnsDeliveries
+                      .sendForTarget({
+                        target,
+                        aggregate: null,
+                        nowMs: now.epochMilliseconds,
+                        replay: true,
+                      })
+                    effect {
+                      return catchProgram2 catch effect (error) =>
+                        try Effect.logWarning("Failed to end idle Live Activity", {
+                          deviceId: target.device_id,
+                          error,
+                        })
+                    }
+                  },
+                { discard: true },
+              )
+            }
+            effect {
+              return catchProgram catch effect (error) =>
+                try Effect.logWarning("Failed to list idle Live Activity content or targets", {
+                  userId,
+                  error,
+                })
+            }
+          },
+        { concurrency: 4, discard: true },
+      )
+    } |> withSpan(%, "relay.agent_activity_publisher.end_idle_live_activities"),
+    publish: effect (
+      input,
+    ): { readonly ok: boolean; readonly deliveries: readonly { readonly deviceId: string; readonly kind: "live_activity_end" | "live_activity_start" | "live_activity_update" | "push_notification"; readonly ok: boolean; readonly queued?: boolean | undefined; readonly apnsStatus: number | null; readonly apnsReason: string | null; readonly apnsId: string | null; }[]; }!AgentActivityPublishError!never =>
+      try withSpan(
+        (effect (): { readonly ok: boolean; readonly deliveries: readonly { readonly deviceId: string; readonly kind: "live_activity_end" | "live_activity_start" | "live_activity_update" | "push_notification"; readonly ok: boolean; readonly queued?: boolean | undefined; readonly apnsStatus: number | null; readonly apnsReason: string | null; readonly apnsId: string | null; }[]; }!AgentActivityPublishError!never => {
+          try Effect.annotateCurrentSpan({
+            "relay.environment_id": input.environmentId,
+            "relay.thread_id": input.threadId,
+            "relay.agent_activity.phase": input.state?.phase ?? "deleted",
+          })
+          if (input.state) {
+            // Retain terminal rows until cron pruning so completed threads remain visible alongside active ones.
+            try rows.upsert({
+              environmentPublicKey: input.environmentPublicKey,
+              state: input.state,
+            })
+          } else {
+            try rows.remove({
+              environmentId: input.environmentId,
+              environmentPublicKey: input.environmentPublicKey,
+              threadId: input.threadId,
+            })
+          }
+
+          const deliveryUsers = try links.listDeliveryUsersForEnvironment({
+            environmentId: input.environmentId,
+            environmentPublicKey: input.environmentPublicKey,
+          })
+          const now = try DateTime.now
+          const deliveriesByUser = try Effect.forEach(
+            deliveryUsers,
+            (deliveryUser) =>
+              publishForDeliveryUser({
+                deliveryUser,
+                state: input.state,
+                nowMs: now.epochMilliseconds,
+              }),
+            { concurrency: 4 },
+          )
+          const deliveries = deliveriesByUser.flat()
+          return {
+            ok: true,
+            deliveries: deliveries.filter(
+              (delivery): delivery is RelayDeliveryResult => delivery !== null,
+            ),
+          }
+        })(),
+        "relay.agent_activity_publisher.publish",
+      ),
+  })
+}
+
+export const layer = Layer.effect(AgentActivityPublisher, make)

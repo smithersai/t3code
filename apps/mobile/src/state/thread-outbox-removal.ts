@@ -1,8 +1,8 @@
 import type { EnvironmentId } from "@t3tools/contracts";
 
-import { appAtomRegistry } from "./atom-registry";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import { threadOutboxManager } from "./thread-outbox";
-import type { QueuedThreadMessage } from "./thread-outbox-model";
+import type { QueuedThreadMessage } from "./thread-outbox-model.vibe";
 import {
   clearComposerDraft,
   composerDraftsAtom,

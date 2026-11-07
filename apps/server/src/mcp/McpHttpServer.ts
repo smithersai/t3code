@@ -1,7 +1,7 @@
 import * as Cause from "effect/Cause";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
@@ -27,7 +27,7 @@ import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as DeviceService from "../device/DeviceService.ts";
 import * as HtmlRender from "../htmlRender/HtmlRender.ts";
-import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.ts";
+import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as AnalyticsService from "../telemetry/AnalyticsService.ts";
@@ -38,47 +38,48 @@ import {
   MAX_REPORTED_DEPTH,
   toolOutcome,
 } from "../telemetry/ProviderDimensions.ts";
-import { advertisedJsonSchema } from "./advertisedJsonSchema.ts";
-import * as McpInvocationContext from "./McpInvocationContext.ts";
+import { advertisedJsonSchema } from "./advertisedJsonSchema.vibe";
+import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as McpToolAccess from "./McpToolAccess.ts";
 import * as OrchestratorMcpService from "./OrchestratorMcpService.ts";
-import { PreviewControlsToolkit } from "./toolkits/previewControls/tools.ts";
-import * as PreviewControlsHandlers from "./toolkits/previewControls/handlers.ts";
-import { EnvironmentToolkit } from "./toolkits/environment/tools.ts";
+import { PreviewControlsToolkit } from "./toolkits/previewControls/tools.vibe";
+import * as PreviewControlsHandlers from "./toolkits/previewControls/handlers.vibe";
+import { EnvironmentToolkit } from "./toolkits/environment/tools.vibe";
 import * as EnvironmentHandlers from "./toolkits/environment/handlers.ts";
-import { ProjectToolkit } from "./toolkits/project/tools.ts";
+import { ProjectToolkit } from "./toolkits/project/tools.vibe";
 import * as ProjectHandlers from "./toolkits/project/handlers.ts";
-import { AttachmentToolkit } from "./toolkits/attachment/tools.ts";
+import { AttachmentToolkit } from "./toolkits/attachment/tools.vibe";
 import * as AttachmentHandlers from "./toolkits/attachment/handlers.ts";
-import { ThreadToolkit } from "./toolkits/thread/tools.ts";
+import { ThreadToolkit } from "./toolkits/thread/tools.vibe";
 import * as ThreadHandlers from "./toolkits/thread/handlers.ts";
 import * as ThreadMetadataMcpService from "./ThreadMetadataMcpService.ts";
 import * as McpSessionRegistry from "./McpSessionRegistry.ts";
 import * as PreviewAutomationBroker from "./PreviewAutomationBroker.ts";
-import * as OrchestratorHandlers from "./toolkits/orchestrator/handlers.ts";
-import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.ts";
+import * as OrchestratorHandlers from "./toolkits/orchestrator/handlers.vibe";
+import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.vibe";
 import * as PreviewHandlers from "./toolkits/preview/handlers.ts";
 import {
   PreviewSnapshotTool,
   PreviewSnapshotToolkit,
   PreviewStandardToolkit,
-} from "./toolkits/preview/tools.ts";
-import * as WorktreeHandlers from "./toolkits/worktree/handlers.ts";
-import { WorktreeToolkit } from "./toolkits/worktree/tools.ts";
+} from "./toolkits/preview/tools.vibe";
+import * as WorktreeHandlers from "./toolkits/worktree/handlers.vibe";
+import { WorktreeToolkit } from "./toolkits/worktree/tools.vibe";
 import * as WorktreeMcpService from "./WorktreeMcpService.ts";
 import * as PullRequestsHandlers from "./toolkits/pullRequests/handlers.ts";
-import { PullRequestsToolkit } from "./toolkits/pullRequests/tools.ts";
+import { PullRequestsToolkit } from "./toolkits/pullRequests/tools.vibe";
 import * as DeviceHandlers from "./toolkits/device/handlers.ts";
 import {
   DeviceScreenshotTool,
   DeviceScreenshotToolkit,
   DeviceStandardToolkit,
-} from "./toolkits/device/tools.ts";
+} from "./toolkits/device/tools.vibe";
 import * as HtmlHandlers from "./toolkits/html/handlers.ts";
-import { HtmlPreviewTool, HtmlPreviewToolkit, HtmlRenderToolkit } from "./toolkits/html/tools.ts";
+import { HtmlPreviewTool, HtmlPreviewToolkit, HtmlRenderToolkit } from "./toolkits/html/tools.vibe";
+import * as RequestUrl from "../RequestUrl.vibe";
 
 const mcpResourceMetadataUrl = (request: HttpServerRequest.HttpServerRequest) =>
-  HttpServerRequest.toURL(request).pipe(
+  RequestUrl.toURL(request).pipe(
     Option.map((url) => `${url.origin}/.well-known/oauth-protected-resource/mcp`),
   );
 
@@ -1031,11 +1032,25 @@ const withAdvertisedSchemas = Effect.fn("McpHttpServer.withAdvertisedSchemas")(f
 });
 
 /**
- * `McpServer.toolkit` asks for every service its tools declare when it
- * registers them, but the auth middleware provides `McpInvocationContext` to
- * each request instead. Registration must not get one: the services it
- * captures would replace the request's.
+ * Gives each request the services its registration was built with: handlers read
+ * them per request, which only MCP middleware meets. `McpInvocationContext` is
+ * left to the auth middleware through the transport.
  */
+const layerRegistrationServices = <S>() =>
+  McpServer.middleware<{ provides: S }>()(
+    Effect.map(
+      Effect.context<S>(),
+      (services) =>
+        (effect: Effect.Effect<McpServer.MiddlewareSuccess, McpSchema.McpErrorBase, S>) =>
+          Effect.provide(effect, services),
+    ),
+  ).layer;
+
+type RegistrationServices<R> = Exclude<
+  McpServer.McpRequest.Only<"Requires", R>,
+  McpInvocationContext.McpInvocationContext
+>;
+
 export const toolkitRegistration = <Tools extends Record<string, Tool.Any>, EX, RX>(
   toolkit: Toolkit.Toolkit<Tools>,
   handlers: McpToolAccess.HandlersLayer<Tools, EX, RX>,
@@ -1045,13 +1060,12 @@ export const toolkitRegistration = <Tools extends Record<string, Tool.Any>, EX, 
       withAdvertisedSchemas(toolkit, McpServer.registerToolkit(decodeAsAdvertised(toolkit))),
     ),
   ).pipe(Layer.provide(McpServer.McpServer.layer));
-  // @effect-diagnostics-next-line unsafeEffectTypeAssertion:off - the auth middleware provides it per request.
-  const registered = registration as Layer.Layer<
-    never,
-    never,
-    Exclude<Layer.Services<typeof registration>, McpInvocationContext.McpInvocationContext>
-  >;
-  return registered.pipe(Layer.provide(McpToolAccess.HandlersLayer.layer(handlers)));
+  return registration.pipe(
+    Layer.provide(
+      layerRegistrationServices<RegistrationServices<Layer.Services<typeof registration>>>(),
+    ),
+    Layer.provide(McpToolAccess.HandlersLayer.layer(handlers)),
+  );
 };
 
 const imageToolRegistration = <Tools extends Record<string, Tool.Any>, A, E, R, EX, RX>(
@@ -1059,6 +1073,7 @@ const imageToolRegistration = <Tools extends Record<string, Tool.Any>, A, E, R, 
   handlers: McpToolAccess.HandlersLayer<Tools, EX, RX>,
 ) =>
   Layer.effectDiscard(withToolAnalytics(register)).pipe(
+    Layer.provide(layerRegistrationServices<RegistrationServices<R>>()),
     Layer.provide(McpToolAccess.HandlersLayer.layer(handlers)),
   );
 
@@ -1131,13 +1146,33 @@ export const layerDeviceToolkit = Layer.mergeAll(
   layerDeviceScreenshotRegistration,
 );
 
-export const layerMcpTransport = McpServer.layerHttp({
-  name: "T3 Code",
-  version: packageJson.version,
-  path: "/mcp",
-  protocols: [McpProtocol.v2025_06_18],
-  allowSessionTermination: true,
-}).pipe(Layer.provide(layerMcpAuthMiddleware));
+/** Serves `registrations` at `/mcp`; the auth middleware gives their requests `McpInvocationContext`. */
+export const withMcpTransport = <A, E, R>(registrations: Layer.Layer<A, E, R>) =>
+  McpServer.layerHttp({
+    name: "T3 Code",
+    version: packageJson.version,
+    path: "/mcp",
+    protocols: [McpProtocol.v2025_06_18],
+    allowSessionTermination: true,
+    registrations,
+  }).pipe(Layer.provide(layerMcpAuthMiddleware));
+
+export const layerMcpTransport = withMcpTransport(Layer.empty);
+
+/** For tests that call tools through `McpServer.callTool` with `McpInvocationContext` around the call. */
+export const layerCallerInvocation = McpServer.middleware<{
+  provides: McpInvocationContext.McpInvocationContext;
+}>()((effect) =>
+  Effect.serviceOption(McpInvocationContext.McpInvocationContext).pipe(
+    Effect.flatMap(
+      Option.match({
+        onNone: () => Effect.die("An MCP tool was called without McpInvocationContext."),
+        onSome: (invocation) =>
+          Effect.provideService(effect, McpInvocationContext.McpInvocationContext, invocation),
+      }),
+    ),
+  ),
+).layer;
 
 /** Every tool the T3 MCP server advertises. AgentContextBudget.test.ts measures this set. */
 export const layerTools = Layer.mergeAll(
@@ -1154,4 +1189,4 @@ export const layerTools = Layer.mergeAll(
   layerHtmlToolkit,
 );
 
-export const layer = layerTools.pipe(Layer.provideMerge(layerMcpTransport));
+export const layer = withMcpTransport(layerTools);

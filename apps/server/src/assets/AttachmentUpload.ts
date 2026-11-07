@@ -8,7 +8,7 @@ import {
 } from "@t3tools/contracts";
 import { isSvgAttachment } from "@t3tools/shared/image";
 import * as Clock from "effect/Clock";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";
@@ -35,7 +35,7 @@ import {
 } from "../auth/utils.ts";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as ServerConfig from "../config.ts";
-import { inferImageExtension } from "../imageMime.ts";
+import { inferImageExtension } from "../imageMime.vibe";
 import * as DocumentText from "../provider/DocumentText.ts";
 
 export const ATTACHMENT_UPLOAD_ROUTE_PREFIX = "/api/attachments/upload";

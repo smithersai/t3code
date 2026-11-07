@@ -13,7 +13,7 @@ import { useAtomValue } from "@effect/atom-react";
 import { isDesktopLocalConnectionTarget } from "~/connection/desktopLocal";
 import { isLoopbackHostname } from "~/environments/primary/target";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
-import { environmentPresentations } from "~/state/presentation";
+import { environmentPresentations } from "./state/presentation.vibe";
 
 export interface RemoteOpenHost {
   readonly kind: "ssh-alias" | RemoteOpenTarget["kind"];

@@ -49,8 +49,8 @@ import { Code2, Eye, Table2 } from "lucide";
 import * as Schema from "effect/Schema";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
-import { isBrowserPreviewFile, openFileInPreview } from "~/browser/openFileInPreview";
-import { useAssetUrlRefresh, useAssetUrlState } from "~/assets/assetUrls";
+import { isBrowserPreviewFile, openFileInPreview } from "../../browser/openFileInPreview.vibe";
+import { useAssetUrlRefresh, useAssetUrlState } from "../../assets/assetUrls.vibe";
 import { OpenInPicker } from "~/components/chat/OpenInPicker";
 import { MediaVideoPlayer } from "~/components/media/MediaVideoPlayer";
 import { MediaActions, type MediaActionSource } from "~/components/media/MediaActions";
@@ -68,15 +68,15 @@ import { resolvePathLinkTarget } from "@t3tools/shared/fileLinks";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { stackedThreadToast, toastManager } from "~/components/ui/toast";
 import { type DraftId, useComposerDraftStore } from "~/composerDraftStore";
-import { buildFileReviewComment } from "~/reviewCommentContext";
-import { assetEnvironment } from "~/state/assets";
-import { usePreviewAvailable } from "~/browser/previewRuntime";
-import { useEnvironmentHttpBaseUrl, usePrimaryEnvironmentId } from "~/state/environments";
+import { buildFileReviewComment } from "../../reviewCommentContext.vibe";
+import { assetEnvironment } from "../../state/assets.vibe";
+import { usePreviewAvailable } from "../../browser/previewRuntime.vibe";
+import { useEnvironmentHttpBaseUrl, usePrimaryEnvironmentId } from "../../state/environments.vibe";
 import { previewEnvironment } from "~/state/preview";
 import { serverEnvironment } from "~/state/server";
-import { useEnvironmentScope } from "~/state/session";
-import { useAtomCommand } from "~/state/use-atom-command";
-import { useAtomQueryRunner } from "~/state/use-atom-query-runner";
+import { useEnvironmentScope } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe";
 
 import { AttachmentFilePreview } from "./AttachmentFilePreview";
 import { AudioPreview } from "./AudioPreview";
@@ -125,7 +125,7 @@ import {
   getProjectFileQueryAtom,
   setProjectFileQueryData,
   useProjectFileQuery,
-} from "./projectFilesQueryState";
+} from "./projectFilesQueryState.vibe";
 
 const NO_FILE_REVISION_ATOM = Atom.make(null);
 

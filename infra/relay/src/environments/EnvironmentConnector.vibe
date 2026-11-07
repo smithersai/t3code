@@ -1,0 +1,705 @@
+import {
+  EnvironmentHttpBadRequestError,
+  EnvironmentHttpConflictError,
+  EnvironmentHttpForbiddenError,
+  EnvironmentHttpInternalServerError,
+  EnvironmentHttpUnauthorizedError,
+} from "@t3tools/contracts"
+import { makeEnvironmentHttpApiClient } from "@t3tools/client-runtime/rpc"
+import {
+  RelayCloudEnvironmentHealthProofPayload,
+  RelayEnvironmentHealthResponse,
+  RelayEnvironmentHealthResponseProofPayload,
+  RelayEnvironmentMintResponse,
+  RelayEnvironmentMintResponseProofPayload,
+  RelayCloudMintCredentialProofPayload,
+  RelayEnvironmentConnectNotAuthorizedReason,
+  RelayEnvironmentEndpointFailure,
+  type RelayEnvironmentConnectResponse,
+  type RelayEnvironmentStatusResponse,
+  type RelayManagedEndpoint,
+} from "@t3tools/contracts/relay"
+import {
+  normalizeRelayIssuer,
+  RELAY_HEALTH_REQUEST_TYP,
+  RELAY_HEALTH_RESPONSE_TYP,
+  RELAY_MINT_REQUEST_TYP,
+  RELAY_MINT_RESPONSE_TYP,
+  signRelayJwt,
+  verifyRelayJwt,
+} from "@t3tools/shared/relayJwt"
+import { stableStringify } from "@t3tools/shared/relaySigning"
+import * as Context from "effect/Context"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Result from "effect/Result"
+import * as Schema from "effect/Schema"
+import * as FetchHttpClient from "effect/http/FetchHttpClient"
+import * as HttpClient from "effect/http/HttpClient"
+
+import { diagnoseEndpointFailure } from "./endpointFailure.vibe"
+import * as EnvironmentLinks from "./EnvironmentLinks.vibe"
+import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.vibe"
+import * as RelayConfiguration from "../Config.vibe"
+import { isManagedEndpointHostname } from "../deploymentConfig.vibe"
+
+function environmentConnectNotAuthorizedReasonMessage(
+  reason: RelayEnvironmentConnectNotAuthorizedReason,
+): string {
+  switch (reason) {
+    case "client_proof_key_thumbprint_missing":
+      return "the client proof key thumbprint is missing"
+    case "environment_link_not_found":
+      return "no active environment link was found"
+    case "endpoint_provider_not_managed":
+      return "the linked endpoint is not relay-managed"
+    case "managed_endpoint_allocation_not_found":
+      return "no managed endpoint allocation was found"
+    case "managed_endpoint_base_domain_not_configured":
+      return "the managed endpoint base domain is not configured"
+    case "managed_endpoint_allocation_not_ready":
+      return "the managed endpoint allocation is incomplete"
+    case "managed_endpoint_hostname_invalid":
+      return "the managed endpoint hostname is invalid"
+    case "managed_endpoint_mismatch":
+      return "the linked endpoint does not match its managed allocation"
+  }
+}
+
+export schema error EnvironmentConnectNotAuthorized {
+  readonly environmentId: string
+  readonly operation: "connect" | "status"
+  readonly reason: RelayEnvironmentConnectNotAuthorizedReason
+  override get message(): string {
+    return `Environment '${this.environmentId}' is not authorized for ${this.operation}: ${
+      environmentConnectNotAuthorizedReasonMessage(this.reason)
+    }`
+  }
+}
+
+export class EnvironmentMintRequestFailed extends Schema.TaggedError<EnvironmentMintRequestFailed>()(
+  "EnvironmentMintRequestFailed",
+  {
+    environmentId: Schema.String,
+    operation: Schema.Literals(["connect", "status"]),
+    cause: Schema.Defect(),
+    endpointFailure: Schema.optionalKey(RelayEnvironmentEndpointFailure),
+    endpointStatus: Schema.optionalKey(Schema.Number),
+  },
+) {
+  override get message(): string {
+    return `Environment '${this.environmentId}' ${this.operation} request failed`
+  }
+}
+
+export schema error EnvironmentMintRequestTimedOut {
+  readonly environmentId: string
+  readonly timeoutMs: number
+  override get message(): string {
+    return `Environment '${this.environmentId}' mint request timed out after ${this.timeoutMs}ms`
+  }
+}
+
+export schema error EnvironmentMintResponseInvalid {
+  readonly environmentId: string
+  readonly operation: "connect" | "status"
+  override get message(): string {
+    return `Environment '${this.environmentId}' returned an invalid ${this.operation} response`
+  }
+}
+
+export type EnvironmentConnectorError =
+  | EnvironmentConnectNotAuthorized
+  | EnvironmentMintRequestFailed
+  | EnvironmentMintRequestTimedOut
+  | EnvironmentMintResponseInvalid
+  | EnvironmentLinks.EnvironmentLinkLookupPersistenceError
+  | ManagedEndpointAllocations.ManagedEndpointAllocationPersistenceError
+
+export const ENVIRONMENT_MINT_REQUEST_TIMEOUT_MS = 10_000
+const ENVIRONMENT_HEALTH_CLOCK_SKEW_MILLIS = 60 * 1_000
+
+export service EnvironmentConnector: {
+  readonly connect: (input: {
+    readonly userId: string;
+    readonly environmentId: string;
+    readonly clientProofKeyThumbprint: string;
+    readonly deviceId?: string;
+  }) => RelayEnvironmentConnectResponse!EnvironmentConnectorError;
+  readonly status: (input: {
+    readonly userId: string;
+    readonly environmentId: string;
+  }) => RelayEnvironmentStatusResponse!EnvironmentConnectorError;
+} {
+  static readonly key = "t3code-relay/environments/EnvironmentConnector"
+}
+
+const decodeMintResponseProof = Schema.decodeUnknownEffect(
+  RelayEnvironmentMintResponseProofPayload,
+)
+const decodeHealthResponseProof = Schema.decodeUnknownEffect(
+  RelayEnvironmentHealthResponseProofPayload,
+)
+const isEnvironmentHealthError = Schema.is(
+  Schema.Union([
+    EnvironmentHttpBadRequestError,
+    EnvironmentHttpUnauthorizedError,
+    EnvironmentHttpForbiddenError,
+    EnvironmentHttpConflictError,
+    EnvironmentHttpInternalServerError,
+  ]),
+)
+
+function offlineReasonFor(
+  allocation: ManagedEndpointAllocations.ManagedEndpointAllocation | null,
+): { readonly offlineReason?: "tunnel_released" } {
+  return allocation?.tunnelReleasedAt ? { offlineReason: "tunnel_released" } : {}
+}
+
+function environmentHealthRequestFailureMessage(cause: unknown): string {
+  return isEnvironmentHealthError(cause)
+    ? `Managed endpoint health request failed: ${cause.message}`
+    : "Managed endpoint health request failed."
+}
+
+function environmentHealthRequestFailureReason(cause: unknown): string {
+  if (isEnvironmentHealthError(cause)) {
+    return cause._tag
+  }
+  if (HttpClientError.isHttpClientError(cause)) {
+    return cause.reason._tag
+  }
+  if (Schema.isSchemaError(cause)) {
+    return "SchemaError"
+  }
+  return cause instanceof Error && cause.name ? cause.name : "Unknown"
+}
+
+const currentTraceId = Effect.currentSpan
+  |> Effect.map(%, (span) => span.traceId)
+  |> Effect.orElseSucceed(%, () => "unavailable")
+
+export const withoutRedirects = <A, E, R>(effect: A!E!R) =>
+  effect |> Effect.provideService(%, FetchHttpClient.RequestInit, { redirect: "manual" })
+
+const verifyWithEnvironmentKeys = effect <A, E>(
+  input: {
+    readonly token: string
+    readonly typ: string
+    readonly issuer: string
+    readonly audience: string
+    readonly nowEpochSeconds: number
+    readonly environmentPublicKeys: ReadonlyArray<string>
+    readonly decodePayload: (input: unknown) => A!E
+  },
+) => {
+  const { decodePayload, ...rest } = input
+  for (const publicKey of input.environmentPublicKeys) {
+    const proof = try (verifyRelayJwt({ ...rest, publicKey })
+      |> Effect.flatMap(%, decodePayload)
+      |> Effect.option(%))
+    if (Option.isSome(proof)) {
+      return proof.value
+    }
+    // A linked environment can have rotated keys; try the remaining active keys.
+  }
+  return null
+}
+
+function verifyEnvironmentResponse(input: {
+  readonly response: RelayEnvironmentMintResponse
+  readonly environmentId: string
+  readonly requestNonce: string
+  readonly clientProofKeyThumbprint: string
+  readonly environmentPublicKeys: ReadonlyArray<string>
+  readonly relayIssuer: string
+  readonly nowEpochSeconds: number
+}) {
+  return verifyWithEnvironmentKeys({
+    token: input.response.proof,
+    typ: RELAY_MINT_RESPONSE_TYP,
+    issuer: `t3-env:${input.environmentId}`,
+    audience: normalizeRelayIssuer(input.relayIssuer),
+    nowEpochSeconds: input.nowEpochSeconds,
+    environmentPublicKeys: input.environmentPublicKeys,
+    decodePayload: decodeMintResponseProof,
+  })
+    |> Effect.map(
+      %,
+      (proof) =>
+        proof !== null
+        && proof.environmentId === input.environmentId
+        && proof.requestNonce === input.requestNonce
+        && proof.clientProofKeyThumbprint === input.clientProofKeyThumbprint
+        && proof.credential === input.response.credential
+        && do {
+          const $optionSubject = DateTime.make(input.response.expiresAt)
+          const $optionHandlers: { onNone: () => boolean; onSome: (expiresAt: DateTime.Utc) => boolean } = {
+            onNone: () => false,
+            onSome: (expiresAt) => Math.floor(expiresAt.epochMilliseconds / 1_000) === proof.exp,
+          }
+          const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers
+          match ($optionSubject) {
+            when Option.Some(let $optionValue): $optionSome($optionValue);
+            default: $optionNone();
+          }
+        },
+    )
+}
+
+function verifyEnvironmentHealthResponse(input: {
+  readonly response: RelayEnvironmentHealthResponse
+  readonly environmentId: string
+  readonly requestNonce: string
+  readonly requestIssuedAt: DateTime.DateTime
+  readonly environmentPublicKeys: ReadonlyArray<string>
+  readonly relayIssuer: string
+  readonly now: DateTime.DateTime
+}) {
+  return verifyWithEnvironmentKeys({
+    token: input.response.proof,
+    typ: RELAY_HEALTH_RESPONSE_TYP,
+    issuer: `t3-env:${input.environmentId}`,
+    audience: normalizeRelayIssuer(input.relayIssuer),
+    nowEpochSeconds: Math.floor(input.now.epochMilliseconds / 1_000),
+    environmentPublicKeys: input.environmentPublicKeys,
+    decodePayload: decodeHealthResponseProof,
+  })
+    |> Effect.map(%, (proof) => {
+      if (
+        proof === null
+        || input.response.environmentId !== input.environmentId
+        || proof.environmentId !== input.environmentId
+        || proof.requestNonce !== input.requestNonce
+        || proof.status !== input.response.status
+        || proof.checkedAt !== input.response.checkedAt
+        || stableStringify(proof.descriptor) !== stableStringify(input.response.descriptor)
+      ) {
+        return false
+      }
+      const checkedAt = DateTime.make(input.response.checkedAt)
+      if (Option.isNone(checkedAt)) {
+        return false
+      }
+      return (
+        checkedAt.value.epochMilliseconds
+          >= input.requestIssuedAt.epochMilliseconds - ENVIRONMENT_HEALTH_CLOCK_SKEW_MILLIS
+        && checkedAt.value.epochMilliseconds
+          <= input.now.epochMilliseconds + ENVIRONMENT_HEALTH_CLOCK_SKEW_MILLIS
+      )
+    })
+}
+
+export interface ManagedEndpointValidationFailure {
+  readonly reason: Exclude<
+    RelayEnvironmentConnectNotAuthorizedReason,
+    "client_proof_key_thumbprint_missing" | "environment_link_not_found"
+  >
+  readonly attributes?: Record<string, string | boolean>
+}
+
+export function validateManagedEndpoint(input: {
+  readonly link: EnvironmentLinks.RelayLinkedEnvironmentRecord
+  readonly allocation: ManagedEndpointAllocations.ManagedEndpointAllocation | null
+  readonly baseDomain: string | undefined
+}): Result.Result<RelayManagedEndpoint, ManagedEndpointValidationFailure> {
+  const { link, allocation, baseDomain } = input
+  if (link.endpoint.providerKind !== "cloudflare_tunnel") {
+    return Result.fail({
+      reason: "endpoint_provider_not_managed",
+      attributes: { "relay.authorization.endpoint_provider_kind": link.endpoint.providerKind },
+    })
+  }
+  if (!allocation) {
+    return Result.fail({ reason: "managed_endpoint_allocation_not_found" })
+  }
+  const allocationAttributes = {
+    "relay.authorization.allocation_hostname": allocation.hostname,
+    "relay.authorization.allocation_has_ready_at": allocation.readyAt !== null,
+    "relay.authorization.allocation_has_tunnel_id": allocation.tunnelId !== null,
+    "relay.authorization.allocation_has_dns_record_id": allocation.dnsRecordId !== null,
+  }
+  if (!baseDomain) {
+    return Result.fail({
+      reason: "managed_endpoint_base_domain_not_configured",
+      attributes: allocationAttributes,
+    })
+  }
+  if (
+    allocation.readyAt === null
+    || allocation.tunnelId === null
+    || allocation.dnsRecordId === null
+  ) {
+    return Result.fail({
+      reason: "managed_endpoint_allocation_not_ready",
+      attributes: allocationAttributes,
+    })
+  }
+  if (!isManagedEndpointHostname(allocation.hostname, baseDomain)) {
+    return Result.fail({
+      reason: "managed_endpoint_hostname_invalid",
+      attributes: {
+        ...allocationAttributes,
+        "relay.authorization.managed_endpoint_base_domain": baseDomain,
+      },
+    })
+  }
+  const endpoint = ManagedEndpointAllocations.resolveReadyManagedEndpoint({
+    allocation,
+    baseDomain,
+  })
+  if (
+    endpoint === null
+    || endpoint.httpBaseUrl !== link.endpoint.httpBaseUrl
+    || endpoint.wsBaseUrl !== link.endpoint.wsBaseUrl
+  ) {
+    return Result.fail({
+      reason: "managed_endpoint_mismatch",
+      attributes: {
+        ...allocationAttributes,
+        "relay.authorization.linked_http_base_url": link.endpoint.httpBaseUrl,
+        "relay.authorization.linked_ws_base_url": link.endpoint.wsBaseUrl,
+        ...(endpoint
+          ? {
+            "relay.authorization.resolved_http_base_url": endpoint.httpBaseUrl,
+            "relay.authorization.resolved_ws_base_url": endpoint.wsBaseUrl,
+          }
+          : {}),
+      },
+    })
+  }
+  return Result.succeed(endpoint)
+}
+
+const make = Effect.gen(function*() {
+  const links = yield* EnvironmentLinks.EnvironmentLinks
+  const allocations = yield* ManagedEndpointAllocations.ManagedEndpointAllocations
+  const settings = yield* RelayConfiguration.RelayConfiguration
+  const httpClient = yield* HttpClient.HttpClient
+  const crypto = yield* Crypto.Crypto
+  const relayIssuer = normalizeRelayIssuer(settings.relayIssuer)
+  const makeEnvironmentClient = (httpBaseUrl: string) =>
+    makeEnvironmentHttpApiClient(httpBaseUrl)
+    |> Effect.provideService(%, HttpClient.HttpClient, httpClient)
+  const resolveManagedEndpoint = effect (
+    input: {
+      readonly operation: "connect" | "status"
+      readonly link: EnvironmentLinks.RelayLinkedEnvironmentRecord
+      readonly allocation: ManagedEndpointAllocations.ManagedEndpointAllocation | null
+    },
+  ) =>
+    try withSpan(
+      effect {
+        const result = validateManagedEndpoint({
+          link: input.link,
+          allocation: input.allocation,
+          baseDomain: settings.managedEndpointBaseDomain,
+        })
+        if (Result.isSuccess(result)) {
+          return result.success
+        }
+        if (result.failure.attributes) {
+          try Effect.annotateCurrentSpan(result.failure.attributes)
+        }
+        throw new EnvironmentConnectNotAuthorized({
+          environmentId: input.link.environmentId,
+          operation: input.operation,
+          reason: result.failure.reason,
+        })
+      },
+      "relay.environment_connector.resolve_managed_endpoint",
+    )
+
+  return EnvironmentConnector.of({
+    status: effect (
+      input,
+    ): { readonly environmentId: string & import("effect/Brand").Brand<"EnvironmentId">; readonly endpoint: { readonly httpBaseUrl: string; readonly wsBaseUrl: string; readonly providerKind: "cloudflare_tunnel" | "manual" | "t3_relay"; }; readonly status: "offline" | "online"; readonly checkedAt: string; readonly descriptor?: { readonly environmentId: string & import("effect/Brand").Brand<"EnvironmentId">; readonly label: string; readonly platform: { readonly os: "darwin" | "linux" | "unknown" | "windows"; readonly arch: "arm64" | "other" | "x64"; readonly machine?: "cloud" | "desktop" | "laptop" | "linux" | "mac-mini" | "mac-studio" | "server" | undefined; }; readonly serverVersion: string; readonly orchestrationProtocolVersion?: number; readonly capabilities: { readonly repositoryIdentity: boolean; readonly connectionProbe?: boolean; readonly attachmentUploads?: boolean; readonly questionAttachments?: boolean; readonly fileAttachments?: { readonly maxUploadBytes: number; }; readonly pullRequests?: boolean; readonly pullRequestChecks?: boolean; readonly inlineMessageContext?: boolean; readonly requiredWorktreeBootstrap?: boolean; readonly threadSettlement?: boolean; readonly threadAutoSettlement?: boolean; readonly storageCleanup?: boolean; readonly storageCleanupRun?: boolean; readonly databaseStorage?: boolean; readonly otlpEndpointCheck?: boolean; readonly projectWorktreeCleanup?: boolean; readonly settledWorktreeCleanup?: boolean; readonly worktreesDirectory?: boolean; readonly threadAutoSettlementScope?: boolean; readonly threadRestartContinuation?: boolean; readonly projectSettingsOverrides?: boolean; readonly projectProviderInstanceOverrides?: boolean; readonly threadSnooze?: boolean; readonly environmentThemes?: boolean; readonly usageLimitSources?: boolean; readonly providerWorkspaceSnapshotsOnDemand?: boolean; readonly usagePriceOverrides?: boolean; readonly usageModelAliases?: boolean; readonly threadPinning?: boolean; readonly threadPinReorder?: boolean; readonly threadActiveReorder?: boolean; readonly threadAutoSettleOptOut?: boolean; readonly threadTitleRegeneration?: boolean; readonly threadVisitedTracking?: boolean; readonly threadPullRequestLinking?: boolean; readonly serverResolvedCommandContext?: boolean; readonly threadStop?: boolean; readonly localServerStop?: boolean; readonly threadPullRequests?: boolean; readonly threadPullRequestWatch?: boolean; readonly pullRequestStackActions?: boolean; readonly serverSelfUpdate?: "boot-service" | "desktop-managed" | "respawn"; readonly serverInstallation?: { readonly kind: "bunx" | "npx" | "pnpm-dlx"; } | { readonly kind: "npm-global"; readonly prefix: string; } | undefined; readonly serverSelfUpdateProgress?: boolean; readonly serverUpdateThreadContinuation?: boolean; readonly agentActivityPublishing?: boolean; readonly projectCloneTracking?: boolean; readonly ignoredFileListing?: boolean; readonly environmentIcon?: boolean; readonly desktopAppUpdate?: boolean; readonly commandOutputStreaming?: boolean; readonly serverBrowser?: boolean; readonly peerLinks?: boolean; readonly mcpModeLimitHeader?: boolean; readonly linkFence?: boolean; readonly triage?: boolean; }; } | undefined; readonly error?: string | undefined; readonly endpointFailure?: "dns" | "invalid_response" | "origin_unreachable" | "refused" | "timeout" | "tls" | "tunnel_down" | "unknown" | undefined; readonly endpointStatus?: number | undefined; readonly offlineReason?: "tunnel_released" | undefined; readonly traceId?: string | undefined; }!EnvironmentConnectorError =>
+      try withSpan(
+        (effect (): { readonly environmentId: string & import("effect/Brand").Brand<"EnvironmentId">; readonly endpoint: { readonly httpBaseUrl: string; readonly wsBaseUrl: string; readonly providerKind: "cloudflare_tunnel" | "manual" | "t3_relay"; }; readonly status: "offline" | "online"; readonly checkedAt: string; readonly descriptor?: { readonly environmentId: string & import("effect/Brand").Brand<"EnvironmentId">; readonly label: string; readonly platform: { readonly os: "darwin" | "linux" | "unknown" | "windows"; readonly arch: "arm64" | "other" | "x64"; readonly machine?: "cloud" | "desktop" | "laptop" | "linux" | "mac-mini" | "mac-studio" | "server" | undefined; }; readonly serverVersion: string; readonly orchestrationProtocolVersion?: number; readonly capabilities: { readonly repositoryIdentity: boolean; readonly connectionProbe?: boolean; readonly attachmentUploads?: boolean; readonly questionAttachments?: boolean; readonly fileAttachments?: { readonly maxUploadBytes: number; }; readonly pullRequests?: boolean; readonly pullRequestChecks?: boolean; readonly inlineMessageContext?: boolean; readonly requiredWorktreeBootstrap?: boolean; readonly threadSettlement?: boolean; readonly threadAutoSettlement?: boolean; readonly storageCleanup?: boolean; readonly storageCleanupRun?: boolean; readonly databaseStorage?: boolean; readonly otlpEndpointCheck?: boolean; readonly projectWorktreeCleanup?: boolean; readonly settledWorktreeCleanup?: boolean; readonly worktreesDirectory?: boolean; readonly threadAutoSettlementScope?: boolean; readonly threadRestartContinuation?: boolean; readonly projectSettingsOverrides?: boolean; readonly projectProviderInstanceOverrides?: boolean; readonly threadSnooze?: boolean; readonly environmentThemes?: boolean; readonly usageLimitSources?: boolean; readonly providerWorkspaceSnapshotsOnDemand?: boolean; readonly usagePriceOverrides?: boolean; readonly usageModelAliases?: boolean; readonly threadPinning?: boolean; readonly threadPinReorder?: boolean; readonly threadActiveReorder?: boolean; readonly threadAutoSettleOptOut?: boolean; readonly threadTitleRegeneration?: boolean; readonly threadVisitedTracking?: boolean; readonly threadPullRequestLinking?: boolean; readonly serverResolvedCommandContext?: boolean; readonly threadStop?: boolean; readonly localServerStop?: boolean; readonly threadPullRequests?: boolean; readonly threadPullRequestWatch?: boolean; readonly pullRequestStackActions?: boolean; readonly serverSelfUpdate?: "boot-service" | "desktop-managed" | "respawn"; readonly serverInstallation?: { readonly kind: "bunx" | "npx" | "pnpm-dlx"; } | { readonly kind: "npm-global"; readonly prefix: string; } | undefined; readonly serverSelfUpdateProgress?: boolean; readonly serverUpdateThreadContinuation?: boolean; readonly agentActivityPublishing?: boolean; readonly projectCloneTracking?: boolean; readonly ignoredFileListing?: boolean; readonly environmentIcon?: boolean; readonly desktopAppUpdate?: boolean; readonly commandOutputStreaming?: boolean; readonly serverBrowser?: boolean; readonly peerLinks?: boolean; readonly mcpModeLimitHeader?: boolean; readonly linkFence?: boolean; readonly triage?: boolean; }; } | undefined; readonly error?: string | undefined; readonly endpointFailure?: "dns" | "invalid_response" | "origin_unreachable" | "refused" | "timeout" | "tls" | "tunnel_down" | "unknown" | undefined; readonly endpointStatus?: number | undefined; readonly offlineReason?: "tunnel_released" | undefined; readonly traceId?: string | undefined; }!EnvironmentConnectorError => {
+          try Effect.annotateCurrentSpan({
+            "relay.environment_id": input.environmentId,
+            "relay.operation": "status",
+          })
+          const { link, allocation } = try Effect.all(
+            {
+              link: links.getForUser(input),
+              allocation: allocations.get(input),
+            },
+            { concurrency: 2 },
+          )
+          if (!link) {
+            throw new EnvironmentConnectNotAuthorized({
+              environmentId: input.environmentId,
+              operation: "status",
+              reason: "environment_link_not_found",
+            })
+          }
+          const endpoint = try resolveManagedEndpoint({
+            operation: "status",
+            link,
+            allocation,
+          })
+          const now = try DateTime.now
+          const expiresAt = DateTime.add(now, { minutes: 2 })
+          const nonce = crypto.randomUUIDv4() catch effect (cause) => {
+            throw new EnvironmentMintRequestFailed({
+              environmentId: input.environmentId,
+              operation: "status",
+              cause,
+            })
+          }
+          const payload = {
+            iss: relayIssuer,
+            aud: `t3-env:${link.environmentId}`,
+            sub: input.userId,
+            jti: crypto.randomUUIDv4() catch effect (cause) => {
+              throw new EnvironmentMintRequestFailed({
+                environmentId: input.environmentId,
+                operation: "status",
+                cause,
+              })
+            },
+            iat: Math.floor(now.epochMilliseconds / 1_000),
+            exp: Math.floor(expiresAt.epochMilliseconds / 1_000),
+            environmentId: link.environmentId,
+            nonce,
+            scope: ["environment:status"],
+          } satisfies RelayCloudEnvironmentHealthProofPayload
+          const proof = signRelayJwt({
+            privateKey: Redacted.value(settings.cloudMintPrivateKey),
+            typ: RELAY_HEALTH_REQUEST_TYP,
+            payload,
+          }) catch effect (cause) => {
+            throw new EnvironmentMintRequestFailed({
+              environmentId: input.environmentId,
+              operation: "status",
+              cause,
+            })
+          }
+          const checkedAt = DateTime.formatIso(now)
+          const traceId = try currentTraceId
+          const environmentClient = try makeEnvironmentClient(endpoint.httpBaseUrl)
+          const responseOption = try (environmentClient.connect.health({ payload: { proof } }).pipe(
+            withoutRedirects,
+            Effect.match({
+              onFailure: (cause) => ({ _tag: "Failure" as const, cause }),
+              onSuccess: (response) => ({ _tag: "Success" as const, response }),
+            }),
+            Effect.timeoutOption(Duration.millis(ENVIRONMENT_MINT_REQUEST_TIMEOUT_MS)),
+          ))
+          if (Option.isNone(responseOption)) {
+            try Effect.annotateCurrentSpan({
+              "relay.environment_health.outcome": "timeout",
+              "relay.environment_health.trace_id": traceId,
+            })
+            try Effect.logWarning("Managed endpoint health request timed out", {
+              environmentId: link.environmentId,
+              endpoint: endpoint.httpBaseUrl,
+              traceId,
+            })
+            return {
+              environmentId: link.environmentId,
+              endpoint,
+              status: "offline" as const,
+              checkedAt,
+              error: "Managed endpoint health request timed out.",
+              endpointFailure: "timeout" as const,
+              ...offlineReasonFor(allocation),
+              traceId,
+            }
+          }
+          if (responseOption.value._tag === "Failure") {
+            const failureReason = environmentHealthRequestFailureReason(responseOption.value.cause)
+            const diagnosis = try diagnoseEndpointFailure(responseOption.value.cause)
+            try Effect.annotateCurrentSpan({
+              "relay.environment_health.outcome": "failure",
+              "relay.environment_health.failure_reason": failureReason,
+              "relay.environment_health.endpoint_failure": diagnosis.endpointFailure,
+              "relay.environment_health.trace_id": traceId,
+            })
+            try Effect.logWarning("Managed endpoint health request failed", {
+              environmentId: link.environmentId,
+              endpoint: endpoint.httpBaseUrl,
+              failureReason,
+              endpointFailure: diagnosis.endpointFailure,
+              traceId,
+            })
+            return {
+              environmentId: link.environmentId,
+              endpoint,
+              status: "offline" as const,
+              checkedAt,
+              error: environmentHealthRequestFailureMessage(responseOption.value.cause),
+              ...diagnosis,
+              ...offlineReasonFor(allocation),
+              traceId,
+            }
+          }
+          const decoded = responseOption.value.response
+          const verified = try verifyEnvironmentHealthResponse({
+            response: decoded,
+            environmentId: input.environmentId,
+            requestNonce: nonce,
+            requestIssuedAt: now,
+            environmentPublicKeys: [link.environmentPublicKey],
+            relayIssuer,
+            now: try DateTime.now,
+          })
+          if (!verified) {
+            throw new EnvironmentMintResponseInvalid({
+              environmentId: input.environmentId,
+              operation: "status",
+            })
+          }
+          return {
+            environmentId: link.environmentId,
+            endpoint,
+            status: "online" as const,
+            checkedAt: decoded.checkedAt,
+            descriptor: decoded.descriptor,
+          }
+        })(),
+        "relay.environment_connector.status",
+      ),
+    connect: Effect.fn("relay.environment_connector.connect")(function*(input) {
+      yield* Effect.annotateCurrentSpan({
+        "relay.environment_id": input.environmentId,
+        "relay.operation": "connect",
+        "relay.connect.has_device_id": input.deviceId !== undefined,
+        ...(input.deviceId ? { "relay.mobile.device_id": input.deviceId } : {}),
+      })
+      if (input.clientProofKeyThumbprint.trim().length === 0) {
+        return yield* new EnvironmentConnectNotAuthorized({
+          environmentId: input.environmentId,
+          operation: "connect",
+          reason: "client_proof_key_thumbprint_missing",
+        })
+      }
+      const { link, allocation } = yield* Effect.all(
+        {
+          link: links.getForUser(input),
+          allocation: allocations.get(input),
+        },
+        { concurrency: 2 },
+      )
+      if (!link) {
+        return yield* new EnvironmentConnectNotAuthorized({
+          environmentId: input.environmentId,
+          operation: "connect",
+          reason: "environment_link_not_found",
+        })
+      }
+      const endpoint = yield* resolveManagedEndpoint({
+        operation: "connect",
+        link,
+        allocation,
+      })
+      const now = yield* DateTime.now
+      const expiresAt = DateTime.add(now, { minutes: 2 })
+      const nonce = yield* crypto.randomUUIDv4().pipe(
+        Effect.mapError(
+          (cause) =>
+            new EnvironmentMintRequestFailed({
+              environmentId: input.environmentId,
+              operation: "connect",
+              cause,
+            }),
+        ),
+      )
+      const payload = {
+        iss: relayIssuer,
+        aud: `t3-env:${link.environmentId}`,
+        sub: input.userId,
+        jti: yield* crypto.randomUUIDv4().pipe(
+          Effect.mapError(
+            (cause) =>
+              new EnvironmentMintRequestFailed({
+                environmentId: input.environmentId,
+                operation: "connect",
+                cause,
+              }),
+          ),
+        ),
+        iat: Math.floor(now.epochMilliseconds / 1_000),
+        exp: Math.floor(expiresAt.epochMilliseconds / 1_000),
+        environmentId: link.environmentId,
+        clientProofKeyThumbprint: input.clientProofKeyThumbprint,
+        cnf: { jkt: input.clientProofKeyThumbprint },
+        ...(input.deviceId ? { deviceId: input.deviceId } : {}),
+        nonce,
+        scope: ["environment:connect"],
+      } satisfies RelayCloudMintCredentialProofPayload
+      const proof = yield* signRelayJwt({
+        privateKey: Redacted.value(settings.cloudMintPrivateKey),
+        typ: RELAY_MINT_REQUEST_TYP,
+        payload,
+      }).pipe(
+        Effect.mapError(
+          (cause) =>
+            new EnvironmentMintRequestFailed({
+              environmentId: input.environmentId,
+              operation: "connect",
+              cause,
+            }),
+        ),
+      )
+      const environmentClient = yield* makeEnvironmentClient(endpoint.httpBaseUrl)
+      const decoded = yield* environmentClient.connect
+        .t3MintCredential({ payload: { proof } })
+        .pipe(
+          withoutRedirects,
+          Effect.catch((cause) =>
+            diagnoseEndpointFailure(cause).pipe(
+              Effect.flatMap((diagnosis) =>
+                Effect.fail(
+                  new EnvironmentMintRequestFailed({
+                    environmentId: input.environmentId,
+                    operation: "connect",
+                    cause,
+                    ...diagnosis,
+                  }),
+                )
+              ),
+            )
+          ),
+          Effect.timeoutOption(Duration.millis(ENVIRONMENT_MINT_REQUEST_TIMEOUT_MS)),
+          Effect.flatMap(
+            Option.match({
+              onNone: () =>
+                Effect.fail(
+                  new EnvironmentMintRequestTimedOut({
+                    environmentId: input.environmentId,
+                    timeoutMs: ENVIRONMENT_MINT_REQUEST_TIMEOUT_MS,
+                  }),
+                ),
+              onSome: Effect.succeed,
+            }),
+          ),
+        )
+      const verified = yield* verifyEnvironmentResponse({
+        response: decoded,
+        environmentId: input.environmentId,
+        requestNonce: nonce,
+        clientProofKeyThumbprint: input.clientProofKeyThumbprint,
+        environmentPublicKeys: [link.environmentPublicKey],
+        relayIssuer,
+        nowEpochSeconds: Math.floor(now.epochMilliseconds / 1_000),
+      })
+      if (!verified) {
+        return yield* new EnvironmentMintResponseInvalid({
+          environmentId: input.environmentId,
+          operation: "connect",
+        })
+      }
+      return {
+        environmentId: link.environmentId,
+        endpoint,
+        credential: decoded.credential,
+        expiresAt: decoded.expiresAt,
+      }
+    }),
+  })
+})
+
+export const layer = Layer.effect(EnvironmentConnector, make)

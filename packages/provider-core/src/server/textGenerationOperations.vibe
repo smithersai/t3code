@@ -1,0 +1,192 @@
+import * as Effect from "effect/Effect"
+import * as Schema from "effect/Schema"
+
+import { type ChatAttachment, type ModelSelection, TextGenerationError } from "@t3tools/contracts"
+import { formatGeneratedBranchName, sanitizeFeatureBranchName } from "@t3tools/shared/git"
+import { extractJsonObject } from "@t3tools/shared/schemaJson"
+
+import type { ProviderTextGeneration } from "./textGeneration.vibe"
+import {
+  buildBranchNamePrompt,
+  buildCommitMessagePrompt,
+  buildPrContentPrompt,
+  buildReviewGuidePrompt,
+  buildThreadTitlePrompt,
+} from "./textGenerationPrompts.vibe"
+import { sanitizeCommitSubject, sanitizePrTitle, sanitizeThreadTitle } from "./textGenerationUtils.vibe"
+
+export type Operation = keyof ProviderTextGeneration
+
+export interface Request<S extends Schema.Top> {
+  readonly operation: Operation
+  readonly cwd: string
+  readonly prompt: string
+  readonly outputSchema: S
+  readonly modelSelection: ModelSelection
+  readonly attachments?: ReadonlyArray<ChatAttachment> | undefined
+  /** Investigate cwd with read-only tools across turns; fail if the runner cannot guarantee read-only access. */
+  readonly investigate?: { readonly timeoutMs: number } | undefined
+}
+
+const INVESTIGATION_TIMEOUT_MS = 15 * 60_000
+
+export const investigationUnsupported = (operation: Operation, provider: string) =>
+  new TextGenerationError({
+    operation,
+    detail:
+      `${provider} cannot investigate a checkout read-only. Choose another review guide model, or source control writer model when none is set.`,
+  })
+
+export type Runner = <S extends Schema.Top>(
+  request: Request<S>,
+) => S["Type"]!TextGenerationError!S["DecodingServices"]
+
+export const withoutInvestigation = (provider: string, run: Runner): Runner => (request) =>
+  request.investigate
+    ? Effect.fail(investigationUnsupported(request.operation, provider))
+    : run(request)
+
+export const decodeJsonReply = <S extends Schema.Top>(
+  request: Pick<Request<S>, "operation" | "outputSchema">,
+  provider: string,
+  text: string,
+) => {
+  const decodeOutput = Schema.decodeEffect(Schema.fromJsonString(request.outputSchema))
+  return decodeOutput(extractJsonObject(text))
+    |> Effect.mapError(
+      %,
+      (cause) =>
+        new TextGenerationError({
+          operation: request.operation,
+          detail: `${provider} returned invalid structured output.`,
+          cause,
+        }),
+    )
+}
+
+export function fromRunner(name: string, run: Runner): ProviderTextGeneration {
+  const generateCommitMessage: ProviderTextGeneration["generateCommitMessage"] = effect (
+    input,
+  ): import("./textGeneration.vibe").CommitMessageGenerationResult!TextGenerationError!never =>
+    try withSpan(
+      (effect (): import("./textGeneration.vibe").CommitMessageGenerationResult!TextGenerationError!never => {
+        const generated = try run({
+          operation: "generateCommitMessage",
+          cwd: input.cwd,
+          modelSelection: input.modelSelection,
+          ...buildCommitMessagePrompt({
+            branch: input.branch,
+            stagedSummary: input.stagedSummary,
+            stagedPatch: input.stagedPatch,
+            includeBranch: input.includeBranch === true,
+            policy: input.policy,
+          }),
+        })
+        return {
+          subject: sanitizeCommitSubject(generated.subject),
+          body: generated.body.trim(),
+          ...("branch" in generated && typeof generated.branch === "string"
+            ? { branch: sanitizeFeatureBranchName(generated.branch) }
+            : {}),
+        }
+      })(),
+      `${name}.generateCommitMessage`,
+    )
+
+  const generatePrContent: ProviderTextGeneration["generatePrContent"] = effect (
+    input,
+  ): import("./textGeneration.vibe").PrContentGenerationResult!TextGenerationError!never =>
+    try withSpan(
+      (effect (): import("./textGeneration.vibe").PrContentGenerationResult!TextGenerationError!never => {
+        const generated = try run({
+          operation: "generatePrContent",
+          cwd: input.cwd,
+          modelSelection: input.modelSelection,
+          ...buildPrContentPrompt({
+            baseBranch: input.baseBranch,
+            headBranch: input.headBranch,
+            commitSummary: input.commitSummary,
+            diffSummary: input.diffSummary,
+            diffPatch: input.diffPatch,
+            policy: input.policy,
+            changeRequestTemplate: input.changeRequestTemplate,
+            threadContext: input.threadContext,
+          }),
+        })
+        return { title: sanitizePrTitle(generated.title), body: generated.body.trim() }
+      })(),
+      `${name}.generatePrContent`,
+    )
+
+  const generateBranchName: ProviderTextGeneration["generateBranchName"] = effect (
+    input,
+  ): import("./textGeneration.vibe").BranchNameGenerationResult!TextGenerationError!never =>
+    try withSpan(
+      (effect (): import("./textGeneration.vibe").BranchNameGenerationResult!TextGenerationError!never => {
+        const generated = try run({
+          operation: "generateBranchName",
+          cwd: input.cwd,
+          modelSelection: input.modelSelection,
+          attachments: input.attachments,
+          ...buildBranchNamePrompt({
+            message: input.message,
+            attachments: input.attachments,
+            naming: input.naming,
+          }),
+        })
+        return { branch: formatGeneratedBranchName(generated.branch, input.naming) }
+      })(),
+      `${name}.generateBranchName`,
+    )
+
+  const generateThreadTitle: ProviderTextGeneration["generateThreadTitle"] = effect (
+    input,
+  ): import("./textGeneration.vibe").ThreadTitleGenerationResult!TextGenerationError!never =>
+    try withSpan(
+      (effect (): import("./textGeneration.vibe").ThreadTitleGenerationResult!TextGenerationError!never => {
+        const generated = try run({
+          operation: "generateThreadTitle",
+          cwd: input.cwd,
+          modelSelection: input.modelSelection,
+          attachments: input.attachments,
+          ...buildThreadTitlePrompt({
+            message: input.message,
+            previousTitle: input.previousTitle,
+            forkSource: input.forkSource,
+            linkedContext: input.linkedContext,
+            attachments: input.attachments,
+            instructions: input.instructions,
+          }),
+        })
+        return {
+          title: sanitizeThreadTitle(generated.title),
+          ...(generated.needsRefinement ? { needsRefinement: true } : {}),
+        }
+      })(),
+      `${name}.generateThreadTitle`,
+    )
+
+  const generateReviewGuide: ProviderTextGeneration["generateReviewGuide"] = effect (
+    input,
+  ): import("./textGeneration.vibe").ReviewGuideGenerationResult!TextGenerationError!never =>
+    try withSpan(
+      (effect (): import("./textGeneration.vibe").ReviewGuideGenerationResult!TextGenerationError!never => {
+        return try run({
+          operation: "generateReviewGuide",
+          cwd: input.cwd,
+          modelSelection: input.modelSelection,
+          investigate: { timeoutMs: INVESTIGATION_TIMEOUT_MS },
+          ...buildReviewGuidePrompt(input),
+        })
+      })(),
+      `${name}.generateReviewGuide`,
+    )
+
+  return {
+    generateCommitMessage,
+    generatePrContent,
+    generateBranchName,
+    generateThreadTitle,
+    generateReviewGuide,
+  } satisfies ProviderTextGeneration
+}

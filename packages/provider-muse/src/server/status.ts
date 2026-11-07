@@ -1,5 +1,5 @@
 import { ServerProviderModel } from "@t3tools/contracts";
-import { MuseSettings } from "../settings.ts";
+import { MuseSettings } from "../settings.vibe";
 import { resolveSpawnCommand } from "@t3tools/shared/shell";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
@@ -8,7 +8,7 @@ import * as Result from "effect/Result";
 import * as ChildProcess from "effect/process/ChildProcess";
 
 import { createMuseSdkHost, makeMuseEnvironment } from "./sdk.ts";
-import { parseMuseVersion } from "./maintenance.ts";
+import { parseMuseVersion } from "./maintenance.vibe";
 import { discoverMuseModels, museModelCapabilities } from "./modelCatalog.ts";
 import {
   buildServerProvider,

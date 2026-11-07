@@ -2,7 +2,7 @@ import { type RuntimeRequestId, type ScopedThreadRef } from "@t3tools/contracts"
 import { memo, use, useEffect, useEffectEvent, useRef, useState } from "react";
 import { BackgroundThreadContext } from "./backgroundThread";
 import { useStableCallback } from "~/hooks/useStableCallback";
-import { type PendingUserInput } from "../../session-logic";
+import { type PendingUserInput } from "../../session-logic.vibe";
 import {
   derivePendingUserInputProgress,
   type PendingUserInputDraftAnswer,

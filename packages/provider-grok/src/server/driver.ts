@@ -1,6 +1,6 @@
 import { ProviderDriverKind } from "@t3tools/contracts";
-import { GrokSettings } from "../settings.ts";
-import * as Crypto from "effect/Crypto";
+import { GrokSettings } from "#vibelang/emitted/src/settings";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
@@ -11,16 +11,16 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
-import { makeGrokTextGeneration } from "./textGeneration.ts";
-import { GrokAdapterV2Driver, type GrokAdapterV2DriverEnv } from "./adapter.ts";
+import { makeGrokTextGeneration } from "#vibelang/emitted/src/server/textGeneration";
+import { GrokAdapterV2Driver, type GrokAdapterV2DriverEnv } from "#vibelang/emitted/src/server/adapter";
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors";
 import {
   buildInitialGrokProviderSnapshot,
   checkGrokProviderStatus,
   enrichGrokSnapshot,
-} from "./status.ts";
-import { grokUsageReader } from "./usage.ts";
-import { readGrokAccount } from "./usageLimits.ts";
+} from "#vibelang/emitted/src/server/status";
+import { grokUsageReader } from "#vibelang/emitted/src/server/usage";
+import { readGrokAccount } from "#vibelang/emitted/src/server/usageLimits";
 import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider";
 import {
   defaultProviderContinuationIdentity,
@@ -29,7 +29,7 @@ import {
 } from "@t3tools/provider-core/server/driver";
 import { withInstanceIdentity } from "@t3tools/provider-core/server/instanceIdentity";
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";
-import { discoverGrokSkills } from "./skills.ts";
+import { discoverGrokSkills } from "#vibelang/emitted/src/server/skills";
 import {
   homebrewOwnershipFromCommandPath,
   makeCachedProviderMaintenanceResolution,

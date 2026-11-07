@@ -1,4 +1,3 @@
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import { expect, it } from "@effect/vitest";
 import { ScheduledTaskUpsertInput } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
@@ -10,16 +9,17 @@ import { afterEach, vi } from "vite-plus/test";
 import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
-import * as Scheduler from "../scheduling/Scheduler.ts";
+import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
+import * as Scheduler from "../scheduling/Scheduler.vibe";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
 import { ServerActivation } from "../serverActivation.ts";
 import * as ScheduledTaskService from "./ScheduledTaskService.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 afterEach(() => vi.unstubAllEnvs());
 
 const dependencies = Layer.mergeAll(
-  NodeCrypto.layer,
+  Crypto.layerWebCrypto,
   Scheduler.layer,
   Layer.mock(ThreadLaunchService.ThreadLaunchService)({
     launch: () => Effect.die("synthetic dispatch failure"),

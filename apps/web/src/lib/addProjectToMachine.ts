@@ -12,8 +12,11 @@ import type {
 } from "@t3tools/contracts";
 import { create } from "zustand";
 
-import { appAtomRegistry } from "../rpc/atomRegistry";
-import { environmentProjectClonesAtom, silenceProjectCloneToasts } from "../state/projectClones";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
+import {
+  environmentProjectClonesAtom,
+  silenceProjectCloneToasts,
+} from "../state/projectClones.vibe";
 import { projectEnvironment } from "../state/projects";
 import { sourceControlEnvironment } from "../state/sourceControl";
 

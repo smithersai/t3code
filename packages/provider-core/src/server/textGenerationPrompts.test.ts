@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { normalizeCliError } from "./textGenerationUtils.ts";
+import { normalizeCliError } from "./textGenerationUtils.vibe";
 
 describe("normalizeCliError", () => {
   it("does not expose CLI failure details in the public error message", () => {

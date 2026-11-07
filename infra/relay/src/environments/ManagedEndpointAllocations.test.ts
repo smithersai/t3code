@@ -2,9 +2,9 @@ import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as RelayDb from "../db.ts";
+import * as RelayDb from "../db.vibe";
 import { relayManagedEndpointAllocations } from "../persistence/schema.ts";
-import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.ts";
+import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.vibe";
 
 const layerWithDb = (db: RelayDb.RelayDb["Service"]) =>
   ManagedEndpointAllocations.layer.pipe(Layer.provide(Layer.succeed(RelayDb.RelayDb, db)));

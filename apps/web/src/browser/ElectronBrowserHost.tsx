@@ -10,26 +10,26 @@ import { useAtomValue } from "@effect/atom-react";
 import { runAtomCommand } from "@t3tools/client-runtime/state/runtime";
 import { type ComponentProps, useState } from "react";
 
-import { primaryEnvironmentIdAtom } from "~/state/primaryEnvironment";
+import { primaryEnvironmentIdAtom } from "../state/primaryEnvironment.vibe";
 
 import { isElectron } from "~/env";
 import { useClientSettingsHydrated } from "~/hooks/useSettings";
-import { useDesktopHostedPreviewSessions } from "~/components/preview/usePreviewSession";
+import { useDesktopHostedPreviewSessions } from "../components/preview/usePreviewSession.vibe";
 import {
   readActivePreviewSessions,
   type ThreadPreviewState,
   useActivePreviewSessions,
 } from "~/previewStateStore";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { previewEnvironment } from "~/state/preview";
-import { useEnvironmentScope } from "~/state/session";
+import { useEnvironmentScope } from "../state/session.vibe";
 
 import { readPreviewAnnotationTheme } from "./annotationTheme";
 import { useBrowserDefaults } from "./browserDefaults";
 import { useBrowserPointerStore } from "./browserPointerStore";
 import { HostedBrowserWebview } from "./HostedBrowserWebview";
-import { openUrlInPreview } from "./openFileInPreview";
-import { rendersServerTabNatively } from "./previewRuntime";
+import { openUrlInPreview } from "./openFileInPreview.vibe";
+import { rendersServerTabNatively } from "./previewRuntime.vibe";
 import { previewRuntimeTabId } from "./previewRuntimeTabId";
 
 /** Every session this window renders as a hosted webview, in a fixed (non-display) order. */

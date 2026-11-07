@@ -12,7 +12,7 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import { resolveHostCliCommand } from "../cli/invocation.ts";
+import { resolveHostCliCommand } from "../cli/invocation.vibe";
 import * as ServerConfig from "../config.ts";
 import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.ts";
 import { forkParked } from "../serverActivation.ts";

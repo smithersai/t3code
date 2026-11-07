@@ -26,7 +26,7 @@ import { type ElementType, useState } from "react";
 import { getSourceControlPresentationForKind } from "~/sourceControlPresentation";
 import { useDebouncedValue } from "~/state/queries";
 import { type EnvironmentQueryTarget, usePullRequestFilterOptions } from "~/state/pullRequests";
-import { ProjectFavicon, type ProjectFaviconProject } from "../ProjectFavicon";
+import { ProjectFavicon, type ProjectFaviconProject } from "../ProjectFavicon.vibex";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group";
 import { Button } from "../ui/button";
 

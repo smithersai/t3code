@@ -9,12 +9,12 @@ import { AppText as Text, AppTextInput as TextInput } from "../../components/ui/
 import { Button } from "../../components/ui/Button";
 import { uuidv4 } from "../../lib/uuid";
 import { composerPullRequests } from "../../state/pull-requests";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { PullRequestSheetContent } from "./PullRequestSheetContent";
-import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft";
+import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft.vibe";
 import { reviewPositionLabel } from "./pullRequestDiffComments";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
-import { usePullRequestPermissions } from "./usePullRequestPermissions";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
+import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";
 
 export type InlineCommentParams = PullRequestParams & {
   readonly draftId?: string;

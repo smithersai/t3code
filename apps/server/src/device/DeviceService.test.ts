@@ -10,7 +10,6 @@ import {
   type ServerSettings as Settings,
   type SshDeviceHostConfig,
 } from "@t3tools/contracts";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as NetService from "@t3tools/shared/Net";
 import * as Effect from "effect/Effect";
@@ -34,6 +33,7 @@ import { makeDeviceHubOperations } from "./DeviceHubOperations.ts";
 import { NodeRuntimeUnavailableError } from "@t3tools/shared/nodeRuntime";
 
 import * as DeviceService from "./DeviceService.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const decodeJson = Schema.decodeUnknownSync(Schema.fromJsonString(Schema.Unknown));
 const decodeBootError = Schema.decodeUnknownSync(Schema.fromJsonString(DeviceBootError));
@@ -193,7 +193,7 @@ const fixture = Effect.fn("fixture")(function* (
     undefined,
     installTool,
   ).pipe(
-    Effect.provide(NodeCrypto.layer),
+    Effect.provide(Crypto.layerWebCrypto),
     Effect.provideService(DeviceHost.DeviceHost, host),
     Effect.provideService(
       ServerSettings.ServerSettingsService,
@@ -681,7 +681,7 @@ it.effect.each(["shutdown", "close"] as const)(
         stop: Effect.void,
       };
       const service = yield* DeviceService.makeWithHosts(new Map([[host.id, host]])).pipe(
-        Effect.provide(NodeCrypto.layer),
+        Effect.provide(Crypto.layerWebCrypto),
       );
       const input = { threadId, deviceId, platform: "ios" as const };
       yield* service.open(input);
@@ -780,7 +780,7 @@ it.effect.each([
         stop: Effect.void,
       };
       const service = yield* DeviceService.makeWithHosts(new Map([[host.id, host]])).pipe(
-        Effect.provide(NodeCrypto.layer),
+        Effect.provide(Crypto.layerWebCrypto),
       );
       yield* service.list;
       const exit = yield* Effect.exit(service.shutdown({ deviceId, platform: "ios" }));
@@ -852,7 +852,7 @@ it.effect.each([LOCAL_DEVICE_HOST_ID, "ssh-fixture"])(
         stopAgent: Effect.void,
       };
       const service = yield* DeviceService.makeWithHosts(new Map([[hostId, host]])).pipe(
-        Effect.provide(NodeCrypto.layer),
+        Effect.provide(Crypto.layerWebCrypto),
         Effect.provideService(HttpClient.HttpClient, http),
       );
 
@@ -1084,7 +1084,12 @@ it.effect("reconciles SSH host settings without publishing no-op changes", () =>
     expect(removedFiles).toHaveLength(1);
   }).pipe(
     Effect.scoped,
-    Effect.provide(Layer.mergeAll(ServerSettings.layerTest(), NodeServices.layer)),
+    Effect.provide(
+      Layer.mergeAll(
+        ServerSettings.layerTest(),
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+      ),
+    ),
   ),
 );
 
@@ -1143,9 +1148,9 @@ it.effect("a failed tool update reports npm's exit code but not its output", () 
       Layer.mergeAll(
         ServerSettings.layerTest({ enableDeviceSupport: true }),
         ServerConfig.layerTest(process.cwd(), { prefix: "t3-device-update-" }),
-        NodeCrypto.layer,
+        Crypto.layerWebCrypto,
         NetService.layer,
-      ).pipe(Layer.provideMerge(NodeServices.layer)),
+      ).pipe(Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
     ),
     Effect.scoped,
   ),

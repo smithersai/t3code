@@ -1,7 +1,7 @@
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { expect, it } from "@effect/vitest";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import type * as Duration from "effect/Duration";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
@@ -14,6 +14,7 @@ import { HttpClient, HttpClientResponse } from "effect/http";
 import * as NodeZlib from "node:zlib";
 
 import * as PreviewBrowser from "./PreviewBrowser.ts";
+import * as Layer from "effect/Layer";
 
 // NTFS cannot enforce POSIX modes; choose the host platform.
 const hostPlatform: NodeJS.Platform =
@@ -120,7 +121,7 @@ const makeHarness = Effect.fn("test.makePreviewBrowser")(function* (
   return { browser, fs, path, baseDir, installRoot, requests };
 });
 
-it.layer(NodeServices.layer)("PreviewBrowser", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("PreviewBrowser", (it) => {
   it.effect("installs a verified download with its file modes and then reuses it", () =>
     Effect.gen(function* () {
       const { browser, fs, path, installRoot, requests } = yield* makeHarness();

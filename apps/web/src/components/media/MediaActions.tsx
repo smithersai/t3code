@@ -22,11 +22,11 @@ import { useRef, useState, type ReactElement } from "react";
 
 import { writeTextToClipboard } from "../../hooks/useCopyToClipboard";
 import { readLocalApi } from "../../localApi";
-import { appAtomRegistry } from "../../rpc/atomRegistry";
-import { assetEnvironment } from "../../state/assets";
-import { useEnvironmentQuery } from "../../state/query";
-import { environmentSession, readPreparedConnection } from "../../state/session";
-import { useAtomQueryRunner } from "../../state/use-atom-query-runner";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
+import { assetEnvironment } from "../../state/assets.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { environmentSession, readPreparedConnection } from "../../state/session.vibe";
+import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
 import { downloadMedia, readMediaPng } from "./mediaContent";

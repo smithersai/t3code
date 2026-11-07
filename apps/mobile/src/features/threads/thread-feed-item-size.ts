@@ -1,5 +1,5 @@
 import { THREAD_WORK_ROW_MIN_HEIGHT } from "../../lib/layout";
-import type { ThreadFeedEntry } from "../../lib/threadActivity";
+import type { ThreadFeedEntry } from "../../lib/threadActivity.vibe";
 
 // Content-driven rows must be measured by LegendList: returning a fixed size
 // makes the list skip native measurement entirely.

@@ -5,7 +5,7 @@ import {
   ProviderInstanceId,
 } from "@t3tools/contracts";
 import { describe, expect, it } from "vite-plus/test";
-import { createModelSelection } from "./model.ts";
+import { createModelSelection } from "./model.vibe";
 import {
   clearProjectSettingsOverrides,
   hasProjectSettingsOverrides,
@@ -14,7 +14,7 @@ import {
   resolveSendEnvMode,
   resolveWorktreeCleanup,
 } from "./projectSettings.ts";
-import { applyServerSettingsPatch } from "./serverSettings.ts";
+import { applyServerSettingsPatch } from "./serverSettings.vibe";
 
 const projectId = ProjectId.make("project-a");
 const otherProjectId = ProjectId.make("project-b");

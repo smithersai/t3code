@@ -14,7 +14,7 @@ import {
   PersistenceDecodeError,
   type PersistenceErrorCorrelation,
   PersistenceSqlError,
-} from "./Errors.ts";
+} from "./Errors.vibe";
 
 export const AuthPairingLinkRecord = Schema.Struct({
   id: Schema.String,

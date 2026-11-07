@@ -17,7 +17,7 @@ import * as Option from "effect/Option";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 
-import { withCommandMetrics } from "../observability/Metrics.ts";
+import { withCommandMetrics } from "../observability/Metrics.vibe";
 import * as EventSink from "../orchestration-v2/EventSink.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.ts";
@@ -29,11 +29,11 @@ import {
   type ProjectCommand,
 } from "../orchestration-v2/ProjectCommands.ts";
 import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
-import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.ts";
+import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.vibe";
 import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as ProjectEnrichmentService from "./ProjectEnrichmentService.ts";
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 
 export interface ProjectCreateInput extends ProjectCreatePayload {
   readonly commandId: CommandId;

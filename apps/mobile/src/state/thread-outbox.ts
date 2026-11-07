@@ -1,9 +1,9 @@
-import { appAtomRegistry } from "./atom-registry";
-import { createThreadOutboxManager } from "./thread-outbox-manager";
-import type { QueuedThreadMessage } from "./thread-outbox-model";
-import { expoThreadOutboxStorage, flushThreadOutboxWrites } from "./thread-outbox-storage";
+import { appAtomRegistry } from "./atom-registry.vibe";
+import { createThreadOutboxManager } from "./thread-outbox-manager.vibe";
+import type { QueuedThreadMessage } from "./thread-outbox-model.vibe";
+import { expoThreadOutboxStorage, flushThreadOutboxWrites } from "./thread-outbox-storage.vibe";
 
-export * from "./thread-outbox-model";
+export * from "./thread-outbox-model.vibe";
 
 export const threadOutboxManager = createThreadOutboxManager({
   registry: appAtomRegistry,

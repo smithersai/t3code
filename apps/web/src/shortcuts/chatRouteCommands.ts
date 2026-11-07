@@ -2,26 +2,26 @@ import { AuthPreviewOperateScope, type EnvironmentId } from "@t3tools/contracts"
 import type { AnyRouter } from "@tanstack/react-router";
 
 import { stackedThreadToast, toastManager } from "~/components/ui/toast";
-import { isPreviewAvailableFor } from "../browser/previewRuntime";
+import { isPreviewAvailableFor } from "../browser/previewRuntime.vibe";
 import { isCommandPaletteOpen, openCommandPalette } from "../commandPaletteBus";
 import { useComposerDraftStore } from "../composerDraftStore";
 import { dispatchPreviewAction, type PreviewAction } from "../components/preview/previewActionBus";
 import { isAppModalPage } from "../components/sidebar/mainAppLocation";
 import { createNewThreadHandler, resolveDefaultProjectRef } from "../hooks/useHandleNewThread";
-import { createScratchProjectActions } from "../hooks/useScratchProject";
+import { createScratchProjectActions } from "../hooks/useScratchProject.ts";
 import { getClientSettings } from "../hooks/useSettings";
 import { startNewThreadFromContext } from "../lib/chatThreadActions";
 import { selectProjectGroupingSettings } from "../logicalProject";
 import { selectActiveRightPanel, useRightPanelStore } from "../rightPanelStore";
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { buildSidebarProjectSnapshots } from "../sidebarProjectGrouping";
 import { readProjects, readThreadShell } from "../state/entities";
-import { environmentPresentations } from "../state/presentation";
-import { primaryEnvironmentIdAtom } from "../state/primaryEnvironment";
-import { readEnvironmentScope } from "../state/session";
+import { environmentPresentations } from "../state/presentation.vibe";
+import { primaryEnvironmentIdAtom } from "../state/primaryEnvironment.vibe";
+import { readEnvironmentScope } from "../state/session.vibe";
 import { selectThreadTerminalUiState, useTerminalUiStateStore } from "../terminalUiStateStore";
 import { useThreadSelectionStore } from "../threadSelectionStore";
-import { resolveThreadRouteTarget } from "../threadRoutes";
+import { resolveThreadRouteTarget } from "../threadRoutes.vibe";
 import { useUiStateStore } from "../uiStateStore";
 import { type CommandHandler, registerCommands } from "./dispatcher";
 

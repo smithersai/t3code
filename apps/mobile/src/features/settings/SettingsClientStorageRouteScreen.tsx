@@ -15,9 +15,9 @@ import {
   clearClientCacheAtom,
   clientCacheSummaryAtom,
   type EnvironmentClientCacheSummary,
-} from "../../state/client-cache-state";
-import { useServerConfigs } from "../../state/entities";
-import { useSavedRemoteConnections } from "../../state/use-remote-environment-registry";
+} from "../../state/client-cache-state.vibe";
+import { useServerConfigs } from "../../state/entities.vibe";
+import { useSavedRemoteConnections } from "../../state/use-remote-environment-registry.vibe";
 import { SettingsActionRow } from "./components/SettingsActionRow";
 import { SettingsSection } from "./components/SettingsSection";
 import { SettingsScreen } from "./components/SettingsScreen";

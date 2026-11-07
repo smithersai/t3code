@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { describe, expect, it } from "vite-plus/test";
 
-import { OrchestrationProjectShell } from "./orchestrationProject.ts";
+import { OrchestrationProjectShell } from "./orchestrationProject.vibe";
 
 import {
   ProjectFaviconPath,
@@ -16,7 +16,7 @@ import {
   ProjectSearchContentsError,
   ProjectSearchEntriesError,
   ProjectWriteFileError,
-} from "./project.ts";
+} from "./project.vibe";
 
 const decodeProjectCreatePayload = Schema.decodeUnknownSync(ProjectCreatePayload);
 const decodeProjectUpdatePayload = Schema.decodeUnknownSync(ProjectUpdatePayload);

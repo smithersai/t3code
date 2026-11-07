@@ -34,7 +34,7 @@ import * as Orchestrator from "./Orchestrator.ts";
 import * as ProviderSessionManager from "./ProviderSessionManager.ts";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ThreadManagementService from "./ThreadManagementService.ts";
-import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
+import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 
 it("stamps authoritative provenance on commands that create threads or messages", () => {
   const command: OrchestrationV2Command = {

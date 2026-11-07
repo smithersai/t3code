@@ -21,16 +21,16 @@ import { AppText as Text } from "../../components/ui/AppText";
 import { EnvironmentMachineSymbol } from "../../components/EnvironmentMachineSymbol";
 import { ThemedSwitch } from "../../components/ui/ThemedSwitch";
 import { cn } from "../../lib/cn";
-import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic";
+import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic.vibe";
 import type { ConnectedEnvironmentSummary } from "../../state/remote-runtime-types";
 import { serverEnvironment } from "../../state/server";
-import { environmentPresentations } from "../../state/presentation";
+import { environmentPresentations } from "../../state/presentation.vibe";
 import { availableCloudEnvironmentPresentation } from "../cloud/cloudEnvironmentPresentation";
-import { hasCloudPublicConfig } from "../cloud/publicConfig";
+import { hasCloudPublicConfig } from "../cloud/publicConfig.vibe";
 import { ConnectionStatusDot } from "./ConnectionStatusDot";
 import { useConnectionDiagnosis } from "./ConnectionDiagnosisDetails";
 import { environmentStatusText } from "./environmentStatusText";
-import { type RelayEnvironmentView, useConnectionController } from "./useConnectionController";
+import { type RelayEnvironmentView, useConnectionController } from "./useConnectionController.vibe";
 
 interface CloudEnvironmentRowsProps {
   readonly connectedCloudEnvironments: ReadonlyArray<ConnectedEnvironmentSummary>;

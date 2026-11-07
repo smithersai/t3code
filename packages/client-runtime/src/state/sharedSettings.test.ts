@@ -5,7 +5,7 @@ import {
 } from "@t3tools/contracts";
 import { describe, expect, it } from "@effect/vitest";
 
-import { filterSharedServerPatch, pickSharedServerSettings } from "./sharedSettings.ts";
+import { filterSharedServerPatch, pickSharedServerSettings } from "./sharedSettings.vibe";
 
 const restartCapabilities = { threadRestartContinuation: true };
 

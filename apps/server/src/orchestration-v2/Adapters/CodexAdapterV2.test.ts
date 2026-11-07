@@ -35,7 +35,7 @@ import * as CodexError from "effect-codex-app-server/errors";
 import type * as CodexSchema from "effect-codex-app-server/schema";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Predicate from "effect/Predicate";
 import * as FileSystem from "effect/FileSystem";
@@ -854,7 +854,11 @@ describe("CodexAdapterV2 process exit", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        ),
       ),
     ),
   );
@@ -967,7 +971,11 @@ describe("CodexAdapterV2 session initialize", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        ),
       ),
     ),
   );
@@ -999,7 +1007,11 @@ describe("CodexAdapterV2 session initialize", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        ),
       ),
     ),
   );
@@ -1045,7 +1057,11 @@ describe("CodexAdapterV2 session initialize", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        ),
       ),
     ),
   );
@@ -1299,7 +1315,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
   );
@@ -1350,7 +1370,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        ),
       ),
     ),
   );
@@ -1516,7 +1540,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        ),
       ),
     ),
   );
@@ -1664,7 +1692,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.isEmpty(assistantMessages(harness.events));
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -1871,7 +1903,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.lengthOf(requests(), 4);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -1969,7 +2005,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(harness.terminalEvents()[0]?.status, "completed");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -2049,7 +2089,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(harness.terminalEvents()[0]?.status, "completed");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -2186,7 +2230,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           }
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+            ),
           ),
         ),
       ),
@@ -2238,7 +2286,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(DateTime.toEpochMillis(resumed.updatedAt), 1782622450000);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -2366,7 +2418,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(DateTime.toEpochMillis(resumed.updatedAt), 1782622450000);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -2796,7 +2852,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         }
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -2948,7 +3008,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.isAbove(terminalIndex, resumedCommandIndex);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -3116,7 +3180,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           assert.deepEqual(assistantMessages(harness.events), []);
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+            ),
           ),
         ),
       ),
@@ -3249,7 +3317,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         );
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -3467,7 +3539,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
   );
@@ -3623,7 +3699,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           assert.lengthOf(harness.continuationRequests, 0);
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+            ),
           ),
         ),
       );
@@ -3753,7 +3833,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
             ),
           ),
         );
-      }).pipe(Effect.provide(NodeServices.layer)),
+      }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
     );
   });
 
@@ -3869,7 +3949,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
             ),
           ),
         );
-      }).pipe(Effect.provide(NodeServices.layer)),
+      }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
     ),
   );
 
@@ -4152,7 +4232,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(commandUpdates[commandUpdates.length - 1]?.turnItem.status, "interrupted");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -4382,7 +4466,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.isFalse(yield* harness.hasPendingBackgroundWork);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -4493,7 +4581,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.isFalse(yield* harness.hasPendingBackgroundWork);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -4741,7 +4833,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         }
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -4852,7 +4948,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           if (willRetry) assert.equal(terminal.retry?.attempt, 1);
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+            ),
           ),
         ),
       ),
@@ -4954,7 +5054,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.lengthOf(harness.continuationRequests, 0);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -5117,7 +5221,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.isFalse(yield* harness.hasPendingBackgroundWork);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -5363,7 +5471,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           assert.isFalse(yield* harness.hasPendingBackgroundWork);
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+            ),
           ),
         ),
       ),
@@ -5578,7 +5690,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(harness.continuationRequests[0]?.delivery, "message_text");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -5731,7 +5847,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
             assert.include(harness.continuationRequests[0]?.detail, "CAPACITY_CHILD_DONE");
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+            ),
           ),
         ),
       ),
@@ -5848,7 +5968,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(harness.subagentUpdates().at(-1)?.subagent.status, "interrupted");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -5920,7 +6044,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         );
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -6034,7 +6162,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.include(harness.continuationRequests[0]?.detail, "CHILD_AFTER_GRANDCHILD");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -6112,7 +6244,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.lengthOf(harness.continuationRequests, 0);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -6199,7 +6335,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           ]);
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+            ),
           ),
         ),
       ),
@@ -6262,7 +6402,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.include(harness.continuationRequests[0]?.detail, "CODEX_RESUME_DONE");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),
@@ -6421,7 +6565,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           }
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+            ),
           ),
         ),
       ),
@@ -6574,7 +6722,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+        ),
       ),
     ),
   );
@@ -6718,7 +6870,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
   );
@@ -6876,7 +7032,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     );
@@ -6968,7 +7128,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     );
@@ -7049,7 +7213,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     );
@@ -7112,7 +7280,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     );
@@ -7211,7 +7383,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     );
@@ -7276,7 +7452,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     );
@@ -7366,7 +7546,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     );
@@ -7432,7 +7616,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     );
@@ -7605,7 +7793,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     );
@@ -7642,7 +7834,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     );
@@ -7671,7 +7867,11 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     );

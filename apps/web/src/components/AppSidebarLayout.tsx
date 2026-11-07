@@ -60,9 +60,9 @@ import {
   useSidebarVisibility,
 } from "./ui/sidebar";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "./ui/tooltip";
-import { appAtomRegistry } from "../rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 import { registerCommands, registerMenuAction } from "../shortcuts/dispatcher";
-import { resolveThreadRouteRef } from "../threadRoutes";
+import { resolveThreadRouteRef } from "../threadRoutes.vibe";
 
 const MACOS_TRAFFIC_LIGHTS_LEFT_INSET = "var(--desktop-window-controls-inset, 90px)";
 

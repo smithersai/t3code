@@ -19,10 +19,10 @@ import {
   type FirstRunGateState,
 } from "../../onboarding/firstRun.logic";
 import { useAllEnvironmentShellsBootstrapped, useProjects } from "../../state/entities";
-import { useEnvironments } from "../../state/environments";
+import { useEnvironments } from "../../state/environments.vibe";
 import { environmentProjects } from "../../state/projects";
 import { primaryServerConfigAtom, primaryServerWelcomeAtom } from "../../state/server";
-import { environmentShell } from "../../state/shell";
+import { environmentShell } from "../../state/shell.vibe";
 import { environmentThreadShells } from "../../state/threads";
 import { Button } from "../ui/button";
 

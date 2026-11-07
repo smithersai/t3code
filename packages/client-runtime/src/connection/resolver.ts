@@ -14,16 +14,16 @@ import {
   appendClientConnectionParams,
   type ClientOwnerParams,
   readClientOwnerParams,
-} from "../authorization/remote.ts";
+} from "#vibelang/emitted/src/authorization/remote";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
+import * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities";
 import {
   BearerConnectionCredential,
   BearerConnectionProfile,
   type ConnectionCatalogEntry,
   SshConnectionProfile,
-} from "./catalog.ts";
-import * as ConnectionCredentialStore from "./credentialStore.ts";
+} from "#vibelang/emitted/src/connection/catalog";
+import * as ConnectionCredentialStore from "#vibelang/emitted/src/connection/credentialStore";
 import {
   credentialMissingError,
   environmentMismatchError,
@@ -33,7 +33,7 @@ import {
 import {
   PullRequestRoutingPermissions,
   pullRequestRoutingConnectionKey,
-} from "./pullRequestRoutingPermissions.ts";
+} from "#vibelang/emitted/src/connection/pullRequestRoutingPermissions";
 import type {
   BearerConnectionTarget,
   ConnectionTarget,
@@ -41,15 +41,18 @@ import type {
   PrimaryConnectionTarget,
   RelayConnectionTarget,
   SshConnectionTarget,
-} from "./model.ts";
-import { ConnectionBlockedError, type ConnectionAttemptError } from "./model.ts";
-import * as ConnectionProfileStore from "./profileStore.ts";
+} from "./model.vibe";
+import {
+  ConnectionBlockedError,
+  type ConnectionAttemptError,
+} from "#vibelang/emitted/src/connection/model";
+import * as ConnectionProfileStore from "#vibelang/emitted/src/connection/profileStore";
 import {
   appendOrchestrationProtocol,
   orchestrationProtocolCompatibilityError,
 } from "./compatibility.ts";
-import { credentialConnectionId } from "./routes.ts";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.ts";
+import { credentialConnectionId } from "#vibelang/emitted/src/connection/routes";
+import { fetchRemoteEnvironmentDescriptor } from "#vibelang/emitted/src/environment/descriptor";
 
 export class ConnectionResolver extends Context.Service<
   ConnectionResolver,

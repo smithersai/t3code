@@ -10,9 +10,9 @@ import type {
 } from "@t3tools/client-runtime/state/shell";
 import { NATIVE_LIQUID_GLASS_SUPPORTED } from "../../native/native-glass";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
-import { useEnvironmentQuery } from "../../state/query";
-import { useEnvironmentScope } from "../../state/session";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useEnvironmentScope } from "../../state/session.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { vcsActionManager, vcsEnvironment } from "../../state/vcs";
 import { useVcsActionState } from "../../state/use-vcs-action-state";
 import { ThreadHeader } from "./ThreadHeader";

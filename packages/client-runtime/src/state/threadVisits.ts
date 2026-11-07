@@ -2,10 +2,10 @@
 import type { EnvironmentId, ScopedThreadRef, ThreadId } from "@t3tools/contracts";
 import { Atom } from "effect/reactivity";
 
-import { parseThreadKey, threadKey } from "./entities.ts";
+import { parseThreadKey, threadKey } from "#vibelang/emitted/src/state/entities";
 import { type AtomCommand, runAtomCommand } from "./runtime.ts";
-import { claimThreadOpen } from "./threadSearch.ts";
-import type { VisitThreadInput } from "./threadCommands.ts";
+import { claimThreadOpen } from "#vibelang/emitted/src/state/threadSearch";
+import type { VisitThreadInput } from "./threadCommands.vibe";
 
 // During an active turn the thread's updatedAt advances several times per
 // second, and every server-side visit is a full command dispatch plus a

@@ -44,7 +44,7 @@ import {
   renderTerminalQrCode,
   resolveHeadlessConnectionString,
 } from "../startupAccess.ts";
-import { authScopesFlag } from "./authScopes.ts";
+import { authScopesFlag } from "./authScopes.vibe";
 import { baseDirFlag, DurationFromString } from "./config.ts";
 
 const WELL_KNOWN_ENVIRONMENT_PATH = "/.well-known/t3/environment";

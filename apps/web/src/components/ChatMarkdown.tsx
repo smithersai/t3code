@@ -7,7 +7,7 @@ import {
   inlineCodeFilePathCandidate,
 } from "@t3tools/shared/markdownLinks";
 import { isHostPath, resolveWorkspaceFilePath } from "@t3tools/shared/path";
-import { usePullRequestLinking } from "~/hooks/usePullRequestLinking";
+import { usePullRequestLinking } from "../hooks/usePullRequestLinking.vibe";
 import {
   AuthFilesystemReadScope,
   AuthOrchestrationOperateScope,
@@ -125,7 +125,7 @@ import {
   PreferredEditorEnvironmentRequiredError,
   useOpenInPreferredEditor,
   usePreferredEditor,
-} from "../editorPreferences";
+} from "../editorPreferences.vibe";
 import { openInEditorMenuLabel } from "../editorLabels";
 import { resolveDiffThemeName } from "../lib/diffRendering";
 import { RenderErrorBoundary } from "./RenderErrorBoundary";
@@ -151,16 +151,16 @@ import { resolveRemoteOpenState, useRemoteOpenResolution } from "../remoteOpen";
 import { useRightPanelStore } from "../rightPanelStore";
 import { readThreadShell, useProjects } from "../state/entities";
 import { serverEnvironment } from "../state/server";
-import { shellEnvironment } from "../state/shell";
-import { assetEnvironment } from "../state/assets";
+import { shellEnvironment } from "../state/shell.vibe";
+import { assetEnvironment } from "../state/assets.vibe";
 import {
   readEnvironmentScope,
   readPreparedConnection,
   useEnvironmentScope,
-} from "../state/session";
+} from "../state/session.vibe";
 import { previewEnvironment } from "../state/preview";
-import { useAtomCommand } from "../state/use-atom-command";
-import { useAtomQueryRunner } from "../state/use-atom-query-runner";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
+import { useAtomQueryRunner } from "../state/use-atom-query-runner.vibe";
 import { projectEnvironment } from "../state/projects";
 import { filesystemEnvironment } from "../state/filesystem";
 import {
@@ -176,14 +176,14 @@ import { sourceControlClients } from "@t3tools/client-runtime/source-control-cli
 import { useOpenChangeRequestLink } from "~/lib/openPullRequestLink";
 import { useOpenLink } from "../browser/useOpenLink";
 import { writeTextToClipboard } from "../hooks/useCopyToClipboard";
-import { isPreviewAvailableFor } from "../browser/previewRuntime";
+import { isPreviewAvailableFor } from "../browser/previewRuntime.vibe";
 import {
   isBrowserPreviewFile,
   openFileInPreview,
   openUrlInPreview,
   BrowserPreviewUnavailableError,
   BrowserSettingsReadError,
-} from "../browser/openFileInPreview";
+} from "../browser/openFileInPreview.vibe";
 import { resolveLinkTarget } from "../browser/browserLinkTarget";
 import { PullRequestLinkPreview } from "./pullRequest/PullRequestLinkPreview";
 import { MarkdownCodeBlock, SuspenseShikiCodeBlock } from "./chat/MarkdownCodeBlock";

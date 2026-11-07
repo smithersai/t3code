@@ -18,7 +18,7 @@ import { PullRequestCardRow } from "./PullRequestControls";
 import { PullRequestAgentRow } from "./PullRequestAgentRow";
 import { PullRequestGlyph } from "./pullRequestGlyphs";
 import { composerPullRequests } from "../../state/pull-requests";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import {
   allowedUpdateMethods,
   PR_ACTION_ICONS,
@@ -31,8 +31,8 @@ import {
   pullRequestReviewSummary,
   pullRequestStatus,
 } from "./pullRequestStatus";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
-import { usePullRequestAction } from "./usePullRequestAction";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
+import { usePullRequestAction } from "./usePullRequestAction.vibe";
 import { usePullRequestAgentActions } from "./usePullRequestAgentActions";
 
 type RowProps = { readonly pr: PullRequestDetail; readonly params: PullRequestParams };

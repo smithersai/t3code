@@ -56,7 +56,7 @@ import {
   SCAN_CACHE_FILE_NAME,
   type CachedFile,
   type ScanCache,
-} from "./usageScanCache.ts";
+} from "./usageScanCache.vibe";
 
 const LITELLM_RATES_URL =
   "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json";

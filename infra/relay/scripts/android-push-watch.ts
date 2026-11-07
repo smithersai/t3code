@@ -1,7 +1,7 @@
 // @effect-diagnostics nodeBuiltinImport:off - Local developer verification reads private credential files.
 import * as NodeFSP from "node:fs/promises";
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime";
-import * as NodeSocket from "@effect/platform-node/NodeSocket";
+import * as NodeWS from "@effect/platform-node/NodeWS";
 import {
   ORCHESTRATION_V2_WS_METHODS,
   WS_METHODS,
@@ -24,13 +24,13 @@ import * as RpcClient from "effect/rpc/RpcClient";
 import * as RpcSerialization from "effect/rpc/RpcSerialization";
 import * as Socket from "effect/socket/Socket";
 
-import * as RelayConfiguration from "../src/Config.ts";
+import * as RelayConfiguration from "../src/Config.vibe";
 import { androidActivityData, fitFcmData } from "../src/agentActivity/fcmPayloads.ts";
-import * as WebCrypto from "../src/WebCrypto.ts";
-import * as FcmAssertionSigner from "../src/agentActivity/FcmAssertionSigner.ts";
-import * as FcmClient from "../src/agentActivity/FcmClient.ts";
+import * as WebCrypto from "../src/WebCrypto.vibe";
+import * as FcmAssertionSigner from "../src/agentActivity/FcmAssertionSigner.vibe";
+import * as FcmClient from "../src/agentActivity/FcmClient.vibe";
 import * as FcmDeliveries from "../src/agentActivity/FcmDeliveries.ts";
-import { makeAggregateState } from "../src/agentActivity/agentActivityAggregate.ts";
+import { makeAggregateState } from "../src/agentActivity/agentActivityAggregate.vibe";
 
 const Device = Schema.Struct({
   token: Schema.NonEmptyString,
@@ -89,7 +89,7 @@ const main = Effect.gen(function* () {
   const layerSocketConstructor = Layer.succeed(
     Socket.WebSocketConstructor,
     (url, protocols) =>
-      new NodeSocket.NodeWS.WebSocket(url, protocols as string | string[] | undefined, {
+      new NodeWS.WebSocket(url, protocols as string | string[] | undefined, {
         headers: { authorization: `Bearer ${connection.bearerToken}` },
       }) as unknown as globalThis.WebSocket,
   );

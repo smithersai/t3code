@@ -3,16 +3,19 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "test": "vp test run --config ../vite.config.ts --dir ."
+    "typecheck": "vibelang --noEmit",
+    "test": "NODE_OPTIONS=--import=vibelang/register vp test run --config ../vite.config.ts --dir ."
   },
   "dependencies": {
     "@effect/platform-node": "catalog:",
     "@oxlint/plugins": "^1.63.0",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
-    "vite-plus": "catalog:"
+    "vibelang": "file:../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
+    "vite-plus": "catalog:",
+    "fast-check": "4.10.2"
   }
 }

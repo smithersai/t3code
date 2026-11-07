@@ -13,7 +13,7 @@ vi.mock("electron", () => ({
     createFromBuffer: () => ({ isEmpty: () => false, getSize: () => ({ width: 2, height: 1 }) }),
   },
 }));
-import { KdeCaptureSetup, captureKdeWindow, kdeCapturePaths } from "./KdeSnapShot.ts";
+import { KdeCaptureSetup, captureKdeWindow, kdeCapturePaths } from "./KdeSnapShot.vibe";
 
 let directory: string;
 let paths: { bundle: string; dataHome: string };

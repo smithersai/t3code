@@ -17,7 +17,7 @@ import {
 import * as Cause from "effect/Cause";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as Layer from "effect/Layer";
@@ -34,7 +34,7 @@ import * as PullRequestService from "../pullRequest/PullRequestService.ts";
 import { forkParked } from "../serverActivation.ts";
 import * as Orchestrator from "./Orchestrator.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
-import { evaluatePullRequestWatch, pullRequestWatchMessage } from "./pullRequestWatch.ts";
+import { evaluatePullRequestWatch, pullRequestWatchMessage } from "./pullRequestWatch.vibe";
 
 /** Checks take minutes; faster sweeps waste the account's shared host quota. */
 const SWEEP_MINUTES = 2;

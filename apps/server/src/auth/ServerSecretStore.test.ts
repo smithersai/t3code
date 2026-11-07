@@ -11,6 +11,7 @@ import * as PlatformError from "effect/PlatformError";
 
 import * as ServerConfig from "../config.ts";
 import * as ServerSecretStore from "./ServerSecretStore.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerServerConfig = () =>
   ServerConfig.layerTest(process.cwd(), { prefix: "t3-secret-store-test-" });
@@ -36,7 +37,7 @@ const layerPermissionDeniedFileSystem = Layer.effect(
         ),
     } satisfies FileSystem.FileSystem;
   }),
-).pipe(Layer.provide(NodeServices.layer));
+).pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
 
 const layerPermissionDeniedSecretStore = () =>
   ServerSecretStore.layer.pipe(
@@ -63,7 +64,7 @@ const layerRenameFailureFileSystem = Layer.effect(
         ),
     } satisfies FileSystem.FileSystem;
   }),
-).pipe(Layer.provide(NodeServices.layer));
+).pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
 
 const layerRenameFailureSecretStore = () =>
   ServerSecretStore.layer.pipe(
@@ -109,7 +110,7 @@ const layerConcurrentReadMissFileSystem = Layer.effect(
           : fileSystem.readFile(path),
     } satisfies FileSystem.FileSystem;
   }),
-).pipe(Layer.provide(NodeServices.layer));
+).pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
 
 const layerConcurrentCreateSecretStore = () =>
   ServerSecretStore.layer.pipe(
@@ -117,62 +118,65 @@ const layerConcurrentCreateSecretStore = () =>
     Layer.provideMerge(layerConcurrentReadMissFileSystem),
   );
 
-it.layer(NodeServices.layer)("ServerSecretStore.layer", (it) => {
-  it.effect("reuses an existing secret instead of regenerating it", () =>
-    Effect.gen(function* () {
-      const secretStore = yield* ServerSecretStore.ServerSecretStore;
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))(
+  "ServerSecretStore.layer",
+  (it) => {
+    it.effect("reuses an existing secret instead of regenerating it", () =>
+      Effect.gen(function* () {
+        const secretStore = yield* ServerSecretStore.ServerSecretStore;
 
-      const first = yield* secretStore.getOrCreateRandom("session-signing-key", 32);
-      const second = yield* secretStore.getOrCreateRandom("session-signing-key", 32);
+        const first = yield* secretStore.getOrCreateRandom("session-signing-key", 32);
+        const second = yield* secretStore.getOrCreateRandom("session-signing-key", 32);
 
-      assert.deepEqual(Array.from(second), Array.from(first));
-    }).pipe(Effect.provide(layerServerSecretStore())),
-  );
+        assert.deepEqual(Array.from(second), Array.from(first));
+      }).pipe(Effect.provide(layerServerSecretStore())),
+    );
 
-  it.effect("returns the persisted secret when concurrent creators race", () =>
-    Effect.gen(function* () {
-      const secretStore = yield* ServerSecretStore.ServerSecretStore;
+    it.effect("returns the persisted secret when concurrent creators race", () =>
+      Effect.gen(function* () {
+        const secretStore = yield* ServerSecretStore.ServerSecretStore;
 
-      const [first, second] = yield* Effect.all(
-        [
-          secretStore.getOrCreateRandom("session-signing-key", 32),
-          secretStore.getOrCreateRandom("session-signing-key", 32),
-        ],
-        { concurrency: "unbounded" },
-      );
-      const persisted = yield* secretStore.get("session-signing-key");
-      const persistedBytes = Option.getOrThrow(persisted);
+        const [first, second] = yield* Effect.all(
+          [
+            secretStore.getOrCreateRandom("session-signing-key", 32),
+            secretStore.getOrCreateRandom("session-signing-key", 32),
+          ],
+          { concurrency: "unbounded" },
+        );
+        const persisted = yield* secretStore.get("session-signing-key");
+        const persistedBytes = Option.getOrThrow(persisted);
 
-      assert.deepEqual(Array.from(first), Array.from(persistedBytes));
-      assert.deepEqual(Array.from(second), Array.from(persistedBytes));
-    }).pipe(Effect.provide(layerConcurrentCreateSecretStore())),
-  );
+        assert.deepEqual(Array.from(first), Array.from(persistedBytes));
+        assert.deepEqual(Array.from(second), Array.from(persistedBytes));
+      }).pipe(Effect.provide(layerConcurrentCreateSecretStore())),
+    );
 
-  it.effect("propagates read failures other than missing-file errors", () =>
-    Effect.gen(function* () {
-      const secretStore = yield* ServerSecretStore.ServerSecretStore;
+    it.effect("propagates read failures other than missing-file errors", () =>
+      Effect.gen(function* () {
+        const secretStore = yield* ServerSecretStore.ServerSecretStore;
 
-      const error = yield* Effect.flip(secretStore.getOrCreateRandom("session-signing-key", 32));
+        const error = yield* Effect.flip(secretStore.getOrCreateRandom("session-signing-key", 32));
 
-      assert.instanceOf(error, ServerSecretStore.SecretStoreReadError);
-      assert.include(error.message, "Failed to read secret session-signing-key.");
-      assert.instanceOf(error.cause, PlatformError.PlatformError);
-      assert.equal((error.cause as PlatformError.PlatformError).reason._tag, "PermissionDenied");
-    }).pipe(Effect.provide(layerPermissionDeniedSecretStore())),
-  );
+        assert.instanceOf(error, ServerSecretStore.SecretStoreReadError);
+        assert.include(error.message, "Failed to read secret session-signing-key.");
+        assert.instanceOf(error.cause, PlatformError.PlatformError);
+        assert.equal((error.cause as PlatformError.PlatformError).reason._tag, "PermissionDenied");
+      }).pipe(Effect.provide(layerPermissionDeniedSecretStore())),
+    );
 
-  it.effect("propagates write failures instead of treating them as success", () =>
-    Effect.gen(function* () {
-      const secretStore = yield* ServerSecretStore.ServerSecretStore;
+    it.effect("propagates write failures instead of treating them as success", () =>
+      Effect.gen(function* () {
+        const secretStore = yield* ServerSecretStore.ServerSecretStore;
 
-      const error = yield* Effect.flip(
-        secretStore.set("session-signing-key", Uint8Array.from([1, 2, 3])),
-      );
+        const error = yield* Effect.flip(
+          secretStore.set("session-signing-key", Uint8Array.from([1, 2, 3])),
+        );
 
-      assert.instanceOf(error, ServerSecretStore.SecretStorePersistError);
-      assert.include(error.message, "Failed to persist secret session-signing-key.");
-      assert.instanceOf(error.cause, PlatformError.PlatformError);
-      assert.equal((error.cause as PlatformError.PlatformError).reason._tag, "PermissionDenied");
-    }).pipe(Effect.provide(layerRenameFailureSecretStore())),
-  );
-});
+        assert.instanceOf(error, ServerSecretStore.SecretStorePersistError);
+        assert.include(error.message, "Failed to persist secret session-signing-key.");
+        assert.instanceOf(error.cause, PlatformError.PlatformError);
+        assert.equal((error.cause as PlatformError.PlatformError).reason._tag, "PermissionDenied");
+      }).pipe(Effect.provide(layerRenameFailureSecretStore())),
+    );
+  },
+);

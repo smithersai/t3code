@@ -4,7 +4,7 @@ import * as Schema from "effect/Schema";
 import {
   OrchestratorMcpDelegateTaskInput,
   OrchestratorMcpDelegateTaskResult,
-} from "./orchestratorMcp.ts";
+} from "./orchestratorMcp.vibe";
 
 const decodeDelegateTaskInput = Schema.decodeUnknownSync(OrchestratorMcpDelegateTaskInput);
 const decodeDelegateTaskResult = Schema.decodeUnknownSync(OrchestratorMcpDelegateTaskResult);

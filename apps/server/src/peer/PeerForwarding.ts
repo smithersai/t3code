@@ -10,7 +10,7 @@ import {
   OrchestratorMcpThreadWaitResult,
 } from "@t3tools/contracts";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Hex from "effect/encoding/Hex";
@@ -19,8 +19,8 @@ import * as Schema from "effect/Schema";
 import type * as Tool from "effect/ai/Tool";
 
 import { assertNotLinked } from "../mcp/linkOrigin.ts";
-import * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
-import { readCaller, unavailable } from "../mcp/threadAccess.ts";
+import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
+import { readCaller, unavailable } from "../mcp/threadAccess.vibe";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
 import * as PeerLinks from "./PeerLinks.ts";
 import * as PeerMcpClient from "./PeerMcpClient.ts";

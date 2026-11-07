@@ -1,5 +1,5 @@
 import { resolveFilesystemReadAccess } from "@t3tools/client-runtime/state/filesystem";
-import { environmentSession } from "../../state/session";
+import { environmentSession } from "../../state/session.vibe";
 import type { EnvironmentId } from "@t3tools/contracts";
 import { SymbolView } from "../../components/ui/AppSymbol";
 import { ScreenContent } from "../../components/ui/ScreenContent";
@@ -17,12 +17,12 @@ import { AppText as Text, AppTextInput as TextInput } from "../../components/ui/
 import { FilesHeader } from "./FilesHeader";
 import { nativeHeaderScrollEdgeEffects } from "../../native/StackHeader";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
-import { useEnvironmentQuery } from "../../state/query";
-import { useEnvironmentPresentation } from "../../state/presentation";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useEnvironmentPresentation } from "../../state/presentation.vibe";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import { FileTreeBrowser } from "./FileTreeBrowser";
 import { NativeInspectorContent } from "../../native/NativeInspectorContent";
-import { useFileTreeEntries } from "./useFileTreeEntries";
+import { useFileTreeEntries } from "./useFileTreeEntries.vibe";
 import { preloadWorkspaceFileContents } from "./preload-workspace-file";
 import { useAdaptiveWorkspaceLayout } from "../layout/AdaptiveWorkspaceLayout";
 

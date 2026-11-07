@@ -4,12 +4,12 @@
   "type": "module",
   "scripts": {
     "deploy": "alchemy deploy",
-    "push:android:smoke": "node scripts/android-push-smoke.ts",
-    "push:android:watch": "node scripts/android-push-watch.ts",
-    "tunnels:census": "node scripts/tunnel-census.ts",
+    "push:android:smoke": "node --import vibelang/register scripts/android-push-smoke.vibe",
+    "push:android:watch": "node --import vibelang/register scripts/android-push-watch.ts",
+    "tunnels:census": "node --import vibelang/register scripts/tunnel-census.vibe",
     "destroy": "alchemy destroy",
     "test": "vp test run --config ../../vite.config.ts --dir .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "vibelang --noEmit"
   },
   "dependencies": {
     "@alchemy.run/axiom": "catalog:",
@@ -27,7 +27,8 @@
     "@t3tools/shared": "workspace:*",
     "alchemy": "catalog:",
     "drizzle-orm": "1.0.0-rc.5-ab785fc",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260601.1",
@@ -36,6 +37,8 @@
     "@types/node": "catalog:",
     "drizzle-kit": "1.0.0-rc.5-ab785fc",
     "typescript": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   }

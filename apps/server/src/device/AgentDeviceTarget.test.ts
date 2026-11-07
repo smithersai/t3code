@@ -7,12 +7,14 @@ import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
-import { ensureAgentDeviceShim } from "./AgentDeviceShim.ts";
+import { ensureAgentDeviceShim } from "./AgentDeviceShim.vibe";
 import {
   agentDeviceConfigPath,
   agentDeviceSession,
   writeAgentDeviceConfig,
 } from "./AgentDeviceTarget.ts";
+import * as Layer from "effect/Layer";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const exec = NodeUtil.promisify(NodeChildProcess.execFile);
 
@@ -64,7 +66,10 @@ exec '${process.execPath.replaceAll("'", "'\"'\"'")}' "$@"
             }),
           ).rejects.toMatchObject({ code: 23, stdout: `${JSON.stringify(args)}\n`, stderr: "" }),
         );
-      }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+      }).pipe(
+        Effect.scoped,
+        Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+      ),
   );
 
   it.effect("runs two hosts concurrently and only updates the reconnected host", () =>
@@ -143,7 +148,7 @@ if (process.env.AGENT_DEVICE_DAEMON_BASE_URL) process.exit(2);`,
       Effect.scoped,
       Effect.provideService(HostProcess.IsExecutable, true),
       Effect.provideService(HostProcess.ExecutablePath, "/packaged/t3"),
-      Effect.provide(NodeServices.layer),
+      Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     ),
   );
 });

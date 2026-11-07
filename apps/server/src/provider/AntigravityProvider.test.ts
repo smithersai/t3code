@@ -28,6 +28,7 @@ import {
   buildAntigravityModelsFromSession,
   makeAntigravityProvider,
 } from "./AntigravityProvider.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const decodeSettings = Schema.decodeSync(AntigravitySettings);
 const instanceId = ProviderInstanceId.make("antigravity-test");
@@ -120,7 +121,7 @@ const layerTest = ProviderHostLive.layer.pipe(
   Layer.provideMerge(ServerSecretStore.layer),
   Layer.provide(
     ServerConfig.layerTest(process.cwd(), { prefix: "t3-antigravity-provider-test-" }).pipe(
-      Layer.provideMerge(NodeServices.layer),
+      Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     ),
   ),
 );

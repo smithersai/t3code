@@ -3,7 +3,7 @@ import { useAtomValue } from "@effect/atom-react";
 import { AuthOrchestrationOperateScope, type EnvironmentId } from "@t3tools/contracts";
 import { Atom, AsyncResult } from "effect/reactivity";
 
-import { prepareTurnAttachments } from "../lib/attachmentUpload";
+import { prepareTurnAttachments } from "../lib/attachmentUpload.vibe";
 import { retainComposerAttachmentFileForPreview } from "../lib/composerAttachmentPreviewRetention";
 import {
   isFileBackedComposerAttachment,
@@ -16,7 +16,7 @@ import {
   createComposerAttachmentUploadQueue,
   type ComposerAttachmentUploadState,
 } from "../lib/composerAttachmentUploadQueue";
-import { appAtomRegistry } from "./atom-registry";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import { environmentServerConfigsAtom } from "./server";
 import { flattenQueuedThreadMessages, threadOutboxManager } from "./thread-outbox";
 import {
@@ -28,8 +28,8 @@ import {
   flushComposerDrafts,
   setComposerDraftAttachmentUpload,
 } from "./use-composer-drafts";
-import { environmentSession, readEnvironmentScope, sessionHasScope } from "./session";
-import { workspaceConnections } from "./workspace";
+import { environmentSession, readEnvironmentScope, sessionHasScope } from "./session.vibe";
+import { workspaceConnections } from "./workspace.vibe";
 
 export {
   composerAttachmentUploadBlockReason,

@@ -4,9 +4,9 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 
-import * as GitLabCli from "./GitLabCli.ts";
-import * as GitLabPullRequestCli from "./GitLabPullRequestCli.ts";
-import * as GitLabPullRequestProvider from "./GitLabPullRequestProvider.ts";
+import * as GitLabCli from "./GitLabCli.vibe";
+import * as GitLabPullRequestCli from "./GitLabPullRequestCli.vibe";
+import * as GitLabPullRequestProvider from "./GitLabPullRequestProvider.vibe";
 
 it.effect("reports activity as rate limited when only the reactions endpoint is", () =>
   Effect.gen(function* () {

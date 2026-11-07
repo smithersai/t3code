@@ -15,7 +15,7 @@ import * as Stream from "effect/Stream";
 
 import { forkParked } from "../serverActivation.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import { idleCompactionWindow } from "./IdleCompaction.ts";
+import { idleCompactionWindow } from "./IdleCompaction.vibe";
 import * as Orchestrator from "./Orchestrator.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
 

@@ -11,14 +11,14 @@ import {
 import { resolveUserMessagePresentation } from "@t3tools/client-runtime/user-message";
 import { Link } from "@tanstack/react-router";
 import { useQuietThreadShell } from "../../state/entities";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { serverEnvironment } from "../../state/server";
 import { replaceComposerContextReferences } from "@t3tools/shared/composerContextReferences";
 import { memo, use, useState, type ReactNode } from "react";
 import {
   createMessageAttachmentPreviewProjector,
   selectMessageImageResources,
-} from "../../session-logic";
+} from "../../session-logic.vibe";
 import {
   type ChatFileAttachment,
   isFileAttachment,
@@ -38,7 +38,7 @@ import {
 } from "lucide-react";
 import { Link as LinkIconNode } from "lucide";
 import { Button, InlineButton } from "../ui/button";
-import { useAssetUrlRefresh, useAssetUrls, useAssetUrlState } from "../../assets/assetUrls";
+import { useAssetUrlRefresh, useAssetUrls, useAssetUrlState } from "../../assets/assetUrls.vibe";
 import { AttachmentImage } from "../media/AttachmentImage";
 import { MediaVideoPlayer } from "../media/MediaVideoPlayer";
 import {
@@ -54,7 +54,7 @@ import { GuestMessageName, guestBubbleClassName } from "./guestMessageStyle";
 import { MessageCopyButton } from "./MessageCopyButton";
 import { promptLinkFor } from "../promptLinks/copyPromptLink";
 import { PierreEntryIcon } from "./PierreEntryIcon";
-import { shouldCollapseUserMessage } from "./MessagesTimeline.logic";
+import { shouldCollapseUserMessage } from "./MessagesTimeline.logic.vibe";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
 import {
   asKnownContextRecord,
@@ -72,7 +72,11 @@ import type { ChatMarkdownContextReference } from "../ChatMarkdown";
 import { cn } from "~/lib/utils";
 import { formatChatTimestampTooltip, formatDayAwareTimestamp } from "../../timestampFormat";
 import { WorkflowOpeningBlock } from "./WorkflowOpeningBlock";
-import { TimelineRowCtx, TimelineRowActivityCtx, type TimelineRow } from "./timelineRowContext";
+import {
+  TimelineRowCtx,
+  TimelineRowActivityCtx,
+  type TimelineRow,
+} from "./timelineRowContext.vibe";
 import {
   MESSAGE_HEADING_LEVEL,
   MessageAuthorHeading,

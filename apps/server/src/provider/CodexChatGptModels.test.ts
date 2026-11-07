@@ -1,7 +1,7 @@
 import { assert, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import { HttpClient, HttpClientResponse } from "effect/http";
-import { chatGptModels } from "./CodexChatGptModels.ts";
+import { chatGptModels } from "./CodexChatGptModels.vibe";
 
 it.effect(
   "uses each selected profile's token and the server's visible catalog order and names",

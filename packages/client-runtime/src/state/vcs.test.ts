@@ -25,13 +25,13 @@ import {
   PrimaryConnectionTarget,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.ts";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import * as Persistence from "../platform/persistence.ts";
-import { EnvironmentRpcUnavailableError } from "../rpc/client.ts";
+import * as Persistence from "../platform/persistence.vibe";
+import { EnvironmentRpcUnavailableError } from "../rpc/client.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
-import type { RpcSession } from "../rpc/session.ts";
+import type { RpcSession } from "../rpc/session.vibe";
 
 import {
   commitVcsRefsRefresh,
@@ -42,7 +42,7 @@ import {
   invalidateCachedVcsRefs,
   invalidateVcsRefs,
   vcsRefsCacheStateAtom,
-} from "./vcsRefInvalidation.ts";
+} from "./vcsRefInvalidation.vibe";
 
 const TARGET = new PrimaryConnectionTarget({
   environmentId: EnvironmentId.make("environment-1"),
@@ -601,7 +601,7 @@ describe("cached VCS refs", () => {
   );
 });
 
-vi.mock("./session.ts", () => ({
+vi.mock("./session.vibe", () => ({
   createEnvironmentSessionAtoms: () => ({ sessionStateAtom: grantedSessions }),
 }));
 const grantedSessions = Atom.family((_id: EnvironmentId) =>

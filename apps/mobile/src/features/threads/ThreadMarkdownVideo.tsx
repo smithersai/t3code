@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import { MediaVideoPlayer } from "../../components/MediaVideoPlayer";
-import { useAssetUrlState, useRefreshAssetUrl } from "../../state/assets";
+import { useAssetUrlState, useRefreshAssetUrl } from "../../state/assets.vibe";
 import {
   mediaVideoPreviewUri,
   mediaVideoThumbnailKey,

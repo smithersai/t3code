@@ -2,7 +2,7 @@ import type { EnvironmentId, ThreadId } from "@t3tools/contracts";
 import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 
-import * as ThreadHistoryController from "./threadHistoryController.ts";
+import * as ThreadHistoryController from "./threadHistoryController.vibe";
 
 const ENV = "env-history" as EnvironmentId;
 const THREAD = "thread-history" as ThreadId;

@@ -1,5 +1,4 @@
 import type { SDKMessage, SDKUserMessage } from "@anthropic-ai/claude-agent-sdk";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it } from "@effect/vitest";
 import {
@@ -15,7 +14,7 @@ import {
   type OrchestrationV2DomainEvent,
 } from "@t3tools/contracts";
 import * as DateTime from "effect/DateTime";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Fiber from "effect/Fiber";
@@ -26,8 +25,8 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
-import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
-import * as Scheduler from "../scheduling/Scheduler.ts";
+import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
+import * as Scheduler from "../scheduling/Scheduler.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as ClaudeAdapterV2 from "./Adapters/ClaudeAdapterV2.ts";
 import * as CommandReceiptStore from "./CommandReceiptStore.ts";
@@ -343,7 +342,7 @@ it.effect.each(deliveries)(
                   ),
                   Layer.provide(
                     Layer.mergeAll(
-                      NodeCrypto.layer,
+                      Crypto.layerWebCrypto,
                       Scheduler.layer,
                       SqlitePersistence.layerMemory,
                     ),
@@ -478,7 +477,11 @@ it.effect.each(deliveries)(
         );
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          ),
         ),
       ),
     ),

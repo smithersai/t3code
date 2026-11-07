@@ -1,0 +1,49 @@
+import { OrchestratorMcpFailure } from "@t3tools/contracts";
+import * as GitWorkflow from "../../../git/GitWorkflowService.ts";
+import * as Project from "../../../project/ProjectService.ts";
+import { readThread, unavailable } from "../../threadAccess.vibe";
+
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
+import * as McpToolAccess from "../../McpToolAccess.ts";
+import * as WorktreeMcpService from "../../WorktreeMcpService.ts";
+import { WorktreeToolkit } from "./tools.vibe";
+
+const handlers = {
+  t3_worktree_list: McpToolAccess.reads(effect (input) => {
+    const context = try McpInvocationContext.McpInvocationContext;
+    if (!context.capabilities.has("worktree"))
+      throw new OrchestratorMcpFailure({
+        code: "capability_denied",
+        message: "This credential cannot inspect worktrees.",
+      });
+    const { threadId, ...refs } = input;
+    const {
+      projection: { thread },
+    } = try readThread(threadId);
+    const projects = try Project.ProjectService;
+    const project = try (projects.getById(thread.projectId) |> Effect.mapError(%, unavailable));
+    if (Option.isNone(project))
+      throw new OrchestratorMcpFailure({
+        code: "invalid_request",
+        message: "The project was not found.",
+      });
+    const git = try GitWorkflow.GitWorkflowService;
+    return try (git
+      .listRefs({ ...refs, cwd: thread.worktreePath ?? project.value.workspaceRoot })|> Effect.mapError(%, unavailable));
+  },
+  ),
+  t3_worktree_handoff: McpToolAccess.actsAsCaller(effect (input) => {
+    const scope = try McpInvocationContext.McpInvocationContext;
+    const service = try WorktreeMcpService.WorktreeMcpService;
+    return try service.handoff(scope, input);
+  },
+  ),
+  t3_worktree_status: McpToolAccess.readsAsCaller(effect () => {
+    const scope = try McpInvocationContext.McpInvocationContext;
+    const service = try WorktreeMcpService.WorktreeMcpService;
+    return try service.status(scope);
+  },
+  ),
+} satisfies McpToolAccess.Handlers<typeof WorktreeToolkit.tools>;
+
+export const layer = McpToolAccess.toLayer(WorktreeToolkit, handlers);

@@ -1,7 +1,7 @@
 import { Schema } from "effect";
 import { describe, expect, it } from "vite-plus/test";
 
-import { PreviewAutomationHost, PreviewAutomationStatus } from "./previewAutomation.ts";
+import { PreviewAutomationHost, PreviewAutomationStatus } from "./previewAutomation.vibe";
 
 const decodeAutomationHost = Schema.decodeUnknownSync(PreviewAutomationHost);
 const decodeAutomationStatus = Schema.decodeUnknownSync(PreviewAutomationStatus);

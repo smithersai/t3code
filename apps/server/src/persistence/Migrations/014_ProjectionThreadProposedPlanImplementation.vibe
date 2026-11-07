@@ -1,0 +1,15 @@
+import * as SqlClient from "effect/sql/SqlClient"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+
+  try sql`
+    ALTER TABLE projection_thread_proposed_plans
+    ADD COLUMN implemented_at TEXT
+  `
+
+  try sql`
+    ALTER TABLE projection_thread_proposed_plans
+    ADD COLUMN implementation_thread_id TEXT
+  `
+}

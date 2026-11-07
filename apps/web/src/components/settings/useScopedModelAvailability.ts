@@ -1,13 +1,13 @@
 import type { ProviderInstanceId, UnifiedSettings } from "@t3tools/contracts";
 
 import { mergeEnvironmentSettings } from "../../hooks/useSettings";
-import { getCustomModelOptionsByInstance } from "../../modelSelection";
+import { getCustomModelOptionsByInstance } from "../../modelSelection.vibe";
 import {
   applyProviderInstanceSettings,
   deriveProviderInstanceEntries,
   type ProviderInstanceEntry,
 } from "../../providerInstances";
-import { useEnvironmentProviders, useEnvironments } from "../../state/environments";
+import { useEnvironmentProviders, useEnvironments } from "../../state/environments.vibe";
 import { useSettingsScope } from "./SettingsScopeContext";
 
 export function useScopedModelDisabledReason(

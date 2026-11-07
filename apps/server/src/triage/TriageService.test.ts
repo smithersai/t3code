@@ -14,6 +14,7 @@ import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as TriageService from "./TriageService.ts";
 import { pickSourceRef } from "./TriageService.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const MAIN = "a1dc856ee61278d0199c36d4bcdef5fdea4d21fe\trefs/heads/main";
 
@@ -39,7 +40,7 @@ it("falls back to main when the server's version has no tag", () => {
 const TestLayer = GitVcsDriver.layer.pipe(
   Layer.provideMerge(ServerConfig.layerTest(process.cwd(), { prefix: "t3-triage-service-" })),
   Layer.provideMerge(VcsProcess.layer),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 const RELEASE_COMMIT = "7027b1f";

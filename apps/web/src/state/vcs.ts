@@ -4,7 +4,7 @@ import {
   createVcsStatusRevalidationAtomFamily,
 } from "@t3tools/client-runtime/state/vcs";
 
-import { connectionAtomRuntime } from "../connection/runtime";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
 import { subscribeDocumentReturn } from "../lib/documentActivity";
 
 export const vcsEnvironment = createVcsEnvironmentAtoms(connectionAtomRuntime);

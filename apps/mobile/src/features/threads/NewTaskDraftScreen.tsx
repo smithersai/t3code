@@ -7,8 +7,8 @@ import { useComposerAttachmentActions } from "../../state/use-composer-attachmen
 import { useWorkspaceBackNavigation } from "../workspace/useAndroidWorkspaceNavigation";
 import { submittedThreadParams } from "./thread-route-state";
 import { ThreadScreenBinding, ThreadScreenFallback } from "./ThreadScreenHost";
-import { draftThreadShell } from "./draft-thread-shell";
-import { useRememberThreadProject } from "./useRememberThreadProject";
+import { draftThreadShell } from "./draft-thread-shell.vibe";
+import { useRememberThreadProject } from "./useRememberThreadProject.vibe";
 import { scopedProjectKey } from "../../lib/scopedEntities";
 import { connectionTone } from "../connection/connectionTone";
 import { AppBar } from "../../components/ui/AppBar";
@@ -41,7 +41,7 @@ import {
 import { ComposerEditor, type ComposerEditorHandle } from "../../components/ComposerEditor";
 import { composerContextImportsAtom } from "../../state/use-composer-drafts";
 import { abortComposerDraftOperations } from "../../state/composerDraftOperations";
-import { composerContextSendBlockReason } from "../../lib/composerContext";
+import { composerContextSendBlockReason } from "../../lib/composerContext.vibe";
 import { ComposerInlineControl } from "../../components/ComposerToolbar";
 
 import {
@@ -62,11 +62,11 @@ import {
   updateComposerDraftSettings,
   scheduleUnusedComposerAttachmentCleanup,
 } from "../../state/use-composer-drafts";
-import { useEnvironmentServerConfig, useProjects } from "../../state/entities";
-import { useProjectClone } from "../../state/projectClones";
+import { useEnvironmentServerConfig, useProjects } from "../../state/entities.vibe";
+import { useProjectClone } from "../../state/projectClones.vibe";
 import { projectEnvironment } from "../../state/projects";
 import { sourceControlEnvironment } from "../../state/sourceControl";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { ProjectCloneBanner } from "./ProjectCloneBanner";
 import {
   describeUnavailableModelSelection,
@@ -77,24 +77,24 @@ import { enqueueThreadOutboxMessage } from "../../state/thread-outbox";
 import {
   useRemoteConnections,
   useRemoteEnvironmentRuntime,
-} from "../../state/use-remote-environment-registry";
+} from "../../state/use-remote-environment-registry.vibe";
 import { useNewTaskFlow } from "./new-task-flow-provider";
 import {
   nextEnvironmentId,
   useHardwareKeyboardCommand,
 } from "../keyboard/hardwareKeyboardCommands";
-import { resolveProjectThreadCreationBranch } from "./projectThreadCreationValidation";
+import { resolveProjectThreadCreationBranch } from "./projectThreadCreationValidation.vibe";
 import { resolveDraftProjectSelection } from "./new-task-project-selection";
 import {
   resolveNewTaskBranchLabel,
   resolveNewTaskWorkspaceLabel,
 } from "./new-task-context-presentation";
 import { incomingShareImports, useIncomingShare } from "../sharing/IncomingShareProvider";
-import { idleShareFlagAtom, idleShareImportPhaseAtom } from "./incomingShareImport";
-import { newTaskFlowKey } from "./new-task-flow-state";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { idleShareFlagAtom, idleShareImportPhaseAtom } from "./incomingShareImport.vibe";
+import { newTaskFlowKey } from "./new-task-flow-state.vibe";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 
-import { readEnvironmentScope, useEnvironmentScope } from "../../state/session";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
 
 function NewTaskWorkspaceIcon(props: {
   readonly workspaceMode: "local" | "worktree";

@@ -14,14 +14,14 @@ import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 
 import * as Environment from "../../../environment/ServerEnvironment.ts";
-import * as ThreadCommandExecutor from "../../../orchestration-v2/ThreadCommandExecutor.ts";
+import * as ThreadCommandExecutor from "../../../orchestration-v2/ThreadCommandExecutor.vibe";
 import * as ThreadManagement from "../../../orchestration-v2/ThreadManagementService.ts";
 import * as Settings from "../../../serverSettings.ts";
-import * as McpInvocationContext from "../../McpInvocationContext.ts";
+import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import { liveThreadShell } from "../../McpToolAccess.testkit.ts";
 import * as EnvironmentHandlers from "./handlers.ts";
-import { EnvironmentToolkit } from "./tools.ts";
+import { EnvironmentToolkit } from "./tools.vibe";
 
 const environmentId = EnvironmentId.make("environment:preferences");
 const threadId = ThreadId.make("thread:preferences");

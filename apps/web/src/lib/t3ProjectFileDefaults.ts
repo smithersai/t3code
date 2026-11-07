@@ -5,8 +5,8 @@ import { executeAtomQuery } from "@t3tools/client-runtime/state/runtime";
 import {
   getProjectFileQueryAtom,
   resolveProjectFileQueryData,
-} from "~/components/files/projectFilesQueryState";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+} from "../components/files/projectFilesQueryState.vibe";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 
 export async function readT3ProjectFile(
   environmentId: EnvironmentId,

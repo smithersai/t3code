@@ -5,7 +5,7 @@ import {
   resolveThreadRouteRef,
   resolveThreadRouteTarget,
   type ThreadRouteTarget,
-} from "../threadRoutes";
+} from "../threadRoutes.vibe";
 
 function useThreadRouteIds() {
   const environmentId = useParams({ strict: false, select: (params) => params.environmentId });

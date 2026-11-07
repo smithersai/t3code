@@ -32,9 +32,9 @@ import { useHardwareBack } from "../../lib/backHandler";
 import { deriveBottomControlInsets } from "../../lib/reserved-regions";
 import { useNativeColumnLayoutMetrics } from "../../native/native-layout-metrics";
 import { uuidv4 } from "../../lib/uuid";
-import { deviceEnvironment, useDeviceHubAccess } from "../../state/device";
-import { useEnvironmentQuery } from "../../state/query";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { deviceEnvironment, useDeviceHubAccess } from "../../state/device.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import { DeviceStreamWebView, type DeviceStreamRef } from "./DeviceStreamWebView";
 import {

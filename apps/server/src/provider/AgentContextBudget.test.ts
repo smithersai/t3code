@@ -28,7 +28,7 @@ import { PeerLinks } from "../peer/PeerLinks.ts";
 import { RemoteDelegation } from "../peer/RemoteDelegation.ts";
 import { PreviewManager } from "../preview/Manager.ts";
 import { PreviewBrowser } from "../preview/PreviewBrowser.ts";
-import { ManagedProjectFolders } from "../project/ManagedProjectFolders.ts";
+import { ManagedProjectFolders } from "../project/ManagedProjectFolders.vibe";
 import { ProjectService } from "../project/ProjectService.ts";
 import { ProjectSetupScriptRunner } from "../project/ProjectSetupScriptRunner.ts";
 import { PullRequestReviewGuideService } from "../pullRequest/PullRequestReviewGuideService.ts";
@@ -42,6 +42,7 @@ import { buildCodexAdditionalContext } from "./CodexDeveloperInstructions.ts";
 import { DocumentText } from "./DocumentText.ts";
 import { ProviderRegistry } from "./ProviderRegistry.ts";
 import budget from "./agentContextBudget.json" with { type: "json" };
+import * as Crypto from "@t3tools/shared/Crypto";
 
 // Registration only stores tool definitions, so the handlers' services are never called.
 const toolHandlerServices = Layer.mergeAll(
@@ -75,7 +76,7 @@ const toolHandlerServices = Layer.mergeAll(
   Layer.mock(ThreadManagementService)({}),
   Layer.mock(ThreadSearch)({}),
   Layer.mock(VcsStatusBroadcaster)({}),
-).pipe(Layer.provideMerge(NodeServices.layer));
+).pipe(Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
 
 const utf8Bytes = (text: string) => Buffer.byteLength(text, "utf8");
 
@@ -127,6 +128,7 @@ it.effect("agent context matches the committed budget", () =>
   }).pipe(
     Effect.provide(
       McpHttpServer.layerTools.pipe(
+        Layer.provide(McpHttpServer.layerCallerInvocation),
         Layer.provideMerge(McpServer.McpServer.layer),
         Layer.provide(toolHandlerServices),
       ),

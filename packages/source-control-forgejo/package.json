@@ -5,15 +5,19 @@
   "exports": {
     "./shared/definition": {
       "types": "./src/shared/definition.ts",
-      "import": "./src/shared/definition.ts"
+      "import": {
+        "types": "./src/shared/definition.ts",
+        "vibelang-source": "./src/shared/definition.ts",
+        "default": "./.vibelang/js/src/shared/definition.js"
+      }
     },
     "./server/driver": {
-      "types": "./src/server/driver.ts",
-      "import": "./src/server/driver.ts"
+      "types": "./src/server/driver.d.vibe.ts",
+      "import": "./src/server/driver.vibe"
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vibelang --noEmit",
     "test": "vp test run --config ../../vite.config.ts --dir ."
   },
   "dependencies": {
@@ -21,13 +25,16 @@
     "@t3tools/provider-core": "workspace:*",
     "@t3tools/shared": "workspace:*",
     "@t3tools/source-control-core": "workspace:*",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz"
   },
   "devDependencies": {
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
     "@t3tools/source-control-testing": "workspace:*",
     "@types/node": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
     "vite-plus": "catalog:"
   }
 }

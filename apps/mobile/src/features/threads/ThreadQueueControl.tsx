@@ -28,14 +28,14 @@ import { ScreenContent } from "../../components/ui/ScreenContent";
 import { scopedThreadKey } from "../../lib/scopedEntities";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
 import { NativeStackScreenOptions, nativeHeaderScrollEdgeEffects } from "../../native/StackHeader";
-import { useAssetUrl } from "../../state/assets";
-import { useQuietThreadShell } from "../../state/entities";
-import { useEnvironmentQuery } from "../../state/query";
+import { useAssetUrl } from "../../state/assets.vibe";
+import { useQuietThreadShell } from "../../state/entities.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { serverEnvironment } from "../../state/server";
 import { assetImageSource } from "../../lib/assetImageSource";
 import { beginQueuedRunEdit, useQueuedRunEdit } from "../../state/queued-run-edit";
 import { environmentThreadDetails, threadEnvironment } from "../../state/threads";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useAdaptiveWorkspaceLayout } from "../layout/AdaptiveWorkspaceLayout";
 import {
   REMOVE_QUEUED_MESSAGE_ACCESSIBILITY_LABEL,

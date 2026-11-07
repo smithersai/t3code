@@ -5,8 +5,8 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as RelayConfiguration from "../Config.ts";
-import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.ts";
+import * as RelayConfiguration from "../Config.vibe";
+import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.vibe";
 import * as ManagedEndpointProvider from "./ManagedEndpointProvider.ts";
 import * as ManagedEndpointReaper from "./ManagedEndpointReaper.ts";
 

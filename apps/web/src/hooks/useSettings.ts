@@ -50,17 +50,17 @@ import { toastManager } from "~/components/ui/toast";
 import { isHostedStaticApp } from "~/hostedPairing";
 import { environmentCatalog } from "~/connection/catalog";
 import { primaryServerSettingsAtom, serverEnvironment } from "~/state/server";
-import { useEnvironments, usePrimaryEnvironment } from "~/state/environments";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useEnvironments, usePrimaryEnvironment } from "../state/environments.vibe";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { useTheme } from "./useTheme";
 import {
   environmentSession,
   environmentSessionStatesAtom,
   readEnvironmentScope,
   useEnvironmentScope,
-} from "~/state/session";
-import { environmentIdsKey } from "~/state/environmentAtomList";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+} from "../state/session.vibe";
+import { environmentIdsKey } from "../state/environmentAtomList.vibe";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 
 const CLIENT_SETTINGS_PERSISTENCE_ERROR_SCOPE = "[CLIENT_SETTINGS]";
 

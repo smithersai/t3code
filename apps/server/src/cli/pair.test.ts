@@ -36,8 +36,12 @@ import { DevServerNotProxiableError, resolveTailscaleLocalTarget } from "./pair.
 
 import packageJson from "../../package.json" with { type: "json" };
 import { buildPairingAppLink } from "@t3tools/shared/remote";
+import * as Crypto from "@t3tools/shared/Crypto";
 
-const layerCliRuntime = Layer.mergeAll(NodeServices.layer, NetService.layer);
+const layerCliRuntime = Layer.mergeAll(
+  Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+  NetService.layer,
+);
 
 const baseState = {
   version: 1,
@@ -136,7 +140,7 @@ describe("t3 pair", () => {
               if (command.args[0] === "serve") {
                 const target = command.args.at(-1)!;
                 const descriptor = yield* Effect.promise(async () =>
-                  (await fetch(new URL("/.well-known/t3/environment", target))).json(),
+                  (await fetch(new URL("/.well-known/t3/environment", String(target)))).json(),
                 );
                 expect(descriptor).toEqual(testDescriptor);
                 serving = true;
@@ -188,7 +192,7 @@ describe("t3 pair", () => {
           assert.include(output, "Pairing URL: https://pair-test.tail.ts.net/pair#token=");
         }),
       "::1",
-    ).pipe(Effect.provide(NodeServices.layer)),
+    ).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
   );
 
   it.effect("mints a token and prints a QR pairing URL for a live server", () =>
@@ -228,7 +232,7 @@ describe("t3 pair", () => {
         assert.deepEqual(credentials[0]?.scopes, AuthStandardClientScopes);
       }),
     ).pipe(
-      Effect.provide(NodeServices.layer),
+      Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       Effect.provideService(HostProcess.Environment, {
         ...process.env,
         [SERVICE_LAUNCHER_CONTEXT_ENV]: JSON.stringify({
@@ -263,7 +267,7 @@ describe("t3 pair", () => {
 
         assert.include(output, "Pairing URL: http://localhost:5733/pair#token=");
       }),
-    ).pipe(Effect.provide(NodeServices.layer)),
+    ).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
   );
 
   it.effect("ignores runtime state whose recorded pid is no longer alive", () =>
@@ -289,7 +293,7 @@ describe("t3 pair", () => {
         );
         assert.include(rendered, "No running T3 Code server found.");
       }),
-    ).pipe(Effect.provide(NodeServices.layer)),
+    ).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
   );
 
   // regression: #10516 minting opens the target database with this checkout's
@@ -329,7 +333,7 @@ describe("t3 pair", () => {
           "server-runtime.json",
         ]);
       }),
-    ).pipe(Effect.provide(NodeServices.layer)),
+    ).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
   );
 
   // regression: #15492 an older CLI minted into a V1 database the protocol 2
@@ -363,7 +367,7 @@ describe("t3 pair", () => {
         }),
       "127.0.0.1",
       { ...testDescriptor, serverVersion: "0.0.45", orchestrationProtocolVersion: 1 },
-    ).pipe(Effect.provide(NodeServices.layer)),
+    ).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
   );
 
   // Without the capability `tailscale serve` blocks on an enablement URL, so
@@ -415,7 +419,7 @@ describe("t3 pair", () => {
         assert.include(String(error), "https://login.tailscale.com/admin/dns");
         assert.deepEqual(tailscaleCalls, [["status", "--json"]]);
       }),
-    ).pipe(Effect.provide(NodeServices.layer)),
+    ).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
   );
 });
 

@@ -48,7 +48,7 @@ import * as EnvironmentAuth from "./auth/EnvironmentAuth.ts";
 import * as EnvironmentTheme from "./environmentTheme.ts";
 import * as GitWorkflowService from "./git/GitWorkflowService.ts";
 import * as HostResources from "./resourceTelemetry/HostResources.ts";
-import * as ManagedProjectFolders from "./project/ManagedProjectFolders.ts";
+import * as ManagedProjectFolders from "./project/ManagedProjectFolders.vibe";
 import * as McpAppRequests from "./mcpApps/McpAppRequests.ts";
 import * as ModelManifest from "./provider/ModelManifest.ts";
 import * as Orchestrator from "./orchestration-v2/Orchestrator.ts";
@@ -60,7 +60,7 @@ import * as PortScanner from "./preview/PortScanner.ts";
 import * as PreviewManager from "./preview/Manager.ts";
 import * as ProcessDiagnostics from "./diagnostics/ProcessDiagnostics.ts";
 import * as ProcessResourceMonitor from "./diagnostics/ProcessResourceMonitor.ts";
-import * as ProjectCloneTracker from "./project/ProjectCloneTracker.ts";
+import * as ProjectCloneTracker from "./project/ProjectCloneTracker.vibe";
 import * as ProjectSetupScriptRunner from "./project/ProjectSetupScriptRunner.ts";
 import * as ProviderAuthService from "./provider/ProviderAuthService.ts";
 import * as ProviderInstanceRegistry from "./provider/ProviderInstanceRegistry.ts";
@@ -97,11 +97,11 @@ import * as VcsProvisioningService from "./vcs/VcsProvisioningService.ts";
 import * as VcsStatusBroadcaster from "./vcs/VcsStatusBroadcaster.ts";
 import * as WorkspaceEntries from "./workspace/WorkspaceEntries.ts";
 import * as WorkspaceFileSystem from "./workspace/WorkspaceFileSystem.ts";
-import * as WorktreeSetupTracker from "./project/WorktreeSetupTracker.ts";
-import * as ProjectFaviconResolver from "./project/ProjectFaviconResolver.ts";
+import * as WorktreeSetupTracker from "./project/WorktreeSetupTracker.vibe";
+import * as ProjectFaviconResolver from "./project/ProjectFaviconResolver.vibe";
 import * as TraceDiagnostics from "./diagnostics/TraceDiagnostics.ts";
 import * as TriageService from "./triage/TriageService.ts";
-import * as WorkspacePaths from "./workspace/WorkspacePaths.ts";
+import * as WorkspacePaths from "./workspace/WorkspacePaths.vibe";
 import * as ServerSecretStore from "./auth/ServerSecretStore.ts";
 import * as ServerConfigModule from "./config.ts";
 import * as Keybindings from "./keybindings.ts";
@@ -124,6 +124,7 @@ import {
   WS_RPC_SERVER_OPTIONS,
   withLateEditorConfig,
 } from "./ws.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const snapshotConfig = (fields: Partial<ServerConfig>) =>
   ({ availableEditors: [], settings: {}, ...fields }) as unknown as ServerConfig;
@@ -478,7 +479,7 @@ const layerConfigSources = Layer.mergeAll(
       ServerConfigModule.layerTest(process.cwd(), { prefix: "t3-config-subscription-test-" }),
     ),
   ),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 it.effect(

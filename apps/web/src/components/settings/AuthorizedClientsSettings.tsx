@@ -51,8 +51,8 @@ import {
   type ServerClientSessionRecord,
   type ServerPairingLinkRecord,
 } from "~/environments/primary";
-import { readEnvironmentScope } from "~/state/session";
-import { usePrimaryEnvironmentId } from "~/state/environments";
+import { readEnvironmentScope } from "../../state/session.vibe";
+import { usePrimaryEnvironmentId } from "../../state/environments.vibe";
 import { ConnectionStatusDot } from "../ConnectionStatusDot";
 import { ITEM_ROW_CLASSNAME, ITEM_ROW_INNER_CLASSNAME } from "./itemRows";
 import {

@@ -14,7 +14,7 @@ import * as Clock from "effect/Clock";
 import * as Cause from "effect/Cause";
 import * as AnalyticsService from "../telemetry/AnalyticsService.ts";
 import { openAiUserId } from "../telemetry/Identify.ts";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Hex from "effect/encoding/Hex";
 import * as Exit from "effect/Exit";
 import { codexAuthCallbackPage, codexAuthReturnUrl } from "./CodexAuthCallbackPage.ts";

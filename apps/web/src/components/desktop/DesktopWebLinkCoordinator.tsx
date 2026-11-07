@@ -13,25 +13,25 @@ import { AtomRegistry } from "effect/reactivity";
 import * as Stream from "effect/Stream";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 
-import { openFileInPreview, openUrlInPreview } from "../../browser/openFileInPreview";
-import { isPreviewAvailableFor } from "../../browser/previewRuntime";
+import { openFileInPreview, openUrlInPreview } from "../../browser/openFileInPreview.vibe";
+import { isPreviewAvailableFor } from "../../browser/previewRuntime.vibe";
 import { requestConfirmDialog } from "../../confirmDialog";
-import { connectPairing } from "../../connection/onboarding";
+import { connectPairing } from "../../connection/onboarding.vibe";
 import { isLocalEnvironmentDisabled } from "../../localEnvironment";
 import { useComposerDraftStore } from "../../composerDraftStore";
 import { useNewThreadHandler } from "../../hooks/useHandleNewThread";
-import { useScratchProject } from "../../hooks/useScratchProject";
+import { useScratchProject } from "../../hooks/useScratchProject.ts";
 import { useClientSettings } from "../../hooks/useSettings";
 import { useOpenChangeRequestLink } from "../../lib/openPullRequestLink";
 import { selectActiveRightPanelSurface, useRightPanelStore } from "../../rightPanelStore";
-import { appAtomRegistry } from "../../rpc/atomRegistry";
-import { resolveThreadRouteTarget } from "../../threadRoutes";
-import { assetEnvironment } from "../../state/assets";
-import { useEnvironmentHttpBaseUrl, usePrimaryEnvironment } from "../../state/environments";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
+import { resolveThreadRouteTarget } from "../../threadRoutes.vibe";
+import { assetEnvironment } from "../../state/assets.vibe";
+import { useEnvironmentHttpBaseUrl, usePrimaryEnvironment } from "../../state/environments.vibe";
 import { previewEnvironment } from "../../state/preview";
-import { allReachableShellsLiveAtom } from "../../state/shell";
-import { useAtomCommand } from "../../state/use-atom-command";
-import { useAtomQueryRunner } from "../../state/use-atom-query-runner";
+import { allReachableShellsLiveAtom } from "../../state/shell.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 
 /** A link handed over by the OS is a plain click: nothing about it asks for the browser. */

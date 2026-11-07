@@ -26,7 +26,7 @@ import * as CheckpointService from "../CheckpointService.ts";
 import * as CheckpointRollbackService from "../CheckpointRollbackService.ts";
 import * as CommandPolicy from "../CommandPolicy.ts";
 import * as CommandReceiptStore from "../CommandReceiptStore.ts";
-import * as ContextHandoffService from "../ContextHandoffService.ts";
+import * as ContextHandoffService from "../ContextHandoffService.vibe";
 import * as EffectOutbox from "../EffectOutbox.ts";
 import * as EffectWorker from "../EffectWorker.ts";
 import * as EventSink from "../EventSink.ts";
@@ -55,8 +55,8 @@ import * as ThreadTitleRegenerationService from "../ThreadTitleRegenerationServi
 import * as RuntimePolicy from "../RuntimePolicy.ts";
 import * as TurnItemPositionStore from "../TurnItemPositionStore.ts";
 import * as RuntimeRequestService from "../RuntimeRequestService.ts";
-import * as ThreadCommandExecutor from "../ThreadCommandExecutor.ts";
-import * as ThreadForkService from "../ThreadForkService.ts";
+import * as ThreadCommandExecutor from "../ThreadCommandExecutor.vibe";
+import * as ThreadForkService from "../ThreadForkService.vibe";
 import {
   runOrchestratorV2Scenario,
   type OrchestratorV2ScenarioStepError,
@@ -67,6 +67,7 @@ import {
   makeProviderReplayGate,
   type ProviderReplayGate,
 } from "@t3tools/provider-testing/replayGate";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 export function makeReplayServerConfig(
   scenario: string,
@@ -283,7 +284,7 @@ export function layerWithRegistry<Error>(
   const layerServerConfig = Layer.effect(
     ServerConfig.ServerConfig,
     makeReplayServerConfig(scenario.name).pipe(Effect.orDie),
-  ).pipe(Layer.provide(NodeServices.layer));
+  ).pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
   const layerRuntime =
     scenario.runtimePolicyOverride === undefined
       ? RuntimePolicy.layer
@@ -326,7 +327,7 @@ export function layerWithRegistry<Error>(
         ThreadCommandExecutor.layer,
         GitVcsDriver.layer.pipe(
           Layer.provide(layerServerConfig),
-          Layer.provide(NodeServices.layer),
+          Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         ),
       ),
     ),
@@ -334,11 +335,11 @@ export function layerWithRegistry<Error>(
   const layerVcsDriverRegistry = VcsDriverRegistry.layer.pipe(
     Layer.provide(VcsProcess.layer),
     Layer.provide(layerServerConfig),
-    Layer.provide(NodeServices.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
   const layerCheckpointStore = CheckpointStore.layer.pipe(
     Layer.provide(layerVcsDriverRegistry),
-    Layer.provide(NodeServices.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
   const layerCheckpointServiceProvided = CheckpointService.layer.pipe(
     Layer.provide(Layer.mergeAll(layerCheckpointStore, IdAllocator.layer)),
@@ -516,7 +517,10 @@ export function layerWithRegistry<Error>(
     layerEventSinkProvided,
     layerContinuationWorkerProvided,
     layerCommandOutputHubProvided,
-  ).pipe(Layer.provide(ProviderTurnStartServiceTestkit.layer), Layer.provide(NodeServices.layer));
+  ).pipe(
+    Layer.provide(ProviderTurnStartServiceTestkit.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+  );
 
   if (options.runEffectWorker === false) {
     return layerReplayRuntime;

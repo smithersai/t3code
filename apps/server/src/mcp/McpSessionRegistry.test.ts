@@ -7,6 +7,8 @@ import * as NetAddress from "effect/net/NetAddress";
 
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as McpSessionRegistry from "./McpSessionRegistry.ts";
+import * as Layer from "effect/Layer";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const environmentId = EnvironmentId.make("environment-1");
 const makeFakeHttpServer = (hostname: string, port = 43123) =>
@@ -29,7 +31,7 @@ const makeRegistry = (now: () => number, httpServer = fakeHttpServer) =>
     .pipe(
       Effect.provideService(HttpServer.HttpServer, httpServer),
       Effect.provideService(ServerEnvironment.ServerEnvironment, fakeEnvironment),
-      Effect.provide(NodeServices.layer),
+      Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     );
 
 it.effect("stores only a token hash, resolves the bearer token, and revokes by thread", () =>

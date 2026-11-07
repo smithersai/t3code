@@ -4,7 +4,7 @@ import { CHATGPT_USAGE_URL, collectExternalUsageLinks } from "@t3tools/shared/us
 import { Linking, Pressable, View } from "react-native";
 import { AppText as Text } from "../../components/ui/AppText";
 import { ProviderIcon } from "../../components/ProviderIcon";
-import { environmentPresentations } from "../../state/presentation";
+import { environmentPresentations } from "../../state/presentation.vibe";
 
 export function ChatGptUsageSummary({
   selectedEnvironmentIds,

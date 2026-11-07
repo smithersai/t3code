@@ -11,7 +11,7 @@ import {
 } from "@t3tools/shared/projectFavicon";
 import { useAtomValue } from "@effect/atom-react";
 import { Atom } from "effect/reactivity";
-import { projectFaviconUrlAtom } from "../state/assets";
+import { projectFaviconUrlAtom } from "../state/assets.vibe";
 import {
   countGlyphs,
   projectAutoMonogram,

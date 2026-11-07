@@ -1,4 +1,4 @@
-import { SourceControlProviderKind } from "./sourceControl.ts";
+import { SourceControlProviderKind } from "./sourceControl.vibe";
 import * as Schema from "effect/Schema";
 import { describe, expect, it } from "vite-plus/test";
 
@@ -6,7 +6,7 @@ import {
   PullRequestDetail,
   PullRequestListResult,
   resolvePullRequestAuthorFilter,
-} from "./pullRequest.ts";
+} from "./pullRequest.vibe";
 
 const decodeDetail = Schema.decodeUnknownSync(Schema.toCodecJson(PullRequestDetail));
 

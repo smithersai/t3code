@@ -7,7 +7,7 @@ import {
   codexRateLimitsToUpdate,
   codexUsageLimitMessage,
   mergeCodexRateLimits,
-} from "./codexUsageLimits.ts";
+} from "./codexUsageLimits.vibe";
 
 const checkedAt = "2026-07-18T10:00:00.000Z";
 
@@ -283,7 +283,7 @@ describe("mergeCodexRateLimits", () => {
   });
 });
 
-import { codexUsageLimitResetAt } from "./codexUsageLimits.ts";
+import { codexUsageLimitResetAt } from "./codexUsageLimits.vibe";
 
 describe("codexUsageLimitResetAt", () => {
   it("waits for every exhausted window and never invents an unknown reset", () => {

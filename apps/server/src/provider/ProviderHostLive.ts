@@ -1,6 +1,6 @@
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import { ProviderCredentialError } from "@t3tools/provider-core/server/errors";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";

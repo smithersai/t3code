@@ -72,7 +72,7 @@ import {
 } from "../sourceControl/threadPullRequests.ts";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as DateTime from "effect/DateTime";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -91,13 +91,13 @@ import {
 import {
   DispatchModeLimit,
   type DispatchModeRefusal,
-} from "../orchestration-v2/DispatchModeLimit.ts";
+} from "../orchestration-v2/DispatchModeLimit.vibe";
 import { runOutcome } from "../orchestration-v2/RestartBackgroundNote.ts";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
 import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import { isSnoozed } from "../orchestration-v2/ThreadSettlementService.ts";
-import { userFacingDispatchErrorMessage } from "../orchestration-v2/UserFacingErrors.ts";
+import { userFacingDispatchErrorMessage } from "../orchestration-v2/UserFacingErrors.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
@@ -107,8 +107,8 @@ import {
   type McpInvocationScope,
   type McpThreadInvocationScope,
   requireThreadScope,
-} from "./McpInvocationContext.ts";
-import * as Metrics from "../observability/Metrics.ts";
+} from "./McpInvocationContext.vibe";
+import * as Metrics from "../observability/Metrics.vibe";
 import {
   interactionModeRank,
   resolveInteractionMode,
@@ -116,7 +116,7 @@ import {
   runtimeModeRank,
   taskPrompt,
 } from "./delegatedTaskModes.ts";
-import { isLiveCallerShell, threadNotFound } from "./threadAccess.ts";
+import { isLiveCallerShell, threadNotFound } from "./threadAccess.vibe";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
 import * as PeerForwarding from "../peer/PeerForwarding.ts";
 import * as RemoteDelegation from "../peer/RemoteDelegation.ts";

@@ -32,7 +32,7 @@ import * as Stream from "effect/Stream";
 import { TestClock } from "effect/testing";
 import { HttpServer } from "effect/http";
 
-import { ProviderWorkspaceMissingError } from "../provider/Errors.ts";
+import { ProviderWorkspaceMissingError } from "../provider/Errors.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as McpProviderSession from "@t3tools/provider-core/server/mcpSession";
@@ -48,10 +48,11 @@ import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";
 import * as ProviderEventIngestor from "./ProviderEventIngestor.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
+import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import * as ProviderSessionManager from "./ProviderSessionManager.ts";
 import * as CommandOutputHub from "./CommandOutputHub.ts";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerTestDatabase = SqlitePersistence.layerMemory;
 const layerTestStores = Layer.merge(EventStore.layer, ProjectionStore.layer).pipe(
@@ -565,7 +566,7 @@ function layerTest(input: {
         ),
       ),
     ),
-  ).pipe(Layer.provide(NodeServices.layer));
+  ).pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
 }
 
 const fakeHttpServer = HttpServer.HttpServer.of({
@@ -584,7 +585,7 @@ const layerTestMcpRegistry = Layer.effect(
 ).pipe(
   Layer.provide(Layer.succeed(HttpServer.HttpServer, fakeHttpServer)),
   Layer.provide(Layer.succeed(ServerEnvironment.ServerEnvironment, fakeEnvironment)),
-  Layer.provide(NodeServices.layer),
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 const layerPausingMcpRegistry = (pause: {
@@ -3555,7 +3556,7 @@ it.effect.each(["missing", "file"] as const)(
           [],
         );
       }).pipe(Effect.provide(layerTest({ state, idleTimeoutMs: 60_000 })));
-    }).pipe(Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 it.effect(
@@ -3605,7 +3606,7 @@ it.effect(
           before.providerSessions,
         );
       }).pipe(Effect.provide(layerTest({ state, idleTimeoutMs: 60_000 })));
-    }).pipe(Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 it.effect(

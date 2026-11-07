@@ -56,7 +56,7 @@ import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts";
 import * as Orchestrator from "./Orchestrator.ts";
 import { ROLLBACK_FAILED_MESSAGE } from "./CheckpointRollbackService.ts";
@@ -67,27 +67,28 @@ import * as ProviderRuntimeRecoveryService from "./ProviderRuntimeRecoveryServic
 import * as ProjectionMaintenance from "./ProjectionMaintenance.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as PullRequestWatchReactor from "./PullRequestWatchReactor.ts";
-import { PULL_REQUEST_WATCH_WAKE_LIMIT } from "./pullRequestWatch.ts";
+import { PULL_REQUEST_WATCH_WAKE_LIMIT } from "./pullRequestWatch.vibe";
 import * as PullRequestService from "../pullRequest/PullRequestService.ts";
 import * as ProjectStore from "./ProjectStore.ts";
 import * as ProviderSessionManager from "./ProviderSessionManager.ts";
-import * as RuntimeLayer from "./runtimeLayer.ts";
+import * as RuntimeLayer from "./runtimeLayer.vibe";
 import { shellStreamItemFromThreadShell } from "./ShellStream.ts";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
 import * as ThreadManagementService from "./ThreadManagementService.ts";
-import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
+import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
-import * as Scheduler from "../scheduling/Scheduler.ts";
+import * as Scheduler from "../scheduling/Scheduler.vibe";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
 import * as PreviewManager from "../preview/Manager.ts";
 import * as TerminalManager from "../terminal/Manager.ts";
 import * as ResourceCleanupService from "./ResourceCleanupService.ts";
 import * as ThreadLaunchService from "./ThreadLaunchService.ts";
-import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
+import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerPlatformTest = Layer.merge(
-  NodeServices.layer,
+  Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
   Layer.mock(SourceControlProviderRegistry.SourceControlProviderRegistry)({
     resolveLink: () => Effect.die("unused title link"),
   }),
@@ -826,7 +827,9 @@ it.layer(layerTest)("OrchestrationV2LayerLive", (it) => {
             (yield* outbox.listByCommandId(commandId)).map((effect) => effect.request.type),
             ["provider-thread.rollback"],
           );
-          const path = yield* Path.Path.pipe(Effect.provide(NodeServices.layer));
+          const path = yield* Path.Path.pipe(
+            Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+          );
           yield* orchestrator.dispatch({
             type: "thread.create",
             createdBy: "user",
@@ -2873,7 +2876,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
       const reactor = yield* PullRequestWatchReactor.make.pipe(
         Effect.provide(
           Layer.mergeAll(
-            NodeServices.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
             Layer.mock(PullRequestService.PullRequestService)({
               detail: () => Effect.die("host unreachable"),
               activity: () => Effect.die("host unreachable"),
@@ -2934,7 +2937,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
 
       let headSha = "ad70160aaa";
       const host = Layer.mergeAll(
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         Layer.mock(PullRequestService.PullRequestService)({
           detail: () =>
             Effect.sync(() => ({
@@ -3032,7 +3035,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
 
       let remainingStatus: "pending" | "success" = "pending";
       const host = Layer.mergeAll(
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         Layer.mock(PullRequestService.PullRequestService)({
           detail: () =>
             Effect.sync(() => ({
@@ -3176,7 +3179,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
         DateTime.add(DateTime.makeUnsafe(started.startedAt), { seconds: 1 }),
       );
       const host = Layer.mergeAll(
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         Layer.mock(PullRequestService.PullRequestService)({
           detail: () =>
             Effect.sync(() => ({
@@ -3274,7 +3277,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
       let headSha = "6074dd48ff";
       let checks: PullRequestDetail["checks"] = [];
       const host = Layer.mergeAll(
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         Layer.mock(PullRequestService.PullRequestService)({
           detail: () =>
             Effect.sync(() => ({
@@ -3377,7 +3380,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
       const headSha = "6074dd48ff";
       let checks: PullRequestDetail["checks"] = [];
       const host = Layer.mergeAll(
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         Layer.mock(PullRequestService.PullRequestService)({
           detail: () =>
             Effect.sync(() => ({
@@ -3607,7 +3610,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
       const reactor = yield* PullRequestWatchReactor.make.pipe(
         Effect.provide(
           Layer.mergeAll(
-            NodeServices.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
             Layer.mock(PullRequestService.PullRequestService)({
               detail: () => Effect.succeed(detail),
               activity: () =>

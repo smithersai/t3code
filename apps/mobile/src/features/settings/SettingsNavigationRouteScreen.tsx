@@ -13,14 +13,14 @@ import { IconButton } from "../../components/ui/IconButton";
 import { Button } from "../../components/ui/Button";
 import { ScreenScrollView } from "../../components/ui/ScreenScrollView";
 import { SymbolView } from "../../components/ui/AppSymbol";
-import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences";
+import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
 import {
   NAVIGATION_TAB_ICONS,
   WORKSPACE_TAB_LABELS,
   useNavigationTabOrder,
   useHiddenNavigationTabs,
   useEnabledNavigationTabs,
-} from "../workspace/navigation-tabs";
+} from "../workspace/navigation-tabs.vibe";
 import { SettingsScreen } from "./components/SettingsScreen";
 import { SettingsSection } from "./components/SettingsSection";
 import { resolveWorkspaceTabOrder } from "../workspace/workspace-tabs-state";

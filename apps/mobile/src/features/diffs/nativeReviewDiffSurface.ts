@@ -12,7 +12,7 @@ import { View, type NativeSyntheticEvent, type ViewProps } from "react-native";
 import { requireNativeView } from "expo";
 
 import { EmptyState } from "../../components/ui/EmptyState";
-import { NativeViewResolutionError } from "../../native/nativeViewResolutionError";
+import { NativeViewResolutionError } from "../../native/nativeViewResolutionError.vibe";
 
 const NATIVE_REVIEW_DIFF_MODULE_NAME = "T3ReviewDiffSurface";
 const NATIVE_REVIEW_DIFF_PAYLOAD_RETRY_FRAMES = 60;

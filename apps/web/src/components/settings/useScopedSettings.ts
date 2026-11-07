@@ -1,10 +1,10 @@
 import { AuthSettingsWriteScope } from "@t3tools/contracts";
-import { useEnvironmentsWithScope } from "../../state/session";
+import { useEnvironmentsWithScope } from "../../state/session.vibe";
 import {
   requiredScopesForServerSettingsPatch,
   EnvironmentAuthorizationError,
 } from "@t3tools/contracts";
-import { readEnvironmentScope } from "../../state/session";
+import { readEnvironmentScope } from "../../state/session.vibe";
 import * as Cause from "effect/Cause";
 import { AsyncResult } from "effect/reactivity";
 import {
@@ -16,7 +16,7 @@ import {
 
 import { persistClientSettingsPatch, useMergedSettings } from "../../hooks/useSettings";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { toastManager } from "../ui/toast";
 import { useOptionalSettingsScope, useSettingsScope } from "./SettingsScopeContext";
 import {
@@ -28,7 +28,7 @@ import {
   scopedSettingsSource,
   type ProjectOverrideEntry,
   type ScopedSettingsPatch,
-} from "./scopedSettings";
+} from "./scopedSettings.vibe";
 
 export function useScopedSettings<T = UnifiedSettings>(
   selector?: (settings: UnifiedSettings) => T,

@@ -23,7 +23,7 @@ import * as Schema from "effect/Schema";
 
 import * as KnownWorkspaces from "./KnownWorkspaces.ts";
 import * as WorkspaceEntries from "./WorkspaceEntries.ts";
-import * as WorkspacePaths from "./WorkspacePaths.ts";
+import * as WorkspacePaths from "./WorkspacePaths.vibe";
 import { fileHeaderMimeType } from "./fileHeaderMimeType.ts";
 
 const PROJECT_READ_FILE_MAX_BYTES = 1024 * 1024;

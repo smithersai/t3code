@@ -1,4 +1,4 @@
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { scopeProjectRef } from "@t3tools/client-runtime/environment";
 import {
   isAtomCommandInterrupted,
@@ -27,12 +27,12 @@ import {
 } from "~/logicalProject";
 import { buildPhysicalToLogicalProjectKeyMap } from "~/sidebarProjectGrouping";
 import { useProjects } from "~/state/entities";
-import { usePrimaryEnvironmentId } from "~/state/environments";
+import { usePrimaryEnvironmentId } from "../../state/environments.vibe";
 
 import { type DraftId, useComposerDraftStore } from "~/composerDraftStore";
 import { useNewThreadHandler } from "~/hooks/useHandleNewThread";
 import { usePreparePullRequestThreadAction } from "~/lib/sourceControlActions";
-import type { ReviewCommentContext } from "~/reviewCommentContext";
+import type { ReviewCommentContext } from "../../reviewCommentContext.vibe";
 import { pullRequestEnvironment } from "~/state/pullRequests";
 
 import { toastManager } from "../ui/toast";
@@ -42,7 +42,7 @@ import {
   handoffPrompt,
   handoffReviewComments,
   readableFailure,
-} from "./pullRequestDetail.logic";
+} from "./pullRequestDetail.logic.vibe";
 import { pullRequestEntryKey, type EnvironmentPullRequestEntry } from "./pullRequestList.logic";
 
 export function usePullRequestDefaultMergeMethodResolver(

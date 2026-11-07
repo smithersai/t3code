@@ -1,0 +1,11 @@
+import { PiSettings } from "../settings.vibe";
+import * as FileSystem from "effect/FileSystem";
+import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
+import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
+import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
+import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
+import { type ProviderAdapterDriver } from "@t3tools/provider-core/server/adapterDriver";
+export { PI_PROVIDER, makePiAdapterV2 } from "./adapter.vibe.platform.js";
+export type { PiAdapterV2Options } from "./adapter.vibe.platform.js";
+export type PiAdapterV2DriverEnv = ChildProcessSpawner.ChildProcessSpawner | FileSystem.FileSystem | IdAllocator.IdAllocatorV2 | McpProviderSessions.McpProviderSessions | ProviderHost.ProviderHost;
+export declare const PiAdapterV2Driver: ProviderAdapterDriver<PiSettings, PiAdapterV2DriverEnv>;

@@ -4,7 +4,7 @@ import {
   managedEndpointHostname,
   isManagedEndpointHostname,
   relayOwnsManagedEndpointZone,
-} from "./deploymentConfig.ts";
+} from "./deploymentConfig.vibe";
 
 describe("relayOwnsManagedEndpointZone", () => {
   it("keeps the shared Cloudflare zone owned by production", () => {

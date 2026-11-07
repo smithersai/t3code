@@ -13,7 +13,7 @@ import {
 } from "@t3tools/contracts";
 import { resolveSelfInvocation } from "@t3tools/shared/nodeRuntime";
 import { htmlRenderFromToolItem } from "@t3tools/shared/toolOutput";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
@@ -120,10 +120,12 @@ describe("AntigravityAdapterV2 flavor", () => {
 });
 
 const layerSession = Layer.mergeAll(
-  NodeServices.layer,
+  Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
   IdAllocator.layer,
   McpProviderSessions.layer,
-  TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer)),
+  TestProviderHost.layer().pipe(
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+  ),
 );
 
 describe("AntigravityAdapterV2 client file system", () => {

@@ -25,7 +25,7 @@ import { useAppearancePreferences } from "../features/settings/appearance/Appear
 import { Menu } from "../components/ui/Menu";
 import { useEnrichedLinkVariants } from "./useEnrichedLinkVariants";
 import { useRetryingImageSource } from "./useRetryingImageSource";
-import { copyTextWithHaptic } from "../lib/copyTextWithHaptic";
+import { copyTextWithHaptic } from "../lib/copyTextWithHaptic.vibe";
 import {
   ENRICHED_INLINE_FILE_LINK_REGEX,
   enrichedSkillLinkRegex,
