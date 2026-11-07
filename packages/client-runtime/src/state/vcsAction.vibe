@@ -16,7 +16,7 @@ import * as Schema from "effect/Schema"
 import * as Stream from "effect/Stream"
 import { type AtomRegistry } from "effect/reactivity"
 
-import type { EnvironmentRegistry } from "../connection/registry.ts"
+import type { EnvironmentRegistry } from "../connection/registry.vibe"
 import * as Persistence from "../platform/persistence.vibe"
 import { runStreamGuarded, RpcPermissionGuard } from "../rpc/client.vibe"
 import { createRuntimeCommand, runStreamInEnvironment, type AtomCommand, type AtomCommandResult } from "./runtime.ts"

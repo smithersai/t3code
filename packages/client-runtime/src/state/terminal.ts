@@ -22,7 +22,7 @@ import {
   createEnvironmentSubscriptionAtomFamily,
   runAtomCommand,
 } from "./runtime.ts";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 import {
   subscribe,
   subscribeDynamic,

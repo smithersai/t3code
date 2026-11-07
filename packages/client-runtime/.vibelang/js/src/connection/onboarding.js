@@ -16,7 +16,7 @@ import * as ConnectionCredentialStore from "#vibelang/emitted/src/connection/cre
 import { mapRemoteEnvironmentError } from "./errors.js";
 import { BearerConnectionTarget, ConnectionBlockedError, SshConnectionTarget, } from "#vibelang/emitted/src/connection/model";
 import * as Persistence from "#vibelang/emitted/src/platform/persistence";
-import * as EnvironmentRegistry from "./registry.js";
+import * as EnvironmentRegistry from "#vibelang/emitted/src/connection/registry";
 import { orchestrationProtocolCompatibilityError } from "./compatibility.js";
 import { connectionRoutes, routeEntry, sshTargetKey, } from "#vibelang/emitted/src/connection/routes";
 export class ConnectionOnboarding extends Context.Service()("@t3tools/client-runtime/connection/onboarding/ConnectionOnboarding") {

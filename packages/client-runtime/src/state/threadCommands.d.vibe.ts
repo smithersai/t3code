@@ -4,7 +4,7 @@ import { Atom } from "effect/reactivity";
 import { type EnvironmentId, type OrchestrationV2ShellSnapshot } from "@t3tools/contracts";
 import * as DateTime from "effect/DateTime";
 import { type CancelQueuedRunInput, type RetryWorkspacePreparationInput, type CreateThreadInput, type EditQueuedRunInput, type InterruptThreadTurnInput, type ForkThreadFromRunInput, type MergeThreadBackInput, type PromoteQueuedRunInput, type ResumeThreadQueueInput, type LinkThreadPullRequestInput, type RespondToThreadApprovalInput, type RespondToThreadUserInputInput, type DismissThreadUserInputInput, type RevertThreadCheckpointInput, type SetThreadInteractionModeInput, type SetThreadRuntimeModeInput, type PinThreadInput, type ReorderPinnedThreadInput, type ReorderActiveThreadInput, type SetThreadAutoSettleInput, type SnoozeThreadInput, type StartThreadTurnInput, type ResolveGuestMessageInput, type UnlinkThreadPullRequestInput, type WatchThreadPullRequestInput, type UnsettleThreadInput, type UnsnoozeThreadInput, type UpdateThreadMetadataInput, type VisitThreadInput } from "../operations/commands.vibe";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 import * as ThreadHistoryController from "./threadHistoryController.vibe";
 export type LoadEarlierThreadHistoryInput = {
     readonly threadId: ThreadId;
@@ -20,85 +20,85 @@ export declare function createThreadEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
         readonly input: CreateThreadInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     delete: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: import("../operations/commands.vibe").ThreadCommandInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     closeGuestShare: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: import("../operations/commands.vibe").ThreadCommandInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     resolveGuestMessage: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: ResolveGuestMessageInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     archive: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: import("../operations/commands.vibe").ThreadCommandInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     unarchive: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: import("../operations/commands.vibe").ThreadCommandInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     visit: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: VisitThreadInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     markUnread: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: import("../operations/commands.vibe").ThreadCommandInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     updateMetadata: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: UpdateThreadMetadataInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("@t3tools/contracts").OrchestrationV2GetThreadProjectionError | import("effect/rpc/RpcClientError").RpcClientError | import("../connection/model.vibe").ConnectionAttemptError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("@t3tools/contracts").OrchestrationV2GetThreadProjectionError | import("effect/rpc/RpcClientError").RpcClientError | import("../connection/model.vibe").ConnectionAttemptError>;
     linkPullRequest: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: LinkThreadPullRequestInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     unlinkPullRequest: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: UnlinkThreadPullRequestInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     watchPullRequest: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: WatchThreadPullRequestInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     setRuntimeMode: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: SetThreadRuntimeModeInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     setInteractionMode: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: SetThreadInteractionModeInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     startTurn: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: StartThreadTurnInput;
@@ -5593,89 +5593,89 @@ export declare function createThreadEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
         readonly resumed: boolean;
     } | {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("@t3tools/contracts").OrchestrationV2GetThreadProjectionError | import("@t3tools/contracts").OrchestrationV2ThreadLaunchError | import("@t3tools/contracts").PersistChatAttachmentsError | import("effect/rpc/RpcClientError").RpcClientError | import("../connection/model.vibe").ConnectionAttemptError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("@t3tools/contracts").OrchestrationV2GetThreadProjectionError | import("@t3tools/contracts").OrchestrationV2ThreadLaunchError | import("@t3tools/contracts").PersistChatAttachmentsError | import("effect/rpc/RpcClientError").RpcClientError | import("../connection/model.vibe").ConnectionAttemptError>;
     interruptTurn: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: InterruptThreadTurnInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("@t3tools/contracts").OrchestrationV2GetThreadProjectionError | import("effect/rpc/RpcClientError").RpcClientError | import("../connection/model.vibe").ConnectionAttemptError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("@t3tools/contracts").OrchestrationV2GetThreadProjectionError | import("effect/rpc/RpcClientError").RpcClientError | import("../connection/model.vibe").ConnectionAttemptError>;
     respondToApproval: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: RespondToThreadApprovalInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     respondToUserInput: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: RespondToThreadUserInputInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     dismissUserInput: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: DismissThreadUserInputInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     revertCheckpoint: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: RevertThreadCheckpointInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2CheckpointUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("@t3tools/contracts").OrchestrationV2GetThreadProjectionError | import("effect/rpc/RpcClientError").RpcClientError | import("../connection/model.vibe").ConnectionAttemptError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2CheckpointUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("@t3tools/contracts").OrchestrationV2GetThreadProjectionError | import("effect/rpc/RpcClientError").RpcClientError | import("../connection/model.vibe").ConnectionAttemptError>;
     stopSession: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: import("../operations/commands.vibe").ThreadCommandInput;
     }, {
         sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("@t3tools/contracts").OrchestrationV2GetThreadProjectionError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("@t3tools/contracts").OrchestrationV2GetThreadProjectionError | import("effect/rpc/RpcClientError").RpcClientError>;
     forkFromRun: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: ForkThreadFromRunInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     mergeBack: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: MergeThreadBackInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     resumeThreadQueue: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: ResumeThreadQueueInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     promoteQueuedRun: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: PromoteQueuedRunInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     cancelQueuedRun: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: CancelQueuedRunInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     retryWorkspacePreparation: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: RetryWorkspacePreparationInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     editQueuedRun: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: EditQueuedRunInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("@t3tools/contracts").PersistChatAttachmentsError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("@t3tools/contracts").PersistChatAttachmentsError | import("effect/rpc/RpcClientError").RpcClientError>;
     loadEarlierHistory: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: LoadEarlierThreadHistoryInput;
-    }, ThreadHistoryController.ThreadHistoryLoadEarlierResult, E | import("../connection/registry.ts").EnvironmentNotRegisteredError>;
+    }, ThreadHistoryController.ThreadHistoryLoadEarlierResult, E | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError>;
     uploadFeedback: {
         label: string;
         run: (registry: import("effect/reactivity/AtomRegistry").AtomRegistry, input: {
@@ -5686,7 +5686,7 @@ export declare function createThreadEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
             };
         }) => Promise<import("./runtime.ts").AtomCommandResult<{
             readonly feedbackId: string;
-        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").ProviderUploadFeedbackError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").ProviderUploadFeedbackError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -6233,53 +6233,53 @@ export declare function createThreadEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
         readonly input: import("../operations/commands.vibe").ThreadCommandInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     unsettle: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: UnsettleThreadInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     snooze: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: SnoozeThreadInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     unsnooze: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: UnsnoozeThreadInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     setAutoSettle: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: SetThreadAutoSettleInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     pin: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: PinThreadInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     unpin: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: import("../operations/commands.vibe").ThreadCommandInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     reorderPin: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: ReorderPinnedThreadInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
     reorderActive: import("./runtime.ts").AtomCommand<{
         readonly environmentId: EnvironmentId;
         readonly input: ReorderActiveThreadInput;
     }, {
         readonly sequence: number;
-    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
+    }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").OrchestrationV2DispatchCommandError | import("effect/rpc/RpcClientError").RpcClientError>;
 };

@@ -16,7 +16,7 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as Tracer from "effect/Tracer";
 import * as Connectivity from "#vibelang/emitted/src/connection/connectivity";
-import * as ConnectionDriver from "./driver.js";
+import * as ConnectionDriver from "#vibelang/emitted/src/connection/driver";
 import { ConnectionTransientError, } from "#vibelang/emitted/src/connection/model";
 import * as RpcSession from "#vibelang/emitted/src/rpc/session";
 import { safeErrorLogAttributes } from "../errors/safeLog.js";

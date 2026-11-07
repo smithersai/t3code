@@ -31,7 +31,7 @@ import {
   type PreparedConnection,
   type SupervisorConnectionState,
 } from "../connection/model.vibe";
-import * as EnvironmentRegistry from "../connection/registry.ts";
+import * as EnvironmentRegistry from "../connection/registry.vibe";
 import { SshConnectionProfile, type ConnectionCatalogEntry } from "../connection/catalog.vibe";
 import * as ConnectionProfileStore from "../connection/profileStore.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";

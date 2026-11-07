@@ -1,7 +1,7 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ConnectionResolver from "./resolver.ts";
-import * as EnvironmentRegistry from "./registry.ts";
+import * as EnvironmentRegistry from "./registry.vibe";
 import * as ConnectionOnboarding from "./onboarding.ts";
 import * as PlatformConnectionSource from "../platform/source.vibe";
 import * as RelayEnvironmentDiscovery from "../relay/discovery.ts";

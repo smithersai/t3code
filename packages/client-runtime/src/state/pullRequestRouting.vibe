@@ -9,7 +9,7 @@ import {
 } from "@t3tools/contracts"
 import * as Effect from "effect/Effect"
 
-import * as EnvironmentRegistry from "../connection/registry.ts"
+import * as EnvironmentRegistry from "../connection/registry.vibe"
 import * as EnvironmentSupervisor from "../connection/supervisor.ts"
 import {
   PullRequestRoutingPermissions,

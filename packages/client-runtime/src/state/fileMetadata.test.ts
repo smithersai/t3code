@@ -20,7 +20,7 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 import { Atom, AtomRegistry } from "effect/reactivity";
 
 import { AVAILABLE_CONNECTION_STATE } from "../connection/model.vibe";
-import * as EnvironmentRegistry from "../connection/registry.ts";
+import * as EnvironmentRegistry from "../connection/registry.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import type { RpcSession } from "../rpc/session.vibe";
 import { createFileMetadataAtoms } from "./fileMetadata.vibe";

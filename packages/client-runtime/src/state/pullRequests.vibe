@@ -38,7 +38,7 @@ import {
 } from "./runtime.ts"
 import { createPullRequestRouter } from "./pullRequestRouting.vibe"
 import * as PullRequestDiffLoader from "./pullRequestDiffHttp.vibe"
-import type { EnvironmentRegistry } from "../connection/registry.ts"
+import type { EnvironmentRegistry } from "../connection/registry.vibe"
 import * as EnvironmentSupervisor from "../connection/supervisor.ts"
 
 export { type PullRequestDiffLoadError, PullRequestDiffCredentialRejectedError } from "./pullRequestDiffHttp.vibe"

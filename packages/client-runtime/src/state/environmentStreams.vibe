@@ -1,6 +1,6 @@
 import type { EnvironmentId as EnvironmentIdType } from "@t3tools/contracts"
 import * as Stream from "effect/Stream"
-import * as EnvironmentRegistry from "../connection/registry.ts"
+import * as EnvironmentRegistry from "../connection/registry.vibe"
 import type * as EnvironmentSupervisor from "../connection/supervisor.ts"
 
 export function runStreamInEnvironment<A, E, R>(

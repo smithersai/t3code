@@ -12,7 +12,7 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
-import * as EnvironmentRegistry from "../connection/registry.js";
+import * as EnvironmentRegistry from "#vibelang/emitted/src/connection/registry";
 import { EnvironmentRpcUnavailableError, request, requestGuarded, RpcPermissionGuard, subscribe, } from "#vibelang/emitted/src/rpc/client";
 import * as EnvironmentSupervisor from "../connection/supervisor.js";
 const isEnvironmentRpcUnavailable = Schema.is(EnvironmentRpcUnavailableError);

@@ -272,6 +272,16 @@
       "types": "./src/state/vcsAction.d.vibe.ts",
       "vibelang-source": "./src/state/vcsAction.vibe",
       "default": "./.vibelang/js/src/state/vcsAction.js"
+    },
+    "#vibelang/emitted/src/connection/registry": {
+      "types": "./src/connection/registry.d.vibe.ts",
+      "vibelang-source": "./src/connection/registry.vibe",
+      "default": "./.vibelang/js/src/connection/registry.js"
+    },
+    "#vibelang/emitted/src/connection/driver": {
+      "types": "./src/connection/driver.d.vibe.ts",
+      "vibelang-source": "./src/connection/driver.vibe",
+      "default": "./.vibelang/js/src/connection/driver.js"
     }
   },
   "exports": {

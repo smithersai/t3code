@@ -19,7 +19,7 @@ import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
 import { fetchEnvironmentSessionState } from "../state/session.vibe";
 import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.vibe";
 import * as Connectivity from "./connectivity.vibe";
-import * as ConnectionDriver from "./driver.ts";
+import * as ConnectionDriver from "./driver.vibe";
 import { BearerConnectionProfile } from "./catalog.vibe";
 import {
   BearerConnectionTarget,

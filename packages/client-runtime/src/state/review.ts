@@ -18,7 +18,7 @@ import {
   createEnvironmentRpcQueryAtomFamily,
   type QueryAnswerHandler,
 } from "./runtime.ts";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 
 export function createReviewEnvironmentAtoms<R, E>(
   runtime: Atom.AtomRuntime<EnvironmentRegistry | R, E>,

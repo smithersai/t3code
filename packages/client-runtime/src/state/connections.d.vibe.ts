@@ -1,6 +1,6 @@
 import type { EnvironmentId as EnvironmentIdType } from "@t3tools/contracts";
 import { AsyncResult, Atom } from "effect/reactivity";
-import * as EnvironmentRegistry from "../connection/registry.ts";
+import * as EnvironmentRegistry from "../connection/registry.vibe";
 import type { ConnectionCatalogEntry } from "../connection/catalog.vibe";
 import { type PullRequestRoutingPermission } from "../connection/pullRequestRoutingPermissions.vibe";
 export interface EnvironmentCatalogState {

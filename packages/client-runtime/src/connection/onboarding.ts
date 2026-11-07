@@ -30,7 +30,7 @@ import {
   type ConnectionAttemptError,
 } from "#vibelang/emitted/src/connection/model";
 import * as Persistence from "#vibelang/emitted/src/platform/persistence";
-import * as EnvironmentRegistry from "./registry.ts";
+import * as EnvironmentRegistry from "#vibelang/emitted/src/connection/registry";
 import { orchestrationProtocolCompatibilityError } from "./compatibility.ts";
 import {
   connectionRoutes,

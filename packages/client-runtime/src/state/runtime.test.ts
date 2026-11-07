@@ -29,7 +29,7 @@ import {
   type PreparedConnection,
   type SupervisorConnectionState,
 } from "../connection/model.vibe";
-import * as EnvironmentRegistry from "../connection/registry.ts";
+import * as EnvironmentRegistry from "../connection/registry.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import { EnvironmentRpcUnavailableError } from "../rpc/client.vibe";
 import type * as RpcSession from "../rpc/session.vibe";

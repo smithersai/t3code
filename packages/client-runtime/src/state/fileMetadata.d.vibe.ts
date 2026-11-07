@@ -2,7 +2,7 @@ import { type EnvironmentId, type ScopedThreadRef, type ThreadId } from "@t3tool
 import * as Effect from "effect/Effect";
 import { Atom, AtomRegistry } from "effect/reactivity";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 import { EnvironmentRpcUnavailableError } from "../rpc/client.vibe";
 import type { RpcSession } from "../rpc/session.vibe";
 /** @throws {never} */

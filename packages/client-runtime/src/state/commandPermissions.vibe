@@ -9,7 +9,7 @@ import {
 } from "@t3tools/contracts"
 import * as Effect from "effect/Effect"
 import { Atom, AtomRegistry } from "effect/reactivity"
-import type { EnvironmentRegistry } from "../connection/registry.ts"
+import type { EnvironmentRegistry } from "../connection/registry.vibe"
 import { createEnvironmentSessionAtoms } from "./session.vibe"
 
 function makeCommandPermissions<R, E>(

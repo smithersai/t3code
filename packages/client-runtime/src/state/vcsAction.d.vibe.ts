@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { Atom, type AtomRegistry } from "effect/reactivity";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 import * as Persistence from "../platform/persistence.vibe";
 import { type AtomCommand, type AtomCommandResult } from "./runtime.ts";
 export declare const VcsActionOperation: Schema.Literals<readonly ["refresh_status", "run_change_request", "pull", "switch_ref", "create_ref", "create_worktree", "init", "publish_repository", "prepare_pull_request_thread"]>;

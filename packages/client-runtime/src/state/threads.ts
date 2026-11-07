@@ -25,7 +25,7 @@ import { HttpClient } from "effect/http";
 import { Atom } from "effect/reactivity";
 
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
-import * as EnvironmentRegistry from "../connection/registry.ts";
+import * as EnvironmentRegistry from "#vibelang/emitted/src/connection/registry";
 import { connectionProjectionPhase } from "#vibelang/emitted/src/connection/model";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as ConnectionWakeups from "#vibelang/emitted/src/connection/wakeups";

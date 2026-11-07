@@ -9,7 +9,7 @@ import * as Option from "effect/Option";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
-import * as EnvironmentRegistry from "../connection/registry.js";
+import * as EnvironmentRegistry from "#vibelang/emitted/src/connection/registry";
 import * as EnvironmentSupervisor from "../connection/supervisor.js";
 import { request } from "#vibelang/emitted/src/rpc/client";
 import { createEnvironmentQueryAtomFamily } from "./runtime.js";

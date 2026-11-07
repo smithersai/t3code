@@ -16,7 +16,7 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import { AsyncResult, Atom } from "effect/reactivity";
 import { createAtomCommandScheduler, createEnvironmentRpcCommand, createEnvironmentQueryAtomFamily, createEnvironmentRpcQueryAtomFamily, createEnvironmentRpcSubscriptionAtomFamily, createEnvironmentSubscriptionAtomFamily, createRuntimeCommand, scheduleAtomCommandEffect, } from "./runtime.js";
-import * as EnvironmentRegistry from "../connection/registry.js";
+import * as EnvironmentRegistry from "#vibelang/emitted/src/connection/registry";
 import * as EnvironmentSupervisor from "../connection/supervisor.js";
 import { safeErrorLogAttributes } from "../errors/safeLog.js";
 import * as Persistence from "#vibelang/emitted/src/platform/persistence";

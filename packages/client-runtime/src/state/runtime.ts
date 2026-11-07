@@ -21,7 +21,7 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
 import type { ConnectionAttemptError, SupervisorConnectionState } from "../connection/model.vibe";
-import * as EnvironmentRegistry from "../connection/registry.ts";
+import * as EnvironmentRegistry from "#vibelang/emitted/src/connection/registry";
 import {
   type EnvironmentRpcInput,
   type EnvironmentRpcSuccess,

@@ -23,7 +23,7 @@ import {
 } from "./catalog.vibe";
 import * as Connectivity from "./connectivity.vibe";
 import * as ConnectionCredentialStore from "./credentialStore.vibe";
-import * as ConnectionDriver from "./driver.ts";
+import * as ConnectionDriver from "./driver.vibe";
 import {
   BearerConnectionTarget,
   ConnectionBlockedError,
@@ -35,7 +35,7 @@ import {
   preparePairingRegistration,
   prepareSshRegistration,
 } from "./onboarding.ts";
-import * as EnvironmentRegistry from "./registry.ts";
+import * as EnvironmentRegistry from "./registry.vibe";
 import * as ConnectionProfileStore from "./profileStore.vibe";
 import * as ConnectionWakeups from "./wakeups.vibe";
 

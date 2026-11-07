@@ -1,5 +1,5 @@
 import { Atom } from "effect/reactivity";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 /** @throws {never} */
 export declare function createPreviewEnvironmentAtoms<R, E>(runtime: Atom.AtomRuntime<EnvironmentRegistry | R, E>): {
     list: (target: {
@@ -362,7 +362,7 @@ export declare function createPreviewEnvironmentAtoms<R, E>(runtime: Atom.AtomRu
                 readonly force: boolean;
             } | undefined;
             readonly updatedAt: string;
-        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -426,7 +426,7 @@ export declare function createPreviewEnvironmentAtoms<R, E>(runtime: Atom.AtomRu
                 readonly force: boolean;
             } | undefined;
             readonly updatedAt: string;
-        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -500,7 +500,7 @@ export declare function createPreviewEnvironmentAtoms<R, E>(runtime: Atom.AtomRu
                 readonly force: boolean;
             } | undefined;
             readonly updatedAt: string;
-        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -566,7 +566,7 @@ export declare function createPreviewEnvironmentAtoms<R, E>(runtime: Atom.AtomRu
                 readonly force: boolean;
             } | undefined;
             readonly updatedAt: string;
-        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -578,7 +578,7 @@ export declare function createPreviewEnvironmentAtoms<R, E>(runtime: Atom.AtomRu
                 readonly threadId: string & import("effect/Brand").Brand<"ThreadId">;
                 readonly tabId: string;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -590,7 +590,7 @@ export declare function createPreviewEnvironmentAtoms<R, E>(runtime: Atom.AtomRu
                 readonly threadId: string & import("effect/Brand").Brand<"ThreadId">;
                 readonly tabId?: string | undefined;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -601,7 +601,7 @@ export declare function createPreviewEnvironmentAtoms<R, E>(runtime: Atom.AtomRu
             readonly input: {
                 readonly profileId: string;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewClearProfileError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewClearProfileError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -618,7 +618,7 @@ export declare function createPreviewEnvironmentAtoms<R, E>(runtime: Atom.AtomRu
                 readonly defaultProfileId: string;
                 readonly recordingFrameRate?: 30 | 60 | undefined;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -630,7 +630,7 @@ export declare function createPreviewEnvironmentAtoms<R, E>(runtime: Atom.AtomRu
                 readonly pid: number;
                 readonly port: number;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewStopLocalServerError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewStopLocalServerError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -665,7 +665,7 @@ export declare function createPreviewEnvironmentAtoms<R, E>(runtime: Atom.AtomRu
                 readonly canGoBack: boolean;
                 readonly canGoForward: boolean;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("@t3tools/contracts").PreviewControlRequiredError | import("@t3tools/contracts").PreviewInvalidUrlError | import("@t3tools/contracts").PreviewSessionLookupError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };

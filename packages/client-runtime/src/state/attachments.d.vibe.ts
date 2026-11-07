@@ -1,6 +1,6 @@
 import { type AttachmentCreateUploadUrlInput, type AttachmentCreateUploadUrlResult, type AttachmentDeleteInput, type EnvironmentId } from "@t3tools/contracts";
 import type { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 import { type AtomCommand } from "./runtime.ts";
 /** @throws {never} */
 export declare function createAttachmentEnvironmentAtoms<R, E>(runtime: Atom.AtomRuntime<EnvironmentRegistry | R, E>): {
@@ -23,7 +23,7 @@ export declare function createAttachmentEnvironmentAtoms<R, E>(runtime: Atom.Ato
             readonly attachmentId: string;
             readonly relativeUrl: string;
             readonly expiresAt: number;
-        }, E | import("@t3tools/contracts").AttachmentUploadSigningKeyError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").AttachmentUploadSigningKeyError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -34,7 +34,7 @@ export declare function createAttachmentEnvironmentAtoms<R, E>(runtime: Atom.Ato
             readonly input: {
                 readonly attachmentId: string;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };

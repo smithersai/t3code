@@ -34,7 +34,7 @@ import {
   deleteProject,
   updateProject,
 } from "#vibelang/emitted/src/operations/commands";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 import { createFileMetadataAtoms } from "#vibelang/emitted/src/state/fileMetadata";
 import { resolveWorkspaceFilePath } from "@t3tools/shared/path";
 

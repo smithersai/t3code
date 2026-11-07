@@ -8,7 +8,7 @@ import {
 } from "@t3tools/contracts"
 import type { AsyncResult, Atom, AtomRegistry } from "effect/reactivity"
 
-import type { EnvironmentRegistry } from "../connection/registry.ts"
+import type { EnvironmentRegistry } from "../connection/registry.vibe"
 import {
   createEnvironmentRpcCommand,
   executeAtomQuery,

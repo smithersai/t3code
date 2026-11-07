@@ -8,7 +8,7 @@ import {
 import { Atom } from "effect/reactivity"
 
 import type { EnvironmentConnectionPhase, EnvironmentConnectionPresentation } from "../connection/presentation.vibe"
-import type { EnvironmentRegistry } from "../connection/registry.ts"
+import type { EnvironmentRegistry } from "../connection/registry.vibe"
 import {
   canNavigateUp,
   getBrowseDirectoryPath,

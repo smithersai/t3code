@@ -83,7 +83,7 @@ import {
   visitThread,
   watchThreadPullRequest,
 } from "../operations/commands.vibe"
-import type { EnvironmentRegistry } from "../connection/registry.ts"
+import type { EnvironmentRegistry } from "../connection/registry.vibe"
 import * as EnvironmentSupervisor from "../connection/supervisor.ts"
 import * as ThreadHistoryController from "./threadHistoryController.vibe"
 

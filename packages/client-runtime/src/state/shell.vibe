@@ -14,7 +14,7 @@ import * as Option from "effect/Option"
 import * as SubscriptionRef from "effect/SubscriptionRef"
 import { AsyncResult, Atom } from "effect/reactivity"
 
-import * as EnvironmentRegistry from "../connection/registry.ts"
+import * as EnvironmentRegistry from "../connection/registry.vibe"
 import { connectionProjectionPhase } from "../connection/model.vibe"
 import * as EnvironmentSupervisor from "../connection/supervisor.ts"
 import * as ConnectionWakeups from "../connection/wakeups.vibe"

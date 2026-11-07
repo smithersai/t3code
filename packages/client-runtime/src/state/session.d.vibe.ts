@@ -3,7 +3,7 @@ import * as Option from "effect/Option";
 import { HttpClient } from "effect/http";
 import { AsyncResult, Atom } from "effect/reactivity";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
-import * as EnvironmentRegistry from "../connection/registry.ts";
+import * as EnvironmentRegistry from "../connection/registry.vibe";
 import type { PreparedConnection } from "../connection/model.vibe";
 import * as ManagedRelay from "../relay/managedRelay.vibe";
 import type { RemoteEnvironmentRequestError } from "../rpc/http.ts";

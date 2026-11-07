@@ -15,7 +15,7 @@ import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import { AsyncResult, Atom, type AtomRegistry } from "effect/reactivity";
 
-import type * as EnvironmentRegistry from "../connection/registry.ts";
+import type * as EnvironmentRegistry from "../connection/registry.vibe";
 import { request } from "#vibelang/emitted/src/rpc/client";
 import { createEnvironmentQueryAtomFamily, selectEnvironmentQueryData } from "./runtime.ts";
 import type { EnvironmentShellState } from "./shell.vibe";

@@ -12,7 +12,7 @@ import * as Effect from "effect/Effect"
 import { Atom, AtomRegistry } from "effect/reactivity"
 
 import * as EnvironmentSupervisor from "../connection/supervisor.ts"
-import type { EnvironmentRegistry } from "../connection/registry.ts"
+import type { EnvironmentRegistry } from "../connection/registry.vibe"
 import { request, type EnvironmentRpcFailure, EnvironmentRpcUnavailableError } from "../rpc/client.vibe"
 import type { RpcSession } from "../rpc/session.vibe"
 import { createEnvironmentQueryAtomFamily } from "./runtime.ts"

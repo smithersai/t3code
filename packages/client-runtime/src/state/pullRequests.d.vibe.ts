@@ -2,7 +2,7 @@ import { PullRequestReviewGuideResult, PullRequestListResult, PullRequestChecks,
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 import { type QueryAnswerHandler } from "./runtime.ts";
 import * as PullRequestDiffLoader from "./pullRequestDiffHttp.vibe";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 export { type PullRequestDiffLoadError, PullRequestDiffCredentialRejectedError } from "./pullRequestDiffHttp.vibe";
 export * as PullRequestDiffLoader from "./pullRequestDiffHttp.vibe";
 declare const EnvironmentHttpConnectionNotReadyError_base: new <A extends Record<string, any> = {}>(args: import("effect/Types").VoidIfEmpty<{ readonly [P in keyof A as P extends "_tag" ? never : P]: A[P]; }>) => import("effect/Cause").YieldableError & {
@@ -1237,7 +1237,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                 readonly canEdit?: boolean | undefined;
             }[];
             readonly nextCursor: string | null;
-        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1282,7 +1282,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
         }) => Promise<import("./runtime.ts").AtomCommandResult<{
             readonly oldContents: string;
             readonly newContents: string;
-        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1355,7 +1355,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                     readonly viewed: boolean;
                 }[];
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1382,7 +1382,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                 /** @throws {never} */
                 readonly resolveMergeMethod?: (detail: PullRequestDetail) => PullRequestMergeMethod;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1400,7 +1400,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                 readonly title?: string | undefined;
                 readonly body?: string | undefined;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1417,7 +1417,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                 readonly number: number;
                 readonly body: string;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1436,7 +1436,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                 readonly kind: "issue-comment" | "review-comment";
                 readonly body: string;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1483,7 +1483,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                     readonly body: string;
                 }[];
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1501,7 +1501,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                 readonly threadId: string;
                 readonly body: string;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1572,7 +1572,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                 }[];
                 readonly requested: boolean;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1844,7 +1844,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                 readonly startedAt: string;
             } | null;
             readonly currentHeadSha: string | null;
-        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1900,7 +1900,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                 readonly labels: readonly string[];
                 readonly applied: boolean;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1918,7 +1918,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                 readonly threadId: string;
                 readonly resolved: boolean;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1937,7 +1937,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                 readonly content: "confused" | "eyes" | "heart" | "hooray" | "laugh" | "rocket" | "thumbs-down" | "thumbs-up";
                 readonly reacted: boolean;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -1960,7 +1960,7 @@ export declare function createPullRequestEnvironmentAtoms<R, E>(runtime: Atom.At
                 } | undefined;
                 readonly filesViewedOnly?: boolean | undefined;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | PullRequestOperationError | import("@t3tools/contracts").PullRequestUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };

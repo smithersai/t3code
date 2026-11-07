@@ -14,9 +14,9 @@ export * from "#vibelang/emitted/src/connection/presentation";
 export * as ProfileStore from "#vibelang/emitted/src/connection/profileStore";
 export * from "#vibelang/emitted/src/connection/routes";
 export {} from "./driver.js";
-export * as EnvironmentRegistry from "./registry.js";
+export * as EnvironmentRegistry from "#vibelang/emitted/src/connection/registry";
 // Flat so consumers' inferred types can name them.
-export { EnvironmentNotRegisteredError, PlatformEnvironmentRemovalError } from "./registry.js";
+export { EnvironmentNotRegisteredError, PlatformEnvironmentRemovalError, } from "#vibelang/emitted/src/connection/registry";
 export * as EnvironmentSupervisor from "./supervisor.js";
 export * as Wakeups from "#vibelang/emitted/src/connection/wakeups";
 export { orchestrationProtocolCompatibilityError } from "./compatibility.js";

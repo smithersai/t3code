@@ -1,6 +1,6 @@
 import type { AuthAccessSnapshot, AuthAccessStreamEvent } from "@t3tools/contracts";
 import { Atom } from "effect/reactivity";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 export declare const EMPTY_AUTH_ACCESS_SNAPSHOT: AuthAccessSnapshot;
 /** @throws {never} */
 export declare function applyAuthAccessStreamEvent(current: AuthAccessSnapshot, event: AuthAccessStreamEvent): AuthAccessSnapshot;

@@ -1,7 +1,7 @@
 import { type FilesystemBrowseEntry, type SessionGrantInput } from "@t3tools/contracts";
 import { Atom } from "effect/reactivity";
 import type { EnvironmentConnectionPhase, EnvironmentConnectionPresentation } from "../connection/presentation.vibe";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 /** @throws {never} */
 export declare function resolveFilesystemReadAccess(input: {
     readonly isCatalogReady: boolean;

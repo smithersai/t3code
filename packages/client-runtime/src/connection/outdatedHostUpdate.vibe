@@ -16,7 +16,7 @@ import { makeWsRpcProtocolClient, PING_TIMEOUT } from "../rpc/protocol.ts"
 import { isLegacyUpdateHandoffLoss, resolveServerUpdateProgressResult } from "../state/server.ts"
 import * as RelayEnvironmentDiscovery from "../relay/discovery.ts"
 import * as ConnectionResolver from "./resolver.ts"
-import * as EnvironmentRegistry from "./registry.ts"
+import * as EnvironmentRegistry from "./registry.vibe"
 import { connectionRoutes, hasRelayRoute, routeEntry, routeHttpBaseUrl, usableRoutes } from "./routes.vibe"
 
 // A v1 host restarting into v2 runs migrations before its descriptor answers again.

@@ -39,8 +39,8 @@ import {
 } from "./catalog.vibe";
 import * as Connectivity from "./connectivity.vibe";
 import * as ConnectionCredentialStore from "./credentialStore.vibe";
-import * as ConnectionDriver from "./driver.ts";
-import type { RouteCheck } from "./driver.ts";
+import * as ConnectionDriver from "./driver.vibe";
+import type { RouteCheck } from "./driver.vibe";
 import { connectionRouteId, connectionRouteKind } from "./routes.vibe";
 import {
   ConnectionTransientError,
@@ -55,7 +55,7 @@ import {
 } from "./model.vibe";
 import * as Persistence from "../platform/persistence.vibe";
 import * as ConnectionProfileStore from "./profileStore.vibe";
-import * as EnvironmentRegistry from "./registry.ts";
+import * as EnvironmentRegistry from "./registry.vibe";
 import {
   PullRequestRoutingPermissions,
   type StoredPullRequestRoutingPermission,

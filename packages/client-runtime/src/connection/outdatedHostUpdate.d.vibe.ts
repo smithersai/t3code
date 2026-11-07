@@ -5,7 +5,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as Socket from "effect/socket/Socket";
 import * as RelayEnvironmentDiscovery from "../relay/discovery.ts";
 import * as ConnectionResolver from "./resolver.ts";
-import * as EnvironmentRegistry from "./registry.ts";
+import * as EnvironmentRegistry from "./registry.vibe";
 declare const OutdatedHostUpdateError_base: Schema.Class<OutdatedHostUpdateError, Schema.TaggedStruct<"OutdatedHostUpdateError", {
     readonly environmentId: Schema.String;
     readonly message: Schema.String;

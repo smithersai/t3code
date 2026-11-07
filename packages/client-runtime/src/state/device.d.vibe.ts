@@ -1,6 +1,6 @@
 import { type DeviceToolVersions } from "@t3tools/contracts";
 import { Atom } from "effect/reactivity";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 /** @throws {never} */
 export declare function createDeviceEnvironmentAtoms<R, E>(runtime: Atom.AtomRuntime<EnvironmentRegistry | R, E>): {
     state: (target: {
@@ -202,7 +202,7 @@ export declare function createDeviceEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
                 readonly agentDeviceInstalled: boolean;
                 readonly kind: "eas";
             })[];
-        }, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -266,7 +266,7 @@ export declare function createDeviceEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
             readonly hubInstalled: boolean;
             readonly agentDeviceInstalled: boolean;
             readonly kind: "eas";
-        }, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -285,7 +285,7 @@ export declare function createDeviceEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
                 readonly id: string;
                 readonly fullName: string;
             }[];
-        }, E | import("@t3tools/contracts").DeviceEasAccountError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").DeviceEasAccountError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -391,7 +391,7 @@ export declare function createDeviceEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
                 readonly agentDeviceInstalled: boolean;
                 readonly kind: "eas";
             })[];
-        }, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -412,7 +412,7 @@ export declare function createDeviceEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
             readonly deviceId: string;
             readonly platform: "android" | "ios";
             readonly openedAt: string;
-        }, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -426,7 +426,7 @@ export declare function createDeviceEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
                 readonly deviceId?: string | undefined;
                 readonly shutdown?: boolean | undefined;
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -439,7 +439,7 @@ export declare function createDeviceEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
                 readonly deviceId: string;
                 readonly platform: "android" | "ios";
             };
-        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }) => Promise<import("./runtime.ts").AtomCommandResult<void, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -476,7 +476,7 @@ export declare function createDeviceEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
                 readonly version?: string | undefined;
             } | null;
             readonly readAt: string;
-        }, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };
@@ -585,7 +585,7 @@ export declare function createDeviceEnvironmentAtoms<R, E>(runtime: Atom.AtomRun
                 readonly version?: string | undefined;
             } | null;
             readonly readAt: string;
-        }, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
+        }, E | import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | import("@t3tools/contracts").DeviceHostUnavailableError | import("@t3tools/contracts").DeviceNotFoundError | import("@t3tools/contracts").DeviceOperationError | import("@t3tools/contracts").DevicePlatformUnavailableError | import("@t3tools/contracts").EnvironmentAuthorizationError | import("../connection/registry.vibe.platform.ts").EnvironmentNotRegisteredError | import("../rpc/client.vibe").EnvironmentRpcUnavailableError | import("effect/rpc/RpcClientError").RpcClientError>>;
         requiredScopes: (input?: unknown) => readonly ("access:read" | "access:write" | "diagnostics:read" | "environment:maintain" | "filesystem:read" | "filesystem:write" | "orchestration:operate" | "orchestration:read" | "preview:operate" | "providers:manage" | "relay:read" | "relay:write" | "review:write" | "settings:write" | "source-control:write" | "terminal:operate" | "terminal:read")[];
         permissionAtom: (environmentId: import("@t3tools/contracts").EnvironmentId | null, input?: unknown) => Atom.Atom<boolean>;
     };

@@ -6,7 +6,7 @@ import {
   createEnvironmentRpcQueryAtomFamily,
   createEnvironmentRpcSubscriptionAtomFamily,
 } from "./runtime.ts"
-import type { EnvironmentRegistry } from "../connection/registry.ts"
+import type { EnvironmentRegistry } from "../connection/registry.vibe"
 import * as Persistence from "../platform/persistence.vibe"
 import { vcsCommandConcurrency, vcsCommandScheduler } from "./vcsCommandScheduler.ts"
 import { invalidateCachedVcsRefs } from "./vcsRefInvalidation.vibe"

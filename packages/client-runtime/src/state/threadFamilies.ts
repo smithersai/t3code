@@ -12,7 +12,7 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 import { AsyncResult, Atom, type AtomRegistry } from "effect/reactivity";
 
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import type * as EnvironmentRegistry from "../connection/registry.ts";
+import type * as EnvironmentRegistry from "../connection/registry.vibe";
 import { EnvironmentRpcUnavailableError, request } from "#vibelang/emitted/src/rpc/client";
 import { arrayElementsEqual } from "#vibelang/emitted/src/state/entities";
 import { createEnvironmentQueryAtomFamily, selectEnvironmentQueryData } from "./runtime.ts";

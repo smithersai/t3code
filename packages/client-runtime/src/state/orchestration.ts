@@ -19,7 +19,7 @@ import {
   createEnvironmentCommand,
   type QueryAnswerHandler,
 } from "./runtime.ts";
-import type { EnvironmentRegistry } from "../connection/registry.ts";
+import type { EnvironmentRegistry } from "../connection/registry.vibe";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
 import * as ManagedRelayDpopSigner from "#vibelang/emitted/src/relay/managedRelay";

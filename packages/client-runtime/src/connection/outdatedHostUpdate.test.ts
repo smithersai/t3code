@@ -18,7 +18,7 @@ import type { ConnectionCatalogEntry } from "./catalog.vibe";
 import { orchestrationProtocolCompatibilityError } from "./compatibility.ts";
 import { PrimaryConnectionTarget } from "./model.vibe";
 import { describeOutdatedHost, updateOutdatedHost } from "./outdatedHostUpdate.vibe";
-import * as EnvironmentRegistry from "./registry.ts";
+import * as EnvironmentRegistry from "./registry.vibe";
 import * as ConnectionResolver from "./resolver.ts";
 import * as RelayEnvironmentDiscovery from "../relay/discovery.ts";
 
