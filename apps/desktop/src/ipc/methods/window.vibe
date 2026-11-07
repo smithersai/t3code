@@ -21,13 +21,13 @@ import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 
-import * as DesktopBackendConfiguration from "../../backend/DesktopBackendConfiguration.ts";
+import * as DesktopBackendConfiguration from "../../backend/DesktopBackendConfiguration.vibe";
 import * as DesktopBackendPool from "../../backend/DesktopBackendPool.vibe";
 import * as DesktopLocalEnvironmentAuth from "../../backend/DesktopLocalEnvironmentAuth.vibe";
 import * as DesktopEnvironment from "../../app/DesktopEnvironment.vibe";
 import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe";
 import * as DesktopWslBackend from "../../wsl/DesktopWslBackend.vibe";
-import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.ts";
+import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.vibe";
 import * as ElectronApp from "../../electron/ElectronApp.vibe";
 import * as ElectronDialog from "../../electron/ElectronDialog.vibe";
 import * as ElectronMenu from "../../electron/ElectronMenu.vibe";

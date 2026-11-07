@@ -1,7 +1,7 @@
 import { DesktopCliCommandStateSchema } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
 
-import * as DesktopCliCommand from "../../app/DesktopCliCommand.ts";
+import * as DesktopCliCommand from "../../app/DesktopCliCommand.vibe";
 import * as IpcChannels from "../channels.ts";
 import { makeIpcMethod } from "../DesktopIpc.vibe";
 

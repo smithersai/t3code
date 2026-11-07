@@ -16,8 +16,8 @@ import * as DesktopBrowserHost from "../preview/DesktopBrowserHost.vibe";
 import * as ElectronDialog from "../electron/ElectronDialog.vibe";
 import * as ElectronApp from "../electron/ElectronApp.vibe";
 import * as DesktopWindow from "../window/DesktopWindow.vibe";
-import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";
-import * as DesktopBackendConfiguration from "./DesktopBackendConfiguration.ts";
+import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.vibe";
+import * as DesktopBackendConfiguration from "./DesktopBackendConfiguration.vibe";
 import * as DesktopBackendPool from "./DesktopBackendPool.vibe";
 import type { DesktopBackendStartConfig } from "./DesktopBackendManager.vibe";
 

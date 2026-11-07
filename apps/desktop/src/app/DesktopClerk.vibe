@@ -18,7 +18,7 @@ import { promptLinkAppPath } from "@t3tools/shared/promptLinks";
 import { readPairingAppLink } from "@t3tools/shared/remote";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as ElectronApp from "../electron/ElectronApp.vibe";
-import * as ElectronProtocol from "../electron/ElectronProtocol.ts";
+import * as ElectronProtocol from "../electron/ElectronProtocol.vibe";
 import * as ElectronWindow from "../electron/ElectronWindow.vibe";
 import * as DesktopUserData from "./DesktopUserData.vibe";
 import * as DesktopEnvironment from "./DesktopEnvironment.vibe";

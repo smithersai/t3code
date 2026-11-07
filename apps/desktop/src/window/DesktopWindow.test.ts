@@ -49,7 +49,7 @@ import { SNAP_SHOT_EVENT_CHANNEL } from "../ipc/channels.ts";
 import * as DesktopServerExposure from "../backend/DesktopServerExposure.vibe";
 import * as DesktopWindow from "./DesktopWindow.vibe";
 import * as PreviewManager from "../preview/Manager.ts";
-import * as PreviewPasskeys from "../preview/Passkeys.ts";
+import * as PreviewPasskeys from "../preview/Passkeys.vibe";
 
 const environmentInput = {
   dirname: "/repo/apps/desktop/dist-electron",

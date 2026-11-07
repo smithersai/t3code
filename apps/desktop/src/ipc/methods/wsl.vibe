@@ -4,7 +4,7 @@ import * as Schema from "effect/Schema";
 import * as DesktopLifecycle from "../../app/DesktopLifecycle.vibe";
 import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe";
 import * as DesktopWslBackend from "../../wsl/DesktopWslBackend.vibe";
-import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.ts";
+import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.vibe";
 import * as IpcChannels from "../channels.ts";
 import { makeIpcMethod } from "../DesktopIpc.vibe";
 

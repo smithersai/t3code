@@ -14,7 +14,7 @@ import { type DesktopBackendBootstrap as DesktopBackendBootstrapValue, type Desk
 import * as DesktopObservability from "../app/DesktopObservability.vibe";
 import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.vibe";
 import * as DesktopBrowserHost from "../preview/DesktopBrowserHost.vibe";
-import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";
+import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.vibe";
 type BackendProcessLayerServices = ChildProcessSpawner.ChildProcessSpawner | HttpClient.HttpClient;
 type BackendProcessRunRequirements = BackendProcessLayerServices | Scope.Scope;
 export type BackendProcessOutputStream = "stdout" | "stderr";

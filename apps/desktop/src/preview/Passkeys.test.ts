@@ -22,7 +22,7 @@ vi.mock("electron-webauthn", () => webauthn);
 
 import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import { PASSKEY_CREATE_CHANNEL, PASSKEY_GET_CHANNEL } from "./GuestProtocol.ts";
-import * as PreviewPasskeys from "./Passkeys.ts";
+import * as PreviewPasskeys from "./Passkeys.vibe";
 
 const layerFor = (packageJson: object, isPackaged = true) =>
   PreviewPasskeys.layer.pipe(

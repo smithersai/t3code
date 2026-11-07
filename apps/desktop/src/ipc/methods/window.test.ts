@@ -17,7 +17,7 @@ vi.mock("electron", () => ({
   BrowserWindow: { fromWebContents: ownerWindow },
 }));
 
-import * as DesktopBackendConfiguration from "../../backend/DesktopBackendConfiguration.ts";
+import * as DesktopBackendConfiguration from "../../backend/DesktopBackendConfiguration.vibe";
 import * as DesktopBackendManager from "../../backend/DesktopBackendManager.vibe";
 import * as DesktopBackendPool from "../../backend/DesktopBackendPool.vibe";
 import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe";

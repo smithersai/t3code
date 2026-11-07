@@ -1,7 +1,7 @@
 import * as Electron from "electron";
 import * as Schema from "effect/Schema";
 
-import * as DesktopLegacyLocalStorage from "../../app/DesktopLegacyLocalStorage.ts";
+import * as DesktopLegacyLocalStorage from "../../app/DesktopLegacyLocalStorage.vibe";
 import * as IpcChannels from "../channels.ts";
 import { makeIpcMethod, makeSyncIpcMethod } from "../DesktopIpc.vibe";
 

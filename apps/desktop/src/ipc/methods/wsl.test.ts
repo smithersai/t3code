@@ -16,7 +16,7 @@ import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe";
 import * as DesktopClientSettings from "../../settings/DesktopClientSettings.vibe";
 import * as DesktopWindow from "../../window/DesktopWindow.vibe";
 import * as DesktopWslBackend from "../../wsl/DesktopWslBackend.vibe";
-import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.ts";
+import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.vibe";
 import { setWslBackendEnabled, setWslDistro, setWslOnly } from "./wsl.vibe";
 
 const decodeWslState = Schema.decodeUnknownEffect(DesktopWslStateSchema);

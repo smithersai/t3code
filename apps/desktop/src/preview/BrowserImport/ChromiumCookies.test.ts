@@ -12,8 +12,8 @@ import {
   decryptChromiumValue,
   readChromiumCookieDatabase,
   readChromiumCookies,
-} from "./ChromiumCookies.ts";
-import { ChromiumKeyError } from "./ChromiumKeys.ts";
+} from "./ChromiumCookies.vibe";
+import { ChromiumKeyError } from "./ChromiumKeys.vibe";
 import { LinuxBrowserSecretPath } from "./LinuxBrowserSecret.vibe";
 import { cookieScope } from "./CookieDatabase.vibe";
 

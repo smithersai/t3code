@@ -27,7 +27,7 @@ import * as DesktopBackendManager from "./DesktopBackendManager.vibe";
 import * as DesktopObservability from "../app/DesktopObservability.vibe";
 import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.vibe";
 import * as DesktopBrowserHost from "../preview/DesktopBrowserHost.vibe";
-import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";
+import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.vibe";
 
 const decodeDesktopBackendBootstrap = Schema.decodeEffect(
   Schema.fromJsonString(DesktopBackendBootstrap),

@@ -11,7 +11,7 @@ import * as ElectronShell from "../electron/ElectronShell.vibe";
 import * as ElectronTheme from "../electron/ElectronTheme.vibe";
 import * as ElectronWindow from "../electron/ElectronWindow.vibe";
 import * as PreviewManager from "../preview/Manager.ts";
-import * as PreviewPasskeys from "../preview/Passkeys.ts";
+import * as PreviewPasskeys from "../preview/Passkeys.vibe";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
 import * as DesktopClientSettings from "../settings/DesktopClientSettings.vibe";
 import * as ElectronApp from "../electron/ElectronApp.vibe";

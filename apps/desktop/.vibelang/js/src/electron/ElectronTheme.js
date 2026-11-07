@@ -36,12 +36,16 @@ export const make = ElectronTheme.of({
         });
     }),
     onUpdated: Effect.fn("ElectronTheme.onUpdated")(function (listener) {
-        return runtime.acquireRelease(Effect.suspend(() => {
-            Electron.nativeTheme.on("updated", listener);
-            return Effect.void;
-        }), () => Effect.suspend(() => {
-            Electron.nativeTheme.removeListener("updated", listener);
-            return Effect.void;
+        return runtime.acquireRelease(Effect_1.gen(function* () {
+            yield* Effect.orDie(Effect.try({
+                try: () => Electron.nativeTheme.on("updated", listener),
+                catch: (error) => error,
+            }));
+        }), () => Effect_1.gen(function* () {
+            yield* Effect.orDie(Effect.try({
+                try: () => Electron.nativeTheme.removeListener("updated", listener),
+                catch: (error) => error,
+            }));
         }));
     }),
 });

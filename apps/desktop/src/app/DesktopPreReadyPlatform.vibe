@@ -1,6 +1,6 @@
 // @effect-diagnostics nodeBuiltinImport:off - pre-ready Electron setup reads settings, prepares the Linux desktop entry, and asks Hyprland for its version synchronously before app services are available.
 import * as Layer from "effect/Layer";
-import * as ElectronProtocol from "../electron/ElectronProtocol.ts";
+import * as ElectronProtocol from "../electron/ElectronProtocol.vibe";
 
 module platform {
 // @effect-diagnostics nodeBuiltinImport:off - pre-ready Electron setup reads settings, prepares the Linux desktop entry, and asks Hyprland for its version synchronously before app services are available.
@@ -14,8 +14,8 @@ import * as Electron from "electron";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as DesktopEarlyElectronStartup from "./DesktopEarlyElectronStartup.vibe";
 import { resolveDesktopAppBranding } from "./DesktopEnvironment.vibe";
-import { renderUrlHandlerDesktopEntry } from "./DesktopLinuxUrlHandler.ts";
-import * as ElectronProtocol from "../electron/ElectronProtocol.ts";
+import { renderUrlHandlerDesktopEntry } from "./DesktopLinuxUrlHandler.vibe";
+import * as ElectronProtocol from "../electron/ElectronProtocol.vibe";
 
 export interface DesktopPreReadyCommandLineReader {
   readonly hasSwitch: (switchName: string) => boolean;

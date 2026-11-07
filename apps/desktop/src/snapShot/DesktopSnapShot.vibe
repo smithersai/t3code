@@ -47,7 +47,7 @@ import { startMacModifierPairShortcutProcess } from "./MacModifierPairShortcutPr
 import { activeWindow, type ActiveWindow } from "./ActiveWindow.vibe";
 import { captureMacWindowSnapshot, type MacSnapShotSource } from "./MacSnapShot.ts";
 import type { LinuxCaptureFeedback, LinuxWindowMetadata } from "./LinuxSnapShot.vibe";
-import { niriSocketPath } from "./NiriSnapShot.ts";
+import { niriSocketPath } from "./NiriSnapShot.vibe";
 import { CaptureShortcutConfig, niriCaptureConfigPath } from "./CaptureShortcutConfig.ts";
 import type { PortalCaptureShortcut } from "./PortalCaptureShortcut.ts";
 import {

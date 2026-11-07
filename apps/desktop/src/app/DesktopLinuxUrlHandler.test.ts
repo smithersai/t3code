@@ -13,7 +13,7 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 import * as DesktopAssets from "./DesktopAssets.vibe";
-import * as DesktopLinuxUrlHandler from "./DesktopLinuxUrlHandler.ts";
+import * as DesktopLinuxUrlHandler from "./DesktopLinuxUrlHandler.vibe";
 
 interface RecordedRegistration {
   readonly directories: string[];

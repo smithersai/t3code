@@ -28,7 +28,7 @@ import * as ElectronWindow from "../electron/ElectronWindow.vibe";
 import * as BrowserSession from "./BrowserSession.vibe";
 import * as DesktopBrowserHost from "./DesktopBrowserHost.vibe";
 import * as PreviewManager from "./Manager.ts";
-import * as PreviewPasskeys from "./Passkeys.ts";
+import * as PreviewPasskeys from "./Passkeys.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 describe("fitPictureInPictureContentSize", () => {

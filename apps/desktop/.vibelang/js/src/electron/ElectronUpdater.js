@@ -50,15 +50,19 @@ export class ElectronUpdaterQuitAndInstallError extends Schema_1.TaggedError()("
         return `Electron updater failed to quit and install the update on channel ${this.channel ?? "default"} (silent: ${this.isSilent}, force run after: ${this.isForceRunAfter}).`;
     }
 }
-export const ElectronUpdaterError = Schema_1.Union([ElectronUpdaterCheckForUpdatesError, ElectronUpdaterDownloadUpdateError, ElectronUpdaterQuitAndInstallError]);
+export const ElectronUpdaterError = Schema_1.Union([ElectronUpdaterCheckForUpdatesError,
+    ElectronUpdaterDownloadUpdateError,
+    ElectronUpdaterQuitAndInstallError]);
 export class ElectronUpdater extends runtime.$service("@t3tools/desktop/electron/ElectronUpdater") {
 }
 /** @public */
 export const make = ElectronUpdater.of({
     setFeedURL: Effect.fn("ElectronUpdater.setFeedURL")(function (options) {
-        return Effect.suspend(() => {
-            autoUpdater.setFeedURL(options);
-            return Effect.void;
+        return Effect_1.gen(function* () {
+            yield* Effect.orDie(Effect.try({
+                try: () => autoUpdater.setFeedURL(options),
+                catch: (error) => error,
+            }));
         });
     }),
     setAutoDownload: Effect.fn("ElectronUpdater.setAutoDownload")(function (value) {

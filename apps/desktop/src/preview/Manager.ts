@@ -58,7 +58,7 @@ import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.vibe";
 import { MENU_ACTION_CHANNEL, PREVIEW_PICTURE_IN_PICTURE_FRAME_CHANNEL } from "../ipc/channels.ts";
 import * as DesktopBrowserHost from "./DesktopBrowserHost.vibe";
-import * as PreviewPasskeys from "./Passkeys.ts";
+import * as PreviewPasskeys from "./Passkeys.vibe";
 import * as BrowserSession from "./BrowserSession.vibe";
 import {
   ANNOTATION_CAPTURED_CHANNEL,

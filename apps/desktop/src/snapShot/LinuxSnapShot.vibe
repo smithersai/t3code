@@ -373,7 +373,7 @@ export { readPortalPng } from "./linuxCaptureSession.ts";
 export async function getLinuxCaptureSupport(appId: string) {
   if (isHyprlandCaptureSession())
     return { linuxBackend: "hyprland" as const, linuxFeedbackAvailable: false };
-  const { niriSocketPath, checkNiriCaptureSupport } = await import("./NiriSnapShot.ts");
+  const { niriSocketPath, checkNiriCaptureSupport } = await import("./NiriSnapShot.vibe");
   const niri = niriSocketPath();
   if (niri) {
     await checkNiriCaptureSupport(niri);
@@ -399,7 +399,7 @@ export async function captureLinuxWindow(
     const { captureHyprlandWindow } = await import("./HyprlandSnapShot.ts");
     return captureHyprlandWindow(hyprlandPaths, options);
   }
-  const { niriSocketPath, captureNiriWindow } = await import("./NiriSnapShot.ts");
+  const { niriSocketPath, captureNiriWindow } = await import("./NiriSnapShot.vibe");
   const niri = niriSocketPath();
   if (niri) return captureNiriWindow(niri);
   const connection = new LinuxCaptureConnection();

@@ -11,7 +11,7 @@ import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import { makeComponentLogger } from "../app/DesktopObservability.vibe";
 import * as DesktopState from "../app/DesktopState.vibe";
 import * as ElectronMenu from "../electron/ElectronMenu.vibe";
-import { getDesktopUrl } from "../electron/ElectronProtocol.ts";
+import { getDesktopUrl } from "../electron/ElectronProtocol.vibe";
 import * as ElectronShell from "../electron/ElectronShell.vibe";
 import * as ElectronTheme from "../electron/ElectronTheme.vibe";
 import * as ElectronWindow from "../electron/ElectronWindow.vibe";
@@ -24,7 +24,7 @@ import {
 } from "../ipc/channels.ts";
 import { PASSKEY_BRIDGE_ARGUMENT } from "../preview/GuestProtocol.ts";
 import * as PreviewManager from "../preview/Manager.ts";
-import * as PreviewPasskeys from "../preview/Passkeys.ts";
+import * as PreviewPasskeys from "../preview/Passkeys.vibe";
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
 import * as DesktopClientSettings from "../settings/DesktopClientSettings.vibe";
 import * as ElectronApp from "../electron/ElectronApp.vibe";
