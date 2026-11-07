@@ -8,8 +8,11 @@
       "import": "./src/fakeSourceControlDriver.vibe"
     },
     "./TestSourceControlHost": {
-      "types": "./src/TestSourceControlHost.ts",
-      "import": "./src/TestSourceControlHost.ts"
+      "types": "./src/TestSourceControlHost.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/TestSourceControlHost.vibe",
+        "default": "./.vibelang/js/src/TestSourceControlHost.js"
+      }
     }
   },
   "scripts": {
