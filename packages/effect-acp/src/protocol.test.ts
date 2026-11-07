@@ -27,7 +27,7 @@ import {
   jsonRpcRequest,
   jsonRpcResponse,
 } from "./_internal/shared.vibe";
-import { makeInMemoryStdio, makeTerminationError, makeChildStdio } from "./_internal/stdio.ts";
+import { makeInMemoryStdio, makeTerminationError, makeChildStdio } from "./_internal/stdio.vibe";
 
 const SessionCancelNotification = jsonRpcNotification(
   "session/cancel",

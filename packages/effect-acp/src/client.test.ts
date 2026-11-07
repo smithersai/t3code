@@ -29,7 +29,7 @@ import {
   jsonRpcRequest,
   jsonRpcResponse,
 } from "./_internal/shared.vibe";
-import { makeInMemoryStdio } from "./_internal/stdio.ts";
+import { makeInMemoryStdio } from "./_internal/stdio.vibe";
 
 import antigravityInitialize from "../test/fixtures/antigravity-initialize.json" with { type: "json" };
 
