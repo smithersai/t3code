@@ -3,7 +3,6 @@ import * as Cause from "effect/Cause";
 import * as DateTime from "effect/DateTime";
 import { withSpan } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
 import { causeErrorTag } from "@t3tools/shared/observability";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
@@ -78,7 +77,7 @@ function filterTransientProtocolLog(event) {
     return payload.length === 0 ? undefined : { ...event, payload };
 }
 export const makeAcpNativeLoggerFactory = () => {
-    return Effect_1.gen(function* makeAcpNativeLoggerFactory() { return yield* withSpan(Effect_1.gen(runtime.$joinedFrame(function* () {
+    return Effect_1.gen(function* makeAcpNativeLoggerFactory() { return yield* withSpan(Effect_1.gen(function* () {
         const crypto = yield* Crypto.Crypto;
         return (input) => {
             const writeNativeAcpLog = (logInput) => {
@@ -97,14 +96,20 @@ export const makeAcpNativeLoggerFactory = () => {
                             payload: logInput.payload,
                         },
                     }, input.threadId);
-                }), (cause) => Cause.hasInterrupts(cause)
-                    ? Effect.interrupt
-                    : Effect.logWarning("Failed to write native ACP event log.", {
-                        errorTag: causeErrorTag(cause),
+                }), (cause) => Effect_1.gen(function* () {
+                    if (Cause.hasInterrupts(cause))
+                        return yield* Effect.interrupt;
+                    const errorTag = yield* Effect.orDie(Effect.try({
+                        try: () => causeErrorTag(cause),
+                        catch: (error) => error,
+                    }));
+                    yield* Effect.logWarning("Failed to write native ACP event log.", {
+                        errorTag,
                         reasonCount: cause.reasons.length,
                         provider: input.provider,
                         threadId: input.threadId,
-                    })), "AcpNativeLogging.writeNativeAcpLog"); });
+                    });
+                })), "AcpNativeLogging.writeNativeAcpLog"); });
             };
             return {
                 requestLogger: (event) => writeNativeAcpLog({
@@ -130,5 +135,5 @@ export const makeAcpNativeLoggerFactory = () => {
                     : {}),
             };
         };
-    })), "makeAcpNativeLoggerFactory"); });
+    }), "makeAcpNativeLoggerFactory"); });
 };

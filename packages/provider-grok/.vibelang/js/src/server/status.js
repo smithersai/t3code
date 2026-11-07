@@ -51,7 +51,11 @@ export const enrichGrokSnapshot = (input) => {
     const { snapshot, publishSnapshot } = input;
     return Effect.asVoid(Effect.catchCause(Effect.flatMap(enrichProviderSnapshotWithVersionAdvisory(snapshot, input.maintenanceCapabilities, {
         enableProviderUpdateChecks: input.enableProviderUpdateChecks,
-    }), (enrichedSnapshot) => publishSnapshot(enrichedSnapshot)), (cause) => Effect.logWarning("Grok version advisory enrichment failed", {
-        errorTag: causeErrorTag(cause),
+    }), (enrichedSnapshot) => publishSnapshot(enrichedSnapshot)), (cause) => Effect_1.gen(function* () {
+        const errorTag = yield* Effect.orDie(Effect.try({
+            try: () => causeErrorTag(cause),
+            catch: (error) => error,
+        }));
+        yield* Effect.logWarning("Grok version advisory enrichment failed", { errorTag });
     })));
 };

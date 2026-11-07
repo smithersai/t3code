@@ -248,11 +248,18 @@ const runProbe = (arg_1, arg_2, arg_3, ...args_1) => {
                 ], { concurrency: "unbounded" });
                 return !okExitCodes.includes(Number(exitCode)) || stdout.truncated ? null : stdout.text;
             });
-            return yield* (Effect.catchCause(Effect.map(Effect.timeoutOption(Effect.scoped(collect), Duration.millis(PROBE_TIMEOUT_MS)), Option.getOrNull), (cause) => Effect.as(Effect.logWarning("Maintenance probe failed", {
-                command,
-                subcommand: args[0],
-                errorTag: causeErrorTag(cause),
-            }), null)));
+            return yield* (Effect.catchCause(Effect.map(Effect.timeoutOption(Effect.scoped(collect), Duration.millis(PROBE_TIMEOUT_MS)), Option.getOrNull), (cause) => Effect_1.gen(function* () {
+                const errorTag = yield* Effect.orDie(Effect.try({
+                    try: () => causeErrorTag(cause),
+                    catch: (error) => error,
+                }));
+                yield* Effect.logWarning("Maintenance probe failed", {
+                    command,
+                    subcommand: args[0],
+                    errorTag,
+                });
+                return null;
+            })));
         }), "runProbe"); }))(arg_1, arg_2, arg_3, ...runtime.$spreadItems(args_1));
     }
     catch (e_1) {

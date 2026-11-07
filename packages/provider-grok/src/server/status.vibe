@@ -610,8 +610,12 @@ export const enrichGrokSnapshot = (input: {
   })
     |> Effect.flatMap(%, (enrichedSnapshot) => publishSnapshot(enrichedSnapshot))
     |> Effect.catchCause(%, (cause) =>
-      Effect.logWarning("Grok version advisory enrichment failed", {
-        errorTag: causeErrorTag(cause),
-      }))
+      effect {
+        const errorTag = try Effect.orDie(Effect.try({
+          try: () => causeErrorTag(cause),
+          catch: (error) => error,
+        }))
+        try Effect.logWarning("Grok version advisory enrichment failed", { errorTag })
+      })
     |> Effect.asVoid(%)
 }
