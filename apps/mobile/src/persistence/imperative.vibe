@@ -1,16 +1,16 @@
 
 import { runtime } from "../lib/runtime";
 import * as MobilePreferences from "./mobile-preferences";
-import * as MobileStorage from "./mobile-storage";
+import * as MobileStorage from "./mobile-storage.vibe";
 
 export type { Preferences } from "./mobile-preferences";
-export type { AgentAwarenessRegistrationRecord, RecentThreadShortcut } from "./mobile-storage";
+export type { AgentAwarenessRegistrationRecord, RecentThreadShortcut } from "./mobile-storage.vibe";
 export { MobilePreferencesLoadError, MobilePreferencesSaveError } from "./mobile-preferences";
 export {
   MobileDeviceIdGenerationError,
   MobileStorageDecodeError,
   MobileStorageEncodeError,
-} from "./mobile-storage";
+} from "./mobile-storage.vibe";
 export { MobileSecureStorageError } from "./mobile-secure-storage.vibe";
 
 const runStorage = <A, E>(

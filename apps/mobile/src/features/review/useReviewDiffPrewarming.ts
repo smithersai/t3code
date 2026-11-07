@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import { getCachedNativeReviewDiffData } from "./nativeReviewDiffAdapter.vibe";
-import type { ReviewSectionItem } from "./reviewModel";
+import type { ReviewSectionItem } from "./reviewModel.vibe";
 import {
   getCachedReviewParsedDiff,
   getReviewParsedDiffSourceCharacterCount,

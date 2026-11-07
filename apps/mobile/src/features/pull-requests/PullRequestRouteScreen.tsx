@@ -103,7 +103,7 @@ import {
   usePullRequestDiffEntry,
   type PullRequestDiffParams,
   type PullRequestParams,
-} from "./usePullRequestDiff";
+} from "./usePullRequestDiff.vibe";
 import {
   PullRequestAvatar,
   PullRequestDiffStats,

@@ -6,7 +6,7 @@ import { useEnvironmentServerConfig, useNavigationThreadShells } from "../../sta
 import { pullRequestStackAtom } from "../../state/pull-requests";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { savedPullRequestStack } from "./pullRequestStack";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 
 export function usePullRequestStack(params: PullRequestParams, pr: PullRequestDetail | null) {
   const target = pullRequestTarget(params);

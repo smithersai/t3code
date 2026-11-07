@@ -19,7 +19,7 @@ import { SheetHeader } from "../../components/ui/SheetHeader";
 import { Toolbar } from "../../components/ui/Toolbar";
 import { composerPullRequests } from "../../state/pull-requests";
 import { useEnvironmentQuery } from "../../state/query.vibe";
-import type { ReviewParsedDiff, ReviewRenderableFile } from "../review/reviewModel";
+import type { ReviewParsedDiff, ReviewRenderableFile } from "../review/reviewModel.vibe";
 import { PR_ROW_ENTER, PR_ROW_EXIT, PR_ROW_LAYOUT } from "./pullRequestAnimations";
 import { PullRequestDiffStats, PullRequestReadStatus } from "./PullRequestPresentation";
 import { PullRequestSectionHeading } from "./PullRequestSectionHeading";
@@ -28,7 +28,7 @@ import {
   usePullRequestDiff,
   type PullRequestDiffParams,
   type PullRequestParams,
-} from "./usePullRequestDiff";
+} from "./usePullRequestDiff.vibe";
 import { usePullRequestFileFilter } from "./usePullRequestFileFilter.vibe";
 import { usePullRequestFilesViewed } from "./usePullRequestFilesViewed.vibe";
 import { pullRequestFileJumpScope, requestPullRequestFileJump } from "./pullRequestFileJump";

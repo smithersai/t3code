@@ -14,7 +14,7 @@ import { Toolbar } from "../../components/ui/Toolbar";
 import { Menu } from "../../components/ui/Menu";
 
 import { useNativeLayoutMetrics } from "../../native/native-layout-metrics";
-import { type PullRequestParams } from "./usePullRequestDiff";
+import { type PullRequestParams } from "./usePullRequestDiff.vibe";
 import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft";

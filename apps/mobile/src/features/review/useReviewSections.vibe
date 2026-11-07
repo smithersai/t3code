@@ -19,7 +19,7 @@ import {
   resolveReviewSelectedSectionId,
   reviewTurnDiffsBySectionId,
   type ReviewSectionItem,
-} from "./reviewModel";
+} from "./reviewModel.vibe";
 import { setReviewSelectedSectionId, type ReviewCacheForThread } from "./reviewState.vibe";
 
 const NO_GIT_SECTIONS_ATOM = Atom.make<ReadonlyArray<ReviewDiffPreviewSource>>([]).pipe(

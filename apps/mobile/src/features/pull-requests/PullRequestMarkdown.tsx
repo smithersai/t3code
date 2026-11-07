@@ -2,7 +2,7 @@ import { splitPullRequestBody } from "@t3tools/client-runtime/pull-request-markd
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import { useProject } from "../../state/entities";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 import {
   PullRequestMedia,
   PullRequestMediaContext,

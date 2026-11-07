@@ -15,7 +15,7 @@ import {
   createNativeReviewDiffTheme,
   NATIVE_REVIEW_DIFF_CONTENT_WIDTH,
 } from "./nativeReviewDiffAdapter.vibe";
-import { buildReviewParsedDiff } from "./reviewModel";
+import { buildReviewParsedDiff } from "./reviewModel.vibe";
 import { REVIEW_MONO_FONT_FAMILY } from "./reviewDiffRendering";
 import type { ReviewInlineComment } from "./reviewCommentSelection";
 import { useMarkdownCodeHighlight } from "../threads/markdownCodeHighlightState";

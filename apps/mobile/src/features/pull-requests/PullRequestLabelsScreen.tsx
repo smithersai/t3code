@@ -17,7 +17,7 @@ import { PullRequestLabelDot } from "./PullRequestLabelDot";
 import { pullRequestLabelColor } from "./pullRequestList";
 import { PullRequestSearchSheet } from "./PullRequestSearchSheet";
 import { usePullRequestConnected } from "./usePullRequestConnected";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 
 export function PullRequestLabelsScreen({ route }: StaticScreenProps<PullRequestParams>) {
   const target = pullRequestTarget(route.params);

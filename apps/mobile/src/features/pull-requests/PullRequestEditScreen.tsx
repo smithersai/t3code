@@ -14,7 +14,7 @@ import { composerPullRequests } from "../../state/pull-requests";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { PullRequestSheetContent } from "./PullRequestSheetContent";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";
 
 export type PullRequestEditParams = PullRequestParams &

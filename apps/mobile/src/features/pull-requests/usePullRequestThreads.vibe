@@ -36,7 +36,7 @@ import {
   waitForComposerDraftsLoaded,
 } from "../../state/use-composer-drafts";
 import { usePullRequestConnected } from "./usePullRequestConnected";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 import {
   appendPullRequestAgentPrompt,
   pullRequestAgentPrompt,

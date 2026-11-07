@@ -136,7 +136,7 @@ import { deviceEnvironment } from "../../state/device.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { threadDevicePreviews } from "../devices/threadDevicePreviews";
 import { ThreadBrowserFloat } from "../browser/ThreadBrowserFloat";
-import { useThreadServerBrowserTabs } from "../../state/preview";
+import { useThreadServerBrowserTabs } from "../../state/preview.vibe";
 import type { QueuedThreadMessage } from "../../state/thread-outbox-model.vibe";
 import { scopedThreadKey } from "../../lib/scopedEntities";
 import {

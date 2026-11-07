@@ -8,12 +8,12 @@ import { composerPullRequests } from "../../state/pull-requests";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import type { NativeReviewDiffFile } from "../diffs/nativeReviewDiffTypes";
 import { diffHighlightTraceHash, traceDiffHighlight } from "../diffs/nativeReviewDiffTrace";
-import type { ReviewParsedDiff } from "../review/reviewModel";
+import type { ReviewParsedDiff } from "../review/reviewModel.vibe";
 import {
   createPullRequestDiffHighlightCache,
   createPullRequestDiffHighlightFiles,
 } from "./pullRequestDiffHighlightFiles";
-import { pullRequestTarget, type PullRequestDiffParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestDiffParams } from "./usePullRequestDiff.vibe";
 
 function traceSourceEndpoint(environmentId: string, url: string) {
   try {

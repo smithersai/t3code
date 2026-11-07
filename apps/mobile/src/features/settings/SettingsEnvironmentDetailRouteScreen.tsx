@@ -38,7 +38,7 @@ import {
   canMaintainEnvironment,
   canUpdateEnvironmentProvider,
   supportsEnvironmentUpdate,
-} from "./environment-maintenance";
+} from "./environment-maintenance.vibe";
 import { environmentReleaseCheckAtom, releaseCheckValue } from "./environmentUpdateCheck.vibe";
 
 export function SettingsEnvironmentDetailRouteScreen({

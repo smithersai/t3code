@@ -3,7 +3,7 @@ import type { EnvironmentId } from "@t3tools/contracts";
 
 import type { SavedRemoteConnection } from "../../lib/connection";
 import { linkEnvironmentToCloudWithPreference } from "../cloud/linkEnvironment.vibe";
-import { updateAgentAwarenessRegistrationPreferences } from "./remoteRegistration";
+import { updateAgentAwarenessRegistrationPreferences } from "./remoteRegistration.vibe";
 
 export const setLiveActivityUpdatesEnabled = effect (input: { readonly enabled: boolean; readonly previousEnabled: boolean; readonly clerkToken: string | null; readonly connections: ReadonlyArray<SavedRemoteConnection>; readonly canConfigureEnvironment: (environmentId: EnvironmentId) => boolean; }) => try withSpan(effect {
   const linkedConnections = input.connections.filter(

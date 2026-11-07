@@ -1,6 +1,6 @@
 import type { EnvironmentId } from "@t3tools/contracts";
 
-import { findEnvironmentUpdate } from "./environment-maintenance";
+import { findEnvironmentUpdate } from "./environment-maintenance.vibe";
 
 export interface EnvironmentReleaseCheck {
   readonly fromVersion: string;

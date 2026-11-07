@@ -22,7 +22,7 @@ import {
   releaseAgentAwarenessRelayTokenProvider,
   setAgentAwarenessRelayTokenProvider,
   unregisterAgentAwarenessDeviceForCurrentUser,
-} from "../agent-awareness/remoteRegistration";
+} from "../agent-awareness/remoteRegistration.vibe";
 import { removeCloudEnvironments } from "./cloud-drafts.vibe";
 import { clearConnectOnboardingRequest, requestConnectOnboarding } from "./connectOnboarding";
 import { resolveRelayClerkTokenOptions } from "./publicConfig.vibe";

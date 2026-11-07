@@ -1,6 +1,6 @@
 import type { PullRequestReviewCommentDraft } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
-import type { PullRequestParams } from "./usePullRequestDiff";
+import type { PullRequestParams } from "./usePullRequestDiff.vibe";
 export type PendingReviewComment = PullRequestReviewCommentDraft & {
     readonly id: string;
     readonly headSha: string;
@@ -12,6 +12,7 @@ export type ReviewDraft = {
     readonly comments: readonly PendingReviewComment[];
 };
 export declare const EMPTY_REVIEW_DRAFT: ReviewDraft;
+/** @throws {never} */
 export declare function pullRequestReviewKey(params: PullRequestParams): string;
 export declare const ReviewDraftDocument: Schema.Struct<{
     readonly version: Schema.Literal<1>;
@@ -52,4 +53,5 @@ export declare const ReviewDraftDocument: Schema.Struct<{
         }>>;
     }>>;
 }>;
+/** @throws {never} */
 export declare function clearSubmittedReview(current: ReviewDraft, submitted: ReviewDraft): ReviewDraft;

@@ -25,7 +25,7 @@ import { useEnvironmentQuery } from "../../state/query.vibe";
 import { PullRequestMarkdown, PullRequestMarkdownRepository } from "./PullRequestMarkdown";
 import { PullRequestAvatar } from "./PullRequestPresentation";
 import { PullRequestCommentFooter } from "./PullRequestReactions";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";
 import { pullRequestReviewKey } from "./pullRequestReviewDrafts.vibe";
 

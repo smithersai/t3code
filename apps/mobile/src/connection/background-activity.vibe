@@ -9,7 +9,7 @@ import {
 import * as Layer from "effect/Layer";
 import { AppState } from "react-native";
 
-import * as MobileStorage from "../persistence/mobile-storage";
+import * as MobileStorage from "../persistence/mobile-storage.vibe";
 import {
   observeMobileBackgroundActivitySubscription,
   onRetainedMobileBackgroundScopesChange,

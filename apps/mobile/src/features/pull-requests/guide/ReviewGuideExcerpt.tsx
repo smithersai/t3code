@@ -7,7 +7,7 @@ import { AppText as Text } from "../../../components/ui/AppText";
 import { SymbolView } from "../../../components/ui/AppSymbol";
 import { resolveNativeReviewDiffView } from "../../diffs/nativeReviewDiffSurface";
 import { buildNativeReviewDiffData } from "../../review/nativeReviewDiffAdapter.vibe";
-import { buildReviewParsedDiff } from "../../review/reviewModel";
+import { buildReviewParsedDiff } from "../../review/reviewModel.vibe";
 import { useNativeReviewDiffBridge } from "../../review/useNativeReviewDiffBridge";
 import { useAppearanceCodeSurface } from "../../settings/appearance/useAppearanceCodeSurface";
 import { useAppearancePreferences } from "../../settings/appearance/AppearancePreferencesProvider";

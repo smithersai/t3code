@@ -31,7 +31,7 @@ import {
   pullRequestReviewSummary,
   pullRequestStatus,
 } from "./pullRequestStatus";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 import { usePullRequestAction } from "./usePullRequestAction.vibe";
 import { usePullRequestAgentActions } from "./usePullRequestAgentActions";
 

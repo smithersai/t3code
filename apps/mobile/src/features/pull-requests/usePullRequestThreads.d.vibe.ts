@@ -1,8 +1,9 @@
 import { AsyncResult } from "effect/reactivity";
 import { type PullRequestDetail, type PullRequestLinkedThreadsResult } from "@t3tools/contracts";
-import { type PullRequestParams } from "./usePullRequestDiff";
+import { type PullRequestParams } from "./usePullRequestDiff.vibe";
 import { type PullRequestAgentTask } from "./pullRequestAgentTasks";
 type LinkedThread = PullRequestLinkedThreadsResult["threads"][number];
+/** @throws {never} */
 export declare function usePullRequestThreads(params: PullRequestParams, pr: PullRequestDetail | null, filePath?: string): {
     data: {
         readonly threads: readonly {

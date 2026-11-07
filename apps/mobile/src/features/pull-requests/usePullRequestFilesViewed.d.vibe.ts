@@ -1,5 +1,6 @@
 import type { PullRequestDetail } from "@t3tools/contracts";
-import { type PullRequestParams } from "./usePullRequestDiff";
+import { type PullRequestParams } from "./usePullRequestDiff.vibe";
+/** @throws {never} */
 export declare function usePullRequestFilesViewed(params: PullRequestParams, pr: PullRequestDetail | null): {
     supported: boolean;
     canToggle: boolean;

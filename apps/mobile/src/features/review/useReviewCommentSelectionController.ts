@@ -20,7 +20,7 @@ import {
   useReviewCommentSelection,
 } from "./reviewCommentSelection";
 import type { NativeReviewDiffData } from "./nativeReviewDiffAdapter.vibe";
-import type { ReviewSectionItem } from "./reviewModel";
+import type { ReviewSectionItem } from "./reviewModel.vibe";
 
 export function useReviewCommentSelectionController(input: {
   readonly environmentId?: EnvironmentId;

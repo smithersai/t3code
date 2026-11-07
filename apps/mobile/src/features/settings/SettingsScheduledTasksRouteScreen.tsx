@@ -51,7 +51,7 @@ import { ScreenScrollView as ScrollView } from "../../components/ui/ScreenScroll
 import { SegmentedControl } from "../../components/ui/SegmentedControl";
 import { ThemedSwitch } from "../../components/ui/ThemedSwitch";
 import { webhookAddress } from "@t3tools/client-runtime/webhook-address";
-import { tryCopyTextWithHaptic } from "../../lib/copyTextWithHaptic";
+import { tryCopyTextWithHaptic } from "../../lib/copyTextWithHaptic.vibe";
 import { usePreparedConnection } from "../../state/session.vibe";
 import { buildModelOptions } from "../../lib/modelOptions";
 import { NativeStackScreenOptions } from "../../native/StackHeader";

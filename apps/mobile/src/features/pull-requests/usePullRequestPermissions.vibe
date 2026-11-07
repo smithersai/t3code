@@ -6,7 +6,7 @@ import {
 import type { PullRequestComment, PullRequestDetail } from "@t3tools/contracts";
 import { usePullRequestConnected } from "./usePullRequestConnected";
 import { composerPullRequests } from "../../state/pull-requests";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 
 export function usePullRequestPermissions(params: PullRequestParams, pr: PullRequestDetail | null) {
   const { environmentId } = pullRequestTarget(params);

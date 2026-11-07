@@ -12,7 +12,7 @@ import {
   pullRequestReviewKey,
   type ReviewDraft,
 } from "./pullRequestReviewDrafts.vibe";
-import type { PullRequestParams } from "./usePullRequestDiff";
+import type { PullRequestParams } from "./usePullRequestDiff.vibe";
 
 const state = Atom.make<{
   drafts: Record<string, ReviewDraft>;

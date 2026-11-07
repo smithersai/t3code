@@ -8,7 +8,7 @@ import { useEnvironmentServerConfig } from "../../state/entities";
 import { composerPullRequests } from "../../state/pull-requests";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { usePullRequestConnected } from "./usePullRequestConnected";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 
 /**
  * Re-reads only the checks while an open change request is on screen, so a running CI shows up

@@ -28,7 +28,7 @@ import { AppText } from "../../components/ui/AppText";
 import { PdfPreview } from "../../components/PdfPreview";
 import { downloadAndShareAttachment } from "../../lib/attachmentDownload";
 import { beginForegroundHandoff } from "../../lib/foreground-handoff";
-import { usePreviewStreamAccess } from "../../state/preview";
+import { usePreviewStreamAccess } from "../../state/preview.vibe";
 import { previewPromptText } from "./previewPromptText";
 
 import {

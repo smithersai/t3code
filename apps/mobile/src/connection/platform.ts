@@ -22,7 +22,7 @@ import { AppState } from "react-native";
 
 import { authClientMetadata } from "../lib/authClientMetadata";
 import * as Runtime from "../lib/runtime";
-import * as MobileStorage from "../persistence/mobile-storage";
+import * as MobileStorage from "../persistence/mobile-storage.vibe";
 import { appAtomRegistry } from "../state/atom-registry.vibe";
 import { clearThreadOutboxEnvironment } from "../state/thread-outbox-removal";
 import { clearComposerDraftsEnvironment } from "../state/use-composer-drafts";

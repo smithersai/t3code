@@ -1,6 +1,6 @@
 import { installPermissionUpdateNotice } from "./features/connection/permissionUpdateNotice.vibe";
 import { installComposerAttachmentUploads } from "./state/composer-attachment-uploads";
-import { installThreadOutboxDelivery } from "./state/threadOutboxDelivery";
+import { installThreadOutboxDelivery } from "./state/threadOutboxDelivery.vibe";
 import * as Linking from "expo-linking";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
@@ -37,7 +37,7 @@ import {
 import {
   installAppShortcuts,
   recordAppShortcutNavigationState,
-} from "./features/shortcuts/appShortcutsRuntime";
+} from "./features/shortcuts/appShortcutsRuntime.vibe";
 import {
   AppearancePreferencesProvider,
   installAppearanceRuntime,

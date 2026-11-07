@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 
 import { updateReviewExpandedFileIds, updateReviewViewedFileIds } from "./reviewState.vibe";
-import type { ReviewRenderableFile } from "./reviewModel";
+import type { ReviewRenderableFile } from "./reviewModel.vibe";
 
 function getDefaultReviewExpandedFileIds(
   files: ReadonlyArray<ReviewRenderableFile>,

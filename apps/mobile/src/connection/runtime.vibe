@@ -9,7 +9,7 @@ import * as Layer from "effect/Layer";
 import { Atom } from "effect/reactivity";
 
 import type { FoundationHotModule } from "../lib/foundation-fast-refresh";
-import { hotSwappableAtomRuntime } from "../lib/hot-swappable-atom-runtime";
+import { hotSwappableAtomRuntime } from "../lib/hot-swappable-atom-runtime.vibe";
 import * as Runtime from "../lib/runtime";
 import { appAtomRegistry } from "../state/atom-registry.vibe";
 import * as BackgroundActivity from "./background-activity.vibe";

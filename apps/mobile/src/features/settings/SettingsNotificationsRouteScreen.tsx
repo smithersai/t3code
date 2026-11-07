@@ -31,7 +31,7 @@ import {
   getAgentAwarenessRegistrationStatus,
   refreshAgentAwarenessRegistration,
   subscribeAgentAwarenessRegistrationStatus,
-} from "../agent-awareness/remoteRegistration";
+} from "../agent-awareness/remoteRegistration.vibe";
 import { refreshManagedRelayEnvironments } from "../cloud/managedRelayState.vibe";
 import { hasCloudPublicConfig, resolveRelayClerkTokenOptions } from "../cloud/publicConfig.vibe";
 import { makePermissionStatusAtom } from "../../lib/permissionStatusAtom.vibe";

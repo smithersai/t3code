@@ -3,10 +3,12 @@ import type { NativeReviewDiffFile } from "../diffs/nativeReviewDiffTypes";
 import type { ResolvedMobileCodeSurface } from "../../lib/appearancePreferences";
 import { type MobileThemeId, type MobileThemeVariables } from "../../lib/mobileTheme";
 import { type TerminalAppearanceScheme } from "../terminal/terminalTheme";
-import { type ReviewParsedDiff, type ReviewRenderableLineRow } from "./reviewModel";
+import { type ReviewParsedDiff, type ReviewRenderableLineRow } from "./reviewModel.vibe";
 import type { ReviewInlineComment } from "./reviewCommentSelection";
 export declare const NATIVE_REVIEW_DIFF_CONTENT_WIDTH = 2800;
+/** @throws {never} */
 export declare function buildNativeReviewSnippetRows(comment: Pick<ReviewInlineComment, "id" | "diff" | "fenceLanguage">): NativeReviewDiffRow[];
+/** @throws {never} */
 export declare function createNativeReviewDiffStyle(codeSurface: ResolvedMobileCodeSurface, wordWrap: boolean): {
     readonly wordWrap: boolean;
     readonly rowHeight: number;
@@ -57,7 +59,11 @@ export interface BuildNativeReviewDiffDataInput {
     readonly parsedDiff: ReviewParsedDiff;
     readonly comments?: ReadonlyArray<ReviewInlineComment>;
 }
+/** @throws {never} */
 export declare function createNativeReviewDiffTheme(scheme: TerminalAppearanceScheme, themeId: MobileThemeId, appTheme: MobileThemeVariables): NativeReviewDiffTheme;
+/** @throws {never} */
 export declare function buildNativeReviewDiffData(input: BuildNativeReviewDiffDataInput): NativeReviewDiffData;
+/** @throws {never} */
 export declare function buildNativeReviewDiffData(parsedDiff: ReviewParsedDiff): NativeReviewDiffData;
+/** @throws {never} */
 export declare function getCachedNativeReviewDiffData(input: BuildNativeReviewDiffDataInput): NativeReviewDiffData;

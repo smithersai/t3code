@@ -14,7 +14,7 @@ import { PREVIEW_VIEWPORT_PRESETS } from "@t3tools/shared/previewViewport";
 
 import { ControlPill } from "../../components/ui/ControlPill";
 import { Menu } from "../../components/ui/Menu";
-import { previewEnvironment } from "../../state/preview";
+import { previewEnvironment } from "../../state/preview.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 const APPEARANCES = [

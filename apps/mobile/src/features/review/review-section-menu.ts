@@ -1,4 +1,4 @@
-import type { ReviewSectionItem } from "./reviewModel";
+import type { ReviewSectionItem } from "./reviewModel.vibe";
 
 export interface ReviewSectionMenu {
   readonly workingTree: ReviewSectionItem | null;

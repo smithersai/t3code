@@ -14,7 +14,7 @@ import {
   type ReactNode,
 } from "react";
 
-import { tryCopyTextWithHaptic } from "../../lib/copyTextWithHaptic";
+import { tryCopyTextWithHaptic } from "../../lib/copyTextWithHaptic.vibe";
 import {
   firstWorkspaceDetailOpen,
   workspaceHasColumns,

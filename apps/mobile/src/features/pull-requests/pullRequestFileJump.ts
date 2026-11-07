@@ -1,4 +1,4 @@
-import type { PullRequestDiffParams } from "./usePullRequestDiff";
+import type { PullRequestDiffParams } from "./usePullRequestDiff.vibe";
 import { pullRequestReviewKey } from "./pullRequestReviewDrafts.vibe";
 
 // The changed-files sheet hands its pick to the diff screen beneath it. Picking the file the

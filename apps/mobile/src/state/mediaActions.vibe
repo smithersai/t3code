@@ -20,7 +20,7 @@ import { appAtomRegistry } from "./atom-registry.vibe";
 import { useEnvironmentQuery } from "./query.vibe";
 import { environmentSession } from "./session.vibe";
 import { downloadAndShareAttachment, shareLocalAttachment } from "../lib/attachmentDownload";
-import { copyTextWithHaptic } from "../lib/copyTextWithHaptic";
+import { copyTextWithHaptic } from "../lib/copyTextWithHaptic.vibe";
 import { loadLocalAttachmentPreview } from "../lib/localAttachmentPreview.vibe";
 
 function allowsHostMedia(session: SessionGrantInput | null) {

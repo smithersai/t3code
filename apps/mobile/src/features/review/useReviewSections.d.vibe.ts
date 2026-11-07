@@ -1,6 +1,7 @@
 import type { EnvironmentId, ThreadId } from "@t3tools/contracts";
-import { type ReviewSectionItem } from "./reviewModel";
+import { type ReviewSectionItem } from "./reviewModel.vibe";
 import { type ReviewCacheForThread } from "./reviewState.vibe";
+/** @throws {never} */
 export declare function useReviewSections(input: {
     readonly enabled?: boolean;
     readonly environmentId?: EnvironmentId;

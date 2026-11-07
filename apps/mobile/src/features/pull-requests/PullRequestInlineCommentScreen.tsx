@@ -13,7 +13,7 @@ import { useEnvironmentQuery } from "../../state/query.vibe";
 import { PullRequestSheetContent } from "./PullRequestSheetContent";
 import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft";
 import { reviewPositionLabel } from "./pullRequestDiffComments";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 import { usePullRequestPermissions } from "./usePullRequestPermissions.vibe";
 
 export type InlineCommentParams = PullRequestParams & {

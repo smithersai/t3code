@@ -5,7 +5,7 @@ import * as EnvironmentCacheStore from "../connection/environment-cache-store";
 import * as MobileDatabase from "./mobile-database";
 import * as MobilePreferences from "./mobile-preferences";
 import * as MobileSecureStorage from "./mobile-secure-storage.vibe";
-import * as MobileStorage from "./mobile-storage";
+import * as MobileStorage from "./mobile-storage.vibe";
 
 const layerBase = Layer.merge(MobileDatabase.layer, MobileSecureStorage.layer);
 const layerDependent = Layer.mergeAll(
