@@ -12,7 +12,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import * as OpenCode2TextGeneration from "./v2/textGeneration.vibe";
-import { makeOpenCodeTextGeneration } from "./textGeneration.ts";
+import { makeOpenCodeTextGeneration } from "./textGeneration.vibe";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import * as OpenCodeAdapterV2 from "./adapter.vibe";
