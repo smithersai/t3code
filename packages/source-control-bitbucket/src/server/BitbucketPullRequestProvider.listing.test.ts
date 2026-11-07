@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
 import * as BitbucketApi from "./BitbucketApi.vibe";
-import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.ts";
+import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.vibe";
 import * as BitbucketPullRequestProvider from "./BitbucketPullRequestProvider.vibe";
 
 it.effect("pages through rows that share an update instant by excluding those already sent", () =>

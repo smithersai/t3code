@@ -2,7 +2,7 @@ import { resolvePullRequestAuthorFilter, SourceControlProviderKind } from "@t3to
 import * as Effect from "effect/Effect"
 import type { PullRequestCapabilities, PullRequestViewerPermissions } from "@t3tools/contracts"
 
-import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.ts"
+import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.vibe"
 import {
   PullRequestProviderError,
   type PullRequestProviderFailure,

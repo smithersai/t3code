@@ -5,9 +5,9 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Option from "effect/Option";
 import * as Semaphore from "effect/Semaphore";
 import { withSpan } from "effect/Effect";
-import { $catchExpression, $matchCache, $schemaErrorMatcher } from "vibelang-runtime";
+import { $catchExpression, $matchCache, $schemaErrorMatcher } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Schema_1 from "effect/Schema";
 import * as Config from "effect/Config";
 import * as Context from "effect/Context";
@@ -418,7 +418,7 @@ function originOf(value) {
 }
 const responseError = (operation, response) => {
     return Effect_1.gen(function* responseError() { return yield* withSpan((() => {
-        return Effect_1.gen(runtime.$joinedFrame(function* () {
+        return Effect_1.gen(function* () {
             const now = yield* Clock.currentTimeMillis;
             const retryAt = SourceControlRateLimit.retryAtFromHeader(response.headers["retry-after"], now);
             const collected = yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return collectUint8StreamText({
@@ -439,11 +439,11 @@ const responseError = (operation, response) => {
                 responseBodyLength: collected.text.length,
                 retryAt,
             }));
-        }));
+        });
     })(), "BitbucketApi.responseError"); });
 };
 /** @public */
-export const make = Effect_1.gen(runtime.$joinedFrame(function* make() {
+export const make = Effect_1.gen(function* make() {
     const config = yield* BitbucketApiEnvConfig;
     const host = yield* SourceControlHost.SourceControlHost;
     const git = host.git;
@@ -499,7 +499,7 @@ export const make = Effect_1.gen(runtime.$joinedFrame(function* make() {
         TimeoutError: (cause) => Effect.fail(new BitbucketRequestError({ operation, cause })),
     })));
     const resolveRepository = (input) => {
-        return Effect_1.gen(function* resolveRepository() { return yield* withSpan(Effect_1.gen(runtime.$joinedFrame(function* () {
+        return Effect_1.gen(function* resolveRepository() { return yield* withSpan(Effect_1.gen(function* () {
             if (input.repository !== undefined) {
                 return yield* requireRepositoryLocator(input.repository);
             }
@@ -522,35 +522,17 @@ export const make = Effect_1.gen(runtime.$joinedFrame(function* make() {
                     cwd: input.cwd,
                     cause,
                 }))]; }));
-            {
-                let pending_1 = runtime.$normal;
-                try {
-                    for (const remote of remotes.remotes) {
-                        try {
-                            {
-                                if (recognizeRemoteWith(definition, remote.url) === null)
-                                    continue;
-                                const parsed = parseBitbucketRemoteUrl(remote.url);
-                                if (parsed)
-                                    return parsed;
-                            }
-                        }
-                        catch (thrown_1) {
-                            pending_1 = thrown_1;
-                            break;
-                        }
-                    }
-                }
-                catch (thrown_2) {
-                    throw runtime.$finallyFailure(pending_1, thrown_2);
-                }
-                if (pending_1 !== runtime.$normal)
-                    throw pending_1;
+            for (const remote of remotes.remotes) {
+                if (recognizeRemoteWith(definition, remote.url) === null)
+                    continue;
+                const parsed = parseBitbucketRemoteUrl(remote.url);
+                if (parsed)
+                    return parsed;
             }
             return yield* Effect_1.fail(new BitbucketRepositoryRemoteNotFoundError({
                 cwd: input.cwd,
             }));
-        })), "BitbucketApi.resolveRepository"); });
+        }), "BitbucketApi.resolveRepository"); });
     };
     const getRepositoryFromLocator = (repository) => executeJson("getRepository", HttpClientRequest.get(apiUrl(`/repositories/${encodeURIComponent(repository.workspace)}/${encodeURIComponent(repository.repoSlug)}`)), RawBitbucketRepositorySchema);
     const getRepository = (input) => Effect.flatMap(resolveRepository(input), getRepositoryFromLocator);
@@ -818,5 +800,5 @@ export const make = Effect_1.gen(runtime.$joinedFrame(function* make() {
             }), input), "BitbucketApi.checkoutPullRequest"); });
         },
     });
-}));
+});
 export const layer = Layer.effect(BitbucketApi, make);

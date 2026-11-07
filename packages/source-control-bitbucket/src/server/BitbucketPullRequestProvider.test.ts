@@ -6,7 +6,7 @@ import * as Result from "effect/Result";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
 
 import * as BitbucketApi from "./BitbucketApi.vibe";
-import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.ts";
+import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.vibe";
 import { decodePullRequestJson } from "./bitbucketPullRequestJson.vibe";
 import {
   bitbucketProviderFailure,

@@ -1,6 +1,6 @@
 import * as Effect from "effect/Effect";
 import type { PullRequestViewerPermissions } from "@t3tools/contracts";
-import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.ts";
+import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.vibe";
 import { type PullRequestProviderFailure, type PullRequestProviderApi } from "@t3tools/source-control-core/server/PullRequestProvider";
 /**
  * Bitbucket lets the author of a pull request decline their own with no more than read access,

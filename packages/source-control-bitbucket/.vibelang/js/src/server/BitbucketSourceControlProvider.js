@@ -2,7 +2,6 @@
 import * as Schema from "effect/Schema";
 import { withSpan } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
 import { SourceControlProviderKind } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
@@ -40,7 +39,7 @@ export const make = Effect_1.gen(function* make() {
     return SourceControlProvider.SourceControlProvider.of({
         kind: SourceControlProviderKind.make("bitbucket"),
         listChangeRequests: (input) => {
-            return Effect_1.gen(function* listChangeRequests() { return yield* withSpan(Effect_1.gen(runtime.$joinedFrame(function* () {
+            return Effect_1.gen(function* listChangeRequests() { return yield* withSpan(Effect_1.gen(function* () {
                 const source = yield* Effect.orDie(Effect.try({ try: () => SourceControlProvider.sourceControlRefFromInput(input), catch: (e) => e }));
                 return yield* Effect.mapError(Effect.map(bitbucket
                     .listPullRequests({
@@ -58,20 +57,20 @@ export const make = Effect_1.gen(function* make() {
                     detail: "Failed to list change requests.",
                     cause: error,
                 }));
-            })), "BitbucketSourceControlProvider.listChangeRequests"); });
+            }), "BitbucketSourceControlProvider.listChangeRequests"); });
         },
         getChangeRequest: (input) => {
-            return Effect_1.gen(runtime.$joinedFrame(function* getChangeRequest() { return yield* withSpan(Effect.mapError(Effect.map(bitbucket.getPullRequest(input), toChangeRequest), (error) => new SourceControlProviderError({
+            return Effect_1.gen(function* getChangeRequest() { return yield* withSpan(Effect.mapError(Effect.map(bitbucket.getPullRequest(input), toChangeRequest), (error) => new SourceControlProviderError({
                 provider: SourceControlProviderKind.make("bitbucket"),
                 operation: "getChangeRequest",
                 cwd: input.cwd,
                 reference: SourceControlProvider.transportSafeSourceControlErrorValue(input.reference),
                 detail: "Failed to get change request.",
                 cause: error,
-            })), "BitbucketSourceControlProvider.getChangeRequest"); }));
+            })), "BitbucketSourceControlProvider.getChangeRequest"); });
         },
         createChangeRequest: (input) => {
-            return Effect_1.gen(function* createChangeRequest() { return yield* withSpan(Effect_1.gen(runtime.$joinedFrame(function* () {
+            return Effect_1.gen(function* createChangeRequest() { return yield* withSpan(Effect_1.gen(function* () {
                 const source = yield* Effect.orDie(Effect.try({ try: () => SourceControlProvider.sourceControlRefFromInput(input), catch: (e) => e }));
                 return yield* Effect.mapError(bitbucket
                     .createPullRequest({
@@ -91,27 +90,27 @@ export const make = Effect_1.gen(function* make() {
                     detail: "Failed to create change request.",
                     cause: error,
                 }));
-            })), "BitbucketSourceControlProvider.createChangeRequest"); });
+            }), "BitbucketSourceControlProvider.createChangeRequest"); });
         },
         getRepositoryCloneUrls: (input) => {
-            return Effect_1.gen(runtime.$joinedFrame(function* getRepositoryCloneUrls() { return yield* withSpan(Effect.mapError(bitbucket.getRepositoryCloneUrls(input), (error) => new SourceControlProviderError({
+            return Effect_1.gen(function* getRepositoryCloneUrls() { return yield* withSpan(Effect.mapError(bitbucket.getRepositoryCloneUrls(input), (error) => new SourceControlProviderError({
                 provider: SourceControlProviderKind.make("bitbucket"),
                 operation: "getRepositoryCloneUrls",
                 cwd: input.cwd,
                 repository: SourceControlProvider.transportSafeSourceControlErrorValue(input.repository),
                 detail: repositoryDetail(error, "Failed to get repository clone URLs."),
                 cause: error,
-            })), "BitbucketSourceControlProvider.getRepositoryCloneUrls"); }));
+            })), "BitbucketSourceControlProvider.getRepositoryCloneUrls"); });
         },
         createRepository: (input) => {
-            return Effect_1.gen(runtime.$joinedFrame(function* createRepository() { return yield* withSpan(Effect.mapError(bitbucket.createRepository(input), (error) => new SourceControlProviderError({
+            return Effect_1.gen(function* createRepository() { return yield* withSpan(Effect.mapError(bitbucket.createRepository(input), (error) => new SourceControlProviderError({
                 provider: SourceControlProviderKind.make("bitbucket"),
                 operation: "createRepository",
                 cwd: input.cwd,
                 repository: SourceControlProvider.transportSafeSourceControlErrorValue(input.repository),
                 detail: repositoryDetail(error, "Failed to create repository."),
                 cause: error,
-            })), "BitbucketSourceControlProvider.createRepository"); }));
+            })), "BitbucketSourceControlProvider.createRepository"); });
         },
         getDefaultBranch: (input) => {
             return Effect_1.gen(function* getDefaultBranch() { return yield* withSpan(Effect.mapError(bitbucket
@@ -127,7 +126,7 @@ export const make = Effect_1.gen(function* make() {
             })), "BitbucketSourceControlProvider.getDefaultBranch"); });
         },
         checkoutChangeRequest: (input) => {
-            return Effect_1.gen(runtime.$joinedFrame(function* checkoutChangeRequest() { return yield* withSpan(Effect.mapError(bitbucket
+            return Effect_1.gen(function* checkoutChangeRequest() { return yield* withSpan(Effect.mapError(bitbucket
                 .checkoutPullRequest({
                 cwd: input.cwd,
                 ...(input.context ? { context: input.context } : {}),
@@ -140,7 +139,7 @@ export const make = Effect_1.gen(function* make() {
                 reference: SourceControlProvider.transportSafeSourceControlErrorValue(input.reference),
                 detail: "Failed to check out change request.",
                 cause: error,
-            })), "BitbucketSourceControlProvider.checkoutChangeRequest"); }));
+            })), "BitbucketSourceControlProvider.checkoutChangeRequest"); });
         },
     });
 });

@@ -3,7 +3,7 @@ import { defineSourceControlDriver, withOwnServices } from "@t3tools/source-cont
 import { definition } from "../shared/definition.vibe"
 
 import * as BitbucketApi from "./BitbucketApi.vibe"
-import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.ts"
+import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.vibe"
 import * as BitbucketPullRequestProvider from "./BitbucketPullRequestProvider.vibe"
 import * as BitbucketSourceControlProvider from "./BitbucketSourceControlProvider.vibe"
 

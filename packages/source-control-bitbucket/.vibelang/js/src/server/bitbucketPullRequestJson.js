@@ -2,7 +2,7 @@
 import * as DateTime from "effect/DateTime";
 import * as Exit from "effect/Exit";
 import * as Option from "effect/Option";
-import { $extract } from "vibelang-runtime";
+import { $extract } from "vibelang-runtime/internal";
 import * as Option_1 from "effect/Option";
 import * as Schema_1 from "effect/Schema";
 import * as Cause from "effect/Cause";
