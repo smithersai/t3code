@@ -1,8 +1,8 @@
 import { DesktopWslStateSchema, type DesktopWslState } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
 
-import * as DesktopLifecycle from "../../app/DesktopLifecycle.ts";
-import * as DesktopAppSettings from "../../settings/DesktopAppSettings.ts";
+import * as DesktopLifecycle from "../../app/DesktopLifecycle.vibe";
+import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe";
 import * as DesktopWslBackend from "../../wsl/DesktopWslBackend.vibe";
 import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.ts";
 import * as IpcChannels from "../channels.ts";

@@ -10,7 +10,7 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import * as DesktopCliCommand from "./DesktopCliCommand.ts";
 import * as DesktopCliShim from "./DesktopCliShim.ts";
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 
 const environmentFor = (
   path: Path.Path,

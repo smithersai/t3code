@@ -1,7 +1,7 @@
 import * as Schema from "effect/Schema";
 
-import * as DesktopLifecycle from "../../app/DesktopLifecycle.ts";
-import * as DesktopAppSettings from "../../settings/DesktopAppSettings.ts";
+import * as DesktopLifecycle from "../../app/DesktopLifecycle.vibe";
+import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe";
 import * as IpcChannels from "../channels.ts";
 import { makeIpcMethod, makeSyncIpcMethod } from "../DesktopIpc.vibe";
 

@@ -26,7 +26,7 @@ vi.mock("electron", () => ({
   nativeImage: { createFromDataURL: native.createFromDataURL },
 }));
 
-import * as ElectronApp from "../../electron/ElectronApp.ts";
+import * as ElectronApp from "../../electron/ElectronApp.vibe";
 import * as DesktopIpc from "../DesktopIpc.vibe";
 import { installNotificationBadge } from "./notificationBadge.vibe";
 

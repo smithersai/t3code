@@ -1,7 +1,7 @@
 import { DesktopAppActivationResponse } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
 
-import * as DesktopAppActivation from "../../app/DesktopAppActivation.ts";
+import * as DesktopAppActivation from "../../app/DesktopAppActivation.vibe";
 import * as IpcChannels from "../channels.ts";
 import * as DesktopIpc from "../DesktopIpc.vibe";
 

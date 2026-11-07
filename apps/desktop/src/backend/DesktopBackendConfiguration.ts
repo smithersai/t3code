@@ -18,10 +18,10 @@ import serverPackageJson from "../../../server/package.json" with { type: "json"
 
 import * as DesktopBackendManager from "./DesktopBackendManager.vibe";
 import * as DesktopCliShim from "../app/DesktopCliShim.ts";
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import * as DesktopServerExposure from "./DesktopServerExposure.vibe";
-import * as DesktopShellEnvironment from "../shell/DesktopShellEnvironment.ts";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
+import * as DesktopShellEnvironment from "../shell/DesktopShellEnvironment.vibe";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
 import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";
 import * as DesktopWslServerTree from "../wsl/DesktopWslServerTree.vibe";
 

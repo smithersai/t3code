@@ -6,8 +6,8 @@ import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 
 import * as DesktopConfig from "../../app/DesktopConfig.vibe";
-import * as DesktopEnvironment from "../../app/DesktopEnvironment.ts";
-import * as LinuxBrowserSecret from "./LinuxBrowserSecret.ts";
+import * as DesktopEnvironment from "../../app/DesktopEnvironment.vibe";
+import * as LinuxBrowserSecret from "./LinuxBrowserSecret.vibe";
 
 it.layer(NodeServices.layer)("Linux browser secret path", (it) => {
   it.effect("finds development and packaged helpers without falling back outside the install", () =>

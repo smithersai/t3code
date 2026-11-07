@@ -1,21 +1,21 @@
+import * as Layer from "effect/Layer";
+
+module platform {
 import type * as Electron from "electron";
 import * as Cause from "effect/Cause";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
-import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 import * as Queue from "effect/Queue";
-
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import { makeRotatingLogFileWriter } from "../app/DesktopObservability.ts";
 
 export interface RendererIdentity {
   readonly surface: "main" | "preview" | "splash" | "picture-in-picture" | "devtools";
   readonly tabId?: string;
 }
-
 export class DesktopRendererHistory extends Context.Service<
   DesktopRendererHistory,
   {
@@ -27,16 +27,14 @@ export class DesktopRendererHistory extends Context.Service<
     readonly shutdown: Effect.Effect<void>;
   }
 >()("@t3tools/desktop/telemetry/DesktopRendererHistory") {}
-
-interface RendererMemory {
+export interface RendererMemory {
   readonly sampledAtUnixMs: number;
   // Electron reports process-wide working sets in KiB, not JavaScript heaps.
   readonly kind: "electron-process-working-set";
   readonly workingSetBytes: number;
   readonly peakWorkingSetBytes: number;
 }
-
-interface RendererRecord {
+export interface RendererRecord {
   readonly version: 1;
   readonly mainPid: number;
   readonly mainSessionStartedAtUnixMs: number;
@@ -58,8 +56,7 @@ interface RendererRecord {
   readonly reason?: Electron.RenderProcessGoneDetails["reason"];
   readonly exitCode?: number;
 }
-
-interface TrackedRenderer {
+export interface TrackedRenderer {
   readonly webContents: Electron.WebContents;
   identity: RendererIdentity;
   pid: number | null;
@@ -68,11 +65,9 @@ interface TrackedRenderer {
   gone: boolean;
   readonly removeListeners: () => void;
 }
-
 const nonnegative = (value: number): number | null =>
   Number.isFinite(value) && value >= 0 ? Math.round(value) : null;
-
-const make = Effect.fn("DesktopRendererHistory.make")(function* () {
+export const make = Effect.fn("DesktopRendererHistory.make")(function* () {
   const environment = yield* DesktopEnvironment.DesktopEnvironment;
   const path = yield* Path.Path;
   const clock = yield* Clock.Clock;
@@ -278,5 +273,10 @@ const make = Effect.fn("DesktopRendererHistory.make")(function* () {
 
   return DesktopRendererHistory.of({ register, recordMetrics, shutdown });
 });
+}
+
+import { DesktopRendererHistory, make } from platform
+export { DesktopRendererHistory } from platform
+export type { RendererIdentity } from platform
 
 export const layer = Layer.effect(DesktopRendererHistory, make());

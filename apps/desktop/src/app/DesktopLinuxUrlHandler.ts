@@ -8,8 +8,8 @@ import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import * as ElectronProtocol from "../electron/ElectronProtocol.ts";
-import * as DesktopAssets from "./DesktopAssets.ts";
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as DesktopAssets from "./DesktopAssets.vibe";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 import { makeComponentLogger } from "./DesktopObservability.ts";
 
 // AppImage integrators choose the .desktop filename, so setDesktopName cannot identify it for protocol registration.

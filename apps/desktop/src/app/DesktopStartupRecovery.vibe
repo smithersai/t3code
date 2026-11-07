@@ -4,13 +4,13 @@ import * as FileSystem from "effect/FileSystem";
 import type * as Scope from "effect/Scope";
 import type * as Electron from "electron";
 
-import * as ElectronApp from "../electron/ElectronApp.ts";
+import * as ElectronApp from "../electron/ElectronApp.vibe";
 import * as ElectronShell from "../electron/ElectronShell.vibe";
 import * as ElectronTheme from "../electron/ElectronTheme.vibe";
-import * as ElectronWindow from "../electron/ElectronWindow.ts";
+import * as ElectronWindow from "../electron/ElectronWindow.vibe";
 import * as DesktopUpdates from "../updates/DesktopUpdates.vibe";
 import type { BackendStartupFailure } from "../backend/DesktopBackendManager.vibe";
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 import * as DesktopObservability from "./DesktopObservability.ts";
 import * as DesktopState from "./DesktopState.vibe";
 

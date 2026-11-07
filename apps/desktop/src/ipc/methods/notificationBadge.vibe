@@ -2,7 +2,7 @@ import * as Electron from "electron";
 import * as Effect from "effect/Effect";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
-import * as ElectronApp from "../../electron/ElectronApp.ts";
+import * as ElectronApp from "../../electron/ElectronApp.vibe";
 import * as DesktopIpc from "../DesktopIpc.vibe";
 import { SET_NOTIFICATION_BADGE_CHANNEL } from "../channels.ts";
 

@@ -8,7 +8,7 @@ import * as Ref from "effect/Ref";
 
 import * as ElectronProtocol from "../electron/ElectronProtocol.ts";
 import { readChromiumLocalStorage } from "./chromiumLocalStorage.ts";
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 
 /** Reads the V1 profile without opening it in Chromium, even while V1 runs. */
 export class DesktopLegacyLocalStorage extends Context.Service<

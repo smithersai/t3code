@@ -4,7 +4,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 
 // WSL's plain Node cannot read server.asar. Electron's patched fs also reads its unpacked native siblings.
 

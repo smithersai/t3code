@@ -25,8 +25,8 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 
 import * as DesktopBackendManager from "./DesktopBackendManager.vibe";
 import * as DesktopObservability from "../app/DesktopObservability.ts";
-import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.ts";
-import * as DesktopBrowserHost from "../preview/DesktopBrowserHost.ts";
+import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.vibe";
+import * as DesktopBrowserHost from "../preview/DesktopBrowserHost.vibe";
 import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";
 
 const decodeDesktopBackendBootstrap = Schema.decodeEffect(

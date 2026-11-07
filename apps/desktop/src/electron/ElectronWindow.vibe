@@ -1,19 +1,20 @@
 // @effect-diagnostics nodeBuiltinImport:off -- This desktop-only service resolves its bundled helper beside the Electron entrypoint.
 
-import * as NodePath from "node:path";
+import * as Layer from "effect/Layer";
 
+module platform {
+// @effect-diagnostics nodeBuiltinImport:off -- This desktop-only service resolves its bundled helper beside the Electron entrypoint.
+
+import * as NodePath from "node:path";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import type * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";
-
 import * as Electron from "electron";
-
 import {
   activateWindowsForeground,
   isWindowsShellHostedForeground,
@@ -21,7 +22,7 @@ import {
 } from "./WindowsForeground.ts";
 import { startWindowsForegroundFocusThread } from "./WindowsForegroundFocusThread.ts";
 
-function windowsForegroundFocusTarget(window: Electron.BrowserWindow) {
+export function windowsForegroundFocusTarget(window: Electron.BrowserWindow) {
   return {
     windowId: window.id,
     processId: process.pid,
@@ -30,8 +31,7 @@ function windowsForegroundFocusTarget(window: Electron.BrowserWindow) {
     contentBounds: window.getContentBounds(),
   };
 }
-
-async function isWindowsBrowserWindowForeground(window: Electron.BrowserWindow): Promise<boolean> {
+export async function isWindowsBrowserWindowForeground(window: Electron.BrowserWindow): Promise<boolean> {
   const foreground = await loadWindowsForegroundApi()
     .then((api) => api.getForegroundWindow())
     .catch(() => undefined);
@@ -40,8 +40,7 @@ async function isWindowsBrowserWindowForeground(window: Electron.BrowserWindow):
   const hwnd = handle.length === 8 ? handle.readBigUInt64LE() : BigInt(handle.readUInt32LE());
   return foreground === hwnd;
 }
-
-const ElectronWindowCreateOptions = Schema.Struct({
+export const ElectronWindowCreateOptions = Schema.Struct({
   title: Schema.NullOr(Schema.String),
   width: Schema.NullOr(Schema.Number),
   height: Schema.NullOr(Schema.Number),
@@ -62,7 +61,6 @@ const ElectronWindowCreateOptions = Schema.Struct({
     webviewTag: Schema.NullOr(Schema.Boolean),
   }),
 });
-
 const ElectronWindowOperation = Schema.Literals([
   "list-windows",
   "get-focused-window",
@@ -71,7 +69,6 @@ const ElectronWindowOperation = Schema.Literals([
   "send-window-message",
   "destroy-window",
 ]);
-
 export class ElectronWindowCreateError extends Schema.TaggedError<ElectronWindowCreateError>()(
   "ElectronWindowCreateError",
   {
@@ -88,7 +85,6 @@ export class ElectronWindowCreateError extends Schema.TaggedError<ElectronWindow
     return `Failed to create Electron BrowserWindow${title}${dimensions}.`;
   }
 }
-
 export class ElectronWindowOperationError extends Schema.TaggedError<ElectronWindowOperationError>()(
   "ElectronWindowOperationError",
   {
@@ -105,7 +101,6 @@ export class ElectronWindowOperationError extends Schema.TaggedError<ElectronWin
     return `Electron window operation ${JSON.stringify(this.operation)} failed${window}${channel} on ${this.platform}.`;
   }
 }
-
 export class ElectronWindow extends Context.Service<
   ElectronWindow,
   {
@@ -128,7 +123,6 @@ export class ElectronWindow extends Context.Service<
     ) => Effect.Effect<void, E, R>;
   }
 >()("@t3tools/desktop/electron/ElectronWindow") {}
-
 /** @public */
 export const make = Effect.gen(function* () {
   const platform = yield* HostProcess.Platform;
@@ -394,5 +388,9 @@ export const make = Effect.gen(function* () {
     }),
   });
 });
+}
+
+import { ElectronWindow, make } from platform
+export { ElectronWindow, ElectronWindowCreateError, ElectronWindowOperationError, make } from platform
 
 export const layer = Layer.effect(ElectronWindow, make);

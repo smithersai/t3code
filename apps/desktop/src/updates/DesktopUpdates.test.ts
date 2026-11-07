@@ -14,8 +14,8 @@ import * as TestClock from "effect/testing/TestClock";
 
 import * as ElectronUpdater from "../electron/ElectronUpdater.vibe";
 import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import * as DesktopState from "../app/DesktopState.vibe";
 import * as DesktopUpdates from "./DesktopUpdates.vibe";
 import { flushCallbacks, makeHarness } from "./updatesTestHarness.ts";

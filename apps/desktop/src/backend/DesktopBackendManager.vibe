@@ -22,8 +22,8 @@ import {
 import { waitForHttpReady as waitForHttpReadyShared } from "@t3tools/shared/httpReadiness";
 
 import * as DesktopObservability from "../app/DesktopObservability.ts";
-import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.ts";
-import * as DesktopBrowserHost from "../preview/DesktopBrowserHost.ts";
+import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.vibe";
+import * as DesktopBrowserHost from "../preview/DesktopBrowserHost.vibe";
 import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";
 
 const INITIAL_RESTART_DELAY = Duration.millis(500);

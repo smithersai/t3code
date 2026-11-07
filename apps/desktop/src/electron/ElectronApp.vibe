@@ -1,9 +1,10 @@
+import * as Layer from "effect/Layer";
+
+module platform {
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import * as Scope from "effect/Scope";
-
 import * as Electron from "electron";
 
 export interface ElectronAppMetadata {
@@ -13,7 +14,6 @@ export interface ElectronAppMetadata {
   readonly resourcesPath: string;
   readonly runningUnderArm64Translation: boolean;
 }
-
 export class ElectronAppMetadataReadError extends Schema.TaggedError<ElectronAppMetadataReadError>()(
   "ElectronAppMetadataReadError",
   {
@@ -25,7 +25,6 @@ export class ElectronAppMetadataReadError extends Schema.TaggedError<ElectronApp
     return `Failed to read Electron app metadata property "${this.property}".`;
   }
 }
-
 export class ElectronAppWhenReadyError extends Schema.TaggedError<ElectronAppWhenReadyError>()(
   "ElectronAppWhenReadyError",
   {
@@ -37,7 +36,6 @@ export class ElectronAppWhenReadyError extends Schema.TaggedError<ElectronAppWhe
     return `Failed to wait for the Electron app to become ready (packaged: ${this.isPackaged}).`;
   }
 }
-
 export class ElectronApp extends Context.Service<
   ElectronApp,
   {
@@ -78,7 +76,6 @@ export class ElectronApp extends Context.Service<
     ) => Effect.Effect<void, never, Scope.Scope>;
   }
 >()("@t3tools/desktop/electron/ElectronApp") {}
-
 const addScopedAppListener = <Args extends ReadonlyArray<unknown>>(
   eventName: string,
   listener: (...args: Args) => void,
@@ -92,7 +89,6 @@ const addScopedAppListener = <Args extends ReadonlyArray<unknown>>(
         Electron.app.removeListener(eventName as any, listener as any);
       }),
   ).pipe(Effect.asVoid);
-
 /** @public */
 export const make = ElectronApp.of({
   metadata: Effect.gen(function* () {
@@ -218,5 +214,10 @@ export const make = ElectronApp.of({
   }),
   on: addScopedAppListener,
 });
+}
+
+import { ElectronApp, make } from platform
+export { ElectronApp, ElectronAppMetadataReadError, ElectronAppWhenReadyError, make } from platform
+export type { ElectronAppMetadata } from platform
 
 export const layer = Layer.succeed(ElectronApp, make);

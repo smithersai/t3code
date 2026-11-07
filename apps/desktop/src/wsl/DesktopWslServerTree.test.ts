@@ -9,7 +9,7 @@ import * as Ref from "effect/Ref";
 import * as Scope from "effect/Scope";
 
 import * as DesktopConfig from "../app/DesktopConfig.vibe";
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import * as DesktopWslServerTree from "./DesktopWslServerTree.vibe";
 
 // Electron's asar-aware fs accepts a plain server.asar directory under Node for extraction checks.

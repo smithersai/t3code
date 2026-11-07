@@ -7,7 +7,7 @@ import * as Effect from "effect/Effect";
 import type * as Scope from "effect/Scope";
 
 import * as DesktopObservability from "../app/DesktopObservability.ts";
-import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.ts";
+import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.vibe";
 import * as DesktopUpdates from "./DesktopUpdates.vibe";
 import {
   nextRemoteDesktopUpdateStep,

@@ -1,13 +1,15 @@
+import * as Layer from "effect/Layer";
+import { clerkFrontendApiHostnameFromPublishableKey } from "@t3tools/shared/relayAuth";
+
+module platform {
 import { createClerkBridge } from "@clerk/electron";
 import * as NodeURL from "node:url";
 import { storage } from "@clerk/electron/storage";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import * as Scope from "effect/Scope";
-
 import { codexAuthDeliveryUrl, readCodexAuthHandoff } from "@t3tools/shared/codexAuthHandoff";
 import { receiveCodexAuthCallback, CodexAuthCallbackError } from "./CodexAuthCallback.ts";
 import * as ElectronShell from "../electron/ElectronShell.vibe";
@@ -15,15 +17,12 @@ import { providerAuthReturnUrl } from "@t3tools/shared/providerAuthReturnUrl";
 import { promptLinkAppPath } from "@t3tools/shared/promptLinks";
 import { readPairingAppLink } from "@t3tools/shared/remote";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import { clerkFrontendApiHostnameFromPublishableKey } from "@t3tools/shared/relayAuth";
-import * as ElectronApp from "../electron/ElectronApp.ts";
+import * as ElectronApp from "../electron/ElectronApp.vibe";
 import * as ElectronProtocol from "../electron/ElectronProtocol.ts";
-import * as ElectronWindow from "../electron/ElectronWindow.ts";
+import * as ElectronWindow from "../electron/ElectronWindow.vibe";
 import * as DesktopUserData from "./DesktopUserData.vibe";
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 import * as DesktopWebLinks from "./DesktopWebLinks.vibe";
-
-declare const __T3CODE_BUILD_CLERK_PUBLISHABLE_KEY__: string | undefined;
 
 export class DesktopClerkBridgeInitializationError extends Schema.TaggedError<DesktopClerkBridgeInitializationError>()(
   "DesktopClerkBridgeInitializationError",
@@ -37,7 +36,6 @@ export class DesktopClerkBridgeInitializationError extends Schema.TaggedError<De
     return `Failed to initialize the desktop Clerk bridge for state directory "${this.stateDir}" (development: ${this.isDevelopment}).`;
   }
 }
-
 export class DesktopClerkBridgeCleanupError extends Schema.TaggedError<DesktopClerkBridgeCleanupError>()(
   "DesktopClerkBridgeCleanupError",
   {
@@ -50,7 +48,6 @@ export class DesktopClerkBridgeCleanupError extends Schema.TaggedError<DesktopCl
     return `Failed to clean up the desktop Clerk bridge for state directory "${this.stateDir}" (development: ${this.isDevelopment}).`;
   }
 }
-
 export class DesktopClerk extends Context.Service<
   DesktopClerk,
   {
@@ -64,27 +61,7 @@ export class DesktopClerk extends Context.Service<
     >;
   }
 >()("@t3tools/desktop/app/DesktopClerk") {}
-
-function resolveDesktopClerkFrontendApiHostname(
-  publishableKey: string | undefined,
-): string | undefined {
-  const normalizedKey = publishableKey?.trim();
-  if (!normalizedKey) return undefined;
-
-  try {
-    return clerkFrontendApiHostnameFromPublishableKey(normalizedKey);
-  } catch {
-    return undefined;
-  }
-}
-
-export const desktopClerkFrontendApiHostname = resolveDesktopClerkFrontendApiHostname(
-  typeof __T3CODE_BUILD_CLERK_PUBLISHABLE_KEY__ === "undefined"
-    ? undefined
-    : __T3CODE_BUILD_CLERK_PUBLISHABLE_KEY__,
-);
-
-function createDesktopClerkBridge(stateDir: string, isDevelopment: boolean) {
+export function createDesktopClerkBridge(stateDir: string, isDevelopment: boolean) {
   return createClerkBridge({
     storage: storage({ path: stateDir }),
     manageSingleInstanceLock: false,
@@ -95,7 +72,6 @@ function createDesktopClerkBridge(stateDir: string, isDevelopment: boolean) {
     },
   });
 }
-
 /** @public */
 export const make = Effect.gen(function* () {
   const environment = yield* DesktopEnvironment.DesktopEnvironment;
@@ -246,5 +222,27 @@ export const make = Effect.gen(function* () {
     }).pipe(Effect.withSpan("desktop.clerk.configure")),
   });
 });
+}
 
+import { DesktopClerk, make } from platform
+export { DesktopClerk, DesktopClerkBridgeCleanupError, DesktopClerkBridgeInitializationError, make } from platform
+
+declare const __T3CODE_BUILD_CLERK_PUBLISHABLE_KEY__: string | undefined;
+function resolveDesktopClerkFrontendApiHostname(
+  publishableKey: string | undefined,
+): string | undefined {
+  const normalizedKey = publishableKey?.trim();
+  if (!normalizedKey) return undefined;
+
+  try {
+    return clerkFrontendApiHostnameFromPublishableKey(normalizedKey);
+  } catch {
+    return undefined;
+  }
+}
+export const desktopClerkFrontendApiHostname = resolveDesktopClerkFrontendApiHostname(
+  typeof __T3CODE_BUILD_CLERK_PUBLISHABLE_KEY__ === "undefined"
+    ? undefined
+    : __T3CODE_BUILD_CLERK_PUBLISHABLE_KEY__,
+);
 export const layer = Layer.effect(DesktopClerk, make);

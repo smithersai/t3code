@@ -1,5 +1,10 @@
 // @effect-diagnostics globalTimers:off -- Capture timeouts and Electron overlay animation timers run at native callback boundaries outside Effect fibers.
 
+import * as Layer from "effect/Layer";
+
+module platform {
+// @effect-diagnostics globalTimers:off -- Capture timeouts and Electron overlay animation timers run at native callback boundaries outside Effect fibers.
+
 import {
   DEFAULT_CLIENT_SETTINGS,
   DesktopPendingSnapShot,
@@ -27,18 +32,15 @@ import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Base64 from "effect/encoding/Base64";
 import * as FileSystem from "effect/FileSystem";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import * as Predicate from "effect/Predicate";
 import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";
 import * as Semaphore from "effect/Semaphore";
-
 import * as Electron from "electron";
-
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as DesktopClientSettings from "../settings/DesktopClientSettings.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
+import * as DesktopClientSettings from "../settings/DesktopClientSettings.vibe";
 import * as DesktopWindow from "../window/DesktopWindow.vibe";
 import { startGlobalShiftShortcutProcess } from "./GlobalShiftShortcutProcess.ts";
 import { startMacModifierPairShortcutProcess } from "./MacModifierPairShortcutProcess.ts";
@@ -80,7 +82,6 @@ import {
 import * as MacPermissions from "../permissions/MacPermissions.vibe";
 import { MAC_PERMISSION_SETTINGS_URLS } from "../permissions/MacPermission.ts";
 import { showWindowsCaptureOverlay } from "./WindowsCaptureFeedback.ts";
-
 import {
   boundedSnapShotString,
   isWaylandSession,
@@ -113,9 +114,7 @@ const MAC_PERMISSION_MESSAGES = new Set([
   MAC_ACCESSIBILITY_PERMISSION_MESSAGE,
   MAC_BOTH_PERMISSIONS_MESSAGE,
 ]);
-
 const decodePendingCapture = Schema.decodeUnknownEffect(DesktopPendingSnapShot);
-
 const PendingCaptureJson = Schema.fromJsonString(DesktopPendingSnapShot);
 const decodePendingCaptureJson = Schema.decodeEffect(PendingCaptureJson);
 const encodePendingCaptureJson = Schema.encodeEffect(PendingCaptureJson);
@@ -129,7 +128,6 @@ const DesktopSnapShotOperation = Schema.Literals([
   "window-unavailable",
   "capture",
 ]);
-
 export class DesktopSnapShotError extends Schema.TaggedError<DesktopSnapShotError>()(
   "DesktopSnapShotError",
   {
@@ -159,15 +157,12 @@ export class DesktopSnapShotError extends Schema.TaggedError<DesktopSnapShotErro
     }
   }
 }
-
 const isDesktopSnapShotError = Schema.is(DesktopSnapShotError);
-
-function captureFailure(cause: unknown, captureId?: string): DesktopSnapShotError {
+export function captureFailure(cause: unknown, captureId?: string): DesktopSnapShotError {
   return isDesktopSnapShotError(cause)
     ? cause
     : new DesktopSnapShotError({ operation: "capture", captureId, cause });
 }
-
 export class DesktopSnapShot extends Context.Service<
   DesktopSnapShot,
   {
@@ -203,7 +198,6 @@ export class DesktopSnapShot extends Context.Service<
     readonly acknowledge: (id: string) => Effect.Effect<void, DesktopSnapShotError>;
   }
 >()("@t3tools/desktop/snapShot/DesktopSnapShot") {}
-
 export class DesktopSnapShotSetupError extends Schema.TaggedError<DesktopSnapShotSetupError>()(
   "DesktopSnapShotSetupError",
   {
@@ -265,39 +259,33 @@ export class DesktopSnapShotSetupError extends Schema.TaggedError<DesktopSnapSho
         : "Could not set up the GNOME extension.";
   }
 }
-
-function macCommandFailure(cause: unknown) {
+export function macCommandFailure(cause: unknown) {
   const failure = Predicate.isObject(cause) ? cause : {};
   if ("killed" in failure && failure.killed === true) return { status: "timed-out" } as const;
   return "code" in failure && typeof failure.code === "number"
     ? ({ status: "exited", exitCode: failure.code } as const)
     : ({ status: "failed" } as const);
 }
-
-type SnapShotSystemAnimationSettings = Pick<
+export type SnapShotSystemAnimationSettings = Pick<
   ReturnType<typeof Electron.systemPreferences.getAnimationSettings>,
   "prefersReducedMotion" | "shouldRenderRichAnimation"
 >;
-
-function captureMode(platform: NodeJS.Platform): DesktopSnapShotState["mode"] {
+export function captureMode(platform: NodeJS.Platform): DesktopSnapShotState["mode"] {
   if (platform === "linux")
     return isWaylandSession(platform, process.env) ? "portal" : "unavailable";
   return platform === "darwin" || platform === "win32" ? "direct" : "unavailable";
 }
-
-function shouldAnimateSnapShot(settings: SnapShotSystemAnimationSettings): boolean {
+export function shouldAnimateSnapShot(settings: SnapShotSystemAnimationSettings): boolean {
   return settings.shouldRenderRichAnimation && !settings.prefersReducedMotion;
 }
-
-function snapShotThumbnailSize(active: ActiveWindow | undefined): Electron.Size {
+export function snapShotThumbnailSize(active: ActiveWindow | undefined): Electron.Size {
   if (!active) return { width: 2_560, height: 1_600 };
   return {
     width: Math.min(Math.max(active.bounds.width, 1), MAX_CAPTURE_WIDTH),
     height: Math.min(Math.max(active.bounds.height, 1), MAX_CAPTURE_HEIGHT),
   };
 }
-
-function snapShotIconDataUrl(
+export function snapShotIconDataUrl(
   ...icons: ReadonlyArray<Electron.NativeImage | null | undefined>
 ): string | undefined {
   const icon = icons.find((candidate): candidate is Electron.NativeImage =>
@@ -306,8 +294,7 @@ function snapShotIconDataUrl(
   if (!icon) return undefined;
   return icon.resize({ width: 64, height: 64, quality: "best" }).toDataURL({ scaleFactor: 2 });
 }
-
-async function appFileIcon(
+export async function appFileIcon(
   path: string,
   platform: NodeJS.Platform,
 ): Promise<Electron.NativeImage | undefined> {
@@ -319,8 +306,7 @@ async function appFileIcon(
   }
   return Electron.app.getFileIcon(path, { size: "normal" }).catch(() => undefined);
 }
-
-async function iconDataUrl(
+export async function iconDataUrl(
   source: { readonly appIcon?: Electron.NativeImage | null },
   active: ActiveWindow | undefined,
   platform: NodeJS.Platform,
@@ -334,8 +320,7 @@ async function iconDataUrl(
     return undefined;
   }
 }
-
-function snapShotAppName(
+export function snapShotAppName(
   active: ActiveWindow | undefined,
   linuxWindow: LinuxWindowMetadata | undefined,
   sourceName: string,
@@ -345,8 +330,7 @@ function snapShotAppName(
   if (active?.platform !== "windows") return appName;
   return appName.replace(/\.exe$/i, "").trim() || appName;
 }
-
-async function requestMacScreenCapturePermission(): Promise<string | null> {
+export async function requestMacScreenCapturePermission(): Promise<string | null> {
   let status: ReturnType<typeof Electron.systemPreferences.getMediaAccessStatus>;
   try {
     status = Electron.systemPreferences.getMediaAccessStatus("screen");
@@ -365,15 +349,13 @@ async function requestMacScreenCapturePermission(): Promise<string | null> {
   await Electron.shell.openExternal(MAC_SCREEN_CAPTURE_SETTINGS_URL).catch(() => undefined);
   return MAC_SCREEN_CAPTURE_PERMISSION_MESSAGE;
 }
-
-function currentMacPermissions(): NonNullable<DesktopSnapShotState["macPermissions"]> {
+export function currentMacPermissions(): NonNullable<DesktopSnapShotState["macPermissions"]> {
   return {
     screenRecording: Electron.systemPreferences.getMediaAccessStatus("screen") === "granted",
     accessibility: Electron.systemPreferences.isTrustedAccessibilityClient(false),
   };
 }
-
-function macPermissionMessage(
+export function macPermissionMessage(
   permissions: NonNullable<DesktopSnapShotState["macPermissions"]>,
   includeAccessibility: boolean,
 ): string | null {
@@ -386,8 +368,7 @@ function macPermissionMessage(
   }
   return permissions.screenRecording ? null : MAC_SCREEN_CAPTURE_PERMISSION_MESSAGE;
 }
-
-function currentMacSnapShotPermissionMessage(includeAccessibility: boolean): string | null {
+export function currentMacSnapShotPermissionMessage(includeAccessibility: boolean): string | null {
   return macPermissionMessage(
     {
       screenRecording: Electron.systemPreferences.getMediaAccessStatus("screen") === "granted",
@@ -397,8 +378,7 @@ function currentMacSnapShotPermissionMessage(includeAccessibility: boolean): str
     includeAccessibility,
   );
 }
-
-async function requestMacSnapShotPermissions(
+export async function requestMacSnapShotPermissions(
   includeAccessibility: boolean,
 ): Promise<string | null> {
   const accessibilityGranted =
@@ -412,8 +392,7 @@ async function requestMacSnapShotPermissions(
   }
   return screenMessage;
 }
-
-function snapShotImageSize(png: Buffer, fallback: Electron.Rectangle): Electron.Size {
+export function snapShotImageSize(png: Buffer, fallback: Electron.Rectangle): Electron.Size {
   // Capture backends already validate or encode the PNG. Reading its header
   // avoids decoding every pixel again just to size accessibility coordinates.
   const size = readImageDimensions(png);
@@ -423,8 +402,7 @@ function snapShotImageSize(png: Buffer, fallback: Electron.Rectangle): Electron.
     height: Math.max(1, Math.round(fallback.height)),
   };
 }
-
-async function captureSource({
+export async function captureSource({
   mode,
   captureId,
   platform,
@@ -586,8 +564,7 @@ async function captureSource({
     };
   }
 }
-
-function createSnapShotFlashWindow(bounds: Electron.Rectangle): Electron.BaseWindow {
+export function createSnapShotFlashWindow(bounds: Electron.Rectangle): Electron.BaseWindow {
   const window = new Electron.BaseWindow({
     ...bounds,
     alwaysOnTop: true,
@@ -604,7 +581,6 @@ function createSnapShotFlashWindow(bounds: Electron.Rectangle): Electron.BaseWin
   window.setIgnoreMouseEvents(true);
   return window;
 }
-
 export class SnapShotFlash {
   private flashWindow: Electron.BaseWindow | undefined;
   private animationTimer: ReturnType<typeof setInterval> | undefined;
@@ -660,8 +636,7 @@ export class SnapShotFlash {
     }, durationMs);
   }
 }
-
-function snapShotFlashBounds(
+export function snapShotFlashBounds(
   active: ActiveWindow | undefined,
   platform: NodeJS.Platform,
 ): Electron.Rectangle {
@@ -670,8 +645,7 @@ function snapShotFlashBounds(
     ? Electron.screen.screenToDipRect(null, active.bounds)
     : active.bounds;
 }
-
-async function showCaptureFeedback(
+export async function showCaptureFeedback(
   transition: SnapShotTransition,
   flash: SnapShotFlash,
   captureId: string,
@@ -706,8 +680,7 @@ async function showCaptureFeedback(
   await playback.catch(() => undefined);
   return false;
 }
-
-function observedPairMessage(
+export function observedPairMessage(
   shortcut: SnapShotModifierPairShortcut,
   platform: NodeJS.Platform,
 ): string {
@@ -722,8 +695,7 @@ function observedPairMessage(
   }
   return base;
 }
-
-function probeGlobalShortcut(accelerator: string): DesktopSnapShotShortcutAvailability {
+export function probeGlobalShortcut(accelerator: string): DesktopSnapShotShortcutAvailability {
   try {
     if (!Electron.globalShortcut.register(accelerator, () => undefined)) {
       return {
@@ -737,7 +709,6 @@ function probeGlobalShortcut(accelerator: string): DesktopSnapShotShortcutAvaila
     return { available: false, message: "The system could not register this shortcut." };
   }
 }
-
 export const make = Effect.gen(function* () {
   const environment = yield* DesktopEnvironment.DesktopEnvironment;
   const permissions = yield* MacPermissions.MacPermissions;
@@ -1759,5 +1730,9 @@ export const make = Effect.gen(function* () {
     }),
   });
 });
+}
+
+import { DesktopSnapShot, make } from platform
+export { DesktopSnapShot, DesktopSnapShotError, DesktopSnapShotSetupError, SnapShotFlash, make } from platform
 
 export const layer = Layer.effect(DesktopSnapShot, make);

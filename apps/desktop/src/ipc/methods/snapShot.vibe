@@ -14,9 +14,9 @@ import {
 import * as Schema from "effect/Schema";
 import type * as Electron from "electron";
 
-import * as ElectronWindow from "../../electron/ElectronWindow.ts";
+import * as ElectronWindow from "../../electron/ElectronWindow.vibe";
 import * as ElectronDialog from "../../electron/ElectronDialog.vibe";
-import * as DesktopSnapShot from "../../snapShot/DesktopSnapShot.ts";
+import * as DesktopSnapShot from "../../snapShot/DesktopSnapShot.vibe";
 import * as IpcChannels from "../channels.ts";
 import * as DesktopIpc from "../DesktopIpc.vibe";
 

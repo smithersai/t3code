@@ -20,9 +20,9 @@ vi.mock("electron", () => ({
 import * as DesktopBackendConfiguration from "../../backend/DesktopBackendConfiguration.ts";
 import * as DesktopBackendManager from "../../backend/DesktopBackendManager.vibe";
 import * as DesktopBackendPool from "../../backend/DesktopBackendPool.vibe";
-import * as DesktopAppSettings from "../../settings/DesktopAppSettings.ts";
+import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe";
 import * as ElectronDialog from "../../electron/ElectronDialog.vibe";
-import * as ElectronWindow from "../../electron/ElectronWindow.ts";
+import * as ElectronWindow from "../../electron/ElectronWindow.vibe";
 import {
   getLocalEnvironmentBootstraps,
   getRelayTelemetryEnabled,

@@ -1,5 +1,10 @@
 // @effect-diagnostics nodeBuiltinImport:off - Names download files on the shared disk.
 /** The manager owns the single debugger attachment; the relay shares it. */
+import * as Layer from "effect/Layer";
+
+module platform {
+// @effect-diagnostics nodeBuiltinImport:off - Names download files on the shared disk.
+
 import {
   DesktopBrowserCommand,
   DesktopBrowserEvent,
@@ -8,12 +13,10 @@ import {
 import * as Context from "effect/Context";
 import * as NodePath from "node:path";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as PubSub from "effect/PubSub";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
-
 import { createCdpRelayConnection, type CdpRelayConnection } from "./CdpRelay.ts";
 import { sendPageCommand } from "./GuestInput.ts";
 
@@ -26,20 +29,16 @@ const AGENT_INPUT_COMMAND =
 const AGENT_INPUT_METHOD = /^(?:Input\.|Page\.navigate$|Runtime\.(?:evaluate|callFunctionOn)$)/;
 const AGENT_DOWNLOAD_WINDOW_MS = 5_000;
 const FOCUS_IDLE = "5 seconds";
-
 export interface DesktopBrowserTabKey {
   readonly threadId: string;
   readonly tabId: string;
 }
-
 export interface DesktopBrowserTabDebugger {
   readonly webContents: Electron.WebContents;
   readonly debugger: Electron.Debugger;
 }
-
 const keyOf = ({ threadId, tabId }: DesktopBrowserTabKey) => `${threadId}\u0000${tabId}`;
-
-interface AttachedTab {
+export interface AttachedTab {
   readonly key: DesktopBrowserTabKey;
   readonly debuggee: DesktopBrowserTabDebugger;
   relay: CdpRelayConnection | null;
@@ -79,7 +78,6 @@ interface AttachedTab {
   ) => void;
   readonly onNewDocument: () => void;
 }
-
 export class DesktopBrowserHost extends Context.Service<
   DesktopBrowserHost,
   {
@@ -102,7 +100,6 @@ export class DesktopBrowserHost extends Context.Service<
     }>;
   }
 >()("@t3tools/desktop/preview/DesktopBrowserHost") {}
-
 export const make = Effect.gen(function* () {
   const outbox = yield* PubSub.unbounded<DesktopBrowserEventType>();
   const pointers = yield* PubSub.sliding<{
@@ -502,5 +499,10 @@ export const make = Effect.gen(function* () {
     humanStartedDownload,
   });
 });
+}
+
+import { DesktopBrowserHost, make } from platform
+export { DesktopBrowserHost, make } from platform
+export type { DesktopBrowserTabDebugger, DesktopBrowserTabKey } from platform
 
 export const layer = Layer.effect(DesktopBrowserHost, make);

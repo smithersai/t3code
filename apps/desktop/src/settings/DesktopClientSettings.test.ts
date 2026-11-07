@@ -13,8 +13,8 @@ import * as PlatformError from "effect/PlatformError";
 import * as Schema from "effect/Schema";
 
 import * as DesktopConfig from "../app/DesktopConfig.vibe";
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as DesktopClientSettings from "./DesktopClientSettings.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
+import * as DesktopClientSettings from "./DesktopClientSettings.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const clientSettings: ClientSettings = {

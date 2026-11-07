@@ -3,9 +3,9 @@ import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as Layer from "effect/Layer";
 
-import * as ElectronWindow from "../../electron/ElectronWindow.ts";
+import * as ElectronWindow from "../../electron/ElectronWindow.vibe";
 import * as ElectronDialog from "../../electron/ElectronDialog.vibe";
-import * as DesktopSnapShot from "../../snapShot/DesktopSnapShot.ts";
+import * as DesktopSnapShot from "../../snapShot/DesktopSnapShot.vibe";
 import {
   setupSnapShot,
   previewSnapShotConfig,

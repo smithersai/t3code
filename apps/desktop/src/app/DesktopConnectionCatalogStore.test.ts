@@ -14,8 +14,8 @@ import * as Schema from "effect/Schema";
 import * as ElectronSafeStorage from "../electron/ElectronSafeStorage.vibe";
 import * as DesktopSavedEnvironments from "../settings/DesktopSavedEnvironments.ts";
 import * as DesktopConfig from "./DesktopConfig.vibe";
-import * as DesktopConnectionCatalogStore from "./DesktopConnectionCatalogStore.ts";
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as DesktopConnectionCatalogStore from "./DesktopConnectionCatalogStore.vibe";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const textDecoder = new TextDecoder();

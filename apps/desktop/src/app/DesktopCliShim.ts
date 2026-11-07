@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";
 
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 import { makeComponentLogger } from "./DesktopObservability.ts";
 
 // AppImage mounts change each run; the launcher must mount the image itself.

@@ -10,7 +10,7 @@ import * as Scope from "effect/Scope";
 import * as NodeSqlite from "node:sqlite";
 
 import { readFirefoxCookies } from "./FirefoxCookies.vibe";
-import { parseFirefoxProfiles } from "./Sources.ts";
+import { parseFirefoxProfiles } from "./Sources.vibe";
 
 const parsePosixFirefoxProfiles = (ini: string, root = "/home/user/.mozilla/firefox") =>
   Effect.gen(function* () {

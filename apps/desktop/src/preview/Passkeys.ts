@@ -7,7 +7,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import { PASSKEY_CREATE_CHANNEL, PASSKEY_GET_CHANNEL } from "./GuestProtocol.ts";
 import type { PasskeyBackend, PasskeyCeremonyContext } from "./PasskeyBackend.ts";
 import { macPasskeyBackend } from "./PasskeyBackendMac.ts";

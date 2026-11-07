@@ -1,16 +1,19 @@
 // @effect-diagnostics nodeBuiltinImport:off - pre-ready Electron setup reads settings, prepares the Linux desktop entry, and asks Hyprland for its version synchronously before app services are available.
+import * as Layer from "effect/Layer";
+import * as ElectronProtocol from "../electron/ElectronProtocol.ts";
+
+module platform {
+// @effect-diagnostics nodeBuiltinImport:off - pre-ready Electron setup reads settings, prepares the Linux desktop entry, and asks Hyprland for its version synchronously before app services are available.
+
 import * as NodeChildProcess from "node:child_process";
 import * as NodeFS from "node:fs";
 import * as NodePath from "node:path";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-
 import * as Electron from "electron";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-
 import * as DesktopEarlyElectronStartup from "./DesktopEarlyElectronStartup.vibe";
-import { resolveDesktopAppBranding } from "./DesktopEnvironment.ts";
+import { resolveDesktopAppBranding } from "./DesktopEnvironment.vibe";
 import { renderUrlHandlerDesktopEntry } from "./DesktopLinuxUrlHandler.ts";
 import * as ElectronProtocol from "../electron/ElectronProtocol.ts";
 
@@ -18,8 +21,7 @@ export interface DesktopPreReadyCommandLineReader {
   readonly hasSwitch: (switchName: string) => boolean;
   readonly getSwitchValue: (switchName: string) => string;
 }
-
-function readCommandLineSwitchValue(
+export function readCommandLineSwitchValue(
   commandLine: DesktopPreReadyCommandLineReader,
   switchName: string,
 ): string | null {
@@ -30,7 +32,6 @@ function readCommandLineSwitchValue(
   const value = commandLine.getSwitchValue(switchName).trim();
   return value.length > 0 ? value : null;
 }
-
 export const resolveEarlyLinuxElectronOptionsFromProcess = (
   homeDirectory: string,
 ): DesktopEarlyElectronStartup.EarlyLinuxElectronOptions =>
@@ -40,7 +41,6 @@ export const resolveEarlyLinuxElectronOptionsFromProcess = (
     joinPath: NodePath.posix.join,
     readFileString: (path) => NodeFS.readFileSync(path, "utf8"),
   });
-
 export class DesktopPreReadyElectronOptions extends Context.Service<
   DesktopPreReadyElectronOptions,
   {
@@ -48,7 +48,6 @@ export class DesktopPreReadyElectronOptions extends Context.Service<
     readonly linuxPasswordStoreCommandLine: string | null;
   }
 >()("@t3tools/desktop/app/DesktopPreReadyPlatform/DesktopPreReadyElectronOptions") {}
-
 /** @public */
 export const make = Effect.gen(function* () {
   const platform = yield* HostProcess.Platform;
@@ -147,6 +146,11 @@ export const make = Effect.gen(function* () {
     return { linux, linuxPasswordStoreCommandLine };
   });
 }).pipe(Effect.withSpan("desktop.electron.configureBeforeReady"));
+}
+
+import { DesktopPreReadyElectronOptions, make } from platform
+export { DesktopPreReadyElectronOptions, make, resolveEarlyLinuxElectronOptionsFromProcess } from platform
+export type { DesktopPreReadyCommandLineReader } from platform
 
 // Complete scheme privileges and switches before later layers can observe app readiness.
 export const layer = Layer.mergeAll(

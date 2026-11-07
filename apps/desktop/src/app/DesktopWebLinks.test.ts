@@ -4,7 +4,7 @@ import * as NodeEvents from "node:events";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as ElectronWindow from "../electron/ElectronWindow.ts";
+import * as ElectronWindow from "../electron/ElectronWindow.vibe";
 import { WEB_LINK_OPEN_CHANNEL } from "../ipc/channels.ts";
 import * as DesktopWebLinks from "./DesktopWebLinks.vibe";
 

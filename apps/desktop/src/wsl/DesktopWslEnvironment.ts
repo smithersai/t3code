@@ -12,7 +12,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 import { buildRemoteNodeEnvScript } from "@t3tools/ssh/tunnel";
 import { satisfiesSemverRange } from "@t3tools/shared/semver";
 
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import { parseWslDistroList, type WslDistro } from "./wslPathParsing.ts";
 
 const PROCESS_TERMINATE_GRACE = Duration.seconds(1);

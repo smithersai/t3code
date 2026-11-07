@@ -1,20 +1,20 @@
+import * as Layer from "effect/Layer";
+
+module platform {
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
 import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";
 import * as Scope from "effect/Scope";
-
 import type * as Electron from "electron";
-
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 import { makeComponentLogger } from "./DesktopObservability.ts";
 import * as DesktopShutdown from "./DesktopShutdown.vibe";
-import * as ElectronApp from "../electron/ElectronApp.ts";
+import * as ElectronApp from "../electron/ElectronApp.vibe";
 import * as ElectronTheme from "../electron/ElectronTheme.vibe";
-import * as ElectronWindow from "../electron/ElectronWindow.ts";
+import * as ElectronWindow from "../electron/ElectronWindow.vibe";
 import * as DesktopState from "./DesktopState.vibe";
 import * as DesktopWindow from "../window/DesktopWindow.vibe";
 
@@ -29,7 +29,6 @@ export class DesktopLifecycleRelaunchError extends Schema.TaggedError<DesktopLif
     return `Desktop relaunch failed for reason "${this.reason}".`;
   }
 }
-
 export type DesktopLifecycleRuntimeServices =
   | DesktopEnvironment.DesktopEnvironment
   | DesktopShutdown.DesktopShutdown
@@ -37,11 +36,9 @@ export type DesktopLifecycleRuntimeServices =
   | DesktopWindow.DesktopWindow
   | ElectronApp.ElectronApp
   | ElectronTheme.ElectronTheme;
-
-type DesktopLifecycleRegistrationServices =
+export type DesktopLifecycleRegistrationServices =
   | DesktopLifecycleRuntimeServices
   | ElectronWindow.ElectronWindow;
-
 /**
  * @effect-expect-leaking DesktopEnvironment | DesktopShutdown | DesktopState | DesktopWindow | ElectronApp | ElectronTheme | ElectronWindow
  */
@@ -58,11 +55,9 @@ export class DesktopLifecycle extends Context.Service<
     >;
   }
 >()("@t3tools/desktop/app/DesktopLifecycle") {}
-
 const { logInfo: logLifecycleInfo, logError: logLifecycleError } =
   makeComponentLogger("desktop-lifecycle");
-
-function addScopedListener<Args extends ReadonlyArray<unknown>>(
+export function addScopedListener<Args extends ReadonlyArray<unknown>>(
   target: unknown,
   eventName: string,
   listener: (...args: Args) => void,
@@ -82,7 +77,6 @@ function addScopedListener<Args extends ReadonlyArray<unknown>>(
       }),
   ).pipe(Effect.asVoid);
 }
-
 const requestDesktopShutdownAndWait = Effect.fn("desktop.lifecycle.requestShutdownAndWait")(
   function* (
     afterBoundsFlush: Effect.Effect<void> = Effect.void,
@@ -95,24 +89,20 @@ const requestDesktopShutdownAndWait = Effect.fn("desktop.lifecycle.requestShutdo
     yield* shutdown.awaitComplete;
   },
 );
-
-interface QuitState {
+export interface QuitState {
   phase: "running" | "waiting" | "allowed";
   waitingSinceNanos: bigint;
 }
-
 // Longer than a backend's stop budget (SIGTERM, 5s grace, SIGKILL, 1s wait),
 // so a double Cmd-Q at the start of a normal quit cannot cut the backend stop
 // short and orphan it.
 const SHUTDOWN_STALL_THRESHOLD = Duration.seconds(10);
-
 const startWaitingForShutdown = Effect.fn("desktop.lifecycle.startWaitingForShutdown")(function* (
   quit: QuitState,
 ) {
   quit.phase = "waiting";
   quit.waitingSinceNanos = yield* Clock.monotonicTimeNanos;
 });
-
 // While a quit waits on shutdown, `quitting` makes activation open nothing. If
 // that shutdown stalls, a repeated Quit or SIGTERM is the user's only way out
 // short of SIGKILL.
@@ -131,8 +121,7 @@ const exitIfShutdownStalled = Effect.fn("desktop.lifecycle.exitIfShutdownStalled
   const electronApp = yield* ElectronApp.ElectronApp;
   yield* electronApp.exit(0);
 });
-
-function handleBeforeQuit(
+export function handleBeforeQuit(
   event: Electron.Event,
   runEffect: <A, E>(
     effect: Effect.Effect<A, E, DesktopLifecycleRegistrationServices>,
@@ -180,8 +169,7 @@ function handleBeforeQuit(
     );
   });
 }
-
-function quitFromSignal(
+export function quitFromSignal(
   signal: "SIGINT" | "SIGTERM",
   runEffect: <A, E>(
     effect: Effect.Effect<A, E, DesktopLifecycleRegistrationServices>,
@@ -207,7 +195,6 @@ function quitFromSignal(
     }).pipe(Effect.withSpan("desktop.lifecycle.processSignal")),
   );
 }
-
 /** @public */
 export const make = DesktopLifecycle.of({
   relaunch: Effect.fn("desktop.lifecycle.relaunch")(function* (reason) {
@@ -304,5 +291,10 @@ export const make = DesktopLifecycle.of({
     }
   }).pipe(Effect.withSpan("desktop.lifecycle.register")),
 });
+}
+
+import { DesktopLifecycle, make } from platform
+export { DesktopLifecycle, DesktopLifecycleRelaunchError, make } from platform
+export type { DesktopLifecycleRuntimeServices } from platform
 
 export const layer = Layer.succeed(DesktopLifecycle, make);

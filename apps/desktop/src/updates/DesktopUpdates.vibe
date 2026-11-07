@@ -20,13 +20,13 @@ import * as Stream from "effect/Stream";
 
 import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe";
 import * as DesktopConfig from "../app/DesktopConfig.vibe";
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import * as DesktopObservability from "../app/DesktopObservability.ts";
 import * as DesktopState from "../app/DesktopState.vibe";
 import * as ElectronUpdater from "../electron/ElectronUpdater.vibe";
-import * as ElectronWindow from "../electron/ElectronWindow.ts";
+import * as ElectronWindow from "../electron/ElectronWindow.vibe";
 import * as IpcChannels from "../ipc/channels.ts";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
 import { normalizeDesktopUpdateReleaseNotes } from "./releaseNotes.ts";
 import { resolveDefaultDesktopUpdateChannel } from "./updateChannels.ts";
 import {

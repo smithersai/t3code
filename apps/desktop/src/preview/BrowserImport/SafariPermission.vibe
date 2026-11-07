@@ -6,7 +6,7 @@ import {
   resolveCookieDatabase,
   listSourceProfiles,
   sourcePathContext,
-} from "./Sources.ts";
+} from "./Sources.vibe";
 
 export const safariPermissionCheck = effect {
   const context = try sourcePathContext;

@@ -9,7 +9,7 @@ import * as DesktopObservability from "../app/DesktopObservability.ts";
 import * as DesktopBackendConfiguration from "../backend/DesktopBackendConfiguration.ts";
 import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe";
 import * as DesktopServerExposure from "../backend/DesktopServerExposure.vibe";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
 import * as DesktopWslEnvironment from "./DesktopWslEnvironment.ts";
 
 export const WSL_INSTANCE_ID_PREFIX = "wsl:";

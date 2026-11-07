@@ -12,7 +12,7 @@ import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import * as PreviewManager from "../../preview/Manager.ts";
 import * as PreviewIpc from "./preview.vibe";
 import * as DesktopIpc from "../DesktopIpc.vibe";
-import * as DesktopClientSettings from "../../settings/DesktopClientSettings.ts";
+import * as DesktopClientSettings from "../../settings/DesktopClientSettings.vibe";
 
 const { fromPartition } = vi.hoisted(() => ({
   fromPartition: vi.fn(() => {

@@ -10,7 +10,7 @@ import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import * as DesktopCliShim from "./DesktopCliShim.ts";
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 
 export class DesktopCliCommandError extends Schema.TaggedError<DesktopCliCommandError>()(
   "DesktopCliCommandError",

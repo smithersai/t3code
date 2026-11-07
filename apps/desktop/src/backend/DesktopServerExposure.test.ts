@@ -11,11 +11,11 @@ import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import * as DesktopConfig from "../app/DesktopConfig.vibe";
-import * as DesktopNetworkInterfaces from "./DesktopNetworkInterfaces.ts";
+import * as DesktopNetworkInterfaces from "./DesktopNetworkInterfaces.vibe";
 import * as DesktopServerExposure from "./DesktopServerExposure.vibe";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const encoder = new TextEncoder();

@@ -1,8 +1,8 @@
 import { ClientSettingsSchema } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
 
-import * as DesktopClientSettings from "../../settings/DesktopClientSettings.ts";
-import * as DesktopSnapShot from "../../snapShot/DesktopSnapShot.ts";
+import * as DesktopClientSettings from "../../settings/DesktopClientSettings.vibe";
+import * as DesktopSnapShot from "../../snapShot/DesktopSnapShot.vibe";
 import * as IpcChannels from "../channels.ts";
 import * as DesktopIpc from "../DesktopIpc.vibe";
 

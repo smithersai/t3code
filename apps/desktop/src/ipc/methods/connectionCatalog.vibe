@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
 
-import * as DesktopConnectionCatalogStore from "../../app/DesktopConnectionCatalogStore.ts";
+import * as DesktopConnectionCatalogStore from "../../app/DesktopConnectionCatalogStore.vibe";
 import * as IpcChannels from "../channels.ts";
 import * as DesktopIpc from "../DesktopIpc.vibe";
 

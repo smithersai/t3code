@@ -17,9 +17,9 @@ import * as Schema from "effect/Schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
 import * as DesktopConfig from "../app/DesktopConfig.vibe";
-import * as DesktopNetworkInterfaces from "./DesktopNetworkInterfaces.ts";
+import * as DesktopNetworkInterfaces from "./DesktopNetworkInterfaces.vibe";
 import { resolveTailscaleAdvertisedEndpoints } from "./tailscaleEndpointProvider.vibe";
 
 const TAILSCALE_STATUS_CACHE_TTL = Duration.seconds(60);

@@ -9,7 +9,7 @@ import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
 import * as DesktopConfig from "../app/DesktopConfig.vibe";
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import * as ElectronSafeStorage from "../electron/ElectronSafeStorage.vibe";
 import * as DesktopSavedEnvironments from "./DesktopSavedEnvironments.ts";
 

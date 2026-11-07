@@ -10,12 +10,12 @@ import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import { ChildProcessSpawner } from "effect/process";
 
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import * as DesktopBackendConfiguration from "./DesktopBackendConfiguration.ts";
-import * as DesktopShellEnvironment from "../shell/DesktopShellEnvironment.ts";
+import * as DesktopShellEnvironment from "../shell/DesktopShellEnvironment.vibe";
 import * as DesktopConfig from "../app/DesktopConfig.vibe";
 import * as DesktopServerExposure from "./DesktopServerExposure.vibe";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
 import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";
 import * as DesktopWslServerTree from "../wsl/DesktopWslServerTree.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

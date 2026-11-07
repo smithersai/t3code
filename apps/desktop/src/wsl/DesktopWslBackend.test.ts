@@ -13,7 +13,7 @@ import type {
   DesktopBackendStartConfig,
 } from "../backend/DesktopBackendManager.vibe";
 import * as DesktopServerExposure from "../backend/DesktopServerExposure.vibe";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
 import * as DesktopWslEnvironment from "./DesktopWslEnvironment.ts";
 import * as DesktopWslBackend from "./DesktopWslBackend.vibe";
 

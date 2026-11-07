@@ -34,7 +34,7 @@ import { OtlpExporter, OtlpLogger, OtlpTracer } from "effect/observability";
 
 import desktopPackageJson from "../../package.json" with { type: "json" };
 
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 
 const DESKTOP_LOG_FILE_MAX_BYTES = 10 * 1024 * 1024;
 const DESKTOP_LOG_FILE_MAX_FILES = 10;

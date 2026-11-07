@@ -5,7 +5,7 @@ import {
   CodexAuthCallbackError,
 } from "../../app/CodexAuthCallback.ts";
 import * as ElectronShell from "../../electron/ElectronShell.vibe";
-import * as ElectronWindow from "../../electron/ElectronWindow.ts";
+import * as ElectronWindow from "../../electron/ElectronWindow.vibe";
 import * as DesktopIpc from "../DesktopIpc.vibe";
 import * as IpcChannels from "../channels.ts";
 

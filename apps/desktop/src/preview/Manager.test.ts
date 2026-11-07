@@ -22,11 +22,11 @@ import type * as Scope from "effect/Scope";
 import { TestClock } from "effect/testing";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.ts";
-import * as ElectronWindow from "../electron/ElectronWindow.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
+import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.vibe";
+import * as ElectronWindow from "../electron/ElectronWindow.vibe";
 import * as BrowserSession from "./BrowserSession.vibe";
-import * as DesktopBrowserHost from "./DesktopBrowserHost.ts";
+import * as DesktopBrowserHost from "./DesktopBrowserHost.vibe";
 import * as PreviewManager from "./Manager.ts";
 import * as PreviewPasskeys from "./Passkeys.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

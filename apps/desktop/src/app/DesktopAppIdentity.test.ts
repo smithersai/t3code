@@ -9,11 +9,11 @@ import * as PlatformError from "effect/PlatformError";
 
 import type * as Electron from "electron";
 
-import * as ElectronApp from "../electron/ElectronApp.ts";
+import * as ElectronApp from "../electron/ElectronApp.vibe";
 import * as DesktopAppIdentity from "./DesktopAppIdentity.vibe";
-import * as DesktopAssets from "./DesktopAssets.ts";
+import * as DesktopAssets from "./DesktopAssets.vibe";
 import * as DesktopConfig from "./DesktopConfig.vibe";
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
 
 const defaultEnvironmentInput = {
   dirname: "/repo/apps/desktop/dist-electron",
