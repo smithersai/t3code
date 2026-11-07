@@ -1,7 +1,7 @@
 import { ProviderDriverKind } from "@t3tools/contracts";
 import { defineProviderClient } from "@t3tools/provider-core/client";
 
-import { GrokSettings } from "./settings.vibe";
+import { GrokSettings } from "#vibelang/emitted/src/settings";
 
 export const grokClient = defineProviderClient({
   driverKind: ProviderDriverKind.make("grok"),

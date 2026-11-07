@@ -83,7 +83,7 @@
      "relative": "packages/provider-grok/src/server"
     },
     null,
-    "00LkWpLgRlu9QKKgVTKNw915mwt7Mhg_HW22OHPbIEc",
+    "zMR9uOsrdoLiB8gT0_5X1kttAqZutBXtUrEewQT7zP4",
     []
    ]
   ],
@@ -224,22 +224,22 @@
     "path": {
      "relative": "packages/provider-core/package.json"
     },
-    "size": 11163,
-    "hash": "QxV2LSmfdJ-g0bawuTmmzJhGh2VLdPvHce4NjI3jAX4"
+    "size": 10772,
+    "hash": "TssBcjWbmpucdXHkt_MV517gETBGjT0FxcQfqkCrepw"
    },
    {
     "path": {
      "relative": "packages/provider-grok/package.json"
     },
-    "size": 1455,
-    "hash": "4eP0M5AWixJoLTUF_kZb-0CnynalC6ofHitZlqBWa_0"
+    "size": 3804,
+    "hash": "hOcbii5vMS50ehfx3dt8BnLPcMKe8t-uBZ_fLzn5lPs"
    },
    {
     "path": {
      "relative": "packages/shared/package.json"
     },
-    "size": 31269,
-    "hash": "RKUxMlhC0gmE3Skir4IHWTiVDDIvsIY3JEKHgcp1uoY"
+    "size": 31317,
+    "hash": "MlqzxoMXGlI3kE-ahOHrBEck4AezJrw-rzgNyY6715s"
    },
    {
     "path": {
@@ -259,8 +259,8 @@
     "path": {
      "relative": "packages/provider-acp/package.json"
     },
-    "size": 2525,
-    "hash": "SI0whefUQOVspU6RazYbQZrMqhHVi8dUwNoKuV0aaeA"
+    "size": 2639,
+    "hash": "T2NzlEwF7QwN0sa59-GIN7Z-KKV3YdD6rrTrPV8ynUw"
    },
    {
     "path": {
@@ -3068,8 +3068,8 @@
     "path": {
      "relative": "packages/provider-grok/src/client.ts"
     },
-    "size": 1374,
-    "hash": "JnrKEWBX0uRZk5QER406dRKUld3c-b3tyjFL-xeU3FY"
+    "size": 1389,
+    "hash": "0mUtXHTFLF4eINOyrbXs53LyjE9YFEOCxN7ktAQ6KR0"
    },
    {
     "path": {
@@ -3119,34 +3119,6 @@
     },
     "size": 658,
     "hash": "DS20HUvAC1Xdt4GbPLjHmpYUP7qvF-B56Vp-RSCQRsw"
-   },
-   {
-    "path": {
-     "relative": "packages/effect-acp/src/_generated/schema.gen.ts"
-    },
-    "size": 480894,
-    "hash": "OYxnIUIiL9Q9xz--xC6J1IiWQ7iejqRSmH_klNmTZf8"
-   },
-   {
-    "path": {
-     "relative": "packages/effect-acp/src/errors.vibe"
-    },
-    "size": 12990,
-    "hash": "hTQvnkhPChxbTanZ1miX2VbpuuPl1o6rXw8RHvaj2d4"
-   },
-   {
-    "path": {
-     "relative": "packages/shared/src/Array.ts"
-    },
-    "size": 153,
-    "hash": "A2MXnukBpAGxFk5hqsSyJTpX4Pkp_oaBbwqk5FfUzj4"
-   },
-   {
-    "path": {
-     "relative": "packages/shared/src/model.vibe"
-    },
-    "size": 16661,
-    "hash": "CwCdBlQvqsbVAQ733ZwU9Ya1ps6KaNOFH6gIUab6Czw"
    },
    {
     "path": {
@@ -3521,6 +3493,34 @@
    },
    {
     "path": {
+     "relative": "packages/effect-acp/src/_generated/schema.gen.ts"
+    },
+    "size": 480894,
+    "hash": "OYxnIUIiL9Q9xz--xC6J1IiWQ7iejqRSmH_klNmTZf8"
+   },
+   {
+    "path": {
+     "relative": "packages/effect-acp/src/errors.vibe"
+    },
+    "size": 12990,
+    "hash": "hTQvnkhPChxbTanZ1miX2VbpuuPl1o6rXw8RHvaj2d4"
+   },
+   {
+    "path": {
+     "relative": "packages/shared/src/Array.ts"
+    },
+    "size": 153,
+    "hash": "A2MXnukBpAGxFk5hqsSyJTpX4Pkp_oaBbwqk5FfUzj4"
+   },
+   {
+    "path": {
+     "relative": "packages/shared/src/model.vibe"
+    },
+    "size": 16661,
+    "hash": "CwCdBlQvqsbVAQ733ZwU9Ya1ps6KaNOFH6gIUab6Czw"
+   },
+   {
+    "path": {
      "relative": "packages/shared/src/git.vibe"
     },
     "size": 11371,
@@ -3857,10 +3857,10 @@
    },
    {
     "path": {
-     "relative": "packages/shared/src/shell.ts"
+     "relative": "packages/shared/src/shell.vibe"
     },
-    "size": 33105,
-    "hash": "nVOhSyf72m3r2C_5YnEowdICTjiQq6mIVtQU5radyBY"
+    "size": 35840,
+    "hash": "Fd2bIjUspsSqSGz0tD1ZQ9OSe8sxKKjm3SPn9nF73qE"
    },
    {
     "path": {
@@ -3927,10 +3927,10 @@
    },
    {
     "path": {
-     "relative": "packages/provider-grok/src/server/textGeneration.ts"
+     "relative": "packages/provider-grok/src/server/textGeneration.vibe"
     },
-    "size": 4906,
-    "hash": "GZyZUclqqioOloBqELNJ80jcodzhX7nvIehNq2zgt24"
+    "size": 4838,
+    "hash": "4skHIqiFxt4GJtnuoQ5kjvc5b17KgzZNN3UPMloAkR4"
    },
    {
     "path": {
@@ -3941,10 +3941,10 @@
    },
    {
     "path": {
-     "relative": "packages/provider-core/src/server/IdAllocator.ts"
+     "relative": "packages/provider-core/src/server/IdAllocator.vibe"
     },
-    "size": 15067,
-    "hash": "uaxY57qtV56w-tIrngQTzUsyiF7qwseVR7dlQoShpPk"
+    "size": 15641,
+    "hash": "pq2wK4WrWzOpmeUoyYQqdGuSc_sQTnZTVVLSZCIxoqo"
    },
    {
     "path": {
@@ -3964,8 +3964,8 @@
     "path": {
      "relative": "packages/provider-core/src/server/failure.vibe"
     },
-    "size": 11823,
-    "hash": "-QWawk4waxbAn732ksjopowmbiKtJ98w-COUnbq7q6I"
+    "size": 11825,
+    "hash": "FR2vdMZqq0-J6KMlbvcqQXby4Yo_n3G03XRqhtaGsrM"
    },
    {
     "path": {
@@ -4874,8 +4874,8 @@
     "path": {
      "relative": "packages/provider-core/src/server/maintenanceResolver.vibe"
     },
-    "size": 34645,
-    "hash": "7FXfZ6z32XagdBLopagDEK6dmYoaIMbjxlGUIuSv9sE"
+    "size": 34831,
+    "hash": "GGs05XU79JoDadJOkatqrBKGSpoXnN2LtfWcV1aGLm8"
    },
    {
     "path": {
@@ -4902,8 +4902,8 @@
     "path": {
      "relative": "packages/shared/src/nodeRuntime.vibe"
     },
-    "size": 4031,
-    "hash": "z2yKSNLnuPymRhFhRSX4xA5dYsiB9Pz8kzRlblKy8dM"
+    "size": 4033,
+    "hash": "ZsAs7uMYonDyU3xlicBch1JWxQ4FrkRdjiyvx_EjNHY"
    },
    {
     "path": {
@@ -4951,8 +4951,8 @@
     "path": {
      "relative": "packages/provider-acp/src/server/nativeLogging.vibe"
     },
-    "size": 5984,
-    "hash": "9gPLaSXo8eAnB8hM0Bv7UfiNDF3UUw4k4ZVbIGspDZk"
+    "size": 6180,
+    "hash": "3Ogeg1WLLiOCE5xiWnehG2VhWN4srDShEeOGVrIZgtk"
    },
    {
     "path": {
@@ -5126,8 +5126,8 @@
     "path": {
      "relative": "packages/provider-acp/src/server/mcpOverAcpBridge.vibe"
     },
-    "size": 8886,
-    "hash": "y_CpMdskV3Twx1s3TivxJ2QuSQBjoiIiO1Q91h2y2lc"
+    "size": 10035,
+    "hash": "yKJUE812bIktnpw1KiqyJSciJvsimOs4INexRvBAQC4"
    },
    {
     "path": {
@@ -5196,8 +5196,8 @@
     "path": {
      "relative": "packages/provider-acp/src/server/adapter.vibe"
     },
-    "size": 382349,
-    "hash": "2eEUDnBm8mYlI1f-s9cGqwQQ5P8P71goNGVD8DH8lCg"
+    "size": 382351,
+    "hash": "b3v-mIIXA7ZWblxVPNqrnSGemnF5DJ-w18GikHIXu3o"
    },
    {
     "path": {
@@ -5236,10 +5236,10 @@
    },
    {
     "path": {
-     "relative": "packages/provider-grok/src/server/usageLimits.ts"
+     "relative": "packages/provider-grok/src/server/usageLimits.vibe"
     },
-    "size": 7268,
-    "hash": "PSFYyJE-C9hpxxrZeZIEdIDd9d1-Ysmqiw5QiEVL5bg"
+    "size": 7735,
+    "hash": "jDOtllzfjLOAbWDUyOnrTxfkBWTvYT8epyanCyTrmos"
    },
    {
     "path": {
@@ -5294,8 +5294,8 @@
     "path": {
      "relative": "packages/provider-grok/src/server/driver.ts"
     },
-    "size": 9836,
-    "hash": "56DvYECPgwCP11BHsluvjeayRAMtxvTQNXdwGetAi2U"
+    "size": 9986,
+    "hash": "FT4_tXj4ZwtdNYiamdKGk-qmVNFiKX2R6M00u_2sdhA"
    },
    {
     "path": {
@@ -5308,8 +5308,8 @@
     "path": {
      "relative": "packages/provider-grok/src/testing.ts"
     },
-    "size": 868,
-    "hash": "2piJOOVHxKmxw72PLuZwa7yHnQ8NDM-ocl1zbq-8U84"
+    "size": 962,
+    "hash": "fDwq-J90PN39cqZtYP2gziMu2veMu72yJRHHt3mcfJ4"
    },
    {
     "path": {
@@ -6613,7 +6613,7 @@
     "relative": "packages/effect-acp/src/client.vibe"
    },
    {
-    "relative": "packages/shared/src/shell.ts"
+    "relative": "packages/shared/src/shell.vibe"
    },
    {
     "relative": "packages/shared/src/AgentScope.vibe"
@@ -6643,13 +6643,13 @@
     "relative": "packages/provider-grok/src/server/acpSupport.vibe"
    },
    {
-    "relative": "packages/provider-grok/src/server/textGeneration.ts"
+    "relative": "packages/provider-grok/src/server/textGeneration.vibe"
    },
    {
     "relative": "packages/provider-core/src/server/randomUuid.vibe"
    },
    {
-    "relative": "packages/provider-core/src/server/IdAllocator.ts"
+    "relative": "packages/provider-core/src/server/IdAllocator.vibe"
    },
    {
     "relative": "packages/provider-core/src/server/selectionTransition.ts"
@@ -6790,7 +6790,7 @@
     "relative": "packages/provider-core/src/server/usageLimits.ts"
    },
    {
-    "relative": "packages/provider-grok/src/server/usageLimits.ts"
+    "relative": "packages/provider-grok/src/server/usageLimits.vibe"
    },
    {
     "relative": "packages/shared/src/backgroundActivitySettings.vibe"
@@ -6927,6 +6927,46 @@
    {
     "paths": [
      {
+      "relative": "packages/provider-grok/src/server/textGeneration.vibe"
+     }
+    ],
+    "code": "import * as Option from \"effect/Option\";\nimport * as Ref from \"effect/Ref\";\nimport * as Schema from \"effect/Schema\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as Crypto from \"@t3tools/shared/Crypto\";\nimport * as Effect from \"effect/Effect\";\nimport * as ChildProcessSpawner from \"effect/process/ChildProcessSpawner\";\nimport { TextGenerationError } from \"@t3tools/contracts\";\nimport { getModelSelectionStringOptionValue } from \"@t3tools/shared/model\";\nimport * as TextGenerationOperations from \"@t3tools/provider-core/server/textGenerationOperations\";\nimport { applyGrokAcpModelSelection, currentGrokModelIdFromSessionSetup, currentGrokReasoningEffortFromSessionSetup, makeGrokAcpRuntime, resolveGrokAcpBaseModelId, } from \"./acpSupport.js\";\nimport { $process_env } from \"./textGeneration.vibe.platform.js\";\nconst GROK_TIMEOUT_MS = 180_000;\nconst isTextGenerationError = Schema.is(TextGenerationError);\nexport const makeGrokTextGeneration = Effect.fn(\"makeGrokTextGeneration\")(function* (grokSettings, environment = $process_env()) {\n    const crypto = yield* Crypto.Crypto;\n    const commandSpawner = yield* ChildProcessSpawner.ChildProcessSpawner;\n    const runGrokJson = Effect.fn(\"GrokTextGeneration.runGrokJson\")(function* (request) {\n        const { operation, cwd, prompt, modelSelection } = request;\n        const outputRef = yield* Ref.make(\"\");\n        const runtime = yield* makeGrokAcpRuntime({\n            grokSettings,\n            environment,\n            cwd,\n            clientInfo: { name: \"t3-code-git-text\", version: \"0.0.0\" },\n        }).pipe(Effect.provideService(Crypto.Crypto, crypto), Effect.provideService(ChildProcessSpawner.ChildProcessSpawner, commandSpawner));\n        yield* runtime.handleSessionUpdate((notification) => {\n            const update = notification.update;\n            if (update.sessionUpdate !== \"agent_message_chunk\") {\n                return Effect.void;\n            }\n            const content = update.content;\n            if (content.type !== \"text\") {\n                return Effect.void;\n            }\n            return Ref.update(outputRef, (current) => current + content.text);\n        });\n        const promptResult = yield* Effect.mapError(Effect.flatMap(Effect.timeoutOption(Effect_1.gen(function* () {\n            const resolvedModel = resolveGrokAcpBaseModelId(modelSelection.model);\n            const started = yield* runtime.start();\n            const requestedReasoningEffort = getModelSelectionStringOptionValue(modelSelection, \"reasoningEffort\");\n            yield* applyGrokAcpModelSelection({\n                runtime,\n                currentModelId: currentGrokModelIdFromSessionSetup(started.sessionSetupResult),\n                currentReasoningEffort: currentGrokReasoningEffortFromSessionSetup(started.sessionSetupResult),\n                requestedModelId: resolvedModel,\n                requestedReasoningEffort,\n                mapError: (cause) => new TextGenerationError({\n                    operation,\n                    detail: \"Failed to set Grok ACP base model for text generation.\",\n                    cause,\n                }),\n            });\n            return yield* runtime.prompt({\n                prompt: [{ type: \"text\", text: prompt }],\n            });\n        }), GROK_TIMEOUT_MS), Option.match({\n            onNone: () => Effect.fail(new TextGenerationError({ operation, detail: \"Grok ACP request timed out.\" })),\n            onSome: (value) => Effect.succeed(value),\n        })), (cause) => isTextGenerationError(cause)\n            ? cause\n            : new TextGenerationError({\n                operation,\n                detail: \"Grok ACP request failed.\",\n                cause,\n            }));\n        const trimmed = (yield* Ref.get(outputRef)).trim();\n        if (!trimmed) {\n            return yield* new TextGenerationError({\n                operation,\n                detail: promptResult.stopReason === \"cancelled\"\n                    ? \"Grok ACP request was cancelled.\"\n                    : \"Grok Agent returned empty output.\",\n            });\n        }\n        return yield* TextGenerationOperations.decodeJsonReply(request, \"Grok Agent\", trimmed);\n    }, (effect, request) => {\n        const { operation } = request;\n        return effect.pipe(Effect.mapError((cause) => isTextGenerationError(cause)\n            ? cause\n            : new TextGenerationError({\n                operation,\n                detail: \"Grok ACP text generation failed.\",\n                cause,\n            })), Effect.scoped);\n    });\n    return TextGenerationOperations.fromRunner(\"GrokTextGeneration\", TextGenerationOperations.withoutInvestigation(\"Grok\", runGrokJson));\n});\n",
+    "map": {
+     "version": 3,
+     "file": "textGeneration.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/provider-grok/src/server/textGeneration.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "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"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "packages/provider-grok/src/server/textGeneration.vibe.platform.js"
+     }
+    ],
+    "code": "/** @throws {never} */\nexport function $process_env() {\n    return process.env;\n}\n",
+    "map": {
+     "version": 3,
+     "file": "textGeneration.vibe.platform.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/provider-grok/src/server/textGeneration.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "AAiBE,sBAAsB;AACtB,MAAM,UAAU,YAAY;IAC1B,OAAO,OAAO,CAAC,GAAG,CAAA;AACpB,CAAC"
+    }
+   },
+   {
+    "paths": [
+     {
       "relative": "packages/provider-grok/src/server/skills.vibe"
      }
     ],
@@ -7042,6 +7082,46 @@
      ],
      "names": [],
      "mappings": ";;;;AACA,OAAO,KAAK,IAAI,MAAM,aAAa,CAAA;AAEnC,OAAO,EAAE,cAAc,EAAE,MAAM,6CAA6C,CAAA;AAC5E,OAAO,EAEL,UAAU,EACV,WAAW,GAGZ,MAAM,qCAAqC,CAAA;AAG5C,OAAO,KAAK,WAAW,MAAM,6BAA6B,CAAA;AAE1D,MAAM,CAAC,MAAM,8BAA8B,GAAG,cAAc,CAAA;AAE5D,SAAS,kBAAkB,CAAC,KAAc;IACxC,IAAI,OAAO,KAAK,KAAK,QAAQ,IAAI,CAAC,MAAM,CAAC,QAAQ,CAAC,KAAK,CAAC,IAAI,KAAK,GAAG,CAAC;QAAE,OAAO,IAAI,CAAA;IAClF,OAAO,KAAK,GAAG,8BAA8B,CAAA;AAC/C,CAAC;AAWD,SAAS,mBAAmB,CAAC,KAAc;IACzC,IAAI,OAAO,KAAK,KAAK,QAAQ,IAAI,KAAK,KAAK,IAAI;QAAE,OAAO,IAAI,CAAA;IAC5D,MAAM,MAAM,GAAG,KAAgC,CAAA;IAC/C,OAAO;QACL,WAAW,EAAE,UAAU,CAAC,MAAM,CAAC,aAAa,CAAC,CAAC;QAC9C,YAAY,EAAE,UAAU,CAAC,MAAM,CAAC,cAAc,CAAC,CAAC;QAChD,gBAAgB,EAAE,UAAU,CAAC,MAAM,CAAC,kBAAkB,CAAC,CAAC;QACxD,mBAAmB,EAAE,UAAU,CAAC,MAAM,CAAC,qBAAqB,CAAC,CAAC;QAC9D,eAAe,EAAE,UAAU,CAAC,MAAM,CAAC,iBAAiB,CAAC,CAAC;QACtD,YAAY,EAAE,OAAO,MAAM,CAAC,cAAc,CAAC,KAAK,QAAQ,IAAI,MAAM,CAAC,QAAQ,CAAC,MAAM,CAAC,cAAc,CAAC,CAAC;YACjG,CAAC,CAAC,MAAM,CAAC,cAAc,CAAC;YACxB,CAAC,CAAC,IAAI;KACT,CAAA;AACH,CAAC;AAED,SAAS,iBAAiB,CAAC,MAAuB;IAChD,MAAM,iBAAiB,GAAG,MAAM,CAAC,gBAAgB,CAAA;IACjD,MAAM,mBAAmB,GAAG,MAAM,CAAC,mBAAmB,CAAA;IACtD,8EAA8E;IAC9E,MAAM,mBAAmB,GAAG,IAAI,CAAC,GAAG,CAClC,CAAC,EACD,MAAM,CAAC,WAAW,GAAG,iBAAiB,GAAG,mBAAmB,CAC7D,CAAA;IACD,MAAM,YAAY,GAAG,MAAM,CAAC,YAAY,CAAA;IACxC,OAAO;QACL,mBAAmB;QACnB,iBAAiB;QACjB,mBAAmB;QACnB,YAAY;QACZ,eAAe,EAAE,IAAI,CAAC,GAAG,CAAC,YAAY,EAAE,MAAM,CAAC,eAAe,CAAC;KAChE,CAAA;AACH,CAAC;AAED,MAAM,UAAU,aAAa,CAAC,IAAY;IACxC,IAAI,MAAe,CAAA;IACnB,IAAI,CAAC;QACH,MAAM,GAAG,IAAI,CAAC,KAAK,CAAC,IAAI,CAAC,CAAA;IAC3B,CAAC;IAAC,MAAM,CAAC;QACP,OAAO,EAAE,CAAA;IACX,CAAC;IACD,OAAO,eAAe,CAAC,MAAM,CAAC,CAAA;AAChC,CAAC;AAED,SAAS,eAAe,CAAC,MAAe;IACtC,IAAI,OAAO,MAAM,KAAK,QAAQ,IAAI,MAAM,KAAK,IAAI;QAAE,OAAO,EAAE,CAAA;IAE5D,MAAM,MAAM,GAAG,MAAiC,CAAA;IAChD,MAAM,MAAM,GAAG,MAAM,CAAC,QAAQ,CAAC,CAAA;IAC/B,IAAI,OAAO,MAAM,KAAK,QAAQ,IAAI,MAAM,KAAK,IAAI;QAAE,OAAO,EAAE,CAAA;IAC5D,MAAM,YAAY,GAAG,MAAiC,CAAA;IAEtD,MAAM,MAAM,GAAG,YAAY,CAAC,QAAQ,CAAC,CAAA;IACrC,IAAI,OAAO,MAAM,KAAK,QAAQ,IAAI,MAAM,KAAK,IAAI;QAAE,OAAO,EAAE,CAAA;IAC5D,MAAM,YAAY,GAAG,MAAiC,CAAA;IACtD,IAAI,YAAY,CAAC,eAAe,CAAC,KAAK,gBAAgB;QAAE,OAAO,EAAE,CAAA;IAEjE,MAAM,KAAK,GAAG,YAAY,CAAC,OAAO,CAAC,CAAA;IACnC,IAAI,OAAO,KAAK,KAAK,QAAQ,IAAI,KAAK,KAAK,IAAI;QAAE,OAAO,EAAE,CAAA;IAC1D,MAAM,WAAW,GAAG,KAAgC,CAAA;IAEpD,MAAM,SAAS,GAAG,OAAO,YAAY,CAAC,WAAW,CAAC,KAAK,QAAQ,CAAC,CAAC,CAAC,YAAY,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,EAAE,CAAA;IAChG,MAAM,QAAQ,GAAG,OAAO,YAAY,CAAC,WAAW,CAAC,KAAK,QAAQ,CAAC,CAAC,CAAC,YAAY,CAAC,WAAW,CAAC,CAAC,CAAC,CAAC,IAAI,CAAA;IAEjG,MAAM,IAAI,GAAG,YAAY,CAAC,OAAO,CAAC,CAAA;IAClC,IAAI,WAAW,GAAkB,IAAI,CAAA;IACrC,IAAI,OAAO,IAAI,KAAK,QAAQ,IAAI,IAAI,KAAK,IAAI,EAAE,CAAC;QAC9C,MAAM,gBAAgB,GAAI,IAAgC,CAAC,kBAAkB,CAAC,CAAA;QAC9E,IAAI,OAAO,gBAAgB,KAAK,QAAQ,IAAI,MAAM,CAAC,QAAQ,CAAC,gBAAgB,CAAC,EAAE,CAAC;YAC9E,WAAW,GAAG,gBAAgB,CAAA;QAChC,CAAC;IACH,CAAC;IACD,IAAI,WAAW,KAAK,IAAI,EAAE,CAAC;QACzB,MAAM,SAAS,GAAG,MAAM,CAAC,WAAW,CAAC,CAAA;QACrC,IAAI,OAAO,SAAS,KAAK,QAAQ,IAAI,MAAM,CAAC,QAAQ,CAAC,SAAS,CAAC,EAAE,CAAC;YAChE,WAAW,GAAG,SAAS,GAAG,IAAI,CAAC,CAAC,CAAC,SAAS,CAAC,CAAC,CAAC,SAAS,GAAG,IAAI,CAAA;QAC/D,CAAC;IACH,CAAC;IACD,IAAI,WAAW,KAAK,IAAI;QAAE,OAAO,EAAE,CAAA;IAEnC,MAAM,QAAQ,GAAG,mBAAmB,CAAC,WAAW,CAAC,CAAA;IACjD,IAAI,QAAQ,KAAK,IAAI;QAAE,OAAO,EAAE,CAAA;IAEhC,MAAM,UAAU,GAAG,WAAW,CAAC,YAAY,CAAC,CAAA;IAC5C,MAAM,YAAY,GAAsD,EAAE,CAAA;IAC1E,IAAI,OAAO,UAAU,KAAK,QAAQ,IAAI,UAAU,KAAK,IAAI,EAAE,CAAC;QAC1D,KAAK,MAAM,CAAC,KAAK,EAAE,GAAG,CAAC,IAAI,MAAM,CAAC,OAAO,CAAC,UAAqC,CAAC,EAAE,CAAC;YACjF,IAAI,KAAK,CAAC,MAAM,KAAK,CAAC;gBAAE,SAAQ;YAChC,MAAM,MAAM,GAAG,mBAAmB,CAAC,GAAG,CAAC,CAAA;YACvC,IAAI,MAAM,KAAK,IAAI;gBAAE,SAAQ;YAC7B,YAAY,CAAC,IAAI,CAAC,EAAE,KAAK,EAAE,MAAM,EAAE,CAAC,CAAA;QACtC,CAAC;IACH,CAAC;IAED,IAAI,YAAY,CAAC,MAAM,KAAK,CAAC,EAAE,CAAC;QAC9B,IAAI,WAAW,CAAC,iBAAiB,CAAC,QAAQ,CAAC,CAAC,KAAK,CAAC;YAAE,OAAO,EAAE,CAAA;QAC7D,OAAO;YACL;gBACE,QAAQ,EAAE,MAAM;gBAChB,WAAW;gBACX,KAAK,EAAE,MAAM;gBACb,SAAS;gBACT,MAAM,EAAE,iBAAiB,CAAC,QAAQ,CAAC;gBACnC,eAAe,EAAE,kBAAkB,CAAC,QAAQ,CAAC,YAAY,CAAC;gBAC1D,KAAK,EAAE,UAAU;gBACjB,mEAAmE;gBACnE,SAAS,EAAE,QAAQ,KAAK,IAAI,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,GAAG,SAAS,IAAI,QAAQ,OAAO;aACtE;SACF,CAAA;IACH,CAAC;IAED,MAAM,eAAe,GAAG,kBAAkB,CAAC,QAAQ,CAAC,YAAY,CAAC,CAAA;IACjE,IAAI,iBAAiB,GAAG,CAAC,CAAA;IACzB,IAAI,wBAAwB,GAAG,CAAC,CAAA;IAChC,KAAK,MAAM,KAAK,IAAI,YAAY,EAAE,CAAC;QACjC,MAAM,MAAM,GAAG,WAAW,CAAC,iBAAiB,CAAC,KAAK,CAAC,MAAM,CAAC,CAAC,CAAA;QAC3D,IAAI,MAAM,KAAK,CAAC;YAAE,SAAQ;QAC1B,IAAI,KAAK,CAAC,MAAM,CAAC,YAAY,KAAK,IAAI,EAAE,CAAC;YACvC,iBAAiB,IAAI,kBAAkB,CAAC,KAAK,CAAC,MAAM,CAAC,YAAY,CAAC,IAAI,CAAC,CAAA;QACzE,CAAC;aAAM,CAAC;YACN,wBAAwB,IAAI,MAAM,CAAA;QACpC,CAAC;IACH,CAAC;IACD,MAAM,gBAAgB,GAAG,eAAe,KAAK,IAAI,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CAAC,GAAG,CAAC,CAAC,EAAE,eAAe,GAAG,iBAAiB,CAAC,CAAA;IAE3G,MAAM,OAAO,GAAkB,EAAE,CAAA;IACjC,KAAK,MAAM,KAAK,IAAI,YAAY,EAAE,CAAC;QACjC,MAAM,MAAM,GAAG,iBAAiB,CAAC,KAAK,CAAC,MAAM,CAAC,CAAA;QAC9C,IAAI,WAAW,CAAC,MAAM,CAAC,KAAK,CAAC;YAAE,SAAQ;QAEvC,IAAI,eAAe,GAAG,kBAAkB,CAAC,KAAK,CAAC,MAAM,CAAC,YAAY,CAAC,CAAA;QACnE,IAAI,eAAe,KAAK,IAAI,IAAI,gBAAgB,KAAK,IAAI,IAAI,wBAAwB,GAAG,CAAC,EAAE,CAAC;YAC1F,eAAe,GAAG,gBAAgB,GAAG,CAAC,WAAW,CAAC,MAAM,CAAC,GAAG,wBAAwB,CAAC,CAAA;QACvF,CAAC;QAED,OAAO,CAAC,IAAI,CAAC;YACX,QAAQ,EAAE,MAAM;YAChB,WAAW;YACX,KAAK,EAAE,KAAK,CAAC,KAAK;YAClB,SAAS;YACT,MAAM;YACN,eAAe;YACf,KAAK,EAAE,UAAU;YACjB,SAAS,EAAE,QAAQ,KAAK,IAAI,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,GAAG,SAAS,IAAI,QAAQ,IAAI,KAAK,CAAC,KAAK,EAAE;SAChF,CAAC,CAAA;IACJ,CAAC;IACD,OAAO,OAAO,CAAA;AAChB,CAAC;AAED,MAAM,CAAC,MAAM,eAAe,GAAgC;IAC1D,YAAY,EAAE;QACZ,SAAS,EAAE,IAAI;QACf,MAAM,EAAE;YACN,SAAS,EAAE,IAAI;YACf,KAAK,EAAE,EAAE,gBAAgB,EAAE,IAAI,EAAE;YACjC,MAAM,EAAE,EAAE,aAAa,EAAE,IAAI,EAAE,SAAS,EAAE,IAAI,EAAE,KAAK,EAAE,IAAI,EAAE;SAC9D;KACF;IACD,YAAY,EAAE,CAAC,oBAAoB,CAAC;IACpC,SAAS,EAAE,CAAC,IAAI,EAAE,EAAE,CAAC,aAAa,CAAC,IAAI,CAAC;IACxC,cAAc,EAAE,CAAC,SAAS,EAAE,EAAE,CAAC,eAAe,CAAC,SAAS,CAAC;CAC1D,CAAA;AAED,MAAM,CAAC,MAAM,eAAe,GAAiD;IAC3E,IAAI,EAAE,aAAa;IACnB,QAAQ,EAAE,MAAM;IAChB,MAAM,EAAE,eAAe;IACvB,WAAW,EAAE;OAAA,C,CAAA;qBAAQ,EAAE,WAAW,EAAE,kB,CAAA,S,CAAA,6BAC9B,QAAQ,CACV,a,CAAA;gBACE,MAAM,IAAI,UAAO,IAAI,CAAC,IAAI,CAAA;gBAC1B,MAAM,aAAa,UAAO,WAAW,CAAC,aAAa,CAAA;gBACnD,MAAM,IAAI,UAAO,MAAM,CAAC,KAAK,CAAC,MAAM,CAAC,GAAG,CAAC;oBACvC,GAAG,EAAE,GAAG,EAAE,CACR,cAAc,CACZ,WAAW,CAAC,SAAS,EAAE,IAAI,EAAE,IAAI,IAAI,CAAC,IAAI,CAAC,aAAa,EAAE,OAAO,CAAC,EAClE,aAAa,CACd;oBACH,KAAK,EAAE,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC;iBAChB,CAAC,CAAC,CAAA;gBACH,6EAA6E;gBAC7E,OAAO,CAAC,EAAE,GAAG,EAAE,IAAI,CAAC,OAAO,CAAC,IAAI,EAAE,UAAU,CAAC,EAAE,QAAQ,EAAE,eAAe,EAAE,CAAC,CAAA;YAC7E,CAAC,CAAA,EACD,6BAA6B,CAC9B,gB,CAAA;;;WAAA,C,CAAA;;KAAA;CACJ,CAAA"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "packages/provider-grok/src/server/usageLimits.vibe"
+     }
+    ],
+    "code": "import * as DateTime from \"effect/DateTime\";\nimport * as HttpClientRequest from \"effect/http/HttpClientRequest\";\nimport * as HttpClientResponse from \"effect/http/HttpClientResponse\";\nimport * as Option from \"effect/Option\";\nimport { withSpan } from \"effect/Effect\";\nimport { $catchExpression, $matchCache } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport * as Effect from \"effect/Effect\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as Path from \"effect/Path\";\nimport * as Schema from \"effect/Schema\";\nimport * as HttpClient from \"effect/http/HttpClient\";\nimport { clampPercent, makeUnavailableUsageLimits, makeUsageLimits } from \"@t3tools/provider-core/server/usageLimits\";\nimport * as HostProcess from \"@t3tools/shared/HostProcess\";\nimport { $process_env } from \"./usageLimits.vibe.platform.js\";\nconst GrokCredentials = Schema.Record(Schema.String, Schema.Struct({\n    key: Schema.optional(Schema.String),\n    auth_mode: Schema.optional(Schema.String),\n    email: Schema.optional(Schema.String),\n}));\nconst decodeCredentials = Schema.decodeEffect(Schema.fromJsonString(GrokCredentials));\nconst GrokUsageResponse = Schema.Struct({\n    config: Schema.optional(Schema.Struct({\n        creditUsagePercent: Schema.optional(Schema.Number),\n        currentPeriod: Schema.optional(Schema.Struct({\n            type: Schema.optional(Schema.String),\n            start: Schema.optional(Schema.Unknown),\n            end: Schema.optional(Schema.String),\n        })),\n    })),\n});\nfunction parsePeriodBoundary(value) {\n    if (!value\n        || value !== value.trim()\n        || !/^(?:\\d{4}|[+-]\\d{6})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?|24:00(?::00(?:\\.0+)?)?)(?:Z|[+-](?:[01]\\d|2[0-3]):[0-5]\\d)$/\n            .test(value)) {\n        return Number.NaN;\n    }\n    // Date parsing can normalize impossible calendar dates instead of rejecting them.\n    const datePart = value.slice(0, value.indexOf(\"T\"));\n    const date = DateTime.make(`${datePart}T00:00:00.000Z`);\n    if (Option.isNone(date))\n        return Number.NaN;\n    const parts = DateTime.toPartsUtc(date.value);\n    if (parts.month !== Number(datePart.slice(-5, -3)) || parts.day !== Number(datePart.slice(-2))) {\n        return Number.NaN;\n    }\n    return Date.parse(value);\n}\nexport function grokUsageResponseToLimits(response, checkedAt) {\n    const period = response.config?.currentPeriod;\n    const periodType = period?.type?.replace(/^USAGE_PERIOD_TYPE_/, \"\");\n    const kind = periodType === \"WEEKLY\" ? \"weekly\" : periodType === \"MONTHLY\" ? \"monthly\" : \"other\";\n    let usedPercent = response.config?.creditUsagePercent;\n    if (usedPercent === undefined\n        && (kind === \"weekly\" || kind === \"monthly\")\n        && typeof period?.start === \"string\"\n        && parsePeriodBoundary(period?.start) < parsePeriodBoundary(period?.end)) {\n        // Grok omits a zero percentage while retaining the complete subscription period.\n        usedPercent = 0;\n    }\n    if (usedPercent === undefined || !Number.isFinite(usedPercent)) {\n        return makeUsageLimits({ checkedAt, windows: [] });\n    }\n    const reset = period?.end ? DateTime.make(period.end) : Option.none();\n    const window = {\n        id: \"subscription\",\n        kind,\n        label: kind === \"weekly\" ? \"Weekly\" : kind === \"monthly\" ? \"Monthly\" : \"Subscription\",\n        usedPercent: clampPercent(usedPercent),\n        ...(Option.isSome(reset) ? { resetsAt: DateTime.formatIso(reset.value) } : {}),\n    };\n    return makeUsageLimits({ checkedAt, windows: [window] });\n}\nconst readGrokCredential = (environment) => {\n    return Effect_1.gen(function* readGrokCredential() { return yield* withSpan(Effect_1.gen(function* () {\n        // T3's ACP adapter explicitly selects API-key auth when this variable is set.\n        if (environment.XAI_API_KEY?.trim())\n            return undefined;\n        // Alternate auth deployments can select another scope or account from the same file.\n        if ([\n            \"GROK_OIDC_ISSUER\",\n            \"GROK_OIDC_CLIENT_ID\",\n            \"GROK_OAUTH2_ISSUER\",\n            \"GROK_OAUTH2_CLIENT_ID\",\n            \"GROK_OAUTH2_PRINCIPAL_TYPE\",\n            \"GROK_OAUTH2_PRINCIPAL_ID\",\n            \"GROK_AUTH_PROVIDER_COMMAND\",\n            \"GROK_LOCAL_AUTH\",\n            \"GROK_CLI_CHAT_PROXY_BASE_URL\",\n            \"GROK_MODELS_BASE_URL\",\n            \"GROK_CONFIG\",\n            \"GROK_CONFIG_PATH\",\n        ].some((name) => environment[name]?.trim())) {\n            return undefined;\n        }\n        const fs = yield* FileSystem.FileSystem;\n        const path = yield* Path.Path;\n        const home = environment.GROK_HOME?.trim()\n            || path.join(environment.HOME || environment.USERPROFILE || (yield* HostProcess.HomeDirectory), \".grok\");\n        for (const configPath of [\n            path.join(home, \"config.toml\"),\n            path.join(home, \"managed_config.toml\"),\n            path.join(home, \"requirements.toml\"),\n            \"/etc/grok/managed_config.toml\",\n            \"/etc/grok/requirements.toml\",\n        ]) {\n            const config = yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return fs.readFileString(configPath); }); })(), (error) => (_tail_1 => { return Effect_1.gen(function* () {\n                const _completion_1 = _tail_1(), _value_1 = _completion_1[1];\n                return _completion_1[0] ? yield* _value_1 : _value_1;\n            }); })(() => { return [true, (Effect_1.fnUntraced(function* () {\n                    const $matchCache2 = $matchCache();\n                    try {\n                        const $match1 = error;\n                        {\n                            {\n                                runtime.$assertMatch((typeof $match1 === \"function\" || typeof $match1 === \"object\") && $match1\n                                    !== null && $matchCache2.propertyHas($match1, \"_tag\") && $matchCache2.get($match1, \"_tag\") === \"PlatformError\", $match1);\n                                return yield* (error.reason._tag === \"NotFound\" ? Effect.succeed(\"\") : Effect.fail(error));\n                            }\n                        }\n                    }\n                    catch (matchError_1) {\n                        $matchCache2.threw(matchError_1);\n                        throw matchError_1;\n                    }\n                    finally {\n                        $matchCache2.finish();\n                    }\n                }))(\n                // These sections can change the selected account or endpoint. Leave custom deployments to the CLI.\n                )\n                // These sections can change the selected account or endpoint. Leave custom deployments to the CLI.\n            ]; })\n            // These sections can change the selected account or endpoint. Leave custom deployments to the CLI.\n            );\n            // These sections can change the selected account or endpoint. Leave custom deployments to the CLI.\n            if (/^\\s*(?:\\[\\[?\\s*)?[\"']?(?:auth|grok_com_config|endpoints)[\"']?\\s*[.\\]=]/m.test(config)) {\n                return undefined;\n            }\n        }\n        const contents = environment.GROK_AUTH?.trim()\n            || (yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return fs.readFileString(path.join(home, \"auth.json\")); }); })(), (error) => (_tail_2 => { return Effect_1.gen(function* () {\n                const _completion_2 = _tail_2(), _value_2 = _completion_2[1];\n                return _completion_2[0] ? yield* _value_2 : _value_2;\n            }); })(() => { return [true, (Effect_1.fnUntraced(function* () {\n                    const $matchCache4 = $matchCache();\n                    try {\n                        const $match3 = error;\n                        {\n                            {\n                                runtime.$assertMatch((typeof $match3 === \"function\" || typeof $match3 === \"object\") && $match3\n                                    !== null && $matchCache4.propertyHas($match3, \"_tag\") && $matchCache4.get($match3, \"_tag\") === \"PlatformError\", $match3);\n                                return yield* (error.reason._tag === \"NotFound\" ? Effect.succeed(\"{}\") : Effect.fail(error));\n                            }\n                        }\n                    }\n                    catch (matchError_2) {\n                        $matchCache4.threw(matchError_2);\n                        throw matchError_2;\n                    }\n                    finally {\n                        $matchCache4.finish();\n                    }\n                }))()]; })));\n        const credentials = yield* decodeCredentials(contents);\n        // Never pick an arbitrary account from other deployments stored in the same file.\n        const credential = credentials[\"https://auth.x.ai::b1a00492-073a-47ea-816f-4c329264a828\"]\n            ?? credentials[\"https://accounts.x.ai/sign-in\"];\n        return credential?.auth_mode === \"api_key\" ? undefined : credential;\n    }), \"readGrokCredential\"); });\n};\nexport const readGrokAccount = (...args_1) => {\n    try {\n        return ((environment = $process_env()) => Effect_1.gen(function* readGrokAccount() { return yield* withSpan(Effect_1.gen(function* () {\n            const checkedAt = DateTime.formatIso(yield* DateTime.now);\n            const probeFailed = yield* Effect.orDie(Effect.try({\n                try: () => makeUnavailableUsageLimits({\n                    checkedAt,\n                    reason: \"probeFailed\",\n                    message: \"Grok could not read usage limits.\",\n                }),\n                catch: (e) => e,\n            }));\n            const credential = yield* Effect.option(Effect.timeout(readGrokCredential(environment), \"10 seconds\"));\n            if (Option.isNone(credential))\n                return { email: undefined, usageLimits: probeFailed };\n            const email = credential.value?.email?.trim() || undefined;\n            const token = credential.value?.key?.trim();\n            if (!token) {\n                return {\n                    email,\n                    usageLimits: yield* Effect.orDie(Effect.try({\n                        try: () => makeUnavailableUsageLimits({ checkedAt, reason: \"unsupported\" }),\n                        catch: (e) => e,\n                    })),\n                };\n            }\n            const usageLimits = yield* runtime.$catch(yield* (() => { return Effect_1.sync(() => { return (Effect.timeout(Effect_1.gen(function* () {\n                const client = yield* HttpClient.HttpClient;\n                const response = yield* client.execute(HttpClientRequest.bearerToken(HttpClientRequest.get(\"https://cli-chat-proxy.grok.com/v1/billing?format=credits\"), token));\n                const body = yield* HttpClientResponse.schemaBodyJson(GrokUsageResponse)(yield* HttpClientResponse.filterStatusOk(response));\n                return grokUsageResponseToLimits(body, checkedAt);\n            }), \"10 seconds\")); }); })(), () => Effect_1.sync(() => { return probeFailed; }));\n            return { email, usageLimits };\n        }), \"readGrokAccount\"); }))(...runtime.$spreadItems(args_1));\n    }\n    catch (e_1) {\n        return Effect_1.die(e_1);\n    }\n};\n",
+    "map": {
+     "version": 3,
+     "file": "usageLimits.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/provider-grok/src/server/usageLimits.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "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"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "packages/provider-grok/src/server/usageLimits.vibe.platform.js"
+     }
+    ],
+    "code": "/** @throws {never} */\nexport function $process_env() {\n    return process.env;\n}\n",
+    "map": {
+     "version": 3,
+     "file": "usageLimits.vibe.platform.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/provider-grok/src/server/usageLimits.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "AAUE,sBAAsB;AACtB,MAAM,UAAU,YAAY;IAC1B,OAAO,OAAO,CAAC,GAAG,CAAA;AACpB,CAAC"
     }
    }
   ]

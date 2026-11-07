@@ -5,7 +5,11 @@
   "exports": {
     "./client": {
       "types": "./src/client.ts",
-      "import": "./src/client.ts"
+      "import": {
+        "types": "./src/client.ts",
+        "vibelang-source": "./src/client.ts",
+        "default": "./.vibelang/js/src/client.js"
+      }
     },
     "./settings": {
       "types": "./src/settings.vibe",
@@ -13,7 +17,11 @@
     },
     "./server": {
       "types": "./src/server.ts",
-      "import": "./src/server.ts"
+      "import": {
+        "types": "./src/server.ts",
+        "vibelang-source": "./src/server.ts",
+        "default": "./.vibelang/js/src/server.js"
+      }
     },
     "./server/usage": {
       "types": "./src/server/usage.vibe",
@@ -21,7 +29,11 @@
     },
     "./testing": {
       "types": "./src/testing.ts",
-      "import": "./src/testing.ts"
+      "import": {
+        "types": "./src/testing.ts",
+        "vibelang-source": "./src/testing.ts",
+        "default": "./.vibelang/js/src/testing.js"
+      }
     }
   },
   "scripts": {
@@ -45,5 +57,52 @@
     "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
     "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
     "vite-plus": "catalog:"
+  },
+  "imports": {
+    "#vibelang/emitted/src/settings": {
+      "types": "./src/settings.d.vibe.ts",
+      "vibelang-source": "./src/settings.vibe",
+      "default": "./.vibelang/js/src/settings.js"
+    },
+    "#vibelang/emitted/src/server/textGeneration": {
+      "types": "./src/server/textGeneration.d.vibe.ts",
+      "vibelang-source": "./src/server/textGeneration.vibe",
+      "default": "./.vibelang/js/src/server/textGeneration.js"
+    },
+    "#vibelang/emitted/src/server/adapter": {
+      "types": "./src/server/adapter.d.vibe.ts",
+      "vibelang-source": "./src/server/adapter.vibe",
+      "default": "./.vibelang/js/src/server/adapter.js"
+    },
+    "#vibelang/emitted/src/server/status": {
+      "types": "./src/server/status.d.vibe.ts",
+      "vibelang-source": "./src/server/status.vibe",
+      "default": "./.vibelang/js/src/server/status.js"
+    },
+    "#vibelang/emitted/src/server/usage": {
+      "types": "./src/server/usage.d.vibe.ts",
+      "vibelang-source": "./src/server/usage.vibe",
+      "default": "./.vibelang/js/src/server/usage.js"
+    },
+    "#vibelang/emitted/src/server/usageLimits": {
+      "types": "./src/server/usageLimits.d.vibe.ts",
+      "vibelang-source": "./src/server/usageLimits.vibe",
+      "default": "./.vibelang/js/src/server/usageLimits.js"
+    },
+    "#vibelang/emitted/src/server/skills": {
+      "types": "./src/server/skills.d.vibe.ts",
+      "vibelang-source": "./src/server/skills.vibe",
+      "default": "./.vibelang/js/src/server/skills.js"
+    },
+    "#vibelang/emitted/src/server/acpSupport": {
+      "types": "./src/server/acpSupport.d.vibe.ts",
+      "vibelang-source": "./src/server/acpSupport.vibe",
+      "default": "./.vibelang/js/src/server/acpSupport.js"
+    },
+    "#vibelang/emitted/src/server/xaiAcpExtension": {
+      "types": "./src/server/xaiAcpExtension.d.vibe.ts",
+      "vibelang-source": "./src/server/xaiAcpExtension.vibe",
+      "default": "./.vibelang/js/src/server/xaiAcpExtension.js"
+    }
   }
 }
