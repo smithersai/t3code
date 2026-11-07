@@ -29,8 +29,11 @@
       "import": "./src/errors.vibe"
     },
     "./tunnel": {
-      "types": "./src/tunnel.ts",
-      "import": "./src/tunnel.ts"
+      "types": "./src/tunnel.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/tunnel.vibe",
+        "default": "./.vibelang/js/src/tunnel.js"
+      }
     }
   },
   "scripts": {

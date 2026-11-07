@@ -3226,7 +3226,7 @@
    },
    {
     "path": {
-     "relative": "packages/ssh/src/tunnel.ts"
+     "relative": "packages/ssh/src/tunnel.vibe"
     },
     "size": 62882,
     "hash": "NF8-0rXcqudt750UFBPglhvK7eRzuosdkQqkSkZHO4E"
@@ -4254,7 +4254,7 @@
     "relative": "packages/shared/src/semver.ts"
    },
    {
-    "relative": "packages/ssh/src/tunnel.ts"
+    "relative": "packages/ssh/src/tunnel.vibe"
    },
    {
     "relative": "packages/ssh/src/tunnel.test.ts"

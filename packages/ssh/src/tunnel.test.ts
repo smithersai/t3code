@@ -16,7 +16,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 
 import * as SshAuth from "./auth.vibe";
 import { SshCommandError } from "./errors.vibe";
-import * as SshTunnel from "./tunnel.ts";
+import * as SshTunnel from "./tunnel.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const makeSuccessfulProcess = (stdout: string) => {
