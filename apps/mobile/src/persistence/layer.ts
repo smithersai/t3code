@@ -1,6 +1,6 @@
 import * as Layer from "effect/Layer";
 
-import * as PullRequestCacheStore from "../connection/pull-request-cache-store";
+import * as PullRequestCacheStore from "../connection/pull-request-cache-store.vibe";
 import * as EnvironmentCacheStore from "../connection/environment-cache-store";
 import * as MobileDatabase from "./mobile-database";
 import * as MobilePreferences from "./mobile-preferences";
