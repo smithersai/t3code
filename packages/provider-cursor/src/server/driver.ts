@@ -10,13 +10,19 @@ import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 import * as HttpClient from "effect/http/HttpClient";
-import { readCursorUsageLimits } from "./usageLimits.ts";
+import { readCursorUsageLimits } from "#vibelang/emitted/src/server/usageLimits";
 
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
-import { makeCursorTextGeneration } from "./textGeneration.ts";
-import { makeCursorAdapterV2, type CursorAdapterV2DriverEnv } from "#vibelang/emitted/src/server/adapter";
+import { makeCursorTextGeneration } from "#vibelang/emitted/src/server/textGeneration";
+import {
+  makeCursorAdapterV2,
+  type CursorAdapterV2DriverEnv,
+} from "#vibelang/emitted/src/server/adapter";
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors";
-import { buildInitialCursorProviderSnapshot, checkCursorProviderStatus } from "#vibelang/emitted/src/server/status";
+import {
+  buildInitialCursorProviderSnapshot,
+  checkCursorProviderStatus,
+} from "#vibelang/emitted/src/server/status";
 import * as CursorSdkCatalog from "#vibelang/emitted/src/server/CursorSdkCatalog";
 import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider";
 import {

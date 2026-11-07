@@ -9,7 +9,7 @@ import * as Schema from "effect/Schema";
 import { createModelSelection } from "@t3tools/shared/model";
 import { beforeEach, vi } from "vite-plus/test";
 
-import { makeCursorTextGeneration } from "./textGeneration.ts";
+import { makeCursorTextGeneration } from "./textGeneration.vibe";
 import * as CursorSdk from "./CursorSdk.ts";
 
 const cursorSdkMock = vi.hoisted(() => ({

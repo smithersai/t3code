@@ -2,6 +2,73 @@
   "name": "@t3tools/provider-cursor",
   "private": true,
   "type": "module",
+  "imports": {
+    "#vibelang/emitted/src/settings": {
+      "types": "./src/settings.d.vibe.ts",
+      "vibelang-source": "./src/settings.vibe",
+      "default": "./.vibelang/js/src/settings.js"
+    },
+    "#vibelang/emitted/src/server/adapter": {
+      "types": "./src/server/adapter.d.vibe.ts",
+      "vibelang-source": "./src/server/adapter.vibe",
+      "default": "./.vibelang/js/src/server/adapter.js"
+    },
+    "#vibelang/emitted/src/server/accountUsage": {
+      "types": "./src/server/accountUsage.d.vibe.ts",
+      "vibelang-source": "./src/server/accountUsage.vibe",
+      "default": "./.vibelang/js/src/server/accountUsage.js"
+    },
+    "#vibelang/emitted/src/server/usageLimits": {
+      "types": "./src/server/usageLimits.d.vibe.ts",
+      "vibelang-source": "./src/server/usageLimits.vibe",
+      "default": "./.vibelang/js/src/server/usageLimits.js"
+    },
+    "#vibelang/emitted/src/server/textGeneration": {
+      "types": "./src/server/textGeneration.d.vibe.ts",
+      "vibelang-source": "./src/server/textGeneration.vibe",
+      "default": "./.vibelang/js/src/server/textGeneration.js"
+    },
+    "#vibelang/emitted/src/server/status": {
+      "types": "./src/server/status.d.vibe.ts",
+      "vibelang-source": "./src/server/status.vibe",
+      "default": "./.vibelang/js/src/server/status.js"
+    },
+    "#vibelang/emitted/src/server/CursorSdkCatalog": {
+      "types": "./src/server/CursorSdkCatalog.d.vibe.ts",
+      "vibelang-source": "./src/server/CursorSdkCatalog.vibe",
+      "default": "./.vibelang/js/src/server/CursorSdkCatalog.js"
+    },
+    "#vibelang/emitted/src/server/skills": {
+      "types": "./src/server/skills.d.vibe.ts",
+      "vibelang-source": "./src/server/skills.vibe",
+      "default": "./.vibelang/js/src/server/skills.js"
+    },
+    "#vibelang/emitted/src/server/auth": {
+      "types": "./src/server/auth.d.vibe.ts",
+      "vibelang-source": "./src/server/auth.vibe",
+      "default": "./.vibelang/js/src/server/auth.js"
+    },
+    "#vibelang/emitted/src/server/credentialStore": {
+      "types": "./src/server/credentialStore.d.vibe.ts",
+      "vibelang-source": "./src/server/credentialStore.vibe",
+      "default": "./.vibelang/js/src/server/credentialStore.js"
+    },
+    "#vibelang/emitted/src/server/CursorAgentSdk": {
+      "types": "./src/server/CursorAgentSdk.d.vibe.ts",
+      "vibelang-source": "./src/server/CursorAgentSdk.vibe",
+      "default": "./.vibelang/js/src/server/CursorAgentSdk.js"
+    },
+    "#vibelang/emitted/src/server/CursorKeychain": {
+      "types": "./src/server/CursorKeychain.d.vibe.ts",
+      "vibelang-source": "./src/server/CursorKeychain.vibe",
+      "default": "./.vibelang/js/src/server/CursorKeychain.js"
+    },
+    "#vibelang/emitted/src/server/CursorUsageAccounts": {
+      "types": "./src/server/CursorUsageAccounts.d.vibe.ts",
+      "vibelang-source": "./src/server/CursorUsageAccounts.vibe",
+      "default": "./.vibelang/js/src/server/CursorUsageAccounts.js"
+    }
+  },
   "exports": {
     "./client": {
       "types": "./src/client.ts",
@@ -97,62 +164,5 @@
     "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
     "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
     "vite-plus": "catalog:"
-  },
-  "imports": {
-    "#vibelang/emitted/src/settings": {
-      "types": "./src/settings.d.vibe.ts",
-      "vibelang-source": "./src/settings.vibe",
-      "default": "./.vibelang/js/src/settings.js"
-    },
-    "#vibelang/emitted/src/server/adapter": {
-      "types": "./src/server/adapter.d.vibe.ts",
-      "vibelang-source": "./src/server/adapter.vibe",
-      "default": "./.vibelang/js/src/server/adapter.js"
-    },
-    "#vibelang/emitted/src/server/accountUsage": {
-      "types": "./src/server/accountUsage.d.vibe.ts",
-      "vibelang-source": "./src/server/accountUsage.vibe",
-      "default": "./.vibelang/js/src/server/accountUsage.js"
-    },
-    "#vibelang/emitted/src/server/status": {
-      "types": "./src/server/status.d.vibe.ts",
-      "vibelang-source": "./src/server/status.vibe",
-      "default": "./.vibelang/js/src/server/status.js"
-    },
-    "#vibelang/emitted/src/server/CursorSdkCatalog": {
-      "types": "./src/server/CursorSdkCatalog.d.vibe.ts",
-      "vibelang-source": "./src/server/CursorSdkCatalog.vibe",
-      "default": "./.vibelang/js/src/server/CursorSdkCatalog.js"
-    },
-    "#vibelang/emitted/src/server/skills": {
-      "types": "./src/server/skills.d.vibe.ts",
-      "vibelang-source": "./src/server/skills.vibe",
-      "default": "./.vibelang/js/src/server/skills.js"
-    },
-    "#vibelang/emitted/src/server/auth": {
-      "types": "./src/server/auth.d.vibe.ts",
-      "vibelang-source": "./src/server/auth.vibe",
-      "default": "./.vibelang/js/src/server/auth.js"
-    },
-    "#vibelang/emitted/src/server/credentialStore": {
-      "types": "./src/server/credentialStore.d.vibe.ts",
-      "vibelang-source": "./src/server/credentialStore.vibe",
-      "default": "./.vibelang/js/src/server/credentialStore.js"
-    },
-    "#vibelang/emitted/src/server/CursorAgentSdk": {
-      "types": "./src/server/CursorAgentSdk.d.vibe.ts",
-      "vibelang-source": "./src/server/CursorAgentSdk.vibe",
-      "default": "./.vibelang/js/src/server/CursorAgentSdk.js"
-    },
-    "#vibelang/emitted/src/server/CursorKeychain": {
-      "types": "./src/server/CursorKeychain.d.vibe.ts",
-      "vibelang-source": "./src/server/CursorKeychain.vibe",
-      "default": "./.vibelang/js/src/server/CursorKeychain.js"
-    },
-    "#vibelang/emitted/src/server/CursorUsageAccounts": {
-      "types": "./src/server/CursorUsageAccounts.d.vibe.ts",
-      "vibelang-source": "./src/server/CursorUsageAccounts.vibe",
-      "default": "./.vibelang/js/src/server/CursorUsageAccounts.js"
-    }
   }
 }

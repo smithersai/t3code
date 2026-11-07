@@ -53,6 +53,13 @@
     },
     "size": 214,
     "hash": "D2N5IZ_UWozgkBq5SEE8dxzUMPuQC0IcOv3BxesU6p4"
+   },
+   {
+    "path": {
+     "relative": "packages/provider-testing/tsconfig.json"
+    },
+    "size": 214,
+    "hash": "D2N5IZ_UWozgkBq5SEE8dxzUMPuQC0IcOv3BxesU6p4"
    }
   ],
   "directories": [
@@ -69,7 +76,7 @@
      "relative": "packages/provider-cursor/src/server"
     },
     null,
-    "F9HFVyEd26okdVaYYphWFlCxpYRDm2xkNmHO2QX4wvs",
+    "OHDj6HGlQvgdjOtHxwKjsMLDz_HhNZYjg7mcDpe6lfc",
     []
    ]
   ],
@@ -210,15 +217,15 @@
     "path": {
      "relative": "packages/provider-core/package.json"
     },
-    "size": 11163,
-    "hash": "QxV2LSmfdJ-g0bawuTmmzJhGh2VLdPvHce4NjI3jAX4"
+    "size": 10772,
+    "hash": "TssBcjWbmpucdXHkt_MV517gETBGjT0FxcQfqkCrepw"
    },
    {
     "path": {
      "relative": "packages/provider-cursor/package.json"
     },
-    "size": 5774,
-    "hash": "sjmFWoJAUcmE5vRZ4506oqP92uI6F6O8M5roFfd7ySA"
+    "size": 6242,
+    "hash": "fppit7sICxRJDTjkOLSeqloOm4gMos_xdnOCCaAog3w"
    },
    {
     "path": {
@@ -350,8 +357,8 @@
     "path": {
      "relative": "packages/provider-testing/package.json"
     },
-    "size": 1381,
-    "hash": "vzDr9nTtW6FoN3UXQCcsJzY2t2RXCbc0EwFngM1D7dc"
+    "size": 1488,
+    "hash": "XI96X2p1JDEnQ1XV_0D6ha6mUKyt1IPSf-qnFSDMo4w"
    },
    {
     "path": {
@@ -3010,6 +3017,55 @@
    },
    {
     "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/FetchHttpClient.d.ts"
+    },
+    "size": 4524,
+    "hash": "Ff1pvEgbHCmcfW2hOA4eeQiO-1bByT22FdR-DUXTJ5o"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/HttpEffect.d.ts"
+    },
+    "size": 7732,
+    "hash": "kOyqZqwX3Fbd-iROXgoNCUDjHor27B1K4zWRAliVcEg"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/HttpStaticServer.d.ts"
+    },
+    "size": 3531,
+    "hash": "FqWhp40GL-Nid--8HsGhRiDv7lP5CmD6JXu65-k2o34"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/HttpTraceContext.d.ts"
+    },
+    "size": 2599,
+    "hash": "7mo6_-CfYhYj6Yp9EXf56nxYXMi1fRHOb4W0zdGA_8k"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/Mime.d.ts"
+    },
+    "size": 835,
+    "hash": "p6d2Snrgf-B_lsoY6y8mvieRRd722cQKxy7JCuR0bME"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/ProblemDetails.d.ts"
+    },
+    "size": 2653,
+    "hash": "g8hvLzVYQM7j-rf1lkfXUyGslbWt7Xyi5kZeaccNyr0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/index.d.ts"
+    },
+    "size": 3116,
+    "hash": "gngeJitvbemM55UcUbeJWEdSQPCmSsBVKJBWk_HHUWM"
+   },
+   {
+    "path": {
      "relative": "packages/shared/src/HostProcess.ts"
     },
     "size": 3151,
@@ -3052,10 +3108,10 @@
    },
    {
     "path": {
-     "relative": "packages/provider-cursor/src/server/usageLimits.ts"
+     "relative": "packages/provider-cursor/src/server/usageLimits.vibe"
     },
-    "size": 6210,
-    "hash": "Lc9MpPygxUMOwXhvpce9nQtAWPcJcvy0CKZfmkcsyz0"
+    "size": 8144,
+    "hash": "e24Kv4BfBecFPplPeZiEsj33CS812D6uE0wVdIO-nJU"
    },
    {
     "path": {
@@ -3070,6 +3126,377 @@
     },
     "size": 2166,
     "hash": "oAYpAbzxWvp_jb_cwyZ7JuoKvPX2czE0qP_CRf5tGmo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workers/Worker.d.ts"
+    },
+    "size": 4507,
+    "hash": "udCtK1jcKQg7UN5IUYnqHUdyRVOuaqT6lb_7LjngNYM"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/rpc/RpcSerialization.d.ts"
+    },
+    "size": 8120,
+    "hash": "ljDibX2ilce9qwNCwJk__lwCeIa7ZXbdBPzqNPjyFEM"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/rpc/Utils.d.ts"
+    },
+    "size": 1163,
+    "hash": "pPgDmwekbYwVy8juL_LacRERQsKq_oVuEOBxPDHCHOE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/rpc/RpcClient.d.ts"
+    },
+    "size": 19359,
+    "hash": "L5VPLDeP1_tp1KeqlI4SvqRRzs46gzJuaeE9rWEtTcE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/EntityId.d.ts"
+    },
+    "size": 1452,
+    "hash": "8G6KvjvryXqT0lOzLVz0ddBd34nYGeX5PJ-TUXgxZLw"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/EntityType.d.ts"
+    },
+    "size": 1688,
+    "hash": "Pr9kw3NwirstIvug3uhdyEJcxyd3UcZJi_h3_qb_qYk"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ShardId.d.ts"
+    },
+    "size": 3452,
+    "hash": "IRZYtpZiXKDE-crBMSrm0iKOcZS-aoL3MT5s66Ybqng"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/EntityAddress.d.ts"
+    },
+    "size": 3010,
+    "hash": "SZDSwm7j3-YI_9Eh0kkQZVeFTOZr2-lQDTPLmcOrzNo"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/RunnerAddress.d.ts"
+    },
+    "size": 3040,
+    "hash": "yrFRicKdgra5vnhnDh1zXykc_uaeqp5wmkoGMP0Xfbs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/MachineId.d.ts"
+    },
+    "size": 1460,
+    "hash": "bSsSmAAMdM0qkQqMlCis3_mAuVUCx7_mi5YoSxSSVeg"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Snowflake.d.ts"
+    },
+    "size": 6636,
+    "hash": "2VBrV_inJwvsXHU3OeEyArFJpjeFrVtkStxHYbLVjYg"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ClusterError.d.ts"
+    },
+    "size": 7433,
+    "hash": "HJuVgbkR2eLkp8af7NmcCYHV_lwNlHYdEbfvF8RKdRM"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Envelope.d.ts"
+    },
+    "size": 11771,
+    "hash": "1stqdRL93Op15owECroyNwBVzcmXoST5dTEWDkQoHfY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Message.d.ts"
+    },
+    "size": 9872,
+    "hash": "X1umrjOArFnumH98ibH25OmdXXPqYq6ySwge6hJI8c4"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Reply.d.ts"
+    },
+    "size": 10360,
+    "hash": "Y8xeHUmrlthiwICskWsLXc9t4OoJ_Pa8_YMyIyzyHX8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ShardingConfig.d.ts"
+    },
+    "size": 18524,
+    "hash": "HL_NI8Jc-1XjO6o0UGXJz3eDhUaIhDQf2Ve2hyyWA4M"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Entity.d.ts"
+    },
+    "size": 13096,
+    "hash": "iRHq5o8OmWj3pKEvtSKALC8zQ2mT1MBznsLDOV77j20"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/MessageStorage.d.ts"
+    },
+    "size": 34555,
+    "hash": "mKDYRuaIlnF7LPrnOFL2AgOip1mz8lGwGJvzQcneaNQ"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/K8sTypes.d.ts"
+    },
+    "size": 167852,
+    "hash": "MzaOsujXKwE01wYSdIB_9cJURiZPT6_ZPQRTE3eTq2c"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/K8sHttpClient.d.ts"
+    },
+    "size": 3629,
+    "hash": "5Pgx_v1Grrxhdl4IwxaedajTCDYRjx359m6zWULPA1k"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Runners.d.ts"
+    },
+    "size": 9902,
+    "hash": "i5zZdlh1sG2cuVK0Oy-J9-7Ct2Rug1wG5jJT6oNo-ps"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/RunnerHealth.d.ts"
+    },
+    "size": 3568,
+    "hash": "DGmZ-CMQIQW-6ZY-_NaaF8lfdHYoTtR6HKO2NaDpWT0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Runner.d.ts"
+    },
+    "size": 3783,
+    "hash": "69XynDbyEGfcXTm_2YEpnkcPG3XNzv76QSfA0iCGKxI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/RunnerStorage.d.ts"
+    },
+    "size": 8502,
+    "hash": "k-BpEYMaDbHwjb6RrCmgQt92Pcl88BfX6ylYMQCi9jc"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/SingletonAddress.d.ts"
+    },
+    "size": 1606,
+    "hash": "Jvz0RpNd6mtglj8ut8Cqf8pNg5m2wpcSWVlerpRw1l0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ShardingRegistrationEvent.d.ts"
+    },
+    "size": 2625,
+    "hash": "DzqEGkDybRTSmzt2XBdXczG5cuVaMYl19Z1zPChvEFw"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Sharding.d.ts"
+    },
+    "size": 6566,
+    "hash": "mAf9eV5VDjHayYpFIJB69aAJ_OCZWsn9jmq9tmhbMfg"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ClusterCron.d.ts"
+    },
+    "size": 3266,
+    "hash": "6oXHUEEOMyMmhYOL1_oUIMZtkuOWQwL95-sxXFdIHsU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ClusterMetrics.d.ts"
+    },
+    "size": 8365,
+    "hash": "mgieQocV1C9i_XWkiaaLX8TI9OV5nTjE7ApoNJhdtxA"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ClusterSchema.d.ts"
+    },
+    "size": 6172,
+    "hash": "Xko8-BfThlGviTI6FW7SvVh_4hKZH4-SqWE-IdlNhws"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workflow/Workflow.d.ts"
+    },
+    "size": 18929,
+    "hash": "T9ym1nDkGu9D_4BX1TVD2t4tpo9nrcTDwbE4dOaXBTg"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workflow/DurableDeferred.d.ts"
+    },
+    "size": 17080,
+    "hash": "0HYeLXjSxTYk2VxmgCR8lsaA7Bq82UNrkpMNKZc0kXg"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workflow/DurableClock.d.ts"
+    },
+    "size": 1683,
+    "hash": "acpDCCT8b7Nx7nC7nWDNGg6pktVOgOR57nNFEur5P64"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workflow/WorkflowEngine.d.ts"
+    },
+    "size": 12971,
+    "hash": "4iB3RMXpMelb_0M-FV7m_hX1LXYhTrUzjNOWE7ejhu0"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workflow/Activity.d.ts"
+    },
+    "size": 6644,
+    "hash": "O94vksRKgyrgx3OpMnXkXv-ze3pAieV5454TvoG64YA"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ClusterWorkflowEngine.d.ts"
+    },
+    "size": 4850,
+    "hash": "QmHx8o8GTlbXU_8dolLMcz9IuE0FNXzEvM3sCRv9H8s"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/DeliverAt.d.ts"
+    },
+    "size": 1543,
+    "hash": "Ibq4ocbdh2IG6-2ubhgLC-7utULf4uXp_F5y__Ili5M"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/EntityProxy.d.ts"
+    },
+    "size": 6091,
+    "hash": "KxDdcwmF-ZTCWCwOTdF6iDpL5VSaHb2J44AsdW9DuMU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/EntityProxyServer.d.ts"
+    },
+    "size": 2133,
+    "hash": "bmMHlqj_ihcpQEXaCF3kgP7FAwzNKVbLoZhfVS-XmxE"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/EntityResource.d.ts"
+    },
+    "size": 3871,
+    "hash": "mXP4oDVO_i9Z2XGGVEFoEOeAHSoR6LijEePcguUn1XY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/HttpRunner.d.ts"
+    },
+    "size": 7605,
+    "hash": "7IROn5E5L336j0R3t8Z6Wf9pbt2jijPO911OeEy7ff4"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/socket/SocketServer.d.ts"
+    },
+    "size": 4068,
+    "hash": "9iPFiG2Y8CfYqbEsesbm0DXSVUTUDFCR4hvO33yZ6wU"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workers/WorkerRunner.d.ts"
+    },
+    "size": 2044,
+    "hash": "dl1B5AbgAlD0W0SwH4LlrHS2ZJNdzIk6vzhXNTZxa9Q"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/rpc/RpcServer.d.ts"
+    },
+    "size": 18536,
+    "hash": "SLvivVFrpm6fGl1TpikzHlXm6nGwlZ2I5BkAZhi0yWs"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/RunnerServer.d.ts"
+    },
+    "size": 2766,
+    "hash": "VIRLTgOJbKvN-uKw4a678tWL_BEBXh_N-mbt1RozfE4"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/SingleRunner.d.ts"
+    },
+    "size": 2868,
+    "hash": "dZihTYTMszQrGTTdK09ZbcE861r7u-4aRGLWZ0Xpz6U"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Singleton.d.ts"
+    },
+    "size": 1982,
+    "hash": "-cmWeYzA3_N5yknjp7BQxpXTMRB4a_1aNizeMA7BidY"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/SocketRunner.d.ts"
+    },
+    "size": 2388,
+    "hash": "jgMC7JfEhtM9wsz0RZGvsYwaGkbRfz8IWOKsC_lUBjg"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/sql/Migrator.d.ts"
+    },
+    "size": 4293,
+    "hash": "U-MK1zwSqANvTD08iperVLajOJ6q8N3nxU7pxs9nghI"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/SqlMessageStorage.d.ts"
+    },
+    "size": 5399,
+    "hash": "4IhxmO3kZYtbzvxbnUmY5NeXG1izrpH82KGob9Yvpzw"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/SqlRunnerStorage.d.ts"
+    },
+    "size": 4301,
+    "hash": "QRDzqXBCqRCTVozYpCJLHrQmtSf8oN6M5XFkd37yaIc"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/TestRunner.d.ts"
+    },
+    "size": 1023,
+    "hash": "S7Jp3TeumNcJNeTal7pDVdhK_FHlK5iBI8NKfdbmqA8"
+   },
+   {
+    "path": {
+     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/index.d.ts"
+    },
+    "size": 3870,
+    "hash": "TCw4mrTHA5ASw2V2ECEmcvSyCaTQphcrVWlaD_pOQ0Q"
    },
    {
     "path": {
@@ -3864,377 +4291,6 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workers/Worker.d.ts"
-    },
-    "size": 4507,
-    "hash": "udCtK1jcKQg7UN5IUYnqHUdyRVOuaqT6lb_7LjngNYM"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/rpc/RpcSerialization.d.ts"
-    },
-    "size": 8120,
-    "hash": "ljDibX2ilce9qwNCwJk__lwCeIa7ZXbdBPzqNPjyFEM"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/rpc/Utils.d.ts"
-    },
-    "size": 1163,
-    "hash": "pPgDmwekbYwVy8juL_LacRERQsKq_oVuEOBxPDHCHOE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/rpc/RpcClient.d.ts"
-    },
-    "size": 19359,
-    "hash": "L5VPLDeP1_tp1KeqlI4SvqRRzs46gzJuaeE9rWEtTcE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/EntityId.d.ts"
-    },
-    "size": 1452,
-    "hash": "8G6KvjvryXqT0lOzLVz0ddBd34nYGeX5PJ-TUXgxZLw"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/EntityType.d.ts"
-    },
-    "size": 1688,
-    "hash": "Pr9kw3NwirstIvug3uhdyEJcxyd3UcZJi_h3_qb_qYk"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ShardId.d.ts"
-    },
-    "size": 3452,
-    "hash": "IRZYtpZiXKDE-crBMSrm0iKOcZS-aoL3MT5s66Ybqng"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/EntityAddress.d.ts"
-    },
-    "size": 3010,
-    "hash": "SZDSwm7j3-YI_9Eh0kkQZVeFTOZr2-lQDTPLmcOrzNo"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/RunnerAddress.d.ts"
-    },
-    "size": 3040,
-    "hash": "yrFRicKdgra5vnhnDh1zXykc_uaeqp5wmkoGMP0Xfbs"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/MachineId.d.ts"
-    },
-    "size": 1460,
-    "hash": "bSsSmAAMdM0qkQqMlCis3_mAuVUCx7_mi5YoSxSSVeg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Snowflake.d.ts"
-    },
-    "size": 6636,
-    "hash": "2VBrV_inJwvsXHU3OeEyArFJpjeFrVtkStxHYbLVjYg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ClusterError.d.ts"
-    },
-    "size": 7433,
-    "hash": "HJuVgbkR2eLkp8af7NmcCYHV_lwNlHYdEbfvF8RKdRM"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Envelope.d.ts"
-    },
-    "size": 11771,
-    "hash": "1stqdRL93Op15owECroyNwBVzcmXoST5dTEWDkQoHfY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Message.d.ts"
-    },
-    "size": 9872,
-    "hash": "X1umrjOArFnumH98ibH25OmdXXPqYq6ySwge6hJI8c4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Reply.d.ts"
-    },
-    "size": 10360,
-    "hash": "Y8xeHUmrlthiwICskWsLXc9t4OoJ_Pa8_YMyIyzyHX8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ShardingConfig.d.ts"
-    },
-    "size": 18524,
-    "hash": "HL_NI8Jc-1XjO6o0UGXJz3eDhUaIhDQf2Ve2hyyWA4M"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Entity.d.ts"
-    },
-    "size": 13096,
-    "hash": "iRHq5o8OmWj3pKEvtSKALC8zQ2mT1MBznsLDOV77j20"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/MessageStorage.d.ts"
-    },
-    "size": 34555,
-    "hash": "mKDYRuaIlnF7LPrnOFL2AgOip1mz8lGwGJvzQcneaNQ"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/K8sTypes.d.ts"
-    },
-    "size": 167852,
-    "hash": "MzaOsujXKwE01wYSdIB_9cJURiZPT6_ZPQRTE3eTq2c"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/K8sHttpClient.d.ts"
-    },
-    "size": 3629,
-    "hash": "5Pgx_v1Grrxhdl4IwxaedajTCDYRjx359m6zWULPA1k"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Runners.d.ts"
-    },
-    "size": 9902,
-    "hash": "i5zZdlh1sG2cuVK0Oy-J9-7Ct2Rug1wG5jJT6oNo-ps"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/RunnerHealth.d.ts"
-    },
-    "size": 3568,
-    "hash": "DGmZ-CMQIQW-6ZY-_NaaF8lfdHYoTtR6HKO2NaDpWT0"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Runner.d.ts"
-    },
-    "size": 3783,
-    "hash": "69XynDbyEGfcXTm_2YEpnkcPG3XNzv76QSfA0iCGKxI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/RunnerStorage.d.ts"
-    },
-    "size": 8502,
-    "hash": "k-BpEYMaDbHwjb6RrCmgQt92Pcl88BfX6ylYMQCi9jc"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/SingletonAddress.d.ts"
-    },
-    "size": 1606,
-    "hash": "Jvz0RpNd6mtglj8ut8Cqf8pNg5m2wpcSWVlerpRw1l0"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ShardingRegistrationEvent.d.ts"
-    },
-    "size": 2625,
-    "hash": "DzqEGkDybRTSmzt2XBdXczG5cuVaMYl19Z1zPChvEFw"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Sharding.d.ts"
-    },
-    "size": 6566,
-    "hash": "mAf9eV5VDjHayYpFIJB69aAJ_OCZWsn9jmq9tmhbMfg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ClusterCron.d.ts"
-    },
-    "size": 3266,
-    "hash": "6oXHUEEOMyMmhYOL1_oUIMZtkuOWQwL95-sxXFdIHsU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ClusterMetrics.d.ts"
-    },
-    "size": 8365,
-    "hash": "mgieQocV1C9i_XWkiaaLX8TI9OV5nTjE7ApoNJhdtxA"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ClusterSchema.d.ts"
-    },
-    "size": 6172,
-    "hash": "Xko8-BfThlGviTI6FW7SvVh_4hKZH4-SqWE-IdlNhws"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workflow/Workflow.d.ts"
-    },
-    "size": 18929,
-    "hash": "T9ym1nDkGu9D_4BX1TVD2t4tpo9nrcTDwbE4dOaXBTg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workflow/DurableDeferred.d.ts"
-    },
-    "size": 17080,
-    "hash": "0HYeLXjSxTYk2VxmgCR8lsaA7Bq82UNrkpMNKZc0kXg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workflow/DurableClock.d.ts"
-    },
-    "size": 1683,
-    "hash": "acpDCCT8b7Nx7nC7nWDNGg6pktVOgOR57nNFEur5P64"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workflow/WorkflowEngine.d.ts"
-    },
-    "size": 12971,
-    "hash": "4iB3RMXpMelb_0M-FV7m_hX1LXYhTrUzjNOWE7ejhu0"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workflow/Activity.d.ts"
-    },
-    "size": 6644,
-    "hash": "O94vksRKgyrgx3OpMnXkXv-ze3pAieV5454TvoG64YA"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/ClusterWorkflowEngine.d.ts"
-    },
-    "size": 4850,
-    "hash": "QmHx8o8GTlbXU_8dolLMcz9IuE0FNXzEvM3sCRv9H8s"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/DeliverAt.d.ts"
-    },
-    "size": 1543,
-    "hash": "Ibq4ocbdh2IG6-2ubhgLC-7utULf4uXp_F5y__Ili5M"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/EntityProxy.d.ts"
-    },
-    "size": 6091,
-    "hash": "KxDdcwmF-ZTCWCwOTdF6iDpL5VSaHb2J44AsdW9DuMU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/EntityProxyServer.d.ts"
-    },
-    "size": 2133,
-    "hash": "bmMHlqj_ihcpQEXaCF3kgP7FAwzNKVbLoZhfVS-XmxE"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/EntityResource.d.ts"
-    },
-    "size": 3871,
-    "hash": "mXP4oDVO_i9Z2XGGVEFoEOeAHSoR6LijEePcguUn1XY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/HttpRunner.d.ts"
-    },
-    "size": 7605,
-    "hash": "7IROn5E5L336j0R3t8Z6Wf9pbt2jijPO911OeEy7ff4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/socket/SocketServer.d.ts"
-    },
-    "size": 4068,
-    "hash": "9iPFiG2Y8CfYqbEsesbm0DXSVUTUDFCR4hvO33yZ6wU"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/workers/WorkerRunner.d.ts"
-    },
-    "size": 2044,
-    "hash": "dl1B5AbgAlD0W0SwH4LlrHS2ZJNdzIk6vzhXNTZxa9Q"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/rpc/RpcServer.d.ts"
-    },
-    "size": 18536,
-    "hash": "SLvivVFrpm6fGl1TpikzHlXm6nGwlZ2I5BkAZhi0yWs"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/RunnerServer.d.ts"
-    },
-    "size": 2766,
-    "hash": "VIRLTgOJbKvN-uKw4a678tWL_BEBXh_N-mbt1RozfE4"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/SingleRunner.d.ts"
-    },
-    "size": 2868,
-    "hash": "dZihTYTMszQrGTTdK09ZbcE861r7u-4aRGLWZ0Xpz6U"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/Singleton.d.ts"
-    },
-    "size": 1982,
-    "hash": "-cmWeYzA3_N5yknjp7BQxpXTMRB4a_1aNizeMA7BidY"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/SocketRunner.d.ts"
-    },
-    "size": 2388,
-    "hash": "jgMC7JfEhtM9wsz0RZGvsYwaGkbRfz8IWOKsC_lUBjg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/sql/Migrator.d.ts"
-    },
-    "size": 4293,
-    "hash": "U-MK1zwSqANvTD08iperVLajOJ6q8N3nxU7pxs9nghI"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/SqlMessageStorage.d.ts"
-    },
-    "size": 5399,
-    "hash": "4IhxmO3kZYtbzvxbnUmY5NeXG1izrpH82KGob9Yvpzw"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/SqlRunnerStorage.d.ts"
-    },
-    "size": 4301,
-    "hash": "QRDzqXBCqRCTVozYpCJLHrQmtSf8oN6M5XFkd37yaIc"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/TestRunner.d.ts"
-    },
-    "size": 1023,
-    "hash": "S7Jp3TeumNcJNeTal7pDVdhK_FHlK5iBI8NKfdbmqA8"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/cluster/index.d.ts"
-    },
-    "size": 3870,
-    "hash": "TCw4mrTHA5ASw2V2ECEmcvSyCaTQphcrVWlaD_pOQ0Q"
-   },
-   {
-    "path": {
      "relative": "packages/shared/src/git.vibe"
     },
     "size": 11371,
@@ -4396,10 +4452,10 @@
    },
    {
     "path": {
-     "relative": "packages/provider-cursor/src/server/textGeneration.ts"
+     "relative": "packages/provider-cursor/src/server/textGeneration.vibe"
     },
-    "size": 7462,
-    "hash": "NCJgAKpM7E3PuWOWz-pjKW8snjDKOG0UtQ7bp_O6L3E"
+    "size": 9537,
+    "hash": "uStktMXvHrFRkGTxuZ1BBaZOKMyH4OPCYg3DuzIPlf4"
    },
    {
     "path": {
@@ -4459,10 +4515,10 @@
    },
    {
     "path": {
-     "relative": "packages/provider-core/src/server/IdAllocator.ts"
+     "relative": "packages/provider-core/src/server/IdAllocator.vibe"
     },
-    "size": 15067,
-    "hash": "uaxY57qtV56w-tIrngQTzUsyiF7qwseVR7dlQoShpPk"
+    "size": 15641,
+    "hash": "pq2wK4WrWzOpmeUoyYQqdGuSc_sQTnZTVVLSZCIxoqo"
    },
    {
     "path": {
@@ -4839,8 +4895,8 @@
     "path": {
      "relative": "packages/provider-core/src/server/failure.vibe"
     },
-    "size": 11823,
-    "hash": "-QWawk4waxbAn732ksjopowmbiKtJ98w-COUnbq7q6I"
+    "size": 11825,
+    "hash": "FR2vdMZqq0-J6KMlbvcqQXby4Yo_n3G03XRqhtaGsrM"
    },
    {
     "path": {
@@ -4984,55 +5040,6 @@
    },
    {
     "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/FetchHttpClient.d.ts"
-    },
-    "size": 4524,
-    "hash": "Ff1pvEgbHCmcfW2hOA4eeQiO-1bByT22FdR-DUXTJ5o"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/HttpEffect.d.ts"
-    },
-    "size": 7732,
-    "hash": "kOyqZqwX3Fbd-iROXgoNCUDjHor27B1K4zWRAliVcEg"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/HttpStaticServer.d.ts"
-    },
-    "size": 3531,
-    "hash": "FqWhp40GL-Nid--8HsGhRiDv7lP5CmD6JXu65-k2o34"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/HttpTraceContext.d.ts"
-    },
-    "size": 2599,
-    "hash": "7mo6_-CfYhYj6Yp9EXf56nxYXMi1fRHOb4W0zdGA_8k"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/Mime.d.ts"
-    },
-    "size": 835,
-    "hash": "p6d2Snrgf-B_lsoY6y8mvieRRd722cQKxy7JCuR0bME"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/ProblemDetails.d.ts"
-    },
-    "size": 2653,
-    "hash": "g8hvLzVYQM7j-rf1lkfXUyGslbWt7Xyi5kZeaccNyr0"
-   },
-   {
-    "path": {
-     "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/http/index.d.ts"
-    },
-    "size": 3116,
-    "hash": "gngeJitvbemM55UcUbeJWEdSQPCmSsBVKJBWk_HHUWM"
-   },
-   {
-    "path": {
      "relative": "node_modules/.pnpm/effect@4.1.1/node_modules/effect/dist/process/index.d.ts"
     },
     "size": 388,
@@ -5161,8 +5168,8 @@
     "path": {
      "relative": "packages/provider-core/src/server/maintenanceResolver.vibe"
     },
-    "size": 34645,
-    "hash": "7FXfZ6z32XagdBLopagDEK6dmYoaIMbjxlGUIuSv9sE"
+    "size": 34831,
+    "hash": "GGs05XU79JoDadJOkatqrBKGSpoXnN2LtfWcV1aGLm8"
    },
    {
     "path": {
@@ -5287,8 +5294,8 @@
     "path": {
      "relative": "packages/provider-cursor/src/server/driver.ts"
     },
-    "size": 11400,
-    "hash": "6q2HYj-71-z825pXz04ab89ExrZx91GEkI9D8VbpdXI"
+    "size": 11458,
+    "hash": "2LnrjTkKSJBqXugYWiuc5_vetY5Frb-lBO42nrxVqrU"
    },
    {
     "path": {
@@ -5546,8 +5553,8 @@
     "path": {
      "relative": "packages/provider-testing/src/TestProviderHost.vibe"
     },
-    "size": 3325,
-    "hash": "t_v35SdmNthvLk4WjpRxWWtg27n93MVyObO2A8T3cSc"
+    "size": 3346,
+    "hash": "5ZsQESMnxUPbA4aLXEcX0iJkglbAb99I7rRXQ4CWJNY"
    },
    {
     "path": {
@@ -5609,8 +5616,8 @@
     "path": {
      "relative": "packages/provider-cursor/src/server/textGeneration.test.ts"
     },
-    "size": 10340,
-    "hash": "7MKZ3Kl8QW6D536IDNQAf6a6C19pBMyQZRnZyYXYQyE"
+    "size": 10342,
+    "hash": "8-5PBh-p7dfRbXzqpSI0__-CLZ6yU6UUeCc2cyAQFvQ"
    },
    {
     "path": {
@@ -8507,8 +8514,8 @@
     "path": {
      "relative": "packages/provider-cursor/src/server/usageLimits.test.ts"
     },
-    "size": 10333,
-    "hash": "bvsZFEXoAW7MYcmuxwTRdawdY9-o36EVwHE8pflQE2I"
+    "size": 10335,
+    "hash": "vZfUro9zwfnlbGsLGUHOirCfSfFnKDjOjtDzW9L5zzs"
    }
   ],
   "inputs": [
@@ -8759,7 +8766,7 @@
     "relative": "packages/provider-cursor/src/server/CursorKeychain.vibe"
    },
    {
-    "relative": "packages/provider-cursor/src/server/usageLimits.ts"
+    "relative": "packages/provider-cursor/src/server/usageLimits.vibe"
    },
    {
     "relative": "packages/provider-core/src/server/errors.vibe"
@@ -8816,7 +8823,7 @@
     "relative": "packages/provider-cursor/src/server/CursorSdk.ts"
    },
    {
-    "relative": "packages/provider-cursor/src/server/textGeneration.ts"
+    "relative": "packages/provider-cursor/src/server/textGeneration.vibe"
    },
    {
     "relative": "packages/shared/src/themePalettes.ts"
@@ -8843,7 +8850,7 @@
     "relative": "packages/provider-core/src/server/randomUuid.vibe"
    },
    {
-    "relative": "packages/provider-core/src/server/IdAllocator.ts"
+    "relative": "packages/provider-core/src/server/IdAllocator.vibe"
    },
    {
     "relative": "packages/provider-core/src/server/selectionTransition.ts"
@@ -9035,6 +9042,16 @@
   "warnings": [
    {
     "file": {
+     "relative": "packages/provider-cursor/src/server/textGeneration.vibe"
+    },
+    "line": 201,
+    "column": 30,
+    "category": "warning",
+    "code": "EK4802",
+    "text": "This argument infers an Effect in a plain function's generic parameter, so the function receives the unrun program instead of its result.\n  Run the Effect with try where it is constructed, or write the Effect type argument explicitly to pass the program itself."
+   },
+   {
+    "file": {
      "relative": "packages/provider-cursor/tsconfig.json"
     },
     "line": 8,
@@ -9088,6 +9105,46 @@
    {
     "paths": [
      {
+      "relative": "packages/provider-cursor/src/server/usageLimits.vibe"
+     }
+    ],
+    "code": "import * as DateTime from \"effect/DateTime\";\nimport * as HttpClientRequest from \"effect/http/HttpClientRequest\";\nimport * as HttpClientResponse from \"effect/http/HttpClientResponse\";\nimport * as Option from \"effect/Option\";\nimport { withSpan } from \"effect/Effect\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport * as HostProcess from \"@t3tools/shared/HostProcess\";\nimport { CURSOR_USAGE_WINDOWS } from \"@t3tools/shared/usageLimits\";\nimport * as Effect from \"effect/Effect\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as Path from \"effect/Path\";\nimport * as Schema from \"effect/Schema\";\nimport * as HttpClient from \"effect/http/HttpClient\";\nimport { clampPercent, makeUnavailableUsageLimits, makeUsageLimits } from \"@t3tools/provider-core/server/usageLimits\";\nimport * as CursorKeychain from \"./CursorKeychain.js\";\nimport { $process_env } from \"./usageLimits.vibe.platform.js\";\nconst CursorCredentials = Schema.Struct({ accessToken: Schema.optional(Schema.String) });\nconst DEFAULT_CURSOR_API_ENDPOINT = \"https://api2.cursor.sh\";\nconst decodeCredentials = Schema.decodeEffect(Schema.fromJsonString(CursorCredentials));\nconst CursorUsageResponse = Schema.Struct({\n    billingCycleEnd: Schema.optional(Schema.Union([Schema.String, Schema.Number])),\n    planUsage: Schema.optional(Schema.Struct({\n        totalPercentUsed: Schema.optional(Schema.Number),\n        autoPercentUsed: Schema.optional(Schema.Number),\n        apiPercentUsed: Schema.optional(Schema.Number),\n    })),\n});\n/** Cursor's dashboard percentages include bonus usage; spend / limit does not. */\nexport function cursorUsageResponseToLimits(response, checkedAt) {\n    const reset = DateTime.make(Number(response.billingCycleEnd));\n    const resetsAt = Number(response.billingCycleEnd) > 0 && Option.isSome(reset)\n        ? DateTime.formatIso(reset.value)\n        : undefined;\n    const windows = [];\n    if (response.planUsage) {\n        for (const { id, label } of CURSOR_USAGE_WINDOWS) {\n            const usedPercent = response.planUsage[id];\n            if (usedPercent === undefined || !Number.isFinite(usedPercent))\n                continue;\n            windows.push({\n                id,\n                kind: \"monthly\",\n                label,\n                usedPercent: clampPercent(usedPercent),\n                ...(resetsAt ? { resetsAt } : {}),\n            });\n        }\n    }\n    return windows.length > 0\n        ? makeUsageLimits({ checkedAt, windows })\n        : makeUnavailableUsageLimits({ checkedAt, reason: \"unsupported\" });\n}\nexport const readCursorUsageLimits = (arg_1, ...args_1) => {\n    try {\n        return ((settings, environment = $process_env(), allowKeychain = false) => Effect_1.gen(function* readCursorUsageLimits() { return yield* withSpan(Effect_1.gen(function* () {\n            const checkedAt = DateTime.formatIso(yield* DateTime.now);\n            return yield* (Effect.orElseSucceed(Effect.timeout(Effect_1.gen(function* () {\n                const fs = yield* FileSystem.FileSystem;\n                const path = yield* Path.Path;\n                const platform = yield* HostProcess.Platform;\n                const endpoint = (settings.apiEndpoint?.trim()\n                    || environment.CURSOR_API_ENDPOINT?.trim()\n                    || DEFAULT_CURSOR_API_ENDPOINT).replace(/\\/$/, \"\");\n                let token = environment.CURSOR_AUTH_TOKEN?.trim();\n                // An explicit API key can name a different account from the stored login.\n                if (!token && environment.CURSOR_API_KEY?.trim()) {\n                    return yield* Effect.orDie(Effect.try({\n                        try: () => makeUnavailableUsageLimits({ checkedAt, reason: \"unsupported\" }),\n                        catch: (e) => e,\n                    }));\n                }\n                const credentialStore = environment.AGENT_CLI_CREDENTIAL_STORE;\n                if (!token && credentialStore === \"memory\") {\n                    return yield* Effect.orDie(Effect.try({\n                        try: () => makeUnavailableUsageLimits({\n                            checkedAt,\n                            reason: \"unsupported\",\n                            message: \"Cursor usage requires a CLI login or CURSOR_AUTH_TOKEN.\",\n                        }),\n                        catch: (e) => e,\n                    }));\n                }\n                if (!token && platform === \"darwin\" && credentialStore !== \"file\") {\n                    if (!allowKeychain) {\n                        return yield* Effect.orDie(Effect.try({\n                            try: () => makeUnavailableUsageLimits({\n                                checkedAt,\n                                reason: \"unsupported\",\n                                message: \"Enable Cursor account usage in T3 Code to read its Keychain login.\",\n                            }),\n                            catch: (e) => e,\n                        }));\n                    }\n                    if (endpoint !== DEFAULT_CURSOR_API_ENDPOINT) {\n                        return yield* Effect.orDie(Effect.try({\n                            try: () => makeUnavailableUsageLimits({\n                                checkedAt,\n                                reason: \"unsupported\",\n                                message: \"Cursor account usage requires the default Cursor endpoint when using Keychain.\",\n                            }),\n                            catch: (e) => e,\n                        }));\n                    }\n                    const keychain = yield* CursorKeychain.CursorKeychain;\n                    token = (yield* keychain.accessToken)?.trim();\n                }\n                else if (!token) {\n                    const home = (platform === \"win32\" ? environment.USERPROFILE : environment.HOME)\n                        || (yield* HostProcess.HomeDirectory);\n                    const directory = platform === \"win32\"\n                        ? path.join(environment.APPDATA || path.join(home, \"AppData\", \"Roaming\"), \"Cursor\")\n                        : platform === \"darwin\"\n                            ? path.join(home, \".cursor\")\n                            : path.join(environment.XDG_CONFIG_HOME || path.join(home, \".config\"), \"cursor\");\n                    const credentials = yield* (Effect.flatMap(Effect.catchTags(fs.readFileString(path.join(directory, \"auth.json\")), {\n                        PlatformError: (error) => error.reason._tag === \"NotFound\" ? Effect.succeed(\"{}\") : Effect.fail(error),\n                    }), decodeCredentials));\n                    token = credentials.accessToken?.trim();\n                }\n                if (!token) {\n                    return yield* Effect.orDie(Effect.try({\n                        try: () => makeUnavailableUsageLimits({ checkedAt, reason: \"unsupported\" }),\n                        catch: (e) => e,\n                    }));\n                }\n                const client = yield* HttpClient.HttpClient;\n                const response = yield* client.execute(HttpClientRequest.post(`${endpoint}/aiserver.v1.DashboardService/GetCurrentPeriodUsage`).pipe(HttpClientRequest.bearerToken(token), HttpClientRequest.setHeaders({\n                    \"connect-protocol-version\": \"1\",\n                    \"x-cursor-client-type\": \"cli\",\n                }), HttpClientRequest.bodyJsonUnsafe({})));\n                const body = yield* HttpClientResponse.schemaBodyJson(CursorUsageResponse)(yield* HttpClientResponse.filterStatusOk(response));\n                return cursorUsageResponseToLimits(body, checkedAt);\n            }), \"10 seconds\"), () => makeUnavailableUsageLimits({\n                checkedAt,\n                reason: \"probeFailed\",\n                message: \"Cursor could not read usage limits.\",\n            })));\n        }), \"readCursorUsageLimits\"); }))(arg_1, ...runtime.$spreadItems(args_1));\n    }\n    catch (e_1) {\n        return Effect_1.die(e_1);\n    }\n};\n",
+    "map": {
+     "version": 3,
+     "file": "usageLimits.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/provider-cursor/src/server/usageLimits.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": ";;;;;;;AAEA,OAAO,KAAK,WAAW,MAAM,6BAA6B,CAAA;AAC1D,OAAO,EAAE,oBAAoB,EAAE,MAAM,6BAA6B,CAAA;AAClE,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,UAAU,MAAM,mBAAmB,CAAA;AAC/C,OAAO,KAAK,IAAI,MAAM,aAAa,CAAA;AACnC,OAAO,KAAK,MAAM,MAAM,eAAe,CAAA;AACvC,OAAO,KAAK,UAAU,MAAM,wBAAwB,CAAA;AACpD,OAAO,EAAE,YAAY,EAAE,0BAA0B,EAAE,eAAe,EAAE,MAAM,2CAA2C,CAAA;AACrH,OAAO,KAAK,cAAc,MAAM,qBAAuB,CAAA;AASvD,OAAO,EAAE,YAAY,EAAE,MAAM,gCAAQ,CAAA;AAErC,MAAM,iBAAiB,GAAG,MAAM,CAAC,MAAM,CAAC,EAAE,WAAW,EAAE,MAAM,CAAC,QAAQ,CAAC,MAAM,CAAC,MAAM,CAAC,EAAE,CAAC,CAAA;AACxF,MAAM,2BAA2B,GAAG,wBAAwB,CAAA;AAC5D,MAAM,iBAAiB,GAAG,MAAM,CAAC,YAAY,CAAC,MAAM,CAAC,cAAc,CAAC,iBAAiB,CAAC,CAAC,CAAA;AACvF,MAAM,mBAAmB,GAAG,MAAM,CAAC,MAAM,CAAC;IACxC,eAAe,EAAE,MAAM,CAAC,QAAQ,CAAC,MAAM,CAAC,KAAK,CAAC,CAAC,MAAM,CAAC,MAAM,EAAE,MAAM,CAAC,MAAM,CAAC,CAAC,CAAC;IAC9E,SAAS,EAAE,MAAM,CAAC,QAAQ,CACxB,MAAM,CAAC,MAAM,CAAC;QACZ,gBAAgB,EAAE,MAAM,CAAC,QAAQ,CAAC,MAAM,CAAC,MAAM,CAAC;QAChD,eAAe,EAAE,MAAM,CAAC,QAAQ,CAAC,MAAM,CAAC,MAAM,CAAC;QAC/C,cAAc,EAAE,MAAM,CAAC,QAAQ,CAAC,MAAM,CAAC,MAAM,CAAC;KAC/C,CAAC,CACH;CACF,CAAC,CAAA;AACF,kFAAkF;AAClF,MAAM,UAAU,2BAA2B,CACzC,QAAyC,EACzC,SAAiB;IAEjB,MAAM,KAAK,GAAG,QAAQ,CAAC,IAAI,CAAC,MAAM,CAAC,QAAQ,CAAC,eAAe,CAAC,CAAC,CAAA;IAC7D,MAAM,QAAQ,GAAG,MAAM,CAAC,QAAQ,CAAC,eAAe,CAAC,GAAG,CAAC,IAAI,MAAM,CAAC,MAAM,CAAC,KAAK,CAAC;QAC3E,CAAC,CAAC,QAAQ,CAAC,SAAS,CAAC,KAAK,CAAC,KAAK,CAAC;QACjC,CAAC,CAAC,SAAS,CAAA;IACb,MAAM,OAAO,GAAgC,EAAE,CAAA;IAC/C,IAAI,QAAQ,CAAC,SAAS,EAAE,CAAC;QACvB,KAAK,MAAM,EAAE,EAAE,EAAE,KAAK,EAAE,IAAI,oBAAoB,EAAE,CAAC;YACjD,MAAM,WAAW,GAAG,QAAQ,CAAC,SAAS,CAAC,EAAE,CAAC,CAAA;YAC1C,IAAI,WAAW,KAAK,SAAS,IAAI,CAAC,MAAM,CAAC,QAAQ,CAAC,WAAW,CAAC;gBAAE,SAAQ;YACxE,OAAO,CAAC,IAAI,CAAC;gBACX,EAAE;gBACF,IAAI,EAAE,SAAS;gBACf,KAAK;gBACL,WAAW,EAAE,YAAY,CAAC,WAAW,CAAC;gBACtC,GAAG,CAAC,QAAQ,CAAC,CAAC,CAAC,EAAE,QAAQ,EAAE,CAAC,CAAC,CAAC,EAAE,CAAC;aAClC,CAAC,CAAA;QACJ,CAAC;IACH,CAAC;IACD,OAAO,OAAO,CAAC,MAAM,GAAG,CAAC;QACvB,CAAC,CAAC,eAAe,CAAC,EAAE,SAAS,EAAE,OAAO,EAAE,CAAC;QACzC,CAAC,CAAC,0BAA0B,CAAC,EAAE,SAAS,EAAE,MAAM,EAAE,aAAa,EAAE,CAAC,CAAA;AACtE,CAAC;AACD,MAAM,CAAC,MAAM,qBAAqB,GAAG;GAAA,C,CAAA;iBACnC,QAmCC,EACD,WAAW,GAAkC,YAAY,EAAE,EAC3D,aAAa,GAAG,KAAK,kB,CAAA,S,CAAA,uCAEjB,QAAQ,CACV,a,CAAA;YACE,MAAM,SAAS,GAAG,QAAQ,CAAC,SAAS,QAAK,QAAQ,CAAC,GAAG,CAAC,CAAA;YACtD,cAAW,CA8FN,MAAM,CAAC,aAAa,CADpB,MAAM,CAAC,OAAO,CA7FP,a,CAAA;gBACV,MAAM,EAAE,UAAO,UAAU,CAAC,UAAU,CAAA;gBACpC,MAAM,IAAI,UAAO,IAAI,CAAC,IAAI,CAAA;gBAC1B,MAAM,QAAQ,UAAO,WAAW,CAAC,QAAQ,CAAA;gBACzC,MAAM,QAAQ,GAAG,CACf,QAAQ,CAAC,WAAW,EAAE,IAAI,EAAE;uBACzB,WAAW,CAAC,mBAAmB,EAAE,IAAI,EAAE;uBACvC,2BAA2B,CAC/B,CAAC,OAAO,CAAC,KAAK,EAAE,EAAE,CAAC,CAAA;gBACpB,IAAI,KAAK,GAAG,WAAW,CAAC,iBAAiB,EAAE,IAAI,EAAE,CAAA;gBACjD,0EAA0E;gBAC1E,IAAI,CAAC,KAAK,IAAI,WAAW,CAAC,cAAc,EAAE,IAAI,EAAE,EAAE,CAAC;oBACjD,cAAW,MAAM,CAAC,KAAK,CACrB,MAAM,CAAC,GAAG,CAAC;wBACT,GAAG,EAAE,GAAG,EAAE,CAAC,0BAA0B,CAAC,EAAE,SAAS,EAAE,MAAM,EAAE,aAAa,EAAE,CAAC;wBAC3E,KAAK,EAAE,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC;qBAChB,CAAC,CACH,CAAA;gBACH,CAAC;gBACD,MAAM,eAAe,GAAG,WAAW,CAAC,0BAA0B,CAAA;gBAC9D,IAAI,CAAC,KAAK,IAAI,eAAe,KAAK,QAAQ,EAAE,CAAC;oBAC3C,cAAW,MAAM,CAAC,KAAK,CAAC,MAAM,CAAC,GAAG,CAAC;wBACjC,GAAG,EAAE,GAAG,EAAE,CACR,0BAA0B,CAAC;4BACzB,SAAS;4BACT,MAAM,EAAE,aAAa;4BACrB,OAAO,EAAE,yDAAyD;yBACnE,CAAC;wBACJ,KAAK,EAAE,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC;qBAChB,CAAC,CAAC,CAAA;gBACL,CAAC;gBACD,IAAI,CAAC,KAAK,IAAI,QAAQ,KAAK,QAAQ,IAAI,eAAe,KAAK,MAAM,EAAE,CAAC;oBAClE,IAAI,CAAC,aAAa,EAAE,CAAC;wBACnB,cAAW,MAAM,CAAC,KAAK,CAAC,MAAM,CAAC,GAAG,CAAC;4BACjC,GAAG,EAAE,GAAG,EAAE,CACR,0BAA0B,CAAC;gCACzB,SAAS;gCACT,MAAM,EAAE,aAAa;gCACrB,OAAO,EAAE,oEAAoE;6BAC9E,CAAC;4BACJ,KAAK,EAAE,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC;yBAChB,CAAC,CAAC,CAAA;oBACL,CAAC;oBACD,IAAI,QAAQ,KAAK,2BAA2B,EAAE,CAAC;wBAC7C,cAAW,MAAM,CAAC,KAAK,CAAC,MAAM,CAAC,GAAG,CAAC;4BACjC,GAAG,EAAE,GAAG,EAAE,CACR,0BAA0B,CAAC;gCACzB,SAAS;gCACT,MAAM,EAAE,aAAa;gCACrB,OAAO,EAAE,gFAAgF;6BAC1F,CAAC;4BACJ,KAAK,EAAE,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC;yBAChB,CAAC,CAAC,CAAA;oBACL,CAAC;oBACD,MAAM,QAAQ,UAAO,cAAc,CAAC,cAAc,CAAA;oBAClD,KAAK,GAAG,QAAK,QAAQ,CAAC,WAAW,CAAC,EAAE,IAAI,EAAE,CAAA;gBAC5C,CAAC;qBAAM,IAAI,CAAC,KAAK,EAAE,CAAC;oBAClB,MAAM,IAAI,GAAG,CAAC,QAAQ,KAAK,OAAO,CAAC,CAAC,CAAC,WAAW,CAAC,WAAW,CAAC,CAAC,CAAC,WAAW,CAAC,IAAI,CAAC;2BAC3E,QAAK,WAAW,CAAC,aAAa,CAAC,CAAA;oBACpC,MAAM,SAAS,GAAG,QAAQ,KAAK,OAAO;wBACpC,CAAC,CAAC,IAAI,CAAC,IAAI,CAAC,WAAW,CAAC,OAAO,IAAI,IAAI,CAAC,IAAI,CAAC,IAAI,EAAE,SAAS,EAAE,SAAS,CAAC,EAAE,QAAQ,CAAC;wBACnF,CAAC,CAAC,QAAQ,KAAK,QAAQ;4BACvB,CAAC,CAAC,IAAI,CAAC,IAAI,CAAC,IAAI,EAAE,SAAS,CAAC;4BAC5B,CAAC,CAAC,IAAI,CAAC,IAAI,CAAC,WAAW,CAAC,eAAe,IAAI,IAAI,CAAC,IAAI,CAAC,IAAI,EAAE,SAAS,CAAC,EAAE,QAAQ,CAAC,CAAA;oBAClF,MAAM,WAAW,UAAO,CAInB,MAAM,CAAC,OAAO,CAHd,MAAM,CAAC,SAAS,CADI,EAAE,CAAC,cAAc,CAAC,IAAI,CAAC,IAAI,CAAC,SAAS,EAAE,WAAW,CAAC,CAAC,EACpD;wBACrB,aAAa,EAAE,CAAC,KAAK,EAAE,EAAE,CAAC,KAAK,CAAC,MAAM,CAAC,IAAI,KAAK,UAAU,CAAC,CAAC,CAAC,MAAM,CAAC,OAAO,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,IAAI,CAAC,KAAK,CAAC;qBACvG,CAAC,EACmB,iBAAiB,CAAC,CAAC,CAAA;oBAC1C,KAAK,GAAG,WAAW,CAAC,WAAW,EAAE,IAAI,EAAE,CAAA;gBACzC,CAAC;gBACD,IAAI,CAAC,KAAK,EAAE,CAAC;oBACX,cAAW,MAAM,CAAC,KAAK,CAAC,MAAM,CAAC,GAAG,CAAC;wBACjC,GAAG,EAAE,GAAG,EAAE,CAAC,0BAA0B,CAAC,EAAE,SAAS,EAAE,MAAM,EAAE,aAAa,EAAE,CAAC;wBAC3E,KAAK,EAAE,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC;qBAChB,CAAC,CAAC,CAAA;gBACL,CAAC;gBACD,MAAM,MAAM,UAAO,UAAU,CAAC,UAAU,CAAA;gBACxC,MAAM,QAAQ,UAAO,MAAM,CAAC,OAAO,CACjC,iBAAiB,CAAC,IAAI,CAAC,GAAG,QAAQ,qDAAqD,CAAC,CAAC,IAAI,CAC3F,iBAAiB,CAAC,WAAW,CAAC,KAAK,CAAC,EACpC,iBAAiB,CAAC,UAAU,CAAC;oBAC3B,0BAA0B,EAAE,GAAG;oBAC/B,sBAAsB,EAAE,KAAK;iBAC9B,CAAC,EACF,iBAAiB,CAAC,cAAc,CAAC,EAAE,CAAC,CACrC,CACF,CAAA;gBACD,MAAM,IAAI,UAAO,kBAAkB,CAAC,cAAc,CAAC,mBAAmB,CAAC,QACjE,kBAAkB,CAAC,cAAc,CAAC,QAAQ,CAAC,CAChD,CAAA;gBACD,OAAO,2BAA2B,CAAC,IAAI,EAAE,SAAS,CAAC,CAAA;YACrD,CAAC,CAAA,EACsB,YAAY,CAAC,EACP,GAAG,EAAE,CAC9B,0BAA0B,CAAC;gBACzB,SAAS;gBACT,MAAM,EAAE,aAAa;gBACrB,OAAO,EAAE,qCAAqC;aAC/C,CAAC,CAAC,CAAC,CAAA;QACV,CAAC,CAAA,EACD,uBAAuB,CACxB,gB,CAAA;;;OAAA,C,CAAA;;CAAA,CAAA"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "packages/provider-cursor/src/server/usageLimits.vibe.platform.js"
+     }
+    ],
+    "code": "/** @throws {never} */\nexport function $process_env() {\n    return process.env;\n}\n",
+    "map": {
+     "version": 3,
+     "file": "usageLimits.vibe.platform.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/provider-cursor/src/server/usageLimits.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "AAaE,sBAAsB;AACtB,MAAM,UAAU,YAAY;IAC1B,OAAO,OAAO,CAAC,GAAG,CAAA;AACpB,CAAC"
+    }
+   },
+   {
+    "paths": [
+     {
       "relative": "packages/provider-cursor/src/server/auth.vibe"
      }
     ],
@@ -9103,6 +9160,46 @@
      ],
      "names": [],
      "mappings": "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"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "packages/provider-cursor/src/server/textGeneration.vibe"
+     }
+    ],
+    "code": "import * as Option from \"effect/Option\";\nimport * as Schema from \"effect/Schema\";\nimport { withSpan } from \"effect/Effect\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport * as FileSystem from \"effect/FileSystem\";\nimport * as Effect from \"effect/Effect\";\nimport { TextGenerationError } from \"@t3tools/contracts\";\nimport * as TextGenerationOperations from \"@t3tools/provider-core/server/textGenerationOperations\";\nimport { cursorSdkModelSelection } from \"./sdkModel.js\";\nimport * as CursorSdk from \"./CursorSdk.js\";\nimport * as HostProcess from \"@t3tools/shared/HostProcess\";\nimport { $process_env } from \"./textGeneration.vibe.platform.js\";\nconst CURSOR_TIMEOUT_MS = 180_000;\nconst isTextGenerationError = Schema.is(TextGenerationError);\nfunction cursorSdkResultDetail(result) {\n    switch (result.status) {\n        case \"cancelled\":\n            return \"Cursor SDK request was cancelled.\";\n        case \"error\":\n            return \"Cursor SDK request finished with an error.\";\n        case \"finished\":\n            return \"Cursor SDK returned empty output.\";\n    }\n}\n// Sandboxing fails without cursorsandbox or after a process-wide unsupported result.\nfunction cursorSandboxUnsupported(cause) {\n    const seen = new Set();\n    let current = cause;\n    while (typeof current === \"object\" && current !== null && !seen.has(current)) {\n        seen.add(current);\n        if (current instanceof Error && current.message.includes(\"sandboxing is not supported\")) {\n            return true;\n        }\n        current = Reflect.get(current, \"cause\");\n    }\n    return false;\n}\nexport const makeCursorTextGeneration = (cursorSettings, environment, resolveApiKey, withAccess) => {\n    return Effect_1.gen(function* makeCursorTextGeneration() { return yield* withSpan(Effect_1.gen(function* () {\n        const fs = yield* FileSystem.FileSystem;\n        const { Agent, SqliteLocalAgentStore } = yield* CursorSdk.CursorSdk;\n        const resolvedEnvironment = environment ?? $process_env();\n        const resolveCursorApiKey = (operation) => {\n            return Effect_1.gen(function* resolveCursorApiKey() { return yield* withSpan(Effect_1.gen(function* () {\n                if (!cursorSettings.enabled) {\n                    return yield* Effect_1.fail(new TextGenerationError({\n                        operation,\n                        detail: \"Cursor is disabled in T3 Code settings.\",\n                    }));\n                }\n                const apiKey = resolveApiKey\n                    ? yield* resolveApiKey : resolvedEnvironment.CURSOR_API_KEY?.trim();\n                if (!apiKey) {\n                    return yield* Effect_1.fail(new TextGenerationError({\n                        operation,\n                        detail: \"Sign in with Cursor or add CURSOR_API_KEY in provider settings.\",\n                    }));\n                }\n                return apiKey;\n            }), \"CursorTextGeneration.resolveCursorApiKey\"); });\n        };\n        const runCursorJson = (input) => {\n            return Effect_1.gen(function* runCursorJson() { return yield* withSpan(((effect, input) => {\n                const { operation } = input;\n                return effect.pipe(Effect.scoped, (effect) => (withAccess ? withAccess(effect) : effect), Effect.scoped, Effect.mapError((cause) => isTextGenerationError(cause)\n                    ? cause\n                    : new TextGenerationError({\n                        operation,\n                        detail: \"Cursor SDK text generation failed.\",\n                        cause,\n                    })));\n            })(Effect_1.gen(function* () {\n                const { operation, prompt, modelSelection } = input;\n                const apiKey = yield* resolveCursorApiKey(operation);\n                // sandbox.json expands writable paths independently of settingSources; the public API cannot override it.\n                if (yield* fs.exists(`${yield* HostProcess.HomeDirectory}/.cursor/sandbox.json`)) {\n                    return yield* Effect_1.fail(new TextGenerationError({\n                        operation,\n                        detail: \"Cursor text generation cannot enforce workspace isolation with a custom ~/.cursor/sandbox.json. Use another text-generation provider.\",\n                    }));\n                }\n                const cwd = yield* fs.makeTempDirectoryScoped({ prefix: \"t3-cursor-text-\" });\n                // Only store disposal releases SDK SQLite handles; keep state outside the empty workspace.\n                const stateRoot = yield* fs.makeTempDirectoryScoped({ prefix: \"t3-cursor-text-state-\" });\n                const store = yield* runtime.acquireRelease(Effect.tryPromise(() => SqliteLocalAgentStore.open({ workspaceRef: cwd, stateRoot })), (store) => { var topic_1; return (topic_1 = Effect.tryPromise(() => store.dispose()), Effect.ignore({ log: true })(topic_1)); });\n                const agentOptions = {\n                    apiKey,\n                    mode: \"plan\",\n                    model: yield* Effect.orDie(Effect.try({ try: () => cursorSdkModelSelection(modelSelection), catch: (e) => e })),\n                    local: {\n                        cwd,\n                        store,\n                        autoReview: false,\n                        sandboxOptions: { enabled: true },\n                        settingSources: [],\n                        enableAgentRetries: true,\n                    },\n                };\n                const createCursorAgent = (sandboxEnabled) => Effect.tryPromise((signal) => Agent.create(sandboxEnabled\n                    ? agentOptions\n                    : {\n                        ...agentOptions,\n                        local: {\n                            ...agentOptions.local,\n                            sandboxOptions: { enabled: false },\n                        },\n                    }).then((agent) => {\n                    if (signal.aborted)\n                        agent.close();\n                    return agent;\n                }));\n                const request = Effect.scoped(Effect_1.gen(function* () {\n                    // Empty cwd and setting sources isolate the run from user projects even if sandboxing fails.\n                    const agent = yield* runtime.acquireRelease(Effect.catchIf(createCursorAgent(true), cursorSandboxUnsupported, () => createCursorAgent(false)), (agent) => { var topic_2; return (topic_2 = Effect.timeout(Effect.tryPromise(() => agent[Symbol.asyncDispose]()), \"5 seconds\"), Effect.ignore({ log: true })(topic_2)); }, { interruptible: true });\n                    const run = yield* Effect.tryPromise((signal) => agent.send(prompt).then((run) => {\n                        if (signal.aborted)\n                            void run.cancel().catch(() => undefined);\n                        return run;\n                    }));\n                    yield* Effect.addFinalizer(() => {\n                        var topic_3;\n                        return run.status === \"running\"\n                            ? ((topic_3 = Effect.timeout(Effect.tryPromise(() => run.cancel()), \"5 seconds\"), Effect.ignore({ log: true })(topic_3)))\n                            : Effect.void;\n                    });\n                    return yield* Effect.tryPromise(() => run.wait());\n                }));\n                const promptResult = yield* (Effect.flatMap(Effect.timeoutOption(request, CURSOR_TIMEOUT_MS), Option.match({\n                    onNone: () => Effect.fail(new TextGenerationError({\n                        operation,\n                        detail: \"Cursor SDK request timed out.\",\n                    })),\n                    onSome: (value) => Effect.succeed(value),\n                })));\n                const rawResult = promptResult.result?.trim() ?? \"\";\n                if (promptResult.status !== \"finished\" || !rawResult) {\n                    return yield* Effect_1.fail(new TextGenerationError({\n                        operation,\n                        detail: cursorSdkResultDetail(promptResult),\n                    }));\n                }\n                return yield* TextGenerationOperations.decodeJsonReply(input, \"Cursor SDK\", rawResult);\n            }), input), \"CursorTextGeneration.runCursorJson\"); });\n        };\n        return TextGenerationOperations.fromRunner(\"CursorTextGeneration\", TextGenerationOperations.withoutInvestigation(\"Cursor\", runCursorJson));\n    }), \"makeCursorTextGeneration\"); });\n};\n",
+    "map": {
+     "version": 3,
+     "file": "textGeneration.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/provider-cursor/src/server/textGeneration.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "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"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "packages/provider-cursor/src/server/textGeneration.vibe.platform.js"
+     }
+    ],
+    "code": "/** @throws {never} */\nexport function $process_env() {\n    return process.env;\n}\n",
+    "map": {
+     "version": 3,
+     "file": "textGeneration.vibe.platform.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/provider-cursor/src/server/textGeneration.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "AAYE,sBAAsB;AACtB,MAAM,UAAU,YAAY;IAC1B,OAAO,OAAO,CAAC,GAAG,CAAA;AACpB,CAAC"
     }
    },
    {
