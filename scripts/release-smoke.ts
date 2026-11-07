@@ -9,6 +9,13 @@ import * as Effect from "effect/Effect";
 
 const repoRoot = NodePath.resolve(NodePath.dirname(NodeURL.fileURLToPath(import.meta.url)), "..");
 
+const vibelangRegister = import.meta.resolve("vibelang/register");
+const nativeNodeArgs = ["--import", vibelangRegister] as const;
+
+function quoteShellArgument(value: string): string {
+  return "'" + value.replaceAll("'", "'\\''") + "'";
+}
+
 const workspaceFiles = [
   "package.json",
   "pnpm-lock.yaml",
@@ -60,6 +67,12 @@ function copyWorkspaceManifestFixture(targetRoot: string): void {
     NodeFS.mkdirSync(NodePath.dirname(destinationPath), { recursive: true });
     NodeFS.cpSync(sourcePath, destinationPath);
   }
+
+  NodeFS.cpSync(
+    NodePath.resolve(repoRoot, ".vibelang-toolchain"),
+    NodePath.resolve(targetRoot, ".vibelang-toolchain"),
+    { recursive: true },
+  );
 
   const mobileDependencies = NodePath.resolve(repoRoot, "apps/mobile/deps");
   if (NodeFS.existsSync(mobileDependencies)) {
@@ -225,6 +238,7 @@ try {
   NodeChildProcess.execFileSync(
     process.execPath,
     [
+      ...nativeNodeArgs,
       NodePath.resolve(repoRoot, "scripts/update-release-package-versions.ts"),
       "9.9.9-smoke.0",
       "--root",
@@ -258,6 +272,7 @@ try {
   const nightlyReleaseMetadata = NodeChildProcess.execFileSync(
     process.execPath,
     [
+      ...nativeNodeArgs,
       NodePath.resolve(repoRoot, "scripts/resolve-nightly-release.ts"),
       "--date",
       "20260413",
@@ -293,6 +308,7 @@ try {
   NodeChildProcess.execFileSync(
     process.execPath,
     [
+      ...nativeNodeArgs,
       NodePath.resolve(repoRoot, "scripts/merge-update-manifests.ts"),
       "--platform",
       "mac",
@@ -335,7 +351,7 @@ try {
     [
       "-lc",
       `
-        release_assets_dir=${JSON.stringify(NodePath.resolve(tempRoot, "release-assets"))}
+        release_assets_dir=${quoteShellArgument(NodePath.resolve(tempRoot, "release-assets"))}
         shopt -s nullglob
         found_windows_manifest=false
         for x64_manifest in "$release_assets_dir"/*-win-x64.yml; do
@@ -351,7 +367,7 @@ try {
           fi
 
           found_windows_manifest=true
-          ${JSON.stringify(process.execPath)} ${JSON.stringify(NodePath.resolve(repoRoot, "scripts/merge-update-manifests.ts"))} --platform win \
+          ${quoteShellArgument(process.execPath)} --import ${quoteShellArgument(vibelangRegister)} ${quoteShellArgument(NodePath.resolve(repoRoot, "scripts/merge-update-manifests.ts"))} --platform win \
             "$arm64_manifest" \
             "$x64_manifest" \
             "$output_manifest"

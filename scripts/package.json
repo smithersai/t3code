@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "typecheck": "vibelang --noEmit",
-    "test": "vp test run --config ../vite.config.ts --dir ."
+    "test": "node --test release-smoke.native-loader.node-test.mjs && vp test run --config ../vite.config.ts --dir ."
   },
   "dependencies": {
     "@effect/platform-node": "catalog:",
@@ -25,6 +25,7 @@
     "@types/plist": "catalog:",
     "@types/pngjs": "6.0.5",
     "esbuild": "0.28.2",
+    "fast-check": "4.10.2",
     "postject": "1.0.0-alpha.6",
     "typescript": "catalog:",
     "typescript-legacy": "npm:typescript@~6.0.3",
