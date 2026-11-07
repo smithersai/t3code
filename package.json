@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "vp config --no-agent",
+    "prepare": "vp config --no-agent && pnpm run build:declarations",
     "dev": "node --import vibelang/register scripts/dev-runner.ts dev",
     "dev:share": "node --import vibelang/register scripts/dev-runner.ts dev --share",
     "dev:server": "node --import vibelang/register scripts/dev-runner.ts dev:server",
@@ -52,7 +52,8 @@
     "dist:desktop:win:x64": "node --import vibelang/register scripts/build-desktop-artifact.ts --platform win --target nsis --arch x64",
     "release:smoke": "node --import vibelang/register scripts/release-smoke.ts",
     "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules apps/*/dist apps/*/dist-electron packages/*/dist .vite-plus apps/*/.vite-plus packages/*/.vite-plus",
-    "sync:repos": "node --import vibelang/register scripts/sync-reference-repos.ts"
+    "sync:repos": "node --import vibelang/register scripts/sync-reference-repos.ts",
+    "build:declarations": "node scripts/build-vibelang-declarations.mjs"
   },
   "devDependencies": {
     "@coderabbitai/config": "1.1.0",

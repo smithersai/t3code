@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "typecheck": "vibelang --noEmit",
-    "test": "node --test release-smoke.native-loader.node-test.mjs ci-changes-native.node-test.mjs && vp test run --config ../vite.config.ts --dir ."
+    "test": "node --test build-vibelang-declarations.node-test.mjs release-smoke.native-loader.node-test.mjs ci-changes-native.node-test.mjs && vp test run --config ../vite.config.ts --dir ."
   },
   "dependencies": {
     "@effect/platform-node": "catalog:",

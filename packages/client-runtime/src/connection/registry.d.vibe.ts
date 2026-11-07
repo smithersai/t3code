@@ -1,4 +1,0 @@
-import * as Layer from "effect/Layer";
-import { EnvironmentRegistry } from "./registry.vibe.platform.js";
-export { EnvironmentNotRegisteredError, EnvironmentRegistry, PlatformEnvironmentRemovalError, make } from "./registry.vibe.platform.js";
-export declare const layer: Layer.Layer<EnvironmentRegistry, import("../platform/persistence.vibe").ConnectionPersistenceError | import("./model.vibe").ConnectionAttemptError, import("./credentialStore.vibe").ConnectionCredentialStore | import("./driver.vibe").ConnectionDriver | import("./profileStore.vibe").ConnectionProfileStore | import("../platform/persistence.vibe").ConnectionRegistrationStore | import("../platform/persistence.vibe").ConnectionTargetStore | import("./wakeups.vibe").ConnectionWakeups | import("./connectivity.vibe").Connectivity | import("../platform/persistence.vibe").EnvironmentCacheStore | import("../platform/capabilities.vibe").SshEnvironmentGateway>;
