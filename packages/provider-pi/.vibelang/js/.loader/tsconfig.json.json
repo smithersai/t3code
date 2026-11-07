@@ -56,6 +56,13 @@
    },
    {
     "path": {
+     "relative": "packages/provider-testing/tsconfig.json"
+    },
+    "size": 214,
+    "hash": "D2N5IZ_UWozgkBq5SEE8dxzUMPuQC0IcOv3BxesU6p4"
+   },
+   {
+    "path": {
      "relative": "packages/client-runtime/tsconfig.json"
     },
     "size": 191,
@@ -76,7 +83,7 @@
      "relative": "packages/provider-pi/src/server"
     },
     null,
-    "kFSA3KFx4n6pCVXgvI7FiNqt4gwoqRcLdsIyd-dFDCM",
+    "gifKlPWhsJPYvzphHk7YBUkzFgNxfebiUvNZwA2UAjE",
     []
    ]
   ],
@@ -217,22 +224,22 @@
     "path": {
      "relative": "packages/provider-core/package.json"
     },
-    "size": 11163,
-    "hash": "QxV2LSmfdJ-g0bawuTmmzJhGh2VLdPvHce4NjI3jAX4"
+    "size": 10772,
+    "hash": "TssBcjWbmpucdXHkt_MV517gETBGjT0FxcQfqkCrepw"
    },
    {
     "path": {
      "relative": "packages/provider-pi/package.json"
     },
-    "size": 1285,
-    "hash": "_pAs3sayV5y0tghoEisSm1EO_ylNXkGZqLg1cPUL0Rk"
+    "size": 2160,
+    "hash": "nTlp07gMvyDsl1NFPA5-fjaH4V0Oum6fc1N4lrDUV2I"
    },
    {
     "path": {
      "relative": "packages/shared/package.json"
     },
-    "size": 31269,
-    "hash": "RKUxMlhC0gmE3Skir4IHWTiVDDIvsIY3JEKHgcp1uoY"
+    "size": 31317,
+    "hash": "MlqzxoMXGlI3kE-ahOHrBEck4AezJrw-rzgNyY6715s"
    },
    {
     "path": {
@@ -315,15 +322,15 @@
     "path": {
      "relative": "packages/provider-testing/package.json"
     },
-    "size": 1381,
-    "hash": "vzDr9nTtW6FoN3UXQCcsJzY2t2RXCbc0EwFngM1D7dc"
+    "size": 1488,
+    "hash": "XI96X2p1JDEnQ1XV_0D6ha6mUKyt1IPSf-qnFSDMo4w"
    },
    {
     "path": {
      "relative": "packages/client-runtime/package.json"
     },
-    "size": 17060,
-    "hash": "YvkhYgFQBLExGKOR_zQ9WK6LcrjrSp2UzP6Dm5BlymA"
+    "size": 42779,
+    "hash": "OXq78olEzB8py9T4VEAqqwZiIEuohuXZ4vzVwnZ7GmA"
    },
    {
     "path": {
@@ -2893,8 +2900,8 @@
     "path": {
      "relative": "packages/provider-pi/src/client.ts"
     },
-    "size": 678,
-    "hash": "U-qSF5U8AasQ5qD_k7bzMxG8nmrHh62ndNADtBvJT_w"
+    "size": 693,
+    "hash": "Sc9gHm25grR7zOtIYqgwymdzi2IXoiSrfK3m4EUHXao"
    },
    {
     "path": {
@@ -2944,104 +2951,6 @@
     },
     "size": 5345,
     "hash": "7ZxgdP2aoB6i1wmMqUG-dvTbwXHk3t09T2Q3-vyhHtM"
-   },
-   {
-    "path": {
-     "relative": "packages/shared/src/shell.ts"
-    },
-    "size": 33105,
-    "hash": "nVOhSyf72m3r2C_5YnEowdICTjiQq6mIVtQU5radyBY"
-   },
-   {
-    "path": {
-     "relative": "packages/shared/src/themePalettes.ts"
-    },
-    "size": 41838,
-    "hash": "IbENrVimHobFY-SPdVhKSe9h1CPUJhKegxyMLCCQ3bg"
-   },
-   {
-    "path": {
-     "relative": "packages/shared/src/keybindings.ts"
-    },
-    "size": 14928,
-    "hash": "1jAopsoNYrMw3_7yI54D-1vhkSYvWX0XvNKDAoKiuEk"
-   },
-   {
-    "path": {
-     "relative": "packages/shared/src/htmlRender.ts"
-    },
-    "size": 20531,
-    "hash": "Bs3ys91v3BmQlcqEdGVoVgBxggHuiLtdMnYugz8CvO4"
-   },
-   {
-    "path": {
-     "relative": "packages/shared/src/mcpApp.vibe"
-    },
-    "size": 9167,
-    "hash": "XbXtacIHokegKosths769BHS5WtkI3hFh1bBkNd2lIo"
-   },
-   {
-    "path": {
-     "relative": "packages/shared/src/t3McpToolPresentation.ts"
-    },
-    "size": 16750,
-    "hash": "7SsYuxJNRuYoCGLBza7Im62qCYSOGpd-EvLjX34MWg0"
-   },
-   {
-    "path": {
-     "relative": "packages/shared/src/toolOutput.vibe"
-    },
-    "size": 9441,
-    "hash": "l1zu_PG1sqj9GEHPDgc2MS630Rwgh39RMdRkARkS05M"
-   },
-   {
-    "path": {
-     "relative": "packages/provider-core/src/server/processGroup.ts"
-    },
-    "size": 380,
-    "hash": "O04zzZOsh3ZYz8awJYLmSTcqOR0NqFI-RNds7PGTZ5M"
-   },
-   {
-    "path": {
-     "relative": "packages/provider-pi/src/server/rpc.vibe"
-    },
-    "size": 15582,
-    "hash": "L-MD2Q6gfUbRkAvlla2byaOkJYFJCIirPSm3h4UtDW0"
-   },
-   {
-    "path": {
-     "relative": "packages/shared/src/cliArgs.ts"
-    },
-    "size": 2635,
-    "hash": "HGmW4-7zul59GtrUR0NNeXH-2eg-ZRtE6kl7y3aSdaA"
-   },
-   {
-    "path": {
-     "relative": "packages/provider-core/src/server/mcpSession.ts"
-    },
-    "size": 1157,
-    "hash": "b-MgCfpPfVbKGgB40o8nI6OVc3RoUEDKVPx85dBJoxg"
-   },
-   {
-    "path": {
-     "relative": "packages/provider-core/src/server/orchestrationInstructions.ts"
-    },
-    "size": 7967,
-    "hash": "3eN8_9amN_OOA4bbMDNaYbsTZiJWFQ44RuK6Q68vIEs"
-   },
-   {
-    "path": {
-     "relative": "packages/provider-pi/src/server/mcpExtensionSource.ts"
-    },
-    "size": 18576,
-    "hash": "jt77Gv5cT_1cHxMy4nszZgn4UeamOpdw9dVson3P090"
-   },
-   {
-    "path": {
-     "relative": "packages/provider-pi/src/server/mcpInjection.vibe"
-    },
-    "size": 9369,
-    "hash": "UYi8i5BVCQqbUpILUXZNo6vY7BMJYyrbT_cTUpjrq5o"
    },
    {
     "path": {
@@ -3416,6 +3325,104 @@
    },
    {
     "path": {
+     "relative": "packages/shared/src/shell.vibe"
+    },
+    "size": 35840,
+    "hash": "Fd2bIjUspsSqSGz0tD1ZQ9OSe8sxKKjm3SPn9nF73qE"
+   },
+   {
+    "path": {
+     "relative": "packages/shared/src/themePalettes.ts"
+    },
+    "size": 41838,
+    "hash": "IbENrVimHobFY-SPdVhKSe9h1CPUJhKegxyMLCCQ3bg"
+   },
+   {
+    "path": {
+     "relative": "packages/shared/src/keybindings.ts"
+    },
+    "size": 14928,
+    "hash": "1jAopsoNYrMw3_7yI54D-1vhkSYvWX0XvNKDAoKiuEk"
+   },
+   {
+    "path": {
+     "relative": "packages/shared/src/htmlRender.ts"
+    },
+    "size": 20531,
+    "hash": "Bs3ys91v3BmQlcqEdGVoVgBxggHuiLtdMnYugz8CvO4"
+   },
+   {
+    "path": {
+     "relative": "packages/shared/src/mcpApp.vibe"
+    },
+    "size": 9167,
+    "hash": "XbXtacIHokegKosths769BHS5WtkI3hFh1bBkNd2lIo"
+   },
+   {
+    "path": {
+     "relative": "packages/shared/src/t3McpToolPresentation.ts"
+    },
+    "size": 16750,
+    "hash": "7SsYuxJNRuYoCGLBza7Im62qCYSOGpd-EvLjX34MWg0"
+   },
+   {
+    "path": {
+     "relative": "packages/shared/src/toolOutput.vibe"
+    },
+    "size": 9441,
+    "hash": "l1zu_PG1sqj9GEHPDgc2MS630Rwgh39RMdRkARkS05M"
+   },
+   {
+    "path": {
+     "relative": "packages/provider-core/src/server/processGroup.ts"
+    },
+    "size": 380,
+    "hash": "O04zzZOsh3ZYz8awJYLmSTcqOR0NqFI-RNds7PGTZ5M"
+   },
+   {
+    "path": {
+     "relative": "packages/provider-pi/src/server/rpc.vibe"
+    },
+    "size": 15582,
+    "hash": "L-MD2Q6gfUbRkAvlla2byaOkJYFJCIirPSm3h4UtDW0"
+   },
+   {
+    "path": {
+     "relative": "packages/shared/src/cliArgs.ts"
+    },
+    "size": 2635,
+    "hash": "HGmW4-7zul59GtrUR0NNeXH-2eg-ZRtE6kl7y3aSdaA"
+   },
+   {
+    "path": {
+     "relative": "packages/provider-core/src/server/mcpSession.ts"
+    },
+    "size": 1157,
+    "hash": "b-MgCfpPfVbKGgB40o8nI6OVc3RoUEDKVPx85dBJoxg"
+   },
+   {
+    "path": {
+     "relative": "packages/provider-core/src/server/orchestrationInstructions.ts"
+    },
+    "size": 7967,
+    "hash": "3eN8_9amN_OOA4bbMDNaYbsTZiJWFQ44RuK6Q68vIEs"
+   },
+   {
+    "path": {
+     "relative": "packages/provider-pi/src/server/mcpExtensionSource.ts"
+    },
+    "size": 18576,
+    "hash": "jt77Gv5cT_1cHxMy4nszZgn4UeamOpdw9dVson3P090"
+   },
+   {
+    "path": {
+     "relative": "packages/provider-pi/src/server/mcpInjection.vibe"
+    },
+    "size": 9369,
+    "hash": "UYi8i5BVCQqbUpILUXZNo6vY7BMJYyrbT_cTUpjrq5o"
+   },
+   {
+    "path": {
      "relative": "packages/shared/src/git.vibe"
     },
     "size": 11371,
@@ -3479,10 +3486,10 @@
    },
    {
     "path": {
-     "relative": "packages/provider-pi/src/server/textGeneration.ts"
+     "relative": "packages/provider-pi/src/server/textGeneration.vibe"
     },
-    "size": 4973,
-    "hash": "t9Awf6erAdp3ciaJ7LdL-YplnYtDQBDQvsDjDj5fOms"
+    "size": 6634,
+    "hash": "F8m4BHLolzJrR6URs55WonOoH7-ZYP_k_GDSgb_oEis"
    },
    {
     "path": {
@@ -3507,10 +3514,10 @@
    },
    {
     "path": {
-     "relative": "packages/provider-core/src/server/IdAllocator.ts"
+     "relative": "packages/provider-core/src/server/IdAllocator.vibe"
     },
-    "size": 15067,
-    "hash": "uaxY57qtV56w-tIrngQTzUsyiF7qwseVR7dlQoShpPk"
+    "size": 15641,
+    "hash": "pq2wK4WrWzOpmeUoyYQqdGuSc_sQTnZTVVLSZCIxoqo"
    },
    {
     "path": {
@@ -3586,8 +3593,8 @@
     "path": {
      "relative": "packages/provider-core/src/server/failure.vibe"
     },
-    "size": 11823,
-    "hash": "-QWawk4waxbAn732ksjopowmbiKtJ98w-COUnbq7q6I"
+    "size": 11825,
+    "hash": "FR2vdMZqq0-J6KMlbvcqQXby4Yo_n3G03XRqhtaGsrM"
    },
    {
     "path": {
@@ -3873,8 +3880,8 @@
     "path": {
      "relative": "packages/provider-core/src/server/maintenanceResolver.vibe"
     },
-    "size": 34645,
-    "hash": "7FXfZ6z32XagdBLopagDEK6dmYoaIMbjxlGUIuSv9sE"
+    "size": 34831,
+    "hash": "GGs05XU79JoDadJOkatqrBKGSpoXnN2LtfWcV1aGLm8"
    },
    {
     "path": {
@@ -3894,8 +3901,8 @@
     "path": {
      "relative": "packages/provider-pi/src/server/status.vibe"
     },
-    "size": 19148,
-    "hash": "1uxw67QtF4GT1qDG6d6dkcmlN4Qv_sKOY5uQWw-6Ko4"
+    "size": 19285,
+    "hash": "G3biwp4Exh39n-zFC9etluBnMDE9jiL8tVQKaZflClA"
    },
    {
     "path": {
@@ -3950,15 +3957,15 @@
     "path": {
      "relative": "packages/provider-pi/src/server/driver.vibe"
     },
-    "size": 7766,
-    "hash": "_9OQWs7rEEVc6Wg3st_BXCZZ2hnbeR131-ffeKWufMM"
+    "size": 7768,
+    "hash": "ZnEX90h9UuCLPfcPk8K9U3xAqexzWPRGSe68rd30Iow"
    },
    {
     "path": {
      "relative": "packages/provider-pi/src/server.ts"
     },
-    "size": 166,
-    "hash": "92AVP4OzHFxIpjTRFxS8WTfUJ-GajLjOehI0ylWj2bk"
+    "size": 203,
+    "hash": "cUfd617vOhkncjoKX6PSLWn8ASOnWu5TGc9ZYX0NFHE"
    },
    {
     "path": {
@@ -4167,8 +4174,8 @@
     "path": {
      "relative": "packages/provider-testing/src/TestProviderHost.vibe"
     },
-    "size": 3325,
-    "hash": "t_v35SdmNthvLk4WjpRxWWtg27n93MVyObO2A8T3cSc"
+    "size": 3346,
+    "hash": "5ZsQESMnxUPbA4aLXEcX0iJkglbAb99I7rRXQ4CWJNY"
    },
    {
     "path": {
@@ -4197,6 +4204,13 @@
     },
     "size": 165099,
     "hash": "vNpDaj74KUGsngIluAP7ufRNUJYtjef-1qJ2D0_XL7E"
+   },
+   {
+    "path": {
+     "relative": "packages/provider-pi/src/server/advisoryWarningBoundary.test.ts"
+    },
+    "size": 4963,
+    "hash": "VqB5RgeB_NBWA0U6QcRKtP5jY2mfIoBpvWUxFgOoHNk"
    },
    {
     "path": {
@@ -4237,8 +4251,8 @@
     "path": {
      "relative": "packages/provider-pi/src/server/textGeneration.test.ts"
     },
-    "size": 3978,
-    "hash": "VxlEdcOedrto5iX0RHkwKTGkRtFBlum99xHi2PWIZIE"
+    "size": 3980,
+    "hash": "HEqpWCwvabvcNb28-d6NHRHBoEf05x-w1PeI11g411k"
    },
    {
     "path": {
@@ -5241,7 +5255,7 @@
     "relative": "packages/provider-pi/src/server/usage.vibe"
    },
    {
-    "relative": "packages/shared/src/shell.ts"
+    "relative": "packages/shared/src/shell.vibe"
    },
    {
     "relative": "packages/shared/src/themePalettes.ts"
@@ -5310,7 +5324,7 @@
     "relative": "packages/provider-core/src/server/textGenerationOperations.vibe"
    },
    {
-    "relative": "packages/provider-pi/src/server/textGeneration.ts"
+    "relative": "packages/provider-pi/src/server/textGeneration.vibe"
    },
    {
     "relative": "packages/provider-core/src/server/McpProviderSessions.vibe"
@@ -5322,7 +5336,7 @@
     "relative": "packages/provider-core/src/server/randomUuid.vibe"
    },
    {
-    "relative": "packages/provider-core/src/server/IdAllocator.ts"
+    "relative": "packages/provider-core/src/server/IdAllocator.vibe"
    },
    {
     "relative": "packages/provider-core/src/server/ProviderContinuationRequests.vibe"
@@ -5428,6 +5442,9 @@
    },
    {
     "relative": "packages/provider-pi/src/server/adapter.test.ts"
+   },
+   {
+    "relative": "packages/provider-pi/src/server/advisoryWarningBoundary.test.ts"
    },
    {
     "relative": "packages/provider-pi/src/server/commands.test.ts"
@@ -5564,6 +5581,46 @@
    {
     "paths": [
      {
+      "relative": "packages/provider-pi/src/server/textGeneration.vibe"
+     }
+    ],
+    "code": "import * as Option from \"effect/Option\";\nimport * as Queue from \"effect/Queue\";\nimport * as Schema from \"effect/Schema\";\nimport { withSpan } from \"effect/Effect\";\nimport { $provideService } from \"vibelang-runtime/internal\";\nimport * as Effect_1 from \"effect/Effect\";\nimport * as runtime from \"vibelang-runtime/internal\";\nimport * as Effect from \"effect/Effect\";\nimport * as ChildProcessSpawner from \"effect/process/ChildProcessSpawner\";\nimport { TextGenerationError } from \"@t3tools/contracts\";\nimport { makePiRpcConnection, parsePiModelSlug } from \"./rpc.js\";\nimport { buildPiRpcLaunch, resolvePiLaunchArgs } from \"./mcpInjection.js\";\nimport * as TextGenerationOperations from \"@t3tools/provider-core/server/textGenerationOperations\";\nimport { $process_env } from \"./textGeneration.vibe.platform.js\";\nconst PI_TIMEOUT_MS = 180_000;\nconst isTextGenerationError = Schema.is(TextGenerationError);\nexport const makePiTextGeneration = (arg_1, ...args_1) => {\n    try {\n        return ((piSettings, environment = $process_env()) => Effect_1.gen(function* makePiTextGeneration() { return yield* withSpan(Effect_1.gen(function* () {\n            const spawner = yield* ChildProcessSpawner.ChildProcessSpawner;\n            const runPiJson = (request) => {\n                return Effect_1.gen(function* runPiJson() { return yield* withSpan(((effect, request) => {\n                    const { operation } = request;\n                    return Effect.scoped(Effect.mapError(Effect.flatMap(Effect.timeoutOption(effect, PI_TIMEOUT_MS), Option.match({\n                        onNone: () => Effect.fail(new TextGenerationError({ operation, detail: \"Pi request timed out.\" })),\n                        onSome: (value) => Effect.succeed(value),\n                    })), (cause) => isTextGenerationError(cause)\n                        ? cause\n                        : new TextGenerationError({\n                            operation,\n                            detail: \"Pi text generation failed.\",\n                            cause,\n                        })));\n                })(Effect_1.gen(function* () {\n                    const { operation, cwd, prompt, modelSelection } = request;\n                    const resolvedLaunchArgs = resolvePiLaunchArgs(piSettings.launchArgs);\n                    if (!resolvedLaunchArgs.ok) {\n                        return yield* Effect_1.fail(new TextGenerationError({\n                            operation,\n                            detail: resolvedLaunchArgs.message,\n                        }));\n                    }\n                    const launch = buildPiRpcLaunch({\n                        launchArgs: resolvedLaunchArgs.args,\n                        environment,\n                        mcpSession: undefined,\n                        extensionPath: undefined,\n                        ephemeral: true,\n                        disableExtensions: true,\n                        // Background naming/content helpers must never mutate the workspace.\n                        disableTools: true,\n                    });\n                    const connection = yield* Effect_1.gen(function* () {\n                        let completion_1 = runtime.$normal;\n                        yield* runtime.$provideEntries(Effect_1.fnUntraced(function* () {\n                            {\n                                completion_1 = { kind: \"return\", value: yield* makePiRpcConnection({\n                                        command: piSettings.binaryPath || \"pi\",\n                                        args: launch.args,\n                                        cwd,\n                                        env: launch.env,\n                                    }) };\n                                return completion_1.value;\n                            }\n                        })(), [$provideService(ChildProcessSpawner.ChildProcessSpawner, \"ChildProcessSpawner\", spawner)]);\n                        if (completion_1.kind === \"return\")\n                            return completion_1.value;\n                    });\n                    if (modelSelection.model !== \"default\") {\n                        // Reject unusable custom slugs; silently using Pi's default would misreport the requested model.\n                        const parsed = parsePiModelSlug(modelSelection.model);\n                        if (parsed === null) {\n                            return yield* Effect_1.fail(new TextGenerationError({\n                                operation,\n                                detail: `Pi model '${modelSelection.model}' must use provider/model format.`,\n                            }));\n                        }\n                        yield* (Effect.mapError(connection\n                            .request({ type: \"set_model\", provider: parsed.provider, modelId: parsed.modelId })\n                        // Model discovery loads extensions that this background helper disables.\n                        , (error) => error._tag === \"PiRpcError\" && error.operation === \"set_model\"\n                            ? new TextGenerationError({\n                                operation,\n                                detail: `Pi rejected model '${modelSelection.model}': ${error.detail ?? \"unknown error\"}. `\n                                    + \"If the model comes from a Pi extension or package, text generation cannot use it \"\n                                    + \"because it runs Pi with --no-extensions. Pick a built-in Pi model or one defined \"\n                                    + \"in Pi's models.json.\",\n                                cause: error,\n                            })\n                            : error));\n                    }\n                    yield* connection.request({ type: \"prompt\", message: prompt });\n                    yield* Effect_1.gen(function* () {\n                        while (true) {\n                            const event = yield* Queue.take(connection.events);\n                            if (event[\"type\"] === \"agent_settled\")\n                                return;\n                        }\n                    });\n                    const data = yield* connection.request({ type: \"get_last_assistant_text\" });\n                    const text = typeof data === \"object\"\n                        && data !== null\n                        && typeof data.text === \"string\"\n                        ? data.text.trim()\n                        : \"\";\n                    if (!text) {\n                        return yield* Effect_1.fail(new TextGenerationError({\n                            operation,\n                            detail: \"Pi returned empty output.\",\n                        }));\n                    }\n                    return yield* TextGenerationOperations.decodeJsonReply(request, \"Pi\", text);\n                }), request), \"PiTextGeneration.runPiJson\"); });\n            };\n            return TextGenerationOperations.fromRunner(\"PiTextGeneration\", TextGenerationOperations.withoutInvestigation(\"Pi\", runPiJson));\n        }), \"makePiTextGeneration\"); }))(arg_1, ...runtime.$spreadItems(args_1));\n    }\n    catch (e_1) {\n        return Effect_1.die(e_1);\n    }\n};\n",
+    "map": {
+     "version": 3,
+     "file": "textGeneration.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/provider-pi/src/server/textGeneration.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "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"
+    }
+   },
+   {
+    "paths": [
+     {
+      "relative": "packages/provider-pi/src/server/textGeneration.vibe.platform.js"
+     }
+    ],
+    "code": "/** @throws {never} */\nexport function $process_env() {\n    return process.env;\n}\n",
+    "map": {
+     "version": 3,
+     "file": "textGeneration.vibe.platform.js",
+     "sourceRoot": "",
+     "sources": [
+      {
+       "relative": "packages/provider-pi/src/server/textGeneration.vibe"
+      }
+     ],
+     "names": [],
+     "mappings": "AASE,sBAAsB;AACtB,MAAM,UAAU,YAAY;IAC1B,OAAO,OAAO,CAAC,GAAG,CAAA;AACpB,CAAC"
+    }
+   },
+   {
+    "paths": [
+     {
       "relative": "packages/provider-pi/src/server/commands.vibe"
      }
     ],
@@ -5647,7 +5704,7 @@
       "relative": "packages/provider-pi/src/server/status.vibe"
      }
     ],
-    "code": "import * as DateTime from \"effect/DateTime\";\nimport { withSpan } from \"effect/Effect\";\nimport * as Effect_1 from \"effect/Effect\";\nimport {} from \"@t3tools/contracts\";\nimport { causeErrorTag } from \"@t3tools/shared/observability\";\nimport * as Effect from \"effect/Effect\";\nimport * as HttpClient from \"effect/http/HttpClient\";\nimport { resolvePiLaunchArgs } from \"./mcpInjection.js\";\nimport { PiRpcError, PiRpcTimeoutError } from \"./rpc.js\";\nimport * as ProviderLatestVersions from \"@t3tools/provider-core/server/ProviderLatestVersions\";\nimport { buildServerProvider } from \"@t3tools/provider-core/server/snapshotProbe\";\nimport { enrichProviderSnapshotWithVersionAdvisory, } from \"@t3tools/provider-core/server/maintenanceResolver\";\nimport { parsePiDiscoveredCommands, withPiBuiltinSlashCommands } from \"./commands.js\";\nimport { PI_PRESENTATION, PI_RPC_DISCOVERY_TIMEOUT_MS, makePiDiscoveryConnection, piModelsFromSettings, } from \"./status.vibe.platform.js\";\nexport { MINIMUM_PI_VERSION, checkPiProviderStatus } from \"./status.vibe.platform.js\";\nexport const discoverPiCommandsForCwd = (piSettings, environment, cwd) => {\n    return Effect_1.gen(function* discoverPiCommandsForCwd() { return yield* withSpan(Effect.timeoutOrElse(Effect.scoped(Effect_1.gen(function* () {\n        const launchArgs = resolvePiLaunchArgs(piSettings.launchArgs);\n        if (!launchArgs.ok) {\n            return yield* Effect_1.fail(new PiRpcError({ operation: \"launch\", detail: launchArgs.message }));\n        }\n        const connection = yield* makePiDiscoveryConnection(piSettings, environment, launchArgs.args, cwd);\n        // A failed read must not replace a previously usable workspace catalog with an empty one.\n        const commandsData = yield* connection.request({ type: \"get_commands\" });\n        const { slashCommands, skills } = parsePiDiscoveredCommands(commandsData);\n        return { slashCommands: withPiBuiltinSlashCommands(slashCommands), skills };\n    })), {\n        duration: PI_RPC_DISCOVERY_TIMEOUT_MS,\n        orElse: () => Effect.fail(new PiRpcTimeoutError({ operation: \"discovery\", timeoutMs: PI_RPC_DISCOVERY_TIMEOUT_MS })),\n    }), \"discoverPiCommandsForCwd\"); });\n};\nexport const buildInitialPiProviderSnapshot = (piSettings) => {\n    return Effect_1.gen(function* buildInitialPiProviderSnapshot() { return yield* withSpan((() => {\n        return Effect_1.gen(function* () {\n            const checkedAt = yield* Effect.map(DateTime.now, DateTime.formatIso);\n            const models = yield* Effect.orDie(Effect.try({ try: () => piModelsFromSettings(piSettings.customModels), catch: (e) => e }));\n            if (!piSettings.enabled) {\n                return buildServerProvider({\n                    presentation: PI_PRESENTATION,\n                    enabled: false,\n                    checkedAt,\n                    models,\n                    probe: {\n                        installed: false,\n                        version: null,\n                        status: \"warning\",\n                        auth: { status: \"unknown\" },\n                        message: \"Pi is disabled in T3 Code settings.\",\n                    },\n                });\n            }\n            return buildServerProvider({\n                presentation: PI_PRESENTATION,\n                enabled: true,\n                checkedAt,\n                models,\n                probe: {\n                    installed: true,\n                    version: null,\n                    status: \"warning\",\n                    auth: { status: \"unknown\" },\n                    message: \"Checking Pi CLI availability...\",\n                },\n            });\n        });\n    })(), \"PiProviderStatus.buildInitialPiProviderSnapshot\"); });\n};\nexport const enrichPiSnapshot = (input) => {\n    const { snapshot, publishSnapshot } = input;\n    return Effect.asVoid(Effect.catchCause(Effect.flatMap(enrichProviderSnapshotWithVersionAdvisory(snapshot, input.maintenanceCapabilities, {\n        enableProviderUpdateChecks: input.enableProviderUpdateChecks,\n    }), (enrichedSnapshot) => publishSnapshot(enrichedSnapshot)), (cause) => Effect.logWarning(\"Pi version advisory enrichment failed\", {\n        errorTag: causeErrorTag(cause),\n    })));\n};\n",
+    "code": "import * as DateTime from \"effect/DateTime\";\nimport { withSpan } from \"effect/Effect\";\nimport * as Effect_1 from \"effect/Effect\";\nimport {} from \"@t3tools/contracts\";\nimport { causeErrorTag } from \"@t3tools/shared/observability\";\nimport * as Effect from \"effect/Effect\";\nimport * as HttpClient from \"effect/http/HttpClient\";\nimport { resolvePiLaunchArgs } from \"./mcpInjection.js\";\nimport { PiRpcError, PiRpcTimeoutError } from \"./rpc.js\";\nimport * as ProviderLatestVersions from \"@t3tools/provider-core/server/ProviderLatestVersions\";\nimport { buildServerProvider } from \"@t3tools/provider-core/server/snapshotProbe\";\nimport { enrichProviderSnapshotWithVersionAdvisory, } from \"@t3tools/provider-core/server/maintenanceResolver\";\nimport { parsePiDiscoveredCommands, withPiBuiltinSlashCommands } from \"./commands.js\";\nimport { PI_PRESENTATION, PI_RPC_DISCOVERY_TIMEOUT_MS, makePiDiscoveryConnection, piModelsFromSettings, } from \"./status.vibe.platform.js\";\nexport { MINIMUM_PI_VERSION, checkPiProviderStatus } from \"./status.vibe.platform.js\";\nexport const discoverPiCommandsForCwd = (piSettings, environment, cwd) => {\n    return Effect_1.gen(function* discoverPiCommandsForCwd() { return yield* withSpan(Effect.timeoutOrElse(Effect.scoped(Effect_1.gen(function* () {\n        const launchArgs = resolvePiLaunchArgs(piSettings.launchArgs);\n        if (!launchArgs.ok) {\n            return yield* Effect_1.fail(new PiRpcError({ operation: \"launch\", detail: launchArgs.message }));\n        }\n        const connection = yield* makePiDiscoveryConnection(piSettings, environment, launchArgs.args, cwd);\n        // A failed read must not replace a previously usable workspace catalog with an empty one.\n        const commandsData = yield* connection.request({ type: \"get_commands\" });\n        const { slashCommands, skills } = parsePiDiscoveredCommands(commandsData);\n        return { slashCommands: withPiBuiltinSlashCommands(slashCommands), skills };\n    })), {\n        duration: PI_RPC_DISCOVERY_TIMEOUT_MS,\n        orElse: () => Effect.fail(new PiRpcTimeoutError({ operation: \"discovery\", timeoutMs: PI_RPC_DISCOVERY_TIMEOUT_MS })),\n    }), \"discoverPiCommandsForCwd\"); });\n};\nexport const buildInitialPiProviderSnapshot = (piSettings) => {\n    return Effect_1.gen(function* buildInitialPiProviderSnapshot() { return yield* withSpan((() => {\n        return Effect_1.gen(function* () {\n            const checkedAt = yield* Effect.map(DateTime.now, DateTime.formatIso);\n            const models = yield* Effect.orDie(Effect.try({ try: () => piModelsFromSettings(piSettings.customModels), catch: (e) => e }));\n            if (!piSettings.enabled) {\n                return buildServerProvider({\n                    presentation: PI_PRESENTATION,\n                    enabled: false,\n                    checkedAt,\n                    models,\n                    probe: {\n                        installed: false,\n                        version: null,\n                        status: \"warning\",\n                        auth: { status: \"unknown\" },\n                        message: \"Pi is disabled in T3 Code settings.\",\n                    },\n                });\n            }\n            return buildServerProvider({\n                presentation: PI_PRESENTATION,\n                enabled: true,\n                checkedAt,\n                models,\n                probe: {\n                    installed: true,\n                    version: null,\n                    status: \"warning\",\n                    auth: { status: \"unknown\" },\n                    message: \"Checking Pi CLI availability...\",\n                },\n            });\n        });\n    })(), \"PiProviderStatus.buildInitialPiProviderSnapshot\"); });\n};\nexport const enrichPiSnapshot = (input) => {\n    const { snapshot, publishSnapshot } = input;\n    return Effect.asVoid(Effect.catchCause(Effect.flatMap(enrichProviderSnapshotWithVersionAdvisory(snapshot, input.maintenanceCapabilities, {\n        enableProviderUpdateChecks: input.enableProviderUpdateChecks,\n    }), (enrichedSnapshot) => publishSnapshot(enrichedSnapshot)), (cause) => Effect_1.gen(function* () {\n        const errorTag = yield* Effect.orDie(Effect.try({\n            try: () => causeErrorTag(cause),\n            catch: (error) => error,\n        }));\n        yield* Effect.logWarning(\"Pi version advisory enrichment failed\", { errorTag });\n    })));\n};\n",
     "map": {
      "version": 3,
      "file": "status.js",
@@ -5658,7 +5715,7 @@
       }
      ],
      "names": [],
-     "mappings": "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"
+     "mappings": "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"
     }
    },
    {
@@ -5698,7 +5755,7 @@
       }
      ],
      "names": [],
-     "mappings": "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"
+     "mappings": "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"
     }
    }
   ]
