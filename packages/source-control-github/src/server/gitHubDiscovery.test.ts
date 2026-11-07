@@ -8,7 +8,7 @@ import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSour
 
 import * as GitHubCredentials from "./GitHubCredentials.vibe";
 import * as GitHubRest from "./GitHubRest.vibe";
-import * as GitHubSourceControlProvider from "./GitHubSourceControlProvider.ts";
+import * as GitHubSourceControlProvider from "./GitHubSourceControlProvider.vibe";
 
 const unknownContext = (baseUrl: string) => ({
   provider: { kind: SourceControlProviderKind.make("unknown"), name: "Unknown", baseUrl },

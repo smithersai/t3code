@@ -15,7 +15,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 
 import * as GitHubPullRequestApi from "../src/server/GitHubPullRequestApi.ts";
 import * as GitHubPullRequestProvider from "../src/server/GitHubPullRequestProvider.ts";
-import * as GitHubRest from "../src/server/GitHubRest.vibe";
+import * as GitHubRest from "#vibelang/emitted/src/server/GitHubRest";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const [repository, ...numbers] = process.argv.slice(2);

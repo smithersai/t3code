@@ -1,6 +1,12 @@
 import { removeAgentCredits } from "@t3tools/source-control-core/server/mergeMessage";
-import { KnownWorkflowRuns, makeChecksRevalidator } from "./gitHubConditionalChecks.vibe";
-import { runGitHubStackAction, type GitHubStackActionError } from "./githubStackActions.ts";
+import {
+  KnownWorkflowRuns,
+  makeChecksRevalidator,
+} from "#vibelang/emitted/src/server/gitHubConditionalChecks";
+import {
+  runGitHubStackAction,
+  type GitHubStackActionError,
+} from "#vibelang/emitted/src/server/githubStackActions";
 import * as Cache from "effect/Cache";
 import * as Context from "effect/Context";
 import * as Clock from "effect/Clock";
@@ -44,9 +50,9 @@ import {
   type PullRequestPreview,
 } from "@t3tools/contracts";
 
-import * as GitHubRest from "./GitHubRest.vibe";
-import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe";
-import * as GitHubGraphQlClient from "./gitHubGraphQlClient.ts";
+import * as GitHubRest from "#vibelang/emitted/src/server/GitHubRest";
+import * as GitHubRequestPolicy from "#vibelang/emitted/src/server/GitHubRequestPolicy";
+import * as GitHubGraphQlClient from "#vibelang/emitted/src/server/gitHubGraphQlClient";
 import { PullRequestBatchesGraphQLGroup } from "./pullRequestBatches.graphql.ts";
 import { PullRequestMutationsGraphQLGroup } from "./pullRequestMutations.graphql.ts";
 import { PullRequestReadsGraphQLGroup } from "./pullRequestReads.graphql.ts";
@@ -109,7 +115,7 @@ import {
   type GitHubReviewThreadPage,
   type GitHubViewerAccess,
   IMMEDIATELY_MERGEABLE,
-} from "./gitHubPullRequestJson.vibe";
+} from "#vibelang/emitted/src/server/gitHubPullRequestJson";
 import type {
   ProviderChangeRequestSummary,
   ProviderListCursor,

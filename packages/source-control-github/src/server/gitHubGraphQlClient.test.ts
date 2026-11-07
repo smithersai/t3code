@@ -10,7 +10,7 @@ import * as SourceControlRateLimit from "@t3tools/source-control-core/server/Sou
 
 import * as GitHubRest from "./GitHubRest.vibe";
 import * as GitHubCredentials from "./GitHubCredentials.vibe";
-import * as GitHubGraphQlClient from "./gitHubGraphQlClient.ts";
+import * as GitHubGraphQlClient from "./gitHubGraphQlClient.vibe";
 import * as GitHubQuota from "./GitHubQuota.vibe";
 import { PullRequestBatchesGraphQLGroup } from "./pullRequestBatches.graphql.ts";
 

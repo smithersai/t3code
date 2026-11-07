@@ -6,9 +6,9 @@ import * as Hex from "effect/encoding/Hex";
 import * as Option from "effect/Option";
 import * as PlatformError from "effect/PlatformError";
 import { withSpan } from "effect/Effect";
-import { $catchExpression, $matchCache, $schemaErrorMatcher } from "vibelang-runtime";
+import { $catchExpression, $matchCache, $schemaErrorMatcher } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Schema_1 from "effect/Schema";
 import * as Context from "effect/Context";
 import * as Crypto from "@t3tools/shared/Crypto";
@@ -133,7 +133,7 @@ export const make = Effect_1.gen(function* make() {
     const savedToken = (host) => Effect.orElseSucceed(Effect.map(sourceControlHost.settings.get, (settings) => readSettings(settings).tokens[host]?.trim() || null), () => null);
     const cacheKey = (host, account) => account === undefined ? host : `${host}\u0000${account}`;
     const lookup = (key) => {
-        return Effect_1.gen(function* lookup() { return yield* withSpan(Effect_1.gen(runtime.$joinedFrame(function* () {
+        return Effect_1.gen(function* lookup() { return yield* withSpan(Effect_1.gen(function* () {
             const [host = key, choice] = key.split("\u0000");
             const fromEnv = environmentToken(host, environment);
             const token = fromEnv
@@ -169,7 +169,7 @@ export const make = Effect_1.gen(function* make() {
                 source: fromEnv !== null ? "env" : "gh",
                 fingerprint: yield* fingerprintOf(host, token),
             };
-        })), "GitHubCredentials.lookup"); });
+        }), "GitHubCredentials.lookup"); });
     };
     const cache = yield* Cache.makeWith(lookup, {
         capacity: 32,

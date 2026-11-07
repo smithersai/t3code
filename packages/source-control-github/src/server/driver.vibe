@@ -6,7 +6,7 @@ import * as GitHubMediaFetch from "./gitHubMediaFetch.vibe"
 import * as GitHubPullRequestApi from "./GitHubPullRequestApi.ts"
 import * as GitHubPullRequestProvider from "./GitHubPullRequestProvider.ts"
 import * as GitHubRest from "./GitHubRest.vibe"
-import * as GitHubSourceControlProvider from "./GitHubSourceControlProvider.ts"
+import * as GitHubSourceControlProvider from "./GitHubSourceControlProvider.vibe"
 
 // `GitHubRest.layerWithDependencies` carries the quota reserve every GitHub reader shares, so it
 // must be built once; the driver is.

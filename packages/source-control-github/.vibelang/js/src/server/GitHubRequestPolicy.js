@@ -2,9 +2,9 @@
 import * as Clock from "effect/Clock";
 import * as Semaphore from "effect/Semaphore";
 import { withSpan } from "effect/Effect";
-import { $provideService, $schemaErrorMatcher } from "vibelang-runtime";
+import { $provideService, $schemaErrorMatcher } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Schema_1 from "effect/Schema";
 import { SourceControlProviderKind } from "@t3tools/contracts";
 import * as Cause from "effect/Cause";
@@ -179,7 +179,7 @@ export const make = Effect_1.gen(function* make() {
             const key = { provider: SourceControlProviderKind.make("github"), host };
             // Settlement annotates the request span with status and rate-limit attributes.
             const settle = (lease, answer) => {
-                return Effect_1.gen(runtime.$joinedFrame(function* settle() {
+                return Effect_1.gen(function* settle() {
                     yield* quota.observe(host, answer.headers);
                     yield* Effect.annotateCurrentSpan({
                         ...(answer.status === undefined ? {} : { "http.response.status_code": answer.status }),
@@ -214,7 +214,7 @@ export const make = Effect_1.gen(function* make() {
                                 ...(answer.messages === undefined ? {} : { githubErrors: answer.messages }),
                             }));
                     }
-                }));
+                });
             };
             const run = Effect_1.gen(function* run() {
                 const lease = yield* (Effect.tapError(Effect.andThen(quota
@@ -235,9 +235,13 @@ export const make = Effect_1.gen(function* make() {
             });
             // The rate-limit scope follows the credential, so a pause on one account never blocks another.
             return yield* Effect_1.gen(function* () {
-                const completion_1 = yield* runtime.$provideEntries(Effect_1.fnUntraced(function* () {
-                    return { kind: "return", value: yield* slots
-                            .withPermit(run) };
+                let completion_1 = runtime.$normal;
+                yield* runtime.$provideEntries(Effect_1.fnUntraced(function* () {
+                    {
+                        completion_1 = { kind: "return", value: yield* slots
+                                .withPermit(run) };
+                        return completion_1.value;
+                    }
                 })(), [$provideService(SourceControlRateLimit.CredentialScope, "CredentialScope", (scope || fingerprint))]);
                 if (completion_1.kind === "return")
                     return completion_1.value;

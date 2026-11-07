@@ -4,9 +4,9 @@ import * as Clock from "effect/Clock";
 import * as Option from "effect/Option";
 import * as Semaphore from "effect/Semaphore";
 import { withSpan } from "effect/Effect";
-import { $catchExpression, $matchCache, $provideService, $schemaErrorMatcher } from "vibelang-runtime";
+import { $catchExpression, $matchCache, $provideService, $schemaErrorMatcher } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Schema_1 from "effect/Schema";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -219,8 +219,12 @@ export const makeChecksRevalidator = Effect_1.gen(function* makeChecksRevalidato
                     }
                     : null;
                 const fresh = yield* Effect_1.gen(function* () {
-                    const completion_1 = yield* runtime.$provideEntries(Effect_1.fnUntraced(function* () {
-                        return { kind: "return", value: yield* read };
+                    let completion_1 = runtime.$normal;
+                    yield* runtime.$provideEntries(Effect_1.fnUntraced(function* () {
+                        {
+                            completion_1 = { kind: "return", value: yield* read };
+                            return completion_1.value;
+                        }
                     })(), [$provideService(KnownWorkflowRuns, "KnownWorkflowRuns", known)]);
                     if (completion_1.kind === "return")
                         return completion_1.value;

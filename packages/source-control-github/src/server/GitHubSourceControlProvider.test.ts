@@ -21,7 +21,7 @@ import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe";
 import * as GitHubCredentials from "./GitHubCredentials.vibe";
 import * as GitHubQuota from "./GitHubQuota.vibe";
 import { parseGitHubAuthStatus } from "./gitHubAuthStatus.vibe";
-import * as GitHubSourceControlProvider from "./GitHubSourceControlProvider.ts";
+import * as GitHubSourceControlProvider from "./GitHubSourceControlProvider.vibe";
 
 const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown));
 

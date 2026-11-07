@@ -12,7 +12,7 @@ import * as GitHubCredentials from "./GitHubCredentials.vibe";
 import * as GitHubQuota from "./GitHubQuota.vibe";
 import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
-import { runGitHubStackAction as runStackAction } from "./githubStackActions.ts";
+import { runGitHubStackAction as runStackAction } from "./githubStackActions.vibe";
 
 type Call = ReadonlyArray<string>;
 type Send = (call: Call, kind: "graphql" | "rest") => Effect.Effect<unknown>;

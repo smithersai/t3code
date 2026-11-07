@@ -2,9 +2,9 @@
 import * as Base64 from "effect/encoding/Base64";
 import * as Redacted from "effect/Redacted";
 import { withSpan } from "effect/Effect";
-import { $catchExpression, $schemaErrorMatcher } from "vibelang-runtime";
+import { $catchExpression, $schemaErrorMatcher } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Schema_1 from "effect/Schema";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -94,11 +94,7 @@ export const cascadeRebaseStack = (input) => {
         ]), failed("fetching", first.number, 0)));
         let parentOld = `origin/${input.base}`;
         let parentNew = `origin/${input.base}`;
-        yield* runtime.$forOf((function* (iterable_1) {
-            for (const value_1 of iterable_1)
-                yield value_1;
-        })(input.layers.entries()), Effect_1.fnUntraced(function* (error_1) {
-            const [index, layer] = error_1;
+        for (const [index, layer] of input.layers.entries()) {
             // Exclude old parents: the base fork point for the bottom, the reviewed lower head above it.
             const upstream = index === 0
                 ? (yield* (Effect.mapError(git(["merge-base", parentOld, layer.headSha]), failed("reading the fork point", layer.number, index)))).stdout.trim()
@@ -121,7 +117,7 @@ export const cascadeRebaseStack = (input) => {
             }
             parentOld = layer.headSha;
             parentNew = rebased;
-        }));
+        }
         return input.layers.length;
     })), "cascadeRebaseStack"); });
 };

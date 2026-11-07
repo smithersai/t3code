@@ -3,9 +3,9 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import { withSpan } from "effect/Effect";
-import { $extract } from "vibelang-runtime";
+import { $extract } from "vibelang-runtime/internal";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Option_1 from "effect/Option";
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
@@ -105,7 +105,7 @@ export const make = Effect_1.gen(function* make() {
                 resource: "core",
                 allowReserve: input.allowReserve,
                 timeout: input.timeout,
-            }, (headers) => Effect.mapError(Effect_1.gen(runtime.$joinedFrame(function* () {
+            }, (headers) => Effect.mapError(Effect_1.gen(function* () {
                 const response = yield* (Effect.provideService(httpClient
                     .execute(input.request.pipe(HttpClientRequest.setHeaders(headers)))
                 // Client spans expose SHAs and branches through url.full/url.query.
@@ -123,7 +123,7 @@ export const make = Effect_1.gen(function* make() {
                     invalidUtf8: collected.invalidUtf8,
                 };
                 return classify({ answer, acceptNotModified: input.acceptNotModified });
-            })), (cause) => new GitHubRequestPolicy.GitHubApiRequestError({
+            }), (cause) => new GitHubRequestPolicy.GitHubApiRequestError({
                 host,
                 operation: input.operation,
                 cause,

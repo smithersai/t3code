@@ -2,10 +2,46 @@
   "name": "@t3tools/source-control-github",
   "private": true,
   "type": "module",
+  "imports": {
+    "#vibelang/emitted/src/server/GitHubRest": {
+      "types": "./src/server/GitHubRest.d.vibe.ts",
+      "vibelang-source": "./src/server/GitHubRest.vibe",
+      "default": "./.vibelang/js/src/server/GitHubRest.js"
+    },
+    "#vibelang/emitted/src/server/gitHubConditionalChecks": {
+      "types": "./src/server/gitHubConditionalChecks.d.vibe.ts",
+      "vibelang-source": "./src/server/gitHubConditionalChecks.vibe",
+      "default": "./.vibelang/js/src/server/gitHubConditionalChecks.js"
+    },
+    "#vibelang/emitted/src/server/githubStackActions": {
+      "types": "./src/server/githubStackActions.d.vibe.ts",
+      "vibelang-source": "./src/server/githubStackActions.vibe",
+      "default": "./.vibelang/js/src/server/githubStackActions.js"
+    },
+    "#vibelang/emitted/src/server/GitHubRequestPolicy": {
+      "types": "./src/server/GitHubRequestPolicy.d.vibe.ts",
+      "vibelang-source": "./src/server/GitHubRequestPolicy.vibe",
+      "default": "./.vibelang/js/src/server/GitHubRequestPolicy.js"
+    },
+    "#vibelang/emitted/src/server/gitHubGraphQlClient": {
+      "types": "./src/server/gitHubGraphQlClient.d.vibe.ts",
+      "vibelang-source": "./src/server/gitHubGraphQlClient.vibe",
+      "default": "./.vibelang/js/src/server/gitHubGraphQlClient.js"
+    },
+    "#vibelang/emitted/src/server/gitHubPullRequestJson": {
+      "types": "./src/server/gitHubPullRequestJson.d.vibe.ts",
+      "vibelang-source": "./src/server/gitHubPullRequestJson.vibe",
+      "default": "./.vibelang/js/src/server/gitHubPullRequestJson.js"
+    }
+  },
   "exports": {
     "./shared/definition": {
       "types": "./src/shared/definition.ts",
-      "import": "./src/shared/definition.ts"
+      "import": {
+        "types": "./src/shared/definition.ts",
+        "vibelang-source": "./src/shared/definition.ts",
+        "default": "./.vibelang/js/src/shared/definition.js"
+      }
     },
     "./server/driver": {
       "types": "./src/server/driver.vibe",

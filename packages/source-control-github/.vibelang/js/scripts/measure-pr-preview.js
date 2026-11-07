@@ -15,7 +15,7 @@ import { FetchHttpClient, HttpClient } from "effect/http";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
 import * as GitHubPullRequestApi from "../src/server/GitHubPullRequestApi.js";
 import * as GitHubPullRequestProvider from "../src/server/GitHubPullRequestProvider.js";
-import * as GitHubRest from "../src/server/GitHubRest.js";
+import * as GitHubRest from "#vibelang/emitted/src/server/GitHubRest";
 import * as Crypto from "@t3tools/shared/Crypto";
 const [repository, ...numbers] = process.argv.slice(2);
 if (!repository || numbers.length === 0 || numbers.some((number) => !/^\d+$/.test(number))) {
