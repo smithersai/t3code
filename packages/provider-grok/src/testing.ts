@@ -17,7 +17,7 @@ export {
   checkGrokProviderStatus,
   grokSlashCommandsFromInitialize,
   parseGrokModelsCliOutput,
-} from "./server/status.ts";
+} from "./server/status.vibe";
 export { makeGrokTextGeneration } from "./server/textGeneration.ts";
 export { grokUsageResponseToLimits, readGrokAccount } from "./server/usageLimits.ts";
 export {

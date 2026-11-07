@@ -2,6 +2,7 @@
 import * as Layer from "effect/Layer";
 import { withSpan } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
+import * as runtime_1 from "vibelang-runtime/internal";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { ProviderDriverKind } from "@t3tools/contracts";
 import * as Crypto from "@t3tools/shared/Crypto";
@@ -83,8 +84,12 @@ export const makeGrokAcpRuntime = (input) => {
     return Effect_1.gen(function* makeGrokAcpRuntime() { return yield* withSpan((() => {
         return Effect_1.gen(function* () {
             const processGroupPlatform = yield* Effect_1.gen(function* () {
-                const completion_1 = yield* Effect_1.provide(Effect_1.fnUntraced(function* () {
-                    return { kind: "return", value: yield* HostProcess.Platform };
+                let completion_1 = runtime_1.$normal;
+                yield* Effect_1.provide(Effect_1.fnUntraced(function* () {
+                    {
+                        completion_1 = { kind: "return", value: yield* HostProcess.Platform };
+                        return completion_1.value;
+                    }
                 })(), NodeServices.layer);
                 if (completion_1.kind === "return")
                     return completion_1.value;
@@ -98,8 +103,12 @@ export const makeGrokAcpRuntime = (input) => {
                 ...grokAcpRuntimeProcessOwnership(processGroupPlatform),
             }));
             const runtime = yield* Effect_1.gen(function* () {
-                const completion_2 = yield* Effect_1.provide(Effect_1.fnUntraced(function* () {
-                    return { kind: "return", value: yield* Effect.service(AcpSessionRuntime.AcpSessionRuntime) };
+                let completion_2 = runtime_1.$normal;
+                yield* Effect_1.provide(Effect_1.fnUntraced(function* () {
+                    {
+                        completion_2 = { kind: "return", value: yield* Effect.service(AcpSessionRuntime.AcpSessionRuntime) };
+                        return completion_2.value;
+                    }
                 })(), acpContext);
                 if (completion_2.kind === "return")
                     return completion_2.value;

@@ -4,7 +4,7 @@ import {
   isXAiTaskCompletedWakeNotification,
   xAiRateLimitedErrorCode,
 } from "./xaiAcpExtension.vibe"
-import { discoverGrokSkills, leadingGrokSkillMention } from "./skills.ts"
+import { discoverGrokSkills, leadingGrokSkillMention } from "./skills.vibe"
 import * as HostProcess from "@t3tools/shared/HostProcess"
 import { resolveSelfInvocation, type SelfInvocation } from "@t3tools/shared/nodeRuntime"
 import {

@@ -4,7 +4,6 @@ import * as Fiber from "effect/Fiber";
 import * as Ref from "effect/Ref";
 import { withSpan } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
-import * as runtime_1 from "vibelang-runtime";
 import * as Schema_1 from "effect/Schema";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
@@ -1095,9 +1094,9 @@ export const makeXAiPromptCompletionRuntime = (runtime) => {
         return {
             ...runtime,
             handleExtNotification: (method, payload, handler) => xAiSessionNotificationMethods.some((owned) => owned === method)
-                ? Effect_1.gen(runtime_1.$joinedFrame(function* () {
+                ? Effect_1.gen(function* () {
                     sessionNotificationHandlers.set(method, (params) => Effect.flatMap(Effect.mapError(Schema.decodeUnknownEffect(payload)(params), (error) => EffectAcpErrors.AcpProtocolParseError.fromSchemaError("decode-notification-payload", method, error)), handler));
-                }))
+                })
                 : runtime.handleExtNotification(method, payload, handler),
             prompt: (payload, promptOptions) => {
                 return Effect_1.gen(function* prompt() { return yield* withSpan((() => {

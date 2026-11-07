@@ -2,7 +2,6 @@
 import * as Schema from "effect/Schema";
 import { withSpan } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
-import * as runtime_1 from "vibelang-runtime";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
 import { XAiPromptFailureText, isXAiTaskCompletedWakeNotification, xAiRateLimitedErrorCode, } from "./xaiAcpExtension.js";
 import { discoverGrokSkills, leadingGrokSkillMention } from "./skills.js";
@@ -199,7 +198,7 @@ export function makeGrokAcpAdapterFlavor(options, homeDirectory) {
     };
 }
 export const makeGrokAdapterV2 = (options) => {
-    return Effect_1.gen(function* makeGrokAdapterV2() { return yield* withSpan(Effect_1.gen(runtime_1.$joinedFrame(function* () {
+    return Effect_1.gen(function* makeGrokAdapterV2() { return yield* withSpan(Effect_1.gen(function* () {
         return yield* makeAcpAdapterV2({
             instanceId: options.instanceId,
             flavor: makeGrokAcpAdapterFlavor(options, yield* HostProcess.HomeDirectory),
@@ -210,7 +209,7 @@ export const makeGrokAdapterV2 = (options) => {
                 : { continuationRequests: options.continuationRequests }),
             ...(options.testHooks === undefined ? {} : { testHooks: options.testHooks }),
         });
-    })), "makeGrokAdapterV2"); });
+    }), "makeGrokAdapterV2"); });
 };
 export const GrokAdapterV2Driver = {
     driverKind: GROK_DRIVER_KIND,

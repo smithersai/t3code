@@ -2,7 +2,7 @@
 import * as Effect from "effect/Effect";
 import { withSpan } from "effect/Effect";
 import * as Effect_1 from "effect/Effect";
-import * as runtime from "vibelang-runtime";
+import * as runtime from "vibelang-runtime/internal";
 import * as Path from "effect/Path";
 import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion";
 import { tokenCount, totalTokens, } from "@t3tools/provider-core/server/usage";
