@@ -10,7 +10,7 @@ import * as Effect from "effect/Effect"
 import * as Option from "effect/Option"
 import type * as SourceControlProvider from "./SourceControlProvider.vibe"
 import type * as SourceControlHost from "./SourceControlHost.vibe"
-import * as $platform from "./discovery.platform.ts"
+import * as $platform from "./discovery.platform.vibe"
 
 export interface SourceControlAuthProbeInput {
   readonly stdout: string

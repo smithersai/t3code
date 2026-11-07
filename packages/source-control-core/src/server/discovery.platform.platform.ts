@@ -1,4 +1,4 @@
-// The platform code of discovery.vibe, which a .vibe file does not import as a value (EK4402).
+// The platform code of discovery.platform.vibe, which a .vibe file does not import as a value (EK4402).
 
 import * as NodeUtil from "node:util";
 import * as Option from "effect/Option";

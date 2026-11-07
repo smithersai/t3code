@@ -3109,7 +3109,7 @@
    },
    {
     "path": {
-     "relative": "packages/source-control-core/src/server/discovery.platform.ts"
+     "relative": "packages/source-control-core/src/server/discovery.platform.vibe"
     },
     "size": 467,
     "hash": "N-TUfg8Ez__iilpSakL_kUOJ7hSbjD80lTfFnQmHDAE"
@@ -4252,7 +4252,7 @@
     "relative": "packages/source-control-core/src/server/diffFileRevisions.test.ts"
    },
    {
-    "relative": "packages/source-control-core/src/server/discovery.platform.ts"
+    "relative": "packages/source-control-core/src/server/discovery.platform.vibe"
    },
    {
     "relative": "packages/source-control-core/src/server/discovery.vibe"
