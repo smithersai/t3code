@@ -10,11 +10,11 @@ import * as Option from "effect/Option";
 import { HttpClient, HttpClientResponse } from "effect/http";
 import { describe, test } from "vite-plus/test";
 
-import { issueRemoteWebSocketTicket } from "./authorization/remote.vibe";
-import { PrimaryConnectionTarget } from "./connection/model.vibe";
-import { fetchRemoteEnvironmentDescriptor } from "./environment/descriptor.vibe";
+import { issueRemoteWebSocketTicket } from "#vibelang/emitted/src/authorization/remote";
+import { PrimaryConnectionTarget } from "#vibelang/emitted/src/connection/model";
+import { fetchRemoteEnvironmentDescriptor } from "#vibelang/emitted/src/environment/descriptor";
 import type { RemoteEnvironmentRequestError } from "./rpc/http.ts";
-import { fetchEnvironmentThreadSnapshot } from "./state/threadSnapshotHttp.vibe";
+import { fetchEnvironmentThreadSnapshot } from "#vibelang/emitted/src/state/threadSnapshotHttp";
 import { applyOrchestrationV2ProjectionEvent } from "./state/orchestrationV2Projection.ts";
 import { v2Projection, v2Now } from "./state/orchestrationV2TestFixtures.ts";
 

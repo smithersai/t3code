@@ -29,7 +29,7 @@ import {
   type PreparedConnection,
   type PreparedHttpAuthorization,
 } from "../connection/model.vibe";
-import * as ManagedRelay from "../relay/managedRelay.ts";
+import * as ManagedRelay from "../relay/managedRelay.vibe";
 import { type RemoteEnvironmentRequestError } from "../rpc/http.ts";
 import * as RpcHttp from "../rpc/http.ts";
 import * as PullRequestDiffLoader from "./pullRequestDiffHttp.vibe";

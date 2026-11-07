@@ -2,5 +2,5 @@
 export * as Discovery from "./discovery.js";
 export * from "./cloudAccountService.js";
 export * from "./errorPresentation.js";
-export * as ManagedRelay from "./managedRelay.js";
+export * as ManagedRelay from "#vibelang/emitted/src/relay/managedRelay";
 export * from "./managedRelayState.js";

@@ -9,9 +9,9 @@ import { applyCommandOutputFrame, EMPTY_COMMAND_OUTPUT } from "./commandOutput.j
 import { createEnvironmentRpcCommand, createEnvironmentRpcQueryAtomFamily, createEnvironmentRpcSubscriptionAtomFamily, createEnvironmentCommand, } from "./runtime.js";
 import * as EnvironmentSupervisor from "../connection/supervisor.js";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.js";
-import * as ManagedRelayDpopSigner from "../relay/managedRelay.js";
-import { EnvironmentRpcUnavailableError } from "../rpc/client.js";
-import { fetchEnvironmentThreadTranscript } from "./threadTranscriptHttp.js";
+import * as ManagedRelayDpopSigner from "#vibelang/emitted/src/relay/managedRelay";
+import { EnvironmentRpcUnavailableError } from "#vibelang/emitted/src/rpc/client";
+import { fetchEnvironmentThreadTranscript } from "#vibelang/emitted/src/state/threadTranscriptHttp";
 export function createOrchestrationEnvironmentAtoms(runtime, options = {}) {
     const onCheckpointDiffAnswer = options.onCheckpointDiffAnswer === undefined
         ? {}

@@ -7,11 +7,11 @@ import * as Layer from "effect/Layer";
 import * as Scope from "effect/Scope";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as HttpClient from "effect/http/HttpClient";
-import { ConnectionTransientError } from "./model.js";
+import { ConnectionTransientError } from "#vibelang/emitted/src/connection/model";
 import * as ConnectionResolver from "./resolver.js";
-import { connectionRoutes, routeEntry, routeHttpBaseUrl, sendsTokenInClear, usableRoutes, } from "./routes.js";
-import * as RpcSession from "../rpc/session.js";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.js";
+import { connectionRoutes, routeEntry, routeHttpBaseUrl, sendsTokenInClear, usableRoutes, } from "#vibelang/emitted/src/connection/routes";
+import * as RpcSession from "#vibelang/emitted/src/rpc/session";
+import { fetchRemoteEnvironmentDescriptor } from "#vibelang/emitted/src/environment/descriptor";
 const ROUTE_CHECK_TIMEOUT_MS = 2_500;
 // Preferred direct routes share one head start, so a relay connection does not
 // wait the full probe timeout for a LAN the device has already left. A route

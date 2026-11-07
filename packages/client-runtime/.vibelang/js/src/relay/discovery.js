@@ -9,12 +9,12 @@ import * as Ref from "effect/Ref";
 import * as Semaphore from "effect/Semaphore";
 import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
-import * as ManagedRelay from "./managedRelay.js";
-import * as ClientCapabilities from "../platform/capabilities.js";
-import * as Connectivity from "../connection/connectivity.js";
+import * as ManagedRelay from "#vibelang/emitted/src/relay/managedRelay";
+import * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities";
+import * as Connectivity from "#vibelang/emitted/src/connection/connectivity";
 import { mapManagedRelayError } from "../connection/errors.js";
-import { ConnectionBlockedError } from "../connection/model.js";
-import * as ConnectionWakeups from "../connection/wakeups.js";
+import { ConnectionBlockedError, } from "#vibelang/emitted/src/connection/model";
+import * as ConnectionWakeups from "#vibelang/emitted/src/connection/wakeups";
 export class RelayEnvironmentDiscovery extends Context.Service()("@t3tools/client-runtime/relay/discovery/RelayEnvironmentDiscovery") {
 }
 export const EMPTY_RELAY_ENVIRONMENT_DISCOVERY_STATE = {

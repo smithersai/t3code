@@ -36,7 +36,7 @@ import {
   createEnvironmentQueryAtomFamily,
   type QueryAnswerHandler,
 } from "./runtime.ts"
-import { createPullRequestRouter } from "./pullRequestRouting.ts"
+import { createPullRequestRouter } from "./pullRequestRouting.vibe"
 import * as PullRequestDiffLoader from "./pullRequestDiffHttp.vibe"
 import type { EnvironmentRegistry } from "../connection/registry.ts"
 import * as EnvironmentSupervisor from "../connection/supervisor.ts"

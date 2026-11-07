@@ -10,7 +10,7 @@ import {
   type RemoteEnvironmentAuthError,
   resolveRemoteDpopWebSocketConnectionUrl,
   resolveRemoteWebSocketConnectionUrl,
-} from "./remote.vibe";
+} from "#vibelang/emitted/src/authorization/remote";
 import {
   environmentMismatchError,
   mapManagedRelayError,
@@ -21,12 +21,12 @@ import {
   ConnectionBlockedError,
   ConnectionTransientError,
   type ConnectionAttemptError,
-} from "../connection/model.vibe";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.vibe";
+} from "#vibelang/emitted/src/connection/model";
+import { fetchRemoteEnvironmentDescriptor } from "#vibelang/emitted/src/environment/descriptor";
 import { environmentEndpointUrl } from "../environment/endpoint.ts";
-import * as ClientCapabilities from "../platform/capabilities.vibe";
-import * as ManagedRelay from "../relay/managedRelay.ts";
-import * as TokenStore from "./tokenStore.vibe";
+import * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities";
+import * as ManagedRelay from "#vibelang/emitted/src/relay/managedRelay";
+import * as TokenStore from "#vibelang/emitted/src/authorization/tokenStore";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -42,7 +42,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import {
   DPOP_ACCESS_TOKEN_REFRESH_SKEW_MS,
   type PreparedHttpAuthorization,
-} from "../connection/model.vibe";
+} from "#vibelang/emitted/src/connection/model";
 
 export interface AuthorizedRemoteEnvironment {
   readonly environmentId: EnvironmentId;

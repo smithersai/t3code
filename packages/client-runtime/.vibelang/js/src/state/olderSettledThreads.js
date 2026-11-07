@@ -4,7 +4,7 @@ import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import { AsyncResult, Atom } from "effect/reactivity";
-import { request } from "../rpc/client.js";
+import { request } from "#vibelang/emitted/src/rpc/client";
 import { createEnvironmentQueryAtomFamily, selectEnvironmentQueryData } from "./runtime.js";
 import { threadFamilyRead } from "./threadFamilies.js";
 // Rows per page of older settled threads: one "Show more" step of the Settled shelf.

@@ -26,7 +26,7 @@ import {
   createQuestionHistoryProjector,
   derivePendingThreadRequests,
   type PendingThreadRequests,
-} from "./threadRequests.ts"
+} from "./threadRequests.vibe"
 import { arrayElementsEqual, parseThreadKey, threadKey } from "./entities.vibe"
 import { getProjectionArrayReplacementIndex } from "./orchestrationV2Projection.ts"
 

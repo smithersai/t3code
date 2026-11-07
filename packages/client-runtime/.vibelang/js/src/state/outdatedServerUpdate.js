@@ -2,7 +2,7 @@
 import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
-import { describeOutdatedHost, updateOutdatedHost } from "../connection/outdatedHostUpdate.js";
+import { describeOutdatedHost, updateOutdatedHost, } from "#vibelang/emitted/src/connection/outdatedHostUpdate";
 import { createAtomCommandScheduler, createRuntimeCommand } from "./runtime.js";
 import { serverUpdateFailureMessage, serverUpdateStateAtom, } from "./server.js";
 export function createOutdatedServerDescriptionCommand(runtime) {

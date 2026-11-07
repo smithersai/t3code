@@ -4,7 +4,7 @@ import {
   type ExecutionEnvironmentDescriptor,
 } from "@t3tools/contracts";
 
-import { ConnectionBlockedError } from "./model.vibe";
+import { ConnectionBlockedError } from "#vibelang/emitted/src/connection/model";
 
 export function orchestrationProtocolCompatibilityError(
   descriptor: ExecutionEnvironmentDescriptor,

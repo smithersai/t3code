@@ -6,18 +6,18 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import * as HttpClient from "effect/http/HttpClient";
-import { appendClientConnectionParams, readClientOwnerParams, } from "../authorization/remote.js";
+import { appendClientConnectionParams, readClientOwnerParams, } from "#vibelang/emitted/src/authorization/remote";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.js";
-import * as ClientCapabilities from "../platform/capabilities.js";
-import { BearerConnectionCredential, BearerConnectionProfile, SshConnectionProfile, } from "./catalog.js";
-import * as ConnectionCredentialStore from "./credentialStore.js";
+import * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities";
+import { BearerConnectionCredential, BearerConnectionProfile, SshConnectionProfile, } from "#vibelang/emitted/src/connection/catalog";
+import * as ConnectionCredentialStore from "#vibelang/emitted/src/connection/credentialStore";
 import { credentialMissingError, environmentMismatchError, mapRemoteEnvironmentError, profileMissingError, } from "./errors.js";
-import { PullRequestRoutingPermissions, pullRequestRoutingConnectionKey, } from "./pullRequestRoutingPermissions.js";
-import { ConnectionBlockedError } from "./model.js";
-import * as ConnectionProfileStore from "./profileStore.js";
+import { PullRequestRoutingPermissions, pullRequestRoutingConnectionKey, } from "#vibelang/emitted/src/connection/pullRequestRoutingPermissions";
+import { ConnectionBlockedError, } from "#vibelang/emitted/src/connection/model";
+import * as ConnectionProfileStore from "#vibelang/emitted/src/connection/profileStore";
 import { appendOrchestrationProtocol, orchestrationProtocolCompatibilityError, } from "./compatibility.js";
-import { credentialConnectionId } from "./routes.js";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.js";
+import { credentialConnectionId } from "#vibelang/emitted/src/connection/routes";
+import { fetchRemoteEnvironmentDescriptor } from "#vibelang/emitted/src/environment/descriptor";
 export class ConnectionResolver extends Context.Service()("@t3tools/client-runtime/connection/resolver/ConnectionResolver") {
 }
 const isBearerProfile = Schema.is(BearerConnectionProfile);

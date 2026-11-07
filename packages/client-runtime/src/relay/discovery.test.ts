@@ -13,7 +13,7 @@ import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
-import * as ManagedRelay from "./managedRelay.ts";
+import * as ManagedRelay from "./managedRelay.vibe";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as Connectivity from "../connection/connectivity.vibe";
 import { ConnectionBlockedError, type NetworkStatus } from "../connection/model.vibe";

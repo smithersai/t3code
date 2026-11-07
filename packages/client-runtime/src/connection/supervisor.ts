@@ -16,7 +16,7 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as Tracer from "effect/Tracer";
 
 import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.vibe";
-import * as Connectivity from "./connectivity.vibe";
+import * as Connectivity from "#vibelang/emitted/src/connection/connectivity";
 import * as ConnectionDriver from "./driver.ts";
 import {
   type ConnectionAttemptError,
@@ -25,11 +25,11 @@ import {
   type NetworkStatus,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "./model.vibe";
-import * as RpcSession from "../rpc/session.vibe";
+} from "#vibelang/emitted/src/connection/model";
+import * as RpcSession from "#vibelang/emitted/src/rpc/session";
 import { safeErrorLogAttributes } from "../errors/safeLog.ts";
 import { NETWORK_BLOCKING_HINT } from "../errors/network.ts";
-import * as ConnectionWakeups from "./wakeups.vibe";
+import * as ConnectionWakeups from "#vibelang/emitted/src/connection/wakeups";
 import {
   connectionRouteId,
   connectionRouteKind,
@@ -37,7 +37,7 @@ import {
   type ConnectionRouteKind,
   entryWithRoutes,
   type ReportedEndpoint,
-} from "./routes.vibe";
+} from "#vibelang/emitted/src/connection/routes";
 
 const RETRY_BASE_DELAY_MS = 1_000;
 const RETRY_MAX_DELAY_MS = 300_000;

@@ -13,8 +13,8 @@ import { AsyncResult, Atom, type AtomRegistry } from "effect/reactivity";
 
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import type * as EnvironmentRegistry from "../connection/registry.ts";
-import { EnvironmentRpcUnavailableError, request } from "../rpc/client.vibe";
-import { arrayElementsEqual } from "./entities.vibe";
+import { EnvironmentRpcUnavailableError, request } from "#vibelang/emitted/src/rpc/client";
+import { arrayElementsEqual } from "#vibelang/emitted/src/state/entities";
 import { createEnvironmentQueryAtomFamily, selectEnvironmentQueryData } from "./runtime.ts";
 import type { EnvironmentShellState } from "./shell.vibe";
 

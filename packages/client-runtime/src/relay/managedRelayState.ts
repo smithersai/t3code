@@ -17,8 +17,8 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
-import { findErrorTraceId } from "../errors/errorTrace.vibe";
-import * as ManagedRelay from "./managedRelay.ts";
+import { findErrorTraceId } from "#vibelang/emitted/src/errors/errorTrace";
+import * as ManagedRelay from "#vibelang/emitted/src/relay/managedRelay";
 import { relayProtectedErrorMessage } from "./errorPresentation.ts";
 
 const DEFAULT_STALE_TIME_MS = 15_000;

@@ -5,7 +5,7 @@ import * as Option from "effect/Option";
 import { HttpClient } from "effect/http";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
 import type { PreparedConnection } from "../connection/model.vibe";
-import * as ManagedRelay from "../relay/managedRelay.ts";
+import * as ManagedRelay from "../relay/managedRelay.vibe";
 import * as ThreadSnapshotLoader from "./threadSnapshotHttp.vibe";
 export declare const fetchEnvironmentBoundedThreadSnapshot: (input: {
     readonly prepared: PreparedConnection;

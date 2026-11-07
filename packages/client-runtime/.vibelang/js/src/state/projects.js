@@ -163,5 +163,5 @@ export function canNavigateUp(currentPath) {
     return hasTrailingPathSeparator(currentPath) && getBrowseParentPath(currentPath) !== null;
 }
 export * from "./projectCommands.js";
-export * from "./projectEntities.js";
+export * from "#vibelang/emitted/src/state/projectEntities";
 export * from "./projectRemoval.js";

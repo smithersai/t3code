@@ -10,7 +10,7 @@ import * as Queue from "effect/Queue";
 import * as Ref from "effect/Ref";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as ManagedRelay from "../relay/managedRelay.ts";
+import * as ManagedRelay from "../relay/managedRelay.vibe";
 import * as RpcHttp from "../rpc/http.ts";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as RemoteEnvironmentAuthorization from "./service.ts";

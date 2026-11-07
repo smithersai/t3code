@@ -12,11 +12,11 @@ import { Atom, AtomRegistry } from "effect/reactivity";
 import { createEnvironmentRpcCommand, createEnvironmentRpcSubscriptionAtomFamily, createEnvironmentSubscriptionAtomFamily, } from "./runtime.js";
 import * as EnvironmentSupervisor from "../connection/supervisor.js";
 import { safeErrorLogAttributes } from "../errors/safeLog.js";
-import * as Persistence from "../platform/persistence.js";
-import { request, subscribe } from "../rpc/client.js";
+import * as Persistence from "#vibelang/emitted/src/platform/persistence";
+import { request, subscribe } from "#vibelang/emitted/src/rpc/client";
 import { followStreamInEnvironment } from "./runtime.js";
 import { vcsCommandConcurrency, vcsCommandScheduler } from "./vcsCommandScheduler.js";
-import { invalidateCachedVcsRefs, vcsRefsCacheStateAtom, withVcsRefsPersistenceLock, } from "./vcsRefInvalidation.js";
+import { invalidateCachedVcsRefs, vcsRefsCacheStateAtom, withVcsRefsPersistenceLock, } from "#vibelang/emitted/src/state/vcsRefInvalidation";
 const OFFLINE_BRANCH_LIST_LIMIT = 100;
 const VCS_REFS_IDLE_TTL_MS = 30_000;
 const VCS_STATUS_IDLE_TTL_MS = 10_000;
@@ -217,6 +217,6 @@ export function createVcsEnvironmentAtoms(runtime) {
     };
 }
 export * from "./gitActions.js";
-export * from "./vcsAction.js";
+export * from "#vibelang/emitted/src/state/vcsAction";
 export * from "./vcsRef.js";
 export * from "./vcsStatusRevalidation.js";

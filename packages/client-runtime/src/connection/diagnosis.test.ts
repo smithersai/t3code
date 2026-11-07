@@ -11,7 +11,7 @@ import {
   type ConnectionAttemptError,
   type SupervisorConnectionState,
 } from "./model.vibe";
-import { ManagedRelayRequestFailedError } from "../relay/managedRelay.ts";
+import { ManagedRelayRequestFailedError } from "../relay/managedRelay.vibe";
 import { RemoteEnvironmentAuthFetchError } from "../rpc/http.ts";
 
 const backoff = (lastFailure: ConnectionAttemptError): SupervisorConnectionState => ({

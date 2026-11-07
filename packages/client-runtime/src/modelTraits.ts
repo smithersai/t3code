@@ -10,7 +10,7 @@ import {
   getProviderOptionCurrentValue,
   isClaudeUltrathinkPrompt,
 } from "@t3tools/shared/model";
-import { REASONING_EFFORT_OPTION_IDS } from "./state/threadExecution.vibe";
+import { REASONING_EFFORT_OPTION_IDS } from "#vibelang/emitted/src/state/threadExecution";
 
 export const ULTRATHINK_PROMPT_PREFIX = "Ultrathink:\n";
 

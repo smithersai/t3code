@@ -23,7 +23,11 @@ import {
   runAtomCommand,
 } from "./runtime.ts";
 import type { EnvironmentRegistry } from "../connection/registry.ts";
-import { subscribe, subscribeDynamic, type EnvironmentRpcInput } from "../rpc/client.vibe";
+import {
+  subscribe,
+  subscribeDynamic,
+  type EnvironmentRpcInput,
+} from "#vibelang/emitted/src/rpc/client";
 import {
   applyTerminalAttachStreamEvent,
   applyTerminalMetadataStreamEvent,

@@ -2,7 +2,7 @@
 import { OrchestrationV2ThreadShellJson } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import { StoredOrchestrationShellSnapshot } from "./orchestrationCache.js";
+import { StoredOrchestrationShellSnapshot } from "#vibelang/emitted/src/platform/orchestrationCache";
 const ROWS_PER_CHUNK = 32;
 // Effect's own yield resumes through `setImmediate` where the host defines it and a
 // zero-delay timer otherwise. React Native's `setImmediate` is a microtask shim, so

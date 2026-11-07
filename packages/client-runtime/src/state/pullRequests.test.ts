@@ -43,7 +43,7 @@ import {
 } from "./pullRequests.vibe";
 import * as PullRequestDiffLoader from "./pullRequestDiffHttp.vibe";
 import { executeAtomQuery } from "./runtime.ts";
-import { createPullRequestRouter } from "./pullRequestRouting.ts";
+import { createPullRequestRouter } from "./pullRequestRouting.vibe";
 import { PullRequestRoutingPermissions } from "../connection/pullRequestRoutingPermissions.vibe";
 
 const trustedRouting = {

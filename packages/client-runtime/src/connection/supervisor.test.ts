@@ -13,7 +13,7 @@ import * as TestClock from "effect/testing/TestClock";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
 import * as TokenStore from "../authorization/tokenStore.vibe";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
-import * as ManagedRelay from "../relay/managedRelay.ts";
+import * as ManagedRelay from "../relay/managedRelay.vibe";
 import * as RpcHttp from "../rpc/http.ts";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
 import { fetchEnvironmentSessionState } from "../state/session.vibe";

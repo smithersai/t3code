@@ -5,7 +5,7 @@ import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
 import { AsyncResult, Atom } from "effect/reactivity";
 import { createAtomCommandScheduler, createEnvironmentRpcCommand, createEnvironmentRpcSubscriptionAtomFamily, createEnvironmentSubscriptionAtomFamily, runAtomCommand, } from "./runtime.js";
-import { subscribe, subscribeDynamic } from "../rpc/client.js";
+import { subscribe, subscribeDynamic, } from "#vibelang/emitted/src/rpc/client";
 import { applyTerminalAttachStreamEvent, applyTerminalMetadataStreamEvent, EMPTY_TERMINAL_BUFFER_STATE, nextTerminalAttachSeedState, } from "./terminalSession.js";
 import { terminalOutputText } from "./terminalOutput.js";
 export function createTerminalEnvironmentAtoms(runtime) {

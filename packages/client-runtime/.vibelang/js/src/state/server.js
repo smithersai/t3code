@@ -19,11 +19,11 @@ import { createAtomCommandScheduler, createEnvironmentRpcCommand, createEnvironm
 import * as EnvironmentRegistry from "../connection/registry.js";
 import * as EnvironmentSupervisor from "../connection/supervisor.js";
 import { safeErrorLogAttributes } from "../errors/safeLog.js";
-import * as Persistence from "../platform/persistence.js";
-import { runCachePersistence } from "./cachePersistence.js";
-import { isRpcClientError, request, requestGuarded, runStream, subscribe, subscribeDynamicWithSession, } from "../rpc/client.js";
+import * as Persistence from "#vibelang/emitted/src/platform/persistence";
+import { runCachePersistence } from "#vibelang/emitted/src/state/cachePersistence";
+import { isRpcClientError, request, requestGuarded, runStream, subscribe, subscribeDynamicWithSession, } from "#vibelang/emitted/src/rpc/client";
 import { followStreamInEnvironment } from "./runtime.js";
-import { applyServerConfigProjection, reuseUnchanged, withoutEnvironmentThemes, } from "./serverConfigProjection.js";
+import { applyServerConfigProjection, reuseUnchanged, withoutEnvironmentThemes, } from "#vibelang/emitted/src/state/serverConfigProjection";
 const IDLE_SERVER_UPDATE_STATE = { status: "idle" };
 const EMPTY_SERVER_UPDATE_STATE_ATOM = Atom.make(IDLE_SERVER_UPDATE_STATE).pipe(Atom.withLabel("environment-data:server:update-state:empty"));
 export const serverUpdateStateAtom = Atom.family((environmentId) => Atom.make(IDLE_SERVER_UPDATE_STATE).pipe(Atom.withLabel(`environment-data:server:update-state:${environmentId}`)));

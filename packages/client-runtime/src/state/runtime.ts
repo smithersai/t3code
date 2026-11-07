@@ -1,8 +1,11 @@
 import type { QueryPersistence } from "./queryPersistence.vibe";
-import { createCommandPermissions } from "./commandPermissions.vibe";
-import { followStreamInEnvironment } from "./environmentStreams.vibe";
-import { reuseUnchanged } from "./serverConfigProjection.vibe";
-export { runStreamInEnvironment, followStreamInEnvironment } from "./environmentStreams.vibe";
+import { createCommandPermissions } from "#vibelang/emitted/src/state/commandPermissions";
+import { followStreamInEnvironment } from "#vibelang/emitted/src/state/environmentStreams";
+import { reuseUnchanged } from "#vibelang/emitted/src/state/serverConfigProjection";
+export {
+  runStreamInEnvironment,
+  followStreamInEnvironment,
+} from "#vibelang/emitted/src/state/environmentStreams";
 import {
   type ClientGuardedRpcTag,
   EnvironmentId,
@@ -32,7 +35,7 @@ import {
   requestGuarded,
   RpcPermissionGuard,
   subscribe,
-} from "../rpc/client.vibe";
+} from "#vibelang/emitted/src/rpc/client";
 import * as EnvironmentSupervisor from "../connection/supervisor.ts";
 import type * as RpcSession from "../rpc/session.vibe";
 

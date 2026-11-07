@@ -1,6 +1,6 @@
 import type { ClientConnectionMethod, EnvironmentId } from "@t3tools/contracts";
 import type { RelayProtectedError } from "@t3tools/contracts/relay";
-import type { ManagedRelayClientError } from "../relay/managedRelay.ts";
+import type { ManagedRelayClientError } from "../relay/managedRelay.vibe";
 import { dpopFailureMessage, relayProtectedErrorMessage } from "../relay/errorPresentation.ts";
 import type { RemoteEnvironmentAuthError } from "../authorization/remote.vibe";
 import { NETWORK_BLOCKING_HINT } from "../errors/network.ts";
@@ -8,7 +8,7 @@ import {
   ConnectionBlockedError,
   type ConnectionAttemptError,
   ConnectionTransientError,
-} from "./model.vibe";
+} from "#vibelang/emitted/src/connection/model";
 
 export function profileMissingError(connectionId: string): ConnectionBlockedError {
   return new ConnectionBlockedError({

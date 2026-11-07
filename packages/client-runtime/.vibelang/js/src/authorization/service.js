@@ -2,14 +2,14 @@
 import { EnvironmentId, } from "@t3tools/contracts";
 import { RelayEnvironmentConnectScope } from "@t3tools/contracts/relay";
 import { withRelayClientTracing } from "@t3tools/shared/relayTracing";
-import { exchangeRemoteDpopAccessToken, resolveRemoteDpopWebSocketConnectionUrl, resolveRemoteWebSocketConnectionUrl, } from "./remote.js";
+import { exchangeRemoteDpopAccessToken, resolveRemoteDpopWebSocketConnectionUrl, resolveRemoteWebSocketConnectionUrl, } from "#vibelang/emitted/src/authorization/remote";
 import { environmentMismatchError, mapManagedRelayError, mapRemoteDpopEnvironmentError, mapRemoteEnvironmentError, } from "../connection/errors.js";
-import { ConnectionBlockedError, ConnectionTransientError, } from "../connection/model.js";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.js";
+import { ConnectionBlockedError, ConnectionTransientError, } from "#vibelang/emitted/src/connection/model";
+import { fetchRemoteEnvironmentDescriptor } from "#vibelang/emitted/src/environment/descriptor";
 import { environmentEndpointUrl } from "../environment/endpoint.js";
-import * as ClientCapabilities from "../platform/capabilities.js";
-import * as ManagedRelay from "../relay/managedRelay.js";
-import * as TokenStore from "./tokenStore.js";
+import * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities";
+import * as ManagedRelay from "#vibelang/emitted/src/relay/managedRelay";
+import * as TokenStore from "#vibelang/emitted/src/authorization/tokenStore";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -21,7 +21,7 @@ import * as Result from "effect/Result";
 import * as Scope from "effect/Scope";
 import * as Semaphore from "effect/Semaphore";
 import * as HttpClient from "effect/http/HttpClient";
-import { DPOP_ACCESS_TOKEN_REFRESH_SKEW_MS, } from "../connection/model.js";
+import { DPOP_ACCESS_TOKEN_REFRESH_SKEW_MS, } from "#vibelang/emitted/src/connection/model";
 export class RemoteEnvironmentAuthorization extends Context.Service()("@t3tools/client-runtime/authorization/service/RemoteEnvironmentAuthorization") {
 }
 const CACHED_ENDPOINT_SOCKET_TIMEOUT_MS = 3_000;

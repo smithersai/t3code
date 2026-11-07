@@ -18,7 +18,7 @@ import {
   type EnvironmentRpcSuccess,
   request,
   requestGuarded,
-} from "../rpc/client.vibe";
+} from "#vibelang/emitted/src/rpc/client";
 import type { EnvironmentProject } from "./models.vibe";
 import {
   createAtomCommandScheduler,
@@ -33,9 +33,9 @@ import {
   createProject,
   deleteProject,
   updateProject,
-} from "../operations/commands.vibe";
+} from "#vibelang/emitted/src/operations/commands";
 import type { EnvironmentRegistry } from "../connection/registry.ts";
-import { createFileMetadataAtoms } from "./fileMetadata.vibe";
+import { createFileMetadataAtoms } from "#vibelang/emitted/src/state/fileMetadata";
 import { resolveWorkspaceFilePath } from "@t3tools/shared/path";
 
 export type {

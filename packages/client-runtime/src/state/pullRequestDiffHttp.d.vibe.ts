@@ -7,7 +7,7 @@ import * as Schema from "effect/Schema";
 import { HttpClient } from "effect/http";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
 import type { PreparedConnection } from "../connection/model.vibe";
-import * as ManagedRelay from "../relay/managedRelay.ts";
+import * as ManagedRelay from "../relay/managedRelay.vibe";
 import { type RemoteEnvironmentRequestError } from "../rpc/http.ts";
 declare const PullRequestDiffCredentialRejectedError_base: Schema.Class<PullRequestDiffCredentialRejectedError, Schema.TaggedStruct<"PullRequestDiffCredentialRejectedError", {
     readonly repository: Schema.String;

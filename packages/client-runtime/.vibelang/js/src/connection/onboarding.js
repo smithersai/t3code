@@ -7,18 +7,18 @@ import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as HttpClient from "effect/http/HttpClient";
-import { bootstrapRemoteBearerSession } from "../authorization/remote.js";
+import { bootstrapRemoteBearerSession } from "#vibelang/emitted/src/authorization/remote";
 import { deriveWsBaseUrl, normalizeHttpBaseUrl } from "../environment/endpoint.js";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.js";
-import * as ClientCapabilities from "../platform/capabilities.js";
-import { BearerConnectionCredential, BearerConnectionProfile, BearerConnectionRegistration, SshConnectionProfile, SshConnectionRegistration, } from "./catalog.js";
-import * as ConnectionCredentialStore from "./credentialStore.js";
+import { fetchRemoteEnvironmentDescriptor } from "#vibelang/emitted/src/environment/descriptor";
+import * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities";
+import { BearerConnectionCredential, BearerConnectionProfile, BearerConnectionRegistration, SshConnectionProfile, SshConnectionRegistration, } from "#vibelang/emitted/src/connection/catalog";
+import * as ConnectionCredentialStore from "#vibelang/emitted/src/connection/credentialStore";
 import { mapRemoteEnvironmentError } from "./errors.js";
-import { BearerConnectionTarget, ConnectionBlockedError, SshConnectionTarget, } from "./model.js";
-import * as Persistence from "../platform/persistence.js";
+import { BearerConnectionTarget, ConnectionBlockedError, SshConnectionTarget, } from "#vibelang/emitted/src/connection/model";
+import * as Persistence from "#vibelang/emitted/src/platform/persistence";
 import * as EnvironmentRegistry from "./registry.js";
 import { orchestrationProtocolCompatibilityError } from "./compatibility.js";
-import { connectionRoutes, routeEntry, sshTargetKey } from "./routes.js";
+import { connectionRoutes, routeEntry, sshTargetKey, } from "#vibelang/emitted/src/connection/routes";
 export class ConnectionOnboarding extends Context.Service()("@t3tools/client-runtime/connection/onboarding/ConnectionOnboarding") {
 }
 const resolvePairingTarget = Effect.fn("clientRuntime.connection.onboarding.resolvePairingTarget")(function* (input) {

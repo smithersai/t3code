@@ -14,16 +14,16 @@ import {
   appendClientConnectionParams,
   type ClientOwnerParams,
   readClientOwnerParams,
-} from "../authorization/remote.vibe";
+} from "#vibelang/emitted/src/authorization/remote";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
-import * as ClientCapabilities from "../platform/capabilities.vibe";
+import * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities";
 import {
   BearerConnectionCredential,
   BearerConnectionProfile,
   type ConnectionCatalogEntry,
   SshConnectionProfile,
-} from "./catalog.vibe";
-import * as ConnectionCredentialStore from "./credentialStore.vibe";
+} from "#vibelang/emitted/src/connection/catalog";
+import * as ConnectionCredentialStore from "#vibelang/emitted/src/connection/credentialStore";
 import {
   credentialMissingError,
   environmentMismatchError,
@@ -33,7 +33,7 @@ import {
 import {
   PullRequestRoutingPermissions,
   pullRequestRoutingConnectionKey,
-} from "./pullRequestRoutingPermissions.vibe";
+} from "#vibelang/emitted/src/connection/pullRequestRoutingPermissions";
 import type {
   BearerConnectionTarget,
   ConnectionTarget,
@@ -42,14 +42,17 @@ import type {
   RelayConnectionTarget,
   SshConnectionTarget,
 } from "./model.vibe";
-import { ConnectionBlockedError, type ConnectionAttemptError } from "./model.vibe";
-import * as ConnectionProfileStore from "./profileStore.vibe";
+import {
+  ConnectionBlockedError,
+  type ConnectionAttemptError,
+} from "#vibelang/emitted/src/connection/model";
+import * as ConnectionProfileStore from "#vibelang/emitted/src/connection/profileStore";
 import {
   appendOrchestrationProtocol,
   orchestrationProtocolCompatibilityError,
 } from "./compatibility.ts";
-import { credentialConnectionId } from "./routes.vibe";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.vibe";
+import { credentialConnectionId } from "#vibelang/emitted/src/connection/routes";
+import { fetchRemoteEnvironmentDescriptor } from "#vibelang/emitted/src/environment/descriptor";
 
 export class ConnectionResolver extends Context.Service<
   ConnectionResolver,

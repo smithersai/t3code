@@ -11,7 +11,7 @@ import * as Schema from "effect/Schema";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 import * as EnvironmentRegistry from "../connection/registry.js";
 import * as EnvironmentSupervisor from "../connection/supervisor.js";
-import { request } from "../rpc/client.js";
+import { request } from "#vibelang/emitted/src/rpc/client";
 import { createEnvironmentQueryAtomFamily } from "./runtime.js";
 const ASSET_URL_REFRESH_INTERVAL_MS = 30 * 60_000;
 const ASSET_URL_STALE_TIME_MS = 5 * 60_000;

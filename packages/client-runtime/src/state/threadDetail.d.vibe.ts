@@ -5,7 +5,7 @@ import { type ThreadTurnSubagents } from "./threadSubagents.vibe";
 import { type ThreadCheckpointSummary } from "./threadCheckpoints.vibe";
 import type { EnvironmentThread, EnvironmentThreadStructure, ThreadStructureVisibleTurnItem } from "./models.vibe";
 import { type EnvironmentThreadState } from "./threadState.vibe";
-import { type PendingThreadRequests } from "./threadRequests.ts";
+import { type PendingThreadRequests } from "./threadRequests.vibe";
 type VisibleTurnItem = OrchestrationV2ThreadProjection["visibleTurnItems"][number];
 /**
  * Whether the structure kept every field of this row: true for all but streamed items.

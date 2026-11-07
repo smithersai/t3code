@@ -12,18 +12,18 @@ import * as Scope from "effect/Scope";
 import * as Semaphore from "effect/Semaphore";
 import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
-import * as ClientCapabilities from "../platform/capabilities.js";
-import { SshConnectionProfile, connectionRegistrationCatalogEntry, } from "./catalog.js";
-import * as ConnectionCredentialStore from "./credentialStore.js";
-import * as ConnectionProfileStore from "./profileStore.js";
-import * as Connectivity from "./connectivity.js";
-import { ConnectionBlockedError } from "./model.js";
-import * as Persistence from "../platform/persistence.js";
+import * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities";
+import { SshConnectionProfile, connectionRegistrationCatalogEntry, } from "#vibelang/emitted/src/connection/catalog";
+import * as ConnectionCredentialStore from "#vibelang/emitted/src/connection/credentialStore";
+import * as ConnectionProfileStore from "#vibelang/emitted/src/connection/profileStore";
+import * as Connectivity from "#vibelang/emitted/src/connection/connectivity";
+import { ConnectionBlockedError } from "#vibelang/emitted/src/connection/model";
+import * as Persistence from "#vibelang/emitted/src/platform/persistence";
 import * as EnvironmentSupervisor from "./supervisor.js";
 import * as ConnectionDriver from "./driver.js";
-import * as ConnectionWakeups from "./wakeups.js";
-import { PullRequestRoutingPermissions, pullRequestRoutingConnectionKey, } from "./pullRequestRoutingPermissions.js";
-import { RELAY_ROUTE_ID, connectionRouteId, connectionRoutes, credentialConnectionId, entryWithRoutes, findRouteToSameAddress, hasSavedBearerRoute, mergeLearnedRoutes, routesAfterRemoving, upsertRoute, } from "./routes.js";
+import * as ConnectionWakeups from "#vibelang/emitted/src/connection/wakeups";
+import { PullRequestRoutingPermissions, pullRequestRoutingConnectionKey, } from "#vibelang/emitted/src/connection/pullRequestRoutingPermissions";
+import { RELAY_ROUTE_ID, connectionRouteId, connectionRoutes, credentialConnectionId, entryWithRoutes, findRouteToSameAddress, hasSavedBearerRoute, mergeLearnedRoutes, routesAfterRemoving, upsertRoute, } from "#vibelang/emitted/src/connection/routes";
 const isSshConnectionProfile = Schema.is(SshConnectionProfile);
 function unsupportedState(entry) {
     return {

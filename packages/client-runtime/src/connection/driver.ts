@@ -13,7 +13,7 @@ import type {
   ConnectionAttemptStage,
   PreparedConnection,
 } from "./model.vibe";
-import { ConnectionTransientError } from "./model.vibe";
+import { ConnectionTransientError } from "#vibelang/emitted/src/connection/model";
 import * as ConnectionResolver from "./resolver.ts";
 import {
   connectionRoutes,
@@ -21,9 +21,9 @@ import {
   routeHttpBaseUrl,
   sendsTokenInClear,
   usableRoutes,
-} from "./routes.vibe";
-import * as RpcSession from "../rpc/session.vibe";
-import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.vibe";
+} from "#vibelang/emitted/src/connection/routes";
+import * as RpcSession from "#vibelang/emitted/src/rpc/session";
+import { fetchRemoteEnvironmentDescriptor } from "#vibelang/emitted/src/environment/descriptor";
 
 export type ConnectionDriverProgress =
   | {

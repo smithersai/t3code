@@ -7,10 +7,10 @@ import * as Predicate from "effect/Predicate";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { Atom, AtomRegistry } from "effect/reactivity";
-import { request, requestGuarded, } from "../rpc/client.js";
+import { request, requestGuarded, } from "#vibelang/emitted/src/rpc/client";
 import { createAtomCommandScheduler, createEnvironmentCommand, createEnvironmentRpcCommand, createEnvironmentRpcQueryAtomFamily, } from "./runtime.js";
-import { createProject, deleteProject, updateProject, } from "../operations/commands.js";
-import { createFileMetadataAtoms } from "./fileMetadata.js";
+import { createProject, deleteProject, updateProject, } from "#vibelang/emitted/src/operations/commands";
+import { createFileMetadataAtoms } from "#vibelang/emitted/src/state/fileMetadata";
 import { resolveWorkspaceFilePath } from "@t3tools/shared/path";
 function optimisticProjectFileKey(target) {
     return JSON.stringify([target.environmentId, target.cwd, target.relativePath]);

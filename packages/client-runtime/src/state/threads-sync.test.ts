@@ -46,7 +46,7 @@ import {
 } from "../platform/orchestrationCache.vibe";
 import * as RpcSession from "../rpc/session.vibe";
 import { v2Now, v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.ts";
-import { onThreadRequestsResolved, type ThreadRequestsResolved } from "./threadRequests.ts";
+import { onThreadRequestsResolved, type ThreadRequestsResolved } from "./threadRequests.vibe";
 import { EMPTY_THREAD_HISTORY_META } from "./threadHistoryMerge.ts";
 import * as ThreadHistoryController from "./threadHistoryController.vibe";
 import {

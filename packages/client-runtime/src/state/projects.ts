@@ -204,5 +204,5 @@ export function canNavigateUp(currentPath: string): boolean {
 }
 
 export * from "./projectCommands.ts";
-export * from "./projectEntities.vibe";
+export * from "#vibelang/emitted/src/state/projectEntities";
 export * from "./projectRemoval.ts";

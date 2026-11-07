@@ -10,7 +10,7 @@ import { FetchHttpClient, type HttpMethod } from "effect/http";
 
 import type { RemoteEnvironmentAuthorization } from "../authorization/service.ts";
 import type { PreparedConnection, PreparedHttpAuthorization } from "../connection/model.vibe";
-import type { ManagedRelayDpopSigner } from "../relay/managedRelay.ts";
+import type { ManagedRelayDpopSigner } from "../relay/managedRelay.vibe";
 import {
   executeEnvironmentHttpRequest,
   makeEnvironmentHttpApiGroupClient,

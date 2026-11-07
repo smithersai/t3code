@@ -12,7 +12,7 @@ import * as Semaphore from "effect/Semaphore";
 import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
-import * as ClientCapabilities from "../platform/capabilities.vibe";
+import * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities";
 import {
   type ConnectionCatalogEntry,
   type ConnectionCredential,
@@ -23,10 +23,10 @@ import {
   type PrimaryConnectionRegistration,
   SshConnectionProfile,
   connectionRegistrationCatalogEntry,
-} from "./catalog.vibe";
-import * as ConnectionCredentialStore from "./credentialStore.vibe";
-import * as ConnectionProfileStore from "./profileStore.vibe";
-import * as Connectivity from "./connectivity.vibe";
+} from "#vibelang/emitted/src/connection/catalog";
+import * as ConnectionCredentialStore from "#vibelang/emitted/src/connection/credentialStore";
+import * as ConnectionProfileStore from "#vibelang/emitted/src/connection/profileStore";
+import * as Connectivity from "#vibelang/emitted/src/connection/connectivity";
 import type {
   ConnectionAttemptError,
   ConnectionTarget,
@@ -34,15 +34,15 @@ import type {
   PersistedConnectionTarget,
   SupervisorConnectionState,
 } from "./model.vibe";
-import { ConnectionBlockedError } from "./model.vibe";
-import * as Persistence from "../platform/persistence.vibe";
+import { ConnectionBlockedError } from "#vibelang/emitted/src/connection/model";
+import * as Persistence from "#vibelang/emitted/src/platform/persistence";
 import * as EnvironmentSupervisor from "./supervisor.ts";
 import * as ConnectionDriver from "./driver.ts";
-import * as ConnectionWakeups from "./wakeups.vibe";
+import * as ConnectionWakeups from "#vibelang/emitted/src/connection/wakeups";
 import {
   PullRequestRoutingPermissions,
   pullRequestRoutingConnectionKey,
-} from "./pullRequestRoutingPermissions.vibe";
+} from "#vibelang/emitted/src/connection/pullRequestRoutingPermissions";
 import {
   RELAY_ROUTE_ID,
   connectionRouteId,
@@ -55,7 +55,7 @@ import {
   routesAfterRemoving,
   upsertRoute,
   type ReportedEndpoint,
-} from "./routes.vibe";
+} from "#vibelang/emitted/src/connection/routes";
 
 const isSshConnectionProfile = Schema.is(SshConnectionProfile);
 
