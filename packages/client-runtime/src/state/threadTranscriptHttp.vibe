@@ -23,11 +23,18 @@ export const fetchEnvironmentThreadTranscript = effect (
         method: "GET",
         url: (urls) => urls.threadTranscript({ params: { threadId: input.threadId } }),
         timeoutMs: 60_000,
-        request: ({ client, headers }) =>
-          client.threadTranscript({
-            params: { threadId: input.threadId },
-            headers: withOrchestrationProtocolHeader(headers),
-          }),
+        request: effect ({ client, headers }) => {
+          const program = try Effect.orDie(Effect.try({
+            try: () => (
+              client.threadTranscript({
+                params: { threadId: input.threadId },
+                headers: withOrchestrationProtocolHeader(headers),
+              })
+            ),
+            catch: (cause) => cause,
+          }))
+          return try program
+        },
       })
     },
     "clientRuntime.state.fetchEnvironmentThreadTranscript",

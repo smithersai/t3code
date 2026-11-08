@@ -93,48 +93,59 @@ const make = Effect.gen(function*() {
     credential: CursorCredentialSource,
     credentialKey: string,
     retentionStartMs: number,
-  ) => try withSpan(effect {
-    const nowMs = try Clock.currentTimeMillis
-    const fetchMissing = (cache: CursorAccountCache | undefined) => {
-      const range = cursorFetchRange(cache, retentionStartMs, nowMs)
-      return accountReader
-        .read(credential, range.sinceMs, range.untilMs)|> Effect.map(%, (result) => ({ range, result }))
-    }
-    let base = caches.get(credentialKey)
-    let fetched = try fetchMissing(base)
-    if (
-      base !== undefined
-      && fetched.result.accountKey !== null
-      && fetched.result.accountKey !== base.accountKey
-    ) {
-      caches.delete(credentialKey)
-      cacheDirty = true
-      base = undefined
-      fetched = try fetchMissing(base)
-    }
-    const { range, result } = fetched
-    if (result.missing || result.error !== null || result.accountKey === null) {
-      failures.set(credentialKey, {
-        atMs: nowMs,
-        error: result.missing || result.error !== null ? result.error : CURSOR_ACCOUNT_READ_ERROR,
-      })
-      try schedulePersist
-      return
-    }
-    const accountKey2 = result.accountKey
-    const merged = try Effect.orDie(Effect.try({ try: () => mergeCursorFetch(
-      base,
-      accountKey2,
-      range,
-      result.records,
-      nowMs,
-      retentionStartMs,
-    ), catch: (e) => e }))
-    caches.set(credentialKey, merged.cache)
-    failures.delete(credentialKey)
-    if (merged.changed) cacheDirty = true
-    try schedulePersist
-  }, "CursorUsageAccounts.refreshAccount")
+  ) =>
+    try withSpan(
+      effect {
+        const nowMs = try Clock.currentTimeMillis
+        const fetchMissing = effect (cache: CursorAccountCache | undefined) => {
+          const range = try Effect.orDie(Effect.try({
+            try: () => cursorFetchRange(cache, retentionStartMs, nowMs),
+            catch: (cause) => cause,
+          }))
+          return try (accountReader
+            .read(credential, range.sinceMs, range.untilMs) |> Effect.map(%, (result) => ({ range, result })))
+        }
+        let base = caches.get(credentialKey)
+        let fetched = try fetchMissing(base)
+        if (
+          base !== undefined
+          && fetched.result.accountKey !== null
+          && fetched.result.accountKey !== base.accountKey
+        ) {
+          caches.delete(credentialKey)
+          cacheDirty = true
+          base = undefined
+          fetched = try fetchMissing(base)
+        }
+        const { range, result } = fetched
+        if (result.missing || result.error !== null || result.accountKey === null) {
+          failures.set(credentialKey, {
+            atMs: nowMs,
+            error: result.missing || result.error !== null ? result.error : CURSOR_ACCOUNT_READ_ERROR,
+          })
+          try schedulePersist
+          return
+        }
+        const accountKey2 = result.accountKey
+        const merged = try Effect.orDie(Effect.try({
+          try: () =>
+            mergeCursorFetch(
+              base,
+              accountKey2,
+              range,
+              result.records,
+              nowMs,
+              retentionStartMs,
+            ),
+          catch: (e) => e,
+        }))
+        caches.set(credentialKey, merged.cache)
+        failures.delete(credentialKey)
+        if (merged.changed) cacheDirty = true
+        try schedulePersist
+      },
+      "CursorUsageAccounts.refreshAccount",
+    )
 
   const startRefresh = (
     credential: CursorCredentialSource,

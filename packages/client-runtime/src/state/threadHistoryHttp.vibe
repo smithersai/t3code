@@ -38,8 +38,15 @@ export const fetchEnvironmentThreadHistoryPage = effect (
         method: "GET",
         url: (urls) => urls.threadHistoryPage(endpoint),
         timeoutMs: input.timeoutMs ?? DEFAULT_THREAD_HISTORY_TIMEOUT_MS,
-        request: ({ client, headers }) =>
-          client.threadHistoryPage({ ...endpoint, headers: withOrchestrationProtocolHeader(headers) }),
+        request: effect ({ client, headers }) => {
+          const program = try Effect.orDie(Effect.try({
+            try: () => (
+              client.threadHistoryPage({ ...endpoint, headers: withOrchestrationProtocolHeader(headers) })
+            ),
+            catch: (cause) => cause,
+          }))
+          return try program
+        },
       })
     },
     "clientRuntime.state.fetchEnvironmentThreadHistoryPage",

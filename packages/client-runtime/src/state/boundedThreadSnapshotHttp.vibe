@@ -36,11 +36,18 @@ export const fetchEnvironmentBoundedThreadSnapshot = effect (
         method: "GET",
         url: (urls) => urls.threadBoundedSnapshot(endpoint),
         timeoutMs: input.timeoutMs ?? DEFAULT_BOUNDED_THREAD_SNAPSHOT_TIMEOUT_MS,
-        request: ({ client, headers }) =>
-          client.threadBoundedSnapshot({
-            ...endpoint,
-            headers: withOrchestrationProtocolHeader(headers),
-          }),
+        request: effect ({ client, headers }) => {
+          const program = try Effect.orDie(Effect.try({
+            try: () => (
+              client.threadBoundedSnapshot({
+                ...endpoint,
+                headers: withOrchestrationProtocolHeader(headers),
+              })
+            ),
+            catch: (cause) => cause,
+          }))
+          return try program
+        },
       })
         |> Effect.map(%, ({ turnItemsOmitLocalVisible, ...snapshot }) => ({
           ...snapshot,

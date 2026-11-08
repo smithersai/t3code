@@ -45,27 +45,41 @@ export const RelayDeploymentConfig = effect {
 }
 
 export const ManagedEndpointZone = RelayDeploymentConfig
-  |> Effect.flatMap(%, ({ stage, managedEndpointZoneName }) =>
-    relayOwnsManagedEndpointZone(stage)
-      ? Cloudflare.Zone.Zone("ManagedEndpointZone", { name: managedEndpointZoneName }).pipe(
-        adopt(true),
-      )
-      : Cloudflare.Zone.Zone.ref("ManagedEndpointZone", {
-        stage: MANAGED_ENDPOINT_ZONE_OWNER_STAGE,
-      }).pipe(
-        // Alchemy DNS policies need LogicalId for stable SIDs; Resource.ref returns a lazy proxy.
-        Effect.map((zone) => withLogicalId(zone, "ManagedEndpointZone")),
-      ))
+  |> Effect.flatMap(%, effect ({ stage, managedEndpointZoneName }) => {
+    const program = try Effect.orDie(Effect.try({
+      try: () => (
+        relayOwnsManagedEndpointZone(stage)
+          ? Cloudflare.Zone.Zone("ManagedEndpointZone", { name: managedEndpointZoneName }).pipe(
+            adopt(true),
+          )
+          : Cloudflare.Zone.Zone.ref("ManagedEndpointZone", {
+            stage: MANAGED_ENDPOINT_ZONE_OWNER_STAGE,
+          }).pipe(
+            // Alchemy DNS policies need LogicalId for stable SIDs; Resource.ref returns a lazy proxy.
+            Effect.map((zone) => withLogicalId(zone, "ManagedEndpointZone")),
+          )
+      ),
+      catch: (cause) => cause,
+    }))
+    return try program
+  })
 
 export const RelayApiZone = RelayDeploymentConfig
   |> Effect.flatMap(
     %,
-    ({ stage, relayApiZoneName, managedEndpointZoneName }) =>
-      relayApiZoneName === managedEndpointZoneName
-        ? ManagedEndpointZone
-        : relayOwnsManagedEndpointZone(stage)
-        ? Cloudflare.Zone.Zone("RelayApiZone", { name: relayApiZoneName }).pipe(adopt(true))
-        : Cloudflare.Zone.Zone.ref("RelayApiZone", {
-          stage: MANAGED_ENDPOINT_ZONE_OWNER_STAGE,
-        }),
+    effect ({ stage, relayApiZoneName, managedEndpointZoneName }) => {
+      const program = try Effect.orDie(Effect.try({
+        try: () => (
+          relayApiZoneName === managedEndpointZoneName
+            ? ManagedEndpointZone
+            : relayOwnsManagedEndpointZone(stage)
+            ? Cloudflare.Zone.Zone("RelayApiZone", { name: relayApiZoneName }).pipe(adopt(true))
+            : Cloudflare.Zone.Zone.ref("RelayApiZone", {
+              stage: MANAGED_ENDPOINT_ZONE_OWNER_STAGE,
+            })
+        ),
+        catch: (cause) => cause,
+      }))
+      return try program
+    },
   )

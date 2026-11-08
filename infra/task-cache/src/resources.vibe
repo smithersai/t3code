@@ -20,39 +20,70 @@ export const cacheName = effect {
   return stage === "prod" ? "t3-task-cache" : `t3-task-cache-${stage}`
 }
 export const Index = cacheName
-  |> Effect.flatMap(%, (name) =>
-    Cloudflare.D1.Database("Index", {
-      name,
-      migrations: $NodeURL_fileURLToPath(new URL("migrations", protocol)),
-    }).pipe(adopt(true), retain()))
+  |> Effect.flatMap(%, effect (name) => {
+    const resource = try Effect.orDie(Effect.try({
+      try: () => (
+        Cloudflare.D1.Database("Index", {
+          name,
+          migrations: $NodeURL_fileURLToPath(new URL("migrations", protocol)),
+        }).pipe(adopt(true), retain())
+      ),
+      catch: (cause) => cause,
+    }))
+    return try resource
+  })
+
 export const Artifacts = cacheName
-  |> Effect.flatMap(%, (name) =>
-    Cloudflare.R2.Bucket("Artifacts", {
-      name,
-      lifecycleRules: [
-        {
-          id: "remote-cache-generations",
-          deleteObjectsTransition: { condition: { type: "Age", maxAge: 9 * 86400 } },
-          abortMultipartUploadsTransition: { condition: { type: "Age", maxAge: 86400 } },
-        },
-      ],
-    }).pipe(adopt(true), retain()))
+  |> Effect.flatMap(%, effect (name) => {
+    const resource = try Effect.orDie(Effect.try({
+      try: () => (
+        Cloudflare.R2.Bucket("Artifacts", {
+          name,
+          lifecycleRules: [
+            {
+              id: "remote-cache-generations",
+              deleteObjectsTransition: { condition: { type: "Age", maxAge: 9 * 86400 } },
+              abortMultipartUploadsTransition: { condition: { type: "Age", maxAge: 86400 } },
+            },
+          ],
+        }).pipe(adopt(true), retain())
+      ),
+      catch: (cause) => cause,
+    }))
+    return try resource
+  })
+
 // Fingerprint-keyed simulator/emulator dev clients; separate from the 9-day task-cache generations.
 export const NativeClients = cacheName
-  |> Effect.flatMap(%, (name) =>
-    Cloudflare.R2.Bucket("NativeClients", {
-      name: `${name}-native-clients`,
-      lifecycleRules: [
-        {
-          id: "native-client-retention",
-          deleteObjectsTransition: { condition: { type: "Age", maxAge: 30 * 86400 } },
-          abortMultipartUploadsTransition: { condition: { type: "Age", maxAge: 86400 } },
-        },
-      ],
-    }).pipe(retain()))
+  |> Effect.flatMap(%, effect (name) => {
+    const resource = try Effect.orDie(Effect.try({
+      try: () => (
+        Cloudflare.R2.Bucket("NativeClients", {
+          name: `${name}-native-clients`,
+          lifecycleRules: [
+            {
+              id: "native-client-retention",
+              deleteObjectsTransition: { condition: { type: "Age", maxAge: 30 * 86400 } },
+              abortMultipartUploadsTransition: { condition: { type: "Age", maxAge: 86400 } },
+            },
+          ],
+        }).pipe(retain())
+      ),
+      catch: (cause) => cause,
+    }))
+    return try resource
+  })
+
 export const Savings = cacheName
-  |> Effect.flatMap(%, (name) =>
-    Cloudflare.D1.Database("Savings", {
-      name: `${name}-savings`,
-      migrations: $NodeURL_fileURLToPath(new URL("../migrations/savings", import.meta.url)),
-    }).pipe(retain()))
+  |> Effect.flatMap(%, effect (name) => {
+    const resource = try Effect.orDie(Effect.try({
+      try: () => (
+        Cloudflare.D1.Database("Savings", {
+          name: `${name}-savings`,
+          migrations: $NodeURL_fileURLToPath(new URL("../migrations/savings", import.meta.url)),
+        }).pipe(retain())
+      ),
+      catch: (cause) => cause,
+    }))
+    return try resource
+  })

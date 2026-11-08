@@ -84,13 +84,20 @@ export const makeEnvironmentShellState = effect () =>
       const wakeups = try Effect.serviceOption(ConnectionWakeups.ConnectionWakeups)
       const environmentId = supervisor.target.environmentId
       const cached = try (cache.loadShell(environmentId)
-        |> Effect.catch(%, (error) =>
-          Effect.logWarning("Could not load cached environment shell.")
-          |> Effect.annotateLogs({
-            environmentId,
-            ...safeErrorLogAttributes(error),
-          })(%)
-          |> Effect.as(%, Option.none<DeferredShellSnapshot>())))
+        |> Effect.catch(%, effect (error) => {
+          const program = try Effect.orDie(Effect.try({
+            try: () => (
+              Effect.logWarning("Could not load cached environment shell.")
+              |> Effect.annotateLogs({
+                environmentId,
+                ...safeErrorLogAttributes(error),
+              })(%)
+              |> Effect.as(%, Option.none<DeferredShellSnapshot>())
+            ),
+            catch: (cause) => cause,
+          }))
+          return try program
+        }))
       const cachedSnapshot = Option.map(cached, withoutDeferredPullRequests)
       const state = try SubscriptionRef.make<EnvironmentShellState>({
         ...EMPTY_SHELL_STATE,
@@ -135,10 +142,17 @@ export const makeEnvironmentShellState = effect () =>
               }
               const saved = try (cache.saveShell(environmentId, snapshot)
                 |> Effect.as(%, true)
-                |> Effect.catch(%, (error) =>
-                  Effect.logWarning("Could not persist environment shell cache.")
-                  |> Effect.annotateLogs({ environmentId, ...safeErrorLogAttributes(error) })(%)
-                  |> Effect.as(%, false)))
+                |> Effect.catch(%, effect (error) => {
+                  const program = try Effect.orDie(Effect.try({
+                    try: () => (
+                      Effect.logWarning("Could not persist environment shell cache.")
+                      |> Effect.annotateLogs({ environmentId, ...safeErrorLogAttributes(error) })(%)
+                      |> Effect.as(%, false)
+                    ),
+                    catch: (cause) => cause,
+                  }))
+                  return try program
+                }))
               if (!saved) return
               lastPersisted = snapshot
               if (!flush) return
@@ -178,21 +192,28 @@ export const makeEnvironmentShellState = effect () =>
             status: "synchronizing" as const,
             error: Option.none(),
           })
-      const setStreamError = (error: unknown) =>
-        Ref.set(awaitingCompletion, false)
-        |> Effect.andThen(%, Effect.logWarning("Could not synchronize the environment shell."))
-        |> Effect.annotateLogs({
-          environmentId,
-          ...safeErrorLogAttributes(error),
-        })(%)
-        |> Effect.andThen(
-          %,
-          SubscriptionRef.update(state, (current) => ({
-            ...current,
-            status: shellStatusForSnapshot(current.snapshot),
-            error: Option.some(SHELL_SYNCHRONIZATION_ERROR_MESSAGE),
-          })),
-        )
+      const setStreamError = effect (error: unknown) => {
+        const program = try Effect.orDie(Effect.try({
+          try: () => (
+            Ref.set(awaitingCompletion, false)
+            |> Effect.andThen(%, Effect.logWarning("Could not synchronize the environment shell."))
+            |> Effect.annotateLogs({
+              environmentId,
+              ...safeErrorLogAttributes(error),
+            })(%)
+            |> Effect.andThen(
+              %,
+              SubscriptionRef.update(state, (current) => ({
+                ...current,
+                status: shellStatusForSnapshot(current.snapshot),
+                error: Option.some(SHELL_SYNCHRONIZATION_ERROR_MESSAGE),
+              })),
+            )
+          ),
+          catch: (cause) => cause,
+        }))
+        return try program
+      }
 
       // Server items and deferred link fills both read the snapshot and write it back; one at a
       // time, so neither can overwrite what the other wrote in between.
@@ -1856,10 +1877,10 @@ export const makeEnvironmentShellState = effect () =>
                         onSome: (value) => Effect.succeed(value),
                         onNone: () =>
                           SubscriptionRef.changes(supervisor.prepared)
-                            |> Stream.filter(%, Option.isSome)
-                            |> Stream.map(%, (value) => value.value)
-                            |> Stream.runHead(%)
-                            |> Effect.map(%, Option.getOrThrow),
+                          |> Stream.filter(%, Option.isSome)
+                          |> Stream.map(%, (value) => value.value)
+                          |> Stream.runHead(%)
+                          |> Effect.map(%, Option.getOrThrow),
                       }),
                     ))
                   // HTTP and the socket must agree, or omitted children would return through the socket.

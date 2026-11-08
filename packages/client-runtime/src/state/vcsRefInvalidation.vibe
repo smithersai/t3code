@@ -65,14 +65,21 @@ export const invalidateCachedVcsRefs = effect (
         effect {
           const persistedCacheReadable = try (cache.clearVcsRefs(target.environmentId)
             |> Effect.as(%, true)
-            |> Effect.catch(%, (error) =>
-              Effect.logWarning("Could not remove invalidated cached Git refs.")
-              |> Effect.annotateLogs({
-                environmentId: target.environmentId,
-                cwd: target.cwd,
-                ...safeErrorLogAttributes(error),
-              })(%)
-              |> Effect.as(%, false)))
+            |> Effect.catch(%, effect (error) => {
+              const program = try Effect.orDie(Effect.try({
+                try: () => (
+                  Effect.logWarning("Could not remove invalidated cached Git refs.")
+                  |> Effect.annotateLogs({
+                    environmentId: target.environmentId,
+                    cwd: target.cwd,
+                    ...safeErrorLogAttributes(error),
+                  })(%)
+                  |> Effect.as(%, false)
+                ),
+                catch: (cause) => cause,
+              }))
+              return try program
+            }))
           invalidateVcsRefs(registry, target, persistedCacheReadable)
         },
       )
