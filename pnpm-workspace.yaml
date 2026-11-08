@@ -353,10 +353,16 @@ overrides:
   "@effect/openapi-generator": 4.1.1
   "@effect/sql-sqlite-do": 4.1.1
 
-  vibelang: "0.0.13"
-  vibelang-runtime: "0.0.13"
-  vibelang-vite: "0.0.13"
-  vibelang-unplugin: "0.0.13"
+  vibelang: "file:.vibelang-toolchain/npm-0013/vibelang-0.0.13.tgz"
+  vibelang-runtime: "file:.vibelang-toolchain/npm-0013/vibelang-runtime-0.0.13.tgz"
+  vibelang-vite: "file:.vibelang-toolchain/npm-0013/vibelang-vite-0.0.13.tgz"
+  vibelang-unplugin: "file:.vibelang-toolchain/npm-0013/vibelang-unplugin-0.0.13.tgz"
+  "vibelang-darwin-arm64": "file:.vibelang-toolchain/npm-0013/vibelang-darwin-arm64-0.0.13.tgz"
+  "vibelang-darwin-x64": "file:.vibelang-toolchain/npm-0013/vibelang-darwin-x64-0.0.13.tgz"
+  "vibelang-linux-arm64": "file:.vibelang-toolchain/npm-0013/vibelang-linux-arm64-0.0.13.tgz"
+  "vibelang-linux-x64": "file:.vibelang-toolchain/npm-0013/vibelang-linux-x64-0.0.13.tgz"
+  "@smthrs/cli-win32-arm64": "file:.vibelang-toolchain/npm-0013/smthrs-cli-win32-arm64-0.0.13.tgz"
+  "@smthrs/cli-win32-x64": "file:.vibelang-toolchain/npm-0013/smthrs-cli-win32-x64-0.0.13.tgz"
 packageExtensions:
   "@clerk/expo@*":
     dependencies:

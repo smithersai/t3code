@@ -16,13 +16,13 @@
     "@t3tools/provider-core": "workspace:*",
     "@t3tools/shared": "workspace:*",
     "effect": "catalog:",
-    "vibelang-runtime": "0.0.13"
+    "vibelang-runtime": "file:../.vibelang-toolchain/npm-0013/vibelang-runtime-0.0.13.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
     "typescript": "catalog:",
-    "vibelang": "0.0.13",
+    "vibelang": "file:../.vibelang-toolchain/npm-0013/vibelang-0.0.13.tgz",
     "vite-plus": "catalog:"
   }
 }

@@ -63,9 +63,9 @@
     "knip": "6.34.0",
     "typescript": "catalog:",
     "typescript-eslint": "^8.69.0",
-    "vibelang": "0.0.13",
-    "vibelang-unplugin": "0.0.13",
-    "vibelang-vite": "0.0.13",
+    "vibelang": "file:.vibelang-toolchain/npm-0013/vibelang-0.0.13.tgz",
+    "vibelang-unplugin": "file:.vibelang-toolchain/npm-0013/vibelang-unplugin-0.0.13.tgz",
+    "vibelang-vite": "file:.vibelang-toolchain/npm-0013/vibelang-vite-0.0.13.tgz",
     "vite-plus": "catalog:"
   },
   "engines": {

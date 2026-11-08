@@ -59,7 +59,7 @@
     "@t3tools/shared": "workspace:*",
     "@t3tools/source-control-core": "workspace:*",
     "effect": "catalog:",
-    "vibelang-runtime": "0.0.13"
+    "vibelang-runtime": "file:../../.vibelang-toolchain/npm-0013/vibelang-runtime-0.0.13.tgz"
   },
   "devDependencies": {
     "@effect/graphql-generator": "catalog:",
@@ -67,8 +67,8 @@
     "@effect/vitest": "catalog:",
     "@t3tools/source-control-testing": "workspace:*",
     "@types/node": "catalog:",
-    "vibelang": "0.0.13",
-    "vibelang-vite": "0.0.13",
+    "vibelang": "file:../../.vibelang-toolchain/npm-0013/vibelang-0.0.13.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/npm-0013/vibelang-vite-0.0.13.tgz",
     "vite-plus": "catalog:"
   }
 }

@@ -10,12 +10,12 @@
     "@effect/platform-node": "catalog:",
     "@oxlint/plugins": "^1.63.0",
     "effect": "catalog:",
-    "vibelang-runtime": "0.0.13"
+    "vibelang-runtime": "file:../.vibelang-toolchain/npm-0013/vibelang-runtime-0.0.13.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
     "fast-check": "4.10.2",
-    "vibelang": "0.0.13",
+    "vibelang": "file:../.vibelang-toolchain/npm-0013/vibelang-0.0.13.tgz",
     "vite-plus": "catalog:"
   }
 }
