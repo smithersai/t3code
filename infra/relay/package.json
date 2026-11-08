@@ -28,7 +28,7 @@
     "alchemy": "catalog:",
     "drizzle-orm": "1.0.0-rc.5-ab785fc",
     "effect": "catalog:",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz"
+    "vibelang-runtime": "0.0.12"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260601.1",
@@ -37,8 +37,8 @@
     "@types/node": "catalog:",
     "drizzle-kit": "1.0.0-rc.5-ab785fc",
     "typescript": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
+    "vibelang": "0.0.12",
+    "vibelang-vite": "0.0.12",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   }

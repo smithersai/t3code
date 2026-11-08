@@ -10,43 +10,33 @@
   "packages": [
     "apps/server/package.json"
   ],
-  "localPins": {
-    "vibelang": "file:./.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
-    "vibelang-runtime": "file:./.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz",
-    "vibelang-vite": "file:./.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
-    "vibelang-unplugin": "file:./.vibelang-toolchain/vibelang-unplugin-0.0.12-e9e44498a5cb.tgz"
-  },
-  "releaseRequired": [
-    {
-      "name": "vibelang-runtime",
-      "version": "0.0.12"
-    }
-  ],
+  "localPins": {},
+  "releaseRequired": [],
   "overrides": [
     {
       "name": "vibelang",
-      "value": "file:./.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
+      "value": "0.0.12",
       "file": "pnpm-workspace.yaml",
       "table": "overrides",
       "hadValue": false
     },
     {
       "name": "vibelang-runtime",
-      "value": "file:./.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz",
+      "value": "0.0.12",
       "file": "pnpm-workspace.yaml",
       "table": "overrides",
       "hadValue": false
     },
     {
       "name": "vibelang-vite",
-      "value": "file:./.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
+      "value": "0.0.12",
       "file": "pnpm-workspace.yaml",
       "table": "overrides",
       "hadValue": false
     },
     {
       "name": "vibelang-unplugin",
-      "value": "file:./.vibelang-toolchain/vibelang-unplugin-0.0.12-e9e44498a5cb.tgz",
+      "value": "0.0.12",
       "file": "pnpm-workspace.yaml",
       "table": "overrides",
       "hadValue": false

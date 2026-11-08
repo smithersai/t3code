@@ -95,7 +95,7 @@
     "@t3tools/provider-core": "workspace:*",
     "@t3tools/shared": "workspace:*",
     "effect": "catalog:",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz"
+    "vibelang-runtime": "0.0.12"
   },
   "devDependencies": {
     "@effect/platform-node": "catalog:",
@@ -103,8 +103,8 @@
     "@t3tools/provider-testing": "workspace:*",
     "@types/node": "catalog:",
     "effect-acp": "workspace:*",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
+    "vibelang": "0.0.12",
+    "vibelang-vite": "0.0.12",
     "vite-plus": "catalog:"
   }
 }

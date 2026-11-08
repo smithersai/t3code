@@ -18,7 +18,7 @@
     "plist": "catalog:",
     "pngjs": "7.0.0",
     "sharp": "0.35.4",
-    "vibelang-runtime": "file:../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz"
+    "vibelang-runtime": "0.0.12"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
@@ -29,7 +29,7 @@
     "postject": "1.0.0-alpha.6",
     "typescript": "catalog:",
     "typescript-legacy": "npm:typescript@~6.0.3",
-    "vibelang": "file:../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
+    "vibelang": "0.0.12",
     "vite-plus": "catalog:"
   }
 }

@@ -61,15 +61,15 @@
   },
   "dependencies": {
     "effect": "catalog:",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/vibelang-runtime-0.0.12-2217230d953a.tgz"
+    "vibelang-runtime": "0.0.12"
   },
   "devDependencies": {
     "@effect/openapi-generator": "catalog:",
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/vibelang-0.0.12-9fb8d6c2bda2.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/vibelang-vite-0.0.12-085325b524c8.tgz",
+    "vibelang": "0.0.12",
+    "vibelang-vite": "0.0.12",
     "vite-plus": "catalog:"
   },
   "imports": {
