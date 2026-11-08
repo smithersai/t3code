@@ -303,25 +303,31 @@ export const makeCodexAppServerPatchedProtocol = effect (
                 )
               }
 
-              return (do { const catchProgram = (handler(request)
-                |> Effect.matchEffect(%, {
-                  onFailure: (error) =>
-                    respondError(
-                      request.id,
-                      CodexError.CodexAppServerRequestError.fromAppServerError(
-                        error,
-                        request.method,
+              return (do {
+                const catchProgram = handler(request)
+                  |> Effect.matchEffect(%, {
+                    onFailure: (error) =>
+                      respondError(
+                        request.id,
+                        CodexError.CodexAppServerRequestError.fromAppServerError(
+                          error,
+                          request.method,
+                        ),
                       ),
-                    ),
-                  onSuccess: (result) =>
-                    respond(request.id, result),
-                })
-                |> Effect.ensuring(
-                  %,
-                  Ref.update(activeRequestHandlers, (count) => Math.max(0, count - 1)),
-                )); effect { return catchProgram catch effect (error) => try (handleTermination(() => Effect.succeed(error))
-                  |> Effect.forkIn(%, protocolScope)
-                  |> Effect.asVoid(%)) } })
+                    onSuccess: (result) =>
+                      respond(request.id, result),
+                  })
+                  |> Effect.ensuring(
+                    %,
+                    Ref.update(activeRequestHandlers, (count) => Math.max(0, count - 1)),
+                  )
+                effect {
+                  return catchProgram catch effect (error) =>
+                    try (handleTermination(() => Effect.succeed(error))
+                      |> Effect.forkIn(%, protocolScope)
+                      |> Effect.asVoid(%))
+                }
+              })
                 |> Effect.forkIn(%, requestHandlerScope, { startImmediately: true })
                 |> Effect.asVoid(%)
             })
@@ -379,7 +385,8 @@ export const makeCodexAppServerPatchedProtocol = effect (
         |> Stream.interruptWhen(%, Deferred.await(terminationSignal))
         |> Stream.decodeText()(%)
         |> Stream.runForEach(
-          %, effect (chunk) => {
+          %,
+          effect (chunk) => {
             let start = 0
             while (start < chunk.length) {
               const newline = chunk.indexOf("\n", start)
@@ -412,24 +419,24 @@ export const makeCodexAppServerPatchedProtocol = effect (
               remainder.length = 0
               return line
             })
-              |> Effect.flatMap(%, handleLine)
-              |> Effect.matchEffect(%, {
-                onFailure: (error) => handleTermination(() => Effect.succeed(error)),
-                onSuccess: () =>
-                  handleTermination(() => {
-                    const ended = new CodexError.CodexAppServerInputStreamEndedError({})
-                    // Node ends stdout before it reports the exit of a crashed process, so
-                    // wait briefly for the exit status. stdout can also close while the
-                    // process keeps running, so the wait must not hang pending requests.
-                    return options.terminationError === undefined
-                      ? Effect.succeed(ended)
-                      : (options.terminationError
-                        |> Effect.timeoutOrElse(%, {
-                          duration: EXIT_STATUS_GRACE,
-                          orElse: () => Effect.succeed(ended),
-                        }))
-                  }),
-              }),
+            |> Effect.flatMap(%, handleLine)
+            |> Effect.matchEffect(%, {
+              onFailure: (error) => handleTermination(() => Effect.succeed(error)),
+              onSuccess: () =>
+                handleTermination(() => {
+                  const ended = new CodexError.CodexAppServerInputStreamEndedError({})
+                  // Node ends stdout before it reports the exit of a crashed process, so
+                  // wait briefly for the exit status. stdout can also close while the
+                  // process keeps running, so the wait must not hang pending requests.
+                  return options.terminationError === undefined
+                    ? Effect.succeed(ended)
+                    : (options.terminationError
+                      |> Effect.timeoutOrElse(%, {
+                        duration: EXIT_STATUS_GRACE,
+                        orElse: () => Effect.succeed(ended),
+                      }))
+                }),
+            }),
         })
         |> Effect.forkScoped(%))
 

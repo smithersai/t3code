@@ -57,7 +57,8 @@ const readCapped = (response: HttpClientResponse.HttpClientResponse) =>
         return body
       })
       |> Effect.catchIf(
-        %, (error) => error._tag === "HttpClientError" && error.reason._tag === "EmptyBodyError",
+        %,
+        (error) => error._tag === "HttpClientError" && error.reason._tag === "EmptyBodyError",
         () => Effect.succeed(new Uint8Array(0)),
       )
   })

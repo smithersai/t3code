@@ -39,33 +39,67 @@ function nonEmptyString(value: string): string | null {
 }
 
 export function parseGitHubAuthStatus(text: string): GitHubAuthStatus {
-  return do { const $optionSubject = decodeGitHubAuthStatusJson(text); const $optionHandlers: { onNone: () => { parsed: false; accounts: never[]; }; onSome: (status: { readonly hosts: { readonly [x: string]: readonly { readonly state: string; readonly error?: string | undefined; readonly active: boolean; readonly host: string; readonly login: string; readonly tokenSource?: string | undefined; }[]; }; }) => { parsed: true; accounts: { host: string; account: string; authenticated: boolean; active: boolean; error: string | null; environmentVariable: string | null; }[]; }; } = {
-    onNone: () => ({ parsed: false, accounts: [] }),
-    onSome: (status) =>
-      ({
-        parsed: true,
-        accounts: Object.values(status.hosts).flatMap((accounts) =>
-          accounts.flatMap((account) => {
-            const host = nonEmptyString(account.host)
-            const login = nonEmptyString(account.login)
-            if (host === null || login === null) return []
+  return do {
+    const $optionSubject = decodeGitHubAuthStatusJson(text)
+    const $optionHandlers: {
+      onNone: () => { parsed: false; accounts: never[] }
+      onSome: (
+        status: {
+          readonly hosts: {
+            readonly [x: string]: readonly {
+              readonly state: string
+              readonly error?: string | undefined
+              readonly active: boolean
+              readonly host: string
+              readonly login: string
+              readonly tokenSource?: string | undefined
+            }[]
+          }
+        },
+      ) => {
+        parsed: true
+        accounts: {
+          host: string
+          account: string
+          authenticated: boolean
+          active: boolean
+          error: string | null
+          environmentVariable: string | null
+        }[]
+      }
+    } = {
+      onNone: () => ({ parsed: false, accounts: [] }),
+      onSome: (status) =>
+        ({
+          parsed: true,
+          accounts: Object.values(status.hosts).flatMap((accounts) =>
+            accounts.flatMap((account) => {
+              const host = nonEmptyString(account.host)
+              const login = nonEmptyString(account.login)
+              if (host === null || login === null) return []
 
-            return [
-              {
-                host: host.toLowerCase(),
-                account: login,
-                authenticated: account.state === "success",
-                active: account.active,
-                error: account.error?.trim() || null,
-                environmentVariable: ENVIRONMENT_TOKEN_SOURCE.test(account.tokenSource ?? "")
-                  ? (account.tokenSource ?? null)
-                  : null,
-              },
-            ]
-          })
-        ),
-      }) satisfies GitHubAuthStatus,
-  }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): $optionSome($optionValue); default: $optionNone(); }; }
+              return [
+                {
+                  host: host.toLowerCase(),
+                  account: login,
+                  authenticated: account.state === "success",
+                  active: account.active,
+                  error: account.error?.trim() || null,
+                  environmentVariable: ENVIRONMENT_TOKEN_SOURCE.test(account.tokenSource ?? "")
+                    ? (account.tokenSource ?? null)
+                    : null,
+                },
+              ]
+            })
+          ),
+        }) satisfies GitHubAuthStatus,
+    }
+    const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers
+    match ($optionSubject) {
+      when Option.Some(let $optionValue): $optionSome($optionValue);
+      default: $optionNone();
+    }
+  }
 }
 
 export function findAuthenticatedGitHubAccount(

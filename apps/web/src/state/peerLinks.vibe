@@ -1,36 +1,36 @@
-import { useAtomValue } from "@effect/atom-react";
-import { linkableMachines, offersLinkedEnvironments } from "@t3tools/client-runtime/link-request";
-import { createPeerLinkEnvironmentAtoms } from "@t3tools/client-runtime/state/peerLinks";
-import { AuthAccessReadScope, type EnvironmentId } from "@t3tools/contracts";
-import { Atom } from "effect/reactivity";
-import { useEffect, useEffectEvent } from "react";
+import { useAtomValue } from "@effect/atom-react"
+import { linkableMachines, offersLinkedEnvironments } from "@t3tools/client-runtime/link-request"
+import { createPeerLinkEnvironmentAtoms } from "@t3tools/client-runtime/state/peerLinks"
+import { AuthAccessReadScope, type EnvironmentId } from "@t3tools/contracts"
+import { Atom } from "effect/reactivity"
+import { useEffect, useEffectEvent } from "react"
 
-import { connectionAtomRuntime } from "../connection/runtime.vibe";
-import { useEnvironments } from "./environments.vibe";
-import { environmentPresentations } from "./presentation.vibe";
-import { relayEnvironmentDiscovery } from "./relay";
-import { useEnvironmentQuery } from "./query.vibe";
-import { useEnvironmentsWithScope } from "./session.vibe";
-import { useAtomCommand } from "./use-atom-command.vibe";
+import { connectionAtomRuntime } from "../connection/runtime.vibe"
+import { useEnvironments } from "./environments.vibe"
+import { environmentPresentations } from "./presentation.vibe"
+import { relayEnvironmentDiscovery } from "./relay"
+import { useEnvironmentQuery } from "./query.vibe"
+import { useEnvironmentsWithScope } from "./session.vibe"
+import { useAtomCommand } from "./use-atom-command.vibe"
 
-export const peerLinkEnvironment = createPeerLinkEnvironmentAtoms(connectionAtomRuntime);
+export const peerLinkEnvironment = createPeerLinkEnvironmentAtoms(connectionAtomRuntime)
 
 /** Whether `environmentId` offers links, so its threads may name another machine. */
 export const offersLinkedEnvironmentsAtom = Atom.family((environmentId: EnvironmentId) =>
-  Atom.make((get) =>
-    offersLinkedEnvironments(get(environmentPresentations.serverConfigsAtom).get(environmentId)),
-  ).pipe(Atom.withLabel(`peer-links:offered:${environmentId}`)),
-);
+  Atom.make((get) => offersLinkedEnvironments(get(environmentPresentations.serverConfigsAtom).get(environmentId))).pipe(
+    Atom.withLabel(`peer-links:offered:${environmentId}`),
+  )
+)
 
 export function usePeerLinkHosts() {
-  const { environments } = useEnvironments();
+  const { environments } = useEnvironments()
   const supported = environments.filter(
     (environment) =>
-      environment.connection.phase === "connected" &&
-      offersLinkedEnvironments(environment.serverConfig),
-  );
-  const readable = useEnvironmentsWithScope(supported, AuthAccessReadScope);
-  return supported.filter((environment) => readable.has(environment.environmentId));
+      environment.connection.phase === "connected"
+      && offersLinkedEnvironments(environment.serverConfig),
+  )
+  const readable = useEnvironmentsWithScope(supported, AuthAccessReadScope)
+  return supported.filter((environment) => readable.has(environment.environmentId))
 }
 
 /**
@@ -40,26 +40,26 @@ export function usePeerLinkHosts() {
  * whether it answers.
  */
 export function useLinkableMachines(environmentId: EnvironmentId, enabled: boolean) {
-  const { environments } = useEnvironments();
-  const discovery = useAtomValue(relayEnvironmentDiscovery.stateValueAtom);
+  const { environments } = useEnvironments()
+  const discovery = useAtomValue(relayEnvironmentDiscovery.stateValueAtom)
   const refreshDiscovery = useAtomCommand(relayEnvironmentDiscovery.refresh, {
     reportFailure: false,
-  });
+  })
   // Connect hosts are listed only once something asked for them, so ask on open.
   const discoverIfUnasked = useEffectEvent(() => {
-    if (discovery.environments.size === 0 && !discovery.refreshing) void refreshDiscovery();
-  });
+    if (discovery.environments.size === 0 && !discovery.refreshing) void refreshDiscovery()
+  })
   // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- discovery follows the picker's visibility, which a card's mount or a dialog's open sets
   useEffect(() => {
-    if (enabled) discoverIfUnasked();
-  }, [enabled]);
+    if (enabled) discoverIfUnasked()
+  }, [enabled])
   const links = useEnvironmentQuery(
     enabled ? peerLinkEnvironment.list({ environmentId, input: {} }) : null,
-  );
+  )
   return linkableMachines({
     environments,
     threadEnvironmentId: environmentId,
     links: links.data?.links ?? [],
     connect: discovery.environments,
-  });
+  })
 }

@@ -1117,7 +1117,9 @@ export const make = effect {
             isCrossRepository,
           })
           const localBranchNames = try git.listLocalBranchNames(input.cwd)
-          const localBranchExists = try Effect.orDie(Effect.try({ try: () => localBranchNames.includes(localBranch), catch: (e) => e }))
+          const localBranchExists = try Effect.orDie(
+            Effect.try({ try: () => localBranchNames.includes(localBranch), catch: (e) => e }),
+          )
 
           if (input.force === true || !localBranchExists) {
             try git.fetchRemoteBranch({
@@ -1140,7 +1142,11 @@ export const make = effect {
             remoteName,
             remoteBranch,
           })
-          try Effect.scoped(try Effect.orDie(Effect.try({ try: () => git.switchRef({ cwd: input.cwd, refName: localBranch }), catch: (e) => e })))
+          try Effect.scoped(
+            try Effect.orDie(
+              Effect.try({ try: () => git.switchRef({ cwd: input.cwd, refName: localBranch }), catch: (e) => e }),
+            ),
+          )
         } |> ((effect, input) =>
           effect
           |> Effect.mapError(%, (cause) =>

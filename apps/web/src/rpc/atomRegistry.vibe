@@ -1,11 +1,11 @@
-import { RegistryContext } from "@effect/atom-react";
-import { type Atom } from "effect/reactivity";
-import { createElement } from "react";
+import { RegistryContext } from "@effect/atom-react"
+import { type Atom } from "effect/reactivity"
+import { createElement } from "react"
 
-export const appAtomRegistry = AtomRegistry.make();
+export const appAtomRegistry = AtomRegistry.make()
 
 export function AppAtomRegistryProvider({ children }: React.PropsWithChildren) {
-  return createElement(RegistryContext.Provider, { value: appAtomRegistry }, children);
+  return createElement(RegistryContext.Provider, { value: appAtomRegistry }, children)
 }
 
 /**
@@ -16,16 +16,16 @@ export function subscribeAtomChanges<A>(
   atom: Atom.Atom<A>,
   listener: (value: A) => void,
 ): () => void {
-  let current = true;
+  let current = true
   return appAtomRegistry.subscribe(
     atom,
     (value) => {
       if (current) {
-        current = false;
-        return;
+        current = false
+        return
       }
-      listener(value);
+      listener(value)
     },
     { immediate: true },
-  );
+  )
 }

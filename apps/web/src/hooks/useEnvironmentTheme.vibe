@@ -1,11 +1,11 @@
-import { useAtomValue } from "@effect/atom-react";
+import { useAtomValue } from "@effect/atom-react"
 
-import { subscribeAtomChanges } from "../rpc/atomRegistry.vibe";
-import { environmentThemeDefinitionsAtom, type ThemeDefinition } from "../themePalette";
-import { refreshTheme } from "./useTheme";
+import { subscribeAtomChanges } from "../rpc/atomRegistry.vibe"
+import { environmentThemeDefinitionsAtom, type ThemeDefinition } from "../themePalette"
+import { refreshTheme } from "./useTheme"
 
 export function useEnvironmentThemeDefinitions(): ReadonlyArray<ThemeDefinition> {
-  return useAtomValue(environmentThemeDefinitionsAtom);
+  return useAtomValue(environmentThemeDefinitionsAtom)
 }
 
 /**
@@ -14,6 +14,6 @@ export function useEnvironmentThemeDefinitions(): ReadonlyArray<ThemeDefinition>
  */
 export function startEnvironmentThemeRepaint(): () => void {
   return subscribeAtomChanges(environmentThemeDefinitionsAtom, () => {
-    refreshTheme({ preservePreview: true });
-  });
+    refreshTheme({ preservePreview: true })
+  })
 }

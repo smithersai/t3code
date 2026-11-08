@@ -680,30 +680,34 @@ export const listAcpRegistrySessions = effect (
       const runtime = try makeAcpRegistryManagementRuntime(input)
       const initialized = try runtime.initialize()
       const listed = try runtime.listSessions(input.cursor)
-      const sessions = try Effect.orDie(Effect.try({ try: () => listed.sessions.slice(0, 256).flatMap((session) => {
-        const sessionId = boundedOpaqueValue(session.sessionId, 1_024)
-        const cwd = boundedOpaqueValue(session.cwd, 4_096)
-        if (sessionId === undefined || cwd === undefined) return []
-        return [
-          {
-            sessionId,
-            cwd,
-            additionalDirectories: (session.additionalDirectories ?? [])
-              .flatMap((directory) => {
-                const normalized = boundedOpaqueValue(directory, 4_096)
-                return normalized === undefined ? [] : [normalized]
-              })
-              .slice(0, 32),
-            title: session.title === undefined || session.title === null
-              ? null
-              : boundedText(session.title, 1_024) || null,
-            updatedAt: session.updatedAt === undefined || session.updatedAt === null
-              ? null
-              : boundedText(session.updatedAt, 128) || null,
-            importedThreadId: null,
-          },
-        ]
-      }), catch: (e) => e }))
+      const sessions = try Effect.orDie(Effect.try({
+        try: () =>
+          listed.sessions.slice(0, 256).flatMap((session) => {
+            const sessionId = boundedOpaqueValue(session.sessionId, 1_024)
+            const cwd = boundedOpaqueValue(session.cwd, 4_096)
+            if (sessionId === undefined || cwd === undefined) return []
+            return [
+              {
+                sessionId,
+                cwd,
+                additionalDirectories: (session.additionalDirectories ?? [])
+                  .flatMap((directory) => {
+                    const normalized = boundedOpaqueValue(directory, 4_096)
+                    return normalized === undefined ? [] : [normalized]
+                  })
+                  .slice(0, 32),
+                title: session.title === undefined || session.title === null
+                  ? null
+                  : boundedText(session.title, 1_024) || null,
+                updatedAt: session.updatedAt === undefined || session.updatedAt === null
+                  ? null
+                  : boundedText(session.updatedAt, 128) || null,
+                importedThreadId: null,
+              },
+            ]
+          }),
+        catch: (e) => e,
+      }))
       return AcpRegistryListSessionsResult.make({
         sessions,
         nextCursor: listed.nextCursor === undefined || listed.nextCursor === null
@@ -760,29 +764,33 @@ export const listAcpRegistryProviders = effect (input: AcpRegistryConfigurationP
       const runtime = try makeAcpRegistryManagementRuntime(input)
       const listed = try runtime.listProviders
       return AcpRegistryListProvidersResult.make({
-        providers: try Effect.orDie(Effect.try({ try: () => listed.providers.slice(0, 64).flatMap((provider) => {
-          const providerId = boundedOpaqueValue(provider.providerId, 256)
-          if (providerId === undefined) return []
-          const supported = provider.supported
-            .flatMap((protocol) => {
-              const value = boundedOpaqueValue(protocol, 64)
-              return value === undefined ? [] : [value]
-            })
-            .slice(0, 16)
-          const current = provider.current
-          const currentApiType = current == null ? undefined : boundedOpaqueValue(current.apiType, 64)
-          const currentBaseUrl = current == null ? undefined : normalizeAcpRegistryWebUrl(current.baseUrl)
-          return [
-            {
-              providerId,
-              supported,
-              required: provider.required,
-              current: currentApiType === undefined || currentBaseUrl === undefined
-                ? null
-                : { apiType: currentApiType, baseUrl: currentBaseUrl },
-            },
-          ]
-        }), catch: (e) => e })),
+        providers: try Effect.orDie(Effect.try({
+          try: () =>
+            listed.providers.slice(0, 64).flatMap((provider) => {
+              const providerId = boundedOpaqueValue(provider.providerId, 256)
+              if (providerId === undefined) return []
+              const supported = provider.supported
+                .flatMap((protocol) => {
+                  const value = boundedOpaqueValue(protocol, 64)
+                  return value === undefined ? [] : [value]
+                })
+                .slice(0, 16)
+              const current = provider.current
+              const currentApiType = current == null ? undefined : boundedOpaqueValue(current.apiType, 64)
+              const currentBaseUrl = current == null ? undefined : normalizeAcpRegistryWebUrl(current.baseUrl)
+              return [
+                {
+                  providerId,
+                  supported,
+                  required: provider.required,
+                  current: currentApiType === undefined || currentBaseUrl === undefined
+                    ? null
+                    : { apiType: currentApiType, baseUrl: currentBaseUrl },
+                },
+              ]
+            }),
+          catch: (e) => e,
+        })),
       })
     } |> ((effect) =>
       effect

@@ -186,33 +186,52 @@ export const make = effect {
       |> Effect.mapError(%, (cause) => error(operation, cwd, "GitCafe returned an unreadable response.", cause)))
   const resolveTarget = effect (
     operation: string,
-    input: { readonly cwd: string; readonly context?: SourceControlProvider.SourceControlProviderContext; readonly repository?: string; },
-  ) => try withSpan(effect {
-    const named = try Effect.orDie(Effect.try({ try: () => input.repository === undefined ? null : GitCafeHosts.parseGitCafeRemote(input.repository), catch: (e) => e }))
-    if (named) return named
-    const readRemote = host.git
-      .resolvePrimaryRemoteName(input.cwd)
-        |> Effect.flatMap(%, (remote) => host.git.readConfigValue(input.cwd, `remote.${remote}.url`))
-    const remoteUrl = input.context?.remoteUrl
-      ?? (input.repository === undefined
-        ? (readRemote catch effect (cause) => { throw error(operation, input.cwd, "Could not read the GitCafe remote.", cause) })
-        : (readRemote catch () => null))
-    const remote = remoteUrl ? try Effect.orDie(Effect.try({ try: () => GitCafeHosts.parseGitCafeRemote(remoteUrl), catch: (e) => e })) : null
-    if (input.repository === undefined) {
-      if (remote) return remote
-      throw error(operation, input.cwd, "No GitCafe repository remote was found.")
-    }
-    const path = input.repository
-    const repository = try Effect.orDie(Effect.try({ try: () => GitCafeHosts.gitCafeRepositoryPath(path), catch: (e) => e }))
-    if (repository !== null) {
-      return { host: remote?.host ?? AUTH_HOST, repository } satisfies Target
-    }
-    throw error(
-      operation,
-      input.cwd,
-      "A GitCafe repository is named owner/name or by its git.cafe URL.",
+    input: {
+      readonly cwd: string
+      readonly context?: SourceControlProvider.SourceControlProviderContext
+      readonly repository?: string
+    },
+  ) =>
+    try withSpan(
+      effect {
+        const named = try Effect.orDie(
+          Effect.try({
+            try: () => input.repository === undefined ? null : GitCafeHosts.parseGitCafeRemote(input.repository),
+            catch: (e) => e,
+          }),
+        )
+        if (named) return named
+        const readRemote = host.git
+          .resolvePrimaryRemoteName(input.cwd)
+          |> Effect.flatMap(%, (remote) => host.git.readConfigValue(input.cwd, `remote.${remote}.url`))
+        const remoteUrl = input.context?.remoteUrl
+          ?? (input.repository === undefined
+            ? (readRemote catch effect (cause) => {
+              throw error(operation, input.cwd, "Could not read the GitCafe remote.", cause)
+            })
+            : (readRemote catch () => null))
+        const remote = remoteUrl
+          ? try Effect.orDie(Effect.try({ try: () => GitCafeHosts.parseGitCafeRemote(remoteUrl), catch: (e) => e }))
+          : null
+        if (input.repository === undefined) {
+          if (remote) return remote
+          throw error(operation, input.cwd, "No GitCafe repository remote was found.")
+        }
+        const path = input.repository
+        const repository = try Effect.orDie(
+          Effect.try({ try: () => GitCafeHosts.gitCafeRepositoryPath(path), catch: (e) => e }),
+        )
+        if (repository !== null) {
+          return { host: remote?.host ?? AUTH_HOST, repository } satisfies Target
+        }
+        throw error(
+          operation,
+          input.cwd,
+          "A GitCafe repository is named owner/name or by its git.cafe URL.",
+        )
+      },
+      "GitCafeSourceControlProvider.resolveTarget",
     )
-  }, "GitCafeSourceControlProvider.resolveTarget")
 
   const getPull = effect (
     input: {
@@ -456,66 +475,74 @@ export const make = effect {
         "GitCafeSourceControlProvider.getDefaultBranch",
       ),
     // `cafe` has no forced checkout.
-    checkoutChangeRequest: effect (input): void!SourceControlProviderError => try withSpan((effect (): void!SourceControlProviderError => {
-      const pull = try getPull(input)
-      const pullHost = new URL(pull.url).host
-      const sourceRepository = pull.headRepositoryNameWithOwner
-      if (!sourceRepository) {
-        throw error(
-          "checkoutChangeRequest",
-          input.cwd,
-          "GitCafe did not name the pull request's source repository.",
-        )
-      }
-      const contextRemote = try Effect.orDie(Effect.try({ try: () => input.context
-        ? GitCafeHosts.parseGitCafeRemote(input.context.remoteUrl)
-        : null, catch: (e) => e }))
-      const git = host.git
-      try (effect {
-        const remoteName = input.context
-            && contextRemote?.repository === sourceRepository
-            && contextRemote.host === pullHost
-          ? input.context.remoteName
-          : try git.ensureRemote({
-            cwd: input.cwd,
-            preferredName: "gitcafe",
-            url: isSshRemote(input.context?.remoteUrl)
-              ? `ssh@${pullHost}:${sourceRepository}.git`
-              : `https://${pullHost}/${sourceRepository}.git`,
-          })
-        const localBranch = pull.isCrossRepository
-          ? `pr-${pull.number}/${pull.headRefName}`
-          : pull.headRefName
-        const branches = try git.listLocalBranchNames(input.cwd)
-        const remoteBranch = { cwd: input.cwd, remoteName, remoteBranch: pull.headRefName }
-        if (input.force !== true && !branches.includes(localBranch)) {
-          try git.fetchRemoteBranch({ ...remoteBranch, localBranch })
-        } else try git.fetchRemoteTrackingBranch(remoteBranch)
-        if (input.force === true) {
-          try git.execute({
-            operation: "GitCafeSourceControlProvider.checkoutChangeRequest",
-            cwd: input.cwd,
-            // The upstream is recorded next, through the host's serialized config write.
-            args: [
-              "checkout",
-              "--no-track",
-              "-B",
-              localBranch,
-              `refs/remotes/${remoteName}/${pull.headRefName}`,
-              "--",
-            ],
-          })
-        }
-        try git.setBranchUpstream({ ...remoteBranch, branch: localBranch })
-        try Effect.scoped(git.switchRef({ cwd: input.cwd, refName: localBranch }))
-      }
-        |> Effect.mapError(%, (cause) =>
-          error(
-            "checkoutChangeRequest",
-            input.cwd,
-            "Could not check out the GitCafe pull request.",
-            cause,
-          )))
-    })(), "GitCafeSourceControlProvider.checkoutChangeRequest"),
+    checkoutChangeRequest: effect (input): void!SourceControlProviderError =>
+      try withSpan(
+        (effect (): void!SourceControlProviderError => {
+          const pull = try getPull(input)
+          const pullHost = new URL(pull.url).host
+          const sourceRepository = pull.headRepositoryNameWithOwner
+          if (!sourceRepository) {
+            throw error(
+              "checkoutChangeRequest",
+              input.cwd,
+              "GitCafe did not name the pull request's source repository.",
+            )
+          }
+          const contextRemote = try Effect.orDie(Effect.try({
+            try: () =>
+              input.context
+                ? GitCafeHosts.parseGitCafeRemote(input.context.remoteUrl)
+                : null,
+            catch: (e) => e,
+          }))
+          const git = host.git
+          try (effect {
+            const remoteName = input.context
+                && contextRemote?.repository === sourceRepository
+                && contextRemote.host === pullHost
+              ? input.context.remoteName
+              : try git.ensureRemote({
+                cwd: input.cwd,
+                preferredName: "gitcafe",
+                url: isSshRemote(input.context?.remoteUrl)
+                  ? `ssh@${pullHost}:${sourceRepository}.git`
+                  : `https://${pullHost}/${sourceRepository}.git`,
+              })
+            const localBranch = pull.isCrossRepository
+              ? `pr-${pull.number}/${pull.headRefName}`
+              : pull.headRefName
+            const branches = try git.listLocalBranchNames(input.cwd)
+            const remoteBranch = { cwd: input.cwd, remoteName, remoteBranch: pull.headRefName }
+            if (input.force !== true && !branches.includes(localBranch)) {
+              try git.fetchRemoteBranch({ ...remoteBranch, localBranch })
+            } else try git.fetchRemoteTrackingBranch(remoteBranch)
+            if (input.force === true) {
+              try git.execute({
+                operation: "GitCafeSourceControlProvider.checkoutChangeRequest",
+                cwd: input.cwd,
+                // The upstream is recorded next, through the host's serialized config write.
+                args: [
+                  "checkout",
+                  "--no-track",
+                  "-B",
+                  localBranch,
+                  `refs/remotes/${remoteName}/${pull.headRefName}`,
+                  "--",
+                ],
+              })
+            }
+            try git.setBranchUpstream({ ...remoteBranch, branch: localBranch })
+            try Effect.scoped(git.switchRef({ cwd: input.cwd, refName: localBranch }))
+          }
+            |> Effect.mapError(%, (cause) =>
+              error(
+                "checkoutChangeRequest",
+                input.cwd,
+                "Could not check out the GitCafe pull request.",
+                cause,
+              )))
+        })(),
+        "GitCafeSourceControlProvider.checkoutChangeRequest",
+      ),
   })
 }

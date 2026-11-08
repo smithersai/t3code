@@ -1,13 +1,10 @@
-import { ConnectionOnboarding } from "@t3tools/client-runtime/connection";
-import {
-  createAtomCommandScheduler,
-  createRuntimeCommand,
-} from "@t3tools/client-runtime/state/runtime";
-import type { DesktopSshEnvironmentTarget } from "@t3tools/contracts";
+import { ConnectionOnboarding } from "@t3tools/client-runtime/connection"
+import { createAtomCommandScheduler, createRuntimeCommand } from "@t3tools/client-runtime/state/runtime"
+import type { DesktopSshEnvironmentTarget } from "@t3tools/contracts"
 
-import { connectionAtomRuntime } from "./runtime.vibe";
+import { connectionAtomRuntime } from "./runtime.vibe"
 
-const onboardingScheduler = createAtomCommandScheduler();
+const onboardingScheduler = createAtomCommandScheduler()
 
 export const connectPairing = createRuntimeCommand(connectionAtomRuntime, {
   label: "web:connection:connect-pairing",
@@ -18,8 +15,8 @@ export const connectPairing = createRuntimeCommand(connectionAtomRuntime, {
   },
   execute: (input: ConnectionOnboarding.PairingConnectionInput) =>
     ConnectionOnboarding.ConnectionOnboarding
-      |> Effect.flatMap(%, (onboarding) => onboarding.registerPairing(input)),
-});
+    |> Effect.flatMap(%, (onboarding) => onboarding.registerPairing(input)),
+})
 
 export const connectSshEnvironment = createRuntimeCommand(connectionAtomRuntime, {
   label: "web:connection:connect-ssh",
@@ -30,5 +27,5 @@ export const connectSshEnvironment = createRuntimeCommand(connectionAtomRuntime,
   },
   execute: (input: ConnectionOnboarding.SshConnectionInput) =>
     ConnectionOnboarding.ConnectionOnboarding
-      |> Effect.flatMap(%, (onboarding) => onboarding.registerSsh(input)),
-});
+    |> Effect.flatMap(%, (onboarding) => onboarding.registerSsh(input)),
+})

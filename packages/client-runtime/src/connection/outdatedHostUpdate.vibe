@@ -137,8 +137,7 @@ export const updateOutdatedHost = effect (
                 |> Stream.runForEach(%, (event) =>
                   event.type === "complete"
                     ? Ref.set(terminal, Option.some(event.result))
-                    : onStage(event.stage)
-                )
+                    : onStage(event.stage))
                 |> Effect.exit(%))
               return try resolveServerUpdateProgressResult(
                 input.targetVersion,

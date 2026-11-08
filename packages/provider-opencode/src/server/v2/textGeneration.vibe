@@ -111,8 +111,7 @@ const runOnServer = effect (
             _tag: "failed",
             detail: "The OpenCode event stream was lost.",
             cause: exit,
-          })
-        )
+          }))
         |> Effect.forkScoped(%))
       const session = try client.session.create({
         title: `T3 Code ${input.operation}`,

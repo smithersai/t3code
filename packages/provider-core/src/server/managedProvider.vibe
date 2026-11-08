@@ -256,8 +256,7 @@ export const makeManagedServerProvider = effect <
           |> Stream.map(%, (settings) =>
             Duration.toMillis(
               resolveServerBackgroundActivitySettings(settings).providerHealthRefreshInterval,
-            )
-          )
+            ))
           |> Stream.changes(%)
           |> Stream.runForEach(%, () => Queue.offer(refreshIntervalChanges, undefined) |> Effect.asVoid(%))
           |> Effect.forkScoped(%))
