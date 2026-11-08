@@ -54,21 +54,25 @@ export const make = Effect.gen(function*() {
         outsideTransaction,
         Effect.withSpan("relay.cloudflare_api_pause.read"),
       ),
-    pauseUntil: Effect.fn("relay.cloudflare_api_pause.record")(function(untilMillis) {
-      return db
-        .insert(relayUpstreamApiPauses)
-        .values({ api: CLOUDFLARE_API, pausedUntilMs: untilMillis })
-        .onConflictDoUpdate({
-          target: relayUpstreamApiPauses.api,
-          set: {
-            pausedUntilMs: sql`greatest(${relayUpstreamApiPauses.pausedUntilMs}, excluded.paused_until_ms)`,
-          },
-        })
-        .pipe(
-          Effect.asVoid,
-          Effect.catch((cause) => Effect.logWarning("Could not record the shared Cloudflare API pause", { cause })),
-          outsideTransaction,
-        )
+    pauseUntil: Effect.fn("relay.cloudflare_api_pause.record")(function*(untilMillis) {
+      const query = yield* Effect.orDie(Effect.try({
+        try: () =>
+          db
+            .insert(relayUpstreamApiPauses)
+            .values({ api: CLOUDFLARE_API, pausedUntilMs: untilMillis })
+            .onConflictDoUpdate({
+              target: relayUpstreamApiPauses.api,
+              set: {
+                pausedUntilMs: sql`greatest(${relayUpstreamApiPauses.pausedUntilMs}, excluded.paused_until_ms)`,
+              },
+            }),
+        catch: (cause) => cause,
+      }))
+      return yield* query.pipe(
+        Effect.asVoid,
+        Effect.catch((cause) => Effect.logWarning("Could not record the shared Cloudflare API pause", { cause })),
+        outsideTransaction,
+      )
     }),
   })
 })

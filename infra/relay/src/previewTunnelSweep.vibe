@@ -1,5 +1,5 @@
+import { makePreviewTunnelSweepProvider } from "./previewTunnelSweepProvider.ts"
 import { Resource } from "alchemy"
-import * as Provider from "alchemy/Provider"
 import * as Effect from "effect/Effect"
 import * as Redacted from "effect/Redacted"
 import * as Schema from "effect/Schema"
@@ -159,33 +159,30 @@ export const sweepPreviewStage = effect (
   )
 
 export const PreviewTunnelSweepProvider = () =>
-  Provider.succeed(
-    PreviewTunnelSweep,
-    PreviewTunnelSweep.Provider.of({
-      reconcile: ({ news }) =>
-        Effect.succeed({
-          stage: news.stage,
-          tunnelZoneName: news.tunnelZoneName,
-          workerName: news.workerName,
-        }),
-      // Nothing in Cloudflare is created for this resource, so there is nothing to list.
-      list: () => Effect.succeed([]),
-      delete: Effect.fn(function*({ output }) {
-        // The sweep runs only on preview stages. This guard keeps a mistaken
-        // stage from reaching the production relay's tunnels.
-        if (!isPreviewStage(output.stage)) {
-          return yield* Effect.die(`Refusing to sweep non-preview stage '${output.stage}'`)
-        }
-        // Read from the environment, not the Cloudflare service, so the provider
-        // needs no extra service in its layer. CI sets both for the destroy step.
-        const accountId = yield* Config.String("CLOUDFLARE_ACCOUNT_ID")
-        const token = yield* Config.Redacted("CLOUDFLARE_API_TOKEN")
-        yield* sweepPreviewStage({
-          stage: output.stage,
-          tunnelZoneName: output.tunnelZoneName,
-          accountId,
-          token,
-        }) |> Effect.provide(%, FetchHttpClient.layer)
+  makePreviewTunnelSweepProvider(PreviewTunnelSweep, {
+    reconcile: ({ news }) =>
+      Effect.succeed({
+        stage: news.stage,
+        tunnelZoneName: news.tunnelZoneName,
+        workerName: news.workerName,
       }),
+    // Nothing in Cloudflare is created for this resource, so there is nothing to list.
+    list: () => Effect.succeed([]),
+    delete: Effect.fn(function*({ output }) {
+      // The sweep runs only on preview stages. This guard keeps a mistaken
+      // stage from reaching the production relay's tunnels.
+      if (!isPreviewStage(output.stage)) {
+        return yield* Effect.die(`Refusing to sweep non-preview stage '${output.stage}'`)
+      }
+      // Read from the environment, not the Cloudflare service, so the provider
+      // needs no extra service in its layer. CI sets both for the destroy step.
+      const accountId = yield* Config.String("CLOUDFLARE_ACCOUNT_ID")
+      const token = yield* Config.Redacted("CLOUDFLARE_API_TOKEN")
+      yield* sweepPreviewStage({
+        stage: output.stage,
+        tunnelZoneName: output.tunnelZoneName,
+        accountId,
+        token,
+      }) |> Effect.provide(%, FetchHttpClient.layer)
     }),
-  )
+  })

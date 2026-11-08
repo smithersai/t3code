@@ -365,11 +365,12 @@ export const resolveRemoteDpopWebSocketConnectionUrl = effect <E>(
         use: "rpc",
         fallbackProof: Effect.suspend(effect () => {
           const program = try Effect.orDie(Effect.try({
-            try: () => input.createProof({
-              method: "POST",
-              url: environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(undefined)),
-              accessToken: input.accessToken,
-            }),
+            try: () =>
+              input.createProof({
+                method: "POST",
+                url: environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(undefined)),
+                accessToken: input.accessToken,
+              }),
             catch: (cause) => cause,
           }))
           return try program
