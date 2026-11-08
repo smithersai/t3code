@@ -6,29 +6,29 @@ import {
   type DesktopUpdateChannel,
   type DesktopUpdateCheckResult,
   type DesktopUpdateState,
-} from "@t3tools/contracts";
-import { errorTag } from "@t3tools/shared/observability";
-import * as Cause from "effect/Cause";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as FileSystem from "effect/FileSystem";
-import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
-import * as Schema from "effect/Schema";
-import * as Scope from "effect/Scope";
-import * as Stream from "effect/Stream";
+} from "@t3tools/contracts"
+import { errorTag } from "@t3tools/shared/observability"
+import * as Cause from "effect/Cause"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Layer from "effect/Layer"
+import * as Option from "effect/Option"
+import * as Schema from "effect/Schema"
+import * as Scope from "effect/Scope"
+import * as Stream from "effect/Stream"
 
-import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe";
-import * as DesktopConfig from "../app/DesktopConfig.vibe";
-import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
-import * as DesktopObservability from "../app/DesktopObservability.vibe";
-import * as DesktopState from "../app/DesktopState.vibe";
-import * as ElectronUpdater from "../electron/ElectronUpdater.vibe";
-import * as ElectronWindow from "../electron/ElectronWindow.vibe";
-import * as IpcChannels from "../ipc/channels.ts";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
-import { normalizeDesktopUpdateReleaseNotes } from "./releaseNotes.ts";
-import { resolveDefaultDesktopUpdateChannel } from "./updateChannels.ts";
+import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe"
+import * as DesktopConfig from "../app/DesktopConfig.vibe"
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe"
+import * as DesktopObservability from "../app/DesktopObservability.vibe"
+import * as DesktopState from "../app/DesktopState.vibe"
+import * as ElectronUpdater from "../electron/ElectronUpdater.vibe"
+import * as ElectronWindow from "../electron/ElectronWindow.vibe"
+import * as IpcChannels from "../ipc/channels.ts"
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe"
+import { normalizeDesktopUpdateReleaseNotes } from "./releaseNotes.ts"
+import { resolveDefaultDesktopUpdateChannel } from "./updateChannels.ts"
 import {
   createInitialDesktopUpdateState,
   reduceDesktopUpdateStateOnCheckFailure,
@@ -41,56 +41,59 @@ import {
   reduceDesktopUpdateStateOnNoUpdate,
   reduceDesktopUpdateStateOnUpdateAvailable,
   resolveNotAppliedInstallVersion,
-} from "./updateMachine.ts";
+} from "./updateMachine.ts"
 
-const AUTO_UPDATE_STARTUP_DELAY = "15 seconds";
-const AUTO_UPDATE_POLL_INTERVAL = "4 minutes";
-const PREPARED_INSTALL_CHECK_WAIT = Duration.seconds(90);
+const AUTO_UPDATE_STARTUP_DELAY = "15 seconds"
+const AUTO_UPDATE_POLL_INTERVAL = "4 minutes"
+const PREPARED_INSTALL_CHECK_WAIT = Duration.seconds(90)
 
-type UpdateAction = "check" | "download" | "install" | "install-recovery" | "channel";
+type UpdateAction = "check" | "download" | "install" | "install-recovery" | "channel"
 
 interface DesktopPreparedUpdateInstallResult extends DesktopUpdateActionResult {
-  readonly failed: boolean;
+  readonly failed: boolean
 }
 
-schema AppUpdateYmlConfig = Readonly<Record<string, string>>;
+schema AppUpdateYmlConfig = Readonly<Record<string, string>>
 
 const UpdateInfo = Schema.Struct({
   version: Schema.String,
   // Malformed notes must not block update-state decoding; normalizeDesktopUpdateReleaseNotes validates separately.
   releaseNotes: Schema.optional(Schema.Unknown),
-});
+})
 
 schema DownloadProgressInfo {
   readonly percent: number
 }
-export const DESKTOP_UPDATE_INSTALL_RECORD_FILE = "desktop-update-install.json";
+export const DESKTOP_UPDATE_INSTALL_RECORD_FILE = "desktop-update-install.json"
 const DesktopUpdateInstallRecord = Schema.fromJsonString(
   Schema.Struct({ fromVersion: Schema.String, targetVersion: Schema.String }),
-);
-const decodeInstallRecord = Schema.decodeUnknownEffect(DesktopUpdateInstallRecord);
-const encodeInstallRecord = Schema.encodeEffect(DesktopUpdateInstallRecord);
+)
+const decodeInstallRecord = Schema.decodeUnknownEffect(DesktopUpdateInstallRecord)
+const encodeInstallRecord = Schema.encodeEffect(DesktopUpdateInstallRecord)
 
-const decodeAppUpdateYmlConfig = Schema.decodeUnknownEffect(AppUpdateYmlConfig);
-const decodeUpdateInfo = Schema.decodeUnknownEffect(UpdateInfo);
-const decodeDownloadProgressInfo = Schema.decodeUnknownEffect(DownloadProgressInfo);
+const decodeAppUpdateYmlConfig = Schema.decodeUnknownEffect(AppUpdateYmlConfig)
+const decodeUpdateInfo = Schema.decodeUnknownEffect(UpdateInfo)
+const decodeDownloadProgressInfo = Schema.decodeUnknownEffect(DownloadProgressInfo)
 
-const currentIsoTimestamp = DateTime.now |> Effect.map(%, DateTime.formatIso);
+const currentIsoTimestamp = DateTime.now |> Effect.map(%, DateTime.formatIso)
 
 export schema error DesktopUpdateActionInProgressError {
   readonly action: "check" | "download" | "install" | "channel"
   readonly requestedChannel: DesktopUpdateChannelSchema
   override get message(): string {
-    return `Cannot change the desktop update channel to ${this.requestedChannel} while an update ${this.action} action is in progress.`;
+    return `Cannot change the desktop update channel to ${this.requestedChannel} while an update ${this.action} action is in progress.`
   }
 }
 
-const DesktopUpdateChannelPersistenceErrorCauseField: Schema.instanceOf<DesktopAppSettings.DesktopSettingsWriteError, unknown> = Schema.instanceOf(DesktopAppSettings.DesktopSettingsWriteError)
+const DesktopUpdateChannelPersistenceErrorCauseField: Schema.instanceOf<
+  DesktopAppSettings.DesktopSettingsWriteError,
+  unknown
+> = Schema.instanceOf(DesktopAppSettings.DesktopSettingsWriteError)
 export schema error DesktopUpdateChannelPersistenceError {
   readonly channel: DesktopUpdateChannelSchema
   cause: DesktopUpdateChannelPersistenceErrorCauseField
   override get message(): string {
-    return `Failed to persist the ${this.channel} desktop update channel.`;
+    return `Failed to persist the ${this.channel} desktop update channel.`
   }
 }
 
@@ -99,7 +102,7 @@ export schema error DesktopUpdatePollerError {
   readonly poller: "startup" | "poll"
   cause: DesktopUpdatePollerErrorCauseField
   override get message(): string {
-    return `Desktop update ${this.poller} poller failed.`;
+    return `Desktop update ${this.poller} poller failed.`
   }
 }
 
@@ -108,7 +111,7 @@ export schema error DesktopUpdateEventHandlingError {
   readonly event: "update-available" | "download-progress" | "update-downloaded"
   cause: DesktopUpdateEventHandlingErrorCauseField
   override get message(): string {
-    return `Failed to handle desktop update ${this.event} event.`;
+    return `Failed to handle desktop update ${this.event} event.`
   }
 }
 
@@ -117,7 +120,7 @@ export schema error DesktopUpdaterReportedError {
   readonly operation: "check" | "download" | "install" | "channel" | "background"
   cause: DesktopUpdaterReportedErrorCauseField
   override get message(): string {
-    return `Desktop updater ${this.operation} operation reported an error.`;
+    return `Desktop updater ${this.operation} operation reported an error.`
   }
 }
 
@@ -126,13 +129,13 @@ export schema error DesktopUpdateUnexpectedActionError {
   readonly action: "download" | "install"
   cause: DesktopUpdateUnexpectedActionErrorCauseField
   override get message(): string {
-    return `Desktop update ${this.action} action failed unexpectedly.`;
+    return `Desktop update ${this.action} action failed unexpectedly.`
   }
 }
 
-export type DesktopUpdateConfigureError = never;
+export type DesktopUpdateConfigureError = never
 
-export schema DesktopUpdateSetChannelError = DesktopUpdateActionInProgressError | DesktopUpdateChannelPersistenceError;
+export schema DesktopUpdateSetChannelError = DesktopUpdateActionInProgressError | DesktopUpdateChannelPersistenceError
 
 export service DesktopUpdates: {
   readonly getState: DesktopUpdateState!!;
@@ -158,13 +161,15 @@ export service DesktopUpdates: {
   readonly installPrepared: (
     expectedVersion: string,
   ) => DesktopPreparedUpdateInstallResult!!;
-} { static readonly key = "@t3tools/desktop/updates/DesktopUpdates" }
+} {
+  static readonly key = "@t3tools/desktop/updates/DesktopUpdates"
+}
 
 const {
   logInfo: logUpdaterInfo,
   logWarning: logUpdaterWarning,
   logError: logUpdaterError,
-} = DesktopObservability.makeComponentLogger("desktop-updater");
+} = DesktopObservability.makeComponentLogger("desktop-updater")
 
 function redactMessage(message: string): string {
   return (message.split(/[\r\n]/, 1)[0] ?? "")
@@ -178,11 +183,11 @@ function redactMessage(message: string): string {
       /\b[\w-]*(?:token|password|secret|credential|api[_-]?key)[\w-]*\s*[:=]\s*(?:"[^"]*"|'[^']*'|[^\s,;]+)/gi,
       "[redacted credential]",
     )
-    .slice(0, 512);
+    .slice(0, 512)
 }
 
 function summarizeCause(cause: unknown, depth: number): string {
-  if (depth >= 3) return "[truncated cause]";
+  if (depth >= 3) return "[truncated cause]"
   if (Cause.isCause(cause)) {
     return cause.reasons
       .slice(0, 3)
@@ -190,49 +195,47 @@ function summarizeCause(cause: unknown, depth: number): string {
         reason._tag === "Fail"
           ? summarizeCause(reason.error, depth + 1)
           : reason._tag === "Die"
-            ? summarizeCause(reason.defect, depth + 1)
-            : "Interrupted",
+          ? summarizeCause(reason.defect, depth + 1)
+          : "Interrupted"
       )
-      .join("; ");
+      .join("; ")
   }
-  if (typeof cause === "string") return redactMessage(cause);
-  if (typeof cause !== "object" || cause === null) return errorTag(cause);
+  if (typeof cause === "string") return redactMessage(cause)
+  if (typeof cause !== "object" || cause === null) return errorTag(cause)
 
   const error = cause as {
-    readonly message?: unknown;
-    readonly code?: unknown;
-    readonly cause?: unknown;
-  };
-  const code =
-    typeof error.code === "string" && /^[A-Z][A-Z0-9_]{0,127}$/.test(error.code)
-      ? ` [${error.code}]`
-      : "";
-  const message = typeof error.message === "string" ? `: ${redactMessage(error.message)}` : "";
-  const nested =
-    error.cause === undefined ? "" : `; caused by ${summarizeCause(error.cause, depth + 1)}`;
-  return `${errorTag(cause)}${code}${message}${nested}`;
+    readonly message?: unknown
+    readonly code?: unknown
+    readonly cause?: unknown
+  }
+  const code = typeof error.code === "string" && /^[A-Z][A-Z0-9_]{0,127}$/.test(error.code)
+    ? ` [${error.code}]`
+    : ""
+  const message = typeof error.message === "string" ? `: ${redactMessage(error.message)}` : ""
+  const nested = error.cause === undefined ? "" : `; caused by ${summarizeCause(error.cause, depth + 1)}`
+  return `${errorTag(cause)}${code}${message}${nested}`
 }
 
 export function describeUpdateErrorCause(cause: unknown): string {
   try {
-    return summarizeCause(cause, 0).slice(0, 1024);
+    return summarizeCause(cause, 0).slice(0, 1024)
   } catch {
-    return "UnknownError";
+    return "UnknownError"
   }
 }
 
 function parseAppUpdateYml(raw: string): Option.Option<AppUpdateYmlConfig>!! {
-  const entries: Record<string, string> = {};
+  const entries: Record<string, string> = {}
   for (const line of raw.split("\n")) {
-    const match = line.match(/^(\w+):\s*(.+)$/);
+    const match = line.match(/^(\w+):\s*(.+)$/)
     if (match?.[1] && match[2]) {
-      entries[match[1]] = match[2].trim();
+      entries[match[1]] = match[2].trim()
     }
   }
 
   return decodeAppUpdateYmlConfig(entries)
     |> Effect.map(%, (config) => (config.provider ? Option.some(config) : Option.none()))
-    |> Effect.orElseSucceed(%, () => Option.none<AppUpdateYmlConfig>());
+    |> Effect.orElseSucceed(%, () => Option.none<AppUpdateYmlConfig>())
 }
 
 function createBaseUpdateState(
@@ -240,17 +243,17 @@ function createBaseUpdateState(
   disabledReason: Option.Option<string>,
   environment: DesktopEnvironment.DesktopEnvironment["Service"],
 ): DesktopUpdateState {
-  const enabled = Option.isNone(disabledReason);
+  const enabled = Option.isNone(disabledReason)
   return {
     ...createInitialDesktopUpdateState(environment.appVersion, environment.runtimeInfo, channel),
     enabled,
     status: enabled ? "idle" : "disabled",
     message: Option.getOrNull(disabledReason),
-  };
+  }
 }
 
 function getCanRetryFromState(state: DesktopUpdateState): boolean {
-  return state.availableVersion !== null || state.downloadedVersion !== null;
+  return state.availableVersion !== null || state.downloadedVersion !== null
 }
 
 function shouldBroadcastDownloadProgress(
@@ -258,119 +261,123 @@ function shouldBroadcastDownloadProgress(
   nextPercent: number,
 ): boolean {
   if (currentState.status !== "downloading") {
-    return true;
+    return true
   }
 
-  const currentPercent = currentState.downloadPercent;
+  const currentPercent = currentState.downloadPercent
   if (currentPercent === null) {
-    return true;
+    return true
   }
 
-  const previousStep = Math.floor(currentPercent / 10);
-  const nextStep = Math.floor(nextPercent / 10);
-  return nextStep !== previousStep || nextPercent === 100;
+  const previousStep = Math.floor(currentPercent / 10)
+  const nextStep = Math.floor(nextPercent / 10)
+  return nextStep !== previousStep || nextPercent === 100
 }
 
 function getAutoUpdateDisabledReason(args: {
-  isDevelopment: boolean;
-  isPackaged: boolean;
-  platform: NodeJS.Platform;
-  appImage?: string | undefined;
-  isDebPackage: boolean;
-  disabledByEnv: boolean;
-  hasUpdateFeedConfig: boolean;
+  isDevelopment: boolean
+  isPackaged: boolean
+  platform: NodeJS.Platform
+  appImage?: string | undefined
+  isDebPackage: boolean
+  disabledByEnv: boolean
+  hasUpdateFeedConfig: boolean
 }): string | null {
   if (!args.hasUpdateFeedConfig) {
-    return "Automatic updates are not available because no update feed is configured.";
+    return "Automatic updates are not available because no update feed is configured."
   }
   if (args.isDevelopment || !args.isPackaged) {
-    return "Automatic updates are only available in packaged production builds.";
+    return "Automatic updates are only available in packaged production builds."
   }
   if (args.disabledByEnv) {
-    return "Automatic updates are disabled by the T3CODE_DISABLE_AUTO_UPDATE setting.";
+    return "Automatic updates are disabled by the T3CODE_DISABLE_AUTO_UPDATE setting."
   }
   if (args.platform === "linux" && !args.appImage && !args.isDebPackage) {
-    return "Automatic updates on Linux require the AppImage or the .deb package.";
+    return "Automatic updates on Linux require the AppImage or the .deb package."
   }
-  return null;
+  return null
 }
 
 function isArm64HostRunningIntelBuild(runtimeInfo: DesktopRuntimeInfo): boolean {
-  return runtimeInfo.hostArch === "arm64" && runtimeInfo.appArch === "x64";
+  return runtimeInfo.hostArch === "arm64" && runtimeInfo.appArch === "x64"
 }
 
 /** @public */
 export const make = effect {
-  const config = try DesktopConfig.DesktopConfig;
-  const pool = try DesktopBackendPool.DesktopBackendPool;
-  const desktopState = try DesktopState.DesktopState;
-  const electronUpdater = try ElectronUpdater.ElectronUpdater;
-  const electronWindow = try ElectronWindow.ElectronWindow;
-  const environment = try DesktopEnvironment.DesktopEnvironment;
-  const fileSystem = try FileSystem.FileSystem;
-  const desktopSettings = try DesktopAppSettings.DesktopAppSettings;
+  const config = try DesktopConfig.DesktopConfig
+  const pool = try DesktopBackendPool.DesktopBackendPool
+  const desktopState = try DesktopState.DesktopState
+  const electronUpdater = try ElectronUpdater.ElectronUpdater
+  const electronWindow = try ElectronWindow.ElectronWindow
+  const environment = try DesktopEnvironment.DesktopEnvironment
+  const fileSystem = try FileSystem.FileSystem
+  const desktopSettings = try DesktopAppSettings.DesktopAppSettings
 
-  const appUpdateYmlConfigRef = try Ref.make<Option.Option<AppUpdateYmlConfig>>(Option.none());
-  const activeUpdateActionRef = try Ref.make<Option.Option<UpdateAction>>(Option.none());
+  const appUpdateYmlConfigRef = try Ref.make<Option.Option<AppUpdateYmlConfig>>(Option.none())
+  const activeUpdateActionRef = try Ref.make<Option.Option<UpdateAction>>(Option.none())
   const installRunningBackendsRef = try Ref.make<
     ReadonlyArray<DesktopBackendPool.DesktopBackendInstance>
-  >([]);
-  const finishedUpdateActions = try PubSub.unbounded<UpdateAction>();
-  const updaterConfiguredRef = try Ref.make(false);
-  const lastLoggedDownloadMilestoneRef = try Ref.make(-1);
-  const notAppliedVersionRef = try Ref.make(Option.none<string>());
+  >([])
+  const finishedUpdateActions = try PubSub.unbounded<UpdateAction>()
+  const updaterConfiguredRef = try Ref.make(false)
+  const lastLoggedDownloadMilestoneRef = try Ref.make(-1)
+  const notAppliedVersionRef = try Ref.make(Option.none<string>())
   const updateStateRef = try Ref.make<DesktopUpdateState>(
-    try Effect.orDie(Effect.try({ try: () => createInitialDesktopUpdateState(
-      environment.appVersion,
-      environment.runtimeInfo,
-      environment.defaultDesktopSettings.updateChannel,
-    ), catch: (e) => e })),
-  );
+    try Effect.orDie(Effect.try({
+      try: () =>
+        createInitialDesktopUpdateState(
+          environment.appVersion,
+          environment.runtimeInfo,
+          environment.defaultDesktopSettings.updateChannel,
+        ),
+      catch: (e) => e,
+    })),
+  )
 
-  const stateChanges = try PubSub.sliding<DesktopUpdateState>(16);
+  const stateChanges = try PubSub.sliding<DesktopUpdateState>(16)
   // Serialize writes and publishes against subscription so snapshots cannot overlap the first change.
-  const stateMutex = try Semaphore.make(1);
+  const stateMutex = try Semaphore.make(1)
 
   const emitState = Ref.get(updateStateRef)
-    |> Effect.flatMap(%, (state) => electronWindow.sendAll(IpcChannels.UPDATE_STATE_CHANNEL, state));
+    |> Effect.flatMap(%, (state) => electronWindow.sendAll(IpcChannels.UPDATE_STATE_CHANNEL, state))
 
   const setState = (state: DesktopUpdateState): void!! =>
     stateMutex
       .withPermits(1)(
         Ref.set(updateStateRef, state) |> Effect.andThen(%, PubSub.publish(stateChanges, state)),
-      )|> Effect.andThen(%, emitState);
+      ) |> Effect.andThen(%, emitState)
 
   const updateState = (
     f: (state: DesktopUpdateState) => DesktopUpdateState,
   ): DesktopUpdateState!! =>
     Ref.get(updateStateRef)
-      |> Effect.flatMap(%, (state) => {
-        const nextState = f(state);
-        return setState(nextState) |> Effect.as(%, nextState);
-      });
+    |> Effect.flatMap(%, (state) => {
+      const nextState = f(state)
+      return setState(nextState) |> Effect.as(%, nextState)
+    })
 
   const readAppUpdateYml = fileSystem.readFileString(environment.appUpdateYmlPath, "utf-8")
     |> Effect.option(%)
     |> Effect.flatMap(
-      %, Option.match({
+      %,
+      Option.match({
         onNone: () => Effect.succeed(Option.none<AppUpdateYmlConfig>()),
         onSome: parseAppUpdateYml,
       }),
-    );
+    )
 
   // electron-updater uses this marker to install .deb updates with dpkg.
-  const isDebPackage =
-    environment.platform === "linux" && environment.isPackaged
-      ? ((fileSystem
-          .readFileString(environment.path.join(environment.resourcesPath, "package-type"))
-            |> Effect.map(%, (packageType) => packageType.trim() === "deb")) catch () => false)
-      : false;
+  const isDebPackage = environment.platform === "linux" && environment.isPackaged
+    ? ((fileSystem
+      .readFileString(environment.path.join(environment.resourcesPath, "package-type"))
+      |> Effect.map(%, (packageType) => packageType.trim() === "deb")) catch () => false)
+    : false
 
   const hasUpdateFeedConfig = Ref.get(appUpdateYmlConfigRef)
-    |> Effect.map(%, (appUpdateYmlConfig) => Option.isSome(appUpdateYmlConfig) || config.mockUpdates);
+    |> Effect.map(%, (appUpdateYmlConfig) => Option.isSome(appUpdateYmlConfig) || config.mockUpdates)
 
   const resolveDisabledReason = effect {
-    const hasFeedConfig = try hasUpdateFeedConfig;
+    const hasFeedConfig = try hasUpdateFeedConfig
     return Option.fromNullishOr(
       getAutoUpdateDisabledReason({
         isDevelopment: environment.isDevelopment,
@@ -381,197 +388,234 @@ export const make = effect {
         disabledByEnv: config.disableAutoUpdate,
         hasUpdateFeedConfig: hasFeedConfig,
       }),
-    );
-  };
+    )
+  }
 
-  const activeUpdateAction = Ref.get(activeUpdateActionRef);
+  const activeUpdateAction = Ref.get(activeUpdateActionRef)
 
   const tryStartUpdateAction = (action: UpdateAction): boolean!! =>
-    Ref.modify(activeUpdateActionRef, (activeAction) =>
-      Option.isSome(activeAction) ? [false, activeAction] : [true, Option.some(action)],
-    );
+    Ref.modify(
+      activeUpdateActionRef,
+      (activeAction) => Option.isSome(activeAction) ? [false, activeAction] : [true, Option.some(action)],
+    )
 
   const tryStartChannelChange = Ref.modify(activeUpdateActionRef, (activeAction) =>
     Option.isSome(activeAction)
       ? [activeAction, activeAction]
-      : [Option.none<UpdateAction>(), Option.some<UpdateAction>("channel")],
-  );
+      : [Option.none<UpdateAction>(), Option.some<UpdateAction>("channel")])
 
   const finishUpdateAction = (action: UpdateAction): void!! =>
     Ref.modify(activeUpdateActionRef, (activeAction) => {
-      const finished = Option.isSome(activeAction) && activeAction.value === action;
-      return [finished, finished ? Option.none() : activeAction] as const;
+      const finished = Option.isSome(activeAction) && activeAction.value === action
+      return [finished, finished ? Option.none() : activeAction] as const
     })
-      |> Effect.flatMap(%, (finished) =>
-        finished ? (PubSub.publish(finishedUpdateActions, action) |> Effect.asVoid(%)) : Effect.void,
-      );
+    |> Effect.flatMap(%, (finished) =>
+      finished ? (PubSub.publish(finishedUpdateActions, action) |> Effect.asVoid(%)) : Effect.void)
 
   const applyAutoUpdaterChannel = effect (
     channel: DesktopUpdateChannel,
-  ) => try withSpan(effect {
-    try Effect.annotateCurrentSpan({ channel });
-    const allowsPrerelease = channel === "nightly";
-    try electronUpdater.setChannel(channel);
-    try electronUpdater.setAllowPrerelease(allowsPrerelease);
-    try electronUpdater.setAllowDowngrade(allowsPrerelease);
-    try electronUpdater.setFullChangelog(allowsPrerelease);
-    try logUpdaterInfo("using update channel", {
-      channel,
-      allowPrerelease: allowsPrerelease,
-      allowDowngrade: allowsPrerelease,
-      fullChangelog: allowsPrerelease,
-    });
-  }, "desktop.updates.applyAutoUpdaterChannel");
+  ) =>
+    try withSpan(
+      effect {
+        try Effect.annotateCurrentSpan({ channel })
+        const allowsPrerelease = channel === "nightly"
+        try electronUpdater.setChannel(channel)
+        try electronUpdater.setAllowPrerelease(allowsPrerelease)
+        try electronUpdater.setAllowDowngrade(allowsPrerelease)
+        try electronUpdater.setFullChangelog(allowsPrerelease)
+        try logUpdaterInfo("using update channel", {
+          channel,
+          allowPrerelease: allowsPrerelease,
+          allowDowngrade: allowsPrerelease,
+          fullChangelog: allowsPrerelease,
+        })
+      },
+      "desktop.updates.applyAutoUpdaterChannel",
+    )
 
   const checkForUpdates = effect (
     reason: string,
     actionReservation: "acquire" | "held" | undefined = "acquire",
-  ) => try withSpan(effect {
-    try Effect.annotateCurrentSpan({ reason });
-    if (try Ref.get(desktopState.quitting)) return false;
-    if (!(try Ref.get(updaterConfiguredRef))) return false;
+  ) =>
+    try withSpan(
+      effect {
+        try Effect.annotateCurrentSpan({ reason })
+        if (try Ref.get(desktopState.quitting)) return false
+        if (!(try Ref.get(updaterConfiguredRef))) return false
 
-    const state = try Ref.get(updateStateRef);
-    if (state.status === "downloading") {
-      try logUpdaterInfo("skipping update check while update is active", {
-        reason,
-        status: state.status,
-      });
-      return false;
-    }
+        const state = try Ref.get(updateStateRef)
+        if (state.status === "downloading") {
+          try logUpdaterInfo("skipping update check while update is active", {
+            reason,
+            status: state.status,
+          })
+          return false
+        }
 
-    if (actionReservation === "acquire" && !(try tryStartUpdateAction("check"))) return false;
+        if (actionReservation === "acquire" && !(try tryStartUpdateAction("check"))) return false
 
-    const check = effect {
-      const checkedAt = try currentIsoTimestamp;
-      try setState(try Effect.orDie(Effect.try({ try: () => reduceDesktopUpdateStateOnCheckStart(state, checkedAt), catch: (e) => e })));
-      try logUpdaterInfo("checking for updates", { reason });
+        const check = effect {
+          const checkedAt = try currentIsoTimestamp
+          try setState(
+            try Effect.orDie(
+              Effect.try({ try: () => reduceDesktopUpdateStateOnCheckStart(state, checkedAt), catch: (e) => e }),
+            ),
+          )
+          try logUpdaterInfo("checking for updates", { reason })
 
-      return try (electronUpdater.checkForUpdates
-        |> Effect.as(%, true)
-        |> Effect.catchTags(%, {
-          ElectronUpdaterCheckForUpdatesError: effect (error): boolean!never!never => try withSpan((effect (): boolean!never!never => {
-            const failedAt = try currentIsoTimestamp;
-            try updateState((current) =>
-              reduceDesktopUpdateStateOnCheckFailure(current, error.message, failedAt),
-            );
-            try logUpdaterError(error.message, {
-              errorTag: error._tag,
-              cause: describeUpdateErrorCause(error.cause),
-              channel: error.channel,
-            });
-            return true;
-          })(), "desktop.updates.handleCheckForUpdatesFailure"),
-        }));
-    };
+          return try (electronUpdater.checkForUpdates
+            |> Effect.as(%, true)
+            |> Effect.catchTags(%, {
+              ElectronUpdaterCheckForUpdatesError: effect (error): boolean!never!never =>
+                try withSpan(
+                  (effect (): boolean!never!never => {
+                    const failedAt = try currentIsoTimestamp
+                    try updateState((current) =>
+                      reduceDesktopUpdateStateOnCheckFailure(current, error.message, failedAt)
+                    )
+                    try logUpdaterError(error.message, {
+                      errorTag: error._tag,
+                      cause: describeUpdateErrorCause(error.cause),
+                      channel: error.channel,
+                    })
+                    return true
+                  })(),
+                  "desktop.updates.handleCheckForUpdatesFailure",
+                ),
+            }))
+        }
 
-    return try (actionReservation === "held"
-      ? check
-      : (check
-          |> Effect.onInterrupt(%, () => setState(state))
-          |> Effect.ensuring(%, finishUpdateAction("check"))));
-  }, "desktop.updates.checkForUpdates");
+        return try (actionReservation === "held"
+          ? check
+          : (check
+            |> Effect.onInterrupt(%, () => setState(state))
+            |> Effect.ensuring(%, finishUpdateAction("check"))))
+      },
+      "desktop.updates.checkForUpdates",
+    )
 
   const downloadAvailableUpdate = effect {
-    const state = try Ref.get(updateStateRef);
+    const state = try Ref.get(updateStateRef)
     if (!(try Ref.get(updaterConfiguredRef)) || state.status !== "available") {
-      return { accepted: false, completed: false };
+      return { accepted: false, completed: false }
     }
 
     if (!(try tryStartUpdateAction("download"))) {
-      return { accepted: false, completed: false };
+      return { accepted: false, completed: false }
     }
 
     return try (effect {
-      try setState(try Effect.orDie(Effect.try({ try: () => reduceDesktopUpdateStateOnDownloadStart(state), catch: (e) => e })));
+      try setState(
+        try Effect.orDie(Effect.try({ try: () => reduceDesktopUpdateStateOnDownloadStart(state), catch: (e) => e })),
+      )
       try electronUpdater.setDisableDifferentialDownload(
         isArm64HostRunningIntelBuild(environment.runtimeInfo),
-      );
-      try logUpdaterInfo("downloading update");
-      try electronUpdater.downloadUpdate;
-      return { accepted: true, completed: true };
+      )
+      try logUpdaterInfo("downloading update")
+      try electronUpdater.downloadUpdate
+      return { accepted: true, completed: true }
     }
       |> Effect.catchTags(%, {
-        ElectronUpdaterDownloadUpdateError: effect (error): { accepted: boolean; completed: boolean; }!never!never => try withSpan((effect (): { accepted: boolean; completed: boolean; }!never!never => {
-          try updateState((current) =>
-            reduceDesktopUpdateStateOnDownloadFailure(current, error.message),
-          );
-          try logUpdaterError(error.message, {
-            errorTag: error._tag,
-            cause: describeUpdateErrorCause(error.cause),
-            channel: error.channel,
-          });
-          return { accepted: true, completed: false };
-        })(), "desktop.updates.handleDownloadFailure"),
+        ElectronUpdaterDownloadUpdateError: effect (error): { accepted: boolean; completed: boolean; }!never!never =>
+          try withSpan(
+            (effect (): { accepted: boolean; completed: boolean; }!never!never => {
+              try updateState((current) => reduceDesktopUpdateStateOnDownloadFailure(current, error.message))
+              try logUpdaterError(error.message, {
+                errorTag: error._tag,
+                cause: describeUpdateErrorCause(error.cause),
+                channel: error.channel,
+              })
+              return { accepted: true, completed: false }
+            })(),
+            "desktop.updates.handleDownloadFailure",
+          ),
       })
       |> Effect.onInterrupt(%, () =>
         updateState((current) => (current.status === "downloading" ? state : current))
-          |> Effect.asVoid(%),
-      )
+        |> Effect.asVoid(%))
       |> Effect.catchCause(%, (cause) => {
         if (Cause.hasInterruptsOnly(cause)) {
-          return Effect.failCause(cause);
+          return Effect.failCause(cause)
         }
-        const error = new DesktopUpdateUnexpectedActionError({ action: "download", cause });
+        const error = new DesktopUpdateUnexpectedActionError({ action: "download", cause })
         return effect {
-          try updateState((current) =>
-            reduceDesktopUpdateStateOnDownloadFailure(current, error.message),
-          );
+          try updateState((current) => reduceDesktopUpdateStateOnDownloadFailure(current, error.message))
           try logUpdaterError(error.message, {
             errorTag: error._tag,
             cause: describeUpdateErrorCause(error.cause),
             action: error.action,
-          });
-          return { accepted: true, completed: false };
-        };
+          })
+          return { accepted: true, completed: false }
+        }
       })
-      |> Effect.ensuring(%, finishUpdateAction("download")));
-  } |> withSpan(%, "desktop.updates.downloadAvailableUpdate");
+      |> Effect.ensuring(%, finishUpdateAction("download")))
+  } |> withSpan(%, "desktop.updates.downloadAvailableUpdate")
 
-  const updateRestartMarkerDir = environment.path.join(environment.baseDir, "runtime");
+  const updateRestartMarkerDir = environment.path.join(environment.baseDir, "runtime")
   const updateRestartMarkerPath = environment.path.join(
     updateRestartMarkerDir,
     DESKTOP_UPDATE_RESTART_MARKER_FILE,
-  );
-  const writeUpdateRestartMarker = do { const catchProgram = (fileSystem
-    .makeDirectory(updateRestartMarkerDir, { recursive: true })
-      |> Effect.andThen(%, fileSystem.writeFileString(updateRestartMarkerPath, ""))); effect { return catchProgram catch effect (error) => try logUpdaterWarning("Could not write the update restart marker.", { errorTag: error._tag }) } };
+  )
+  const writeUpdateRestartMarker = do {
+    const catchProgram = fileSystem
+      .makeDirectory(updateRestartMarkerDir, { recursive: true })
+      |> Effect.andThen(%, fileSystem.writeFileString(updateRestartMarkerPath, ""))
+    effect {
+      return catchProgram catch effect (error) =>
+        try logUpdaterWarning("Could not write the update restart marker.", { errorTag: error._tag })
+    }
+  }
 
   // Failed or interrupted installs leave no replacement backend; later quits must release the tunnel.
   const removeUpdateRestartMarker = fileSystem
-    .remove(updateRestartMarkerPath, { force: true })|> Effect.ignore(%);
+    .remove(updateRestartMarkerPath, { force: true }) |> Effect.ignore(%)
 
   const installRecordPath = environment.path.join(
     updateRestartMarkerDir,
     DESKTOP_UPDATE_INSTALL_RECORD_FILE,
-  );
+  )
   const writeInstallRecord = (targetVersion: string) =>
-    do { const catchProgram = (encodeInstallRecord({ fromVersion: environment.appVersion, targetVersion })
-      |> Effect.flatMap(%, (text) => fileSystem.writeFileString(installRecordPath, text))); effect { return catchProgram catch effect (error) => try logUpdaterWarning("Could not record the update install.", { errorTag: error._tag }) } };
+    do {
+      const catchProgram = encodeInstallRecord({ fromVersion: environment.appVersion, targetVersion })
+        |> Effect.flatMap(%, (text) => fileSystem.writeFileString(installRecordPath, text))
+      effect {
+        return catchProgram catch effect (error) =>
+          try logUpdaterWarning("Could not record the update install.", { errorTag: error._tag })
+      }
+    }
   const removeInstallRecord = fileSystem
-    .remove(installRecordPath, { force: true })|> Effect.ignore(%);
+    .remove(installRecordPath, { force: true }) |> Effect.ignore(%)
 
   const readNotAppliedInstallVersion = fileSystem.readFileString(installRecordPath)
     |> Effect.flatMap(%, decodeInstallRecord)
     |> Effect.option(%)
-    |> Effect.map(%, (record) =>
-      Option.flatMap(record, (value) =>
-        Option.fromNullishOr(resolveNotAppliedInstallVersion(value, environment.appVersion)),
-      ),
+    |> Effect.map(
+      %,
+      (record) =>
+        Option.flatMap(
+          record,
+          (value) => Option.fromNullishOr(resolveNotAppliedInstallVersion(value, environment.appVersion)),
+        ),
     )
-    |> Effect.tap(%, (notAppliedVersion) =>
-      Option.isNone(notAppliedVersion) ? removeInstallRecord : Effect.void,
-    );
+    |> Effect.tap(%, (notAppliedVersion) => Option.isNone(notAppliedVersion) ? removeInstallRecord : Effect.void)
 
   const baseUpdateState = (channel: DesktopUpdateChannel, disabledReason: Option.Option<string>) =>
     Ref.get(notAppliedVersionRef)
-      |> Effect.map(%, (notAppliedVersion) => ({
-        ...createBaseUpdateState(channel, disabledReason, environment),
-        ...do { const $optionSubject = notAppliedVersion; const $optionHandlers: { onNone: () => {}; onSome: (version: string) => { notAppliedVersion: string; }; } = {
+    |> Effect.map(%, (notAppliedVersion) => ({
+      ...createBaseUpdateState(channel, disabledReason, environment),
+      ...do {
+        const $optionSubject = notAppliedVersion
+        const $optionHandlers: { onNone: () => {}; onSome: (version: string) => { notAppliedVersion: string } } = {
           onNone: () => ({}),
           onSome: (version) => ({ notAppliedVersion: version }),
-        }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): $optionSome($optionValue); default: $optionNone(); }; },
-      }));
+        }
+        const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers
+        match ($optionSubject) {
+          when Option.Some(let $optionValue): $optionSome($optionValue);
+          default: $optionNone();
+        }
+      },
+    }))
 
   const resetInstallAction = Effect.all(
     [
@@ -582,354 +626,443 @@ export const make = effect {
       removeInstallRecord,
     ],
     { discard: true },
-  );
+  )
 
   const recoverFailedInstall = effect (
     message: string,
-  ) => try withSpan(effect {
-    const ownsRecovery = try Ref.modify(activeUpdateActionRef, (activeAction) =>
-      Option.isSome(activeAction) && activeAction.value === "install"
-        ? ([true, Option.some<UpdateAction>("install-recovery")] as const)
-        : ([false, activeAction] as const),
-    );
-    if (!ownsRecovery) return;
+  ) =>
+    try withSpan(
+      effect {
+        const ownsRecovery = try Ref.modify(activeUpdateActionRef, (activeAction) =>
+          Option.isSome(activeAction) && activeAction.value === "install"
+            ? ([true, Option.some<UpdateAction>("install-recovery")] as const)
+            : ([false, activeAction] as const))
+        if (!ownsRecovery) {
+          return
+        }
 
-    try Ref.set(desktopState.quitting, false);
-    try removeUpdateRestartMarker;
-    try removeInstallRecord;
-    try (effect {
-      const runningInstances = try Ref.getAndSet(installRunningBackendsRef, []);
-      const instances = (try pool.list).filter((instance) =>
-        runningInstances.includes(instance),
-      );
-      const restartExit = try (Effect.forEach(instances, (instance) => instance.start, {
-        concurrency: "unbounded",
-        discard: true,
-      }) |> Effect.exit(%));
-      try updateState((current) => reduceDesktopUpdateStateOnInstallFailure(current, message));
-      if (Exit.isFailure(restartExit)) {
-        try logUpdaterError("Desktop update install recovery could not restart every backend.");
-      }
-    }
-      |> Effect.catchCause(%, () =>
-        logUpdaterError("Desktop update install recovery failed unexpectedly."),
-      )
-      |> Effect.ensuring(%, finishUpdateAction("install-recovery")));
-  }, "desktop.updates.recoverFailedInstall");
+        try Ref.set(desktopState.quitting, false)
+        try removeUpdateRestartMarker
+        try removeInstallRecord
+        try (effect {
+          const runningInstances = try Ref.getAndSet(installRunningBackendsRef, [])
+          const instances = (try pool.list).filter((instance) =>
+            runningInstances.includes(instance)
+          )
+          const restartExit = try (Effect.forEach(instances, (instance) => instance.start, {
+            concurrency: "unbounded",
+            discard: true,
+          }) |> Effect.exit(%))
+          try updateState((current) => reduceDesktopUpdateStateOnInstallFailure(current, message))
+          if (Exit.isFailure(restartExit)) {
+            try logUpdaterError("Desktop update install recovery could not restart every backend.")
+          }
+        }
+          |> Effect.catchCause(%, () => logUpdaterError("Desktop update install recovery failed unexpectedly."))
+          |> Effect.ensuring(%, finishUpdateAction("install-recovery")))
+      },
+      "desktop.updates.recoverFailedInstall",
+    )
 
   const installDownloadedUpdate = (expectedVersion?: string) =>
     Effect.scoped(
       effect {
-        const actionCompletions = try PubSub.subscribe(finishedUpdateActions);
-        let admission: "admitted" | "refused" | "wait-for-check" = "wait-for-check";
+        const actionCompletions = try PubSub.subscribe(finishedUpdateActions)
+        let admission: "admitted" | "refused" | "wait-for-check" = "wait-for-check"
         while (admission === "wait-for-check") {
           admission = try stateMutex.withPermits(1)(
             effect {
-              const state = try Ref.get(updateStateRef);
-              const activeAction = try Ref.get(activeUpdateActionRef);
-              const hasExpectedDownload =
-                state.downloadedVersion !== null &&
-                (expectedVersion === undefined || state.downloadedVersion === expectedVersion);
+              const state = try Ref.get(updateStateRef)
+              const activeAction = try Ref.get(activeUpdateActionRef)
+              const hasExpectedDownload = state.downloadedVersion !== null
+                && (expectedVersion === undefined || state.downloadedVersion === expectedVersion)
               if (
-                (try Ref.get(desktopState.quitting)) ||
-                !(try Ref.get(updaterConfiguredRef)) ||
-                !hasExpectedDownload
+                (try Ref.get(desktopState.quitting))
+                || !(try Ref.get(updaterConfiguredRef))
+                || !hasExpectedDownload
               ) {
-                return "refused" as const;
+                return "refused" as const
               }
               if (Option.isSome(activeAction)) {
                 return activeAction.value === "check" && expectedVersion !== undefined
                   ? ("wait-for-check" as const)
-                  : ("refused" as const);
+                  : ("refused" as const)
               }
-              const hasInstallableDownload =
-                state.status === "downloaded" ||
-                (state.status === "error" &&
-                  (state.errorContext === null || state.errorContext === "install"));
-              if (!hasInstallableDownload) return "refused" as const;
+              const hasInstallableDownload = state.status === "downloaded"
+                || (state.status === "error"
+                  && (state.errorContext === null || state.errorContext === "install"))
+              if (!hasInstallableDownload) return "refused" as const
               return (try tryStartUpdateAction("install"))
                 ? ("admitted" as const)
-                : ("refused" as const);
+                : ("refused" as const)
             },
-          );
+          )
           if (admission === "wait-for-check") {
             const finishedAction = try (PubSub.take(actionCompletions)
-              |> Effect.timeoutOption(%, PREPARED_INSTALL_CHECK_WAIT));
+              |> Effect.timeoutOption(%, PREPARED_INSTALL_CHECK_WAIT))
             if (Option.isNone(finishedAction)) {
-              admission = "refused";
+              admission = "refused"
             }
           }
         }
         if (admission === "refused") {
-          return { accepted: false, completed: false, failed: false };
+          return { accepted: false, completed: false, failed: false }
         }
 
-        try Ref.set(desktopState.quitting, true);
-        try Ref.set(installRunningBackendsRef, []);
+        try Ref.set(desktopState.quitting, true)
+        try Ref.set(installRunningBackendsRef, [])
 
         return try (effect {
-          try writeUpdateRestartMarker;
-          const { downloadedVersion } = try Ref.get(updateStateRef);
-          if (downloadedVersion !== null) try writeInstallRecord(downloadedVersion);
+          try writeUpdateRestartMarker
+          const { downloadedVersion } = try Ref.get(updateStateRef)
+          if (downloadedVersion !== null) try writeInstallRecord(downloadedVersion)
           // Stop pooled backends before quitAndInstall can outrun their scope finalizers.
-          const instances = try pool.list;
+          const instances = try pool.list
           // stop clears desiredRunning, so retain the recovery set beforehand.
           const runningInstances = try Effect.filter(instances, (instance) =>
-            instance.snapshot |> Effect.map(%, (snapshot) => snapshot.desiredRunning),
-          );
-          try Ref.set(installRunningBackendsRef, runningInstances);
+            instance.snapshot |> Effect.map(%, (snapshot) => snapshot.desiredRunning))
+          try Ref.set(installRunningBackendsRef, runningInstances)
           try Effect.forEach(
             instances,
-            (instance) => instance.stop({ timeout: Duration.seconds(5) }),
+            (instance) =>
+              instance.stop({ timeout: Duration.seconds(5) }),
             { concurrency: "unbounded" },
-          );
+          )
           try electronUpdater.quitAndInstall({
             isSilent: true,
             isForceRunAfter: true,
-          });
-          return { accepted: true, completed: false, failed: false };
+          })
+          return { accepted: true, completed: false, failed: false }
         }
           |> Effect.catchTags(%, {
-            ElectronUpdaterQuitAndInstallError: effect (error): { accepted: boolean; completed: boolean; failed: boolean; }!never!never => try withSpan((effect (): { accepted: boolean; completed: boolean; failed: boolean; }!never!never => {
-              try recoverFailedInstall(error.message);
-              try logUpdaterError(error.message, {
-                errorTag: error._tag,
-                cause: describeUpdateErrorCause(error.cause),
-                channel: error.channel,
-                isSilent: error.isSilent,
-                isForceRunAfter: error.isForceRunAfter,
-              });
-              return { accepted: true, completed: false, failed: true };
-            })(), "desktop.updates.handleInstallFailure"),
+            ElectronUpdaterQuitAndInstallError: effect (
+              error,
+            ): { accepted: boolean; completed: boolean; failed: boolean; }!never!never =>
+              try withSpan(
+                (effect (): { accepted: boolean; completed: boolean; failed: boolean; }!never!never => {
+                  try recoverFailedInstall(error.message)
+                  try logUpdaterError(error.message, {
+                    errorTag: error._tag,
+                    cause: describeUpdateErrorCause(error.cause),
+                    channel: error.channel,
+                    isSilent: error.isSilent,
+                    isForceRunAfter: error.isForceRunAfter,
+                  })
+                  return { accepted: true, completed: false, failed: true }
+                })(),
+                "desktop.updates.handleInstallFailure",
+              ),
           })
           |> Effect.onInterrupt(%, () => resetInstallAction)
           |> Effect.catchCause(%, effect (cause) => {
             if (Cause.hasInterruptsOnly(cause)) {
-              return try Effect.failCause(cause);
+              return try Effect.failCause(cause)
             }
-            const error = new DesktopUpdateUnexpectedActionError({ action: "install", cause });
-            try recoverFailedInstall(error.message);
+            const error = new DesktopUpdateUnexpectedActionError({ action: "install", cause })
+            try recoverFailedInstall(error.message)
             try logUpdaterError(error.message, {
               errorTag: error._tag,
               cause: describeUpdateErrorCause(error.cause),
               action: error.action,
-            });
-            return { accepted: true, completed: false, failed: true };
-          },
-          ));
+            })
+            return { accepted: true, completed: false, failed: true }
+          }))
       },
-    ) |> withSpan(%, "desktop.updates.installDownloadedUpdate");
+    ) |> withSpan(%, "desktop.updates.installDownloadedUpdate")
 
   const installWithExpectedVersion = effect (
     expectedVersion?: string | undefined,
-  ) => try withSpan(effect {
-    if (try Ref.get(desktopState.quitting)) {
-      return {
-        accepted: false,
-        completed: false,
-        failed: false,
-        state: try Ref.get(updateStateRef),
-      };
-    }
-    const result = try installDownloadedUpdate(expectedVersion);
-    return {
-      accepted: result.accepted,
-      completed: result.completed,
-      failed: result.failed,
-      state: try Ref.get(updateStateRef),
-    };
-  }, "desktop.updates.install");
+  ) =>
+    try withSpan(
+      effect {
+        if (try Ref.get(desktopState.quitting)) {
+          return {
+            accepted: false,
+            completed: false,
+            failed: false,
+            state: try Ref.get(updateStateRef),
+          }
+        }
+        const result = try installDownloadedUpdate(expectedVersion)
+        return {
+          accepted: result.accepted,
+          completed: result.completed,
+          failed: result.failed,
+          state: try Ref.get(updateStateRef),
+        }
+      },
+      "desktop.updates.install",
+    )
 
   const startUpdatePollers: void!never!Scope.Scope = effect {
     try (Effect.sleep(AUTO_UPDATE_STARTUP_DELAY)
       |> Effect.andThen(%, checkForUpdates("startup"))
       |> Effect.catchCause(%, (cause) => {
         if (Cause.hasInterruptsOnly(cause)) {
-          return Effect.void;
+          return Effect.void
         }
-        const error = new DesktopUpdatePollerError({ poller: "startup", cause });
+        const error = new DesktopUpdatePollerError({ poller: "startup", cause })
         return logUpdaterError(error.message, {
           errorTag: error._tag,
           cause: describeUpdateErrorCause(error.cause),
           poller: error.poller,
-        });
+        })
       })
-      |> Effect.forkScoped(%));
+      |> Effect.forkScoped(%))
     try (Effect.sleep(AUTO_UPDATE_POLL_INTERVAL)
       |> Effect.andThen(%, checkForUpdates("poll"))
       |> Effect.forever(%)
       |> Effect.catchCause(%, (cause) => {
         if (Cause.hasInterruptsOnly(cause)) {
-          return Effect.void;
+          return Effect.void
         }
-        const error = new DesktopUpdatePollerError({ poller: "poll", cause });
+        const error = new DesktopUpdatePollerError({ poller: "poll", cause })
         return logUpdaterError(error.message, {
           errorTag: error._tag,
           cause: describeUpdateErrorCause(error.cause),
           poller: error.poller,
-        });
+        })
       })
-      |> Effect.forkScoped(%));
-  } |> withSpan(%, "desktop.updates.startPollers");
+      |> Effect.forkScoped(%))
+  } |> withSpan(%, "desktop.updates.startPollers")
 
   const handleUpdateAvailable = effect (
     raw: unknown,
-  ) => try withSpan(effect {
-    try (decodeUpdateInfo(raw)
-      |> Effect.flatMap(
-        %, effect (info): void!never!never => try withSpan((effect (): void!never!never => {
-          const state = try Ref.get(updateStateRef);
-          if ((try Effect.orDie(Effect.try({ try: () => resolveDefaultDesktopUpdateChannel(info.version), catch: (e) => e }))) !== state.channel) {
-            try logUpdaterInfo("ignoring update that does not match selected channel", {
-              version: info.version,
-              channel: state.channel,
-            });
-            const checkedAt = try currentIsoTimestamp;
-            try setState(try Effect.orDie(Effect.try({ try: () => reduceDesktopUpdateStateOnNoUpdate(state, checkedAt), catch: (e) => e })));
-            try Ref.set(lastLoggedDownloadMilestoneRef, -1);
-            return;
-          }
+  ) =>
+    try withSpan(
+      effect {
+        try (decodeUpdateInfo(raw)
+          |> Effect.flatMap(
+            %,
+            effect (info): void!never!never =>
+              try withSpan(
+                (effect (): void!never!never => {
+                  const state = try Ref.get(updateStateRef)
+                  if (
+                    (try Effect.orDie(
+                      Effect.try({ try: () => resolveDefaultDesktopUpdateChannel(info.version), catch: (e) => e }),
+                    )) !== state.channel
+                  ) {
+                    try logUpdaterInfo("ignoring update that does not match selected channel", {
+                      version: info.version,
+                      channel: state.channel,
+                    })
+                    const checkedAt = try currentIsoTimestamp
+                    try setState(
+                      try Effect.orDie(
+                        Effect.try({
+                          try: () => reduceDesktopUpdateStateOnNoUpdate(state, checkedAt),
+                          catch: (e) => e,
+                        }),
+                      ),
+                    )
+                    try Ref.set(lastLoggedDownloadMilestoneRef, -1)
+                    return
+                  }
 
-          const checkedAt = try currentIsoTimestamp;
-          const { releaseNotes, omittedReleaseCount } = try Effect.orDie(Effect.try({ try: () => normalizeDesktopUpdateReleaseNotes(
-            info.releaseNotes,
-            info.version,
-            state.channel,
-          ), catch: (e) => e }));
-          try setState(
-            try Effect.orDie(Effect.try({ try: () => reduceDesktopUpdateStateOnUpdateAvailable(
-              state,
-              info.version,
-              checkedAt,
-              releaseNotes,
-              omittedReleaseCount,
-            ), catch: (e) => e })),
-          );
-          try Ref.set(lastLoggedDownloadMilestoneRef, -1);
-          try logUpdaterInfo("update available", {
-            version: info.version,
-            releaseNoteGroups: releaseNotes.length,
-            omittedReleaseCount,
-          });
-        })(), "desktop.updates.applyUpdateAvailable"),
-      )
-      |> Effect.catchCause(%, (cause) => {
-        if (Cause.hasInterruptsOnly(cause)) {
-          return Effect.void;
-        }
-        const error = new DesktopUpdateEventHandlingError({ event: "update-available", cause });
-        return logUpdaterWarning(error.message, {
-          errorTag: error._tag,
-          cause: describeUpdateErrorCause(error.cause),
-          event: error.event,
-        });
-      }));
-  }, "desktop.updates.handleUpdateAvailable");
+                  const checkedAt = try currentIsoTimestamp
+                  const { releaseNotes, omittedReleaseCount } = try Effect.orDie(Effect.try({
+                    try: () =>
+                      normalizeDesktopUpdateReleaseNotes(
+                        info.releaseNotes,
+                        info.version,
+                        state.channel,
+                      ),
+                    catch: (e) => e,
+                  }))
+                  try setState(
+                    try Effect.orDie(Effect.try({
+                      try: () =>
+                        reduceDesktopUpdateStateOnUpdateAvailable(
+                          state,
+                          info.version,
+                          checkedAt,
+                          releaseNotes,
+                          omittedReleaseCount,
+                        ),
+                      catch: (e) => e,
+                    })),
+                  )
+                  try Ref.set(lastLoggedDownloadMilestoneRef, -1)
+                  try logUpdaterInfo("update available", {
+                    version: info.version,
+                    releaseNoteGroups: releaseNotes.length,
+                    omittedReleaseCount,
+                  })
+                })(),
+                "desktop.updates.applyUpdateAvailable",
+              ),
+          )
+          |> Effect.catchCause(%, (cause) => {
+            if (Cause.hasInterruptsOnly(cause)) {
+              return Effect.void
+            }
+            const error = new DesktopUpdateEventHandlingError({ event: "update-available", cause })
+            return logUpdaterWarning(error.message, {
+              errorTag: error._tag,
+              cause: describeUpdateErrorCause(error.cause),
+              event: error.event,
+            })
+          }))
+      },
+      "desktop.updates.handleUpdateAvailable",
+    )
 
   const handleUpdateNotAvailable = effect {
-    const checkedAt = try currentIsoTimestamp;
-    const state = try Ref.get(updateStateRef);
-    try setState(try Effect.orDie(Effect.try({ try: () => reduceDesktopUpdateStateOnNoUpdate(state, checkedAt), catch: (e) => e })));
-    try Ref.set(lastLoggedDownloadMilestoneRef, -1);
-    try logUpdaterInfo("no updates available");
-  } |> withSpan(%, "desktop.updates.handleUpdateNotAvailable");
+    const checkedAt = try currentIsoTimestamp
+    const state = try Ref.get(updateStateRef)
+    try setState(
+      try Effect.orDie(
+        Effect.try({ try: () => reduceDesktopUpdateStateOnNoUpdate(state, checkedAt), catch: (e) => e }),
+      ),
+    )
+    try Ref.set(lastLoggedDownloadMilestoneRef, -1)
+    try logUpdaterInfo("no updates available")
+  } |> withSpan(%, "desktop.updates.handleUpdateNotAvailable")
 
   const handleUpdaterError = effect (
     cause: unknown,
-  ) => try withSpan(effect {
-    const activeAction = try activeUpdateAction;
-    const error = new DesktopUpdaterReportedError({
-      operation: do { const $optionSubject = activeAction; const $optionHandlers: { onNone: () => "background"; onSome: (action: UpdateAction) => "channel" | "check" | "download" | "install"; } = {
-        onNone: () => "background" as const,
-        onSome: (action) => (action === "install-recovery" ? "install" : action),
-      }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): $optionSome($optionValue); default: $optionNone(); }; },
-      cause,
-    });
-    if (Option.isSome(activeAction) && activeAction.value === "install") {
-      try recoverFailedInstall(error.message);
-      try logUpdaterError(error.message, {
-        errorTag: error._tag,
-        cause: describeUpdateErrorCause(error.cause),
-        operation: error.operation,
-      });
-      return;
-    }
+  ) =>
+    try withSpan(
+      effect {
+        const activeAction = try activeUpdateAction
+        const error = new DesktopUpdaterReportedError({
+          operation: do {
+            const $optionSubject = activeAction
+            const $optionHandlers: {
+              onNone: () => "background"
+              onSome: (action: UpdateAction) => "channel" | "check" | "download" | "install"
+            } = {
+              onNone: () => "background" as const,
+              onSome: (action) => (action === "install-recovery" ? "install" : action),
+            }
+            const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers
+            match ($optionSubject) {
+              when Option.Some(let $optionValue): $optionSome($optionValue);
+              default: $optionNone();
+            }
+          },
+          cause,
+        })
+        if (Option.isSome(activeAction) && activeAction.value === "install") {
+          try recoverFailedInstall(error.message)
+          try logUpdaterError(error.message, {
+            errorTag: error._tag,
+            cause: describeUpdateErrorCause(error.cause),
+            operation: error.operation,
+          })
+          return
+        }
 
-    if (Option.isNone(activeAction)) {
-      const checkedAt = try currentIsoTimestamp;
-      try updateState((current) => ({
-        ...current,
-        status: "error",
-        message: error.message,
-        checkedAt,
-        downloadPercent: null,
-        errorContext: current.errorContext,
-        canRetry: getCanRetryFromState(current),
-      }));
-    }
+        if (Option.isNone(activeAction)) {
+          const checkedAt = try currentIsoTimestamp
+          try updateState((current) => ({
+            ...current,
+            status: "error",
+            message: error.message,
+            checkedAt,
+            downloadPercent: null,
+            errorContext: current.errorContext,
+            canRetry: getCanRetryFromState(current),
+          }))
+        }
 
-    try logUpdaterError(error.message, {
-      errorTag: error._tag,
-      cause: describeUpdateErrorCause(error.cause),
-      operation: error.operation,
-    });
-  }, "desktop.updates.handleUpdaterError");
+        try logUpdaterError(error.message, {
+          errorTag: error._tag,
+          cause: describeUpdateErrorCause(error.cause),
+          operation: error.operation,
+        })
+      },
+      "desktop.updates.handleUpdaterError",
+    )
 
   const handleDownloadProgress = effect (
     raw: unknown,
-  ) => try withSpan(effect {
-    try (decodeDownloadProgressInfo(raw)
-      |> Effect.flatMap(
-        %, effect (progress): void!never!never => try withSpan((effect (): void!never!never => {
-          const state = try Ref.get(updateStateRef);
-          const percent = Math.floor(progress.percent);
-          if (shouldBroadcastDownloadProgress(state, progress.percent) || state.message !== null) {
-            try setState(try Effect.orDie(Effect.try({ try: () => reduceDesktopUpdateStateOnDownloadProgress(state, progress.percent), catch: (e) => e })));
-          }
-          const milestone = percent - (percent % 10);
-          const lastLoggedMilestone = try Ref.get(lastLoggedDownloadMilestoneRef);
-          if (milestone > lastLoggedMilestone) {
-            try Ref.set(lastLoggedDownloadMilestoneRef, milestone);
-            try logUpdaterInfo("download progress", { percent });
-          }
-        })(), "desktop.updates.applyDownloadProgress"),
-      )
-      |> Effect.catchCause(%, (cause) => {
-        if (Cause.hasInterruptsOnly(cause)) {
-          return Effect.void;
-        }
-        const error = new DesktopUpdateEventHandlingError({ event: "download-progress", cause });
-        return logUpdaterWarning(error.message, {
-          errorTag: error._tag,
-          cause: describeUpdateErrorCause(error.cause),
-          event: error.event,
-        });
-      }));
-  }, "desktop.updates.handleDownloadProgress");
+  ) =>
+    try withSpan(
+      effect {
+        try (decodeDownloadProgressInfo(raw)
+          |> Effect.flatMap(
+            %,
+            effect (progress): void!never!never =>
+              try withSpan(
+                (effect (): void!never!never => {
+                  const state = try Ref.get(updateStateRef)
+                  const percent = Math.floor(progress.percent)
+                  if (shouldBroadcastDownloadProgress(state, progress.percent) || state.message !== null) {
+                    try setState(
+                      try Effect.orDie(
+                        Effect.try({
+                          try: () => reduceDesktopUpdateStateOnDownloadProgress(state, progress.percent),
+                          catch: (e) => e,
+                        }),
+                      ),
+                    )
+                  }
+                  const milestone = percent - (percent % 10)
+                  const lastLoggedMilestone = try Ref.get(lastLoggedDownloadMilestoneRef)
+                  if (milestone > lastLoggedMilestone) {
+                    try Ref.set(lastLoggedDownloadMilestoneRef, milestone)
+                    try logUpdaterInfo("download progress", { percent })
+                  }
+                })(),
+                "desktop.updates.applyDownloadProgress",
+              ),
+          )
+          |> Effect.catchCause(%, (cause) => {
+            if (Cause.hasInterruptsOnly(cause)) {
+              return Effect.void
+            }
+            const error = new DesktopUpdateEventHandlingError({ event: "download-progress", cause })
+            return logUpdaterWarning(error.message, {
+              errorTag: error._tag,
+              cause: describeUpdateErrorCause(error.cause),
+              event: error.event,
+            })
+          }))
+      },
+      "desktop.updates.handleDownloadProgress",
+    )
 
   const handleUpdateDownloaded = effect (
     raw: unknown,
-  ) => try withSpan(effect {
-    try (decodeUpdateInfo(raw)
-      |> Effect.flatMap(
-        %, effect (info): void!never!never => try withSpan((effect (): void!never!never => {
-          const state = try Ref.get(updateStateRef);
-          try setState(try Effect.orDie(Effect.try({ try: () => reduceDesktopUpdateStateOnDownloadComplete(state, info.version), catch: (e) => e })));
-          try logUpdaterInfo("update downloaded", { version: info.version });
-        })(), "desktop.updates.applyUpdateDownloaded"),
-      )
-      |> Effect.catchCause(%, (cause) => {
-        if (Cause.hasInterruptsOnly(cause)) {
-          return Effect.void;
-        }
-        const error = new DesktopUpdateEventHandlingError({ event: "update-downloaded", cause });
-        return logUpdaterWarning(error.message, {
-          errorTag: error._tag,
-          cause: describeUpdateErrorCause(error.cause),
-          event: error.event,
-        });
-      }));
-  }, "desktop.updates.handleUpdateDownloaded");
+  ) =>
+    try withSpan(
+      effect {
+        try (decodeUpdateInfo(raw)
+          |> Effect.flatMap(
+            %,
+            effect (info): void!never!never =>
+              try withSpan(
+                (effect (): void!never!never => {
+                  const state = try Ref.get(updateStateRef)
+                  try setState(
+                    try Effect.orDie(
+                      Effect.try({
+                        try: () => reduceDesktopUpdateStateOnDownloadComplete(state, info.version),
+                        catch: (e) => e,
+                      }),
+                    ),
+                  )
+                  try logUpdaterInfo("update downloaded", { version: info.version })
+                })(),
+                "desktop.updates.applyUpdateDownloaded",
+              ),
+          )
+          |> Effect.catchCause(%, (cause) => {
+            if (Cause.hasInterruptsOnly(cause)) {
+              return Effect.void
+            }
+            const error = new DesktopUpdateEventHandlingError({ event: "update-downloaded", cause })
+            return logUpdaterWarning(error.message, {
+              errorTag: error._tag,
+              cause: describeUpdateErrorCause(error.cause),
+              event: error.event,
+            })
+          }))
+      },
+      "desktop.updates.handleUpdateDownloaded",
+    )
 
   return DesktopUpdates.of({
     getState: Ref.get(updateStateRef),
@@ -938,147 +1071,157 @@ export const make = effect {
       |> Effect.map(%, (action) => Option.isSome(action) && action.value === "install"),
     subscribe: stateMutex.withPermits(1)(
       effect {
-        const subscription = try PubSub.subscribe(stateChanges);
-        const latest = try Ref.get(updateStateRef);
-        return { latest, changes: Stream.fromSubscription(subscription) };
+        const subscription = try PubSub.subscribe(stateChanges)
+        const latest = try Ref.get(updateStateRef)
+        return { latest, changes: Stream.fromSubscription(subscription) }
       },
     ),
     emitState,
     disabledReason: resolveDisabledReason,
     configure: effect {
-      const context = try Effect.context<never>();
+      const context = try Effect.context<never>()
       const runEffect = (effect: void!!) => {
-        void Effect.runPromiseWith(context)(effect);
-      };
+        void Effect.runPromiseWith(context)(effect)
+      }
 
-      const appUpdateYmlConfig = try readAppUpdateYml;
-      try Ref.set(appUpdateYmlConfigRef, appUpdateYmlConfig);
+      const appUpdateYmlConfig = try readAppUpdateYml
+      try Ref.set(appUpdateYmlConfigRef, appUpdateYmlConfig)
 
-      const notAppliedVersion = try readNotAppliedInstallVersion;
-      try Ref.set(notAppliedVersionRef, notAppliedVersion);
+      const notAppliedVersion = try readNotAppliedInstallVersion
+      try Ref.set(notAppliedVersionRef, notAppliedVersion)
       if (Option.isSome(notAppliedVersion)) {
         try logUpdaterWarning("the last update install did not apply", {
           version: environment.appVersion,
           targetVersion: notAppliedVersion.value,
-        });
+        })
       }
 
       if (config.mockUpdates) {
         try electronUpdater.setFeedURL({
           provider: "generic",
           url: `http://localhost:${config.mockUpdateServerPort}`,
-        } as ElectronUpdater.ElectronUpdaterFeedUrl);
+        } as ElectronUpdater.ElectronUpdaterFeedUrl)
       }
 
-      const settings = try desktopSettings.get;
-      const disabledReason = try resolveDisabledReason;
-      try setState(try baseUpdateState(settings.updateChannel, disabledReason));
+      const settings = try desktopSettings.get
+      const disabledReason = try resolveDisabledReason
+      try setState(try baseUpdateState(settings.updateChannel, disabledReason))
       if (Option.isSome(disabledReason)) {
-        return;
+        return
       }
-      try Ref.set(updaterConfiguredRef, true);
+      try Ref.set(updaterConfiguredRef, true)
 
-      try electronUpdater.setAutoDownload(false);
-      try electronUpdater.setAutoInstallOnAppQuit(false);
-      try applyAutoUpdaterChannel(settings.updateChannel);
+      try electronUpdater.setAutoDownload(false)
+      try electronUpdater.setAutoInstallOnAppQuit(false)
+      try applyAutoUpdaterChannel(settings.updateChannel)
       try electronUpdater.setDisableDifferentialDownload(
         isArm64HostRunningIntelBuild(environment.runtimeInfo),
-      );
+      )
 
       if (isArm64HostRunningIntelBuild(environment.runtimeInfo)) {
         try logUpdaterInfo(
           "Apple Silicon host detected while running Intel build; updates will switch to arm64 packages",
-        );
+        )
       }
 
       try electronUpdater.on("checking-for-update", () => {
         runEffect(
           logUpdaterInfo("looking for updates")
             |> withSpan(%, "desktop.updates.handleCheckingForUpdate"),
-        );
-      });
+        )
+      })
       try electronUpdater.on("update-available", (info: unknown) => {
-        runEffect(handleUpdateAvailable(info));
-      });
+        runEffect(handleUpdateAvailable(info))
+      })
       try electronUpdater.on("update-not-available", () => {
-        runEffect(handleUpdateNotAvailable);
-      });
+        runEffect(handleUpdateNotAvailable)
+      })
       try electronUpdater.on("error", (error: unknown) => {
-        runEffect(handleUpdaterError(error));
-      });
+        runEffect(handleUpdaterError(error))
+      })
       try electronUpdater.on("download-progress", (progress: unknown) => {
-        runEffect(handleDownloadProgress(progress));
-      });
+        runEffect(handleDownloadProgress(progress))
+      })
       try electronUpdater.on("update-downloaded", (info: unknown) => {
-        runEffect(handleUpdateDownloaded(info));
-      });
+        runEffect(handleUpdateDownloaded(info))
+      })
 
-      try startUpdatePollers;
+      try startUpdatePollers
     } |> withSpan(%, "desktop.updates.configure"),
     setChannel: effect (
       nextChannel: DesktopUpdateChannel,
-    ): DesktopUpdateState!(DesktopUpdateActionInProgressError | DesktopUpdateChannelPersistenceError)!never => try withSpan((effect (): DesktopUpdateState!(DesktopUpdateActionInProgressError | DesktopUpdateChannelPersistenceError)!never => {
-      try Effect.annotateCurrentSpan({ channel: nextChannel });
-      const activeAction = try tryStartChannelChange;
-      if (Option.isSome(activeAction)) {
-        throw new DesktopUpdateActionInProgressError({
-          action: activeAction.value === "install-recovery" ? "install" : activeAction.value,
-          requestedChannel: nextChannel,
-        });
-      }
+    ): DesktopUpdateState!(DesktopUpdateActionInProgressError | DesktopUpdateChannelPersistenceError)!never =>
+      try withSpan(
+        (effect (): DesktopUpdateState!(DesktopUpdateActionInProgressError | DesktopUpdateChannelPersistenceError)!never => {
+          try Effect.annotateCurrentSpan({ channel: nextChannel })
+          const activeAction = try tryStartChannelChange
+          if (Option.isSome(activeAction)) {
+            throw new DesktopUpdateActionInProgressError({
+              action: activeAction.value === "install-recovery" ? "install" : activeAction.value,
+              requestedChannel: nextChannel,
+            })
+          }
 
-      return try (effect {
-        const state = try Ref.get(updateStateRef);
-        if (nextChannel === state.channel) {
-          return state;
-        }
+          return try (effect {
+            const state = try Ref.get(updateStateRef)
+            if (nextChannel === state.channel) {
+              return state
+            }
 
-        desktopSettings
-          .setUpdateChannel(nextChannel) catch effect (cause) => { throw new DesktopUpdateChannelPersistenceError({ channel: nextChannel, cause }) };
+            desktopSettings
+              .setUpdateChannel(nextChannel) catch effect (cause) => {
+                throw new DesktopUpdateChannelPersistenceError({ channel: nextChannel, cause })
+              }
 
-        const disabledReason = try resolveDisabledReason;
-        try setState(try baseUpdateState(nextChannel, disabledReason));
+            const disabledReason = try resolveDisabledReason
+            try setState(try baseUpdateState(nextChannel, disabledReason))
 
-        if (Option.isSome(disabledReason) || !(try Ref.get(updaterConfiguredRef))) {
-          return try Ref.get(updateStateRef);
-        }
+            if (Option.isSome(disabledReason) || !(try Ref.get(updaterConfiguredRef))) {
+              return try Ref.get(updateStateRef)
+            }
 
-        try applyAutoUpdaterChannel(nextChannel);
-        const allowDowngrade = try electronUpdater.allowDowngrade;
-        try electronUpdater.setAllowDowngrade(true);
-        try (checkForUpdates("channel-change", "held")
-          |> Effect.ensuring(%, electronUpdater.setAllowDowngrade(allowDowngrade) |> Effect.ignore(%)));
-        return try Ref.get(updateStateRef);
-      } |> Effect.ensuring(%, finishUpdateAction("channel")));
-    })(), "desktop.updates.setChannel"),
-    check: effect (reason: string): DesktopUpdateCheckResult!never!never => try withSpan((effect (): DesktopUpdateCheckResult!never!never => {
-      try Effect.annotateCurrentSpan({ reason });
-      if (!(try Ref.get(updaterConfiguredRef))) {
-        return {
-          checked: false,
-          state: try Ref.get(updateStateRef),
-        };
-      }
-      const checked = try checkForUpdates(reason);
-      return {
-        checked,
-        state: try Ref.get(updateStateRef),
-      };
-    })(), "desktop.updates.check"),
+            try applyAutoUpdaterChannel(nextChannel)
+            const allowDowngrade = try electronUpdater.allowDowngrade
+            try electronUpdater.setAllowDowngrade(true)
+            try (checkForUpdates("channel-change", "held")
+              |> Effect.ensuring(%, electronUpdater.setAllowDowngrade(allowDowngrade) |> Effect.ignore(%)))
+            return try Ref.get(updateStateRef)
+          } |> Effect.ensuring(%, finishUpdateAction("channel")))
+        })(),
+        "desktop.updates.setChannel",
+      ),
+    check: effect (reason: string): DesktopUpdateCheckResult!never!never =>
+      try withSpan(
+        (effect (): DesktopUpdateCheckResult!never!never => {
+          try Effect.annotateCurrentSpan({ reason })
+          if (!(try Ref.get(updaterConfiguredRef))) {
+            return {
+              checked: false,
+              state: try Ref.get(updateStateRef),
+            }
+          }
+          const checked = try checkForUpdates(reason)
+          return {
+            checked,
+            state: try Ref.get(updateStateRef),
+          }
+        })(),
+        "desktop.updates.check",
+      ),
     download: effect {
-      const result = try downloadAvailableUpdate;
+      const result = try downloadAvailableUpdate
       return {
         accepted: result.accepted,
         completed: result.completed,
         state: try Ref.get(updateStateRef),
-      };
+      }
     } |> withSpan(%, "desktop.updates.download"),
     install: installWithExpectedVersion()
       |> Effect.map(%, ({ accepted, completed, state }) => ({ accepted, completed, state })),
-    installPrepared: Effect.fn("DesktopUpdates.installPrepared")(function (expectedVersion) {
-      return installWithExpectedVersion(expectedVersion);
+    installPrepared: Effect.fn("DesktopUpdates.installPrepared")(function(expectedVersion) {
+      return installWithExpectedVersion(expectedVersion)
     }),
-  });
-};
+  })
+}
 
-export const layer = Layer.effect(DesktopUpdates, make);
+export const layer = Layer.effect(DesktopUpdates, make)

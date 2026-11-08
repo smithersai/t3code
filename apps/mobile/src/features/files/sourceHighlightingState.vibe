@@ -1,19 +1,18 @@
+import { resolveHighlightLanguage } from "../../lib/highlightLanguage"
+import { highlightCode, type HighlightedLines, type HighlightScheme } from "../../lib/highlights"
 
-import { resolveHighlightLanguage } from "../../lib/highlightLanguage";
-import { highlightCode, type HighlightedLines, type HighlightScheme } from "../../lib/highlights";
-
-const SOURCE_HIGHLIGHT_IDLE_TTL_MS = 5 * 60_000;
+const SOURCE_HIGHLIGHT_IDLE_TTL_MS = 5 * 60_000
 
 export interface SourceHighlightInput {
-  readonly path: string;
-  readonly contents: string;
-  readonly theme: HighlightScheme;
+  readonly path: string
+  readonly contents: string
+  readonly theme: HighlightScheme
 }
 
 class SourceHighlightCacheKey extends Data.Class<SourceHighlightInput> {}
 
 error SourceHighlightError {
-  cause: unknown;
+  cause: unknown
 }
 
 // Highlighting is synchronous, so a cold atom resolves on its first read. The
@@ -32,8 +31,8 @@ const sourceHighlightFamily = Atom.family((request: SourceHighlightCacheKey) =>
   ).pipe(
     Atom.setIdleTTL(SOURCE_HIGHLIGHT_IDLE_TTL_MS),
     Atom.withLabel(`mobile:source-highlight:${request.theme}:${request.path}`),
-  ),
-);
+  )
+)
 
 export const sourceHighlightAtom = (input: SourceHighlightInput) =>
-  sourceHighlightFamily(new SourceHighlightCacheKey(input));
+  sourceHighlightFamily(new SourceHighlightCacheKey(input))

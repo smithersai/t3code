@@ -1,34 +1,34 @@
 import {
   clampFileAttachmentUploadBytes,
   fileAttachmentTooLargeMessage,
-} from "@t3tools/client-runtime/state/attachments";
+} from "@t3tools/client-runtime/state/attachments"
 import {
   isProviderSendTurnSupportedImageMimeType,
   PROVIDER_SEND_TURN_MAX_ATTACHMENTS,
   PROVIDER_SEND_TURN_MAX_FILE_BYTES,
   PROVIDER_SEND_TURN_MAX_IMAGE_BYTES,
-} from "@t3tools/contracts";
-import * as Schema from "effect/Schema";
-import type { ResolvedSharePayload, SharePayload } from "expo-sharing";
+} from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
+import type { ResolvedSharePayload, SharePayload } from "expo-sharing"
 
-import { DraftComposerAttachmentSchema } from "../../lib/composer-image-schema.vibe";
-import { fitComposerImage } from "../../lib/composerImageFit";
-import type { DraftComposerAttachment } from "../../lib/composerImages";
-import { estimateBase64ByteSize } from "../../lib/base64";
+import { DraftComposerAttachmentSchema } from "../../lib/composer-image-schema.vibe"
+import { fitComposerImage } from "../../lib/composerImageFit"
+import type { DraftComposerAttachment } from "../../lib/composerImages"
+import { estimateBase64ByteSize } from "../../lib/base64"
 
 export interface IncomingShareDraft {
-  readonly schemaVersion: 1;
-  readonly id: string;
-  readonly createdAt: string;
-  readonly destination?: IncomingShareDestination;
-  readonly text: string;
-  readonly attachments: ReadonlyArray<DraftComposerAttachment>;
-  readonly warnings: ReadonlyArray<string>;
+  readonly schemaVersion: 1
+  readonly id: string
+  readonly createdAt: string
+  readonly destination?: IncomingShareDestination
+  readonly text: string
+  readonly attachments: ReadonlyArray<DraftComposerAttachment>
+  readonly warnings: ReadonlyArray<string>
 }
 
 export interface IncomingShareDestination {
-  readonly environmentId: string;
-  readonly projectId: string;
+  readonly environmentId: string
+  readonly projectId: string
 }
 
 schema IncomingShareDestinationSchema {
@@ -44,29 +44,29 @@ export const IncomingShareDraftSchema = Schema.Struct({
   text: Schema.String,
   attachments: Schema.Array(DraftComposerAttachmentSchema),
   warnings: Schema.Array(Schema.String),
-});
+})
 
-const decodeIncomingShareDraftSync = Schema.decodeUnknownSync(IncomingShareDraftSchema);
+const decodeIncomingShareDraftSync = Schema.decodeUnknownSync(IncomingShareDraftSchema)
 
 export function decodeIncomingShareDraft(value: unknown): IncomingShareDraft {
-  return decodeIncomingShareDraftSync(value);
+  return decodeIncomingShareDraftSync(value)
 }
 
 /** Strip iOS /private so /var and /private/var paths compare equally. */
 function normalizedFileUriPath(uri: string): string | null {
   try {
-    const url = new URL(uri);
+    const url = new URL(uri)
     if (url.protocol !== "file:") {
-      return null;
+      return null
     }
-    const path = decodeURIComponent(url.pathname);
+    const path = decodeURIComponent(url.pathname)
     // URL parsing leaves encoded separators; reject decoded .. segments before lexical containment checks.
     if (path.split("/").includes("..")) {
-      return null;
+      return null
     }
-    return path.startsWith("/private/var/") ? path.slice("/private".length) : path;
+    return path.startsWith("/private/var/") ? path.slice("/private".length) : path
   } catch {
-    return null;
+    return null
   }
 }
 
@@ -75,107 +75,107 @@ export function isShareFileUriUnderOwnedRoots(
   uri: string,
   ownedRootUris: ReadonlyArray<string>,
 ): boolean {
-  const path = normalizedFileUriPath(uri);
+  const path = normalizedFileUriPath(uri)
   if (path === null) {
-    return false;
+    return false
   }
   return ownedRootUris.some((rootUri) => {
-    const rootPath = normalizedFileUriPath(rootUri);
+    const rootPath = normalizedFileUriPath(rootUri)
     if (rootPath === null) {
-      return false;
+      return false
     }
-    const root = rootPath.endsWith("/") ? rootPath : `${rootPath}/`;
-    return path.startsWith(root) && path.length > root.length;
-  });
+    const root = rootPath.endsWith("/") ? rootPath : `${rootPath}/`
+    return path.startsWith(root) && path.length > root.length
+  })
 }
 
 export interface IncomingShareFileReader {
-  readonly readBase64: (uri: string) => Promise<string>;
-  readonly removeOwnedFile: (uri: string) => Promise<void> | void;
-  readonly persistFile?: (uri: string, name: string) => Promise<string>;
-  readonly readSize?: (uri: string) => Promise<number | null>;
+  readonly readBase64: (uri: string) => Promise<string>
+  readonly removeOwnedFile: (uri: string) => Promise<void> | void
+  readonly persistFile?: (uri: string, name: string) => Promise<string>
+  readonly readSize?: (uri: string) => Promise<number | null>
 }
 
 export function selectIncomingShareAttachments(input: {
-  readonly attachments: ReadonlyArray<DraftComposerAttachment>;
-  readonly maxFileAttachmentBytes: number | null;
+  readonly attachments: ReadonlyArray<DraftComposerAttachment>
+  readonly maxFileAttachmentBytes: number | null
 }): {
-  readonly attachments: ReadonlyArray<DraftComposerAttachment>;
-  readonly warnings: ReadonlyArray<string>;
+  readonly attachments: ReadonlyArray<DraftComposerAttachment>
+  readonly warnings: ReadonlyArray<string>
 } {
-  const attachments: DraftComposerAttachment[] = [];
-  const warnings: string[] = [];
+  const attachments: DraftComposerAttachment[] = []
+  const warnings: string[] = []
 
   for (const attachment of input.attachments) {
     if (attachment.type === "image") {
-      attachments.push(attachment);
-      continue;
+      attachments.push(attachment)
+      continue
     }
     if (input.maxFileAttachmentBytes === null) {
-      warnings.push(`'${attachment.name}' was skipped because this server does not support files.`);
-      continue;
+      warnings.push(`'${attachment.name}' was skipped because this server does not support files.`)
+      continue
     }
-    const maxFileAttachmentBytes = clampFileAttachmentUploadBytes(input.maxFileAttachmentBytes);
+    const maxFileAttachmentBytes = clampFileAttachmentUploadBytes(input.maxFileAttachmentBytes)
     if (attachment.sizeBytes > maxFileAttachmentBytes) {
-      warnings.push(fileAttachmentTooLargeMessage(attachment.name, maxFileAttachmentBytes));
-      continue;
+      warnings.push(fileAttachmentTooLargeMessage(attachment.name, maxFileAttachmentBytes))
+      continue
     }
-    attachments.push(attachment);
+    attachments.push(attachment)
   }
 
-  return { attachments, warnings };
+  return { attachments, warnings }
 }
 
 export function selectIncomingShareAttachmentsForServer(input: {
-  readonly attachments: ReadonlyArray<DraftComposerAttachment>;
+  readonly attachments: ReadonlyArray<DraftComposerAttachment>
   readonly serverConfig: {
     readonly environment: {
       readonly capabilities: {
-        readonly attachmentUploads?: boolean;
-        readonly fileAttachments?: { readonly maxUploadBytes: number };
-      };
-    };
-  } | null;
+        readonly attachmentUploads?: boolean
+        readonly fileAttachments?: { readonly maxUploadBytes: number }
+      }
+    }
+  } | null
 }):
   | { readonly status: "pending" }
   | {
-      readonly status: "ready";
-      readonly attachments: ReadonlyArray<DraftComposerAttachment>;
-      readonly warnings: ReadonlyArray<string>;
-    } {
-  const hasFiles = input.attachments.some((attachment) => attachment.type === "file");
-  if (hasFiles && input.serverConfig === null) {
-    return { status: "pending" };
+    readonly status: "ready"
+    readonly attachments: ReadonlyArray<DraftComposerAttachment>
+    readonly warnings: ReadonlyArray<string>
   }
-  const capabilities = input.serverConfig?.environment.capabilities;
-  const maxFileAttachmentBytes =
-    capabilities?.attachmentUploads === true
-      ? (capabilities.fileAttachments?.maxUploadBytes ?? null)
-      : null;
+{
+  const hasFiles = input.attachments.some((attachment) => attachment.type === "file")
+  if (hasFiles && input.serverConfig === null) {
+    return { status: "pending" }
+  }
+  const capabilities = input.serverConfig?.environment.capabilities
+  const maxFileAttachmentBytes = capabilities?.attachmentUploads === true
+    ? (capabilities.fileAttachments?.maxUploadBytes ?? null)
+    : null
   return {
     status: "ready",
     ...selectIncomingShareAttachments({
       attachments: input.attachments,
       maxFileAttachmentBytes,
     }),
-  };
+  }
 }
 
 function sharedText(payloads: ReadonlyArray<SharePayload>): string {
-  const seen = new Set<string>();
-  const values: string[] = [];
+  const seen = new Set<string>()
+  const values: string[] = []
   for (const payload of payloads) {
     if (payload.shareType !== "text" && payload.shareType !== "url") {
-      continue;
+      continue
     }
-    const value = payload.value.trim();
+    const value = payload.value.trim()
     if (!value || seen.has(value)) {
-      continue;
+      continue
     }
-    seen.add(value);
-    values.push(value);
+    seen.add(value)
+    values.push(value)
   }
-  return values.join("\n\n");
+  return values.join("\n\n")
 }
 
 function resolvedImageFor(
@@ -184,26 +184,26 @@ function resolvedImageFor(
   resolvedPayloads: ReadonlyArray<ResolvedSharePayload>,
   consumedIndexes: Set<number>,
 ): ResolvedSharePayload | undefined {
-  const sameIndex = resolvedPayloads[index];
+  const sameIndex = resolvedPayloads[index]
   if (
-    !consumedIndexes.has(index) &&
-    sameIndex?.shareType === payload.shareType &&
-    sameIndex.value === payload.value
+    !consumedIndexes.has(index)
+    && sameIndex?.shareType === payload.shareType
+    && sameIndex.value === payload.value
   ) {
-    consumedIndexes.add(index);
-    return sameIndex;
+    consumedIndexes.add(index)
+    return sameIndex
   }
   const matchingIndex = resolvedPayloads.findIndex(
     (candidate, candidateIndex) =>
-      !consumedIndexes.has(candidateIndex) &&
-      candidate.shareType === payload.shareType &&
-      candidate.value === payload.value,
-  );
+      !consumedIndexes.has(candidateIndex)
+      && candidate.shareType === payload.shareType
+      && candidate.value === payload.value,
+  )
   if (matchingIndex < 0) {
-    return undefined;
+    return undefined
   }
-  consumedIndexes.add(matchingIndex);
-  return resolvedPayloads[matchingIndex];
+  consumedIndexes.add(matchingIndex)
+  return resolvedPayloads[matchingIndex]
 }
 
 async function releaseOwnedFiles(
@@ -212,127 +212,127 @@ async function releaseOwnedFiles(
 ): Promise<void> {
   for (const uri of new Set(uris.filter((candidate): candidate is string => Boolean(candidate)))) {
     try {
-      await fileReader.removeOwnedFile(uri);
+      await fileReader.removeOwnedFile(uri)
     } catch {}
   }
 }
 
 function fallbackName(uri: string, index: number, mimeType: string): string {
   try {
-    const pathName = new URL(uri).pathname.split("/").findLast((segment) => segment.length > 0);
+    const pathName = new URL(uri).pathname.split("/").findLast((segment) => segment.length > 0)
     if (pathName) {
-      return decodeURIComponent(pathName);
+      return decodeURIComponent(pathName)
     }
   } catch {}
-  const family = mimeType.split("/")[0]?.toLowerCase();
-  const kind = family === "image" || family === "audio" || family === "video" ? family : "file";
-  const extension =
-    mimeType.split("/")[1]?.replace(/[^a-z0-9.+-]/gi, "") || (kind === "image" ? "png" : "bin");
-  return `shared-${kind}-${index + 1}.${extension}`;
+  const family = mimeType.split("/")[0]?.toLowerCase()
+  const kind = family === "image" || family === "audio" || family === "video" ? family : "file"
+  const extension = mimeType.split("/")[1]?.replace(/[^a-z0-9.+-]/gi, "") || (kind === "image" ? "png" : "bin")
+  return `shared-${kind}-${index + 1}.${extension}`
 }
 
 export async function buildIncomingShareDraft(input: {
-  readonly payloads: ReadonlyArray<SharePayload>;
-  readonly resolvedPayloads: ReadonlyArray<ResolvedSharePayload>;
-  readonly fileReader: IncomingShareFileReader;
-  readonly id: string;
-  readonly createdAt: string;
+  readonly payloads: ReadonlyArray<SharePayload>
+  readonly resolvedPayloads: ReadonlyArray<ResolvedSharePayload>
+  readonly fileReader: IncomingShareFileReader
+  readonly id: string
+  readonly createdAt: string
 }): Promise<IncomingShareDraft> {
-  const attachments: DraftComposerAttachment[] = [];
-  const warnings: string[] = [];
-  const consumedResolvedPayloadIndexes = new Set<number>();
-  let warnedAttachmentLimit = false;
+  const attachments: DraftComposerAttachment[] = []
+  const warnings: string[] = []
+  const consumedResolvedPayloadIndexes = new Set<number>()
+  let warnedAttachmentLimit = false
 
   for (const [index, payload] of input.payloads.entries()) {
     if (
-      payload.shareType !== "image" &&
-      payload.shareType !== "file" &&
-      payload.shareType !== "audio" &&
-      payload.shareType !== "video"
+      payload.shareType !== "image"
+      && payload.shareType !== "file"
+      && payload.shareType !== "audio"
+      && payload.shareType !== "video"
     ) {
-      continue;
+      continue
     }
     const resolved = resolvedImageFor(
       payload,
       index,
       input.resolvedPayloads,
       consumedResolvedPayloadIndexes,
-    );
-    const uri = resolved?.contentUri ?? payload.value;
+    )
+    const uri = resolved?.contentUri ?? payload.value
     if (attachments.length >= PROVIDER_SEND_TURN_MAX_ATTACHMENTS) {
       if (!warnedAttachmentLimit) {
         warnings.push(
-          `Only the first ${PROVIDER_SEND_TURN_MAX_ATTACHMENTS} shared ${payload.shareType === "image" ? "images" : "files"} were attached.`,
-        );
-        warnedAttachmentLimit = true;
+          `Only the first ${PROVIDER_SEND_TURN_MAX_ATTACHMENTS} shared ${
+            payload.shareType === "image" ? "images" : "files"
+          } were attached.`,
+        )
+        warnedAttachmentLimit = true
       }
-      await releaseOwnedFiles(input.fileReader, [uri, payload.value]);
-      continue;
+      await releaseOwnedFiles(input.fileReader, [uri, payload.value])
+      continue
     }
 
     const mimeType = (
-      resolved?.contentMimeType ??
-      payload.mimeType ??
-      (payload.shareType === "image" ? "image/png" : "application/octet-stream")
-    ).toLowerCase();
+      resolved?.contentMimeType
+        ?? payload.mimeType
+        ?? (payload.shareType === "image" ? "image/png" : "application/octet-stream")
+    ).toLowerCase()
     if (payload.shareType !== "image") {
-      const sharedFileName =
-        typeof payload.originalName === "string" && payload.originalName.trim().length > 0
-          ? payload.originalName
-          : undefined;
-      const name = resolved?.originalName ?? sharedFileName ?? fallbackName(uri, index, mimeType);
+      const sharedFileName = typeof payload.originalName === "string" && payload.originalName.trim().length > 0
+        ? payload.originalName
+        : undefined
+      const name = resolved?.originalName ?? sharedFileName ?? fallbackName(uri, index, mimeType)
       if (!uri) {
-        warnings.push("One shared file could not be read.");
-        continue;
+        warnings.push("One shared file could not be read.")
+        continue
       }
-      let persistedFileUri: string | undefined;
-      let retainedFileUri: string | undefined;
+      let persistedFileUri: string | undefined
+      let retainedFileUri: string | undefined
       try {
-        let sizeBytes = resolved?.contentSize ?? (await input.fileReader.readSize?.(uri)) ?? null;
+        let sizeBytes = resolved?.contentSize ?? (await input.fileReader.readSize?.(uri)) ?? null
         if (
-          (sizeBytes === null || (sizeBytes === 0 && uri.startsWith("content:"))) &&
-          input.fileReader.persistFile
+          (sizeBytes === null || (sizeBytes === 0 && uri.startsWith("content:")))
+          && input.fileReader.persistFile
         ) {
-          persistedFileUri = await input.fileReader.persistFile(uri, name);
-          sizeBytes = (await input.fileReader.readSize?.(persistedFileUri)) ?? null;
+          persistedFileUri = await input.fileReader.persistFile(uri, name)
+          sizeBytes = (await input.fileReader.readSize?.(persistedFileUri)) ?? null
         }
         if (sizeBytes === null) {
-          warnings.push(`The size of '${name}' could not be determined.`);
+          warnings.push(`The size of '${name}' could not be determined.`)
           if (persistedFileUri) {
-            await releaseOwnedFiles(input.fileReader, [persistedFileUri]);
+            await releaseOwnedFiles(input.fileReader, [persistedFileUri])
           }
-          continue;
+          continue
         }
         if (sizeBytes <= 0) {
-          warnings.push(`'${name}' is empty or could not be read.`);
+          warnings.push(`'${name}' is empty or could not be read.`)
           if (persistedFileUri) {
-            await releaseOwnedFiles(input.fileReader, [persistedFileUri]);
+            await releaseOwnedFiles(input.fileReader, [persistedFileUri])
           }
-          continue;
+          continue
         }
         if (sizeBytes > PROVIDER_SEND_TURN_MAX_FILE_BYTES) {
-          warnings.push(fileAttachmentTooLargeMessage(name, PROVIDER_SEND_TURN_MAX_FILE_BYTES));
+          warnings.push(fileAttachmentTooLargeMessage(name, PROVIDER_SEND_TURN_MAX_FILE_BYTES))
           if (persistedFileUri) {
-            await releaseOwnedFiles(input.fileReader, [persistedFileUri]);
+            await releaseOwnedFiles(input.fileReader, [persistedFileUri])
           }
-          continue;
+          continue
         }
         if (persistedFileUri === undefined && input.fileReader.persistFile) {
-          persistedFileUri = await input.fileReader.persistFile(uri, name);
+          persistedFileUri = await input.fileReader.persistFile(uri, name)
           // Android content sources can misreport size; record the stored copy's measured size.
-          const storedSize = (await input.fileReader.readSize?.(persistedFileUri)) ?? null;
+          const storedSize = (await input.fileReader.readSize?.(persistedFileUri)) ?? null
           if (storedSize !== null) {
-            sizeBytes = storedSize;
+            sizeBytes = storedSize
           }
           if (sizeBytes <= 0) {
-            warnings.push(`'${name}' is empty or could not be read.`);
-            await releaseOwnedFiles(input.fileReader, [persistedFileUri]);
-            continue;
+            warnings.push(`'${name}' is empty or could not be read.`)
+            await releaseOwnedFiles(input.fileReader, [persistedFileUri])
+            continue
           }
           if (sizeBytes > PROVIDER_SEND_TURN_MAX_FILE_BYTES) {
-            warnings.push(fileAttachmentTooLargeMessage(name, PROVIDER_SEND_TURN_MAX_FILE_BYTES));
-            await releaseOwnedFiles(input.fileReader, [persistedFileUri]);
-            continue;
+            warnings.push(fileAttachmentTooLargeMessage(name, PROVIDER_SEND_TURN_MAX_FILE_BYTES))
+            await releaseOwnedFiles(input.fileReader, [persistedFileUri])
+            continue
           }
         }
         attachments.push({
@@ -342,64 +342,64 @@ export async function buildIncomingShareDraft(input: {
           mimeType,
           sizeBytes,
           fileUri: persistedFileUri ?? uri,
-        });
-        retainedFileUri = persistedFileUri ?? uri;
+        })
+        retainedFileUri = persistedFileUri ?? uri
       } catch (error) {
-        warnings.push(error instanceof Error ? error.message : `Could not read '${name}'.`);
+        warnings.push(error instanceof Error ? error.message : `Could not read '${name}'.`)
         if (persistedFileUri !== undefined) {
-          await releaseOwnedFiles(input.fileReader, [persistedFileUri]);
+          await releaseOwnedFiles(input.fileReader, [persistedFileUri])
         }
       } finally {
         await releaseOwnedFiles(
           input.fileReader,
           [uri, payload.value].filter((candidate) => candidate !== retainedFileUri),
-        );
+        )
       }
-      continue;
+      continue
     }
     if (!uri || !mimeType.startsWith("image/")) {
-      warnings.push("One shared item was not a supported image.");
-      await releaseOwnedFiles(input.fileReader, [uri, payload.value]);
-      continue;
+      warnings.push("One shared item was not a supported image.")
+      await releaseOwnedFiles(input.fileReader, [uri, payload.value])
+      continue
     }
     if (!isProviderSendTurnSupportedImageMimeType(mimeType)) {
       warnings.push(
         `'${resolved?.originalName ?? fallbackName(uri, index, mimeType)}' is not a supported image type.`,
-      );
-      await releaseOwnedFiles(input.fileReader, [uri, payload.value]);
-      continue;
+      )
+      await releaseOwnedFiles(input.fileReader, [uri, payload.value])
+      continue
     }
     if (
-      resolved?.contentSize !== null &&
-      resolved?.contentSize !== undefined &&
-      resolved.contentSize > PROVIDER_SEND_TURN_MAX_IMAGE_BYTES
+      resolved?.contentSize !== null
+      && resolved?.contentSize !== undefined
+      && resolved.contentSize > PROVIDER_SEND_TURN_MAX_IMAGE_BYTES
     ) {
       warnings.push(
         `'${resolved.originalName ?? fallbackName(uri, index, mimeType)}' exceeds the 10 MB attachment limit.`,
-      );
-      await releaseOwnedFiles(input.fileReader, [uri, payload.value]);
-      continue;
+      )
+      await releaseOwnedFiles(input.fileReader, [uri, payload.value])
+      continue
     }
 
     try {
-      const sharedBase64 = await input.fileReader.readBase64(uri);
+      const sharedBase64 = await input.fileReader.readBase64(uri)
       // Use already-read bytes because native image loaders may not read the provider's file.
       const fitted = await fitComposerImage({
         uri: `data:${mimeType};base64,${sharedBase64}`,
         mimeType,
         base64: sharedBase64,
-      });
-      const base64 = fitted?.base64 ?? sharedBase64;
+      })
+      const base64 = fitted?.base64 ?? sharedBase64
       const sizeBytes = fitted
         ? estimateBase64ByteSize(base64)
-        : (resolved?.contentSize ?? estimateBase64ByteSize(base64));
+        : (resolved?.contentSize ?? estimateBase64ByteSize(base64))
       if (sizeBytes <= 0 || sizeBytes > PROVIDER_SEND_TURN_MAX_IMAGE_BYTES) {
         warnings.push(
           `'${resolved?.originalName ?? fallbackName(uri, index, mimeType)}' exceeds the 10 MB attachment limit.`,
-        );
-        continue;
+        )
+        continue
       }
-      const dataUrl = `data:${mimeType};base64,${base64}`;
+      const dataUrl = `data:${mimeType};base64,${base64}`
       attachments.push({
         id: `${input.id}:image:${index}`,
         type: "image",
@@ -409,11 +409,11 @@ export async function buildIncomingShareDraft(input: {
         dataUrl,
         // Data-backed previews outlive temporary share files and App Group entries.
         previewUri: dataUrl,
-      });
+      })
     } catch {
-      warnings.push(`Could not read '${fallbackName(uri, index, mimeType)}'.`);
+      warnings.push(`Could not read '${fallbackName(uri, index, mimeType)}'.`)
     } finally {
-      await releaseOwnedFiles(input.fileReader, [uri, payload.value]);
+      await releaseOwnedFiles(input.fileReader, [uri, payload.value])
     }
   }
 
@@ -424,9 +424,9 @@ export async function buildIncomingShareDraft(input: {
     text: sharedText(input.payloads),
     attachments,
     warnings,
-  };
+  }
 }
 
 export function hasIncomingShareContent(draft: IncomingShareDraft): boolean {
-  return draft.text.trim().length > 0 || draft.attachments.length > 0;
+  return draft.text.trim().length > 0 || draft.attachments.length > 0
 }

@@ -1,16 +1,12 @@
-import { useScopedSettingsWriteAllowed } from "./useScopedSettings.ts";
-import { SettingsIcon } from "lucide-react";
-import { useState } from "react";
-import { type BackgroundActivityProfile } from "@t3tools/contracts";
-import { DEFAULT_UNIFIED_SETTINGS } from "@t3tools/contracts/settings";
-import { resolveServerBackgroundActivitySettings } from "@t3tools/shared/backgroundActivitySettings";
-import {
-  useScopedSettings,
-  useScopedSettingsMixed,
-  useUpdateScopedSettings,
-} from "./useScopedSettings.ts";
-import { useSettingsScope } from "./SettingsScopeContext";
-import { Button } from "../ui/button";
+import { useScopedSettingsWriteAllowed } from "./useScopedSettings.ts"
+import { SettingsIcon } from "lucide-react"
+import { useState } from "react"
+import { type BackgroundActivityProfile } from "@t3tools/contracts"
+import { DEFAULT_UNIFIED_SETTINGS } from "@t3tools/contracts/settings"
+import { resolveServerBackgroundActivitySettings } from "@t3tools/shared/backgroundActivitySettings"
+import { useScopedSettings, useScopedSettingsMixed, useUpdateScopedSettings } from "./useScopedSettings.ts"
+import { useSettingsScope } from "./SettingsScopeContext"
+import { Button } from "../ui/button"
 import {
   Dialog,
   DialogDescription,
@@ -19,17 +15,17 @@ import {
   DialogPanel,
   DialogPopup,
   DialogTitle,
-} from "../ui/dialog";
+} from "../ui/dialog"
 import {
   NumberField,
   NumberFieldDecrement,
   NumberFieldGroup,
   NumberFieldIncrement,
   NumberFieldInput,
-} from "../ui/number-field";
-import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "../ui/select";
-import { Switch } from "../ui/switch";
-import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
+} from "../ui/number-field"
+import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "../ui/select"
+import { Switch } from "../ui/switch"
+import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip"
 import {
   backgroundActivityOverrideSettings,
   backgroundActivitySharedPolicySettings,
@@ -37,49 +33,49 @@ import {
   normalizeIntervalSeconds,
   PROVIDER_HEALTH_INTERVAL_STEP_SECONDS,
   resolveBackgroundActivityProfileOption,
-} from "./SettingsPanels.logic";
-import { PolicyTooltip, SettingResetButton, SettingsRow } from "./settingsLayout";
-import { searchableSetting } from "./settingsSearch";
+} from "./SettingsPanels.logic"
+import { PolicyTooltip, SettingResetButton, SettingsRow } from "./settingsLayout"
+import { searchableSetting } from "./settingsSearch"
 
 const BACKGROUND_ACTIVITY_PROFILE_LABELS: Record<BackgroundActivityProfile, string> = {
   balanced: "Balanced",
   performance: "Performance",
   "battery-saver": "Battery saver",
-};
+}
 
-type BackgroundActivityProfileOption = BackgroundActivityProfile | "advanced";
+type BackgroundActivityProfileOption = BackgroundActivityProfile | "advanced"
 
 const BACKGROUND_ACTIVITY_PROFILE_OPTION_LABELS: Record<BackgroundActivityProfileOption, string> = {
   ...BACKGROUND_ACTIVITY_PROFILE_LABELS,
   advanced: "Advanced",
-};
+}
 
 const BACKGROUND_ACTIVITY_PROFILE_DESCRIPTIONS: Record<BackgroundActivityProfile, string> = {
   balanced: "Pauses probes for idle clients, locked hosts, or low power mode.",
   performance: "Allows scoped background probes while any subscribed client remains connected.",
   "battery-saver": "Also pauses background probes when the host or client is on battery.",
-};
+}
 
-const ADVANCED_BACKGROUND_ACTIVITY_DESCRIPTION = "Uses custom intervals.";
+const ADVANCED_BACKGROUND_ACTIVITY_DESCRIPTION = "Uses custom intervals."
 
 const BACKGROUND_ACTIVITY_BOOLEAN_OVERRIDES: ReadonlyArray<{
   readonly key:
     | "pauseWhenHostLocked"
     | "pauseWhenHostLowPower"
     | "pauseWhenClientLowPower"
-    | "pauseWhenOnBattery";
-  readonly label: string;
+    | "pauseWhenOnBattery"
+  readonly label: string
 }> = [
   { key: "pauseWhenHostLocked", label: "Pause when host is locked" },
   { key: "pauseWhenHostLowPower", label: "Pause on host low power" },
   { key: "pauseWhenClientLowPower", label: "Pause on client low power" },
   { key: "pauseWhenOnBattery", label: "Pause on battery" },
-];
+]
 
 function resetBackgroundActivitySettings() {
   return {
     backgroundActivity: DEFAULT_UNIFIED_SETTINGS.backgroundActivity,
-  };
+  }
 }
 
 function backgroundActivityProfileSettings(profile: BackgroundActivityProfile) {
@@ -89,33 +85,33 @@ function backgroundActivityProfileSettings(profile: BackgroundActivityProfile) {
       profile,
       overrides: {},
     },
-  };
+  }
 }
 
 function BackgroundActivityAdvancedDialog({
   open,
   onOpenChange,
 }: {
-  readonly open: boolean;
-  readonly onOpenChange: (open: boolean) => void;
+  readonly open: boolean
+  readonly onOpenChange: (open: boolean) => void
 }) {
-  const canWriteSettings = useScopedSettingsWriteAllowed();
-  const settings = useScopedSettings();
-  const updateSettings = useUpdateScopedSettings();
-  const resolvedBackgroundActivity = resolveServerBackgroundActivitySettings(settings);
-  const activeProfile = resolvedBackgroundActivity.profile;
+  const canWriteSettings = useScopedSettingsWriteAllowed()
+  const settings = useScopedSettings()
+  const updateSettings = useUpdateScopedSettings()
+  const resolvedBackgroundActivity = resolveServerBackgroundActivitySettings(settings)
+  const activeProfile = resolvedBackgroundActivity.profile
   const automaticGitFetchIntervalSeconds = durationToSeconds(
     resolvedBackgroundActivity.automaticGitFetchInterval,
-  );
+  )
   const providerHealthRefreshIntervalSeconds = durationToSeconds(
     resolvedBackgroundActivity.providerHealthRefreshInterval,
-  );
+  )
   const hostPowerMonitorActiveIntervalSeconds = durationToSeconds(
     resolvedBackgroundActivity.hostPowerMonitorActiveInterval,
-  );
+  )
   const hostPowerMonitorIdleIntervalSeconds = durationToSeconds(
     resolvedBackgroundActivity.hostPowerMonitorIdleInterval,
-  );
+  )
 
   return (
     <Dialog open={open && canWriteSettings} onOpenChange={onOpenChange}>
@@ -142,13 +138,13 @@ function BackgroundActivityAdvancedDialog({
                 value={activeProfile}
                 onValueChange={(value) => {
                   if (
-                    value === "balanced" ||
-                    value === "performance" ||
-                    value === "battery-saver"
+                    value === "balanced"
+                    || value === "performance"
+                    || value === "battery-saver"
                   ) {
                     updateSettings({
                       backgroundActivity: backgroundActivitySharedPolicySettings(settings, value),
-                    });
+                    })
                   }
                 }}
               >
@@ -200,8 +196,7 @@ function BackgroundActivityAdvancedDialog({
                           ),
                         },
                       ),
-                    )
-                  }
+                    )}
                 >
                   <NumberFieldGroup>
                     <NumberFieldDecrement aria-label="Decrease Git fetch interval" />
@@ -239,8 +234,7 @@ function BackgroundActivityAdvancedDialog({
                           ),
                         },
                       ),
-                    )
-                  }
+                    )}
                 >
                   <NumberFieldGroup>
                     <NumberFieldDecrement aria-label="Decrease provider health interval" />
@@ -277,8 +271,7 @@ function BackgroundActivityAdvancedDialog({
                           ),
                         },
                       ),
-                    )
-                  }
+                    )}
                 >
                   <NumberFieldGroup>
                     <NumberFieldDecrement aria-label="Decrease active host power interval" />
@@ -315,8 +308,7 @@ function BackgroundActivityAdvancedDialog({
                           ),
                         },
                       ),
-                    )
-                  }
+                    )}
                 >
                   <NumberFieldGroup>
                     <NumberFieldDecrement aria-label="Decrease idle host power interval" />
@@ -346,8 +338,7 @@ function BackgroundActivityAdvancedDialog({
                             [key]: Boolean(checked),
                           },
                         ),
-                      )
-                    }
+                      )}
                     aria-label={label}
                   />
                 </label>
@@ -367,30 +358,29 @@ function BackgroundActivityAdvancedDialog({
         </DialogFooter>
       </DialogPopup>
     </Dialog>
-  );
+  )
 }
 
 export function BackgroundActivitySettingsRow() {
-  const settings = useScopedSettings();
-  const updateSettings = useUpdateScopedSettings();
-  const { scope, environment } = useSettingsScope();
-  const environmentId = environment?.environmentId ?? null;
-  const isEnvironmentScope = scope.environmentIds.length === 1 && environmentId !== null;
-  const [backgroundActivityDialogOpen, setBackgroundActivityDialogOpen] = useState(false);
-  const mixedBackgroundActivity = useScopedSettingsMixed(["backgroundActivity"]);
-  const resolvedBackgroundActivity = resolveServerBackgroundActivitySettings(settings);
-  const activeBackgroundActivityProfile = resolvedBackgroundActivity.profile;
-  const backgroundActivityProfileOption = resolveBackgroundActivityProfileOption(settings);
-  const backgroundActivityDescription =
-    backgroundActivityProfileOption === "advanced"
-      ? `${ADVANCED_BACKGROUND_ACTIVITY_DESCRIPTION} Shared policy: ${
-          BACKGROUND_ACTIVITY_PROFILE_LABELS[activeBackgroundActivityProfile]
-        }.`
-      : BACKGROUND_ACTIVITY_PROFILE_DESCRIPTIONS[resolvedBackgroundActivity.profile];
+  const settings = useScopedSettings()
+  const updateSettings = useUpdateScopedSettings()
+  const { scope, environment } = useSettingsScope()
+  const environmentId = environment?.environmentId ?? null
+  const isEnvironmentScope = scope.environmentIds.length === 1 && environmentId !== null
+  const [backgroundActivityDialogOpen, setBackgroundActivityDialogOpen] = useState(false)
+  const mixedBackgroundActivity = useScopedSettingsMixed(["backgroundActivity"])
+  const resolvedBackgroundActivity = resolveServerBackgroundActivitySettings(settings)
+  const activeBackgroundActivityProfile = resolvedBackgroundActivity.profile
+  const backgroundActivityProfileOption = resolveBackgroundActivityProfileOption(settings)
+  const backgroundActivityDescription = backgroundActivityProfileOption === "advanced"
+    ? `${ADVANCED_BACKGROUND_ACTIVITY_DESCRIPTION} Shared policy: ${
+      BACKGROUND_ACTIVITY_PROFILE_LABELS[activeBackgroundActivityProfile]
+    }.`
+    : BACKGROUND_ACTIVITY_PROFILE_DESCRIPTIONS[resolvedBackgroundActivity.profile]
   const canResetBackgroundActivity = !Equal.equals(
     settings.backgroundActivity,
     DEFAULT_UNIFIED_SETTINGS.backgroundActivity,
-  );
+  )
 
   return (
     <SettingsRow
@@ -407,25 +397,25 @@ export function BackgroundActivitySettingsRow() {
         </span>
       }
       description={backgroundActivityDescription}
-      resetAction={
-        canResetBackgroundActivity ? (
+      resetAction={canResetBackgroundActivity
+        ? (
           <SettingResetButton
             label="background activity"
             onClick={() => updateSettings(resetBackgroundActivitySettings())}
           />
-        ) : null
-      }
+        )
+        : null}
       control={
         <>
           <Select
             value={mixedBackgroundActivity ? null : backgroundActivityProfileOption}
             onValueChange={(value) => {
               if (value === "advanced") {
-                if (isEnvironmentScope) setBackgroundActivityDialogOpen(true);
-                return;
+                if (isEnvironmentScope) setBackgroundActivityDialogOpen(true)
+                return
               }
               if (value === "balanced" || value === "performance" || value === "battery-saver") {
-                updateSettings(backgroundActivityProfileSettings(value));
+                updateSettings(backgroundActivityProfileSettings(value))
               }
             }}
           >
@@ -436,8 +426,7 @@ export function BackgroundActivitySettingsRow() {
             >
               <SelectValue>
                 {(value: BackgroundActivityProfileOption | null) =>
-                  value === null ? "Mixed" : BACKGROUND_ACTIVITY_PROFILE_OPTION_LABELS[value]
-                }
+                  value === null ? "Mixed" : BACKGROUND_ACTIVITY_PROFILE_OPTION_LABELS[value]}
               </SelectValue>
             </SelectTrigger>
             <SelectPopup align="end" alignItemWithTrigger={false}>
@@ -457,23 +446,25 @@ export function BackgroundActivitySettingsRow() {
               </SelectItem>
             </SelectPopup>
           </Select>
-          {backgroundActivityProfileOption === "advanced" && isEnvironmentScope ? (
-            <Tooltip>
+          {backgroundActivityProfileOption === "advanced" && isEnvironmentScope
+            ? (
+              <Tooltip>
               <TooltipTrigger
-                render={
-                  <Button
-                    size="icon-sm"
-                    variant="outline"
-                    aria-label="Configure advanced background activity"
-                    onClick={() => setBackgroundActivityDialogOpen(true)}
-                  >
+                  render={
+                    <Button
+                      size="icon-sm"
+                      variant="outline"
+                      aria-label="Configure advanced background activity"
+                      onClick={() => setBackgroundActivityDialogOpen(true)}
+                    >
                     <SettingsIcon className="size-4" />
                   </Button>
-                }
-              />
+                  }
+                />
               <TooltipPopup side="top">Configure background activity</TooltipPopup>
             </Tooltip>
-          ) : null}
+            )
+            : null}
           <BackgroundActivityAdvancedDialog
             open={backgroundActivityDialogOpen && isEnvironmentScope}
             onOpenChange={setBackgroundActivityDialogOpen}
@@ -481,5 +472,5 @@ export function BackgroundActivitySettingsRow() {
         </>
       }
     />
-  );
+  )
 }

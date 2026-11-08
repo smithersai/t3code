@@ -1,22 +1,22 @@
-import { useAtomValue } from "@effect/atom-react";
+import { useAtomValue } from "@effect/atom-react"
 import {
   connectionCatalogDisplayUrl,
   hasRelayRoute,
   type EnvironmentPresentation as BaseEnvironmentPresentation,
-} from "@t3tools/client-runtime/connection";
-import type { ComposerEnvironmentCandidate } from "@t3tools/client-runtime/composerThreadItems";
-import { type EnvironmentId, resolveEnvironmentMachineKind } from "@t3tools/contracts";
-import { useMemo } from "react";
+} from "@t3tools/client-runtime/connection"
+import type { ComposerEnvironmentCandidate } from "@t3tools/client-runtime/composerThreadItems"
+import { type EnvironmentId, resolveEnvironmentMachineKind } from "@t3tools/contracts"
+import { useMemo } from "react"
 
-import { environmentCatalog } from "../connection/catalog";
-import { environmentPresentations } from "./presentation.vibe";
-import { useEnvironmentQuery } from "./query.vibe";
+import { environmentCatalog } from "../connection/catalog"
+import { environmentPresentations } from "./presentation.vibe"
+import { useEnvironmentQuery } from "./query.vibe"
 
 export interface EnvironmentPresentation extends BaseEnvironmentPresentation {
-  readonly environmentId: EnvironmentId;
-  readonly label: string;
-  readonly displayUrl: string | null;
-  readonly relayManaged: boolean;
+  readonly environmentId: EnvironmentId
+  readonly label: string
+  readonly displayUrl: string | null
+  readonly relayManaged: boolean
 }
 
 export function projectEnvironmentPresentation(
@@ -29,37 +29,37 @@ export function projectEnvironmentPresentation(
     label: presentation.entry.target.label,
     displayUrl: connectionCatalogDisplayUrl(presentation.entry),
     relayManaged: hasRelayRoute(presentation.entry),
-  };
+  }
 }
 
 export function useEnvironments() {
-  const catalog = useAtomValue(environmentCatalog.catalogValueAtom);
-  const networkStatus = useAtomValue(environmentCatalog.networkStatusValueAtom);
-  const presentationById = useAtomValue(environmentPresentations.presentationsAtom);
+  const catalog = useAtomValue(environmentCatalog.catalogValueAtom)
+  const networkStatus = useAtomValue(environmentCatalog.networkStatusValueAtom)
+  const presentationById = useAtomValue(environmentPresentations.presentationsAtom)
 
   const environments = useMemo(
     () =>
       [...presentationById.entries()].map(([environmentId, presentation]) =>
-        projectEnvironmentPresentation(environmentId, presentation),
+        projectEnvironmentPresentation(environmentId, presentation)
       ),
     [presentationById],
-  );
+  )
 
   return {
     isReady: catalog.isReady,
     networkStatus,
     environments,
     presentationById,
-  };
+  }
 }
 
 export function useEnvironmentConnectionState(environmentId: EnvironmentId) {
-  return useEnvironmentQuery(environmentCatalog.stateAtom(environmentId));
+  return useEnvironmentQuery(environmentCatalog.stateAtom(environmentId))
 }
 
 /** The user's machines as `@` mention candidates, drawn with their machine kind. */
 export function useMentionableEnvironments(): ReadonlyArray<ComposerEnvironmentCandidate> {
-  const { environments } = useEnvironments();
+  const { environments } = useEnvironments()
   return useMemo(
     () =>
       environments.map((environment) => ({
@@ -68,5 +68,5 @@ export function useMentionableEnvironments(): ReadonlyArray<ComposerEnvironmentC
         machine: resolveEnvironmentMachineKind(environment.serverConfig),
       })),
     [environments],
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import { $platform } from "./ElectronSafeStorage.platform.js";
+import { $platform } from "./ElectronSafeStorage.platform.js"
 import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as Option from "effect/Option"

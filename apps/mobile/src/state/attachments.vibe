@@ -1,13 +1,9 @@
-import { createAttachmentEnvironmentAtoms } from "@t3tools/client-runtime/state/attachments";
-import type { AtomCommand } from "@t3tools/client-runtime/state/runtime";
-import {
-  AuthOrchestrationOperateScope,
-  EnvironmentAuthorizationError,
-  type EnvironmentId,
-} from "@t3tools/contracts";
+import { createAttachmentEnvironmentAtoms } from "@t3tools/client-runtime/state/attachments"
+import type { AtomCommand } from "@t3tools/client-runtime/state/runtime"
+import { AuthOrchestrationOperateScope, EnvironmentAuthorizationError, type EnvironmentId } from "@t3tools/contracts"
 
-import { connectionAtomRuntime } from "../connection/runtime.vibe";
-import { readEnvironmentScope } from "./session.vibe";
+import { connectionAtomRuntime } from "../connection/runtime.vibe"
+import { readEnvironmentScope } from "./session.vibe"
 
 function requireAttachmentWriteAccess<W extends { readonly environmentId: EnvironmentId }, A, E>(
   command: AtomCommand<W, A, E>,
@@ -23,15 +19,15 @@ function requireAttachmentWriteAccess<W extends { readonly environmentId: Enviro
               requiredScope: AuthOrchestrationOperateScope,
             }),
           ),
-        );
+        )
       }
-      return command.run(registry, input);
+      return command.run(registry, input)
     },
-  };
+  }
 }
 
-const commands = createAttachmentEnvironmentAtoms(connectionAtomRuntime);
+const commands = createAttachmentEnvironmentAtoms(connectionAtomRuntime)
 export const attachmentEnvironment = {
   createUploadUrl: requireAttachmentWriteAccess(commands.createUploadUrl),
   remove: requireAttachmentWriteAccess(commands.remove),
-};
+}

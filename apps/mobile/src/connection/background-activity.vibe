@@ -1,30 +1,30 @@
-import { EnvironmentRegistry } from "@t3tools/client-runtime/connection";
-import { EnvironmentRpcSubscriptionObserver, request } from "@t3tools/client-runtime/rpc";
+import { EnvironmentRegistry } from "@t3tools/client-runtime/connection"
+import { EnvironmentRpcSubscriptionObserver, request } from "@t3tools/client-runtime/rpc"
 import {
   type BackgroundScope,
   type ClientActivityReportInput,
   type EnvironmentId,
   WS_METHODS,
-} from "@t3tools/contracts";
-import * as Layer from "effect/Layer";
-import { AppState } from "react-native";
+} from "@t3tools/contracts"
+import * as Layer from "effect/Layer"
+import { AppState } from "react-native"
 
-import * as MobileStorage from "../persistence/mobile-storage.vibe";
+import * as MobileStorage from "../persistence/mobile-storage.vibe"
 import {
   observeMobileBackgroundActivitySubscription,
   onRetainedMobileBackgroundScopesChange,
   retainedMobileBackgroundScopes,
-} from "./background-activity-scopes.vibe";
+} from "./background-activity-scopes.vibe"
 
-const REPORT_INTERVAL_MS = 25_000;
-const LEASE_TTL_MS = 45_000;
-const BASELINE_SCOPES: ReadonlyArray<BackgroundScope> = [{ type: "provider-status" }];
+const REPORT_INTERVAL_MS = 25_000
+const LEASE_TTL_MS = 45_000
+const BASELINE_SCOPES: ReadonlyArray<BackgroundScope> = [{ type: "provider-status" }]
 
 function normalizeAppState(
   state: string | null | undefined,
 ): NonNullable<ClientActivityReportInput["appState"]> {
-  if (state === "active" || state === "inactive" || state === "background") return state;
-  return "unknown";
+  if (state === "active" || state === "inactive" || state === "background") return state
+  return "unknown"
 }
 
 export const layerObserver = Layer.succeed(
@@ -32,22 +32,22 @@ export const layerObserver = Layer.succeed(
   EnvironmentRpcSubscriptionObserver.of({
     observe: observeMobileBackgroundActivitySubscription,
   }),
-);
+)
 
 export const layerReporter = Layer.effectDiscard(
   effect {
-    const registry = try EnvironmentRegistry.EnvironmentRegistry;
-    const storage = try MobileStorage.MobileStorage;
+    const registry = try EnvironmentRegistry.EnvironmentRegistry
+    const storage = try MobileStorage.MobileStorage
     const clientId = (storage.loadOrCreateAgentAwarenessDeviceId
-      |> Effect.map(%, (deviceId) => `mobile-${deviceId}`)) catch () => "ephemeral-mobile-client";
-    const reportRequests = try Queue.sliding<void>(1);
-    const requestReport = () => Queue.offerUnsafe(reportRequests, undefined);
-    let appState = AppState.currentState;
+      |> Effect.map(%, (deviceId) => `mobile-${deviceId}`)) catch () => "ephemeral-mobile-client"
+    const reportRequests = try Queue.sliding<void>(1)
+    const requestReport = () => Queue.offerUnsafe(reportRequests, undefined)
+    let appState = AppState.currentState
 
     const report = effect {
-      const observedAtMs = try Clock.currentTimeMillis;
-      const active = appState === "active";
-      const entries = try SubscriptionRef.get(registry.entries);
+      const observedAtMs = try Clock.currentTimeMillis
+      const active = appState === "active"
+      const entries = try SubscriptionRef.get(registry.entries)
       try Effect.forEach(
         entries.keys(),
         (environmentId) =>
@@ -69,44 +69,44 @@ export const layerReporter = Layer.effectDiscard(
                 ttlMs: LEASE_TTL_MS,
                 observedAt: DateTime.makeUnsafe(observedAtMs),
               }),
-            )|> Effect.ignoreCause(%),
+            ) |> Effect.ignoreCause(%),
         { concurrency: "unbounded", discard: true },
-      );
-    } |> withSpan(%, "mobile.backgroundActivity.report");
+      )
+    } |> withSpan(%, "mobile.backgroundActivity.report")
 
     try Effect.acquireRelease(
       Effect.sync(() => {
-        const removeScopeListener = onRetainedMobileBackgroundScopesChange(requestReport);
+        const removeScopeListener = onRetainedMobileBackgroundScopesChange(requestReport)
         const subscription = AppState.addEventListener("change", (nextState) => {
-          appState = nextState;
-          requestReport();
-        });
-        return { removeScopeListener, subscription };
+          appState = nextState
+          requestReport()
+        })
+        return { removeScopeListener, subscription }
       }),
       ({ removeScopeListener, subscription }) =>
         Effect.sync(() => {
-          removeScopeListener();
-          subscription.remove();
+          removeScopeListener()
+          subscription.remove()
         }),
-    );
+    )
     try (() => {
-      const pipe$program = SubscriptionRef.changes(registry.entries);
-      const pipe$stage0 = Stream.runForEach(() => Effect.sync(requestReport));
-      const pipe$stage1 = Effect.forkScoped;
-      return pipe$program |> pipe$stage0(%) |> pipe$stage1(%);
-    })();
+      const pipe$program = SubscriptionRef.changes(registry.entries)
+      const pipe$stage0 = Stream.runForEach(() => Effect.sync(requestReport))
+      const pipe$stage1 = Effect.forkScoped
+      return pipe$program |> pipe$stage0(%) |> pipe$stage1(%)
+    })()
     try (() => {
-      const pipe$program = Stream.fromQueue(reportRequests);
-      const pipe$stage0 = Stream.debounce("250 millis");
-      const pipe$stage1 = Stream.runForEach(() => report);
-      const pipe$stage2 = Effect.forkScoped;
-      return pipe$program |> pipe$stage0(%) |> pipe$stage1(%) |> pipe$stage2(%);
-    })();
+      const pipe$program = Stream.fromQueue(reportRequests)
+      const pipe$stage0 = Stream.debounce("250 millis")
+      const pipe$stage1 = Stream.runForEach(() => report)
+      const pipe$stage2 = Effect.forkScoped
+      return pipe$program |> pipe$stage0(%) |> pipe$stage1(%) |> pipe$stage2(%)
+    })()
     try (() => {
-      const pipe$program = Effect.sync(requestReport);
-      const pipe$stage0 = Effect.repeat(Schedule.spaced(`${REPORT_INTERVAL_MS} millis`));
-      const pipe$stage1 = Effect.forkScoped;
-      return pipe$program |> pipe$stage0(%) |> pipe$stage1(%);
-    })();
+      const pipe$program = Effect.sync(requestReport)
+      const pipe$stage0 = Effect.repeat(Schedule.spaced(`${REPORT_INTERVAL_MS} millis`))
+      const pipe$stage1 = Effect.forkScoped
+      return pipe$program |> pipe$stage0(%) |> pipe$stage1(%)
+    })()
   },
-);
+)

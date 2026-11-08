@@ -1,126 +1,123 @@
-import {
-  presentThreadShell,
-  type EnvironmentThreadShell,
-} from "@t3tools/client-runtime/state/shell";
-import type { LocalThreadMessage } from "../lib/threadActivity.vibe";
-import { DEFAULT_PROVIDER_INTERACTION_MODE, DEFAULT_RUNTIME_MODE } from "@t3tools/contracts";
-import { Atom } from "effect/reactivity";
+import { presentThreadShell, type EnvironmentThreadShell } from "@t3tools/client-runtime/state/shell"
+import type { LocalThreadMessage } from "../lib/threadActivity.vibe"
+import { DEFAULT_PROVIDER_INTERACTION_MODE, DEFAULT_RUNTIME_MODE } from "@t3tools/contracts"
+import { Atom } from "effect/reactivity"
 
-import { deriveThreadTitleFromPrompt } from "../lib/projectThreadStartTurn";
-import { scopedThreadKey } from "../lib/scopedEntities";
-import { appAtomRegistry } from "./atom-registry.vibe";
-import type { QueuedThreadMessage } from "./thread-outbox-model.vibe";
+import { deriveThreadTitleFromPrompt } from "../lib/projectThreadStartTurn"
+import { scopedThreadKey } from "../lib/scopedEntities"
+import { appAtomRegistry } from "./atom-registry.vibe"
+import type { QueuedThreadMessage } from "./thread-outbox-model.vibe"
 
 export type PendingThreadCreationOutcome =
   | { readonly kind: "delivered"; readonly message: QueuedThreadMessage }
-  | { readonly kind: "failed"; readonly message: QueuedThreadMessage; readonly reason: string };
+  | { readonly kind: "failed"; readonly message: QueuedThreadMessage; readonly reason: string }
 
 export type PendingThreadCreation = {
-  readonly message: QueuedThreadMessage;
-  readonly outcome: PendingThreadCreationOutcome | null;
-};
+  readonly message: QueuedThreadMessage
+  readonly outcome: PendingThreadCreationOutcome | null
+}
 
 export function selectThreadCreationDetail<Ref>(input: {
-  readonly threadRef: Ref | null;
-  readonly threadKey: string | null;
+  readonly threadRef: Ref | null
+  readonly threadKey: string | null
   readonly queuedMessagesByThreadKey: Readonly<
     Record<string, ReadonlyArray<QueuedThreadMessage> | undefined>
-  >;
-  readonly outcomes: Readonly<Record<string, PendingThreadCreationOutcome | undefined>>;
+  >
+  readonly outcomes: Readonly<Record<string, PendingThreadCreationOutcome | undefined>>
 }): { readonly pendingCreation: PendingThreadCreation | null; readonly detailRef: Ref | null } {
   const pendingCreation = ((): PendingThreadCreation | null => {
     if (input.threadKey === null) {
-      return null;
+      return null
     }
     const queued = input.queuedMessagesByThreadKey[input.threadKey]?.find(
       (message) => message.creation !== undefined,
-    );
-    const outcome = input.outcomes[input.threadKey] ?? null;
-    const message = queued ?? outcome?.message ?? null;
-    return message === null ? null : { message, outcome };
-  })();
+    )
+    const outcome = input.outcomes[input.threadKey] ?? null
+    const message = queued ?? outcome?.message ?? null
+    return message === null ? null : { message, outcome }
+  })()
   // The shell can arrive before creation is acknowledged. Wait for delivery
   // before subscribing: an early not-found is cached as a deleted thread.
   // Every detail reader must use this ref, not the route id.
-  const detailRef =
-    pendingCreation === null || pendingCreation.outcome?.kind === "delivered"
-      ? input.threadRef
-      : null;
-  return { pendingCreation, detailRef };
+  const detailRef = pendingCreation === null || pendingCreation.outcome?.kind === "delivered"
+    ? input.threadRef
+    : null
+  return { pendingCreation, detailRef }
 }
 
 export function resolvePendingThreadCreation(input: {
-  readonly threadKey: string | null;
-  readonly pending: PendingThreadCreation | null;
-  readonly previous: PendingThreadCreation | null;
+  readonly threadKey: string | null
+  readonly pending: PendingThreadCreation | null
+  readonly previous: PendingThreadCreation | null
   readonly detail: {
-    readonly messages: ReadonlyArray<{ readonly id: string }>;
-    readonly runs?: ReadonlyArray<{ readonly status: string }>;
-    readonly latestTurn?: { readonly turnId: string } | null;
-    readonly session?: { readonly status: string } | null;
-  } | null;
+    readonly messages: ReadonlyArray<{ readonly id: string }>
+    readonly runs?: ReadonlyArray<{ readonly status: string }>
+    readonly latestTurn?: { readonly turnId: string } | null
+    readonly session?: { readonly status: string } | null
+  } | null
 }): PendingThreadCreation | null {
-  const creation = input.pending ?? input.previous;
+  const creation = input.pending ?? input.previous
   if (
-    creation === null ||
-    scopedThreadKey(creation.message.environmentId, creation.message.threadId) !== input.threadKey
+    creation === null
+    || scopedThreadKey(creation.message.environmentId, creation.message.threadId) !== input.threadKey
   ) {
-    return null;
+    return null
   }
-  if (creation.outcome?.kind === "failed") return creation;
-  const detail = input.detail;
-  const latestRun = detail?.runs?.at(-1);
-  const terminalStatus = latestRun?.status ?? detail?.session?.status;
+  if (creation.outcome?.kind === "failed") return creation
+  const detail = input.detail
+  const latestRun = detail?.runs?.at(-1)
+  const terminalStatus = latestRun?.status ?? detail?.session?.status
   if (
-    terminalStatus === "failed" ||
-    terminalStatus === "error" ||
-    terminalStatus === "cancelled" ||
-    terminalStatus === "stopped" ||
-    terminalStatus === "interrupted"
-  )
-    return null;
+    terminalStatus === "failed"
+    || terminalStatus === "error"
+    || terminalStatus === "cancelled"
+    || terminalStatus === "stopped"
+    || terminalStatus === "interrupted"
+  ) {
+    return null
+  }
   // Message delivery can precede startup; wait for turn timing before replacing the preparing pill.
   if (
-    detail !== null &&
-    (latestRun !== undefined || detail.latestTurn != null) &&
-    !isPendingThreadCreationVisible({
+    detail !== null
+    && (latestRun !== undefined || detail.latestTurn != null)
+    && !isPendingThreadCreationVisible({
       creationMessageId: creation.message.messageId,
       loadedMessageIds: detail.messages.map((message) => message.id),
     })
   ) {
-    return null;
+    return null
   }
-  return creation;
+  return creation
 }
 
 export const pendingThreadCreationOutcomesAtom = Atom.make<
   Readonly<Record<string, PendingThreadCreationOutcome>>
->({}).pipe(Atom.keepAlive, Atom.withLabel("mobile:pending-thread-creation:outcomes"));
+>({}).pipe(Atom.keepAlive, Atom.withLabel("mobile:pending-thread-creation:outcomes"))
 
 export function recordPendingThreadCreationOutcome(outcome: PendingThreadCreationOutcome): void {
-  const key = scopedThreadKey(outcome.message.environmentId, outcome.message.threadId);
+  const key = scopedThreadKey(outcome.message.environmentId, outcome.message.threadId)
   appAtomRegistry.set(pendingThreadCreationOutcomesAtom, {
     ...appAtomRegistry.get(pendingThreadCreationOutcomesAtom),
     [key]: outcome,
-  });
+  })
 }
 
 export function clearPendingThreadCreationOutcome(threadKey: string): void {
-  const current = appAtomRegistry.get(pendingThreadCreationOutcomesAtom);
+  const current = appAtomRegistry.get(pendingThreadCreationOutcomesAtom)
   if (!current[threadKey]) {
-    return;
+    return
   }
-  const next = { ...current };
-  delete next[threadKey];
-  appAtomRegistry.set(pendingThreadCreationOutcomesAtom, next);
+  const next = { ...current }
+  delete next[threadKey]
+  appAtomRegistry.set(pendingThreadCreationOutcomesAtom, next)
 }
 
 /** Thread shell and empty detail precede the prompt: worktree setup runs between creation and turn start. */
 export function isPendingThreadCreationVisible(input: {
-  readonly creationMessageId: string;
-  readonly loadedMessageIds: ReadonlyArray<string> | null;
+  readonly creationMessageId: string
+  readonly loadedMessageIds: ReadonlyArray<string> | null
 }): boolean {
-  return !input.loadedMessageIds?.includes(input.creationMessageId);
+  return !input.loadedMessageIds?.includes(input.creationMessageId)
 }
 
 export function pendingThreadCreationMessage(message: QueuedThreadMessage): LocalThreadMessage {
@@ -133,17 +130,17 @@ export function pendingThreadCreationMessage(message: QueuedThreadMessage): Loca
     streaming: false,
     createdAt: message.createdAt,
     updatedAt: message.createdAt,
-  };
+  }
 }
 
 export function pendingThreadCreationShell(
   message: QueuedThreadMessage,
 ): EnvironmentThreadShell | null {
-  const creation = message.creation;
+  const creation = message.creation
   if (!creation || !message.modelSelection) {
-    return null;
+    return null
   }
-  const timestamp = DateTime.makeUnsafe(message.createdAt);
+  const timestamp = DateTime.makeUnsafe(message.createdAt)
   return presentThreadShell(message.environmentId, {
     id: message.threadId,
     projectId: creation.projectId,
@@ -183,5 +180,5 @@ export function pendingThreadCreationShell(
     pinOrderKey: null,
     activeOrderKey: null,
     deletedAt: null,
-  });
+  })
 }

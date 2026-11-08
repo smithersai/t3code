@@ -1,193 +1,183 @@
-import { useAuth } from "@clerk/react";
-import { useAtomValue } from "@effect/atom-react";
-import { AuthRelayReadScope, AuthRelayWriteScope, type AuthSessionState } from "@t3tools/contracts";
-import { useState } from "react";
+import { useAuth } from "@clerk/react"
+import { useAtomValue } from "@effect/atom-react"
+import { AuthRelayReadScope, AuthRelayWriteScope, type AuthSessionState } from "@t3tools/contracts"
+import { useState } from "react"
 
 import {
   CONNECT_ONBOARDING_OPT_OUT_STORAGE_KEY,
   ConnectOnboardingOptOutSchema,
   EMPTY_CONNECT_ONBOARDING_OPT_OUT_STATE,
-} from "../../cloud/connectOnboarding.vibe";
-import { hasCloudPublicConfig } from "~/cloud/publicConfig";
-import { useCloudLinkController } from "~/cloud/useCloudLinkController";
-import { useLocalStorage } from "~/hooks/useLocalStorage";
-import { isHostedStaticApp } from "~/hostedPairing";
-import {
-  useEnvironments,
-  usePrimaryEnvironment,
-  usePrimaryEnvironmentId,
-} from "../../state/environments.vibe";
-import {
-  environmentSession,
-  readEnvironmentScope,
-  useEnvironmentScope,
-} from "../../state/session.vibe";
-import { CloudEnvironmentConnectRows } from "./CloudEnvironmentConnectList";
-import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
-import { Dialog } from "../ui/dialog";
-import { Switch } from "../ui/switch";
-import { toastManager } from "../ui/toast";
-import { WizardSteps, WizardPopup, WizardHeader, WizardPanel, WizardFooter } from "../ui/wizard";
+} from "../../cloud/connectOnboarding.vibe"
+import { hasCloudPublicConfig } from "~/cloud/publicConfig"
+import { useCloudLinkController } from "~/cloud/useCloudLinkController"
+import { useLocalStorage } from "~/hooks/useLocalStorage"
+import { isHostedStaticApp } from "~/hostedPairing"
+import { useEnvironments, usePrimaryEnvironment, usePrimaryEnvironmentId } from "../../state/environments.vibe"
+import { environmentSession, readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe"
+import { CloudEnvironmentConnectRows } from "./CloudEnvironmentConnectList"
+import { Button } from "../ui/button"
+import { Checkbox } from "../ui/checkbox"
+import { Dialog } from "../ui/dialog"
+import { Switch } from "../ui/switch"
+import { toastManager } from "../ui/toast"
+import { WizardSteps, WizardPopup, WizardHeader, WizardPanel, WizardFooter } from "../ui/wizard"
 
 export function ConnectOnboardingDialog() {
-  if (!hasCloudPublicConfig()) return null;
+  if (!hasCloudPublicConfig()) return null
 
-  return <ConfiguredConnectOnboardingDialog />;
+  return <ConfiguredConnectOnboardingDialog />
 }
 
-type OnboardingStep = "publish" | "devices";
+type OnboardingStep = "publish" | "devices"
 
-const EMPTY_SESSION_STATE_ATOM = Atom.make(AsyncResult.initial<AuthSessionState>());
+const EMPTY_SESSION_STATE_ATOM = Atom.make(AsyncResult.initial<AuthSessionState>())
 
 function ConfiguredConnectOnboardingDialog() {
   // Pending Clerk sessions must not look signed out or activation would look like a new sign-in.
-  const { isLoaded, isSignedIn, userId } = useAuth({ treatPendingAsSignedOut: false });
+  const { isLoaded, isSignedIn, userId } = useAuth({ treatPendingAsSignedOut: false })
   const [optOutState, setOptOutState] = useLocalStorage(
     CONNECT_ONBOARDING_OPT_OUT_STORAGE_KEY,
     EMPTY_CONNECT_ONBOARDING_OPT_OUT_STATE,
     ConnectOnboardingOptOutSchema,
-  );
+  )
 
-  const { environments, isReady: environmentsReady } = useEnvironments();
+  const { environments, isReady: environmentsReady } = useEnvironments()
   // The empty hosted home already adds account computers after sign-in.
-  const homeScreenAddsComputers =
-    isHostedStaticApp() && environmentsReady && environments.length === 0;
-  const primaryEnvironmentId = usePrimaryEnvironmentId();
+  const homeScreenAddsComputers = isHostedStaticApp() && environmentsReady && environments.length === 0
+  const primaryEnvironmentId = usePrimaryEnvironmentId()
   const primarySessionState = useAtomValue(
     primaryEnvironmentId === null
       ? EMPTY_SESSION_STATE_ATOM
       : environmentSession.sessionStateAtom(primaryEnvironmentId),
-  );
-  const canReadRelay = useEnvironmentScope(primaryEnvironmentId, AuthRelayReadScope);
-  const canWriteRelay = useEnvironmentScope(primaryEnvironmentId, AuthRelayWriteScope);
-  const canManageRelay = canReadRelay && canWriteRelay;
-  const sessionScopesKnown =
-    primaryEnvironmentId === null ? environmentsReady : primarySessionState._tag !== "Initial";
+  )
+  const canReadRelay = useEnvironmentScope(primaryEnvironmentId, AuthRelayReadScope)
+  const canWriteRelay = useEnvironmentScope(primaryEnvironmentId, AuthRelayWriteScope)
+  const canManageRelay = canReadRelay && canWriteRelay
+  const sessionScopesKnown = primaryEnvironmentId === null ? environmentsReady : primarySessionState._tag !== "Initial"
 
-  const controller = useCloudLinkController();
-  const showPublishStep = canManageRelay && controller.linkState.target !== null;
+  const controller = useCloudLinkController()
+  const showPublishStep = canManageRelay && controller.linkState.target !== null
   const steps: ReadonlyArray<OnboardingStep> = showPublishStep
     ? ["publish", "devices"]
-    : ["devices"];
+    : ["devices"]
 
-  const [requestedAccount, setRequestedAccount] = useState<string | null>(null);
-  const [openForAccount, setOpenForAccount] = useState<string | null>(null);
-  const [step, setStep] = useState<OnboardingStep>("devices");
-  const [exposeEnvironment, setExposeEnvironment] = useState(true);
-  const [publishAgentActivity, setPublishAgentActivity] = useState(true);
-  const [dontShowAgain, setDontShowAgain] = useState(false);
-  const [isApplying, setIsApplying] = useState(false);
-  const [prefilledFromLinkState, setPrefilledFromLinkState] = useState(false);
+  const [requestedAccount, setRequestedAccount] = useState<string | null>(null)
+  const [openForAccount, setOpenForAccount] = useState<string | null>(null)
+  const [step, setStep] = useState<OnboardingStep>("devices")
+  const [exposeEnvironment, setExposeEnvironment] = useState(true)
+  const [publishAgentActivity, setPublishAgentActivity] = useState(true)
+  const [dontShowAgain, setDontShowAgain] = useState(false)
+  const [isApplying, setIsApplying] = useState(false)
+  const [prefilledFromLinkState, setPrefilledFromLinkState] = useState(false)
   // Start undefined so an existing account never looks like a fresh sign-in.
-  const [observedAccount, setObservedAccount] = useState<string | null | undefined>(undefined);
+  const [observedAccount, setObservedAccount] = useState<string | null | undefined>(undefined)
 
   if (step === "publish" && sessionScopesKnown && !showPublishStep && !isApplying) {
-    setStep("devices");
+    setStep("devices")
   }
 
-  const optOutAccounts = optOutState.optOutAccounts;
+  const optOutAccounts = optOutState.optOutAccounts
 
   // A signed-in snapshot without userId is incomplete; recording signed-out would fake a fresh sign-in.
   if (isLoaded && !(isSignedIn && !userId)) {
-    const nextAccount = isSignedIn && userId ? userId : null;
+    const nextAccount = isSignedIn && userId ? userId : null
     if (nextAccount !== observedAccount) {
-      setObservedAccount(nextAccount);
+      setObservedAccount(nextAccount)
       if (observedAccount !== undefined && nextAccount !== null) {
-        setRequestedAccount(nextAccount);
+        setRequestedAccount(nextAccount)
       }
     }
   }
 
   if (openForAccount !== null && (!isSignedIn || userId !== openForAccount)) {
-    setOpenForAccount(null);
+    setOpenForAccount(null)
   }
   if (requestedAccount !== null && (!isSignedIn || userId !== requestedAccount)) {
-    setRequestedAccount(null);
+    setRequestedAccount(null)
   }
 
   // Wait for the publish target before opening; otherwise the wizard can freeze on devices before publish
   // becomes available.
-  const publishStepDecided = !canManageRelay || controller.linkState.target !== null;
+  const publishStepDecided = !canManageRelay || controller.linkState.target !== null
 
   if (requestedAccount !== null && openForAccount === null) {
     if (homeScreenAddsComputers || optOutAccounts.includes(requestedAccount)) {
-      setRequestedAccount(null);
+      setRequestedAccount(null)
     } else if (sessionScopesKnown && publishStepDecided) {
-      setRequestedAccount(null);
-      setPrefilledFromLinkState(false);
-      setExposeEnvironment(true);
-      setPublishAgentActivity(true);
-      setDontShowAgain(false);
-      setStep(canManageRelay && controller.linkState.target !== null ? "publish" : "devices");
-      setOpenForAccount(requestedAccount);
+      setRequestedAccount(null)
+      setPrefilledFromLinkState(false)
+      setExposeEnvironment(true)
+      setPublishAgentActivity(true)
+      setDontShowAgain(false)
+      setStep(canManageRelay && controller.linkState.target !== null ? "publish" : "devices")
+      setOpenForAccount(requestedAccount)
     }
   }
 
-  const linkStateData = controller.linkState.data;
+  const linkStateData = controller.linkState.data
   if (openForAccount !== null && !prefilledFromLinkState && linkStateData !== null) {
-    setPrefilledFromLinkState(true);
+    setPrefilledFromLinkState(true)
     if (
-      linkStateData.linked &&
-      linkStateData.linkRevoked !== true &&
-      linkStateData.cloudUserId === openForAccount
+      linkStateData.linked
+      && linkStateData.linkRevoked !== true
+      && linkStateData.cloudUserId === openForAccount
     ) {
-      setExposeEnvironment(linkStateData.managedTunnelActive ?? linkStateData.linked);
-      setPublishAgentActivity(linkStateData.publishAgentActivity);
+      setExposeEnvironment(linkStateData.managedTunnelActive ?? linkStateData.linked)
+      setPublishAgentActivity(linkStateData.publishAgentActivity)
     }
   }
 
   const complete = () => {
-    if (isApplying) return;
-    const account = openForAccount;
-    setOpenForAccount(null);
+    if (isApplying) return
+    const account = openForAccount
+    setOpenForAccount(null)
     if (account !== null && dontShowAgain) {
       setOptOutState((state) =>
         state.optOutAccounts.includes(account)
           ? state
-          : { optOutAccounts: [...state.optOutAccounts, account] },
-      );
+          : { optOutAccounts: [...state.optOutAccounts, account] }
+      )
     }
-  };
+  }
 
   const applyPublishSelection = async () => {
-    if (isApplying) return;
+    if (isApplying) return
     if (
-      primaryEnvironmentId === null ||
-      !readEnvironmentScope(primaryEnvironmentId, AuthRelayReadScope) ||
-      !readEnvironmentScope(primaryEnvironmentId, AuthRelayWriteScope)
+      primaryEnvironmentId === null
+      || !readEnvironmentScope(primaryEnvironmentId, AuthRelayReadScope)
+      || !readEnvironmentScope(primaryEnvironmentId, AuthRelayWriteScope)
     ) {
-      setStep("devices");
-      return;
+      setStep("devices")
+      return
     }
-    if (linkStateData === null || controller.linkState.error !== null) return;
+    if (linkStateData === null || controller.linkState.error !== null) return
     // Onboarding only enables links; both toggles off must preserve existing links.
     if (!exposeEnvironment && !publishAgentActivity) {
-      setStep("devices");
-      return;
+      setStep("devices")
+      return
     }
-    setIsApplying(true);
+    setIsApplying(true)
     const ok = await controller.reconcileCloudState({
       managedTunnel: exposeEnvironment,
       publish: publishAgentActivity,
-    });
-    setIsApplying(false);
-    if (!ok) return;
+    })
+    setIsApplying(false)
+    if (!ok) return
     toastManager.add({
       type: "success",
       title: "T3 Connect enabled",
       description: exposeEnvironment
         ? "This environment is available to your other devices through T3 Connect."
         : "This environment publishes agent activity to your mobile clients.",
-    });
-    setStep("devices");
-  };
+    })
+    setStep("devices")
+  }
 
   return (
     <Dialog
       open={openForAccount !== null}
       onOpenChange={(open) => {
-        if (!open && !isApplying) complete();
+        if (!open && !isApplying) complete()
       }}
     >
       <WizardPopup>
@@ -200,52 +190,57 @@ function ConfiguredConnectOnboardingDialog() {
             </>
           }
         >
-          {steps.length > 1 ? (
-            <WizardSteps
-              steps={steps.map((id) => STEP_LABELS[id])}
-              currentStep={steps.indexOf(step)}
-              isStepDisabled={() => isApplying}
-              onStepChange={(index) => {
-                const next = steps[index];
-                if (
-                  next === "publish" &&
-                  (primaryEnvironmentId === null ||
-                    !readEnvironmentScope(primaryEnvironmentId, AuthRelayReadScope) ||
-                    !readEnvironmentScope(primaryEnvironmentId, AuthRelayWriteScope))
-                )
-                  return;
-                if (next) setStep(next);
-              }}
-            />
-          ) : null}
+          {steps.length > 1
+            ? (
+              <WizardSteps
+                steps={steps.map((id) => STEP_LABELS[id])}
+                currentStep={steps.indexOf(step)}
+                isStepDisabled={() => isApplying}
+                onStepChange={(index) => {
+                  const next = steps[index]
+                  if (
+                    next === "publish"
+                    && (primaryEnvironmentId === null
+                      || !readEnvironmentScope(primaryEnvironmentId, AuthRelayReadScope)
+                      || !readEnvironmentScope(primaryEnvironmentId, AuthRelayWriteScope))
+                  ) {
+                    return
+                  }
+                  if (next) setStep(next)
+                }}
+              />
+            )
+            : null}
         </WizardHeader>
         <WizardPanel>
-          {step === "publish" ? (
-            <PublishStep
-              exposeEnvironment={exposeEnvironment}
-              publishAgentActivity={publishAgentActivity}
-              disabled={isApplying || !canManageRelay || linkStateData === null}
-              operationError={controller.operationError ?? controller.linkState.error}
-              onExposeEnvironmentChange={(enabled) => {
-                if (
-                  primaryEnvironmentId !== null &&
-                  readEnvironmentScope(primaryEnvironmentId, AuthRelayReadScope) &&
-                  readEnvironmentScope(primaryEnvironmentId, AuthRelayWriteScope)
-                )
-                  setExposeEnvironment(enabled);
-              }}
-              onPublishAgentActivityChange={(enabled) => {
-                if (
-                  primaryEnvironmentId !== null &&
-                  readEnvironmentScope(primaryEnvironmentId, AuthRelayReadScope) &&
-                  readEnvironmentScope(primaryEnvironmentId, AuthRelayWriteScope)
-                )
-                  setPublishAgentActivity(enabled);
-              }}
-            />
-          ) : (
-            <DevicesStep />
-          )}
+          {step === "publish"
+            ? (
+              <PublishStep
+                exposeEnvironment={exposeEnvironment}
+                publishAgentActivity={publishAgentActivity}
+                disabled={isApplying || !canManageRelay || linkStateData === null}
+                operationError={controller.operationError ?? controller.linkState.error}
+                onExposeEnvironmentChange={(enabled) => {
+                  if (
+                    primaryEnvironmentId !== null
+                    && readEnvironmentScope(primaryEnvironmentId, AuthRelayReadScope)
+                    && readEnvironmentScope(primaryEnvironmentId, AuthRelayWriteScope)
+                  ) {
+                    setExposeEnvironment(enabled)
+                  }
+                }}
+                onPublishAgentActivityChange={(enabled) => {
+                  if (
+                    primaryEnvironmentId !== null
+                    && readEnvironmentScope(primaryEnvironmentId, AuthRelayReadScope)
+                    && readEnvironmentScope(primaryEnvironmentId, AuthRelayWriteScope)
+                  ) {
+                    setPublishAgentActivity(enabled)
+                  }
+                }}
+              />
+            )
+            : <DevicesStep />}
         </WizardPanel>
         <WizardFooter
           leading={
@@ -258,33 +253,35 @@ function ConfiguredConnectOnboardingDialog() {
             </label>
           }
         >
-          {step === "publish" ? (
-            <>
+          {step === "publish"
+            ? (
+              <>
               <Button variant="ghost" disabled={isApplying} onClick={() => setStep("devices")}>
                 Not now
               </Button>
               <Button
-                disabled={isApplying || !canManageRelay || linkStateData === null}
-                onClick={() => void applyPublishSelection()}
-              >
+                  disabled={isApplying || !canManageRelay || linkStateData === null}
+                  onClick={() => void applyPublishSelection()}
+                >
                 {isApplying ? "Enabling…" : "Continue"}
               </Button>
             </>
-          ) : (
-            <Button disabled={isApplying} onClick={complete}>
+            )
+            : (
+              <Button disabled={isApplying} onClick={complete}>
               Done
             </Button>
-          )}
+            )}
         </WizardFooter>
       </WizardPopup>
     </Dialog>
-  );
+  )
 }
 
 const STEP_LABELS: Record<OnboardingStep, string> = {
   publish: "Publish",
   devices: "Connect devices",
-};
+}
 
 function PublishStep({
   exposeEnvironment,
@@ -294,12 +291,12 @@ function PublishStep({
   onExposeEnvironmentChange,
   onPublishAgentActivityChange,
 }: {
-  readonly exposeEnvironment: boolean;
-  readonly publishAgentActivity: boolean;
-  readonly disabled: boolean;
-  readonly operationError: string | null;
-  readonly onExposeEnvironmentChange: (enabled: boolean) => void;
-  readonly onPublishAgentActivityChange: (enabled: boolean) => void;
+  readonly exposeEnvironment: boolean
+  readonly publishAgentActivity: boolean
+  readonly disabled: boolean
+  readonly operationError: string | null
+  readonly onExposeEnvironmentChange: (enabled: boolean) => void
+  readonly onPublishAgentActivityChange: (enabled: boolean) => void
 }) {
   return (
     <div className="space-y-3">
@@ -321,7 +318,7 @@ function PublishStep({
       </div>
       {operationError ? <p className="text-xs text-destructive">{operationError}</p> : null}
     </div>
-  );
+  )
 }
 
 function OnboardingToggleRow({
@@ -331,11 +328,11 @@ function OnboardingToggleRow({
   disabled,
   onCheckedChange,
 }: {
-  readonly title: string;
-  readonly description: string;
-  readonly checked: boolean;
-  readonly disabled: boolean;
-  readonly onCheckedChange: (enabled: boolean) => void;
+  readonly title: string
+  readonly description: string
+  readonly checked: boolean
+  readonly disabled: boolean
+  readonly onCheckedChange: (enabled: boolean) => void
 }) {
   return (
     <div className="flex items-start justify-between gap-4 border-t border-border/60 px-4 py-3 first:border-t-0">
@@ -350,15 +347,15 @@ function OnboardingToggleRow({
         onCheckedChange={onCheckedChange}
       />
     </div>
-  );
+  )
 }
 
 function DevicesStep() {
-  const { environments } = useEnvironments();
-  const primaryEnvironment = usePrimaryEnvironment();
+  const { environments } = useEnvironments()
+  const primaryEnvironment = usePrimaryEnvironment()
   const savedEnvironments = environments.filter(
     (environment) => environment.entry.target._tag !== "PrimaryConnectionTarget",
-  );
+  )
 
   return (
     <div className="overflow-hidden rounded-lg border">
@@ -374,5 +371,5 @@ function DevicesStep() {
         }
       />
     </div>
-  );
+  )
 }

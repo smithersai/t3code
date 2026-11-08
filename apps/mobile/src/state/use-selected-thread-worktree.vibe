@@ -1,15 +1,15 @@
-import type { ScopedThreadRef } from "@t3tools/contracts";
-import { useMemo } from "react";
+import type { ScopedThreadRef } from "@t3tools/contracts"
+import { useMemo } from "react"
 
-import { useProject, useQuietThreadShell } from "./entities.vibe";
-import { useEnvironmentThread } from "./threads";
-import { useSelectedThreadWorktreePath, useThreadWorktreePath } from "./use-thread-detail.vibe";
-import { useThreadSelection } from "./use-thread-selection.vibe";
-import { resolvePreferredThreadWorktreePath } from "../features/terminal/terminalLaunchContext";
+import { useProject, useQuietThreadShell } from "./entities.vibe"
+import { useEnvironmentThread } from "./threads"
+import { useSelectedThreadWorktreePath, useThreadWorktreePath } from "./use-thread-detail.vibe"
+import { useThreadSelection } from "./use-thread-selection.vibe"
+import { resolvePreferredThreadWorktreePath } from "../features/terminal/terminalLaunchContext"
 
 export function useSelectedThreadWorktree() {
-  const { selectedThread, selectedThreadProject } = useThreadSelection();
-  const detailWorktreePath = useSelectedThreadWorktreePath();
+  const { selectedThread, selectedThreadProject } = useThreadSelection()
+  const detailWorktreePath = useSelectedThreadWorktreePath()
 
   const selectedThreadWorktreePath = useMemo(
     () =>
@@ -18,12 +18,12 @@ export function useSelectedThreadWorktree() {
         threadDetailWorktreePath: detailWorktreePath,
       }),
     [detailWorktreePath, selectedThread?.worktreePath],
-  );
+  )
 
   return {
     selectedThreadWorktreePath,
     selectedThreadCwd: selectedThreadWorktreePath ?? selectedThreadProject?.workspaceRoot ?? null,
-  };
+  }
 }
 
 /**
@@ -31,23 +31,23 @@ export function useSelectedThreadWorktree() {
  * current route's: the shell, or the loaded detail when the shell is missing, picks the project.
  */
 export function useThreadCwd(ref: ScopedThreadRef | null): string | null {
-  const shell = useQuietThreadShell(ref);
+  const shell = useQuietThreadShell(ref)
   const detailState = useEnvironmentThread(
     shell === null ? (ref?.environmentId ?? null) : null,
     shell === null ? (ref?.threadId ?? null) : null,
-  );
-  const detailThread = Option.getOrNull(detailState.data)?.thread ?? null;
-  const detailWorktreePath = useThreadWorktreePath(ref);
-  const projectId = shell?.projectId ?? detailThread?.projectId ?? null;
+  )
+  const detailThread = Option.getOrNull(detailState.data)?.thread ?? null
+  const detailWorktreePath = useThreadWorktreePath(ref)
+  const projectId = shell?.projectId ?? detailThread?.projectId ?? null
   const project = useProject(
     ref === null || projectId === null ? null : { environmentId: ref.environmentId, projectId },
-  );
+  )
   return (
     resolvePreferredThreadWorktreePath({
       threadShellWorktreePath: shell?.worktreePath ?? null,
       threadDetailWorktreePath: detailWorktreePath,
-    }) ??
-    project?.workspaceRoot ??
-    null
-  );
+    })
+      ?? project?.workspaceRoot
+      ?? null
+  )
 }

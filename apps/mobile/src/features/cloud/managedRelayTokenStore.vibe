@@ -1,9 +1,9 @@
-import { ManagedRelay } from "@t3tools/client-runtime/relay";
-import * as Schema from "effect/Schema";
-import * as SecureStore from "expo-secure-store";
+import { ManagedRelay } from "@t3tools/client-runtime/relay"
+import * as Schema from "effect/Schema"
+import * as SecureStore from "expo-secure-store"
 
-const MANAGED_RELAY_TOKEN_CACHE_KEY = "t3code.cloud.relay-access-tokens";
-const MANAGED_RELAY_TOKEN_CACHE_VERSION = 1;
+const MANAGED_RELAY_TOKEN_CACHE_KEY = "t3code.cloud.relay-access-tokens"
+const MANAGED_RELAY_TOKEN_CACHE_VERSION = 1
 
 schema ManagedRelayAccessTokenCacheEntrySchema {
   readonly accountId: string
@@ -20,12 +20,12 @@ const ManagedRelayAccessTokenCacheSchema = Schema.fromJsonString(
     version: Schema.Literal(MANAGED_RELAY_TOKEN_CACHE_VERSION),
     entries: Schema.Array(ManagedRelayAccessTokenCacheEntrySchema),
   }),
-);
+)
 
 const decodeManagedRelayAccessTokenCache = Schema.decodeUnknownEffect(
   ManagedRelayAccessTokenCacheSchema,
-);
-const encodeManagedRelayAccessTokenCache = Schema.encodeEffect(ManagedRelayAccessTokenCacheSchema);
+)
+const encodeManagedRelayAccessTokenCache = Schema.encodeEffect(ManagedRelayAccessTokenCacheSchema)
 
 const ManagedRelayTokenStoreErrorCauseField: Schema.Defect = Schema.Defect()
 export schema error ManagedRelayTokenStoreError {
@@ -33,7 +33,7 @@ export schema error ManagedRelayTokenStoreError {
   readonly storageKey: string
   cause: ManagedRelayTokenStoreErrorCauseField
   override get message(): string {
-    return `Managed relay token store operation "${this.operation}" failed for key "${this.storageKey}".`;
+    return `Managed relay token store operation "${this.operation}" failed for key "${this.storageKey}".`
   }
 }
 
@@ -43,7 +43,7 @@ function logStoreFailure(error: ManagedRelayTokenStoreError) {
     operation: error.operation,
     storageKey: error.storageKey,
     cause: error,
-  });
+  })
 }
 
 const loadManagedRelayAccessTokens = Effect.tryPromise({
@@ -59,16 +59,16 @@ const loadManagedRelayAccessTokens = Effect.tryPromise({
     encoded === null
       ? Effect.succeed<ReadonlyArray<ManagedRelay.ManagedRelayAccessTokenCacheEntry>>([])
       : (decodeManagedRelayAccessTokenCache(encoded)
-          |> Effect.map(%, (cache) => cache.entries)
-          |> Effect.mapError(
-            %, (cause) =>
-              new ManagedRelayTokenStoreError({
-                operation: "decode",
-                storageKey: MANAGED_RELAY_TOKEN_CACHE_KEY,
-                cause,
-              }),
-          )),
-  );
+        |> Effect.map(%, (cache) => cache.entries)
+        |> Effect.mapError(
+          %,
+          (cause) =>
+            new ManagedRelayTokenStoreError({
+              operation: "decode",
+              storageKey: MANAGED_RELAY_TOKEN_CACHE_KEY,
+              cause,
+            }),
+        )))
 
 const saveManagedRelayAccessTokens = (
   entries: ReadonlyArray<ManagedRelay.ManagedRelayAccessTokenCacheEntry>,
@@ -77,25 +77,25 @@ const saveManagedRelayAccessTokens = (
     version: MANAGED_RELAY_TOKEN_CACHE_VERSION,
     entries,
   })
-    |> Effect.mapError(
-      %, (cause) =>
+  |> Effect.mapError(
+    %,
+    (cause) =>
+      new ManagedRelayTokenStoreError({
+        operation: "encode",
+        storageKey: MANAGED_RELAY_TOKEN_CACHE_KEY,
+        cause,
+      }),
+  )
+  |> Effect.flatMap(%, (encoded) =>
+    Effect.tryPromise({
+      try: () => SecureStore.setItemAsync(MANAGED_RELAY_TOKEN_CACHE_KEY, encoded),
+      catch: (cause) =>
         new ManagedRelayTokenStoreError({
-          operation: "encode",
+          operation: "write",
           storageKey: MANAGED_RELAY_TOKEN_CACHE_KEY,
           cause,
         }),
-    )
-    |> Effect.flatMap(%, (encoded) =>
-      Effect.tryPromise({
-        try: () => SecureStore.setItemAsync(MANAGED_RELAY_TOKEN_CACHE_KEY, encoded),
-        catch: (cause) =>
-          new ManagedRelayTokenStoreError({
-            operation: "write",
-            storageKey: MANAGED_RELAY_TOKEN_CACHE_KEY,
-            cause,
-          }),
-      }),
-    );
+    }))
 
 const clearManagedRelayAccessTokens = Effect.tryPromise({
   try: () => SecureStore.deleteItemAsync(MANAGED_RELAY_TOKEN_CACHE_KEY),
@@ -105,7 +105,7 @@ const clearManagedRelayAccessTokens = Effect.tryPromise({
       storageKey: MANAGED_RELAY_TOKEN_CACHE_KEY,
       cause,
     }),
-});
+})
 
 export const managedRelayAccessTokenStore: ManagedRelay.ManagedRelayAccessTokenStore = {
   load: loadManagedRelayAccessTokens
@@ -113,10 +113,10 @@ export const managedRelayAccessTokenStore: ManagedRelay.ManagedRelayAccessTokenS
     |> Effect.orElseSucceed(%, () => [])
     |> Effect.withSpan(%, "mobile.managedRelayTokenStore.load"),
   save: Effect.fn("mobile.managedRelayTokenStore.save")((entries) =>
-    saveManagedRelayAccessTokens(entries) |> Effect.tapError(%, logStoreFailure) |> Effect.ignore(%),
+    saveManagedRelayAccessTokens(entries) |> Effect.tapError(%, logStoreFailure) |> Effect.ignore(%)
   ),
   clear: clearManagedRelayAccessTokens
     |> Effect.tapError(%, logStoreFailure)
     |> Effect.ignore(%)
     |> Effect.withSpan(%, "mobile.managedRelayTokenStore.clear"),
-};
+}

@@ -1,37 +1,37 @@
-import { useAtomValue } from "@effect/atom-react";
+import { useAtomValue } from "@effect/atom-react"
 
-import { environmentShell, environmentShellSummaryAtom } from "./shell.vibe";
-import { projectWorkspaceState } from "./workspaceModel";
-import { environmentCatalog } from "../connection/catalog";
-import { environmentPresentations } from "./presentation.vibe";
-import { createWorkspaceConnectionAtoms } from "./workspace-connection-atoms.vibe";
+import { environmentShell, environmentShellSummaryAtom } from "./shell.vibe"
+import { projectWorkspaceState } from "./workspaceModel"
+import { environmentCatalog } from "../connection/catalog"
+import { environmentPresentations } from "./presentation.vibe"
+import { createWorkspaceConnectionAtoms } from "./workspace-connection-atoms.vibe"
 
 export const workspaceConnections = createWorkspaceConnectionAtoms({
   catalogValueAtom: environmentCatalog.catalogValueAtom,
   networkStatusValueAtom: environmentCatalog.networkStatusValueAtom,
   presentationAtom: environmentPresentations.presentationAtom,
-});
+})
 
 // A disconnected environment's retries also leave its shell synchronizing.
 const hasSyncingConnectedEnvironmentAtom = Atom.make((get) =>
   get(workspaceConnections.environmentsAtom).some(
     (environment) =>
-      environment.isEnabled &&
-      environment.connectionState === "connected" &&
-      get(environmentShell.stateValueAtom(environment.environmentId)).status === "synchronizing",
-  ),
-).pipe(Atom.withLabel("mobile:has-syncing-connected-environment"));
+      environment.isEnabled
+      && environment.connectionState === "connected"
+      && get(environmentShell.stateValueAtom(environment.environmentId)).status === "synchronizing",
+  )
+).pipe(Atom.withLabel("mobile:has-syncing-connected-environment"))
 
 export function useWorkspaceEnvironments() {
-  return useAtomValue(workspaceConnections.environmentsAtom);
+  return useAtomValue(workspaceConnections.environmentsAtom)
 }
 
 export function useWorkspaceConnectionState() {
-  return useAtomValue(workspaceConnections.stateAtom);
+  return useAtomValue(workspaceConnections.stateAtom)
 }
 
 export function useConnectionsReady() {
-  return useAtomValue(workspaceConnections.isReadyAtom);
+  return useAtomValue(workspaceConnections.isReadyAtom)
 }
 
 export const workspaceStateAtom = Atom.make((get) =>
@@ -41,12 +41,12 @@ export const workspaceStateAtom = Atom.make((get) =>
     environments: get(workspaceConnections.environmentsAtom),
     shellSummary: get(environmentShellSummaryAtom),
     hasSyncingConnectedEnvironment: get(hasSyncingConnectedEnvironmentAtom),
-  }),
-).pipe(Atom.withLabel("mobile:workspace-state"));
+  })
+).pipe(Atom.withLabel("mobile:workspace-state"))
 
 export function useWorkspaceState() {
   return {
     environments: useWorkspaceEnvironments(),
     state: useAtomValue(workspaceStateAtom),
-  };
+  }
 }

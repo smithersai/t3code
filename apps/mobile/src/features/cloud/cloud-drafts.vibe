@@ -1,9 +1,9 @@
-import { EnvironmentRegistry, removedWithRelay } from "@t3tools/client-runtime/connection";
-import { createRuntimeCommand } from "@t3tools/client-runtime/state/runtime";
-import * as Schema from "effect/Schema";
+import { EnvironmentRegistry, removedWithRelay } from "@t3tools/client-runtime/connection"
+import { createRuntimeCommand } from "@t3tools/client-runtime/state/runtime"
+import * as Schema from "effect/Schema"
 
-import { connectionAtomRuntime } from "../../connection/runtime.vibe";
-import { archiveCloudComposerDrafts } from "../../state/use-composer-drafts";
+import { connectionAtomRuntime } from "../../connection/runtime.vibe"
+import { archiveCloudComposerDrafts } from "../../state/use-composer-drafts"
 
 const CloudDraftArchiveErrorCauseField: Schema.Defect = Schema.Defect()
 export schema error CloudDraftArchiveError {
@@ -11,28 +11,34 @@ export schema error CloudDraftArchiveError {
   readonly hasAccountId: boolean
   cause: CloudDraftArchiveErrorCauseField
   override get message(): string {
-    return `Could not preserve local drafts for ${this.environmentCount} cloud environments before sign-out.`;
+    return `Could not preserve local drafts for ${this.environmentCount} cloud environments before sign-out.`
   }
 }
 
 export const removeCloudEnvironments = createRuntimeCommand(connectionAtomRuntime, {
   label: "cloud:preserve-drafts-and-remove-environments",
-  execute: effect (accountId: string | null): void!(CloudDraftArchiveError | import("@t3tools/client-runtime/platform").ConnectionPersistenceError | EnvironmentRegistry.PlatformEnvironmentRemovalError | import("@t3tools/client-runtime/connection").ConnectionAttemptError)!EnvironmentRegistry.EnvironmentRegistry => try withSpan((effect (): void!(CloudDraftArchiveError | import("@t3tools/client-runtime/platform").ConnectionPersistenceError | EnvironmentRegistry.PlatformEnvironmentRemovalError | import("@t3tools/client-runtime/connection").ConnectionAttemptError)!EnvironmentRegistry.EnvironmentRegistry => {
-    const registry = try EnvironmentRegistry.EnvironmentRegistry;
-    const entries = try SubscriptionRef.get(registry.entries);
-    const environmentIds = new Set(
-      [...entries.values()].filter(removedWithRelay).map((entry) => entry.target.environmentId),
-    );
-    // Backup failure must retain local file owners so a later sign-in can retry.
-    try Effect.tryPromise({
-      try: () => archiveCloudComposerDrafts(accountId, environmentIds),
-      catch: (cause) =>
-        new CloudDraftArchiveError({
-          environmentCount: environmentIds.size,
-          hasAccountId: accountId !== null,
-          cause,
-        }),
-    });
-    try registry.removeRelayEnvironments();
-  })(), "removeCloudEnvironments"),
-});
+  execute: effect (
+    accountId: string | null,
+  ): void!(CloudDraftArchiveError | import("@t3tools/client-runtime/platform").ConnectionPersistenceError | EnvironmentRegistry.PlatformEnvironmentRemovalError | import("@t3tools/client-runtime/connection").ConnectionAttemptError)!EnvironmentRegistry.EnvironmentRegistry =>
+    try withSpan(
+      (effect (): void!(CloudDraftArchiveError | import("@t3tools/client-runtime/platform").ConnectionPersistenceError | EnvironmentRegistry.PlatformEnvironmentRemovalError | import("@t3tools/client-runtime/connection").ConnectionAttemptError)!EnvironmentRegistry.EnvironmentRegistry => {
+        const registry = try EnvironmentRegistry.EnvironmentRegistry
+        const entries = try SubscriptionRef.get(registry.entries)
+        const environmentIds = new Set(
+          [...entries.values()].filter(removedWithRelay).map((entry) => entry.target.environmentId),
+        )
+        // Backup failure must retain local file owners so a later sign-in can retry.
+        try Effect.tryPromise({
+          try: () => archiveCloudComposerDrafts(accountId, environmentIds),
+          catch: (cause) =>
+            new CloudDraftArchiveError({
+              environmentCount: environmentIds.size,
+              hasAccountId: accountId !== null,
+              cause,
+            }),
+        })
+        try registry.removeRelayEnvironments()
+      })(),
+      "removeCloudEnvironments",
+    ),
+})

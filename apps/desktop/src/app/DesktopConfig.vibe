@@ -1,17 +1,17 @@
-import { OtlpHeadersFromString, OtlpProtocol } from "@t3tools/shared/observability";
-import * as Config from "effect/Config";
-import * as Option from "effect/Option";
+import { OtlpHeadersFromString, OtlpProtocol } from "@t3tools/shared/observability"
+import * as Config from "effect/Config"
+import * as Option from "effect/Option"
 
 const trimNonEmptyOption = (value: string): Option.Option<string> => {
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? Option.some(trimmed) : Option.none();
-};
+  const trimmed = value.trim()
+  return trimmed.length > 0 ? Option.some(trimmed) : Option.none()
+}
 
 const trimmedString = (name: string) =>
-  Config.String(name).pipe(Config.option, Config.map(Option.flatMap(trimNonEmptyOption)));
+  Config.String(name).pipe(Config.option, Config.map(Option.flatMap(trimNonEmptyOption)))
 
 const optionalBoolean = (name: string) =>
-  Config.Boolean(name).pipe(Config.option, Config.map(Option.getOrElse(() => false)));
+  Config.Boolean(name).pipe(Config.option, Config.map(Option.getOrElse(() => false)))
 
 const commaSeparatedStrings = (name: string) =>
   trimmedString(name).pipe(
@@ -25,12 +25,12 @@ const commaSeparatedStrings = (name: string) =>
             .filter((entry) => entry.length > 0),
       }),
     ),
-  );
+  )
 
 const compactEnv = (env: Readonly<Record<string, string | undefined>>): Record<string, string> =>
   Object.fromEntries(
     Object.entries(env).filter((entry): entry is [string, string] => entry[1] !== undefined),
-  );
+  )
 
 export const DesktopConfig = Config.all({
   appDataDirectory: trimmedString("APPDATA"),
@@ -61,7 +61,7 @@ export const DesktopConfig = Config.all({
   mockUpdateServerPort: Config.Port("T3CODE_DESKTOP_MOCK_UPDATE_SERVER_PORT").pipe(
     Config.withDefault(3000),
   ),
-});
+})
 
 export const layerTest = (env: Readonly<Record<string, string | undefined>>) =>
-  ConfigProvider.layer(ConfigProvider.fromEnv({ env: compactEnv(env) }));
+  ConfigProvider.layer(ConfigProvider.fromEnv({ env: compactEnv(env) }))

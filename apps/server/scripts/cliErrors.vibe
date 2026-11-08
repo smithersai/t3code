@@ -1,4 +1,4 @@
-import * as Schema from "effect/Schema";
+import * as Schema from "effect/Schema"
 
 export class ServerCliCommandExitError extends Schema.TaggedError<ServerCliCommandExitError>()(
   "ServerCliCommandExitError",
@@ -10,28 +10,28 @@ export class ServerCliCommandExitError extends Schema.TaggedError<ServerCliComma
   },
 ) {
   override get message(): string {
-    return `Command exited with non-zero exit code (${this.exitCode})`;
+    return `Command exited with non-zero exit code (${this.exitCode})`
   }
 }
 
 export schema error ServerCliDevelopmentIconSourceMissingError {
   readonly sourcePath: string
   override get message(): string {
-    return `Missing development icon source: ${this.sourcePath}`;
+    return `Missing development icon source: ${this.sourcePath}`
   }
 }
 
 export schema error ServerCliDevelopmentIconTargetMissingError {
   readonly targetPath: string
   override get message(): string {
-    return `Missing development icon target: ${this.targetPath}. Build web first.`;
+    return `Missing development icon target: ${this.targetPath}. Build web first.`
   }
 }
 
 export schema error ServerCliBuildAssetMissingError {
   readonly assetPath: string
   override get message(): string {
-    return `Missing build asset: ${this.assetPath}. Run the build subcommand first.`;
+    return `Missing build asset: ${this.assetPath}. Run the build subcommand first.`
   }
 }
 
@@ -39,6 +39,8 @@ export schema error ServerCliExecutableImportError {
   readonly bundlePath: string
   readonly specifiers: ReadonlyArray<string>
   override get message(): string {
-    return `${this.bundlePath} imports file-backed packages that a single-executable cannot resolve: ${this.specifiers.join(", ")}. Load them through createRequire instead.`;
+    return `${this.bundlePath} imports file-backed packages that a single-executable cannot resolve: ${
+      this.specifiers.join(", ")
+    }. Load them through createRequire instead.`
   }
 }

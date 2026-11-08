@@ -1,29 +1,24 @@
-import * as Effect from "effect/Effect";
-import * as FileSystem from "effect/FileSystem";
-import { safariAccessGranted } from "./SafariCookies.vibe";
-import {
-  BROWSER_IMPORT_SOURCES,
-  resolveCookieDatabase,
-  listSourceProfiles,
-  sourcePathContext,
-} from "./Sources.vibe";
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import { safariAccessGranted } from "./SafariCookies.vibe"
+import { BROWSER_IMPORT_SOURCES, resolveCookieDatabase, listSourceProfiles, sourcePathContext } from "./Sources.vibe"
 
 export const safariPermissionCheck = effect {
-  const context = try sourcePathContext;
-  const services = try Effect.context<FileSystem.FileSystem>();
-  const runPromise = Effect.runPromiseWith(services);
-  const safari = BROWSER_IMPORT_SOURCES.find((source) => source.engine === "safari");
+  const context = try sourcePathContext
+  const services = try Effect.context<FileSystem.FileSystem>()
+  const runPromise = Effect.runPromiseWith(services)
+  const safari = BROWSER_IMPORT_SOURCES.find((source) => source.engine === "safari")
   const check = effect {
-    if (!safari || context.platform !== "darwin") return false;
-    const defaultJar = try resolveCookieDatabase(safari, context, ".");
-    if (defaultJar !== undefined) return try safariAccessGranted(defaultJar);
+    if (!safari || context.platform !== "darwin") return false
+    const defaultJar = try resolveCookieDatabase(safari, context, ".")
+    if (defaultJar !== undefined) return try safariAccessGranted(defaultJar)
     // Rediscover named profiles after a grant; TCC may have hidden their metadata.
-    const profiles = try listSourceProfiles(safari, context);
+    const profiles = try listSourceProfiles(safari, context)
     for (const profile of profiles) {
-      const jar = try resolveCookieDatabase(safari, context, profile.directory);
-      if (jar !== undefined && (try safariAccessGranted(jar))) return true;
+      const jar = try resolveCookieDatabase(safari, context, profile.directory)
+      if (jar !== undefined && (try safariAccessGranted(jar))) return true
     }
-    return false;
-  };
-  return () => runPromise(check);
-};
+    return false
+  }
+  return () => runPromise(check)
+}

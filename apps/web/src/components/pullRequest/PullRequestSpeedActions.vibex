@@ -1,30 +1,29 @@
-import { useAtomValue } from "@effect/atom-react";
-import type { PullRequestAction } from "@t3tools/contracts";
-import { createContext, use, type ReactNode } from "react";
-import type { ChangeRequestTerminology } from "@t3tools/client-runtime/source-control-clients";
+import { useAtomValue } from "@effect/atom-react"
+import type { PullRequestAction } from "@t3tools/contracts"
+import { createContext, use, type ReactNode } from "react"
+import type { ChangeRequestTerminology } from "@t3tools/client-runtime/source-control-clients"
 
-import { useShortcutModifierState } from "~/shortcutModifierState";
-import { pullRequestEnvironment } from "~/state/pullRequests";
-import { useUiStateStore } from "~/uiStateStore";
-import { Button } from "../ui/button";
-import { Spinner } from "../ui/spinner";
-import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
-import { resolvePullRequestMergeMethod } from "./pullRequestDetail.logic.vibe";
-import { PullRequestGlyph } from "./pullRequestIcons";
-import { pullRequestQuickActions, type EnvironmentPullRequestEntry } from "./pullRequestList.logic";
-import {
-  usePullRequestActionRunner,
-  usePullRequestDefaultMergeMethodResolver,
-} from "./usePullRequestActions";
+import { useShortcutModifierState } from "~/shortcutModifierState"
+import { pullRequestEnvironment } from "~/state/pullRequests"
+import { useUiStateStore } from "~/uiStateStore"
+import { Button } from "../ui/button"
+import { Spinner } from "../ui/spinner"
+import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip"
+import { resolvePullRequestMergeMethod } from "./pullRequestDetail.logic.vibe"
+import { PullRequestGlyph } from "./pullRequestIcons"
+import { pullRequestQuickActions, type EnvironmentPullRequestEntry } from "./pullRequestList.logic"
+import { usePullRequestActionRunner, usePullRequestDefaultMergeMethodResolver } from "./usePullRequestActions"
 
-type PullRequestSpeedActionEntry = Pick<
-  EnvironmentPullRequestEntry,
-  "environmentId" | "projectId" | "host" | "repository" | "number" | "state" | "isDraft"
-> & { readonly stack?: object | undefined };
+type PullRequestSpeedActionEntry =
+  & Pick<
+    EnvironmentPullRequestEntry,
+    "environmentId" | "projectId" | "host" | "repository" | "number" | "state" | "isDraft"
+  >
+  & { readonly stack?: object | undefined }
 
 export interface PullRequestSpeedActionResult<Entry = EnvironmentPullRequestEntry> {
-  readonly entry: Entry;
-  readonly action: PullRequestAction;
+  readonly entry: Entry
+  readonly action: PullRequestAction
 }
 
 export function PullRequestSpeedActions<Entry extends PullRequestSpeedActionEntry>({
@@ -36,27 +35,27 @@ export function PullRequestSpeedActions<Entry extends PullRequestSpeedActionEntr
   sweeping = false,
   onCloseSweepStart,
 }: {
-  entry: Entry;
-  hostActions: ReadonlySet<PullRequestAction>;
-  terminology: ChangeRequestTerminology;
-  onActed?: (result: PullRequestSpeedActionResult<Entry>) => void;
-  closing?: boolean;
-  sweeping?: boolean;
-  onCloseSweepStart?: (entry: Entry, event: PointerEvent) => void;
+  entry: Entry
+  hostActions: ReadonlySet<PullRequestAction>
+  terminology: ChangeRequestTerminology
+  onActed?: (result: PullRequestSpeedActionResult<Entry>) => void
+  closing?: boolean
+  sweeping?: boolean
+  onCloseSweepStart?: (entry: Entry, event: PointerEvent) => void
 }) {
   const canWrite = useAtomValue(
     pullRequestEnvironment.runAction.permissionAtom(entry.environmentId),
-  );
+  )
   const resolveProjectDefault = usePullRequestDefaultMergeMethodResolver(
     entry.environmentId,
     entry.projectId,
-  );
+  )
   const reference = {
     projectId: entry.projectId,
     host: entry.host,
     repository: entry.repository,
     number: entry.number,
-  };
+  }
   const { actionPending, perform } = usePullRequestActionRunner({
     environmentId: entry.environmentId,
     reference,
@@ -65,20 +64,21 @@ export function PullRequestSpeedActions<Entry extends PullRequestSpeedActionEntr
     resolveMergeMethod: (detail) => {
       const allowed = detail.capabilities.mergeMethods.filter(
         (method) => detail.mergeCapabilities[method],
-      );
-      if (allowed.length === 0)
-        $raise(new Error("No merge method is available for this repository."));
+      )
+      if (allowed.length === 0) {
+        $raise(new Error("No merge method is available for this repository."))
+      }
       return resolvePullRequestMergeMethod(
         allowed,
         null,
         resolveProjectDefault(),
         useUiStateStore.getState().pullRequestMergeMethod,
-      );
+      )
     },
-  });
-  const actions = pullRequestQuickActions(entry, hostActions);
-  const busy = actionPending || closing || sweeping;
-  if (actions.length === 0) return null;
+  })
+  const actions = pullRequestQuickActions(entry, hostActions)
+  const busy = actionPending || closing || sweeping
+  if (actions.length === 0) return null
   return (
     <SpeedModeGroup
       busy={busy}
@@ -86,8 +86,8 @@ export function PullRequestSpeedActions<Entry extends PullRequestSpeedActionEntr
       label={`Quick actions for ${terminology.singular} #${entry.number}`}
     >
       {actions.map((action) => {
-        const label = ACTIONS[action].label;
-        const Icon = ACTIONS[action].Icon;
+        const label = ACTIONS[action].label
+        const Icon = ACTIONS[action].Icon
         return (
           <Tooltip key={action}>
             <TooltipTrigger
@@ -99,9 +99,9 @@ export function PullRequestSpeedActions<Entry extends PullRequestSpeedActionEntr
                   aria-label={`${label} #${entry.number}`}
                   onClick={() => void perform(action)}
                   onPointerDown={(event) => {
-                    if (action !== "close" || !event.isPrimary || event.button !== 0) return;
-                    event.stopPropagation();
-                    onCloseSweepStart?.(entry, event.nativeEvent);
+                    if (action !== "close" || !event.isPrimary || event.button !== 0) return
+                    event.stopPropagation()
+                    onCloseSweepStart?.(entry, event.nativeEvent)
                   }}
                 />
               }
@@ -113,28 +113,27 @@ export function PullRequestSpeedActions<Entry extends PullRequestSpeedActionEntr
               {action === "merge" && entry.stack
                 ? `Open this ${terminology.singular} to merge its stack`
                 : action === "close" && onCloseSweepStart
-                  ? "Close immediately, or drag across rows to close several"
-                  : `${label} immediately`}
+                ? "Close immediately, or drag across rows to close several"
+                : `${label} immediately`}
             </TooltipPopup>
           </Tooltip>
-        );
+        )
       })}
     </SpeedModeGroup>
-  );
+  )
 }
 
 /**
  * Whether Shift is held, as context rather than a row prop: a Shift press then re-renders each
  * row's action group, not the rows or their buttons, in one commit.
  */
-export const PullRequestSpeedModeContext = createContext(false);
+export const PullRequestSpeedModeContext = createContext(false)
 
 /** Tracks Shift for the quick actions below it. */
 export function PullRequestSpeedModeProvider({ children }: { children: ReactNode }) {
-  const modifiers = useShortcutModifierState(true);
-  const speedMode =
-    modifiers.shiftKey && !modifiers.metaKey && !modifiers.ctrlKey && !modifiers.altKey;
-  return <PullRequestSpeedModeContext value={speedMode}>{children}</PullRequestSpeedModeContext>;
+  const modifiers = useShortcutModifierState(true)
+  const speedMode = modifiers.shiftKey && !modifiers.metaKey && !modifiers.ctrlKey && !modifiers.altKey
+  return <PullRequestSpeedModeContext value={speedMode}>{children}</PullRequestSpeedModeContext>
 }
 
 function SpeedModeGroup({
@@ -143,12 +142,12 @@ function SpeedModeGroup({
   label,
   children,
 }: {
-  busy: boolean;
-  pending: boolean;
-  label: string;
-  children: ReactNode;
+  busy: boolean
+  pending: boolean
+  label: string
+  children: ReactNode
 }) {
-  const speedMode = use(PullRequestSpeedModeContext);
+  const speedMode = use(PullRequestSpeedModeContext)
   return (
     <div
       className="shrink-0 items-center gap-1 pr-3"
@@ -159,7 +158,7 @@ function SpeedModeGroup({
     >
       {children}
     </div>
-  );
+  )
 }
 
 const ACTIONS = {
@@ -167,9 +166,11 @@ const ACTIONS = {
   merge: { label: "Merge", Icon: PullRequestGlyph.merged },
   ready: { label: "Ready for review", Icon: PullRequestGlyph.pullRequest },
   reopen: { label: "Reopen", Icon: PullRequestGlyph.reopen },
-} as const;
+} as const
 
 module $throw$ts {
-export function raise(value: unknown): never { throw value }
+  export function raise(value: unknown): never {
+    throw value
+  }
 }
 import { raise as $raise } from $throw$ts

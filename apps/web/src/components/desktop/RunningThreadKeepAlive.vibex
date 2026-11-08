@@ -1,8 +1,8 @@
-import { useAtomMount } from "@effect/atom-react";
+import { useAtomMount } from "@effect/atom-react"
 
-import { runningThreadKeepAliveAtom } from "../../state/threads";
+import { runningThreadKeepAliveAtom } from "../../state/threads"
 
 export function RunningThreadKeepAlive() {
-  useAtomMount(runningThreadKeepAliveAtom);
-  return null;
+  useAtomMount(runningThreadKeepAliveAtom)
+  return null
 }

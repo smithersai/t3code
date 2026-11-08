@@ -1,39 +1,43 @@
-import * as Schema from "effect/Schema";
+import * as Schema from "effect/Schema"
 import {
   receiveCodexAuthCallback,
   cancelCodexAuthCallback,
   CodexAuthCallbackError,
-} from "../../app/CodexAuthCallback.ts";
-import * as ElectronShell from "../../electron/ElectronShell.vibe";
-import * as ElectronWindow from "../../electron/ElectronWindow.vibe";
-import * as DesktopIpc from "../DesktopIpc.vibe";
-import * as IpcChannels from "../channels.ts";
+} from "../../app/CodexAuthCallback.ts"
+import * as ElectronShell from "../../electron/ElectronShell.vibe"
+import * as ElectronWindow from "../../electron/ElectronWindow.vibe"
+import * as DesktopIpc from "../DesktopIpc.vibe"
+import * as IpcChannels from "../channels.ts"
 
-const Request = Schema.String.check(Schema.isMaxLength(16_384));
+const Request = Schema.String.check(Schema.isMaxLength(16_384))
 
 export const receiveProviderAuthCallback = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.RECEIVE_PROVIDER_AUTH_CALLBACK_CHANNEL,
   payload: Request,
   result: Schema.String,
-  handler: effect (authorizationUrl): string!CodexAuthCallbackError!(ElectronShell.ElectronShell | ElectronWindow.ElectronWindow) => try withSpan((effect (): string!CodexAuthCallbackError!(ElectronShell.ElectronShell | ElectronWindow.ElectronWindow) => {
-    const shell = try ElectronShell.ElectronShell;
-    const windows = try ElectronWindow.ElectronWindow;
-    const context = try Effect.context<ElectronShell.ElectronShell>();
-    const runPromise = Effect.runPromiseWith(context);
-    const callbackUrl = try Effect.tryPromise({
-      try: () =>
-        receiveCodexAuthCallback(authorizationUrl, (url) => runPromise(shell.openExternal(url))),
-      catch: () =>
-        new CodexAuthCallbackError({
-          detail:
-            "Could not receive ChatGPT sign-in on this computer. Try again or paste the redirect URL.",
-        }),
-    });
-    const window = try windows.currentMainOrFirst;
-    if (Option.isSome(window)) try windows.reveal(window.value);
-    return callbackUrl;
-  })(), "desktop.ipc.providerAuth.receive"),
-});
+  handler: effect (
+    authorizationUrl,
+  ): string!CodexAuthCallbackError!(ElectronShell.ElectronShell | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): string!CodexAuthCallbackError!(ElectronShell.ElectronShell | ElectronWindow.ElectronWindow) => {
+        const shell = try ElectronShell.ElectronShell
+        const windows = try ElectronWindow.ElectronWindow
+        const context = try Effect.context<ElectronShell.ElectronShell>()
+        const runPromise = Effect.runPromiseWith(context)
+        const callbackUrl = try Effect.tryPromise({
+          try: () => receiveCodexAuthCallback(authorizationUrl, (url) => runPromise(shell.openExternal(url))),
+          catch: () =>
+            new CodexAuthCallbackError({
+              detail: "Could not receive ChatGPT sign-in on this computer. Try again or paste the redirect URL.",
+            }),
+        })
+        const window = try windows.currentMainOrFirst
+        if (Option.isSome(window)) try windows.reveal(window.value)
+        return callbackUrl
+      })(),
+      "desktop.ipc.providerAuth.receive",
+    ),
+})
 
 export const cancelProviderAuthCallback = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.CANCEL_PROVIDER_AUTH_CALLBACK_CHANNEL,
@@ -44,4 +48,4 @@ export const cancelProviderAuthCallback = DesktopIpc.makeIpcMethod({
       try: () => cancelCodexAuthCallback(authorizationUrl),
       catch: () => new CodexAuthCallbackError({ detail: "Invalid ChatGPT sign-in request." }),
     }),
-});
+})

@@ -1,64 +1,62 @@
-import { useAtomValue } from "@effect/atom-react";
-import { videoMimeType } from "@t3tools/shared/video";
-import { Atom, AsyncResult } from "effect/reactivity";
+import { useAtomValue } from "@effect/atom-react"
+import { videoMimeType } from "@t3tools/shared/video"
+import { Atom, AsyncResult } from "effect/reactivity"
 
-import type { FileBackedComposerAttachment } from "./composerImages";
-import { resolveOwnedComposerAttachmentFileUri } from "./composerAttachmentFiles";
-import { shareLocalAttachment, type AttachmentPreviewFile } from "./attachmentDownload";
-import { retainComposerAttachmentFileForPreview } from "./composerAttachmentPreviewRetention";
+import type { FileBackedComposerAttachment } from "./composerImages"
+import { resolveOwnedComposerAttachmentFileUri } from "./composerAttachmentFiles"
+import { shareLocalAttachment, type AttachmentPreviewFile } from "./attachmentDownload"
+import { retainComposerAttachmentFileForPreview } from "./composerAttachmentPreviewRetention"
 
 export async function loadLocalAttachmentPreview(
   attachment: FileBackedComposerAttachment,
   signal: AbortSignal,
 ): Promise<AttachmentPreviewFile | null> {
-  if (signal.aborted) return null;
-  const release = retainComposerAttachmentFileForPreview(attachment);
+  if (signal.aborted) return null
+  const release = retainComposerAttachmentFileForPreview(attachment)
   try {
-    const { File, Paths } = await import("expo-file-system");
+    const { File, Paths } = await import("expo-file-system")
     if (signal.aborted) {
-      release();
-      return null;
+      release()
+      return null
     }
-    const uri =
-      resolveOwnedComposerAttachmentFileUri(attachment.fileUri, Paths.document.uri) ??
-      attachment.fileUri;
-    const file = new File(uri);
+    const uri = resolveOwnedComposerAttachmentFileUri(attachment.fileUri, Paths.document.uri)
+      ?? attachment.fileUri
+    const file = new File(uri)
     if (!file.exists) {
-      throw new Error("The local attachment file is missing.");
+      throw new Error("The local attachment file is missing.")
     }
-    let disposed = false;
+    let disposed = false
     return {
       uri: file.uri,
       dispose: () => {
-        if (disposed) return;
-        disposed = true;
-        release();
+        if (disposed) return
+        disposed = true
+        release()
       },
       share: async (shareSignal, sourceIdentifier) => {
-        if (disposed || shareSignal.aborted) return;
-        const releaseShare = retainComposerAttachmentFileForPreview(attachment);
+        if (disposed || shareSignal.aborted) return
+        const releaseShare = retainComposerAttachmentFileForPreview(attachment)
         try {
           await shareLocalAttachment({
             uri: file.uri,
             attachment: {
               name: attachment.name,
-              mimeType:
-                attachment.type === "file"
-                  ? (videoMimeType(attachment) ?? attachment.mimeType)
-                  : attachment.mimeType,
+              mimeType: attachment.type === "file"
+                ? (videoMimeType(attachment) ?? attachment.mimeType)
+                : attachment.mimeType,
             },
             signal: shareSignal,
             sourceIdentifier,
-          });
+          })
         } finally {
-          releaseShare();
+          releaseShare()
         }
       },
-    };
+    }
   } catch (cause) {
-    release();
-    if (signal.aborted) return null;
-    throw new Error("This attachment is no longer available. Attach the file again.", { cause });
+    release()
+    if (signal.aborted) return null
+    throw new Error("This attachment is no longer available. Attach the file again.", { cause })
   }
 }
 
@@ -70,13 +68,13 @@ class LocalAttachmentPreviewKey implements Equal.Equal {
   constructor(readonly attachment: FileBackedComposerAttachment) {}
   [Equal.symbol](that: unknown): boolean {
     return (
-      that instanceof LocalAttachmentPreviewKey &&
-      that.attachment.id === this.attachment.id &&
-      that.attachment.fileUri === this.attachment.fileUri
-    );
+      that instanceof LocalAttachmentPreviewKey
+      && that.attachment.id === this.attachment.id
+      && that.attachment.fileUri === this.attachment.fileUri
+    )
   }
   [Hash.symbol](): number {
-    return Hash.string(`${this.attachment.id}\u0000${this.attachment.fileUri}`);
+    return Hash.string(`${this.attachment.id}\u0000${this.attachment.fileUri}`)
   }
 }
 
@@ -87,29 +85,28 @@ const localAttachmentPreviewFamily = Atom.family((key: LocalAttachmentPreviewKey
     Effect.acquireRelease(
       Effect.tryPromise({
         try: (signal) => loadLocalAttachmentPreview(key.attachment, signal),
-        catch: (cause) =>
-          cause instanceof Error ? cause : new Error("The local file is unavailable."),
+        catch: (cause) => cause instanceof Error ? cause : new Error("The local file is unavailable."),
       }) |> Effect.flatMap(%, (file) => (file === null ? Effect.interrupt : Effect.succeed(file))),
       (file) => Effect.sync(file.dispose),
     ),
-  ).pipe(Atom.withLabel(`local-attachment-preview:${key.attachment.id}`)),
-);
+  ).pipe(Atom.withLabel(`local-attachment-preview:${key.attachment.id}`))
+)
 
 const noLocalAttachmentPreview = Atom.make(
   AsyncResult.initial<AttachmentPreviewFile, Error>(),
-).pipe(Atom.withLabel("local-attachment-preview:none"));
+).pipe(Atom.withLabel("local-attachment-preview:none"))
 
 export function localAttachmentPreviewAtom(
   attachment: FileBackedComposerAttachment | null,
 ): Atom.Atom<AsyncResult.AsyncResult<AttachmentPreviewFile, Error>> {
   return attachment === null
     ? noLocalAttachmentPreview
-    : localAttachmentPreviewFamily(new LocalAttachmentPreviewKey(attachment));
+    : localAttachmentPreviewFamily(new LocalAttachmentPreviewKey(attachment))
 }
 
 export interface LocalAttachmentPreviewState {
-  readonly uri: string | null;
-  readonly error: Error | null;
+  readonly uri: string | null
+  readonly error: Error | null
 }
 
 export function localAttachmentPreviewState(
@@ -119,11 +116,11 @@ export function localAttachmentPreviewState(
     // A refresh has already released the previous lease while it reacquires.
     uri: result._tag === "Success" && !result.waiting ? result.value.uri : null,
     error: result._tag === "Failure" ? Option.getOrNull(AsyncResult.error(result)) : null,
-  };
+  }
 }
 
 export function useLocalAttachmentPreview(
   attachment: FileBackedComposerAttachment | null,
 ): LocalAttachmentPreviewState {
-  return localAttachmentPreviewState(useAtomValue(localAttachmentPreviewAtom(attachment)));
+  return localAttachmentPreviewState(useAtomValue(localAttachmentPreviewAtom(attachment)))
 }

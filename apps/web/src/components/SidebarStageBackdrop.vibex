@@ -1,52 +1,51 @@
-import { useAtomValue } from "@effect/atom-react";
-import type { EnvironmentIdentificationMode } from "@t3tools/contracts";
-import { useId } from "react";
+import { useAtomValue } from "@effect/atom-react"
+import type { EnvironmentIdentificationMode } from "@t3tools/contracts"
+import { useId } from "react"
 
-import { APP_STAGE_LABEL } from "../branding";
-import { resolveServerBackedAppStageLabel } from "../branding.logic";
-import { primaryServerConfigAtom } from "../state/server";
+import { APP_STAGE_LABEL } from "../branding"
+import { resolveServerBackedAppStageLabel } from "../branding.logic"
+import { primaryServerConfigAtom } from "../state/server"
 
-export type SidebarStageBackdropVariant = "nightly" | "dev";
-export type EnvironmentIdentificationPillLabel = "Dev" | "Nightly";
+export type SidebarStageBackdropVariant = "nightly" | "dev"
+export type EnvironmentIdentificationPillLabel = "Dev" | "Nightly"
 
-const STAGE_BACKDROP_VIEW_BOX = "0 0 8192 96";
+const STAGE_BACKDROP_VIEW_BOX = "0 0 8192 96"
 
 export function resolveSidebarStageBackdropVariant(
   stageLabel: string,
   mode: EnvironmentIdentificationMode = "artwork",
 ): SidebarStageBackdropVariant | null {
-  if (mode === "nightly-artwork") return "nightly";
-  if (mode === "dev-artwork") return "dev";
-  if (mode !== "artwork") return null;
-  const normalized = stageLabel.trim().toLowerCase();
-  if (normalized === "nightly") return "nightly";
-  if (normalized === "dev") return "dev";
-  return null;
+  if (mode === "nightly-artwork") return "nightly"
+  if (mode === "dev-artwork") return "dev"
+  if (mode !== "artwork") return null
+  const normalized = stageLabel.trim().toLowerCase()
+  if (normalized === "nightly") return "nightly"
+  if (normalized === "dev") return "dev"
+  return null
 }
 
 export function resolveEnvironmentIdentificationPillLabel(
   stageLabel: string,
 ): EnvironmentIdentificationPillLabel | null {
-  const normalized = stageLabel.trim().toLowerCase();
-  if (normalized === "dev") return "Dev";
-  if (normalized === "nightly") return "Nightly";
-  return null;
+  const normalized = stageLabel.trim().toLowerCase()
+  if (normalized === "dev") return "Dev"
+  if (normalized === "nightly") return "Nightly"
+  return null
 }
 
 export function useEnvironmentStageLabel(): string {
-  const primaryServerVersion =
-    useAtomValue(primaryServerConfigAtom)?.environment.serverVersion ?? null;
+  const primaryServerVersion = useAtomValue(primaryServerConfigAtom)?.environment.serverVersion ?? null
 
   return resolveServerBackedAppStageLabel({
     primaryServerVersion,
     fallbackStageLabel: APP_STAGE_LABEL,
-  });
+  })
 }
 
 export function useSidebarStageBackdropVariant(
   mode: EnvironmentIdentificationMode,
 ): SidebarStageBackdropVariant | null {
-  return resolveSidebarStageBackdropVariant(useEnvironmentStageLabel(), mode);
+  return resolveSidebarStageBackdropVariant(useEnvironmentStageLabel(), mode)
 }
 
 export function SidebarStageBackdrop({ variant }: { variant: SidebarStageBackdropVariant }) {
@@ -57,22 +56,22 @@ export function SidebarStageBackdrop({ variant }: { variant: SidebarStageBackdro
     >
       <StageBackdropArt variant={variant} />
     </div>
-  );
+  )
 }
 
 function StageBackdropArt({ variant }: { variant: SidebarStageBackdropVariant }) {
-  return variant === "nightly" ? <NightlySkyArt /> : <DevBlueprintArt />;
+  return variant === "nightly" ? <NightlySkyArt /> : <DevBlueprintArt />
 }
 
 export function StageBackdropButtonArt({ variant }: { variant: SidebarStageBackdropVariant }) {
-  return variant === "nightly" ? <NightlySkyArt compact /> : <DevBlueprintArt compact />;
+  return variant === "nightly" ? <NightlySkyArt compact /> : <DevBlueprintArt compact />
 }
 
 const NIGHTLY_STARS: ReadonlyArray<{
-  cx: number;
-  cy: number;
-  r: number;
-  opacity: number;
+  cx: number
+  cy: number
+  r: number
+  opacity: number
 }> = [
   { cx: 14, cy: 10, r: 0.6, opacity: 0.85 },
   { cx: 38, cy: 22, r: 0.4, opacity: 0.55 },
@@ -91,22 +90,22 @@ const NIGHTLY_STARS: ReadonlyArray<{
   { cx: 118, cy: 34, r: 0.4, opacity: 0.45 },
   { cx: 202, cy: 32, r: 0.4, opacity: 0.5 },
   { cx: 268, cy: 34, r: 0.4, opacity: 0.45 },
-];
+]
 
 const NIGHTLY_SPARKLES: ReadonlyArray<{ x: number; y: number }> = [
   { x: 70, y: 28 },
   { x: 160, y: 36 },
   { x: 246, y: 26 },
-];
+]
 
 function NightlySkyArt({ compact = false }: { compact?: boolean }) {
-  const idPrefix = useId().replaceAll(":", "");
-  const skyId = `${idPrefix}-stage-night-sky`;
-  const glowId = `${idPrefix}-stage-night-glow`;
-  const cloudId = `${idPrefix}-stage-night-cloud`;
-  const softId = `${idPrefix}-stage-night-soft`;
-  const starsId = `${idPrefix}-stage-night-stars`;
-  const glowsId = `${idPrefix}-stage-night-glows`;
+  const idPrefix = useId().replaceAll(":", "")
+  const skyId = `${idPrefix}-stage-night-sky`
+  const glowId = `${idPrefix}-stage-night-glow`
+  const cloudId = `${idPrefix}-stage-night-cloud`
+  const softId = `${idPrefix}-stage-night-soft`
+  const starsId = `${idPrefix}-stage-night-stars`
+  const glowsId = `${idPrefix}-stage-night-glows`
 
   return (
     <svg
@@ -208,20 +207,20 @@ function NightlySkyArt({ compact = false }: { compact?: boolean }) {
         />
       </g>
     </svg>
-  );
+  )
 }
 
 function DevBlueprintArt({ compact = false }: { compact?: boolean }) {
-  const idPrefix = useId().replaceAll(":", "");
-  const paperId = `${idPrefix}-stage-bp-paper`;
-  const glowId = `${idPrefix}-stage-bp-glow`;
-  const celesteGlowId = `${idPrefix}-stage-bp-glow-celeste`;
-  const violetGlowId = `${idPrefix}-stage-bp-glow-violet`;
-  const minorGridId = `${idPrefix}-stage-bp-grid-minor`;
-  const majorGridId = `${idPrefix}-stage-bp-grid-major`;
-  const rulerId = `${idPrefix}-stage-bp-ruler`;
-  const glowsId = `${idPrefix}-stage-bp-glows`;
-  const annotationsId = `${idPrefix}-stage-bp-annotations`;
+  const idPrefix = useId().replaceAll(":", "")
+  const paperId = `${idPrefix}-stage-bp-paper`
+  const glowId = `${idPrefix}-stage-bp-glow`
+  const celesteGlowId = `${idPrefix}-stage-bp-glow-celeste`
+  const violetGlowId = `${idPrefix}-stage-bp-glow-violet`
+  const minorGridId = `${idPrefix}-stage-bp-grid-minor`
+  const majorGridId = `${idPrefix}-stage-bp-grid-major`
+  const rulerId = `${idPrefix}-stage-bp-ruler`
+  const glowsId = `${idPrefix}-stage-bp-glows`
+  const annotationsId = `${idPrefix}-stage-bp-annotations`
 
   return (
     <svg
@@ -389,5 +388,5 @@ function DevBlueprintArt({ compact = false }: { compact?: boolean }) {
       <rect width="100%" height="6" fill={`url(#${rulerId})`} />
       <rect width="100%" height="96" fill={`url(#${annotationsId})`} />
     </svg>
-  );
+  )
 }

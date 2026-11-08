@@ -1,16 +1,13 @@
-import { CommandId, IsoDateTime, NonNegativeInt, ProjectId, ThreadId } from "@t3tools/contracts";
-import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
-import * as SqlClient from "effect/sql/SqlClient";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
-import * as Schema from "effect/Schema";
+import { CommandId, IsoDateTime, NonNegativeInt, ProjectId, ThreadId } from "@t3tools/contracts"
+import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient"
+import * as SqlClient from "effect/sql/SqlClient"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Option from "effect/Option"
+import * as Schema from "effect/Schema"
 
-import {
-  toPersistenceSqlError,
-  type OrchestrationCommandReceiptRepositoryError,
-} from "./Errors.vibe";
+import { toPersistenceSqlError, type OrchestrationCommandReceiptRepositoryError } from "./Errors.vibe"
 
 export const OrchestrationCommandReceipt = Schema.Struct({
   commandId: CommandId,
@@ -21,8 +18,8 @@ export const OrchestrationCommandReceipt = Schema.Struct({
   resultSequence: NonNegativeInt,
   status: Schema.Literals(["accepted", "rejected"]),
   error: Schema.NullOr(Schema.String),
-});
-export type OrchestrationCommandReceipt = typeof OrchestrationCommandReceipt.Type;
+})
+export type OrchestrationCommandReceipt = typeof OrchestrationCommandReceipt.Type
 
 export schema GetByCommandIdInput {
   readonly commandId: CommandId
@@ -43,10 +40,12 @@ export service OrchestrationCommandReceiptRepository: {
     Option.Option<OrchestrationCommandReceipt>,
     OrchestrationCommandReceiptRepositoryError
   >;
-} { static readonly key = "t3/persistence/OrchestrationCommandReceipts/OrchestrationCommandReceiptRepository" }
+} {
+  static readonly key = "t3/persistence/OrchestrationCommandReceipts/OrchestrationCommandReceiptRepository"
+}
 
 const makeOrchestrationCommandReceiptRepository = effect {
-  const sql = try SqlClient.SqlClient;
+  const sql = try SqlClient.SqlClient
 
   const upsertReceiptRow = SqlSchema.void({
     Request: OrchestrationCommandReceipt,
@@ -82,7 +81,7 @@ const makeOrchestrationCommandReceiptRepository = effect {
           status = excluded.status,
           error = excluded.error
       `,
-  });
+  })
 
   const findReceiptByCommandId = SqlSchema.findOneOption({
     Request: GetByCommandIdInput,
@@ -101,11 +100,11 @@ const makeOrchestrationCommandReceiptRepository = effect {
         FROM orchestration_command_receipts
         WHERE command_id = ${commandId}
       `,
-  });
+  })
 
   const upsert: OrchestrationCommandReceiptRepository["Service"]["upsert"] = (receipt) =>
     upsertReceiptRow(receipt)
-      |> Effect.mapError(%, toPersistenceSqlError("OrchestrationCommandReceiptRepository.upsert:query"));
+    |> Effect.mapError(%, toPersistenceSqlError("OrchestrationCommandReceiptRepository.upsert:query"))
 
   const insertIfAbsent: OrchestrationCommandReceiptRepository["Service"]["insertIfAbsent"] = (
     receipt,
@@ -134,31 +133,32 @@ const makeOrchestrationCommandReceiptRepository = effect {
       ON CONFLICT(command_id) DO NOTHING
       RETURNING command_id
     `
-      |> Effect.map(%, (rows) => rows.length === 1)
-      |> Effect.mapError(
-        %, toPersistenceSqlError("OrchestrationCommandReceiptRepository.insertIfAbsent:query"),
-      );
+    |> Effect.map(%, (rows) => rows.length === 1)
+    |> Effect.mapError(
+      %,
+      toPersistenceSqlError("OrchestrationCommandReceiptRepository.insertIfAbsent:query"),
+    )
 
   const getByCommandId: OrchestrationCommandReceiptRepository["Service"]["getByCommandId"] = (
     input,
   ) =>
     (() => {
-      const pipe$program = findReceiptByCommandId(input);
-      const pipe$stage0 = NodeSqliteClient.readOnly;
+      const pipe$program = findReceiptByCommandId(input)
+      const pipe$stage0 = NodeSqliteClient.readOnly
       const pipe$stage1 = Effect.mapError(
         toPersistenceSqlError("OrchestrationCommandReceiptRepository.getByCommandId:query"),
-      );
-      return pipe$program |> pipe$stage0(%) |> pipe$stage1(%);
-    })();
+      )
+      return pipe$program |> pipe$stage0(%) |> pipe$stage1(%)
+    })()
 
   return {
     insertIfAbsent,
     upsert,
     getByCommandId,
-  } satisfies OrchestrationCommandReceiptRepository["Service"];
-};
+  } satisfies OrchestrationCommandReceiptRepository["Service"]
+}
 
 export const layer = Layer.effect(
   OrchestrationCommandReceiptRepository,
   makeOrchestrationCommandReceiptRepository,
-);
+)

@@ -1,24 +1,24 @@
-import { DesktopWslStateSchema, type DesktopWslState } from "@t3tools/contracts";
-import * as Schema from "effect/Schema";
+import { DesktopWslStateSchema, type DesktopWslState } from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
 
-import * as DesktopLifecycle from "../../app/DesktopLifecycle.vibe";
-import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe";
-import * as DesktopWslBackend from "../../wsl/DesktopWslBackend.vibe";
-import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.vibe";
-import * as IpcChannels from "../channels.ts";
-import { makeIpcMethod } from "../DesktopIpc.vibe";
+import * as DesktopLifecycle from "../../app/DesktopLifecycle.vibe"
+import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe"
+import * as DesktopWslBackend from "../../wsl/DesktopWslBackend.vibe"
+import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.vibe"
+import * as IpcChannels from "../channels.ts"
+import { makeIpcMethod } from "../DesktopIpc.vibe"
 
 const readWslState: DesktopWslState!never!(| DesktopAppSettings.DesktopAppSettings
   | DesktopWslEnvironment.DesktopWslEnvironment
   | DesktopWslBackend.DesktopWslBackend) = effect {
-  const appSettings = try DesktopAppSettings.DesktopAppSettings;
-  const wslEnvironment = try DesktopWslEnvironment.DesktopWslEnvironment;
-  const wslBackend = try DesktopWslBackend.DesktopWslBackend;
-  const settings = try appSettings.get;
-  const available = settings.localEnvironmentEnabled && (try wslEnvironment.isAvailable);
+  const appSettings = try DesktopAppSettings.DesktopAppSettings
+  const wslEnvironment = try DesktopWslEnvironment.DesktopWslEnvironment
+  const wslBackend = try DesktopWslBackend.DesktopWslBackend
+  const settings = try appSettings.get
+  const available = settings.localEnvironmentEnabled && (try wslEnvironment.isAvailable)
   // Listing distros on non-WSL hosts spawns wsl.exe only to time out.
-  const distros = available ? try wslEnvironment.listDistros : [];
-  const preflightError = try wslBackend.lastPreflightError;
+  const distros = available ? try wslEnvironment.listDistros : []
+  const preflightError = try wslBackend.lastPreflightError
   return {
     enabled: settings.wslBackendEnabled,
     distro: settings.wslDistro,
@@ -26,80 +26,103 @@ const readWslState: DesktopWslState!never!(| DesktopAppSettings.DesktopAppSettin
     wslOnly: settings.wslOnly,
     distros,
     preflightError: settings.wslOnly ? null : Option.getOrNull(preflightError),
-  };
-};
+  }
+}
 
 export const getWslState = makeIpcMethod({
   channel: IpcChannels.GET_WSL_STATE_CHANNEL,
   payload: Schema.Void,
   result: DesktopWslStateSchema,
-  handler: effect (): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!never!(DesktopAppSettings.DesktopAppSettings | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment) => try withSpan((effect (): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!never!(DesktopAppSettings.DesktopAppSettings | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment) => {
-    return try readWslState;
-  })(), "desktop.ipc.wsl.getState"),
-});
+  handler:
+    effect (): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!never!(DesktopAppSettings.DesktopAppSettings | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment) =>
+      try withSpan(
+        (effect (): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!never!(DesktopAppSettings.DesktopAppSettings | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment) => {
+          return try readWslState
+        })(),
+        "desktop.ipc.wsl.getState",
+      ),
+})
 
 export const setWslBackendEnabled = makeIpcMethod({
   channel: IpcChannels.SET_WSL_BACKEND_ENABLED_CHANNEL,
   payload: Schema.Boolean,
   result: DesktopWslStateSchema,
-  handler: effect (enabled): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment | DesktopLifecycle.DesktopLifecycleRuntimeServices) => try withSpan((effect (): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment | DesktopLifecycle.DesktopLifecycleRuntimeServices) => {
-    const appSettings = try DesktopAppSettings.DesktopAppSettings;
-    const wslBackend = try DesktopWslBackend.DesktopWslBackend;
-    const lifecycle = try DesktopLifecycle.DesktopLifecycle;
-    const previousSettings = try appSettings.get;
-    const updateSettings = enabled
-      ? appSettings.setWslBackendEnabled(true)
-      : appSettings.applyWslWindowsFallback;
-    const change = try updateSettings;
-    const settings = try appSettings.get;
-    const changedWslOnlyPrimary = enabled
-      ? settings.wslOnly
-      : previousSettings.wslBackendEnabled && previousSettings.wslOnly;
-    if (changedWslOnlyPrimary && change.changed) {
-      const state = try readWslState;
-      try lifecycle.relaunch(`wslBackendEnabled=${enabled}`);
-      return state;
-    }
-    // Reconcile never fails, so no rollback is needed.
-    try wslBackend.reconcile;
-    return try readWslState;
-  })(), "desktop.ipc.wsl.setEnabled"),
-});
+  handler: effect (
+    enabled,
+  ): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment | DesktopLifecycle.DesktopLifecycleRuntimeServices) =>
+    try withSpan(
+      (effect (): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment | DesktopLifecycle.DesktopLifecycleRuntimeServices) => {
+        const appSettings = try DesktopAppSettings.DesktopAppSettings
+        const wslBackend = try DesktopWslBackend.DesktopWslBackend
+        const lifecycle = try DesktopLifecycle.DesktopLifecycle
+        const previousSettings = try appSettings.get
+        const updateSettings = enabled
+          ? appSettings.setWslBackendEnabled(true)
+          : appSettings.applyWslWindowsFallback
+        const change = try updateSettings
+        const settings = try appSettings.get
+        const changedWslOnlyPrimary = enabled
+          ? settings.wslOnly
+          : previousSettings.wslBackendEnabled && previousSettings.wslOnly
+        if (changedWslOnlyPrimary && change.changed) {
+          const state = try readWslState
+          try lifecycle.relaunch(`wslBackendEnabled=${enabled}`)
+          return state
+        }
+        // Reconcile never fails, so no rollback is needed.
+        try wslBackend.reconcile
+        return try readWslState
+      })(),
+      "desktop.ipc.wsl.setEnabled",
+    ),
+})
 
 export const setWslDistro = makeIpcMethod({
   channel: IpcChannels.SET_WSL_DISTRO_CHANNEL,
   payload: Schema.NullOr(Schema.String),
   result: DesktopWslStateSchema,
-  handler: effect (distro): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment | DesktopLifecycle.DesktopLifecycleRuntimeServices) => try withSpan((effect (): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment | DesktopLifecycle.DesktopLifecycleRuntimeServices) => {
-    const appSettings = try DesktopAppSettings.DesktopAppSettings;
-    const wslBackend = try DesktopWslBackend.DesktopWslBackend;
-    const lifecycle = try DesktopLifecycle.DesktopLifecycle;
-    const change = try appSettings.setWslDistro(distro);
-    const settings = try appSettings.get;
-    // WSL-only primary backends capture their distro at startup; relaunch to change it.
-    if (settings.wslBackendEnabled && settings.wslOnly && change.changed) {
-      const state = try readWslState;
-      try lifecycle.relaunch(`wslDistro=${distro ?? "default"}`);
-      return state;
-    }
-    try wslBackend.reconcile;
-    return try readWslState;
-  })(), "desktop.ipc.wsl.setDistro"),
-});
+  handler: effect (
+    distro,
+  ): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment | DesktopLifecycle.DesktopLifecycleRuntimeServices) =>
+    try withSpan(
+      (effect (): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment | DesktopLifecycle.DesktopLifecycleRuntimeServices) => {
+        const appSettings = try DesktopAppSettings.DesktopAppSettings
+        const wslBackend = try DesktopWslBackend.DesktopWslBackend
+        const lifecycle = try DesktopLifecycle.DesktopLifecycle
+        const change = try appSettings.setWslDistro(distro)
+        const settings = try appSettings.get
+        // WSL-only primary backends capture their distro at startup; relaunch to change it.
+        if (settings.wslBackendEnabled && settings.wslOnly && change.changed) {
+          const state = try readWslState
+          try lifecycle.relaunch(`wslDistro=${distro ?? "default"}`)
+          return state
+        }
+        try wslBackend.reconcile
+        return try readWslState
+      })(),
+      "desktop.ipc.wsl.setDistro",
+    ),
+})
 
 export const setWslOnly = makeIpcMethod({
   channel: IpcChannels.SET_WSL_ONLY_CHANNEL,
   payload: Schema.Boolean,
   result: DesktopWslStateSchema,
-  handler: effect (enabled): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment | DesktopLifecycle.DesktopLifecycleRuntimeServices) => try withSpan((effect (): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment | DesktopLifecycle.DesktopLifecycleRuntimeServices) => {
-    // The pool captures its primary at initialization; disabled WSL can stage mode changes until enable.
-    const appSettings = try DesktopAppSettings.DesktopAppSettings;
-    const lifecycle = try DesktopLifecycle.DesktopLifecycle;
-    const change = try appSettings.setWslOnly(enabled);
-    const state = try readWslState;
-    if (state.enabled && change.changed) {
-      try lifecycle.relaunch(`wslOnly=${enabled}`);
-    }
-    return state;
-  })(), "desktop.ipc.wsl.setOnly"),
-});
+  handler: effect (
+    enabled,
+  ): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment | DesktopLifecycle.DesktopLifecycleRuntimeServices) =>
+    try withSpan(
+      (effect (): { readonly enabled: boolean; readonly distro: string | null; readonly available: boolean; readonly wslOnly: boolean; readonly distros: readonly { readonly name: string; readonly isDefault: boolean; readonly version: 1 | 2; }[]; readonly preflightError: string | null; }!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopWslBackend.DesktopWslBackend | DesktopWslEnvironment.DesktopWslEnvironment | DesktopLifecycle.DesktopLifecycleRuntimeServices) => {
+        // The pool captures its primary at initialization; disabled WSL can stage mode changes until enable.
+        const appSettings = try DesktopAppSettings.DesktopAppSettings
+        const lifecycle = try DesktopLifecycle.DesktopLifecycle
+        const change = try appSettings.setWslOnly(enabled)
+        const state = try readWslState
+        if (state.enabled && change.changed) {
+          try lifecycle.relaunch(`wslOnly=${enabled}`)
+        }
+        return state
+      })(),
+      "desktop.ipc.wsl.setOnly",
+    ),
+})

@@ -1,13 +1,7 @@
+import { disposeOnFoundationReplace, type FoundationHotModule } from "../lib/foundation-fast-refresh"
 
-import {
-  disposeOnFoundationReplace,
-  type FoundationHotModule,
-} from "../lib/foundation-fast-refresh";
+declare const module: { readonly hot?: FoundationHotModule } | undefined
 
-declare const module: { readonly hot?: FoundationHotModule } | undefined;
+export const appAtomRegistry = AtomRegistry.make()
 
-export const appAtomRegistry = AtomRegistry.make();
-
-disposeOnFoundationReplace(typeof module === "undefined" ? undefined : module.hot, () =>
-  appAtomRegistry.dispose(),
-);
+disposeOnFoundationReplace(typeof module === "undefined" ? undefined : module.hot, () => appAtomRegistry.dispose())

@@ -62,7 +62,9 @@ export interface ThreadForkServiceV2Shape {
   }) => ThreadForkPlanV2!ThreadForkPlanError
 }
 
-export service ThreadForkServiceV2: ThreadForkServiceV2Shape { static readonly key = "t3/orchestration-v2/ThreadForkService/ThreadForkServiceV2";}
+export service ThreadForkServiceV2: ThreadForkServiceV2Shape {
+  static readonly key = "t3/orchestration-v2/ThreadForkService/ThreadForkServiceV2"
+}
 
 export const layer: Layer.Layer<ThreadForkServiceV2> = Layer.succeed(
   ThreadForkServiceV2,

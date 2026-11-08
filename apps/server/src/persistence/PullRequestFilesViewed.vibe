@@ -1,17 +1,13 @@
-import * as Context from "effect/Context";
-import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Schema from "effect/Schema";
-import * as SqlClient from "effect/sql/SqlClient";
+import * as Context from "effect/Context"
+import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Schema from "effect/Schema"
+import * as SqlClient from "effect/sql/SqlClient"
 
-import { SourceControlProviderKind } from "@t3tools/contracts";
+import { SourceControlProviderKind } from "@t3tools/contracts"
 
-import {
-  PersistenceDecodeError,
-  PersistenceSqlError,
-  type PullRequestFilesViewedRepositoryError,
-} from "./Errors.vibe";
+import { PersistenceDecodeError, PersistenceSqlError, type PullRequestFilesViewedRepositoryError } from "./Errors.vibe"
 
 export schema PullRequestFilesViewedScope {
   provider: SourceControlProviderKind
@@ -25,40 +21,40 @@ export const PullRequestFileViewedMark = Schema.Struct({
   path: Schema.String,
   /** Empty means the host confirms deletion; null means no baseline, so the mark stays cleared until replaced. */
   revision: Schema.NullOr(Schema.String),
-});
-export type PullRequestFileViewedMark = typeof PullRequestFileViewedMark.Type;
+})
+export type PullRequestFileViewedMark = typeof PullRequestFileViewedMark.Type
 
 export interface SetPullRequestFilesViewedInput extends PullRequestFilesViewedScope {
-  readonly files: ReadonlyArray<PullRequestFileViewedMark & { readonly viewed: boolean }>;
-  readonly viewedAt: string;
+  readonly files: ReadonlyArray<PullRequestFileViewedMark & { readonly viewed: boolean }>
+  readonly viewedAt: string
 }
 
-export const MAX_FILES_VIEWED_ROWS = 500;
+export const MAX_FILES_VIEWED_ROWS = 500
 
 export interface PullRequestFilesViewedPage {
-  readonly files: ReadonlyArray<PullRequestFileViewedMark>;
-  readonly truncated: boolean;
+  readonly files: ReadonlyArray<PullRequestFileViewedMark>
+  readonly truncated: boolean
 }
 
 export service PullRequestFilesViewedRepository {
   static readonly key = "t3/persistence/PullRequestFilesViewed/PullRequestFilesViewedRepository"
   list: (
     input: PullRequestFilesViewedScope,
-  ) => PullRequestFilesViewedPage!PullRequestFilesViewedRepositoryError;
+  ) => PullRequestFilesViewedPage!PullRequestFilesViewedRepositoryError
   set: (
     input: SetPullRequestFilesViewedInput,
-  ) => void!PullRequestFilesViewedRepositoryError;
+  ) => void!PullRequestFilesViewedRepositoryError
 }
 
 function toSqlOrDecodeError(sqlOperation: string, decodeOperation: string) {
   return (cause: unknown): PullRequestFilesViewedRepositoryError =>
     Schema.isSchemaError(cause)
       ? PersistenceDecodeError.fromSchemaError(decodeOperation, cause)
-      : new PersistenceSqlError({ operation: sqlOperation, cause });
+      : new PersistenceSqlError({ operation: sqlOperation, cause })
 }
 
 const make = effect {
-  const sql = try SqlClient.SqlClient;
+  const sql = try SqlClient.SqlClient
 
   const listRows = SqlSchema.findAll({
     Request: PullRequestFilesViewedScope,
@@ -77,20 +73,20 @@ const make = effect {
         ORDER BY path
         LIMIT ${MAX_FILES_VIEWED_ROWS + 1}
       `,
-  });
+  })
 
   return PullRequestFilesViewedRepository.of({
-    list: Effect.fn("PullRequestFilesViewedRepository.list")(function (input) {
+    list: Effect.fn("PullRequestFilesViewedRepository.list")(function(input) {
       return listRows(input)
         |> NodeSqliteClient.readOnly(%)
         |> Effect.map(%, (rows) => ({
           files: rows.slice(0, MAX_FILES_VIEWED_ROWS),
           truncated: rows.length > MAX_FILES_VIEWED_ROWS,
         }))
-        |> Effect.mapError(%, toSqlOrDecodeError("listPullRequestFilesViewed", "PullRequestFileViewed"));
+        |> Effect.mapError(%, toSqlOrDecodeError("listPullRequestFilesViewed", "PullRequestFileViewed"))
     }),
 
-    set: Effect.fn("PullRequestFilesViewedRepository.set")(function (input) {
+    set: Effect.fn("PullRequestFilesViewedRepository.set")(function(input) {
       return sql
         .withTransaction(
           Effect.forEach(
@@ -133,11 +129,12 @@ const make = effect {
             { discard: true },
           ),
         )
-          |> Effect.mapError(
-            %, (cause) => new PersistenceSqlError({ operation: "setPullRequestFilesViewed", cause }),
-          );
+        |> Effect.mapError(
+          %,
+          (cause) => new PersistenceSqlError({ operation: "setPullRequestFilesViewed", cause }),
+        )
     }),
-  });
-};
+  })
+}
 
-export const layer = Layer.effect(PullRequestFilesViewedRepository, make);
+export const layer = Layer.effect(PullRequestFilesViewedRepository, make)

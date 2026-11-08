@@ -1,24 +1,17 @@
-import * as Effect from "effect/Effect";
+import * as Effect from "effect/Effect"
 
-import { receiveProviderAuthCallback, cancelProviderAuthCallback } from "./methods/providerAuth.vibe";
-import * as DesktopIpc from "./DesktopIpc.vibe";
-import { installNotificationBadge } from "./methods/notificationBadge.vibe";
-import { getClientSettings, setClientSettings } from "./methods/clientSettings.vibe";
-import {
-  clearConnectionCatalog,
-  getConnectionCatalog,
-  setConnectionCatalog,
-} from "./methods/connectionCatalog.vibe";
-import {
-  getLocalEnvironmentEnabled,
-  setLocalEnvironmentEnabled,
-} from "./methods/localEnvironment.vibe";
+import { receiveProviderAuthCallback, cancelProviderAuthCallback } from "./methods/providerAuth.vibe"
+import * as DesktopIpc from "./DesktopIpc.vibe"
+import { installNotificationBadge } from "./methods/notificationBadge.vibe"
+import { getClientSettings, setClientSettings } from "./methods/clientSettings.vibe"
+import { clearConnectionCatalog, getConnectionCatalog, setConnectionCatalog } from "./methods/connectionCatalog.vibe"
+import { getLocalEnvironmentEnabled, setLocalEnvironmentEnabled } from "./methods/localEnvironment.vibe"
 import {
   getAdvertisedEndpoints,
   getServerExposureState,
   setServerExposureMode,
   setTailscaleServeEnabled,
-} from "./methods/serverExposure.vibe";
+} from "./methods/serverExposure.vibe"
 import {
   bootstrapSshBearerSession,
   disconnectSshEnvironment,
@@ -29,14 +22,8 @@ import {
   issueSshWebSocketTicket,
   resolveSshHost,
   resolveSshPasswordPrompt,
-} from "./methods/sshEnvironment.vibe";
-import {
-  checkForUpdate,
-  downloadUpdate,
-  getUpdateState,
-  installUpdate,
-  setUpdateChannel,
-} from "./methods/updates.vibe";
+} from "./methods/sshEnvironment.vibe"
+import { checkForUpdate, downloadUpdate, getUpdateState, installUpdate, setUpdateChannel } from "./methods/updates.vibe"
 import {
   getAppBranding,
   getLocalEnvironmentBootstraps,
@@ -55,7 +42,7 @@ import {
   pickThemeFiles,
   setTheme,
   showContextMenu,
-} from "./methods/window.vibe";
+} from "./methods/window.vibe"
 import {
   acknowledgeSnapShot,
   checkSnapShotShortcut,
@@ -69,107 +56,104 @@ import {
   requestSnapShotPermissions,
   setSnapShotAnimationDestination,
   setSnapShotShortcutSuppressed,
-} from "./methods/snapShot.vibe";
-import * as PreviewIpc from "./methods/preview.vibe";
-import * as AppActivationIpc from "./methods/appActivation.vibe";
-import * as WebLinksIpc from "./methods/webLinks.vibe";
-import {
-  completeLegacyLocalStorage,
-  takeLegacyLocalStorage,
-} from "./methods/legacyLocalStorage.vibe";
-import { getWslState, setWslBackendEnabled, setWslDistro, setWslOnly } from "./methods/wsl.vibe";
-import {
-  getCliCommandState,
-  installCliCommand,
-  uninstallCliCommand,
-} from "./methods/cliCommand.vibe";
+} from "./methods/snapShot.vibe"
+import * as PreviewIpc from "./methods/preview.vibe"
+import * as AppActivationIpc from "./methods/appActivation.vibe"
+import * as WebLinksIpc from "./methods/webLinks.vibe"
+import { completeLegacyLocalStorage, takeLegacyLocalStorage } from "./methods/legacyLocalStorage.vibe"
+import { getWslState, setWslBackendEnabled, setWslDistro, setWslOnly } from "./methods/wsl.vibe"
+import { getCliCommandState, installCliCommand, uninstallCliCommand } from "./methods/cliCommand.vibe"
 
-export const installDesktopIpcHandlers = effect () => try withSpan(effect {
-  const ipc = try DesktopIpc.DesktopIpc;
-  try installNotificationBadge();
-  try PreviewIpc.installPreviewEventForwarding();
+export const installDesktopIpcHandlers = effect () =>
+  try withSpan(
+    effect {
+      const ipc = try DesktopIpc.DesktopIpc
+      try installNotificationBadge()
+      try PreviewIpc.installPreviewEventForwarding()
 
-  try ipc.handle(AppActivationIpc.setReady);
-  try ipc.handle(AppActivationIpc.complete);
-  try ipc.handle(WebLinksIpc.setReady);
+      try ipc.handle(AppActivationIpc.setReady)
+      try ipc.handle(AppActivationIpc.complete)
+      try ipc.handle(WebLinksIpc.setReady)
 
-  try ipc.handleSync(takeLegacyLocalStorage);
-  try ipc.handle(completeLegacyLocalStorage);
-  try ipc.handleSync(getAppBranding);
-  try ipc.handleSync(getRelayTelemetryEnabled);
-  try ipc.handleSync(getSystemLocale);
-  try ipc.handleSync(getWindowFullscreenState);
-  try ipc.handleSync(getLocalEnvironmentBootstraps);
-  try ipc.handleSync(getLocalEnvironmentEnabled);
-  try ipc.handle(setLocalEnvironmentEnabled);
-  try ipc.handle(getLocalEnvironmentBearerToken);
+      try ipc.handleSync(takeLegacyLocalStorage)
+      try ipc.handle(completeLegacyLocalStorage)
+      try ipc.handleSync(getAppBranding)
+      try ipc.handleSync(getRelayTelemetryEnabled)
+      try ipc.handleSync(getSystemLocale)
+      try ipc.handleSync(getWindowFullscreenState)
+      try ipc.handleSync(getLocalEnvironmentBootstraps)
+      try ipc.handleSync(getLocalEnvironmentEnabled)
+      try ipc.handle(setLocalEnvironmentEnabled)
+      try ipc.handle(getLocalEnvironmentBearerToken)
 
-  try ipc.handle(getClientSettings);
-  try ipc.handle(setClientSettings);
-  try ipc.handle(getConnectionCatalog);
-  try ipc.handle(getSnapShotState);
-  try ipc.handle(setupSnapShot);
-  try ipc.handle(previewSnapShotConfig);
-  try ipc.handle(applySnapShotConfig);
-  try ipc.handle(requestSnapShotPermissions);
-  try ipc.handle(checkSnapShotShortcut);
-  try ipc.handle(setSnapShotShortcutSuppressed);
-  try ipc.handle(listPendingSnapShots);
-  try ipc.handle(readSnapShot);
-  try ipc.handle(setSnapShotAnimationDestination);
-  try ipc.handle(dismissSnapShotAnimation);
-  try ipc.handle(acknowledgeSnapShot);
-  try ipc.handle(setConnectionCatalog);
-  try ipc.handle(clearConnectionCatalog);
+      try ipc.handle(getClientSettings)
+      try ipc.handle(setClientSettings)
+      try ipc.handle(getConnectionCatalog)
+      try ipc.handle(getSnapShotState)
+      try ipc.handle(setupSnapShot)
+      try ipc.handle(previewSnapShotConfig)
+      try ipc.handle(applySnapShotConfig)
+      try ipc.handle(requestSnapShotPermissions)
+      try ipc.handle(checkSnapShotShortcut)
+      try ipc.handle(setSnapShotShortcutSuppressed)
+      try ipc.handle(listPendingSnapShots)
+      try ipc.handle(readSnapShot)
+      try ipc.handle(setSnapShotAnimationDestination)
+      try ipc.handle(dismissSnapShotAnimation)
+      try ipc.handle(acknowledgeSnapShot)
+      try ipc.handle(setConnectionCatalog)
+      try ipc.handle(clearConnectionCatalog)
 
-  try ipc.handle(discoverSshHosts);
-  try ipc.handle(resolveSshHost);
-  try ipc.handle(ensureSshEnvironment);
-  try ipc.handle(disconnectSshEnvironment);
-  try ipc.handle(fetchSshEnvironmentDescriptor);
-  try ipc.handle(bootstrapSshBearerSession);
-  try ipc.handle(fetchSshSessionState);
-  try ipc.handle(issueSshWebSocketTicket);
-  try ipc.handle(resolveSshPasswordPrompt);
+      try ipc.handle(discoverSshHosts)
+      try ipc.handle(resolveSshHost)
+      try ipc.handle(ensureSshEnvironment)
+      try ipc.handle(disconnectSshEnvironment)
+      try ipc.handle(fetchSshEnvironmentDescriptor)
+      try ipc.handle(bootstrapSshBearerSession)
+      try ipc.handle(fetchSshSessionState)
+      try ipc.handle(issueSshWebSocketTicket)
+      try ipc.handle(resolveSshPasswordPrompt)
 
-  try ipc.handle(getServerExposureState);
-  try ipc.handle(setServerExposureMode);
-  try ipc.handle(setTailscaleServeEnabled);
-  try ipc.handle(getAdvertisedEndpoints);
+      try ipc.handle(getServerExposureState)
+      try ipc.handle(setServerExposureMode)
+      try ipc.handle(setTailscaleServeEnabled)
+      try ipc.handle(getAdvertisedEndpoints)
 
-  try ipc.handle(getWslState);
-  try ipc.handle(setWslBackendEnabled);
-  try ipc.handle(setWslDistro);
-  try ipc.handle(setWslOnly);
+      try ipc.handle(getWslState)
+      try ipc.handle(setWslBackendEnabled)
+      try ipc.handle(setWslDistro)
+      try ipc.handle(setWslOnly)
 
-  try ipc.handle(pickFolder);
-  try ipc.handle(pickProjectFavicon);
-  try ipc.handle(pickThemeFiles);
-  try ipc.handle(setTheme);
-  try ipc.handle(showContextMenu);
-  try ipc.handle(openExternal);
-  try ipc.handle(receiveProviderAuthCallback);
-  try ipc.handle(cancelProviderAuthCallback);
-  try ipc.handle(openSystemSettings);
-  try ipc.handle(checkSystemPermission);
-  try ipc.handle(pasteAsText);
-  try ipc.handle(revealWindow);
-  try ipc.handle(probeRemoteEditors);
-  try ipc.handle(getUpdateState);
-  try ipc.handle(setUpdateChannel);
-  try ipc.handle(downloadUpdate);
-  try ipc.handle(installUpdate);
-  try ipc.handle(checkForUpdate);
-  try ipc.handle(getCliCommandState);
-  try ipc.handle(installCliCommand);
-  try ipc.handle(uninstallCliCommand);
-  for (const previewMethod of PreviewIpc.methods) {
-    // Explicit types preserve the error/service union of these heterogeneous preview methods.
-    try ipc.handle<
-      Effect.Error<ReturnType<(typeof PreviewIpc.methods)[number]["handler"]>>,
-      Effect.Services<ReturnType<(typeof PreviewIpc.methods)[number]["handler"]>>
-    >(previewMethod);
-  }
-  try ipc.handle(PreviewIpc.listBrowserImportSources);
-  try ipc.handle(PreviewIpc.importBrowserCookies);
-}, "desktop.ipc.installHandlers");
+      try ipc.handle(pickFolder)
+      try ipc.handle(pickProjectFavicon)
+      try ipc.handle(pickThemeFiles)
+      try ipc.handle(setTheme)
+      try ipc.handle(showContextMenu)
+      try ipc.handle(openExternal)
+      try ipc.handle(receiveProviderAuthCallback)
+      try ipc.handle(cancelProviderAuthCallback)
+      try ipc.handle(openSystemSettings)
+      try ipc.handle(checkSystemPermission)
+      try ipc.handle(pasteAsText)
+      try ipc.handle(revealWindow)
+      try ipc.handle(probeRemoteEditors)
+      try ipc.handle(getUpdateState)
+      try ipc.handle(setUpdateChannel)
+      try ipc.handle(downloadUpdate)
+      try ipc.handle(installUpdate)
+      try ipc.handle(checkForUpdate)
+      try ipc.handle(getCliCommandState)
+      try ipc.handle(installCliCommand)
+      try ipc.handle(uninstallCliCommand)
+      for (const previewMethod of PreviewIpc.methods) {
+        // Explicit types preserve the error/service union of these heterogeneous preview methods.
+        try ipc.handle<
+          Effect.Error<ReturnType<(typeof PreviewIpc.methods)[number]["handler"]>>,
+          Effect.Services<ReturnType<(typeof PreviewIpc.methods)[number]["handler"]>>
+        >(previewMethod)
+      }
+      try ipc.handle(PreviewIpc.listBrowserImportSources)
+      try ipc.handle(PreviewIpc.importBrowserCookies)
+    },
+    "desktop.ipc.installHandlers",
+  )

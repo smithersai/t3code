@@ -1,20 +1,16 @@
-import { useAtomValue } from "@effect/atom-react";
-import type {
-  DesktopPreviewBridge,
-  DesktopPreviewWebviewConfig,
-  EnvironmentId,
-} from "@t3tools/contracts";
-import * as Schema from "effect/Schema";
+import { useAtomValue } from "@effect/atom-react"
+import type { DesktopPreviewBridge, DesktopPreviewWebviewConfig, EnvironmentId } from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
 
-import { previewBridge } from "~/components/preview/previewBridge";
+import { previewBridge } from "~/components/preview/previewBridge"
 
-const PREVIEW_CONFIG_STALE_TIME_MS = 5 * 60_000;
-const PREVIEW_CONFIG_IDLE_TTL_MS = 10 * 60_000;
+const PREVIEW_CONFIG_STALE_TIME_MS = 5 * 60_000
+const PREVIEW_CONFIG_IDLE_TTL_MS = 10 * 60_000
 
 export schema error PreviewWebviewBridgeUnavailableError {
   readonly environmentId: string
   override get message(): string {
-    return `Desktop preview configuration is unavailable for environment "${this.environmentId}".`;
+    return `Desktop preview configuration is unavailable for environment "${this.environmentId}".`
   }
 }
 
@@ -23,13 +19,13 @@ export schema error PreviewWebviewConfigLoadError {
   readonly environmentId: string
   cause: PreviewWebviewConfigLoadErrorCauseField
   override get message(): string {
-    return `Failed to load desktop preview configuration for environment "${this.environmentId}".`;
+    return `Failed to load desktop preview configuration for environment "${this.environmentId}".`
   }
 }
 
-export schema PreviewWebviewConfigError = PreviewWebviewBridgeUnavailableError | PreviewWebviewConfigLoadError;
+export schema PreviewWebviewConfigError = PreviewWebviewBridgeUnavailableError | PreviewWebviewConfigLoadError
 
-type PreviewConfigBridge = Pick<DesktopPreviewBridge, "getPreviewConfig">;
+type PreviewConfigBridge = Pick<DesktopPreviewBridge, "getPreviewConfig">
 
 const loadPreviewWebviewConfig = (
   environmentId: EnvironmentId,
@@ -37,33 +33,33 @@ const loadPreviewWebviewConfig = (
   bridge: PreviewConfigBridge | null = previewBridge,
 ): DesktopPreviewWebviewConfig!PreviewWebviewConfigError => {
   if (bridge === null) {
-    return Effect.fail(new PreviewWebviewBridgeUnavailableError({ environmentId }));
+    return Effect.fail(new PreviewWebviewBridgeUnavailableError({ environmentId }))
   }
 
   return Effect.tryPromise({
     try: () => bridge.getPreviewConfig(environmentId, profileId),
     catch: (cause) => new PreviewWebviewConfigLoadError({ environmentId, cause }),
-  });
-};
+  })
+}
 
 // Atom.family needs a primitive key; keep profile last so delimiter-containing ids round-trip.
-const CONFIG_KEY_DELIMITER = "\u0000";
+const CONFIG_KEY_DELIMITER = "\u0000"
 
 const configKey = (environmentId: EnvironmentId, profileId: string | undefined): string =>
-  `${environmentId}${CONFIG_KEY_DELIMITER}${profileId ?? ""}`;
+  `${environmentId}${CONFIG_KEY_DELIMITER}${profileId ?? ""}`
 
 const parseConfigKey = (key: string): { environmentId: EnvironmentId; profileId?: string } => {
-  const delimiter = key.indexOf(CONFIG_KEY_DELIMITER);
-  const environmentId = (delimiter === -1 ? key : key.slice(0, delimiter)) as EnvironmentId;
-  const profileId = delimiter === -1 ? "" : key.slice(delimiter + CONFIG_KEY_DELIMITER.length);
+  const delimiter = key.indexOf(CONFIG_KEY_DELIMITER)
+  const environmentId = (delimiter === -1 ? key : key.slice(0, delimiter)) as EnvironmentId
+  const profileId = delimiter === -1 ? "" : key.slice(delimiter + CONFIG_KEY_DELIMITER.length)
   return {
     environmentId,
     ...(profileId === "" ? {} : { profileId }),
-  };
-};
+  }
+}
 
 const previewWebviewConfigAtom = Atom.family((key: string) => {
-  const { environmentId, profileId } = parseConfigKey(key);
+  const { environmentId, profileId } = parseConfigKey(key)
   return Atom.make(loadPreviewWebviewConfig(environmentId, profileId)).pipe(
     Atom.swr({
       staleTime: PREVIEW_CONFIG_STALE_TIME_MS,
@@ -71,13 +67,13 @@ const previewWebviewConfigAtom = Atom.family((key: string) => {
     }),
     Atom.setIdleTTL(PREVIEW_CONFIG_IDLE_TTL_MS),
     Atom.withLabel(`preview:webview-config:${key}`),
-  );
-});
+  )
+})
 
 export function usePreviewWebviewConfig(
   environmentId: EnvironmentId,
   profileId?: string,
 ): DesktopPreviewWebviewConfig | null {
-  const result = useAtomValue(previewWebviewConfigAtom(configKey(environmentId, profileId)));
-  return Option.getOrNull(AsyncResult.value(result));
+  const result = useAtomValue(previewWebviewConfigAtom(configKey(environmentId, profileId)))
+  return Option.getOrNull(AsyncResult.value(result))
 }

@@ -1,4 +1,4 @@
-import { SourceControlProviderKind } from "@t3tools/contracts";
+import { SourceControlProviderKind } from "@t3tools/contracts"
 import type {
   ProjectCloneSnapshot,
   ProjectCloneStage,
@@ -6,20 +6,20 @@ import type {
   ProjectCloneStartResult,
   ProjectId,
   SourceControlRepositoryInfo,
-} from "@t3tools/contracts";
+} from "@t3tools/contracts"
 import {
   OrchestrationDispatchCommandError,
   PROJECT_CLONE_DETAIL_MAX_LENGTH,
   PROJECT_CLONE_ERROR_MAX_LENGTH,
   SourceControlRepositoryError,
-} from "@t3tools/contracts";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Scope from "effect/Scope";
-import * as Stream from "effect/Stream";
+} from "@t3tools/contracts"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Scope from "effect/Scope"
+import * as Stream from "effect/Stream"
 
-import * as SourceControlRepositoryService from "../sourceControl/SourceControlRepositoryService.ts";
+import * as SourceControlRepositoryService from "../sourceControl/SourceControlRepositoryService.ts"
 
 export service ProjectCloneTracker: {
   readonly start: (
@@ -33,111 +33,118 @@ export service ProjectCloneTracker: {
   readonly discard: (projectId: ProjectId) => void!!;
   readonly get: (projectId: ProjectId) => (ProjectCloneSnapshot | null)!!;
   readonly stream: Stream.Stream<ReadonlyArray<ProjectCloneSnapshot>>;
-} { static readonly key = "t3/project/ProjectCloneTracker" }
+} {
+  static readonly key = "t3/project/ProjectCloneTracker"
+}
 
 export interface ProjectCloneHooks {
   readonly createProject: (input: {
-    readonly projectId: ProjectId;
-    readonly title: string;
-    readonly workspaceRoot: string;
-    readonly createdAt: string;
-  }) => void!OrchestrationDispatchCommandError;
+    readonly projectId: ProjectId
+    readonly title: string
+    readonly workspaceRoot: string
+    readonly createdAt: string
+  }) => void!OrchestrationDispatchCommandError
   readonly onCloned: (input: {
-    readonly projectId: ProjectId;
-    readonly workspaceRoot: string;
-  }) => void!!;
+    readonly projectId: ProjectId
+    readonly workspaceRoot: string
+  }) => void!!
 }
 
-const DONE_RETENTION = "30 seconds";
+const DONE_RETENTION = "30 seconds"
 // Git prints nothing while a transfer waits on the network, and the kernel can
 // take 15+ minutes to give up on a dead connection. Without this the banner
 // keeps showing the last transfer speed as if data were still arriving.
-const STALL_AFTER = "20 seconds";
+const STALL_AFTER = "20 seconds"
 
 function clampText(text: string, maxLength: number): string {
-  return text.length <= maxLength ? text : `${text.slice(0, maxLength - 1)}…`;
+  return text.length <= maxLength ? text : `${text.slice(0, maxLength - 1)}…`
 }
 
-const nowIso = Effect.map(DateTime.now, DateTime.formatIso);
+const nowIso = Effect.map(DateTime.now, DateTime.formatIso)
 
 interface TrackedClone {
-  readonly snapshot: ProjectCloneSnapshot;
-  readonly fiber: Fiber.Fiber<unknown, unknown> | null;
-  readonly hooks: ProjectCloneHooks;
+  readonly snapshot: ProjectCloneSnapshot
+  readonly fiber: Fiber.Fiber<unknown, unknown> | null
+  readonly hooks: ProjectCloneHooks
   readonly input: {
     /** What git is given; may carry credentials and never leaves the server. */
-    readonly cloneUrl: string;
-    readonly destinationPath: string;
-    readonly repository: SourceControlRepositoryInfo | null;
-  };
+    readonly cloneUrl: string
+    readonly destinationPath: string
+    readonly repository: SourceControlRepositoryInfo | null
+  }
 }
 
 /** @public */
 export const make = effect {
-  const repositories = try SourceControlRepositoryService.SourceControlRepositoryService;
-  const clones = try Ref.make(new Map<ProjectId, TrackedClone>());
-  const changes = try PubSub.unbounded<ReadonlyArray<ProjectCloneSnapshot>>();
-  const retentionFibers = new Map<ProjectId, Fiber.Fiber<unknown, never>>();
-  let sequence = 0;
-  const cloneScope = try Scope.make("parallel");
-  try Effect.addFinalizer(() => Scope.close(cloneScope, Exit.void));
+  const repositories = try SourceControlRepositoryService.SourceControlRepositoryService
+  const clones = try Ref.make(new Map<ProjectId, TrackedClone>())
+  const changes = try PubSub.unbounded<ReadonlyArray<ProjectCloneSnapshot>>()
+  const retentionFibers = new Map<ProjectId, Fiber.Fiber<unknown, never>>()
+  let sequence = 0
+  const cloneScope = try Scope.make("parallel")
+  try Effect.addFinalizer(() => Scope.close(cloneScope, Exit.void))
   // Serialize actions on the shared entry and directory so retries cannot race clones.
-  const actionLock = try Semaphore.make(1);
-  const locked = <A, E, R>(effect: A!E!R) => actionLock.withPermits(1)(effect);
+  const actionLock = try Semaphore.make(1)
+  const locked = <A, E, R>(effect: A!E!R) => actionLock.withPermits(1)(effect)
 
   const list = Ref.get(clones)
-    |> Effect.map(%, (current) => Array.from(current.values(), (tracked) => tracked.snapshot));
-  const publish = list |> Effect.flatMap(%, (snapshots) => PubSub.publish(changes, snapshots));
+    |> Effect.map(%, (current) => Array.from(current.values(), (tracked) => tracked.snapshot))
+  const publish = list |> Effect.flatMap(%, (snapshots) => PubSub.publish(changes, snapshots))
 
   const modify = (
     projectId: ProjectId,
     mutate: (tracked: TrackedClone) => TrackedClone,
   ): (ProjectCloneSnapshot | null)!! =>
     Ref.modify(clones, (current) => {
-      const existing = current.get(projectId);
-      if (!existing) return [null, current] as const;
-      const nextTracked = mutate(existing);
-      const nextSnapshot = { ...nextTracked.snapshot, sequence: ++sequence };
-      const next = new Map(current);
-      next.set(projectId, { ...nextTracked, snapshot: nextSnapshot });
-      return [nextSnapshot, next] as const;
-    }).pipe(Effect.tap((snapshot) => (snapshot ? publish : Effect.void)));
+      const existing = current.get(projectId)
+      if (!existing) return [null, current] as const
+      const nextTracked = mutate(existing)
+      const nextSnapshot = { ...nextTracked.snapshot, sequence: ++sequence }
+      const next = new Map(current)
+      next.set(projectId, { ...nextTracked, snapshot: nextSnapshot })
+      return [nextSnapshot, next] as const
+    }).pipe(Effect.tap((snapshot) => (snapshot ? publish : Effect.void)))
 
   const clearRetention = (projectId: ProjectId) => {
-    const fiber = retentionFibers.get(projectId);
-    retentionFibers.delete(projectId);
-    return fiber ? (Fiber.interrupt(fiber) |> Effect.ignore(%)) : Effect.void;
-  };
+    const fiber = retentionFibers.get(projectId)
+    retentionFibers.delete(projectId)
+    return fiber ? (Fiber.interrupt(fiber) |> Effect.ignore(%)) : Effect.void
+  }
 
   const remove = (projectId: ProjectId) =>
     Ref.update(clones, (current) => {
-      if (!current.has(projectId)) return current;
-      const next = new Map(current);
-      next.delete(projectId);
-      return next;
-    }) |> Effect.andThen(%, publish);
+      if (!current.has(projectId)) return current
+      const next = new Map(current)
+      next.delete(projectId)
+      return next
+    }) |> Effect.andThen(%, publish)
 
   const scheduleRemoval = effect (
     projectId: ProjectId,
-  ) => try withSpan(effect {
-    try clearRetention(projectId);
-    const fiber = try (remove(projectId)
-      |> Effect.delay(%, DONE_RETENTION)
-      |> Effect.ensuring(
-        %, effect {
-          if (retentionFibers.get(projectId) === fiber) retentionFibers.delete(projectId);
-        },
-      )
-      |> Effect.forkDetach(%));
-    retentionFibers.set(projectId, fiber);
-  }, "ProjectCloneTracker.scheduleRemoval");
+  ) =>
+    try withSpan(
+      effect {
+        try clearRetention(projectId)
+        const fiber = try (remove(projectId)
+          |> Effect.delay(%, DONE_RETENTION)
+          |> Effect.ensuring(
+            %,
+            effect {
+              if (retentionFibers.get(projectId) === fiber) retentionFibers.delete(projectId)
+            },
+          )
+          |> Effect.forkDetach(%))
+        retentionFibers.set(projectId, fiber)
+      },
+      "ProjectCloneTracker.scheduleRemoval",
+    )
 
   const progress = (
     projectId: ProjectId,
     update: {
-      readonly stage: ProjectCloneStage;
-      readonly percent: number | null;
-      readonly detail: string | null;
+      readonly stage: ProjectCloneStage
+      readonly percent: number | null
+      readonly detail: string | null
     },
   ) =>
     modify(projectId, (tracked) => ({
@@ -146,65 +153,70 @@ export const make = effect {
         ...tracked.snapshot,
         stage: update.stage,
         percent: update.percent,
-        detail:
-          update.detail === null ? null : clampText(update.detail, PROJECT_CLONE_DETAIL_MAX_LENGTH),
+        detail: update.detail === null ? null : clampText(update.detail, PROJECT_CLONE_DETAIL_MAX_LENGTH),
         stalled: false,
       },
-    })) |> Effect.asVoid(%);
+    })) |> Effect.asVoid(%)
 
   const markStalled = (projectId: ProjectId) =>
     modify(projectId, (tracked) => ({
       ...tracked,
       snapshot: { ...tracked.snapshot, stalled: true },
-    })) |> Effect.asVoid(%);
+    })) |> Effect.asVoid(%)
 
   /** Marks the clone stalled once, then waits for git to speak again. */
   const watchForStall = (projectId: ProjectId, pulses: Queue.Dequeue<void>) =>
     Queue.take(pulses)
-      |> Effect.timeoutOption(%, STALL_AFTER)
-      |> Effect.flatMap(%, (pulse) =>
-        Option.isSome(pulse)
-          ? Effect.void
-          : (markStalled(projectId) |> Effect.andThen(%, Queue.take(pulses))),
-      )
-      |> Effect.forever(%);
+    |> Effect.timeoutOption(%, STALL_AFTER)
+    |> Effect.flatMap(%, (pulse) =>
+      Option.isSome(pulse)
+        ? Effect.void
+        : (markStalled(projectId) |> Effect.andThen(%, Queue.take(pulses))))
+    |> Effect.forever(%)
 
   const finish = effect (
     projectId: ProjectId,
     phase: "cancelled" | "done" | "failed",
     error: string | null,
-  ) => try withSpan(effect {
-    const endedAt = try nowIso;
-    try modify(projectId, (tracked) => ({
-      ...tracked,
-      fiber: null,
-      snapshot: {
-        ...tracked.snapshot,
-        phase,
-        endedAt,
-        percent: phase === "done" ? 100 : tracked.snapshot.percent,
-        stalled: false,
-        error: error === null ? null : clampText(error, PROJECT_CLONE_ERROR_MAX_LENGTH),
+  ) =>
+    try withSpan(
+      effect {
+        const endedAt = try nowIso
+        try modify(projectId, (tracked) => ({
+          ...tracked,
+          fiber: null,
+          snapshot: {
+            ...tracked.snapshot,
+            phase,
+            endedAt,
+            percent: phase === "done" ? 100 : tracked.snapshot.percent,
+            stalled: false,
+            error: error === null ? null : clampText(error, PROJECT_CLONE_ERROR_MAX_LENGTH),
+          },
+        }))
+        if (phase === "done") try scheduleRemoval(projectId)
       },
-    }));
-    if (phase === "done") try scheduleRemoval(projectId);
-  }, "ProjectCloneTracker.finish");
+      "ProjectCloneTracker.finish",
+    )
 
   const cloneWatchingForStall = effect (
     projectId: ProjectId,
     tracked: TrackedClone,
-  ) => try withSpan(effect {
-    const pulses = try Queue.sliding<void>(1);
-    try (watchForStall(projectId, pulses) |> Effect.forkScoped(%));
-    return try repositories.cloneRepository(
-      { remoteUrl: tracked.input.cloneUrl, destinationPath: tracked.input.destinationPath },
-      {
-        onProgress: (update) =>
-          Queue.offer(pulses, undefined) |> Effect.andThen(%, progress(projectId, update)),
-        timeoutMs: null,
-      },
-    );
-  } |> Effect.scoped(%), "ProjectCloneTracker.cloneWatchingForStall");
+  ) =>
+    try withSpan(
+      effect {
+        const pulses = try Queue.sliding<void>(1)
+        try (watchForStall(projectId, pulses) |> Effect.forkScoped(%))
+        return try repositories.cloneRepository(
+          { remoteUrl: tracked.input.cloneUrl, destinationPath: tracked.input.destinationPath },
+          {
+            onProgress: (update) => Queue.offer(pulses, undefined) |> Effect.andThen(%, progress(projectId, update)),
+            timeoutMs: null,
+          },
+        )
+      } |> Effect.scoped(%),
+      "ProjectCloneTracker.cloneWatchingForStall",
+    )
 
   /**
    * `onExit` records outcomes even on interruption; `matchCause` would be skipped.
@@ -212,200 +224,222 @@ export const make = effect {
    */
   const runClone = (projectId: ProjectId, tracked: TrackedClone) =>
     cloneWatchingForStall(projectId, tracked)
-      |> Effect.onExit(%, (exit) =>
-        Exit.isSuccess(exit)
-          ? finish(projectId, "done", null)
-          : Cause.hasInterruptsOnly(exit.cause)
-            ? finish(projectId, "cancelled", null)
-            : finish(projectId, "failed", describeCloneFailure(exit.cause)),
-      )
-      |> Effect.flatMap(%, () =>
-        tracked.hooks
-          .onCloned({ projectId, workspaceRoot: tracked.input.destinationPath })|> Effect.ignoreCause({ log: true })(%),
-      )
-      |> Effect.ignoreCause()(%);
+    |> Effect.onExit(%, (exit) =>
+      Exit.isSuccess(exit)
+        ? finish(projectId, "done", null)
+        : Cause.hasInterruptsOnly(exit.cause)
+        ? finish(projectId, "cancelled", null)
+        : finish(projectId, "failed", describeCloneFailure(exit.cause)))
+    |> Effect.flatMap(%, () =>
+      tracked.hooks
+        .onCloned({ projectId, workspaceRoot: tracked.input.destinationPath })
+      |> Effect.ignoreCause({ log: true })(%))
+    |> Effect.ignoreCause()(%)
 
-  const launch = effect (projectId: ProjectId) => try withSpan(effect {
-    const current = try Ref.get(clones);
-    const tracked = current.get(projectId);
-    if (!tracked) return;
-    const fiber = try (runClone(projectId, tracked) |> Effect.forkIn(%, cloneScope));
-    try Ref.update(clones, (map) => {
-      const existing = map.get(projectId);
-      if (!existing) return map;
-      const next = new Map(map);
-      next.set(projectId, { ...existing, fiber });
-      return next;
-    });
-  }, "ProjectCloneTracker.launch");
+  const launch = effect (projectId: ProjectId) =>
+    try withSpan(
+      effect {
+        const current = try Ref.get(clones)
+        const tracked = current.get(projectId)
+        if (!tracked) return
+        const fiber = try (runClone(projectId, tracked) |> Effect.forkIn(%, cloneScope))
+        try Ref.update(clones, (map) => {
+          const existing = map.get(projectId)
+          if (!existing) return map
+          const next = new Map(map)
+          next.set(projectId, { ...existing, fiber })
+          return next
+        })
+      },
+      "ProjectCloneTracker.launch",
+    )
 
-  const start: ProjectCloneTracker["Service"]["start"] = effect (input, hooks): { readonly projectId: string & import("effect/Brand").Brand<"ProjectId">; readonly cwd: string; readonly remoteUrl: string; readonly repository: { readonly provider: string & import("effect/Brand").Brand<"SourceControlProviderKind">; readonly nameWithOwner: string; readonly url: string; readonly sshUrl: string; } | null; }!(OrchestrationDispatchCommandError | SourceControlRepositoryError)!never => try withSpan((effect (): { readonly projectId: string & import("effect/Brand").Brand<"ProjectId">; readonly cwd: string; readonly remoteUrl: string; readonly repository: { readonly provider: string & import("effect/Brand").Brand<"SourceControlProviderKind">; readonly nameWithOwner: string; readonly url: string; readonly sshUrl: string; } | null; }!(OrchestrationDispatchCommandError | SourceControlRepositoryError)!never => {
-    const prepared = try repositories.prepareClone(input);
-    const startedAt = try nowIso;
-    const snapshot: ProjectCloneSnapshot = {
-      projectId: input.projectId,
-      remoteUrl: prepared.remoteUrl,
-      destinationPath: prepared.destinationPath,
-      repository: prepared.repository,
-      phase: "running",
-      stage: "connecting",
-      percent: null,
-      detail: null,
-      stalled: false,
-      error: null,
-      startedAt,
-      endedAt: null,
-      sequence: ++sequence,
-    };
-    const claimed = try Ref.modify(clones, (current) => {
-      const conflict = Array.from(current.values()).some(
-        (tracked) =>
-          tracked.snapshot.projectId === input.projectId ||
-          tracked.input.destinationPath === prepared.destinationPath,
-      );
-      if (conflict) return [false, current] as const;
-      const next = new Map(current);
-      next.set(input.projectId, {
-        snapshot,
-        fiber: null,
-        hooks,
-        input: {
-          cloneUrl: prepared.cloneUrl,
+  const start: ProjectCloneTracker["Service"]["start"] = effect (
+    input,
+    hooks,
+  ): { readonly projectId: string & import("effect/Brand").Brand<"ProjectId">; readonly cwd: string; readonly remoteUrl: string; readonly repository: { readonly provider: string & import("effect/Brand").Brand<"SourceControlProviderKind">; readonly nameWithOwner: string; readonly url: string; readonly sshUrl: string; } | null; }!(OrchestrationDispatchCommandError | SourceControlRepositoryError)!never =>
+    try withSpan(
+      (effect (): { readonly projectId: string & import("effect/Brand").Brand<"ProjectId">; readonly cwd: string; readonly remoteUrl: string; readonly repository: { readonly provider: string & import("effect/Brand").Brand<"SourceControlProviderKind">; readonly nameWithOwner: string; readonly url: string; readonly sshUrl: string; } | null; }!(OrchestrationDispatchCommandError | SourceControlRepositoryError)!never => {
+        const prepared = try repositories.prepareClone(input)
+        const startedAt = try nowIso
+        const snapshot: ProjectCloneSnapshot = {
+          projectId: input.projectId,
+          remoteUrl: prepared.remoteUrl,
           destinationPath: prepared.destinationPath,
           repository: prepared.repository,
-        },
-      });
-      return [true, next] as const;
-    });
-    if (!claimed) {
-      throw new SourceControlRepositoryError({
-        operation: "cloneRepository",
-        provider: input.provider ?? SourceControlProviderKind.make("unknown"),
-        detail: "A clone into this destination is already in progress.",
-      });
-    }
-    // Finish or release the claim despite disconnects; a claim without a fiber cannot be cancelled or retried.
-    try Effect.uninterruptible(
-      effect {
-        try clearRetention(input.projectId);
-        // Register before creation so racing thread.create and project.delete see the clone.
-        try hooks.createProject({
+          phase: "running",
+          stage: "connecting",
+          percent: null,
+          detail: null,
+          stalled: false,
+          error: null,
+          startedAt,
+          endedAt: null,
+          sequence: ++sequence,
+        }
+        const claimed = try Ref.modify(clones, (current) => {
+          const conflict = Array.from(current.values()).some(
+            (tracked) =>
+              tracked.snapshot.projectId === input.projectId
+              || tracked.input.destinationPath === prepared.destinationPath,
+          )
+          if (conflict) return [false, current] as const
+          const next = new Map(current)
+          next.set(input.projectId, {
+            snapshot,
+            fiber: null,
+            hooks,
+            input: {
+              cloneUrl: prepared.cloneUrl,
+              destinationPath: prepared.destinationPath,
+              repository: prepared.repository,
+            },
+          })
+          return [true, next] as const
+        })
+        if (!claimed) {
+          throw new SourceControlRepositoryError({
+            operation: "cloneRepository",
+            provider: input.provider ?? SourceControlProviderKind.make("unknown"),
+            detail: "A clone into this destination is already in progress.",
+          })
+        }
+        // Finish or release the claim despite disconnects; a claim without a fiber cannot be cancelled or retried.
+        try Effect.uninterruptible(
+          effect {
+            try clearRetention(input.projectId)
+            // Register before creation so racing thread.create and project.delete see the clone.
+            try hooks.createProject({
+              projectId: input.projectId,
+              title: input.title,
+              workspaceRoot: prepared.destinationPath,
+              createdAt: input.createdAt,
+            })
+            try publish
+            try launch(input.projectId)
+          } |> Effect.tapError(%, () => remove(input.projectId)),
+        )
+        return {
           projectId: input.projectId,
-          title: input.title,
-          workspaceRoot: prepared.destinationPath,
-          createdAt: input.createdAt,
-        });
-        try publish;
-        try launch(input.projectId);
-      } |> Effect.tapError(%, () => remove(input.projectId)),
-    );
-    return {
-      projectId: input.projectId,
-      cwd: prepared.destinationPath,
-      remoteUrl: prepared.remoteUrl,
-      repository: prepared.repository,
-    };
-  })(), "ProjectCloneTracker.start");
+          cwd: prepared.destinationPath,
+          remoteUrl: prepared.remoteUrl,
+          repository: prepared.repository,
+        }
+      })(),
+      "ProjectCloneTracker.start",
+    )
 
   const get: ProjectCloneTracker["Service"]["get"] = (projectId) =>
-    Ref.get(clones) |> Effect.map(%, (current) => current.get(projectId)?.snapshot ?? null);
+    Ref.get(clones) |> Effect.map(%, (current) => current.get(projectId)?.snapshot ?? null)
 
-  const cancel: ProjectCloneTracker["Service"]["cancel"] = effect (projectId): boolean!never!never => try withSpan((effect (): boolean!never!never => {
-    const current = try Ref.get(clones);
-    const tracked = current.get(projectId);
-    if (!tracked || tracked.snapshot.phase !== "running" || !tracked.fiber) return false;
-    // Finish cancellation despite disconnects to avoid dead fibers behind running snapshots.
-    try Effect.uninterruptible(
-      effect {
-        try Fiber.interrupt(tracked.fiber!);
-        const after = try get(projectId);
-        if (after?.phase === "done") return;
-        if (after?.phase === "running") try finish(projectId, "cancelled", null);
-        try (repositories.discardClone(tracked.input.destinationPath) |> Effect.ignore(%));
-      },
-    );
-    return true;
-  })(), "ProjectCloneTracker.cancel");
+  const cancel: ProjectCloneTracker["Service"]["cancel"] = effect (projectId): boolean!never!never =>
+    try withSpan(
+      (effect (): boolean!never!never => {
+        const current = try Ref.get(clones)
+        const tracked = current.get(projectId)
+        if (!tracked || tracked.snapshot.phase !== "running" || !tracked.fiber) return false
+        // Finish cancellation despite disconnects to avoid dead fibers behind running snapshots.
+        try Effect.uninterruptible(
+          effect {
+            try Fiber.interrupt(tracked.fiber!)
+            const after = try get(projectId)
+            if (after?.phase === "done") return
+            if (after?.phase === "running") try finish(projectId, "cancelled", null)
+            try (repositories.discardClone(tracked.input.destinationPath) |> Effect.ignore(%))
+          },
+        )
+        return true
+      })(),
+      "ProjectCloneTracker.cancel",
+    )
 
-  const retry: ProjectCloneTracker["Service"]["retry"] = effect (projectId): boolean!SourceControlRepositoryError!never => try withSpan((effect (): boolean!SourceControlRepositoryError!never => {
-    const current = try Ref.get(clones);
-    const tracked = current.get(projectId);
-    if (
-      !tracked ||
-      (tracked.snapshot.phase !== "failed" && tracked.snapshot.phase !== "cancelled")
-    ) {
-      return false;
-    }
-    try repositories.discardClone(tracked.input.destinationPath);
-    const startedAt = try nowIso;
-    try modify(projectId, (entry) => ({
-      ...entry,
-      snapshot: {
-        ...entry.snapshot,
-        phase: "running",
-        stage: "connecting",
-        percent: null,
-        detail: null,
-        stalled: false,
-        error: null,
-        startedAt,
-        endedAt: null,
-      },
-    }));
-    try launch(projectId);
-    return true;
-  })(), "ProjectCloneTracker.retry");
+  const retry: ProjectCloneTracker["Service"]["retry"] = effect (
+    projectId,
+  ): boolean!SourceControlRepositoryError!never =>
+    try withSpan(
+      (effect (): boolean!SourceControlRepositoryError!never => {
+        const current = try Ref.get(clones)
+        const tracked = current.get(projectId)
+        if (
+          !tracked
+          || (tracked.snapshot.phase !== "failed" && tracked.snapshot.phase !== "cancelled")
+        ) {
+          return false
+        }
+        try repositories.discardClone(tracked.input.destinationPath)
+        const startedAt = try nowIso
+        try modify(projectId, (entry) => ({
+          ...entry,
+          snapshot: {
+            ...entry.snapshot,
+            phase: "running",
+            stage: "connecting",
+            percent: null,
+            detail: null,
+            stalled: false,
+            error: null,
+            startedAt,
+            endedAt: null,
+          },
+        }))
+        try launch(projectId)
+        return true
+      })(),
+      "ProjectCloneTracker.retry",
+    )
 
-  const discard: ProjectCloneTracker["Service"]["discard"] = effect (projectId): void!never!never => try withSpan((effect (): void!never!never => {
-    const current = try Ref.get(clones);
-    const tracked = current.get(projectId);
-    if (!tracked) return;
-    if (tracked.fiber) try Fiber.interrupt(tracked.fiber);
-    // Git may have finished while the interrupt was landing; the project
-    // is going away either way, but a complete checkout is the user's.
-    const after = try get(projectId);
-    if (after?.phase !== "done") {
-      try (repositories.discardClone(tracked.input.destinationPath) |> Effect.ignore(%));
-    }
-    try clearRetention(projectId);
-    try remove(projectId);
-  })(), "ProjectCloneTracker.discard");
+  const discard: ProjectCloneTracker["Service"]["discard"] = effect (projectId): void!never!never =>
+    try withSpan(
+      (effect (): void!never!never => {
+        const current = try Ref.get(clones)
+        const tracked = current.get(projectId)
+        if (!tracked) return
+        if (tracked.fiber) try Fiber.interrupt(tracked.fiber)
+        // Git may have finished while the interrupt was landing; the project
+        // is going away either way, but a complete checkout is the user's.
+        const after = try get(projectId)
+        if (after?.phase !== "done") {
+          try (repositories.discardClone(tracked.input.destinationPath) |> Effect.ignore(%))
+        }
+        try clearRetention(projectId)
+        try remove(projectId)
+      })(),
+      "ProjectCloneTracker.discard",
+    )
 
   const stream: ProjectCloneTracker["Service"]["stream"] = Stream.callback<
     ReadonlyArray<ProjectCloneSnapshot>
   >(
     effect (mailbox) => {
-      const subscription = try PubSub.subscribe(changes);
-      Queue.offerUnsafe(mailbox, try list);
+      const subscription = try PubSub.subscribe(changes)
+      Queue.offerUnsafe(mailbox, try list)
       try (Stream.fromSubscription(subscription)
-        |> Stream.runForEach(%, effect (snapshots) =>
-          Queue.offerUnsafe(mailbox, snapshots),
-        )
-        |> Effect.forkScoped(%));
+        |> Stream.runForEach(%, effect (snapshots) => Queue.offerUnsafe(mailbox, snapshots))
+        |> Effect.forkScoped(%))
     },
     { bufferSize: 1, strategy: "sliding" },
-  );
+  )
 
   // Forwarders retain the underlying operation spans.
   return ProjectCloneTracker.of({
     start: effect (input, hooks) => {
-      return try locked(start(input, hooks));
+      return try locked(start(input, hooks))
     },
     cancel: effect (projectId) => {
-      return try locked(cancel(projectId));
+      return try locked(cancel(projectId))
     },
     retry: effect (projectId) => {
-      return try locked(retry(projectId));
+      return try locked(retry(projectId))
     },
     discard: effect (projectId) => {
-      return try locked(discard(projectId));
+      return try locked(discard(projectId))
     },
     get,
     stream,
-  });
-};
+  })
+}
 
-const isSourceControlRepositoryError = Schema.is(SourceControlRepositoryError);
+const isSourceControlRepositoryError = Schema.is(SourceControlRepositoryError)
 
 /**
  * Every dispatch transport (WebSocket, HTTP) runs this before normalizing so no
@@ -413,38 +447,50 @@ const isSourceControlRepositoryError = Schema.is(SourceControlRepositoryError);
  * for a command that is about to be refused.
  */
 export const rejectCommandsDuringClone = effect (
-    tracker: { readonly start: (input: ProjectCloneStartInput, hooks: ProjectCloneHooks) => Effect.Effect<ProjectCloneStartResult, (SourceControlRepositoryError | OrchestrationDispatchCommandError)>; readonly cancel: (projectId: ProjectId) => boolean!!; readonly retry: (projectId: ProjectId) => boolean!SourceControlRepositoryError; readonly discard: (projectId: ProjectId) => void!!; readonly get: (projectId: ProjectId) => Effect.Effect<(ProjectCloneSnapshot | null)>; readonly stream: Stream.Stream<ReadonlyArray<ProjectCloneSnapshot>>; },
-    command: { readonly type: string; readonly projectId?: ProjectId; readonly bootstrap?: unknown; },
-  ): void!OrchestrationDispatchCommandError => try withSpan((effect (): void!OrchestrationDispatchCommandError => {
-  const projectId =
-    command.type === "thread.create"
-      ? (command.projectId ?? null)
-      : command.type === "thread.turn.start"
+  tracker: {
+    readonly start: (
+      input: ProjectCloneStartInput,
+      hooks: ProjectCloneHooks,
+    ) => Effect.Effect<ProjectCloneStartResult, (SourceControlRepositoryError | OrchestrationDispatchCommandError)>
+    readonly cancel: (projectId: ProjectId) => boolean!!
+    readonly retry: (projectId: ProjectId) => boolean!SourceControlRepositoryError
+    readonly discard: (projectId: ProjectId) => void!!
+    readonly get: (projectId: ProjectId) => Effect.Effect<(ProjectCloneSnapshot | null)>
+    readonly stream: Stream.Stream<ReadonlyArray<ProjectCloneSnapshot>>
+  },
+  command: { readonly type: string; readonly projectId?: ProjectId; readonly bootstrap?: unknown },
+): void!OrchestrationDispatchCommandError =>
+  try withSpan(
+    (effect (): void!OrchestrationDispatchCommandError => {
+      const projectId = command.type === "thread.create"
+        ? (command.projectId ?? null)
+        : command.type === "thread.turn.start"
         ? bootstrapProjectId(command.bootstrap)
-        : null;
-  if (projectId === null) return;
-  const clone = try tracker.get(projectId);
-  if (clone === null || clone.phase === "done") return;
-  throw new OrchestrationDispatchCommandError({
-    message:
-      clone.phase === "running"
-        ? "The repository is still being cloned."
-        : "The repository was not cloned. Retry the clone first.",
-  });
-})(), "ProjectCloneTracker.rejectCommandsDuringClone");
+        : null
+      if (projectId === null) return
+      const clone = try tracker.get(projectId)
+      if (clone === null || clone.phase === "done") return
+      throw new OrchestrationDispatchCommandError({
+        message: clone.phase === "running"
+          ? "The repository is still being cloned."
+          : "The repository was not cloned. Retry the clone first.",
+      })
+    })(),
+    "ProjectCloneTracker.rejectCommandsDuringClone",
+  )
 
 function bootstrapProjectId(bootstrap: unknown): ProjectId | null {
-  if (typeof bootstrap !== "object" || bootstrap === null) return null;
-  const createThread = (bootstrap as { createThread?: { projectId?: ProjectId } }).createThread;
-  return createThread?.projectId ?? null;
+  if (typeof bootstrap !== "object" || bootstrap === null) return null
+  const createThread = (bootstrap as { createThread?: { projectId?: ProjectId } }).createThread
+  return createThread?.projectId ?? null
 }
 
 function describeCloneFailure(cause: Cause.Cause<unknown>): string {
-  const error = Cause.squash(cause);
-  if (isSourceControlRepositoryError(error)) return error.detail;
+  const error = Cause.squash(cause)
+  if (isSourceControlRepositoryError(error)) return error.detail
   return error instanceof Error && error.message.trim().length > 0
     ? error.message
-    : "The repository could not be cloned.";
+    : "The repository could not be cloned."
 }
 
-export const layer = Layer.effect(ProjectCloneTracker, make);
+export const layer = Layer.effect(ProjectCloneTracker, make)

@@ -3,48 +3,47 @@ import {
   connectionRouteId,
   connectionRouteLabel,
   connectionRoutes,
-} from "@t3tools/client-runtime/connection";
-import type { DesktopSshEnvironmentTarget, EnvironmentMachineKind } from "@t3tools/contracts";
-import type { ReactNode } from "react";
+} from "@t3tools/client-runtime/connection"
+import type { DesktopSshEnvironmentTarget, EnvironmentMachineKind } from "@t3tools/contracts"
+import type { ReactNode } from "react"
 
-import { cn } from "~/lib/utils";
-import type { EnvironmentPresentation } from "../../state/environments.vibe";
-import { isDesktopLocalConnectionTarget } from "~/connection/desktopLocal";
-import { EnvironmentMachineIcon } from "../EnvironmentMachineIcon";
+import { cn } from "~/lib/utils"
+import type { EnvironmentPresentation } from "../../state/environments.vibe"
+import { isDesktopLocalConnectionTarget } from "~/connection/desktopLocal"
+import { EnvironmentMachineIcon } from "../EnvironmentMachineIcon"
 
 export function formatDesktopSshTarget(target: DesktopSshEnvironmentTarget): string {
-  const authority = target.username ? `${target.username}@${target.hostname}` : target.hostname;
-  return target.port ? `${authority}:${target.port}` : authority;
+  const authority = target.username ? `${target.username}@${target.hostname}` : target.hostname
+  return target.port ? `${authority}:${target.port}` : authority
 }
 
 export function environmentTransportLabel(
   environment: EnvironmentPresentation,
   activeTarget: ConnectionTarget | null = null,
 ): string {
-  const { entry } = environment;
-  if (entry.target._tag === "PrimaryConnectionTarget") return "This machine";
-  const routes = connectionRoutes(entry);
+  const { entry } = environment
+  if (entry.target._tag === "PrimaryConnectionTarget") return "This machine"
+  const routes = connectionRoutes(entry)
   if (routes.length > 1) {
-    const active =
-      activeTarget === null
-        ? undefined
-        : routes.find(
-            (route) => connectionRouteId(route.target) === connectionRouteId(activeTarget),
-          );
+    const active = activeTarget === null
+      ? undefined
+      : routes.find(
+        (route) => connectionRouteId(route.target) === connectionRouteId(activeTarget),
+      )
     return active === undefined
       ? connectionRouteLabel(routes[0]!)
-      : `via ${connectionRouteLabel(active)}`;
+      : `via ${connectionRouteLabel(active)}`
   }
-  if (environment.relayManaged) return "T3 Connect";
-  if (isDesktopLocalConnectionTarget(entry.target)) return "WSL";
+  if (environment.relayManaged) return "T3 Connect"
+  if (isDesktopLocalConnectionTarget(entry.target)) return "WSL"
   if (
-    entry.target._tag === "SshConnectionTarget" &&
-    Option.isSome(entry.profile) &&
-    entry.profile.value._tag === "SshConnectionProfile"
+    entry.target._tag === "SshConnectionTarget"
+    && Option.isSome(entry.profile)
+    && entry.profile.value._tag === "SshConnectionProfile"
   ) {
-    return `SSH ${formatDesktopSshTarget(entry.profile.value.target)}`;
+    return `SSH ${formatDesktopSshTarget(entry.profile.value.target)}`
   }
-  return environment.displayUrl ?? "Remote link";
+  return environment.displayUrl ?? "Remote link"
 }
 
 export function EnvironmentRow({
@@ -57,14 +56,14 @@ export function EnvironmentRow({
   className,
   children,
 }: {
-  readonly kind: EnvironmentMachineKind;
-  readonly label: string;
-  readonly subtitle: ReactNode;
-  readonly below?: ReactNode;
-  readonly detail?: ReactNode;
-  readonly dimmed?: boolean;
-  readonly className?: string;
-  readonly children?: ReactNode;
+  readonly kind: EnvironmentMachineKind
+  readonly label: string
+  readonly subtitle: ReactNode
+  readonly below?: ReactNode
+  readonly detail?: ReactNode
+  readonly dimmed?: boolean
+  readonly className?: string
+  readonly children?: ReactNode
 }) {
   return (
     <div
@@ -87,5 +86,5 @@ export function EnvironmentRow({
       <div className="flex shrink-0 items-center gap-1">{children}</div>
       {detail ? <div className="col-span-2 col-start-2 min-w-0">{detail}</div> : null}
     </div>
-  );
+  )
 }

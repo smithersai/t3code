@@ -1,15 +1,19 @@
-import * as Schema from "effect/Schema";
+import * as Schema from "effect/Schema"
 
-import * as DesktopWebLinks from "../../app/DesktopWebLinks.vibe";
-import * as IpcChannels from "../channels.ts";
-import * as DesktopIpc from "../DesktopIpc.vibe";
+import * as DesktopWebLinks from "../../app/DesktopWebLinks.vibe"
+import * as IpcChannels from "../channels.ts"
+import * as DesktopIpc from "../DesktopIpc.vibe"
 
 export const setReady = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.WEB_LINK_READY_CHANNEL,
   payload: Schema.Boolean,
   result: Schema.Void,
-  handler: effect (ready): void!never!DesktopWebLinks.DesktopWebLinks => try withSpan((effect (): void!never!DesktopWebLinks.DesktopWebLinks => {
-    const webLinks = try DesktopWebLinks.DesktopWebLinks;
-    try webLinks.setRendererReady(ready);
-  })(), "desktop.ipc.webLinks.setReady"),
-});
+  handler: effect (ready): void!never!DesktopWebLinks.DesktopWebLinks =>
+    try withSpan(
+      (effect (): void!never!DesktopWebLinks.DesktopWebLinks => {
+        const webLinks = try DesktopWebLinks.DesktopWebLinks
+        try webLinks.setRendererReady(ready)
+      })(),
+      "desktop.ipc.webLinks.setReady",
+    ),
+})
