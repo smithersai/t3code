@@ -20,7 +20,7 @@ export {
   __resetServerAuthBootstrapForTests,
 } from "./auth";
 
-export { usePrimarySessionState } from "./sessionState.ts";
+export { usePrimarySessionState } from "./sessionState.vibe";
 
 export {
   DesktopEnvironmentBootstrapIncompleteError,
