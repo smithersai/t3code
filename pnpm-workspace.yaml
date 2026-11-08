@@ -228,6 +228,16 @@ minimumReleaseAgeExclude:
   - "@pierre/highlights@0.2.0"
   - "@pierre/theming@1.0.2"
   - agent-device@0.21.32
+  - "@smthrs/cli-win32-arm64@0.0.13"
+  - "@smthrs/cli-win32-x64@0.0.13"
+  - vibelang-darwin-arm64@0.0.13
+  - vibelang-darwin-x64@0.0.13
+  - vibelang-linux-arm64@0.0.13
+  - vibelang-linux-x64@0.0.13
+  - vibelang-runtime@0.0.13
+  - vibelang-unplugin@0.0.13
+  - vibelang-vite@0.0.13
+  - vibelang@0.0.13
 
 overrides:
   # Pin every patched package, including transitive dependencies, so lockfile-free
