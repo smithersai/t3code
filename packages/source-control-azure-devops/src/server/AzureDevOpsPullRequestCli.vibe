@@ -608,8 +608,12 @@ export const make = effect {
       ),
 
     runPullRequestAction: Effect.fn("AzureDevOpsPullRequestCli.runPullRequestAction")(
-      function(input) {
-        return azure
+      function*(input) {
+        const action = yield* Effect.orDie(Effect.try({
+          try: () => actionArgs(input.action, input.mergeMethod),
+          catch: (cause) => cause,
+        }))
+        return yield* azure
           .execute({
             cwd: input.cwd,
             args: [
@@ -619,7 +623,7 @@ export const make = effect {
               ...detectArgs,
               "--id",
               String(input.number),
-              ...actionArgs(input.action, input.mergeMethod),
+              ...action,
               "--only-show-errors",
               "--output",
               "json",

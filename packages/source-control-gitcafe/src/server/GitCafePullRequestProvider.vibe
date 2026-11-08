@@ -235,15 +235,22 @@ export const make = effect {
     operation: string,
     input: ProviderRepositoryRef,
   ): string!PullRequestProviderError =>
-    GitCafeHosts.isGitCafeHost(input.host)
-      && GitCafeHosts.gitCafeRepositoryPath(input.repository) === input.repository
-      ? Effect.succeed(`/repos/${input.repository}`)
-      : Effect.fail(
-        failure(
-          operation,
-          `GitCafe serves owner/name repositories on ${GitCafeHosts.GITCAFE_HOSTS.join(" and ")}.`,
-        ),
-      )
+    effect {
+      const valid = try Effect.orDie(Effect.try({
+        try: () =>
+          GitCafeHosts.isGitCafeHost(input.host)
+          && GitCafeHosts.gitCafeRepositoryPath(input.repository) === input.repository,
+        catch: (cause) => cause,
+      }))
+      return try (valid
+        ? Effect.succeed(`/repos/${input.repository}`)
+        : Effect.fail(
+          failure(
+            operation,
+            `GitCafe serves owner/name repositories on ${GitCafeHosts.GITCAFE_HOSTS.join(" and ")}.`,
+          ),
+        ))
+    }
 
   const send = (
     operation: string,

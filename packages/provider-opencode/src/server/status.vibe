@@ -839,13 +839,15 @@ export const checkOpenCodeProviderStatus = effect (
 
       const probedExit = try Effect.exit(
         probeRuntime
-          |> Effect.mapError(
+          |> Effect.catch(
             %,
-            (cause) =>
-              new OpenCodeProbeError({
-                cause,
-                detail: OpenCodeRuntime.openCodeRuntimeErrorDetail(cause),
-              }),
+            effect (cause) => {
+              const detail = try Effect.orDie(Effect.try({
+                try: () => OpenCodeRuntime.openCodeRuntimeErrorDetail(cause),
+                catch: (defect) => defect,
+              }))
+              throw new OpenCodeProbeError({ cause, detail })
+            },
           ),
       )
       if (probedExit._tag === "Failure") {
@@ -911,13 +913,15 @@ export const checkOpenCodeProviderStatus = effect (
         : serverOwner.withServer(loadInventory)
       const inventoryExit = try Effect.exit(
         inventoryEffect
-          |> Effect.mapError(
+          |> Effect.catch(
             %,
-            (cause) =>
-              new OpenCodeProbeError({
-                cause,
-                detail: OpenCodeRuntime.openCodeRuntimeErrorDetail(cause),
-              }),
+            effect (cause) => {
+              const detail = try Effect.orDie(Effect.try({
+                try: () => OpenCodeRuntime.openCodeRuntimeErrorDetail(cause),
+                catch: (defect) => defect,
+              }))
+              throw new OpenCodeProbeError({ cause, detail })
+            },
           ),
       )
       if (inventoryExit._tag === "Failure") {

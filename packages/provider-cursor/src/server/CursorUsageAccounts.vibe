@@ -97,10 +97,13 @@ const make = Effect.gen(function*() {
     try withSpan(
       effect {
         const nowMs = try Clock.currentTimeMillis
-        const fetchMissing = (cache: CursorAccountCache | undefined) => {
-          const range = cursorFetchRange(cache, retentionStartMs, nowMs)
-          return accountReader
-            .read(credential, range.sinceMs, range.untilMs) |> Effect.map(%, (result) => ({ range, result }))
+        const fetchMissing = effect (cache: CursorAccountCache | undefined) => {
+          const range = try Effect.orDie(Effect.try({
+            try: () => cursorFetchRange(cache, retentionStartMs, nowMs),
+            catch: (cause) => cause,
+          }))
+          return try (accountReader
+            .read(credential, range.sinceMs, range.untilMs) |> Effect.map(%, (result) => ({ range, result })))
         }
         let base = caches.get(credentialKey)
         let fetched = try fetchMissing(base)

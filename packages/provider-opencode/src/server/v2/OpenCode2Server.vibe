@@ -96,14 +96,19 @@ export const verifyServer = (client: OpenCodeClient) =>
       }
     }
   })
-  |> Effect.mapError(%, (cause) =>
-    OpenCodeRuntime.isOpenCodeRuntimeError(cause)
-      ? cause
-      : new OpenCodeRuntime.OpenCodeRuntimeError({
-        operation: "server.info",
-        detail: describeInfoFailure(cause),
-        cause,
-      }))
+  |> Effect.catch(%, effect (cause) => {
+    throw try Effect.orDie(Effect.try({
+      try: () =>
+        OpenCodeRuntime.isOpenCodeRuntimeError(cause)
+          ? cause
+          : new OpenCodeRuntime.OpenCodeRuntimeError({
+            operation: "server.info",
+            detail: describeInfoFailure(cause),
+            cause,
+          }),
+      catch: (defect) => defect,
+    }))
+  })
   |> Effect.map(%, (info) => info.version)
 
 export const make = effect (
