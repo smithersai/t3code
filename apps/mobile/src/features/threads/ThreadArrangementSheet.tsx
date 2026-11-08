@@ -17,7 +17,10 @@ import { scopedThreadKey } from "../../lib/scopedEntities";
 import { environmentServerConfigsAtom } from "../../state/server";
 import { environmentThreadShells } from "../../state/threads";
 import { sortSettledThreads } from "@t3tools/client-runtime/state/thread-sort";
-import { useOlderSettledShelf, useOlderSettledShelfGrowth } from "../../state/olderSettledShelf.vibe";
+import {
+  useOlderSettledShelf,
+  useOlderSettledShelfGrowth,
+} from "../../state/olderSettledShelf.vibe";
 import {
   pendingThreadOrderAtom,
   threadDropBusyAtom,

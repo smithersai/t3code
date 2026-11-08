@@ -2,6 +2,18 @@
   "name": "effect-acp",
   "private": true,
   "type": "module",
+  "imports": {
+    "#vibelang/emitted/src/errors": {
+      "types": "./src/errors.d.vibe.ts",
+      "vibelang-source": "./src/errors.vibe",
+      "default": "./.vibelang/js/src/errors.js"
+    },
+    "#vibelang/emitted/src/_internal/shared": {
+      "types": "./src/_internal/shared.d.vibe.ts",
+      "vibelang-source": "./src/_internal/shared.vibe",
+      "default": "./.vibelang/js/src/_internal/shared.js"
+    }
+  },
   "exports": {
     "./client": {
       "types": "./src/client.d.vibe.ts",
@@ -61,27 +73,15 @@
   },
   "dependencies": {
     "effect": "catalog:",
-    "vibelang-runtime": "0.0.12"
+    "vibelang-runtime": "0.0.13"
   },
   "devDependencies": {
     "@effect/openapi-generator": "catalog:",
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
-    "vibelang": "0.0.12",
-    "vibelang-vite": "0.0.12",
+    "vibelang": "0.0.13",
+    "vibelang-vite": "0.0.13",
     "vite-plus": "catalog:"
-  },
-  "imports": {
-    "#vibelang/emitted/src/errors": {
-      "types": "./src/errors.d.vibe.ts",
-      "vibelang-source": "./src/errors.vibe",
-      "default": "./.vibelang/js/src/errors.js"
-    },
-    "#vibelang/emitted/src/_internal/shared": {
-      "types": "./src/_internal/shared.d.vibe.ts",
-      "vibelang-source": "./src/_internal/shared.vibe",
-      "default": "./.vibelang/js/src/_internal/shared.js"
-    }
   }
 }

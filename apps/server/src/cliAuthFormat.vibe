@@ -19,7 +19,7 @@ function formatClientMetadata(metadata: AuthClientMetadata): string {
   return details.length > 0 ? details.join(" | ") : "unlabeled client"
 }
 
-function toIsoString(value: DateTime | DateTime.Utc): string {
+function toIsoString(value: DateTime.DateTime | DateTime.Utc): string {
   return DateTime.formatIso(DateTime.toUtc(value))
 }
 

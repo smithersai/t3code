@@ -1,3 +1,4 @@
+import { $platform } from "./ElectronSafeStorage.platform.js";
 import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as Option from "effect/Option"
@@ -77,7 +78,7 @@ export const make = effect {
     }),
     decryptString: Effect.fn("ElectronSafeStorage.decryptString")(function(value) {
       return Effect.try({
-        try: () => Electron.safeStorage.decryptString(Buffer.from(value)),
+        try: () => Electron.safeStorage.decryptString($platform(value)),
         catch: (cause) => new ElectronSafeStorageDecryptError({ cause }),
       })
     }),

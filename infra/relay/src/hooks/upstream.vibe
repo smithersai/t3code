@@ -40,14 +40,14 @@ const readCapped = (response: HttpClientResponse.HttpClientResponse) =>
   Effect.suspend(() => {
     const chunks: Array<Uint8Array> = []
     let total = 0
-    return response.stream.pipe(
-      Stream.runForEach((chunk) => {
+    return response.stream
+      |> Stream.runForEach(%, (chunk) => {
         total += chunk.length
         if (total > MAX_RESPONSE_BYTES) return Effect.fail(new ResponseTooLarge())
         chunks.push(chunk)
         return Effect.void
-      }),
-      Effect.map(() => {
+      })
+      |> Effect.map(%, () => {
         const body = new Uint8Array(total)
         let offset = 0
         for (const chunk of chunks) {
@@ -55,12 +55,11 @@ const readCapped = (response: HttpClientResponse.HttpClientResponse) =>
           offset += chunk.length
         }
         return body
-      }),
-      Effect.catchIf(
-        (error) => error._tag === "HttpClientError" && error.reason._tag === "EmptyBodyError",
+      })
+      |> Effect.catchIf(
+        %, (error) => error._tag === "HttpClientError" && error.reason._tag === "EmptyBodyError",
         () => Effect.succeed(new Uint8Array(0)),
-      ),
-    )
+      )
   })
 
 /**

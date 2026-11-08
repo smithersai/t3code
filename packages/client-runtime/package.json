@@ -1141,13 +1141,13 @@
     "effect": "catalog:",
     "jszip": "3.10.1",
     "three": "0.180.0",
-    "vibelang-runtime": "0.0.12"
+    "vibelang-runtime": "0.0.13"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
     "@types/three": "0.180.0",
-    "vibelang": "0.0.12",
-    "vibelang-vite": "0.0.12",
+    "vibelang": "0.0.13",
+    "vibelang-vite": "0.0.13",
     "vite-plus": "catalog:"
   }
 }

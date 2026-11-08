@@ -278,14 +278,13 @@ export const listen: void!never!(| DesktopState.DesktopState
       logWarning("could not record the started version", { errorTag: error._tag }),
     );
 
-  yield* updateChanges.pipe(
-    Stream.runForEach((state) => Ref.set(updateStateRef, state).pipe(Effect.andThen(render))),
-    Effect.forkScoped,
-  );
+  yield* updateChanges
+    |> Stream.runForEach(%, (state) => Ref.set(updateStateRef, state) |> Effect.andThen(%, render))
+    |> Effect.forkScoped(%);
 
-  yield* SubscriptionRef.changes(primaryBackendStartup).pipe(
-    Stream.runForEach(
-      effect (startup): void!never!Scope.Scope => try withSpan((effect (): void!never!Scope.Scope => {
+  yield* SubscriptionRef.changes(primaryBackendStartup)
+    |> Stream.runForEach(
+      %, effect (startup): void!never!Scope.Scope => try withSpan((effect (): void!never!Scope.Scope => {
         if (startup._tag === "Ready") {
           try Ref.set(failureRef, Option.none());
           try close;
@@ -302,14 +301,12 @@ export const listen: void!never!(| DesktopState.DesktopState
           try (updates.check("startup-recovery") |> Effect.forkScoped(%));
         }
       })(), "desktop.startupRecovery.onStartupChange"),
-    ),
-    Effect.catchCause((cause) =>
-      Effect.logWarning("startup recovery stopped", cause).pipe(
-        Effect.annotateLogs({ component: "desktop-startup-recovery" }),
-      ),
-    ),
-    Effect.forkScoped,
-  );
+    )
+    |> Effect.catchCause(%, (cause) =>
+      Effect.logWarning("startup recovery stopped", cause)
+        |> Effect.annotateLogs({ component: "desktop-startup-recovery" })(%),
+    )
+    |> Effect.forkScoped(%);
 
   // macOS keeps running with no windows; the Dock icon must bring the error back.
   yield* electronApp.on("activate", () => {

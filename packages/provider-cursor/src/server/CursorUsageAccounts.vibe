@@ -89,20 +89,19 @@ const make = Effect.gen(function*() {
     |> Effect.asVoid(%)
   yield* Effect.addFinalizer(() => awaitPersisted)
 
-  const refreshAccount = Effect.fn("CursorUsageAccounts.refreshAccount")(function*(
+  const refreshAccount = effect (
     credential: CursorCredentialSource,
     credentialKey: string,
     retentionStartMs: number,
-  ) {
-    const nowMs = yield* Clock.currentTimeMillis
+  ) => try withSpan(effect {
+    const nowMs = try Clock.currentTimeMillis
     const fetchMissing = (cache: CursorAccountCache | undefined) => {
       const range = cursorFetchRange(cache, retentionStartMs, nowMs)
       return accountReader
-        .read(credential, range.sinceMs, range.untilMs)
-        .pipe(Effect.map((result) => ({ range, result })))
+        .read(credential, range.sinceMs, range.untilMs)|> Effect.map(%, (result) => ({ range, result }))
     }
     let base = caches.get(credentialKey)
-    let fetched = yield* fetchMissing(base)
+    let fetched = try fetchMissing(base)
     if (
       base !== undefined
       && fetched.result.accountKey !== null
@@ -111,7 +110,7 @@ const make = Effect.gen(function*() {
       caches.delete(credentialKey)
       cacheDirty = true
       base = undefined
-      fetched = yield* fetchMissing(base)
+      fetched = try fetchMissing(base)
     }
     const { range, result } = fetched
     if (result.missing || result.error !== null || result.accountKey === null) {
@@ -119,22 +118,23 @@ const make = Effect.gen(function*() {
         atMs: nowMs,
         error: result.missing || result.error !== null ? result.error : CURSOR_ACCOUNT_READ_ERROR,
       })
-      yield* schedulePersist
+      try schedulePersist
       return
     }
-    const merged = mergeCursorFetch(
+    const accountKey2 = result.accountKey
+    const merged = try Effect.orDie(Effect.try({ try: () => mergeCursorFetch(
       base,
-      result.accountKey,
+      accountKey2,
       range,
       result.records,
       nowMs,
       retentionStartMs,
-    )
+    ), catch: (e) => e }))
     caches.set(credentialKey, merged.cache)
     failures.delete(credentialKey)
     if (merged.changed) cacheDirty = true
-    yield* schedulePersist
-  })
+    try schedulePersist
+  }, "CursorUsageAccounts.refreshAccount")
 
   const startRefresh = (
     credential: CursorCredentialSource,

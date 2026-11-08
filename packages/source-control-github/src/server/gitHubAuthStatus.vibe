@@ -1,5 +1,4 @@
 import type { GitHubSettings } from "../shared/definition.ts"
-import * as Schema from "effect/Schema"
 
 schema GitHubAuthStatusAccountSchema {
   readonly state: string
@@ -40,7 +39,7 @@ function nonEmptyString(value: string): string | null {
 }
 
 export function parseGitHubAuthStatus(text: string): GitHubAuthStatus {
-  return Option.match(decodeGitHubAuthStatusJson(text), {
+  return do { const $optionSubject = decodeGitHubAuthStatusJson(text); const $optionHandlers: { onNone: () => { parsed: false; accounts: never[]; }; onSome: (status: { readonly hosts: { readonly [x: string]: readonly { readonly state: string; readonly error?: string | undefined; readonly active: boolean; readonly host: string; readonly login: string; readonly tokenSource?: string | undefined; }[]; }; }) => { parsed: true; accounts: { host: string; account: string; authenticated: boolean; active: boolean; error: string | null; environmentVariable: string | null; }[]; }; } = {
     onNone: () => ({ parsed: false, accounts: [] }),
     onSome: (status) =>
       ({
@@ -66,7 +65,7 @@ export function parseGitHubAuthStatus(text: string): GitHubAuthStatus {
           })
         ),
       }) satisfies GitHubAuthStatus,
-  })
+  }; const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers; match ($optionSubject) { when Option.Some(let $optionValue): $optionSome($optionValue); default: $optionNone(); }; }
 }
 
 export function findAuthenticatedGitHubAccount(

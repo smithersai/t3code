@@ -1,7 +1,5 @@
-import * as Config from "effect/Config"
 import * as Context from "effect/Context"
 import * as Effect from "effect/Effect"
-import * as FileSystem from "effect/FileSystem"
 import * as Layer from "effect/Layer"
 import * as Schema from "effect/Schema"
 import {
@@ -12,7 +10,6 @@ import {
   type SourceControlRepositoryCloneUrls,
   type SourceControlRepositoryVisibility,
 } from "@t3tools/contracts"
-import { HttpClient } from "effect/http"
 import { sanitizeBranchFragment } from "@t3tools/shared/git"
 import { isSshRemoteUrl } from "@t3tools/shared/sourceControl"
 import { recognizeRemoteWith } from "@t3tools/source-control-core/shared/definition"
@@ -1120,7 +1117,7 @@ export const make = effect {
             isCrossRepository,
           })
           const localBranchNames = try git.listLocalBranchNames(input.cwd)
-          const localBranchExists = localBranchNames.includes(localBranch)
+          const localBranchExists = try Effect.orDie(Effect.try({ try: () => localBranchNames.includes(localBranch), catch: (e) => e }))
 
           if (input.force === true || !localBranchExists) {
             try git.fetchRemoteBranch({
@@ -1143,7 +1140,7 @@ export const make = effect {
             remoteName,
             remoteBranch,
           })
-          try Effect.scoped(git.switchRef({ cwd: input.cwd, refName: localBranch }))
+          try Effect.scoped(try Effect.orDie(Effect.try({ try: () => git.switchRef({ cwd: input.cwd, refName: localBranch }), catch: (e) => e })))
         } |> ((effect, input) =>
           effect
           |> Effect.mapError(%, (cause) =>

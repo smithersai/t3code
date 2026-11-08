@@ -148,7 +148,7 @@ const recordMetrics =
   effect (
     options: WithMetricsOptions,
     startedAt: bigint,
-    exit: Exit<unknown, unknown>,
+    exit: Exit.Exit<unknown, unknown>,
   ) => {
     const duration = Duration.nanos((try Clock.monotonicTimeNanos) - startedAt);
     const baseAttributes =

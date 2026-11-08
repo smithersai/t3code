@@ -55,7 +55,10 @@ import {
 } from "./pullRequestPresentation";
 import { PullRequestGlyph } from "./pullRequestIcons";
 import { pullRequestQuickActions } from "./pullRequestList.logic";
-import { PullRequestSpeedActions, PullRequestSpeedModeContext } from "./PullRequestSpeedActions.vibex";
+import {
+  PullRequestSpeedActions,
+  PullRequestSpeedModeContext,
+} from "./PullRequestSpeedActions.vibex";
 
 const SOURCE_LABELS: Record<ThreadPullRequestLink["source"], string> = {
   manual: "Linked by you",

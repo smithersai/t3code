@@ -3,7 +3,10 @@ import type { EnvironmentId } from "@t3tools/contracts";
 import { useMemo, useSyncExternalStore } from "react";
 
 import { scopedProjectKey } from "../../lib/scopedEntities";
-import { useOlderSettledShelf, useOlderSettledShelfGrowth } from "../../state/olderSettledShelf.vibe";
+import {
+  useOlderSettledShelf,
+  useOlderSettledShelfGrowth,
+} from "../../state/olderSettledShelf.vibe";
 import type { PendingNewTask } from "../../state/use-pending-new-tasks.vibe";
 import {
   buildThreadListV2Items,

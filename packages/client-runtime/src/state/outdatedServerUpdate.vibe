@@ -1,5 +1,4 @@
 import type { EnvironmentId, ServerSelfUpdateInput } from "@t3tools/contracts"
-import * as Cause from "effect/Cause"
 import type * as HttpClient from "effect/http/HttpClient"
 import type { Atom } from "effect/reactivity"
 import type * as Socket from "effect/socket/Socket"
@@ -55,11 +54,11 @@ export function createOutdatedServerUpdateCommand<E>(
       const targetVersion = target.input.targetVersion
       const fromVersion = target.fromVersion ?? targetVersion
       let currentStage: ServerUpdateStage = "downloading"
-      const setStage = (stage: ServerUpdateStage) =>
-        Effect.sync(() => {
+      const setStage = effect (stage: ServerUpdateStage) =>
+        {
           currentStage = stage
           atomRegistry.set(stateAtom, { status: "running", stage, fromVersion, targetVersion })
-        })
+        }
       return setStage(currentStage)
         |> Effect.andThen(%, updateOutdatedHost(target.environmentId, target.input, setStage))
         |> Effect.onExit(%, (exit) =>

@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "typecheck": "vibelang --noEmit",
-    "test": "node --test build-vibelang-declarations.node-test.mjs release-smoke.native-loader.node-test.mjs ci-changes-native.node-test.mjs && vp test run --config ../vite.config.ts --dir ."
+    "test": "node --test build-vibelang-declarations.node-test.mjs release-smoke.native-loader.node-test.mjs release-smoke.registry.node-test.mjs ci-changes-native.node-test.mjs && vp test run --config ../vite.config.ts --dir ."
   },
   "dependencies": {
     "@effect/platform-node": "catalog:",
@@ -18,7 +18,7 @@
     "plist": "catalog:",
     "pngjs": "7.0.0",
     "sharp": "0.35.4",
-    "vibelang-runtime": "0.0.12"
+    "vibelang-runtime": "0.0.13"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
@@ -29,7 +29,7 @@
     "postject": "1.0.0-alpha.6",
     "typescript": "catalog:",
     "typescript-legacy": "npm:typescript@~6.0.3",
-    "vibelang": "0.0.12",
+    "vibelang": "0.0.13",
     "vite-plus": "catalog:"
   }
 }

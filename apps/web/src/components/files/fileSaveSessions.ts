@@ -4,7 +4,11 @@ import { useEffect } from "react";
 
 import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
 import { projectEnvironment } from "~/state/projects";
-import { environmentSession, readEnvironmentScope, sessionHasScope } from "../../state/session.vibe";
+import {
+  environmentSession,
+  readEnvironmentScope,
+  sessionHasScope,
+} from "../../state/session.vibe";
 
 import { FileSaveCoordinator } from "./fileSaveCoordinator";
 import {

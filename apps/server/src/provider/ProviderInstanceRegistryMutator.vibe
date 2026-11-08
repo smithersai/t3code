@@ -7,7 +7,4 @@ export interface ProviderInstanceRegistryMutatorShape {
   readonly reconcile: (configMap: ProviderInstanceConfigMap) => void!!
 }
 
-export class ProviderInstanceRegistryMutator extends Context.Service<
-  ProviderInstanceRegistryMutator,
-  ProviderInstanceRegistryMutatorShape
->()("t3/provider/ProviderInstanceRegistryMutator") {}
+export service ProviderInstanceRegistryMutator: ProviderInstanceRegistryMutatorShape { static readonly key = "t3/provider/ProviderInstanceRegistryMutator";}

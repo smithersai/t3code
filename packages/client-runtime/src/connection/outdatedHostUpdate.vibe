@@ -133,14 +133,13 @@ export const updateOutdatedHost = effect (
               const terminal = try Ref.make(Option.none<ServerSelfUpdateResult>())
               const streamExit = try (client[WS_METHODS.serverUpdateServerWithProgress](
                 input,
-              ).pipe(
-                Stream.runForEach((event) =>
+              )
+                |> Stream.runForEach(%, (event) =>
                   event.type === "complete"
                     ? Ref.set(terminal, Option.some(event.result))
                     : onStage(event.stage)
-                ),
-                Effect.exit,
-              ))
+                )
+                |> Effect.exit(%))
               return try resolveServerUpdateProgressResult(
                 input.targetVersion,
                 try Ref.get(terminal),

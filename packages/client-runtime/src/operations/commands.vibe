@@ -1232,20 +1232,20 @@ export const retryWorkspacePreparation = effect (input: RetryWorkspacePreparatio
     "EnvironmentCommands.retryWorkspacePreparation",
   )
 
-export const editQueuedRun = Effect.fn("EnvironmentCommands.editQueuedRun")(function*(
+export const editQueuedRun = effect (
   input: EditQueuedRunInput,
-) {
+) => try withSpan(effect {
   const attachments = input.edit === undefined
     ? undefined
-    : yield* persistAttachments(input.threadId, input.edit.messageId, input.edit.attachments)
-  return yield* dispatch({
+    : try persistAttachments(input.threadId, input.edit.messageId, input.edit.attachments)
+  return try dispatch({
     type: "queued-run.edit",
-    commandId: yield* allocateCommandId(input),
+    commandId: try allocateCommandId(input),
     threadId: input.threadId,
     runId: input.runId,
     text: input.text,
     ...(attachments === undefined ? {} : { attachments }),
-    ...(input.edit?.context && attachments
+    ...(try Effect.orDie(Effect.try({ try: () => input.edit?.context && attachments
       ? {
         context: remapComposerContextAttachments(
           input.edit.context,
@@ -1253,9 +1253,9 @@ export const editQueuedRun = Effect.fn("EnvironmentCommands.editQueuedRun")(func
           attachments,
         ),
       }
-      : {}),
+      : {}, catch: (e) => e }))),
   })
-})
+}, "EnvironmentCommands.editQueuedRun")
 
 export type LinkThreadPullRequestInput =
   & Omit<

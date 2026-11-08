@@ -680,7 +680,7 @@ export const listAcpRegistrySessions = effect (
       const runtime = try makeAcpRegistryManagementRuntime(input)
       const initialized = try runtime.initialize()
       const listed = try runtime.listSessions(input.cursor)
-      const sessions = listed.sessions.slice(0, 256).flatMap((session) => {
+      const sessions = try Effect.orDie(Effect.try({ try: () => listed.sessions.slice(0, 256).flatMap((session) => {
         const sessionId = boundedOpaqueValue(session.sessionId, 1_024)
         const cwd = boundedOpaqueValue(session.cwd, 4_096)
         if (sessionId === undefined || cwd === undefined) return []
@@ -703,7 +703,7 @@ export const listAcpRegistrySessions = effect (
             importedThreadId: null,
           },
         ]
-      })
+      }), catch: (e) => e }))
       return AcpRegistryListSessionsResult.make({
         sessions,
         nextCursor: listed.nextCursor === undefined || listed.nextCursor === null
@@ -760,7 +760,7 @@ export const listAcpRegistryProviders = effect (input: AcpRegistryConfigurationP
       const runtime = try makeAcpRegistryManagementRuntime(input)
       const listed = try runtime.listProviders
       return AcpRegistryListProvidersResult.make({
-        providers: listed.providers.slice(0, 64).flatMap((provider) => {
+        providers: try Effect.orDie(Effect.try({ try: () => listed.providers.slice(0, 64).flatMap((provider) => {
           const providerId = boundedOpaqueValue(provider.providerId, 256)
           if (providerId === undefined) return []
           const supported = provider.supported
@@ -782,7 +782,7 @@ export const listAcpRegistryProviders = effect (input: AcpRegistryConfigurationP
                 : { apiType: currentApiType, baseUrl: currentBaseUrl },
             },
           ]
-        }),
+        }), catch: (e) => e })),
       })
     } |> ((effect) =>
       effect

@@ -2,62 +2,6 @@
   "name": "@t3tools/provider-grok",
   "private": true,
   "type": "module",
-  "exports": {
-    "./client": {
-      "types": "./src/client.ts",
-      "import": {
-        "types": "./src/client.ts",
-        "vibelang-source": "./src/client.ts",
-        "default": "./.vibelang/js/src/client.js"
-      }
-    },
-    "./settings": {
-      "types": "./src/settings.vibe",
-      "import": "./src/settings.vibe"
-    },
-    "./server": {
-      "types": "./src/server.ts",
-      "import": {
-        "types": "./src/server.ts",
-        "vibelang-source": "./src/server.ts",
-        "default": "./.vibelang/js/src/server.js"
-      }
-    },
-    "./server/usage": {
-      "types": "./src/server/usage.vibe",
-      "import": "./src/server/usage.vibe"
-    },
-    "./testing": {
-      "types": "./src/testing.ts",
-      "import": {
-        "types": "./src/testing.ts",
-        "vibelang-source": "./src/testing.ts",
-        "default": "./.vibelang/js/src/testing.js"
-      }
-    }
-  },
-  "scripts": {
-    "typecheck": "vibelang --noEmit",
-    "test": "vp test run --config ../../vite.config.ts --dir ."
-  },
-  "dependencies": {
-    "@t3tools/contracts": "workspace:*",
-    "@t3tools/provider-acp": "workspace:*",
-    "@t3tools/provider-core": "workspace:*",
-    "@t3tools/shared": "workspace:*",
-    "effect": "catalog:",
-    "vibelang-runtime": "0.0.12"
-  },
-  "devDependencies": {
-    "@effect/platform-node": "catalog:",
-    "@effect/vitest": "catalog:",
-    "@t3tools/provider-testing": "workspace:*",
-    "@types/node": "catalog:",
-    "effect-acp": "workspace:*",
-    "vibelang": "0.0.12",
-    "vibelang-vite": "0.0.12",
-    "vite-plus": "catalog:"
-  },
   "imports": {
     "#vibelang/emitted/src/settings": {
       "types": "./src/settings.d.vibe.ts",
@@ -104,5 +48,61 @@
       "vibelang-source": "./src/server/xaiAcpExtension.vibe",
       "default": "./.vibelang/js/src/server/xaiAcpExtension.js"
     }
+  },
+  "exports": {
+    "./client": {
+      "types": "./src/client.ts",
+      "import": {
+        "types": "./src/client.ts",
+        "vibelang-source": "./src/client.ts",
+        "default": "./.vibelang/js/src/client.js"
+      }
+    },
+    "./settings": {
+      "types": "./src/settings.vibe",
+      "import": "./src/settings.vibe"
+    },
+    "./server": {
+      "types": "./src/server.ts",
+      "import": {
+        "types": "./src/server.ts",
+        "vibelang-source": "./src/server.ts",
+        "default": "./.vibelang/js/src/server.js"
+      }
+    },
+    "./server/usage": {
+      "types": "./src/server/usage.vibe",
+      "import": "./src/server/usage.vibe"
+    },
+    "./testing": {
+      "types": "./src/testing.ts",
+      "import": {
+        "types": "./src/testing.ts",
+        "vibelang-source": "./src/testing.ts",
+        "default": "./.vibelang/js/src/testing.js"
+      }
+    }
+  },
+  "scripts": {
+    "typecheck": "vibelang --noEmit",
+    "test": "vp test run --config ../../vite.config.ts --dir ."
+  },
+  "dependencies": {
+    "@t3tools/contracts": "workspace:*",
+    "@t3tools/provider-acp": "workspace:*",
+    "@t3tools/provider-core": "workspace:*",
+    "@t3tools/shared": "workspace:*",
+    "effect": "catalog:",
+    "vibelang-runtime": "0.0.13"
+  },
+  "devDependencies": {
+    "@effect/platform-node": "catalog:",
+    "@effect/vitest": "catalog:",
+    "@t3tools/provider-testing": "workspace:*",
+    "@types/node": "catalog:",
+    "effect-acp": "workspace:*",
+    "vibelang": "0.0.13",
+    "vibelang-vite": "0.0.13",
+    "vite-plus": "catalog:"
   }
 }

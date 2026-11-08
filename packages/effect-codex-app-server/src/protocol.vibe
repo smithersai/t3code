@@ -303,7 +303,7 @@ export const makeCodexAppServerPatchedProtocol = effect (
                 )
               }
 
-              return handler(request)
+              return (do { const catchProgram = (handler(request)
                 |> Effect.matchEffect(%, {
                   onFailure: (error) =>
                     respondError(
@@ -319,11 +319,9 @@ export const makeCodexAppServerPatchedProtocol = effect (
                 |> Effect.ensuring(
                   %,
                   Ref.update(activeRequestHandlers, (count) => Math.max(0, count - 1)),
-                )
-                |> Effect.catch(%, (error) =>
-                  handleTermination(() => Effect.succeed(error))
+                )); effect { return catchProgram catch effect (error) => try (handleTermination(() => Effect.succeed(error))
                   |> Effect.forkIn(%, protocolScope)
-                  |> Effect.asVoid(%))
+                  |> Effect.asVoid(%)) } })
                 |> Effect.forkIn(%, requestHandlerScope, { startImmediately: true })
                 |> Effect.asVoid(%)
             })
@@ -377,11 +375,11 @@ export const makeCodexAppServerPatchedProtocol = effect (
           |> Effect.flatMap(%, routeMessage)
       }
 
-      try (options.stdio.stdin.pipe(
-        Stream.interruptWhen(Deferred.await(terminationSignal)),
-        Stream.decodeText(),
-        Stream.runForEach(
-          effect (chunk) => {
+      try (options.stdio.stdin
+        |> Stream.interruptWhen(%, Deferred.await(terminationSignal))
+        |> Stream.decodeText()(%)
+        |> Stream.runForEach(
+          %, effect (chunk) => {
             let start = 0
             while (start < chunk.length) {
               const newline = chunk.indexOf("\n", start)
@@ -404,8 +402,8 @@ export const makeCodexAppServerPatchedProtocol = effect (
               start = newline + 1
             }
           },
-        ),
-        Effect.matchEffect({
+        )
+        |> Effect.matchEffect(%, {
           onFailure: (error) =>
             handleTermination(() => Effect.succeed(normalizeIncomingError(error, "read-input-stream"))),
           onSuccess: () =>
@@ -413,9 +411,9 @@ export const makeCodexAppServerPatchedProtocol = effect (
               const line = remainder.join("")
               remainder.length = 0
               return line
-            }).pipe(
-              Effect.flatMap(handleLine),
-              Effect.matchEffect({
+            })
+              |> Effect.flatMap(%, handleLine)
+              |> Effect.matchEffect(%, {
                 onFailure: (error) => handleTermination(() => Effect.succeed(error)),
                 onSuccess: () =>
                   handleTermination(() => {
@@ -425,18 +423,15 @@ export const makeCodexAppServerPatchedProtocol = effect (
                     // process keeps running, so the wait must not hang pending requests.
                     return options.terminationError === undefined
                       ? Effect.succeed(ended)
-                      : options.terminationError.pipe(
-                        Effect.timeoutOrElse({
+                      : (options.terminationError
+                        |> Effect.timeoutOrElse(%, {
                           duration: EXIT_STATUS_GRACE,
                           orElse: () => Effect.succeed(ended),
-                        }),
-                      )
+                        }))
                   }),
               }),
-            ),
-        }),
-        Effect.forkScoped,
-      ))
+        })
+        |> Effect.forkScoped(%))
 
       try ((() => {
         const pipe$program = Stream.fromQueue(outgoing)

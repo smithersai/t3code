@@ -36,15 +36,15 @@ schema IncomingShareDestinationSchema {
   readonly projectId: string
 }
 
-export const IncomingShareDraftSchema = Schema.Struct({
-  schemaVersion: Schema.Literal(1),
-  id: Schema.String,
-  createdAt: Schema.String,
-  destination: Schema.optional(IncomingShareDestinationSchema),
-  text: Schema.String,
-  attachments: Schema.Array(DraftComposerAttachmentSchema),
-  warnings: Schema.Array(Schema.String),
-});
+export schema IncomingShareDraftSchema {
+  readonly schemaVersion: 1
+  readonly id: string
+  readonly createdAt: string
+  readonly destination?: IncomingShareDestinationSchema
+  readonly text: string
+  readonly attachments: ReadonlyArray<DraftComposerAttachmentSchema>
+  readonly warnings: ReadonlyArray<string>
+}
 
 const decodeIncomingShareDraftSync = Schema.decodeUnknownSync(IncomingShareDraftSchema);
 

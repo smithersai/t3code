@@ -343,10 +343,10 @@ overrides:
   "@effect/openapi-generator": 4.1.1
   "@effect/sql-sqlite-do": 4.1.1
 
-  vibelang: "0.0.12"
-  vibelang-runtime: "0.0.12"
-  vibelang-vite: "0.0.12"
-  vibelang-unplugin: "0.0.12"
+  vibelang: "0.0.13"
+  vibelang-runtime: "0.0.13"
+  vibelang-vite: "0.0.13"
+  vibelang-unplugin: "0.0.13"
 packageExtensions:
   "@clerk/expo@*":
     dependencies:

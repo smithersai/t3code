@@ -8,7 +8,6 @@ import {
   type ThreadId,
   type ThreadPullRequestLink,
 } from "@t3tools/contracts"
-import * as Cause from "effect/Cause"
 import * as Effect from "effect/Effect"
 import * as Option from "effect/Option"
 import * as SubscriptionRef from "effect/SubscriptionRef"
@@ -1856,12 +1855,11 @@ export const makeEnvironmentShellState = effect () =>
                       Option.match({
                         onSome: (value) => Effect.succeed(value),
                         onNone: () =>
-                          SubscriptionRef.changes(supervisor.prepared).pipe(
-                            Stream.filter(Option.isSome),
-                            Stream.map((value) => value.value),
-                            Stream.runHead,
-                            Effect.map(Option.getOrThrow),
-                          ),
+                          SubscriptionRef.changes(supervisor.prepared)
+                            |> Stream.filter(%, Option.isSome)
+                            |> Stream.map(%, (value) => value.value)
+                            |> Stream.runHead(%)
+                            |> Effect.map(%, Option.getOrThrow),
                       }),
                     ))
                   // HTTP and the socket must agree, or omitted children would return through the socket.
@@ -1922,8 +1920,8 @@ export const makeEnvironmentShellState = effect () =>
           },
         ).pipe(Stream.runForEachArray((items) => applyItems(items))),
       )
-      try (SubscriptionRef.changes(supervisor.state).pipe(
-        Stream.runForEach((connectionState) => {
+      try (SubscriptionRef.changes(supervisor.state)
+        |> Stream.runForEach(%, (connectionState) => {
           switch (connectionProjectionPhase(connectionState)) {
             case "synchronizing":
               return setSynchronizing
@@ -1932,9 +1930,8 @@ export const makeEnvironmentShellState = effect () =>
             case "ready":
               return setReady
           }
-        }),
-        Effect.forkScoped,
-      ))
+        })
+        |> Effect.forkScoped(%))
 
       return state
     },

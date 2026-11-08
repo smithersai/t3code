@@ -21,9 +21,8 @@ export const chatGptModels = effect (
 ) => try withSpan(effect {
   const http = try HttpClient.HttpClient;
   const response = try http.execute(
-    HttpClientRequest.get("https://api.openai.com/v1/models").pipe(
-      HttpClientRequest.bearerToken(accessToken),
-    ),
+    HttpClientRequest.get("https://api.openai.com/v1/models")
+      |> HttpClientRequest.bearerToken(%, accessToken),
   );
   if (response.status !== 200) throw new ChatGptCatalogError({ status: response.status });
   const catalog = try (response.json |> Effect.flatMap(%, Schema.decodeUnknownEffect(Catalog)));

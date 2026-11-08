@@ -377,12 +377,11 @@ export const make = effect {
     effect (mailbox) => {
       const subscription = try PubSub.subscribe(changes);
       Queue.offerUnsafe(mailbox, try list);
-      try (Stream.fromSubscription(subscription).pipe(
-        Stream.runForEach((snapshots) =>
-          Effect.sync(() => Queue.offerUnsafe(mailbox, snapshots)),
-        ),
-        Effect.forkScoped,
-      ));
+      try (Stream.fromSubscription(subscription)
+        |> Stream.runForEach(%, effect (snapshots) =>
+          Queue.offerUnsafe(mailbox, snapshots),
+        )
+        |> Effect.forkScoped(%));
     },
     { bufferSize: 1, strategy: "sliding" },
   );

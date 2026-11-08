@@ -19,7 +19,10 @@ export {
   parseGrokModelsCliOutput,
 } from "#vibelang/emitted/src/server/status";
 export { makeGrokTextGeneration } from "#vibelang/emitted/src/server/textGeneration";
-export { grokUsageResponseToLimits, readGrokAccount } from "#vibelang/emitted/src/server/usageLimits";
+export {
+  grokUsageResponseToLimits,
+  readGrokAccount,
+} from "#vibelang/emitted/src/server/usageLimits";
 export {
   extractXAiAcpSubagentUpdate,
   makeXAiPromptCompletionRuntime,

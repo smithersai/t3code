@@ -287,17 +287,16 @@ export const make = effect {
         // The initial snapshot already includes queued changes; drop them to avoid stale replay.
         let lastSequence = initial?.sequence ?? -1;
         Queue.offerUnsafe(mailbox, initial);
-        try (Stream.fromSubscription(subscription).pipe(
-          Stream.runForEach((change) =>
+        try (Stream.fromSubscription(subscription)
+          |> Stream.runForEach(%, (change) =>
             Effect.sync(() => {
               if (change.threadId !== threadId) return;
               if (change.snapshot !== null && change.snapshot.sequence <= lastSequence) return;
               lastSequence = change.snapshot?.sequence ?? -1;
               Queue.offerUnsafe(mailbox, change.snapshot);
             }),
-          ),
-          Effect.forkScoped,
-        ));
+          )
+          |> Effect.forkScoped(%));
       },
       { bufferSize: 1, strategy: "sliding" },
     );

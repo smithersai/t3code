@@ -32,7 +32,10 @@ import type {
 import { draftModelPickMatchesThread } from "@t3tools/shared/model";
 
 import { writeFileAtomically } from "../lib/atomic-file";
-import { createComposerContextHistory, referencedComposerContext } from "../lib/composerContext.vibe";
+import {
+  createComposerContextHistory,
+  referencedComposerContext,
+} from "../lib/composerContext.vibe";
 import { isQueuedEditDraftKey } from "./queued-edit-draft-key";
 import {
   collectComposerContextReferences,
@@ -925,7 +928,8 @@ export async function releaseUnusedComposerAttachmentFiles(
 
   let incomingShareFileUris: ReadonlySet<string>;
   try {
-    const { loadIncomingShareDrafts } = await import("../features/sharing/incoming-share-storage.vibe");
+    const { loadIncomingShareDrafts } =
+      await import("../features/sharing/incoming-share-storage.vibe");
     const incomingShares = await loadIncomingShareDrafts({ strict: true });
     incomingShareFileUris = new Set(
       incomingShares.flatMap((share) =>

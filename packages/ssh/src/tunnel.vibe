@@ -1196,15 +1196,14 @@ const startSshTunnel = effect (
       }
       // Readiness cancels the exit waiter, but diagnostics must drain until the tunnel closes.
       let stderrTail = ""
-      const stderrDrain = try (child.stderr.pipe(
-        Stream.decodeText(),
-        Stream.runForEach(effect (chunk) => {
+      const stderrDrain = try (child.stderr
+        |> Stream.decodeText()(%)
+        |> Stream.runForEach(%, effect (chunk) => {
           stderrTail = (stderrTail + chunk).slice(-TUNNEL_STDERR_TAIL_CHARS)
-        }),
+        })
         // Diagnostics are best-effort: a failed read must not hide the real exit.
-        Effect.ignore,
-        Effect.forkIn(scope),
-      ))
+        |> Effect.ignore(%)
+        |> Effect.forkIn(%, scope))
       const exitFailure = Effect.all(
         [Fiber.join(stderrDrain), child.exitCode.pipe(Effect.map(Number))],
         { concurrency: "unbounded" },

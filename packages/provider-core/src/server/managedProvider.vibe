@@ -252,16 +252,15 @@ export const makeManagedServerProvider = effect <
       const refreshIntervalChanges = try Queue.sliding<void>(1)
       if (input.refreshInterval === undefined) {
         const serverSettingsChanges = try host.settings.subscribe
-        try (serverSettingsChanges.pipe(
-          Stream.map((settings) =>
+        try (serverSettingsChanges
+          |> Stream.map(%, (settings) =>
             Duration.toMillis(
               resolveServerBackgroundActivitySettings(settings).providerHealthRefreshInterval,
             )
-          ),
-          Stream.changes,
-          Stream.runForEach(() => Queue.offer(refreshIntervalChanges, undefined).pipe(Effect.asVoid)),
-          Effect.forkScoped,
-        ))
+          )
+          |> Stream.changes(%)
+          |> Stream.runForEach(%, () => Queue.offer(refreshIntervalChanges, undefined) |> Effect.asVoid(%))
+          |> Effect.forkScoped(%))
       }
 
       try (Stream.runForEach(input.streamSettings, (nextSettings) => Effect.asVoid(applySnapshot(nextSettings)))

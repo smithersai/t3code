@@ -1,5 +1,4 @@
 import * as Cause from "effect/Cause"
-import * as Exit from "effect/Exit"
 import * as Result from "effect/Result"
 import * as Schema from "effect/Schema"
 import { GraphQL } from "effect/graphql"
@@ -1498,10 +1497,10 @@ export function toReviewerCandidates(
   }
 }
 
-const ReviewerRequestSchema = Schema.Struct({
-  reviewers: Schema.Array(Schema.String),
-  team_reviewers: Schema.Array(Schema.String),
-})
+schema ReviewerRequestSchema {
+  readonly reviewers: ReadonlyArray<string>
+  readonly team_reviewers: ReadonlyArray<string>
+}
 
 export function buildReviewerRequest(
   reviewers: ReadonlyArray<{ readonly id: string; readonly kind: PullRequestReviewerKind }>,

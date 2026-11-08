@@ -30,7 +30,7 @@
     "playwright-core": "1.60.0",
     "react-grab": "^0.1.32",
     "tldts": "catalog:",
-    "vibelang-runtime": "0.0.12"
+    "vibelang-runtime": "0.0.13"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
@@ -39,10 +39,10 @@
     "cross-env": "^10.1.0",
     "electron-builder": "26.16.1",
     "tailwindcss": "^4.0.0",
-    "vibelang": "0.0.12",
-    "vibelang-vite": "0.0.12",
-    "vite-plus": "catalog:",
-    "vite": "catalog:"
+    "vibelang": "0.0.13",
+    "vibelang-vite": "0.0.13",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
   },
   "productName": "T3 Code (Beta)"
 }

@@ -338,33 +338,31 @@ function drainBackendOutput(
   ) => void!Error,
   onOutputFailure: (error: BackendProcessOutputError) => void!!,
 ): void!! {
-  return stream.pipe(
-    Stream.mapError(
-      (cause) =>
+  return stream
+    |> Stream.mapError(
+      %, (cause) =>
         new BackendProcessOutputReadError({
           ...context,
           streamName,
           cause,
         }),
-    ),
-    Stream.runForEach((chunk) =>
-      onOutput(streamName, chunk).pipe(
-        Effect.mapError(
-          (cause) =>
+    )
+    |> Stream.runForEach(%, (chunk) =>
+      onOutput(streamName, chunk)
+        |> Effect.mapError(
+          %, (cause) =>
             new BackendProcessOutputHandlingError({
               ...context,
               streamName,
               chunkByteLength: chunk.byteLength,
               cause,
             }),
-        ),
-        Effect.catchTags({ BackendProcessOutputHandlingError: onOutputFailure }),
-      ),
-    ),
-    Effect.catchTags({
+        )
+        |> Effect.catchTags(%, { BackendProcessOutputHandlingError: onOutputFailure }),
+    )
+    |> Effect.catchTags(%, {
       BackendProcessOutputReadError: onOutputFailure,
-    }),
-  );
+    });
 }
 
 const encodeBootstrapJson = Schema.encodeEffect(Schema.fromJsonString(DesktopBackendBootstrap));
@@ -444,36 +442,34 @@ export const runBackendProcess = effect (
   ) {
     const controlFd = options.bootstrap.desktopTelemetryControlFd;
     const handleControl = options.onDesktopTelemetryControl;
-    try (handle.getOutputFd(controlFd).pipe(
-      Stream.decodeText(),
-      Stream.splitLines,
-      Stream.filter((line) => line.trim().length > 0),
-      Stream.runForEach((line) =>
-        decodeDesktopTelemetryControlLine(line).pipe(
-          Effect.flatMap(handleControl),
-          Effect.catchCause((cause) =>
+    try (handle.getOutputFd(controlFd)
+      |> Stream.decodeText()(%)
+      |> Stream.splitLines(%)
+      |> Stream.filter(%, (line) => line.trim().length > 0)
+      |> Stream.runForEach(%, (line) =>
+        decodeDesktopTelemetryControlLine(line)
+          |> Effect.flatMap(%, handleControl)
+          |> Effect.catchCause(%, (cause) =>
             logBackendProcessWarning("ignored invalid desktop telemetry control message", {
               fd: controlFd,
               cause: Cause.pretty(cause),
             }),
           ),
-        ),
-      ),
-      Effect.catchCause((cause) =>
+      )
+      |> Effect.catchCause(%, (cause) =>
         logBackendProcessWarning("desktop telemetry control stream stopped", {
           fd: controlFd,
           cause: Cause.pretty(cause),
         }),
-      ),
-      Effect.ensuring(
-        handleControl({
+      )
+      |> Effect.ensuring(
+        %, handleControl({
           version: 1,
           type: "setDiagnosticsDemand",
           enabled: false,
         }),
-      ),
-      Effect.forkScoped,
-    ));
+      )
+      |> Effect.forkScoped(%));
   }
   if (
     options.bootstrap.desktopBrowserControlFd !== undefined &&
@@ -481,19 +477,18 @@ export const runBackendProcess = effect (
   ) {
     const browserFd = options.bootstrap.desktopBrowserControlFd;
     const handleCommand = options.onDesktopBrowserCommand;
-    try (handle.getOutputFd(browserFd).pipe(
-      Stream.decodeText(),
-      Stream.splitLines,
-      Stream.filter((line) => line.length > 0),
-      Stream.runForEach(handleCommand),
-      Effect.catchCause((cause) =>
+    try (handle.getOutputFd(browserFd)
+      |> Stream.decodeText()(%)
+      |> Stream.splitLines(%)
+      |> Stream.filter(%, (line) => line.length > 0)
+      |> Stream.runForEach(%, handleCommand)
+      |> Effect.catchCause(%, (cause) =>
         logBackendProcessWarning("desktop browser command stream stopped", {
           fd: browserFd,
           cause: Cause.pretty(cause),
         }),
-      ),
-      Effect.forkScoped,
-    ));
+      )
+      |> Effect.forkScoped(%));
   }
   if (options.captureOutput) {
     const outputContext = {

@@ -12,7 +12,10 @@ import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderL
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import { makeGrokTextGeneration } from "#vibelang/emitted/src/server/textGeneration";
-import { GrokAdapterV2Driver, type GrokAdapterV2DriverEnv } from "#vibelang/emitted/src/server/adapter";
+import {
+  GrokAdapterV2Driver,
+  type GrokAdapterV2DriverEnv,
+} from "#vibelang/emitted/src/server/adapter";
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors";
 import {
   buildInitialGrokProviderSnapshot,

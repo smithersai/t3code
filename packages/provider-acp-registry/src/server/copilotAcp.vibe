@@ -1,4 +1,3 @@
-import * as Effect from "effect/Effect"
 import type * as AcpSchema from "effect-acp/compat"
 import type { AcpToolCallState } from "@t3tools/provider-acp/server/runtimeModel"
 import type { AcpAdapterV2ExtensionContext, AcpAdapterV2SubagentUpdate } from "@t3tools/provider-acp/server/adapter"

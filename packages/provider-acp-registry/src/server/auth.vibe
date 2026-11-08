@@ -227,7 +227,7 @@ export const makeAcpRegistryAuth = Effect.fn("makeAcpRegistryAuth")(function*(op
                 return { action: "decline" } as const
               }
               const url = normalizeAcpRegistryWebUrl(request.url)
-              const id = request.elicitationId.trim()
+              const id = try Effect.orDie(Effect.try({ try: () => request.elicitationId.trim(), catch: (e) => e }))
               if (!url || !id || id.length > 128) return { action: "decline" } as const
               const consent = try Deferred.make<boolean>()
               try context.setInteraction(

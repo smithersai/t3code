@@ -47,8 +47,8 @@ const runOnServer = effect (
       const texts = new Map<string, string>()
       // Subscribed first: the stream is volatile, and the reply arrives on it.
       const events = try connection.events
-      try (events.pipe(
-        Stream.runForEach((event) => {
+      try (events
+        |> Stream.runForEach(%, (event) => {
           // An execution end a newer server sent in a shape this build cannot
           // read still ends the generation, as it ends a turn in the adapter.
           if (event.type === "unreadable.execution.ended") {
@@ -103,18 +103,17 @@ const runOnServer = effect (
             default:
               return Effect.void
           }
-        }),
+        })
         // The reply only arrives on this stream, so a lost stream ends the wait.
-        Effect.exit,
-        Effect.flatMap((exit) =>
+        |> Effect.exit(%)
+        |> Effect.flatMap(%, (exit) =>
           Deferred.succeed(outcome, {
             _tag: "failed",
             detail: "The OpenCode event stream was lost.",
             cause: exit,
           })
-        ),
-        Effect.forkScoped,
-      ))
+        )
+        |> Effect.forkScoped(%))
       const session = try client.session.create({
         title: `T3 Code ${input.operation}`,
         location: Location.PublicRef.make({ directory: AbsolutePath.make(input.cwd) }),

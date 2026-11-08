@@ -5,7 +5,10 @@ import {
 } from "@t3tools/client-runtime/state/runtime";
 
 import { resolveDiscoveredServerUrl } from "~/browser/browserTargetResolver";
-import type { BrowserSettingsReadError, OpenPreviewMutation } from "../../browser/openFileInPreview.vibe";
+import type {
+  BrowserSettingsReadError,
+  OpenPreviewMutation,
+} from "../../browser/openFileInPreview.vibe";
 import { recordVisitForThread } from "~/browserHistoryStore";
 import { useRightPanelStore } from "~/rightPanelStore";
 import { openPreviewSession } from "./openPreviewSession.vibe";

@@ -2,8 +2,6 @@ import type { ProviderInstanceEnvironment, ProviderInstanceId } from "@t3tools/c
 import type { AcpRegistrySettings } from "../settings.vibe"
 import * as Crypto from "@t3tools/shared/Crypto"
 import * as Effect from "effect/Effect"
-import * as FileSystem from "effect/FileSystem"
-import * as Path from "effect/Path"
 
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite"
 

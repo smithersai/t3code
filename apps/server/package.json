@@ -68,7 +68,7 @@
     "stream-chain": "^4.2.5",
     "stream-json": "3.6.0",
     "undici": "catalog:",
-    "vibelang-runtime": "0.0.12",
+    "vibelang-runtime": "0.0.13",
     "yaml": "catalog:",
     "yauzl": "^3.4.0",
     "zod": "^4.6.5"
@@ -90,8 +90,8 @@
     "effect-acp": "workspace:*",
     "effect-codex-app-server": "workspace:*",
     "graphql": "16.14.1",
-    "vibelang": "0.0.12",
-    "vibelang-vite": "0.0.12",
+    "vibelang": "0.0.13",
+    "vibelang-vite": "0.0.13",
     "vite-plus": "catalog:"
   },
   "engines": {

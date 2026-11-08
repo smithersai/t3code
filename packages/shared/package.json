@@ -961,7 +961,7 @@
     "remark-parse": "catalog:",
     "remark-rehype": "catalog:",
     "unified": "catalog:",
-    "vibelang-runtime": "0.0.12",
+    "vibelang-runtime": "0.0.13",
     "yaml": "catalog:"
   },
   "devDependencies": {
@@ -970,8 +970,8 @@
     "@types/mdast": "^4.0.4",
     "@types/node": "catalog:",
     "micromark-util-types": "catalog:",
-    "vibelang": "0.0.12",
-    "vibelang-vite": "0.0.12",
+    "vibelang": "0.0.13",
+    "vibelang-vite": "0.0.13",
     "vite-plus": "catalog:"
   }
 }

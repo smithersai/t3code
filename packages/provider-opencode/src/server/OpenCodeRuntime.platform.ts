@@ -1,8 +1,8 @@
 // The platform code of OpenCodeRuntime.vibe, which a .vibe file does not import as a value (EK4402).
 
 import * as NodeURL from "node:url";
-import type { ChatAttachment } from "@t3tools/contracts"
-import { type FilePartInput } from "@opencode-ai/sdk/v2"
+import type { ChatAttachment } from "@t3tools/contracts";
+import { type FilePartInput } from "@opencode-ai/sdk/v2";
 
 // OpenCode inlines only text/plain; other text MIME parts reach APIs that reject them.
 const OPENCODE_NATIVE_IMAGE_MIMES = new Set(["image/png", "image/jpeg", "image/gif", "image/webp"]);

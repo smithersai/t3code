@@ -250,8 +250,8 @@ export function consumeVcsActionProgress<E, R>(
 ): GitRunStackedActionResult!(E | VcsActionExecutionError)!R {
   return Effect.suspend(() => {
     let terminalEvent: GitActionProgressEvent | null = null
-    return stream.pipe(
-      Stream.runForEach((event) => {
+    return stream
+      |> Stream.runForEach(%, (event) => {
         const normalized = normalizeVcsActionProgressEvent(
           input.target,
           input.transportActionId,
@@ -265,8 +265,8 @@ export function consumeVcsActionProgress<E, R>(
           terminalEvent = normalized
         }
         return input.onProgress(normalized)
-      }),
-      Effect.flatMap(() => {
+      })
+      |> Effect.flatMap(%, () => {
         if (terminalEvent?.kind === "action_finished") {
           return Effect.succeed(terminalEvent.result)
         }
@@ -292,8 +292,7 @@ export function consumeVcsActionProgress<E, R>(
             cwd: input.target.cwd,
           }),
         )
-      }),
-    )
+      })
   })
 }
 

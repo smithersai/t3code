@@ -20,10 +20,7 @@ import * as OpenCode2AdapterV2 from "./v2/adapter.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import type { ProviderTextGeneration } from "@t3tools/provider-core/server/textGeneration";
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors";
-import {
-  openCodeUsageReader,
-  type OpenCodeUsageReaderEnv,
-} from "./usage.vibe";
+import { openCodeUsageReader, type OpenCodeUsageReaderEnv } from "./usage.vibe";
 import { readOpenCodeGoUsageLimits } from "./usageLimits.vibe";
 import { loadOpenCode2Catalog } from "./openCode2Catalog.vibe";
 import {

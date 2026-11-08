@@ -23,7 +23,7 @@ export const traceAuthenticatedRelayRequest = <A, E, R>(
       const startSpan = (
         name: string,
         kind: Tracer.SpanKind,
-        parent: Option<Tracer.AnySpan>,
+        parent: Option.Option<Tracer.AnySpan>,
       ) =>
         tracer.value.span({
           name,

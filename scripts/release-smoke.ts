@@ -68,11 +68,12 @@ function copyWorkspaceManifestFixture(targetRoot: string): void {
     NodeFS.cpSync(sourcePath, destinationPath);
   }
 
-  NodeFS.cpSync(
-    NodePath.resolve(repoRoot, ".vibelang-toolchain"),
-    NodePath.resolve(targetRoot, ".vibelang-toolchain"),
-    { recursive: true },
-  );
+  const toolchainDirectory = NodePath.resolve(repoRoot, ".vibelang-toolchain");
+  if (NodeFS.existsSync(toolchainDirectory)) {
+    NodeFS.cpSync(toolchainDirectory, NodePath.resolve(targetRoot, ".vibelang-toolchain"), {
+      recursive: true,
+    });
+  }
 
   const mobileDependencies = NodePath.resolve(repoRoot, "apps/mobile/deps");
   if (NodeFS.existsSync(mobileDependencies)) {

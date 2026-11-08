@@ -70,14 +70,7 @@ function resolveTailscaleIpAdvertisedEndpoints(input: {
   return endpoints;
 }
 
-const resolveTailscaleMagicDnsAdvertisedEndpoint = Effect.fn(
-  "resolveTailscaleMagicDnsAdvertisedEndpoint",
-)(function* (input: {
-  readonly dnsName: string | null;
-  readonly serveEnabled: boolean;
-  readonly servePort?: number;
-  readonly probe?: (baseUrl: string) => boolean!!HttpClient.HttpClient;
-}): Effect.fn.Return<Option.Option<AdvertisedEndpoint>, never, HttpClient.HttpClient> {
+const resolveTailscaleMagicDnsAdvertisedEndpoint = effect (input: { readonly dnsName: string | null; readonly serveEnabled: boolean; readonly servePort?: number; readonly probe?: (baseUrl: string) => boolean!!HttpClient.HttpClient; }): Option.Option<AdvertisedEndpoint>!!HttpClient.HttpClient => try withSpan((effect (): Option.Option<AdvertisedEndpoint>!!HttpClient.HttpClient => {
   if (!input.dnsName) {
     return Option.none();
   }
@@ -91,10 +84,10 @@ const resolveTailscaleMagicDnsAdvertisedEndpoint = Effect.fn(
     probeTailscaleHttpsEndpoint({
       baseUrl: httpBaseUrl,
     });
-  const isReachable = input.serveEnabled ? yield* probe : false;
+  const isReachable = input.serveEnabled ? try probe : false;
 
   return Option.some(
-    createAdvertisedEndpoint({
+    try Effect.orDie(Effect.try({ try: () => createAdvertisedEndpoint({
       provider: TAILSCALE_ENDPOINT_PROVIDER,
       source: "desktop-addon",
       id: `tailscale-magicdns:${httpBaseUrl}`,
@@ -106,9 +99,9 @@ const resolveTailscaleMagicDnsAdvertisedEndpoint = Effect.fn(
       description: isReachable
         ? "HTTPS endpoint served by Tailscale Serve."
         : "MagicDNS hostname. Configure Tailscale Serve for HTTPS access.",
-    }),
+    }), catch: (e) => e })),
   );
-});
+})(), "resolveTailscaleMagicDnsAdvertisedEndpoint");
 
 export const resolveTailscaleAdvertisedEndpoints = effect (input: { readonly port: number; readonly serveEnabled?: boolean; readonly servePort?: number; readonly networkInterfaces: NetworkInterfaces; readonly statusJson?: string | null; readonly readStatus?: Effect.Effect<(TailscaleStatus | null), never, ChildProcessSpawner.ChildProcessSpawner>; readonly probe?: (baseUrl: string) => boolean!never!HttpClient.HttpClient; }): readonly AdvertisedEndpoint[]!never!(ChildProcessSpawner.ChildProcessSpawner | HttpClient.HttpClient) => try withSpan((effect (): readonly AdvertisedEndpoint[]!never!(ChildProcessSpawner.ChildProcessSpawner | HttpClient.HttpClient) => {
   const readStatus =
