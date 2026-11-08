@@ -1,27 +1,24 @@
-import { Connection } from "@t3tools/client-runtime/connection";
-import { ShellSnapshotLoader } from "@t3tools/client-runtime/state/shell";
-import {
-  BoundedThreadSnapshotLoader,
-  ThreadHistoryController,
-} from "@t3tools/client-runtime/state/threads";
-import { PullRequestDiffLoader } from "@t3tools/client-runtime/state/pull-requests";
-import * as Layer from "effect/Layer";
-import { Atom } from "effect/reactivity";
+import { Connection } from "@t3tools/client-runtime/connection"
+import { ShellSnapshotLoader } from "@t3tools/client-runtime/state/shell"
+import { BoundedThreadSnapshotLoader, ThreadHistoryController } from "@t3tools/client-runtime/state/threads"
+import { PullRequestDiffLoader } from "@t3tools/client-runtime/state/pull-requests"
+import * as Layer from "effect/Layer"
+import { Atom } from "effect/reactivity"
 
-import { isGuestPage } from "../guestPage";
+import { isGuestPage } from "../guestPage"
 
-import * as Runtime from "../lib/runtime";
-import * as BackgroundActivityReporter from "../lib/backgroundActivityReporter";
-import * as ConnectionPlatform from "./platform";
+import * as Runtime from "../lib/runtime"
+import * as BackgroundActivityReporter from "../lib/backgroundActivityReporter"
+import * as ConnectionPlatform from "./platform"
 
-const layerProvidedConnectionPlatform = ConnectionPlatform.layer.pipe(Layer.provide(Runtime.layer));
+const layerProvidedConnectionPlatform = ConnectionPlatform.layer.pipe(Layer.provide(Runtime.layer))
 
 const layerSnapshotLoader = Layer.mergeAll(
   BoundedThreadSnapshotLoader.layer,
   ShellSnapshotLoader.layer,
   ThreadHistoryController.layer,
   PullRequestDiffLoader.layer,
-);
+)
 
 type ConnectionLayerSource =
   | typeof Connection.layer
@@ -29,7 +26,7 @@ type ConnectionLayerSource =
   | typeof Runtime.layer
   | typeof ConnectionPlatform.layer
   | typeof BackgroundActivityReporter.layerObserver
-  | typeof BackgroundActivityReporter.layer;
+  | typeof BackgroundActivityReporter.layer
 
 const layerProvidedClientConnection = layerSnapshotLoader.pipe(
   Layer.provideMerge(
@@ -46,11 +43,11 @@ const layerProvidedClientConnection = layerSnapshotLoader.pipe(
       BackgroundActivityReporter.layerObserver,
     ),
   ),
-);
+)
 
 const layerConnection = BackgroundActivityReporter.layer.pipe(
   Layer.provideMerge(layerProvidedClientConnection),
-);
+)
 
 /**
  * A guest has no session here. Building the connection would open the page origin's environment
@@ -58,14 +55,20 @@ const layerConnection = BackgroundActivityReporter.layer.pipe(
  * page the runtime fails to build and every atom on it keeps its empty value.
  */
 const layerForPage = Layer.unwrap(
-  Effect.suspend((): typeof layerConnection!! =>
-    isGuestPage()
-      ? Effect.die(new Error("The guest page has no environment connection."))
-      : Effect.succeed(layerConnection),
-  ),
-);
+  Effect.suspend(effect (): typeof layerConnection!! => {
+    const program = try Effect.orDie(Effect.try({
+      try: () => (
+        isGuestPage()
+          ? Effect.die(new Error("The guest page has no environment connection."))
+          : Effect.succeed(layerConnection)
+      ),
+      catch: (cause) => cause,
+    }))
+    return try program
+  }),
+)
 
 export const connectionAtomRuntime: Atom.AtomRuntime<
   Layer.Success<ConnectionLayerSource>,
   Layer.Error<ConnectionLayerSource>
-> = Atom.runtime(layerForPage);
+> = Atom.runtime(layerForPage)
