@@ -1,0 +1,73 @@
+import { manageDirectory } from "./manage.platform.ts"
+import * as NodeRuntime from "@effect/platform-node/NodeRuntime"
+import * as NodeCrypto from "@effect/platform-node/NodeCrypto"
+import * as NodeServices from "@effect/platform-node/NodeServices"
+
+import * as WriterRegistry from "../src/WriterRegistry.vibe"
+
+const decodeDeployment = Schema.decodeEffect(
+  Schema.fromJsonString(Schema.Struct({ url: Schema.String })),
+)
+
+const name = Argument.String("name").pipe(Argument.withDescription("Lowercase writer name"))
+const updateWriter = effect (
+  name: string,
+  revoke: boolean,
+  initialize = false,
+) =>
+  try withSpan(
+    effect {
+      const registry = try WriterRegistry.WriterRegistry
+      let endpoint: string | undefined
+      if (!revoke && WriterRegistry.isWriterName(name)) {
+        const spawner = try ChildProcessSpawner.ChildProcessSpawner
+        const output = try spawner.string(
+          ChildProcess.make(
+            "node",
+            [
+              `${manageDirectory}/../node_modules/alchemy/bin/cli.js`,
+              "state",
+              "read",
+              "T3TaskCache/prod/output",
+              "--backend",
+              "cloudflare",
+              "--no-input",
+            ],
+            { cwd: `${manageDirectory}/..`, stderr: "inherit" },
+          ),
+        )
+        const deployed = try decodeDeployment(output)
+        endpoint = new URL("/projects/t3code", deployed.url).href
+      }
+      const file = try registry.update(name, revoke, endpoint, initialize)
+      try Console.log(
+        file === undefined
+          ? `Removed ${name} from the local writer registry.`
+          : `Private credential written to ${file}.`,
+      )
+      try Console.log(
+        "Run alchemy deploy --stage prod from infra/task-cache to apply the writer changes.",
+      )
+    },
+    "TaskCache.manageWriter",
+  )
+
+const command = Command.make("task-cache").pipe(
+  Command.withSubcommands([
+    Command.make(
+      "add-writer",
+      { name, newRegistry: Flag.Boolean("new-registry").pipe(Flag.withDefault(false)) },
+      ({ name, newRegistry }) => updateWriter(name, false, newRegistry),
+    ),
+    Command.make("revoke-writer", { name }, ({ name }) => updateWriter(name, true)),
+  ]),
+)
+
+Command.run(command, { version: "1.0.0" }).pipe(
+  Effect.provide(
+    WriterRegistry.layer.pipe(
+      Layer.provideMerge(Layer.merge(NodeServices.layer, NodeCrypto.layer)),
+    ),
+  ),
+  NodeRuntime.runMain,
+)

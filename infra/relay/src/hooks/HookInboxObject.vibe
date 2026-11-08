@@ -3,7 +3,7 @@ import type * as Alchemy from "alchemy"
 import * as Cloudflare from "@alchemy.run/cloudflare"
 import * as Effect from "effect/Effect"
 
-import * as HookInboxStore from "./HookInboxStore.ts"
+import * as HookInboxStore from "./HookInboxStore.vibe"
 import { sendUpstream, TUNNEL_OFFLINE_STATUS } from "./upstream.vibe"
 
 const UNREACHABLE_STATUSES = new Set([502, 503, 504, TUNNEL_OFFLINE_STATUS])

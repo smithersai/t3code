@@ -11,7 +11,7 @@ import {
 
 import type { EnvironmentPresentation } from "./connection/presentation.vibe"
 import { connectionRoutes, routeHttpBaseUrl } from "./connection/routes.vibe"
-import type { RelayDiscoveredEnvironment } from "./relay/discovery.ts"
+import type { RelayDiscoveredEnvironment } from "./relay/discovery.vibe"
 
 export type LinkRequestItem = Extract<OrchestrationV2TurnItem, { readonly type: "link_request" }>
 

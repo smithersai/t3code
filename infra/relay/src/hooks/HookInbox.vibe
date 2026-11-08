@@ -2,7 +2,7 @@ import * as Context from "effect/Context"
 import * as Effect from "effect/Effect"
 import * as Schema from "effect/Schema"
 
-import type { HeldHook } from "./HookInboxStore.ts"
+import type { HeldHook } from "./HookInboxStore.vibe"
 
 const HookInboxErrorCauseField: Schema.Defect = Schema.Defect()
 export schema error HookInboxError {

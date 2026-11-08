@@ -31,7 +31,7 @@ import * as HookForwarder from "./HookForwarder.ts";
 import { RELAY_HOOK_DELIVERY_TYP, verifyRelayJwt } from "@t3tools/shared/relayJwt";
 import * as HeldHooks from "./HeldHooks.vibe";
 import * as HookInbox from "./HookInbox.vibe";
-import type { HeldHook } from "./HookInboxStore.ts";
+import type { HeldHook } from "./HookInboxStore.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const mintKeys = NodeCrypto.generateKeyPairSync("ed25519", {

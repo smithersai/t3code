@@ -29,12 +29,12 @@ import {
   ConnectionBlockedError,
   PrimaryConnectionTarget,
 } from "./model.vibe";
-import * as Onboarding from "./onboarding.ts";
+import * as Onboarding from "./onboarding.vibe";
 import {
   prepareBearerConnectionUpdate,
   preparePairingRegistration,
   prepareSshRegistration,
-} from "./onboarding.ts";
+} from "./onboarding.vibe";
 import * as EnvironmentRegistry from "./registry.vibe";
 import * as ConnectionProfileStore from "./profileStore.vibe";
 import * as ConnectionWakeups from "./wakeups.vibe";

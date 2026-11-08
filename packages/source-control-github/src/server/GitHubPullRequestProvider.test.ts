@@ -7,7 +7,7 @@ import type { PullRequestReaction } from "@t3tools/contracts";
 
 import * as GitHubRequestPolicy from "./GitHubRequestPolicy.vibe";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
-import * as GitHubPullRequestApi from "./GitHubPullRequestApi.ts";
+import * as GitHubPullRequestApi from "./GitHubPullRequestApi.vibe";
 import type {
   GitHubPullRequestCore,
   GitHubPullRequestSearchItem,

@@ -9,7 +9,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
 
-import * as ConnectionResolver from "./resolver.ts";
+import * as ConnectionResolver from "./resolver.vibe";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
 import {

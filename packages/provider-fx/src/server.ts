@@ -3,5 +3,5 @@
  *
  * @module provider-fx/server
  */
-export { FxDriver, type FxDriverEnv } from "./server/driver.ts";
+export { FxDriver, type FxDriverEnv } from "./server/driver.vibe";
 export { type FxAdapterV2DriverEnv } from "./server/adapter.vibe";

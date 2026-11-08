@@ -62,7 +62,7 @@ import * as EnvironmentConnector from "./environments/EnvironmentConnector.vibe"
 import * as EnvironmentLinker from "./environments/EnvironmentLinker.vibe";
 import * as EnvironmentPublishSignatures from "./environments/EnvironmentPublishSignatures.vibe";
 import * as ManagedEndpointProvider from "./environments/ManagedEndpointProvider.ts";
-import * as ManagedEndpointReaper from "./environments/ManagedEndpointReaper.ts";
+import * as ManagedEndpointReaper from "./environments/ManagedEndpointReaper.vibe";
 import * as ManagedTunnelLimits from "./environments/ManagedTunnelLimits.vibe";
 import * as MobileRegistrations from "./agentActivity/MobileRegistrations.vibe";
 import * as HookForwarder from "./hooks/HookForwarder.ts";

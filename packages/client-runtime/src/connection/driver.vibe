@@ -6,7 +6,7 @@ import * as Scope from "effect/Scope"
 import type { ConnectionCatalogEntry, ConnectionRoute } from "./catalog.vibe"
 import type { ConnectionAttemptError, ConnectionAttemptStage, PreparedConnection } from "./model.vibe"
 import { ConnectionTransientError } from "#vibelang/emitted/src/connection/model"
-import * as ConnectionResolver from "./resolver.ts"
+import * as ConnectionResolver from "./resolver.vibe"
 import {
   connectionRoutes,
   routeEntry,

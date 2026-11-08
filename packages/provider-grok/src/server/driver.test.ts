@@ -14,7 +14,7 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
-import { GrokDriver } from "./driver.ts";
+import { GrokDriver } from "./driver.vibe";
 import { resolveLatestProviderVersion } from "@t3tools/provider-core/server/maintenanceResolver";
 
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";

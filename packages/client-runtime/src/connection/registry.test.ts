@@ -65,7 +65,7 @@ import * as RpcSession from "../rpc/session.vibe";
 import * as EnvironmentSupervisor from "./supervisor.ts";
 import * as ConnectionWakeups from "./wakeups.vibe";
 import { watchDiscoveredCompatibility } from "./layer.vibe";
-import * as RelayEnvironmentDiscovery from "../relay/discovery.ts";
+import * as RelayEnvironmentDiscovery from "../relay/discovery.vibe";
 import type { RelayEnvironmentStatusResponse } from "@t3tools/contracts/relay";
 import { runDesktopCommitWithReconnectObserver } from "../state/server.ts";
 import { v2ShellSnapshot } from "../state/orchestrationV2TestFixtures.ts";

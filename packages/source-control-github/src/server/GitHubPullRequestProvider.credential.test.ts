@@ -8,7 +8,7 @@ import * as SourceControlRateLimit from "@t3tools/source-control-core/server/Sou
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 
 import * as GitHubCredentials from "./GitHubCredentials.vibe";
-import * as GitHubPullRequestApi from "./GitHubPullRequestApi.ts";
+import * as GitHubPullRequestApi from "./GitHubPullRequestApi.vibe";
 import * as GitHubPullRequestProvider from "./GitHubPullRequestProvider.ts";
 import * as GitHubQuota from "./GitHubQuota.vibe";
 import * as GitHubRest from "./GitHubRest.vibe";

@@ -7,7 +7,7 @@
     "typecheck": "vibelang --noEmit",
     "smoke": "node --import vibelang/register scripts/smoke.ts",
     "deploy": "alchemy deploy --stage prod",
-    "writers": "node --import vibelang/register scripts/manage.ts"
+    "writers": "node --import vibelang/register scripts/manage.vibe"
   },
   "dependencies": {
     "@alchemy.run/axiom": "catalog:",

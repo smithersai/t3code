@@ -8,7 +8,7 @@ export * from "#vibelang/emitted/src/connection/pullRequestRoutingPermissions";
 export * from "./hostFreeze.ts";
 export * as Connection from "#vibelang/emitted/src/connection/layer";
 export * from "#vibelang/emitted/src/connection/model";
-export * as ConnectionOnboarding from "./onboarding.ts";
+export * as ConnectionOnboarding from "./onboarding.vibe";
 export * from "#vibelang/emitted/src/connection/presentation";
 export * as ProfileStore from "#vibelang/emitted/src/connection/profileStore";
 export * from "#vibelang/emitted/src/connection/routes";

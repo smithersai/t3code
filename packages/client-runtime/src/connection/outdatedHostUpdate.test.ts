@@ -19,8 +19,8 @@ import { orchestrationProtocolCompatibilityError } from "./compatibility.ts";
 import { PrimaryConnectionTarget } from "./model.vibe";
 import { describeOutdatedHost, updateOutdatedHost } from "./outdatedHostUpdate.vibe";
 import * as EnvironmentRegistry from "./registry.vibe";
-import * as ConnectionResolver from "./resolver.ts";
-import * as RelayEnvironmentDiscovery from "../relay/discovery.ts";
+import * as ConnectionResolver from "./resolver.vibe";
+import * as RelayEnvironmentDiscovery from "../relay/discovery.vibe";
 
 const TARGET = new PrimaryConnectionTarget({
   environmentId: EnvironmentId.make("environment-old"),
