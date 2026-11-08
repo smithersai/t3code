@@ -233,14 +233,21 @@ export const issueRemoteWebSocketTicket = effect (
     effect {
       const client = try makeEnvironmentHttpApiGroupClient(input.httpBaseUrl, "auth")
       const headers = { authorization: `Bearer ${input.bearerToken}` }
-      return try issueWebSocketTicketWithFallback(input.use, (use) =>
-        executeEnvironmentHttpRequest(
-          environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(use)),
-          input.timeoutMs ?? DEFAULT_REMOTE_REQUEST_TIMEOUT_MS,
-          use === undefined
-            ? client.webSocketTicket({ headers })
-            : client.webSocketTicketFor({ headers, params: { use } }),
-        ))
+      return try issueWebSocketTicketWithFallback(input.use, effect (use) => {
+        const program = try Effect.orDie(Effect.try({
+          try: () => (
+            executeEnvironmentHttpRequest(
+              environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(use)),
+              input.timeoutMs ?? DEFAULT_REMOTE_REQUEST_TIMEOUT_MS,
+              use === undefined
+                ? client.webSocketTicket({ headers })
+                : client.webSocketTicketFor({ headers, params: { use } }),
+            )
+          ),
+          catch: (cause) => cause,
+        }))
+        return try program
+      })
     },
     "clientRuntime.authorization.issueRemoteWebSocketTicket",
   )
@@ -356,13 +363,17 @@ export const resolveRemoteDpopWebSocketConnectionUrl = effect <E>(
         accessToken: input.accessToken,
         dpopProof: ticketProof,
         use: "rpc",
-        fallbackProof: Effect.suspend(() =>
-          input.createProof({
-            method: "POST",
-            url: environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(undefined)),
-            accessToken: input.accessToken,
-          })
-        ),
+        fallbackProof: Effect.suspend(effect () => {
+          const program = try Effect.orDie(Effect.try({
+            try: () => input.createProof({
+              method: "POST",
+              url: environmentEndpointUrl(input.httpBaseUrl, webSocketTicketPath(undefined)),
+              accessToken: input.accessToken,
+            }),
+            catch: (cause) => cause,
+          }))
+          return try program
+        }),
         ...(input.timeoutMs ? { timeoutMs: input.timeoutMs } : {}),
       })
       const url = rpcSocketUrl(input.wsBaseUrl)

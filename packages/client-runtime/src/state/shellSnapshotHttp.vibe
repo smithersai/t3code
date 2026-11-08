@@ -42,13 +42,20 @@ export const fetchEnvironmentShellSnapshot = effect (
         method: "GET",
         url: (urls) => urls.shellSnapshot(endpoint),
         timeoutMs: input.timeoutMs ?? DEFAULT_SHELL_SNAPSHOT_TIMEOUT_MS,
-        request: ({ client, headers }) =>
-          client
-            .shellSnapshot({
-              headers: withOrchestrationProtocolHeader(headers),
-              ...endpoint,
-              responseMode: "response-only",
-            }) |> Effect.flatMap(%, decodeShellSnapshotResponse),
+        request: effect ({ client, headers }) => {
+          const program = try Effect.orDie(Effect.try({
+            try: () => (
+              client
+                .shellSnapshot({
+                  headers: withOrchestrationProtocolHeader(headers),
+                  ...endpoint,
+                  responseMode: "response-only",
+                }) |> Effect.flatMap(%, decodeShellSnapshotResponse)
+            ),
+            catch: (cause) => cause,
+          }))
+          return try program
+        },
       })
     },
     "clientRuntime.state.fetchEnvironmentShellSnapshot",

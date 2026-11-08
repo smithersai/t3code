@@ -22,10 +22,17 @@ function initialConfigOption<E>(
 ): Option.Option<ServerConfig>!! {
   return initialConfig
     |> Effect.asSome(%)
-    |> Effect.catch(%, (error) =>
-      Effect.logWarning("Could not load the initial environment configuration.")
-      |> Effect.annotateLogs({ ...safeErrorLogAttributes(error) })(%)
-      |> Effect.as(%, Option.none<ServerConfig>()))
+    |> Effect.catch(%, effect (error) => {
+      const program = try Effect.orDie(Effect.try({
+        try: () => (
+          Effect.logWarning("Could not load the initial environment configuration.")
+          |> Effect.annotateLogs({ ...safeErrorLogAttributes(error) })(%)
+          |> Effect.as(%, Option.none<ServerConfig>())
+        ),
+        catch: (cause) => cause,
+      }))
+      return try program
+    })
 }
 
 const DEFAULT_SESSION_STATE_TIMEOUT_MS = 6_000
