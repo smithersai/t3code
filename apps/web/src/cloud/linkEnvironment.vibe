@@ -1,5 +1,5 @@
-import * as Effect from "effect/Effect";
-import { HttpClient } from "effect/http";
+import * as Effect from "effect/Effect"
+import { HttpClient } from "effect/http"
 import {
   EnvironmentCloudEndpointUnavailableError,
   type EnvironmentCloudLinkStateResult,
@@ -10,91 +10,91 @@ import {
   EnvironmentHttpUnauthorizedError,
   EnvironmentId,
   WS_METHODS,
-} from "@t3tools/contracts";
-import {
-  type RelayEnvironmentLinkResponse,
-  type RelayManagedEndpointProviderKind,
-} from "@t3tools/contracts/relay";
-import { EnvironmentRegistry } from "@t3tools/client-runtime/connection";
-import { request, runStream } from "@t3tools/client-runtime/rpc";
-import { makeEnvironmentHttpApiClient } from "@t3tools/client-runtime/rpc";
-import { ManagedRelay, relayRequestFailureDetail } from "@t3tools/client-runtime/relay";
+} from "@t3tools/contracts"
+import { type RelayEnvironmentLinkResponse, type RelayManagedEndpointProviderKind } from "@t3tools/contracts/relay"
+import { EnvironmentRegistry } from "@t3tools/client-runtime/connection"
+import { request, runStream } from "@t3tools/client-runtime/rpc"
+import { makeEnvironmentHttpApiClient } from "@t3tools/client-runtime/rpc"
+import { ManagedRelay } from "@t3tools/client-runtime/relay"
 
-import * as PrimaryEnvironmentHttpLayer from "../environments/primary/httpLayer";
-import { resolveCloudPublicConfig } from "./publicConfig";
+import * as PrimaryEnvironmentHttpLayer from "../environments/primary/httpLayer"
+import { resolveCloudPublicConfig } from "./publicConfig"
 import {
   finishRelayClientInstall,
   reportRelayClientInstallProgress,
   requestRelayClientInstallConfirmation,
-} from "./relayClientInstallDialog.vibe";
+} from "./relayClientInstallDialog.vibe"
+
+import { CloudEnvironmentLinkError } from "./linkEnvironmentError.vibe"
+import { decodedRelayClientError } from "./linkEnvironmentErrors.ts"
+
+export { CloudEnvironmentLinkError } from "./linkEnvironmentError.vibe"
 
 function relayUrl(): string | null {
-  return resolveCloudPublicConfig().relayUrl;
-}
-
-export error CloudEnvironmentLinkError {
-  message: string;
-  cause?: unknown;
-  traceId?: string;
+  return resolveCloudPublicConfig().relayUrl
 }
 
 const relayClientRpcError = (message: string) => (cause: unknown) =>
   new CloudEnvironmentLinkError({
     message,
     cause,
-  });
+  })
 
 const ensureRelayClientAvailable = effect (
-    environmentId: EnvironmentId,
-  ): void!CloudEnvironmentLinkError!EnvironmentRegistry.EnvironmentRegistry => try withSpan((effect (): void!CloudEnvironmentLinkError!EnvironmentRegistry.EnvironmentRegistry => {
-  const registry = try EnvironmentRegistry.EnvironmentRegistry;
-  const status = try (registry
-    .run(environmentId, request(WS_METHODS.cloudGetRelayClientStatus, {}))|> Effect.mapError(%, relayClientRpcError("Could not check relay client availability.")));
-  if (status.status === "available") return;
-  if (status.status === "unsupported") {
-    throw new CloudEnvironmentLinkError({
-      message: `T3 Code cannot install the relay client automatically on ${status.platform}-${status.arch}.`,
-    });
-  }
+  environmentId: EnvironmentId,
+): void!CloudEnvironmentLinkError!EnvironmentRegistry.EnvironmentRegistry =>
+  try withSpan(
+    (effect (): void!CloudEnvironmentLinkError!EnvironmentRegistry.EnvironmentRegistry => {
+      const registry = try EnvironmentRegistry.EnvironmentRegistry
+      const status = try (registry
+        .run(environmentId, request(WS_METHODS.cloudGetRelayClientStatus, {}))
+        |> Effect.mapError(%, relayClientRpcError("Could not check relay client availability.")))
+      if (status.status === "available") return
+      if (status.status === "unsupported") {
+        throw new CloudEnvironmentLinkError({
+          message: `T3 Code cannot install the relay client automatically on ${status.platform}-${status.arch}.`,
+        })
+      }
 
-  const confirmed = try Effect.tryPromise({
-    try: () => requestRelayClientInstallConfirmation(status.version),
-    catch: relayClientRpcError("Could not confirm relay client installation."),
-  });
-  if (!confirmed) {
-    throw new CloudEnvironmentLinkError({
-      message: "Relay client installation was cancelled.",
-    });
-  }
+      const confirmed = try Effect.tryPromise({
+        try: () => requestRelayClientInstallConfirmation(status.version),
+        catch: relayClientRpcError("Could not confirm relay client installation."),
+      })
+      if (!confirmed) {
+        throw new CloudEnvironmentLinkError({
+          message: "Relay client installation was cancelled.",
+        })
+      }
 
-  const installed = try ((() => {
-      const pipe$program = registry
-      .runStream(
-        environmentId,
-        runStream(WS_METHODS.cloudInstallRelayClient, {}).pipe(
-          Stream.tap(effect (event) => reportRelayClientInstallProgress(event)),
-        ),
-      );
-      const pipe$stage0 = Stream.runLast;
-      const pipe$stage1 = Effect.mapError(relayClientRpcError("Could not install the relay client."));
-      const pipe$stage2 = Effect.ensuring(Effect.sync(finishRelayClientInstall));
-      return pipe$program |> pipe$stage0(%) |> pipe$stage1(%) |> pipe$stage2(%);
-    })());
-  if (Option.isNone(installed) || installed.value.type !== "complete") {
-    throw new CloudEnvironmentLinkError({
-      message: "The relay client install completed without a final status.",
-    });
-  }
-  const installedStatus = installed.value.status;
-  if (installedStatus.status !== "available") {
-    throw new CloudEnvironmentLinkError({
-      message:
-        installedStatus.status === "unsupported"
-          ? `T3 Code cannot install the relay client automatically on ${installedStatus.platform}-${installedStatus.arch}.`
-          : "The relay client is still unavailable after installation.",
-    });
-  }
-})(), "linkEnvironment.ensureRelayClientAvailable");
+      const installed = try ((() => {
+        const pipe$program = registry
+          .runStream(
+            environmentId,
+            runStream(WS_METHODS.cloudInstallRelayClient, {}).pipe(
+              Stream.tap(effect (event) => reportRelayClientInstallProgress(event)),
+            ),
+          )
+        const pipe$stage0 = Stream.runLast
+        const pipe$stage1 = Effect.mapError(relayClientRpcError("Could not install the relay client."))
+        const pipe$stage2 = Effect.ensuring(Effect.sync(finishRelayClientInstall))
+        return pipe$program |> pipe$stage0(%) |> pipe$stage1(%) |> pipe$stage2(%)
+      })())
+      if (Option.isNone(installed) || installed.value.type !== "complete") {
+        throw new CloudEnvironmentLinkError({
+          message: "The relay client install completed without a final status.",
+        })
+      }
+      const installedStatus = installed.value.status
+      if (installedStatus.status !== "available") {
+        throw new CloudEnvironmentLinkError({
+          message: installedStatus.status === "unsupported"
+            ? `T3 Code cannot install the relay client automatically on ${installedStatus.platform}-${installedStatus.arch}.`
+            : "The relay client is still unavailable after installation.",
+        })
+      }
+    })(),
+    "linkEnvironment.ensureRelayClientAvailable",
+  )
 
 const isEnvironmentCloudApiError = Schema.is(
   Schema.Union([
@@ -105,205 +105,223 @@ const isEnvironmentCloudApiError = Schema.is(
     EnvironmentHttpInternalServerError,
     EnvironmentCloudEndpointUnavailableError,
   ]),
-);
-
-function decodedRelayClientError(message: string) {
-  return (cause: ManagedRelay.ManagedRelayClientError) => {
-    const failed = cause._tag === "ManagedRelayRequestFailedError" ? cause : undefined;
-    const traceId = failed?.traceId;
-    const detail = failed ? relayRequestFailureDetail(failed) : null;
-    return new CloudEnvironmentLinkError({
-      message: detail ? `${message}: ${detail}` : message,
-      cause,
-      ...(traceId ? { traceId } : {}),
-    });
-  };
-}
+)
 
 function findEnvironmentCloudApiError(cause: unknown): { readonly message: string } | null {
   if (isEnvironmentCloudApiError(cause)) {
-    return cause;
+    return cause
   }
   if (typeof cause !== "object" || cause === null) {
-    return null;
+    return null
   }
-  return "cause" in cause ? findEnvironmentCloudApiError(cause.cause) : null;
+  return "cause" in cause ? findEnvironmentCloudApiError(cause.cause) : null
 }
 
 const environmentApiError = (message: string) => (cause: unknown) => {
-  const environmentError = findEnvironmentCloudApiError(cause);
+  const environmentError = findEnvironmentCloudApiError(cause)
   return new CloudEnvironmentLinkError({
     message: environmentError
       ? `${message.replace(/[.:]$/, "")}: ${environmentError.message}`
       : message,
     cause,
-  });
-};
+  })
+}
 
 function endpointOrigin(httpBaseUrl: string) {
-  const url = new URL(httpBaseUrl);
+  const url = new URL(httpBaseUrl)
   return {
     localHttpHost: "127.0.0.1",
     localHttpPort: Number(url.port || (url.protocol === "https:" ? 443 : 80)),
-  };
+  }
 }
 
-const MANAGED_ENDPOINT_PROVIDER_KIND =
-  "cloudflare_tunnel" satisfies RelayManagedEndpointProviderKind;
+const MANAGED_ENDPOINT_PROVIDER_KIND = "cloudflare_tunnel" satisfies RelayManagedEndpointProviderKind
 
 function ensureLinkedEnvironmentMatches(input: {
-  readonly expectedEnvironmentId: string;
-  readonly expectedProviderKind: RelayManagedEndpointProviderKind;
-  readonly link: RelayEnvironmentLinkResponse;
+  readonly expectedEnvironmentId: string
+  readonly expectedProviderKind: RelayManagedEndpointProviderKind
+  readonly link: RelayEnvironmentLinkResponse
 }): void!CloudEnvironmentLinkError {
   if (input.link.environmentId !== input.expectedEnvironmentId) {
     return new CloudEnvironmentLinkError({
       message: "Relay returned credentials for a different environment.",
-    });
+    })
   }
   if (input.link.endpoint.providerKind !== input.expectedProviderKind) {
     return new CloudEnvironmentLinkError({
       message: "Relay returned credentials for a different endpoint provider.",
-    });
+    })
   }
-  return Effect.void;
+  return Effect.void
 }
 
 export interface CloudLinkTarget {
-  readonly environmentId: string;
-  readonly label: string;
-  readonly httpBaseUrl: string;
-  readonly wsBaseUrl: string;
+  readonly environmentId: string
+  readonly label: string
+  readonly httpBaseUrl: string
+  readonly wsBaseUrl: string
 }
 
-export type CloudLinkState = EnvironmentCloudLinkStateResult;
+export type CloudLinkState = EnvironmentCloudLinkStateResult
 
 export const readPrimaryCloudLinkState: (input: {
-  readonly target: CloudLinkTarget;
-}) => (CloudLinkState | null)!CloudEnvironmentLinkError!HttpClient.HttpClient =
-  effect (input: { readonly target: CloudLinkTarget; }) => try withSpan(effect {
-    const client = try makeEnvironmentHttpApiClient(input.target.httpBaseUrl);
-    return try (client.connect
-      .linkState({ headers: {} })|> Effect.mapError(%, environmentApiError("Could not read environment cloud link state.")));
-  } |> Effect.provide(%, PrimaryEnvironmentHttpLayer.layer), "linkEnvironment.readPrimaryCloudLinkState");
+  readonly target: CloudLinkTarget
+}) => (CloudLinkState | null)!CloudEnvironmentLinkError!HttpClient.HttpClient = effect (
+  input: { readonly target: CloudLinkTarget },
+) =>
+  try withSpan(
+    effect {
+      const client = try makeEnvironmentHttpApiClient(input.target.httpBaseUrl)
+      return try (client.connect
+        .linkState({ headers: {} })
+        |> Effect.mapError(%, environmentApiError("Could not read environment cloud link state.")))
+    } |> Effect.provide(%, PrimaryEnvironmentHttpLayer.layer),
+    "linkEnvironment.readPrimaryCloudLinkState",
+  )
 
 export const updatePrimaryCloudPreferences: (input: {
-  readonly target: CloudLinkTarget;
-  readonly publishAgentActivity: boolean;
-  readonly holdWebhooksWhileOffline?: boolean;
-}) => CloudLinkState!CloudEnvironmentLinkError!HttpClient.HttpClient = effect (input: { readonly target: CloudLinkTarget; readonly publishAgentActivity: boolean; readonly holdWebhooksWhileOffline?: boolean; }) => try withSpan(effect {
-  const client = try makeEnvironmentHttpApiClient(input.target.httpBaseUrl);
-  const { target: _target, ...payload } = input;
-  return try (client.connect
-    .preferences({
-      headers: {},
-      payload,
-    })|> Effect.mapError(%, environmentApiError("Could not update environment cloud preferences.")));
-} |> Effect.provide(%, PrimaryEnvironmentHttpLayer.layer), "linkEnvironment.updatePrimaryCloudPreferences");
+  readonly target: CloudLinkTarget
+  readonly publishAgentActivity: boolean
+  readonly holdWebhooksWhileOffline?: boolean
+}) => CloudLinkState!CloudEnvironmentLinkError!HttpClient.HttpClient = effect (
+  input: {
+    readonly target: CloudLinkTarget
+    readonly publishAgentActivity: boolean
+    readonly holdWebhooksWhileOffline?: boolean
+  },
+) =>
+  try withSpan(
+    effect {
+      const client = try makeEnvironmentHttpApiClient(input.target.httpBaseUrl)
+      const { target: _target, ...payload } = input
+      return try (client.connect
+        .preferences({
+          headers: {},
+          payload,
+        }) |> Effect.mapError(%, environmentApiError("Could not update environment cloud preferences.")))
+    } |> Effect.provide(%, PrimaryEnvironmentHttpLayer.layer),
+    "linkEnvironment.updatePrimaryCloudPreferences",
+  )
 
 export const unlinkPrimaryEnvironmentFromCloud: (input: {
-  readonly target: CloudLinkTarget;
-  readonly clerkToken: string | null;
-}) => void!CloudEnvironmentLinkError!(HttpClient.HttpClient | ManagedRelay.ManagedRelayClient) = effect (input: { readonly target: CloudLinkTarget; readonly clerkToken: string | null; }) => try withSpan(effect {
-  const client = try makeEnvironmentHttpApiClient(input.target.httpBaseUrl);
-  try (client.connect
-    .unlink({ headers: {} })|> Effect.mapError(%, environmentApiError("Could not unlink the environment from cloud.")));
+  readonly target: CloudLinkTarget
+  readonly clerkToken: string | null
+}) => void!CloudEnvironmentLinkError!(HttpClient.HttpClient | ManagedRelay.ManagedRelayClient) = effect (
+  input: { readonly target: CloudLinkTarget; readonly clerkToken: string | null },
+) =>
+  try withSpan(
+    effect {
+      const client = try makeEnvironmentHttpApiClient(input.target.httpBaseUrl)
+      try (client.connect
+        .unlink({ headers: {} })
+        |> Effect.mapError(%, environmentApiError("Could not unlink the environment from cloud.")))
 
-  const configuredRelayUrl = relayUrl();
-  if (configuredRelayUrl && input.clerkToken) {
-    const relayClient = try ManagedRelay.ManagedRelayClient;
-    relayClient
-      .unlinkEnvironment({
-        clerkToken: input.clerkToken,
-        environmentId: EnvironmentId.make(input.target.environmentId),
-      }) catch effect (cause) => try Effect.logWarning("Could not revoke cloud environment link after local unlink.", {
-            cause,
-          });
-  }
-} |> Effect.provide(%, PrimaryEnvironmentHttpLayer.layer), "linkEnvironment.unlinkPrimaryEnvironmentFromCloud");
+      const configuredRelayUrl = relayUrl()
+      if (configuredRelayUrl && input.clerkToken) {
+        const relayClient = try ManagedRelay.ManagedRelayClient
+        relayClient
+          .unlinkEnvironment({
+            clerkToken: input.clerkToken,
+            environmentId: EnvironmentId.make(input.target.environmentId),
+          }) catch effect (cause) =>
+            try Effect.logWarning("Could not revoke cloud environment link after local unlink.", {
+              cause,
+            })
+      }
+    } |> Effect.provide(%, PrimaryEnvironmentHttpLayer.layer),
+    "linkEnvironment.unlinkPrimaryEnvironmentFromCloud",
+  )
 
-export type CloudLinkMode = "managed" | "publish_only";
+export type CloudLinkMode = "managed" | "publish_only"
 
-const PUBLISH_ONLY_PROVIDER_KIND = "manual" satisfies RelayManagedEndpointProviderKind;
+const PUBLISH_ONLY_PROVIDER_KIND = "manual" satisfies RelayManagedEndpointProviderKind
 
 export const linkPrimaryEnvironmentToCloud: (input: {
-  readonly target: CloudLinkTarget;
-  readonly clerkToken: string;
-  readonly mode?: CloudLinkMode;
-}) => void!CloudEnvironmentLinkError!(EnvironmentRegistry.EnvironmentRegistry | HttpClient.HttpClient | ManagedRelay.ManagedRelayClient) = effect (input: { readonly target: CloudLinkTarget; readonly clerkToken: string; readonly mode?: CloudLinkMode; }) => try withSpan(effect {
-  const configuredRelayUrl = relayUrl();
-  if (!configuredRelayUrl) {
-    throw new CloudEnvironmentLinkError({
-      message: "T3CODE_RELAY_URL is not configured.",
-    });
-  }
-  const managedTunnelsEnabled = (input.mode ?? "managed") === "managed";
-  const providerKind = managedTunnelsEnabled
-    ? MANAGED_ENDPOINT_PROVIDER_KIND
-    : PUBLISH_ONLY_PROVIDER_KIND;
-  const relayClient = try ManagedRelay.ManagedRelayClient;
-  const environmentClient = try makeEnvironmentHttpApiClient(input.target.httpBaseUrl);
-  if (managedTunnelsEnabled) {
-    try ensureRelayClientAvailable(EnvironmentId.make(input.target.environmentId));
-  }
+  readonly target: CloudLinkTarget
+  readonly clerkToken: string
+  readonly mode?: CloudLinkMode
+}) =>
+  void!CloudEnvironmentLinkError!(EnvironmentRegistry.EnvironmentRegistry | HttpClient.HttpClient | ManagedRelay.ManagedRelayClient) =
+    effect (input: { readonly target: CloudLinkTarget; readonly clerkToken: string; readonly mode?: CloudLinkMode }) =>
+      try withSpan(
+        effect {
+          const configuredRelayUrl = relayUrl()
+          if (!configuredRelayUrl) {
+            throw new CloudEnvironmentLinkError({
+              message: "T3CODE_RELAY_URL is not configured.",
+            })
+          }
+          const managedTunnelsEnabled = (input.mode ?? "managed") === "managed"
+          const providerKind = managedTunnelsEnabled
+            ? MANAGED_ENDPOINT_PROVIDER_KIND
+            : PUBLISH_ONLY_PROVIDER_KIND
+          const relayClient = try ManagedRelay.ManagedRelayClient
+          const environmentClient = try makeEnvironmentHttpApiClient(input.target.httpBaseUrl)
+          if (managedTunnelsEnabled) {
+            try ensureRelayClientAvailable(EnvironmentId.make(input.target.environmentId))
+          }
 
-  const challenge = try (relayClient
-    .createEnvironmentLinkChallenge({
-      clerkToken: input.clerkToken,
-      payload: {
-        notificationsEnabled: true,
-        liveActivitiesEnabled: true,
-        managedTunnelsEnabled,
-      },
-    })
-      |> Effect.mapError(
-        %, decodedRelayClientError(
-          `${configuredRelayUrl}/v1/client/environment-link-challenges failed`,
-        ),
-      ));
-  const proof = try (environmentClient.connect
-    .linkProof({
-      headers: {},
-      payload: {
-        challenge: challenge.challenge,
-        relayIssuer: configuredRelayUrl,
-        endpoint: {
-          httpBaseUrl: input.target.httpBaseUrl,
-          wsBaseUrl: input.target.wsBaseUrl,
-          providerKind,
-        },
-        origin: endpointOrigin(input.target.httpBaseUrl),
-      },
-    })|> Effect.mapError(%, environmentApiError("Could not obtain environment link proof.")));
-  const link = try (relayClient
-    .linkEnvironment({
-      clerkToken: input.clerkToken,
-      payload: {
-        proof,
-        notificationsEnabled: true,
-        liveActivitiesEnabled: true,
-        managedTunnelsEnabled,
-      },
-    })
-      |> Effect.mapError(
-        %, decodedRelayClientError(`${configuredRelayUrl}/v1/client/environment-links failed`),
-      ));
-  try ensureLinkedEnvironmentMatches({
-    expectedEnvironmentId: input.target.environmentId,
-    expectedProviderKind: providerKind,
-    link,
-  });
+          const challenge = try (relayClient
+            .createEnvironmentLinkChallenge({
+              clerkToken: input.clerkToken,
+              payload: {
+                notificationsEnabled: true,
+                liveActivitiesEnabled: true,
+                managedTunnelsEnabled,
+              },
+            })
+            |> Effect.mapError(
+              %,
+              decodedRelayClientError(
+                `${configuredRelayUrl}/v1/client/environment-link-challenges failed`,
+              ),
+            ))
+          const proof = try (environmentClient.connect
+            .linkProof({
+              headers: {},
+              payload: {
+                challenge: challenge.challenge,
+                relayIssuer: configuredRelayUrl,
+                endpoint: {
+                  httpBaseUrl: input.target.httpBaseUrl,
+                  wsBaseUrl: input.target.wsBaseUrl,
+                  providerKind,
+                },
+                origin: endpointOrigin(input.target.httpBaseUrl),
+              },
+            }) |> Effect.mapError(%, environmentApiError("Could not obtain environment link proof.")))
+          const link = try (relayClient
+            .linkEnvironment({
+              clerkToken: input.clerkToken,
+              payload: {
+                proof,
+                notificationsEnabled: true,
+                liveActivitiesEnabled: true,
+                managedTunnelsEnabled,
+              },
+            })
+            |> Effect.mapError(
+              %,
+              decodedRelayClientError(`${configuredRelayUrl}/v1/client/environment-links failed`),
+            ))
+          try ensureLinkedEnvironmentMatches({
+            expectedEnvironmentId: input.target.environmentId,
+            expectedProviderKind: providerKind,
+            link,
+          })
 
-  try (environmentClient.connect
-    .relayConfig({
-      headers: {},
-      payload: {
-        relayUrl: configuredRelayUrl,
-        relayIssuer: link.relayIssuer,
-        cloudUserId: link.cloudUserId,
-        environmentCredential: link.environmentCredential,
-        cloudMintPublicKey: link.cloudMintPublicKey,
-        endpointRuntime: link.endpointRuntime,
-      },
-    })|> Effect.mapError(%, environmentApiError("Could not configure environment relay access.")));
-} |> Effect.provide(%, PrimaryEnvironmentHttpLayer.layer), "linkEnvironment.linkPrimaryEnvironmentToCloud");
+          try (environmentClient.connect
+            .relayConfig({
+              headers: {},
+              payload: {
+                relayUrl: configuredRelayUrl,
+                relayIssuer: link.relayIssuer,
+                cloudUserId: link.cloudUserId,
+                environmentCredential: link.environmentCredential,
+                cloudMintPublicKey: link.cloudMintPublicKey,
+                endpointRuntime: link.endpointRuntime,
+              },
+            }) |> Effect.mapError(%, environmentApiError("Could not configure environment relay access.")))
+        } |> Effect.provide(%, PrimaryEnvironmentHttpLayer.layer),
+        "linkEnvironment.linkPrimaryEnvironmentToCloud",
+      )
