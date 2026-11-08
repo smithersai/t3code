@@ -4,7 +4,9 @@ import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 const harness = vi.hoisted(() => ({
   cleanup: vi.fn(),
   clearDraft: vi.fn<typeof import("./use-composer-drafts.vibe").clearComposerDraft>(),
-  flushDrafts: vi.fn<typeof import("./use-composer-drafts.vibe").flushComposerDrafts>(async () => {}),
+  flushDrafts: vi.fn<typeof import("./use-composer-drafts.vibe").flushComposerDrafts>(
+    async () => {},
+  ),
   waitForDrafts: vi.fn<typeof import("./use-composer-drafts.vibe").waitForComposerDraftsLoaded>(
     async () => {},
   ),

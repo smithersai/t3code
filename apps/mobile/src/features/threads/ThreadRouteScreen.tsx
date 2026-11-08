@@ -38,7 +38,10 @@ import { restoredNewTaskDraftKey } from "../../state/new-task-draft-key";
 import { clearPendingThreadCreationOutcome } from "../../state/pending-thread-creation.vibe";
 import { recoverFailedThreadDraft } from "../../state/recover-failed-thread-draft";
 import { useEnvironmentQuery } from "../../state/query.vibe";
-import { dismissGitActionResult, useGitActionProgress } from "../../state/use-vcs-action-state.vibe";
+import {
+  dismissGitActionResult,
+  useGitActionProgress,
+} from "../../state/use-vcs-action-state.vibe";
 import { vcsEnvironment } from "../../state/vcs";
 import { EmptyState } from "../../components/ui/EmptyState";
 import { LoadingScreen } from "../../components/LoadingScreen";

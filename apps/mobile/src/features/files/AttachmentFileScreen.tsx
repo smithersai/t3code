@@ -22,7 +22,10 @@ import { nativeViewerErrorMessage } from "../../lib/attachmentDownload";
 import { isFileBackedComposerAttachment } from "../../lib/composerImages";
 import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic.vibe";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
-import { removeComposerDraftAttachment, useComposerDraft } from "../../state/use-composer-drafts.vibe";
+import {
+  removeComposerDraftAttachment,
+  useComposerDraft,
+} from "../../state/use-composer-drafts.vibe";
 import { useEnvironmentServerConfig } from "../../state/entities.vibe";
 import { useRefreshAssetUrl } from "../../state/assets.vibe";
 import { scopedThreadKey } from "../../lib/scopedEntities";

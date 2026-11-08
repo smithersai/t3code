@@ -4,7 +4,8 @@ export function warnOnPlatform(...values: unknown[]): void {
   console.warn(...values);
 }
 
-export const scheduleOnPlatform = (callback: () => void, delay: number) => setTimeout(callback, delay);
+export const scheduleOnPlatform = (callback: () => void, delay: number) =>
+  setTimeout(callback, delay);
 
 export function cancelOnPlatform(timer: ReturnType<typeof setTimeout>): void {
   clearTimeout(timer);
