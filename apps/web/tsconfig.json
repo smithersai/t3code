@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "moduleSuffixes": ["", ".d.vibe"],
+    "moduleSuffixes": ["", ".d.vibe", ".d.vibex"],
     "rewriteRelativeImportExtensions": true,
     "composite": true,
     "module": "Preserve",

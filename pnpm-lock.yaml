@@ -1315,6 +1315,9 @@ importers:
       compression:
         specifier: ^1.8.2
         version: 1.8.2(supports-color@8.1.1)
+      fast-check:
+        specifier: 4.10.2
+        version: 4.10.2
       oxc-transform-react:
         specifier: ~0.152.0
         version: 0.152.0(patch_hash=0faca8b73a7fba35fa840281ba4f2d0b5a8007735833514567cd2f0c911637b2)
