@@ -37,7 +37,7 @@ import {
   mergeComposerDraftContent,
   scheduleUnusedComposerAttachmentCleanup,
   undoComposerDraftMerge,
-} from "../../state/use-composer-drafts";
+} from "../../state/use-composer-drafts.vibe";
 import {
   EMPTY_INCOMING_SHARE_PRESENTATION_STATE,
   transitionIncomingSharePresentation,

@@ -19,7 +19,7 @@ import { Button } from "../../components/ui/Button";
 import { GlassSurface } from "../../components/ui/GlassSurface";
 import { NativeStackScreenOptions } from "../../native/StackHeader";
 import { relativeTime } from "../../lib/time";
-import { composerPullRequests } from "../../state/pull-requests";
+import { composerPullRequests } from "../../state/pull-requests.ts";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { PullRequestMarkdown, PullRequestMarkdownRepository } from "./PullRequestMarkdown";

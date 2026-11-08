@@ -7,7 +7,7 @@ import {
 } from "@t3tools/client-runtime/project-favicon-cache";
 import * as Effect from "effect/Effect";
 
-import * as MobileDatabase from "../persistence/mobile-database";
+import * as MobileDatabase from "../persistence/mobile-database.vibe";
 
 const CACHE_KIND = "project-favicon";
 const CACHE_SCHEMA_VERSION = 1;

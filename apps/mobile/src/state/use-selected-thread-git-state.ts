@@ -5,7 +5,7 @@ import { dedupeRemoteBranchesWithLocalMatches } from "@t3tools/shared/git";
 import { useBranches } from "./queries.vibe";
 import { useEnvironmentQuery } from "./query.vibe";
 import { sourceControlEnvironment } from "./sourceControl";
-import { useVcsActionState } from "./use-vcs-action-state";
+import { useVcsActionState } from "./use-vcs-action-state.vibe";
 import { useThreadSelection } from "./use-thread-selection.vibe";
 import { useSelectedThreadWorktree } from "./use-selected-thread-worktree.vibe";
 

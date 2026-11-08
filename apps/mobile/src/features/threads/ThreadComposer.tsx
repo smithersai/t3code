@@ -62,7 +62,7 @@ import {
   composerContextImportsAtom,
   countComposerDraftAttachmentsAfterSelection,
   useComposerDraft,
-} from "../../state/use-composer-drafts";
+} from "../../state/use-composer-drafts.vibe";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import type { ComposerDocumentAttachment } from "../../lib/composerContext.vibe";
 import { useProject, useThreadShells } from "../../state/entities.vibe";

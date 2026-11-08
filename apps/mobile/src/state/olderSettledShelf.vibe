@@ -12,7 +12,7 @@ import type { EnvironmentId, ProjectId } from "@t3tools/contracts"
 import { useEffect, useState } from "react"
 
 import { appAtomRegistry } from "./atom-registry.vibe"
-import { olderSettledThreads, threadFamilies } from "./threads"
+import { olderSettledThreads, threadFamilies } from "./threads.ts"
 
 const NO_PAGES: ReadonlyMap<EnvironmentId, number> = new Map()
 const NO_OLDER_SETTLED: Atom.Atom<OlderSettled | null> = Atom.make(null)

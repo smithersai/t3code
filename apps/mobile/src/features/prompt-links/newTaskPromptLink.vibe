@@ -26,15 +26,15 @@ import { rootNavigationRef } from "../../lib/rootNavigation"
 import { scopedThreadKey } from "../../lib/scopedEntities"
 import { appAtomRegistry } from "../../state/atom-registry.vibe"
 import { environmentProjects, projectEnvironment } from "../../state/projects"
-import { composerPullRequests } from "../../state/pull-requests"
+import { composerPullRequests } from "../../state/pull-requests.ts"
 import { environmentServerConfigsAtom } from "../../state/server"
-import { environmentThreadShells } from "../../state/threads"
+import { environmentThreadShells } from "../../state/threads.ts"
 import {
   createNewTaskDraft,
   setComposerDraftText,
   updateComposerDraftSettings,
   waitForComposerDraftsLoaded,
-} from "../../state/use-composer-drafts"
+} from "../../state/use-composer-drafts.vibe"
 import { workspaceConnections, workspaceStateAtom } from "../../state/workspace.vibe"
 import { applyLinkedPromptToThreadDraft, showPromptLinkNotice } from "./prompt-link-actions"
 import {

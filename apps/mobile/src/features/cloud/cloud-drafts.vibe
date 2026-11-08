@@ -3,7 +3,7 @@ import { createRuntimeCommand } from "@t3tools/client-runtime/state/runtime"
 import * as Schema from "effect/Schema"
 
 import { connectionAtomRuntime } from "../../connection/runtime.vibe"
-import { archiveCloudComposerDrafts } from "../../state/use-composer-drafts"
+import { archiveCloudComposerDrafts } from "../../state/use-composer-drafts.vibe"
 
 const CloudDraftArchiveErrorCauseField: Schema.Defect = Schema.Defect()
 export schema error CloudDraftArchiveError {

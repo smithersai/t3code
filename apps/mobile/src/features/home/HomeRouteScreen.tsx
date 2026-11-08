@@ -14,7 +14,7 @@ import { resolveScratchProjectScopeKey } from "@t3tools/client-runtime/state/pro
 
 import { NativeStackScreenOptions } from "../../native/StackHeader";
 import { useProjects } from "../../state/entities.vibe";
-import { environmentThreadShells } from "../../state/threads";
+import { environmentThreadShells } from "../../state/threads.ts";
 import { usePendingNewTasks } from "../../state/use-pending-new-tasks.vibe";
 import { useWorkspaceState } from "../../state/workspace.vibe";
 import { useSavedRemoteConnections } from "../../state/use-remote-environment-registry.vibe";

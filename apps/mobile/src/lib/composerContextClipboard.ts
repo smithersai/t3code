@@ -31,7 +31,7 @@ import { uuidv4 } from "./uuid";
 import {
   findLocalComposerClipboardAttachment,
   waitForComposerDraftsLoaded,
-} from "../state/use-composer-drafts";
+} from "../state/use-composer-drafts.vibe";
 import { loadLocalAttachmentPreview } from "./localAttachmentPreview.vibe";
 
 export interface NativeContextClipboard {

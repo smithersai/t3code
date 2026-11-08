@@ -4,7 +4,7 @@ import { ManagedRelay } from "@t3tools/client-runtime/relay"
 import type { SavedRemoteConnection } from "../../lib/connection"
 import { appAtomRegistry } from "../../state/atom-registry.vibe"
 import { environmentServerConfigsAtom } from "../../state/server"
-import type { Preferences } from "../../persistence/mobile-preferences"
+import type { Preferences } from "../../persistence/mobile-preferences.vibe"
 import { loadAgentAwarenessDeviceId, loadPreferences } from "../../persistence/imperative.vibe"
 import { getAgentLiveActivities, startAgentLiveActivity } from "./agentLiveActivity"
 
@@ -31,8 +31,8 @@ module platform {
     squashAtomCommandFailure,
   } from "@t3tools/client-runtime/state/runtime"
   import type { SavedRemoteConnection } from "../../lib/connection"
-  import { runtime } from "../../lib/runtime"
-  import type { Preferences } from "../../persistence/mobile-preferences.ts"
+  import { runtime } from "../../lib/runtime.vibe"
+  import type { Preferences } from "../../persistence/mobile-preferences.vibe"
   import {
     clearAgentAwarenessRegistrationRecord,
     loadAgentAwarenessRegistrationRecord,

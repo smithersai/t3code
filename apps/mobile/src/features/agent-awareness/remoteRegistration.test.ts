@@ -163,7 +163,7 @@ vi.mock("react-native", () => ({
   },
 }));
 
-vi.mock("../../lib/runtime", () => ({
+vi.mock("../../lib/runtime.vibe", () => ({
   runtime: {
     runPromiseExit: (operation: unknown) =>
       new Promise((resolve) => {

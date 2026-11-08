@@ -35,7 +35,7 @@ import {
 import { refreshManagedRelayEnvironments } from "../cloud/managedRelayState.vibe";
 import { hasCloudPublicConfig, resolveRelayClerkTokenOptions } from "../cloud/publicConfig.vibe";
 import { makePermissionStatusAtom } from "../../lib/permissionStatusAtom.vibe";
-import { runtime } from "../../lib/runtime";
+import { runtime } from "../../lib/runtime.vibe";
 import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
 import { useSavedRemoteConnections } from "../../state/use-remote-environment-registry.vibe";
 import { SettingsRow } from "./components/SettingsRow";

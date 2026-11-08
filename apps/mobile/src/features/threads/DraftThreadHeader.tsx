@@ -14,7 +14,7 @@ import { useEnvironmentQuery } from "../../state/query.vibe";
 import { useEnvironmentScope } from "../../state/session.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { vcsActionManager, vcsEnvironment } from "../../state/vcs";
-import { useVcsActionState } from "../../state/use-vcs-action-state";
+import { useVcsActionState } from "../../state/use-vcs-action-state.vibe";
 import { ThreadHeader } from "./ThreadHeader";
 
 export function DraftThreadHeader(props: {

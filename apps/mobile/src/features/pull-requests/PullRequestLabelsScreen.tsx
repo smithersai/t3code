@@ -10,7 +10,7 @@ import { AppText as Text } from "../../components/ui/AppText";
 import { Button } from "../../components/ui/Button";
 import { EmptyState } from "../../components/ui/EmptyState";
 import { SelectionRow } from "../../components/ui/SelectionRow";
-import { composerPullRequests } from "../../state/pull-requests";
+import { composerPullRequests } from "../../state/pull-requests.ts";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { PullRequestLabelDot } from "./PullRequestLabelDot";

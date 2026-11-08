@@ -16,14 +16,14 @@ import {
 import { loadPreferences, savePreferencesPatch } from "../../persistence/imperative.vibe";
 import { rootStackState, type RootStackNavigation } from "../../lib/root-stack-reset";
 import { workspaceRoutesOf } from "../layout/workspace-overlay-routes";
-import type { WorkspaceSelections } from "../../persistence/mobile-preferences";
+import type { WorkspaceSelections } from "../../persistence/mobile-preferences.vibe";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { environmentPresentations } from "../../state/presentation.vibe";
 import {
   environmentThreadShells,
   startOpeningEnvironmentThread,
   threadEnvironment,
-} from "../../state/threads";
+} from "../../state/threads.ts";
 import {
   rememberedSettingsPage,
   workspaceSelectionsIn,

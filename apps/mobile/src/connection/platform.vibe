@@ -10,22 +10,17 @@ import {
   Wakeups,
 } from "@t3tools/client-runtime/connection";
 import { managedRelayAccountChanges, managedRelaySessionAtom } from "@t3tools/client-runtime/relay";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
-import * as Queue from "effect/Queue";
-import * as Stream from "effect/Stream";
 import Constants from "expo-constants";
 import * as Network from "expo-network";
 import { AppState } from "react-native";
 
 import { authClientMetadata } from "../lib/authClientMetadata";
-import * as Runtime from "../lib/runtime";
+import * as Runtime from "../lib/runtime.vibe";
 import * as MobileStorage from "../persistence/mobile-storage.vibe";
 import { appAtomRegistry } from "../state/atom-registry.vibe";
 import { clearThreadOutboxEnvironment } from "../state/thread-outbox-removal";
-import { clearComposerDraftsEnvironment } from "../state/use-composer-drafts";
+import { clearComposerDraftsEnvironment } from "../state/use-composer-drafts.vibe";
 import { clearThreadComposerErrorsForEnvironment } from "../state/thread-composer-error.vibe";
 import { mobileApplicationActiveWakeup } from "./app-state-wakeups";
 import * as ConnectionStorage from "./storage.vibe";
@@ -44,12 +39,11 @@ const layerConnectivity = Connectivity.layer({
   status: Effect.tryPromise({
     try: () => Network.getNetworkStateAsync(),
     catch: () => undefined,
-  }).pipe(
-    Effect.match({
+  })
+    |> Effect.match(%, {
       onFailure: () => "unknown" as const,
       onSuccess: networkStatus,
     }),
-  ),
   changes: Stream.callback((queue) =>
     Effect.acquireRelease(
       Effect.sync(() => {
@@ -78,7 +72,7 @@ const layerConnectivity = Connectivity.layer({
         };
       }),
       ({ close }) => Effect.sync(close),
-    ).pipe(Effect.asVoid),
+    ) |> Effect.asVoid(%),
   ),
 });
 
@@ -111,8 +105,8 @@ const networkPathChanges = Stream.callback<"network-changed">((queue) =>
         },
       };
     }),
-    (subscription) => Effect.sync(() => subscription.remove()),
-  ).pipe(Effect.asVoid),
+    effect (subscription) => subscription.remove(),
+  ) |> Effect.asVoid(%),
 );
 
 const layerWakeups = Wakeups.layer({
@@ -137,7 +131,7 @@ const layerWakeups = Wakeups.layer({
             });
           }),
           (subscription) => Effect.sync(() => subscription.remove()),
-        ).pipe(Effect.asVoid),
+        ) |> Effect.asVoid(%),
       ),
       managedRelayAccountChanges(appAtomRegistry).pipe(
         Stream.map(() => "credentials-changed" as const),
@@ -149,39 +143,32 @@ const layerWakeups = Wakeups.layer({
 });
 
 const layerCapabilities = Layer.effectContext(
-  Effect.gen(function* () {
-    const storage = yield* MobileStorage.MobileStorage;
+  effect {
+    const storage = try MobileStorage.MobileStorage;
     return Context.make(
       ClientCapabilities.CloudSession,
       ClientCapabilities.CloudSession.of({
-        identity: Effect.sync(() =>
-          Option.fromNullishOr(appAtomRegistry.get(managedRelaySessionAtom)),
-        ),
-        clerkToken: Effect.gen(function* () {
+        identity: effect { return Option.fromNullishOr(appAtomRegistry.get(managedRelaySessionAtom)) },
+        clerkToken: effect {
           const session = appAtomRegistry.get(managedRelaySessionAtom);
           if (session === null) {
-            return yield* new ConnectionBlockedError({
+            throw new ConnectionBlockedError({
               reason: "authentication",
               detail: "Sign in to T3 Connect to connect this environment.",
             });
           }
-          const token = yield* session.readClerkToken().pipe(
-            Effect.mapError(
-              (error) =>
-                new ConnectionTransientError({
+          const token = session.readClerkToken() catch effect (error) => { throw new ConnectionTransientError({
                   reason: "network",
                   detail: error.message,
-                }),
-            ),
-          );
+                }) };
           if (token === null) {
-            return yield* new ConnectionBlockedError({
+            throw new ConnectionBlockedError({
               reason: "authentication",
               detail: "The T3 Connect session is unavailable.",
             });
           }
           return token;
-        }),
+        },
       }),
     ).pipe(
       Context.add(
@@ -192,27 +179,26 @@ const layerCapabilities = Layer.effectContext(
       ),
       // The relay device id already persists in secure storage; analytics only sends its hash.
       Context.add(ClientCapabilities.AnalyticsDevice, {
-        id: storage.loadOrCreateAgentAwarenessDeviceId.pipe(Effect.option),
+        id: storage.loadOrCreateAgentAwarenessDeviceId |> Effect.option(%),
       }),
       Context.add(
         ClientCapabilities.RelayDeviceIdentity,
         ClientCapabilities.RelayDeviceIdentity.of({
-          deviceId: storage.loadOrCreateAgentAwarenessDeviceId.pipe(
-            Effect.mapError(
-              (cause) =>
+          deviceId: storage.loadOrCreateAgentAwarenessDeviceId
+            |> Effect.mapError(
+              %, (cause) =>
                 new ConnectionTransientError({
                   reason: "remote-unavailable",
                   detail: `Could not load the mobile device identity: ${String(cause)}`,
                 }),
-            ),
-            Effect.map(Option.some),
-          ),
+            )
+            |> Effect.map(%, Option.some),
         }),
       ),
       Context.add(
         ClientCapabilities.ClientPresentation,
         ClientCapabilities.ClientPresentation.of({
-          metadata: authClientMetadata(Constants.expoConfig?.version),
+          metadata: try Effect.orDie(Effect.try({ try: () => authClientMetadata(Constants.expoConfig?.version), catch: (e) => e })),
         }),
       ),
       Context.add(
@@ -236,7 +222,7 @@ const layerCapabilities = Layer.effectContext(
         }),
       ),
     );
-  }),
+  },
 );
 
 const layerPlatformConnectionSource = Layer.succeed(
@@ -253,21 +239,17 @@ const layerEnvironmentOwnedDataCleanup = Layer.succeed(
   Persistence.EnvironmentOwnedDataCleanup,
   Persistence.EnvironmentOwnedDataCleanup.of({
     clear: (environmentId) =>
-      Effect.all(
+      do { const catchProgram = Effect.all(
         [
           Effect.promise(() => clearThreadOutboxEnvironment(environmentId)),
           Effect.promise(() => clearComposerDraftsEnvironment(environmentId)),
-          Effect.sync(() => clearThreadComposerErrorsForEnvironment(environmentId)),
+          effect { return clearThreadComposerErrorsForEnvironment(environmentId) },
         ],
         { concurrency: "unbounded", discard: true },
-      ).pipe(
-        Effect.catch((cause) =>
-          Effect.logWarning("Could not clear mobile environment-owned data.", {
+      ); effect { return catchProgram catch effect (cause) => try Effect.logWarning("Could not clear mobile environment-owned data.", {
             environmentId,
             cause,
-          }),
-        ),
-      ),
+          }) } },
   }),
 );
 

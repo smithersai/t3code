@@ -3,7 +3,7 @@ import { DEFAULT_SIDEBAR_PROJECT_SORT_ORDER } from "@t3tools/contracts"
 import { RegistryContext, useAtomSet, useAtomValue } from "@effect/atom-react"
 import { createContext, createElement, useContext, useState, type PropsWithChildren } from "react"
 
-import type { ThreadListFilters } from "../../persistence/mobile-preferences"
+import type { ThreadListFilters } from "../../persistence/mobile-preferences.vibe"
 import { updateMobilePreferencesAtom } from "../../state/preferences.vibe"
 import type { HomeProjectSortOrder } from "./homeThreadList.vibe"
 

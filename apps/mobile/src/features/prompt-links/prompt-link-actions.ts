@@ -6,7 +6,7 @@ import {
   getComposerDraftSnapshot,
   setComposerDraftText,
   waitForComposerDraftsLoaded,
-} from "../../state/use-composer-drafts";
+} from "../../state/use-composer-drafts.vibe";
 import { linkedThreadDraftAction } from "./prompt-link-model";
 
 export function showPromptLinkNotice(notice: string): void {

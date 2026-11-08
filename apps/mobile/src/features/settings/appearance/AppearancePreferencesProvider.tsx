@@ -22,7 +22,7 @@ import {
   mobilePreferencesAtom,
   updateMobilePreferencesAtom,
 } from "../../../state/preferences.vibe";
-import type { Preferences } from "../../../persistence/mobile-preferences";
+import type { Preferences } from "../../../persistence/mobile-preferences.vibe";
 import {
   isSystemColorsAvailable,
   readSystemColorPalettes,

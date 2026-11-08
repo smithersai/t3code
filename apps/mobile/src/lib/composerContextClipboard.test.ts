@@ -36,7 +36,7 @@ vi.mock("../state/session", () => ({
   environmentSession: { preparedConnectionValueAtom: vi.fn() },
 }));
 vi.mock("../state/assets", () => ({ assetEnvironment: { createUrl: (value: unknown) => value } }));
-vi.mock("../state/use-composer-drafts", () => ({
+vi.mock("../state/use-composer-drafts.vibe", () => ({
   waitForComposerDraftsLoaded: async () => {},
   findLocalComposerClipboardAttachment: mocks.local,
 }));

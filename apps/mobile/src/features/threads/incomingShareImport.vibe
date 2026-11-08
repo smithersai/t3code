@@ -1,7 +1,7 @@
 import { type AtomRegistry } from "effect/reactivity"
 
 import type { DraftComposerAttachment } from "../../lib/composerImages"
-import type { ComposerDraft } from "../../state/use-composer-drafts"
+import type { ComposerDraft } from "../../state/use-composer-drafts.vibe"
 import type {
   IncomingShareDestination,
   IncomingShareDraft,

@@ -31,11 +31,11 @@ import { useEffect, useMemo, useState } from "react"
 
 import { appAtomRegistry } from "./atom-registry.vibe"
 import { orchestrationEnvironment } from "./orchestration"
-import { olderSettledThreads, threadFamilies } from "./threads"
+import { olderSettledThreads, threadFamilies } from "./threads.ts"
 import { projectEnvironment } from "./projects"
 import { useEnvironmentQuery } from "./query.vibe"
 import { vcsEnvironment } from "./vcs"
-import { composerPullRequests } from "./pull-requests"
+import { composerPullRequests } from "./pull-requests.ts"
 import { buildCheckpointDiffTargets, normalizeComposerPathSearchQuery, type CheckpointDiffTarget } from "./queryTargets"
 
 const COMPOSER_PATH_SEARCH_DEBOUNCE_MS = 200

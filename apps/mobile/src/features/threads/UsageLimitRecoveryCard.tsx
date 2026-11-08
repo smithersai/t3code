@@ -8,7 +8,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import { AppText as Text } from "../../components/ui/AppText";
 import { useDeadlinePassed } from "../../lib/clock";
-import { threadEnvironment } from "../../state/threads";
+import { threadEnvironment } from "../../state/threads.ts";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 export function UsageLimitRecoveryCard({

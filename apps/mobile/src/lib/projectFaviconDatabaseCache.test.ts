@@ -27,7 +27,7 @@ vi.mock("expo-file-system", () => ({
   },
 }));
 
-import { downscaleProjectFavicon } from "./projectFaviconDatabaseCache";
+import { downscaleProjectFavicon } from "./projectFaviconDatabaseCache.ts";
 
 const png = "iVBORw0KGgoAAAAA";
 const image = { url: "https://remote/icon.png" };

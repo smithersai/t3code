@@ -17,14 +17,14 @@ vi.mock("./presentation", () => ({
     presentation: { connection: { phase: "connected", error: null } },
   }),
 }));
-vi.mock("./pull-requests", () => ({ composerPullRequests: {} }));
+vi.mock("./pull-requests.ts", () => ({ composerPullRequests: {} }));
 vi.mock("./projects", () => ({
   projectEnvironment: { searchEntries: mocks.searchEntries },
 }));
 vi.mock("./atom-registry", () => ({ appAtomRegistry: {} }));
 vi.mock("./orchestration", () => ({ orchestrationEnvironment: {} }));
 vi.mock("./vcs", () => ({ vcsEnvironment: {} }));
-vi.mock("./threads", () => ({ olderSettledThreads: {}, threadFamilies: {} }));
+vi.mock("./threads.ts", () => ({ olderSettledThreads: {}, threadFamilies: {} }));
 vi.mock("./query", () => ({
   useEnvironmentQuery: (atom: unknown) => ({
     data:

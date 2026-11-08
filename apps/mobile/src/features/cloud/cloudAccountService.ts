@@ -12,12 +12,12 @@ import {
 } from "@t3tools/client-runtime/state/runtime";
 import * as Effect from "effect/Effect";
 
-import { runtime } from "../../lib/runtime";
+import { runtime } from "../../lib/runtime.vibe";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import {
   getComposerCloudAccountId,
   restoreCloudComposerDrafts,
-} from "../../state/use-composer-drafts";
+} from "../../state/use-composer-drafts.vibe";
 import {
   releaseAgentAwarenessRelayTokenProvider,
   setAgentAwarenessRelayTokenProvider,

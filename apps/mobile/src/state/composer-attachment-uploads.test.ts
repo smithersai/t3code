@@ -107,7 +107,7 @@ vi.mock("./server", async () => {
   return { serverEnvironment: { configValueAtom: Atom.family(() => Atom.make(null)) } };
 });
 vi.mock("./git", () => ({ gitEnvironment: {} }));
-vi.mock("./threads", () => ({ threadEnvironment: {} }));
+vi.mock("./threads.ts", () => ({ threadEnvironment: {} }));
 vi.mock("./use-atom-command", () => ({ useAtomCommand: () => async () => undefined }));
 vi.mock("./session", async () => {
   const { Atom } = await import("effect/reactivity");
@@ -187,7 +187,7 @@ import {
   threadOutboxManager,
 } from "./thread-outbox";
 import type { QueuedThreadMessage } from "./thread-outbox-model";
-import * as drafts from "./use-composer-drafts";
+import * as drafts from "./use-composer-drafts.vibe";
 import { prepareQueuedMessageAttachments } from "./threadOutboxDelivery";
 
 const environmentId = EnvironmentId.make("environment-1");

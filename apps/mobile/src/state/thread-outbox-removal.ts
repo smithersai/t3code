@@ -9,7 +9,7 @@ import {
   flushComposerDrafts,
   scheduleUnusedComposerAttachmentCleanup,
   waitForComposerDraftsLoaded,
-} from "./use-composer-drafts";
+} from "./use-composer-drafts.vibe";
 
 async function cleanUpRemovedMessages(
   removedMessages: ReadonlyArray<QueuedThreadMessage>,

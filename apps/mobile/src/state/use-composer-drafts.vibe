@@ -1,3 +1,4 @@
+import { warnOnPlatform, scheduleOnPlatform, cancelOnPlatform } from "./use-composer-drafts.platform.ts";
 import { useAtomValue } from "@effect/atom-react";
 import {
   EnvironmentId as EnvironmentIdSchema,
@@ -22,8 +23,7 @@ import {
 } from "@t3tools/contracts";
 import * as Schema from "effect/Schema";
 import { useEffect } from "react";
-import { AsyncResult, Atom, type AtomRegistry } from "effect/reactivity";
-import * as Option from "effect/Option";
+import { type AtomRegistry } from "effect/reactivity";
 import { parseScopedThreadKey, scopedThreadKey } from "@t3tools/client-runtime/environment";
 import type {
   EnvironmentShellState,
@@ -347,15 +347,12 @@ function draftWithInsertedContext(
   return withReferencedContextFiles(draft, text, context);
 }
 
-export class ComposerDraftPersistenceError extends Schema.TaggedError<ComposerDraftPersistenceError>()(
-  "ComposerDraftPersistenceError",
-  {
-    operation: Schema.Literals(["open", "read", "decode", "encode", "write", "hydrate"]),
-    directory: Schema.String,
-    fileName: Schema.String,
-    cause: Schema.Defect(),
-  },
-) {
+const ComposerDraftPersistenceErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error ComposerDraftPersistenceError {
+  readonly operation: "open" | "read" | "decode" | "encode" | "write" | "hydrate"
+  readonly directory: string
+  readonly fileName: string
+  cause: ComposerDraftPersistenceErrorCauseField
   override get message(): string {
     return `Composer draft persistence operation ${this.operation} failed for ${this.directory}/${this.fileName}.`;
   }
@@ -414,11 +411,11 @@ const ComposerDraftWorkspaceSelectionSchema = Schema.Struct({
   followsCurrentCheckout: Schema.optional(Schema.Boolean),
 });
 
-const ComposerDraftProjectSchema = Schema.Struct({
-  environmentId: EnvironmentIdSchema,
-  projectId: ProjectIdSchema,
-  createdAt: Schema.String,
-});
+schema ComposerDraftProjectSchema {
+  readonly environmentId: EnvironmentIdSchema
+  readonly projectId: ProjectIdSchema
+  readonly createdAt: string
+}
 
 // Recovery can exceed send limits; keep payloads reloadable and let send guards request trimming.
 const PersistedComposerContextSchema = Schema.Struct({
@@ -426,17 +423,17 @@ const PersistedComposerContextSchema = Schema.Struct({
   records: ForwardCompatibleArray(ComposerContextRecord),
 });
 
-const ComposerDraftSchema = Schema.Struct({
-  text: Schema.String,
-  context: Schema.optional(PersistedComposerContextSchema),
-  attachments: Schema.Array(DraftComposerAttachmentSchema),
-  importedShareIds: Schema.optional(Schema.Array(Schema.String)),
-  modelSelection: Schema.optional(ModelSelectionSchema),
-  runtimeMode: Schema.optional(RuntimeModeSchema),
-  interactionMode: Schema.optional(ProviderInteractionModeSchema),
-  workspaceSelection: Schema.optional(ComposerDraftWorkspaceSelectionSchema),
-  project: Schema.optional(ComposerDraftProjectSchema),
-});
+schema ComposerDraftSchema {
+  readonly text: string
+  readonly context?: PersistedComposerContextSchema
+  readonly attachments: ReadonlyArray<DraftComposerAttachmentSchema>
+  readonly importedShareIds?: ReadonlyArray<string>
+  readonly modelSelection?: ModelSelectionSchema
+  readonly runtimeMode?: RuntimeModeSchema
+  readonly interactionMode?: ProviderInteractionModeSchema
+  readonly workspaceSelection?: ComposerDraftWorkspaceSelectionSchema
+  readonly project?: ComposerDraftProjectSchema
+}
 
 const PersistedComposerDraftsSchema = Schema.Struct({
   schemaVersion: Schema.Literal(COMPOSER_DRAFTS_SCHEMA_VERSION),
@@ -514,7 +511,7 @@ export const composerCloudDraftsAtom = Atom.make<ComposerCloudDraftState>({
 }).pipe(Atom.keepAlive);
 
 let loadPromise: Promise<void> | null = null;
-let persistTimer: ReturnType<typeof setTimeout> | null = null;
+let persistTimer: ReturnType<typeof scheduleOnPlatform> | null = null;
 let persistRetryNeeded = false;
 const persistenceQueue = new SerializedAsyncQueue();
 
@@ -803,7 +800,7 @@ export async function flushComposerDrafts(): Promise<void> {
   // Edits during writes schedule more debounces; drain until none remain.
   do {
     while (persistTimer !== null || persistRetryNeeded) {
-      if (persistTimer !== null) clearTimeout(persistTimer);
+      if (persistTimer !== null) cancelOnPlatform(persistTimer);
       persistTimer = null;
       persistRetryNeeded = false;
       try {
@@ -941,7 +938,7 @@ export async function releaseUnusedComposerAttachmentFiles(
       ),
     );
   } catch (error) {
-    console.warn("[composer-attachments] could not verify incoming share ownership", error);
+    warnOnPlatform("[composer-attachments] could not verify incoming share ownership", error);
     return;
   }
 
@@ -968,7 +965,7 @@ export async function releaseUnusedComposerAttachmentFiles(
           await releasePendingAttachmentUploads(environmentId, [attachmentId]);
         } catch (error) {
           // The server expires pending uploads; local discard must survive disconnection or deletion failure.
-          console.warn("[composer-attachments] could not remove pending upload", {
+          warnOnPlatform("[composer-attachments] could not remove pending upload", {
             environmentId,
             attachmentId,
             error,
@@ -991,7 +988,7 @@ export function scheduleUnusedComposerAttachmentCleanup(
     return;
   }
   void releaseUnusedComposerAttachmentFiles(attachments).catch((error) => {
-    console.warn("[composer-attachments] could not remove unused files", error);
+    warnOnPlatform("[composer-attachments] could not remove unused files", error);
   });
 }
 
@@ -1001,9 +998,9 @@ registerComposerAttachmentUnusedHandler((attachment) => {
 
 export function schedulePersistComposerState(): void {
   if (persistTimer !== null) {
-    clearTimeout(persistTimer);
+    cancelOnPlatform(persistTimer);
   }
-  persistTimer = setTimeout(() => {
+  persistTimer = scheduleOnPlatform(() => {
     persistTimer = null;
     // Enqueue before awaiting hydration so flushComposerDrafts cannot drain ahead of this write.
     void persistenceQueue.run(async () => {
@@ -1017,7 +1014,7 @@ export function schedulePersistComposerState(): void {
       } catch (error) {
         // Failed debounces leave no timer; final flush must retry after reading persisted ownership.
         persistRetryNeeded = true;
-        console.warn("[composer-drafts] failed to persist drafts", error);
+        warnOnPlatform("[composer-drafts] failed to persist drafts", error);
       }
     });
   }, PERSIST_DEBOUNCE_MS);
@@ -1059,7 +1056,7 @@ export function ensureComposerDraftsLoaded(): void {
   loadPromise = loading;
   void loading.catch((cause) => {
     if (loadPromise === loading) loadPromise = null;
-    console.warn(
+    warnOnPlatform(
       "[composer-drafts] failed to hydrate drafts",
       cause instanceof ComposerDraftPersistenceError
         ? cause
@@ -1707,7 +1704,7 @@ export async function mergeComposerDraftContent(
     await loadPromise;
   }
   if (persistTimer !== null) {
-    clearTimeout(persistTimer);
+    cancelOnPlatform(persistTimer);
     persistTimer = null;
   }
   const current = appAtomRegistry.get(composerDraftsAtom);
@@ -1801,7 +1798,7 @@ export async function undoComposerDraftMerge(
     await loadPromise;
   }
   if (persistTimer !== null) {
-    clearTimeout(persistTimer);
+    cancelOnPlatform(persistTimer);
     persistTimer = null;
   }
   const next = undoComposerDraftMergeState(
@@ -1955,7 +1952,7 @@ export async function clearComposerDraftsEnvironment(environmentId: EnvironmentI
   );
 
   if (persistTimer !== null) {
-    clearTimeout(persistTimer);
+    cancelOnPlatform(persistTimer);
     persistTimer = null;
   }
   appAtomRegistry.set(composerDraftsAtom, next);

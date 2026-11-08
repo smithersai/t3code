@@ -54,7 +54,7 @@ import {
   updateComposerDraftSettings,
   useComposerDraft,
   useStickyComposerModelSelection,
-} from "../../state/use-composer-drafts";
+} from "../../state/use-composer-drafts.vibe";
 import {
   rememberModelOptions,
   withRememberedModelOptions,

@@ -1,15 +1,14 @@
-import * as Effect from "effect/Effect";
+import { makeHttpClientLayerOnPlatform } from "./runtime.platform.ts";
 import * as Layer from "effect/Layer";
 import * as ManagedRuntime from "effect/ManagedRuntime";
 import * as Socket from "effect/socket/Socket";
 
-import { layerRemoteHttpClient } from "@t3tools/client-runtime/rpc";
 
 import * as Dpop from "../features/cloud/dpop";
 import * as ManagedRelayLayer from "../features/cloud/managedRelayLayer.vibe";
 import { resolveCloudPublicConfig } from "../features/cloud/publicConfig.vibe";
 import * as Tracing from "../features/observability/tracing";
-import * as Persistence from "../persistence/layer";
+import * as Persistence from "../persistence/layer.vibe";
 import { disposeOnFoundationReplace, type FoundationHotModule } from "./foundation-fast-refresh";
 import { whenProtectedDataAvailable } from "./protectedData";
 
@@ -19,7 +18,7 @@ function configuredRelayUrl(): string {
   return resolveCloudPublicConfig().relay.url ?? "http://relay.invalid";
 }
 
-const layerHttpClient = layerRemoteHttpClient(fetch);
+const layerHttpClient = makeHttpClientLayerOnPlatform();
 
 type RuntimeLayerSource =
   | ReturnType<typeof ManagedRelayLayer.layer>
@@ -39,7 +38,7 @@ const layerRuntime = Layer.merge(
   Layer.provideMerge(Persistence.layer),
   // These layers read the keychain and the database while they build, and a
   // failed build is kept for the life of the process.
-  Layer.provide(Layer.effectDiscard(Effect.promise(whenProtectedDataAvailable))),
+  Layer.provide(Layer.effectDiscard(Effect.orDie(tryPromise({ try: whenProtectedDataAvailable, catch: (cause) => cause })))),
 );
 
 export const runtime: ManagedRuntime.ManagedRuntime<

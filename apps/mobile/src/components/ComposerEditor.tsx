@@ -21,7 +21,7 @@ import {
   setComposerDraftContext,
   setComposerContextImporting,
   useComposerDraft,
-} from "../state/use-composer-drafts";
+} from "../state/use-composer-drafts.vibe";
 import { importComposerContextClipboard } from "../lib/composerContextClipboard";
 import { startComposerDraftOperation } from "../state/composerDraftOperations";
 import { appAtomRegistry } from "../state/atom-registry.vibe";

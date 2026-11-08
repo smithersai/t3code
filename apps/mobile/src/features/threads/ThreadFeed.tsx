@@ -249,7 +249,7 @@ import { serverEnvironment } from "../../state/server";
 import { composerDocumentAttachmentRecord } from "../../lib/composerContext.vibe";
 import * as Option from "effect/Option";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
-import { environmentThreadShells, threadEnvironment } from "../../state/threads";
+import { environmentThreadShells, threadEnvironment } from "../../state/threads.ts";
 import { ThreadWorkflowOpening, useWorkflowOpening } from "./thread-workflow-opening";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useV2ItemSupport } from "../../state/v2-item-support.vibe";

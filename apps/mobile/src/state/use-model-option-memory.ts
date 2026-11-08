@@ -4,7 +4,7 @@ import {
   modelOptionMemoryAtom,
   schedulePersistComposerState,
   type ModelOptionMemoryState,
-} from "./use-composer-drafts";
+} from "./use-composer-drafts.vibe";
 
 function recordModelOptionsInState(
   state: ModelOptionMemoryState,

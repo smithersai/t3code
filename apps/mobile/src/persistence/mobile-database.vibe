@@ -1,3 +1,4 @@
+import { warnOnPlatform } from "./mobile-database.platform.ts";
 import type { EnvironmentId } from "@t3tools/contracts";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -16,15 +17,7 @@ const LEGACY_CACHE_DIRECTORIES = [
   "connection-vcs-refs",
 ] as const;
 
-export const ClientCacheKind = Schema.Literals([
-  "shell",
-  "thread",
-  "server-config",
-  "vcs-refs",
-  "project-favicon",
-  "pull-request",
-]);
-export type ClientCacheKind = typeof ClientCacheKind.Type;
+export schema ClientCacheKind = "shell" | "thread" | "server-config" | "vcs-refs" | "project-favicon" | "pull-request";
 
 export interface ClientCacheSummaryRow {
   readonly environmentId: EnvironmentId;
@@ -62,13 +55,10 @@ const MobileDatabaseOperation = Schema.Literals([
   "save-preferences",
 ]);
 
-export class MobileDatabaseError extends Schema.TaggedError<MobileDatabaseError>()(
-  "MobileDatabaseError",
-  {
-    operation: MobileDatabaseOperation,
-    cause: Schema.Defect(),
-  },
-) {
+const MobileDatabaseErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error MobileDatabaseError {
+  readonly operation: MobileDatabaseOperation
+  cause: MobileDatabaseErrorCauseField
   override get message(): string {
     return `Mobile database operation failed: ${this.operation}.`;
   }
@@ -182,64 +172,55 @@ async function migrateLegacyFileCaches(database: SQLiteDatabase): Promise<boolea
         directory.delete();
       } catch (cause) {
         complete = false;
-        console.warn(`[mobile-database] could not migrate legacy cache ${directoryName}`, cause);
+        warnOnPlatform(`[mobile-database] could not migrate legacy cache ${directoryName}`, cause);
       }
     }
     return complete;
   } catch (cause) {
-    console.warn("[mobile-database] could not load legacy cache migration", cause);
+    warnOnPlatform("[mobile-database] could not load legacy cache migration", cause);
     return false;
   }
 }
 
-export class MobileDatabase extends Context.Service<
-  MobileDatabase,
-  {
-    readonly loadCache: (
-      environmentId: EnvironmentId,
-      kind: ClientCacheKind,
-      cacheKey: string,
-    ) => Effect.Effect<Option.Option<string>, MobileDatabaseError>;
-    readonly listCache: (
-      kind: ClientCacheKind,
-    ) => Effect.Effect<ReadonlyArray<string>, MobileDatabaseError>;
-    readonly saveCache: (
-      environmentId: EnvironmentId,
-      kind: ClientCacheKind,
-      cacheKey: string,
-      schemaVersion: number,
-      payload: string,
-    ) => Effect.Effect<void, MobileDatabaseError>;
-    readonly removeCache: (
-      environmentId: EnvironmentId,
-      kind: ClientCacheKind,
-      cacheKey: string,
-    ) => Effect.Effect<void, MobileDatabaseError>;
-    readonly clearCacheKind: (
-      environmentId: EnvironmentId,
-      kind: ClientCacheKind,
-    ) => Effect.Effect<void, MobileDatabaseError>;
-    readonly clearEnvironmentCache: (
-      environmentId: EnvironmentId,
-    ) => Effect.Effect<void, MobileDatabaseError>;
-    readonly clearAllCaches: Effect.Effect<void, MobileDatabaseError>;
-    readonly inspectCaches: Effect.Effect<
-      ReadonlyArray<ClientCacheSummaryRow>,
-      MobileDatabaseError
-    >;
-    readonly loadPreferencesJson: Effect.Effect<
-      Option.Option<StoredPreferencesJson>,
-      MobileDatabaseError
-    >;
-    readonly savePreferencesJson: (
-      payload: string,
-      updatedAt: number,
-    ) => Effect.Effect<void, MobileDatabaseError>;
-  }
->()("@t3tools/mobile/persistence/MobileDatabase") {}
+export service MobileDatabase: {
+  readonly loadCache: (
+    environmentId: EnvironmentId,
+    kind: ClientCacheKind,
+    cacheKey: string,
+  ) => Effect.Effect<Option.Option<string>, MobileDatabaseError>;
+  readonly listCache: (
+    kind: ClientCacheKind,
+  ) => ReadonlyArray<string>!MobileDatabaseError;
+  readonly saveCache: (
+    environmentId: EnvironmentId,
+    kind: ClientCacheKind,
+    cacheKey: string,
+    schemaVersion: number,
+    payload: string,
+  ) => void!MobileDatabaseError;
+  readonly removeCache: (
+    environmentId: EnvironmentId,
+    kind: ClientCacheKind,
+    cacheKey: string,
+  ) => void!MobileDatabaseError;
+  readonly clearCacheKind: (
+    environmentId: EnvironmentId,
+    kind: ClientCacheKind,
+  ) => void!MobileDatabaseError;
+  readonly clearEnvironmentCache: (
+    environmentId: EnvironmentId,
+  ) => void!MobileDatabaseError;
+  readonly clearAllCaches: void!MobileDatabaseError;
+  readonly inspectCaches: ReadonlyArray<ClientCacheSummaryRow>!MobileDatabaseError;
+  readonly loadPreferencesJson: Option.Option<StoredPreferencesJson>!MobileDatabaseError;
+  readonly savePreferencesJson: (
+    payload: string,
+    updatedAt: number,
+  ) => void!MobileDatabaseError;
+} { static readonly key = "@t3tools/mobile/persistence/MobileDatabase" }
 
-const makeAvailable = Effect.gen(function* () {
-  const database = yield* Effect.acquireRelease(
+const makeAvailable = effect {
+  const database = try Effect.acquireRelease(
     Effect.tryPromise({
       try: async () => {
         const SQLite = await import("expo-sqlite");
@@ -247,10 +228,10 @@ const makeAvailable = Effect.gen(function* () {
       },
       catch: databaseError("open"),
     }),
-    (openDatabase) => Effect.promise(() => openDatabase.closeAsync()).pipe(Effect.ignore),
+    (openDatabase) => Effect.promise(() => openDatabase.closeAsync()) |> Effect.ignore(%),
   );
 
-  yield* Effect.tryPromise({
+  try Effect.tryPromise({
     try: async () => {
       await database.execAsync("PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;");
       const schema = await database.getFirstAsync<{ readonly user_version: number }>(
@@ -303,7 +284,7 @@ const makeAvailable = Effect.gen(function* () {
             Date.now() - 30 * 24 * 60 * 60_000,
           ),
         catch: databaseError("load-cache"),
-      }).pipe(Effect.map((row) => Option.fromNullishOr(row?.payload))),
+      }) |> Effect.map(%, (row) => Option.fromNullishOr(row?.payload)),
     ),
     listCache: Effect.fn("MobileDatabase.listCache")((kind) =>
       Effect.tryPromise({
@@ -313,7 +294,7 @@ const makeAvailable = Effect.gen(function* () {
             kind,
           ),
         catch: databaseError("list-cache"),
-      }).pipe(Effect.map((rows) => rows.map((row) => row.payload))),
+      }) |> Effect.map(%, (rows) => rows.map((row) => row.payload)),
     ),
     saveCache: Effect.fn("MobileDatabase.saveCache")(
       (environmentId, kind, cacheKey, schemaVersion, payload) =>
@@ -363,7 +344,7 @@ const makeAvailable = Effect.gen(function* () {
             await save(database);
           },
           catch: databaseError("save-cache"),
-        }).pipe(Effect.asVoid),
+        }) |> Effect.asVoid(%),
     ),
     removeCache: Effect.fn("MobileDatabase.removeCache")((environmentId, kind, cacheKey) =>
       Effect.tryPromise({
@@ -376,7 +357,7 @@ const makeAvailable = Effect.gen(function* () {
             cacheKey,
           ),
         catch: databaseError("remove-cache"),
-      }).pipe(Effect.asVoid),
+      }) |> Effect.asVoid(%),
     ),
     clearCacheKind: Effect.fn("MobileDatabase.clearCacheKind")((environmentId, kind) =>
       Effect.tryPromise({
@@ -387,19 +368,19 @@ const makeAvailable = Effect.gen(function* () {
             kind,
           ),
         catch: databaseError("clear-cache-kind"),
-      }).pipe(Effect.asVoid),
+      }) |> Effect.asVoid(%),
     ),
     clearEnvironmentCache: Effect.fn("MobileDatabase.clearEnvironmentCache")((environmentId) =>
       Effect.tryPromise({
         try: () =>
           database.runAsync("DELETE FROM client_cache WHERE environment_id = ?", environmentId),
         catch: databaseError("clear-environment-cache"),
-      }).pipe(Effect.asVoid),
+      }) |> Effect.asVoid(%),
     ),
     clearAllCaches: Effect.tryPromise({
       try: () => database.runAsync("DELETE FROM client_cache"),
       catch: databaseError("clear-all-caches"),
-    }).pipe(Effect.asVoid),
+    }) |> Effect.asVoid(%),
     inspectCaches: Effect.tryPromise({
       try: () =>
         database.getAllAsync<unknown>(`
@@ -413,10 +394,10 @@ const makeAvailable = Effect.gen(function* () {
                 ORDER BY environment_id, kind
               `),
       catch: databaseError("inspect-caches"),
-    }).pipe(
-      Effect.flatMap(Schema.decodeUnknownEffect(ClientCacheSummaryRows)),
-      Effect.mapError(databaseError("inspect-caches")),
-      Effect.map((rows): ReadonlyArray<ClientCacheSummaryRow> =>
+    })
+      |> Effect.flatMap(%, Schema.decodeUnknownEffect(ClientCacheSummaryRows))
+      |> Effect.mapError(%, databaseError("inspect-caches"))
+      |> Effect.map(%, (rows): ReadonlyArray<ClientCacheSummaryRow> =>
         rows.map((row) => ({
           environmentId: row.environmentId as EnvironmentId,
           kind: row.kind,
@@ -424,7 +405,6 @@ const makeAvailable = Effect.gen(function* () {
           payloadBytes: row.payloadBytes,
         })),
       ),
-    ),
     loadPreferencesJson: Effect.tryPromise({
       try: () =>
         database.getFirstAsync<StoredPreferencesJson>(
@@ -433,7 +413,7 @@ const makeAvailable = Effect.gen(function* () {
                  WHERE singleton = 1`,
         ),
       catch: databaseError("load-preferences"),
-    }).pipe(Effect.map(Option.fromNullishOr)),
+    }) |> Effect.map(%, Option.fromNullishOr),
     savePreferencesJson: Effect.fn("MobileDatabase.savePreferencesJson")((payload, updatedAt) =>
       Effect.tryPromise({
         try: () =>
@@ -447,10 +427,10 @@ const makeAvailable = Effect.gen(function* () {
             updatedAt,
           ),
         catch: databaseError("save-preferences"),
-      }).pipe(Effect.asVoid),
+      }) |> Effect.asVoid(%),
     ),
   });
-});
+};
 
 function makeUnavailable(error: MobileDatabaseError): MobileDatabase["Service"] {
   const fail = Effect.fail(error);
@@ -468,10 +448,9 @@ function makeUnavailable(error: MobileDatabaseError): MobileDatabase["Service"] 
   });
 }
 
-export const make = Effect.result(makeAvailable).pipe(
-  Effect.map((result) =>
+export const make = Effect.result(makeAvailable)
+  |> Effect.map(%, (result) =>
     result._tag === "Success" ? result.success : makeUnavailable(result.failure),
-  ),
-);
+  );
 
 export const layer = Layer.effect(MobileDatabase, make);

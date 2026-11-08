@@ -5,7 +5,7 @@ import {
 } from "@t3tools/client-runtime/pull-request-editing"
 import type { PullRequestComment, PullRequestDetail } from "@t3tools/contracts"
 import { usePullRequestConnected } from "./usePullRequestConnected"
-import { composerPullRequests } from "../../state/pull-requests"
+import { composerPullRequests } from "../../state/pull-requests.ts"
 import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe"
 
 export function usePullRequestPermissions(params: PullRequestParams, pr: PullRequestDetail | null) {

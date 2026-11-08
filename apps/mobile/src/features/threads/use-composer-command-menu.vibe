@@ -28,7 +28,7 @@ import {
   getComposerDraftSnapshot,
   setComposerDraftContext,
   useComposerDraftSelection,
-} from "../../state/use-composer-drafts"
+} from "../../state/use-composer-drafts.vibe"
 import { USAGE_LIMITS_COMMAND } from "@t3tools/shared/usageLimits"
 import {
   detectComposerTrigger,

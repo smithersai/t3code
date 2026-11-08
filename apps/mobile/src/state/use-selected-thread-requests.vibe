@@ -5,7 +5,7 @@ import {
   questionAttachmentDraftPrefix,
   questionAttachmentPreparationAtom,
 } from "./question-attachments.vibe"
-import { clearComposerDraft, composerDraftsAtom, questionAttachmentDraftsAtom } from "./use-composer-drafts"
+import { clearComposerDraft, composerDraftsAtom, questionAttachmentDraftsAtom } from "./use-composer-drafts.vibe"
 import {
   composerAttachmentUploadsAtom,
   composerAttachmentUploadBlockReason,
@@ -31,7 +31,7 @@ import {
 } from "@t3tools/client-runtime/state/thread-requests"
 import { AuthOrchestrationOperateScope } from "@t3tools/contracts"
 
-import { environmentThreadDetails, threadEnvironment } from "../state/threads"
+import { environmentThreadDetails, threadEnvironment } from "../state/threads.ts"
 import {
   buildPendingUserInputAnswers,
   setPendingUserInputCustomAnswer,

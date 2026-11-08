@@ -25,7 +25,7 @@ import { tryOpenExternalUrl } from "../../lib/openExternalUrl.vibe";
 import type { MenuProps } from "../../components/ui/Menu.types";
 import type { EnvironmentRuntimeState } from "../../state/remote-runtime-types";
 import { useEnvironmentScope } from "../../state/session.vibe";
-import { threadEnvironment } from "../../state/threads";
+import { threadEnvironment } from "../../state/threads.ts";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 type MenuAction = MenuProps["actions"][number];

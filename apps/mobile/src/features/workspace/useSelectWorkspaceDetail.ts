@@ -1,7 +1,7 @@
 import { EnvironmentId, ThreadId } from "@t3tools/contracts";
 import { useNavigation } from "@react-navigation/native";
 import { useAdaptiveWorkspaceLayout } from "../layout/adaptive-workspace-context";
-import { startOpeningEnvironmentThread } from "../../state/threads";
+import { startOpeningEnvironmentThread } from "../../state/threads.ts";
 import {
   selectWorkspaceDetail,
   type WorkspaceDetail,

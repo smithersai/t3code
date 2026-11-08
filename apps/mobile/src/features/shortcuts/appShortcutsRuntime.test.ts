@@ -4,7 +4,7 @@ vi.mock("expo-quick-actions", () => ({}));
 vi.mock("react-native", () => ({ Platform: { OS: "android" } }));
 vi.mock("../../persistence/imperative", () => ({}));
 vi.mock("../../state/atom-registry", () => ({}));
-vi.mock("../../state/threads", () => ({ environmentThreadShells: {} }));
+vi.mock("../../state/threads.ts", () => ({ environmentThreadShells: {} }));
 vi.mock("./appShortcuts", async () => {
   const { withRecentThreadShortcut } =
     await vi.importActual<typeof import("./appShortcuts")>("./appShortcuts");

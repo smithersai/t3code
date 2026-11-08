@@ -21,7 +21,7 @@ import { projectGlyphImageAtom, projectGlyphKey } from "../native/ProjectChipIco
 import { projectFaviconUrlAtom } from "./assets.vibe"
 import { environmentProjects } from "./projects"
 import { environmentServerConfigsAtom, serverEnvironment } from "./server"
-import { environmentThreadDetails, environmentThreadShells } from "./threads"
+import { environmentThreadDetails, environmentThreadShells } from "./threads.ts"
 
 const EMPTY_PROJECT_ATOM = Atom.make<EnvironmentProject | null>(null).pipe(
   Atom.withLabel("mobile-project:empty"),

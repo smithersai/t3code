@@ -5,7 +5,7 @@ import type { ScopedThreadRef } from "@t3tools/contracts"
 import { Atom } from "effect/reactivity"
 import * as Haptics from "expo-haptics"
 
-import { environmentThreadDetails } from "../../state/threads"
+import { environmentThreadDetails } from "../../state/threads.ts"
 
 export interface StreamingMessageMark {
   readonly id: string

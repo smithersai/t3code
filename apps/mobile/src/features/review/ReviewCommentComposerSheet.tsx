@@ -16,7 +16,7 @@ import type { DraftComposerImageAttachment } from "../../lib/composerImages";
 import { convertPastedImagesToAttachments, pickComposerImages } from "../../lib/composerImages";
 import { useNativePaste } from "../../lib/useNativePaste";
 import { setPendingConnectionError } from "../../state/use-remote-environment-registry.vibe";
-import { appendReviewCommentToDraft } from "../../state/use-thread-composer-state";
+import { appendReviewCommentToDraft } from "../../state/use-thread-composer-state.ts";
 import {
   clearReviewCommentTarget,
   formatReviewCommentContext,

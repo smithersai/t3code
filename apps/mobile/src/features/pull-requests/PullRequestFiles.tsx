@@ -17,7 +17,7 @@ import { RowPressable } from "../../components/ui/RowPressable";
 import { ScreenContent } from "../../components/ui/ScreenContent";
 import { SheetHeader } from "../../components/ui/SheetHeader";
 import { Toolbar } from "../../components/ui/Toolbar";
-import { composerPullRequests } from "../../state/pull-requests";
+import { composerPullRequests } from "../../state/pull-requests.ts";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import type { ReviewParsedDiff, ReviewRenderableFile } from "../review/reviewModel.vibe";
 import { PR_ROW_ENTER, PR_ROW_EXIT, PR_ROW_LAYOUT } from "./pullRequestAnimations";

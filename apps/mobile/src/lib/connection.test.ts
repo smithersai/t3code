@@ -17,7 +17,7 @@ const mobileDevice = vi.hoisted(() => ({
   modelName: "iPhone 15 Pro",
 }));
 
-vi.mock("./runtime", () => ({
+vi.mock("./runtime.vibe", () => ({
   runtime: {
     runPromise: vi.fn(),
   },

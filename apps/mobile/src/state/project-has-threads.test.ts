@@ -3,7 +3,7 @@ import { Atom, AtomRegistry } from "effect/reactivity";
 import { describe, expect, it, vi } from "vite-plus/test";
 
 // The live sources pull in the connection runtime; the factory gets its own.
-vi.mock("./threads", () => ({
+vi.mock("./threads.ts", () => ({
   environmentThreadShells: { environmentThreadRefsByProjectAtom: () => null },
   olderSettledThreads: { olderSettledAtom: () => null },
 }));

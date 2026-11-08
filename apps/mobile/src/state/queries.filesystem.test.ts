@@ -25,13 +25,13 @@ vi.mock("./presentation", () => ({
     presentation: { connection: { phase: state.phase, error: null } },
   }),
 }));
-vi.mock("./pull-requests", () => ({ composerPullRequests: {} }));
+vi.mock("./pull-requests.ts", () => ({ composerPullRequests: {} }));
 vi.mock("./projects", () => ({
   projectEnvironment: { searchEntries: () => state.searchAtom },
 }));
 vi.mock("./atom-registry", () => ({ appAtomRegistry: {} }));
 vi.mock("./orchestration", () => ({ orchestrationEnvironment: {} }));
-vi.mock("./threads", () => ({ useEnvironmentThread: vi.fn() }));
+vi.mock("./threads.ts", () => ({ useEnvironmentThread: vi.fn() }));
 vi.mock("./vcs", () => ({ vcsEnvironment: {} }));
 vi.mock("./query", () => ({
   useEnvironmentQuery: (atom: unknown) => ({

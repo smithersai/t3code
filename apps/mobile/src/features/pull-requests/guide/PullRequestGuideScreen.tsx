@@ -29,7 +29,7 @@ import { GuideNotice } from "./GuideNotice";
 import Animated from "react-native-reanimated";
 import { PR_ROW_ENTER, PR_ROW_EXIT, PR_ROW_LAYOUT } from "../pullRequestAnimations";
 import { useEnvironmentQuery } from "../../../state/query.vibe";
-import { composerPullRequests } from "../../../state/pull-requests";
+import { composerPullRequests } from "../../../state/pull-requests.ts";
 import { usePullRequestPermissions } from "../usePullRequestPermissions.vibe";
 import { pullRequestTarget } from "../usePullRequestDiff.vibe";
 import { useReviewGuide } from "./useReviewGuide.vibe";

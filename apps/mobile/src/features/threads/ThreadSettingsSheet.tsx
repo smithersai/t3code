@@ -85,10 +85,10 @@ import {
   updateComposerDraftSettings,
   useComposerDraft,
   useComposerDraftSettings,
-} from "../../state/use-composer-drafts";
+} from "../../state/use-composer-drafts.vibe";
 import { useQuietThreadStructure } from "../../state/use-thread-detail.vibe";
-import { activeComposerDraftKey, useQueuedRunEdit } from "../../state/queued-run-edit";
-import { updateThreadDraftModelSelection } from "../../state/use-thread-composer-state";
+import { activeComposerDraftKey, useQueuedRunEdit } from "../../state/queued-run-edit.vibe";
+import { updateThreadDraftModelSelection } from "../../state/use-thread-composer-state.ts";
 import { useThreadSelection } from "../../state/use-thread-selection.vibe";
 import { threadAllowsProviderSwitch } from "../../state/thread-provider-switching";
 import { environmentServerConfigsAtom, serverEnvironment } from "../../state/server";

@@ -13,7 +13,7 @@ import { Menu } from "../../components/ui/Menu";
 import { Button } from "../../components/ui/Button";
 import { IconButton } from "../../components/ui/IconButton";
 import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
-import { composerPullRequests } from "../../state/pull-requests";
+import { composerPullRequests } from "../../state/pull-requests.ts";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {
   allowedMergeMethods,

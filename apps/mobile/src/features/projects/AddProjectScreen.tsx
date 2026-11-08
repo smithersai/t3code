@@ -102,7 +102,7 @@ import {
   createNewTaskDraft,
   setComposerDraftText,
   waitForComposerDraftsLoaded,
-} from "../../state/use-composer-drafts";
+} from "../../state/use-composer-drafts.vibe";
 
 interface EnvironmentOption {
   readonly environmentId: EnvironmentId;

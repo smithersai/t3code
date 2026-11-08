@@ -21,7 +21,7 @@ import {
 } from "../workspace/workspace-selection-store";
 import { T3KeyboardCommands } from "../../native/T3KeyboardCommands";
 import { useThreadShell } from "../../state/entities.vibe";
-import type { GitActionProgress } from "../../state/use-vcs-action-state";
+import type { GitActionProgress } from "../../state/use-vcs-action-state.vibe";
 import { GitActionProgressOverlay } from "../threads/GitActionProgressOverlay";
 import { CommandPalette } from "./CommandPalette";
 import {

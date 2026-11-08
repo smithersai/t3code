@@ -11,7 +11,7 @@ import * as Schema from "effect/Schema";
 import * as DesktopConfig from "../app/DesktopConfig.vibe";
 import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
 import * as ElectronSafeStorage from "../electron/ElectronSafeStorage.vibe";
-import * as DesktopSavedEnvironments from "./DesktopSavedEnvironments.ts";
+import * as DesktopSavedEnvironments from "./DesktopSavedEnvironments.vibe";
 
 const textDecoder = new TextDecoder();
 const textEncoder = new TextEncoder();

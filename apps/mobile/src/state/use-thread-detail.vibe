@@ -4,7 +4,7 @@ import type { EnvironmentThreadStructure } from "@t3tools/client-runtime/state/m
 import type { EnvironmentThread } from "@t3tools/client-runtime/state/shell"
 import type { EnvironmentId, OrchestrationV2ThreadProjection, ScopedThreadRef, ThreadId } from "@t3tools/contracts"
 
-import { environmentThreadDetails, useEnvironmentThread } from "./threads"
+import { environmentThreadDetails, useEnvironmentThread } from "./threads.ts"
 import { useThreadSelection } from "./use-thread-selection.vibe"
 
 const EMPTY_THREAD_PROJECTION_ATOM = Atom.make<EnvironmentThread | null>(null).pipe(

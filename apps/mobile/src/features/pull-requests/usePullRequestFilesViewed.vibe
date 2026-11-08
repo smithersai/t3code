@@ -3,7 +3,7 @@ import { RegistryContext, useAtomRefresh, useAtomValue } from "@effect/atom-reac
 import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime"
 import type { PullRequestDetail } from "@t3tools/contracts"
 import { use, useState } from "react"
-import { composerPullRequests } from "../../state/pull-requests"
+import { composerPullRequests } from "../../state/pull-requests.ts"
 import { useEnvironmentQuery } from "../../state/query.vibe"
 import { useAtomCommand } from "../../state/use-atom-command.vibe"
 import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe"

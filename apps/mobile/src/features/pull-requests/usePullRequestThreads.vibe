@@ -19,7 +19,7 @@ import { pullRequestComposerContext } from "../../lib/composerContext.vibe"
 import { scopedThreadKey } from "../../lib/scopedEntities"
 import { uuidv4 } from "../../lib/uuid"
 import { useEnvironmentServerConfig } from "../../state/entities.vibe"
-import { composerPullRequests } from "../../state/pull-requests"
+import { composerPullRequests } from "../../state/pull-requests.ts"
 import { useEnvironmentQuery } from "../../state/query.vibe"
 import { useEnvironmentScope } from "../../state/session.vibe"
 import {
@@ -29,7 +29,7 @@ import {
   setComposerDraftText,
   updateComposerDraftSettings,
   waitForComposerDraftsLoaded,
-} from "../../state/use-composer-drafts"
+} from "../../state/use-composer-drafts.vibe"
 import { usePullRequestConnected } from "./usePullRequestConnected"
 import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe"
 import {

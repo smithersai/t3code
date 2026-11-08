@@ -1,7 +1,7 @@
 import { EnvironmentQueryStore } from "@t3tools/client-runtime/state/query-persistence"
 import * as Layer from "effect/Layer"
 
-import { MobileDatabase } from "../persistence/mobile-database"
+import { MobileDatabase } from "../persistence/mobile-database.vibe"
 
 export const layer = Layer.effect(
   EnvironmentQueryStore,

@@ -7,7 +7,7 @@ import {
   flushComposerDrafts,
   getComposerDraftSnapshot,
   mergeComposerDraftContent,
-} from "./use-composer-drafts";
+} from "./use-composer-drafts.vibe";
 
 export async function recoverFailedThreadDraft(message: QueuedThreadMessage): Promise<void> {
   const sourceKey = scopedThreadKey(message.environmentId, message.threadId);

@@ -7,10 +7,10 @@ import { Atom } from "effect/reactivity"
 
 import type { FoundationHotModule } from "../lib/foundation-fast-refresh"
 import { hotSwappableAtomRuntime } from "../lib/hot-swappable-atom-runtime.vibe"
-import * as Runtime from "../lib/runtime"
+import * as Runtime from "../lib/runtime.vibe"
 import { appAtomRegistry } from "../state/atom-registry.vibe"
 import * as BackgroundActivity from "./background-activity.vibe"
-import * as ConnectionPlatform from "./platform"
+import * as ConnectionPlatform from "./platform.vibe"
 
 declare const module: { readonly hot?: FoundationHotModule } | undefined
 

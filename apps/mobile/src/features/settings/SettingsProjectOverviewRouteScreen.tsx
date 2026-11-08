@@ -24,7 +24,7 @@ import {
   composerDraftsAtom,
   findNewTaskDraftKeys,
   waitForComposerDraftsLoaded,
-} from "../../state/use-composer-drafts";
+} from "../../state/use-composer-drafts.vibe";
 import {
   readEnvironmentScope,
   useEnvironmentScope,

@@ -15,7 +15,7 @@ import { AppText as Text } from "../../components/ui/AppText";
 import { SymbolView } from "../../components/ui/AppSymbol";
 import { scopedThreadKey } from "../../lib/scopedEntities";
 import { environmentServerConfigsAtom } from "../../state/server";
-import { environmentThreadShells } from "../../state/threads";
+import { environmentThreadShells } from "../../state/threads.ts";
 import { sortSettledThreads } from "@t3tools/client-runtime/state/thread-sort";
 import {
   useOlderSettledShelf,

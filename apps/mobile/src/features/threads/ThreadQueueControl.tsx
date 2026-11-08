@@ -33,8 +33,8 @@ import { useQuietThreadShell } from "../../state/entities.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { serverEnvironment } from "../../state/server";
 import { assetImageSource } from "../../lib/assetImageSource";
-import { beginQueuedRunEdit, useQueuedRunEdit } from "../../state/queued-run-edit";
-import { environmentThreadDetails, threadEnvironment } from "../../state/threads";
+import { beginQueuedRunEdit, useQueuedRunEdit } from "../../state/queued-run-edit.vibe";
+import { environmentThreadDetails, threadEnvironment } from "../../state/threads.ts";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useAdaptiveWorkspaceLayout } from "../layout/AdaptiveWorkspaceLayout";
 import {

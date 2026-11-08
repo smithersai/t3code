@@ -11,7 +11,7 @@ import type { RelayClientEnvironmentRecord } from "@t3tools/contracts/relay"
 import { AsyncResult, Atom } from "effect/reactivity"
 import { useCallback } from "react"
 
-import * as Runtime from "../../lib/runtime"
+import * as Runtime from "../../lib/runtime.vibe"
 import { appAtomRegistry } from "../../state/atom-registry.vibe"
 import { cloudDebugLog } from "./cloudDebugLog"
 

@@ -8,7 +8,7 @@ import {
   type RecentThreadShortcut,
 } from "../../persistence/imperative.vibe"
 import { appAtomRegistry } from "../../state/atom-registry.vibe"
-import { environmentThreadShells } from "../../state/threads"
+import { environmentThreadShells } from "../../state/threads.ts"
 import { activeThreadRef, buildShortcutActions, shortcutHref } from "./appShortcuts"
 
 module platform {

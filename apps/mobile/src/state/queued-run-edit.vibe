@@ -1,3 +1,4 @@
+import { warnOnPlatform } from "./queued-run-edit.platform.ts";
 import type {
   ChatAttachment,
   MessageId,
@@ -23,7 +24,7 @@ import {
   mergeComposerDraftContent,
   setComposerDraftContext,
   setComposerDraftText,
-} from "./use-composer-drafts";
+} from "./use-composer-drafts.vibe";
 
 export interface QueuedRunEdit {
   readonly runId: RunId;
@@ -92,7 +93,7 @@ function exitQueuedRunEdit(threadKey: string, edit: QueuedRunEdit): void {
       attachments: editDraft.attachments,
       ...(editDraft.context ? { context: editDraft.context } : {}),
     }).catch((error: unknown) => {
-      console.warn("[queued-run-edit] could not persist the recovered edit", error);
+      warnOnPlatform("[queued-run-edit] could not persist the recovered edit", error);
     });
   }
   clearComposerDraft(editDraftKey, { deferAttachmentCleanup: recovery === "kept" });

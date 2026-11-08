@@ -16,7 +16,7 @@ import {
   createNewTaskDraft,
   setComposerDraftText,
   waitForComposerDraftsLoaded,
-} from "../../state/use-composer-drafts";
+} from "../../state/use-composer-drafts.vibe";
 import { useSelectWorkspaceDetail } from "../workspace/useSelectWorkspaceDetail";
 
 const CLI_COMMAND = "npx t3 triage";

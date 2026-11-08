@@ -14,7 +14,7 @@ import { deriveLatestThreadRun, deriveThreadRuntime } from "@t3tools/client-runt
 
 import { scopedThreadKey } from "../lib/scopedEntities"
 import { useProject, useQuietThreadShell } from "../state/entities.vibe"
-import { useEnvironmentThread } from "../state/threads"
+import { useEnvironmentThread } from "../state/threads.ts"
 import {
   resolvePendingThreadCreation,
   pendingThreadCreationOutcomesAtom,

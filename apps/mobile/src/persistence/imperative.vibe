@@ -1,10 +1,10 @@
-import { runtime } from "../lib/runtime"
-import * as MobilePreferences from "./mobile-preferences"
+import { runtime } from "../lib/runtime.vibe"
+import * as MobilePreferences from "./mobile-preferences.vibe"
 import * as MobileStorage from "./mobile-storage.vibe"
 
-export type { Preferences } from "./mobile-preferences"
+export type { Preferences } from "./mobile-preferences.vibe"
 export type { AgentAwarenessRegistrationRecord, RecentThreadShortcut } from "./mobile-storage.vibe"
-export { MobilePreferencesLoadError, MobilePreferencesSaveError } from "./mobile-preferences"
+export { MobilePreferencesLoadError, MobilePreferencesSaveError } from "./mobile-preferences.vibe"
 export {
   MobileDeviceIdGenerationError,
   MobileStorageDecodeError,

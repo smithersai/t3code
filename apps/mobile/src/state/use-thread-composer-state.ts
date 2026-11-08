@@ -85,7 +85,7 @@ import {
   updateComposerDraftSettings,
   useComposerDraft,
   useComposerDraftSettings,
-} from "./use-composer-drafts";
+} from "./use-composer-drafts.vibe";
 import {
   resolveComposerDispatchMode,
   type ActiveTurnComposerAction,
@@ -105,7 +105,7 @@ import {
   resolveQueuedEditPayload,
   startQueuedRunEditSave,
   useQueuedRunEdit,
-} from "./queued-run-edit";
+} from "./queued-run-edit.vibe";
 import { setPendingConnectionError } from "../state/use-remote-environment-registry.vibe";
 import { clearThreadComposerError, setThreadComposerError } from "./thread-composer-error.vibe";
 import {

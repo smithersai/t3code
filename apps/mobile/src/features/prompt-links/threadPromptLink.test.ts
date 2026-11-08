@@ -22,7 +22,7 @@ vi.mock("../../state/atom-registry", async () => {
   const { AtomRegistry } = await import("effect/reactivity");
   return { appAtomRegistry: AtomRegistry.make() };
 });
-vi.mock("../../state/threads", async () => {
+vi.mock("../../state/threads.ts", async () => {
   const { AsyncResult, Atom } = await import("effect/reactivity");
   const Option = await import("effect/Option");
   const shell = Atom.make<object | null>(null);
@@ -43,7 +43,7 @@ vi.mock("../../state/threads", async () => {
 
 const { appAtomRegistry } = await import("../../state/atom-registry");
 const { fixtureDetail, fixtureDetailSource, fixtureShell } =
-  (await import("../../state/threads")) as unknown as {
+  (await import("../../state/threads.ts")) as unknown as {
     fixtureShell: Atom.Writable<object | null>;
     fixtureDetail: Atom.Atom<unknown>;
     fixtureDetailSource: Atom.Writable<AsyncResult.AsyncResult<{ data: Option.Option<object> }>>;

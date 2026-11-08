@@ -215,7 +215,7 @@ import {
   stickyComposerModelSelectionAtom,
   undoComposerDraftMergeState,
   updateComposerDraftSettings,
-} from "./use-composer-drafts";
+} from "./use-composer-drafts.vibe";
 import { retainComposerAttachmentFileForPreview } from "../lib/composerAttachmentPreviewRetention";
 
 const DRAFT: ComposerDraft = {
@@ -2514,7 +2514,7 @@ describe("mobile composer drafts", () => {
 
   it("keeps attachment files and uploads after a recovered message leaves an incomplete outbox", async () => {
     vi.resetModules();
-    const drafts = await import("./use-composer-drafts");
+    const drafts = await import("./use-composer-drafts.vibe");
     const { threadOutboxManager: manager } = await import("./thread-outbox");
     const { expoThreadOutboxStorage: storage, ThreadOutboxStorageError } =
       await import("./thread-outbox-storage");
@@ -2613,7 +2613,7 @@ describe("mobile composer drafts", () => {
       },
     });
     vi.resetModules();
-    const fresh = await import("./use-composer-drafts");
+    const fresh = await import("./use-composer-drafts.vibe");
     const freshRegistry = (await import("./atom-registry")).appAtomRegistry;
 
     await fresh.releaseUnusedComposerAttachmentFiles([file]);

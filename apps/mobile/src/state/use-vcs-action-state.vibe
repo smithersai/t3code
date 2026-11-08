@@ -1,7 +1,7 @@
+import { scheduleOnPlatform, cancelOnPlatform } from "./use-vcs-action-state.platform.ts";
 import { useAtomValue } from "@effect/atom-react";
 import { secondTick } from "@t3tools/client-runtime/clock";
 import { type VcsActionState, type VcsActionTarget } from "@t3tools/client-runtime/state/vcs";
-import { Atom } from "effect/reactivity";
 import * as Haptics from "expo-haptics";
 import { useSyncExternalStore } from "react";
 
@@ -25,7 +25,7 @@ const gitActionResultAtom = Atom.make<GitActionResultNotification | null>(null).
   Atom.keepAlive,
   Atom.withLabel("mobile:git-action-result"),
 );
-let dismissTimer: ReturnType<typeof setTimeout> | null = null;
+let dismissTimer: ReturnType<typeof scheduleOnPlatform> | null = null;
 
 function broadcast(result: GitActionResultNotification | null): void {
   appAtomRegistry.set(gitActionResultAtom, result);
@@ -38,16 +38,16 @@ export function showGitActionResult(result: GitActionResultNotification): void {
       ? Haptics.NotificationFeedbackType.Success
       : Haptics.NotificationFeedbackType.Error,
   ).catch(() => undefined);
-  if (dismissTimer) clearTimeout(dismissTimer);
+  if (dismissTimer) cancelOnPlatform(dismissTimer);
   broadcast(result);
-  dismissTimer = setTimeout(() => {
+  dismissTimer = scheduleOnPlatform(() => {
     dismissTimer = null;
     broadcast(null);
   }, RESULT_DISMISS_MS);
 }
 
 export function dismissGitActionResult(): void {
-  if (dismissTimer) clearTimeout(dismissTimer);
+  if (dismissTimer) cancelOnPlatform(dismissTimer);
   dismissTimer = null;
   broadcast(null);
 }

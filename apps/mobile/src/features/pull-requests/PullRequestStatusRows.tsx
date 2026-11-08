@@ -17,7 +17,7 @@ import { PullRequestAvatar } from "./PullRequestPresentation";
 import { PullRequestCardRow } from "./PullRequestControls";
 import { PullRequestAgentRow } from "./PullRequestAgentRow";
 import { PullRequestGlyph } from "./pullRequestGlyphs";
-import { composerPullRequests } from "../../state/pull-requests";
+import { composerPullRequests } from "../../state/pull-requests.ts";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import {
   allowedUpdateMethods,

@@ -8,7 +8,7 @@ import { Toast } from "../../components/ui/Toast";
 import { useToolbarLayout } from "../../components/ui/useToolbarLayout";
 import { MOBILE_MOTION } from "../../lib/designTokens";
 import { APP_BAR_HEIGHT } from "../../lib/layoutMetrics";
-import type { GitActionProgress } from "../../state/use-vcs-action-state";
+import type { GitActionProgress } from "../../state/use-vcs-action-state.vibe";
 
 export function GitActionProgressOverlay(props: {
   readonly progress: GitActionProgress;

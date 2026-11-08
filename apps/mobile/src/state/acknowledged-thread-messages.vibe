@@ -1,6 +1,6 @@
 import { appAtomRegistry } from "./atom-registry.vibe"
 import type { QueuedThreadMessage } from "./thread-outbox-model.vibe"
-import { environmentThreadDetails } from "./threads"
+import { environmentThreadDetails } from "./threads.ts"
 
 // Keep acknowledged rows until their subscribed projection arrives; command receipts can precede messages.
 // Render hides rows the projection has echoed, so dropping them here only frees memory.

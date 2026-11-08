@@ -2,7 +2,7 @@ import * as Dialog from "../../components/ui/Dialog";
 import { useCallback } from "react";
 
 import { removeThreadOutboxMessage } from "../../state/thread-outbox-removal";
-import { clearComposerDraftContent } from "../../state/use-composer-drafts";
+import { clearComposerDraftContent } from "../../state/use-composer-drafts.vibe";
 import type { PendingNewTask } from "../../state/use-pending-new-tasks.vibe";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import {

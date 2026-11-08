@@ -18,14 +18,14 @@ import {
 import { dedupeRemoteBranchesWithLocalMatches, sanitizeFeatureBranchName } from "@t3tools/shared/git"
 
 import { useBranches } from "../state/queries.vibe"
-import { threadEnvironment } from "../state/threads"
+import { threadEnvironment } from "../state/threads.ts"
 import { vcsActionManager, vcsEnvironment } from "../state/vcs"
 import { uuidv4 } from "../lib/uuid"
 import { appAtomRegistry } from "./atom-registry.vibe"
 import { readEnvironmentScope, useEnvironmentScope } from "./session.vibe"
 import { environmentConnectedAtom, setPendingConnectionError } from "./use-remote-environment-registry.vibe"
 import { useAtomCommand } from "./use-atom-command.vibe"
-import { showGitActionResult } from "./use-vcs-action-state"
+import { showGitActionResult } from "./use-vcs-action-state.vibe"
 import { useThreadSelection } from "./use-thread-selection.vibe"
 import { useSelectedThreadWorktree } from "./use-selected-thread-worktree.vibe"
 

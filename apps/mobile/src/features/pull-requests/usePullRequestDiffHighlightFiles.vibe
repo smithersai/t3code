@@ -3,7 +3,7 @@ import { EnvironmentId } from "@t3tools/contracts"
 
 import { environmentCatalog } from "../../connection/catalog"
 import { appAtomRegistry } from "../../state/atom-registry.vibe"
-import { composerPullRequests } from "../../state/pull-requests"
+import { composerPullRequests } from "../../state/pull-requests.ts"
 import { useAtomCommand } from "../../state/use-atom-command.vibe"
 import type { NativeReviewDiffFile } from "../diffs/nativeReviewDiffTypes"
 import { diffHighlightTraceHash, traceDiffHighlight } from "../diffs/nativeReviewDiffTrace"

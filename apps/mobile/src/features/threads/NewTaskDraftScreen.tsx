@@ -39,7 +39,7 @@ import {
 } from "@t3tools/contracts";
 
 import { ComposerEditor, type ComposerEditorHandle } from "../../components/ComposerEditor";
-import { composerContextImportsAtom } from "../../state/use-composer-drafts";
+import { composerContextImportsAtom } from "../../state/use-composer-drafts.vibe";
 import { abortComposerDraftOperations } from "../../state/composerDraftOperations";
 import { composerContextSendBlockReason } from "../../lib/composerContext.vibe";
 import { ComposerInlineControl } from "../../components/ComposerToolbar";
@@ -61,7 +61,7 @@ import {
   getComposerDraftSnapshot,
   updateComposerDraftSettings,
   scheduleUnusedComposerAttachmentCleanup,
-} from "../../state/use-composer-drafts";
+} from "../../state/use-composer-drafts.vibe";
 import { useEnvironmentServerConfig, useProjects } from "../../state/entities.vibe";
 import { useProjectClone } from "../../state/projectClones.vibe";
 import { projectEnvironment } from "../../state/projects";

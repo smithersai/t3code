@@ -68,7 +68,7 @@ import {
 } from "@t3tools/client-runtime/state/thread-execution";
 import { formatModelSlugName, resolveSelectableModel } from "@t3tools/shared/model";
 import { isProviderNativeSubagentThread } from "@t3tools/contracts";
-import type { QueuedRunEdit } from "../../state/queued-run-edit";
+import type { QueuedRunEdit } from "../../state/queued-run-edit.vibe";
 import type { FollowUpBehavior } from "../../lib/followUpBehavior";
 import type { ActiveTurnComposerAction } from "@t3tools/client-runtime/state/composer-dispatch";
 import * as Haptics from "expo-haptics";
@@ -124,7 +124,7 @@ import { useAppearancePreferences } from "../settings/appearance/AppearancePrefe
 import { collectProviderUsageLimits } from "@t3tools/shared/usageLimits";
 import type { ComposerEditorHandle } from "../../components/ComposerEditor";
 import type { StatusTone } from "../../components/StatusPill";
-import { getComposerDraftSnapshot } from "../../state/use-composer-drafts";
+import { getComposerDraftSnapshot } from "../../state/use-composer-drafts.vibe";
 import { RenderErrorBoundary, RenderFailureView } from "../../components/RenderErrorBoundary";
 import {
   ANDROID_READING_MAX_WIDTH,
@@ -152,7 +152,7 @@ import {
   environmentThreadDetails,
   environmentThreadShells,
   threadEnvironment,
-} from "../../state/threads";
+} from "../../state/threads.ts";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { threadStreamHaptics } from "./threadStreamHaptics.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";

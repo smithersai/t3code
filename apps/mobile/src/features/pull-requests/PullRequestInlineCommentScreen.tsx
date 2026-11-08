@@ -8,7 +8,7 @@ import type { PullRequestReviewPosition } from "@t3tools/contracts";
 import { AppText as Text, AppTextInput as TextInput } from "../../components/ui/AppText";
 import { Button } from "../../components/ui/Button";
 import { uuidv4 } from "../../lib/uuid";
-import { composerPullRequests } from "../../state/pull-requests";
+import { composerPullRequests } from "../../state/pull-requests.ts";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { PullRequestSheetContent } from "./PullRequestSheetContent";
 import { usePullRequestReviewDraft } from "./usePullRequestReviewDraft.vibe";

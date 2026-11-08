@@ -27,7 +27,7 @@ import {
   ensureComposerDraftsLoaded,
   flushComposerDrafts,
   setComposerDraftAttachmentUpload,
-} from "./use-composer-drafts";
+} from "./use-composer-drafts.vibe";
 import { environmentSession, readEnvironmentScope, sessionHasScope } from "./session.vibe";
 import { workspaceConnections } from "./workspace.vibe";
 

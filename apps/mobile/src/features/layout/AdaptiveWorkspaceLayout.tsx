@@ -38,11 +38,11 @@ import {
   type WorkspaceAuxiliaryPaneRole,
 } from "../../lib/layout";
 import { scopedThreadKey } from "../../lib/scopedEntities";
-import type { ThreadListFilters } from "../../persistence/mobile-preferences";
+import type { ThreadListFilters } from "../../persistence/mobile-preferences.vibe";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { useProjects } from "../../state/entities.vibe";
 import { useThreadCwd } from "../../state/use-selected-thread-worktree.vibe";
-import { environmentThreadShells } from "../../state/threads";
+import { environmentThreadShells } from "../../state/threads.ts";
 import { mobilePreferencesAtom } from "../../state/preferences.vibe";
 import {
   DEFAULT_MOBILE_PROJECT_GROUPING_SETTINGS,

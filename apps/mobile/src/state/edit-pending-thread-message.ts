@@ -14,7 +14,7 @@ import {
   undoComposerDraftMerge,
   updateComposerDraftSettings,
   waitForComposerDraftsLoaded,
-} from "./use-composer-drafts";
+} from "./use-composer-drafts.vibe";
 import {
   dispatchingQueuedMessageIdAtom,
   editingQueuedMessageIdsAtom,
