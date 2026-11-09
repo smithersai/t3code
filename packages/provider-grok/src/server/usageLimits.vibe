@@ -155,10 +155,11 @@ const readGrokCredential = effect (
     "readGrokCredential",
   )
 export const readGrokAccount = effect (
-  environment: NodeJS.ProcessEnv | undefined = $process_env(),
+  environment: NodeJS.ProcessEnv | undefined = undefined,
 ) =>
   try withSpan(
     effect {
+      const resolvedEnvironment = environment === undefined ? $process_env() : environment
       const checkedAt = DateTime.formatIso(try DateTime.now)
       const probeFailed = try Effect.orDie(Effect.try({
         try: () =>
@@ -170,7 +171,7 @@ export const readGrokAccount = effect (
         catch: (e) => e,
       }))
       const credential = try Effect.option(
-        readGrokCredential(environment) |> Effect.timeout(%, "10 seconds"),
+        readGrokCredential(resolvedEnvironment) |> Effect.timeout(%, "10 seconds"),
       )
       if (Option.isNone(credential)) return { email: undefined, usageLimits: probeFailed }
       const email = credential.value?.email?.trim() || undefined

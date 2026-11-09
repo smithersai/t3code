@@ -96,11 +96,12 @@ export const readCursorUsageLimits = effect (
     },
     "apiEndpoint"
   >,
-  environment: NodeJS.ProcessEnv | undefined = $process_env(),
+  environment: NodeJS.ProcessEnv | undefined = undefined,
   allowKeychain = false,
 ) =>
   try withSpan(
     effect {
+      const resolvedEnvironment = environment === undefined ? $process_env() : environment
       const checkedAt = DateTime.formatIso(try DateTime.now)
       return try (effect {
         const fs = try FileSystem.FileSystem
@@ -108,12 +109,12 @@ export const readCursorUsageLimits = effect (
         const platform = try HostProcess.Platform
         const endpoint = (
           settings.apiEndpoint?.trim()
-          || environment.CURSOR_API_ENDPOINT?.trim()
+          || resolvedEnvironment.CURSOR_API_ENDPOINT?.trim()
           || DEFAULT_CURSOR_API_ENDPOINT
         ).replace(/\/$/, "")
-        let token = environment.CURSOR_AUTH_TOKEN?.trim()
+        let token = resolvedEnvironment.CURSOR_AUTH_TOKEN?.trim()
         // An explicit API key can name a different account from the stored login.
-        if (!token && environment.CURSOR_API_KEY?.trim()) {
+        if (!token && resolvedEnvironment.CURSOR_API_KEY?.trim()) {
           return try Effect.orDie(
             Effect.try({
               try: () => makeUnavailableUsageLimits({ checkedAt, reason: "unsupported" }),
@@ -121,7 +122,7 @@ export const readCursorUsageLimits = effect (
             }),
           )
         }
-        const credentialStore = environment.AGENT_CLI_CREDENTIAL_STORE
+        const credentialStore = resolvedEnvironment.AGENT_CLI_CREDENTIAL_STORE
         if (!token && credentialStore === "memory") {
           return try Effect.orDie(Effect.try({
             try: () =>
@@ -159,13 +160,13 @@ export const readCursorUsageLimits = effect (
           const keychain = try CursorKeychain.CursorKeychain
           token = (try keychain.accessToken)?.trim()
         } else if (!token) {
-          const home = (platform === "win32" ? environment.USERPROFILE : environment.HOME)
+          const home = (platform === "win32" ? resolvedEnvironment.USERPROFILE : resolvedEnvironment.HOME)
             || (try HostProcess.HomeDirectory)
           const directory = platform === "win32"
-            ? path.join(environment.APPDATA || path.join(home, "AppData", "Roaming"), "Cursor")
+            ? path.join(resolvedEnvironment.APPDATA || path.join(home, "AppData", "Roaming"), "Cursor")
             : platform === "darwin"
             ? path.join(home, ".cursor")
-            : path.join(environment.XDG_CONFIG_HOME || path.join(home, ".config"), "cursor")
+            : path.join(resolvedEnvironment.XDG_CONFIG_HOME || path.join(home, ".config"), "cursor")
           const credentials = try (fs.readFileString(path.join(directory, "auth.json"))
             |> Effect.catchTags(%, {
               PlatformError: (error) => error.reason._tag === "NotFound" ? Effect.succeed("{}") : Effect.fail(error),
