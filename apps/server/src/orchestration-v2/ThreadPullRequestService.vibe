@@ -18,7 +18,7 @@ import type * as Scope from "effect/Scope"
 import * as Stream from "effect/Stream"
 
 import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe"
-import * as GitManager from "../git/GitManager.ts"
+import * as GitManager from "../git/GitManager.vibe"
 import * as ProjectStore from "./ProjectStore.vibe"
 import * as PullRequestService from "../pullRequest/PullRequestService.ts"
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe"

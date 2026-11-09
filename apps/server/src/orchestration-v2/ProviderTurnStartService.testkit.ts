@@ -2,7 +2,7 @@ import { SourceControlProviderError, SourceControlProviderKind } from "@t3tools/
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as ServerConfig from "../config.ts";
-import * as GitManager from "../git/GitManager.ts";
+import * as GitManager from "../git/GitManager.vibe";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as VcsProjectConfig from "../vcs/VcsProjectConfig.ts";

@@ -65,7 +65,7 @@ import { BUILT_IN_SOURCE_CONTROL_DRIVER_LIST } from "./sourceControl/sourceContr
 import * as TextGeneration from "./textGeneration/TextGeneration.vibe";
 import * as ProviderInstanceRegistryHydration from "./provider/ProviderInstanceRegistryHydration.vibe";
 import * as ProjectSettingsOverrideSweep from "./provider/ProjectSettingsOverrideSweep.vibe";
-import * as TerminalManager from "./terminal/Manager.ts";
+import * as TerminalManager from "./terminal/Manager.vibe";
 import * as McpHttpServer from "./mcp/McpHttpServer.ts";
 import * as PeerForwarding from "./peer/PeerForwarding.vibe";
 import * as RemoteDelegation from "./peer/RemoteDelegation.vibe";
@@ -84,7 +84,7 @@ import * as DesktopBrowserChannel from "./preview/DesktopBrowserChannel.ts";
 import * as ServerBrowserStream from "./preview/ServerBrowserStream.ts";
 import * as PreviewBrowser from "./preview/PreviewBrowser.vibe";
 import * as ProcessRunner from "./processRunner.ts";
-import * as GitManager from "./git/GitManager.ts";
+import * as GitManager from "./git/GitManager.vibe";
 import * as EnvironmentTheme from "./environmentTheme.ts";
 import * as Keybindings from "./keybindings.ts";
 import * as ServerRuntimeStartup from "./serverRuntimeStartup.vibe";
@@ -123,8 +123,8 @@ import * as SourceControlRateLimit from "@t3tools/source-control-core/server/Sou
 import * as SourceControlRepositoryService from "./sourceControl/SourceControlRepositoryService.ts";
 import * as WorktreeSetupTracker from "./project/WorktreeSetupTracker.vibe";
 import * as Observability from "./observability/Observability.vibe";
-import * as HeapSnapshot from "./observability/HeapSnapshot.ts";
-import * as EventLoopMonitor from "./observability/EventLoopMonitor.ts";
+import * as HeapSnapshot from "./observability/HeapSnapshot.vibe";
+import * as EventLoopMonitor from "./observability/EventLoopMonitor.vibe";
 import * as ServerEnvironment from "./environment/ServerEnvironment.vibe";
 import * as DirectEndpoints from "./environment/DirectEndpoints.vibe";
 import * as RemoteOpenTargets from "./environment/RemoteOpenTargets.vibe";

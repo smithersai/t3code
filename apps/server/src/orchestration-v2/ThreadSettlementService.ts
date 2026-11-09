@@ -25,12 +25,12 @@ import * as Semaphore from "effect/Semaphore";
 import type * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 
-import * as GitManager from "../git/GitManager.ts";
+import * as GitManager from "../git/GitManager.vibe";
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";
 import * as PullRequestService from "../pullRequest/PullRequestService.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import { forkParked } from "../serverActivation.vibe";
-import * as TerminalManager from "../terminal/Manager.ts";
+import * as TerminalManager from "../terminal/Manager.vibe";
 import * as ProjectStore from "./ProjectStore.vibe";
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts";
 import * as Orchestrator from "./Orchestrator.vibe";

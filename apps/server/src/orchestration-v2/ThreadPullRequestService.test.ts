@@ -21,7 +21,7 @@ import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 
 import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
-import * as GitManager from "../git/GitManager.ts";
+import * as GitManager from "../git/GitManager.vibe";
 import * as ProjectStore from "./ProjectStore.vibe";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
 import * as PullRequestService from "../pullRequest/PullRequestService.ts";

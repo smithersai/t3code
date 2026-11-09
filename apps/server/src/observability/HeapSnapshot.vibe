@@ -1,0 +1,33 @@
+import { heapSnapshotPath, writeNativeHeapSnapshot, onHeapSnapshotSignal } from "./HeapSnapshot.platform.ts"
+
+import * as HostProcess from "@t3tools/shared/HostProcess"
+import * as DateTime from "effect/DateTime"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Layer from "effect/Layer"
+
+import * as ServerConfig from "../config.ts"
+
+const writeHeapSnapshot = Effect.fn("server.heapSnapshot", { root: true })(
+  effect (logsDir: string) => {
+    const fs = try FileSystem.FileSystem
+    const timestamp = DateTime.formatIso(try DateTime.now).replaceAll(":", "-")
+    const path = heapSnapshotPath(logsDir, timestamp)
+    try Effect.annotateCurrentSpan({ path })
+    try Effect.try(() => writeNativeHeapSnapshot(path)).pipe(
+      Effect.tapError(() => fs.remove(path, { force: true }).pipe(Effect.ignore)),
+    )
+    try Effect.logInfo("Wrote heap snapshot.", { path })
+  },
+  Effect.catch((cause) => Effect.logWarning("Failed to write heap snapshot.", { cause })),
+)
+
+export const layer = Layer.effectDiscard(
+  effect {
+    if ((try HostProcess.Platform) === "win32") return
+    const { logsDir } = try ServerConfig.ServerConfig
+    const runFork = Effect.runForkWith(try Effect.context<FileSystem.FileSystem>())
+    const onSignal = () => void runFork(writeHeapSnapshot(logsDir))
+    try onHeapSnapshotSignal(onSignal)
+  },
+)

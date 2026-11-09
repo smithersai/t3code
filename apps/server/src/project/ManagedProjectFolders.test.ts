@@ -12,7 +12,7 @@ import * as PlatformError from "effect/PlatformError";
 import * as Scope from "effect/Scope";
 
 import * as ServerConfig from "../config.ts";
-import * as GitManager from "../git/GitManager.ts";
+import * as GitManager from "../git/GitManager.vibe";
 import * as GitWorkflow from "../git/GitWorkflowService.vibe";
 import * as RuntimeLayer from "../orchestration-v2/runtimeLayer.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";

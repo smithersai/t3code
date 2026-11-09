@@ -15,7 +15,7 @@ import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as EffectWorker from "./EffectWorker.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderSessions from "./ProviderSessionManager.ts";
-import * as ProviderTurnControl from "./ProviderTurnControlService.ts";
+import * as ProviderTurnControl from "./ProviderTurnControlService.vibe";
 import * as ProviderTurnStart from "./ProviderTurnStartService.vibe";
 import * as RunFinalization from "./RunFinalizationService.vibe";
 import * as RuntimeRequests from "./RuntimeRequestService.vibe";

@@ -60,7 +60,7 @@ import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as GitManager from "./GitManager.ts";
+import * as GitManager from "./GitManager.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 /** A change request the fake host reports. Omitted fields read as an open, undated request. */

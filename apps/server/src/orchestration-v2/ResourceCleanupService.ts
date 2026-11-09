@@ -10,7 +10,7 @@ import { parseAttachmentFileExtension, resolveAttachmentPathById } from "../atta
 import * as ServerConfig from "../config.ts";
 import * as PreviewManager from "../preview/Manager.vibe";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
-import * as TerminalManager from "../terminal/Manager.ts";
+import * as TerminalManager from "../terminal/Manager.vibe";
 
 export class ResourceCleanupError extends Schema.TaggedError<ResourceCleanupError>()(
   "ResourceCleanupError",

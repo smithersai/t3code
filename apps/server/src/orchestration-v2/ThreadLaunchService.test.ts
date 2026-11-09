@@ -2,7 +2,7 @@ import * as DocumentText from "../provider/DocumentText.ts";
 import * as Scheduler from "../scheduling/Scheduler.vibe";
 import * as WorktreeSetupTracker from "../project/WorktreeSetupTracker.vibe";
 import * as ProjectCloneTracker from "../project/ProjectCloneTracker.vibe";
-import * as TerminalManager from "../terminal/Manager.ts";
+import * as TerminalManager from "../terminal/Manager.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as FileSystem from "effect/FileSystem";
 import * as ServerConfig from "../config.ts";

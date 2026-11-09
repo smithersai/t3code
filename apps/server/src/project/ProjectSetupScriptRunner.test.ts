@@ -9,7 +9,7 @@ import * as Queue from "effect/Queue";
 import { TestClock } from "effect/testing";
 
 import * as ServerSettings from "../serverSettings.ts";
-import * as TerminalManager from "../terminal/Manager.ts";
+import * as TerminalManager from "../terminal/Manager.vibe";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ProjectService from "./ProjectService.ts";
 import * as ProjectSetupScriptRunner from "./ProjectSetupScriptRunner.ts";

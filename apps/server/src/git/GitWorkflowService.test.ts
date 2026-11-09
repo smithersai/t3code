@@ -7,7 +7,7 @@ import * as FileSystem from "effect/FileSystem";
 
 import * as ServerConfig from "../config.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as GitManager from "./GitManager.ts";
+import * as GitManager from "./GitManager.vibe";
 import * as GitWorkflowService from "./GitWorkflowService.vibe";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";

@@ -19,7 +19,7 @@ import * as Schema from "effect/Schema";
 
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as TerminalManager from "../terminal/Manager.ts";
+import * as TerminalManager from "../terminal/Manager.vibe";
 import * as ProjectService from "./ProjectService.ts";
 
 export interface ProjectSetupScriptRunnerResultNoScript {

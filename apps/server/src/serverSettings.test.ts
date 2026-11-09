@@ -29,7 +29,7 @@ import * as ServerConfig from "./config.ts";
 import * as SqlitePersistence from "./persistence/Sqlite.vibe";
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite";
 import * as ServerSettingsModule from "./serverSettings.ts";
-import { resolveProviderInstanceTerminalEnvironment } from "./terminal/Manager.ts";
+import { resolveProviderInstanceTerminalEnvironment } from "./terminal/Manager.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const decodeServerSettings = Schema.decodeUnknownEffect(ServerSettings);

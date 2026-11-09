@@ -28,7 +28,7 @@ import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as EffectWorker from "./EffectWorker.ts";
 import * as RunFinalizationService from "./RunFinalizationService.vibe";
 import * as ProviderSessionManager from "./ProviderSessionManager.ts";
-import * as ProviderTurnControlService from "./ProviderTurnControlService.ts";
+import * as ProviderTurnControlService from "./ProviderTurnControlService.vibe";
 import * as ProviderTurnStartService from "./ProviderTurnStartService.vibe";
 import * as RuntimeRequestService from "./RuntimeRequestService.vibe";
 import * as ThreadTitleRegenerationService from "./ThreadTitleRegenerationService.vibe";

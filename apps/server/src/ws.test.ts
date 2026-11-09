@@ -88,7 +88,7 @@ import * as SourceControlDiscovery from "./sourceControl/SourceControlDiscovery.
 import * as SourceControlRepositoryService from "./sourceControl/SourceControlRepositoryService.ts";
 import * as StorageCleanup from "./storageCleanup.vibe";
 import * as DatabaseStorage from "./persistence/DatabaseStorage.vibe";
-import * as TerminalManager from "./terminal/Manager.ts";
+import * as TerminalManager from "./terminal/Manager.vibe";
 import * as ThreadLaunchService from "./orchestration-v2/ThreadLaunchService.ts";
 import * as ThreadSearch from "./orchestration-v2/ThreadSearch.vibe";
 import * as UsageLimitSources from "./usage/UsageLimitSources.vibe";

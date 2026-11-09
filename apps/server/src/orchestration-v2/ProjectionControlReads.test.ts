@@ -22,7 +22,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderSessionManager from "./ProviderSessionManager.ts";
-import * as ProviderTurnControlService from "./ProviderTurnControlService.ts";
+import * as ProviderTurnControlService from "./ProviderTurnControlService.vibe";
 import * as RuntimeRequestService from "./RuntimeRequestService.vibe";
 
 const threadId = ThreadId.make("thread:control-reads");

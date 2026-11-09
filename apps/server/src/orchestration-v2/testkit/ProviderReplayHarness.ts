@@ -44,7 +44,7 @@ import * as ProviderRuntimeRecoveryService from "../ProviderRuntimeRecoveryServi
 import * as ProviderSessionManager from "../ProviderSessionManager.ts";
 import * as CommandOutputRecorder from "./CommandOutputRecorder.ts";
 import * as ProviderSwitchService from "../ProviderSwitchService.vibe";
-import * as ProviderTurnControlService from "../ProviderTurnControlService.ts";
+import * as ProviderTurnControlService from "../ProviderTurnControlService.vibe";
 import * as ProviderTurnStartService from "../ProviderTurnStartService.vibe";
 import * as ProviderTurnStartServiceTestkit from "../ProviderTurnStartService.testkit.ts";
 import * as McpAppModelContext from "../../mcpApps/McpAppModelContext.vibe";

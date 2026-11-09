@@ -1,6 +1,6 @@
 import * as WorktreeSetupTracker from "../project/WorktreeSetupTracker.vibe";
 import * as ProjectCloneTracker from "../project/ProjectCloneTracker.vibe";
-import * as TerminalManager from "../terminal/Manager.ts";
+import * as TerminalManager from "../terminal/Manager.vibe";
 import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
 import {
   CommandId,

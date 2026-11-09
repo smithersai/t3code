@@ -32,7 +32,7 @@ import * as ServerConfig from "../config.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ProcessRunner from "../processRunner.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as TerminalManager from "./Manager.ts";
+import * as TerminalManager from "./Manager.vibe";
 import { terminalOutputStream } from "./OutputProtocol.vibe";
 import * as PtyAdapter from "@t3tools/shared/PtyAdapter";
 import * as Crypto from "@t3tools/shared/Crypto";
