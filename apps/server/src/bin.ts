@@ -13,6 +13,10 @@ if (
     runtimeMain: import.meta.main,
   })
 ) {
+  // Resolve the source-only loader at runtime to keep it out of the packaged CLI.
+  if (import.meta.url.endsWith(".ts")) {
+    await import(import.meta.resolve("vibelang/register"));
+  }
   const command = process.argv[2];
   // Guard sockets before either dispatch path can load outbound-capable modules.
   const { ignoreMacosTypeOfServiceEinval } = await import("./outboundHttp.ts");
