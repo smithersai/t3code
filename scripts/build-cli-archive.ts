@@ -442,7 +442,7 @@ const buildCliArchive = Effect.fn("buildCliArchive")(function* (input: {
 
   yield* requireInput(
     builtExecutable,
-    `Run \`node apps/server/scripts/cli.ts build-exe${targetKey === hostKey ? "" : ` --target ${targetKey}`}\` first.`,
+    `Run \`node --import vibelang/register apps/server/scripts/cli.vibe build-exe${targetKey === hostKey ? "" : ` --target ${targetKey}`}\` first.`,
   );
   // TEMPORARY one-time Node fix. Remove when fixed: https://github.com/nodejs/node/issues/67048
   if (input.platform === "linux" && input.arch === "arm64") {

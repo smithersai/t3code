@@ -18,7 +18,7 @@
     "dev": "node --import vibelang/register --watch --watch-path=src --watch-path=../../packages --watch-path=package.json src/bin.ts",
     "dev:built": "vp run dev",
     "build:bundle": "vp pack",
-    "build:exe": "node --import vibelang/register scripts/cli.ts build-exe",
+    "build:exe": "node --import vibelang/register scripts/cli.vibe build-exe",
     "start": "node dist/bin.mjs",
     "typecheck": "vibelang --noEmit",
     "test": "vp test run",

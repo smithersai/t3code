@@ -43,7 +43,7 @@ const config = {
       entry: [
         "src/bin.ts!",
         "src/claude-history-worker.ts!",
-        "scripts/cli.ts",
+        "scripts/cli.vibe",
         "scripts/fetch-expo-schema.ts",
         "scripts/probe-claude-fork-local-rollback-replay.ts",
         "scripts/update-test-shard-weights.ts",
