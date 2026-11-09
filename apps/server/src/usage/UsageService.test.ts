@@ -2454,6 +2454,7 @@ describe("UsageService", () => {
 
   it.live("reports saved usage of a removed directory only for windows it reaches", () =>
     Effect.gen(function* () {
+      using _now = vi.spyOn(Date, "now").mockReturnValue(CURSOR_NOW);
       const { transcript, settings, home } = yield* setup;
       yield* Effect.promise(async () => {
         await NodeFSP.writeFile(transcript, claudeLine(1, 5));
