@@ -19,7 +19,7 @@ import * as Schema from "effect/Schema";
 import { Command } from "effect/cli";
 import { describe, expect } from "vite-plus/test";
 
-import { makeCli } from "../binCli.ts";
+import { makeCli } from "../binCli.vibe";
 import { PersistedServerRuntimeState } from "../serverRuntimeState.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

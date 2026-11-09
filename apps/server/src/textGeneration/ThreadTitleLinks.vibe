@@ -1,0 +1,43 @@
+import * as Effect from "effect/Effect"
+import * as Schema from "effect/Schema"
+import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe"
+
+const encodeSubject = Schema.encodeEffect(
+  Schema.fromJsonString(Schema.Struct({ title: Schema.String, body: Schema.String })),
+)
+
+export const resolveThreadTitleLinks = effect (input: { message: string; cwd: string }) =>
+  try withSpan(
+    effect {
+      const providers = try SourceControlProviderRegistry.SourceControlProviderRegistry
+      const links = new Map<string, NonNullable<ReturnType<typeof providers.resolveLink>>>()
+      for (const match of input.message.matchAll(/https:\/\/[^\s<>"')\]`]+/g)) {
+        const candidate = match[0].replace(/[.,;!?]+$/, "")
+        if (!URL.canParse(candidate)) continue
+        const url = new URL(candidate)
+        url.hash = ""
+        url.search = ""
+        if (links.has(url.href)) continue
+        const lookup = providers.resolveLink({ cwd: input.cwd, url })
+        if (!lookup) continue
+        links.set(url.href, lookup)
+        if (links.size === 2) break
+      }
+      const subjects = try Effect.forEach(
+        links,
+        ([url, lookup]) =>
+          lookup
+          |> Effect.flatMap(%, (subject) =>
+            encodeSubject({
+              title: subject.title.slice(0, 300),
+              body: subject.body?.slice(0, 1_200) ?? "",
+            }))
+          |> Effect.map(%, (summary) => `${url}\n${summary}`)
+          |> Effect.timeout(%, "3 seconds")
+          |> Effect.orElseSucceed(%, () => `${url}: unavailable`),
+        { concurrency: 2 },
+      )
+      return subjects.length > 0 ? subjects.join("\n\n") : undefined
+    },
+    "resolveThreadTitleLinks",
+  )

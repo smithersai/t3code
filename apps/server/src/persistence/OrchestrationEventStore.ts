@@ -25,7 +25,7 @@ import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 
-import { replayAndBufferProjectedLiveEvents } from "../orchestration-v2/LiveStreamBudget.ts";
+import { replayAndBufferProjectedLiveEvents } from "../orchestration-v2/LiveStreamBudget.vibe";
 
 import {
   toPersistenceDecodeError,

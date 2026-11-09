@@ -14,12 +14,12 @@ import {
   ThreadId,
 } from "@t3tools/contracts";
 import * as CheckpointDiffQuery from "../checkpointing/CheckpointDiffQuery.ts";
-import * as CheckpointStore from "../checkpointing/CheckpointStore.ts";
+import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { checkpointRefForScopeOrdinal } from "./CheckpointService.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ThreadManagement from "./ThreadManagementService.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as ThreadManagement from "./ThreadManagementService.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 const layerProjection = Layer.mergeAll(
   ProjectionStore.layer.pipe(Layer.provideMerge(SqlitePersistence.layerMemory)),

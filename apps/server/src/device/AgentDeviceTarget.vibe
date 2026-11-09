@@ -1,0 +1,65 @@
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Effect from "effect/Effect"
+import * as Hex from "effect/encoding/Hex"
+import * as Schema from "effect/Schema"
+import * as FileSystem from "effect/FileSystem"
+import * as Path from "effect/Path"
+
+import type { AgentDaemonEndpoint } from "./DeviceHost.vibe"
+
+const encodeEndpoint = Schema.encodeEffect(
+  Schema.fromJsonString(
+    Schema.Struct({ daemonBaseUrl: Schema.String, daemonAuthToken: Schema.String }),
+  ),
+)
+
+const key = effect (value: string) =>
+  try withSpan(
+    effect {
+      const crypto = try Crypto.Crypto
+      const digest = try (crypto
+        .digest("SHA-256", new TextEncoder().encode(value)) |> Effect.orDie(%))
+      return Hex.encode(digest).slice(0, 24)
+    },
+    "AgentDeviceTarget.key",
+  )
+
+/**
+ * A stable file per host lets forwarded endpoints change without retargeting
+ * other commands. Hosts with a daemon per device get a file per device.
+ */
+export const agentDeviceConfigPath = (
+  stateDir: string,
+  hostId: string,
+  path: Path.Path,
+  deviceId?: string,
+) =>
+  key(deviceId === undefined ? hostId : JSON.stringify([hostId, deviceId]))
+  |> Effect.map(%, (hash) => path.join(stateDir, "device", "hosts", `${hash}.json`))
+
+export const agentDeviceSession = (threadId: string, hostId: string, deviceId: string) =>
+  key(JSON.stringify([threadId, hostId, deviceId])) |> Effect.map(%, (hash) => `t3-${hash}`)
+
+export const writeAgentDeviceConfig = effect (
+  file: string,
+  endpoint: AgentDaemonEndpoint,
+) =>
+  try withSpan(
+    effect {
+      const fs = try FileSystem.FileSystem
+      const path = try Path.Path
+      try fs.makeDirectory(path.dirname(file), { recursive: true })
+      const content = try encodeEndpoint({
+        daemonBaseUrl: endpoint.baseUrl,
+        daemonAuthToken: endpoint.token,
+      })
+      if ((fs.readFileString(file) catch () => "") === content) return
+      const temporary = try fs.makeTempFile({ directory: path.dirname(file), prefix: ".endpoint-" })
+      try (effect {
+        try fs.chmod(temporary, 0o600)
+        try fs.writeFileString(temporary, content)
+        try fs.rename(temporary, file)
+      } |> Effect.ensuring(%, fs.remove(temporary, { force: true }) |> Effect.ignore(%)))
+    },
+    "AgentDeviceTarget.writeConfig",
+  )

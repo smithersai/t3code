@@ -14,7 +14,7 @@ import { describe, expect } from "vite-plus/test";
 
 import { checkpointRefForThreadTurn } from "./Utils.vibe";
 import { parseTurnDiffFilesFromNumstat } from "./Diffs.ts";
-import * as CheckpointStore from "./CheckpointStore.ts";
+import * as CheckpointStore from "./CheckpointStore.vibe";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as ServerConfig from "../config.ts";

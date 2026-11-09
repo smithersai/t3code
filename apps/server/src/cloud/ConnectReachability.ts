@@ -18,7 +18,7 @@ import { HttpClient } from "effect/http";
 import { ChildProcessSpawner } from "effect/process";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import { CLOUD_ENDPOINT_RUNTIME_CONFIG } from "./config.ts";
+import { CLOUD_ENDPOINT_RUNTIME_CONFIG } from "./config.vibe";
 import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
 
 // cloudflared finds the edge through the SRV record `_v2-origintunneld._tcp.argotunnel.com`,

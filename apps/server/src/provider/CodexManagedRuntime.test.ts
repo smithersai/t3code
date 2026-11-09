@@ -20,7 +20,7 @@ import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as CodexInstallation from "./CodexInstallation.ts";
 import { makeCodexManagedRuntime } from "./CodexManagedRuntime.ts";
-import * as ProviderCredentialStore from "./ProviderCredentialStore.ts";
+import * as ProviderCredentialStore from "./ProviderCredentialStore.vibe";
 import { codexAppServerArgs } from "./codexLaunchArgs.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

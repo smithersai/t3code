@@ -21,9 +21,9 @@ import {
   type DispatchModeRefusal,
 } from "../orchestration-v2/DispatchModeLimit.vibe";
 import * as PeerForwarding from "../peer/PeerForwarding.ts";
-import { assertNotLinked, assertSameLink, callerLinkOrigin } from "./linkOrigin.ts";
+import { assertNotLinked, assertSameLink, callerLinkOrigin } from "./linkOrigin.vibe";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
-import { resolveInteractionMode, resolveRuntimeMode } from "./delegatedTaskModes.ts";
+import { resolveInteractionMode, resolveRuntimeMode } from "./delegatedTaskModes.vibe";
 import {
   assertFullAccess,
   assertLiveCaller,

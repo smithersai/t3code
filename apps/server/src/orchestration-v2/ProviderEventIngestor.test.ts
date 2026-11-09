@@ -37,11 +37,11 @@ import * as SqlError from "effect/sql/SqlError";
 import * as Stream from "effect/Stream";
 
 import { toolOutputImages } from "@t3tools/shared/toolOutput";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ServerConfig from "../config.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as EventSink from "./EventSink.ts";
-import * as EventStore from "./EventStore.ts";
+import * as EventStore from "./EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderEventIngestor from "./ProviderEventIngestor.ts";

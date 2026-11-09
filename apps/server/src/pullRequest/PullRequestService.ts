@@ -94,8 +94,8 @@ import {
   PullRequestProviderError,
 } from "@t3tools/source-control-core/server/PullRequestProvider";
 import * as PullRequestReadCache from "./PullRequestReadCache.vibe";
-import * as PullRequestProviderRegistry from "./PullRequestProviderRegistry.ts";
-import * as ViewedFiles from "./pullRequestViewedFiles.ts";
+import * as PullRequestProviderRegistry from "./PullRequestProviderRegistry.vibe";
+import * as ViewedFiles from "./pullRequestViewedFiles.vibe";
 import { toChangeBreakdown } from "./pullRequestChangeBreakdown.ts";
 
 export interface PullRequestMergeEvent extends PullRequestRef {

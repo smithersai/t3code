@@ -33,8 +33,8 @@ import * as Stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as SqlitePersistence from "../../persistence/Sqlite.ts";
-import { CommandPolicyCapabilityUnsupportedError } from "../CommandPolicy.ts";
+import * as SqlitePersistence from "../../persistence/Sqlite.vibe";
+import { CommandPolicyCapabilityUnsupportedError } from "../CommandPolicy.vibe";
 import {
   ClaudeAgentSdkQueryRunnerError,
   ClaudeAppendSystemPromptFileError,
@@ -47,12 +47,12 @@ import {
 } from "../Adapters/CodexAdapterV2.ts";
 import { AcpProviderCapabilitiesV2 } from "@t3tools/provider-acp/server/adapter";
 import * as EventSink from "../EventSink.ts";
-import * as EventStore from "../EventStore.ts";
+import * as EventStore from "../EventStore.vibe";
 import * as LegacyV1ThreadImporter from "../legacy/LegacyV1ThreadImporter.ts";
 import * as Orchestrator from "../Orchestrator.ts";
 import * as EffectWorker from "../EffectWorker.ts";
 import * as EffectOutbox from "../EffectOutbox.vibe";
-import * as ProjectionMaintenance from "../ProjectionMaintenance.ts";
+import * as ProjectionMaintenance from "../ProjectionMaintenance.vibe";
 import * as ProjectionStore from "../ProjectionStore.ts";
 import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";

@@ -12,7 +12,7 @@ import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { hashTelemetryId } from "@t3tools/shared/telemetryId";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import { CLOUD_LINKED_USER_ID } from "../cloud/config.ts";
+import { CLOUD_LINKED_USER_ID } from "../cloud/config.vibe";
 import * as ServerConfig from "../config.ts";
 
 /**

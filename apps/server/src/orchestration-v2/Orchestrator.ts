@@ -94,15 +94,15 @@ import * as ProjectStore from "./ProjectStore.ts";
 import {
   isCheckpointRestoreIsolated,
   SHARED_WORKSPACE_RESTORE_MESSAGE,
-} from "./CheckpointRestoreSafety.ts";
+} from "./CheckpointRestoreSafety.vibe";
 import { CheckpointServiceV2 } from "./CheckpointService.vibe";
 import {
   CommandPolicyV2,
   goalCommandStopsActiveRun,
   isNativeMaintenanceCommand,
   resolveMessageDispatchIntent,
-} from "./CommandPolicy.ts";
-import { CommandReceiptStoreV2 } from "./CommandReceiptStore.ts";
+} from "./CommandPolicy.vibe";
+import { CommandReceiptStoreV2 } from "./CommandReceiptStore.vibe";
 import { ContextHandoffServiceV2 } from "./ContextHandoffService.vibe";
 import { notificationTurnItem } from "@t3tools/provider-core/server/notification";
 import {

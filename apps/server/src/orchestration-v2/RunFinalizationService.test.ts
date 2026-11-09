@@ -9,11 +9,11 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
 import * as PullRequestService from "../pullRequest/PullRequestService.ts";
-import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.ts";
+import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.vibe";
 import * as WorkspaceEntries from "../workspace/WorkspaceEntries.ts";
-import * as CheckpointCapture from "./CheckpointCaptureService.ts";
+import * as CheckpointCapture from "./CheckpointCaptureService.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
-import * as RunFinalization from "./RunFinalizationService.ts";
+import * as RunFinalization from "./RunFinalizationService.vibe";
 
 it.effect("completes finalization when the post-checkpoint workspace refresh fails", () => {
   const threadId = ThreadId.make("thread_refresh_failure");

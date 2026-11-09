@@ -20,7 +20,7 @@ import * as TerminalManager from "../terminal/Manager.ts";
 import * as PreviewManager from "../preview/Manager.ts";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
 import * as NodeZlib from "node:zlib";
-import { appendUserInputAttachmentPaths } from "./userInputAttachments.ts";
+import { appendUserInputAttachmentPaths } from "./userInputAttachments.vibe";
 
 vi.mock("node:child_process", { spy: true });
 

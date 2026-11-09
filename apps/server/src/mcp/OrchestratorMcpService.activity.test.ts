@@ -23,10 +23,10 @@ import * as ServerSettings from "../serverSettings.ts";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
 import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as RemoteDelegation from "../peer/RemoteDelegation.ts";
-import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
+import * as RemoteDelegation from "../peer/RemoteDelegation.vibe";
+import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import type * as McpInvocationContext from "./McpInvocationContext.vibe";
-import * as OrchestratorMcpService from "./OrchestratorMcpService.ts";
+import * as OrchestratorMcpService from "./OrchestratorMcpService.vibe";
 import { liveThreadShell } from "./McpToolAccess.testkit.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

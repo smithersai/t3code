@@ -30,9 +30,9 @@ import {
   orchestrationCommandDuration,
   orchestrationCommandsTotal,
 } from "../observability/Metrics.vibe";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as DelegatedTaskQuestionReactor from "./DelegatedTaskQuestionReactor.ts";
+import * as DelegatedTaskQuestionReactor from "./DelegatedTaskQuestionReactor.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as EventSink from "./EventSink.ts";
 import * as Orchestrator from "./Orchestrator.ts";

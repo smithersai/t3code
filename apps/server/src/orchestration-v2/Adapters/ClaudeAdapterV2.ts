@@ -1,5 +1,5 @@
 import * as DocumentText from "../../provider/DocumentText.ts";
-import { makeProviderTextDeltaCoalescer } from "./ProviderTextDeltaCoalescer.ts";
+import { makeProviderTextDeltaCoalescer } from "./ProviderTextDeltaCoalescer.vibe";
 import { claudeTaskOutputRoot, tailClaudeTaskOutput } from "./ClaudeTaskOutputTail.ts";
 import {
   dynamicToolTitle,
@@ -11,7 +11,7 @@ import {
   initialWorkflowAgentTranscriptCursor,
   readWorkflowAgentTranscript,
   type WorkflowAgentTranscriptCursor,
-} from "../workflowAgentTranscript.ts";
+} from "../workflowAgentTranscript.vibe";
 import {
   CLAUDE_WORKFLOW_TASK_TYPE,
   hasClaudeWorkflowSnapshot,
@@ -132,13 +132,13 @@ import {
   planClaudeSkillDispatch,
   type ClaudeSkillTarget,
 } from "../../provider/Drivers/ClaudeSkillDispatch.ts";
-import { discoverClaudeSkills } from "../../provider/Drivers/ClaudeSkills.ts";
+import { discoverClaudeSkills } from "../../provider/Drivers/ClaudeSkills.vibe";
 import {
   compileClaudeModelSelection,
   type CompiledClaudeModelSelection,
 } from "../../claudeModelOptions.ts";
 import * as ServerConfig from "../../config.ts";
-import * as PortScanner from "../../preview/PortScanner.ts";
+import * as PortScanner from "../../preview/PortScanner.vibe";
 import * as ServerSettings from "../../serverSettings.ts";
 import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion";
 import { spawnAndCollect } from "@t3tools/provider-core/server/snapshotProbe";
@@ -147,7 +147,7 @@ import {
   claudeSignedOutMessage,
   makeClaudeEnvironment,
   resolveClaudeHomePath,
-} from "../../provider/Drivers/ClaudeHome.ts";
+} from "../../provider/Drivers/ClaudeHome.vibe";
 import {
   BUNDLED_CLAUDE_MODEL_CATALOG,
   resolveClaudeCatalogContextWindowTokens,
@@ -164,7 +164,7 @@ import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEve
 import {
   claudeRateLimitEventToUpdate,
   type ClaudeScopedLimitNames,
-} from "../../provider/claudeUsageLimits.ts";
+} from "../../provider/claudeUsageLimits.vibe";
 import type { ManagedServerProvider } from "@t3tools/provider-core/server/snapshot";
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";
 import { T3_CODE_ORCHESTRATION_INSTRUCTIONS } from "@t3tools/provider-core/server/orchestrationInstructions";

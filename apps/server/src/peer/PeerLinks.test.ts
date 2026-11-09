@@ -31,7 +31,7 @@ import {
   servePeer,
   type ServedPeer,
 } from "./PeerLinks.testkit.ts";
-import * as PeerMcpClient from "./PeerMcpClient.ts";
+import * as PeerMcpClient from "./PeerMcpClient.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 /** What B's probe saw: the calling client and the modes it may start work with. */

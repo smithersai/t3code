@@ -22,7 +22,7 @@ import {
   attachmentIsPendingUpload,
   claimPendingAttachments,
   releaseClaimedAttachments,
-} from "./AttachmentClaims.ts";
+} from "./AttachmentClaims.vibe";
 
 const layerTest = Layer.mergeAll(NodeServices.layer).pipe(
   Layer.provideMerge(ServerConfig.layerTest(process.cwd(), { prefix: "t3-attachment-claims-" })),

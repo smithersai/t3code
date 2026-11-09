@@ -14,14 +14,14 @@ import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";
 import { McpSchema, McpServer, Tool, Toolkit } from "effect/ai";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import { DispatchModeLimit } from "../orchestration-v2/DispatchModeLimit.vibe";
 import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.ts";
-import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.ts";
+import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
-import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
+import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
 import * as McpHttpServer from "./McpHttpServer.ts";

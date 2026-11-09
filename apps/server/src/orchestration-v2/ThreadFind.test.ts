@@ -20,10 +20,10 @@ import * as Layer from "effect/Layer";
 import * as SqlClient from "effect/sql/SqlClient";
 import * as Stream from "effect/Stream";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProjectStore from "./ProjectStore.ts";
-import * as EventStore from "./EventStore.ts";
+import * as EventStore from "./EventStore.vibe";
 import {
   encodeThreadHistoryCursor,
   selectHistoryPageFromCursor,

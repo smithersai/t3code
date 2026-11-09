@@ -14,7 +14,7 @@ import packageJson from "../../package.json" with { type: "json" };
 import * as ServerConfig from "../config.ts";
 import { resolveBaseDir } from "../os-jank.ts";
 import { buildTriageLaunchPrompt } from "../triage/triagePrompt.ts";
-import { describeServerProcess, writeTriageSession } from "../triage/triageSession.ts";
+import { describeServerProcess, writeTriageSession } from "../triage/triageSession.vibe";
 import { baseDirFlag } from "./config.ts";
 import { interactiveStdin } from "./consoleStdin.ts";
 import { resolveCliCommand } from "./invocation.vibe";

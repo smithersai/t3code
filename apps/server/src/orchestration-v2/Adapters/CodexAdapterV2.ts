@@ -1,11 +1,11 @@
 import * as DocumentText from "../../provider/DocumentText.ts";
-import { revertCodexThread } from "../../provider/CodexThreadRevert.ts";
+import { revertCodexThread } from "../../provider/CodexThreadRevert.vibe";
 import { historyResponseItems } from "@t3tools/provider-core/server/handoffBudget";
-import { makeProviderTextDeltaCoalescer } from "./ProviderTextDeltaCoalescer.ts";
+import { makeProviderTextDeltaCoalescer } from "./ProviderTextDeltaCoalescer.vibe";
 import {
   mcpToolPresentation,
   type McpToolPresentation,
-} from "../../provider/CodexToolPresentation.ts";
+} from "../../provider/CodexToolPresentation.vibe";
 import {
   makeCodexTurnTokenUsageState,
   getCodexTurnAccumulator,

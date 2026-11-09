@@ -16,13 +16,13 @@ import * as Schema from "effect/Schema";
 import packageJson from "../../package.json" with { type: "json" };
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import { resolveServerInstallation } from "../cli/invocation.vibe";
-import { readAgentActivityPublishingActive } from "../cloud/config.ts";
+import { readAgentActivityPublishingActive } from "../cloud/config.vibe";
 import { resolveServerSelfUpdateCapability } from "../cloud/selfUpdate.ts";
 import { resolveServiceLauncherMode } from "../cloud/serviceLauncherClient.ts";
 import * as ServerConfig from "../config.ts";
 import * as ProcessRunner from "../processRunner.ts";
-import { resolveServerEnvironmentLabel } from "./ServerEnvironmentLabel.ts";
-import { detectServerEnvironmentMachineKind } from "./ServerEnvironmentMachine.ts";
+import { resolveServerEnvironmentLabel } from "./ServerEnvironmentLabel.vibe";
+import { detectServerEnvironmentMachineKind } from "./ServerEnvironmentMachine.vibe";
 
 export class ServerEnvironmentIdPersistenceError extends Schema.TaggedError<ServerEnvironmentIdPersistenceError>()(
   "ServerEnvironmentIdPersistenceError",

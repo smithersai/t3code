@@ -18,16 +18,16 @@ import * as Stream from "effect/Stream";
 import * as EffectAcpErrors from "effect-acp/errors";
 import type * as EffectAcpSchema from "effect-acp/compat";
 
-import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
 import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as ProviderHostLive from "./ProviderHostLive.ts";
+import * as ProviderHostLive from "./ProviderHostLive.vibe";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import type * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
 import {
   buildAntigravityModelsFromSession,
   makeAntigravityProvider,
-} from "./AntigravityProvider.ts";
+} from "./AntigravityProvider.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const decodeSettings = Schema.decodeSync(AntigravitySettings);

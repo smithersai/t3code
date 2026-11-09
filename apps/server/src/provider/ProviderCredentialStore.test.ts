@@ -2,7 +2,7 @@ import { assert, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as ProviderCredentialStore from "./ProviderCredentialStore.ts";
+import * as ProviderCredentialStore from "./ProviderCredentialStore.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 it.effect("isolates provider bindings and preserves opaque credentials", () =>

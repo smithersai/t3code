@@ -21,7 +21,7 @@ import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as EventSink from "../orchestration-v2/EventSink.ts";
-import * as EventStore from "../orchestration-v2/EventStore.ts";
+import * as EventStore from "../orchestration-v2/EventStore.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import {
@@ -29,8 +29,8 @@ import {
   CODEX_MODEL_SELECTION,
 } from "../orchestration-v2/testkit/fixtures/shared.ts";
 import * as ProviderSessionRuntime from "../persistence/ProviderSessionRuntime.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as AgentSessionImporter from "./AgentSessionImporter.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as AgentSessionImporter from "./AgentSessionImporter.vibe";
 import * as AgentSessionScanner from "./AgentSessionScanner.ts";
 import * as ProjectService from "./ProjectService.ts";
 

@@ -8,12 +8,12 @@ import { ProjectId } from "@t3tools/contracts";
 
 import * as ServerConfig from "../config.ts";
 import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
-import * as KnownWorkspaces from "../workspace/KnownWorkspaces.ts";
-import * as ReviewService from "./ReviewService.ts";
+import * as KnownWorkspaces from "../workspace/KnownWorkspaces.vibe";
+import * as ReviewService from "./ReviewService.vibe";
 
 function layer(input: {
   readonly workspaceRoot: string;

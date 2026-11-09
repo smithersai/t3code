@@ -1,4 +1,4 @@
-import { pruneLocalDeviceTools } from "./deviceToolMaintenance.ts";
+import { pruneLocalDeviceTools } from "./deviceToolMaintenance.vibe";
 import { deviceToolInstallMessage } from "@t3tools/contracts";
 // The hub runs at origin root; T3 strips its prefix and the Device panel derives stream URLs from it.
 import {
@@ -36,8 +36,8 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite";
 import * as ServerConfig from "../config.ts";
 import * as ProcessRunner from "../processRunner.ts";
-import * as DeviceHost from "./DeviceHost.ts";
-import { makeDeviceHubOperations } from "./DeviceHubOperations.ts";
+import * as DeviceHost from "./DeviceHost.vibe";
+import { makeDeviceHubOperations } from "./DeviceHubOperations.vibe";
 import {
   agentDeviceStateDir,
   type DeviceToolPaths,

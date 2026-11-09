@@ -14,8 +14,8 @@ import * as Path from "effect/Path"
 import * as ServerConfig from "../../../config.ts"
 
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
-import * as DeviceService from "../../../device/DeviceService.ts"
-import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.ts"
+import * as DeviceService from "../../../device/DeviceService.vibe"
+import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.vibe"
 import * as ProjectService from "../../../project/ProjectService.ts"
 
 const dependencies = [

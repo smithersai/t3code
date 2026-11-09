@@ -24,10 +24,10 @@ import * as Tracer from "effect/Tracer";
 import * as SqlClient from "effect/sql/SqlClient";
 import * as Statement from "effect/sql/Statement";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as EventSink from "./EventSink.ts";
-import * as EventStore from "./EventStore.ts";
-import * as ProjectionMaintenance from "./ProjectionMaintenance.ts";
+import * as EventStore from "./EventStore.vibe";
+import * as ProjectionMaintenance from "./ProjectionMaintenance.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
 
 const database = SqlitePersistence.layerMemory;

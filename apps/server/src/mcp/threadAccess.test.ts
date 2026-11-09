@@ -3,7 +3,7 @@ import { EnvironmentId, ThreadId } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
+import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import { liveThreadShell } from "./McpToolAccess.testkit.ts";
 import { readThread } from "./threadAccess.vibe";

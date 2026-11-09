@@ -25,13 +25,13 @@ import * as Stream from "effect/Stream";
 import { McpSchema, McpServer } from "effect/ai";
 
 import { CodexOrchestratorReplayHarness } from "../orchestration-v2/Adapters/CodexAdapterV2.testkit.ts";
-import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.ts";
+import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
 import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
+import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import * as ServerSettings from "../serverSettings.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import { checkpointWorkspace } from "@t3tools/provider-testing/replayWorkspace";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
@@ -43,12 +43,12 @@ import * as ProviderRegistryMock from "../provider/testUtils/providerRegistryMoc
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
-import * as RemoteDelegation from "../peer/RemoteDelegation.ts";
+import * as RemoteDelegation from "../peer/RemoteDelegation.vibe";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as McpHttpServer from "./McpHttpServer.ts";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as PeerForwarding from "../peer/PeerForwarding.ts";
-import * as PeerLinkRequests from "../peer/PeerLinkRequests.ts";
+import * as PeerLinkRequests from "../peer/PeerLinkRequests.vibe";
 import * as PeerLinks from "../peer/PeerLinks.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

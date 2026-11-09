@@ -23,8 +23,8 @@ import type {
 } from "@t3tools/contracts";
 import { GitManagerError } from "@t3tools/contracts";
 
-import * as VcsStatusBroadcaster from "./VcsStatusBroadcaster.ts";
-import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
+import * as VcsStatusBroadcaster from "./VcsStatusBroadcaster.vibe";
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
 import * as GitWorkflowService from "../git/GitWorkflowService.ts";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
 

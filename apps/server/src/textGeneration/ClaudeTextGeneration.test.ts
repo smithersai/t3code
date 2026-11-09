@@ -18,7 +18,7 @@ import {
   SYNTHETIC_CLAUDE_MODEL_CATALOG,
   SYNTHETIC_CLAUDE_STANDARD_MODEL,
 } from "../provider/ClaudeModelCatalog.testFixtures.ts";
-import * as TextGeneration from "./TextGeneration.ts";
+import * as TextGeneration from "./TextGeneration.vibe";
 import { sanitizeThreadTitle } from "@t3tools/provider-core/server/textGenerationUtils";
 import { makeClaudeTextGeneration } from "./ClaudeTextGeneration.vibe";
 import { writeFakeCli } from "@t3tools/provider-testing/fakeCli";

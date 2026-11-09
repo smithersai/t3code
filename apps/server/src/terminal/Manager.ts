@@ -63,8 +63,8 @@ import * as SynchronizedRef from "effect/SynchronizedRef";
 import * as ServerConfig from "../config.ts";
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";
 import { resolveCodexHomeLayout } from "../provider/Drivers/CodexHomeLayout.ts";
-import { makeClaudeEnvironment } from "../provider/Drivers/ClaudeHome.ts";
-import { deriveProviderInstanceConfigMap } from "../provider/ProviderInstanceRegistryHydration.ts";
+import { makeClaudeEnvironment } from "../provider/Drivers/ClaudeHome.vibe";
+import { deriveProviderInstanceConfigMap } from "../provider/ProviderInstanceRegistryHydration.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import {
   increment,
@@ -73,8 +73,8 @@ import {
 } from "../observability/Metrics.vibe";
 import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion";
 import * as ProcessRunner from "../processRunner.ts";
-import * as PortScanner from "../preview/PortScanner.ts";
-import * as NativeTelemetryClient from "../resourceTelemetry/NativeTelemetryClient.ts";
+import * as PortScanner from "../preview/PortScanner.vibe";
+import * as NativeTelemetryClient from "../resourceTelemetry/NativeTelemetryClient.vibe";
 import * as PtyAdapter from "@t3tools/shared/PtyAdapter";
 
 export {

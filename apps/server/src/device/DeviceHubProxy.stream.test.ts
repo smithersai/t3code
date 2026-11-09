@@ -11,7 +11,7 @@ import {
   LOCAL_DEVICE_HOST_ID,
 } from "@t3tools/contracts";
 import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
-import * as DeviceService from "./DeviceService.ts";
+import * as DeviceService from "./DeviceService.vibe";
 import * as DeviceHubProxy from "./DeviceHubProxy.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

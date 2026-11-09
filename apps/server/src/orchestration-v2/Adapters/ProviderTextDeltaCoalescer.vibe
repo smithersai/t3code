@@ -1,0 +1,156 @@
+import * as Duration from "effect/Duration"
+import * as Effect from "effect/Effect"
+import * as Ref from "effect/Ref"
+import * as Scope from "effect/Scope"
+import * as Semaphore from "effect/Semaphore"
+
+export interface ProviderTextDeltaUpdate {
+  readonly turnId: string
+  readonly itemId: string
+  readonly text: string
+  readonly completed: boolean
+}
+
+export interface ProviderTextDeltaCoalescer {
+  readonly append: (input: {
+    readonly turnId: string
+    readonly itemId: string
+    readonly delta: string
+  }) => void!!
+  readonly complete: (input: {
+    readonly turnId: string
+    readonly itemId: string
+    readonly finalText?: string
+    readonly emitEmpty?: boolean
+  }) => string!!
+  readonly flushTurn: (turnId: string) => void!!
+}
+
+interface BufferedProviderText {
+  readonly turnId: string
+  readonly itemId: string
+  readonly text: string
+  readonly dirty: boolean
+}
+
+function providerTextBufferKey(turnId: string, itemId: string): string {
+  return `${turnId}\u0000${itemId}`
+}
+
+export const makeProviderTextDeltaCoalescer = effect (
+  input: { readonly flushIntervalMs: number; readonly emit: (update: ProviderTextDeltaUpdate) => void!! },
+): ProviderTextDeltaCoalescer!never!Scope.Scope =>
+  try withSpan(
+    (effect (): ProviderTextDeltaCoalescer!never!Scope.Scope => {
+      const buffered = try Ref.make(new Map<string, BufferedProviderText>())
+      const flushScheduled = try Ref.make(false)
+      const flushLock = try Semaphore.make(1)
+      const coalescerScope = try Effect.scope
+
+      const drain = (options: {
+        readonly predicate: (message: BufferedProviderText) => boolean
+        readonly completed: boolean
+        readonly onlyDirty: boolean
+        readonly releaseSchedule?: boolean
+      }) =>
+        flushLock.withPermit(
+          effect {
+            const current = try Ref.get(buffered)
+            const updates: Array<ProviderTextDeltaUpdate> = []
+            for (const message of current.values()) {
+              if (!options.predicate(message) || (options.onlyDirty && !message.dirty)) {
+                continue
+              }
+              updates.push({
+                turnId: message.turnId,
+                itemId: message.itemId,
+                text: message.text,
+                completed: options.completed,
+              })
+            }
+            const emitUpdates = Effect.forEach(updates, input.emit, { discard: true })
+            try (options.releaseSchedule === true
+              ? (emitUpdates |> Effect.ensuring(%, Ref.set(flushScheduled, false)))
+              : emitUpdates)
+            try Ref.update(buffered, (current) => {
+              const next = new Map(current)
+              for (const [key, message] of current) {
+                if (!options.predicate(message) || (options.onlyDirty && !message.dirty)) {
+                  continue
+                }
+                if (options.completed) {
+                  next.delete(key)
+                } else {
+                  next.set(key, { ...message, dirty: false })
+                }
+              }
+              return next
+            })
+          },
+        )
+
+      const flushDirty = drain({
+        predicate: () => true,
+        completed: false,
+        onlyDirty: true,
+        releaseSchedule: true,
+      })
+
+      return {
+        append: ({ turnId, itemId, delta }) =>
+          delta.length === 0
+            ? Effect.void
+            : Effect.uninterruptible(
+              effect {
+                const shouldSchedule = try flushLock.withPermit(
+                  effect {
+                    try Ref.update(buffered, (current) => {
+                      const key = providerTextBufferKey(turnId, itemId)
+                      const existing = current.get(key)
+                      const next = new Map(current)
+                      next.set(key, {
+                        turnId,
+                        itemId,
+                        text: `${existing?.text ?? ""}${delta}`,
+                        dirty: true,
+                      })
+                      return next
+                    })
+                    return try Ref.modify(flushScheduled, (scheduled) => [!scheduled, true])
+                  },
+                )
+                if (shouldSchedule) {
+                  try (Effect.sleep(Duration.millis(Math.max(1, input.flushIntervalMs)))
+                    |> Effect.andThen(%, flushDirty)
+                    |> Effect.interruptible(%)
+                    |> Effect.forkIn(%, coalescerScope))
+                }
+              },
+            ),
+        complete: ({ turnId, itemId, finalText, emitEmpty = true }) =>
+          flushLock.withPermit(
+            effect {
+              const key = providerTextBufferKey(turnId, itemId)
+              const existing = (try Ref.get(buffered)).get(key)
+              const text = finalText !== undefined ? finalText : (existing?.text ?? "")
+              if (emitEmpty || text.length > 0) {
+                try input.emit({ turnId, itemId, text, completed: true })
+              }
+              try Ref.update(buffered, (current) => {
+                const next = new Map(current)
+                next.delete(key)
+                return next
+              })
+              return text
+            },
+          ),
+        flushTurn: (turnId) =>
+          drain({
+            predicate: (message) => message.turnId === turnId,
+            completed: true,
+            onlyDirty: false,
+          }),
+      }
+    })(),
+    "makeProviderTextDeltaCoalescer",
+  )

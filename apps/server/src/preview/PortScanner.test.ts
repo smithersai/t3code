@@ -23,7 +23,7 @@ import { expect, vi } from "vite-plus/test";
 import { FetchHttpClient } from "effect/http";
 
 import * as ProcessRunner from "../processRunner.ts";
-import * as PortScanner from "./PortScanner.ts";
+import * as PortScanner from "./PortScanner.vibe";
 
 vi.mock("@t3tools/provider-core/server/processGroup", { spy: true });
 

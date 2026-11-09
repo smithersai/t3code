@@ -42,7 +42,7 @@ if (
     // Windows desktop launches without stdin; attach before reading, except on fast paths using pipes.
     const { attachConsoleStdin } = await import("./cli/consoleStdin.ts");
     attachConsoleStdin();
-    const { runCli } = await import("./binCli.ts");
+    const { runCli } = await import("./binCli.vibe");
     runCli();
   }
 }

@@ -1,6 +1,6 @@
 import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
-import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
+import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import { expect, it } from "@effect/vitest";
 import { NodeHttpServer } from "@effect/platform-node";
 import * as NodeServices from "@effect/platform-node/NodeServices";
@@ -33,7 +33,7 @@ import * as McpToolAccess from "./McpToolAccess.ts";
 import * as McpToolAccessTestkit from "./McpToolAccess.testkit.ts";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as McpSessionRegistry from "./McpSessionRegistry.ts";
-import * as OrchestratorMcpService from "./OrchestratorMcpService.ts";
+import * as OrchestratorMcpService from "./OrchestratorMcpService.vibe";
 import * as PreviewAutomationBroker from "./PreviewAutomationBroker.ts";
 import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.vibe";
 import { PreviewToolkit } from "./toolkits/preview/tools.vibe";

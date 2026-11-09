@@ -24,10 +24,10 @@ import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import {
   isAntigravityTextGenerationAvailable,
   makeAntigravityTextGeneration,
-} from "../../textGeneration/AntigravityTextGeneration.ts";
+} from "../../textGeneration/AntigravityTextGeneration.vibe";
 import { makeAntigravityAuth, type AntigravityAuth } from "../AntigravityAuth.vibe";
 import * as AntigravityInstallation from "../AntigravityInstallation.ts";
-import * as AntigravityUsage from "./AntigravityUsage.ts";
+import * as AntigravityUsage from "./AntigravityUsage.vibe";
 import {
   antigravityAuthConfigIssue,
   antigravityAuthLabel,
@@ -47,14 +47,14 @@ import type { ServerProviderDraft } from "@t3tools/provider-core/server/snapshot
 import {
   removeAntigravityRuntimeTempDirs,
   removeAntigravitySessionFiles,
-} from "../acp/AntigravitySessionFiles.ts";
+} from "../acp/AntigravitySessionFiles.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
 import { makeAntigravityAdapterV2 } from "../../orchestration-v2/Adapters/AntigravityAdapterV2.ts";
 import { makeAcpNativeLoggerFactory } from "@t3tools/provider-acp/server/nativeLogging";
 import { ProviderDriverError } from "../Errors.vibe";
-import { makeAntigravityProvider } from "../AntigravityProvider.ts";
-import { makeAntigravityUsageProbe } from "../antigravityUsageLimits.ts";
+import { makeAntigravityProvider } from "../AntigravityProvider.vibe";
+import { makeAntigravityUsageProbe } from "../antigravityUsageLimits.vibe";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import * as ModelCatalog from "@t3tools/provider-core/server/ModelCatalog";
 import {

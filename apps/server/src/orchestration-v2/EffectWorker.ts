@@ -16,16 +16,16 @@ import {
   orchestrationEffectClaimsTotal,
   orchestrationEffectQueueWait,
 } from "../observability/Metrics.vibe";
-import * as RunFinalizationService from "./RunFinalizationService.ts";
+import * as RunFinalizationService from "./RunFinalizationService.vibe";
 import * as ResourceCleanupService from "./ResourceCleanupService.ts";
 import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as CheckpointRollbackService from "./CheckpointRollbackService.ts";
 import * as ProviderSessionManager from "./ProviderSessionManager.ts";
 import * as ProviderTurnControlService from "./ProviderTurnControlService.ts";
 import * as ProviderTurnStartService from "./ProviderTurnStartService.vibe";
-import * as RuntimeRequestService from "./RuntimeRequestService.ts";
+import * as RuntimeRequestService from "./RuntimeRequestService.vibe";
 import * as ThreadTitleRegenerationService from "./ThreadTitleRegenerationService.ts";
-import * as ThreadManagementService from "./ThreadManagementService.ts";
+import * as ThreadManagementService from "./ThreadManagementService.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import { continueRestartedRun } from "./RestartContinuation.ts";
 

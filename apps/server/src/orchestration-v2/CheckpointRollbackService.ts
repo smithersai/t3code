@@ -19,12 +19,12 @@ import * as Schema from "effect/Schema";
 import * as GitWorkflowService from "../git/GitWorkflowService.ts";
 import type * as ServerConfig from "../config.ts";
 import type * as ServerSettings from "../serverSettings.ts";
-import { makeIsManagedWorktreePath } from "../worktreesDirectory.ts";
+import { makeIsManagedWorktreePath } from "../worktreesDirectory.vibe";
 import { withWorkspaceLease } from "../workspace/workspaceLease.vibe";
 import {
   isCheckpointRestoreIsolated,
   SHARED_WORKSPACE_RESTORE_MESSAGE,
-} from "./CheckpointRestoreSafety.ts";
+} from "./CheckpointRestoreSafety.vibe";
 import { CheckpointRestoreError, CheckpointServiceV2 } from "./CheckpointService.vibe";
 import { EventSinkV2 } from "./EventSink.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";

@@ -23,14 +23,14 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import { replayAndBufferProjectedLiveEvents } from "./LiveStreamBudget.ts";
+import { replayAndBufferProjectedLiveEvents } from "./LiveStreamBudget.vibe";
 import type { UnsequencedProjectEvent } from "../persistence/OrchestrationEventStore.ts";
 import { projectDomainEventForWire } from "./WireProjection.ts";
-import { makeRunOutcomeRecorder, type RunOutcome } from "./RunMetrics.ts";
+import { makeRunOutcomeRecorder, type RunOutcome } from "./RunMetrics.vibe";
 
-import * as CommandReceiptStore from "./CommandReceiptStore.ts";
+import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";
-import * as EventStore from "./EventStore.ts";
+import * as EventStore from "./EventStore.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProjectStore from "./ProjectStore.ts";
 import * as TurnItemPositionStore from "./TurnItemPositionStore.ts";

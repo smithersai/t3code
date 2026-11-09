@@ -7,10 +7,10 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as EventStore from "../../orchestration-v2/EventStore.ts";
+import * as EventStore from "../../orchestration-v2/EventStore.vibe";
 import * as ProjectionStore from "../../orchestration-v2/ProjectionStore.ts";
-import * as ProjectionMaintenance from "../../orchestration-v2/ProjectionMaintenance.ts";
-import { listLinkedPullRequestThreads } from "../../pullRequest/linkedThreads.ts";
+import * as ProjectionMaintenance from "../../orchestration-v2/ProjectionMaintenance.vibe";
+import { listLinkedPullRequestThreads } from "../../pullRequest/linkedThreads.vibe";
 import { runMigrations } from "../Migrations.vibe";
 
 const decodeThread = Schema.decodeSync(Schema.fromJsonString(OrchestrationV2AppThreadJson));

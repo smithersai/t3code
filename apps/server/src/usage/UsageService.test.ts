@@ -37,17 +37,17 @@ import { HttpClient, HttpClientError, HttpClientRequest, HttpClientResponse } fr
 
 import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as Sqlite from "../persistence/Sqlite.ts";
+import * as Sqlite from "../persistence/Sqlite.vibe";
 import * as CodexUsageHistory from "./CodexUsageHistory.vibe";
 import * as CursorAccountReader from "@t3tools/provider-cursor/server/CursorAccountReader";
 import * as CursorKeychain from "@t3tools/provider-cursor/server/CursorKeychain";
 import * as CursorUsageAccounts from "@t3tools/provider-cursor/server/CursorUsageAccounts";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
-import * as AntigravityUsage from "../provider/Drivers/AntigravityUsage.ts";
-import * as ProviderHostLive from "../provider/ProviderHostLive.ts";
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
+import * as AntigravityUsage from "../provider/Drivers/AntigravityUsage.vibe";
+import * as ProviderHostLive from "../provider/ProviderHostLive.vibe";
 import { totalTokens, type UsageRecord } from "@t3tools/provider-core/server/usage";
-import * as UsageService from "./UsageService.ts";
+import * as UsageService from "./UsageService.vibe";
 import * as MuseSdk from "../../../../packages/provider-muse/src/server/sdk.ts";
 import { MuseUsageHome } from "@t3tools/provider-muse/server";
 import { encodeScanCache, SCAN_CACHE_FILE_NAME } from "./usageScanCache.vibe";

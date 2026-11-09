@@ -28,11 +28,11 @@ import { HttpClient, HttpClientResponse } from "effect/http";
 import * as ServerConfig from "../config.ts";
 import * as ProcessRunner from "../processRunner.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as DeviceHost from "./DeviceHost.ts";
-import { makeDeviceHubOperations } from "./DeviceHubOperations.ts";
+import * as DeviceHost from "./DeviceHost.vibe";
+import { makeDeviceHubOperations } from "./DeviceHubOperations.vibe";
 import { NodeRuntimeUnavailableError } from "@t3tools/shared/nodeRuntime";
 
-import * as DeviceService from "./DeviceService.ts";
+import * as DeviceService from "./DeviceService.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const decodeJson = Schema.decodeUnknownSync(Schema.fromJsonString(Schema.Unknown));

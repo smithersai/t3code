@@ -32,12 +32,12 @@ import {
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_ISSUER_SECRET,
   RELAY_URL_SECRET,
-} from "../cloud/config.ts";
+} from "../cloud/config.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
-import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
+import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
-import * as AgentAwarenessRelay from "./AgentAwarenessRelay.ts";
+import * as AgentAwarenessRelay from "./AgentAwarenessRelay.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const THREAD_ID = ThreadId.make("relay-thread");

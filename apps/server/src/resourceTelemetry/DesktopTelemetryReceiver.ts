@@ -28,7 +28,7 @@ import * as Ndjson from "effect/encoding/Ndjson";
 
 import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import { subscribeBeforeSnapshotWithoutMutex } from "../utils/subscribeBeforeSnapshot.ts";
+import { subscribeBeforeSnapshotWithoutMutex } from "../utils/subscribeBeforeSnapshot.vibe";
 
 const INITIAL_SAMPLE_DEADLINE_MS = 90_000;
 const MIN_SNAPSHOT_STALE_AFTER_MS = 90_000;

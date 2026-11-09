@@ -26,7 +26,7 @@ import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 import { HttpClient, HttpClientResponse } from "effect/http";
 
-import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
 import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import { ClaudeDriver, type ClaudeDriverEnv } from "./Drivers/ClaudeDriver.ts";
@@ -36,8 +36,8 @@ import * as ResetCreditCoordinator from "./resetCreditCoordinator.ts";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import { makeProviderInstanceRegistry } from "./ProviderInstanceRegistry.ts";
 import * as ProviderOrchestrationAdapterInfrastructure from "./ProviderOrchestrationAdapterInfrastructure.vibe";
-import * as PortScanner from "../preview/PortScanner.ts";
-import * as ProviderHostLive from "./ProviderHostLive.ts";
+import * as PortScanner from "../preview/PortScanner.vibe";
+import * as ProviderHostLive from "./ProviderHostLive.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("@anthropic-ai/claude-agent-sdk", { spy: true });

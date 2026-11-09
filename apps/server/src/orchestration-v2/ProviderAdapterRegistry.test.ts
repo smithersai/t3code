@@ -19,7 +19,7 @@ import type * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 
 import * as ProviderAuthFlow from "@t3tools/provider-core/server/providerAuthFlow";
-import type { ProviderAuthController } from "../provider/ProviderAuthService.ts";
+import type { ProviderAuthController } from "../provider/ProviderAuthService.vibe";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
 import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.ts";
 import {

@@ -15,7 +15,7 @@ import { HttpClient, HttpClientError, HttpClientRequest, HttpClientResponse } fr
 
 import { codexPlanLabel } from "../provider/CodexProvider.ts";
 import { codexRateLimitsToLimits } from "../provider/codexUsageLimits.vibe";
-import { claudeUsageResponseToLimits } from "../provider/claudeUsageLimits.ts";
+import { claudeUsageResponseToLimits } from "../provider/claudeUsageLimits.vibe";
 import { makeUnavailableUsageLimits } from "@t3tools/provider-core/server/usageLimits";
 
 const AuthFile = Schema.Struct({

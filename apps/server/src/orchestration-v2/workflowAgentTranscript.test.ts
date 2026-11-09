@@ -10,7 +10,7 @@ import { assert } from "vite-plus/test";
 import {
   initialWorkflowAgentTranscriptCursor,
   readWorkflowAgentTranscript,
-} from "./workflowAgentTranscript.ts";
+} from "./workflowAgentTranscript.vibe";
 
 const line = (value: unknown) => `${JSON.stringify(value)}\n`;
 const assistant = (uuid: string, text: string) =>

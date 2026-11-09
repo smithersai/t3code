@@ -27,11 +27,11 @@ import {
   OrchestratorDispatchError,
   OrchestratorProjectionError,
 } from "../orchestration-v2/Orchestrator.ts";
-import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
+import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.ts";
+import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.vibe";
 import type * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as WorktreeMcpService from "./WorktreeMcpService.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

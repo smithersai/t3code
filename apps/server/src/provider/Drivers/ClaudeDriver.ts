@@ -22,9 +22,9 @@ import {
   type ClaudeAdapterV2DriverEnv,
 } from "../../orchestration-v2/Adapters/ClaudeAdapterV2.ts";
 import { ProviderDriverError } from "../Errors.vibe";
-import { claudeUsageReader } from "./claudeUsage.ts";
-import { makeClaudeScopedLimitNames } from "../claudeUsageLimits.ts";
-import * as ClaudeResetCredits from "../claudeResetCredits.ts";
+import { claudeUsageReader } from "./claudeUsage.vibe";
+import { makeClaudeScopedLimitNames } from "../claudeUsageLimits.vibe";
+import * as ClaudeResetCredits from "../claudeResetCredits.vibe";
 import * as ResetCreditCoordinator from "../resetCreditCoordinator.ts";
 import {
   checkClaudeProviderStatus,
@@ -59,7 +59,7 @@ import {
   makeClaudeCapabilitiesCacheKey,
   makeClaudeContinuationGroupKey,
   resolveClaudeHomePath,
-} from "./ClaudeHome.ts";
+} from "./ClaudeHome.vibe";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 const decodeClaudeSettings = Schema.decodeSync(ClaudeSettings);
 

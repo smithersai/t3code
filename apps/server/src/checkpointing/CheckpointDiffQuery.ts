@@ -14,7 +14,7 @@ import * as Schema from "effect/Schema";
 
 import { CHECKPOINT_DIFF_MAX_OUTPUT_BYTES } from "../vcs/VcsDriver.ts";
 import { checkpointRefForScopeOrdinal } from "../orchestration-v2/CheckpointService.vibe";
-import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
+import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
 import {
   CheckpointDiffResultInvalidError,
   CheckpointRefUnavailableError,
@@ -23,7 +23,7 @@ import {
   CheckpointWorkspacePathMissingError,
   type CheckpointServiceError,
 } from "./Errors.vibe";
-import * as CheckpointStore from "./CheckpointStore.ts";
+import * as CheckpointStore from "./CheckpointStore.vibe";
 import { isGitImport, parseTurnDiffFilesFromNumstat, type TurnDiffFileSummary } from "./Diffs.ts";
 
 // Windows limits a command line to 32,767 characters. Leave room for the rest of git's arguments.

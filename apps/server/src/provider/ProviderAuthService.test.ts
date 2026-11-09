@@ -24,7 +24,7 @@ import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ProviderSessionManager from "../orchestration-v2/ProviderSessionManager.ts";
 import { AcpProviderCapabilitiesV2 } from "@t3tools/provider-acp/server/adapter";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
-import * as ProviderAuthService from "./ProviderAuthService.ts";
+import * as ProviderAuthService from "./ProviderAuthService.vibe";
 import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.ts";
 
 const instanceId = ProviderInstanceId.make("antigravity-personal");

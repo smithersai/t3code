@@ -20,11 +20,11 @@ import * as Metric from "effect/Metric";
 import * as Option from "effect/Option";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as EventSink from "./EventSink.ts";
-import * as EventStore from "./EventStore.ts";
+import * as EventStore from "./EventStore.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
-import { makeRunOutcomeRecorder } from "./RunMetrics.ts";
+import { makeRunOutcomeRecorder } from "./RunMetrics.vibe";
 
 const at = (iso: string) => DateTime.makeUnsafe(iso);
 const threadId = ThreadId.make("thread:metrics");

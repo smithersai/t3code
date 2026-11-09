@@ -8,7 +8,7 @@ import { it as effectIt } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import { afterAll, assert, describe } from "vite-plus/test";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
-import { readWorkflowScript } from "./workflowScriptQuery.ts";
+import { readWorkflowScript } from "./workflowScriptQuery.vibe";
 
 const root = NodePath.join(NodeOS.homedir(), ".claude", "projects", "__wf_script_test__");
 NodeFS.mkdirSync(root, { recursive: true });

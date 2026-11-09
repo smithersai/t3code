@@ -12,7 +12,7 @@ import * as Layer from "effect/Layer";
 import { McpSchema, McpServer } from "effect/ai";
 
 import * as ServerConfig from "../config.ts";
-import * as DeviceService from "../device/DeviceService.ts";
+import * as DeviceService from "../device/DeviceService.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as McpHttpServer from "./McpHttpServer.ts";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";

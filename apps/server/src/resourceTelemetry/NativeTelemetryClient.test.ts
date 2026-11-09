@@ -10,7 +10,7 @@ import * as Semaphore from "effect/Semaphore";
 import {
   commitCollectionControlUpdate,
   synchronizeCollectionControlOnStart,
-} from "./NativeTelemetryClient.ts";
+} from "./NativeTelemetryClient.vibe";
 
 const basePower: HostPowerSnapshot = {
   source: "electron-main",

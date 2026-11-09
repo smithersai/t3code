@@ -21,7 +21,7 @@ import * as ServerConfig from "../config.ts";
 import {
   claimPendingAttachments,
   releaseClaimedAttachments,
-} from "../orchestration-v2/AttachmentClaims.ts";
+} from "../orchestration-v2/AttachmentClaims.vibe";
 import {
   ATTACHMENT_UPLOAD_ROUTE_PREFIX,
   deletePendingAttachment,

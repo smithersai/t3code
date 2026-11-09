@@ -12,8 +12,8 @@ import packageJson from "../../package.json" with { type: "json" };
 import * as ServerConfig from "../config.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as TriageService from "./TriageService.ts";
-import { pickSourceRef } from "./TriageService.ts";
+import * as TriageService from "./TriageService.vibe";
+import { pickSourceRef } from "./TriageService.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const MAIN = "a1dc856ee61278d0199c36d4bcdef5fdea4d21fe\trefs/heads/main";

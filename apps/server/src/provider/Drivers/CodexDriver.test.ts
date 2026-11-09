@@ -23,7 +23,7 @@ import { HttpClient, HttpClientResponse } from "effect/http";
 import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import * as BackgroundPolicy from "../../background/BackgroundPolicy.ts";
+import * as BackgroundPolicy from "../../background/BackgroundPolicy.vibe";
 import * as ServerConfig from "../../config.ts";
 import * as ServerSettings from "../../serverSettings.ts";
 import * as ResetCreditCoordinator from "../resetCreditCoordinator.ts";
@@ -39,8 +39,8 @@ import { CodexDriver } from "./CodexDriver.ts";
 import * as CodexAdapterV2 from "../../orchestration-v2/Adapters/CodexAdapterV2.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import * as ProviderCredentialStore from "../ProviderCredentialStore.ts";
-import * as ProviderHostLive from "../ProviderHostLive.ts";
+import * as ProviderCredentialStore from "../ProviderCredentialStore.vibe";
+import * as ProviderHostLive from "../ProviderHostLive.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerDeps = ServerConfig.layerTest(process.cwd(), {

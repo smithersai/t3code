@@ -17,7 +17,7 @@ import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as GitWorkflowService from "../git/GitWorkflowService.ts";
 import * as CheckpointRollbackService from "./CheckpointRollbackService.ts";
-import { isCheckpointRestoreIsolated } from "./CheckpointRestoreSafety.ts";
+import { isCheckpointRestoreIsolated } from "./CheckpointRestoreSafety.vibe";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import { CheckpointServiceV2 } from "./CheckpointService.vibe";
 import { EventSinkV2 } from "./EventSink.ts";

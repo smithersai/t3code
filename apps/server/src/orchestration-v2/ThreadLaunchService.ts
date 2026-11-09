@@ -45,14 +45,14 @@ import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.t
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as TextGeneration from "../textGeneration/TextGeneration.ts";
-import * as CommandReceiptStore from "./CommandReceiptStore.ts";
+import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
+import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import type * as Orchestrator from "./Orchestrator.ts";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
 import { randomUuidV4 } from "@t3tools/provider-core/server/randomUuid";
 import { DispatchModeLimit } from "./DispatchModeLimit.vibe";
-import * as ThreadManagement from "./ThreadManagementService.ts";
+import * as ThreadManagement from "./ThreadManagementService.vibe";
 
 export type ThreadLaunchWorkspaceStrategy =
   | { readonly type: "root"; readonly branch?: string | undefined }

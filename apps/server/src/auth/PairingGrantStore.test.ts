@@ -13,8 +13,8 @@ import {
 } from "@t3tools/shared/desktopBootstrapToken";
 
 import * as ServerConfig from "../config.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as PairingGrantStore from "./PairingGrantStore.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as PairingGrantStore from "./PairingGrantStore.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerServerConfig = (

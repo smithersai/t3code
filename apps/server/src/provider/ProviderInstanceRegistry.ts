@@ -17,7 +17,7 @@ import * as Schema from "effect/Schema";
 import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 
-import { buildUnavailableProviderSnapshot } from "./unavailableProviderSnapshot.ts";
+import { buildUnavailableProviderSnapshot } from "./unavailableProviderSnapshot.vibe";
 import * as ProviderInstanceRegistryMutator from "./ProviderInstanceRegistryMutator.vibe";
 import type { AnyProviderDriver, ProviderInstance } from "@t3tools/provider-core/server/driver";
 

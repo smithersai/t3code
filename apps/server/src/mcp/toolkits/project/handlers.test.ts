@@ -20,7 +20,7 @@ import * as Stream from "effect/Stream";
 
 import * as DocumentText from "../../../provider/DocumentText.ts";
 import * as ThreadLaunch from "../../../orchestration-v2/ThreadLaunchService.ts";
-import * as ThreadManagement from "../../../orchestration-v2/ThreadManagementService.ts";
+import * as ThreadManagement from "../../../orchestration-v2/ThreadManagementService.vibe";
 import * as ServerConfig from "../../../config.ts";
 import * as ServerSettings from "../../../serverSettings.ts";
 import * as Project from "../../../project/ProjectService.ts";

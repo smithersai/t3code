@@ -23,7 +23,7 @@ import {
   resolveClaudeModelSlug,
   scopeClaudeModelCatalog,
 } from "../provider/ClaudeModelCatalog.vibe"
-import { hasClaudeManagedMcpConfig, makeClaudeEnvironment } from "../provider/Drivers/ClaudeHome.ts"
+import { hasClaudeManagedMcpConfig, makeClaudeEnvironment } from "../provider/Drivers/ClaudeHome.vibe"
 
 const CLAUDE_TIMEOUT_MS = 180_000
 /** `--tools` takes bare names; patterns go in the allow list. */

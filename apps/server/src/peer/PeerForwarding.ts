@@ -18,12 +18,12 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import type * as Tool from "effect/ai/Tool";
 
-import { assertNotLinked } from "../mcp/linkOrigin.ts";
+import { assertNotLinked } from "../mcp/linkOrigin.vibe";
 import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
 import { readCaller, unavailable } from "../mcp/threadAccess.vibe";
-import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
+import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
 import * as PeerLinks from "./PeerLinks.ts";
-import * as PeerMcpClient from "./PeerMcpClient.ts";
+import * as PeerMcpClient from "./PeerMcpClient.vibe";
 
 /**
  * A peer's `/mcp` holds a wait open for its whole timeout without sending

@@ -1,0 +1,47 @@
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Schedule from "effect/Schedule"
+import * as Stream from "effect/Stream"
+
+import * as CloudManagedEndpointRuntime from "../cloud/ManagedEndpointRuntime.vibe"
+import { readHoldWebhooksWhileOffline, readRelayConnection } from "../cloud/config.vibe"
+import * as ServerEnvironment from "../environment/ServerEnvironment.ts"
+import { makeRelayEnvironmentClient } from "./relayEnvironmentClient.vibe"
+
+const wakeHeldHooks = effect () =>
+  try withSpan(
+    effect {
+      if (!(try readHoldWebhooksWhileOffline)) return false
+      const connection = try readRelayConnection
+      if (connection === null) return false
+      const environmentId = try (try ServerEnvironment.ServerEnvironment).getEnvironmentId
+      const client = try makeRelayEnvironmentClient(connection)
+      const { pending } = try client.server.wakeHeldHooks({ params: { environmentId } })
+      try Effect.annotateCurrentSpan({ "relay.inbox.pending": pending })
+      return pending
+    },
+    "HeldHooksWaker.wake",
+  )
+
+export const layer = Layer.effectDiscard(
+  effect {
+    const runtime = try CloudManagedEndpointRuntime.CloudManagedEndpointRuntime
+    const wake = (() => {
+      const pipe$program = wakeHeldHooks()
+      const pipe$stage0 = Effect.timeout("10 seconds")
+      const pipe$stage1 = Effect.retry({ schedule: Schedule.exponential("2 seconds"), times: 3 })
+      const pipe$stage2 = Effect.tap((pending) =>
+        pending ? Effect.logInfo("T3 Connect is delivering held webhook requests") : Effect.void
+      )
+      const pipe$stage3 = Effect.catchCause((cause) =>
+        Effect.logWarning("Could not ask T3 Connect to deliver held webhook requests", { cause })
+      )
+      return pipe$program |> pipe$stage0(%) |> pipe$stage1(%) |> pipe$stage2(%) |> pipe$stage3(%)
+    })()
+    try (runtime.tunnelConnected
+      // Coalesce cloudflared's several connections per reconnect into one wake.
+      |> Stream.debounce(%, "3 seconds")
+      |> Stream.runForEach(%, () => wake)
+      |> Effect.forkScoped(%))
+  },
+)

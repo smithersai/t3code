@@ -9,7 +9,7 @@ import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as OrchestrationEventStore from "./OrchestrationEventStore.ts";
-import * as SqlitePersistence from "./Sqlite.ts";
+import * as SqlitePersistence from "./Sqlite.vibe";
 
 const layerEventStore = OrchestrationEventStore.layer.pipe(
   Layer.provideMerge(SqlitePersistence.layerMemory),

@@ -10,8 +10,8 @@ import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
 
 import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.ts";
-import * as NativeTelemetryClient from "../resourceTelemetry/NativeTelemetryClient.ts";
-import * as ResourceAttribution from "../resourceTelemetry/ResourceAttribution.ts";
+import * as NativeTelemetryClient from "../resourceTelemetry/NativeTelemetryClient.vibe";
+import * as ResourceAttribution from "../resourceTelemetry/ResourceAttribution.vibe";
 import * as ResourceTelemetry from "../resourceTelemetry/ResourceTelemetry.ts";
 import * as ProcessDiagnostics from "./ProcessDiagnostics.ts";
 

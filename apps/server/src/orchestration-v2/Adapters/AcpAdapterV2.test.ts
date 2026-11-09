@@ -87,7 +87,7 @@ import {
   type AcpAdapterV2SubagentUpdate,
 } from "@t3tools/provider-acp/server/adapter";
 
-import { appendUserInputAttachmentPaths } from "../../provider/userInputAttachments.ts";
+import { appendUserInputAttachmentPaths } from "../../provider/userInputAttachments.vibe";
 
 import { makeGrokAcpAdapterFlavor } from "@t3tools/provider-grok/testing";
 import {

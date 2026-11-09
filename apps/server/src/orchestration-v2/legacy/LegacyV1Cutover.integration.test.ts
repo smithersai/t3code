@@ -27,7 +27,7 @@ import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import { runMigrations } from "../../persistence/Migrations.vibe";
-import * as SqlitePersistence from "../../persistence/Sqlite.ts";
+import * as SqlitePersistence from "../../persistence/Sqlite.vibe";
 import Migration0042 from "../../persistence/Migrations/042_ProjectionThreadLinkedPullRequest.vibe";
 import Migration0043 from "../../persistence/Migrations/043_ProjectionThreadsUnsettledAt.vibe";
 import Migration0044 from "../../persistence/Migrations/044_ClearAutomaticProjectModelDefaults.vibe";
@@ -39,10 +39,10 @@ import Migration0049 from "../../persistence/Migrations/049_ProjectionThreadsAct
 import { CodexProviderCapabilitiesV2 } from "../Adapters/CodexAdapterV2.ts";
 import * as EffectWorker from "../EffectWorker.ts";
 import * as EventSink from "../EventSink.ts";
-import * as EventStore from "../EventStore.ts";
+import * as EventStore from "../EventStore.vibe";
 import * as LegacyV1ThreadImporter from "./LegacyV1ThreadImporter.ts";
 import * as Orchestrator from "../Orchestrator.ts";
-import * as ProjectionMaintenance from "../ProjectionMaintenance.ts";
+import * as ProjectionMaintenance from "../ProjectionMaintenance.vibe";
 import * as ProjectionStore from "../ProjectionStore.ts";
 import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import * as ProviderReplayHarness from "../testkit/ProviderReplayHarness.ts";

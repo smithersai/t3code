@@ -31,7 +31,7 @@ import * as Schema from "effect/Schema";
 import type * as SqlClient from "effect/sql/SqlClient";
 import * as Stream from "effect/Stream";
 
-import { bufferLatestLiveStream } from "./LiveStreamBudget.ts";
+import { bufferLatestLiveStream } from "./LiveStreamBudget.vibe";
 
 type ShellDelta = Extract<OrchestrationV2ShellStreamItem, { readonly sequence: number }>;
 

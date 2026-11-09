@@ -44,7 +44,7 @@ import * as GitVcsDriver from "./GitVcsDriver.ts";
 import { removeEmptyDirectory } from "./removeEmptyDirectory.vibe";
 import { explicitBareRepositoryEnv, gitConfigEnv } from "./VcsProcess.ts";
 import { removeLinkedWorktree } from "./worktreeRemoval.ts";
-import { resolveWorktreesDirectory } from "../worktreesDirectory.ts";
+import { resolveWorktreesDirectory } from "../worktreesDirectory.vibe";
 import {
   parseRemoteNames,
   parseRemoteNamesInGitOrder,

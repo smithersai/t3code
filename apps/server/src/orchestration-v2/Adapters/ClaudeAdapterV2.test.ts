@@ -74,9 +74,9 @@ import * as HostProcess from "@t3tools/shared/HostProcess";
 import { getModelSelectionStringOptionValue } from "@t3tools/shared/model";
 import { SpawnExecutableResolution } from "@t3tools/shared/shell";
 
-import * as PortScanner from "../../preview/PortScanner.ts";
+import * as PortScanner from "../../preview/PortScanner.vibe";
 import { attachmentRelativePath } from "../../attachmentStore.ts";
-import { WorkflowAgentTranscriptReadObserver } from "../workflowAgentTranscript.ts";
+import { WorkflowAgentTranscriptReadObserver } from "../workflowAgentTranscript.vibe";
 import * as ServerConfig from "../../config.ts";
 import * as McpProviderSession from "@t3tools/provider-core/server/mcpSession";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";

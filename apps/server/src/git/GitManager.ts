@@ -70,7 +70,7 @@ import {
   renderHistory,
   selectHistory,
 } from "@t3tools/provider-core/server/handoffBudget";
-import * as TextGeneration from "../textGeneration/TextGeneration.ts";
+import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
 import {
   conventionalCommitsTextGenerationPolicy,
   customTextGenerationPolicy,

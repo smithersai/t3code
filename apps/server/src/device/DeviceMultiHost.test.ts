@@ -5,9 +5,9 @@ import * as Fiber from "effect/Fiber";
 import * as Effect from "effect/Effect";
 import { HttpClient, HttpClientResponse } from "effect/http";
 import * as ServerSettings from "../serverSettings.ts";
-import * as DeviceHost from "./DeviceHost.ts";
-import { makeDeviceHubOperations } from "./DeviceHubOperations.ts";
-import * as DeviceService from "./DeviceService.ts";
+import * as DeviceHost from "./DeviceHost.vibe";
+import { makeDeviceHubOperations } from "./DeviceHubOperations.vibe";
+import * as DeviceService from "./DeviceService.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 it.effect("keeps hosts independent when serials collide and another host fails", () =>

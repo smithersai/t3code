@@ -25,10 +25,10 @@ import {
 import packageJson from "../../package.json" with { type: "json" };
 import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as DeviceService from "../device/DeviceService.ts";
+import * as DeviceService from "../device/DeviceService.vibe";
 import * as HtmlRender from "../htmlRender/HtmlRender.ts";
 import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.vibe";
-import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
+import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as AnalyticsService from "../telemetry/AnalyticsService.ts";
 import {
@@ -41,15 +41,15 @@ import {
 import { advertisedJsonSchema } from "./advertisedJsonSchema.vibe";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as McpToolAccess from "./McpToolAccess.ts";
-import * as OrchestratorMcpService from "./OrchestratorMcpService.ts";
+import * as OrchestratorMcpService from "./OrchestratorMcpService.vibe";
 import { PreviewControlsToolkit } from "./toolkits/previewControls/tools.vibe";
 import * as PreviewControlsHandlers from "./toolkits/previewControls/handlers.vibe";
 import { EnvironmentToolkit } from "./toolkits/environment/tools.vibe";
-import * as EnvironmentHandlers from "./toolkits/environment/handlers.ts";
+import * as EnvironmentHandlers from "./toolkits/environment/handlers.vibe";
 import { ProjectToolkit } from "./toolkits/project/tools.vibe";
 import * as ProjectHandlers from "./toolkits/project/handlers.ts";
 import { AttachmentToolkit } from "./toolkits/attachment/tools.vibe";
-import * as AttachmentHandlers from "./toolkits/attachment/handlers.ts";
+import * as AttachmentHandlers from "./toolkits/attachment/handlers.vibe";
 import { ThreadToolkit } from "./toolkits/thread/tools.vibe";
 import * as ThreadHandlers from "./toolkits/thread/handlers.ts";
 import * as ThreadMetadataMcpService from "./ThreadMetadataMcpService.vibe";
@@ -66,7 +66,7 @@ import {
 import * as WorktreeHandlers from "./toolkits/worktree/handlers.vibe";
 import { WorktreeToolkit } from "./toolkits/worktree/tools.vibe";
 import * as WorktreeMcpService from "./WorktreeMcpService.ts";
-import * as PullRequestsHandlers from "./toolkits/pullRequests/handlers.ts";
+import * as PullRequestsHandlers from "./toolkits/pullRequests/handlers.vibe";
 import { PullRequestsToolkit } from "./toolkits/pullRequests/tools.vibe";
 import * as DeviceHandlers from "./toolkits/device/handlers.ts";
 import {
@@ -74,7 +74,7 @@ import {
   DeviceScreenshotToolkit,
   DeviceStandardToolkit,
 } from "./toolkits/device/tools.vibe";
-import * as HtmlHandlers from "./toolkits/html/handlers.ts";
+import * as HtmlHandlers from "./toolkits/html/handlers.vibe";
 import { HtmlPreviewTool, HtmlPreviewToolkit, HtmlRenderToolkit } from "./toolkits/html/tools.vibe";
 import * as RequestUrl from "../RequestUrl.vibe";
 

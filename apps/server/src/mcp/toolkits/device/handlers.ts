@@ -14,7 +14,7 @@ import * as ServerConfig from "../../../config.ts";
 import { ensureAgentDeviceShim } from "../../../device/AgentDeviceShim.vibe";
 import { nodeRuntimeUnavailableMessage } from "@t3tools/shared/nodeRuntime";
 
-import * as DeviceService from "../../../device/DeviceService.ts";
+import * as DeviceService from "../../../device/DeviceService.vibe";
 import { threadWorkspaceRoot } from "../../../project/threadWorkspaceRoot.vibe";
 import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";

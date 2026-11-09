@@ -38,7 +38,7 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 
 import * as McpSessionRegistry from "../mcp/McpSessionRegistry.ts";
-import * as McpAppModelContext from "../mcpApps/McpAppModelContext.ts";
+import * as McpAppModelContext from "../mcpApps/McpAppModelContext.vibe";
 import * as PreviewAgentActivity from "../preview/PreviewAgentActivity.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as CheckpointService from "./CheckpointService.vibe";
@@ -51,7 +51,7 @@ import {
   makeProviderFailure,
   makeProviderFailureTurnItem,
 } from "@t3tools/provider-core/server/failure";
-import * as RunFinalizationService from "./RunFinalizationService.ts";
+import * as RunFinalizationService from "./RunFinalizationService.vibe";
 import * as TurnItemPositionStore from "./TurnItemPositionStore.ts";
 
 export interface ProviderEventRoutingState {

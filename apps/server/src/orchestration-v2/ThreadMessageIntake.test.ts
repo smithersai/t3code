@@ -32,7 +32,7 @@ import {
   OrchestratorCommandPreviouslyRejectedError,
   OrchestratorDispatchError,
 } from "./Orchestrator.ts";
-import * as ThreadManagementService from "./ThreadManagementService.ts";
+import * as ThreadManagementService from "./ThreadManagementService.vibe";
 import { dispatchCommand } from "./ThreadMessageIntake.vibe";
 
 const layerIntakeTest = ServerConfig.layerTest(process.cwd(), {

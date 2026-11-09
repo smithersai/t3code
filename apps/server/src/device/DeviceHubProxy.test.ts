@@ -10,8 +10,8 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { HttpClient, HttpClientResponse, HttpRouter } from "effect/http";
 import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
-import type * as DeviceHost from "./DeviceHost.ts";
-import * as DeviceService from "./DeviceService.ts";
+import type * as DeviceHost from "./DeviceHost.vibe";
+import * as DeviceService from "./DeviceService.vibe";
 import * as DeviceHubProxy from "./DeviceHubProxy.vibe";
 
 const disposers: Array<() => Promise<void>> = [];

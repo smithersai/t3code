@@ -13,7 +13,7 @@ import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as ServerConfig from "../config.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.ts";
+import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.vibe";
 import * as CliTokenManager from "./CliTokenManager.ts";
 import * as CloudLink from "./CloudLink.ts";
 import * as ConnectReachability from "./ConnectReachability.ts";
@@ -23,7 +23,7 @@ import {
   PUBLISH_AGENT_ACTIVITY_SECRET,
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_URL_SECRET,
-} from "./config.ts";
+} from "./config.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const encode = (value: string) => new TextEncoder().encode(value);

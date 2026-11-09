@@ -36,14 +36,14 @@ import * as HttpServerRequest from "effect/http/HttpServerRequest";
 
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import * as ServerConfig from "../config.ts";
-import * as EnvironmentAuthPolicy from "./EnvironmentAuthPolicy.ts";
-import * as PairingGrantStore from "./PairingGrantStore.ts";
+import * as EnvironmentAuthPolicy from "./EnvironmentAuthPolicy.vibe";
+import * as PairingGrantStore from "./PairingGrantStore.vibe";
 import * as ServerSecretStore from "./ServerSecretStore.ts";
 import * as SessionStore from "./SessionStore.ts";
 import { REUSABLE_DEV_SESSION_EXPIRES_AT, resolveReusableDevAuth } from "./ReusableDevAuth.ts";
 import { verifyRequestDpopProof } from "./dpop.ts";
 import { DESKTOP_RENDERER_ORIGINS } from "../httpCors.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as RequestUrl from "../RequestUrl.vibe";
 
 const DEFAULT_SESSION_SUBJECT = "cli-issued-session";

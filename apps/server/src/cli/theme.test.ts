@@ -11,7 +11,7 @@ import * as Layer from "effect/Layer";
 import * as TestConsole from "effect/testing/TestConsole";
 import { Command } from "effect/cli";
 
-import { cli } from "../binCli.ts";
+import { cli } from "../binCli.vibe";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as Crypto from "@t3tools/shared/Crypto";

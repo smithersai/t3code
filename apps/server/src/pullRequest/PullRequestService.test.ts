@@ -23,7 +23,7 @@ import * as ServerSettingsService from "../serverSettings.ts";
 import { PullRequestOperationError } from "@t3tools/contracts";
 
 import * as ProjectService from "../project/ProjectService.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as PullRequestFilesViewed from "../persistence/PullRequestFilesViewed.vibe";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";
@@ -36,7 +36,7 @@ import {
   type ProviderChangeRequest,
   type PullRequestProviderApi,
 } from "@t3tools/source-control-core/server/PullRequestProvider";
-import * as PullRequestProviderRegistry from "./PullRequestProviderRegistry.ts";
+import * as PullRequestProviderRegistry from "./PullRequestProviderRegistry.vibe";
 import * as PullRequestService from "./PullRequestService.ts";
 import * as PullRequestReadCache from "./PullRequestReadCache.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

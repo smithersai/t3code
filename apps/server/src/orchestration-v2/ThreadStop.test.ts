@@ -24,21 +24,21 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 import * as Stream from "effect/Stream";
-import * as EventStore from "./EventStore.ts";
+import * as EventStore from "./EventStore.vibe";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import { CLAUDE_PROVIDER } from "./Adapters/ClaudeAdapterV2.ts";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as CommandReceiptStore from "./CommandReceiptStore.ts";
+import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import { OrchestrationEffectRequestV2 } from "./EffectOutbox.vibe";
 import * as Orchestrator from "./Orchestrator.ts";
 import * as EffectWorker from "./EffectWorker.ts";
 import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
-import * as ThreadManagementService from "./ThreadManagementService.ts";
+import * as ThreadManagementService from "./ThreadManagementService.vibe";
 import * as ProviderReplayHarness from "./testkit/ProviderReplayHarness.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 
