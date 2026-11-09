@@ -19,15 +19,15 @@ import {
 import * as RunFinalizationService from "./RunFinalizationService.vibe";
 import * as ResourceCleanupService from "./ResourceCleanupService.ts";
 import * as EffectOutbox from "./EffectOutbox.vibe";
-import * as CheckpointRollbackService from "./CheckpointRollbackService.ts";
+import * as CheckpointRollbackService from "./CheckpointRollbackService.vibe";
 import * as ProviderSessionManager from "./ProviderSessionManager.ts";
 import * as ProviderTurnControlService from "./ProviderTurnControlService.ts";
 import * as ProviderTurnStartService from "./ProviderTurnStartService.vibe";
 import * as RuntimeRequestService from "./RuntimeRequestService.vibe";
-import * as ThreadTitleRegenerationService from "./ThreadTitleRegenerationService.ts";
+import * as ThreadTitleRegenerationService from "./ThreadTitleRegenerationService.vibe";
 import * as ThreadManagementService from "./ThreadManagementService.vibe";
 import * as ServerSettings from "../serverSettings.ts";
-import { continueRestartedRun } from "./RestartContinuation.ts";
+import { continueRestartedRun } from "./RestartContinuation.vibe";
 
 export class OrchestrationEffectExecutionError extends Schema.TaggedError<OrchestrationEffectExecutionError>()(
   "OrchestrationEffectExecutionError",

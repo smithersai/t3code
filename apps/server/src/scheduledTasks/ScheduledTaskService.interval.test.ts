@@ -12,7 +12,7 @@ import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as Scheduler from "../scheduling/Scheduler.vibe";
 import * as SecretRequests from "../secrets/SecretRequests.ts";
-import { ServerActivation } from "../serverActivation.ts";
+import { ServerActivation } from "../serverActivation.vibe";
 import * as ScheduledTaskService from "./ScheduledTaskService.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

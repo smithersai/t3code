@@ -21,7 +21,7 @@ import {
   decodeClaudeProfileAdapter,
 } from "./ClaudeModelManifest.vibe"
 import * as ModelCatalog from "@t3tools/provider-core/server/ModelCatalog"
-import { BUNDLED_MODEL_MANIFEST, resolveProviderCatalog } from "./ModelManifest.ts"
+import { BUNDLED_MODEL_MANIFEST, resolveProviderCatalog } from "./ModelManifest.vibe"
 
 const CLAUDE = ProviderDriverKind.make("claudeAgent")
 const EMPTY_CAPABILITIES: ModelCapabilities = { optionDescriptors: [] }

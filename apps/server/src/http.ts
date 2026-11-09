@@ -47,7 +47,7 @@ import {
   failEnvironmentAuthInvalid,
   failEnvironmentInternal,
 } from "./auth/http.ts";
-import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "./environment/ServerEnvironment.vibe";
 import { WEBHOOK_ROUTE_PREFIX } from "./scheduledTasks/ScheduledTaskService.ts";
 import {
   browserApiCorsAllowedHeaders,

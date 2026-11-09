@@ -50,7 +50,7 @@ import * as ServerSettings from "../../serverSettings.ts";
 import * as McpHttpServer from "../McpHttpServer.ts";
 import * as McpInvocationContext from "../McpInvocationContext.vibe";
 import * as McpToolAccessTestkit from "../McpToolAccess.testkit.ts";
-import * as AnalyticsService from "../../telemetry/AnalyticsService.ts";
+import * as AnalyticsService from "../../telemetry/AnalyticsService.vibe";
 import { dispatchFailure } from "../threadAccess.vibe";
 import * as EnvironmentHandlers from "./environment/handlers.vibe";
 import * as AttachmentHandlers from "./attachment/handlers.vibe";

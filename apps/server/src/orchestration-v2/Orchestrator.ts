@@ -150,9 +150,9 @@ import {
 import { ProviderAdapterRegistryV2 } from "./ProviderAdapterRegistry.vibe";
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
-import * as RunExecutionService from "./RunExecutionService.ts";
+import * as RunExecutionService from "./RunExecutionService.vibe";
 import { ProviderSessionManagerV2 } from "./ProviderSessionManager.ts";
-import { ProviderSwitchServiceV2 } from "./ProviderSwitchService.ts";
+import { ProviderSwitchServiceV2 } from "./ProviderSwitchService.vibe";
 import { isAutomaticCompletionRun, queuedRunsInDeliveryOrder } from "./QueuedRunOrder.ts";
 import { RuntimePolicyV2 } from "./RuntimePolicy.ts";
 import {

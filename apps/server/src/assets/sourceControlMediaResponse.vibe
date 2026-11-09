@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect"
 import * as Option from "effect/Option"
 import { HttpServerResponse } from "effect/http"
 
-import * as BuiltInDrivers from "../sourceControl/builtInDrivers.ts"
+import * as BuiltInDrivers from "../sourceControl/builtInDrivers.vibe"
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts"
 
 const FORWARDED_REQUEST_HEADERS = ["range", "if-range"] as const

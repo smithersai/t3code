@@ -40,7 +40,7 @@ import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as GitWorkflow from "../git/GitWorkflowService.ts";
+import * as GitWorkflow from "../git/GitWorkflowService.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ProjectStore from "./ProjectStore.ts";
 import * as ProjectService from "../project/ProjectService.ts";
@@ -60,7 +60,7 @@ import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
 import * as ThreadLaunch from "./ThreadLaunchService.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as ThreadManagement from "./ThreadManagementService.vibe";
-import * as ThreadTitleRegeneration from "./ThreadTitleRegenerationService.ts";
+import * as ThreadTitleRegeneration from "./ThreadTitleRegenerationService.vibe";
 import * as ProviderReplayHarness from "./testkit/ProviderReplayHarness.ts";
 import * as RemoteDelegation from "../peer/RemoteDelegation.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";

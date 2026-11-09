@@ -18,7 +18,7 @@ import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAda
 import * as ProviderSessionManager from "../orchestration-v2/ProviderSessionManager.ts";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import * as McpAppModelContext from "./McpAppModelContext.vibe";
-import * as McpAppRequests from "./McpAppRequests.ts";
+import * as McpAppRequests from "./McpAppRequests.vibe";
 
 const threadId = ThreadId.make("thread-app");
 const itemId = TurnItemId.make("item-app");

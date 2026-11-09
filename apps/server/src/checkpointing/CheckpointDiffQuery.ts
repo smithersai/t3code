@@ -12,7 +12,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 
-import { CHECKPOINT_DIFF_MAX_OUTPUT_BYTES } from "../vcs/VcsDriver.ts";
+import { CHECKPOINT_DIFF_MAX_OUTPUT_BYTES } from "../vcs/VcsDriver.vibe";
 import { checkpointRefForScopeOrdinal } from "../orchestration-v2/CheckpointService.vibe";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
 import {

@@ -19,7 +19,7 @@ import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServerSettings from "../serverSettings.ts";
-import { restartContinuationRun, continueRestartedRun } from "./RestartContinuation.ts";
+import { restartContinuationRun, continueRestartedRun } from "./RestartContinuation.vibe";
 import * as ThreadManagementService from "./ThreadManagementService.vibe";
 import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";

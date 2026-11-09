@@ -27,7 +27,7 @@ import * as Schedule from "effect/Schedule"
 import * as Schema from "effect/Schema"
 import * as SqlClient from "effect/sql/SqlClient"
 
-import { forkParked } from "../serverActivation.ts"
+import { forkParked } from "../serverActivation.vibe"
 
 export const OrchestrationEffectRequestV2 = Schema.Union([
   Schema.Struct({

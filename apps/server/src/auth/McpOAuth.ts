@@ -27,7 +27,7 @@ import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";
 import { HttpServerRequest } from "effect/http";
 
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import * as McpHttpServer from "../mcp/McpHttpServer.ts";
 import type * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";

@@ -32,7 +32,7 @@ import * as EventSink from "./EventSink.ts";
 import * as EventStore from "./EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.vibe";
-import { restartContinuationRun } from "./RestartContinuation.ts";
+import { restartContinuationRun } from "./RestartContinuation.vibe";
 
 const layerTest = Layer.mergeAll(ProjectionStore.layer, EffectOutbox.layer).pipe(
   Layer.provideMerge(SqlitePersistence.layerMemory),

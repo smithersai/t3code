@@ -43,7 +43,7 @@ import { gitCommandDuration, gitCommandsTotal, withMetrics } from "../observabil
 import * as GitVcsDriver from "./GitVcsDriver.ts";
 import { removeEmptyDirectory } from "./removeEmptyDirectory.vibe";
 import { explicitBareRepositoryEnv, gitConfigEnv } from "./VcsProcess.ts";
-import { removeLinkedWorktree } from "./worktreeRemoval.ts";
+import { removeLinkedWorktree } from "./worktreeRemoval.vibe";
 import { resolveWorktreesDirectory } from "../worktreesDirectory.vibe";
 import {
   parseRemoteNames,

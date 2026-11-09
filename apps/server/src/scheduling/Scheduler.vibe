@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as Scope from "effect/Scope"
 
-import { forkParked } from "../serverActivation.ts"
+import { forkParked } from "../serverActivation.vibe"
 
 export service Scheduler {
   static readonly key = "t3/scheduling/Scheduler"

@@ -24,7 +24,7 @@ import { HttpClient } from "effect/http";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
 import * as NodeUtil from "node:util";
 
-import * as ModelManifest from "./ModelManifest.ts";
+import * as ModelManifest from "./ModelManifest.vibe";
 import { resolveProviderCompatibility } from "./providerCompatibility.vibe";
 import * as ProviderRegistry from "./ProviderRegistry.ts";
 import { makeProviderMaintenanceCommandCoordinator } from "./providerMaintenanceCommandCoordinator.vibe";

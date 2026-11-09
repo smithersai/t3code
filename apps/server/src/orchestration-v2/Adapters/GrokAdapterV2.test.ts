@@ -34,7 +34,7 @@ import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import * as ProjectStore from "../ProjectStore.ts";
 import { buildInitialGrokProviderSnapshot } from "@t3tools/provider-grok/testing";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
-import * as ProviderInstanceRegistry from "../../provider/ProviderInstanceRegistry.ts";
+import * as ProviderInstanceRegistry from "../../provider/ProviderInstanceRegistry.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";

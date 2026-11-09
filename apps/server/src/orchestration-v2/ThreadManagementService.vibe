@@ -47,7 +47,7 @@ import * as Stream from "effect/Stream"
 
 import * as CommandReceiptStore from "./CommandReceiptStore.vibe"
 import * as Orchestrator from "./Orchestrator.ts"
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts"
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe"
 import { projectedRowEncodedBytes } from "./threadHistoryPaging.ts"
 import * as ProviderSessionManager from "./ProviderSessionManager.ts"
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe"

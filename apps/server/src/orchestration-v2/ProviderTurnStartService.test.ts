@@ -33,7 +33,7 @@ import * as Schema from "effect/Schema";
 
 import * as ServerConfig from "../config.ts";
 import { withWorkspaceLease } from "../workspace/workspaceLease.vibe";
-import * as GitWorkflow from "../git/GitWorkflowService.ts";
+import * as GitWorkflow from "../git/GitWorkflowService.vibe";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import { layerRealGit } from "./ProviderTurnStartService.testkit.ts";
 import * as ProjectService from "../project/ProjectService.ts";
@@ -47,7 +47,7 @@ import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProviderSessionManager from "./ProviderSessionManager.ts";
 import * as ProviderTurnStart from "./ProviderTurnStartService.vibe";
-import * as RunExecutionService from "./RunExecutionService.ts";
+import * as RunExecutionService from "./RunExecutionService.vibe";
 import * as RuntimePolicy from "./RuntimePolicy.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

@@ -15,7 +15,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
 import * as ServerConfig from "../config.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as EnvironmentAuth from "./EnvironmentAuth.ts";
 

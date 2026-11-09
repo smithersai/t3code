@@ -23,7 +23,7 @@ import * as Stream from "effect/Stream";
 import * as Option from "effect/Option";
 
 import * as ServerConfig from "../config.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as AuthSessions from "../persistence/AuthSessions.ts";
 import * as ServerSecretStore from "./ServerSecretStore.ts";
 import {

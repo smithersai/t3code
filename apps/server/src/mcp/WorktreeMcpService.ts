@@ -16,7 +16,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 
-import * as GitWorkflowService from "../git/GitWorkflowService.ts";
+import * as GitWorkflowService from "../git/GitWorkflowService.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";

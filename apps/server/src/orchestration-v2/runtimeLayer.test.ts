@@ -44,7 +44,7 @@ import * as TestClock from "effect/testing/TestClock";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
-import * as GitWorkflow from "../git/GitWorkflowService.ts";
+import * as GitWorkflow from "../git/GitWorkflowService.vibe";
 import * as ServerConfig from "../config.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.ts";
@@ -52,14 +52,14 @@ import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.t
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as McpSessionRegistryTestkit from "../mcp/McpSessionRegistry.testkit.ts";
-import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.ts";
+import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.vibe";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts";
 import * as Orchestrator from "./Orchestrator.ts";
-import { ROLLBACK_FAILED_MESSAGE } from "./CheckpointRollbackService.ts";
+import { ROLLBACK_FAILED_MESSAGE } from "./CheckpointRollbackService.vibe";
 import * as EffectWorker from "./EffectWorker.ts";
 import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as EventSink from "./EventSink.ts";

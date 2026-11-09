@@ -21,7 +21,7 @@ import * as Stream from "effect/Stream";
 import * as ProviderAuthFlow from "@t3tools/provider-core/server/providerAuthFlow";
 import type { ProviderAuthController } from "../provider/ProviderAuthService.vibe";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
-import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.ts";
+import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.vibe";
 import {
   ProviderAdapterDriverCreateError,
   type ProviderAdapterDriver,

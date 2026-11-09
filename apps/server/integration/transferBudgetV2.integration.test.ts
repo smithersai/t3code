@@ -39,7 +39,7 @@ import * as HttpApi from "effect/http-api/HttpApi";
 import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder";
 import { HttpRouter, HttpServer } from "effect/http";
 import { Rpc, RpcGroup, RpcServer, RpcSerialization } from "effect/rpc";
-import * as ServerEnvironment from "../src/environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "../src/environment/ServerEnvironment.vibe";
 import * as SqlitePersistence from "../src/persistence/Sqlite.vibe";
 import * as OrchestrationEventStore from "../src/persistence/OrchestrationEventStore.ts";
 import * as EventStore from "../src/orchestration-v2/EventStore.vibe";

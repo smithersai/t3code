@@ -1,0 +1,259 @@
+import type { OrchestrationV2ThreadStreamItem } from "@t3tools/contracts"
+import * as Cause from "effect/Cause"
+import * as Duration from "effect/Duration"
+import * as Effect from "effect/Effect"
+import * as Stream from "effect/Stream"
+
+import { LiveStreamBufferError, makeLiveStreamBudget, type RetainedLiveItem } from "./LiveStreamBudget.vibe"
+
+const COALESCE_WINDOW = Duration.millis(50)
+const MAX_PENDING_UPDATES = 512
+
+type ThreadLiveEvent = Extract<OrchestrationV2ThreadStreamItem, { readonly kind: "event" }>
+export type ThreadLiveInput = ThreadLiveEvent | { readonly kind: "synchronized" }
+
+function coalescibleUpdateKey(input: ThreadLiveEvent): string | null {
+  const { event } = input
+  const prefix = `${event.threadId}\u0000${event.runId ?? ""}\u0000${event.type}`
+  if (event.type === "message.updated") {
+    return event.payload.role === "assistant" && event.payload.streaming
+      ? `${prefix}\u0000${event.payload.id}`
+      : null
+  }
+  if (event.type !== "turn-item.updated" || event.payload.status !== "running") return null
+  switch (event.payload.type) {
+    case "assistant_message":
+    case "reasoning":
+      if (!event.payload.streaming) return null
+      break
+    case "command_execution":
+    case "file_change":
+    case "file_search":
+    case "web_search":
+    case "dynamic_tool":
+      break
+    default:
+      return null
+  }
+  return `${prefix}\u0000${event.payload.type}\u0000${event.payload.id}`
+}
+
+// These events replace whole entities. Keep each survivor at its original
+// position/sequence so a resume cursor cannot skip an unrelated earlier update.
+export function coalesceLiveUpdatedEvents(
+  events: ReadonlyArray<ThreadLiveEvent>,
+): ReadonlyArray<ThreadLiveEvent> {
+  const latestUpdates = new Map<string, number>()
+  const superseded = new Set<number>()
+  const pendingKeys = new Map<ThreadLiveEvent["event"]["type"], string>()
+
+  for (const [index, event] of events.entries()) {
+    const key = coalescibleUpdateKey(event)
+    if (key === null) {
+      latestUpdates.clear()
+      pendingKeys.clear()
+      continue
+    }
+    // Both entity families use insertion order; partial timelines also reject
+    // unseen items below their watermark. Keep identity switches within each
+    // family, while allowing paired message/item updates to coalesce.
+    const pendingKey = pendingKeys.get(event.event.type)
+    if (pendingKey !== undefined && pendingKey !== key) latestUpdates.clear()
+    pendingKeys.set(event.event.type, key)
+    const previous = latestUpdates.get(key)
+    if (previous !== undefined) superseded.add(previous)
+    latestUpdates.set(key, index)
+  }
+  return events.filter((_, index) => !superseded.has(index))
+}
+
+export const makeThreadLiveEventCoalescer = effect <E = never>(
+  options?: {
+    readonly coalesceWindow?: Duration.Input
+    readonly maxItems?: number
+    readonly maxSerializedBytes?: number
+  } | undefined,
+) =>
+  try withSpan(
+    effect {
+      const coalescerScope = try Effect.scope
+      const budget = try makeLiveStreamBudget(options)
+      const cleanupComplete = try Deferred.make<void>()
+      const output = try Queue.unbounded<
+        RetainedLiveItem<ThreadLiveInput>,
+        E | LiveStreamBufferError | Cause.Done
+      >()
+      const mutex = try Semaphore.make(1)
+      const coalesceWindow = options?.coalesceWindow ?? COALESCE_WINDOW
+      let pendingUpdates: Array<RetainedLiveItem<ThreadLiveEvent>> = []
+      let windowGeneration = 0
+      let windowFiber: Fiber.Fiber<void, never> | null = null
+      let closed = false
+
+      const cancelWindow = effect () =>
+        try withSpan(
+          effect {
+            const fiber = windowFiber
+            if (!fiber) {
+              return
+            }
+            windowFiber = null
+            try Fiber.interrupt(fiber)
+          },
+          "ThreadLiveEventCoalescer.cancelWindow",
+        )
+
+      const flushPending = effect () =>
+        try withSpan(
+          effect {
+            if (pendingUpdates.length === 0) {
+              return
+            }
+            const items = try budget.replace(
+              pendingUpdates,
+              coalesceLiveUpdatedEvents(pendingUpdates.map((item) => item.value)),
+            )
+            pendingUpdates = []
+            try Queue.offerAll(output, items)
+          } |> Effect.uninterruptible(%),
+          "ThreadLiveEventCoalescer.flushPending",
+        )
+
+      const flushWindow = (generation: number) =>
+        do {
+          const catchProgram = Effect.sleep(coalesceWindow)
+            |> Effect.andThen(
+              %,
+              mutex.withPermits(1)(
+                effect {
+                  return try (generation === windowGeneration ? flushPending() : Effect.void)
+                },
+              ),
+            )
+            |> Effect.ensuring(
+              %,
+              Effect.sync(() => {
+                if (generation === windowGeneration) {
+                  windowFiber = null
+                }
+              }),
+            )
+          effect {
+            return catchProgram catch effect (e) => match (e) {
+              when { _tag: "LiveStreamBufferError" }: (undefined as void);
+            }
+          }
+        }
+
+      // Keep each source batch together so a synchronization marker cannot pass
+      // events already pulled from PubSub but still being coalesced.
+      const offerAll = effect (
+        inputs: readonly ThreadLiveInput[],
+      ) =>
+        try withSpan(
+          effect {
+            try mutex.withPermits(1)(
+              Effect.forEach(
+                inputs,
+                effect (input) => {
+                  try budget.check
+                  if (input.kind === "event") {
+                    try (budget.retain(input)
+                      |> Effect.tap(%, effect (item) => pendingUpdates.push(item))
+                      |> Effect.uninterruptible(%))
+                  }
+                  if (input.kind === "event" && coalescibleUpdateKey(input) !== null) {
+                    if (pendingUpdates.length === 1) {
+                      const generation = ++windowGeneration
+                      windowFiber = try Effect.forkIn(flushWindow(generation), coalescerScope)
+                    }
+                    if (pendingUpdates.length >= MAX_PENDING_UPDATES) {
+                      try cancelWindow()
+                      windowGeneration += 1
+                      try flushPending()
+                    }
+                    return
+                  }
+
+                  try cancelWindow()
+                  windowGeneration += 1
+                  try flushPending()
+                  if (input.kind === "synchronized") {
+                    try (budget.retain({ kind: "synchronized" as const })
+                      |> Effect.flatMap(%, (marker) => Queue.offer(output, marker))
+                      |> Effect.uninterruptible(%))
+                  }
+                },
+                { discard: true },
+              ),
+            )
+          },
+          "ThreadLiveEventCoalescer.offerAll",
+        )
+
+      const close = (cause?: Cause.Cause<E | LiveStreamBufferError>) =>
+        mutex.withPermits(1)(
+          effect {
+            if (closed) {
+              return
+            }
+            closed = true
+            windowGeneration += 1
+            try cancelWindow()
+            budget.release(pendingUpdates)
+            pendingUpdates = []
+            budget.release(Queue.clear(output) catch () => [])
+            if (cause) {
+              try Queue.failCause(output, cause)
+            }
+            try Queue.shutdown(output)
+            try Deferred.succeed(cleanupComplete, undefined)
+          },
+        )
+
+      try Effect.addFinalizer(() => close())
+      try ((do {
+        const catchProgram = budget.failed
+        effect {
+          return catchProgram catch effect (error) => match (error) {
+            when { _tag: "LiveStreamBufferError" }: try close(Cause.fail(error));
+          }
+        }
+      })
+        |> Effect.forkScoped(%))
+
+      return {
+        offer: (input: ThreadLiveInput) => offerAll([input]),
+        close,
+        end: mutex.withPermits(1)(
+          effect {
+            try cancelWindow()
+            windowGeneration += 1
+            try flushPending()
+            try Queue.end(output)
+          },
+        ),
+        offerAll,
+        stream: budget.deliver(Stream.fromQueue(output)),
+        failed: budget.failed,
+        closed: Deferred.await(cleanupComplete),
+        usage: budget.usage,
+      } as const
+    },
+    "ThreadLiveEventCoalescer.makeThreadLiveEventCoalescer",
+  )
+
+export const coalesceThreadLiveStream = <E, R>(source: Stream.Stream<ThreadLiveEvent, E, R>) =>
+  Stream.unwrap(
+    effect {
+      const coalescer = try makeThreadLiveEventCoalescer<E>()
+      try (source
+        |> Stream.runForEachArray(%, coalescer.offerAll)
+        |> Effect.andThen(%, coalescer.end)
+        |> Effect.raceFirst(%, coalescer.failed)
+        |> Effect.exit(%)
+        |> Effect.flatMap(%, (exit) => Exit.isFailure(exit) ? coalescer.close(exit.cause) : Effect.void)
+        |> Effect.forkScoped({ startImmediately: true })(%))
+      return coalescer.stream
+    },
+  )

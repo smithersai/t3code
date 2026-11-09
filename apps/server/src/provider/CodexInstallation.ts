@@ -24,7 +24,7 @@ import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
 import * as NodeCrypto from "node:crypto";
 import * as ServerConfig from "../config.ts";
-import * as ModelManifest from "./ModelManifest.ts";
+import * as ModelManifest from "./ModelManifest.vibe";
 import { resolveProviderCompatibility } from "./providerCompatibility.vibe";
 
 const DRIVER = ProviderDriverKind.make("codex");

@@ -24,7 +24,7 @@ import {
 } from "../antigravityAuthSupport.ts";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
-import * as ModelManifest from "../ModelManifest.ts";
+import * as ModelManifest from "../ModelManifest.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { AntigravityDriver } from "./AntigravityDriver.ts";
 import * as ProviderHostLive from "../ProviderHostLive.vibe";

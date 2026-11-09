@@ -40,7 +40,7 @@ import {
   PATCH_RENDER_PREFIX_ARGS,
   splitNullSeparatedGitStdoutPaths,
 } from "./GitVcsDriverCore.ts";
-import * as VcsDriver from "./VcsDriver.ts";
+import * as VcsDriver from "./VcsDriver.vibe";
 import * as VcsProcess from "./VcsProcess.ts";
 
 export interface ExecuteGitInput {

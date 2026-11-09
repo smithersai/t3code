@@ -25,7 +25,7 @@ import * as GitManager from "../git/GitManager.ts";
 import * as ProjectStore from "./ProjectStore.ts";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
 import * as PullRequestService from "../pullRequest/PullRequestService.ts";
-import * as ServerActivation from "../serverActivation.ts";
+import * as ServerActivation from "../serverActivation.vibe";
 import * as Orchestrator from "./Orchestrator.ts";
 import * as ThreadPullRequestService from "./ThreadPullRequestService.vibe";
 

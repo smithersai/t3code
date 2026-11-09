@@ -25,7 +25,7 @@ import * as ProviderSessionManager from "../orchestration-v2/ProviderSessionMana
 import { AcpProviderCapabilitiesV2 } from "@t3tools/provider-acp/server/adapter";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
 import * as ProviderAuthService from "./ProviderAuthService.vibe";
-import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.ts";
+import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.vibe";
 
 const instanceId = ProviderInstanceId.make("antigravity-personal");
 const otherInstanceId = ProviderInstanceId.make("antigravity-work");

@@ -41,7 +41,7 @@ import * as HttpApi from "effect/http-api/HttpApi";
 import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder";
 import { Etag, HttpRouter } from "effect/http";
 
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.ts";
 import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";

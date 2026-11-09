@@ -8,7 +8,7 @@ import {
   ServerSettingsPatch,
 } from "@t3tools/contracts"
 import * as Schema from "effect/Schema"
-import * as ServerEnvironment from "../../../environment/ServerEnvironment.ts"
+import * as ServerEnvironment from "../../../environment/ServerEnvironment.vibe"
 import * as ThreadCommandExecutor from "../../../orchestration-v2/ThreadCommandExecutor.vibe"
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.vibe"
 import * as Settings from "../../../serverSettings.ts"

@@ -50,7 +50,7 @@ import { CloudManagedEndpointRuntime } from "../cloud/ManagedEndpointRuntime.vib
 import * as CommandOutputHub from "../orchestration-v2/CommandOutputHub.ts";
 import { GUEST_FAILURE } from "../orchestration-v2/GuestShareDecider.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
-import { coalesceThreadLiveStream } from "../orchestration-v2/ThreadLiveEventCoalescer.ts";
+import { coalesceThreadLiveStream } from "../orchestration-v2/ThreadLiveEventCoalescer.vibe";
 import { buildBoundedThreadStreamSnapshot } from "../orchestration-v2/ThreadStream.ts";
 import {
   projectDomainEventForWire,
@@ -58,7 +58,7 @@ import {
 } from "../orchestration-v2/WireProjection.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as AnalyticsService from "../telemetry/AnalyticsService.ts";
+import * as AnalyticsService from "../telemetry/AnalyticsService.vibe";
 import { guestShareView, guestThreadModel } from "./guestView.ts";
 import {
   classifyGuestUploads,

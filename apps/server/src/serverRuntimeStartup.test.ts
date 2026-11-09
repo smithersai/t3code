@@ -27,7 +27,7 @@ import * as ServerConfig from "./config.ts";
 import * as ServerRuntimeStartup from "./serverRuntimeStartup.vibe";
 import * as EnvironmentAuth from "./auth/EnvironmentAuth.ts";
 import * as ServiceLauncherClient from "./cloud/serviceLauncherClient.ts";
-import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "./environment/ServerEnvironment.vibe";
 import * as Keybindings from "./keybindings.ts";
 import * as EffectWorker from "./orchestration-v2/EffectWorker.ts";
 import * as LegacyV1ThreadImporter from "./orchestration-v2/legacy/LegacyV1ThreadImporter.ts";
@@ -40,11 +40,11 @@ import * as ThreadManagement from "./orchestration-v2/ThreadManagementService.vi
 import * as ExternalLauncher from "./process/externalLauncher.vibe";
 import * as ProjectService from "./project/ProjectService.ts";
 import * as AgentAwarenessRelay from "./relay/AgentAwarenessRelay.vibe";
-import { ServerActivation } from "./serverActivation.ts";
+import { ServerActivation } from "./serverActivation.vibe";
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.vibe";
 import * as ServerSettings from "./serverSettings.ts";
 import * as ServerSecretStore from "./auth/ServerSecretStore.ts";
-import * as AnalyticsService from "./telemetry/AnalyticsService.ts";
+import * as AnalyticsService from "./telemetry/AnalyticsService.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 it.effect.each([

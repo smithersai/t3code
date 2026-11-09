@@ -8,7 +8,7 @@ import * as Path from "effect/Path"
 import * as KeyValueStore from "effect/persistence/KeyValueStore"
 import * as ServerConfig from "../config.ts"
 import { detachStackFrame } from "../git/detachStackFrame.ts"
-import { forkParked } from "../serverActivation.ts"
+import { forkParked } from "../serverActivation.vibe"
 
 const CONCURRENT_READS = 512
 // Entry filenames have the store-id prefix; the scope revisions file does not.

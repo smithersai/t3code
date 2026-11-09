@@ -19,7 +19,7 @@ import { describe, expect, it } from "@effect/vitest";
 import * as DateTime from "effect/DateTime";
 import * as Schema from "effect/Schema";
 
-import { coalesceLiveUpdatedEvents } from "./ThreadLiveEventCoalescer.ts";
+import { coalesceLiveUpdatedEvents } from "./ThreadLiveEventCoalescer.vibe";
 import {
   makeLiveBodyDeduper,
   projectTurnItemForWire,

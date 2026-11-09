@@ -23,10 +23,10 @@ import * as Stream from "effect/Stream";
 import * as Semaphore from "effect/Semaphore";
 
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
-import * as ModelManifest from "./ModelManifest.ts";
+import * as ModelManifest from "./ModelManifest.vibe";
 import { applyProviderCompatibility } from "./providerCompatibility.vibe";
 import * as ServerConfig from "../config.ts";
-import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.ts";
+import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.vibe";
 import {
   hydrateCachedProvider,
   isCachedProviderCorrelated,

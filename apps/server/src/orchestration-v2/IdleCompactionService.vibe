@@ -13,7 +13,7 @@ import * as Effect from "effect/Effect"
 import * as FiberMap from "effect/FiberMap"
 import * as Stream from "effect/Stream"
 
-import { forkParked } from "../serverActivation.ts"
+import { forkParked } from "../serverActivation.vibe"
 import * as ServerSettings from "../serverSettings.ts"
 import { idleCompactionWindow } from "./IdleCompaction.vibe"
 import * as Orchestrator from "./Orchestrator.ts"

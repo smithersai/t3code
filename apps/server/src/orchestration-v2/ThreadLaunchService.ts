@@ -39,7 +39,7 @@ import {
   WORKTREE_BRANCH_PREFIX,
 } from "@t3tools/shared/git";
 
-import * as GitWorkflow from "../git/GitWorkflowService.ts";
+import * as GitWorkflow from "../git/GitWorkflowService.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";

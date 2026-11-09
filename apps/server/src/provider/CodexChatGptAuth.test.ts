@@ -19,9 +19,9 @@ import { subscribeChatGptHandoff } from "./CodexChatGptHandoff.vibe";
 import { FetchHttpClient, HttpClient, HttpClientResponse } from "effect/http";
 import { exportJWK, generateKeyPair, SignJWT } from "jose";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as ProviderCredentialStore from "./ProviderCredentialStore.vibe";
-import * as AnalyticsService from "../telemetry/AnalyticsService.ts";
+import * as AnalyticsService from "../telemetry/AnalyticsService.vibe";
 import { makeCodexChatGptAuth } from "./CodexChatGptAuth.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

@@ -20,7 +20,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
-import * as GitWorkflowService from "../git/GitWorkflowService.ts";
+import * as GitWorkflowService from "../git/GitWorkflowService.vibe";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as ServerConfig from "../config.ts";
 import {

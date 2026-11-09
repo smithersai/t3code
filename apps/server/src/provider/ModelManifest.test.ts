@@ -11,7 +11,7 @@ import { HttpClient, HttpClientResponse } from "effect/http";
 
 import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as ModelManifest from "./ModelManifest.ts";
+import * as ModelManifest from "./ModelManifest.vibe";
 
 describe("resolveProviderCatalog", () => {
   it.each([

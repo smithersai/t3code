@@ -12,7 +12,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 
 import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
 import * as ServerConfig from "../config.ts";
-import * as GitWorkflow from "../git/GitWorkflowService.ts";
+import * as GitWorkflow from "../git/GitWorkflowService.vibe";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 
 import * as McpSessionRegistryTestkit from "../mcp/McpSessionRegistry.testkit.ts";
@@ -20,7 +20,7 @@ import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import { runMigrations } from "../persistence/Migrations.vibe";
 import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
 import * as ProjectService from "../project/ProjectService.ts";
-import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.ts";
+import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";

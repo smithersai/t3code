@@ -45,10 +45,10 @@ import * as PullRequestFilesViewed from "./persistence/PullRequestFilesViewed.vi
 import * as PullRequestReviewGuides from "./persistence/PullRequestReviewGuides.ts";
 import * as PullRequestReviewGuideService from "./pullRequest/PullRequestReviewGuideService.ts";
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.vibe";
-import * as AnalyticsService from "./telemetry/AnalyticsService.ts";
+import * as AnalyticsService from "./telemetry/AnalyticsService.vibe";
 import * as DelegatedTaskAnalytics from "./telemetry/DelegatedTaskAnalytics.vibe";
 import * as ProviderEventIngestor from "./orchestration-v2/ProviderEventIngestor.ts";
-import * as ModelManifest from "./provider/ModelManifest.ts";
+import * as ModelManifest from "./provider/ModelManifest.vibe";
 import * as ResetCreditCoordinator from "./provider/resetCreditCoordinator.ts";
 import * as EventNdjsonLogger from "./provider/EventNdjsonLogger.ts";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
@@ -60,7 +60,7 @@ import * as DocumentText from "./provider/DocumentText.ts";
 import * as AcpRegistrySupport from "@t3tools/provider-acp-registry/server/AcpRegistrySupport";
 import * as CheckpointDiffQuery from "./checkpointing/CheckpointDiffQuery.ts";
 import * as CheckpointStore from "./checkpointing/CheckpointStore.vibe";
-import * as SourceControlBuiltInDrivers from "./sourceControl/builtInDrivers.ts";
+import * as SourceControlBuiltInDrivers from "./sourceControl/builtInDrivers.vibe";
 import { BUILT_IN_SOURCE_CONTROL_DRIVER_LIST } from "./sourceControl/sourceControlDefinitions.ts";
 import * as TextGeneration from "./textGeneration/TextGeneration.vibe";
 import * as ProviderInstanceRegistryHydration from "./provider/ProviderInstanceRegistryHydration.vibe";
@@ -96,7 +96,7 @@ import * as ProjectEnrichmentService from "./project/ProjectEnrichmentService.ts
 import * as NativeAppIconResolver from "./assets/NativeAppIconResolver.ts";
 import * as AntigravityInstallation from "./provider/AntigravityInstallation.ts";
 import * as CodexInstallation from "./provider/CodexInstallation.ts";
-import * as ProviderInstanceRegistry from "./provider/ProviderInstanceRegistry.ts";
+import * as ProviderInstanceRegistry from "./provider/ProviderInstanceRegistry.vibe";
 import * as ProviderAdapterRegistry from "./orchestration-v2/ProviderAdapterRegistry.vibe";
 import * as ProviderRegistry from "./provider/ProviderRegistry.ts";
 import * as ProviderUsageLimitsIngestion from "./provider/ProviderUsageLimitsIngestion.vibe";
@@ -115,7 +115,7 @@ import * as VcsProcess from "./vcs/VcsProcess.ts";
 import * as VcsProvisioningService from "./vcs/VcsProvisioningService.vibe";
 import * as VcsStatusBroadcaster from "./vcs/VcsStatusBroadcaster.vibe";
 import * as ProjectCloneTracker from "./project/ProjectCloneTracker.vibe";
-import * as GitWorkflowService from "./git/GitWorkflowService.ts";
+import * as GitWorkflowService from "./git/GitWorkflowService.vibe";
 import * as ReviewService from "./review/ReviewService.vibe";
 import * as SourceControlProviderRegistry from "./sourceControl/SourceControlProviderRegistry.vibe";
 import * as PullRequestReadCache from "./pullRequest/PullRequestReadCache.vibe";
@@ -125,7 +125,7 @@ import * as WorktreeSetupTracker from "./project/WorktreeSetupTracker.vibe";
 import * as Observability from "./observability/Observability.vibe";
 import * as HeapSnapshot from "./observability/HeapSnapshot.ts";
 import * as EventLoopMonitor from "./observability/EventLoopMonitor.ts";
-import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "./environment/ServerEnvironment.vibe";
 import * as DirectEndpoints from "./environment/DirectEndpoints.vibe";
 import * as RemoteOpenTargets from "./environment/RemoteOpenTargets.vibe";
 import * as AuthHttp from "./auth/http.ts";
@@ -201,7 +201,7 @@ import * as ProjectHttp from "./project/http.vibe";
 import * as NetService from "@t3tools/shared/Net";
 import * as RelayClient from "@t3tools/shared/relayClient";
 import { disableTailscaleServe, ensureTailscaleServe } from "@t3tools/tailscale";
-import * as ServerActivation from "./serverActivation.ts";
+import * as ServerActivation from "./serverActivation.vibe";
 
 // Escaped MCP handoff provenance can exceed find-my-way's 100-character segment default.
 const HTTP_ROUTER_CONFIG = {

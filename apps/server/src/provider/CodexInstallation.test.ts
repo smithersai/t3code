@@ -1,5 +1,5 @@
 import * as NodeServices from "@effect/platform-node/NodeServices";
-import * as ModelManifest from "./ModelManifest.ts";
+import * as ModelManifest from "./ModelManifest.vibe";
 import { expect, it } from "@effect/vitest";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as Crypto from "@t3tools/shared/Crypto";

@@ -52,7 +52,7 @@ import {
   type ProviderEventRouteIdentity,
   routeProviderEvent,
   selectInheritedBackgroundTurnItems,
-} from "./RunExecutionService.ts";
+} from "./RunExecutionService.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerTestDatabase = SqlitePersistence.layerMemory;

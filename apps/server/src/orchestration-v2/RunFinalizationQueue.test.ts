@@ -10,7 +10,7 @@ import * as ServerSettings from "../serverSettings.ts";
 import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.vibe";
 import * as WorkspaceEntries from "../workspace/WorkspaceEntries.ts";
 import * as CheckpointCapture from "./CheckpointCaptureService.vibe";
-import * as CheckpointRollback from "./CheckpointRollbackService.ts";
+import * as CheckpointRollback from "./CheckpointRollbackService.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as EffectWorker from "./EffectWorker.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
@@ -20,7 +20,7 @@ import * as ProviderTurnStart from "./ProviderTurnStartService.vibe";
 import * as RunFinalization from "./RunFinalizationService.vibe";
 import * as RuntimeRequests from "./RuntimeRequestService.vibe";
 import * as ThreadManagement from "./ThreadManagementService.vibe";
-import * as ThreadTitles from "./ThreadTitleRegenerationService.ts";
+import * as ThreadTitles from "./ThreadTitleRegenerationService.vibe";
 
 it.effect.each([
   ["starts the next turn after a post-capture Git status failure", false],

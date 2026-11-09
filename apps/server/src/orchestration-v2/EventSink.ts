@@ -33,7 +33,7 @@ import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as EventStore from "./EventStore.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProjectStore from "./ProjectStore.ts";
-import * as TurnItemPositionStore from "./TurnItemPositionStore.ts";
+import * as TurnItemPositionStore from "./TurnItemPositionStore.vibe";
 
 export class EventSinkWriteError extends Schema.TaggedError<EventSinkWriteError>()(
   "EventSinkWriteError",

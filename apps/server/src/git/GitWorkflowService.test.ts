@@ -8,7 +8,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as ServerConfig from "../config.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as GitManager from "./GitManager.ts";
-import * as GitWorkflowService from "./GitWorkflowService.ts";
+import * as GitWorkflowService from "./GitWorkflowService.vibe";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

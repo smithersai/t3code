@@ -28,7 +28,7 @@ import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSour
 
 import * as ServerSettings from "../serverSettings.ts";
 import * as ServerConfig from "../config.ts";
-import type * as VcsDriver from "../vcs/VcsDriver.ts";
+import type * as VcsDriver from "../vcs/VcsDriver.vibe";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.vibe";
 

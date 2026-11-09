@@ -65,7 +65,7 @@ import * as ProjectionMaintenance from "./ProjectionMaintenance.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProjectStore from "./ProjectStore.ts";
 import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.vibe";
-import * as TurnItemPositionStore from "./TurnItemPositionStore.ts";
+import * as TurnItemPositionStore from "./TurnItemPositionStore.vibe";
 
 const isLiveStreamBufferError = Schema.is(LiveStreamBufferError);
 const encodeJson = Schema.encodeEffect(Schema.fromJsonString(Schema.Unknown));

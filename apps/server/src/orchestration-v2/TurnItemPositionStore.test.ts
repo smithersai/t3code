@@ -5,7 +5,7 @@ import * as Layer from "effect/Layer";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import * as TurnItemPositionStore from "./TurnItemPositionStore.ts";
+import * as TurnItemPositionStore from "./TurnItemPositionStore.vibe";
 
 const layerTest = TurnItemPositionStore.layer.pipe(
   Layer.provideMerge(SqlitePersistence.layerMemory),

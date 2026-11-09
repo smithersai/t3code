@@ -5,7 +5,7 @@ import type { ProviderInstanceId } from "@t3tools/contracts"
 import type { ProviderTextGeneration } from "@t3tools/provider-core/server/textGeneration"
 import { TextGenerationError } from "@t3tools/contracts"
 
-import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.ts"
+import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.vibe"
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver"
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe"
 import * as ThreadTitleLinks from "./ThreadTitleLinks.vibe"

@@ -17,7 +17,7 @@ import * as CodexInstallation from "./CodexInstallation.ts";
 import * as AntigravityInstallation from "./AntigravityInstallation.ts";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
 import { makeProviderInstallation } from "./providerInstallation.vibe";
-import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.ts";
+import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.vibe";
 import * as ProviderRegistry from "./ProviderRegistry.ts";
 
 const instanceId = ProviderInstanceId.make("antigravity");

@@ -22,7 +22,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
 
-import * as CheckpointRollbackService from "./CheckpointRollbackService.ts";
+import * as CheckpointRollbackService from "./CheckpointRollbackService.vibe";
 import * as CheckpointService from "./CheckpointService.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as EffectWorker from "./EffectWorker.ts";
@@ -31,7 +31,7 @@ import * as ProviderSessionManager from "./ProviderSessionManager.ts";
 import * as ProviderTurnControlService from "./ProviderTurnControlService.ts";
 import * as ProviderTurnStartService from "./ProviderTurnStartService.vibe";
 import * as RuntimeRequestService from "./RuntimeRequestService.vibe";
-import * as ThreadTitleRegenerationService from "./ThreadTitleRegenerationService.ts";
+import * as ThreadTitleRegenerationService from "./ThreadTitleRegenerationService.vibe";
 import * as ThreadManagementService from "./ThreadManagementService.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 

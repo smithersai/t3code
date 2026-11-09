@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 
 import type { CheckpointStoreError } from "./Errors.vibe"
-import type { VcsCheckpointOps } from "../vcs/VcsDriver.ts"
+import type { VcsCheckpointOps } from "../vcs/VcsDriver.vibe"
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe"
 
 export interface CaptureCheckpointInput {

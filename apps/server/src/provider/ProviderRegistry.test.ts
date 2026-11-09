@@ -2,7 +2,7 @@ import { vi } from "vite-plus/test";
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as CodexInstallation from "./CodexInstallation.ts";
 import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { describe, it, assert, expect } from "@effect/vitest";
 import * as DateTime from "effect/DateTime";
@@ -42,7 +42,7 @@ import { checkCodexProviderStatus, type CodexAppServerProviderSnapshot } from ".
 import { checkClaudeProviderStatus } from "./ClaudeProvider.ts";
 import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
 import * as AntigravityInstallation from "./AntigravityInstallation.ts";
-import * as ModelManifest from "./ModelManifest.ts";
+import * as ModelManifest from "./ModelManifest.vibe";
 import { applyProviderCompatibility } from "./providerCompatibility.vibe";
 import * as ResetCreditCoordinator from "./resetCreditCoordinator.ts";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
@@ -64,7 +64,7 @@ import type {
   ProviderInstance,
   ProviderWorkspaceSnapshot,
 } from "@t3tools/provider-core/server/driver";
-import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.ts";
+import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.vibe";
 import * as ProviderRegistry from "./ProviderRegistry.ts";
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";
 import { makeManualOnlyProviderMaintenanceCapabilities } from "@t3tools/provider-core/server/maintenanceResolver";

@@ -24,7 +24,7 @@ import { gitCommandDuration, gitCommandsTotal } from "../observability/Metrics.v
 import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
 import * as ProcessRunner from "../processRunner.ts";
 import * as GitVcsDriver from "./GitVcsDriver.ts";
-import type * as VcsDriver from "./VcsDriver.ts";
+import type * as VcsDriver from "./VcsDriver.vibe";
 import * as VcsDriverRegistry from "./VcsDriverRegistry.vibe";
 import * as VcsProcess from "./VcsProcess.ts";
 import { runVcsDriverContractSuite } from "./testing/VcsDriverContractHarness.ts";
