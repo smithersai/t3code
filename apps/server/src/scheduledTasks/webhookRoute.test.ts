@@ -24,10 +24,10 @@ import {
   type WebhookTriggerRequest,
   type WebhookTriggerResult,
 } from "./ScheduledTaskService.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import { CLOUD_MINT_PUBLIC_KEY, RELAY_ISSUER_SECRET } from "../cloud/config.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
-import * as RelayDeliveryProof from "./RelayDeliveryProof.ts";
+import * as RelayDeliveryProof from "./RelayDeliveryProof.vibe";
 import { WEBHOOK_MAX_BODY_BYTES } from "./webhookRoute.vibe";
 import * as WebhookRoute from "./webhookRoute.vibe";
 

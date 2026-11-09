@@ -2,7 +2,7 @@ import type { GitRunStackedActionInput, GitRunStackedActionResult } from "@t3too
 import * as Effect from "effect/Effect"
 
 import * as OrchestratorV2 from "../orchestration-v2/Orchestrator.vibe"
-import * as ProjectStore from "../orchestration-v2/ProjectStore.ts"
+import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe"
 import * as PullRequestService from "../pullRequest/PullRequestService.ts"
 
 export const refreshPushedPullRequests = effect (

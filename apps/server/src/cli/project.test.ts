@@ -24,7 +24,7 @@ import * as References from "effect/References";
 import * as Stream from "effect/Stream";
 import { Command } from "effect/cli";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import { cli } from "../binCli.vibe";
 import * as ServerConfig from "../config.ts";
 import * as EventSink from "../orchestration-v2/EventSink.ts";

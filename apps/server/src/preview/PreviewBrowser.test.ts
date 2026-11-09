@@ -13,7 +13,7 @@ import * as Stream from "effect/Stream";
 import { HttpClient, HttpClientResponse } from "effect/http";
 import * as NodeZlib from "node:zlib";
 
-import * as PreviewBrowser from "./PreviewBrowser.ts";
+import * as PreviewBrowser from "./PreviewBrowser.vibe";
 import * as Layer from "effect/Layer";
 
 // NTFS cannot enforce POSIX modes; choose the host platform.

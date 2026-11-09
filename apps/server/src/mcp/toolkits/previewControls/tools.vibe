@@ -7,8 +7,8 @@ import {
 } from "@t3tools/contracts"
 import * as Schema from "effect/Schema"
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.vibe"
-import * as PreviewManager from "../../../preview/Manager.ts"
-import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.ts"
+import * as PreviewManager from "../../../preview/Manager.vibe"
+import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.vibe"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 
 const shared = {

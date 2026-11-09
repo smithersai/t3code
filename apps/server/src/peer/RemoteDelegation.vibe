@@ -34,7 +34,7 @@ import * as ServerEnvironment from "../environment/ServerEnvironment.vibe"
 import * as ProjectService from "../project/ProjectService.ts"
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe"
 import { forkParked } from "../serverActivation.vibe"
-import * as PeerForwarding from "./PeerForwarding.ts"
+import * as PeerForwarding from "./PeerForwarding.vibe"
 import * as PeerLinks from "./PeerLinks.ts"
 
 /** How long one follow of a remote task waits on its thread there before checking again. */

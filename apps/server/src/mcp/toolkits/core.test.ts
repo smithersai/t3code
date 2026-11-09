@@ -33,14 +33,14 @@ import {
   OrchestratorProjectionError,
 } from "../../orchestration-v2/Orchestrator.vibe";
 
-import * as ServerSecretStore from "../../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../../auth/ServerSecretStore.vibe";
 import * as ServerConfig from "../../config.ts";
 import * as ProviderAdapterRegistry from "../../orchestration-v2/ProviderAdapterRegistry.vibe";
 import * as ThreadLaunchService from "../../orchestration-v2/ThreadLaunchService.ts";
 import * as GitVcsDriver from "../../vcs/GitVcsDriver.ts";
 import * as ThreadManagement from "../../orchestration-v2/ThreadManagementService.vibe";
-import * as ThreadSearch from "../../orchestration-v2/ThreadSearch.ts";
-import * as PreviewBrowser from "../../preview/PreviewBrowser.ts";
+import * as ThreadSearch from "../../orchestration-v2/ThreadSearch.vibe";
+import * as PreviewBrowser from "../../preview/PreviewBrowser.vibe";
 import * as ProjectService from "../../project/ProjectService.ts";
 import * as ProviderRegistry from "../../provider/ProviderRegistry.ts";
 import * as SecretRequests from "../../secrets/SecretRequests.ts";
@@ -54,7 +54,7 @@ import * as AnalyticsService from "../../telemetry/AnalyticsService.vibe";
 import { dispatchFailure } from "../threadAccess.vibe";
 import * as EnvironmentHandlers from "./environment/handlers.vibe";
 import * as AttachmentHandlers from "./attachment/handlers.vibe";
-import * as PeerForwarding from "../../peer/PeerForwarding.ts";
+import * as PeerForwarding from "../../peer/PeerForwarding.vibe";
 import * as PeerLinkRequests from "../../peer/PeerLinkRequests.vibe";
 import * as PeerLinks from "../../peer/PeerLinks.ts";
 

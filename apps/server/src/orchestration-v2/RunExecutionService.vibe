@@ -33,7 +33,7 @@ import * as Schema from "effect/Schema"
 
 import * as McpSessionRegistry from "../mcp/McpSessionRegistry.ts"
 import * as McpAppModelContext from "../mcpApps/McpAppModelContext.vibe"
-import * as PreviewAgentActivity from "../preview/PreviewAgentActivity.ts"
+import * as PreviewAgentActivity from "../preview/PreviewAgentActivity.vibe"
 import * as ServerSettings from "../serverSettings.ts"
 import * as CheckpointService from "./CheckpointService.vibe"
 import * as EventSink from "./EventSink.ts"

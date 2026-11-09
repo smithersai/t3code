@@ -30,7 +30,7 @@ import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } fr
 import * as HttpApiClient from "effect/http-api/HttpApiClient";
 
 import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as BootService from "../cloud/bootService.ts";
 import * as CliState from "../cloud/CliState.vibe";
 import * as CliTokenManager from "../cloud/CliTokenManager.ts";

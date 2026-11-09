@@ -54,7 +54,7 @@ import { ThreadToolkit } from "./toolkits/thread/tools.vibe";
 import * as ThreadHandlers from "./toolkits/thread/handlers.ts";
 import * as ThreadMetadataMcpService from "./ThreadMetadataMcpService.vibe";
 import * as McpSessionRegistry from "./McpSessionRegistry.ts";
-import * as PreviewAutomationBroker from "./PreviewAutomationBroker.ts";
+import * as PreviewAutomationBroker from "./PreviewAutomationBroker.vibe";
 import * as OrchestratorHandlers from "./toolkits/orchestrator/handlers.vibe";
 import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.vibe";
 import * as PreviewHandlers from "./toolkits/preview/handlers.vibe";

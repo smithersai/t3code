@@ -16,7 +16,7 @@ import * as Layer from "effect/Layer"
 import * as ServerSettings from "../serverSettings.ts"
 import * as TextGeneration from "../textGeneration/TextGeneration.vibe"
 import type { OrchestratorV2Error } from "./Orchestrator.vibe"
-import * as ProjectStore from "./ProjectStore.ts"
+import * as ProjectStore from "./ProjectStore.vibe"
 import * as ThreadManagementService from "./ThreadManagementService.vibe"
 
 import { formatThreadTitleContext } from "@t3tools/provider-core/server/threadTitleContext"

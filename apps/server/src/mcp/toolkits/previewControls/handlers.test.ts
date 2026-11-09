@@ -13,12 +13,12 @@ import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
 
 import * as ServerConfig from "../../../config.ts";
-import * as Preview from "../../../preview/Manager.ts";
+import * as Preview from "../../../preview/Manager.vibe";
 import * as ServerSettings from "../../../serverSettings.ts";
 import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import * as McpToolAccessTestkit from "../../McpToolAccess.testkit.ts";
-import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.ts";
+import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.vibe";
 import * as PreviewControlsHandlers from "./handlers.vibe";
 import { PreviewControlsToolkit } from "./tools.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

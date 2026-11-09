@@ -13,16 +13,16 @@ import {
   type OrchestrationV2ThreadShellSnapshot,
   ProjectId,
   ThreadId,
-} from "@t3tools/contracts";
-import * as DateTime from "effect/DateTime";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
-import * as Schema from "effect/Schema";
-import * as SqlClient from "effect/sql/SqlClient";
-import * as SqlSchema from "effect/sql/SqlSchema";
-import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
+} from "@t3tools/contracts"
+import * as DateTime from "effect/DateTime"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Option from "effect/Option"
+import * as Schema from "effect/Schema"
+import * as SqlClient from "effect/sql/SqlClient"
+import * as SqlSchema from "effect/sql/SqlSchema"
+import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient"
 import {
   messageSearchTokens,
   foldSearchQuery,
@@ -31,14 +31,15 @@ import {
   messageMatcher,
   scoreThreadSearch,
   type ThreadSearchSubject,
-} from "@t3tools/shared/paletteSearch";
-import { threadSearchPullRequests } from "@t3tools/shared/threadPullRequests";
-import { indexedMessageCondition } from "./messageSearchIndex.vibe";
-import { loadOlderSettledThreadsPage } from "./ShellStream.ts";
+} from "@t3tools/shared/paletteSearch"
+import { threadSearchPullRequests } from "@t3tools/shared/threadPullRequests"
+import { indexedMessageCondition } from "./messageSearchIndex.vibe"
+import { loadOlderSettledThreadsPage } from "./ShellStream.ts"
 
 // When the user last wrote in the thread aliased `threads`, as the clients
 // rank recency; agent notices in the user role do not count.
-const latestUserMessageAt = (sql: SqlClient.SqlClient) => sql`(
+const latestUserMessageAt = (sql: SqlClient.SqlClient) =>
+  sql`(
   SELECT messages.updated_at
   FROM orchestration_v2_projection_messages AS messages
   WHERE messages.thread_id = threads.thread_id
@@ -46,7 +47,7 @@ const latestUserMessageAt = (sql: SqlClient.SqlClient) => sql`(
     AND COALESCE(json_extract(messages.payload_json, '$.createdBy'), 'user') = 'user'
   ORDER BY messages.updated_at DESC, messages.message_id DESC
   LIMIT 1
-)`;
+)`
 
 export class ThreadSearchError extends Schema.TaggedError<ThreadSearchError>()(
   "ThreadSearchError",
@@ -56,12 +57,12 @@ export class ThreadSearchError extends Schema.TaggedError<ThreadSearchError>()(
   },
 ) {
   override get message(): string {
-    return `Thread search ${this.operation} failed.`;
+    return `Thread search ${this.operation} failed.`
   }
 }
 
 // Token lists bind as JSON arrays, so any number of them is one parameter.
-const TokenList = Schema.fromJsonString(Schema.Array(Schema.String));
+const TokenList = Schema.fromJsonString(Schema.Array(Schema.String))
 const SearchRequest = Schema.Struct({
   /** The FTS5 query, or null to scan messages instead. */
   match: Schema.NullOr(Schema.String),
@@ -70,7 +71,7 @@ const SearchRequest = Schema.Struct({
   projectId: Schema.NullOr(ProjectId),
   /** Threads the caller already lists, left out before the hit limit. */
   excludedThreadIds: TokenList,
-});
+})
 const SearchRow = Schema.Struct({
   messageRowid: Schema.Number,
   messageId: MessageId,
@@ -79,26 +80,26 @@ const SearchRow = Schema.Struct({
   source: OrchestrationThreadSearchSource,
   text: Schema.String,
   messageCreatedAt: Schema.NullOr(IsoDateTime),
-});
+})
 
 const ThreadOpensRow = Schema.Struct({
   threadId: ThreadId,
   opens: Schema.NullOr(Schema.String),
   latestUserMessageAt: Schema.NullOr(IsoDateTime),
-});
+})
 const decodeThreadOpens = Schema.decodeUnknownOption(
   Schema.fromJsonString(OrchestrationV2ThreadOpens),
-);
+)
 
-const SNIPPET_LENGTH = 240;
+const SNIPPET_LENGTH = 240
 // The newest hits read per query. A common word stops here instead of reading
 // every message, so time stays flat as history grows.
-const MESSAGE_HIT_LIMIT = 2000;
+const MESSAGE_HIT_LIMIT = 2000
 // How many of the newest index hits the filters may pass over to fill that
 // limit: a rare short word or hidden threads would otherwise read every hit.
-const MESSAGE_CANDIDATE_LIMIT = 10_000;
+const MESSAGE_CANDIDATE_LIMIT = 10_000
 // Without the index, how many of the newest messages a search scans.
-const MESSAGE_SCAN_LIMIT = 20_000;
+const MESSAGE_SCAN_LIMIT = 20_000
 
 /**
  * The SQL inputs for a message search, or null when the query has no token
@@ -110,24 +111,24 @@ function buildMessageSearch(
   query: string,
   hasIndex: boolean,
 ): Omit<typeof SearchRequest.Type, "projectId" | "excludedThreadIds"> | null {
-  const { long, short } = messageSearchTokens(query);
-  if (long.length === 0) return null;
+  const { long, short } = messageSearchTokens(query)
+  if (long.length === 0) return null
   // Two-character CJK words are too short for trigrams.
-  const indexed = hasIndex && long.every((token) => Array.from(token).length >= 3);
+  const indexed = hasIndex && long.every((token) => Array.from(token).length >= 3)
   return {
-    match: indexed ? long.map((token) => `"${token.replaceAll('"', '""')}"`).join(" ") : null,
+    match: indexed ? long.map((token) => `"${token.replaceAll("\"", "\"\"")}"`).join(" ") : null,
     substrings: indexed ? short : [...long, ...short],
-  };
+  }
 }
 
 // A thread shows a link as its text, so in-thread find cannot reach a match
 // in the address; messages are matched as they read.
-const MARKDOWN_LINK = /!?\[([^\]\n]*)\]\([^)\s]*\)/g;
+const MARKDOWN_LINK = /!?\[([^\]\n]*)\]\([^)\s]*\)/g
 
 // Result rows show one line, so the match must sit near the start to be seen.
-const SNIPPET_LEAD = 24;
+const SNIPPET_LEAD = 24
 
-const isLowSurrogate = (code: number) => code >= 0xdc00 && code <= 0xdfff;
+const isLowSurrogate = (code: number) => code >= 0xdc00 && code <= 0xdfff
 
 /**
  * Up to 240 characters starting a few words before the match at `matchStart`,
@@ -135,23 +136,23 @@ const isLowSurrogate = (code: number) => code >= 0xdc00 && code <= 0xdfff;
  * the highlights again in the result.
  */
 export function buildSearchSnippet(text: string, matchStart: number): string {
-  let start = Math.max(0, matchStart - SNIPPET_LEAD);
-  const wordStart = text.slice(start, matchStart).search(/\s/);
-  if (start > 0 && wordStart !== -1) start += wordStart + 1;
+  let start = Math.max(0, matchStart - SNIPPET_LEAD)
+  const wordStart = text.slice(start, matchStart).search(/\s/)
+  if (start > 0 && wordStart !== -1) start += wordStart + 1
   // Cut between characters, not inside an emoji's surrogate pair.
-  if (isLowSurrogate(text.charCodeAt(start))) start++;
+  if (isLowSurrogate(text.charCodeAt(start))) start++
   // Collapsing whitespace shortens the text, so read more of it.
-  const rawEnd = Math.min(text.length, start + SNIPPET_LENGTH * 2);
+  const rawEnd = Math.min(text.length, start + SNIPPET_LENGTH * 2)
   // Emphasis and code marks do not show in a thread either.
   const shown = text
     .slice(start, rawEnd)
     .replace(/\*\*|`+/g, "")
     .replace(/\s+/g, " ")
-    .trim();
-  let end = Math.min(shown.length, SNIPPET_LENGTH - 2);
-  if (isLowSurrogate(shown.charCodeAt(end))) end--;
-  const cut = end < shown.length || rawEnd < text.length;
-  return `${start > 0 ? "…" : ""}${shown.slice(0, end)}${cut ? "…" : ""}`;
+    .trim()
+  let end = Math.min(shown.length, SNIPPET_LENGTH - 2)
+  if (isLowSurrogate(shown.charCodeAt(end))) end--
+  const cut = end < shown.length || rawEnd < text.length
+  return `${start > 0 ? "…" : ""}${shown.slice(0, end)}${cut ? "…" : ""}`
 }
 
 // Hidden subagent threads must be filtered before the hit limit so visible matches aren't lost.
@@ -161,7 +162,8 @@ export function buildSearchSnippet(text: string, matchStart: number): string {
 export const messageHitsQuery = (
   sql: SqlClient.SqlClient,
   { match, substrings, projectId, excludedThreadIds }: typeof SearchRequest.Encoded,
-) => sql`
+) =>
+  sql`
     WITH eligible AS MATERIALIZED (
       SELECT threads.thread_id, threads.project_id
       FROM orchestration_v2_projection_threads AS threads
@@ -176,8 +178,8 @@ export const messageHitsQuery = (
           IS NOT 'subagent'
     )
     ${
-      match === null
-        ? sql`
+    match === null
+      ? sql`
           SELECT
             messages.rowid AS "messageRowid",
             messages.message_id AS "messageId",
@@ -194,7 +196,7 @@ export const messageHitsQuery = (
               SELECT coalesce(max(rowid), 0) FROM orchestration_v2_projection_messages
             ) - ${MESSAGE_SCAN_LIMIT}
         `
-        : sql`
+      : sql`
           SELECT
             orchestration_v2_message_search.rowid AS "messageRowid",
             messages.message_id AS "messageId",
@@ -215,7 +217,7 @@ export const messageHitsQuery = (
               LIMIT 1 OFFSET ${MESSAGE_CANDIDATE_LIMIT - 1}
             ), 0)
         `
-    }
+  }
       -- Answers to an agent's question show inside its question card, where
       -- neither find nor a jump can reach them.
       AND messages.message_id NOT LIKE 'async-answer:%'
@@ -227,21 +229,21 @@ export const messageHitsQuery = (
     -- the limit; ordering by the messages table's rowid sorts every hit.
     ORDER BY "messageRowid" DESC
     LIMIT ${MESSAGE_HIT_LIMIT}
-  `;
+  `
 
 const TitleCandidateRow = Schema.Struct({
   thread: Schema.fromJsonString(OrchestrationV2AppThreadJson),
   projectTitle: Schema.String,
   latestUserMessageAt: Schema.NullOr(IsoDateTime),
-});
+})
 
 export interface ThreadSearchHit {
-  readonly threadId: ThreadId;
-  readonly projectId: ProjectId;
-  readonly title: string;
-  readonly source: "title" | OrchestrationThreadSearchSource;
-  readonly snippet?: string;
-  readonly messageCreatedAt?: string | null;
+  readonly threadId: ThreadId
+  readonly projectId: ProjectId
+  readonly title: string
+  readonly source: "title" | OrchestrationThreadSearchSource
+  readonly snippet?: string
+  readonly messageCreatedAt?: string | null
 }
 
 export class ThreadSearch extends Context.Service<
@@ -250,33 +252,33 @@ export class ThreadSearch extends Context.Service<
     /** Message text matches, for clients that rank their own thread list. */
     readonly search: (
       input: OrchestrationSearchThreadsInput,
-    ) => Effect.Effect<OrchestrationSearchThreadsResult, ThreadSearchError>;
+    ) => OrchestrationSearchThreadsResult!ThreadSearchError
     /**
      * Title, branch, pull request, and project matches ranked as the command
      * palette ranks them, then message matches for the remaining threads.
      */
     readonly searchThreads: (
       input: OrchestrationSearchThreadsInput & { readonly projectId?: ProjectId | undefined },
-    ) => Effect.Effect<{ readonly matches: ReadonlyArray<ThreadSearchHit> }, ThreadSearchError>;
+    ) => { readonly matches: ReadonlyArray<ThreadSearchHit> }!ThreadSearchError
     /**
      * The settled threads before `before` that clients omitting older settled threads should
      * receive for a query: the best title, branch, pull request and project matches, ranked as
      * the palette ranks them, then the older ones among `messageThreadIds`, in their order.
      */
     readonly searchOlderSettled: (input: {
-      readonly query: string;
-      readonly before: string;
-      readonly projectIds?: ReadonlyArray<ProjectId> | undefined;
+      readonly query: string
+      readonly before: string
+      readonly projectIds?: ReadonlyArray<ProjectId> | undefined
       /** The caller's name for this environment, which its palette also matches. */
-      readonly environmentLabel?: string | undefined;
-      readonly messageThreadIds: ReadonlyArray<ThreadId>;
-    }) => Effect.Effect<ReadonlyArray<ThreadId>, ThreadSearchError>;
+      readonly environmentLabel?: string | undefined
+      readonly messageThreadIds: ReadonlyArray<ThreadId>
+    }) => ReadonlyArray<ThreadId>!ThreadSearchError
   }
 >()("t3/orchestration-v2/ThreadSearch") {}
 
 // Rows a client gets per search: enough for the shown results without sending every match.
-const OLDER_SETTLED_TITLE_ROWS = 15;
-const OLDER_SETTLED_MESSAGE_ROWS = 5;
+const OLDER_SETTLED_TITLE_ROWS = 15
+const OLDER_SETTLED_MESSAGE_ROWS = 5
 
 // Only the fields the palette scorer reads, so an interactive search does not decode payloads.
 const OlderSettledTitleRow = Schema.Struct({
@@ -290,22 +292,23 @@ const OlderSettledTitleRow = Schema.Struct({
   createdAt: IsoDateTime,
   projectTitle: Schema.String,
   latestUserMessageAt: Schema.NullOr(IsoDateTime),
-});
+})
 
 /** @public */
-export const make = Effect.gen(function* () {
-  const sql = yield* SqlClient.SqlClient;
+export const make = Effect.gen(function*() {
+  const sql = yield* SqlClient.SqlClient
 
   const searchRows = SqlSchema.findAll({
     Request: SearchRequest,
     Result: SearchRow,
     execute: (request) => messageHitsQuery(sql, request),
-  });
+  })
 
   const threadOpens = SqlSchema.findAll({
     Request: Schema.Struct({ threadIds: TokenList }),
     Result: ThreadOpensRow,
-    execute: ({ threadIds }) => sql`
+    execute: ({ threadIds }) =>
+      sql`
       SELECT
         threads.thread_id AS "threadId",
         json_extract(threads.payload_json, '$.opens') AS opens,
@@ -313,12 +316,13 @@ export const make = Effect.gen(function* () {
       FROM orchestration_v2_projection_threads AS threads
       WHERE threads.thread_id IN (SELECT value FROM json_each(${threadIds}))
     `,
-  });
+  })
 
   const titleCandidates = SqlSchema.findAll({
     Request: Schema.Struct({ projectId: Schema.NullOr(ProjectId) }),
     Result: TitleCandidateRow,
-    execute: ({ projectId }) => sql`
+    execute: ({ projectId }) =>
+      sql`
       SELECT
         threads.payload_json AS thread,
         projects.title AS "projectTitle",
@@ -333,7 +337,7 @@ export const make = Effect.gen(function* () {
           IS NOT 'subagent'
         AND (${projectId} IS NULL OR threads.project_id = ${projectId})
     `,
-  });
+  })
 
   const olderSettledTitleCandidates = SqlSchema.findAll({
     Request: Schema.Struct({
@@ -341,7 +345,8 @@ export const make = Effect.gen(function* () {
       projectIds: Schema.NullOr(TokenList),
     }),
     Result: OlderSettledTitleRow,
-    execute: ({ before, projectIds }) => sql`
+    execute: ({ before, projectIds }) =>
+      sql`
       SELECT
         threads.thread_id AS id,
         json_extract(threads.payload_json, '$.title') AS title,
@@ -366,7 +371,7 @@ export const make = Effect.gen(function* () {
         AND (${projectIds} IS NULL
           OR threads.project_id IN (SELECT value FROM json_each(${projectIds})))
     `,
-  });
+  })
 
   const olderSettledIds = SqlSchema.findAll({
     Request: Schema.Struct({
@@ -375,7 +380,8 @@ export const make = Effect.gen(function* () {
       projectIds: Schema.NullOr(TokenList),
     }),
     Result: Schema.Struct({ id: ThreadId }),
-    execute: ({ before, threadIds, projectIds }) => sql`
+    execute: ({ before, threadIds, projectIds }) =>
+      sql`
       SELECT threads.thread_id AS id
       FROM orchestration_v2_projection_threads AS threads
       WHERE threads.thread_id IN (SELECT value FROM json_each(${threadIds}))
@@ -388,9 +394,9 @@ export const make = Effect.gen(function* () {
         AND (${projectIds} IS NULL
           OR threads.project_id IN (SELECT value FROM json_each(${projectIds})))
     `,
-  });
+  })
 
-  const read = <A, E, R>(effect: Effect.Effect<A, E, R>) =>
+  const read = <A, E, R>(effect: A!E!R) =>
     sql.withTransaction(effect).pipe(
       NodeSqliteClient.readOnly,
       Effect.mapError(
@@ -400,17 +406,17 @@ export const make = Effect.gen(function* () {
             cause,
           }),
       ),
-    );
+    )
 
   // A project scope applies before ranking, so other projects' stronger hits
   // cannot use up the limit.
-  const searchMessages = Effect.fn("ThreadSearch.search")(function* (
+  const searchMessages = Effect.fn("ThreadSearch.search")(function*(
     input: OrchestrationSearchThreadsInput & {
-      readonly projectId: ProjectId | null;
+      readonly projectId: ProjectId | null
       /** Threads the caller already lists, which must not use up the limit. */
-      readonly excludedThreadIds?: ReadonlySet<ThreadId>;
+      readonly excludedThreadIds?: ReadonlySet<ThreadId>
       /** Off for an agent's search, which has no use for the user's picks. */
-      readonly picks?: boolean;
+      readonly picks?: boolean
     },
   ) {
     // One message per thread: the best word match, then what the user wrote,
@@ -418,57 +424,57 @@ export const make = Effect.gen(function* () {
     // written. Row order is not age: imported histories arrive in one batch.
     // Text relevance (bm25) would cost a pass over every hit in history.
     type Hit = {
-      readonly row: typeof SearchRow.Type;
+      readonly row: typeof SearchRow.Type
       /** The message as it reads, links as their text. */
-      readonly text: string;
-      readonly quality: number;
-      readonly offset: number;
-    };
+      readonly text: string
+      readonly quality: number
+      readonly offset: number
+    }
     const newer = (left: Hit, right: Hit) =>
-      (right.row.messageCreatedAt ?? "").localeCompare(left.row.messageCreatedAt ?? "");
+      (right.row.messageCreatedAt ?? "").localeCompare(left.row.messageCreatedAt ?? "")
     const compareHits = (left: Hit, right: Hit) =>
-      right.quality - left.quality ||
-      Number(left.row.source !== "user") - Number(right.row.source !== "user") ||
-      newer(left, right);
+      right.quality - left.quality
+      || Number(left.row.source !== "user") - Number(right.row.source !== "user")
+      || newer(left, right)
     const rows = yield* read(
-      Effect.gen(function* () {
+      Effect.gen(function*() {
         const index = yield* sql`
           SELECT 1 FROM sqlite_master WHERE name = 'orchestration_v2_message_search'
-        `;
-        const messageSearch = buildMessageSearch(input.query, index.length > 0);
+        `
+        const messageSearch = buildMessageSearch(input.query, index.length > 0)
         return messageSearch === null
           ? []
           : yield* searchRows({
-              ...messageSearch,
-              projectId: input.projectId,
-              excludedThreadIds: [...(input.excludedThreadIds ?? [])],
-            });
+            ...messageSearch,
+            projectId: input.projectId,
+            excludedThreadIds: [...(input.excludedThreadIds ?? [])],
+          })
       }),
-    );
-    const best = new Map<ThreadId, Hit>();
+    )
+    const best = new Map<ThreadId, Hit>()
     // Matching messages per thread at its best quality: a thread that keeps
     // using the word ranks above a passing mention, and weaker hits ("Trust"
     // for "rust") never add to a whole word's count.
-    const hitCounts = new Map<ThreadId, number>();
-    const hitCount = (threadId: ThreadId) => hitCounts.get(threadId) ?? 1;
-    const matchMessage = messageMatcher(input.query);
+    const hitCounts = new Map<ThreadId, number>()
+    const hitCount = (threadId: ThreadId) => hitCounts.get(threadId) ?? 1
+    const matchMessage = messageMatcher(input.query)
     for (const row of rows) {
-      const text = row.text.replace(MARKDOWN_LINK, "$1");
-      const match = matchMessage(text);
-      if (match === null) continue;
-      const hit = { row, text, ...match };
-      const current = best.get(row.threadId);
+      const text = row.text.replace(MARKDOWN_LINK, "$1")
+      const match = matchMessage(text)
+      if (match === null) continue
+      const hit = { row, text, ...match }
+      const current = best.get(row.threadId)
       if (current === undefined || hit.quality > current.quality) {
-        hitCounts.set(row.threadId, 1);
+        hitCounts.set(row.threadId, 1)
       } else if (hit.quality === current.quality) {
-        hitCounts.set(row.threadId, hitCount(row.threadId) + 1);
+        hitCounts.set(row.threadId, hitCount(row.threadId) + 1)
       }
-      if (current === undefined || compareHits(hit, current) < 0) best.set(row.threadId, hit);
+      if (current === undefined || compareHits(hit, current) < 0) best.set(row.threadId, hit)
     }
     // Ranked as clients rank them, with picks and use, before the limit cuts:
     // a thread picked for this query must come back even when it only
     // matches in a few old messages.
-    const opens = best.size === 0 ? [] : yield* read(threadOpens({ threadIds: [...best.keys()] }));
+    const opens = best.size === 0 ? [] : yield* read(threadOpens({ threadIds: [...best.keys()] }))
     const subjectById = new Map(
       opens.map((row) => [
         row.threadId,
@@ -478,8 +484,8 @@ export const make = Effect.gen(function* () {
           opens: Option.getOrNull(decodeThreadOpens(row.opens)),
         },
       ]),
-    );
-    const now = DateTime.toEpochMillis(yield* DateTime.now);
+    )
+    const now = DateTime.toEpochMillis(yield* DateTime.now)
     const ranked = rankMessageMatches(
       [...best.values()].map((hit) => ({
         ...hit,
@@ -490,7 +496,7 @@ export const make = Effect.gen(function* () {
       foldSearchQuery(input.query),
       now,
       { picks: input.picks ?? true },
-    );
+    )
     return {
       matches: ranked.slice(0, input.limit ?? 50).map(({ row, text, quality, offset }) => ({
         hits: hitCount(row.threadId),
@@ -502,21 +508,20 @@ export const make = Effect.gen(function* () {
         messageCreatedAt: row.messageCreatedAt,
         quality,
       })),
-    };
-  });
+    }
+  })
 
-  const search: ThreadSearch["Service"]["search"] = (input) =>
-    searchMessages({ ...input, projectId: null });
+  const search: ThreadSearch["Service"]["search"] = (input) => searchMessages({ ...input, projectId: null })
 
   const searchThreads: ThreadSearch["Service"]["searchThreads"] = Effect.fn(
     "ThreadSearch.searchThreads",
-  )(function* (input) {
-    const limit = input.limit ?? 50;
-    const normalizedQuery = foldSearchQuery(input.query);
-    const now = DateTime.toEpochMillis(yield* DateTime.now);
+  )(function*(input) {
+    const limit = input.limit ?? 50
+    const normalizedQuery = foldSearchQuery(input.query)
+    const now = DateTime.toEpochMillis(yield* DateTime.now)
     // Agents call this rarely, and a project has hundreds of threads, not
     // millions, so ranking every active thread in memory stays cheap.
-    const candidates = yield* read(titleCandidates({ projectId: input.projectId ?? null }));
+    const candidates = yield* read(titleCandidates({ projectId: input.projectId ?? null }))
     const subjectById = new Map(
       candidates.map((row): [ThreadId, ThreadSearchSubject] => [
         row.thread.id,
@@ -533,51 +538,50 @@ export const make = Effect.gen(function* () {
           opens: row.thread.opens ?? null,
         },
       ]),
-    );
+    )
     const titleHits: ThreadSearchHit[] = rankSearchItems(candidates, (row, options) =>
       // An agent's search has no use for the user's palette picks.
       scoreThreadSearch(normalizedQuery, subjectById.get(row.thread.id)!, now, {
         ...options,
         picks: false,
-      }),
-    )
+      }))
       .slice(0, limit)
       .map(({ item }) => ({
         threadId: item.thread.id,
         projectId: item.thread.projectId,
         title: item.thread.title,
         source: "title",
-      }));
-    const shown = new Set(titleHits.map((hit) => hit.threadId));
+      }))
+    const shown = new Set(titleHits.map((hit) => hit.threadId))
     const { matches } = yield* searchMessages({
       query: input.query,
       limit: 50,
       projectId: input.projectId ?? null,
       excludedThreadIds: shown,
       picks: false,
-    });
+    })
     const messageHits = matches
       .filter((match) => subjectById.has(match.threadId))
       .map(({ quality: _quality, hits: _hits, messageId: _messageId, ...match }) => ({
         ...match,
         title: subjectById.get(match.threadId)!.title,
-      }));
+      }))
     // Titles come first, but a fifth of the slots stay for message matches,
     // as the palette keeps its "In messages" section.
-    const messageSlots = Math.min(messageHits.length, Math.floor(limit / 5));
+    const messageSlots = Math.min(messageHits.length, Math.floor(limit / 5))
     return {
       matches: [...titleHits.slice(0, limit - messageSlots), ...messageHits].slice(0, limit),
-    };
-  });
+    }
+  })
 
   const searchOlderSettled: ThreadSearch["Service"]["searchOlderSettled"] = Effect.fn(
     "ThreadSearch.searchOlderSettled",
-  )(function* ({ query, before, projectIds, environmentLabel, messageThreadIds }) {
-    const normalizedQuery = foldSearchQuery(query);
-    const now = DateTime.toEpochMillis(yield* DateTime.now);
+  )(function*({ query, before, projectIds, environmentLabel, messageThreadIds }) {
+    const normalizedQuery = foldSearchQuery(query)
+    const now = DateTime.toEpochMillis(yield* DateTime.now)
     const candidates = yield* read(
       olderSettledTitleCandidates({ before, projectIds: projectIds ?? null }),
-    );
+    )
     const subjectOf = (row: typeof OlderSettledTitleRow.Type): ThreadSearchSubject => ({
       id: row.id,
       title: row.title,
@@ -592,37 +596,37 @@ export const make = Effect.gen(function* () {
       // Like the clients: what the user last wrote, else when the thread began.
       activityAt: Date.parse(row.latestUserMessageAt ?? row.createdAt),
       opens: Option.getOrNull(decodeThreadOpens(row.opens)),
-    });
+    })
     // Picks on, as in the command palette: a thread picked for this query must make the cut.
-    const titleIds = rankSearchItems(candidates, (row, options) =>
-      scoreThreadSearch(normalizedQuery, subjectOf(row), now, { ...options, picks: true }),
+    const titleIds = rankSearchItems(
+      candidates,
+      (row, options) => scoreThreadSearch(normalizedQuery, subjectOf(row), now, { ...options, picks: true }),
     )
       .slice(0, OLDER_SETTLED_TITLE_ROWS)
-      .map(({ item }) => item.id);
-    const shown = new Set(titleIds);
-    const messageCandidates = [...new Set(messageThreadIds)].filter((id) => !shown.has(id));
-    const older =
-      messageCandidates.length === 0
-        ? new Set<ThreadId>()
-        : new Set(
-            (yield* read(
-              olderSettledIds({
-                before,
-                threadIds: messageCandidates,
-                projectIds: projectIds ?? null,
-              }),
-            )).map((row) => row.id),
-          );
+      .map(({ item }) => item.id)
+    const shown = new Set(titleIds)
+    const messageCandidates = [...new Set(messageThreadIds)].filter((id) => !shown.has(id))
+    const older = messageCandidates.length === 0
+      ? new Set<ThreadId>()
+      : new Set(
+        (yield* read(
+          olderSettledIds({
+            before,
+            threadIds: messageCandidates,
+            projectIds: projectIds ?? null,
+          }),
+        )).map((row) => row.id),
+      )
     return [
       ...titleIds,
       ...messageCandidates.filter((id) => older.has(id)).slice(0, OLDER_SETTLED_MESSAGE_ROWS),
-    ];
-  });
+    ]
+  })
 
-  return ThreadSearch.of({ search, searchThreads, searchOlderSettled });
-});
+  return ThreadSearch.of({ search, searchThreads, searchOlderSettled })
+})
 
-export const layer = Layer.effect(ThreadSearch, make);
+export const layer = Layer.effect(ThreadSearch, make)
 
 /**
  * The client search: message hits, and with `olderSettledBefore`, the rows of the best older
@@ -630,25 +634,25 @@ export const layer = Layer.effect(ThreadSearch, make);
  */
 export const searchThreadsWithOlderSettledRows = Effect.fn(
   "ThreadSearch.searchThreadsWithOlderSettledRows",
-)(function* <E1, E2, E3, E4, E5>(input: {
-  readonly request: OrchestrationV2SearchThreadsInput;
+)(function*<E1, E2, E3, E4, E5>(input: {
+  readonly request: OrchestrationV2SearchThreadsInput
   readonly search: (
     input: OrchestrationSearchThreadsInput,
-  ) => Effect.Effect<OrchestrationSearchThreadsResult, E1>;
+  ) => OrchestrationSearchThreadsResult!E1
   readonly searchOlderSettled: (
     input: Parameters<ThreadSearch["Service"]["searchOlderSettled"]>[0],
-  ) => Effect.Effect<ReadonlyArray<ThreadId>, E2>;
-  readonly sql: SqlClient.SqlClient;
+  ) => ReadonlyArray<ThreadId>!E2
+  readonly sql: SqlClient.SqlClient
   readonly readThreads: (
     threadIds: ReadonlyArray<ThreadId>,
-  ) => Effect.Effect<Effect.Effect<OrchestrationV2ThreadShellSnapshot, E4>, E3>;
-  readonly latestSequence: Effect.Effect<number, E5>;
+  ) => (OrchestrationV2ThreadShellSnapshot!E4)!E3
+  readonly latestSequence: number!E5
 }) {
-  const { olderSettledBefore, projectIds, environmentLabel, titlesOnly, ...request } =
-    input.request;
-  const messages: OrchestrationV2SearchThreadsResult =
-    titlesOnly === true ? { matches: [] } : yield* input.search(request);
-  if (olderSettledBefore === undefined) return messages;
+  const { olderSettledBefore, projectIds, environmentLabel, titlesOnly, ...request } = input.request
+  const messages: OrchestrationV2SearchThreadsResult = titlesOnly === true
+    ? { matches: [] }
+    : yield* input.search(request)
+  if (olderSettledBefore === undefined) return messages
   // Ranked before the rows' transaction, so scoring never holds the shared reader.
   const threadIds = yield* input.searchOlderSettled({
     query: request.query,
@@ -656,12 +660,12 @@ export const searchThreadsWithOlderSettledRows = Effect.fn(
     projectIds,
     environmentLabel,
     messageThreadIds: messages.matches.map((match) => match.threadId),
-  });
+  })
   const older = yield* loadOlderSettledThreadsPage({
     sql: input.sql,
     listThreads: Effect.succeed({ threadIds, counts: [] }),
     readThreads: input.readThreads,
     latestSequence: input.latestSequence,
-  });
-  return { ...messages, snapshotSequence: older.snapshotSequence, threads: older.threads };
-});
+  })
+  return { ...messages, snapshotSequence: older.snapshotSequence, threads: older.threads }
+})

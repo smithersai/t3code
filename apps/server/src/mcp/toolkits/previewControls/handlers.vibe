@@ -1,10 +1,10 @@
 import * as Effect from "effect/Effect"
-import * as Preview from "../../../preview/Manager.ts"
+import * as Preview from "../../../preview/Manager.vibe"
 import { requireThreadMcpCapability } from "../../McpInvocationContext.vibe"
 import * as McpToolAccess from "../../McpToolAccess.ts"
 import { unavailable } from "../../threadAccess.vibe"
 import { PreviewControlsToolkit } from "./tools.vibe"
-import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.ts"
+import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.vibe"
 
 const access = effect {
   const scope = try requireThreadMcpCapability("preview")

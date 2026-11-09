@@ -1,6 +1,6 @@
 import * as CodexInstallation from "../CodexInstallation.ts";
 import * as CodexManagedTokenBroker from "../CodexManagedTokenBroker.ts";
-import * as ServerSecretStore from "../../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../../auth/ServerSecretStore.vibe";
 import * as ServerEnvironment from "../../environment/ServerEnvironment.vibe";
 // @effect-diagnostics nodeBuiltinImport:off
 import * as NodeServices from "@effect/platform-node/NodeServices";
@@ -26,7 +26,7 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import * as BackgroundPolicy from "../../background/BackgroundPolicy.vibe";
 import * as ServerConfig from "../../config.ts";
 import * as ServerSettings from "../../serverSettings.ts";
-import * as ResetCreditCoordinator from "../resetCreditCoordinator.ts";
+import * as ResetCreditCoordinator from "../resetCreditCoordinator.vibe";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";

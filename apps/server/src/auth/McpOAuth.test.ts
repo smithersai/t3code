@@ -26,7 +26,7 @@ import * as Sqlite from "../persistence/Sqlite.vibe";
 import * as EnvironmentAuth from "./EnvironmentAuth.ts";
 import * as McpOAuth from "./McpOAuth.ts";
 import * as McpOAuthHttp from "./mcpOAuthHttp.ts";
-import * as ServerSecretStore from "./ServerSecretStore.ts";
+import * as ServerSecretStore from "./ServerSecretStore.vibe";
 import * as AuthHttp from "./http.ts";
 
 class AuthTestApi extends HttpApi.make("environment")

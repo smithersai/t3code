@@ -1,7 +1,7 @@
 import { type ProjectId, type ServerSettings } from "@t3tools/contracts"
 import * as Effect from "effect/Effect"
 
-import * as ProjectStore from "../orchestration-v2/ProjectStore.ts"
+import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe"
 import * as Settings from "../serverSettings.ts"
 
 const findOrphanedProjectIds = (

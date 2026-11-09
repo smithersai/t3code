@@ -34,7 +34,7 @@ import * as McpToolAccessTestkit from "./McpToolAccess.testkit.ts";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as McpSessionRegistry from "./McpSessionRegistry.ts";
 import * as OrchestratorMcpService from "./OrchestratorMcpService.vibe";
-import * as PreviewAutomationBroker from "./PreviewAutomationBroker.ts";
+import * as PreviewAutomationBroker from "./PreviewAutomationBroker.vibe";
 import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.vibe";
 import { PreviewToolkit } from "./toolkits/preview/tools.vibe";
 import { ProjectToolkit } from "./toolkits/project/tools.vibe";

@@ -10,7 +10,7 @@ import * as Ref from "effect/Ref";
 import * as PlatformError from "effect/PlatformError";
 
 import * as ServerConfig from "../config.ts";
-import * as ServerSecretStore from "./ServerSecretStore.ts";
+import * as ServerSecretStore from "./ServerSecretStore.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerServerConfig = () =>

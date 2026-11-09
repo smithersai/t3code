@@ -17,7 +17,7 @@ import * as DocumentText from "./DocumentText.ts";
 import { extractDocumentText } from "./documentTextWorker.ts";
 import * as Cleanup from "../orchestration-v2/ResourceCleanupService.ts";
 import * as TerminalManager from "../terminal/Manager.ts";
-import * as PreviewManager from "../preview/Manager.ts";
+import * as PreviewManager from "../preview/Manager.vibe";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
 import * as NodeZlib from "node:zlib";
 import { appendUserInputAttachmentPaths } from "./userInputAttachments.vibe";

@@ -24,7 +24,7 @@ import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.ts";
 import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.vibe";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
-import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
+import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe";
 import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.vibe";
 import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";

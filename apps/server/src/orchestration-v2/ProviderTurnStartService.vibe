@@ -43,7 +43,7 @@ import {
   historicalMessage,
   latestNativeContextUsage,
 } from "@t3tools/provider-core/server/handoffBudget"
-import { deliverContextHandoffs } from "./ContextHandoffDelivery.ts"
+import { deliverContextHandoffs } from "./ContextHandoffDelivery.vibe"
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter"
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator"
 import * as ProjectionStore from "./ProjectionStore.ts"

@@ -166,8 +166,8 @@ import {
   projectThreadProjectionForWire,
 } from "./orchestration-v2/WireProjection.ts";
 import { dedupeSnapshotBodies } from "@t3tools/shared/orchestrationV2DedupedBodies";
-import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
-import * as ThreadSearch from "./orchestration-v2/ThreadSearch.ts";
+import * as ProjectStore from "./orchestration-v2/ProjectStore.vibe";
+import * as ThreadSearch from "./orchestration-v2/ThreadSearch.vibe";
 import * as OrchestrationEventStore from "./persistence/OrchestrationEventStore.ts";
 import { userFacingDispatchErrorMessage } from "./orchestration-v2/UserFacingErrors.vibe";
 import * as ProviderRegistry from "./provider/ProviderRegistry.ts";
@@ -188,11 +188,11 @@ import * as DatabaseStorage from "./persistence/DatabaseStorage.vibe";
 import * as StorageCleanup from "./storageCleanup.vibe";
 import * as TerminalManager from "./terminal/Manager.ts";
 import { terminalOutputStream, withTerminalOutputWindow } from "./terminal/OutputProtocol.vibe";
-import * as PreviewAutomationBroker from "./mcp/PreviewAutomationBroker.ts";
+import * as PreviewAutomationBroker from "./mcp/PreviewAutomationBroker.vibe";
 import * as ServerBrowser from "./preview/ServerBrowser.ts";
 import * as DeviceService from "./device/DeviceService.vibe";
 import { remoteSshDeviceHosts } from "./device/localSshDeviceHost.ts";
-import * as PreviewManager from "./preview/Manager.ts";
+import * as PreviewManager from "./preview/Manager.vibe";
 import { issueAssetUrl } from "./assets/AssetAccess.ts";
 import {
   attachmentRelativePath,

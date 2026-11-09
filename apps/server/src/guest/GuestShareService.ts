@@ -37,7 +37,7 @@ import {
   signPayload,
   timingSafeEqualBase64Url,
 } from "../auth/utils.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import {
   attachmentFileExtension,
   createAttachmentId,

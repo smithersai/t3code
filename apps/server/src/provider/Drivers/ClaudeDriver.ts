@@ -25,7 +25,7 @@ import { ProviderDriverError } from "../Errors.vibe";
 import { claudeUsageReader } from "./claudeUsage.vibe";
 import { makeClaudeScopedLimitNames } from "../claudeUsageLimits.vibe";
 import * as ClaudeResetCredits from "../claudeResetCredits.vibe";
-import * as ResetCreditCoordinator from "../resetCreditCoordinator.ts";
+import * as ResetCreditCoordinator from "../resetCreditCoordinator.vibe";
 import {
   checkClaudeProviderStatus,
   makePendingClaudeProvider,

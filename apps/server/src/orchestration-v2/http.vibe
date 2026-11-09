@@ -27,7 +27,7 @@ import {
   OLDER_THREAD_USER_TURN_LIMIT,
 } from "./threadHistoryPaging.ts"
 import * as ThreadManagementService from "./ThreadManagementService.vibe"
-import * as ProjectStore from "./ProjectStore.ts"
+import * as ProjectStore from "./ProjectStore.vibe"
 import { buildActiveShellSnapshot, loadShellSnapshotParts, shellSnapshotForSubscriber } from "./ShellStream.ts"
 import { boundedSnapshotResponseFields } from "./ThreadStream.ts"
 import { projectThreadProjectionForWire } from "./WireProjection.ts"

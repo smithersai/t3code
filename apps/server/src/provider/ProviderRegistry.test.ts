@@ -1,5 +1,5 @@
 import { vi } from "vite-plus/test";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as CodexInstallation from "./CodexInstallation.ts";
 import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
@@ -44,7 +44,7 @@ import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
 import * as AntigravityInstallation from "./AntigravityInstallation.ts";
 import * as ModelManifest from "./ModelManifest.vibe";
 import { applyProviderCompatibility } from "./providerCompatibility.vibe";
-import * as ResetCreditCoordinator from "./resetCreditCoordinator.ts";
+import * as ResetCreditCoordinator from "./resetCreditCoordinator.vibe";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as OpenCodeRuntime from "@t3tools/provider-opencode/server/OpenCodeRuntime";

@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as Ref from "effect/Ref";
 
-import * as ResetCreditCoordinator from "./resetCreditCoordinator.ts";
+import * as ResetCreditCoordinator from "./resetCreditCoordinator.vibe";
 
 describe("ResetCreditCoordinator", () => {
   it.effect("re-sends the same idempotency key after a failed attempt, then clears it", () =>

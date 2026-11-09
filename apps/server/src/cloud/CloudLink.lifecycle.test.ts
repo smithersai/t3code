@@ -13,7 +13,7 @@ import * as NetAddress from "effect/net/NetAddress";
 
 import { EnvironmentId } from "@t3tools/contracts";
 import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ServerConfigModule from "../config.ts";
 import { writeServiceState } from "../serviceLauncher.ts";
 import {

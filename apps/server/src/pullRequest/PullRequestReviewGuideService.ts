@@ -27,7 +27,7 @@ import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts";
 
 import * as ServerConfig from "../config.ts";
-import * as PullRequestReviewGuides from "../persistence/PullRequestReviewGuides.ts";
+import * as PullRequestReviewGuides from "../persistence/PullRequestReviewGuides.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ServerSettings from "../serverSettings.ts";

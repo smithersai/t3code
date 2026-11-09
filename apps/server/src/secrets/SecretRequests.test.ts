@@ -18,7 +18,7 @@ import * as Path from "effect/Path";
 import * as PlatformError from "effect/PlatformError";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import * as SecretRequests from "./SecretRequests.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

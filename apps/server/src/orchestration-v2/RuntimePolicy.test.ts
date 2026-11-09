@@ -15,7 +15,7 @@ import * as Stream from "effect/Stream";
 
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
 import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.vibe";
-import * as ProjectStore from "./ProjectStore.ts";
+import * as ProjectStore from "./ProjectStore.vibe";
 import * as RuntimePolicy from "./RuntimePolicy.ts";
 
 const projectId = ProjectId.make("project:runtime-policy");

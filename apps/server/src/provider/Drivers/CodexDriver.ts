@@ -19,7 +19,7 @@ import {
   type CodexAdapterV2DriverEnv,
 } from "../../orchestration-v2/Adapters/CodexAdapterV2.ts";
 import { ProviderDriverError } from "../Errors.vibe";
-import * as ResetCreditCoordinator from "../resetCreditCoordinator.ts";
+import * as ResetCreditCoordinator from "../resetCreditCoordinator.vibe";
 import {
   checkCodexProviderStatus,
   makePendingCodexProvider,
@@ -54,7 +54,7 @@ import { makeManagedCodexProvider } from "./CodexManagedProvider.vibe";
 import { codexUsageReader } from "./codexUsage.vibe";
 import * as CodexInstallation from "../CodexInstallation.ts";
 import * as CodexManagedTokenBroker from "../CodexManagedTokenBroker.ts";
-import * as ServerSecretStore from "../../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../../auth/ServerSecretStore.vibe";
 import * as ServerEnvironment from "../../environment/ServerEnvironment.vibe";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 const decodeCodexSettings = Schema.decodeSync(CodexSettings);

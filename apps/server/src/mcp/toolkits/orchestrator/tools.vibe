@@ -42,7 +42,7 @@ import { Tool, Toolkit } from "effect/ai"
 import * as Schema from "effect/Schema"
 
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.vibe"
-import * as PeerForwarding from "../../../peer/PeerForwarding.ts"
+import * as PeerForwarding from "../../../peer/PeerForwarding.vibe"
 import * as PeerLinkRequests from "../../../peer/PeerLinkRequests.vibe"
 import * as PeerLinks from "../../../peer/PeerLinks.ts"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"

@@ -32,7 +32,7 @@ import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as EventStore from "./EventStore.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProjectStore from "./ProjectStore.ts";
+import * as ProjectStore from "./ProjectStore.vibe";
 import * as TurnItemPositionStore from "./TurnItemPositionStore.vibe";
 
 export class EventSinkWriteError extends Schema.TaggedError<EventSinkWriteError>()(

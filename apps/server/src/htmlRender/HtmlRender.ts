@@ -33,7 +33,7 @@ import { createAttachmentId } from "../attachmentStore.ts";
 import { resolveRootCliCommand } from "../cli/invocation.vibe";
 import * as ServerConfig from "../config.ts";
 import * as HeadlessChrome from "./headlessChrome.ts";
-import * as PreviewBrowser from "../preview/PreviewBrowser.ts";
+import * as PreviewBrowser from "../preview/PreviewBrowser.vibe";
 import * as PreviewBrowserHost from "../preview/PreviewBrowserHost.vibe";
 
 const MIB = 1024 * 1024;

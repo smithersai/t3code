@@ -7,7 +7,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 import { ProjectId } from "@t3tools/contracts";
 
 import * as ServerConfig from "../config.ts";
-import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
+import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";

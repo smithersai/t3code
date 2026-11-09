@@ -29,12 +29,12 @@ import { beforeEach, expect, vi } from "vite-plus/test";
 
 import * as ServerConfig from "../config.ts";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
-import * as Broker from "../mcp/PreviewAutomationBroker.ts";
+import * as Broker from "../mcp/PreviewAutomationBroker.vibe";
 import * as DesktopChannel from "./DesktopBrowserChannel.ts";
-import * as Manager from "./Manager.ts";
-import * as PreviewAgentActivity from "./PreviewAgentActivity.ts";
+import * as Manager from "./Manager.vibe";
+import * as PreviewAgentActivity from "./PreviewAgentActivity.vibe";
 import * as ServerBrowser from "./ServerBrowser.ts";
-import * as PreviewBrowser from "./PreviewBrowser.ts";
+import * as PreviewBrowser from "./PreviewBrowser.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("./ServerBrowserContexts.ts", () => ({

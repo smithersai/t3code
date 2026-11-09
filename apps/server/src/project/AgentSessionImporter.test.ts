@@ -28,7 +28,7 @@ import {
   CLAUDE_MODEL_SELECTION,
   CODEX_MODEL_SELECTION,
 } from "../orchestration-v2/testkit/fixtures/shared.ts";
-import * as ProviderSessionRuntime from "../persistence/ProviderSessionRuntime.ts";
+import * as ProviderSessionRuntime from "../persistence/ProviderSessionRuntime.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as AgentSessionImporter from "./AgentSessionImporter.vibe";
 import * as AgentSessionScanner from "./AgentSessionScanner.ts";

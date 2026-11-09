@@ -48,7 +48,7 @@ import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.t
 import { subscribeOrchestrationV2Thread } from "../ws.ts";
 import * as OrchestrationHttp from "./http.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProjectStore from "./ProjectStore.ts";
+import * as ProjectStore from "./ProjectStore.vibe";
 import * as ThreadManagementService from "./ThreadManagementService.vibe";
 
 const decodeBounded = Schema.decodeUnknownSync(

@@ -33,7 +33,7 @@ import {
   signPayload,
   timingSafeEqualBase64Url,
 } from "../auth/utils.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ServerConfig from "../config.ts";
 import { inferImageExtension } from "../imageMime.vibe";
 import * as DocumentText from "../provider/DocumentText.ts";

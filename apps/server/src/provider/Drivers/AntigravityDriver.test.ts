@@ -28,7 +28,7 @@ import * as ModelManifest from "../ModelManifest.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { AntigravityDriver } from "./AntigravityDriver.ts";
 import * as ProviderHostLive from "../ProviderHostLive.vibe";
-import * as ServerSecretStore from "../../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../../auth/ServerSecretStore.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const hostPlatform = HostProcess.Platform.defaultValue();

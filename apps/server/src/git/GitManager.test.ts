@@ -55,7 +55,7 @@ import type { SourceControlProvider } from "@t3tools/source-control-core/server/
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";
 import * as ServerConfig from "../config.ts";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
-import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
+import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";

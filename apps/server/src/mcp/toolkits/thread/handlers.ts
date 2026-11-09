@@ -19,7 +19,7 @@ import {
   readThread,
   unavailable,
 } from "../../threadAccess.vibe";
-import * as ThreadSearch from "../../../orchestration-v2/ThreadSearch.ts";
+import * as ThreadSearch from "../../../orchestration-v2/ThreadSearch.vibe";
 import * as ScheduledTasks from "../../../scheduledTasks/ScheduledTaskService.ts";
 import { queuedRunsInDeliveryOrder } from "../../../orchestration-v2/QueuedRunOrder.ts";
 import { ThreadToolkit } from "./tools.vibe";

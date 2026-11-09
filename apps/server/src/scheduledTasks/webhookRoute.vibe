@@ -11,7 +11,7 @@ import { withRelayClientTracing } from "@t3tools/shared/relayTracing"
 import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder"
 
 import * as Metrics from "../observability/Metrics.vibe"
-import * as RelayDeliveryProof from "./RelayDeliveryProof.ts"
+import * as RelayDeliveryProof from "./RelayDeliveryProof.vibe"
 import * as ScheduledTaskService from "./ScheduledTaskService.ts"
 
 /** The relay enforces the same cap. */

@@ -22,7 +22,7 @@ import { FetchHttpClient, HttpClient, HttpClientError } from "effect/http"
 import * as HttpApiClient from "effect/http-api/HttpApiClient"
 
 import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts"
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts"
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe"
 
 import * as ServerConfig from "../config.ts"
 import * as SqlitePersistence from "../persistence/Sqlite.vibe"

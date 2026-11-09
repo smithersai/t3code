@@ -22,7 +22,7 @@ import * as TestClock from "effect/testing/TestClock";
 
 import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
 import * as GitManager from "../git/GitManager.ts";
-import * as ProjectStore from "./ProjectStore.ts";
+import * as ProjectStore from "./ProjectStore.vibe";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
 import * as PullRequestService from "../pullRequest/PullRequestService.ts";
 import * as ServerActivation from "../serverActivation.vibe";

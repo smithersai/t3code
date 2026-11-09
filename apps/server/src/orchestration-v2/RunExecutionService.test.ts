@@ -46,7 +46,7 @@ import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter"
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderEventIngestor from "./ProviderEventIngestor.ts";
 import * as McpAppModelContext from "../mcpApps/McpAppModelContext.vibe";
-import * as PreviewAgentActivity from "../preview/PreviewAgentActivity.ts";
+import * as PreviewAgentActivity from "../preview/PreviewAgentActivity.vibe";
 import * as RunExecutionService from "./RunExecutionService.vibe";
 import * as RunFinalizationService from "./RunFinalizationService.vibe";
 import * as TurnItemPositionStore from "./TurnItemPositionStore.vibe";

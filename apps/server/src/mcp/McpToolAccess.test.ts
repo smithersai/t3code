@@ -16,7 +16,7 @@ import * as Schema from "effect/Schema";
 import { McpSchema, McpServer, Tool, Toolkit } from "effect/ai";
 
 import { OrchestratorProjectionError } from "../orchestration-v2/Orchestrator.vibe";
-import * as PeerForwarding from "../peer/PeerForwarding.ts";
+import * as PeerForwarding from "../peer/PeerForwarding.vibe";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
 import * as McpHttpServer from "./McpHttpServer.ts";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";

@@ -53,7 +53,7 @@ import * as ServerSettings from "../serverSettings.ts";
 import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
 import * as ThreadLaunch from "../orchestration-v2/ThreadLaunchService.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as PeerForwarding from "./PeerForwarding.ts";
+import * as PeerForwarding from "./PeerForwarding.vibe";
 import * as PeerLinkRequests from "./PeerLinkRequests.vibe";
 import * as PeerLinks from "./PeerLinks.ts";
 import {

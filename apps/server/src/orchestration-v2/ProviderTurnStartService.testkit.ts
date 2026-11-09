@@ -13,7 +13,7 @@ import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";
 import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProjectStore from "./ProjectStore.ts";
+import * as ProjectStore from "./ProjectStore.vibe";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 

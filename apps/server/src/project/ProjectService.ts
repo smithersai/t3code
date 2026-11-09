@@ -28,7 +28,7 @@ import {
   planProjectCommand,
   type ProjectCommand,
 } from "../orchestration-v2/ProjectCommands.vibe";
-import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
+import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe";
 import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.vibe";
 import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.vibe";
 import * as ServerSettings from "../serverSettings.ts";

@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 
 const CLOUD_LINK_KEY_PAIR = "cloud-link-ed25519-key-pair";
 const CLOUD_LINK_PRIVATE_KEY = "cloud-link-ed25519-private-key";

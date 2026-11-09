@@ -27,7 +27,7 @@ import * as HttpServerResponse from "effect/http/HttpServerResponse";
 
 import { buildConnectAuthorizeRequestUrl } from "@t3tools/shared/connectAuth";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ExternalLauncher from "../process/externalLauncher.vibe";
 import {
   cloudCliOAuthConfig,

@@ -23,7 +23,7 @@ import * as Schedule from "effect/Schedule";
 import * as Schema from "effect/Schema";
 import * as Semaphore from "effect/Semaphore";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as Metrics from "../observability/Metrics.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 

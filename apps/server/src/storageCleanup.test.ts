@@ -25,7 +25,7 @@ import * as GitManager from "./git/GitManager.ts";
 import * as Settings from "./serverSettings.ts";
 import * as ProjectionStore from "./orchestration-v2/ProjectionStore.ts";
 import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.ts";
-import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
+import * as ProjectStore from "./orchestration-v2/ProjectStore.vibe";
 import * as Orchestrator from "./orchestration-v2/Orchestrator.vibe";
 import * as TerminalManager from "./terminal/Manager.ts";
 import { CodexProviderCapabilitiesV2 } from "./orchestration-v2/Adapters/CodexAdapterV2.ts";

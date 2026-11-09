@@ -18,7 +18,7 @@ import * as Schema from "effect/Schema"
 import * as Stream from "effect/Stream"
 
 import * as ServerConfig from "../config.ts"
-import * as AuthPairingLinks from "../persistence/AuthPairingLinks.ts"
+import * as AuthPairingLinks from "../persistence/AuthPairingLinks.vibe"
 
 export interface BootstrapGrant {
   readonly method: ServerAuthBootstrapMethod

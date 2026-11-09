@@ -21,7 +21,7 @@ import { resolveAttachmentPathById } from "../attachmentStore.ts";
 import * as ServerConfig from "../config.ts";
 import * as HtmlRender from "./HtmlRender.ts";
 import { HtmlRenderBrowserError } from "./headlessChrome.ts";
-import * as PreviewBrowser from "../preview/PreviewBrowser.ts";
+import * as PreviewBrowser from "../preview/PreviewBrowser.vibe";
 
 const TEST_BROWSER_ENV = "T3CODE_TEST_HEADLESS_SHELL";
 

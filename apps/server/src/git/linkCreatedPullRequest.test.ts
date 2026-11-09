@@ -18,7 +18,7 @@ import {
   type PullRequestTestThread,
   v2PullRequestThread,
 } from "../orchestration-v2/testkit/pullRequestFixtures.ts";
-import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
+import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import { refreshPushedPullRequests } from "./refreshPushedPullRequests.vibe";
 import * as PullRequestService from "../pullRequest/PullRequestService.ts";

@@ -1,31 +1,25 @@
-import * as Arr from "effect/Array";
-import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
-import * as Result from "effect/Result";
-import * as Schema from "effect/Schema";
-import * as Struct from "effect/Struct";
-import * as SqlClient from "effect/sql/SqlClient";
-import * as SqlSchema from "effect/sql/SqlSchema";
+import * as Arr from "effect/Array"
+import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Option from "effect/Option"
+import * as Result from "effect/Result"
+import * as Schema from "effect/Schema"
+import * as Struct from "effect/Struct"
+import * as SqlClient from "effect/sql/SqlClient"
+import * as SqlSchema from "effect/sql/SqlSchema"
 
-import {
-  AgentSessionImportSource,
-  IsoDateTime,
-  ProviderInstanceId,
-  RuntimeMode,
-  ThreadId,
-} from "@t3tools/contracts";
+import { AgentSessionImportSource, IsoDateTime, ProviderInstanceId, RuntimeMode, ThreadId } from "@t3tools/contracts"
 
 import {
   PersistenceDecodeError,
   type PersistenceErrorCorrelation,
   PersistenceSqlError,
   type ProviderSessionRuntimeRepositoryError,
-} from "./Errors.vibe";
+} from "./Errors.vibe"
 
-const ProviderSessionRuntimeStatus = Schema.Literals(["starting", "running", "stopped", "error"]);
+const ProviderSessionRuntimeStatus = Schema.Literals(["starting", "running", "stopped", "error"])
 
 export const ProviderSessionRuntime = Schema.Struct({
   threadId: ThreadId,
@@ -37,23 +31,23 @@ export const ProviderSessionRuntime = Schema.Struct({
   lastSeenAt: IsoDateTime,
   resumeCursor: Schema.NullOr(Schema.Unknown),
   runtimePayload: Schema.NullOr(Schema.Unknown),
-});
-export type ProviderSessionRuntime = typeof ProviderSessionRuntime.Type;
+})
+export type ProviderSessionRuntime = typeof ProviderSessionRuntime.Type
 
-export const GetProviderSessionRuntimeInput = Schema.Struct({ threadId: ThreadId });
-export type GetProviderSessionRuntimeInput = typeof GetProviderSessionRuntimeInput.Type;
+export const GetProviderSessionRuntimeInput = Schema.Struct({ threadId: ThreadId })
+export type GetProviderSessionRuntimeInput = typeof GetProviderSessionRuntimeInput.Type
 
-export const DeleteProviderSessionRuntimeInput = Schema.Struct({ threadId: ThreadId });
-export type DeleteProviderSessionRuntimeInput = typeof DeleteProviderSessionRuntimeInput.Type;
+export const DeleteProviderSessionRuntimeInput = Schema.Struct({ threadId: ThreadId })
+export type DeleteProviderSessionRuntimeInput = typeof DeleteProviderSessionRuntimeInput.Type
 
 export const RecordImportedTranscriptInput = Schema.Struct({
   threadId: ThreadId,
   source: AgentSessionImportSource,
-});
-export type RecordImportedTranscriptInput = typeof RecordImportedTranscriptInput.Type;
+})
+export type RecordImportedTranscriptInput = typeof RecordImportedTranscriptInput.Type
 
 export interface ProviderSessionRuntimeUpsertOptions {
-  readonly onConflict?: "update" | "ignore";
+  readonly onConflict?: "update" | "ignore"
 }
 
 export class ProviderSessionRuntimeRepository extends Context.Service<
@@ -62,29 +56,23 @@ export class ProviderSessionRuntimeRepository extends Context.Service<
     readonly upsert: (
       runtime: ProviderSessionRuntime,
       options?: ProviderSessionRuntimeUpsertOptions,
-    ) => Effect.Effect<void, ProviderSessionRuntimeRepositoryError>;
+    ) => void!ProviderSessionRuntimeRepositoryError
 
     readonly recordImportedTranscript: (
       input: RecordImportedTranscriptInput,
-    ) => Effect.Effect<void, ProviderSessionRuntimeRepositoryError>;
+    ) => void!ProviderSessionRuntimeRepositoryError
 
     readonly getByThreadId: (
       input: GetProviderSessionRuntimeInput,
-    ) => Effect.Effect<
-      Option.Option<ProviderSessionRuntime>,
-      ProviderSessionRuntimeRepositoryError
-    >;
+    ) => Option.Option<ProviderSessionRuntime>!ProviderSessionRuntimeRepositoryError
 
     readonly list: (options?: {
-      readonly excludeStopped?: boolean;
-    }) => Effect.Effect<
-      ReadonlyArray<ProviderSessionRuntime>,
-      ProviderSessionRuntimeRepositoryError
-    >;
+      readonly excludeStopped?: boolean
+    }) => ReadonlyArray<ProviderSessionRuntime>!ProviderSessionRuntimeRepositoryError
 
     readonly deleteByThreadId: (
       input: DeleteProviderSessionRuntimeInput,
-    ) => Effect.Effect<void, ProviderSessionRuntimeRepositoryError>;
+    ) => void!ProviderSessionRuntimeRepositoryError
   }
 >()("t3/persistence/ProviderSessionRuntime/ProviderSessionRuntimeRepository") {}
 
@@ -93,7 +81,7 @@ const ProviderSessionRuntimeDbRowSchema = ProviderSessionRuntime.mapFields(
     resumeCursor: Schema.NullOr(Schema.fromJsonString(Schema.Unknown)),
     runtimePayload: Schema.NullOr(Schema.fromJsonString(Schema.Unknown)),
   }),
-);
+)
 
 const ProviderSessionRuntimeRawDbRowSchema = Schema.Struct({
   threadId: Schema.String,
@@ -105,19 +93,19 @@ const ProviderSessionRuntimeRawDbRowSchema = Schema.Struct({
   lastSeenAt: Schema.Unknown,
   resumeCursor: Schema.Unknown,
   runtimePayload: Schema.Unknown,
-});
+})
 
-const decodeRuntimeRow = Schema.decodeUnknownEffect(ProviderSessionRuntimeDbRowSchema);
+const decodeRuntimeRow = Schema.decodeUnknownEffect(ProviderSessionRuntimeDbRowSchema)
 
 const GetRuntimeRequestSchema = Schema.Struct({
   threadId: ThreadId,
-});
+})
 
-const DeleteRuntimeRequestSchema = GetRuntimeRequestSchema;
+const DeleteRuntimeRequestSchema = GetRuntimeRequestSchema
 
 const RecordImportedTranscriptRequestSchema = RecordImportedTranscriptInput.mapFields(
   Struct.assign({ source: Schema.fromJsonString(AgentSessionImportSource) }),
-);
+)
 
 function toPersistenceSqlOrDecodeError(
   sqlOperation: string,
@@ -128,15 +116,15 @@ function toPersistenceSqlOrDecodeError(
     Schema.isSchemaError(cause)
       ? PersistenceDecodeError.fromSchemaError(decodeOperation, cause, correlation)
       : new PersistenceSqlError({
-          operation: sqlOperation,
-          ...(correlation === undefined ? {} : { correlation }),
-          cause,
-        });
+        operation: sqlOperation,
+        ...(correlation === undefined ? {} : { correlation }),
+        cause,
+      })
 }
 
 /** @public */
-export const make = Effect.gen(function* () {
-  const sql = yield* SqlClient.SqlClient;
+export const make = Effect.gen(function*() {
+  const sql = yield* SqlClient.SqlClient
 
   // Runtime payloads may be stale; only recordImportedTranscript can change source records.
   const upsertRuntimeRow = SqlSchema.void({
@@ -199,7 +187,7 @@ export const make = Effect.gen(function* () {
             ELSE excluded.runtime_payload_json
           END
       `,
-  });
+  })
 
   const insertRuntimeRow = SqlSchema.void({
     Request: ProviderSessionRuntimeDbRowSchema,
@@ -233,7 +221,7 @@ export const make = Effect.gen(function* () {
         )
         ON CONFLICT (thread_id) DO NOTHING
       `,
-  });
+  })
 
   const recordImportedTranscriptRow = SqlSchema.void({
     Request: RecordImportedTranscriptRequestSchema,
@@ -280,7 +268,7 @@ export const make = Effect.gen(function* () {
         )
         WHERE thread_id = ${threadId}
       `,
-  });
+  })
 
   const getRuntimeRowByThreadId = SqlSchema.findOneOption({
     Request: GetRuntimeRequestSchema,
@@ -300,7 +288,7 @@ export const make = Effect.gen(function* () {
         FROM provider_session_runtime
         WHERE thread_id = ${threadId}
       `,
-  });
+  })
 
   const listRuntimeRows = SqlSchema.findAll({
     Request: Schema.Struct({ excludeStopped: Schema.Boolean }),
@@ -321,7 +309,7 @@ export const make = Effect.gen(function* () {
         ${excludeStopped ? sql`WHERE status != 'stopped'` : sql``}
         ORDER BY last_seen_at ASC, thread_id ASC
       `,
-  });
+  })
 
   const deleteRuntimeByThreadId = SqlSchema.void({
     Request: DeleteRuntimeRequestSchema,
@@ -330,7 +318,7 @@ export const make = Effect.gen(function* () {
         DELETE FROM provider_session_runtime
         WHERE thread_id = ${threadId}
       `,
-  });
+  })
 
   const upsert: ProviderSessionRuntimeRepository["Service"]["upsert"] = (runtime, options) =>
     (options?.onConflict === "ignore" ? insertRuntimeRow(runtime) : upsertRuntimeRow(runtime)).pipe(
@@ -341,19 +329,18 @@ export const make = Effect.gen(function* () {
           { threadId: runtime.threadId },
         ),
       ),
-    );
+    )
 
-  const recordImportedTranscript: ProviderSessionRuntimeRepository["Service"]["recordImportedTranscript"] =
-    (input) =>
-      recordImportedTranscriptRow(input).pipe(
-        Effect.mapError(
-          toPersistenceSqlOrDecodeError(
-            "ProviderSessionRuntimeRepository.recordImportedTranscript:query",
-            "ProviderSessionRuntimeRepository.recordImportedTranscript:encodeRequest",
-            { threadId: input.threadId },
-          ),
+  const recordImportedTranscript: ProviderSessionRuntimeRepository["Service"]["recordImportedTranscript"] = (input) =>
+    recordImportedTranscriptRow(input).pipe(
+      Effect.mapError(
+        toPersistenceSqlOrDecodeError(
+          "ProviderSessionRuntimeRepository.recordImportedTranscript:query",
+          "ProviderSessionRuntimeRepository.recordImportedTranscript:encodeRequest",
+          { threadId: input.threadId },
         ),
-      );
+      ),
+    )
 
   const getByThreadId: ProviderSessionRuntimeRepository["Service"]["getByThreadId"] = (input) =>
     getRuntimeRowByThreadId(input).pipe(
@@ -375,13 +362,13 @@ export const make = Effect.gen(function* () {
                   "ProviderSessionRuntimeRepository.getByThreadId:decodeRow",
                   cause,
                   { threadId: input.threadId },
-                ),
+                )
               ),
               Effect.asSome,
             ),
-        }),
+        })
       ),
-    );
+    )
 
   const list: ProviderSessionRuntimeRepository["Service"]["list"] = (options) =>
     listRuntimeRows({ excludeStopped: options?.excludeStopped === true }).pipe(
@@ -404,17 +391,17 @@ export const make = Effect.gen(function* () {
                   cause,
                   { threadId: row.threadId },
                 ).message,
-              }).pipe(Effect.as(Option.none<ProviderSessionRuntime>())),
+              }).pipe(Effect.as(Option.none<ProviderSessionRuntime>()))
             ),
-          ),
-        ),
+          ))
       ),
       Effect.map((decoded) =>
-        Arr.filterMap(decoded, (row) =>
-          Option.isSome(row) ? Result.succeed(row.value) : Result.failVoid,
-        ),
+        Arr.filterMap(
+          decoded,
+          (row) => Option.isSome(row) ? Result.succeed(row.value) : Result.failVoid,
+        )
       ),
-    );
+    )
 
   const deleteByThreadId: ProviderSessionRuntimeRepository["Service"]["deleteByThreadId"] = (
     input,
@@ -428,7 +415,7 @@ export const make = Effect.gen(function* () {
             cause,
           }),
       ),
-    );
+    )
 
   return {
     upsert,
@@ -436,7 +423,7 @@ export const make = Effect.gen(function* () {
     getByThreadId,
     list,
     deleteByThreadId,
-  } satisfies ProviderSessionRuntimeRepository["Service"];
-});
+  } satisfies ProviderSessionRuntimeRepository["Service"]
+})
 
-export const layer = Layer.effect(ProviderSessionRuntimeRepository, make);
+export const layer = Layer.effect(ProviderSessionRuntimeRepository, make)

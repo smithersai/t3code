@@ -41,8 +41,8 @@ import * as SourceControlRepositoryService from "../sourceControl/SourceControlR
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as McpHttpServer from "./McpHttpServer.ts";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
-import * as PeerForwarding from "../peer/PeerForwarding.ts";
-import * as ThreadSearch from "../orchestration-v2/ThreadSearch.ts";
+import * as PeerForwarding from "../peer/PeerForwarding.vibe";
+import * as ThreadSearch from "../orchestration-v2/ThreadSearch.vibe";
 import * as PeerLinkRequests from "../peer/PeerLinkRequests.vibe";
 import * as PeerLinks from "../peer/PeerLinks.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

@@ -16,7 +16,7 @@ import { HttpClient } from "effect/http";
 import type { RelayManagedEndpointRuntimeConfig } from "@t3tools/contracts/relay";
 import * as RelayClient from "@t3tools/shared/relayClient";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
 
 const layerRelayClientAvailable = Layer.succeed(

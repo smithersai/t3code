@@ -63,7 +63,7 @@ import * as EventStore from "./EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProjectionMaintenance from "./ProjectionMaintenance.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProjectStore from "./ProjectStore.ts";
+import * as ProjectStore from "./ProjectStore.vibe";
 import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.vibe";
 import * as TurnItemPositionStore from "./TurnItemPositionStore.vibe";
 

@@ -42,7 +42,7 @@ import * as CodexUsageHistory from "./CodexUsageHistory.vibe";
 import * as CursorAccountReader from "@t3tools/provider-cursor/server/CursorAccountReader";
 import * as CursorKeychain from "@t3tools/provider-cursor/server/CursorKeychain";
 import * as CursorUsageAccounts from "@t3tools/provider-cursor/server/CursorUsageAccounts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
 import * as AntigravityUsage from "../provider/Drivers/AntigravityUsage.vibe";
 import * as ProviderHostLive from "../provider/ProviderHostLive.vibe";
