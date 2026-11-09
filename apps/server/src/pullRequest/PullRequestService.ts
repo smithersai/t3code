@@ -81,7 +81,7 @@ import * as ProjectService from "../project/ProjectService.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as PullRequestFilesViewed from "../persistence/PullRequestFilesViewed.vibe";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
-import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
+import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";
 import type { SourceControlProviderContext } from "@t3tools/source-control-core/server/SourceControlProvider";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
 import {

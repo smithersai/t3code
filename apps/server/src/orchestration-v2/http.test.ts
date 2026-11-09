@@ -38,7 +38,7 @@ import { EventSinkV2 } from "./EventSink.ts";
 import * as ProjectStore from "./ProjectStore.ts";
 import * as CommandReceiptStore from "./CommandReceiptStore.ts";
 import * as ThreadManagementService from "./ThreadManagementService.ts";
-import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
 import * as ProviderReplayHarness from "./testkit/ProviderReplayHarness.ts";
 
 class TranscriptTestApi extends HttpApi.make("environment").add(

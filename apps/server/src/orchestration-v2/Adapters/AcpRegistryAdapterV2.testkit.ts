@@ -10,7 +10,7 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import type { ProviderReplayGate } from "@t3tools/provider-testing/replayGate";
 import type { OrchestratorV2ProviderReplayHarness } from "../testkit/ProviderReplayHarness.ts";
 import {

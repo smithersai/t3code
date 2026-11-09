@@ -19,7 +19,7 @@ import {
 } from "@t3tools/contracts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as ServerConfig from "./config.ts";
-import * as StorageCleanup from "./storageCleanup.ts";
+import * as StorageCleanup from "./storageCleanup.vibe";
 import * as GitVcsDriver from "./vcs/GitVcsDriver.ts";
 import * as GitManager from "./git/GitManager.ts";
 import * as Settings from "./serverSettings.ts";
@@ -45,7 +45,7 @@ import {
   storageCleanupActivityAt,
   storageCleanupPullRequestMerged,
   storageCleanupThreadIdle,
-} from "./storageCleanup.ts";
+} from "./storageCleanup.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const NOW_MS = Date.parse("2026-06-10T12:00:00.000Z");

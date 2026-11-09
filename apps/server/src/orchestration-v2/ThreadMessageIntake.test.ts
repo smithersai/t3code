@@ -33,7 +33,7 @@ import {
   OrchestratorDispatchError,
 } from "./Orchestrator.ts";
 import * as ThreadManagementService from "./ThreadManagementService.ts";
-import { dispatchCommand } from "./ThreadMessageIntake.ts";
+import { dispatchCommand } from "./ThreadMessageIntake.vibe";
 
 const layerIntakeTest = ServerConfig.layerTest(process.cwd(), {
   prefix: "t3-question-intake-",

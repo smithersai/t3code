@@ -42,7 +42,7 @@ import * as ConnectReachability from "./ConnectReachability.ts";
 import { consumeCloudReplayGuards } from "./CloudLink.ts";
 import { pendingServiceUpdateExists } from "./updateHandoff.ts";
 import { managedTunnelStartupAction } from "./managedTunnelStartup.vibe";
-import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
+import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const storeFailure = (tag: "AlreadyExists" | "PermissionDenied") =>

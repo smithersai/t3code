@@ -36,7 +36,7 @@ import * as ClaudeAdapterV2 from "./ClaudeAdapterV2.ts";
 import { claudeTaskOutputRoot } from "./ClaudeTaskOutputTail.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { ProviderAdapterDriverCreateError } from "@t3tools/provider-core/server/adapterDriver";
-import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import { randomUuidV4 } from "@t3tools/provider-core/server/randomUuid";
 import {
   makeReplayServerConfig,

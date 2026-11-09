@@ -95,7 +95,7 @@ import {
   isCheckpointRestoreIsolated,
   SHARED_WORKSPACE_RESTORE_MESSAGE,
 } from "./CheckpointRestoreSafety.ts";
-import { CheckpointServiceV2 } from "./CheckpointService.ts";
+import { CheckpointServiceV2 } from "./CheckpointService.vibe";
 import {
   CommandPolicyV2,
   goalCommandStopsActiveRun,
@@ -123,9 +123,12 @@ import {
   decideGuestShareCommand,
   type GuestShareCommand,
 } from "./GuestShareDecider.vibe";
-import * as EffectOutbox from "./EffectOutbox.ts";
+import * as EffectOutbox from "./EffectOutbox.vibe";
 import { withCommandMetrics } from "../observability/Metrics.vibe";
-import type { OrchestrationEffectRequestV2, PendingOrchestrationEffectV2 } from "./EffectOutbox.ts";
+import type {
+  OrchestrationEffectRequestV2,
+  PendingOrchestrationEffectV2,
+} from "./EffectOutbox.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import { DispatchModeLimit, exceededDispatchModeLimit } from "./DispatchModeLimit.vibe";
@@ -144,7 +147,7 @@ import {
   type OlderSettledThreadsQuery,
   type ShellSnapshotOptions,
 } from "./ProjectionStore.ts";
-import { ProviderAdapterRegistryV2 } from "./ProviderAdapterRegistry.ts";
+import { ProviderAdapterRegistryV2 } from "./ProviderAdapterRegistry.vibe";
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
 import * as RunExecutionService from "./RunExecutionService.ts";
@@ -165,7 +168,7 @@ import {
   isForkableSourceRunStatus,
   ThreadForkServiceV2,
 } from "./ThreadForkService.vibe";
-import { planThreadDeletion } from "./ThreadDeletion.ts";
+import { planThreadDeletion } from "./ThreadDeletion.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ServerSettings from "../serverSettings.ts";
 

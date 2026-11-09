@@ -20,7 +20,7 @@ import * as OpenCode2Server from "@t3tools/provider-opencode/server/v2/OpenCode2
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import { resolveAttachmentPath } from "../../attachmentStore.ts";
-import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import type { ProviderReplayGate } from "@t3tools/provider-testing/replayGate";
 import type { OrchestratorV2ProviderReplayHarness } from "../testkit/ProviderReplayHarness.ts";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";

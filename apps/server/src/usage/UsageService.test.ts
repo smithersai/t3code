@@ -38,7 +38,7 @@ import { HttpClient, HttpClientError, HttpClientRequest, HttpClientResponse } fr
 import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as Sqlite from "../persistence/Sqlite.ts";
-import * as CodexUsageHistory from "./CodexUsageHistory.ts";
+import * as CodexUsageHistory from "./CodexUsageHistory.vibe";
 import * as CursorAccountReader from "@t3tools/provider-cursor/server/CursorAccountReader";
 import * as CursorKeychain from "@t3tools/provider-cursor/server/CursorKeychain";
 import * as CursorUsageAccounts from "@t3tools/provider-cursor/server/CursorUsageAccounts";

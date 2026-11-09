@@ -19,7 +19,7 @@ import { ChildProcessSpawner } from "effect/process";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import { CLOUD_ENDPOINT_RUNTIME_CONFIG } from "./config.ts";
-import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
+import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
 
 // cloudflared finds the edge through the SRV record `_v2-origintunneld._tcp.argotunnel.com`,
 // which names these two hosts on port 7844. QUIC and HTTP/2 both use that port.

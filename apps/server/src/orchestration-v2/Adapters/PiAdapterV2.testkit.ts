@@ -17,7 +17,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { ProviderAdapterDriverCreateError } from "@t3tools/provider-core/server/adapterDriver";
-import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import type { OrchestratorV2ProviderReplayHarness } from "../testkit/ProviderReplayHarness.ts";
 import { PI_PROVIDER, PiAdapterV2Driver } from "@t3tools/provider-pi/server";
 

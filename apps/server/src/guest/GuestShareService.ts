@@ -46,7 +46,7 @@ import {
   threadHtmlRenderAttachmentIds,
 } from "../attachmentStore.ts";
 import * as ServerConfig from "../config.ts";
-import { CloudManagedEndpointRuntime } from "../cloud/ManagedEndpointRuntime.ts";
+import { CloudManagedEndpointRuntime } from "../cloud/ManagedEndpointRuntime.vibe";
 import * as CommandOutputHub from "../orchestration-v2/CommandOutputHub.ts";
 import { GUEST_FAILURE } from "../orchestration-v2/GuestShareDecider.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";

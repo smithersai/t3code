@@ -10,7 +10,7 @@ import * as Layer from "effect/Layer";
 import { expect, it } from "vite-plus/test";
 
 import * as EffectWorker from "./EffectWorker.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
+import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as EventSink from "./EventSink.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProjectionStore from "./ProjectionStore.ts";

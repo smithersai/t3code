@@ -25,7 +25,7 @@ import {
   isCheckpointRestoreIsolated,
   SHARED_WORKSPACE_RESTORE_MESSAGE,
 } from "./CheckpointRestoreSafety.ts";
-import { CheckpointRestoreError, CheckpointServiceV2 } from "./CheckpointService.ts";
+import { CheckpointRestoreError, CheckpointServiceV2 } from "./CheckpointService.vibe";
 import { EventSinkV2 } from "./EventSink.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { ProjectionStoreV2 } from "./ProjectionStore.ts";

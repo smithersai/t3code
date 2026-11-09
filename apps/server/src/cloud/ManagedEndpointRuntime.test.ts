@@ -17,7 +17,7 @@ import type { RelayManagedEndpointRuntimeConfig } from "@t3tools/contracts/relay
 import * as RelayClient from "@t3tools/shared/relayClient";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
+import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
 
 const layerRelayClientAvailable = Layer.succeed(
   RelayClient.RelayClient,

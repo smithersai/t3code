@@ -48,11 +48,11 @@ import {
 } from "@t3tools/provider-core/server/textGenerationOperations";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as VcsProjectConfig from "../vcs/VcsProjectConfig.ts";
 import * as GitWorkflowService from "./GitWorkflowService.ts";
 import type { SourceControlProvider } from "@t3tools/source-control-core/server/SourceControlProvider";
-import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
+import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";
 import * as ServerConfig from "../config.ts";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";

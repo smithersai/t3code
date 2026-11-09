@@ -29,7 +29,7 @@ import { projectDomainEventForWire } from "./WireProjection.ts";
 import { makeRunOutcomeRecorder, type RunOutcome } from "./RunMetrics.ts";
 
 import * as CommandReceiptStore from "./CommandReceiptStore.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
+import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as EventStore from "./EventStore.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProjectStore from "./ProjectStore.ts";

@@ -35,7 +35,7 @@ import * as GitWorkflow from "../git/GitWorkflowService.ts";
 import { withWorkspaceLease } from "../workspace/workspaceLease.vibe";
 import { ProviderWorkspaceMissingError } from "../provider/Errors.vibe";
 import { resolveCodexRollbackTurnCount } from "./Adapters/CodexAdapterV2.ts";
-import * as CheckpointService from "./CheckpointService.ts";
+import * as CheckpointService from "./CheckpointService.vibe";
 import * as CheckpointRollbackService from "./CheckpointRollbackService.ts";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import * as EventSink from "./EventSink.ts";

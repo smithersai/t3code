@@ -47,7 +47,7 @@ import * as PeerLinkRequests from "../../../peer/PeerLinkRequests.ts"
 import * as PeerLinks from "../../../peer/PeerLinks.ts"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 import * as OrchestratorMcpService from "../../OrchestratorMcpService.ts"
-import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.ts"
+import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.vibe"
 
 const dependencies = [
   McpInvocationContext.McpInvocationContext,

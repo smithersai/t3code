@@ -17,7 +17,7 @@ import { TestClock } from "effect/testing";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as ServerConfig from "../config.ts";
-import { OrchestrationEffectRequestV2 } from "../orchestration-v2/EffectOutbox.ts";
+import { OrchestrationEffectRequestV2 } from "../orchestration-v2/EffectOutbox.vibe";
 import * as EventSink from "../orchestration-v2/EventSink.ts";
 import * as EventStore from "../orchestration-v2/EventStore.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
@@ -26,7 +26,7 @@ import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenanc
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
 import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.vibe";
-import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.ts";
+import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";

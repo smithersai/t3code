@@ -29,7 +29,7 @@ import * as ServerConfig from "./config.ts";
 import * as ServiceLauncherClient from "./cloud/serviceLauncherClient.ts";
 import { flushCompileCache } from "./compileCache.vibe";
 import * as Keybindings from "./keybindings.ts";
-import * as ExternalLauncher from "./process/externalLauncher.ts";
+import * as ExternalLauncher from "./process/externalLauncher.vibe";
 import * as EffectWorker from "./orchestration-v2/EffectWorker.ts";
 import * as LegacyV1ThreadImporter from "./orchestration-v2/legacy/LegacyV1ThreadImporter.ts";
 import * as Orchestrator from "./orchestration-v2/Orchestrator.ts";

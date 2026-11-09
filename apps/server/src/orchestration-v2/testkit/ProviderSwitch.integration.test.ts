@@ -51,10 +51,10 @@ import * as EventStore from "../EventStore.ts";
 import * as LegacyV1ThreadImporter from "../legacy/LegacyV1ThreadImporter.ts";
 import * as Orchestrator from "../Orchestrator.ts";
 import * as EffectWorker from "../EffectWorker.ts";
-import * as EffectOutbox from "../EffectOutbox.ts";
+import * as EffectOutbox from "../EffectOutbox.vibe";
 import * as ProjectionMaintenance from "../ProjectionMaintenance.ts";
 import * as ProjectionStore from "../ProjectionStore.ts";
-import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
 import {
   CLAUDE_MODEL_SELECTION,

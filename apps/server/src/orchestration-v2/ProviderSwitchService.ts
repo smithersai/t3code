@@ -13,7 +13,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
-import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
 import {
   decideProviderSessionTransition,
   type ProviderSessionTransition,

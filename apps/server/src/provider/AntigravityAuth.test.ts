@@ -16,7 +16,7 @@ import {
   makeAntigravityAuth,
   type AntigravityAuth,
   type AntigravityAuthRuntime,
-} from "./AntigravityAuth.ts";
+} from "./AntigravityAuth.vibe";
 import type * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime";
 import * as Layer from "effect/Layer";
 import * as Crypto from "@t3tools/shared/Crypto";

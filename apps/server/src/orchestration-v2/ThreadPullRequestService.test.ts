@@ -27,7 +27,7 @@ import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolv
 import * as PullRequestService from "../pullRequest/PullRequestService.ts";
 import * as ServerActivation from "../serverActivation.ts";
 import * as Orchestrator from "./Orchestrator.ts";
-import * as ThreadPullRequestService from "./ThreadPullRequestService.ts";
+import * as ThreadPullRequestService from "./ThreadPullRequestService.vibe";
 
 describe("ThreadPullRequestServiceV2 project guard", () => {
   it("rejects a pull-request result when the project root changes before dispatch", () => {

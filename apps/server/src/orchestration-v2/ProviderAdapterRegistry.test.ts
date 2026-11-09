@@ -26,7 +26,7 @@ import {
   ProviderAdapterDriverCreateError,
   type ProviderAdapterDriver,
 } from "@t3tools/provider-core/server/adapterDriver";
-import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as Crypto from "@t3tools/shared/Crypto";
 

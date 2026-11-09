@@ -97,7 +97,7 @@ import {
 } from "./config.ts";
 import { getOrCreateEnvironmentKeyPairFromSecretStore } from "./environmentKeys.ts";
 import * as ConnectReachability from "./ConnectReachability.ts";
-import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
+import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
 import { relayUrlConfig } from "./publicConfig.ts";
 import {
   filterRelayResponse,

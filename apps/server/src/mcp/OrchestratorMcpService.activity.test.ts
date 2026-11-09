@@ -15,7 +15,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { expect, it } from "vite-plus/test";
 
-import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";

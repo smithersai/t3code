@@ -17,7 +17,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
 
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { SpawnExecutableResolution } from "@t3tools/shared/shell";
-import * as ExternalLauncher from "./externalLauncher.ts";
+import * as ExternalLauncher from "./externalLauncher.vibe";
 
 // Windows drive letters break mocked POSIX PATH splitting; these tests also require /bin/sh stubs.
 const windowsHost = HostProcess.Platform.defaultValue() === "win32";

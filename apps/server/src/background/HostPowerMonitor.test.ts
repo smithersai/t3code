@@ -10,7 +10,7 @@ import * as PubSub from "effect/PubSub";
 import * as Stream from "effect/Stream";
 
 import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.ts";
-import * as HostPowerMonitor from "./HostPowerMonitor.ts";
+import * as HostPowerMonitor from "./HostPowerMonitor.vibe";
 
 describe("HostPowerMonitor", () => {
   it.effect("publishes semantic power changes without idle-time heartbeat churn", () =>

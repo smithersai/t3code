@@ -7,7 +7,7 @@ import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as FileSystem from "effect/FileSystem";
 import * as ServerConfig from "../config.ts";
 import { createPendingAttachmentId, resolveAttachmentPath } from "../attachmentStore.ts";
-import * as ThreadMessageIntake from "./ThreadMessageIntake.ts";
+import * as ThreadMessageIntake from "./ThreadMessageIntake.vibe";
 import { assert, it, vi } from "@effect/vitest";
 import {
   ChatAttachmentId,
@@ -54,9 +54,9 @@ import * as TextGeneration from "../textGeneration/TextGeneration.ts";
 import { ClaudeProviderCapabilitiesV2 } from "./Adapters/ClaudeAdapterV2.ts";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
 import * as CommandReceiptStore from "./CommandReceiptStore.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
+import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
 import * as ThreadLaunch from "./ThreadLaunchService.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
 import * as ThreadManagement from "./ThreadManagementService.ts";

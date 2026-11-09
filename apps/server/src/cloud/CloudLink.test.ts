@@ -17,7 +17,7 @@ import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.ts";
 import * as CliTokenManager from "./CliTokenManager.ts";
 import * as CloudLink from "./CloudLink.ts";
 import * as ConnectReachability from "./ConnectReachability.ts";
-import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
+import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
 import {
   HOLD_WEBHOOKS_WHILE_OFFLINE_SECRET,
   PUBLISH_AGENT_ACTIVITY_SECRET,

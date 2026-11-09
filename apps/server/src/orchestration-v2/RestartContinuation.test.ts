@@ -26,7 +26,7 @@ import * as ProjectionStore from "./ProjectionStore.ts";
 import * as EventSink from "./EventSink.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as EffectWorker from "./EffectWorker.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
+import * as EffectOutbox from "./EffectOutbox.vibe";
 
 const threadId = ThreadId.make("thread:restart");
 const runId = RunId.make("run:restart");

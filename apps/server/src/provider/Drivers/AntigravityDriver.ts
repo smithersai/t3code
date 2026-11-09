@@ -25,7 +25,7 @@ import {
   isAntigravityTextGenerationAvailable,
   makeAntigravityTextGeneration,
 } from "../../textGeneration/AntigravityTextGeneration.ts";
-import { makeAntigravityAuth, type AntigravityAuth } from "../AntigravityAuth.ts";
+import { makeAntigravityAuth, type AntigravityAuth } from "../AntigravityAuth.vibe";
 import * as AntigravityInstallation from "../AntigravityInstallation.ts";
 import * as AntigravityUsage from "./AntigravityUsage.ts";
 import {

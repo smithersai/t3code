@@ -20,7 +20,7 @@ import { DEFAULT_SIGNAL_EXPORT } from "@t3tools/shared/observability";
 import * as OtelEnvironment from "@t3tools/shared/otelEnvironment";
 
 import * as ServerConfig from "./config.ts";
-import * as ExternalLauncher from "./process/externalLauncher.ts";
+import * as ExternalLauncher from "./process/externalLauncher.vibe";
 import * as ServerLogger from "./serverLogger.ts";
 import {
   announceStartupPairingUrl,

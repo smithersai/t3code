@@ -13,7 +13,7 @@ import {
 } from "@t3tools/provider-core/server/usage";
 import type { UsageTokenTotals } from "@t3tools/contracts";
 
-import * as CodexUsageHistory from "../../usage/CodexUsageHistory.ts";
+import * as CodexUsageHistory from "../../usage/CodexUsageHistory.vibe";
 import { resolveCodexHomeLayout } from "./CodexHomeLayout.ts";
 
 const TokenCount = Schema.Int.check(Schema.isGreaterThanOrEqualTo(0));

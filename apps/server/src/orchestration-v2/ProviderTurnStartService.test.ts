@@ -46,7 +46,7 @@ import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProviderSessionManager from "./ProviderSessionManager.ts";
-import * as ProviderTurnStart from "./ProviderTurnStartService.ts";
+import * as ProviderTurnStart from "./ProviderTurnStartService.vibe";
 import * as RunExecutionService from "./RunExecutionService.ts";
 import * as RuntimePolicy from "./RuntimePolicy.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

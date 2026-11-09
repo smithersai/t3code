@@ -8,7 +8,7 @@ import { readCaller } from "../../threadAccess.vibe"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 import * as McpToolAccess from "../../McpToolAccess.ts"
 import * as OrchestratorMcpService from "../../OrchestratorMcpService.ts"
-import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.ts"
+import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.vibe"
 
 const handlers = {
   orchestrator_capabilities: McpToolAccess.reads(effect (input) => {

@@ -25,7 +25,7 @@ import * as CheckpointStore from "../checkpointing/CheckpointStore.ts";
 import * as ProcessRunner from "../processRunner.ts";
 import * as GitVcsDriver from "./GitVcsDriver.ts";
 import type * as VcsDriver from "./VcsDriver.ts";
-import * as VcsDriverRegistry from "./VcsDriverRegistry.ts";
+import * as VcsDriverRegistry from "./VcsDriverRegistry.vibe";
 import * as VcsProcess from "./VcsProcess.ts";
 import { runVcsDriverContractSuite } from "./testing/VcsDriverContractHarness.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

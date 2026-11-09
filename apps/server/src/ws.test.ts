@@ -86,14 +86,14 @@ import * as ServerSelfUpdate from "./cloud/selfUpdate.ts";
 import * as SessionStore from "./auth/SessionStore.ts";
 import * as SourceControlDiscovery from "./sourceControl/SourceControlDiscovery.ts";
 import * as SourceControlRepositoryService from "./sourceControl/SourceControlRepositoryService.ts";
-import * as StorageCleanup from "./storageCleanup.ts";
+import * as StorageCleanup from "./storageCleanup.vibe";
 import * as DatabaseStorage from "./persistence/DatabaseStorage.ts";
 import * as TerminalManager from "./terminal/Manager.ts";
 import * as ThreadLaunchService from "./orchestration-v2/ThreadLaunchService.ts";
 import * as ThreadSearch from "./orchestration-v2/ThreadSearch.ts";
 import * as UsageLimitSources from "./usage/UsageLimitSources.ts";
 import * as UsageService from "./usage/UsageService.ts";
-import * as VcsProvisioningService from "./vcs/VcsProvisioningService.ts";
+import * as VcsProvisioningService from "./vcs/VcsProvisioningService.vibe";
 import * as VcsStatusBroadcaster from "./vcs/VcsStatusBroadcaster.ts";
 import * as WorkspaceEntries from "./workspace/WorkspaceEntries.ts";
 import * as WorkspaceFileSystem from "./workspace/WorkspaceFileSystem.ts";
@@ -114,7 +114,7 @@ import * as ThreadManagement from "./orchestration-v2/ThreadManagementService.ts
 import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
 import * as OrchestrationEventStore from "./persistence/OrchestrationEventStore.ts";
 import * as SqlitePersistence from "./persistence/Sqlite.ts";
-import * as ExternalLauncher from "./process/externalLauncher.ts";
+import * as ExternalLauncher from "./process/externalLauncher.vibe";
 import * as ProjectEnrichment from "./project/ProjectEnrichmentService.ts";
 import * as ProjectService from "./project/ProjectService.ts";
 import {

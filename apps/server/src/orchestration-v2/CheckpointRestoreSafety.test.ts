@@ -19,7 +19,7 @@ import * as GitWorkflowService from "../git/GitWorkflowService.ts";
 import * as CheckpointRollbackService from "./CheckpointRollbackService.ts";
 import { isCheckpointRestoreIsolated } from "./CheckpointRestoreSafety.ts";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
-import { CheckpointServiceV2 } from "./CheckpointService.ts";
+import { CheckpointServiceV2 } from "./CheckpointService.vibe";
 import { EventSinkV2 } from "./EventSink.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { ProjectionStoreV2, type ProjectionCheckpointRollbackContext } from "./ProjectionStore.ts";

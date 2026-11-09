@@ -16,7 +16,7 @@ import * as Stream from "effect/Stream";
 
 import * as ServerSettings from "../serverSettings.ts";
 import * as BackgroundPolicy from "./BackgroundPolicy.ts";
-import * as HostPowerMonitor from "./HostPowerMonitor.ts";
+import * as HostPowerMonitor from "./HostPowerMonitor.vibe";
 
 const TEST_NOW = DateTime.makeUnsafe("2026-05-13T00:00:00.000Z");
 

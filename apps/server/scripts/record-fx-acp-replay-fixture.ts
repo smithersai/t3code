@@ -25,7 +25,7 @@ import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAda
 import { buildRuntimeInstructions } from "@t3tools/provider-core/server/runtimeInstructions";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import { checkpointWorkspace } from "@t3tools/provider-testing/replayWorkspace";
-import * as ProviderAdapterRegistry from "../src/orchestration-v2/ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "../src/orchestration-v2/ProviderAdapterRegistry.vibe";
 import { provideDeterministicTestRuntime } from "../src/orchestration-v2/testkit/DeterministicRuntime.ts";
 import { ORCHESTRATOR_REPLAY_FIXTURES } from "../src/orchestration-v2/testkit/fixtures/index.ts";
 import { materializeFixtureInput } from "../src/orchestration-v2/testkit/fixtures/shared.ts";

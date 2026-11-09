@@ -35,7 +35,7 @@ import * as CliTokenManager from "./CliTokenManager.ts";
 import * as CloudLink from "./CloudLink.ts";
 import * as ConnectHttp from "./http.ts";
 import * as ConnectReachability from "./ConnectReachability.ts";
-import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
+import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const DESKTOP_BOOTSTRAP_TOKEN = "test-desktop-bootstrap-token";

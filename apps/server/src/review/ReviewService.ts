@@ -17,7 +17,7 @@ import {
 
 import * as ServerConfig from "../config.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as KnownWorkspaces from "../workspace/KnownWorkspaces.ts";
 
 export class ReviewService extends Context.Service<

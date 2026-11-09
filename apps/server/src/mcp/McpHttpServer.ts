@@ -52,12 +52,12 @@ import { AttachmentToolkit } from "./toolkits/attachment/tools.vibe";
 import * as AttachmentHandlers from "./toolkits/attachment/handlers.ts";
 import { ThreadToolkit } from "./toolkits/thread/tools.vibe";
 import * as ThreadHandlers from "./toolkits/thread/handlers.ts";
-import * as ThreadMetadataMcpService from "./ThreadMetadataMcpService.ts";
+import * as ThreadMetadataMcpService from "./ThreadMetadataMcpService.vibe";
 import * as McpSessionRegistry from "./McpSessionRegistry.ts";
 import * as PreviewAutomationBroker from "./PreviewAutomationBroker.ts";
 import * as OrchestratorHandlers from "./toolkits/orchestrator/handlers.vibe";
 import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.vibe";
-import * as PreviewHandlers from "./toolkits/preview/handlers.ts";
+import * as PreviewHandlers from "./toolkits/preview/handlers.vibe";
 import {
   PreviewSnapshotTool,
   PreviewSnapshotToolkit,

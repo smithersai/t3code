@@ -14,10 +14,10 @@ import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSour
 
 import * as ServerConfig from "../config.ts";
 import * as ServerSettings from "../serverSettings.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as SourceControlDiscovery from "./SourceControlDiscovery.ts";
-import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.ts";
+import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.vibe";
 
 const kind = SourceControlProviderKind.make;
 

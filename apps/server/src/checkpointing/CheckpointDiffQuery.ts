@@ -13,7 +13,7 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 
 import { CHECKPOINT_DIFF_MAX_OUTPUT_BYTES } from "../vcs/VcsDriver.ts";
-import { checkpointRefForScopeOrdinal } from "../orchestration-v2/CheckpointService.ts";
+import { checkpointRefForScopeOrdinal } from "../orchestration-v2/CheckpointService.vibe";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
 import {
   CheckpointDiffResultInvalidError,

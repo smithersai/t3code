@@ -1,0 +1,570 @@
+import {
+  CheckpointId,
+  CheckpointRef,
+  CheckpointScopeId,
+  NodeId,
+  OrchestrationV2Checkpoint,
+  OrchestrationV2CheckpointScope,
+  ProviderThreadId,
+  RunId,
+  ThreadId,
+} from "@t3tools/contracts"
+import * as Context from "effect/Context"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as DateTime from "effect/DateTime"
+import * as Effect from "effect/Effect"
+import * as Base64Url from "effect/encoding/Base64Url"
+import * as Hex from "effect/encoding/Hex"
+import * as KeyedLock from "@t3tools/shared/KeyedLock"
+import * as Layer from "effect/Layer"
+import * as Schema from "effect/Schema"
+
+import { isGitImport, parseTurnDiffFilesFromNumstat } from "../checkpointing/Diffs.ts"
+import * as CheckpointStore from "../checkpointing/CheckpointStore.ts"
+import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator"
+
+const CHECKPOINT_REFS_PREFIX = "refs/t3/orchestration-v2/checkpoints"
+const ROOT_CHECKPOINT_SCOPE_NAME = "root"
+
+const CheckpointRootScopePrepareErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error CheckpointRootScopePrepareError {
+  readonly threadId: ThreadId
+  readonly runId: RunId
+  cause: CheckpointRootScopePrepareErrorCauseField
+  override get message(): string {
+    return `Failed to prepare root checkpoint scope for run ${this.runId}.`
+  }
+}
+
+const CheckpointScopeEnsureErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error CheckpointScopeEnsureError {
+  readonly scopeId: CheckpointScopeId
+  cause: CheckpointScopeEnsureErrorCauseField
+  override get message(): string {
+    return `Failed to ensure checkpoint scope ${this.scopeId}.`
+  }
+}
+
+const CheckpointBaselineCaptureErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error CheckpointBaselineCaptureError {
+  readonly scopeId: CheckpointScopeId
+  readonly ordinalWithinScope: number
+  cause: CheckpointBaselineCaptureErrorCauseField
+  override get message(): string {
+    return `Failed to capture checkpoint baseline ${this.ordinalWithinScope} for scope ${this.scopeId}.`
+  }
+}
+
+export class CheckpointCaptureError extends Schema.TaggedError<CheckpointCaptureError>()(
+  "CheckpointCaptureError",
+  {
+    scopeId: CheckpointScopeId,
+    parentCheckpointId: Schema.optional(CheckpointId),
+    cause: Schema.Defect(),
+  },
+) {
+  override get message(): string {
+    return `Failed to capture checkpoint for scope ${this.scopeId}.`
+  }
+}
+
+const CheckpointRestoreErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error CheckpointRestoreError {
+  readonly scopeId: CheckpointScopeId
+  readonly checkpointId: CheckpointId
+  cause: CheckpointRestoreErrorCauseField
+  override get message(): string {
+    return `Failed to restore checkpoint ${this.checkpointId} for scope ${this.scopeId}.`
+  }
+}
+
+const CheckpointDeleteStaleRefsErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error CheckpointDeleteStaleRefsError {
+  readonly scopeId: CheckpointScopeId
+  readonly checkpointIds: ReadonlyArray<CheckpointId>
+  cause: CheckpointDeleteStaleRefsErrorCauseField
+  override get message(): string {
+    return `Failed to delete stale checkpoint refs for scope ${this.scopeId}.`
+  }
+}
+
+export schema CheckpointServiceV2Error =
+  | CheckpointRootScopePrepareError
+  | CheckpointScopeEnsureError
+  | CheckpointBaselineCaptureError
+  | CheckpointCaptureError
+  | CheckpointRestoreError
+  | CheckpointDeleteStaleRefsError
+
+const isCheckpointRestoreError = Schema.is(CheckpointRestoreError)
+
+export interface CheckpointServiceV2Shape {
+  readonly prepareRootRunScope: (input: {
+    readonly threadId: ThreadId
+    readonly runId: RunId
+    readonly rootNodeId: NodeId
+    readonly providerThreadId: ProviderThreadId
+    readonly cwd: string
+    readonly createdAt: DateTime.Utc
+  }) => OrchestrationV2CheckpointScope!CheckpointServiceV2Error
+  readonly ensureScope: (
+    scope: OrchestrationV2CheckpointScope,
+  ) => OrchestrationV2CheckpointScope!CheckpointServiceV2Error
+  readonly captureBaseline: (input: {
+    readonly scope: OrchestrationV2CheckpointScope
+    readonly ordinalWithinScope: number
+  }) => void!CheckpointServiceV2Error
+  readonly materializeBaselineCheckpoint: (input: {
+    readonly scope: OrchestrationV2CheckpointScope
+    readonly ordinalWithinScope: number
+  }) => OrchestrationV2Checkpoint!CheckpointServiceV2Error
+  readonly capture: (input: {
+    readonly scope: OrchestrationV2CheckpointScope
+    readonly runId: RunId | null
+    readonly nodeId: NodeId
+    readonly ordinalWithinScope: number
+    readonly appRunOrdinal: number | null
+    readonly capturedAt: DateTime.Utc
+  }) => OrchestrationV2Checkpoint!CheckpointServiceV2Error
+  readonly restore: (input: {
+    readonly scope: OrchestrationV2CheckpointScope
+    readonly checkpoint: OrchestrationV2Checkpoint
+  }) => void!CheckpointServiceV2Error
+  readonly deleteStaleRefs: (input: {
+    readonly scope: OrchestrationV2CheckpointScope
+    readonly checkpoints: ReadonlyArray<OrchestrationV2Checkpoint>
+  }) => void!CheckpointServiceV2Error
+}
+
+export service CheckpointServiceV2: CheckpointServiceV2Shape {
+  static readonly key = "t3/orchestration-v2/CheckpointService/CheckpointServiceV2"
+}
+
+export const checkpointRefForScopeOrdinal = effect (
+  input: { readonly scopeId: CheckpointScopeId; readonly ordinalWithinScope: number },
+) =>
+  try withSpan(
+    effect {
+      const crypto = try Crypto.Crypto
+      const digest = try (crypto
+        .digest("SHA-256", new TextEncoder().encode(input.scopeId)) |> Effect.orDie(%))
+      const scopeKey = Hex.encode(digest).slice(0, 32)
+      return CheckpointRef.make(
+        `${CHECKPOINT_REFS_PREFIX}/${Base64Url.encode(scopeKey)}/ordinal/${input.ordinalWithinScope}`,
+      )
+    },
+    "checkpointRefForScopeOrdinal",
+  )
+
+function checkpointIdForScopeOrdinal(
+  idAllocator: IdAllocator.IdAllocatorV2["Service"],
+  input: {
+    readonly scopeId: CheckpointScopeId
+    readonly ordinalWithinScope: number
+  },
+) {
+  return idAllocator.allocate.checkpoint({
+    checkpointScopeId: input.scopeId,
+    name: String(input.ordinalWithinScope),
+  })
+}
+
+const makeRootRunScope = effect (
+  input: {
+    readonly idAllocator: IdAllocator.IdAllocatorV2["Service"]
+    readonly threadId: ThreadId
+    readonly runId: RunId
+    readonly rootNodeId: NodeId
+    readonly providerThreadId: ProviderThreadId
+    readonly cwd: string
+    readonly createdAt: DateTime.Utc
+  },
+) =>
+  try withSpan(
+    effect {
+      const scopeId = try input.idAllocator.allocate.checkpointScope({
+        threadId: input.threadId,
+        name: ROOT_CHECKPOINT_SCOPE_NAME,
+      })
+      return {
+        id: scopeId,
+        threadId: input.threadId,
+        runId: input.runId,
+        nodeId: input.rootNodeId,
+        parentScopeId: null,
+        providerThreadId: input.providerThreadId,
+        kind: "root_run",
+        ordinalWithinParent: 0,
+        advancesAppRunCount: true,
+        cwd: input.cwd,
+        createdAt: input.createdAt,
+      } satisfies OrchestrationV2CheckpointScope
+    },
+    "CheckpointService.makeRootRunScope",
+  )
+
+function makeCheckpoint(input: {
+  readonly id: CheckpointId
+  readonly scope: OrchestrationV2CheckpointScope
+  readonly runId: RunId | null
+  readonly nodeId: NodeId
+  readonly parentCheckpointId: CheckpointId | null
+  readonly ordinalWithinScope: number
+  readonly appRunOrdinal: number | null
+  readonly ref: CheckpointRef
+  readonly status: OrchestrationV2Checkpoint["status"]
+  readonly files: OrchestrationV2Checkpoint["files"]
+  readonly capturedAt: DateTime.Utc
+}): OrchestrationV2Checkpoint {
+  return {
+    id: input.id,
+    threadId: input.scope.threadId,
+    scopeId: input.scope.id,
+    runId: input.runId,
+    nodeId: input.nodeId,
+    parentCheckpointId: input.parentCheckpointId,
+    ordinalWithinScope: input.ordinalWithinScope,
+    appRunOrdinal: input.appRunOrdinal,
+    ref: input.ref,
+    status: input.status,
+    files: input.files,
+    capturedAt: input.capturedAt,
+  }
+}
+
+export const layer: Layer.Layer<
+  CheckpointServiceV2,
+  never,
+  CheckpointStore.CheckpointStore | Crypto.Crypto | IdAllocator.IdAllocatorV2
+> = Layer.effect(
+  CheckpointServiceV2,
+  effect {
+    const checkpointStore = try CheckpointStore.CheckpointStore
+    const crypto = try Crypto.Crypto
+    const checkpointRefFor = (input: Parameters<typeof checkpointRefForScopeOrdinal>[0]) =>
+      checkpointRefForScopeOrdinal(input) |> Effect.provideService(%, Crypto.Crypto, crypto)
+    const idAllocator = try IdAllocator.IdAllocatorV2
+    const workspaceLocks = try KeyedLock.make<string>()
+    const withWorkspaceLock = <A, E, R>(cwd: string, effect: A!E!R) => workspaceLocks.withLock(cwd, effect)
+
+    const isGitCheckpointable = (cwd: string) =>
+      checkpointStore.isGitRepository(cwd) |> Effect.orElseSucceed(%, () => false)
+
+    const ensureScope: CheckpointServiceV2Shape["ensureScope"] = (scope) => Effect.succeed(scope)
+
+    const captureBaseline: CheckpointServiceV2Shape["captureBaseline"] = (input) =>
+      withWorkspaceLock(
+        input.scope.cwd,
+        effect {
+          if (!(try isGitCheckpointable(input.scope.cwd))) {
+            return
+          }
+
+          const checkpointRef = try checkpointRefFor({
+            scopeId: input.scope.id,
+            ordinalWithinScope: input.ordinalWithinScope,
+          })
+          const exists = try checkpointStore.hasCheckpointRef({
+            cwd: input.scope.cwd,
+            checkpointRef,
+          })
+          if (exists) {
+            return
+          }
+
+          checkpointStore
+            .captureCheckpoint({
+              cwd: input.scope.cwd,
+              checkpointRef,
+            }) catch effect (e) => match (e) {
+              when { _tag: "VcsUnsupportedOperationError" }: (undefined as void);
+              default: throw e;
+            }
+        },
+      )
+      |> Effect.mapError(
+        %,
+        (cause) =>
+          new CheckpointBaselineCaptureError({
+            scopeId: input.scope.id,
+            ordinalWithinScope: input.ordinalWithinScope,
+            cause,
+          }),
+      )
+
+    const materializeBaselineCheckpoint: CheckpointServiceV2Shape["materializeBaselineCheckpoint"] = (input) =>
+      withWorkspaceLock(
+        input.scope.cwd,
+        effect {
+          const checkpointRef = try checkpointRefFor({
+            scopeId: input.scope.id,
+            ordinalWithinScope: input.ordinalWithinScope,
+          })
+          const checkpointId = try checkpointIdForScopeOrdinal(idAllocator, {
+            scopeId: input.scope.id,
+            ordinalWithinScope: input.ordinalWithinScope,
+          })
+          const checkpointable = try isGitCheckpointable(input.scope.cwd)
+          const available = checkpointable
+            ? (checkpointStore
+              .hasCheckpointRef({
+                cwd: input.scope.cwd,
+                checkpointRef,
+              }) catch effect (cause) =>
+                try (Effect.logWarning("orchestration V2 baseline ref lookup failed", {
+                  scopeId: input.scope.id,
+                  checkpointRef,
+                  cause: String(cause),
+                }) |> Effect.as(%, false)))
+            : false
+          return makeCheckpoint({
+            id: checkpointId,
+            scope: input.scope,
+            runId: null,
+            nodeId: input.scope.nodeId,
+            parentCheckpointId: null,
+            ordinalWithinScope: input.ordinalWithinScope,
+            appRunOrdinal: null,
+            ref: checkpointRef,
+            status: available ? "ready" : "missing",
+            files: [],
+            capturedAt: input.scope.createdAt,
+          })
+        },
+      )
+      |> Effect.mapError(
+        %,
+        (cause) =>
+          new CheckpointCaptureError({
+            scopeId: input.scope.id,
+            cause,
+          }),
+      )
+
+    const capture: CheckpointServiceV2Shape["capture"] = (input) =>
+      withWorkspaceLock(
+        input.scope.cwd,
+        effect {
+          const checkpointId = try checkpointIdForScopeOrdinal(idAllocator, {
+            scopeId: input.scope.id,
+            ordinalWithinScope: input.ordinalWithinScope,
+          })
+          const parentCheckpointId = input.ordinalWithinScope > 0
+            ? try checkpointIdForScopeOrdinal(idAllocator, {
+              scopeId: input.scope.id,
+              ordinalWithinScope: input.ordinalWithinScope - 1,
+            })
+            : null
+          const checkpointRef = try checkpointRefFor({
+            scopeId: input.scope.id,
+            ordinalWithinScope: input.ordinalWithinScope,
+          })
+          const previousCheckpointRef = try checkpointRefFor({
+            scopeId: input.scope.id,
+            ordinalWithinScope: Math.max(0, input.ordinalWithinScope - 1),
+          })
+
+          if (!(try isGitCheckpointable(input.scope.cwd))) {
+            return makeCheckpoint({
+              id: checkpointId,
+              scope: input.scope,
+              runId: input.runId,
+              nodeId: input.nodeId,
+              parentCheckpointId,
+              ordinalWithinScope: input.ordinalWithinScope,
+              appRunOrdinal: input.appRunOrdinal,
+              ref: checkpointRef,
+              status: "missing",
+              files: [],
+              capturedAt: input.capturedAt,
+            })
+          }
+
+          const captureStatus = (do {
+            const catchProgram = checkpointStore
+              .captureCheckpoint({
+                cwd: input.scope.cwd,
+                checkpointRef,
+              })
+              |> Effect.as(%, "ready" as const)
+            effect {
+              return catchProgram catch effect (e) => match (e) {
+                when { _tag: "VcsUnsupportedOperationError" }: "missing" as const;
+                default: throw e;
+              }
+            }
+          }) catch effect (cause) =>
+            try (Effect.logWarning("orchestration V2 checkpoint capture failed", {
+              scopeId: input.scope.id,
+              checkpointRef,
+              cause: String(cause),
+            }) |> Effect.as(%, "error" as const))
+
+          if (captureStatus !== "ready") {
+            return makeCheckpoint({
+              id: checkpointId,
+              scope: input.scope,
+              runId: input.runId,
+              nodeId: input.nodeId,
+              parentCheckpointId,
+              ordinalWithinScope: input.ordinalWithinScope,
+              appRunOrdinal: input.appRunOrdinal,
+              ref: checkpointRef,
+              status: captureStatus,
+              files: [],
+              capturedAt: input.capturedAt,
+            })
+          }
+
+          const previousExists = checkpointStore
+            .hasCheckpointRef({
+              cwd: input.scope.cwd,
+              checkpointRef: previousCheckpointRef,
+            }) catch effect (cause) =>
+              try (Effect.logWarning("orchestration V2 previous checkpoint ref lookup failed", {
+                scopeId: input.scope.id,
+                checkpointRef: previousCheckpointRef,
+                cause: String(cause),
+              }) |> Effect.as(%, false))
+          const refs = {
+            cwd: input.scope.cwd,
+            fromCheckpointRef: previousCheckpointRef,
+            toCheckpointRef: checkpointRef,
+          }
+          // A pull or rebase can change thousands of files the turn did not write.
+          const files = previousExists
+            ? ((Effect.all([
+              checkpointStore.diffCheckpoints({
+                ...refs,
+                fallbackFromToHead: false,
+                ignoreWhitespace: false,
+                format: "numstat",
+              }),
+              do {
+                const catchProgram = checkpointStore.listAuthoredPaths(refs)
+                effect {
+                  return catchProgram catch effect (cause) =>
+                    try (Effect.logWarning("orchestration V2 checkpoint authored paths failed", {
+                      scopeId: input.scope.id,
+                      checkpointRef,
+                      cause: String(cause),
+                    }) |> Effect.as(%, null))
+                }
+              },
+            ])
+              |> Effect.map(%, ([diff, authoredPaths]) =>
+                parseTurnDiffFilesFromNumstat(diff)
+                  .filter((file) => !isGitImport(file, authoredPaths))
+                  .map((file) => ({
+                    path: file.path,
+                    kind: "modified",
+                    additions: file.additions,
+                    deletions: file.deletions,
+                  })))) catch effect (cause) =>
+                try (Effect.logWarning("orchestration V2 checkpoint diff summary failed", {
+                  scopeId: input.scope.id,
+                  checkpointRef,
+                  cause: String(cause),
+                }) |> Effect.as(%, [])))
+            : []
+
+          return makeCheckpoint({
+            id: checkpointId,
+            scope: input.scope,
+            runId: input.runId,
+            nodeId: input.nodeId,
+            parentCheckpointId,
+            ordinalWithinScope: input.ordinalWithinScope,
+            appRunOrdinal: input.appRunOrdinal,
+            ref: checkpointRef,
+            status: "ready",
+            files,
+            capturedAt: input.capturedAt,
+          })
+        },
+      )
+      |> Effect.mapError(
+        %,
+        (cause) =>
+          new CheckpointCaptureError({
+            scopeId: input.scope.id,
+            cause,
+          }),
+      )
+
+    const restore: CheckpointServiceV2Shape["restore"] = (input) =>
+      withWorkspaceLock(
+        input.scope.cwd,
+        effect {
+          if (input.checkpoint.status !== "ready") {
+            throw new CheckpointRestoreError({
+              scopeId: input.scope.id,
+              checkpointId: input.checkpoint.id,
+              cause: `Checkpoint status is ${input.checkpoint.status}.`,
+            })
+          }
+
+          const restored = try checkpointStore.restoreCheckpoint({
+            cwd: input.scope.cwd,
+            checkpointRef: input.checkpoint.ref,
+            fallbackToHead: false,
+          })
+          if (!restored) {
+            throw new CheckpointRestoreError({
+              scopeId: input.scope.id,
+              checkpointId: input.checkpoint.id,
+              cause: "Checkpoint ref is unavailable.",
+            })
+          }
+        },
+      )
+      |> Effect.mapError(%, (cause) =>
+        isCheckpointRestoreError(cause)
+          ? cause
+          : new CheckpointRestoreError({
+            scopeId: input.scope.id,
+            checkpointId: input.checkpoint.id,
+            cause,
+          }))
+
+    const deleteStaleRefs: CheckpointServiceV2Shape["deleteStaleRefs"] = (input) =>
+      withWorkspaceLock(
+        input.scope.cwd,
+        checkpointStore.deleteCheckpointRefs({
+          cwd: input.scope.cwd,
+          checkpointRefs: input.checkpoints.map((checkpoint) => checkpoint.ref),
+        }),
+      )
+      |> Effect.mapError(
+        %,
+        (cause) =>
+          new CheckpointDeleteStaleRefsError({
+            scopeId: input.scope.id,
+            checkpointIds: input.checkpoints.map((checkpoint) => checkpoint.id),
+            cause,
+          }),
+      )
+
+    return CheckpointServiceV2.of(
+      {
+        prepareRootRunScope: (input) =>
+          makeRootRunScope({ ...input, idAllocator })
+          |> Effect.mapError(
+            %,
+            (cause) =>
+              new CheckpointRootScopePrepareError({
+                threadId: input.threadId,
+                runId: input.runId,
+                cause,
+              }),
+          ),
+        ensureScope,
+        captureBaseline,
+        materializeBaselineCheckpoint,
+        capture,
+        restore,
+        deleteStaleRefs,
+      } satisfies CheckpointServiceV2Shape,
+    )
+  },
+)

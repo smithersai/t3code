@@ -24,7 +24,7 @@ import * as Stream from "effect/Stream";
 
 import * as ServerSettings from "../serverSettings.ts";
 import { subscribeBeforeSnapshot } from "../utils/subscribeBeforeSnapshot.ts";
-import * as HostPowerMonitor from "./HostPowerMonitor.ts";
+import * as HostPowerMonitor from "./HostPowerMonitor.vibe";
 
 export class BackgroundPolicy extends Context.Service<
   BackgroundPolicy,
