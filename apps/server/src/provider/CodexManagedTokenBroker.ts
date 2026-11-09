@@ -15,7 +15,7 @@ import * as Scope from "effect/Scope";
 import * as Schema from "effect/Schema";
 import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import { makeCodexChatGptAuth } from "./CodexChatGptAuth.ts";
-import * as Protocol from "./CodexManagedTokenProtocol.ts";
+import * as Protocol from "./CodexManagedTokenProtocol.vibe";
 
 const MAX_CONNECTIONS = 32;
 const MAX_JOBS = 16;

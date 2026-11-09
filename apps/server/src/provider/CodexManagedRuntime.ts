@@ -10,7 +10,7 @@ import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
 import { resolveSelfInvocation, selfInvocationArgs } from "@t3tools/shared/nodeRuntime";
 import * as CodexInstallation from "./CodexInstallation.ts";
 import { makeCodexChatGptAuth } from "./CodexChatGptAuth.ts";
-import { COMMAND_TIMEOUT_MS } from "./CodexManagedTokenProtocol.ts";
+import { COMMAND_TIMEOUT_MS } from "./CodexManagedTokenProtocol.vibe";
 import { materializeCodexShadowHome } from "./Drivers/CodexHomeLayout.ts";
 
 export interface CodexEffectiveRuntime {

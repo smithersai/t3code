@@ -3,7 +3,7 @@ import * as NodeNet from "node:net";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as Schema from "effect/Schema";
-import * as Protocol from "../provider/CodexManagedTokenProtocol.ts";
+import * as Protocol from "../provider/CodexManagedTokenProtocol.vibe";
 
 const decodeArguments = Schema.decodeUnknownEffect(
   Schema.Tuple([

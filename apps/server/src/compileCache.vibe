@@ -1,0 +1,6 @@
+import { flushNodeCompileCache } from "./compileCache.platform.ts"
+import * as Effect from "effect/Effect"
+
+// Windows force-kills on quit; persist the cache after startup.
+export const flushCompileCache = Effect.try(flushNodeCompileCache)
+  |> Effect.ignore(%)

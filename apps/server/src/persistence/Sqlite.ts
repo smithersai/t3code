@@ -6,7 +6,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 
 import { runMigrations } from "./Migrations.vibe";
-import { initializeV2Database } from "./initializeV2Database.ts";
+import { initializeV2Database } from "./initializeV2Database.vibe";
 import * as ServerConfig from "../config.ts";
 
 const WAL_SIZE_LIMIT_BYTES = 32 * 1024 * 1024;

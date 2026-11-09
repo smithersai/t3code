@@ -1,0 +1,50 @@
+import { snapshotLegacyDatabase } from "./initializeV2Database.platform.ts"
+
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Path from "effect/Path"
+import * as Schema from "effect/Schema"
+
+const V2DatabaseImportErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error V2DatabaseImportError {
+  readonly sourcePath: string
+  readonly destinationPath: string
+  cause: V2DatabaseImportErrorCauseField
+  override get message() {
+    return `Could not copy the V1 database at ${this.sourcePath} to ${this.destinationPath}. The V1 database has not been migrated.`
+  }
+}
+
+/** Its copied legacy tables remain the source for lazy transcript import. */
+export const initializeV2Database = effect (
+  destinationPath: string,
+) =>
+  try withSpan(
+    effect {
+      const fs = try FileSystem.FileSystem
+      const path = try Path.Path
+      const directory = path.dirname(destinationPath)
+      const sourcePath = path.join(directory, "state.sqlite")
+      ;(effect {
+        if (try fs.exists(destinationPath)) return
+        if (!(try fs.exists(sourcePath))) return
+        const temporaryDirectory = try fs.makeTempDirectoryScoped({
+          directory,
+          prefix: ".v2-import-",
+        })
+        const snapshotPath = path.join(temporaryDirectory, "snapshot.sqlite")
+        try Effect.tryPromise(() => snapshotLegacyDatabase(sourcePath, snapshotPath))
+        // Publish only a complete snapshot, without replacing an existing V2 database.
+        try (fs.link(snapshotPath, destinationPath)
+          |> Effect.catchIf(
+            %,
+            (error) => error.reason._tag === "AlreadyExists",
+            (_error) => Effect.void,
+          ))
+      }
+        |> Effect.scoped(%)) catch effect (cause) => {
+          throw new V2DatabaseImportError({ sourcePath, destinationPath, cause })
+        }
+    },
+    "initializeV2Database",
+  )

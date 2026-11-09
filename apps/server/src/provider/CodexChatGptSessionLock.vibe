@@ -1,0 +1,42 @@
+import { sessionLockPath } from "./CodexChatGptSessionLock.platform.ts"
+// @effect-diagnostics nodeBuiltinImport:off - Credential leases coordinate Node server processes.
+import { lock } from "proper-lockfile"
+import { ProviderSetupError, type ProviderInstanceId } from "@t3tools/contracts"
+import * as Effect from "effect/Effect"
+
+/** Keep rotating tokens and their active profile atomic across servers sharing a secret store. */
+export const withChatGptSessionLock = <A, E, R>(
+  directory: string | undefined,
+  key: string,
+  instanceId: ProviderInstanceId,
+  task: A!E!R,
+): A!(E | ProviderSetupError)!R => {
+  if (!directory) return task
+  const failure = () =>
+    new ProviderSetupError({
+      instanceId,
+      operation: "credential-lock",
+      detail: "Could not lock the ChatGPT connection for an update. Try again.",
+    })
+  return Effect.scoped(
+    effect {
+      const compromised = try Deferred.make<never, ProviderSetupError>()
+      const services = try Effect.context<never>()
+      try Effect.acquireRelease(
+        Effect.tryPromise({
+          try: () =>
+            lock(sessionLockPath(directory, key), {
+              realpath: false,
+              stale: 120_000,
+              update: 10_000,
+              retries: { retries: 80, factor: 1, minTimeout: 500, maxTimeout: 500 },
+              onCompromised: () => Effect.runSyncWith(services)(Deferred.fail(compromised, failure())),
+            }),
+          catch: failure,
+        }),
+        (release) => Effect.promise(() => release()) |> Effect.ignore(%),
+      )
+      return try Effect.raceFirst(task, Deferred.await(compromised))
+    },
+  )
+}
