@@ -25,7 +25,7 @@ import {
   OtlpHeadersFromString,
   truncateTraceAttributes,
   processServiceInstanceId,
-} from "./observability.ts";
+} from "./observability.vibe";
 
 describe("processServiceInstanceId", () => {
   it("stays the same for the process unless the operator set one", () => {

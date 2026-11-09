@@ -28,7 +28,7 @@ import {
   type NetworkStatus,
   type PreparedConnection,
 } from "../connection/model.vibe";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import * as Persistence from "../platform/persistence.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
 import type { RpcSession } from "../rpc/session.vibe";

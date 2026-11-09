@@ -11,7 +11,7 @@ import type {
   RuntimeRequestId,
 } from "@t3tools/contracts"
 import * as DateTime from "effect/DateTime"
-import type { AtomCommandResult } from "./runtime.ts"
+import type { AtomCommandResult } from "./runtime.vibe"
 import type { ThreadStructure, ThreadStructureVisibleTurnItem } from "./models.vibe"
 
 module throwing {

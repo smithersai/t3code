@@ -6,7 +6,7 @@ import { WS_METHODS, type EnvironmentId, type OrchestrationV2ShellSnapshot } fro
 import { createOptimisticThreadLifecycle } from "./threadLifecycle.vibe"
 import * as DateTime from "effect/DateTime"
 
-import { createAtomCommandScheduler, createEnvironmentCommand, createEnvironmentRpcCommand } from "./runtime.ts"
+import { createAtomCommandScheduler, createEnvironmentCommand, createEnvironmentRpcCommand } from "./runtime.vibe"
 import {
   type ArchiveThreadInput,
   type CancelQueuedRunInput,
@@ -84,7 +84,7 @@ import {
   watchThreadPullRequest,
 } from "../operations/commands.vibe"
 import type { EnvironmentRegistry } from "../connection/registry.vibe"
-import * as EnvironmentSupervisor from "../connection/supervisor.ts"
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe"
 import * as ThreadHistoryController from "./threadHistoryController.vibe"
 
 export type LoadEarlierThreadHistoryInput = {

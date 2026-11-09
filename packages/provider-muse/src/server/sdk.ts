@@ -141,7 +141,11 @@ export function museInitializeParams(readOnly = false) {
   };
 }
 
-/** Owns cleanup before the handshake, even if initialize never replies. */
+/**
+ * Owns cleanup before the handshake, even if initialize never replies.
+ *
+ * @throws {never}
+ */
 export async function createMuseSdkHost(
   options: MuseSdkHostOptions,
   spawn: typeof spawnMspConnection = spawnMspConnection,

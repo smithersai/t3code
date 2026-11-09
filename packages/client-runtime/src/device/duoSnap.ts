@@ -1,6 +1,6 @@
 import { Matrix4, Quaternion, Vector3 } from "three";
 import { nearestDeviceView } from "./deviceViewSnap.ts";
-import type { DeviceScreenSize } from "./stream.ts";
+import type { DeviceScreenSize } from "./stream.vibe";
 
 export type DuoRestFace = "cover" | "inside" | "left" | "right";
 export type DuoRestFrame = { face: DuoRestFace; normal: Vector3; up: Vector3; center: Vector3 };

@@ -53,8 +53,8 @@ import {
   verifyRelayClientBearerToken,
   verifyEnvironmentTunnelRecoveryProof,
   withoutCapturedParentSpan,
-} from "./Api.ts";
-import * as RelayHttpApi from "./Api.ts";
+} from "./Api.vibe";
+import * as RelayHttpApi from "./Api.vibe";
 import * as RelayConfiguration from "../Config.vibe";
 import * as RelayDb from "../db.vibe";
 import * as EnvironmentCredentials from "../environments/EnvironmentCredentials.vibe";

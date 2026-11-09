@@ -1,5 +1,5 @@
 import { requestGuarded, runStreamGuarded } from "../rpc/client.vibe";
-import { EnvironmentSupervisor } from "../connection/supervisor.ts";
+import { EnvironmentSupervisor } from "../connection/supervisor.vibe";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
@@ -29,9 +29,9 @@ import * as Layer from "effect/Layer";
 import { Atom, AtomRegistry, AsyncResult } from "effect/reactivity";
 import { EnvironmentRegistry } from "../connection/registry.vibe";
 import { createCommandPermissions } from "./commandPermissions.vibe";
-import { createEnvironmentRpcCommand } from "./runtime.ts";
+import { createEnvironmentRpcCommand } from "./runtime.vibe";
 import { AVAILABLE_CONNECTION_STATE } from "../connection/model.vibe";
-import { createPeerLinkEnvironmentAtoms } from "./peerLinks.ts";
+import { createPeerLinkEnvironmentAtoms } from "./peerLinks.vibe";
 
 vi.mock("./session.vibe", () => ({
   createEnvironmentSessionAtoms: () => ({ sessionStateAtom: sessions }),

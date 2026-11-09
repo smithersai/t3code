@@ -32,10 +32,10 @@
       }
     },
     "./server/OpenCodeRuntime": {
-      "types": "./src/server/OpenCodeRuntime.ts",
+      "types": "./src/server/OpenCodeRuntime.d.vibe.ts",
       "import": {
-        "types": "./src/server/OpenCodeRuntime.ts",
-        "vibelang-source": "./src/server/OpenCodeRuntime.ts",
+        "types": "./src/server/OpenCodeRuntime.d.vibe.ts",
+        "vibelang-source": "./src/server/OpenCodeRuntime.vibe",
         "default": "./.vibelang/js/src/server/OpenCodeRuntime.js"
       }
     },
@@ -44,10 +44,10 @@
       "import": "./src/server/OpenCodeServerLedger.vibe"
     },
     "./server/v2/adapter": {
-      "types": "./src/server/v2/adapter.ts",
+      "types": "./src/server/v2/adapter.d.vibe.ts",
       "import": {
-        "types": "./src/server/v2/adapter.ts",
-        "vibelang-source": "./src/server/v2/adapter.ts",
+        "types": "./src/server/v2/adapter.d.vibe.ts",
+        "vibelang-source": "./src/server/v2/adapter.vibe",
         "default": "./.vibelang/js/src/server/v2/adapter.js"
       }
     },

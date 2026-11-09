@@ -18,7 +18,7 @@ import type * as EffectAcpErrors from "effect-acp/errors"
 import type * as EffectAcpSchema from "effect-acp/compat"
 
 import * as PtyAdapter from "@t3tools/shared/PtyAdapter"
-import * as AcpRegistrySupport from "./AcpRegistrySupport.ts"
+import * as AcpRegistrySupport from "./AcpRegistrySupport.vibe"
 import { findModelConfigOption, parseSessionModeState } from "@t3tools/provider-acp/server/runtimeModel"
 import { acpProviderOptionDescriptors, flattenSelectChoices } from "@t3tools/provider-acp/server/sessionConfig"
 import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.vibe"

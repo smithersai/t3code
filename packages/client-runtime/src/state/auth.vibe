@@ -4,7 +4,7 @@ import { Atom } from "effect/reactivity"
 
 import type { EnvironmentRegistry } from "../connection/registry.vibe"
 import { subscribe } from "../rpc/client.vibe"
-import { createEnvironmentSubscriptionAtomFamily } from "./runtime.ts"
+import { createEnvironmentSubscriptionAtomFamily } from "./runtime.vibe"
 
 export const EMPTY_AUTH_ACCESS_SNAPSHOT: AuthAccessSnapshot = {
   pairingLinks: [],

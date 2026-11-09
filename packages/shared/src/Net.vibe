@@ -1,0 +1,73 @@
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Context from "effect/Context"
+
+import * as NetPlatform from "./Net.platform.ts"
+
+export error NetError {
+  message: string
+  cause?: unknown
+}
+
+export interface NetServiceShape {
+  readonly canListenOnHost: (port: number, host: string) => boolean!!
+
+  readonly isPortAvailableOnLoopback: (port: number) => boolean!!
+
+  readonly hasListenerOnHost: (port: number, host: string) => boolean!!
+
+  readonly reserveLoopbackPort: (host?: string) => number!NetError
+
+  readonly findAvailablePort: (preferred: number) => number!NetError
+}
+
+export service NetService: NetServiceShape {
+  static readonly key = "@t3tools/shared/Net/NetService"
+}
+
+/** @public */
+export const make = () => {
+  const canListenOnHost = (port: number, host: string): boolean!! => NetPlatform.canListenOnHost(port, host)
+
+  const hasListenerOnHost = (port: number, host: string): boolean!! => NetPlatform.hasListenerOnHost(port, host)
+
+  const isPortAvailableOnLoopback = Effect.fn("Net.isPortAvailableOnLoopback")(function*(
+    port: number,
+  ): Effect.fn.Return<boolean> {
+    const hasListener = yield* Effect.zipWith(
+      hasListenerOnHost(port, "127.0.0.1"),
+      hasListenerOnHost(port, "::1"),
+      (ipv4, ipv6) => ipv4 || ipv6,
+    )
+    if (hasListener) {
+      return false
+    }
+
+    return yield* Effect.zipWith(
+      canListenOnHost(port, "127.0.0.1"),
+      canListenOnHost(port, "::1"),
+      (ipv4, ipv6) => ipv4 && ipv6,
+    )
+  })
+
+  const reserveLoopbackPort = (host = "127.0.0.1"): number!NetError =>
+    NetPlatform.reserveLoopbackPort(host, {
+      listenFailed: (cause) => new NetError({ message: "Failed to reserve loopback port", cause }),
+      noPort: () => new NetError({ message: "Failed to reserve loopback port" }),
+    })
+
+  return {
+    canListenOnHost,
+    isPortAvailableOnLoopback,
+    hasListenerOnHost,
+    reserveLoopbackPort,
+    findAvailablePort: Effect.fn("Net.findAvailablePort")(function*(preferred) {
+      if (preferred > 0 && (yield* isPortAvailableOnLoopback(preferred))) {
+        return preferred
+      }
+      return yield* reserveLoopbackPort()
+    }),
+  } satisfies NetServiceShape
+}
+
+export const layer = Layer.sync(NetService, make)

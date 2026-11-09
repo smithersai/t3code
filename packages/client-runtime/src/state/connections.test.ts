@@ -13,7 +13,7 @@ import {
   type SupervisorConnectionState,
 } from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.vibe";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import type * as RpcSession from "../rpc/session.vibe";
 import { createEnvironmentCatalogAtoms } from "./connections.vibe";
 

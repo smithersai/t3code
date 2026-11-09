@@ -9,7 +9,7 @@ import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSour
 
 import * as GitHubCredentials from "./GitHubCredentials.vibe";
 import * as GitHubPullRequestApi from "./GitHubPullRequestApi.vibe";
-import * as GitHubPullRequestProvider from "./GitHubPullRequestProvider.ts";
+import * as GitHubPullRequestProvider from "./GitHubPullRequestProvider.vibe";
 import * as GitHubQuota from "./GitHubQuota.vibe";
 import * as GitHubRest from "./GitHubRest.vibe";
 

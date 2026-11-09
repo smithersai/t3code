@@ -11,7 +11,7 @@ import * as Path from "effect/Path";
 import * as Queue from "effect/Queue";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe";
 import * as OpenCodeServerLedger from "./OpenCodeServerLedger.vibe";
 
 const layerTest = OpenCodeRuntime.layer.pipe(

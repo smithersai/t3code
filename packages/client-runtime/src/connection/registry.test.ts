@@ -62,12 +62,12 @@ import {
   makePullRequestRoutingPermissions,
 } from "./pullRequestRoutingPermissions.vibe";
 import * as RpcSession from "../rpc/session.vibe";
-import * as EnvironmentSupervisor from "./supervisor.ts";
+import * as EnvironmentSupervisor from "./supervisor.vibe";
 import * as ConnectionWakeups from "./wakeups.vibe";
 import { watchDiscoveredCompatibility } from "./layer.vibe";
 import * as RelayEnvironmentDiscovery from "../relay/discovery.vibe";
 import type { RelayEnvironmentStatusResponse } from "@t3tools/contracts/relay";
-import { runDesktopCommitWithReconnectObserver } from "../state/server.ts";
+import { runDesktopCommitWithReconnectObserver } from "../state/server.vibe";
 import { v2ShellSnapshot } from "../state/orchestrationV2TestFixtures.ts";
 
 const TARGET = new PrimaryConnectionTarget({

@@ -25,9 +25,9 @@ import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import * as ProviderMaintenance from "@t3tools/provider-core/server/maintenanceResolver";
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe";
 import { OPENCODE_2_RESPONSES, replayOpenCodeServer } from "./probeResponses.fixture.ts";
-import { OpenCodeDriver, openCodeUpdateFor } from "./driver.ts";
+import { OpenCodeDriver, openCodeUpdateFor } from "./driver.vibe";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import * as Crypto from "@t3tools/shared/Crypto";
 

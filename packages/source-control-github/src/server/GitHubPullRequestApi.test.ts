@@ -18,7 +18,7 @@ import * as GitHubQuota from "./GitHubQuota.vibe";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 import * as GitHubPullRequestApi from "./GitHubPullRequestApi.vibe";
-import * as GitHubPullRequestProvider from "./GitHubPullRequestProvider.ts";
+import * as GitHubPullRequestProvider from "./GitHubPullRequestProvider.vibe";
 import { KnownWorkflowRuns } from "./gitHubConditionalChecks.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

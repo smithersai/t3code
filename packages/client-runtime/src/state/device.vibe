@@ -6,7 +6,7 @@ import {
   createAtomCommandScheduler,
   createEnvironmentRpcCommand,
   createEnvironmentRpcSubscriptionAtomFamily,
-} from "./runtime.ts"
+} from "./runtime.vibe"
 
 export function createDeviceEnvironmentAtoms<R, E>(
   runtime: Atom.AtomRuntime<EnvironmentRegistry | R, E>,

@@ -12,7 +12,7 @@ import { assert, it } from "@effect/vitest";
 
 import * as AcpAgent from "./agent.vibe";
 import * as AcpSchema from "./_generated/schema.gen.ts";
-import type * as AcpProtocol from "./protocol.ts";
+import type * as AcpProtocol from "./protocol.vibe";
 import {
   encodeJsonl,
   jsonRpcNotification,

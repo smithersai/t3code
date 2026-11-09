@@ -34,7 +34,7 @@ import {
 import * as EnvironmentRegistry from "../connection/registry.vibe";
 import { SshConnectionProfile, type ConnectionCatalogEntry } from "../connection/catalog.vibe";
 import * as ConnectionProfileStore from "../connection/profileStore.vibe";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
 import type { RpcSession } from "../rpc/session.vibe";
 import {
@@ -42,7 +42,7 @@ import {
   createPullRequestEnvironmentAtoms,
 } from "./pullRequests.vibe";
 import * as PullRequestDiffLoader from "./pullRequestDiffHttp.vibe";
-import { executeAtomQuery } from "./runtime.ts";
+import { executeAtomQuery } from "./runtime.vibe";
 import { createPullRequestRouter } from "./pullRequestRouting.vibe";
 import { PullRequestRoutingPermissions } from "../connection/pullRequestRoutingPermissions.vibe";
 

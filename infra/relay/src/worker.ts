@@ -24,11 +24,11 @@ import {
   RELAY_HTTP_ROUTER_CONFIG,
   traceRelayHttpRequestWith,
   withoutCapturedParentSpan,
-} from "./http/Api.ts";
-import * as RelayHttpApi from "./http/Api.ts";
+} from "./http/Api.vibe";
+import * as RelayHttpApi from "./http/Api.vibe";
 import { ManagedEndpointZone, RelayApiZone, RelayDeploymentConfig } from "./zone.vibe";
-import { RelayObservability } from "./observability.ts";
-import * as Observability from "./observability.ts";
+import { RelayObservability } from "./observability.vibe";
+import * as Observability from "./observability.vibe";
 import * as DeliveryAttempts from "./agentActivity/DeliveryAttempts.vibe";
 import * as AgentActivityRows from "./agentActivity/AgentActivityRows.vibe";
 import * as Devices from "./agentActivity/Devices.vibe";
@@ -55,8 +55,8 @@ import * as RelayConfiguration from "./Config.vibe";
 import * as AgentActivityPublisher from "./agentActivity/AgentActivityPublisher.vibe";
 import * as ApnsClient from "./agentActivity/ApnsClient.vibe";
 import * as ApnsProviderTokens from "./agentActivity/ApnsProviderTokens.ts";
-import * as ApnsDeliveryQueue from "./agentActivity/ApnsDeliveryQueue.ts";
-import * as ApnsDeliveries from "./agentActivity/ApnsDeliveries.ts";
+import * as ApnsDeliveryQueue from "./agentActivity/ApnsDeliveryQueue.vibe";
+import * as ApnsDeliveries from "./agentActivity/ApnsDeliveries.vibe";
 import * as CloudflareApiPause from "./environments/CloudflareApiPause.vibe";
 import * as EnvironmentConnector from "./environments/EnvironmentConnector.vibe";
 import * as EnvironmentLinker from "./environments/EnvironmentLinker.vibe";
@@ -65,11 +65,11 @@ import * as ManagedEndpointProvider from "./environments/ManagedEndpointProvider
 import * as ManagedEndpointReaper from "./environments/ManagedEndpointReaper.vibe";
 import * as ManagedTunnelLimits from "./environments/ManagedTunnelLimits.vibe";
 import * as MobileRegistrations from "./agentActivity/MobileRegistrations.vibe";
-import * as HookForwarder from "./hooks/HookForwarder.ts";
+import * as HookForwarder from "./hooks/HookForwarder.vibe";
 import * as HeldHooks from "./hooks/HeldHooks.vibe";
 import * as HookInbox from "./hooks/HookInbox.vibe";
 import * as HookInboxObject from "./hooks/HookInboxObject.vibe";
-import * as MobileTelemetry from "./mobileTelemetry/MobileTelemetry.ts";
+import * as MobileTelemetry from "./mobileTelemetry/MobileTelemetry.vibe";
 
 const layerWebcrypto = Layer.succeed(
   Crypto.Crypto,

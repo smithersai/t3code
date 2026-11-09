@@ -23,7 +23,7 @@ import {
   type SupervisorConnectionState,
 } from "../connection/model.vibe";
 import * as EnvironmentRegistry from "../connection/registry.vibe";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
 import type * as RpcSession from "../rpc/session.vibe";
 import { EMPTY_SHELL_STATE, type EnvironmentShellState } from "./shell.vibe";
@@ -31,7 +31,7 @@ import {
   createThreadFamilyAtoms,
   threadFamilyRead,
   threadFamilyRowsMissingFromShell,
-} from "./threadFamilies.ts";
+} from "./threadFamilies.vibe";
 
 const row = (id: string, title = id) =>
   ({ id: ThreadId.make(id), title }) as unknown as OrchestrationV2ThreadShell;

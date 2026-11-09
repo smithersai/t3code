@@ -3,7 +3,7 @@ import * as FileSystem from "effect/FileSystem"
 import * as Path from "effect/Path"
 import * as Schema from "effect/Schema"
 
-import * as HostProcess from "./HostProcess.ts"
+import * as HostProcess from "./HostProcess.vibe"
 import { CommandResolutionCache, resolveCommandPath } from "./shell.vibe"
 
 const NodeRuntimeFeature = Schema.Literals([

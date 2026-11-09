@@ -19,7 +19,7 @@ export {
   EnvironmentNotRegisteredError,
   PlatformEnvironmentRemovalError,
 } from "#vibelang/emitted/src/connection/registry";
-export * as EnvironmentSupervisor from "./supervisor.ts";
+export * as EnvironmentSupervisor from "./supervisor.vibe";
 export * as Wakeups from "#vibelang/emitted/src/connection/wakeups";
 
 export { orchestrationProtocolCompatibilityError } from "./compatibility.ts";

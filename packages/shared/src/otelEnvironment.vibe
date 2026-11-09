@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect"
 
 import type { OtlpEndpointSource } from "@t3tools/contracts"
 
-import { OtlpHeadersFromString, OtlpProtocol, type SignalExport } from "./observability.ts"
+import { OtlpHeadersFromString, OtlpProtocol, type SignalExport } from "./observability.vibe"
 
 type OtlpSignalName = "TRACES" | "METRICS" | "LOGS"
 

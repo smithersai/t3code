@@ -9,7 +9,7 @@ import * as Stdio from "effect/Stdio"
 import * as AcpSchema from "./schema.ts"
 import { AGENT_METHODS, CLIENT_METHODS } from "./_generated/meta.gen.ts"
 import * as AcpError from "./errors.vibe"
-import * as AcpProtocol from "./protocol.ts"
+import * as AcpProtocol from "./protocol.vibe"
 import * as AcpRpcs from "./rpc.vibe"
 import {
   callRpc,

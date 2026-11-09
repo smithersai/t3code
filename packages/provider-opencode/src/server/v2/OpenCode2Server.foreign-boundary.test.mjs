@@ -1,7 +1,7 @@
 import { expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import * as OpenCodeRuntime from "../OpenCodeRuntime.ts";
+import * as OpenCodeRuntime from "../OpenCodeRuntime.vibe";
 import { verifyServer } from "./OpenCode2Server.vibe";
 
 it.effect.prop(

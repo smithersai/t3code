@@ -15,7 +15,7 @@ import * as Effect from "effect/Effect"
 import * as Option from "effect/Option"
 
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost"
-import { AcpRegistryAdapterV2Driver, type AcpRegistryAdapterV2DriverEnv } from "./adapter.ts"
+import { AcpRegistryAdapterV2Driver, type AcpRegistryAdapterV2DriverEnv } from "./adapter.vibe"
 import type { ProviderTextGeneration } from "@t3tools/provider-core/server/textGeneration"
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors"
 import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider"
@@ -45,7 +45,7 @@ import {
   probeAcpRegistryConfiguration,
   setAcpRegistryProvider,
 } from "./probe.vibe"
-import * as AcpRegistrySupport from "./AcpRegistrySupport.ts"
+import * as AcpRegistrySupport from "./AcpRegistrySupport.vibe"
 import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.vibe"
 import * as AcpRegistryAuth from "./auth.vibe"
 import * as AcpRegistryAuthenticationState from "./authenticationState.vibe"

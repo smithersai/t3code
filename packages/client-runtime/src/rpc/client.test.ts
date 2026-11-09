@@ -23,7 +23,7 @@ import {
   type PreparedConnection,
   type SupervisorConnectionState,
 } from "../connection/model.vibe";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import * as RpcSession from "../rpc/session.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
 import { runStream, subscribe, subscribeDynamicWithSession } from "./client.vibe";

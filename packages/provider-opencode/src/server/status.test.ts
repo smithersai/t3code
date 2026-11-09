@@ -16,7 +16,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import { beforeEach } from "vite-plus/test";
 
 import { OpenCodeSettings } from "../settings.vibe";
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe";
 import * as OpenCodeServerOwner from "./OpenCodeServerOwner.vibe";
 import {
   checkOpenCodeProviderStatus,

@@ -158,10 +158,10 @@
       }
     },
     "./observability": {
-      "types": "./src/observability.ts",
+      "types": "./src/observability.d.vibe.ts",
       "import": {
-        "types": "./src/observability.ts",
-        "vibelang-source": "./src/observability.ts",
+        "types": "./src/observability.d.vibe.ts",
+        "vibelang-source": "./src/observability.vibe",
         "default": "./.vibelang/js/src/observability.js"
       }
     },
@@ -200,10 +200,10 @@
       }
     },
     "./Net": {
-      "types": "./src/Net.ts",
+      "types": "./src/Net.d.vibe.ts",
       "import": {
-        "types": "./src/Net.ts",
-        "vibelang-source": "./src/Net.ts",
+        "types": "./src/Net.d.vibe.ts",
+        "vibelang-source": "./src/Net.vibe",
         "default": "./.vibelang/js/src/Net.js"
       }
     },
@@ -603,10 +603,10 @@
       "import": "./src/AgentScope.vibe"
     },
     "./HostProcess": {
-      "types": "./src/HostProcess.ts",
+      "types": "./src/HostProcess.d.vibe.ts",
       "import": {
-        "types": "./src/HostProcess.ts",
-        "vibelang-source": "./src/HostProcess.ts",
+        "types": "./src/HostProcess.d.vibe.ts",
+        "vibelang-source": "./src/HostProcess.vibe",
         "default": "./.vibelang/js/src/HostProcess.js"
       }
     },

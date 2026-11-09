@@ -13,7 +13,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import { describe } from "vite-plus/test";
 
-import * as OpenCodeRuntime from "../OpenCodeRuntime.ts";
+import * as OpenCodeRuntime from "../OpenCodeRuntime.vibe";
 import * as OpenCodeServerLedger from "../OpenCodeServerLedger.vibe";
 import * as OpenCode2Client from "./OpenCode2Client.vibe";
 import * as OpenCode2Server from "./OpenCode2Server.vibe";

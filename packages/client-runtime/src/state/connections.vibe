@@ -4,7 +4,7 @@ import { AsyncResult, Atom } from "effect/reactivity"
 import * as EnvironmentRegistry from "../connection/registry.vibe"
 import type { ConnectionCatalogEntry } from "../connection/catalog.vibe"
 import { AVAILABLE_CONNECTION_STATE } from "../connection/model.vibe"
-import * as EnvironmentSupervisor from "../connection/supervisor.ts"
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe"
 import {
   PullRequestRoutingPermissions,
   type PullRequestRoutingPermission,
@@ -15,7 +15,7 @@ import {
   createRuntimeCommand,
   environmentSessionGenerationAtom,
   followStreamInEnvironment,
-} from "./runtime.ts"
+} from "./runtime.vibe"
 
 export interface EnvironmentCatalogState {
   readonly isReady: boolean

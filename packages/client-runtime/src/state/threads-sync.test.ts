@@ -37,7 +37,7 @@ import {
   type SupervisorConnectionState,
 } from "../connection/model.vibe";
 import * as ConnectionWakeups from "../connection/wakeups.vibe";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import * as Persistence from "../platform/persistence.vibe";
 import {
   ORCHESTRATION_THREAD_CACHE_SCHEMA_VERSION,

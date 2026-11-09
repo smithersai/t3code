@@ -10,7 +10,7 @@ import {
   PROJECT_FAVICON_MAX_SOURCE_BYTES,
   type ProjectFaviconEntry,
   type ProjectFaviconStorage,
-} from "./projectFaviconCache.ts";
+} from "./projectFaviconCache.vibe";
 
 const target = { environmentId: EnvironmentId.make("remote"), cwd: "/workspace" };
 const url = "https://remote.test/api/assets/token-a/vabc-icon.svg";

@@ -432,6 +432,8 @@ function cloudflareRateLimitPauseMillis(cause: unknown): number {
 /**
  * How long a caller should wait before retrying, when `cause` is a Cloudflare
  * rate limit or a call refused during the pause that follows one.
+ *
+ * @throws {never}
  */
 export function cloudflareRetryAfterMillis(cause: unknown): number | undefined {
   for (let current = cause, depth = 0; depth < 8; depth++) {

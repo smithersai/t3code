@@ -8,7 +8,7 @@ import * as Path from "effect/Path"
 import { HttpClient } from "effect/http"
 import { ChildProcessSpawner } from "effect/process"
 import { isWindowsRenameLock } from "./atomicWrite.vibe"
-import * as HostProcess from "./HostProcess.ts"
+import * as HostProcess from "./HostProcess.vibe"
 
 export const CLOUDFLARED_VERSION = "2026.10.4"
 // Minimum for --output support; older connectors exit on that flag.

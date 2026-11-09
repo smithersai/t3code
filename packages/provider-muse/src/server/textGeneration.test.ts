@@ -10,8 +10,8 @@ import * as Schema from "effect/Schema";
 import { vi } from "vite-plus/test";
 
 import type { MuseSdkHost } from "./sdk.ts";
-import { museModelCapabilities } from "./modelCatalog.ts";
-import { makeMuseTextGeneration } from "./textGeneration.ts";
+import { museModelCapabilities } from "./modelCatalog.vibe";
+import { makeMuseTextGeneration } from "./textGeneration.vibe";
 
 const settings = Schema.decodeSync(MuseSettings)({ enabled: true });
 const modelSelection = createModelSelection(

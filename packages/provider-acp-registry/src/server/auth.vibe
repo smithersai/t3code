@@ -9,7 +9,7 @@ import type * as AcpSchema from "effect-acp/compat"
 import * as PtyAdapter from "@t3tools/shared/PtyAdapter"
 import * as ProviderAuthFlow from "@t3tools/provider-core/server/providerAuthFlow"
 import { normalizeAcpRegistryAuthMethods, normalizeAcpRegistryWebUrl } from "./probe.vibe"
-import * as AcpRegistrySupport from "./AcpRegistrySupport.ts"
+import * as AcpRegistrySupport from "./AcpRegistrySupport.vibe"
 import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.vibe"
 import * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime"
 

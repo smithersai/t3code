@@ -203,6 +203,6 @@ export function canNavigateUp(currentPath: string): boolean {
   return hasTrailingPathSeparator(currentPath) && getBrowseParentPath(currentPath) !== null;
 }
 
-export * from "./projectCommands.ts";
+export * from "./projectCommands.vibe";
 export * from "#vibelang/emitted/src/state/projectEntities";
 export * from "./projectRemoval.ts";

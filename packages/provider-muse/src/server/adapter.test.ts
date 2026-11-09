@@ -40,7 +40,7 @@ import type { MuseSdkHost, MuseSdkHostOptions } from "./sdk.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import type * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
-import { makeMuseAdapterV2, type MuseAdapterV2Options } from "./adapter.ts";
+import { makeMuseAdapterV2, type MuseAdapterV2Options } from "./adapter.vibe";
 
 const testLayer = Layer.mergeAll(
   NodeServices.layer,

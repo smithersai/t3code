@@ -12,7 +12,7 @@ import type {
   GitHubPullRequestCore,
   GitHubPullRequestSearchItem,
 } from "./gitHubPullRequestJson.vibe";
-import { gitHubViewerPermissions, loginAvatarUrl, make } from "./GitHubPullRequestProvider.ts";
+import { gitHubViewerPermissions, loginAvatarUrl, make } from "./GitHubPullRequestProvider.vibe";
 import type { GitHubReviewThreadComments } from "./gitHubPullRequestJson.vibe";
 
 const coreFields = {

@@ -7,7 +7,7 @@ import * as Ref from "effect/Ref";
 import * as TestClock from "effect/testing/TestClock";
 import { expect } from "vite-plus/test";
 
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe";
 import * as OpenCodeServerOwner from "./OpenCodeServerOwner.vibe";
 
 const unusedRuntimeMethod = () =>

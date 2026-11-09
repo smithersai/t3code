@@ -13,7 +13,7 @@ import * as Socket from "effect/socket/Socket"
 
 import { fetchRemoteEnvironmentDescriptor } from "../environment/descriptor.vibe"
 import { makeWsRpcProtocolClient, PING_TIMEOUT } from "../rpc/protocol.ts"
-import { isLegacyUpdateHandoffLoss, resolveServerUpdateProgressResult } from "../state/server.ts"
+import { isLegacyUpdateHandoffLoss, resolveServerUpdateProgressResult } from "../state/server.vibe"
 import * as RelayEnvironmentDiscovery from "../relay/discovery.vibe"
 import * as ConnectionResolver from "./resolver.vibe"
 import * as EnvironmentRegistry from "./registry.vibe"

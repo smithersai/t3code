@@ -5,7 +5,7 @@ import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
-import * as AcpRegistrySupport from "./AcpRegistrySupport.ts";
+import * as AcpRegistrySupport from "./AcpRegistrySupport.vibe";
 import {
   applyAcpRegistryAvailableCommands,
   applyAcpRegistryLiveConfiguration,

@@ -22,7 +22,7 @@ import * as AcpSchema from "./_generated/schema.gen.ts";
 import * as AcpSchemaV1 from "./_generated/schema-v1.gen.ts";
 import * as AcpError from "./errors.vibe";
 import type * as AcpCompat from "./compat.vibe";
-import type * as AcpProtocol from "./protocol.ts";
+import type * as AcpProtocol from "./protocol.vibe";
 import {
   encodeJsonl,
   jsonRpcNotification,

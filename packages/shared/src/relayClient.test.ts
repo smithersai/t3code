@@ -13,7 +13,7 @@ import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
 import { HttpClient, HttpClientResponse } from "effect/http";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
-import * as HostProcess from "./HostProcess.ts";
+import * as HostProcess from "./HostProcess.vibe";
 
 import * as RelayClient from "./relayClient.vibe";
 import * as Crypto from "./Crypto.vibe";

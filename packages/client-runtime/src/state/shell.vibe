@@ -15,7 +15,7 @@ import { AsyncResult, Atom } from "effect/reactivity"
 
 import * as EnvironmentRegistry from "../connection/registry.vibe"
 import { connectionProjectionPhase } from "../connection/model.vibe"
-import * as EnvironmentSupervisor from "../connection/supervisor.ts"
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe"
 import * as ConnectionWakeups from "../connection/wakeups.vibe"
 import { safeErrorLogAttributes } from "../errors/safeLog.ts"
 import * as Persistence from "../platform/persistence.vibe"
@@ -31,7 +31,7 @@ import {
   sameThreadPullRequests,
 } from "./shellReducer.vibe"
 import { type EnvironmentCatalogState, enabledEnvironmentIds } from "./connections.vibe"
-import { followStreamInEnvironment } from "./runtime.ts"
+import { followStreamInEnvironment } from "./runtime.vibe"
 
 export type EnvironmentShellStatus = "empty" | "cached" | "synchronizing" | "live"
 

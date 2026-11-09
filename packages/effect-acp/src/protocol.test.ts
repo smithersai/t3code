@@ -20,7 +20,7 @@ import { it, assert, expect } from "@effect/vitest";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 
 import * as AcpSchema from "./schema.ts";
-import * as AcpProtocol from "./protocol.ts";
+import * as AcpProtocol from "./protocol.vibe";
 import {
   encodeJsonl,
   jsonRpcNotification,

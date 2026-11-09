@@ -17,7 +17,7 @@ import {
   hasTrailingPathSeparator,
   isFilesystemBrowseQuery,
 } from "./projects.ts"
-import { createEnvironmentRpcQueryAtomFamily } from "./runtime.ts"
+import { createEnvironmentRpcQueryAtomFamily } from "./runtime.vibe"
 
 export function resolveFilesystemReadAccess(input: {
   readonly isCatalogReady: boolean

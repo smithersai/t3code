@@ -11,11 +11,11 @@ import { normalizeProjectPathForComparison, resolveWorkspaceFilePath } from "@t3
 import * as Effect from "effect/Effect"
 import { Atom, AtomRegistry } from "effect/reactivity"
 
-import * as EnvironmentSupervisor from "../connection/supervisor.ts"
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe"
 import type { EnvironmentRegistry } from "../connection/registry.vibe"
 import { request, type EnvironmentRpcFailure, EnvironmentRpcUnavailableError } from "../rpc/client.vibe"
 import type { RpcSession } from "../rpc/session.vibe"
-import { createEnvironmentQueryAtomFamily } from "./runtime.ts"
+import { createEnvironmentQueryAtomFamily } from "./runtime.vibe"
 
 const METADATA_STALE_TIME_MS = 60_000
 const METADATA_CACHE_LIMIT = 1024

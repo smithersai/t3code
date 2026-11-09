@@ -29,10 +29,10 @@ import {
   PrimaryConnectionTarget,
   type PreparedConnection,
 } from "../connection/model.vibe";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import * as Persistence from "../platform/persistence.vibe";
 import * as RpcSession from "./session.vibe";
-import { makeEnvironmentServerConfigState } from "../state/server.ts";
+import { makeEnvironmentServerConfigState } from "../state/server.vibe";
 import { applyServerConfigProjection } from "../state/serverConfigProjection.vibe";
 
 type SocketEventType = "open" | "message" | "close" | "error";

@@ -4,7 +4,7 @@ import * as NodeChildProcess from "node:child_process";
 import { describe, expect, it } from "@effect/vitest";
 
 import { AGENT_OOM_SCORE_ADJ, agentScopeCommand } from "./AgentScope.vibe";
-import * as HostProcess from "./HostProcess.ts";
+import * as HostProcess from "./HostProcess.vibe";
 
 describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")("agentScopeCommand", () => {
   it("raises the OOM score and execs the command with its arguments in the same process", () => {

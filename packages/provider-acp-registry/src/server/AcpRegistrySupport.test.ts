@@ -20,7 +20,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import * as AcpRegistrySupport from "./AcpRegistrySupport.ts";
+import * as AcpRegistrySupport from "./AcpRegistrySupport.vibe";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import * as Crypto from "@t3tools/shared/Crypto";
 

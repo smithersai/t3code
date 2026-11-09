@@ -25,7 +25,7 @@ import * as SubscriptionRef from "effect/SubscriptionRef";
 import { Atom, AtomRegistry } from "effect/reactivity";
 
 import * as EnvironmentRegistry from "../connection/registry.vibe";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import type { RpcSession } from "../rpc/session.vibe";
 import { createThreadEnvironmentAtoms } from "./threadCommands.vibe";
 import * as ThreadHistoryController from "./threadHistoryController.vibe";

@@ -19,7 +19,7 @@ import {
   ManagedRelaySessionError,
   managedRelaySessionAtom,
   setManagedRelaySession,
-} from "./managedRelayState.ts";
+} from "./managedRelayState.vibe";
 
 let registry = AtomRegistry.make();
 

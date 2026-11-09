@@ -334,8 +334,8 @@
       }
     },
     "./device/stream": {
-      "types": "./src/device/stream.ts",
-      "vibelang-source": "./src/device/stream.ts",
+      "types": "./src/device/stream.d.vibe.ts",
+      "vibelang-source": "./src/device/stream.vibe",
       "default": "./.vibelang/js/src/device/stream.js"
     },
     "./device/hub-access": {
@@ -367,8 +367,8 @@
       }
     },
     "./project-favicon-cache": {
-      "types": "./src/projectFaviconCache.ts",
-      "vibelang-source": "./src/projectFaviconCache.ts",
+      "types": "./src/projectFaviconCache.d.vibe.ts",
+      "vibelang-source": "./src/projectFaviconCache.vibe",
       "default": "./.vibelang/js/src/projectFaviconCache.js"
     },
     "./user-message": {
@@ -621,8 +621,8 @@
       "default": "./src/state/models.vibe"
     },
     "./state/orchestration": {
-      "types": "./src/state/orchestration.ts",
-      "vibelang-source": "./src/state/orchestration.ts",
+      "types": "./src/state/orchestration.d.vibe.ts",
+      "vibelang-source": "./src/state/orchestration.vibe",
       "default": "./.vibelang/js/src/state/orchestration.js"
     },
     "./state/orchestration-v2-projection": {
@@ -649,8 +649,8 @@
       "default": "./.vibelang/js/src/state/deviceHubAccess.js"
     },
     "./state/peerLinks": {
-      "types": "./src/state/peerLinks.ts",
-      "vibelang-source": "./src/state/peerLinks.ts",
+      "types": "./src/state/peerLinks.d.vibe.ts",
+      "vibelang-source": "./src/state/peerLinks.vibe",
       "default": "./.vibelang/js/src/state/peerLinks.js"
     },
     "./state/peerPairingCode": {
@@ -698,13 +698,13 @@
       "default": "./.vibelang/js/src/state/relayDiscovery.js"
     },
     "./state/review": {
-      "types": "./src/state/review.ts",
-      "vibelang-source": "./src/state/review.ts",
+      "types": "./src/state/review.d.vibe.ts",
+      "vibelang-source": "./src/state/review.vibe",
       "default": "./.vibelang/js/src/state/review.js"
     },
     "./state/runtime": {
-      "types": "./src/state/runtime.ts",
-      "vibelang-source": "./src/state/runtime.ts",
+      "types": "./src/state/runtime.d.vibe.ts",
+      "vibelang-source": "./src/state/runtime.vibe",
       "default": "./.vibelang/js/src/state/runtime.js"
     },
     "./state/usage": {
@@ -721,8 +721,8 @@
       }
     },
     "./state/server": {
-      "types": "./src/state/server.ts",
-      "vibelang-source": "./src/state/server.ts",
+      "types": "./src/state/server.d.vibe.ts",
+      "vibelang-source": "./src/state/server.vibe",
       "default": "./.vibelang/js/src/state/server.js"
     },
     "./state/outdatedServerUpdate": {
@@ -758,8 +758,8 @@
       "default": "./.vibelang/js/src/state/sourceControl.js"
     },
     "./state/terminal": {
-      "types": "./src/state/terminal.ts",
-      "vibelang-source": "./src/state/terminal.ts",
+      "types": "./src/state/terminal.d.vibe.ts",
+      "vibelang-source": "./src/state/terminal.vibe",
       "default": "./.vibelang/js/src/state/terminal.js"
     },
     "./state/threads": {
@@ -851,8 +851,8 @@
       "default": "./src/state/threadSearch.vibe"
     },
     "./state/thread-visits": {
-      "types": "./src/state/threadVisits.ts",
-      "vibelang-source": "./src/state/threadVisits.ts",
+      "types": "./src/state/threadVisits.d.vibe.ts",
+      "vibelang-source": "./src/state/threadVisits.vibe",
       "default": "./.vibelang/js/src/state/threadVisits.js"
     },
     "./state/turn-item-presentation": {
@@ -864,8 +864,8 @@
       }
     },
     "./state/vcs": {
-      "types": "./src/state/vcs.ts",
-      "vibelang-source": "./src/state/vcs.ts",
+      "types": "./src/state/vcs.d.vibe.ts",
+      "vibelang-source": "./src/state/vcs.vibe",
       "default": "./.vibelang/js/src/state/vcs.js"
     },
     "./work-log/user-input": {

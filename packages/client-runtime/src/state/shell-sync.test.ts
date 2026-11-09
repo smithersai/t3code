@@ -24,7 +24,7 @@ import {
   PrimaryConnectionTarget,
   type PreparedConnection,
 } from "../connection/model.vibe";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import * as Persistence from "../platform/persistence.vibe";
 import * as RpcSession from "../rpc/session.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";

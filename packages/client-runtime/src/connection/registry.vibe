@@ -37,7 +37,7 @@ module platform {
   } from "./model.vibe"
   import { ConnectionBlockedError } from "#vibelang/emitted/src/connection/model"
   import * as Persistence from "#vibelang/emitted/src/platform/persistence"
-  import * as EnvironmentSupervisor from "./supervisor.ts"
+  import * as EnvironmentSupervisor from "./supervisor.vibe"
   import * as ConnectionDriver from "./driver.vibe"
   import * as ConnectionWakeups from "#vibelang/emitted/src/connection/wakeups"
   import {

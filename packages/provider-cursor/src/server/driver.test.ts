@@ -28,7 +28,7 @@ import {
 } from "@t3tools/provider-core/server/handoffBudget";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
-import { CursorDriver } from "./driver.ts";
+import { CursorDriver } from "./driver.vibe";
 import * as CursorAgentSdk from "./CursorAgentSdk.vibe";
 import * as CursorSdk from "./CursorSdk.ts";
 import * as CursorKeychain from "./CursorKeychain.vibe";

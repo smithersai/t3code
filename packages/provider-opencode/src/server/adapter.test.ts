@@ -32,7 +32,7 @@ import * as Stream from "effect/Stream";
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import type * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 

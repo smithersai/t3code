@@ -9,7 +9,7 @@ import { vi } from "vite-plus/test";
 import { writeFakeCli } from "@t3tools/provider-testing/fakeCli";
 import type { MuseSdkHost } from "./sdk.ts";
 import { COMPACT_SLASH_COMMAND } from "@t3tools/provider-core/server/snapshotProbe";
-import { checkMuseProviderStatus } from "./status.ts";
+import { checkMuseProviderStatus } from "./status.vibe";
 
 const settings = Schema.decodeSync(MuseSettings);
 const makeHost = (catalog: Record<string, unknown>) => {

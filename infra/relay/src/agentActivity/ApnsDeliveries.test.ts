@@ -15,13 +15,13 @@ import {
   makeApnsDeliveryJobPayload,
   signApnsDeliveryJob,
   type SignedApnsDeliveryJob,
-} from "./apnsDeliveryJobs.ts";
+} from "./apnsDeliveryJobs.vibe";
 import * as DeliveryAttempts from "./DeliveryAttempts.vibe";
 import * as LiveActivities from "./LiveActivities.vibe";
 import * as RelayConfiguration from "../Config.vibe";
-import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.ts";
+import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.vibe";
 import * as AgentActivityRows from "./AgentActivityRows.vibe";
-import * as ApnsDeliveries from "./ApnsDeliveries.ts";
+import * as ApnsDeliveries from "./ApnsDeliveries.vibe";
 import * as ApnsClient from "./ApnsClient.vibe";
 import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
 import * as Crypto from "@t3tools/shared/Crypto";

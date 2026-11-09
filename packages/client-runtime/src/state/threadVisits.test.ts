@@ -4,7 +4,7 @@ import { expect, it, vi } from "vite-plus/test";
 
 import type { VisitThreadInput } from "./threadCommands.vibe";
 import { claimThreadOpen } from "./threadSearch.vibe";
-import { createThreadVisitTracker, VISIT_DISPATCH_THROTTLE_MS } from "./threadVisits.ts";
+import { createThreadVisitTracker, VISIT_DISPATCH_THROTTLE_MS } from "./threadVisits.vibe";
 
 const environmentId = EnvironmentId.make("env-visits");
 

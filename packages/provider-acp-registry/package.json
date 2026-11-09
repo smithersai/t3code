@@ -69,10 +69,10 @@
       }
     },
     "./server/AcpRegistrySupport": {
-      "types": "./src/server/AcpRegistrySupport.ts",
+      "types": "./src/server/AcpRegistrySupport.d.vibe.ts",
       "import": {
-        "types": "./src/server/AcpRegistrySupport.ts",
-        "vibelang-source": "./src/server/AcpRegistrySupport.ts",
+        "types": "./src/server/AcpRegistrySupport.d.vibe.ts",
+        "vibelang-source": "./src/server/AcpRegistrySupport.vibe",
         "default": "./.vibelang/js/src/server/AcpRegistrySupport.js"
       }
     },

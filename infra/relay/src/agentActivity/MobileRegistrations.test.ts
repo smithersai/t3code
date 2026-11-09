@@ -2,7 +2,7 @@ import type {
   RelayAgentActivityState,
   RelayDeviceRegistrationRequest,
 } from "@t3tools/contracts/relay";
-import type { SignedApnsDeliveryJob } from "./apnsDeliveryJobs.ts";
+import type { SignedApnsDeliveryJob } from "./apnsDeliveryJobs.vibe";
 import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -27,10 +27,10 @@ const layerPublisher = AgentActivityPublisher.layer.pipe(
     }),
   ),
 );
-import * as ApnsDeliveries from "./ApnsDeliveries.ts";
+import * as ApnsDeliveries from "./ApnsDeliveries.vibe";
 import * as ApnsClient from "./ApnsClient.vibe";
 import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
-import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.ts";
+import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.vibe";
 import * as MobileRegistrations from "./MobileRegistrations.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

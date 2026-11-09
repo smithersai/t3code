@@ -21,10 +21,10 @@ import * as Schema from "effect/Schema";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
 import * as EnvironmentRegistry from "#vibelang/emitted/src/connection/registry";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import { request } from "#vibelang/emitted/src/rpc/client";
-import type { ProjectFaviconCache, ProjectFaviconTarget } from "../projectFaviconCache.ts";
-import { createEnvironmentQueryAtomFamily } from "./runtime.ts";
+import type { ProjectFaviconCache, ProjectFaviconTarget } from "../projectFaviconCache.vibe";
+import { createEnvironmentQueryAtomFamily } from "./runtime.vibe";
 
 const ASSET_URL_REFRESH_INTERVAL_MS = 30 * 60_000;
 const ASSET_URL_STALE_TIME_MS = 5 * 60_000;

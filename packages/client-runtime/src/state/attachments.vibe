@@ -15,7 +15,7 @@ import {
   runAtomCommand,
   squashAtomCommandFailure,
   type AtomCommand,
-} from "./runtime.ts"
+} from "./runtime.vibe"
 
 export function createAttachmentEnvironmentAtoms<R, E>(
   runtime: Atom.AtomRuntime<EnvironmentRegistry | R, E>,

@@ -7,7 +7,7 @@ import type {
 import * as DateTime from "effect/DateTime"
 import { Atom } from "effect/reactivity"
 
-import type { AtomCommand } from "./runtime.ts"
+import type { AtomCommand } from "./runtime.vibe"
 
 interface PendingThreadUpdate {
   readonly threadId: ThreadId

@@ -4,7 +4,7 @@ import type {
   RelayAgentActivityState,
 } from "@t3tools/contracts/relay"
 
-import type { ApnsNotificationPayload } from "./apnsDeliveryJobs.ts"
+import type { ApnsNotificationPayload } from "./apnsDeliveryJobs.vibe"
 
 export function isTerminalPhase(state: RelayAgentActivityState): boolean {
   return state.phase === "completed" || state.phase === "failed"

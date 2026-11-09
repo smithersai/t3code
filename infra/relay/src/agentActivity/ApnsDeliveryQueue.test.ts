@@ -6,7 +6,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
 import * as RelayConfiguration from "../Config.vibe";
-import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.ts";
+import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const config: RelayConfiguration.RelayConfiguration["Service"] = {

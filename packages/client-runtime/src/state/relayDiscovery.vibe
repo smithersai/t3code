@@ -1,5 +1,5 @@
 import * as RelayEnvironmentDiscovery from "../relay/discovery.vibe"
-import { createRuntimeCommand } from "./runtime.ts"
+import { createRuntimeCommand } from "./runtime.vibe"
 
 export function createRelayEnvironmentDiscoveryAtoms<R, E>(
   runtime: Atom.AtomRuntime<RelayEnvironmentDiscovery.RelayEnvironmentDiscovery | R, E>,

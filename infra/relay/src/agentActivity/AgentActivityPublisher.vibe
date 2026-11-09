@@ -12,7 +12,7 @@ export { isExpiredAgentActivityState } from "./agentActivityPayloads.vibe"
 import * as AgentActivityRows from "./AgentActivityRows.vibe"
 import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe"
 import * as LiveActivities from "./LiveActivities.vibe"
-import * as ApnsDeliveries from "./ApnsDeliveries.ts"
+import * as ApnsDeliveries from "./ApnsDeliveries.vibe"
 import * as FcmDeliveries from "./FcmDeliveries.ts"
 
 export type AgentActivityPublishError =

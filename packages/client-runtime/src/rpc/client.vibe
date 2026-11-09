@@ -15,7 +15,7 @@ import * as Schema from "effect/Schema"
 import * as Stream from "effect/Stream"
 import { RpcClientError } from "effect/rpc"
 
-import * as EnvironmentSupervisor from "../connection/supervisor.ts"
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe"
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts"
 import type { RpcSession } from "../rpc/session.vibe"
 

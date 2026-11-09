@@ -2,7 +2,7 @@ import { EnvironmentId } from "@t3tools/contracts";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 import { describe, expect, it, vi } from "vite-plus/test";
 
-import { createVcsStatusRevalidationAtomFamily } from "./vcsStatusRevalidation.ts";
+import { createVcsStatusRevalidationAtomFamily } from "./vcsStatusRevalidation.vibe";
 
 const environmentId = EnvironmentId.make("environment-1");
 

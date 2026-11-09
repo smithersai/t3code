@@ -15,7 +15,7 @@ import * as NetService from "@t3tools/shared/Net";
 import { beforeEach, expect } from "vite-plus/test";
 
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe";
 import * as OpenCodeServerOwner from "./OpenCodeServerOwner.vibe";
 import * as OpenCodeTextGeneration from "./textGeneration.vibe";
 import type { ProviderTextGeneration } from "@t3tools/provider-core/server/textGeneration";

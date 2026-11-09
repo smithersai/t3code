@@ -6,7 +6,7 @@ import * as Effect from "effect/Effect"
 import * as P from "effect/Predicate"
 import * as Redacted from "effect/Redacted"
 
-import * as OpenCodeRuntime from "../OpenCodeRuntime.ts"
+import * as OpenCodeRuntime from "../OpenCodeRuntime.vibe"
 import * as OpenCodeServerOwner from "../OpenCodeServerOwner.vibe"
 import * as OpenCode2Client from "./OpenCode2Client.vibe"
 

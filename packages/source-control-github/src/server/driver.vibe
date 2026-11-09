@@ -4,7 +4,7 @@ import { definition } from "../shared/definition.ts"
 
 import * as GitHubMediaFetch from "./gitHubMediaFetch.vibe"
 import * as GitHubPullRequestApi from "./GitHubPullRequestApi.vibe"
-import * as GitHubPullRequestProvider from "./GitHubPullRequestProvider.ts"
+import * as GitHubPullRequestProvider from "./GitHubPullRequestProvider.vibe"
 import * as GitHubRest from "./GitHubRest.vibe"
 import * as GitHubSourceControlProvider from "./GitHubSourceControlProvider.vibe"
 

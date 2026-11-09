@@ -4,7 +4,7 @@ export {
   acpRegistryPromptFailure,
   makeAcpRegistryAdapterV2,
   registerMistralVibeAcpExtensions,
-} from "./server/adapter.ts";
+} from "./server/adapter.vibe";
 export {
   extractDevinSubagentUpdate,
   normalizeDevinSessionUpdate,

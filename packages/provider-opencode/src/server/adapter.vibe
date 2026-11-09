@@ -5,7 +5,7 @@ import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost"
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions"
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers"
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment"
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts"
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe"
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator"
 import {
   ProviderAdapterDriverCreateError,
@@ -75,7 +75,7 @@ module throwing {
   } from "@t3tools/provider-core/server/nativeProtocolLogging"
   import { t3OrchestrationSystemPrompt } from "@t3tools/provider-core/server/orchestrationInstructions"
   import { buildRuntimeInstructions } from "@t3tools/provider-core/server/runtimeInstructions"
-  import * as OpenCodeRuntime from "./OpenCodeRuntime.ts"
+  import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe"
   import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator"
   import { makeProviderFailure } from "@t3tools/provider-core/server/failure"
   import { turnScopedSelectionTransition } from "@t3tools/provider-core/server/selectionTransition"

@@ -24,10 +24,10 @@ import { Atom, AtomRegistry, AsyncResult } from "effect/reactivity";
 import { AVAILABLE_CONNECTION_STATE } from "../connection/model.vibe";
 
 import * as EnvironmentRegistry from "../connection/registry.vibe";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import type { RpcSession } from "../rpc/session.vibe";
 import type { EnvironmentProject } from "./models.vibe";
-import { createProjectEnvironmentAtoms } from "./projectCommands.ts";
+import { createProjectEnvironmentAtoms } from "./projectCommands.vibe";
 
 const decodeReadFileInput = Schema.decodeUnknownSync(ProjectReadFileInput);
 const decodeReadFileResult = Schema.decodeUnknownSync(ProjectReadFileResult);

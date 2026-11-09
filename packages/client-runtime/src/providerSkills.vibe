@@ -10,7 +10,7 @@ import {
 import { Atom } from "effect/reactivity"
 
 import { deadlineStore } from "./clock.ts"
-import { type AtomCommand, runAtomCommand } from "./state/runtime.ts"
+import { type AtomCommand, runAtomCommand } from "./state/runtime.vibe"
 
 export type ProviderSkillSourceKind = "app" | "repo" | "project" | "personal" | "system" | "other"
 

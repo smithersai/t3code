@@ -6,7 +6,7 @@ import {
   createEnvironmentRpcCommand,
   createEnvironmentRpcQueryAtomFamily,
   createEnvironmentRpcSubscriptionAtomFamily,
-} from "./runtime.ts"
+} from "./runtime.vibe"
 
 export function createPreviewEnvironmentAtoms<R, E>(
   runtime: Atom.AtomRuntime<EnvironmentRegistry | R, E>,

@@ -28,7 +28,7 @@ import { createRenderScheduler } from "./renderScheduler.ts";
 import { createDeviceMotion } from "./deviceMotion.ts";
 import { createDeviceFraming } from "./deviceFraming.ts";
 import { nearestDeviceView } from "./deviceViewSnap.ts";
-import type { DeviceScreenSize } from "./stream.ts";
+import type { DeviceScreenSize } from "./stream.vibe";
 import { IOS_PHONE_SHAPE, type DeviceShapeProfile } from "./shapeProfile.ts";
 
 export interface PhoneViewer {

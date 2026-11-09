@@ -46,10 +46,10 @@
       "import": "./src/rpc.vibe"
     },
     "./protocol": {
-      "types": "./src/protocol.ts",
+      "types": "./src/protocol.d.vibe.ts",
       "import": {
-        "types": "./src/protocol.ts",
-        "vibelang-source": "./src/protocol.ts",
+        "types": "./src/protocol.d.vibe.ts",
+        "vibelang-source": "./src/protocol.vibe",
         "default": "./.vibelang/js/src/protocol.js"
       }
     },

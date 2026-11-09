@@ -14,7 +14,7 @@ import { FetchHttpClient, HttpClient } from "effect/http";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
 
 import * as GitHubPullRequestApi from "../src/server/GitHubPullRequestApi.vibe";
-import * as GitHubPullRequestProvider from "../src/server/GitHubPullRequestProvider.ts";
+import * as GitHubPullRequestProvider from "../src/server/GitHubPullRequestProvider.vibe";
 import * as GitHubRest from "#vibelang/emitted/src/server/GitHubRest";
 import * as Crypto from "@t3tools/shared/Crypto";
 

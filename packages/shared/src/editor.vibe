@@ -4,7 +4,7 @@ import * as FileSystem from "effect/FileSystem"
 import * as Option from "effect/Option"
 import * as Path from "effect/Path"
 
-import * as HostProcess from "./HostProcess.ts"
+import * as HostProcess from "./HostProcess.vibe"
 import { isCommandAvailable } from "./shell.vibe"
 
 type Editor = (typeof EDITORS)[number]

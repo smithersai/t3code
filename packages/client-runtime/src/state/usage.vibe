@@ -3,8 +3,8 @@ import type { AtomRegistry } from "effect/reactivity"
 
 import { EnvironmentRpcUnavailableError } from "../rpc/client.vibe"
 import type { createEnvironmentPresentationAtoms } from "./presentation.vibe"
-import { executeAtomQuery, runAtomCommand, squashAtomCommandFailure } from "./runtime.ts"
-import type { createServerEnvironmentAtoms } from "./server.ts"
+import { executeAtomQuery, runAtomCommand, squashAtomCommandFailure } from "./runtime.vibe"
+import type { createServerEnvironmentAtoms } from "./server.vibe"
 
 const isEnvironmentRpcUnavailable = Schema.is(EnvironmentRpcUnavailableError)
 

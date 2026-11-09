@@ -338,7 +338,7 @@ export default defineConfig({
       },
       {
         files: [
-          "packages/client-runtime/src/state/runtime.ts",
+          "packages/client-runtime/src/state/runtime.vibe",
           "packages/client-runtime/src/state/vcsAction.vibe",
         ],
         rules: {
@@ -370,7 +370,7 @@ export default defineConfig({
         rules: { "t3code/no-rpc-permission-bypass": "off" },
       },
       {
-        files: ["packages/shared/src/HostProcess.ts"],
+        files: ["packages/shared/src/HostProcess.platform.ts"],
         rules: { "t3code/no-global-process-runtime": "off" },
       },
       {

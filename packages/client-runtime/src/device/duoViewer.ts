@@ -28,7 +28,7 @@ import { createDeviceFraming } from "./deviceFraming.ts";
 import { createDeviceMotion } from "./deviceMotion.ts";
 import { duoViewSnaps, nearestDuoView, type DuoRestFace } from "./duoSnap.ts";
 import { createRenderScheduler } from "./renderScheduler.ts";
-import type { DeviceScreenSize } from "./stream.ts";
+import type { DeviceScreenSize } from "./stream.vibe";
 import { duoScreenSettled, type DuoPose } from "./duoControl.ts";
 
 export interface DuoViewer {

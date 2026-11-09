@@ -1,6 +1,6 @@
 import type { EnvironmentId } from "@t3tools/contracts";
 
-import { createAtomCommandScheduler, type AtomCommandConcurrency } from "./runtime.ts";
+import { createAtomCommandScheduler, type AtomCommandConcurrency } from "./runtime.vibe";
 
 export const vcsCommandScheduler = createAtomCommandScheduler();
 

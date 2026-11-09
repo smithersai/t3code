@@ -7,8 +7,8 @@ import { describeOutdatedHost, updateOutdatedHost } from "../connection/outdated
 import type * as ConnectionResolver from "../connection/resolver.vibe"
 import type * as EnvironmentRegistry from "../connection/registry.vibe"
 import type * as RelayEnvironmentDiscovery from "../relay/discovery.vibe"
-import { createAtomCommandScheduler, createRuntimeCommand } from "./runtime.ts"
-import { serverUpdateFailureMessage, serverUpdateStateAtom, type ServerUpdateStage } from "./server.ts"
+import { createAtomCommandScheduler, createRuntimeCommand } from "./runtime.vibe"
+import { serverUpdateFailureMessage, serverUpdateStateAtom, type ServerUpdateStage } from "./server.vibe"
 
 export interface OutdatedServerUpdateTarget {
   readonly environmentId: EnvironmentId
