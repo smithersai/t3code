@@ -1,22 +1,22 @@
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- The fixture checks the installed TypeScript compiler.
-import { spawnSync } from "node:child_process";
+import * as NodeChildProcess from "node:child_process";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Resolution fixtures need real declaration files.
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import * as NodeFS from "node:fs";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Each generated project has its own temporary directory.
-import { tmpdir } from "node:os";
+import * as NodeOS from "node:os";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Fixtures also run on Windows.
-import { dirname, join } from "node:path";
+import * as NodePath from "node:path";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- The compiler launcher is relative to this test.
-import { fileURLToPath } from "node:url";
+import * as NodeURL from "node:url";
 
 import fc from "fast-check";
 import { parse } from "jsonc-parser";
 import { expect, it } from "vite-plus/test";
 
-const config = parse(readFileSync(new URL("../tsconfig.json", import.meta.url), "utf8")) as {
+const config = parse(NodeFS.readFileSync(new URL("../tsconfig.json", import.meta.url), "utf8")) as {
   compilerOptions: { moduleSuffixes: ReadonlyArray<string> };
 };
-const compiler = fileURLToPath(
+const compiler = NodeURL.fileURLToPath(
   new URL("../../../node_modules/typescript/bin/tsc", import.meta.url),
 );
 const segment = fc.stringMatching(/^[a-z][a-z0-9]{0,8}$/).map((value) => `module_${value}`);
@@ -29,20 +29,20 @@ const modules = fc.uniqueArray(fc.array(segment, { minLength: 1, maxLength: 3 })
 it("resolves native sidecars for extensionless imports", () => {
   fc.assert(
     fc.property(modules, (paths) => {
-      const directory = mkdtempSync(join(tmpdir(), "native-sidecars-"));
+      const directory = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "native-sidecars-"));
       try {
         const imports: string[] = [];
         for (const [index, parts] of paths.entries()) {
           const extension = index % 2 === 0 ? "vibe" : "vibex";
-          const declaration = join(directory, `${parts.join("/")}.d.${extension}.ts`);
-          mkdirSync(dirname(declaration), { recursive: true });
-          writeFileSync(declaration, "export declare const value: number;\n");
+          const declaration = NodePath.join(directory, `${parts.join("/")}.d.${extension}.ts`);
+          NodeFS.mkdirSync(NodePath.dirname(declaration), { recursive: true });
+          NodeFS.writeFileSync(declaration, "export declare const value: number;\n");
           imports.push(`import { value as value${index} } from "./${parts.join("/")}";`);
           imports.push(`const checked${index}: number = value${index};`);
         }
-        writeFileSync(join(directory, "entry.ts"), imports.join("\n"));
-        writeFileSync(
-          join(directory, "tsconfig.json"),
+        NodeFS.writeFileSync(NodePath.join(directory, "entry.ts"), imports.join("\n"));
+        NodeFS.writeFileSync(
+          NodePath.join(directory, "tsconfig.json"),
           JSON.stringify({
             compilerOptions: {
               module: "ESNext",
@@ -56,7 +56,7 @@ it("resolves native sidecars for extensionless imports", () => {
             files: ["entry.ts"],
           }),
         );
-        const result = spawnSync(
+        const result = NodeChildProcess.spawnSync(
           process.execPath,
           [compiler, "-p", directory, "--singleThreaded", "--pretty", "false"],
           {
@@ -67,9 +67,9 @@ it("resolves native sidecars for extensionless imports", () => {
         expect(result.error).toBeUndefined();
         expect(result.status, result.stdout + result.stderr).toBe(0);
       } finally {
-        rmSync(directory, { recursive: true, force: true });
+        NodeFS.rmSync(directory, { recursive: true, force: true });
       }
     }),
     { numRuns: 12, seed: 0x51decaf },
   );
-}, 30_000);
+});
