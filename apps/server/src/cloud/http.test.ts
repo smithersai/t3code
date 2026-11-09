@@ -24,17 +24,17 @@ import * as NetAddress from "effect/net/NetAddress";
 import { decodeJwt, importSPKI, jwtVerify } from "jose";
 import { RELAY_LINK_PROOF_TYP } from "@t3tools/shared/relayJwt";
 
-import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
-import * as AuthHttp from "../auth/http.ts";
+import * as EnvironmentAuth from "../auth/EnvironmentAuth.vibe";
+import * as AuthHttp from "../auth/http.vibe";
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.vibe";
-import * as CliTokenManager from "./CliTokenManager.ts";
-import * as CloudLink from "./CloudLink.ts";
+import * as CliTokenManager from "./CliTokenManager.vibe";
+import * as CloudLink from "./CloudLink.vibe";
 import * as ConnectHttp from "./http.vibe";
-import * as ConnectReachability from "./ConnectReachability.ts";
+import * as ConnectReachability from "./ConnectReachability.vibe";
 import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

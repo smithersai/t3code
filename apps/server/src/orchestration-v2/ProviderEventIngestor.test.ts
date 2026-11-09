@@ -38,12 +38,12 @@ import * as Stream from "effect/Stream";
 
 import { toolOutputImages } from "@t3tools/shared/toolOutput";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import * as ServerConfig from "../config.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
+import * as ServerConfig from "../config.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
 import * as EventSink from "./EventSink.ts";
 import * as EventStore from "./EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ProjectionStore from "./ProjectionStore.ts";
+import * as ProjectionStore from "./ProjectionStore.vibe";
 import * as ProviderEventIngestor from "./ProviderEventIngestor.ts";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";

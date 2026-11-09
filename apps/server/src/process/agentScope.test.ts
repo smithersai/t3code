@@ -13,10 +13,10 @@ import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
 import { ChildProcess, ChildProcessSpawner, CommandLine } from "effect/process";
 
-import * as ServerConfig from "../config.ts";
-import { makeCodexAppServerSpawnCommand } from "../orchestration-v2/Adapters/CodexAdapterV2.ts";
-import * as ProcessRunner from "../processRunner.ts";
-import { classifyScope, make, ownedAgentSlice, type ScopeState } from "./agentScope.ts";
+import * as ServerConfig from "../config.vibe";
+import { makeCodexAppServerSpawnCommand } from "../orchestration-v2/Adapters/CodexAdapterV2.vibe";
+import * as ProcessRunner from "../processRunner.vibe";
+import { classifyScope, make, ownedAgentSlice, type ScopeState } from "./agentScope.vibe";
 
 const running: ScopeState = {
   loadState: "loaded",

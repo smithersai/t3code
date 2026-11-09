@@ -10,10 +10,10 @@ import * as Option from "effect/Option"
 import * as Schema from "effect/Schema"
 import { Command, Flag } from "effect/cli"
 
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 import { streamTraceFileLines, toRotatedTracePaths } from "../diagnostics/TraceDiagnostics.vibe"
-import { resolveBaseDir } from "../os-jank.ts"
-import { baseDirFlag, DurationFromString, traceFileConfig, traceMaxFilesConfig } from "./config.ts"
+import { resolveBaseDir } from "../os-jank.vibe"
+import { baseDirFlag, DurationFromString, traceFileConfig, traceMaxFilesConfig } from "./config.vibe"
 
 const decodeTraceSpanLine = Schema.decodeUnknownOption(
   Schema.fromJsonString(

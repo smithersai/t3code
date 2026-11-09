@@ -1,4 +1,4 @@
-import { runAcpMcpCliFastPath } from "../mcp/AcpMcpStdioBridge.ts"
+import { runAcpMcpCliFastPath } from "../mcp/AcpMcpStdioBridge.vibe"
 
 /** The credential stays in the environment, never on the command line. */
 export const acpMcpBridgeCommand = Command.make("acp-mcp-bridge").pipe(

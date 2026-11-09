@@ -10,7 +10,7 @@ import {
   createPendingAttachmentId,
   parseThreadSegmentFromAttachmentId,
 } from "../../../attachmentStore.ts";
-import * as ServerConfig from "../../../config.ts";
+import * as ServerConfig from "../../../config.vibe";
 import { claimPreviewRecording } from "./handlers.vibe";
 
 describe("claimPreviewRecording", () => {

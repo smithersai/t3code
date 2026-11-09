@@ -17,7 +17,7 @@ import * as Stream from "effect/Stream"
 import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http"
 import { makeSha256 } from "./PreviewBrowser.platform.ts"
 
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 import { openZipArchive } from "../zipArchive.vibe"
 
 // Update the version, sizes and hashes from each chrome-headless-shell zip listed at

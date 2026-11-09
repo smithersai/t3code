@@ -9,8 +9,8 @@ import * as Path from "effect/Path";
 import * as TestClock from "effect/testing/TestClock";
 import { HttpClient, HttpClientResponse } from "effect/http";
 
-import * as ServerConfig from "../config.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as ModelManifest from "./ModelManifest.vibe";
 
 describe("resolveProviderCatalog", () => {

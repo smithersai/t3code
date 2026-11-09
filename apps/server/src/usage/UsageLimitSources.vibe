@@ -21,8 +21,8 @@ import * as Semaphore from "effect/Semaphore"
 import * as Stream from "effect/Stream"
 
 import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe"
-import * as Settings from "../serverSettings.ts"
-import { makeCliproxyApi } from "./cliproxyApi.ts"
+import * as Settings from "../serverSettings.vibe"
+import { makeCliproxyApi } from "./cliproxyApi.vibe"
 
 export service UsageLimitSources: {
   readonly current: ReadonlyArray<UsageLimitSourceSnapshot>!!;

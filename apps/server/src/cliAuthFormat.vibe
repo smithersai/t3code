@@ -1,6 +1,6 @@
 import type { AuthClientMetadata, AuthClientSession, AuthPairingLink } from "@t3tools/contracts"
 
-import type { IssuedBearerSession, IssuedPairingLink } from "./auth/EnvironmentAuth.ts"
+import type { IssuedBearerSession, IssuedPairingLink } from "./auth/EnvironmentAuth.vibe"
 
 const newline = "\n"
 

@@ -17,7 +17,7 @@ import {
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_URL_SECRET,
 } from "../cloud/config.vibe";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as ServerEnvironment from "./ServerEnvironment.vibe";
 
 const layerServerEnvironment = (baseDir: string) =>

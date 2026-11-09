@@ -1,0 +1,84 @@
+import { OrchestrationWorkflowFileError } from "@t3tools/contracts"
+import * as Effect from "effect/Effect"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+
+import {
+  isAbsolutePath,
+  pathExtname,
+  pathSep,
+  readWorkflowFile,
+  realpath,
+  workflowFilesRoot,
+} from "./workflowFileRead.platform.ts"
+
+export interface WorkflowFileIdentity {
+  readonly dev: number
+  readonly ino: number
+}
+
+export const readContainedWorkflowFile = Effect.fn("orchestration.readContainedWorkflowFile")(
+  function*(input: {
+    readonly path: string
+    readonly extension: string
+    readonly byteCap: number
+    readonly tail?: boolean
+    readonly configDir?: string
+    /** Reads complete lines from a byte offset; resets to zero after shrinkage or inode changes. */
+    readonly fromOffset?: {
+      readonly offset: number
+      readonly identity: WorkflowFileIdentity | null
+    }
+  }) {
+    if (!isAbsolutePath(input.path) || pathExtname(input.path) !== input.extension) {
+      return yield* new OrchestrationWorkflowFileError({
+        reason: "invalid-path",
+        path: input.path,
+      })
+    }
+
+    const home = yield* HostProcess.HomeDirectory
+    const root = yield* Effect.tryPromise({
+      try: () => realpath(workflowFilesRoot(home, input.configDir)),
+      catch: (cause) =>
+        new OrchestrationWorkflowFileError({
+          reason: "root-unavailable",
+          path: input.path,
+          cause,
+        }),
+    })
+
+    // Resolve the file itself; contained directories can still hold escaping symlinks.
+    const resolved = yield* Effect.tryPromise({
+      try: () => realpath(input.path),
+      catch: (cause) => new OrchestrationWorkflowFileError({ reason: "not-found", path: input.path, cause }),
+    })
+
+    if (resolved !== root && !resolved.startsWith(`${root}${pathSep}`)) {
+      return yield* new OrchestrationWorkflowFileError({ reason: "outside-root", path: resolved })
+    }
+    if (pathExtname(resolved) !== input.extension) {
+      return yield* new OrchestrationWorkflowFileError({
+        reason: "wrong-extension",
+        path: resolved,
+      })
+    }
+
+    // Inode checks catch leaf swaps, not intermediate directory swaps; the 0700 ~/.claude root restricts those to our uid.
+    const read = yield* Effect.tryPromise({
+      try: () => readWorkflowFile(resolved, input),
+      catch: (cause) => new OrchestrationWorkflowFileError({ reason: "read-failed", path: resolved, cause }),
+    })
+    if ("failure" in read) {
+      return yield* new OrchestrationWorkflowFileError({ reason: read.failure, path: resolved })
+    }
+
+    return {
+      path: resolved,
+      contents: read.contents,
+      truncated: read.truncated,
+      startOffset: read.startOffset,
+      endOffset: read.endOffset,
+      identity: read.identity,
+    }
+  },
+)

@@ -8,7 +8,7 @@ import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import { pruneExpiredReplayMarkers, REPLAY_MARKER_MAX_AGE } from "./replayMarkers.vibe";
 import * as ServerSecretStore from "./ServerSecretStore.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

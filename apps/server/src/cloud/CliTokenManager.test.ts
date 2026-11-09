@@ -15,7 +15,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ExternalLauncher from "../process/externalLauncher.vibe";
-import * as CliTokenManager from "./CliTokenManager.ts";
+import * as CliTokenManager from "./CliTokenManager.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const TEST_ENV = {

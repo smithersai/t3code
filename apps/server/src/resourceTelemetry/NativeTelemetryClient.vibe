@@ -36,8 +36,8 @@ import * as Stream from "effect/Stream"
 import * as Ndjson from "effect/encoding/Ndjson"
 import { ChildProcess, ChildProcessSpawner } from "effect/process"
 
-import * as ResourceMonitorBinary from "./ResourceMonitorBinary.ts"
-import * as ServerConfig from "../config.ts"
+import * as ResourceMonitorBinary from "./ResourceMonitorBinary.vibe"
+import * as ServerConfig from "../config.vibe"
 import { subscribeBeforeSnapshotWithoutMutex } from "../utils/subscribeBeforeSnapshot.vibe"
 
 const SAMPLE_INTERVAL_MS = 1_000

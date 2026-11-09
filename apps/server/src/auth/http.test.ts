@@ -18,12 +18,12 @@ import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder";
 import * as HttpApi from "effect/http-api/HttpApi";
 import * as HttpRouter from "effect/http/HttpRouter";
 
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import * as EnvironmentAuth from "./EnvironmentAuth.ts";
+import * as EnvironmentAuth from "./EnvironmentAuth.vibe";
 import * as ServerSecretStore from "./ServerSecretStore.vibe";
-import * as AuthHttp from "./http.ts";
+import * as AuthHttp from "./http.vibe";
 
 const DEV_TOKEN = "reusable-dev-auth-token-that-is-long-enough";
 class AuthTestApi extends HttpApi.make("environment").add(EnvironmentHttpApi.groups.auth) {}

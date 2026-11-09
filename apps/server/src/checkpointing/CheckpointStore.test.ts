@@ -16,8 +16,8 @@ import { checkpointRefForThreadTurn } from "./Utils.vibe";
 import { parseTurnDiffFilesFromNumstat } from "./Diffs.ts";
 import * as CheckpointStore from "./CheckpointStore.vibe";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
-import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as ServerConfig from "../config.ts";
+import * as VcsProcess from "../vcs/VcsProcess.vibe";
+import * as ServerConfig from "../config.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerServerConfig = ServerConfig.ServerConfig.layerTest(process.cwd(), {

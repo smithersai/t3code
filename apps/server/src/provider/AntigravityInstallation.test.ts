@@ -17,7 +17,7 @@ import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
 import { HttpClient, HttpClientResponse } from "effect/http";
 
-import * as AntigravityInstallation from "./AntigravityInstallation.ts";
+import * as AntigravityInstallation from "./AntigravityInstallation.vibe";
 import { type AntigravityReleaseAsset } from "./antigravityRelease.ts";
 import * as Layer from "effect/Layer";
 

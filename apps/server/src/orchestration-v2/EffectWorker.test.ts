@@ -25,15 +25,15 @@ import * as Ref from "effect/Ref";
 import * as CheckpointRollbackService from "./CheckpointRollbackService.vibe";
 import * as CheckpointService from "./CheckpointService.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";
-import * as EffectWorker from "./EffectWorker.ts";
+import * as EffectWorker from "./EffectWorker.vibe";
 import * as RunFinalizationService from "./RunFinalizationService.vibe";
-import * as ProviderSessionManager from "./ProviderSessionManager.ts";
+import * as ProviderSessionManager from "./ProviderSessionManager.vibe";
 import * as ProviderTurnControlService from "./ProviderTurnControlService.vibe";
 import * as ProviderTurnStartService from "./ProviderTurnStartService.vibe";
 import * as RuntimeRequestService from "./RuntimeRequestService.vibe";
 import * as ThreadTitleRegenerationService from "./ThreadTitleRegenerationService.vibe";
 import * as ThreadManagementService from "./ThreadManagementService.vibe";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerSettings from "../serverSettings.vibe";
 
 const threadId = ThreadId.make("thread:effect-worker-restart");
 const oldSessionId = ProviderSessionId.make("provider-session:effect-worker-restart:old");

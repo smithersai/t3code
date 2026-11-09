@@ -3,8 +3,8 @@ import { assert, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as BootService from "../cloud/bootService.ts";
-import { runDoctor } from "./doctor.ts";
+import * as BootService from "../cloud/bootService.vibe";
+import { runDoctor } from "./doctor.vibe";
 import { DatabaseMaintenance } from "../persistence/DatabaseMaintenance.vibe";
 
 it.effect(

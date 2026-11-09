@@ -12,9 +12,9 @@ import { HttpClient, HttpClientResponse, HttpServer, type HttpClientRequest } fr
 import * as NetAddress from "effect/net/NetAddress";
 
 import { EnvironmentId } from "@t3tools/contracts";
-import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
+import * as EnvironmentAuth from "../auth/EnvironmentAuth.vibe";
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
-import * as ServerConfigModule from "../config.ts";
+import * as ServerConfigModule from "../config.vibe";
 import { writeServiceState } from "../serviceLauncher.ts";
 import {
   SERVICE_LAUNCHER_PROTOCOL,
@@ -25,7 +25,7 @@ import {
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.vibe";
 import { CLOUD_CLI_DESIRED_LINK_SECRET } from "./CliState.vibe";
-import * as CliTokenManager from "./CliTokenManager.ts";
+import * as CliTokenManager from "./CliTokenManager.vibe";
 import { RelayManagedEndpointRecoveryRegistrationRequest } from "@t3tools/contracts/relay";
 import {
   CLOUD_ENDPOINT_CONFIRMED_ORIGIN,
@@ -37,9 +37,9 @@ import {
   RELAY_ISSUER_SECRET,
   RELAY_URL_SECRET,
 } from "./config.vibe";
-import * as CloudLink from "./CloudLink.ts";
-import * as ConnectReachability from "./ConnectReachability.ts";
-import { consumeCloudReplayGuards } from "./CloudLink.ts";
+import * as CloudLink from "./CloudLink.vibe";
+import * as ConnectReachability from "./ConnectReachability.vibe";
+import { consumeCloudReplayGuards } from "./CloudLink.vibe";
 import { pendingServiceUpdateExists } from "./updateHandoff.vibe";
 import { managedTunnelStartupAction } from "./managedTunnelStartup.vibe";
 import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";

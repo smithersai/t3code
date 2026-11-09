@@ -10,8 +10,8 @@ import {
   planAttachmentClaim,
   resolveAttachmentPath,
 } from "../attachmentStore.ts"
-import * as ServerConfig from "../config.ts"
-import * as DocumentText from "../provider/DocumentText.ts"
+import * as ServerConfig from "../config.vibe"
+import * as DocumentText from "../provider/DocumentText.vibe"
 
 export class AttachmentClaimError extends Schema.TaggedError<AttachmentClaimError>()(
   "AttachmentClaimError",

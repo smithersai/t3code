@@ -15,18 +15,18 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import { HttpClient } from "effect/http";
 
 import * as BackgroundPolicy from "../../background/BackgroundPolicy.vibe";
-import * as ServerConfig from "../../config.ts";
-import * as ServerSettings from "../../serverSettings.ts";
-import * as AntigravityInstallation from "../AntigravityInstallation.ts";
+import * as ServerConfig from "../../config.vibe";
+import * as ServerSettings from "../../serverSettings.vibe";
+import * as AntigravityInstallation from "../AntigravityInstallation.vibe";
 import {
   ANTIGRAVITY_AUTH_STDOUT_PREFIX,
   resolveAntigravityInstanceDirectories,
-} from "../antigravityAuthSupport.ts";
+} from "../antigravityAuthSupport.vibe";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as ModelManifest from "../ModelManifest.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import { AntigravityDriver } from "./AntigravityDriver.ts";
+import { AntigravityDriver } from "./AntigravityDriver.vibe";
 import * as ProviderHostLive from "../ProviderHostLive.vibe";
 import * as ServerSecretStore from "../../auth/ServerSecretStore.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

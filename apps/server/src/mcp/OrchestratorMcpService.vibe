@@ -77,14 +77,14 @@ import { subagentResultForRun, delegatedTaskProgress } from "@t3tools/provider-c
 import { DispatchModeLimit, type DispatchModeRefusal } from "../orchestration-v2/DispatchModeLimit.vibe"
 import { runOutcome } from "../orchestration-v2/RestartBackgroundNote.ts"
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe"
-import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts"
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts"
-import { isSnoozed } from "../orchestration-v2/ThreadSettlementService.ts"
+import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.vibe"
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe"
+import { isSnoozed } from "../orchestration-v2/ThreadSettlementService.vibe"
 import { userFacingDispatchErrorMessage } from "../orchestration-v2/UserFacingErrors.vibe"
 import * as ProjectService from "../project/ProjectService.ts"
-import * as ProviderRegistry from "../provider/ProviderRegistry.ts"
-import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts"
-import * as ServerSettings from "../serverSettings.ts"
+import * as ProviderRegistry from "../provider/ProviderRegistry.vibe"
+import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe"
+import * as ServerSettings from "../serverSettings.vibe"
 import {
   clientModeCeiling,
   type McpInvocationScope,
@@ -100,7 +100,7 @@ import {
   taskPrompt,
 } from "./delegatedTaskModes.vibe"
 import { isLiveCallerShell, threadNotFound } from "./threadAccess.vibe"
-import * as SecretRequests from "../secrets/SecretRequests.ts"
+import * as SecretRequests from "../secrets/SecretRequests.vibe"
 import * as PeerForwarding from "../peer/PeerForwarding.vibe"
 import * as RemoteDelegation from "../peer/RemoteDelegation.vibe"
 

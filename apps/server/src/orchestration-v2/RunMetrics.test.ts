@@ -23,7 +23,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as EventSink from "./EventSink.ts";
 import * as EventStore from "./EventStore.vibe";
-import * as ProjectionStore from "./ProjectionStore.ts";
+import * as ProjectionStore from "./ProjectionStore.vibe";
 import { makeRunOutcomeRecorder } from "./RunMetrics.vibe";
 
 const at = (iso: string) => DateTime.makeUnsafe(iso);

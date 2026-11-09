@@ -13,7 +13,7 @@ import * as SubscriptionRef from "effect/SubscriptionRef"
 import * as SqlClient from "effect/sql/SqlClient"
 
 import { resolveHostCliCommand } from "../cli/invocation.vibe"
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.vibe"
 import { forkParked } from "../serverActivation.vibe"
 

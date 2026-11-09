@@ -38,7 +38,7 @@ import * as ProviderInstanceRegistry from "../../provider/ProviderInstanceRegist
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import * as RuntimePolicy from "../RuntimePolicy.ts";
+import * as RuntimePolicy from "../RuntimePolicy.vibe";
 import { acpPermissionDisposition } from "@t3tools/provider-acp/server/clientPolicy";
 import { acpCompletedTurnShouldTerminalizeTool } from "@t3tools/provider-acp/server/adapter";
 import {

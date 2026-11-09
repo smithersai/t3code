@@ -10,9 +10,9 @@ import {
 } from "@t3tools/contracts"
 import * as DateTime from "effect/DateTime"
 import * as Effect from "effect/Effect"
-import type { ProjectionRuntimeRecoveryState } from "./ProjectionStore.ts"
+import type { ProjectionRuntimeRecoveryState } from "./ProjectionStore.vibe"
 
-import * as ServerSettings from "../serverSettings.ts"
+import * as ServerSettings from "../serverSettings.vibe"
 import { isNativeMaintenanceCommand } from "./CommandPolicy.vibe"
 import * as ThreadManagementService from "./ThreadManagementService.vibe"
 import {

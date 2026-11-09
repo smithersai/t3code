@@ -37,6 +37,7 @@ export function runServicePreflight(input: {
   return { status: "ready", version, launcherProtocol: SERVICE_LAUNCHER_PROTOCOL };
 }
 
+/** @throws {never} */
 export function decodeServicePreflightResult(value: unknown): ServicePreflightResult | undefined {
   if (typeof value !== "object" || value === null) {
     return undefined;

@@ -1,7 +1,7 @@
 import type { CDPSession } from "playwright-core";
 import { describe, expect, it, vi } from "vite-plus/test";
 
-import { installPdfDocumentNavigation } from "./PdfDocumentNavigation.ts";
+import { installPdfDocumentNavigation } from "./PdfDocumentNavigation.vibe";
 
 const source = "https://environment.test/api/assets/signed-token/files/Study%20guide.PDF";
 

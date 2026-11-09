@@ -6,14 +6,14 @@ import * as Schema from "effect/Schema";
 import * as TestClock from "effect/testing/TestClock";
 import { afterEach, vi } from "vite-plus/test";
 
-import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";
+import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as Scheduler from "../scheduling/Scheduler.vibe";
-import * as SecretRequests from "../secrets/SecretRequests.ts";
+import * as SecretRequests from "../secrets/SecretRequests.vibe";
 import { ServerActivation } from "../serverActivation.vibe";
-import * as ScheduledTaskService from "./ScheduledTaskService.ts";
+import * as ScheduledTaskService from "./ScheduledTaskService.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 afterEach(() => vi.unstubAllEnvs());

@@ -10,7 +10,7 @@ import * as Layer from "effect/Layer";
 import * as Scheduler from "effect/Scheduler";
 import { vi } from "vite-plus/test";
 
-import * as NodePtyAdapter from "./NodePtyAdapter.ts";
+import * as NodePtyAdapter from "./NodePtyAdapter.vibe";
 import * as PtyAdapter from "@t3tools/shared/PtyAdapter";
 
 function makeNativeProcess(pid = 42) {

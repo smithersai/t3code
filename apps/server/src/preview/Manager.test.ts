@@ -6,7 +6,7 @@ import * as Layer from "effect/Layer";
 import * as PubSub from "effect/PubSub";
 import { expect } from "vite-plus/test";
 
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as PreviewManager from "./Manager.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

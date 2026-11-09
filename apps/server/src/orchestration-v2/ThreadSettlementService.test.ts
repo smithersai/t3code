@@ -32,15 +32,15 @@ import * as Stream from "effect/Stream";
 import { TestClock } from "effect/testing";
 
 import * as GitManager from "../git/GitManager.vibe";
-import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";
-import * as PullRequestService from "../pullRequest/PullRequestService.ts";
+import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.vibe";
+import * as PullRequestService from "../pullRequest/PullRequestService.vibe";
 import * as ServerActivation from "../serverActivation.vibe";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as TerminalManager from "../terminal/Manager.vibe";
 import * as ProjectStore from "./ProjectStore.vibe";
 import * as Orchestrator from "./Orchestrator.vibe";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ThreadSettlementService from "./ThreadSettlementService.ts";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as ThreadSettlementService from "./ThreadSettlementService.vibe";
 
 const NOW_MS = Date.parse("2026-06-10T12:00:00.000Z");
 const DAY_MS = 24 * 60 * 60 * 1_000;

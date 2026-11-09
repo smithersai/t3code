@@ -9,8 +9,8 @@ import * as Path from "effect/Path"
 
 import type { VcsDriverKind, VcsError, VcsRepositoryIdentity } from "@t3tools/contracts"
 import { VcsUnsupportedOperationError } from "@t3tools/contracts"
-import * as GitVcsDriver from "./GitVcsDriver.ts"
-import * as VcsProjectConfig from "./VcsProjectConfig.ts"
+import * as GitVcsDriver from "./GitVcsDriver.vibe"
+import * as VcsProjectConfig from "./VcsProjectConfig.vibe"
 import * as VcsDriver from "./VcsDriver.vibe"
 
 const DETECTION_CACHE_CAPACITY = 2_048

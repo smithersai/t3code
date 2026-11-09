@@ -5,6 +5,7 @@ export interface TurnDiffFileSummary {
   readonly deletions: number;
 }
 
+/** @throws {never} */
 export function parseTurnDiffFilesFromNumstat(numstat: string): ReadonlyArray<TurnDiffFileSummary> {
   const records = numstat.split("\0");
   const files: TurnDiffFileSummary[] = [];

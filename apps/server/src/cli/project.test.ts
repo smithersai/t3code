@@ -26,18 +26,18 @@ import { Command } from "effect/cli";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import { cli } from "../binCli.vibe";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as EventSink from "../orchestration-v2/EventSink.ts";
 import * as EventStore from "../orchestration-v2/EventStore.vibe";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 import * as RuntimeLayer from "../orchestration-v2/runtimeLayer.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
+import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.vibe";
 import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
 import * as T3ProjectFileLoader from "../project/T3ProjectFileLoader.vibe";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

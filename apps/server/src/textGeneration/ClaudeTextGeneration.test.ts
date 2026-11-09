@@ -10,7 +10,7 @@ import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 import { expect } from "vite-plus/test";
 
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import { processProbeSource } from "../testUtils/processProbe.ts";
 import {
   SYNTHETIC_CLAUDE_CAPABLE_MODEL,

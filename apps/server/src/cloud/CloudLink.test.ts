@@ -9,14 +9,14 @@ import { HttpClient, HttpServer } from "effect/http";
 import * as NetAddress from "effect/net/NetAddress";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 
-import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
+import * as EnvironmentAuth from "../auth/EnvironmentAuth.vibe";
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.vibe";
-import * as CliTokenManager from "./CliTokenManager.ts";
-import * as CloudLink from "./CloudLink.ts";
-import * as ConnectReachability from "./ConnectReachability.ts";
+import * as CliTokenManager from "./CliTokenManager.vibe";
+import * as CloudLink from "./CloudLink.vibe";
+import * as ConnectReachability from "./ConnectReachability.vibe";
 import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
 import {
   HOLD_WEBHOOKS_WHILE_OFFLINE_SECRET,

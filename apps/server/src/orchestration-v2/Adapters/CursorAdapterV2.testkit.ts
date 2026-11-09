@@ -29,7 +29,7 @@ import {
   makeCursorAgentOptions,
 } from "@t3tools/provider-cursor/testing";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import type { RuntimePolicyV2Override } from "../RuntimePolicy.ts";
+import type { RuntimePolicyV2Override } from "../RuntimePolicy.vibe";
 
 const CursorAgentSdkReplayTranscript = Schema.Struct({
   provider: Schema.Literal(CursorAgentSdk.CURSOR_PROVIDER),

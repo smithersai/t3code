@@ -1,7 +1,7 @@
 import { vi } from "vite-plus/test";
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
-import * as CodexInstallation from "./CodexInstallation.ts";
-import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.ts";
+import * as CodexInstallation from "./CodexInstallation.vibe";
+import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { describe, it, assert, expect } from "@effect/vitest";
@@ -38,10 +38,13 @@ import { deepMerge } from "@t3tools/shared/Struct";
 import { createModelCapabilities } from "@t3tools/shared/model";
 import { applyServerSettingsPatch } from "@t3tools/shared/serverSettings";
 
-import { checkCodexProviderStatus, type CodexAppServerProviderSnapshot } from "./CodexProvider.ts";
-import { checkClaudeProviderStatus } from "./ClaudeProvider.ts";
+import {
+  checkCodexProviderStatus,
+  type CodexAppServerProviderSnapshot,
+} from "./CodexProvider.vibe";
+import { checkClaudeProviderStatus } from "./ClaudeProvider.vibe";
 import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
-import * as AntigravityInstallation from "./AntigravityInstallation.ts";
+import * as AntigravityInstallation from "./AntigravityInstallation.vibe";
 import * as ModelManifest from "./ModelManifest.vibe";
 import { applyProviderCompatibility } from "./providerCompatibility.vibe";
 import * as ResetCreditCoordinator from "./resetCreditCoordinator.vibe";
@@ -52,20 +55,20 @@ import * as OpenCodeServerLedger from "@t3tools/provider-opencode/server/OpenCod
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import * as ProviderInstanceRegistryHydration from "./ProviderInstanceRegistryHydration.vibe";
 import * as PortScanner from "../preview/PortScanner.vibe";
-import * as ServerConfig from "../config.ts";
-import * as ServerSettingsModule from "../serverSettings.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettingsModule from "../serverSettings.vibe";
 import {
   readProviderStatusCache,
   resolveProviderStatusCachePath,
   writeProviderStatusCache,
-} from "./providerStatusCache.ts";
+} from "./providerStatusCache.vibe";
 import { COMPACT_SLASH_COMMAND } from "@t3tools/provider-core/server/snapshotProbe";
 import type {
   ProviderInstance,
   ProviderWorkspaceSnapshot,
 } from "@t3tools/provider-core/server/driver";
 import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.vibe";
-import * as ProviderRegistry from "./ProviderRegistry.ts";
+import * as ProviderRegistry from "./ProviderRegistry.vibe";
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";
 import { makeManualOnlyProviderMaintenanceCapabilities } from "@t3tools/provider-core/server/maintenanceResolver";
 import * as Crypto from "@t3tools/shared/Crypto";

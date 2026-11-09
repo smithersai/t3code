@@ -18,8 +18,8 @@ import * as Option from "effect/Option"
 import * as Schema from "effect/Schema"
 
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter"
-import * as ProjectionStore from "./ProjectionStore.ts"
-import * as ProviderSessionManager from "./ProviderSessionManager.ts"
+import * as ProjectionStore from "./ProjectionStore.vibe"
+import * as ProviderSessionManager from "./ProviderSessionManager.vibe"
 
 export class ProviderTurnControlError extends Schema.TaggedError<ProviderTurnControlError>()(
   "ProviderTurnControlError",

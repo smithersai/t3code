@@ -25,35 +25,35 @@ import * as Queue from "effect/Queue"
 import * as Ref from "effect/Ref"
 import * as Schema from "effect/Schema"
 
-import * as ServerConfig from "./config.ts"
-import * as ServiceLauncherClient from "./cloud/serviceLauncherClient.ts"
+import * as ServerConfig from "./config.vibe"
+import * as ServiceLauncherClient from "./cloud/serviceLauncherClient.vibe"
 import { flushCompileCache } from "./compileCache.vibe"
-import * as Keybindings from "./keybindings.ts"
+import * as Keybindings from "./keybindings.vibe"
 import * as ExternalLauncher from "./process/externalLauncher.vibe"
-import * as EffectWorker from "./orchestration-v2/EffectWorker.ts"
-import * as LegacyV1ThreadImporter from "./orchestration-v2/legacy/LegacyV1ThreadImporter.ts"
+import * as EffectWorker from "./orchestration-v2/EffectWorker.vibe"
+import * as LegacyV1ThreadImporter from "./orchestration-v2/legacy/LegacyV1ThreadImporter.vibe"
 import * as Orchestrator from "./orchestration-v2/Orchestrator.vibe"
 import * as ProviderRuntimeRecovery from "./orchestration-v2/ProviderRuntimeRecoveryService.vibe"
-import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.ts"
-import * as ThreadLaunch from "./orchestration-v2/ThreadLaunchService.ts"
+import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.vibe"
+import * as ThreadLaunch from "./orchestration-v2/ThreadLaunchService.vibe"
 import * as ThreadManagement from "./orchestration-v2/ThreadManagementService.vibe"
 import * as ProjectService from "./project/ProjectService.ts"
-import * as GitVcsDriver from "./vcs/GitVcsDriver.ts"
+import * as GitVcsDriver from "./vcs/GitVcsDriver.vibe"
 import * as ProjectStore from "./orchestration-v2/ProjectStore.vibe"
 import * as AgentAwarenessRelay from "./relay/AgentAwarenessRelay.vibe"
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.vibe"
-import * as ServerSettings from "./serverSettings.ts"
+import * as ServerSettings from "./serverSettings.vibe"
 import { forkParked, forkParkedFiber } from "./serverActivation.vibe"
 import * as AnalyticsService from "./telemetry/AnalyticsService.vibe"
 import { getServerOwners } from "./telemetry/Identify.vibe"
 import * as ServerEnvironment from "./environment/ServerEnvironment.vibe"
-import * as EnvironmentAuth from "./auth/EnvironmentAuth.ts"
+import * as EnvironmentAuth from "./auth/EnvironmentAuth.vibe"
 import {
   formatHeadlessServeOutput,
   formatHostForUrl,
   isWildcardHost,
   issueHeadlessServeAccessInfo,
-} from "./startupAccess.ts"
+} from "./startupAccess.vibe"
 
 const ServerRuntimeStartupErrorHostField: Schema.NullOr<Schema.String> = Schema.NullOr(Schema.String)
 const ServerRuntimeStartupErrorCauseField: Schema.Defect = Schema.Defect()

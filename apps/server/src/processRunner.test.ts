@@ -9,7 +9,7 @@ import { ChildProcessSpawner } from "effect/process";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { SpawnExecutableResolution } from "@t3tools/shared/shell";
 
-import * as ProcessRunner from "./processRunner.ts";
+import * as ProcessRunner from "./processRunner.vibe";
 
 type ChildProcessCommand = {
   readonly command: string;

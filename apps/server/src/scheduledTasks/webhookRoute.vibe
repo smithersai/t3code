@@ -12,7 +12,7 @@ import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder"
 
 import * as Metrics from "../observability/Metrics.vibe"
 import * as RelayDeliveryProof from "./RelayDeliveryProof.vibe"
-import * as ScheduledTaskService from "./ScheduledTaskService.ts"
+import * as ScheduledTaskService from "./ScheduledTaskService.vibe"
 
 /** The relay enforces the same cap. */
 export const WEBHOOK_MAX_BODY_BYTES = 1024 * 1024

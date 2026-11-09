@@ -1,4 +1,4 @@
-import * as ProviderRegistry from "../ProviderRegistry.ts";
+import * as ProviderRegistry from "../ProviderRegistry.vibe";
 import type { ServerProvider } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";

@@ -20,10 +20,10 @@ import * as Queue from "effect/Queue";
 import * as Schema from "effect/Schema";
 import { HttpRouter, HttpServer } from "effect/http";
 
-import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
+import * as EnvironmentAuth from "../auth/EnvironmentAuth.vibe";
 import * as PreviewBrowserHost from "./PreviewBrowserHost.vibe";
 import * as ServerBrowser from "./ServerBrowser.ts";
-import { routeLayer } from "./ServerBrowserStream.ts";
+import { routeLayer } from "./ServerBrowserStream.vibe";
 
 const platformLayer = NodeHttpPlatform.layer.pipe(Layer.provideMerge(NodeServices.layer));
 

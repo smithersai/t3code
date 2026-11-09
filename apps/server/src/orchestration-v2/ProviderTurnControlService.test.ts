@@ -22,10 +22,10 @@ import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import * as ProviderSessionManager from "./ProviderSessionManager.ts";
+import * as ProviderSessionManager from "./ProviderSessionManager.vibe";
 import * as ProviderTurnControlService from "./ProviderTurnControlService.vibe";
 
 const driver = ProviderDriverKind.make("codex");

@@ -3,7 +3,7 @@ import * as Context from "effect/Context";
 import * as Crypto from "@t3tools/shared/Crypto";
 import * as Orchestrator from "./orchestration-v2/Orchestrator.vibe";
 import * as PeerLinkRequests from "./peer/PeerLinkRequests.vibe";
-import * as PeerLinks from "./peer/PeerLinks.ts";
+import * as PeerLinks from "./peer/PeerLinks.vibe";
 
 import * as DateTime from "effect/DateTime";
 import * as Duration from "effect/Duration";
@@ -109,22 +109,22 @@ import {
 } from "effect/http";
 import { RpcGroup, RpcSerialization, RpcServer } from "effect/rpc";
 
-import * as CheckpointDiffQuery from "./checkpointing/CheckpointDiffQuery.ts";
-import * as ServerConfig from "./config.ts";
-import * as EnvironmentTheme from "./environmentTheme.ts";
-import * as Keybindings from "./keybindings.ts";
+import * as CheckpointDiffQuery from "./checkpointing/CheckpointDiffQuery.vibe";
+import * as ServerConfig from "./config.vibe";
+import * as EnvironmentTheme from "./environmentTheme.vibe";
+import * as Keybindings from "./keybindings.vibe";
 import * as ExternalLauncher from "./process/externalLauncher.vibe";
 import * as ThreadManagementService from "./orchestration-v2/ThreadManagementService.vibe";
-import * as CommandOutputHub from "./orchestration-v2/CommandOutputHub.ts";
+import * as CommandOutputHub from "./orchestration-v2/CommandOutputHub.vibe";
 import * as McpAppRequests from "./mcpApps/McpAppRequests.vibe";
-import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.ts";
-import * as ThreadLaunchService from "./orchestration-v2/ThreadLaunchService.ts";
+import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.vibe";
+import * as ThreadLaunchService from "./orchestration-v2/ThreadLaunchService.vibe";
 import * as ThreadMessageIntake from "./orchestration-v2/ThreadMessageIntake.vibe";
-import * as DocumentText from "./provider/DocumentText.ts";
+import * as DocumentText from "./provider/DocumentText.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ScheduledTasks from "./scheduledTasks/ScheduledTaskService.ts";
-import * as SecretRequests from "./secrets/SecretRequests.ts";
-import * as GuestShareService from "./guest/GuestShareService.ts";
+import * as ScheduledTasks from "./scheduledTasks/ScheduledTaskService.vibe";
+import * as SecretRequests from "./secrets/SecretRequests.vibe";
+import * as GuestShareService from "./guest/GuestShareService.vibe";
 import {
   archivedShellStreamItemFromThreadShell,
   buildActiveShellSnapshot,
@@ -144,8 +144,8 @@ import {
   skipUnchangedThreadShells,
   toShellApplicationEvent,
   type ShellApplicationEvent,
-} from "./orchestration-v2/ShellStream.ts";
-import { ORCHESTRATION_V2_PROJECTION_SCHEMA_VERSION } from "./orchestration-v2/ProjectionStore.ts";
+} from "./orchestration-v2/ShellStream.vibe";
+import { ORCHESTRATION_V2_PROJECTION_SCHEMA_VERSION } from "./orchestration-v2/ProjectionStore.vibe";
 import { bufferLiveStream } from "./orchestration-v2/LiveStreamBudget.vibe";
 import { coalesceThreadLiveStream } from "./orchestration-v2/ThreadLiveEventCoalescer.vibe";
 import {
@@ -168,22 +168,22 @@ import {
 import { dedupeSnapshotBodies } from "@t3tools/shared/orchestrationV2DedupedBodies";
 import * as ProjectStore from "./orchestration-v2/ProjectStore.vibe";
 import * as ThreadSearch from "./orchestration-v2/ThreadSearch.vibe";
-import * as OrchestrationEventStore from "./persistence/OrchestrationEventStore.ts";
+import * as OrchestrationEventStore from "./persistence/OrchestrationEventStore.vibe";
 import { userFacingDispatchErrorMessage } from "./orchestration-v2/UserFacingErrors.vibe";
-import * as ProviderRegistry from "./provider/ProviderRegistry.ts";
+import * as ProviderRegistry from "./provider/ProviderRegistry.vibe";
 import * as ProviderInstanceRegistry from "./provider/ProviderInstanceRegistry.vibe";
 import * as AcpRegistrySupport from "@t3tools/provider-acp-registry/server/AcpRegistrySupport";
 import * as AcpRegistryRuntimeCoordinator from "@t3tools/provider-acp-registry/server/AcpRegistryRuntimeCoordinator";
 import * as ModelManifest from "./provider/ModelManifest.vibe";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import { latestProviderVersionCacheKeys } from "@t3tools/provider-core/server/maintenanceResolver";
-import * as ProviderMaintenanceRunner from "./provider/providerMaintenanceRunner.ts";
+import * as ProviderMaintenanceRunner from "./provider/providerMaintenanceRunner.vibe";
 import * as ProviderAuthService from "./provider/ProviderAuthService.vibe";
 import { makeProviderInstallation } from "./provider/providerInstallation.vibe";
-import * as ServerSelfUpdate from "./cloud/selfUpdate.ts";
+import * as ServerSelfUpdate from "./cloud/selfUpdate.vibe";
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.vibe";
 import * as ServerRuntimeStartup from "./serverRuntimeStartup.vibe";
-import * as ServerSettings from "./serverSettings.ts";
+import * as ServerSettings from "./serverSettings.vibe";
 import * as DatabaseStorage from "./persistence/DatabaseStorage.vibe";
 import * as StorageCleanup from "./storageCleanup.vibe";
 import * as TerminalManager from "./terminal/Manager.vibe";
@@ -191,18 +191,18 @@ import { terminalOutputStream, withTerminalOutputWindow } from "./terminal/Outpu
 import * as PreviewAutomationBroker from "./mcp/PreviewAutomationBroker.vibe";
 import * as ServerBrowser from "./preview/ServerBrowser.ts";
 import * as DeviceService from "./device/DeviceService.vibe";
-import { remoteSshDeviceHosts } from "./device/localSshDeviceHost.ts";
+import { remoteSshDeviceHosts } from "./device/localSshDeviceHost.vibe";
 import * as PreviewManager from "./preview/Manager.vibe";
-import { issueAssetUrl } from "./assets/AssetAccess.ts";
+import { issueAssetUrl } from "./assets/AssetAccess.vibe";
 import {
   attachmentRelativePath,
   chatAttachmentStableKey,
   createDeterministicAttachmentId,
 } from "./attachmentStore.ts";
 import { parseBase64DataUrl } from "./imageMime.vibe";
-import { deletePendingAttachment, issueAttachmentUploadUrl } from "./assets/AttachmentUpload.ts";
+import { deletePendingAttachment, issueAttachmentUploadUrl } from "./assets/AttachmentUpload.vibe";
 import * as PortScanner from "./preview/PortScanner.vibe";
-import * as WorkspaceEntries from "./workspace/WorkspaceEntries.ts";
+import * as WorkspaceEntries from "./workspace/WorkspaceEntries.vibe";
 import * as KnownWorkspaces from "./workspace/KnownWorkspaces.vibe";
 import * as WorkspaceFileSystem from "./workspace/WorkspaceFileSystem.ts";
 import { readWorkflowScript } from "./orchestration-v2/workflowScriptQuery.vibe";
@@ -213,7 +213,7 @@ import * as GitWorkflowService from "./git/GitWorkflowService.vibe";
 import { refreshPushedPullRequests } from "./git/refreshPushedPullRequests.vibe";
 import { linkCreatedPullRequest } from "./git/linkCreatedPullRequest.vibe";
 import * as ReviewService from "./review/ReviewService.vibe";
-import * as ProjectEnrichmentService from "./project/ProjectEnrichmentService.ts";
+import * as ProjectEnrichmentService from "./project/ProjectEnrichmentService.vibe";
 import * as ProjectService from "./project/ProjectService.ts";
 import { threadWorkspaceRoot } from "./project/threadWorkspaceRoot.vibe";
 import * as ManagedProjectFolders from "./project/ManagedProjectFolders.vibe";
@@ -227,16 +227,16 @@ import * as RemoteOpenTargets from "./environment/RemoteOpenTargets.vibe";
 import * as DefectReporter from "./observability/DefectReporter.vibe";
 import * as EventLoopMonitor from "./observability/EventLoopMonitor.vibe";
 import * as BackgroundPolicy from "./background/BackgroundPolicy.vibe";
-import * as EnvironmentAuth from "./auth/EnvironmentAuth.ts";
+import * as EnvironmentAuth from "./auth/EnvironmentAuth.vibe";
 import { requiredScopeForDeviceList, rpcAuthorizationError } from "./auth/RpcAuthorization.ts";
 import * as RpcAuthorization from "./auth/RpcAuthorization.ts";
 import {
   RpcInstrumentation,
   rpcInstrumentationLayer,
 } from "./observability/RpcInstrumentation.vibe";
-import * as ProcessDiagnostics from "./diagnostics/ProcessDiagnostics.ts";
+import * as ProcessDiagnostics from "./diagnostics/ProcessDiagnostics.vibe";
 import * as ProcessResourceMonitor from "./diagnostics/ProcessResourceMonitor.vibe";
-import * as ResourceTelemetry from "./resourceTelemetry/ResourceTelemetry.ts";
+import * as ResourceTelemetry from "./resourceTelemetry/ResourceTelemetry.vibe";
 import * as HostResources from "./resourceTelemetry/HostResources.vibe";
 import * as AnalyticsService from "./telemetry/AnalyticsService.vibe";
 import { commandFeatureUsage, featureUsage } from "./telemetry/FeatureUsage.ts";
@@ -244,23 +244,23 @@ import type { TelemetryOwner } from "./telemetry/Identify.vibe";
 import * as UsageService from "./usage/UsageService.vibe";
 import * as TraceDiagnostics from "./diagnostics/TraceDiagnostics.vibe";
 import * as TriageService from "./triage/TriageService.vibe";
-import * as PullRequestService from "./pullRequest/PullRequestService.ts";
-import * as PullRequestReviewGuideService from "./pullRequest/PullRequestReviewGuideService.ts";
+import * as PullRequestService from "./pullRequest/PullRequestService.vibe";
+import * as PullRequestReviewGuideService from "./pullRequest/PullRequestReviewGuideService.vibe";
 import { listLinkedPullRequestThreads } from "./pullRequest/linkedThreads.vibe";
 import { pullRequestSyncKey } from "./pullRequest/pullRequestSyncKey.ts";
 import * as SqlClient from "effect/sql/SqlClient";
-import * as PullRequestSyncReactor from "./orchestration-v2/PullRequestSyncReactor.ts";
-import * as SourceControlDiscovery from "./sourceControl/SourceControlDiscovery.ts";
+import * as PullRequestSyncReactor from "./orchestration-v2/PullRequestSyncReactor.vibe";
+import * as SourceControlDiscovery from "./sourceControl/SourceControlDiscovery.vibe";
 import * as OtlpEndpointCheck from "./observability/OtlpEndpointCheck.vibe";
-import * as SourceControlRepositoryService from "./sourceControl/SourceControlRepositoryService.ts";
+import * as SourceControlRepositoryService from "./sourceControl/SourceControlRepositoryService.vibe";
 import * as SourceControlBuiltInDrivers from "./sourceControl/builtInDrivers.vibe";
 import * as SourceControlProviderRegistry from "./sourceControl/SourceControlProviderRegistry.vibe";
-import * as GitVcsDriver from "./vcs/GitVcsDriver.ts";
+import * as GitVcsDriver from "./vcs/GitVcsDriver.vibe";
 import * as VcsDriverRegistry from "./vcs/VcsDriverRegistry.vibe";
-import * as VcsProjectConfig from "./vcs/VcsProjectConfig.ts";
+import * as VcsProjectConfig from "./vcs/VcsProjectConfig.vibe";
 import * as PairingGrantStore from "./auth/PairingGrantStore.vibe";
-import * as SessionStore from "./auth/SessionStore.ts";
-import { failEnvironmentAuthInvalid, failEnvironmentInternal } from "./auth/http.ts";
+import * as SessionStore from "./auth/SessionStore.vibe";
+import { failEnvironmentAuthInvalid, failEnvironmentInternal } from "./auth/http.vibe";
 import { isNetworkPath } from "@t3tools/shared/path";
 import * as RelayClient from "@t3tools/shared/relayClient";
 import { isTelemetryIdHash } from "@t3tools/shared/telemetryId";

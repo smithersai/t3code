@@ -6,7 +6,7 @@ import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
 import * as Layer from "effect/Layer"
 
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 
 const writeHeapSnapshot = Effect.fn("server.heapSnapshot", { root: true })(
   effect (logsDir: string) => {

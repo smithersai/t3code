@@ -32,10 +32,10 @@ import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 
-import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.ts";
+import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.vibe";
 import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
-import * as EffectWorker from "../orchestration-v2/EffectWorker.ts";
-import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.ts";
+import * as EffectWorker from "../orchestration-v2/EffectWorker.vibe";
+import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
@@ -48,15 +48,15 @@ import {
   OrchestratorThreadAboveModeLimitError,
 } from "../orchestration-v2/Orchestrator.vibe";
 import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
-import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
+import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
-import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
+import * as ProviderRegistry from "../provider/ProviderRegistry.vibe";
 import { buildUnavailableProviderSnapshot } from "../provider/unavailableProviderSnapshot.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
-import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as SecretRequests from "../secrets/SecretRequests.ts";
+import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as SecretRequests from "../secrets/SecretRequests.vibe";
 import * as RemoteDelegation from "../peer/RemoteDelegation.vibe";
 import type { McpInvocationScope } from "./McpInvocationContext.vibe";
 import { idleThreadProjection, liveThreadShell } from "./McpToolAccess.testkit.ts";

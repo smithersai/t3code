@@ -9,8 +9,8 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
 
-import * as ServerConfig from "../config.ts";
-import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.ts";
+import * as ServerConfig from "../config.vibe";
+import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.vibe";
 import * as DesktopAppUpdate from "./DesktopAppUpdate.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

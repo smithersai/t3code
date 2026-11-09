@@ -2,7 +2,7 @@ import type { UsageProviderKind } from "@t3tools/contracts"
 import type { TranscriptUsageFormat, UsageRecord, UsageSpeed } from "@t3tools/provider-core/server/usage"
 
 import { CLAUDE_SYNTHETIC_MODEL } from "../provider/Drivers/claudeUsage.vibe"
-import { GUARD_LENGTH, type TranscriptParsePosition } from "./usageTranscriptReader.ts"
+import { GUARD_LENGTH, type TranscriptParsePosition } from "./usageTranscriptReader.vibe"
 
 const USAGE_SCAN_CACHE_VERSION = 9 as const
 const SPEED_COMPATIBLE_SINCE_VERSION = 4

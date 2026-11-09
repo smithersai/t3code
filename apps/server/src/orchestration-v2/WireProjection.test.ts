@@ -26,7 +26,7 @@ import {
   projectTurnItemForDetail,
   projectDomainEventForWire,
 } from "./WireProjection.ts";
-import { threadShellFromProjection } from "./ProjectionStore.ts";
+import { threadShellFromProjection } from "./ProjectionStore.vibe";
 import { MAX_TOOL_OUTPUT_IMAGES, toolOutputImages } from "@t3tools/shared/toolOutput";
 
 const decodeTurnItem = Schema.decodeUnknownSync(OrchestrationV2TurnItem);

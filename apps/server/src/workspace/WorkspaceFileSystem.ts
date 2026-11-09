@@ -22,7 +22,7 @@ import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 
 import * as KnownWorkspaces from "./KnownWorkspaces.vibe";
-import * as WorkspaceEntries from "./WorkspaceEntries.ts";
+import * as WorkspaceEntries from "./WorkspaceEntries.vibe";
 import * as WorkspacePaths from "./WorkspacePaths.vibe";
 import { fileHeaderMimeType } from "./fileHeaderMimeType.ts";
 

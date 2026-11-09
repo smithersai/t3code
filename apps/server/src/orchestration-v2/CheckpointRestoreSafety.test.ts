@@ -13,8 +13,8 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
-import * as ServerConfig from "../config.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as GitWorkflowService from "../git/GitWorkflowService.vibe";
 import * as CheckpointRollbackService from "./CheckpointRollbackService.vibe";
 import { isCheckpointRestoreIsolated } from "./CheckpointRestoreSafety.vibe";
@@ -22,10 +22,13 @@ import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import { CheckpointServiceV2 } from "./CheckpointService.vibe";
 import { EventSinkV2 } from "./EventSink.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import { ProjectionStoreV2, type ProjectionCheckpointRollbackContext } from "./ProjectionStore.ts";
+import {
+  ProjectionStoreV2,
+  type ProjectionCheckpointRollbackContext,
+} from "./ProjectionStore.vibe";
 import * as ProjectStore from "./ProjectStore.vibe";
-import { ProviderSessionManagerV2 } from "./ProviderSessionManager.ts";
-import { RuntimePolicyV2 } from "./RuntimePolicy.ts";
+import { ProviderSessionManagerV2 } from "./ProviderSessionManager.vibe";
+import { RuntimePolicyV2 } from "./RuntimePolicy.vibe";
 
 it.effect.each([
   "nested",

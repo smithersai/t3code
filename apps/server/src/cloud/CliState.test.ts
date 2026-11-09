@@ -5,7 +5,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as CliState from "./CliState.vibe";
 import {
   CLOUD_ENDPOINT_CONFIRMED_ORIGIN,

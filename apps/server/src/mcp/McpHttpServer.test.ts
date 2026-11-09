@@ -1,5 +1,5 @@
 import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import { expect, it } from "@effect/vitest";
 import { NodeHttpServer } from "@effect/platform-node";
@@ -24,15 +24,15 @@ import { McpSchema, McpServer, Tool, Toolkit } from "effect/ai";
 import { HttpBody, HttpClient, HttpClientRequest, HttpRouter } from "effect/http";
 
 import * as ProjectService from "../project/ProjectService.ts";
-import * as PullRequestReviewGuideService from "../pullRequest/PullRequestReviewGuideService.ts";
-import * as ServerConfig from "../config.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as PullRequestReviewGuideService from "../pullRequest/PullRequestReviewGuideService.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 import { advertisedJsonSchema } from "./advertisedJsonSchema.vibe";
-import * as McpHttpServer from "./McpHttpServer.ts";
+import * as McpHttpServer from "./McpHttpServer.vibe";
 import * as McpToolAccess from "./McpToolAccess.ts";
 import * as McpToolAccessTestkit from "./McpToolAccess.testkit.ts";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
-import * as McpSessionRegistry from "./McpSessionRegistry.ts";
+import * as McpSessionRegistry from "./McpSessionRegistry.vibe";
 import * as OrchestratorMcpService from "./OrchestratorMcpService.vibe";
 import * as PreviewAutomationBroker from "./PreviewAutomationBroker.vibe";
 import { OrchestratorToolkit } from "./toolkits/orchestrator/tools.vibe";

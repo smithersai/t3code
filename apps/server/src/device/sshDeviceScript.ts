@@ -18,6 +18,7 @@ if [ -n "$JAVA_HOME" ]; then export PATH="$JAVA_HOME/bin:$PATH"; fi
 `;
 
 /** Runs on the host and returns host-local paths. */
+/** @throws {never} */
 export const remoteDeviceScript = (
   owner: string,
   mode: "probe" | "start" | "agent-start" | "stop-agent" | "stop",

@@ -6,9 +6,9 @@ import * as Duration from "effect/Duration"
 import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 
-import * as ProcessRunner from "../processRunner.ts"
+import * as ProcessRunner from "../processRunner.vibe"
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts"
-import { explicitBareRepositoryEnv } from "../vcs/VcsProcess.ts"
+import { explicitBareRepositoryEnv } from "../vcs/VcsProcess.vibe"
 import * as HostProcess from "@t3tools/shared/HostProcess"
 
 const DEFAULT_REPOSITORY_IDENTITY_CACHE_CAPACITY = 512

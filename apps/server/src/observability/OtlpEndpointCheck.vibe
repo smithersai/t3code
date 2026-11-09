@@ -8,7 +8,7 @@ import * as Option from "effect/Option"
 import { FetchHttpClient, HttpClient } from "effect/http"
 import { OtlpSerialization } from "effect/observability"
 
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 
 const CHECK_TIMEOUT = "5 seconds"
 

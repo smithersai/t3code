@@ -21,14 +21,14 @@ import * as Schema from "effect/Schema";
 import { Argument, Command, Flag } from "effect/cli";
 
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import {
   MAX_THEME_FILE_BYTES,
   readPublishedThemes,
   readThemeFileGuarded,
-} from "../environmentTheme.ts";
-import { expandHomePath, resolveBaseDir } from "../os-jank.ts";
-import { baseDirFlag } from "./config.ts";
+} from "../environmentTheme.vibe";
+import { expandHomePath, resolveBaseDir } from "../os-jank.vibe";
+import { baseDirFlag } from "./config.vibe";
 
 const SparseSettings = Schema.Record(Schema.String, Schema.Unknown);
 const decodeSettingsJson = Schema.decodeUnknownEffect(fromLenientJson(SparseSettings));

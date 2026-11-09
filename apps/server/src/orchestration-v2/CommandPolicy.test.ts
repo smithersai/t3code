@@ -13,7 +13,7 @@ import {
 } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
 import { CursorProviderCapabilitiesV2 } from "@t3tools/provider-cursor/testing";
 import * as CommandPolicy from "./CommandPolicy.vibe";
 

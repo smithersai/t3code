@@ -11,22 +11,22 @@ import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as GitWorkflow from "../git/GitWorkflowService.vibe";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 
 import * as McpSessionRegistryTestkit from "../mcp/McpSessionRegistry.testkit.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import { runMigrations } from "../persistence/Migrations.vibe";
-import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
+import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.vibe";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
-import * as VcsProcess from "../vcs/VcsProcess.ts";
+import * as VcsProcess from "../vcs/VcsProcess.vibe";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
-import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts";
+import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.vibe";
 import * as RuntimeLayer from "./runtimeLayer.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

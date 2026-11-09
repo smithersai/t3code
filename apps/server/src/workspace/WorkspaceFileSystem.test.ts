@@ -10,11 +10,11 @@ import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
-import * as VcsProcess from "../vcs/VcsProcess.ts";
+import * as VcsProcess from "../vcs/VcsProcess.vibe";
 import * as KnownWorkspaces from "./KnownWorkspaces.vibe";
-import * as WorkspaceEntries from "./WorkspaceEntries.ts";
+import * as WorkspaceEntries from "./WorkspaceEntries.vibe";
 import * as WorkspaceFileSystem from "./WorkspaceFileSystem.ts";
 import * as WorkspacePaths from "./WorkspacePaths.vibe";
 import * as HostProcess from "@t3tools/shared/HostProcess";

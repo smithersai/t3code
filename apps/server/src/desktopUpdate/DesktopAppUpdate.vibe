@@ -10,8 +10,8 @@ import * as Crypto from "@t3tools/shared/Crypto"
 import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 
-import * as ServerConfig from "../config.ts"
-import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.ts"
+import * as ServerConfig from "../config.vibe"
+import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.vibe"
 
 const DESKTOP_UPDATE_TIMEOUT = Duration.minutes(20)
 const DESKTOP_INSTALL_TIMEOUT = Duration.minutes(2)

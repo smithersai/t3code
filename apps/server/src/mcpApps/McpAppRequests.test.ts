@@ -15,7 +15,7 @@ import * as Option from "effect/Option";
 
 import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import * as ProviderSessionManager from "../orchestration-v2/ProviderSessionManager.ts";
+import * as ProviderSessionManager from "../orchestration-v2/ProviderSessionManager.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import * as McpAppModelContext from "./McpAppModelContext.vibe";
 import * as McpAppRequests from "./McpAppRequests.vibe";

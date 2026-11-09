@@ -9,7 +9,7 @@ import { TEST_FORMATS } from "./usageTestFormats.ts";
 import {
   readTranscriptRecords as readWithDefaultThreshold,
   type TranscriptParsePosition,
-} from "./usageTranscriptReader.ts";
+} from "./usageTranscriptReader.vibe";
 
 const readTranscriptRecords = (
   path: string,

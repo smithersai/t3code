@@ -15,7 +15,7 @@ import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import { HttpClient, HttpClientResponse } from "effect/http";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
-import * as CodexInstallation from "./CodexInstallation.ts";
+import * as CodexInstallation from "./CodexInstallation.vibe";
 import * as Layer from "effect/Layer";
 
 const archive = Buffer.from(

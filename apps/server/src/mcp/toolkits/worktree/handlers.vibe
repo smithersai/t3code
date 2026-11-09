@@ -5,7 +5,7 @@ import { readThread, unavailable } from "../../threadAccess.vibe"
 
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 import * as McpToolAccess from "../../McpToolAccess.ts"
-import * as WorktreeMcpService from "../../WorktreeMcpService.ts"
+import * as WorktreeMcpService from "../../WorktreeMcpService.vibe"
 import { WorktreeToolkit } from "./tools.vibe"
 
 const handlers = {

@@ -28,7 +28,7 @@ import { HttpClient, HttpClientRequest } from "effect/http";
 import * as ProviderCredentialStore from "./ProviderCredentialStore.vibe";
 import { withChatGptSessionLock } from "./CodexChatGptSessionLock.vibe";
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 
 const isSetupError = Schema.is(ProviderSetupError);

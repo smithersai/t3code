@@ -133,15 +133,15 @@ import {
   type OlderSettledThreadsListing,
   type OlderSettledThreadsQuery,
   type ShellSnapshotOptions,
-} from "./ProjectionStore.ts"
+} from "./ProjectionStore.vibe"
 import { ProviderAdapterRegistryV2 } from "./ProviderAdapterRegistry.vibe"
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests"
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure"
 import * as RunExecutionService from "./RunExecutionService.vibe"
-import { ProviderSessionManagerV2 } from "./ProviderSessionManager.ts"
+import { ProviderSessionManagerV2 } from "./ProviderSessionManager.vibe"
 import { ProviderSwitchServiceV2 } from "./ProviderSwitchService.vibe"
 import { isAutomaticCompletionRun, queuedRunsInDeliveryOrder } from "./QueuedRunOrder.ts"
-import { RuntimePolicyV2 } from "./RuntimePolicy.ts"
+import { RuntimePolicyV2 } from "./RuntimePolicy.vibe"
 import {
   endOrphanedNativeSubagent,
   endRunlessRootTurns,
@@ -153,7 +153,7 @@ import {
 import { forkableSourceRunStatusError, isForkableSourceRunStatus, ThreadForkServiceV2 } from "./ThreadForkService.vibe"
 import { planThreadDeletion } from "./ThreadDeletion.vibe"
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter"
-import * as ServerSettings from "../serverSettings.ts"
+import * as ServerSettings from "../serverSettings.vibe"
 
 const isMessageQuestionAnswer = Schema.is(
   Schema.Union([TrimmedNonEmptyString, Schema.NonEmptyArray(TrimmedNonEmptyString)]),

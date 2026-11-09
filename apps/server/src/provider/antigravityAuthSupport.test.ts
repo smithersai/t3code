@@ -27,7 +27,7 @@ import {
   parseAntigravityAuthorizationUrl,
   prepareAntigravityProfile,
   resolveAntigravityInstanceDirectories,
-} from "./antigravityAuthSupport.ts";
+} from "./antigravityAuthSupport.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const authorizationUrl =

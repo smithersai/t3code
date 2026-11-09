@@ -1,6 +1,6 @@
 import { OrchestrationGetWorkflowScriptError } from "@t3tools/contracts"
 import * as Effect from "effect/Effect"
-import { readContainedWorkflowFile } from "./workflowFileRead.ts"
+import { readContainedWorkflowFile } from "./workflowFileRead.vibe"
 
 export const readWorkflowScript = effect (input: { readonly scriptPath: string }) =>
   try withSpan(

@@ -20,13 +20,13 @@ import * as SqlClient from "effect/sql/SqlClient";
 import * as TestClock from "effect/testing/TestClock";
 import * as Tracer from "effect/Tracer";
 
-import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";
+import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
-import * as SecretRequests from "../secrets/SecretRequests.ts";
+import * as SecretRequests from "../secrets/SecretRequests.vibe";
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as Scheduler from "../scheduling/Scheduler.vibe";
-import * as ScheduledTaskService from "./ScheduledTaskService.ts";
+import * as ScheduledTaskService from "./ScheduledTaskService.vibe";
 import { renderWebhookPrompt } from "./webhookTemplate.ts";
 
 const decodeUpsertInput = Schema.decodeUnknownEffect(ScheduledTaskUpsertInput);

@@ -10,7 +10,7 @@ import * as HostProcess from "@t3tools/shared/HostProcess"
 import { hashTelemetryId } from "@t3tools/shared/telemetryId"
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe"
 import { CLOUD_LINKED_USER_ID } from "../cloud/config.vibe"
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 
 /**
  * Codex writes `tokens` only for ChatGPT logins and omits the key for API-key,

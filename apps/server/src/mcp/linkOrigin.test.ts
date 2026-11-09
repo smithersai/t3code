@@ -1,4 +1,4 @@
-import * as DocumentText from "../provider/DocumentText.ts";
+import * as DocumentText from "../provider/DocumentText.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it } from "@effect/vitest";
 import {
@@ -17,34 +17,34 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { McpSchema, McpServer } from "effect/ai";
 
-import * as ServerConfig from "../config.ts";
-import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.ts";
+import * as ServerConfig from "../config.vibe";
+import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
 import { makeSubagentChildThread } from "@t3tools/provider-core/server/subagentProjection";
 import * as ThreadForkService from "../orchestration-v2/ThreadForkService.vibe";
-import * as ThreadLaunch from "../orchestration-v2/ThreadLaunchService.ts";
+import * as ThreadLaunch from "../orchestration-v2/ThreadLaunchService.vibe";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
-import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
-import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ProviderRegistry from "../provider/ProviderRegistry.vibe";
+import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
-import * as SecretRequests from "../secrets/SecretRequests.ts";
+import * as SecretRequests from "../secrets/SecretRequests.vibe";
 import * as RemoteDelegation from "../peer/RemoteDelegation.vibe";
-import * as SourceControlRepositoryService from "../sourceControl/SourceControlRepositoryService.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as McpHttpServer from "./McpHttpServer.ts";
+import * as SourceControlRepositoryService from "../sourceControl/SourceControlRepositoryService.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
+import * as McpHttpServer from "./McpHttpServer.vibe";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as PeerForwarding from "../peer/PeerForwarding.vibe";
 import * as ThreadSearch from "../orchestration-v2/ThreadSearch.vibe";
 import * as PeerLinkRequests from "../peer/PeerLinkRequests.vibe";
-import * as PeerLinks from "../peer/PeerLinks.ts";
+import * as PeerLinks from "../peer/PeerLinks.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 // A linked environment's session drives this one's real orchestrator through

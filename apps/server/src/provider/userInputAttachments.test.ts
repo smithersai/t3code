@@ -12,13 +12,13 @@ import * as Layer from "effect/Layer";
 import * as TestClock from "effect/testing/TestClock";
 import { vi } from "vite-plus/test";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import * as ServerConfig from "../config.ts";
-import * as DocumentText from "./DocumentText.ts";
+import * as ServerConfig from "../config.vibe";
+import * as DocumentText from "./DocumentText.vibe";
 import { extractDocumentText } from "./documentTextWorker.ts";
-import * as Cleanup from "../orchestration-v2/ResourceCleanupService.ts";
+import * as Cleanup from "../orchestration-v2/ResourceCleanupService.vibe";
 import * as TerminalManager from "../terminal/Manager.vibe";
 import * as PreviewManager from "../preview/Manager.vibe";
-import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
+import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
 import * as NodeZlib from "node:zlib";
 import { appendUserInputAttachmentPaths } from "./userInputAttachments.vibe";
 

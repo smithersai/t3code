@@ -15,8 +15,8 @@ import * as Layer from "effect/Layer"
 import * as Stream from "effect/Stream"
 import * as Semaphore from "effect/Semaphore"
 
-import * as ProviderSessionManager from "../orchestration-v2/ProviderSessionManager.ts"
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts"
+import * as ProviderSessionManager from "../orchestration-v2/ProviderSessionManager.vibe"
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe"
 import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.vibe"
 import type { ProviderAuthController } from "@t3tools/provider-core/server/auth"
 

@@ -31,14 +31,14 @@ import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 import { McpSchema, McpServer, Tool, Toolkit } from "effect/ai";
 
-import * as ServerConfig from "../config.ts";
-import * as McpHttpServer from "../mcp/McpHttpServer.ts";
+import * as ServerConfig from "../config.vibe";
+import * as McpHttpServer from "../mcp/McpHttpServer.vibe";
 import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
 import * as McpToolAccess from "../mcp/McpToolAccess.ts";
-import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.ts";
+import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.vibe";
 import * as EventSink from "../orchestration-v2/EventSink.ts";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
@@ -46,16 +46,16 @@ import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.v
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
-import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
-import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
-import * as SecretRequests from "../secrets/SecretRequests.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ProviderRegistry from "../provider/ProviderRegistry.vibe";
+import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
+import * as SecretRequests from "../secrets/SecretRequests.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
-import * as ThreadLaunch from "../orchestration-v2/ThreadLaunchService.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
+import * as ThreadLaunch from "../orchestration-v2/ThreadLaunchService.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
 import * as PeerForwarding from "./PeerForwarding.vibe";
 import * as PeerLinkRequests from "./PeerLinkRequests.vibe";
-import * as PeerLinks from "./PeerLinks.ts";
+import * as PeerLinks from "./PeerLinks.vibe";
 import {
   descriptorOf,
   layerLinkingEnvironment,

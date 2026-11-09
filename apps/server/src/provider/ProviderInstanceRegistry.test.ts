@@ -1,6 +1,6 @@
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
-import * as CodexInstallation from "./CodexInstallation.ts";
-import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.ts";
+import * as CodexInstallation from "./CodexInstallation.vibe";
+import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as ClaudeSdk from "@anthropic-ai/claude-agent-sdk";
 import { describe, expect, it } from "@effect/vitest";
@@ -27,10 +27,10 @@ import * as TestClock from "effect/testing/TestClock";
 import { HttpClient, HttpClientResponse } from "effect/http";
 
 import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
-import * as ServerConfig from "../config.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import { ClaudeDriver, type ClaudeDriverEnv } from "./Drivers/ClaudeDriver.ts";
-import { CodexDriver, type CodexDriverEnv } from "./Drivers/CodexDriver.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import { ClaudeDriver, type ClaudeDriverEnv } from "./Drivers/ClaudeDriver.vibe";
+import { CodexDriver, type CodexDriverEnv } from "./Drivers/CodexDriver.vibe";
 import * as ModelManifest from "./ModelManifest.vibe";
 import * as ResetCreditCoordinator from "./resetCreditCoordinator.vibe";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";

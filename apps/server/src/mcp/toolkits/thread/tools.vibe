@@ -25,7 +25,7 @@ import * as Schema from "effect/Schema"
 import { Tool, Toolkit } from "effect/ai"
 
 import * as ThreadSearch from "../../../orchestration-v2/ThreadSearch.vibe"
-import * as ScheduledTaskService from "../../../scheduledTasks/ScheduledTaskService.ts"
+import * as ScheduledTaskService from "../../../scheduledTasks/ScheduledTaskService.vibe"
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.vibe"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 

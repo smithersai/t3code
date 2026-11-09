@@ -1,6 +1,6 @@
-import * as DocumentText from "../../provider/DocumentText.ts";
+import * as DocumentText from "../../provider/DocumentText.vibe";
 import { makeProviderTextDeltaCoalescer } from "./ProviderTextDeltaCoalescer.vibe";
-import { claudeTaskOutputRoot, tailClaudeTaskOutput } from "./ClaudeTaskOutputTail.ts";
+import { claudeTaskOutputRoot, tailClaudeTaskOutput } from "./ClaudeTaskOutputTail.vibe";
 import {
   dynamicToolTitle,
   formatReadToolLabel,
@@ -127,7 +127,7 @@ import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import { resolveAttachmentPath } from "../../attachmentStore.ts";
-import { resolveClaudeSdkExecutablePath } from "../../provider/Drivers/ClaudeExecutable.ts";
+import { resolveClaudeSdkExecutablePath } from "../../provider/Drivers/ClaudeExecutable.vibe";
 import {
   planClaudeSkillDispatch,
   type ClaudeSkillTarget,
@@ -137,9 +137,9 @@ import {
   compileClaudeModelSelection,
   type CompiledClaudeModelSelection,
 } from "../../claudeModelOptions.ts";
-import * as ServerConfig from "../../config.ts";
+import * as ServerConfig from "../../config.vibe";
 import * as PortScanner from "../../preview/PortScanner.vibe";
-import * as ServerSettings from "../../serverSettings.ts";
+import * as ServerSettings from "../../serverSettings.vibe";
 import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion";
 import { spawnAndCollect } from "@t3tools/provider-core/server/snapshotProbe";
 import { signalProcessGroup } from "@t3tools/provider-core/server/processGroup";
@@ -159,7 +159,7 @@ import {
 import {
   boundProviderEventForLogging,
   shouldPersistProviderEvent,
-} from "../../provider/EventNdjsonLogger.ts";
+} from "../../provider/EventNdjsonLogger.vibe";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
 import {
   claudeRateLimitEventToUpdate,

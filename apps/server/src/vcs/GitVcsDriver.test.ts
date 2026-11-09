@@ -19,14 +19,14 @@ import { assert, it } from "@effect/vitest";
 import { CheckpointRef, GitCommandError, VcsProcessExitError } from "@t3tools/contracts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import { gitCommandDuration, gitCommandsTotal } from "../observability/Metrics.vibe";
 import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
-import * as ProcessRunner from "../processRunner.ts";
-import * as GitVcsDriver from "./GitVcsDriver.ts";
+import * as ProcessRunner from "../processRunner.vibe";
+import * as GitVcsDriver from "./GitVcsDriver.vibe";
 import type * as VcsDriver from "./VcsDriver.vibe";
 import * as VcsDriverRegistry from "./VcsDriverRegistry.vibe";
-import * as VcsProcess from "./VcsProcess.ts";
+import * as VcsProcess from "./VcsProcess.vibe";
 import { runVcsDriverContractSuite } from "./testing/VcsDriverContractHarness.ts";
 import * as Crypto from "@t3tools/shared/Crypto";
 

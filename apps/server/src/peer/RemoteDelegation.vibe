@@ -28,14 +28,14 @@ import type * as Tool from "effect/ai/Tool"
 import type * as McpInvocationContext from "../mcp/McpInvocationContext.vibe"
 import { ProjectToolkit } from "../mcp/toolkits/project/tools.vibe"
 import { resolveInteractionMode, resolveRuntimeMode, taskPrompt } from "../mcp/delegatedTaskModes.vibe"
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts"
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe"
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe"
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe"
 import * as ProjectService from "../project/ProjectService.ts"
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe"
 import { forkParked } from "../serverActivation.vibe"
 import * as PeerForwarding from "./PeerForwarding.vibe"
-import * as PeerLinks from "./PeerLinks.ts"
+import * as PeerLinks from "./PeerLinks.vibe"
 
 /** How long one follow of a remote task waits on its thread there before checking again. */
 const FOLLOW_WAIT_MS = 10 * 60 * 1_000

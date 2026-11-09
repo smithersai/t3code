@@ -4,7 +4,7 @@ import * as Deferred from "effect/Deferred";
 import * as Fiber from "effect/Fiber";
 import * as Effect from "effect/Effect";
 import { HttpClient, HttpClientResponse } from "effect/http";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as DeviceHost from "./DeviceHost.vibe";
 import { makeDeviceHubOperations } from "./DeviceHubOperations.vibe";
 import * as DeviceService from "./DeviceService.vibe";

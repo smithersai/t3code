@@ -49,20 +49,20 @@ import * as Statement from "effect/sql/Statement";
 
 import { vi } from "vite-plus/test";
 
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as DatabaseStorage from "../persistence/DatabaseStorage.vibe";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerSettings from "../serverSettings.vibe";
 import { LIVE_STREAM_MAX_ITEMS, LiveStreamBufferError } from "./LiveStreamBudget.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
 import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";
-import * as EffectWorker from "./EffectWorker.ts";
+import * as EffectWorker from "./EffectWorker.vibe";
 import * as EventSink from "./EventSink.ts";
 import * as EventStore from "./EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProjectionMaintenance from "./ProjectionMaintenance.vibe";
-import * as ProjectionStore from "./ProjectionStore.ts";
+import * as ProjectionStore from "./ProjectionStore.vibe";
 import * as ProjectStore from "./ProjectStore.vibe";
 import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.vibe";
 import * as TurnItemPositionStore from "./TurnItemPositionStore.vibe";

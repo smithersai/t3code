@@ -3,9 +3,9 @@
 import { AuthOrchestrationReadScope, AuthOrchestrationOperateScope } from "@t3tools/contracts"
 import * as NodeSocket from "@effect/platform-node/NodeSocket"
 
-import { authenticateMediaRequest } from "../auth/http.ts"
+import { authenticateMediaRequest } from "../auth/http.vibe"
 import * as DeviceService from "./DeviceService.vibe"
-import { repeatStillFrame } from "./mjpegStillFrame.ts"
+import { repeatStillFrame } from "./mjpegStillFrame.vibe"
 import * as RequestUrl from "../RequestUrl.vibe"
 
 const ALLOWED_PATHS: ReadonlyArray<RegExp> = [

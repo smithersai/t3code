@@ -31,7 +31,7 @@ import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http"
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite"
 import * as HostProcess from "@t3tools/shared/HostProcess"
 
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 import * as DeviceHost from "./DeviceHost.vibe"
 import { findEasProjectId } from "./easProjectId.vibe"
 import { type ExpoApi, makeExpoApi, resolveExpoCredential } from "./ExpoApi.vibe"

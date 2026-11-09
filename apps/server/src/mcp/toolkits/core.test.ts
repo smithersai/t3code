@@ -1,4 +1,4 @@
-import * as DocumentText from "../../provider/DocumentText.ts";
+import * as DocumentText from "../../provider/DocumentText.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { expect, it } from "@effect/vitest";
 import {
@@ -34,20 +34,20 @@ import {
 } from "../../orchestration-v2/Orchestrator.vibe";
 
 import * as ServerSecretStore from "../../auth/ServerSecretStore.vibe";
-import * as ServerConfig from "../../config.ts";
+import * as ServerConfig from "../../config.vibe";
 import * as ProviderAdapterRegistry from "../../orchestration-v2/ProviderAdapterRegistry.vibe";
-import * as ThreadLaunchService from "../../orchestration-v2/ThreadLaunchService.ts";
-import * as GitVcsDriver from "../../vcs/GitVcsDriver.ts";
+import * as ThreadLaunchService from "../../orchestration-v2/ThreadLaunchService.vibe";
+import * as GitVcsDriver from "../../vcs/GitVcsDriver.vibe";
 import * as ThreadManagement from "../../orchestration-v2/ThreadManagementService.vibe";
 import * as ThreadSearch from "../../orchestration-v2/ThreadSearch.vibe";
 import * as PreviewBrowser from "../../preview/PreviewBrowser.vibe";
 import * as ProjectService from "../../project/ProjectService.ts";
-import * as ProviderRegistry from "../../provider/ProviderRegistry.ts";
-import * as SecretRequests from "../../secrets/SecretRequests.ts";
+import * as ProviderRegistry from "../../provider/ProviderRegistry.vibe";
+import * as SecretRequests from "../../secrets/SecretRequests.vibe";
 import * as RemoteDelegation from "../../peer/RemoteDelegation.vibe";
-import * as ScheduledTaskService from "../../scheduledTasks/ScheduledTaskService.ts";
-import * as ServerSettings from "../../serverSettings.ts";
-import * as McpHttpServer from "../McpHttpServer.ts";
+import * as ScheduledTaskService from "../../scheduledTasks/ScheduledTaskService.vibe";
+import * as ServerSettings from "../../serverSettings.vibe";
+import * as McpHttpServer from "../McpHttpServer.vibe";
 import * as McpInvocationContext from "../McpInvocationContext.vibe";
 import * as McpToolAccessTestkit from "../McpToolAccess.testkit.ts";
 import * as AnalyticsService from "../../telemetry/AnalyticsService.vibe";
@@ -56,7 +56,7 @@ import * as EnvironmentHandlers from "./environment/handlers.vibe";
 import * as AttachmentHandlers from "./attachment/handlers.vibe";
 import * as PeerForwarding from "../../peer/PeerForwarding.vibe";
 import * as PeerLinkRequests from "../../peer/PeerLinkRequests.vibe";
-import * as PeerLinks from "../../peer/PeerLinks.ts";
+import * as PeerLinks from "../../peer/PeerLinks.vibe";
 
 const layerOrchestratorToolkit = McpHttpServer.layerOrchestratorToolkit.pipe(
   Layer.provide(Layer.mock(ThreadLaunchService.ThreadLaunchService)({})),

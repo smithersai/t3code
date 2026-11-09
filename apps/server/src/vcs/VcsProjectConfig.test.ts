@@ -6,7 +6,7 @@ import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
 import * as Path from "effect/Path";
 
-import * as VcsProjectConfig from "./VcsProjectConfig.ts";
+import * as VcsProjectConfig from "./VcsProjectConfig.vibe";
 
 const layerTest = VcsProjectConfig.layer.pipe(
   Layer.provide(NodeServices.layer),

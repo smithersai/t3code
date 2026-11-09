@@ -13,7 +13,7 @@ import * as DateTime from "effect/DateTime"
 import * as Result from "effect/Result"
 import * as Schema from "effect/Schema"
 
-import type { UnsequencedProjectEvent } from "../persistence/OrchestrationEventStore.ts"
+import type { UnsequencedProjectEvent } from "../persistence/OrchestrationEventStore.vibe"
 import type { ProjectRow } from "./ProjectStore.vibe"
 
 export interface ProjectCreateCommand {

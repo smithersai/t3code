@@ -9,7 +9,7 @@ import * as Layer from "effect/Layer"
 import * as HttpClient from "effect/http/HttpClient"
 
 import packageJson from "../../package.json" with { type: "json" }
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 import { getTelemetryIdentity, type TelemetryOwner } from "./Identify.vibe"
 
 interface BufferedAnalyticsEvent {

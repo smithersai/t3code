@@ -24,8 +24,8 @@ import * as Queue from "effect/Queue";
 import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as EffectWorker from "./EffectWorker.ts";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
+import * as EffectWorker from "./EffectWorker.vibe";
 import * as EventSink from "./EventSink.ts";
 import * as Orchestrator from "./Orchestrator.vibe";
 import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";

@@ -1,8 +1,8 @@
 import * as NodeOS from "node:os";
 
-import { CODEX_THREAD_CONFIG } from "../src/orchestration-v2/Adapters/CodexAdapterV2.ts";
+import { CODEX_THREAD_CONFIG } from "../src/orchestration-v2/Adapters/CodexAdapterV2.vibe";
 import { revertCodexThread } from "../src/provider/CodexThreadRevert.vibe";
-import { buildCodexInitializeParams } from "../src/provider/CodexProvider.ts";
+import { buildCodexInitializeParams } from "../src/provider/CodexProvider.vibe";
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as HostProcess from "@t3tools/shared/HostProcess";

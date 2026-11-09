@@ -20,7 +20,7 @@ import {
   ProjectionStoreReadError,
   ProjectionStoreThreadNotFoundError,
   type ProjectionStoreV2Error,
-} from "./ProjectionStore.ts"
+} from "./ProjectionStore.vibe"
 
 interface FindRow {
   readonly position: number

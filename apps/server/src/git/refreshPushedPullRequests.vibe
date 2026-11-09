@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect"
 
 import * as OrchestratorV2 from "../orchestration-v2/Orchestrator.vibe"
 import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe"
-import * as PullRequestService from "../pullRequest/PullRequestService.ts"
+import * as PullRequestService from "../pullRequest/PullRequestService.vibe"
 
 export const refreshPushedPullRequests = effect (
   input: Pick<GitRunStackedActionInput, "cwd" | "threadId" | "projectId">,

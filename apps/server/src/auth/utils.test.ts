@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { deriveAuthClientMetadata, resolveSessionCookieName } from "./utils.ts";
+import { deriveAuthClientMetadata, resolveSessionCookieName } from "./utils.vibe";
 
 describe("deriveAuthClientMetadata", () => {
   it("labels Electron user agents as Electron instead of Chrome", () => {

@@ -1,0 +1,81 @@
+import * as NodeStream from "@effect/platform-node/NodeStream"
+import * as Effect from "effect/Effect"
+import * as Schema from "effect/Schema"
+
+import {
+  type OpenMediaFile,
+  closeMediaFileHandle,
+  createMediaFileReadStream,
+  openValidatedMediaFile,
+  readMediaFileHandleHeader,
+  statMediaFileHandle,
+} from "./MediaFile.platform.ts"
+
+export type { OpenMediaFile }
+
+export class MediaFileOpenError extends Schema.TaggedError<MediaFileOpenError>()("MediaFileOpenError", {
+  path: Schema.String,
+  cause: Schema.Defect(),
+}) {
+  override get message(): string {
+    return `Failed to open media file '${this.path}'.`
+  }
+}
+
+export class MediaFileReadError extends Schema.TaggedError<MediaFileReadError>()("MediaFileReadError", {
+  path: Schema.String,
+  cause: Schema.Defect(),
+}) {
+  override get message(): string {
+    return `Failed to read media file '${this.path}'.`
+  }
+}
+
+export class MediaFileStatError extends Schema.TaggedError<MediaFileStatError>()("MediaFileStatError", {
+  path: Schema.String,
+  cause: Schema.Defect(),
+}) {
+  override get message(): string {
+    return `Failed to read metadata for media file '${this.path}'.`
+  }
+}
+
+export const openMediaFile = Effect.fn("openMediaFile")(function*(
+  filePath: string,
+  identity?: { readonly device: string; readonly inode: string },
+) {
+  return yield* Effect.acquireRelease(
+    Effect.tryPromise({
+      try: () => openValidatedMediaFile(filePath, identity),
+      catch: (cause) => new MediaFileOpenError({ path: filePath, cause }),
+    }),
+    (file) => (file ? Effect.promise(() => closeMediaFileHandle(file)) : Effect.void),
+  )
+})
+
+export const readMediaFileHeader = (filePath: string, file: OpenMediaFile, byteCount: number) =>
+  Effect.tryPromise({
+    try: () => readMediaFileHandleHeader(file, byteCount),
+    catch: (cause) => new MediaFileReadError({ path: filePath, cause }),
+  })
+
+export const statMediaFile = Effect.fn("statMediaFile")(function*(
+  filePath: string,
+  file: OpenMediaFile,
+) {
+  return yield* Effect.tryPromise({
+    try: () => statMediaFileHandle(file),
+    catch: (cause) => new MediaFileStatError({ path: filePath, cause }),
+  })
+})
+
+export const streamMediaFile = (file: OpenMediaFile, offset: bigint, bytesToRead: bigint) => {
+  const start = Number(offset)
+  const end = Number(offset + bytesToRead - 1n)
+  if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start < 0 || end < start) {
+    return null
+  }
+  return NodeStream.fromReadable<Uint8Array>({
+    evaluate: () => createMediaFileReadStream(file, start, end),
+  })
+}

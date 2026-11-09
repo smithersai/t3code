@@ -8,11 +8,11 @@ import {
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as PullRequestService from "../pullRequest/PullRequestService.ts";
+import * as PullRequestService from "../pullRequest/PullRequestService.vibe";
 import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.vibe";
-import * as WorkspaceEntries from "../workspace/WorkspaceEntries.ts";
+import * as WorkspaceEntries from "../workspace/WorkspaceEntries.vibe";
 import * as CheckpointCapture from "./CheckpointCaptureService.vibe";
-import * as ProjectionStore from "./ProjectionStore.ts";
+import * as ProjectionStore from "./ProjectionStore.vibe";
 import * as RunFinalization from "./RunFinalizationService.vibe";
 
 it.effect("completes finalization when the post-checkpoint workspace refresh fails", () => {

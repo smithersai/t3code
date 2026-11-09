@@ -13,7 +13,7 @@ import * as DatabaseMaintenance from "./DatabaseMaintenance.vibe";
 import * as Sqlite from "./Sqlite.vibe";
 import * as EventStore from "../orchestration-v2/EventStore.vibe";
 import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.vibe";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 
 it.layer(DatabaseMaintenance.layer.pipe(Layer.provideMerge(NodeServices.layer)))(
   "DatabaseMaintenance",

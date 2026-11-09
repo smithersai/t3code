@@ -21,7 +21,7 @@ import {
 import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import { refreshPushedPullRequests } from "./refreshPushedPullRequests.vibe";
-import * as PullRequestService from "../pullRequest/PullRequestService.ts";
+import * as PullRequestService from "../pullRequest/PullRequestService.vibe";
 import { createdPullRequestKey, linkCreatedPullRequest } from "./linkCreatedPullRequest.vibe";
 
 const PROJECT_ID = ProjectId.make("project-1");

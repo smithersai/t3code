@@ -7,11 +7,11 @@ import * as Layer from "effect/Layer";
 import { McpServer } from "effect/ai";
 
 import { ServerSecretStore } from "../auth/ServerSecretStore.vibe";
-import { ServerConfig } from "../config.ts";
+import { ServerConfig } from "../config.vibe";
 import { DeviceService } from "../device/DeviceService.vibe";
 import { ServerEnvironment } from "../environment/ServerEnvironment.vibe";
 import { GitWorkflowService } from "../git/GitWorkflowService.vibe";
-import * as McpHttpServer from "../mcp/McpHttpServer.ts";
+import * as McpHttpServer from "../mcp/McpHttpServer.vibe";
 import { PreviewAutomationBroker } from "../mcp/PreviewAutomationBroker.vibe";
 import {
   CLAUDE_PROVIDER,
@@ -19,28 +19,28 @@ import {
 } from "../orchestration-v2/Adapters/ClaudeAdapterV2.ts";
 import { OrchestratorV2 } from "../orchestration-v2/Orchestrator.vibe";
 import { ProviderAdapterRegistryV2 } from "../orchestration-v2/ProviderAdapterRegistry.vibe";
-import { ThreadLaunchService } from "../orchestration-v2/ThreadLaunchService.ts";
+import { ThreadLaunchService } from "../orchestration-v2/ThreadLaunchService.vibe";
 import { ThreadManagementService } from "../orchestration-v2/ThreadManagementService.vibe";
 import { ThreadSearch } from "../orchestration-v2/ThreadSearch.vibe";
 import { PeerForwarding } from "../peer/PeerForwarding.vibe";
 import { PeerLinkRequests } from "../peer/PeerLinkRequests.vibe";
-import { PeerLinks } from "../peer/PeerLinks.ts";
+import { PeerLinks } from "../peer/PeerLinks.vibe";
 import { RemoteDelegation } from "../peer/RemoteDelegation.vibe";
 import { PreviewManager } from "../preview/Manager.vibe";
 import { PreviewBrowser } from "../preview/PreviewBrowser.vibe";
 import { ManagedProjectFolders } from "../project/ManagedProjectFolders.vibe";
 import { ProjectService } from "../project/ProjectService.ts";
-import { ProjectSetupScriptRunner } from "../project/ProjectSetupScriptRunner.ts";
-import { PullRequestReviewGuideService } from "../pullRequest/PullRequestReviewGuideService.ts";
-import { ScheduledTaskService } from "../scheduledTasks/ScheduledTaskService.ts";
-import { SecretRequests } from "../secrets/SecretRequests.ts";
-import { ServerSettingsService } from "../serverSettings.ts";
-import { SourceControlRepositoryService } from "../sourceControl/SourceControlRepositoryService.ts";
-import { GitVcsDriver } from "../vcs/GitVcsDriver.ts";
+import { ProjectSetupScriptRunner } from "../project/ProjectSetupScriptRunner.vibe";
+import { PullRequestReviewGuideService } from "../pullRequest/PullRequestReviewGuideService.vibe";
+import { ScheduledTaskService } from "../scheduledTasks/ScheduledTaskService.vibe";
+import { SecretRequests } from "../secrets/SecretRequests.vibe";
+import { ServerSettingsService } from "../serverSettings.vibe";
+import { SourceControlRepositoryService } from "../sourceControl/SourceControlRepositoryService.vibe";
+import { GitVcsDriver } from "../vcs/GitVcsDriver.vibe";
 import { VcsStatusBroadcaster } from "../vcs/VcsStatusBroadcaster.vibe";
 import { buildCodexAdditionalContext } from "./CodexDeveloperInstructions.ts";
-import { DocumentText } from "./DocumentText.ts";
-import { ProviderRegistry } from "./ProviderRegistry.ts";
+import { DocumentText } from "./DocumentText.vibe";
+import { ProviderRegistry } from "./ProviderRegistry.vibe";
 import budget from "./agentContextBudget.json" with { type: "json" };
 import * as Crypto from "@t3tools/shared/Crypto";
 

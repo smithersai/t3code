@@ -24,7 +24,7 @@ import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
 import * as GitManager from "../git/GitManager.vibe";
 import * as ProjectStore from "./ProjectStore.vibe";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
-import * as PullRequestService from "../pullRequest/PullRequestService.ts";
+import * as PullRequestService from "../pullRequest/PullRequestService.vibe";
 import * as ServerActivation from "../serverActivation.vibe";
 import * as Orchestrator from "./Orchestrator.vibe";
 import * as ThreadPullRequestService from "./ThreadPullRequestService.vibe";

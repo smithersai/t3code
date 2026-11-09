@@ -21,8 +21,8 @@ import {
 } from "@t3tools/source-control-core/server/discovery"
 import * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost"
 
-import * as ServerConfig from "../config.ts"
-import * as ServerSettings from "../serverSettings.ts"
+import * as ServerConfig from "../config.vibe"
+import * as ServerSettings from "../serverSettings.vibe"
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe"
 
 const PROVIDER_DETECTION_CACHE_CAPACITY = 2_048

@@ -36,14 +36,14 @@ import Migration0046 from "../../persistence/Migrations/046_RepairAutomaticSettl
 import Migration0047 from "../../persistence/Migrations/047_ProjectionProjectIcon.vibe";
 import Migration0048 from "../../persistence/Migrations/048_ProjectionThreadBranchPullRequest.vibe";
 import Migration0049 from "../../persistence/Migrations/049_ProjectionThreadsActiveOrderKey.vibe";
-import { CodexProviderCapabilitiesV2 } from "../Adapters/CodexAdapterV2.ts";
-import * as EffectWorker from "../EffectWorker.ts";
+import { CodexProviderCapabilitiesV2 } from "../Adapters/CodexAdapterV2.vibe";
+import * as EffectWorker from "../EffectWorker.vibe";
 import * as EventSink from "../EventSink.ts";
 import * as EventStore from "../EventStore.vibe";
-import * as LegacyV1ThreadImporter from "./LegacyV1ThreadImporter.ts";
+import * as LegacyV1ThreadImporter from "./LegacyV1ThreadImporter.vibe";
 import * as Orchestrator from "../Orchestrator.vibe";
 import * as ProjectionMaintenance from "../ProjectionMaintenance.vibe";
-import * as ProjectionStore from "../ProjectionStore.ts";
+import * as ProjectionStore from "../ProjectionStore.vibe";
 import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import * as ProviderReplayHarness from "../testkit/ProviderReplayHarness.ts";
 import { checkpointWorkspace } from "@t3tools/provider-testing/replayWorkspace";

@@ -19,7 +19,7 @@ import * as Layer from "effect/Layer"
 import * as Scope from "effect/Scope"
 import * as Stream from "effect/Stream"
 
-import * as SourceControlRepositoryService from "../sourceControl/SourceControlRepositoryService.ts"
+import * as SourceControlRepositoryService from "../sourceControl/SourceControlRepositoryService.vibe"
 
 export service ProjectCloneTracker: {
   readonly start: (

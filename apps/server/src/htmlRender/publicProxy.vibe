@@ -1,0 +1,8 @@
+import * as Effect from "effect/Effect"
+
+import { closePublicProxy, listenPublicProxy, publicProxyPort } from "./publicProxy.platform.ts"
+
+/** Covers requests Chrome's Local Network Access misses, including speculation prefetches. */
+export const publicProxy = Effect.acquireRelease(listenPublicProxy, closePublicProxy).pipe(
+  Effect.map(({ server }) => publicProxyPort(server)),
+)

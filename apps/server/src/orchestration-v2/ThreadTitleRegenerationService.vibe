@@ -13,7 +13,7 @@ import * as Context from "effect/Context"
 import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 
-import * as ServerSettings from "../serverSettings.ts"
+import * as ServerSettings from "../serverSettings.vibe"
 import * as TextGeneration from "../textGeneration/TextGeneration.vibe"
 import type { OrchestratorV2Error } from "./Orchestrator.vibe"
 import * as ProjectStore from "./ProjectStore.vibe"

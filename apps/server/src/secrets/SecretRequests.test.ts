@@ -20,7 +20,7 @@ import * as TestClock from "effect/testing/TestClock";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
-import * as SecretRequests from "./SecretRequests.ts";
+import * as SecretRequests from "./SecretRequests.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const threadId = ThreadId.make("thread-orchestrator");

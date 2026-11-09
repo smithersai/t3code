@@ -23,7 +23,7 @@ import {
   ScheduledTaskService,
   type WebhookTriggerRequest,
   type WebhookTriggerResult,
-} from "./ScheduledTaskService.ts";
+} from "./ScheduledTaskService.vibe";
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import { CLOUD_MINT_PUBLIC_KEY, RELAY_ISSUER_SECRET } from "../cloud/config.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";

@@ -5,11 +5,11 @@ import * as Layer from "effect/Layer";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as FileSystem from "effect/FileSystem";
 
-import * as ServerConfig from "../config.ts";
-import * as VcsProcess from "../vcs/VcsProcess.ts";
+import * as ServerConfig from "../config.vibe";
+import * as VcsProcess from "../vcs/VcsProcess.vibe";
 import * as GitManager from "./GitManager.vibe";
 import * as GitWorkflowService from "./GitWorkflowService.vibe";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

@@ -17,9 +17,9 @@ import * as Option from "effect/Option";
 
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ProjectStore from "./ProjectStore.vibe";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
 import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as EventSink from "./EventSink.ts";

@@ -27,17 +27,17 @@ import * as Stream from "effect/Stream";
 import type { BrowserContext, Page } from "playwright-core";
 import { beforeEach, expect, vi } from "vite-plus/test";
 
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as Broker from "../mcp/PreviewAutomationBroker.vibe";
-import * as DesktopChannel from "./DesktopBrowserChannel.ts";
+import * as DesktopChannel from "./DesktopBrowserChannel.vibe";
 import * as Manager from "./Manager.vibe";
 import * as PreviewAgentActivity from "./PreviewAgentActivity.vibe";
 import * as ServerBrowser from "./ServerBrowser.ts";
 import * as PreviewBrowser from "./PreviewBrowser.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
-vi.mock("./ServerBrowserContexts.ts", () => ({
+vi.mock("./ServerBrowserContexts.vibe", () => ({
   presentAsChrome: async () => {},
   ServerBrowserContexts: class {
     private readonly onClose: ((context: BrowserContext) => void) | undefined;

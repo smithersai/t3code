@@ -11,7 +11,7 @@ import {
 import * as Schema from "effect/Schema"
 import * as FileSystem from "effect/FileSystem"
 import * as Path from "effect/Path"
-import * as ServerConfig from "../../../config.ts"
+import * as ServerConfig from "../../../config.vibe"
 
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 import * as DeviceService from "../../../device/DeviceService.vibe"

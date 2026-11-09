@@ -6,8 +6,8 @@ import * as FileSystem from "effect/FileSystem"
 import * as Layer from "effect/Layer"
 import * as Path from "effect/Path"
 import * as KeyValueStore from "effect/persistence/KeyValueStore"
-import * as ServerConfig from "../config.ts"
-import { detachStackFrame } from "../git/detachStackFrame.ts"
+import * as ServerConfig from "../config.vibe"
+import { detachStackFrame } from "../git/detachStackFrame.vibe"
 import { forkParked } from "../serverActivation.vibe"
 
 const CONCURRENT_READS = 512

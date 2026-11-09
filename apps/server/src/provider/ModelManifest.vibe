@@ -8,8 +8,8 @@ import * as Schema from "effect/Schema"
 import { HttpClient } from "effect/http"
 
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite"
-import { ServerConfig } from "../config.ts"
-import * as ServerSettings from "../serverSettings.ts"
+import { ServerConfig } from "../config.vibe"
+import * as ServerSettings from "../serverSettings.vibe"
 import { hasValidClaudeManifestAdapters } from "./ClaudeModelManifest.vibe"
 import bundledManifestJson from "./model-manifest.json" with { type: "json" }
 import { ProviderCompatibilityPolicy } from "./providerCompatibility.vibe"

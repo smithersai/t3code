@@ -28,10 +28,10 @@ import * as SynchronizedRef from "effect/SynchronizedRef";
 import { expect, vi } from "vite-plus/test";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import * as ProcessRunner from "../processRunner.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ProcessRunner from "../processRunner.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as TerminalManager from "./Manager.vibe";
 import { terminalOutputStream } from "./OutputProtocol.vibe";
 import * as PtyAdapter from "@t3tools/shared/PtyAdapter";

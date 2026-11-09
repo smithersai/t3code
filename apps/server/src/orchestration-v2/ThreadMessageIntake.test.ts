@@ -1,4 +1,4 @@
-import * as DocumentText from "../provider/DocumentText.ts";
+import * as DocumentText from "../provider/DocumentText.vibe";
 // @effect-diagnostics nodeBuiltinImport:off
 import * as NodeFS from "node:fs";
 import * as NodePath from "node:path";
@@ -26,8 +26,8 @@ import {
   createPendingAttachmentId,
   resolveAttachmentPath,
 } from "../attachmentStore.ts";
-import * as ServerConfig from "../config.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 import {
   OrchestratorCommandPreviouslyRejectedError,
   OrchestratorDispatchError,

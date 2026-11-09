@@ -1,10 +1,10 @@
 import * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost"
 import * as Layer from "effect/Layer"
 
-import * as ServerSettings from "../serverSettings.ts"
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts"
+import * as ServerSettings from "../serverSettings.vibe"
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe"
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe"
-import * as VcsProcess from "../vcs/VcsProcess.ts"
+import * as VcsProcess from "../vcs/VcsProcess.vibe"
 
 export const layer = Layer.effect(
   SourceControlHost.SourceControlHost,

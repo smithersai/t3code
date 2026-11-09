@@ -19,7 +19,7 @@ import type {
 } from "@t3tools/contracts";
 import { DEFAULT_SERVER_SETTINGS } from "@t3tools/contracts/settings";
 import type { ServerSettings } from "@t3tools/contracts";
-import * as ServerSettingsService from "../serverSettings.ts";
+import * as ServerSettingsService from "../serverSettings.vibe";
 import { PullRequestOperationError } from "@t3tools/contracts";
 
 import * as ProjectService from "../project/ProjectService.ts";
@@ -37,7 +37,7 @@ import {
   type PullRequestProviderApi,
 } from "@t3tools/source-control-core/server/PullRequestProvider";
 import * as PullRequestProviderRegistry from "./PullRequestProviderRegistry.vibe";
-import * as PullRequestService from "./PullRequestService.ts";
+import * as PullRequestService from "./PullRequestService.vibe";
 import * as PullRequestReadCache from "./PullRequestReadCache.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

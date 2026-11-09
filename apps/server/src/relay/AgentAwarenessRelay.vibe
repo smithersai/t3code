@@ -41,7 +41,7 @@ import {
   RELAY_ISSUER_SECRET,
   RELAY_URL_SECRET,
 } from "../cloud/config.vibe"
-import { getOrCreateEnvironmentKeyPairFromSecretStore } from "../cloud/environmentKeys.ts"
+import { getOrCreateEnvironmentKeyPairFromSecretStore } from "../cloud/environmentKeys.vibe"
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe"
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe"
 import * as ProjectService from "../project/ProjectService.ts"

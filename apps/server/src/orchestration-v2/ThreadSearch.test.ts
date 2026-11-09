@@ -20,7 +20,7 @@ import * as Path from "effect/Path";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import * as ProjectionStore from "./ProjectionStore.ts";
+import * as ProjectionStore from "./ProjectionStore.vibe";
 import * as ProjectStore from "./ProjectStore.vibe";
 import * as ThreadSearch from "./ThreadSearch.vibe";
 

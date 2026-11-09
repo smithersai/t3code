@@ -3,7 +3,7 @@ import * as Schema from "effect/Schema"
 import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
 import { resolveAttachmentPath } from "../attachmentStore.ts"
-import * as DocumentText from "./DocumentText.ts"
+import * as DocumentText from "./DocumentText.vibe"
 class UserInputAttachmentError extends Schema.TaggedError<UserInputAttachmentError>()(
   "UserInputAttachmentError",
   {

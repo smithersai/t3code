@@ -27,7 +27,7 @@ import {
   shellStreamItemsFromInitialSnapshot,
   shouldPublishShellApplicationEvent,
   skipUnchangedThreadShells,
-} from "./ShellStream.ts";
+} from "./ShellStream.vibe";
 
 const emptyShellSnapshot = {
   schemaVersion: 1,

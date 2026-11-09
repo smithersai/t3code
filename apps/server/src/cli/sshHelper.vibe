@@ -1,0 +1,36 @@
+import * as Effect from "effect/Effect"
+import { Argument, Command } from "effect/cli"
+
+import { findFreePort, waitUntilReady, writeRuntimePort } from "./sshHelper.platform.ts"
+
+const pickPort = Command.make("pick-port", {
+  portFile: Argument.String("port-file"),
+  defaultPort: Argument.Int("default-port"),
+  scanWindow: Argument.Int("scan-window"),
+}).pipe(
+  Command.withHandler(({ portFile, defaultPort, scanWindow }) =>
+    Effect.promise(() => findFreePort(portFile, defaultPort, scanWindow))
+  ),
+)
+
+const waitReady = Command.make("wait-ready", {
+  port: Argument.Int("port"),
+  timeoutMs: Argument.Int("timeout-ms"),
+  probeTimeoutMs: Argument.Int("probe-timeout-ms"),
+}).pipe(
+  Command.withHandler(({ port, timeoutMs, probeTimeoutMs }) =>
+    Effect.promise(() => waitUntilReady(port, timeoutMs, probeTimeoutMs))
+  ),
+)
+
+/** Prints `<pid> <port>` for a live default-home server, or exits 1. */
+const runtimePort = Command.make("runtime-port", {
+  runtimeFile: Argument.String("runtime-file"),
+}).pipe(
+  Command.withHandler(({ runtimeFile }) => Effect.sync(() => writeRuntimePort(runtimeFile))),
+)
+
+export const sshHelperCommand = Command.make("__ssh-helper").pipe(
+  Command.unlisted,
+  Command.withSubcommands([pickPort, waitReady, runtimePort]),
+)

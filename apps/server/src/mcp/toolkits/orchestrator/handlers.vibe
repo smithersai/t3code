@@ -3,7 +3,7 @@ import { OrchestratorToolkit } from "./tools.vibe"
 
 import * as PeerForwarding from "../../../peer/PeerForwarding.vibe"
 import * as PeerLinkRequests from "../../../peer/PeerLinkRequests.vibe"
-import * as PeerLinks from "../../../peer/PeerLinks.ts"
+import * as PeerLinks from "../../../peer/PeerLinks.vibe"
 import { readCaller } from "../../threadAccess.vibe"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 import * as McpToolAccess from "../../McpToolAccess.ts"

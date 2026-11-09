@@ -30,7 +30,7 @@ import {
 } from "@t3tools/contracts"
 
 import * as GitManager from "./GitManager.vibe"
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts"
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe"
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe"
 import { withWorkspaceLease } from "../workspace/workspaceLease.vibe"
 

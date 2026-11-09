@@ -6,7 +6,7 @@ import * as Schema from "effect/Schema";
 import { HttpClient } from "effect/http";
 
 import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as UsageLimitSources from "./UsageLimitSources.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

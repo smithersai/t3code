@@ -9,7 +9,7 @@ import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
 import * as PlatformError from "effect/PlatformError";
 
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as ServerSecretStore from "./ServerSecretStore.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

@@ -12,12 +12,12 @@ import { Command } from "effect/cli";
 import { afterEach, vi } from "vite-plus/test";
 
 import packageJson from "../../package.json" with { type: "json" };
-import * as BootService from "../cloud/bootService.ts";
+import * as BootService from "../cloud/bootService.vibe";
 import {
   offerServiceDuringOnboarding,
   recoverServiceOnboardingOffer,
   serviceCommand,
-} from "./service.ts";
+} from "./service.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 afterEach(() => vi.restoreAllMocks());

@@ -5,9 +5,9 @@ import * as Layer from "effect/Layer"
 import * as Metric from "effect/Metric"
 import * as Ref from "effect/Ref"
 
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 import { metricAttributes } from "../observability/Metrics.vibe"
-import * as ResourceTelemetry from "./ResourceTelemetry.ts"
+import * as ResourceTelemetry from "./ResourceTelemetry.vibe"
 
 const SAMPLE_INTERVAL = "1 minute"
 

@@ -12,7 +12,7 @@ import type {
   VcsRepositoryIdentity,
 } from "@t3tools/contracts"
 import { CheckpointRef } from "@t3tools/contracts"
-import * as VcsProcess from "./VcsProcess.ts"
+import * as VcsProcess from "./VcsProcess.vibe"
 
 export interface VcsCaptureCheckpointInput {
   readonly cwd: string

@@ -4,7 +4,7 @@ import { it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import { describe, expect } from "vite-plus/test";
 
-import { requireDesktopTelemetryWriteProgress } from "./DesktopTelemetryReceiver.ts";
+import { requireDesktopTelemetryWriteProgress } from "./DesktopTelemetryReceiver.vibe";
 
 describe("DesktopTelemetryReceiver", () => {
   it.effect("models a zero-byte control write as a stalled descriptor", () =>

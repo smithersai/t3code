@@ -10,9 +10,9 @@ import * as Stream from "effect/Stream";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as DeviceHost from "./DeviceHost.vibe";
-import * as SshDeviceHost from "./SshDeviceHost.ts";
+import * as SshDeviceHost from "./SshDeviceHost.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 it.effect("preserves installed status after probes and cleans failed agent activation", () =>

@@ -15,7 +15,7 @@ import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 import { Command, Flag } from "effect/cli";
 
-import * as ProjectionStore from "../src/orchestration-v2/ProjectionStore.ts";
+import * as ProjectionStore from "../src/orchestration-v2/ProjectionStore.vibe";
 import { rebuildMessageSearch } from "../src/orchestration-v2/messageSearchIndex.vibe";
 import { migrationManifest, runMigrations } from "../src/persistence/Migrations.vibe";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";

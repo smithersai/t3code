@@ -6,10 +6,10 @@ import * as Schema from "effect/Schema";
 import { Command, GlobalFlag } from "effect/cli";
 import * as CliError from "effect/cli/CliError";
 
-import * as ServerConfig from "../config.ts";
-import { awaitLauncherLoss } from "../launcherWatch.ts";
-import { runServer } from "../server.ts";
-import { type CliServerFlags, resolveServerConfig, sharedServerCommandFlags } from "./config.ts";
+import * as ServerConfig from "../config.vibe";
+import { awaitLauncherLoss } from "../launcherWatch.vibe";
+import { runServer } from "../server.vibe";
+import { type CliServerFlags, resolveServerConfig, sharedServerCommandFlags } from "./config.vibe";
 
 const encodeCommand = Schema.encodeEffect(Schema.fromJsonString(Schema.String));
 

@@ -34,7 +34,7 @@ import {
   RELAY_URL_SECRET,
 } from "../cloud/config.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as AgentAwarenessRelay from "./AgentAwarenessRelay.vibe";

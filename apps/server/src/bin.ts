@@ -33,10 +33,10 @@ if (
       process.exitCode = 2;
     }
   } else if (command === "__managed-chatgpt-token") {
-    const { runManagedChatGptTokenCli } = await import("./cli/managedChatGptToken.ts");
+    const { runManagedChatGptTokenCli } = await import("./cli/managedChatGptToken.vibe");
     await runManagedChatGptTokenCli(process.argv.slice(3));
   } else if (command === "acp-mcp-bridge" || command === "acp-mcp-call") {
-    const { runAcpMcpCliFastPath } = await import("./mcp/AcpMcpStdioBridge.ts");
+    const { runAcpMcpCliFastPath } = await import("./mcp/AcpMcpStdioBridge.vibe");
     await runAcpMcpCliFastPath(command, process.argv.slice(3));
   } else {
     // Windows desktop launches without stdin; attach before reading, except on fast paths using pipes.

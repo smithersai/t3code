@@ -6,7 +6,7 @@ import * as FileSystem from "effect/FileSystem"
 import * as Option from "effect/Option"
 import * as Path from "effect/Path"
 
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 import { SERVICE_STATE_FILE, SERVICE_STOP_MARKER_FILE, serviceStateHasPendingUpdate } from "./serviceProtocol.ts"
 
 const DESKTOP_UPDATE_RESTART_MARKER_TTL = Duration.minutes(1)

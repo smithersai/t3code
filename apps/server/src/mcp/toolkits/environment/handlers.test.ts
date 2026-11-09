@@ -16,7 +16,7 @@ import * as Stream from "effect/Stream";
 import * as Environment from "../../../environment/ServerEnvironment.vibe";
 import * as ThreadCommandExecutor from "../../../orchestration-v2/ThreadCommandExecutor.vibe";
 import * as ThreadManagement from "../../../orchestration-v2/ThreadManagementService.vibe";
-import * as Settings from "../../../serverSettings.ts";
+import * as Settings from "../../../serverSettings.vibe";
 import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import { liveThreadShell } from "../../McpToolAccess.testkit.ts";

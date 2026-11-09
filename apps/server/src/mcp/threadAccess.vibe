@@ -1,4 +1,4 @@
-import type { ProjectionRecordField } from "../orchestration-v2/ProjectionStore.ts"
+import type { ProjectionRecordField } from "../orchestration-v2/ProjectionStore.vibe"
 import {
   CommandId,
   OrchestratorMcpFailure,

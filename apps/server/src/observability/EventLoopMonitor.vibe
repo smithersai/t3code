@@ -13,7 +13,7 @@ import * as Schema from "effect/Schema"
 import type * as Scope from "effect/Scope"
 import * as Semaphore from "effect/Semaphore"
 
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 import * as Metrics from "./Metrics.vibe"
 
 const STALL_THRESHOLD_MS = 2000

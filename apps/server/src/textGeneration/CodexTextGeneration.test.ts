@@ -14,10 +14,10 @@ import { expect } from "vite-plus/test";
 
 import { CodexSettings, ProviderInstanceId } from "@t3tools/contracts";
 
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import { makeProcessProbe, processProbeSource } from "../testUtils/processProbe.ts";
 import * as TextGeneration from "./TextGeneration.vibe";
-import { makeCodexTextGeneration } from "./CodexTextGeneration.ts";
+import { makeCodexTextGeneration } from "./CodexTextGeneration.vibe";
 import { writeFakeCli } from "@t3tools/provider-testing/fakeCli";
 const decodeCodexSettings = Schema.decodeSync(CodexSettings);
 

@@ -5,7 +5,7 @@ import * as FileSystem from "effect/FileSystem"
 import * as Path from "effect/Path"
 import * as Schema from "effect/Schema"
 
-import * as ProcessRunner from "../processRunner.ts"
+import * as ProcessRunner from "../processRunner.vibe"
 import DEVICE_TOOL_VERSIONS from "./deviceToolVersions.json" with { type: "json" }
 
 const DEVICE_HUB_PACKAGE = "expo-device-hub"

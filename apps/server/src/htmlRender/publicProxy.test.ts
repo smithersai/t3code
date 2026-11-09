@@ -5,7 +5,7 @@ import * as Effect from "effect/Effect";
 import * as NodeNet from "node:net";
 import * as NodeOS from "node:os";
 
-import { publicProxy } from "./publicProxy.ts";
+import { publicProxy } from "./publicProxy.vibe";
 
 const OWN_PUBLIC_IPV4 = "198.51.100.7";
 vi.mock("node:os", async (importOriginal) => {

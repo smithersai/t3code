@@ -16,7 +16,7 @@ import { resolveAttachmentPath } from "../../attachmentStore.ts";
 import {
   applyAntigravityAcpModelSelection,
   buildAntigravityPrompt,
-} from "./AntigravityAcpSupport.ts";
+} from "./AntigravityAcpSupport.vibe";
 
 const modelConfig = {
   id: "model",

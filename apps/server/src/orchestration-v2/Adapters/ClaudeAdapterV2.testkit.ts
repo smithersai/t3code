@@ -27,13 +27,13 @@ import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 
-import * as ServerConfig from "../../config.ts";
+import * as ServerConfig from "../../config.vibe";
 import {
   isWindowsClaudeLauncherShimPath,
   resolveClaudeSdkExecutablePath,
-} from "../../provider/Drivers/ClaudeExecutable.ts";
+} from "../../provider/Drivers/ClaudeExecutable.vibe";
 import * as ClaudeAdapterV2 from "./ClaudeAdapterV2.ts";
-import { claudeTaskOutputRoot } from "./ClaudeTaskOutputTail.ts";
+import { claudeTaskOutputRoot } from "./ClaudeTaskOutputTail.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { ProviderAdapterDriverCreateError } from "@t3tools/provider-core/server/adapterDriver";
 import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";

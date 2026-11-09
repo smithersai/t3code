@@ -1,5 +1,5 @@
-import * as CodexInstallation from "../CodexInstallation.ts";
-import * as CodexManagedTokenBroker from "../CodexManagedTokenBroker.ts";
+import * as CodexInstallation from "../CodexInstallation.vibe";
+import * as CodexManagedTokenBroker from "../CodexManagedTokenBroker.vibe";
 import * as ServerSecretStore from "../../auth/ServerSecretStore.vibe";
 import * as ServerEnvironment from "../../environment/ServerEnvironment.vibe";
 // @effect-diagnostics nodeBuiltinImport:off
@@ -24,8 +24,8 @@ import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import * as BackgroundPolicy from "../../background/BackgroundPolicy.vibe";
-import * as ServerConfig from "../../config.ts";
-import * as ServerSettings from "../../serverSettings.ts";
+import * as ServerConfig from "../../config.vibe";
+import * as ServerSettings from "../../serverSettings.vibe";
 import * as ResetCreditCoordinator from "../resetCreditCoordinator.vibe";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
@@ -35,8 +35,8 @@ import {
   createProviderVersionAdvisory,
   resolveLatestProviderVersion,
 } from "@t3tools/provider-core/server/maintenanceResolver";
-import { CodexDriver } from "./CodexDriver.ts";
-import * as CodexAdapterV2 from "../../orchestration-v2/Adapters/CodexAdapterV2.ts";
+import { CodexDriver } from "./CodexDriver.vibe";
+import * as CodexAdapterV2 from "../../orchestration-v2/Adapters/CodexAdapterV2.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProviderCredentialStore from "../ProviderCredentialStore.vibe";

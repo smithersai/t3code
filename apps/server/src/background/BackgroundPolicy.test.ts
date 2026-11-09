@@ -14,7 +14,7 @@ import * as PubSub from "effect/PubSub";
 import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as BackgroundPolicy from "./BackgroundPolicy.vibe";
 import * as HostPowerMonitor from "./HostPowerMonitor.vibe";
 

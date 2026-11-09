@@ -5,8 +5,8 @@ import * as Path from "effect/Path"
 
 import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion"
 
-import * as ServerConfig from "./config.ts"
-import * as ServerSettings from "./serverSettings.ts"
+import * as ServerConfig from "./config.vibe"
+import * as ServerSettings from "./serverSettings.vibe"
 
 /** Null for filesystem roots or settings not absolute on this host, including synced foreign-platform paths. */
 export function resolveWorktreesDirectory(

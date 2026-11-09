@@ -13,11 +13,11 @@ import {
   failEnvironmentInvalidRequest,
   failEnvironmentNotFound,
   requireEnvironmentScope,
-} from "../auth/http.ts"
+} from "../auth/http.vibe"
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe"
 import { traceLocalHandlerWork } from "../cloud/traceRelayRequest.vibe"
-import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.ts"
-import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts"
+import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.vibe"
+import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.vibe"
 import {
   buildBoundedThreadProjection,
   decodeThreadHistoryCursor,
@@ -28,7 +28,7 @@ import {
 } from "./threadHistoryPaging.ts"
 import * as ThreadManagementService from "./ThreadManagementService.vibe"
 import * as ProjectStore from "./ProjectStore.vibe"
-import { buildActiveShellSnapshot, loadShellSnapshotParts, shellSnapshotForSubscriber } from "./ShellStream.ts"
+import { buildActiveShellSnapshot, loadShellSnapshotParts, shellSnapshotForSubscriber } from "./ShellStream.vibe"
 import { boundedSnapshotResponseFields } from "./ThreadStream.ts"
 import { projectThreadProjectionForWire } from "./WireProjection.ts"
 

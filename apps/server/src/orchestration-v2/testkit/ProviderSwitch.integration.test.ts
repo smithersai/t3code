@@ -44,16 +44,16 @@ import {
 import {
   CodexProviderCapabilitiesV2,
   canReuseCodexContextUsage,
-} from "../Adapters/CodexAdapterV2.ts";
+} from "../Adapters/CodexAdapterV2.vibe";
 import { AcpProviderCapabilitiesV2 } from "@t3tools/provider-acp/server/adapter";
 import * as EventSink from "../EventSink.ts";
 import * as EventStore from "../EventStore.vibe";
-import * as LegacyV1ThreadImporter from "../legacy/LegacyV1ThreadImporter.ts";
+import * as LegacyV1ThreadImporter from "../legacy/LegacyV1ThreadImporter.vibe";
 import * as Orchestrator from "../Orchestrator.vibe";
-import * as EffectWorker from "../EffectWorker.ts";
+import * as EffectWorker from "../EffectWorker.vibe";
 import * as EffectOutbox from "../EffectOutbox.vibe";
 import * as ProjectionMaintenance from "../ProjectionMaintenance.vibe";
-import * as ProjectionStore from "../ProjectionStore.ts";
+import * as ProjectionStore from "../ProjectionStore.vibe";
 import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
 import {

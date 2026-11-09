@@ -35,8 +35,8 @@ import * as SqlClient from "effect/sql/SqlClient";
 import { projectThreadAwarenessV2 } from "@t3tools/shared/agentAwareness";
 
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
 import {
   buildBoundedThreadProjection,
   decodeThreadHistoryCursor,

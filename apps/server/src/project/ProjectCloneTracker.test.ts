@@ -13,7 +13,7 @@ import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as SourceControlRepositoryService from "../sourceControl/SourceControlRepositoryService.ts";
+import * as SourceControlRepositoryService from "../sourceControl/SourceControlRepositoryService.vibe";
 import * as ProjectCloneTracker from "./ProjectCloneTracker.vibe";
 import { parseGitCloneProgressLine } from "./gitCloneProgress.ts";
 

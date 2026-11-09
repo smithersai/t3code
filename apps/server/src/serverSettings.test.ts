@@ -25,10 +25,10 @@ import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 import * as ServerSecretStore from "./auth/ServerSecretStore.vibe";
 import { sourceControlHostSecretName } from "./sourceControl/sourceControlHostSecrets.ts";
-import * as ServerConfig from "./config.ts";
+import * as ServerConfig from "./config.vibe";
 import * as SqlitePersistence from "./persistence/Sqlite.vibe";
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite";
-import * as ServerSettingsModule from "./serverSettings.ts";
+import * as ServerSettingsModule from "./serverSettings.vibe";
 import { resolveProviderInstanceTerminalEnvironment } from "./terminal/Manager.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

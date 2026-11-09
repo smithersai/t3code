@@ -15,7 +15,7 @@ import { reportLabel } from "@t3tools/provider-core/server/notification"
 
 import { forkParked } from "../serverActivation.vibe"
 import * as Orchestrator from "./Orchestrator.vibe"
-import * as ProjectionStore from "./ProjectionStore.ts"
+import * as ProjectionStore from "./ProjectionStore.vibe"
 
 export service DelegatedTaskQuestionReactor: {
   readonly start: () => void!never!Scope.Scope;

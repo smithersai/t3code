@@ -9,7 +9,7 @@ import {
   type ServiceLauncherChildMessage,
   type ServiceLauncherParentMessage,
 } from "./serviceProtocol.ts";
-import * as ServiceLauncherClient from "./serviceLauncherClient.ts";
+import * as ServiceLauncherClient from "./serviceLauncherClient.vibe";
 
 class FakeLauncherProcess {
   readonly connected: boolean;

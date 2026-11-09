@@ -23,7 +23,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 import * as EventSink from "../orchestration-v2/EventSink.ts";
 import * as EventStore from "../orchestration-v2/EventStore.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 import {
   CLAUDE_MODEL_SELECTION,
   CODEX_MODEL_SELECTION,

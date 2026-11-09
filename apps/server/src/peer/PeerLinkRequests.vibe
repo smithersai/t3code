@@ -32,7 +32,7 @@ import * as KeyedLock from "@t3tools/shared/KeyedLock"
 
 import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe"
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe"
-import * as PeerLinks from "./PeerLinks.ts"
+import * as PeerLinks from "./PeerLinks.vibe"
 
 type LinkRequestItem = Extract<OrchestrationV2TurnItem, { readonly type: "link_request" }>
 

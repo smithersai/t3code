@@ -26,7 +26,7 @@ import {
 } from "../Adapters/CursorAdapterV2.testkit.ts";
 import * as CursorAdapterV2Testkit from "../Adapters/CursorAdapterV2.testkit.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as EffectWorker from "../EffectWorker.ts";
+import * as EffectWorker from "../EffectWorker.vibe";
 import * as SqlitePersistence from "../../persistence/Sqlite.vibe";
 import { provideDeterministicTestRuntime } from "./DeterministicRuntime.ts";
 import {

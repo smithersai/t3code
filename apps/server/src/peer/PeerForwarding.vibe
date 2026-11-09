@@ -22,7 +22,7 @@ import { assertNotLinked } from "../mcp/linkOrigin.vibe"
 import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe"
 import { readCaller, unavailable } from "../mcp/threadAccess.vibe"
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe"
-import * as PeerLinks from "./PeerLinks.ts"
+import * as PeerLinks from "./PeerLinks.vibe"
 import * as PeerMcpClient from "./PeerMcpClient.vibe"
 
 /**

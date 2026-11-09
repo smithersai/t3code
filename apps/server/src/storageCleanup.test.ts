@@ -18,17 +18,17 @@ import {
   type StorageCleanupSettings,
 } from "@t3tools/contracts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import * as ServerConfig from "./config.ts";
+import * as ServerConfig from "./config.vibe";
 import * as StorageCleanup from "./storageCleanup.vibe";
-import * as GitVcsDriver from "./vcs/GitVcsDriver.ts";
+import * as GitVcsDriver from "./vcs/GitVcsDriver.vibe";
 import * as GitManager from "./git/GitManager.vibe";
-import * as Settings from "./serverSettings.ts";
-import * as ProjectionStore from "./orchestration-v2/ProjectionStore.ts";
-import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.ts";
+import * as Settings from "./serverSettings.vibe";
+import * as ProjectionStore from "./orchestration-v2/ProjectionStore.vibe";
+import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.vibe";
 import * as ProjectStore from "./orchestration-v2/ProjectStore.vibe";
 import * as Orchestrator from "./orchestration-v2/Orchestrator.vibe";
 import * as TerminalManager from "./terminal/Manager.vibe";
-import { CodexProviderCapabilitiesV2 } from "./orchestration-v2/Adapters/CodexAdapterV2.ts";
+import { CodexProviderCapabilitiesV2 } from "./orchestration-v2/Adapters/CodexAdapterV2.vibe";
 import { ServerActivation } from "./serverActivation.vibe";
 import { describe, expect, it } from "@effect/vitest";
 import {

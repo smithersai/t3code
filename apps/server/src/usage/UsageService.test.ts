@@ -35,8 +35,8 @@ import * as TestClock from "effect/testing/TestClock";
 import * as SqlClient from "effect/sql/SqlClient";
 import { HttpClient, HttpClientError, HttpClientRequest, HttpClientResponse } from "effect/http";
 
-import * as ServerConfig from "../config.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as Sqlite from "../persistence/Sqlite.vibe";
 import * as CodexUsageHistory from "./CodexUsageHistory.vibe";
 import * as CursorAccountReader from "@t3tools/provider-cursor/server/CursorAccountReader";

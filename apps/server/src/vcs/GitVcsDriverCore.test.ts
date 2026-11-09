@@ -29,15 +29,15 @@ import {
   type WorktreeSubmodules,
 } from "@t3tools/contracts";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import {
   makeGitVcsDriverCore,
   parseGitCheckoutProgressLine,
   splitNullSeparatedGitStdoutPaths,
   windowsLongPathConfigEnv,
-} from "./GitVcsDriverCore.ts";
-import * as GitVcsDriver from "./GitVcsDriver.ts";
-import { gitConfigEnv } from "./VcsProcess.ts";
+} from "./GitVcsDriverCore.vibe";
+import * as GitVcsDriver from "./GitVcsDriver.vibe";
+import { gitConfigEnv } from "./VcsProcess.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const encodeGitCommandError = Schema.encodeEffect(Schema.fromJsonString(GitCommandError));

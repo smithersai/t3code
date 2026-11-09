@@ -11,7 +11,7 @@ import * as Layer from "effect/Layer"
 import * as Stream from "effect/Stream"
 
 import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe"
-import * as ProviderRegistry from "../provider/ProviderRegistry.ts"
+import * as ProviderRegistry from "../provider/ProviderRegistry.vibe"
 import { forkParked } from "../serverActivation.vibe"
 import * as AnalyticsService from "./AnalyticsService.vibe"
 import { crossProvider, providerDimensions } from "./ProviderDimensions.ts"

@@ -4,7 +4,7 @@ import * as Schema from "effect/Schema";
 import * as TestClock from "effect/testing/TestClock";
 import { HttpClient, HttpClientError, HttpClientResponse } from "effect/http";
 
-import { makeCliproxyApi } from "./cliproxyApi.ts";
+import { makeCliproxyApi } from "./cliproxyApi.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const config = {

@@ -11,7 +11,7 @@ import * as Duration from "effect/Duration";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
-import * as CodexTextGeneration from "../../apps/server/src/textGeneration/CodexTextGeneration.ts";
+import * as CodexTextGeneration from "../../apps/server/src/textGeneration/CodexTextGeneration.vibe";
 import { threadTitleEvaluationCases } from "./cases.ts";
 import {
   formatThreadTitleContext,
@@ -20,13 +20,13 @@ import {
 import * as ThreadTitleLinks from "../../apps/server/src/textGeneration/ThreadTitleLinks.vibe";
 import * as SourceControlProviderRegistry from "../../apps/server/src/sourceControl/SourceControlProviderRegistry.vibe";
 import * as SourceControlBuiltInDrivers from "../../apps/server/src/sourceControl/builtInDrivers.vibe";
-import * as ServerSettings from "../../apps/server/src/serverSettings.ts";
-import * as VcsProcess from "../../apps/server/src/vcs/VcsProcess.ts";
+import * as ServerSettings from "../../apps/server/src/serverSettings.vibe";
+import * as VcsProcess from "../../apps/server/src/vcs/VcsProcess.vibe";
 import * as VcsDriverRegistry from "../../apps/server/src/vcs/VcsDriverRegistry.vibe";
-import * as VcsProjectConfig from "../../apps/server/src/vcs/VcsProjectConfig.ts";
-import * as GitVcsDriver from "../../apps/server/src/vcs/GitVcsDriver.ts";
-import * as ProcessRunner from "../../apps/server/src/processRunner.ts";
-import * as ServerConfig from "../../apps/server/src/config.ts";
+import * as VcsProjectConfig from "../../apps/server/src/vcs/VcsProjectConfig.vibe";
+import * as GitVcsDriver from "../../apps/server/src/vcs/GitVcsDriver.vibe";
+import * as ProcessRunner from "../../apps/server/src/processRunner.vibe";
+import * as ServerConfig from "../../apps/server/src/config.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const { values } = NodeUtil.parseArgs({

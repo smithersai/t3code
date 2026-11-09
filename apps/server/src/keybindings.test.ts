@@ -8,8 +8,8 @@ import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
 import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
-import * as ServerConfig from "./config.ts";
-import * as Keybindings from "./keybindings.ts";
+import * as ServerConfig from "./config.vibe";
+import * as Keybindings from "./keybindings.vibe";
 import { KeybindingsConfigError, MAX_KEYBINDINGS_COUNT } from "@t3tools/contracts";
 
 const KeybindingsConfigJson = Schema.fromJsonString(KeybindingsConfig);

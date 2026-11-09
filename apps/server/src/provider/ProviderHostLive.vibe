@@ -8,9 +8,9 @@ import * as Layer from "effect/Layer"
 import { resolveAttachmentPath } from "../attachmentStore.ts"
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe"
 import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe"
-import * as ServerConfig from "../config.ts"
-import * as ServerSettings from "../serverSettings.ts"
-import * as DocumentText from "./DocumentText.ts"
+import * as ServerConfig from "../config.vibe"
+import * as ServerSettings from "../serverSettings.vibe"
+import * as DocumentText from "./DocumentText.vibe"
 import * as ProviderCredentialStore from "./ProviderCredentialStore.vibe"
 
 export const layer = Layer.effect(

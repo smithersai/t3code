@@ -8,7 +8,7 @@ import packageJson from "../../package.json" with { type: "json" };
 import {
   makePersistedServerRuntimeState,
   persistServerRuntimeState,
-} from "../serverRuntimeState.ts";
+} from "../serverRuntimeState.vibe";
 import { describeServerProcess } from "./triageSession.vibe";
 
 it.effect("reports the version the running server recorded, not the CLI's", () =>

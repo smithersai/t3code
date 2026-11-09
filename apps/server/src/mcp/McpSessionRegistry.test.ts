@@ -6,7 +6,7 @@ import { HttpServer } from "effect/http";
 import * as NetAddress from "effect/net/NetAddress";
 
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
-import * as McpSessionRegistry from "./McpSessionRegistry.ts";
+import * as McpSessionRegistry from "./McpSessionRegistry.vibe";
 import * as Layer from "effect/Layer";
 import * as Crypto from "@t3tools/shared/Crypto";
 

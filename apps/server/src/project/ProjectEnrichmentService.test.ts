@@ -6,7 +6,7 @@ import * as Layer from "effect/Layer";
 import * as PubSub from "effect/PubSub";
 import * as Ref from "effect/Ref";
 
-import * as ProjectEnrichment from "./ProjectEnrichmentService.ts";
+import * as ProjectEnrichment from "./ProjectEnrichmentService.vibe";
 import * as ProjectFaviconResolver from "./ProjectFaviconResolver.vibe";
 import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.vibe";
 

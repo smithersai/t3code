@@ -19,15 +19,15 @@ import * as HttpApi from "effect/http-api/HttpApi";
 import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder";
 import * as Schema from "effect/Schema";
 
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as Sqlite from "../persistence/Sqlite.vibe";
-import * as EnvironmentAuth from "./EnvironmentAuth.ts";
-import * as McpOAuth from "./McpOAuth.ts";
-import * as McpOAuthHttp from "./mcpOAuthHttp.ts";
+import * as EnvironmentAuth from "./EnvironmentAuth.vibe";
+import * as McpOAuth from "./McpOAuth.vibe";
+import * as McpOAuthHttp from "./mcpOAuthHttp.vibe";
 import * as ServerSecretStore from "./ServerSecretStore.vibe";
-import * as AuthHttp from "./http.ts";
+import * as AuthHttp from "./http.vibe";
 
 class AuthTestApi extends HttpApi.make("environment")
   .add(EnvironmentHttpApi.groups.auth)

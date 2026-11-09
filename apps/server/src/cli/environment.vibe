@@ -12,12 +12,12 @@ import * as GlobalFlag from "effect/cli/GlobalFlag"
 import * as FetchHttpClient from "effect/http/FetchHttpClient"
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe"
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe"
-import * as PeerLinks from "../peer/PeerLinks.ts"
-import * as ServerSettings from "../serverSettings.ts"
+import * as PeerLinks from "../peer/PeerLinks.vibe"
+import * as ServerSettings from "../serverSettings.vibe"
 import * as SqlitePersistence from "../persistence/Sqlite.vibe"
-import { authLocationFlags, type CliAuthLocationFlags, resolveCliAuthConfig } from "./config.ts"
+import { authLocationFlags, type CliAuthLocationFlags, resolveCliAuthConfig } from "./config.vibe"
 
 /**
  * Links live in this environment's database and secret store, so these

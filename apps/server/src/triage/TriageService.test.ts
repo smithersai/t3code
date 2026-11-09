@@ -9,9 +9,9 @@ import * as Queue from "effect/Queue";
 import { ChildProcessSpawner } from "effect/process";
 
 import packageJson from "../../package.json" with { type: "json" };
-import * as ServerConfig from "../config.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as VcsProcess from "../vcs/VcsProcess.ts";
+import * as ServerConfig from "../config.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
+import * as VcsProcess from "../vcs/VcsProcess.vibe";
 import * as TriageService from "./TriageService.vibe";
 import { pickSourceRef } from "./TriageService.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

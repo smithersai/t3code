@@ -6,8 +6,8 @@ import { Command } from "effect/cli"
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner"
 
 import * as PreviewBrowserHost from "../preview/PreviewBrowserHost.vibe"
-import { resolveBaseDir } from "../os-jank.ts"
-import { baseDirFlag } from "./config.ts"
+import { resolveBaseDir } from "../os-jank.vibe"
+import { baseDirFlag } from "./config.vibe"
 import { resolveRootCliCommand } from "./invocation.vibe"
 
 export schema error BrowserSetupStepError {

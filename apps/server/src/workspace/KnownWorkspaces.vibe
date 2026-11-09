@@ -9,10 +9,10 @@ import * as Path from "effect/Path"
 import * as Schema from "effect/Schema"
 import * as SqlClient from "effect/sql/SqlClient"
 
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe"
-import * as ServerSettings from "../serverSettings.ts"
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts"
+import * as ServerSettings from "../serverSettings.vibe"
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe"
 import { isFilesystemRoot, managedWorktreesDirectories } from "../worktreesDirectory.vibe"
 
 export class UnknownWorkspaceError extends Schema.TaggedError<UnknownWorkspaceError>()(

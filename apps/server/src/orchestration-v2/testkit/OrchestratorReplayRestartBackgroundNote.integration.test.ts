@@ -13,7 +13,7 @@ import {
   makeClaudeRestartReplayHarness,
 } from "../Adapters/ClaudeAdapterV2.testkit.ts";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as EffectWorker from "../EffectWorker.ts";
+import * as EffectWorker from "../EffectWorker.vibe";
 import * as EventSink from "../EventSink.ts";
 import * as Orchestrator from "../Orchestrator.vibe";
 import * as SqlitePersistence from "../../persistence/Sqlite.vibe";

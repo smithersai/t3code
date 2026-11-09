@@ -4,12 +4,12 @@ import { expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import * as EnvironmentAuth from "./EnvironmentAuth.ts";
+import * as EnvironmentAuth from "./EnvironmentAuth.vibe";
 import * as ServerSecretStore from "./ServerSecretStore.vibe";
-import * as SessionStore from "./SessionStore.ts";
+import * as SessionStore from "./SessionStore.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerServerConfig = (

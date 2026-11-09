@@ -4,7 +4,7 @@ import type {
   ProjectionRecordFilter,
   ProjectionRecords,
   ShellSnapshotOptions,
-} from "./ProjectionStore.ts"
+} from "./ProjectionStore.vibe"
 import {
   type ChatAttachment,
   CommandId,
@@ -49,12 +49,12 @@ import * as CommandReceiptStore from "./CommandReceiptStore.vibe"
 import * as Orchestrator from "./Orchestrator.vibe"
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe"
 import { projectedRowEncodedBytes } from "./threadHistoryPaging.ts"
-import * as ProviderSessionManager from "./ProviderSessionManager.ts"
+import * as ProviderSessionManager from "./ProviderSessionManager.vibe"
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe"
 import { DispatchModeLimit, exceededDispatchModeLimit } from "./DispatchModeLimit.vibe"
 import { projectTurnItemForDetail } from "./WireProjection.ts"
-import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts"
-import * as ServerSettings from "../serverSettings.ts"
+import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.vibe"
+import * as ServerSettings from "../serverSettings.vibe"
 
 export type ThreadManagementSendMode = "auto" | "queue" | "steer" | "restart"
 

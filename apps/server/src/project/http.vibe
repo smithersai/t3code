@@ -5,7 +5,7 @@ import {
   failEnvironmentInternal,
   failEnvironmentInvalidRequest,
   requireEnvironmentScope,
-} from "../auth/http.ts"
+} from "../auth/http.vibe"
 import { traceLocalHandlerWork } from "../cloud/traceRelayRequest.vibe"
 import * as ServerRuntimeStartup from "../serverRuntimeStartup.vibe"
 import * as ProjectService from "./ProjectService.ts"

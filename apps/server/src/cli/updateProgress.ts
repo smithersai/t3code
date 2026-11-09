@@ -1,4 +1,4 @@
-import type { PinnedRuntimeProgress } from "../cloud/pinnedRuntime.ts";
+import type { PinnedRuntimeProgress } from "../cloud/pinnedRuntime.vibe";
 
 export function createUpdateProgress(
   output: Pick<NodeJS.WriteStream, "write" | "isTTY" | "columns"> = process.stderr,
@@ -10,6 +10,7 @@ export function createUpdateProgress(
   let lastDraw = -Infinity;
   let lineOpen = false;
   let downloadLine = false;
+  /** @throws {never} */
   const finish = () => {
     if (lineOpen) output.write(downloadLine ? "\n" : "\r\x1b[2K");
     lineOpen = false;
@@ -33,6 +34,7 @@ export function createUpdateProgress(
       finish();
       output.write(`  ${style(32, message)}\n\n`);
     },
+    /** @throws {never} */
     report(progress: PinnedRuntimeProgress) {
       if (progress.stage !== stage) {
         stage = progress.stage;

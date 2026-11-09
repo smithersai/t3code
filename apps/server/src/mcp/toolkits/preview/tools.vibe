@@ -24,7 +24,7 @@ import * as FileSystem from "effect/FileSystem"
 
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.vibe"
-import * as ServerConfig from "../../../config.ts"
+import * as ServerConfig from "../../../config.vibe"
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.vibe"
 
 const dependencies = [

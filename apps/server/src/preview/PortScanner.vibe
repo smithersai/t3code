@@ -25,7 +25,7 @@ import * as Scope from "effect/Scope"
 import * as Semaphore from "effect/Semaphore"
 import { FetchHttpClient, HttpClient } from "effect/http"
 
-import * as ProcessRunner from "../processRunner.ts"
+import * as ProcessRunner from "../processRunner.vibe"
 
 export class PortDiscovery extends Context.Service<
   PortDiscovery,

@@ -20,8 +20,8 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as SqlClient from "effect/sql/SqlClient";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProviderSessionManager from "./ProviderSessionManager.ts";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as ProviderSessionManager from "./ProviderSessionManager.vibe";
 import * as ProviderTurnControlService from "./ProviderTurnControlService.vibe";
 import * as RuntimeRequestService from "./RuntimeRequestService.vibe";
 

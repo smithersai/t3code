@@ -8,11 +8,11 @@ import * as Layer from "effect/Layer";
 import * as Queue from "effect/Queue";
 import { TestClock } from "effect/testing";
 
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as TerminalManager from "../terminal/Manager.vibe";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 import * as ProjectService from "./ProjectService.ts";
-import * as ProjectSetupScriptRunner from "./ProjectSetupScriptRunner.ts";
+import * as ProjectSetupScriptRunner from "./ProjectSetupScriptRunner.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const threadId = "thread-1";

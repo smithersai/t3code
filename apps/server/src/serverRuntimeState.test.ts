@@ -9,12 +9,12 @@ import * as Path from "effect/Path";
 import * as Runtime from "effect/Runtime";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import { renderBootServicePlist, renderBootServiceUnit } from "./cloud/bootService.ts";
-import { ServiceLauncherHostProcess } from "./cloud/serviceLauncherClient.ts";
+import { renderBootServicePlist, renderBootServiceUnit } from "./cloud/bootService.vibe";
+import { ServiceLauncherHostProcess } from "./cloud/serviceLauncherClient.vibe";
 import { SERVICE_LAUNCHER_CONTEXT_ENV } from "./cloud/serviceProtocol.ts";
-import * as ProcessRunner from "./processRunner.ts";
+import * as ProcessRunner from "./processRunner.vibe";
 import * as ServerOwnership from "./serverOwnership.ts";
-import * as ServerRuntimeState from "./serverRuntimeState.ts";
+import * as ServerRuntimeState from "./serverRuntimeState.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const startBesideBootService = Effect.fn("test.startBesideBootService")(function* (input: {

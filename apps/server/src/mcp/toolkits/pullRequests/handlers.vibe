@@ -14,7 +14,7 @@ import * as Option from "effect/Option"
 
 import * as Orchestrator from "../../../orchestration-v2/Orchestrator.vibe"
 import * as ProjectService from "../../../project/ProjectService.ts"
-import * as PullRequestReviewGuideService from "../../../pullRequest/PullRequestReviewGuideService.ts"
+import * as PullRequestReviewGuideService from "../../../pullRequest/PullRequestReviewGuideService.vibe"
 import { pullRequestSyncKey } from "../../../pullRequest/pullRequestSyncKey.ts"
 import { sourceControlDefinitions } from "../../../sourceControl/sourceControlDefinitions.ts"
 import {

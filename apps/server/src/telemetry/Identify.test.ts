@@ -12,7 +12,7 @@ import * as References from "effect/References";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import { CLOUD_LINKED_USER_ID } from "../cloud/config.vibe";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as Identify from "./Identify.vibe";
 
 interface CapturedLog {

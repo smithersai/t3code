@@ -6,7 +6,7 @@ import * as Option from "effect/Option"
 import * as References from "effect/References"
 import { Argument, Command, Flag, GlobalFlag } from "effect/cli"
 
-import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts"
+import * as EnvironmentAuth from "../auth/EnvironmentAuth.vibe"
 
 import {
   formatIssuedPairingCredential,
@@ -14,9 +14,9 @@ import {
   formatPairingCredentialList,
   formatSessionList,
 } from "../cliAuthFormat.vibe"
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 import { authScopesFlag } from "./authScopes.vibe"
-import { authLocationFlags, type CliAuthLocationFlags, DurationFromString, resolveCliAuthConfig } from "./config.ts"
+import { authLocationFlags, type CliAuthLocationFlags, DurationFromString, resolveCliAuthConfig } from "./config.vibe"
 
 const runWithEnvironmentAuth = effect <A, E>(
   flags: CliAuthLocationFlags,

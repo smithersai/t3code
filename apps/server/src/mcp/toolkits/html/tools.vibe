@@ -11,7 +11,7 @@ import {
 } from "@t3tools/shared/htmlRender"
 import * as Schema from "effect/Schema"
 
-import * as HtmlRender from "../../../htmlRender/HtmlRender.ts"
+import * as HtmlRender from "../../../htmlRender/HtmlRender.vibe"
 import * as ThreadManagementService from "../../../orchestration-v2/ThreadManagementService.vibe"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 

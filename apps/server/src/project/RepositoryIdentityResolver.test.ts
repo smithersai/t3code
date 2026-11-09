@@ -6,7 +6,7 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 
-import * as ProcessRunner from "../processRunner.ts";
+import * as ProcessRunner from "../processRunner.vibe";
 import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.vibe";
 
 const normalizePathSeparators = (value: string) => value.replaceAll("\\", "/");

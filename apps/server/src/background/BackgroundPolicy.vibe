@@ -22,7 +22,7 @@ import * as Scope from "effect/Scope"
 import * as Semaphore from "effect/Semaphore"
 import * as Stream from "effect/Stream"
 
-import * as ServerSettings from "../serverSettings.ts"
+import * as ServerSettings from "../serverSettings.vibe"
 import { subscribeBeforeSnapshot } from "../utils/subscribeBeforeSnapshot.vibe"
 import * as HostPowerMonitor from "./HostPowerMonitor.vibe"
 

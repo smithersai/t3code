@@ -35,7 +35,7 @@ import {
   type ProviderReplayGate,
 } from "@t3tools/provider-testing/replayGate";
 import type { ProviderContinuationRequest } from "@t3tools/provider-core/server/ProviderContinuationRequests";
-import * as ServerSettings from "../../serverSettings.ts";
+import * as ServerSettings from "../../serverSettings.vibe";
 import type { AcpRegistryLiveConfiguration } from "@t3tools/provider-acp-registry/testing";
 import * as AcpRegistrySupport from "@t3tools/provider-acp-registry/server/AcpRegistrySupport";
 import * as AcpRegistryRuntimeCoordinator from "@t3tools/provider-acp-registry/server/AcpRegistryRuntimeCoordinator";

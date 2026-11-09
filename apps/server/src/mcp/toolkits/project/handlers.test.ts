@@ -18,19 +18,19 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
 
-import * as DocumentText from "../../../provider/DocumentText.ts";
-import * as ThreadLaunch from "../../../orchestration-v2/ThreadLaunchService.ts";
+import * as DocumentText from "../../../provider/DocumentText.vibe";
+import * as ThreadLaunch from "../../../orchestration-v2/ThreadLaunchService.vibe";
 import * as ThreadManagement from "../../../orchestration-v2/ThreadManagementService.vibe";
-import * as ServerConfig from "../../../config.ts";
-import * as ServerSettings from "../../../serverSettings.ts";
+import * as ServerConfig from "../../../config.vibe";
+import * as ServerSettings from "../../../serverSettings.vibe";
 import * as Project from "../../../project/ProjectService.ts";
 import * as ManagedProjectFolders from "../../../project/ManagedProjectFolders.vibe";
 import * as PeerForwarding from "../../../peer/PeerForwarding.vibe";
-import * as GitVcsDriver from "../../../vcs/GitVcsDriver.ts";
-import * as VcsProcess from "../../../vcs/VcsProcess.ts";
+import * as GitVcsDriver from "../../../vcs/GitVcsDriver.vibe";
+import * as VcsProcess from "../../../vcs/VcsProcess.vibe";
 import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
-import * as ProjectHandlers from "./handlers.ts";
+import * as ProjectHandlers from "./handlers.vibe";
 import { ProjectToolkit } from "./tools.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

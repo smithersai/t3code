@@ -41,16 +41,16 @@ import { HttpRouter, HttpServer } from "effect/http";
 import { Rpc, RpcGroup, RpcServer, RpcSerialization } from "effect/rpc";
 import * as ServerEnvironment from "../src/environment/ServerEnvironment.vibe";
 import * as SqlitePersistence from "../src/persistence/Sqlite.vibe";
-import * as OrchestrationEventStore from "../src/persistence/OrchestrationEventStore.ts";
+import * as OrchestrationEventStore from "../src/persistence/OrchestrationEventStore.vibe";
 import * as EventStore from "../src/orchestration-v2/EventStore.vibe";
 import * as EventSink from "../src/orchestration-v2/EventSink.ts";
-import * as ProjectionStore from "../src/orchestration-v2/ProjectionStore.ts";
+import * as ProjectionStore from "../src/orchestration-v2/ProjectionStore.vibe";
 import * as ThreadManagementService from "../src/orchestration-v2/ThreadManagementService.vibe";
 import * as ProjectStore from "../src/orchestration-v2/ProjectStore.vibe";
 import * as ProjectService from "../src/project/ProjectService.ts";
-import * as ProjectEnrichmentService from "../src/project/ProjectEnrichmentService.ts";
+import * as ProjectEnrichmentService from "../src/project/ProjectEnrichmentService.vibe";
 import * as OrchestrationHttp from "../src/orchestration-v2/http.vibe";
-import * as ServerHttp from "../src/http.ts";
+import * as ServerHttp from "../src/http.vibe";
 import { subscribeOrchestrationV2Thread, subscribeOrchestrationV2Shell } from "../src/ws.ts";
 import {
   measureHttpGet,

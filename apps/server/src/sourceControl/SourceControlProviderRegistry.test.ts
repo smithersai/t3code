@@ -26,8 +26,8 @@ import type * as SourceControlHost from "@t3tools/source-control-core/server/Sou
 import { fakeSourceControlProvider } from "@t3tools/source-control-testing/fakeSourceControlDriver";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 
-import * as ServerSettings from "../serverSettings.ts";
-import * as ServerConfig from "../config.ts";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as ServerConfig from "../config.vibe";
 import type * as VcsDriver from "../vcs/VcsDriver.vibe";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.vibe";

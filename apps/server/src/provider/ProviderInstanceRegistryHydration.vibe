@@ -11,7 +11,7 @@ import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as Stream from "effect/Stream"
 
-import * as Settings from "../serverSettings.ts"
+import * as Settings from "../serverSettings.vibe"
 import { BUILT_IN_DRIVERS, type BuiltInDriversEnv } from "./builtInDrivers.ts"
 import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.vibe"
 import * as ProviderInstanceRegistryMutator from "./ProviderInstanceRegistryMutator.vibe"
@@ -20,7 +20,7 @@ import * as AcpRegistrySupport from "@t3tools/provider-acp-registry/server/AcpRe
 import * as ProviderHostLive from "./ProviderHostLive.vibe"
 import type * as ProviderHost from "@t3tools/provider-core/server/ProviderHost"
 import type * as BackgroundPolicy from "../background/BackgroundPolicy.vibe"
-import type * as ServerConfig from "../config.ts"
+import type * as ServerConfig from "../config.vibe"
 import type * as PortScanner from "../preview/PortScanner.vibe"
 
 type ProviderInstanceRegistryHydrationEnv =

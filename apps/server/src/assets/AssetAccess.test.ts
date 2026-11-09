@@ -25,14 +25,19 @@ import { HttpClientRequest, HttpClientResponse, HttpServerResponse } from "effec
 import { vi } from "vite-plus/test";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
 import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.vibe";
 import * as T3ProjectFileLoader from "../project/T3ProjectFileLoader.vibe";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
-import { assetFileResponse } from "../http.ts";
-import { ASSET_ROUTE_PREFIX, issueAssetUrl, readMcpAppHtml, resolveAsset } from "./AssetAccess.ts";
-import * as NativeAppIconResolver from "./NativeAppIconResolver.ts";
+import { assetFileResponse } from "../http.vibe";
+import {
+  ASSET_ROUTE_PREFIX,
+  issueAssetUrl,
+  readMcpAppHtml,
+  resolveAsset,
+} from "./AssetAccess.vibe";
+import * as NativeAppIconResolver from "./NativeAppIconResolver.vibe";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
 import { fakeSourceControlDriverInstance } from "@t3tools/source-control-testing/fakeSourceControlDriver";
 import * as BuiltInDrivers from "../sourceControl/builtInDrivers.vibe";

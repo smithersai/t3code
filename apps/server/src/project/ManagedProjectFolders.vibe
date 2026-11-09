@@ -16,9 +16,9 @@ import * as Option from "effect/Option"
 import * as Path from "effect/Path"
 import * as Schema from "effect/Schema"
 
-import * as ServerConfig from "../config.ts"
+import * as ServerConfig from "../config.vibe"
 import * as GitWorkflow from "../git/GitWorkflowService.vibe"
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts"
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe"
 import * as ProjectService from "./ProjectService.ts"
 
 export schema error ScratchUnavailableError {

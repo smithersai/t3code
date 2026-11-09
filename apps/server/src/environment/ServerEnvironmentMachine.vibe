@@ -3,7 +3,7 @@ import * as HostProcess from "@t3tools/shared/HostProcess"
 import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
 
-import * as ProcessRunner from "../processRunner.ts"
+import * as ProcessRunner from "../processRunner.vibe"
 
 const DMI_ROOT = "/sys/class/dmi/id"
 const KERNEL_RELEASE_PATH = "/proc/sys/kernel/osrelease"

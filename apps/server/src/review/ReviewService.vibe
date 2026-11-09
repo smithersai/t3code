@@ -15,8 +15,8 @@ import {
   type ReviewDiffPreviewResult,
 } from "@t3tools/contracts"
 
-import * as ServerConfig from "../config.ts"
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts"
+import * as ServerConfig from "../config.vibe"
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe"
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe"
 import * as KnownWorkspaces from "../workspace/KnownWorkspaces.vibe"
 

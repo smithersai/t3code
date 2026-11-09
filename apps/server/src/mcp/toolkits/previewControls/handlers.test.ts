@@ -12,9 +12,9 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
 
-import * as ServerConfig from "../../../config.ts";
+import * as ServerConfig from "../../../config.vibe";
 import * as Preview from "../../../preview/Manager.vibe";
-import * as ServerSettings from "../../../serverSettings.ts";
+import * as ServerSettings from "../../../serverSettings.vibe";
 import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.ts";
 import * as McpToolAccessTestkit from "../../McpToolAccess.testkit.ts";

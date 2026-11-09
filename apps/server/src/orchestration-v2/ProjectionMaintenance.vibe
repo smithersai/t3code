@@ -9,7 +9,7 @@ import * as Stream from "effect/Stream"
 import * as SqlClient from "effect/sql/SqlClient"
 
 import * as EventStore from "./EventStore.vibe"
-import * as ProjectionStore from "./ProjectionStore.ts"
+import * as ProjectionStore from "./ProjectionStore.vibe"
 
 export interface ProjectionVerificationV2 {
   readonly valid: boolean

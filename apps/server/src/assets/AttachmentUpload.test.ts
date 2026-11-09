@@ -1,4 +1,4 @@
-import * as DocumentText from "../provider/DocumentText.ts";
+import * as DocumentText from "../provider/DocumentText.vibe";
 // @effect-diagnostics nodeBuiltinImport:off
 import * as NodeFS from "node:fs";
 import * as NodePath from "node:path";
@@ -16,8 +16,8 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
-import { base64UrlEncode, signPayload } from "../auth/utils.ts";
-import * as ServerConfig from "../config.ts";
+import { base64UrlEncode, signPayload } from "../auth/utils.vibe";
+import * as ServerConfig from "../config.vibe";
 import {
   claimPendingAttachments,
   releaseClaimedAttachments,
@@ -28,7 +28,7 @@ import {
   issueAttachmentUploadUrl,
   storeAttachmentUpload,
   validateAttachmentUploadToken,
-} from "./AttachmentUpload.ts";
+} from "./AttachmentUpload.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerTest = ServerSecretStore.layer.pipe(

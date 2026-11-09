@@ -8,7 +8,7 @@ export const readOSNetworkInterfaces = Effect.sync(() => NodeOS.networkInterface
 import * as NodeNet from "node:net";
 
 import { isTailnetHost } from "@t3tools/shared/hostClassification";
-import { isPrivateNetworkAddress } from "../startupAccess.ts";
+import { isPrivateNetworkAddress } from "../startupAccess.vibe";
 
 export type NetworkInterfacesMap = ReturnType<typeof NodeOS.networkInterfaces>;
 // Credentials travel over HTTP; public IPs leak them and hostnames can resolve differently per client.

@@ -541,7 +541,7 @@ export type OrchestrationV2GoalCommand =
   | { readonly type: "resume" }
   | { readonly type: "set"; readonly objective: string };
 
-/** Reads a `/goal` control message. Messages with attachments are ordinary prompts. */
+/** Reads a `/goal` control message. Messages with attachments are ordinary prompts. @throws {never} */
 export function parseGoalCommand(message: {
   readonly text: string;
   readonly attachments?: ReadonlyArray<unknown> | undefined;
@@ -892,6 +892,7 @@ export const OrchestrationV2Subagent = Schema.Struct({
 });
 export type OrchestrationV2Subagent = typeof OrchestrationV2Subagent.Type;
 
+/** @throws {never} */
 export function isOrchestrationV2WorkActive(
   status: OrchestrationV2ExecutionNode["status"],
 ): boolean {

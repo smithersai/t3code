@@ -9,7 +9,7 @@ import * as Option from "effect/Option";
 import * as PubSub from "effect/PubSub";
 import * as Stream from "effect/Stream";
 
-import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.ts";
+import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.vibe";
 import * as HostPowerMonitor from "./HostPowerMonitor.vibe";
 
 describe("HostPowerMonitor", () => {

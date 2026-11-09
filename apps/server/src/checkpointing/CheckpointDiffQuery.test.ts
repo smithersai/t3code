@@ -8,11 +8,11 @@ import * as Path from "effect/Path";
 
 import { checkpointRefForScopeOrdinal } from "../orchestration-v2/CheckpointService.vibe";
 import { OrchestratorProjectionError } from "../orchestration-v2/Orchestrator.vibe";
-import type { ProjectionCheckpointContext } from "../orchestration-v2/ProjectionStore.ts";
+import type { ProjectionCheckpointContext } from "../orchestration-v2/ProjectionStore.vibe";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
 import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
-import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as CheckpointDiffQuery from "./CheckpointDiffQuery.ts";
+import * as VcsProcess from "../vcs/VcsProcess.vibe";
+import * as CheckpointDiffQuery from "./CheckpointDiffQuery.vibe";
 import * as CheckpointStore from "./CheckpointStore.vibe";
 import { CheckpointRefUnavailableError, CheckpointTurnRangeUnavailableError } from "./Errors.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

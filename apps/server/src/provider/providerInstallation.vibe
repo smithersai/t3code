@@ -12,12 +12,12 @@ import * as Effect from "effect/Effect"
 import * as Schema from "effect/Schema"
 import * as Stream from "effect/Stream"
 
-import * as CodexInstallation from "./CodexInstallation.ts"
-import * as ServerSettings from "../serverSettings.ts"
-import * as AntigravityInstallation from "./AntigravityInstallation.ts"
+import * as CodexInstallation from "./CodexInstallation.vibe"
+import * as ServerSettings from "../serverSettings.vibe"
+import * as AntigravityInstallation from "./AntigravityInstallation.vibe"
 import { deriveProviderInstanceConfigMap } from "./ProviderInstanceRegistryHydration.vibe"
 import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.vibe"
-import * as ProviderRegistry from "./ProviderRegistry.ts"
+import * as ProviderRegistry from "./ProviderRegistry.vibe"
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment"
 
 const ANTIGRAVITY = ProviderDriverKind.make("antigravity")
