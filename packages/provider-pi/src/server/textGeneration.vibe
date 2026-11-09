@@ -51,10 +51,11 @@ export const makePiTextGeneration = effect (
       } | undefined
     })[]
   },
-  environment: NodeJS.ProcessEnv | undefined = $process_env(),
+  environment: NodeJS.ProcessEnv | undefined = undefined,
 ) =>
   try withSpan(
     effect {
+      const resolvedEnvironment = environment === undefined ? $process_env() : environment
       const spawner = try ChildProcessSpawner.ChildProcessSpawner
 
       const runPiJson: TextGenerationOperations.Runner = effect (request) =>
@@ -71,7 +72,7 @@ export const makePiTextGeneration = effect (
             }
             const launch = buildPiRpcLaunch({
               launchArgs: resolvedLaunchArgs.args,
-              environment,
+              environment: resolvedEnvironment,
               mcpSession: undefined,
               extensionPath: undefined,
               ephemeral: true,
