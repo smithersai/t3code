@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "vp config --no-agent && pnpm run build:declarations",
+    "prepare": "node scripts/configure-vibelang-formatter.mjs && vp config --no-agent && pnpm run build:declarations",
     "dev": "node --import vibelang/register scripts/dev-runner.ts dev",
     "dev:share": "node --import vibelang/register scripts/dev-runner.ts dev --share",
     "dev:server": "node --import vibelang/register scripts/dev-runner.ts dev:server",
