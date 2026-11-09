@@ -20,7 +20,7 @@ import * as Ref from "effect/Ref";
 
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
 import * as EventSink from "./EventSink.ts";
-import * as Orchestrator from "./Orchestrator.ts";
+import * as Orchestrator from "./Orchestrator.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";

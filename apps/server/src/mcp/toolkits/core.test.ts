@@ -31,7 +31,7 @@ import {
   OrchestratorCommandRejectedError,
   OrchestratorDispatchError,
   OrchestratorProjectionError,
-} from "../../orchestration-v2/Orchestrator.ts";
+} from "../../orchestration-v2/Orchestrator.vibe";
 
 import * as ServerSecretStore from "../../auth/ServerSecretStore.ts";
 import * as ServerConfig from "../../config.ts";

@@ -33,7 +33,7 @@ import { forkParked } from "../serverActivation.vibe";
 import * as TerminalManager from "../terminal/Manager.ts";
 import * as ProjectStore from "./ProjectStore.ts";
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts";
-import * as Orchestrator from "./Orchestrator.ts";
+import * as Orchestrator from "./Orchestrator.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
 
 export interface SettlementPullRequest {

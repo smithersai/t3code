@@ -41,7 +41,7 @@ import * as EffectWorker from "../EffectWorker.ts";
 import * as EventSink from "../EventSink.ts";
 import * as EventStore from "../EventStore.vibe";
 import * as LegacyV1ThreadImporter from "./LegacyV1ThreadImporter.ts";
-import * as Orchestrator from "../Orchestrator.ts";
+import * as Orchestrator from "../Orchestrator.vibe";
 import * as ProjectionMaintenance from "../ProjectionMaintenance.vibe";
 import * as ProjectionStore from "../ProjectionStore.ts";
 import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";

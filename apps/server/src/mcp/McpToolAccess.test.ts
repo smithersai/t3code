@@ -15,7 +15,7 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import { McpSchema, McpServer, Tool, Toolkit } from "effect/ai";
 
-import { OrchestratorProjectionError } from "../orchestration-v2/Orchestrator.ts";
+import { OrchestratorProjectionError } from "../orchestration-v2/Orchestrator.vibe";
 import * as PeerForwarding from "../peer/PeerForwarding.ts";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
 import * as McpHttpServer from "./McpHttpServer.ts";

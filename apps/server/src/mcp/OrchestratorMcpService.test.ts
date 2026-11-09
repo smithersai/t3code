@@ -36,7 +36,7 @@ import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexA
 import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
 import * as EffectWorker from "../orchestration-v2/EffectWorker.ts";
 import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.ts";
-import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import {
@@ -46,7 +46,7 @@ import {
 import {
   OrchestratorProjectionError,
   OrchestratorThreadAboveModeLimitError,
-} from "../orchestration-v2/Orchestrator.ts";
+} from "../orchestration-v2/Orchestrator.vibe";
 import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
 import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";

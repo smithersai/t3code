@@ -32,7 +32,7 @@ import {
 } from "@t3tools/source-control-core/server/PullRequestProvider";
 import * as PullRequestService from "../pullRequest/PullRequestService.ts";
 import { forkParked } from "../serverActivation.vibe";
-import * as Orchestrator from "./Orchestrator.ts";
+import * as Orchestrator from "./Orchestrator.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import { evaluatePullRequestWatch, pullRequestWatchMessage } from "./pullRequestWatch.vibe";
 

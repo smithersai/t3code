@@ -24,7 +24,7 @@ import * as Stream from "effect/Stream";
 import { ClaudeProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/ClaudeAdapterV2.ts";
 import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
 import * as EffectWorker from "../orchestration-v2/EffectWorker.ts";
-import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
 import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";

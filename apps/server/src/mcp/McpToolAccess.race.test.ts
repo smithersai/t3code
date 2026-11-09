@@ -18,7 +18,7 @@ import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import { DispatchModeLimit } from "../orchestration-v2/DispatchModeLimit.vibe";
 import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.ts";
 import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
-import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
 import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";

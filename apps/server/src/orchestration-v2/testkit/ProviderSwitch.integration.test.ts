@@ -49,7 +49,7 @@ import { AcpProviderCapabilitiesV2 } from "@t3tools/provider-acp/server/adapter"
 import * as EventSink from "../EventSink.ts";
 import * as EventStore from "../EventStore.vibe";
 import * as LegacyV1ThreadImporter from "../legacy/LegacyV1ThreadImporter.ts";
-import * as Orchestrator from "../Orchestrator.ts";
+import * as Orchestrator from "../Orchestrator.vibe";
 import * as EffectWorker from "../EffectWorker.ts";
 import * as EffectOutbox from "../EffectOutbox.vibe";
 import * as ProjectionMaintenance from "../ProjectionMaintenance.vibe";

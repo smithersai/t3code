@@ -17,7 +17,7 @@ import {
   CLAUDE_PROVIDER,
   makeClaudeQueryOptions,
 } from "../orchestration-v2/Adapters/ClaudeAdapterV2.ts";
-import { OrchestratorV2 } from "../orchestration-v2/Orchestrator.ts";
+import { OrchestratorV2 } from "../orchestration-v2/Orchestrator.vibe";
 import { ProviderAdapterRegistryV2 } from "../orchestration-v2/ProviderAdapterRegistry.vibe";
 import { ThreadLaunchService } from "../orchestration-v2/ThreadLaunchService.ts";
 import { ThreadManagementService } from "../orchestration-v2/ThreadManagementService.vibe";

@@ -24,7 +24,7 @@ import * as PullRequestService from "../pullRequest/PullRequestService.ts"
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe"
 import { forkParked } from "../serverActivation.vibe"
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts"
-import * as Orchestrator from "./Orchestrator.ts"
+import * as Orchestrator from "./Orchestrator.vibe"
 
 service ThreadPullRequestServiceV2 {
   static readonly key = "t3/orchestration-v2/ThreadPullRequestService/ThreadPullRequestServiceV2"

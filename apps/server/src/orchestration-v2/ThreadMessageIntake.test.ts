@@ -31,7 +31,7 @@ import * as ServerSettings from "../serverSettings.ts";
 import {
   OrchestratorCommandPreviouslyRejectedError,
   OrchestratorDispatchError,
-} from "./Orchestrator.ts";
+} from "./Orchestrator.vibe";
 import * as ThreadManagementService from "./ThreadManagementService.vibe";
 import { dispatchCommand } from "./ThreadMessageIntake.vibe";
 

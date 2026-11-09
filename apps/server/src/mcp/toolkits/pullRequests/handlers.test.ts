@@ -20,7 +20,7 @@ import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 import type { Tool } from "effect/ai";
 
-import * as Orchestrator from "../../../orchestration-v2/Orchestrator.ts";
+import * as Orchestrator from "../../../orchestration-v2/Orchestrator.vibe";
 import {
   type PullRequestTestThread,
   v2PullRequestThread,

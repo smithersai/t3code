@@ -40,7 +40,7 @@ import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
 import * as EventSink from "./EventSink.ts";
-import * as Orchestrator from "./Orchestrator.ts";
+import * as Orchestrator from "./Orchestrator.vibe";
 import { continueRestartedRun } from "./RestartContinuation.vibe";
 import * as RuntimeLayer from "./runtimeLayer.vibe";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";

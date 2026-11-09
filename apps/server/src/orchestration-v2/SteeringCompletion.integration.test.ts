@@ -23,7 +23,7 @@ import * as Stream from "effect/Stream";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
 import * as EffectWorker from "./EffectWorker.ts";
 import * as EventSink from "./EventSink.ts";
-import * as Orchestrator from "./Orchestrator.ts";
+import * as Orchestrator from "./Orchestrator.vibe";
 import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
 import * as ProviderReplayHarness from "./testkit/ProviderReplayHarness.ts";
 import { checkpointWorkspace } from "@t3tools/provider-testing/replayWorkspace";

@@ -46,7 +46,7 @@ import * as Schema from "effect/Schema"
 import * as Stream from "effect/Stream"
 
 import * as CommandReceiptStore from "./CommandReceiptStore.vibe"
-import * as Orchestrator from "./Orchestrator.ts"
+import * as Orchestrator from "./Orchestrator.vibe"
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe"
 import { projectedRowEncodedBytes } from "./threadHistoryPaging.ts"
 import * as ProviderSessionManager from "./ProviderSessionManager.ts"

@@ -14,7 +14,7 @@ import * as Stream from "effect/Stream"
 import { reportLabel } from "@t3tools/provider-core/server/notification"
 
 import { forkParked } from "../serverActivation.vibe"
-import * as Orchestrator from "./Orchestrator.ts"
+import * as Orchestrator from "./Orchestrator.vibe"
 import * as ProjectionStore from "./ProjectionStore.ts"
 
 export service DelegatedTaskQuestionReactor: {

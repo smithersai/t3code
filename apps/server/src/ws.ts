@@ -1,7 +1,7 @@
 import { OrchestrationDispatchCommandError } from "@t3tools/contracts";
 import * as Context from "effect/Context";
 import * as Crypto from "@t3tools/shared/Crypto";
-import * as Orchestrator from "./orchestration-v2/Orchestrator.ts";
+import * as Orchestrator from "./orchestration-v2/Orchestrator.vibe";
 import * as PeerLinkRequests from "./peer/PeerLinkRequests.vibe";
 import * as PeerLinks from "./peer/PeerLinks.ts";
 

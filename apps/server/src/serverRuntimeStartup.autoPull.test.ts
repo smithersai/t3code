@@ -17,7 +17,7 @@ import * as ServerEnvironment from "./environment/ServerEnvironment.vibe";
 import * as Keybindings from "./keybindings.ts";
 import * as EffectWorker from "./orchestration-v2/EffectWorker.ts";
 import * as LegacyV1ThreadImporter from "./orchestration-v2/legacy/LegacyV1ThreadImporter.ts";
-import * as Orchestrator from "./orchestration-v2/Orchestrator.ts";
+import * as Orchestrator from "./orchestration-v2/Orchestrator.vibe";
 import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
 import * as ProviderRuntimeRecovery from "./orchestration-v2/ProviderRuntimeRecoveryService.vibe";
 import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.ts";

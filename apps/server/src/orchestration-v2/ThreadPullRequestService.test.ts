@@ -26,7 +26,7 @@ import * as ProjectStore from "./ProjectStore.ts";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
 import * as PullRequestService from "../pullRequest/PullRequestService.ts";
 import * as ServerActivation from "../serverActivation.vibe";
-import * as Orchestrator from "./Orchestrator.ts";
+import * as Orchestrator from "./Orchestrator.vibe";
 import * as ThreadPullRequestService from "./ThreadPullRequestService.vibe";
 
 describe("ThreadPullRequestServiceV2 project guard", () => {

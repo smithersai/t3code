@@ -51,7 +51,7 @@ import * as HostResources from "./resourceTelemetry/HostResources.vibe";
 import * as ManagedProjectFolders from "./project/ManagedProjectFolders.vibe";
 import * as McpAppRequests from "./mcpApps/McpAppRequests.vibe";
 import * as ModelManifest from "./provider/ModelManifest.vibe";
-import * as Orchestrator from "./orchestration-v2/Orchestrator.ts";
+import * as Orchestrator from "./orchestration-v2/Orchestrator.vibe";
 import * as OtlpEndpointCheck from "./observability/OtlpEndpointCheck.vibe";
 import * as PairingGrantStore from "./auth/PairingGrantStore.vibe";
 import * as PeerLinkRequests from "./peer/PeerLinkRequests.vibe";

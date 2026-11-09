@@ -5,7 +5,7 @@ import * as Layer from "effect/Layer"
 import * as Scheduler from "../scheduling/Scheduler.vibe"
 import * as ServerSettings from "../serverSettings.ts"
 import * as ProjectionStore from "./ProjectionStore.ts"
-import * as Orchestrator from "./Orchestrator.ts"
+import * as Orchestrator from "./Orchestrator.vibe"
 import * as ThreadManagement from "./ThreadManagementService.vibe"
 
 export function limitRecoveryCommand(

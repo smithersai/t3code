@@ -32,7 +32,7 @@ import * as EffectWorker from "../EffectWorker.ts";
 import * as EventSink from "../EventSink.ts";
 import * as EventStore from "../EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as Orchestrator from "../Orchestrator.ts";
+import * as Orchestrator from "../Orchestrator.vibe";
 import * as ProjectionStore from "../ProjectionStore.ts";
 import * as ProjectStore from "../ProjectStore.ts";
 import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";

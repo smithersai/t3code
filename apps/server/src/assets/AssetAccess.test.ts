@@ -26,7 +26,7 @@ import { vi } from "vite-plus/test";
 
 import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
 import * as ServerConfig from "../config.ts";
-import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
 import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.vibe";
 import * as T3ProjectFileLoader from "../project/T3ProjectFileLoader.vibe";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";

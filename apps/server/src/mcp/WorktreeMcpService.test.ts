@@ -26,7 +26,7 @@ import * as ServerConfig from "../config.ts";
 import {
   OrchestratorDispatchError,
   OrchestratorProjectionError,
-} from "../orchestration-v2/Orchestrator.ts";
+} from "../orchestration-v2/Orchestrator.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";

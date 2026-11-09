@@ -10,7 +10,7 @@ import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as Stream from "effect/Stream"
 
-import * as Orchestrator from "../orchestration-v2/Orchestrator.ts"
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe"
 import * as ProviderRegistry from "../provider/ProviderRegistry.ts"
 import { forkParked } from "../serverActivation.vibe"
 import * as AnalyticsService from "./AnalyticsService.vibe"

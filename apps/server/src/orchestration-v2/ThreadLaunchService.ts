@@ -48,7 +48,7 @@ import * as ServerSettings from "../serverSettings.ts";
 import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
 import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import type * as Orchestrator from "./Orchestrator.ts";
+import type * as Orchestrator from "./Orchestrator.vibe";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
 import { randomUuidV4 } from "@t3tools/provider-core/server/randomUuid";
 import { DispatchModeLimit } from "./DispatchModeLimit.vibe";

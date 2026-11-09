@@ -18,7 +18,7 @@ import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAda
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
 import * as EffectOutbox from "./EffectOutbox.vibe";
-import * as Orchestrator from "./Orchestrator.ts";
+import * as Orchestrator from "./Orchestrator.vibe";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
 import * as ProviderReplayHarness from "./testkit/ProviderReplayHarness.ts";
