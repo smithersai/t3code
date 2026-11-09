@@ -25,7 +25,7 @@ import { PullRequestOperationError } from "@t3tools/contracts";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as PullRequestFilesViewed from "../persistence/PullRequestFilesViewed.vibe";
-import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.ts";
+import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
 import type { SourceControlProvider } from "@t3tools/source-control-core/server/SourceControlProvider";
 import { isSshRemoteUrl } from "@t3tools/shared/sourceControl";
@@ -38,7 +38,7 @@ import {
 } from "@t3tools/source-control-core/server/PullRequestProvider";
 import * as PullRequestProviderRegistry from "./PullRequestProviderRegistry.ts";
 import * as PullRequestService from "./PullRequestService.ts";
-import * as PullRequestReadCache from "./PullRequestReadCache.ts";
+import * as PullRequestReadCache from "./PullRequestReadCache.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 function project(input: {

@@ -20,7 +20,7 @@ import {
   AGENT_DEVICE_VERSION,
   DEVICE_HUB_VERSION,
   agentDeviceStateDir,
-} from "./DeviceToolchain.ts";
+} from "./DeviceToolchain.vibe";
 
 const processOutput = (code: number, stdout = "", stderr = "", timedOut = false) => ({
   code: ChildProcessSpawner.ExitCode(code),

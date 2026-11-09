@@ -80,7 +80,7 @@ import { sourceControlDefinitions } from "../sourceControl/sourceControlDefiniti
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ServerSettings from "../serverSettings.ts";
 import * as PullRequestFilesViewed from "../persistence/PullRequestFilesViewed.vibe";
-import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.ts";
+import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
 import type { SourceControlProviderContext } from "@t3tools/source-control-core/server/SourceControlProvider";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
@@ -93,7 +93,7 @@ import {
   type PullRequestProviderApi,
   PullRequestProviderError,
 } from "@t3tools/source-control-core/server/PullRequestProvider";
-import * as PullRequestReadCache from "./PullRequestReadCache.ts";
+import * as PullRequestReadCache from "./PullRequestReadCache.vibe";
 import * as PullRequestProviderRegistry from "./PullRequestProviderRegistry.ts";
 import * as ViewedFiles from "./pullRequestViewedFiles.ts";
 import { toChangeBreakdown } from "./pullRequestChangeBreakdown.ts";

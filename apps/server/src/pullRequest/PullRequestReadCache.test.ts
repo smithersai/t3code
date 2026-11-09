@@ -8,7 +8,7 @@ import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as FileSystem from "effect/FileSystem";
 import * as KeyValueStore from "effect/persistence/KeyValueStore";
-import * as PullRequestReadCache from "./PullRequestReadCache.ts";
+import * as PullRequestReadCache from "./PullRequestReadCache.vibe";
 import * as Layer from "effect/Layer";
 import * as Crypto from "@t3tools/shared/Crypto";
 

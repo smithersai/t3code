@@ -219,7 +219,7 @@ import { threadWorkspaceRoot } from "./project/threadWorkspaceRoot.vibe";
 import * as ManagedProjectFolders from "./project/ManagedProjectFolders.vibe";
 import { projectMutationOperation } from "./project/ProjectMutation.vibe";
 import * as ProjectCloneTracker from "./project/ProjectCloneTracker.vibe";
-import * as RepositoryIdentityResolver from "./project/RepositoryIdentityResolver.ts";
+import * as RepositoryIdentityResolver from "./project/RepositoryIdentityResolver.vibe";
 import * as WorktreeSetupTracker from "./project/WorktreeSetupTracker.vibe";
 import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
 import * as DirectEndpoints from "./environment/DirectEndpoints.ts";

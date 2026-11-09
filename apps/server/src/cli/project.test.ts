@@ -35,7 +35,7 @@ import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
 import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.vibe";
 import * as ProjectService from "../project/ProjectService.ts";
-import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.ts";
+import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
 import * as T3ProjectFileLoader from "../project/T3ProjectFileLoader.vibe";
 import * as ServerSettings from "../serverSettings.ts";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";

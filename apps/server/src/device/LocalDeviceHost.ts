@@ -47,7 +47,7 @@ import {
   isDeviceHubInstalled,
   deviceToolVersions,
   DEVICE_HUB_VERSION,
-} from "./DeviceToolchain.ts";
+} from "./DeviceToolchain.vibe";
 
 const HUB_READY_TIMEOUT_MS = 30_000;
 const DAEMON_READY_TIMEOUT_MS = 30_000;

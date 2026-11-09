@@ -8,7 +8,7 @@ import * as Ref from "effect/Ref";
 
 import * as ProjectEnrichment from "./ProjectEnrichmentService.ts";
 import * as ProjectFaviconResolver from "./ProjectFaviconResolver.vibe";
-import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.ts";
+import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.vibe";
 
 const identity = (workspaceRoot: string, version = 1): RepositoryIdentity => ({
   canonicalKey: `example.test/v${version}${workspaceRoot}`,

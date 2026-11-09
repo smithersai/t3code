@@ -12,7 +12,7 @@ import { HttpClient, HttpClientResponse, HttpRouter } from "effect/http";
 import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
 import type * as DeviceHost from "./DeviceHost.ts";
 import * as DeviceService from "./DeviceService.ts";
-import * as DeviceHubProxy from "./DeviceHubProxy.ts";
+import * as DeviceHubProxy from "./DeviceHubProxy.vibe";
 
 const disposers: Array<() => Promise<void>> = [];
 afterEach(async () => {
