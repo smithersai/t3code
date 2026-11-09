@@ -222,7 +222,7 @@ import * as ProjectCloneTracker from "./project/ProjectCloneTracker.vibe";
 import * as RepositoryIdentityResolver from "./project/RepositoryIdentityResolver.vibe";
 import * as WorktreeSetupTracker from "./project/WorktreeSetupTracker.vibe";
 import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
-import * as DirectEndpoints from "./environment/DirectEndpoints.ts";
+import * as DirectEndpoints from "./environment/DirectEndpoints.vibe";
 import * as RemoteOpenTargets from "./environment/RemoteOpenTargets.ts";
 import * as DefectReporter from "./observability/DefectReporter.vibe";
 import * as EventLoopMonitor from "./observability/EventLoopMonitor.ts";
