@@ -6,7 +6,7 @@ import * as Stream from "effect/Stream"
 import { FetchHttpClient } from "effect/http"
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe"
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe"
-import { makeCodexChatGptAuth } from "./CodexChatGptAuth.ts"
+import { makeCodexChatGptAuth } from "./CodexChatGptAuth.vibe"
 
 export function subscribeChatGptHandoff(
   input: ChatGptHandoffInput,

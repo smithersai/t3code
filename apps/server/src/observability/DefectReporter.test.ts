@@ -10,7 +10,7 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { Rpc, RpcClient, RpcGroup, RpcServer } from "effect/rpc";
 
-import { WS_RPC_SERVER_OPTIONS } from "../ws.ts";
+import { WS_RPC_SERVER_OPTIONS } from "../ws.vibe";
 import * as DefectReporter from "./DefectReporter.vibe";
 
 class TestRpcs extends RpcGroup.make(

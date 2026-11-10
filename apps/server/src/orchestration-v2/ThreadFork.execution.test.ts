@@ -19,7 +19,7 @@ import * as Effect from "effect/Effect";
 import * as TestClock from "effect/testing/TestClock";
 
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
-import { ClaudeProviderCapabilitiesV2 } from "./Adapters/ClaudeAdapterV2.ts";
+import { ClaudeProviderCapabilitiesV2 } from "./Adapters/ClaudeAdapterV2.vibe";
 import * as EffectWorker from "./EffectWorker.vibe";
 import * as EventSink from "./EventSink.ts";
 import * as Orchestrator from "./Orchestrator.vibe";

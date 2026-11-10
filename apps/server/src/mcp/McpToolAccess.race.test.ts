@@ -26,7 +26,7 @@ import * as ServerSettings from "../serverSettings.vibe";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
 import * as McpHttpServer from "./McpHttpServer.vibe";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
-import * as McpToolAccess from "./McpToolAccess.ts";
+import * as McpToolAccess from "./McpToolAccess.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 
 const instanceId = ProviderInstanceId.make("codex");

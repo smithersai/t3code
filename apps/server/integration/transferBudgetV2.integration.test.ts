@@ -51,7 +51,7 @@ import * as ProjectService from "../src/project/ProjectService.ts";
 import * as ProjectEnrichmentService from "../src/project/ProjectEnrichmentService.vibe";
 import * as OrchestrationHttp from "../src/orchestration-v2/http.vibe";
 import * as ServerHttp from "../src/http.vibe";
-import { subscribeOrchestrationV2Thread, subscribeOrchestrationV2Shell } from "../src/ws.ts";
+import { subscribeOrchestrationV2Thread, subscribeOrchestrationV2Shell } from "../src/ws.vibe";
 import {
   measureHttpGet,
   openMeasuredWsClient,

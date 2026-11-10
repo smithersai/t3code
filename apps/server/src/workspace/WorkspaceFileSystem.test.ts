@@ -15,7 +15,7 @@ import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
 import * as VcsProcess from "../vcs/VcsProcess.vibe";
 import * as KnownWorkspaces from "./KnownWorkspaces.vibe";
 import * as WorkspaceEntries from "./WorkspaceEntries.vibe";
-import * as WorkspaceFileSystem from "./WorkspaceFileSystem.ts";
+import * as WorkspaceFileSystem from "./WorkspaceFileSystem.vibe";
 import * as WorkspacePaths from "./WorkspacePaths.vibe";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";

@@ -22,7 +22,7 @@ import {
 import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as McpHttpServer from "../mcp/McpHttpServer.vibe";
 import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
-import * as McpToolAccess from "../mcp/McpToolAccess.ts";
+import * as McpToolAccess from "../mcp/McpToolAccess.vibe";
 import * as PeerLinks from "./PeerLinks.vibe";
 import * as ServerSettings from "../serverSettings.vibe";
 import {

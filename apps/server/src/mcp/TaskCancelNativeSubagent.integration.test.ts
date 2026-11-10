@@ -21,7 +21,7 @@ import * as Layer from "effect/Layer";
 import * as Queue from "effect/Queue";
 import * as Stream from "effect/Stream";
 
-import { ClaudeProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/ClaudeAdapterV2.ts";
+import { ClaudeProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/ClaudeAdapterV2.vibe";
 import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
 import * as EffectWorker from "../orchestration-v2/EffectWorker.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";

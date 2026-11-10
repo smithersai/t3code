@@ -29,7 +29,7 @@ import * as PeerForwarding from "../../../peer/PeerForwarding.vibe";
 import * as GitVcsDriver from "../../../vcs/GitVcsDriver.vibe";
 import * as VcsProcess from "../../../vcs/VcsProcess.vibe";
 import * as McpInvocationContext from "../../McpInvocationContext.vibe";
-import * as McpToolAccess from "../../McpToolAccess.ts";
+import * as McpToolAccess from "../../McpToolAccess.vibe";
 import * as ProjectHandlers from "./handlers.vibe";
 import { ProjectToolkit } from "./tools.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

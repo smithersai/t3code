@@ -17,7 +17,7 @@ import * as SchemaTransformation from "effect/SchemaTransformation"
 import { Argument, Flag } from "effect/cli"
 import * as CliError from "effect/cli/CliError"
 
-import { readBootstrapEnvelope } from "../bootstrap.ts"
+import { readBootstrapEnvelope } from "../bootstrap.vibe"
 import { resolveServiceLauncherMode } from "../cloud/serviceLauncherClient.vibe"
 import * as ServerConfig from "../config.vibe"
 import { expandHomePath, resolveBaseDir } from "../os-jank.vibe"

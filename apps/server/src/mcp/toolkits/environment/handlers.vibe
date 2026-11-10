@@ -4,7 +4,7 @@ import * as Environment from "../../../environment/ServerEnvironment.vibe"
 import * as ThreadCommandExecutor from "../../../orchestration-v2/ThreadCommandExecutor.vibe"
 import * as Settings from "../../../serverSettings.vibe"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
-import * as McpToolAccess from "../../McpToolAccess.ts"
+import * as McpToolAccess from "../../McpToolAccess.vibe"
 import { readCaller, unavailable } from "../../threadAccess.vibe"
 import { EnvironmentToolkit } from "./tools.vibe"
 

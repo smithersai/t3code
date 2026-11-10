@@ -31,7 +31,7 @@ import {
 import { resolveAttachmentRelativePath } from "../../../attachmentPaths.ts"
 import * as ServerConfig from "../../../config.vibe"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
-import * as McpToolAccess from "../../McpToolAccess.ts"
+import * as McpToolAccess from "../../McpToolAccess.vibe"
 import * as PreviewAutomationBroker from "../../PreviewAutomationBroker.vibe"
 import { PreviewSnapshotToolkit, PreviewStandardToolkit, PreviewToolkit } from "./tools.vibe"
 

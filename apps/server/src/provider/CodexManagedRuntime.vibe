@@ -8,7 +8,7 @@ import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.vibe"
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe"
 import { resolveSelfInvocation, selfInvocationArgs } from "@t3tools/shared/nodeRuntime"
 import * as CodexInstallation from "./CodexInstallation.vibe"
-import { makeCodexChatGptAuth } from "./CodexChatGptAuth.ts"
+import { makeCodexChatGptAuth } from "./CodexChatGptAuth.vibe"
 import { COMMAND_TIMEOUT_MS } from "./CodexManagedTokenProtocol.vibe"
 import { materializeCodexShadowHome } from "./Drivers/CodexHomeLayout.vibe"
 

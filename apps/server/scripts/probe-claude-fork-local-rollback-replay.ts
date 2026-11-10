@@ -14,7 +14,7 @@ import {
   makeClaudeQueryOptions,
   makeClaudeUserMessage,
   type ClaudeAgentSdkQueryOptions,
-} from "../src/orchestration-v2/Adapters/ClaudeAdapterV2.ts";
+} from "../src/orchestration-v2/Adapters/ClaudeAdapterV2.vibe";
 import { randomUuidV4 } from "@t3tools/provider-core/server/randomUuid";
 import { makeCheckpointWorkspace } from "@t3tools/provider-testing/replayWorkspace";
 

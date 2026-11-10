@@ -29,7 +29,7 @@ import * as ServerConfig from "../config.vibe";
 import * as ServerSettings from "../serverSettings.vibe";
 import { advertisedJsonSchema } from "./advertisedJsonSchema.vibe";
 import * as McpHttpServer from "./McpHttpServer.vibe";
-import * as McpToolAccess from "./McpToolAccess.ts";
+import * as McpToolAccess from "./McpToolAccess.vibe";
 import * as McpToolAccessTestkit from "./McpToolAccess.testkit.ts";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as McpSessionRegistry from "./McpSessionRegistry.vibe";

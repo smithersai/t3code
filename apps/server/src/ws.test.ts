@@ -96,7 +96,7 @@ import * as UsageService from "./usage/UsageService.vibe";
 import * as VcsProvisioningService from "./vcs/VcsProvisioningService.vibe";
 import * as VcsStatusBroadcaster from "./vcs/VcsStatusBroadcaster.vibe";
 import * as WorkspaceEntries from "./workspace/WorkspaceEntries.vibe";
-import * as WorkspaceFileSystem from "./workspace/WorkspaceFileSystem.ts";
+import * as WorkspaceFileSystem from "./workspace/WorkspaceFileSystem.vibe";
 import * as WorktreeSetupTracker from "./project/WorktreeSetupTracker.vibe";
 import * as ProjectFaviconResolver from "./project/ProjectFaviconResolver.vibe";
 import * as TraceDiagnostics from "./diagnostics/TraceDiagnostics.vibe";
@@ -123,7 +123,7 @@ import {
   subscribeOrchestrationV2Thread,
   WS_RPC_SERVER_OPTIONS,
   withLateEditorConfig,
-} from "./ws.ts";
+} from "./ws.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const snapshotConfig = (fields: Partial<ServerConfig>) =>

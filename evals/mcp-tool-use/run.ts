@@ -49,7 +49,7 @@ import { WorktreeToolkit } from "../../apps/server/src/mcp/toolkits/worktree/too
 import {
   CLAUDE_PROVIDER,
   makeClaudeQueryOptions,
-} from "../../apps/server/src/orchestration-v2/Adapters/ClaudeAdapterV2.ts";
+} from "../../apps/server/src/orchestration-v2/Adapters/ClaudeAdapterV2.vibe";
 import { proxyConfig } from "../shared/proxy.ts";
 import { changeRequestsCreatedBy } from "../../apps/server/src/orchestration-v2/PullRequestSyncReactor.vibe";
 /** Agent models by id, with the display name a harness gives them. */

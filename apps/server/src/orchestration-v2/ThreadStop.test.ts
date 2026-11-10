@@ -29,7 +29,7 @@ import * as TestClock from "effect/testing/TestClock";
 
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ServerSettings from "../serverSettings.vibe";
-import { CLAUDE_PROVIDER } from "./Adapters/ClaudeAdapterV2.ts";
+import { CLAUDE_PROVIDER } from "./Adapters/ClaudeAdapterV2.vibe";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
 import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import { OrchestrationEffectRequestV2 } from "./EffectOutbox.vibe";

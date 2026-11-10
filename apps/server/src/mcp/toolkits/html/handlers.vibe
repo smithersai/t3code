@@ -2,7 +2,7 @@ import { OrchestratorMcpFailure } from "@t3tools/contracts"
 
 import * as HtmlRender from "../../../htmlRender/HtmlRender.vibe"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
-import * as McpToolAccess from "../../McpToolAccess.ts"
+import * as McpToolAccess from "../../McpToolAccess.vibe"
 import { HtmlPreviewToolkit, HtmlRenderToolkit, type HtmlToolkit } from "./tools.vibe"
 
 const INVALID_PAGE_ERRORS = new Set([

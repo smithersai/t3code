@@ -79,7 +79,7 @@ import * as PreviewAutomationBroker from "../mcp/PreviewAutomationBroker.vibe";
 import * as DesktopBrowserChannel from "./DesktopBrowserChannel.vibe";
 import * as PreviewAgentActivity from "./PreviewAgentActivity.vibe";
 import * as PreviewManager from "./Manager.vibe";
-import * as ServerBrowserPage from "./ServerBrowserPage.ts";
+import * as ServerBrowserPage from "./ServerBrowserPage.vibe";
 import * as PreviewBrowser from "./PreviewBrowser.vibe";
 import * as PreviewBrowserHost from "./PreviewBrowserHost.vibe";
 import { presentAsChrome, ServerBrowserContexts } from "./ServerBrowserContexts.vibe";

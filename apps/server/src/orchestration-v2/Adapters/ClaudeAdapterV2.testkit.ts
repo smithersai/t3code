@@ -32,7 +32,7 @@ import {
   isWindowsClaudeLauncherShimPath,
   resolveClaudeSdkExecutablePath,
 } from "../../provider/Drivers/ClaudeExecutable.vibe";
-import * as ClaudeAdapterV2 from "./ClaudeAdapterV2.ts";
+import * as ClaudeAdapterV2 from "./ClaudeAdapterV2.vibe";
 import { claudeTaskOutputRoot } from "./ClaudeTaskOutputTail.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { ProviderAdapterDriverCreateError } from "@t3tools/provider-core/server/adapterDriver";

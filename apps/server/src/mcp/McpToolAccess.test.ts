@@ -20,7 +20,7 @@ import * as PeerForwarding from "../peer/PeerForwarding.vibe";
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
 import * as McpHttpServer from "./McpHttpServer.vibe";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
-import * as McpToolAccess from "./McpToolAccess.ts";
+import * as McpToolAccess from "./McpToolAccess.vibe";
 import { liveThreadShell } from "./McpToolAccess.testkit.ts";
 
 const supervisedThreadId = ThreadId.make("thread:supervised");

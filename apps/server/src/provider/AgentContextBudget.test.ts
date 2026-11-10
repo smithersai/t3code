@@ -16,7 +16,7 @@ import { PreviewAutomationBroker } from "../mcp/PreviewAutomationBroker.vibe";
 import {
   CLAUDE_PROVIDER,
   makeClaudeQueryOptions,
-} from "../orchestration-v2/Adapters/ClaudeAdapterV2.ts";
+} from "../orchestration-v2/Adapters/ClaudeAdapterV2.vibe";
 import { OrchestratorV2 } from "../orchestration-v2/Orchestrator.vibe";
 import { ProviderAdapterRegistryV2 } from "../orchestration-v2/ProviderAdapterRegistry.vibe";
 import { ThreadLaunchService } from "../orchestration-v2/ThreadLaunchService.vibe";

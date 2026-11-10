@@ -28,7 +28,7 @@ import * as SecretRequests from "../secrets/SecretRequests.vibe";
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as Scheduler from "../scheduling/Scheduler.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import * as ClaudeAdapterV2 from "./Adapters/ClaudeAdapterV2.ts";
+import * as ClaudeAdapterV2 from "./Adapters/ClaudeAdapterV2.vibe";
 import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import * as EffectWorker from "./EffectWorker.vibe";
 import * as EventSink from "./EventSink.ts";

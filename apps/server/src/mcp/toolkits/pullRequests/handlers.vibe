@@ -26,7 +26,7 @@ import {
   visibleThreadPullRequests,
 } from "../../../sourceControl/threadPullRequests.ts"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
-import * as McpToolAccess from "../../McpToolAccess.ts"
+import * as McpToolAccess from "../../McpToolAccess.vibe"
 import {
   type ListThreadPullRequestsResult,
   PullRequestLinkFailedError,

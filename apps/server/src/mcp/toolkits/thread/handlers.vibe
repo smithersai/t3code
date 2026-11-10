@@ -11,7 +11,7 @@ import * as Effect from "effect/Effect"
 import { modelSelectionCommandType } from "@t3tools/shared/model"
 import { formatThreadLink } from "@t3tools/shared/threadLinks"
 
-import * as McpToolAccess from "../../McpToolAccess.ts"
+import * as McpToolAccess from "../../McpToolAccess.vibe"
 import { dispatchFailure, newCommandId, readCaller, readThread, unavailable } from "../../threadAccess.vibe"
 import * as ThreadSearch from "../../../orchestration-v2/ThreadSearch.vibe"
 import * as ScheduledTasks from "../../../scheduledTasks/ScheduledTaskService.vibe"

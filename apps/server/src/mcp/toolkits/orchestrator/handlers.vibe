@@ -6,7 +6,7 @@ import * as PeerLinkRequests from "../../../peer/PeerLinkRequests.vibe"
 import * as PeerLinks from "../../../peer/PeerLinks.vibe"
 import { readCaller } from "../../threadAccess.vibe"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
-import * as McpToolAccess from "../../McpToolAccess.ts"
+import * as McpToolAccess from "../../McpToolAccess.vibe"
 import * as OrchestratorMcpService from "../../OrchestratorMcpService.vibe"
 import * as ThreadMetadataMcpService from "../../ThreadMetadataMcpService.vibe"
 

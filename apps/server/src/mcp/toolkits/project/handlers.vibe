@@ -16,7 +16,7 @@ import { resolveProjectSettings } from "@t3tools/shared/projectSettings"
 import { formatThreadLink } from "@t3tools/shared/threadLinks"
 import { resolveRuntimeMode } from "../../delegatedTaskModes.vibe"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
-import * as McpToolAccess from "../../McpToolAccess.ts"
+import * as McpToolAccess from "../../McpToolAccess.vibe"
 import { newCommandId, readCaller, resolveProjectId, unavailable } from "../../threadAccess.vibe"
 import { ProjectToolkit } from "./tools.vibe"
 

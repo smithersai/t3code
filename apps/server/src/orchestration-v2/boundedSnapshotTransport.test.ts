@@ -45,7 +45,7 @@ import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.vibe";
 import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.vibe";
-import { subscribeOrchestrationV2Thread } from "../ws.ts";
+import { subscribeOrchestrationV2Thread } from "../ws.vibe";
 import * as OrchestrationHttp from "./http.vibe";
 import * as ProjectionStore from "./ProjectionStore.vibe";
 import * as ProjectStore from "./ProjectStore.vibe";

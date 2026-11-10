@@ -30,7 +30,7 @@ import {
   type ClaudeAgentSdkQueryOpenInput,
   layerQueryRunner,
   spawnClaudeProcessGroup,
-} from "./ClaudeAdapterV2.ts";
+} from "./ClaudeAdapterV2.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("@anthropic-ai/claude-agent-sdk", { spy: true });

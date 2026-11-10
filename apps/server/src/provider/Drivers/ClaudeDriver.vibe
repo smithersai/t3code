@@ -20,7 +20,7 @@ import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEve
 import {
   createClaudeAdapterV2,
   type ClaudeAdapterV2DriverEnv,
-} from "../../orchestration-v2/Adapters/ClaudeAdapterV2.ts"
+} from "../../orchestration-v2/Adapters/ClaudeAdapterV2.vibe"
 import { ProviderDriverError } from "../Errors.vibe"
 import { claudeUsageReader } from "./claudeUsage.vibe"
 import { makeClaudeScopedLimitNames } from "../claudeUsageLimits.vibe"

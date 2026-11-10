@@ -22,7 +22,7 @@ import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as ProviderCredentialStore from "./ProviderCredentialStore.vibe";
 import * as AnalyticsService from "../telemetry/AnalyticsService.vibe";
-import { makeCodexChatGptAuth } from "./CodexChatGptAuth.ts";
+import { makeCodexChatGptAuth } from "./CodexChatGptAuth.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const assertSameCallback = (actual: string | null, expected: string | null) => {

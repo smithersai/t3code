@@ -8,7 +8,7 @@ import * as Effect from "effect/Effect";
 import { vi } from "vite-plus/test";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
-import { readBootstrapEnvelope } from "./bootstrap.ts";
+import { readBootstrapEnvelope } from "./bootstrap.vibe";
 import { assertNone, assertSome } from "@effect/vitest/utils";
 
 const openSyncInterceptor = vi.hoisted(() => ({

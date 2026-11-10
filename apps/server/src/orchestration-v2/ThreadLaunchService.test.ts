@@ -51,7 +51,7 @@ import * as ServerSettings from "../serverSettings.vibe";
 import * as ScheduledTasks from "../scheduledTasks/ScheduledTaskService.vibe";
 import * as SecretRequests from "../secrets/SecretRequests.vibe";
 import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
-import { ClaudeProviderCapabilitiesV2 } from "./Adapters/ClaudeAdapterV2.ts";
+import { ClaudeProviderCapabilitiesV2 } from "./Adapters/ClaudeAdapterV2.vibe";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
 import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";

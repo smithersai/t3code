@@ -13,7 +13,7 @@ import { renderBootServicePlist, renderBootServiceUnit } from "./cloud/bootServi
 import { ServiceLauncherHostProcess } from "./cloud/serviceLauncherClient.vibe";
 import { SERVICE_LAUNCHER_CONTEXT_ENV } from "./cloud/serviceProtocol.ts";
 import * as ProcessRunner from "./processRunner.vibe";
-import * as ServerOwnership from "./serverOwnership.ts";
+import * as ServerOwnership from "./serverOwnership.vibe";
 import * as ServerRuntimeState from "./serverRuntimeState.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

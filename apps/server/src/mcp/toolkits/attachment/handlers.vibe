@@ -10,7 +10,7 @@ import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 import * as Upload from "../../../assets/AttachmentUpload.vibe"
 import * as Claims from "../../../orchestration-v2/AttachmentClaims.vibe"
 import * as ThreadMessageIntake from "../../../orchestration-v2/ThreadMessageIntake.vibe"
-import * as McpToolAccess from "../../McpToolAccess.ts"
+import * as McpToolAccess from "../../McpToolAccess.vibe"
 import { newCommandId, readThread, unavailable } from "../../threadAccess.vibe"
 import { AttachmentToolkit } from "./tools.vibe"
 

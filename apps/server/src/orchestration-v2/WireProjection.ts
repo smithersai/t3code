@@ -262,6 +262,7 @@ function remember<K, V>(memory: Map<K, V>, key: K, value: V): void {
  * subagent record) ships blank and marked. The other order, or a forgotten record, only costs
  * bytes: the repeat ships whole.
  */
+/** @throws {never} */
 export function makeLiveBodyDeduper(): (
   item: OrchestrationV2ThreadStreamItem,
 ) => OrchestrationV2ThreadStreamItem {

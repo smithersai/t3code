@@ -34,7 +34,7 @@ import { McpSchema, McpServer, Tool, Toolkit } from "effect/ai";
 import * as ServerConfig from "../config.vibe";
 import * as McpHttpServer from "../mcp/McpHttpServer.vibe";
 import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
-import * as McpToolAccess from "../mcp/McpToolAccess.ts";
+import * as McpToolAccess from "../mcp/McpToolAccess.vibe";
 import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.vibe";
 import * as EventSink from "../orchestration-v2/EventSink.ts";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";

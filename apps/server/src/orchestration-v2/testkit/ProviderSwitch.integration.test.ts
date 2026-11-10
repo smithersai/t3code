@@ -40,7 +40,7 @@ import {
   ClaudeAppendSystemPromptFileError,
   ClaudeBackgroundWorkBlocksQueryReplacementError,
   ClaudeProviderCapabilitiesV2,
-} from "../Adapters/ClaudeAdapterV2.ts";
+} from "../Adapters/ClaudeAdapterV2.vibe";
 import {
   CodexProviderCapabilitiesV2,
   canReuseCodexContextUsage,

@@ -1,0 +1,277 @@
+import type { UsageRecord } from "@t3tools/provider-core/server/usage"
+import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient"
+import * as Effect from "effect/Effect"
+import * as Exit from "effect/Exit"
+import * as FileSystem from "effect/FileSystem"
+import * as Path from "effect/Path"
+import * as Schema from "effect/Schema"
+import * as SqlClient from "effect/sql/SqlClient"
+
+import {
+  blob,
+  fields,
+  metadata,
+  type Metadata,
+  nested,
+  timestamp,
+  type UsageCandidate,
+  usageCandidates,
+} from "./antigravityUsageReader.decode.ts"
+import { statFile } from "./antigravityUsageReader.platform.ts"
+
+// ACP slugs append the thinking level, which shares the base model's price.
+function withRateModel(record: UsageRecord): UsageRecord {
+  const rateModel = record.model.replace(/-(?:low|medium|high)$/, "")
+  return rateModel === record.model ? record : { ...record, rateModel }
+}
+
+class AntigravityDatabaseDecodeError extends Schema.TaggedError<AntigravityDatabaseDecodeError>()(
+  "AntigravityDatabaseDecodeError",
+  { path: Schema.String, cause: Schema.optional(Schema.Defect()) },
+) {
+  override get message(): string {
+    return `Antigravity usage could not be decoded from ${this.path}.`
+  }
+}
+
+/** Generation rows can hold megabytes of context; read one at a time to bound blocking statement.all(). */
+const GENERATION_PAGE_ROWS = 1
+const STEP_PAGE_ROWS = 64
+
+const readDatabase = Effect.fn("readDatabase")(function*(
+  path: string,
+  sessionId: string,
+  fallbackTimestamp: number,
+) {
+  const sql = yield* SqlClient.SqlClient
+  const decode = <A>(evaluate: () => A) =>
+    Effect.try({
+      try: evaluate,
+      catch: (cause) => new AntigravityDatabaseDecodeError({ path, cause }),
+    })
+  yield* sql.unsafe("PRAGMA busy_timeout = 100")
+  return yield* Effect.gen(function*() {
+    const tables = new Set(
+      (yield* sql.unsafe<{ readonly name: unknown }>(
+        "SELECT name FROM sqlite_master WHERE type = 'table'",
+      )).map((row) => row.name),
+    )
+    if (!tables.has("gen_metadata") && !tables.has("steps")) {
+      return yield* new AntigravityDatabaseDecodeError({ path })
+    }
+    // Seek by rowid regardless of indexes; idx normally aliases rowid, but sort for layouts where it does not.
+    const readMetadata = Effect.fnUntraced(function*(
+      query: string,
+      pageRows: number,
+      step: boolean,
+    ) {
+      const entries: Array<{ idx: number; entry: Metadata }> = []
+      let after = -Infinity
+      while (true) {
+        const rows = yield* sql
+          .unsafe<{
+            readonly row_id: number
+            readonly idx: unknown
+            readonly data: unknown
+          }>(query, [after, pageRows])
+          .pipe(Effect.withTracerEnabled(false))
+        for (const row of rows) {
+          // Filter outside SQL to bound scans to one page, including rows without metadata.
+          if (step && row.data === null) continue
+          const idx = row.idx
+          if (typeof idx !== "number") {
+            return yield* new AntigravityDatabaseDecodeError({ path })
+          }
+          entries.push({ idx, entry: yield* decode(() => metadata(blob(row.data), step)) })
+        }
+        if (rows.length < pageRows) break
+        after = rows[rows.length - 1]!.row_id
+        yield* Effect.yieldNow
+      }
+      return entries.sort((a, b) => a.idx - b.idx)
+    })
+    const generations = tables.has("gen_metadata")
+      ? yield* readMetadata(
+        "SELECT rowid AS row_id, idx, data FROM gen_metadata WHERE rowid > ? ORDER BY rowid LIMIT ?",
+        GENERATION_PAGE_ROWS,
+        false,
+      )
+      : []
+    let trajectoryTimestamp: number | null = null
+    if (tables.has("trajectory_metadata_blob")) {
+      for (
+        const row of yield* sql.unsafe<{ readonly data: unknown }>(
+          "SELECT data FROM trajectory_metadata_blob",
+        )
+      ) {
+        trajectoryTimestamp ??= yield* decode(() => timestamp(nested(fields(blob(row.data)), 2)))
+      }
+    }
+    const steps = tables.has("steps")
+      ? yield* readMetadata(
+        "SELECT rowid AS row_id, idx, metadata AS data FROM steps WHERE rowid > ? ORDER BY rowid LIMIT ?",
+        STEP_PAGE_ROWS,
+        true,
+      )
+      : []
+    return yield* decode(() => usageCandidates(sessionId, generations, steps, trajectoryTimestamp, fallbackTimestamp))
+  }).pipe(sql.withTransaction)
+})
+
+interface CachedDatabase {
+  readonly fingerprint: string
+  readonly candidates: readonly UsageCandidate[]
+}
+
+/** Fingerprint canonical DB/WAL paths by size, mtime and ctime; WAL holds new rows, and ctime catches restored mtimes. */
+export const makeAntigravityUsageCache = () => new Map<string, CachedDatabase>()
+
+export const readAntigravityUsage = Effect.fn("readAntigravityUsage")(function*(
+  conversationsDirectories: string | readonly string[],
+  sinceMs: number,
+  cache?: Map<string, CachedDatabase>,
+) {
+  const fileSystem = yield* FileSystem.FileSystem
+  const pathService = yield* Path.Path
+  const roots = typeof conversationsDirectories === "string"
+    ? [conversationsDirectories]
+    : conversationsDirectories
+  const files: Array<{ root: string; path: string; records: UsageRecord[] }> = []
+  const errors: string[] = []
+  const identities = new Map<string, number>()
+  const groups: Array<
+    UsageCandidate & { parent: number; size: number; owner: number; fileIndex: number }
+  > = []
+  const find = (index: number): number => {
+    let root = index
+    while (groups[root]!.parent !== root) root = groups[root]!.parent
+    while (index !== root) {
+      const parent = groups[index]!.parent
+      groups[index]!.parent = root
+      index = parent
+    }
+    return root
+  }
+  const merge = (left: number, right: number): number => {
+    let a = find(left)
+    let b = find(right)
+    if (a === b) return a
+    if (groups[a]!.size < groups[b]!.size) [a, b] = [b, a]
+    const target = groups[a]!
+    const source = groups[b]!
+    const first = target.owner < source.owner ? target : source
+    const bestTime = source.timestampQuality > target.timestampQuality
+        || (source.timestampQuality === target.timestampQuality
+          && source.record.timestampMs < target.record.timestampMs)
+      ? source
+      : target
+    const x = target.record.totals
+    const y = source.record.totals
+    target.record = {
+      ...first.record,
+      model: first.record.model === "antigravity-unknown"
+        ? first === target
+          ? source.record.model
+          : target.record.model
+        : first.record.model,
+      timestampMs: bestTime.record.timestampMs,
+      totals: {
+        uncachedInputTokens: Math.max(x.uncachedInputTokens, y.uncachedInputTokens),
+        cachedInputTokens: Math.max(x.cachedInputTokens, y.cachedInputTokens),
+        cacheCreationTokens: Math.max(x.cacheCreationTokens, y.cacheCreationTokens),
+        outputTokens: Math.max(x.outputTokens, y.outputTokens),
+        reasoningTokens: Math.max(x.reasoningTokens, y.reasoningTokens),
+      },
+    }
+    target.timestampQuality = bestTime.timestampQuality
+    target.owner = first.owner
+    target.fileIndex = first.fileIndex
+    target.size += source.size
+    source.parent = a
+    return a
+  }
+  const append = (candidate: UsageCandidate, fileIndex: number) => {
+    const index = groups.length
+    groups.push({ ...candidate, parent: index, size: 1, owner: index, fileIndex })
+    for (const key of candidate.keys) {
+      const existing = identities.get(key)
+      if (existing !== undefined) merge(index, existing)
+      identities.set(key, index)
+    }
+  }
+  const visited = new Set<string>()
+  const readFile = Effect.fn("readAntigravityUsage.readFile")(function*(path: string) {
+    const canonical = yield* fileSystem.realPath(path)
+    if (visited.has(canonical)) return null
+    visited.add(canonical)
+    const fingerprintOf = (file: string) =>
+      Effect.tryPromise(() => statFile(file)).pipe(
+        Effect.map((stat) => ({ stat, part: `${stat.size}:${stat.mtimeMs}:${stat.ctimeMs}` })),
+      )
+    const { stat, part } = yield* fingerprintOf(path)
+    const wal = yield* fingerprintOf(`${path}-wal`).pipe(Effect.option)
+    const fingerprint = `${part}/${wal._tag === "Some" ? wal.value.part : "-"}`
+    const cached = cache?.get(canonical)
+    if (cached?.fingerprint === fingerprint) return cached.candidates
+    const candidates = yield* readDatabase(
+      path,
+      pathService.basename(path, ".db"),
+      stat.mtimeMs,
+    ).pipe(Effect.provide(NodeSqliteClient.layer({ filename: path, readonly: true })))
+    cache?.set(canonical, { fingerprint, candidates })
+    return candidates
+  })
+  const walk = Effect.fn("antigravityUsageReader.walk")(function*(
+    directory: string,
+    root: string,
+  ): Effect.fn.Return<void> {
+    const names = yield* fileSystem.readDirectory(directory).pipe(
+      Effect.catchTags({
+        PlatformError: (cause) => {
+          if (cause.reason._tag !== "NotFound") errors.push(directory)
+          return Effect.succeed(null)
+        },
+      }),
+    )
+    if (names === null) return
+    names.sort((a, b) => a.localeCompare(b))
+    for (const name of names) {
+      const path = pathService.join(directory, name)
+      // Like a directory listing's entry types: symlinks are neither files nor directories.
+      const isLink = Exit.isSuccess(yield* Effect.exit(fileSystem.readLink(path)))
+      const type = isLink
+        ? "SymbolicLink"
+        : yield* fileSystem.stat(path).pipe(
+          Effect.map((info) => info.type),
+          Effect.orElseSucceed(() => null),
+        )
+      if (type === "Directory") {
+        yield* walk(path, root)
+      } else if ((type === "File" || type === null) && name.endsWith(".db")) {
+        const candidates = yield* readFile(path).pipe(
+          Effect.catch(() => {
+            errors.push(path)
+            return Effect.succeed(null)
+          }),
+        )
+        if (candidates === null) continue
+        const fileIndex = files.length
+        files.push({ root, path, records: [] })
+        for (const [index, candidate] of candidates.entries()) {
+          append(candidate, fileIndex)
+          if (index % 256 === 255) yield* Effect.yieldNow
+        }
+      }
+    }
+  })
+  for (const root of roots) yield* walk(root, root)
+  if (cache !== undefined) {
+    for (const key of cache.keys()) if (!visited.has(key)) cache.delete(key)
+  }
+  for (const [index, group] of groups.entries()) {
+    if (group.parent === index && group.record.timestampMs >= sinceMs) {
+      files[group.fileIndex]!.records.push(withRateModel(group.record))
+    }
+  }
+  return { files, errors }
+})

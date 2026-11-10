@@ -17,7 +17,7 @@ import { nodeRuntimeUnavailableMessage } from "@t3tools/shared/nodeRuntime"
 import * as DeviceService from "../../../device/DeviceService.vibe"
 import { threadWorkspaceRoot } from "../../../project/threadWorkspaceRoot.vibe"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
-import * as McpToolAccess from "../../McpToolAccess.ts"
+import * as McpToolAccess from "../../McpToolAccess.vibe"
 import { DeviceScreenshotToolkit, DeviceStandardToolkit, DeviceToolkit } from "./tools.vibe"
 import { bytesToBase64 } from "./handlers.platform.ts"
 
