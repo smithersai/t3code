@@ -59,8 +59,7 @@ const make = effect {
   const listRows = SqlSchema.findAll({
     Request: PullRequestFilesViewedScope,
     Result: PullRequestFileViewedMark,
-    execute: ({ provider, host, repository, number, viewer }) =>
-      sql`
+    execute: ({ provider, host, repository, number, viewer }) => sql`
         SELECT
           path AS "path",
           revision AS "revision"

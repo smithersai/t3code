@@ -269,12 +269,14 @@ const readSkillSettings = effect (
         }
 
         const parsed = (decodeSkillSettings(contents)
-          |> Effect.tapError(%, (cause) =>
-            Effect.logDebug("claude settings file is unreadable; ignoring skill settings", {
-              path: settingsPath,
-              cause,
-            }))) catch () =>
-            undefined
+          |> Effect.tapError(
+            %,
+            (cause) =>
+              Effect.logDebug("claude settings file is unreadable; ignoring skill settings", {
+                path: settingsPath,
+                cause,
+              }),
+          )) catch () => undefined
         for (const [name, value] of Object.entries(parsed?.skillOverrides ?? {})) {
           overridesByName.set(name, parseSkillOverride(value))
         }

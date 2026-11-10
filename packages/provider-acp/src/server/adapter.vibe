@@ -6621,8 +6621,8 @@ module platform {
                   nativeBuild.modeId !== undefined
                   && effectiveModeState?.currentModeId !== nativeBuild.modeId
                   && effectiveModeState?.availableModes.some(
-                      (mode) => mode.id === nativeBuild.modeId,
-                    ) === true
+                    (mode) => mode.id === nativeBuild.modeId,
+                  ) === true
                 ) {
                   yield* runtime.setMode(nativeBuild.modeId)
                 }

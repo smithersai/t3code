@@ -702,7 +702,7 @@ export const make = Effect.gen(function*() {
           parseFetchRemotes(remotes).find(
             (remote) =>
               (gitHubApiHostForRemote(remote.url)
-                  ?? normalizeGitRemoteUrl(remote.url).split("/")[0]) === base.host
+                ?? normalizeGitRemoteUrl(remote.url).split("/")[0]) === base.host
               && normalizeGitRemoteUrl(remote.url).split("/").slice(1).join("/")
                 === nameWithOwner.toLowerCase(),
           )?.name ?? null
@@ -801,33 +801,34 @@ export const make = Effect.gen(function*() {
       "GitHubSourceControlProvider.checkoutPullRequest",
     )
 
-  const providerError = (
-    operation: string,
-    cwd: string,
-    context?: { readonly reference?: string; readonly repository?: string },
-  ) =>
-  (error: GitHubFailure) =>
-    new SourceControlProviderError({
-      provider: SourceControlProviderKind.make("github"),
-      operation,
-      cwd,
-      ...(context?.reference === undefined
-        ? {}
-        : {
-          reference: SourceControlProvider.transportSafeSourceControlErrorValue(
-            context.reference,
-          ),
-        }),
-      ...(context?.repository === undefined
-        ? {}
-        : {
-          repository: SourceControlProvider.transportSafeSourceControlErrorValue(
-            context.repository,
-          ),
-        }),
-      detail: error.detail,
-      cause: error.cause,
-    })
+  const providerError =
+    (
+      operation: string,
+      cwd: string,
+      context?: { readonly reference?: string; readonly repository?: string },
+    ) =>
+    (error: GitHubFailure) =>
+      new SourceControlProviderError({
+        provider: SourceControlProviderKind.make("github"),
+        operation,
+        cwd,
+        ...(context?.reference === undefined
+          ? {}
+          : {
+            reference: SourceControlProvider.transportSafeSourceControlErrorValue(
+              context.reference,
+            ),
+          }),
+        ...(context?.repository === undefined
+          ? {}
+          : {
+            repository: SourceControlProvider.transportSafeSourceControlErrorValue(
+              context.repository,
+            ),
+          }),
+        detail: error.detail,
+        cause: error.cause,
+      })
 
   const readLinkSubject = effect (
     input: { readonly cwd: string; readonly url: URL },
@@ -1071,8 +1072,11 @@ export const make = Effect.gen(function*() {
           const repository = try readRepository(locator)
           const branch = repository.default_branch?.trim() ?? ""
           return branch.length > 0 ? branch : null
-        } |> ((effect, input) =>
-          effect |> Effect.mapError(%, providerError("getDefaultBranch", input.cwd)))(%, input),
+        }
+          |> ((effect, input) => effect |> Effect.mapError(%, providerError("getDefaultBranch", input.cwd)))(
+            %,
+            input,
+          ),
         "GitHubSourceControlProvider.getDefaultBranch",
       ),
     checkoutChangeRequest: Effect.fn("GitHubSourceControlProvider.checkoutChangeRequest")(

@@ -246,8 +246,10 @@ export const layerAuthenticatedAuth = Layer.effect(
               EnvironmentAuth.serverAuthCredentialReason(error),
               EnvironmentAuth.serverAuthDpopFailureReason(error),
             )),
-          Effect.catchIf(EnvironmentAuth.isServerAuthInternalError, (error) =>
-            failEnvironmentInternal("internal_error", error)),
+          Effect.catchIf(
+            EnvironmentAuth.isServerAuthInternalError,
+            (error) => failEnvironmentInternal("internal_error", error),
+          ),
         )
         const endTime = yield* Clock.currentTimeNanos
         const handler = httpEffect.pipe(

@@ -293,8 +293,10 @@ export const makeOpenCodeTextGeneration = effect (
                       // Disconnecting the HTTP request does not stop work in a shared or external server.
                       |> Effect.onInterrupt(%, () =>
                         (do {
-                          const catchProgram2 = OpenCodeRuntime.runOpenCodeSdk("session.abort", (signal) =>
-                            client.session.abort({ sessionID: session.data.id }, { signal }))
+                          const catchProgram2 = OpenCodeRuntime.runOpenCodeSdk(
+                            "session.abort",
+                            (signal) => client.session.abort({ sessionID: session.data.id }, { signal }),
+                          )
                             |> Effect.interruptible(%)
                             |> Effect.timeout(%, "10 seconds")
                           effect {

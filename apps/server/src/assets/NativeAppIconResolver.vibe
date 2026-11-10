@@ -104,7 +104,7 @@ const resolveApplicationPath = Effect.fn("NativeAppIconResolver.resolveApplicati
     : candidates.filter(
       (value) =>
         path.basename(value, ".app").toLocaleLowerCase()
-          === app.displayName.toLocaleLowerCase(),
+        === app.displayName.toLocaleLowerCase(),
     )
   const rankedCandidates = matchingCandidates.length > 0 ? matchingCandidates : candidates
   let mostRecentlyUsed: { readonly path: string; readonly lastUsed: string } | null = null

@@ -52,10 +52,11 @@ export const make = effect {
         onNone: () => Effect.succeed(Option.none<string>()),
         onSome: (value) =>
           decodeAppPackageMetadata(value)
-          |> Effect.map(%, (parsed) =>
-            Option.flatMap(Option.fromNullishOr(parsed.t3codeCommitHash), normalizeCommitHash))
-          |> Effect.orElseSucceed(%, () =>
-            Option.none<string>()),
+          |> Effect.map(
+            %,
+            (parsed) => Option.flatMap(Option.fromNullishOr(parsed.t3codeCommitHash), normalizeCommitHash),
+          )
+          |> Effect.orElseSucceed(%, () => Option.none<string>()),
       }
       const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers
       match ($optionSubject) {

@@ -1,38 +1,34 @@
-import {
-  ClientCapabilities,
-  PlatformConnectionSource,
-  Persistence,
-} from "@t3tools/client-runtime/platform";
+import { ClientCapabilities, PlatformConnectionSource, Persistence } from "@t3tools/client-runtime/platform"
 import {
   ConnectionBlockedError,
   ConnectionTransientError,
   Connectivity,
   Wakeups,
-} from "@t3tools/client-runtime/connection";
-import { managedRelayAccountChanges, managedRelaySessionAtom } from "@t3tools/client-runtime/relay";
-import * as Layer from "effect/Layer";
-import Constants from "expo-constants";
-import * as Network from "expo-network";
-import { AppState } from "react-native";
+} from "@t3tools/client-runtime/connection"
+import { managedRelayAccountChanges, managedRelaySessionAtom } from "@t3tools/client-runtime/relay"
+import * as Layer from "effect/Layer"
+import Constants from "expo-constants"
+import * as Network from "expo-network"
+import { AppState } from "react-native"
 
-import { authClientMetadata } from "../lib/authClientMetadata";
-import * as Runtime from "../lib/runtime.vibe";
-import * as MobileStorage from "../persistence/mobile-storage.vibe";
-import { appAtomRegistry } from "../state/atom-registry.vibe";
-import { clearThreadOutboxEnvironment } from "../state/thread-outbox-removal";
-import { clearComposerDraftsEnvironment } from "../state/use-composer-drafts.vibe";
-import { clearThreadComposerErrorsForEnvironment } from "../state/thread-composer-error.vibe";
-import { mobileApplicationActiveWakeup } from "./app-state-wakeups";
-import * as ConnectionStorage from "./storage.vibe";
+import { authClientMetadata } from "../lib/authClientMetadata"
+import * as Runtime from "../lib/runtime.vibe"
+import * as MobileStorage from "../persistence/mobile-storage.vibe"
+import { appAtomRegistry } from "../state/atom-registry.vibe"
+import { clearThreadOutboxEnvironment } from "../state/thread-outbox-removal"
+import { clearComposerDraftsEnvironment } from "../state/use-composer-drafts.vibe"
+import { clearThreadComposerErrorsForEnvironment } from "../state/thread-composer-error.vibe"
+import { mobileApplicationActiveWakeup } from "./app-state-wakeups"
+import * as ConnectionStorage from "./storage.vibe"
 
 function networkStatus(state: Network.NetworkState): "unknown" | "offline" | "online" {
   if (state.isConnected === false) {
-    return "offline";
+    return "offline"
   }
   if (state.isConnected === true) {
-    return "online";
+    return "online"
   }
-  return "unknown";
+  return "unknown"
 }
 
 const layerConnectivity = Connectivity.layer({
@@ -47,67 +43,67 @@ const layerConnectivity = Connectivity.layer({
   changes: Stream.callback((queue) =>
     Effect.acquireRelease(
       Effect.sync(() => {
-        let active = true;
+        let active = true
         const networkSubscription = Network.addNetworkStateListener((state) => {
-          Queue.offerUnsafe(queue, networkStatus(state));
-        });
+          Queue.offerUnsafe(queue, networkStatus(state))
+        })
         const appStateSubscription = AppState.addEventListener("change", (state) => {
           if (state !== "active") {
-            return;
+            return
           }
           void Network.getNetworkStateAsync()
             .then((current) => {
               if (active) {
-                Queue.offerUnsafe(queue, networkStatus(current));
+                Queue.offerUnsafe(queue, networkStatus(current))
               }
             })
-            .catch(() => undefined);
-        });
+            .catch(() => undefined)
+        })
         return {
           close: () => {
-            active = false;
-            networkSubscription.remove();
-            appStateSubscription.remove();
+            active = false
+            networkSubscription.remove()
+            appStateSubscription.remove()
           },
-        };
+        }
       }),
       ({ close }) => Effect.sync(close),
-    ) |> Effect.asVoid(%),
+    ) |> Effect.asVoid(%)
   ),
-});
+})
 
 /** Wake connections on network path changes; online/offline misses Wi-Fi-to-cellular moves. */
 const networkPathChanges = Stream.callback<"network-changed">((queue) =>
   Effect.acquireRelease(
     Effect.sync(() => {
-      let active = true;
-      let previous: Network.NetworkStateType | undefined;
+      let active = true
+      let previous: Network.NetworkStateType | undefined
       const record = (state: Network.NetworkState) => {
-        const type = state.isConnected === true ? state.type : undefined;
+        const type = state.isConnected === true ? state.type : undefined
         if (previous !== undefined && type !== undefined && type !== previous) {
-          Queue.offerUnsafe(queue, "network-changed");
+          Queue.offerUnsafe(queue, "network-changed")
         }
-        previous = type ?? previous;
-      };
+        previous = type ?? previous
+      }
       // Seed the current type: the listener reports only changes and would miss the first move.
       void Network.getNetworkStateAsync()
         .then((state) => {
           if (active && previous === undefined && state.isConnected === true) {
-            previous = state.type;
+            previous = state.type
           }
         })
-        .catch(() => undefined);
-      const subscription = Network.addNetworkStateListener(record);
+        .catch(() => undefined)
+      const subscription = Network.addNetworkStateListener(record)
       return {
         remove: () => {
-          active = false;
-          subscription.remove();
+          active = false
+          subscription.remove()
         },
-      };
+      }
     }),
     effect (subscription) => subscription.remove(),
-  ) |> Effect.asVoid(%),
-);
+  ) |> Effect.asVoid(%)
+)
 
 const layerWakeups = Wakeups.layer({
   changes: Stream.mergeAll(
@@ -115,23 +111,23 @@ const layerWakeups = Wakeups.layer({
       Stream.callback<"application-active-probe" | "application-active-long">((queue) =>
         Effect.acquireRelease(
           Effect.sync(() => {
-            let backgroundedAtMs = AppState.currentState === "background" ? Date.now() : null;
+            let backgroundedAtMs = AppState.currentState === "background" ? Date.now() : null
             return AppState.addEventListener("change", (state) => {
               if (state === "background") {
-                backgroundedAtMs = Date.now();
-                return;
+                backgroundedAtMs = Date.now()
+                return
               }
               if (state === "active") {
                 Queue.offerUnsafe(
                   queue,
                   mobileApplicationActiveWakeup(backgroundedAtMs, Date.now()),
-                );
-                backgroundedAtMs = null;
+                )
+                backgroundedAtMs = null
               }
-            });
+            })
           }),
           (subscription) => Effect.sync(() => subscription.remove()),
-        ) |> Effect.asVoid(%),
+        ) |> Effect.asVoid(%)
       ),
       managedRelayAccountChanges(appAtomRegistry).pipe(
         Stream.map(() => "credentials-changed" as const),
@@ -140,34 +136,38 @@ const layerWakeups = Wakeups.layer({
     ],
     { concurrency: "unbounded" },
   ),
-});
+})
 
 const layerCapabilities = Layer.effectContext(
   effect {
-    const storage = try MobileStorage.MobileStorage;
+    const storage = try MobileStorage.MobileStorage
     return Context.make(
       ClientCapabilities.CloudSession,
       ClientCapabilities.CloudSession.of({
-        identity: effect { return Option.fromNullishOr(appAtomRegistry.get(managedRelaySessionAtom)) },
+        identity: effect {
+          return Option.fromNullishOr(appAtomRegistry.get(managedRelaySessionAtom))
+        },
         clerkToken: effect {
-          const session = appAtomRegistry.get(managedRelaySessionAtom);
+          const session = appAtomRegistry.get(managedRelaySessionAtom)
           if (session === null) {
             throw new ConnectionBlockedError({
               reason: "authentication",
               detail: "Sign in to T3 Connect to connect this environment.",
-            });
+            })
           }
-          const token = session.readClerkToken() catch effect (error) => { throw new ConnectionTransientError({
-                  reason: "network",
-                  detail: error.message,
-                }) };
+          const token = session.readClerkToken() catch effect (error) => {
+            throw new ConnectionTransientError({
+              reason: "network",
+              detail: error.message,
+            })
+          }
           if (token === null) {
             throw new ConnectionBlockedError({
               reason: "authentication",
               detail: "The T3 Connect session is unavailable.",
-            });
+            })
           }
-          return token;
+          return token
         },
       }),
     ).pipe(
@@ -186,7 +186,8 @@ const layerCapabilities = Layer.effectContext(
         ClientCapabilities.RelayDeviceIdentity.of({
           deviceId: storage.loadOrCreateAgentAwarenessDeviceId
             |> Effect.mapError(
-              %, (cause) =>
+              %,
+              (cause) =>
                 new ConnectionTransientError({
                   reason: "remote-unavailable",
                   detail: `Could not load the mobile device identity: ${String(cause)}`,
@@ -198,7 +199,9 @@ const layerCapabilities = Layer.effectContext(
       Context.add(
         ClientCapabilities.ClientPresentation,
         ClientCapabilities.ClientPresentation.of({
-          metadata: try Effect.orDie(Effect.try({ try: () => authClientMetadata(Constants.expoConfig?.version), catch: (e) => e })),
+          metadata: try Effect.orDie(
+            Effect.try({ try: () => authClientMetadata(Constants.expoConfig?.version), catch: (e) => e }),
+          ),
         }),
       ),
       Context.add(
@@ -221,37 +224,45 @@ const layerCapabilities = Layer.effectContext(
           disconnect: () => Effect.void,
         }),
       ),
-    );
+    )
   },
-);
+)
 
 const layerPlatformConnectionSource = Layer.succeed(
   PlatformConnectionSource.PlatformConnectionSource,
   PlatformConnectionSource.PlatformConnectionSource.of({
     registrations: Stream.empty,
   }),
-);
+)
 
-const layerProvidedConnectionStorage = ConnectionStorage.layer.pipe(Layer.provide(Runtime.layer));
-const layerProvidedCapabilities = layerCapabilities.pipe(Layer.provide(Runtime.layer));
+const layerProvidedConnectionStorage = ConnectionStorage.layer.pipe(Layer.provide(Runtime.layer))
+const layerProvidedCapabilities = layerCapabilities.pipe(Layer.provide(Runtime.layer))
 
 const layerEnvironmentOwnedDataCleanup = Layer.succeed(
   Persistence.EnvironmentOwnedDataCleanup,
   Persistence.EnvironmentOwnedDataCleanup.of({
     clear: (environmentId) =>
-      do { const catchProgram = Effect.all(
-        [
-          Effect.promise(() => clearThreadOutboxEnvironment(environmentId)),
-          Effect.promise(() => clearComposerDraftsEnvironment(environmentId)),
-          effect { return clearThreadComposerErrorsForEnvironment(environmentId) },
-        ],
-        { concurrency: "unbounded", discard: true },
-      ); effect { return catchProgram catch effect (cause) => try Effect.logWarning("Could not clear mobile environment-owned data.", {
-            environmentId,
-            cause,
-          }) } },
+      do {
+        const catchProgram = Effect.all(
+          [
+            Effect.promise(() => clearThreadOutboxEnvironment(environmentId)),
+            Effect.promise(() => clearComposerDraftsEnvironment(environmentId)),
+            effect {
+              return clearThreadComposerErrorsForEnvironment(environmentId)
+            },
+          ],
+          { concurrency: "unbounded", discard: true },
+        )
+        effect {
+          return catchProgram catch effect (cause) =>
+            try Effect.logWarning("Could not clear mobile environment-owned data.", {
+              environmentId,
+              cause,
+            })
+        }
+      },
   }),
-);
+)
 
 type ConnectionPlatformLayerSource =
   | typeof layerProvidedConnectionStorage
@@ -260,7 +271,7 @@ type ConnectionPlatformLayerSource =
   | typeof layerWakeups
   | typeof layerProvidedCapabilities
   | typeof layerPlatformConnectionSource
-  | typeof layerEnvironmentOwnedDataCleanup;
+  | typeof layerEnvironmentOwnedDataCleanup
 
 export const layer: Layer.Layer<
   Layer.Success<ConnectionPlatformLayerSource>,
@@ -274,4 +285,4 @@ export const layer: Layer.Layer<
   layerProvidedCapabilities,
   layerPlatformConnectionSource,
   layerEnvironmentOwnedDataCleanup,
-);
+)

@@ -140,7 +140,7 @@ export const makeThreadLiveEventCoalescer = effect <E = never>(
             )
           effect {
             return catchProgram catch effect (e) => match (e) {
-              when { _tag: "LiveStreamBufferError" }: (undefined as void);
+              when { _tag: "LiveStreamBufferError" }: undefined as void;
             }
           }
         }

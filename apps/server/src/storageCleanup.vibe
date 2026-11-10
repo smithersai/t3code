@@ -1051,7 +1051,7 @@ const make = Effect.gen(function*() {
         }
         if (
           (yield* git.resolveCommit({ cwd: worktreePath, revision: "HEAD" })).commitSha
-            !== head.commitSha
+          !== head.commitSha
         ) {
           return keep("commit changed since check")
         }

@@ -68,7 +68,7 @@ export const make = effect {
       ...resolveBoundEndpoints({
         host: config.host,
         port: config.port,
-        interfaces: (try readOSNetworkInterfaces),
+        interfaces: try readOSNetworkInterfaces,
         onCloudVm: try onCloudVm,
       }),
     ]

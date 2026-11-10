@@ -245,18 +245,19 @@ const make = Effect.gen(function*() {
       Effect.mapError((cause) => new Failure({ cause })),
     )
 
-  const dispatchFailure = (
-    Failure:
-      | typeof PullRequestLinkFailedError
-      | typeof PullRequestUnlinkFailedError
-      | typeof PullRequestWatchFailedError,
-  ) =>
-  <E>(
-    cause: Cause.Cause<E>,
-  ): never!(PullRequestLinkFailedError | PullRequestUnlinkFailedError | PullRequestWatchFailedError)! =>
-    Cause.hasInterruptsOnly(cause)
-      ? Effect.failCause(cause as Cause.Cause<never>)
-      : Effect.fail(new Failure({ cause }))
+  const dispatchFailure =
+    (
+      Failure:
+        | typeof PullRequestLinkFailedError
+        | typeof PullRequestUnlinkFailedError
+        | typeof PullRequestWatchFailedError,
+    ) =>
+    <E>(
+      cause: Cause.Cause<E>,
+    ): never!(PullRequestLinkFailedError | PullRequestUnlinkFailedError | PullRequestWatchFailedError)! =>
+      Cause.hasInterruptsOnly(cause)
+        ? Effect.failCause(cause as Cause.Cause<never>)
+        : Effect.fail(new Failure({ cause }))
 
   const setWatching = effect (
     input: PullRequestTargetInput,

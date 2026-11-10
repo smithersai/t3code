@@ -233,19 +233,22 @@ export const deviceToolVersions = effect (
                 (error) => error.reason._tag === "NotFound",
                 () => Effect.succeed([]),
               ))
-            const versions = try Effect.filter(names, (version) =>
-              /^[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-Z0-9.-]+)?$/.test(version)
-                ? effect {
-                  const paths = toolPaths(path, baseDir, { ...spec, version })
-                  const sentinel = try (fs.readFileString(paths.sentinelPath)
-                    |> Effect.catchIf(
-                      %,
-                      (error) => error.reason._tag === "NotFound",
-                      () => Effect.succeed(null),
-                    ))
-                  return sentinel?.trim() === version && (try fs.exists(paths.entryPath))
-                }
-                : Effect.succeed(false))
+            const versions = try Effect.filter(
+              names,
+              (version) =>
+                /^[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-Z0-9.-]+)?$/.test(version)
+                  ? effect {
+                    const paths = toolPaths(path, baseDir, { ...spec, version })
+                    const sentinel = try (fs.readFileString(paths.sentinelPath)
+                      |> Effect.catchIf(
+                        %,
+                        (error) => error.reason._tag === "NotFound",
+                        () => Effect.succeed(null),
+                      ))
+                    return sentinel?.trim() === version && (try fs.exists(paths.entryPath))
+                  }
+                  : Effect.succeed(false),
+            )
             return {
               requiredVersion: spec.version,
               installedVersions: versions.sort(),

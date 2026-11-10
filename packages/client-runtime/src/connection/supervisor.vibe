@@ -869,8 +869,8 @@ export const make = Effect.fn("EnvironmentSupervisor.make")(function*(
       if (landed !== switchingTo.value) {
         const until = (yield* Clock.monotonicTimeNanos)
           + (yield* Effect.orDie(
-              Effect.try({ try: () => BigInt(BETTER_ROUTE_COOLDOWN_MS), catch: (cause) => cause }),
-            ))
+            Effect.try({ try: () => BigInt(BETTER_ROUTE_COOLDOWN_MS), catch: (cause) => cause }),
+          ))
             * 1_000_000n
         yield* Ref.update(routeCooldowns, (current) => new Map(current).set(switchingTo.value, until))
       }

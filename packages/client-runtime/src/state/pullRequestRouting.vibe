@@ -333,8 +333,10 @@ export function createPullRequestRouter() {
             const supported = try (connected.value.initialConfig
               |> Effect.map(%, (config) => config.environment.capabilities.pullRequestChecks === true)
               |> Effect.timeout(%, "2 seconds")
-              |> Effect.catchCause(%, (cause) =>
-                Cause.hasInterrupts(cause) ? Effect.interrupt : Effect.succeed(false)))
+              |> Effect.catchCause(
+                %,
+                (cause) => Cause.hasInterrupts(cause) ? Effect.interrupt : Effect.succeed(false),
+              ))
             if (!supported) {
               continue
             }
@@ -347,8 +349,7 @@ export function createPullRequestRouter() {
 
         const identityProbe = request(WS_METHODS.pullRequestsRouting, ref)
           |> Effect.timeout(%, "2 seconds")
-          |> Effect.catchCause(%, (cause) =>
-            Cause.hasInterrupts(cause) ? Effect.interrupt : Effect.succeed(null))
+          |> Effect.catchCause(%, (cause) => Cause.hasInterrupts(cause) ? Effect.interrupt : Effect.succeed(null))
         const identity = try (reads.has(tag)
           ? shareMetadataRead(
             pendingRouting,
@@ -416,8 +417,10 @@ export function createPullRequestRouter() {
                 host: identity.host,
               })
                 |> Effect.timeout(%, "2 seconds")
-                |> Effect.catchCause(%, (cause) =>
-                  Cause.hasInterrupts(cause) ? Effect.interrupt : Effect.succeed(null))
+                |> Effect.catchCause(
+                  %,
+                  (cause) => Cause.hasInterrupts(cause) ? Effect.interrupt : Effect.succeed(null),
+                )
               const alternate = try (registry
                 .run(
                   id,
@@ -426,8 +429,10 @@ export function createPullRequestRouter() {
                     : alternateProbe,
                 )
                 |> Effect.timeout(%, "2 seconds")
-                |> Effect.catchCause(%, (cause) =>
-                  Cause.hasInterrupts(cause) ? Effect.interrupt : Effect.succeed(null)))
+                |> Effect.catchCause(
+                  %,
+                  (cause) => Cause.hasInterrupts(cause) ? Effect.interrupt : Effect.succeed(null),
+                ))
               if (
                 alternate === null
                 || alternate.provider !== identity.provider
@@ -444,10 +449,8 @@ export function createPullRequestRouter() {
             return try ((reads.has(tag) ? operation.pipe(readTimeout(id)) : operation)
               |> Effect.catchIf(
                 %,
-                (error) =>
-                  (reads.has(tag) || rejectedBeforeDispatch(error)) && index + 1 < candidates.length,
-                () =>
-                  visit(index + 1),
+                (error) => (reads.has(tag) || rejectedBeforeDispatch(error)) && index + 1 < candidates.length,
+                () => visit(index + 1),
               )
               |> Effect.map(%, (result) =>
                 typeof result === "object" && result !== null && "projectId" in result

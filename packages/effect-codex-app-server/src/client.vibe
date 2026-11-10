@@ -162,8 +162,10 @@ export const make = effect (
 
         if (schema) {
           return decodeNotificationPayload(notification.method, schema, notification.params)
-            |> Effect.flatMap(%, (decoded) =>
-              Effect.forEach(handlers, (handler) => handler(decoded), { discard: true }))
+            |> Effect.flatMap(
+              %,
+              (decoded) => Effect.forEach(handlers, (handler) => handler(decoded), { discard: true }),
+            )
             |> Effect.ignore(%)
         }
 
@@ -182,8 +184,7 @@ export const make = effect (
           const handler = requestHandlers.get(method)
 
           return decodeOptionalPayload(method, payloadSchema, request.params)
-            |> Effect.flatMap(%, (decoded) =>
-              runHandler(handler, decoded, method))
+            |> Effect.flatMap(%, (decoded) => runHandler(handler, decoded, method))
             |> Effect.flatMap(%, (result) => encodeOptionalPayload(method, responseSchema, result))
         }
 

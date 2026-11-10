@@ -1519,18 +1519,18 @@ export const make = Effect.gen(function*() {
       && remoteName !== "origin"
       && originRepository.remoteUrlKey === null
       && (yield* gitCore
-          .execute({
-            operation: "GitManager.resolveBranchHeadContext.remotes",
-            cwd,
-            args: ["remote"],
-            timeoutMs: 5_000,
-          })
-          .pipe(
-            Effect.map(
-              (result) => result.stdout.split("\n").filter((name) => name.trim().length > 0).length,
-            ),
-            Effect.orElseSucceed(() => 0),
-          )) === 1
+        .execute({
+          operation: "GitManager.resolveBranchHeadContext.remotes",
+          cwd,
+          args: ["remote"],
+          timeoutMs: 5_000,
+        })
+        .pipe(
+          Effect.map(
+            (result) => result.stdout.split("\n").filter((name) => name.trim().length > 0).length,
+          ),
+          Effect.orElseSucceed(() => 0),
+        )) === 1
       && (yield* targetsOnlyRemote(cwd, remoteName, remoteRepository))
     const isForeignRemote = remoteName !== null && remoteName !== "origin" && !isOnlyRemote
 

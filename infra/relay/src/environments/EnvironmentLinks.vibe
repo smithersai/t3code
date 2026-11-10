@@ -156,8 +156,7 @@ const make = effect {
           const environmentId = proof.environmentId
           // Inherit opt-in only from links proven by the same key; anyone can claim the public environment id.
           const inheritedHoldWebhooks = try Effect.orDie(Effect.try({
-            try: () =>
-              sql<boolean>`EXISTS (
+            try: () => sql<boolean>`EXISTS (
         SELECT 1 FROM ${relayEnvironmentLinks} AS other
         WHERE other.environment_id = ${environmentId}
           AND other.environment_public_key = ${proof.environmentPublicKey}

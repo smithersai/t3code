@@ -184,7 +184,7 @@ export function useQueuedRunEdit(input: {
     const newAttachments = [...content.images, ...content.files]
     if (
       editing.existingAttachments.length + newAttachments.length
-        > PROVIDER_SEND_TURN_MAX_ATTACHMENTS
+      > PROVIDER_SEND_TURN_MAX_ATTACHMENTS
     ) {
       setThreadError(
         editing.threadId,

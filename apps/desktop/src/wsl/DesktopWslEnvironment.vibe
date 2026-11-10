@@ -155,8 +155,7 @@ module platform {
   }
   const buildWslNodeEnvPreamble = (
     nodeEngineRange?: string | null,
-  ): string =>
-    `${buildRemoteNodeEnvScript({ nodeEngineRange: nodeEngineRange ?? null })}
+  ): string => `${buildRemoteNodeEnvScript({ nodeEngineRange: nodeEngineRange ?? null })}
 ensure_remote_node_path || true
 `
   // wsl.exe re-escaping mangles quotes inside bash -lc scripts.
@@ -409,8 +408,7 @@ ensure_remote_node_path || true
   const RESOLVED_PATH_LINE = `printf 'resolvedPath:%s\\n' "$PATH"`
   const NODE_PTY_PROBE_SCRIPT = (
     linuxServerDir: string,
-  ) =>
-    `printf 'nodePath:%s\\n' "$(command -v node 2>/dev/null)"
+  ) => `printf 'nodePath:%s\\n' "$(command -v node 2>/dev/null)"
 printf 'nodeVersion:%s\\n' "$(node -p 'process.versions.node' 2>/dev/null)"
 ${RESOLVED_PATH_LINE}
 cd ${shellQuote(linuxServerDir)} && node <<'NODE' >/dev/null 2>&1

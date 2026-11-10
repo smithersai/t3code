@@ -662,7 +662,7 @@ const isVoltaPackageInstall = effect (
       const path = try Path.Path
       if (
         path.basename(normalizeCommandPath(context.realCommandPath)).replace(/\.exe$/, "")
-          !== "volta-shim"
+        !== "volta-shim"
       ) {
         return false
       }

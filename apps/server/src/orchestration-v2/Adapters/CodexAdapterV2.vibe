@@ -6508,15 +6508,18 @@ export const makeCodexAdapterV2 = Effect.fn("makeCodexAdapterV2")(function*(
           (effect, turnInput) =>
             effect.pipe(
               Effect.ensuring(
-                Effect.flatMap(getNativeThreadId(turnInput.providerThread), (threadId) =>
-                  Ref.update(pendingRootTurns, (current) => {
-                    if (current.get(threadId) !== turnInput) {
-                      return current
-                    }
-                    const updated = new Map(current)
-                    updated.delete(threadId)
-                    return updated
-                  })).pipe(Effect.ignore),
+                Effect.flatMap(
+                  getNativeThreadId(turnInput.providerThread),
+                  (threadId) =>
+                    Ref.update(pendingRootTurns, (current) => {
+                      if (current.get(threadId) !== turnInput) {
+                        return current
+                      }
+                      const updated = new Map(current)
+                      updated.delete(threadId)
+                      return updated
+                    }),
+                ).pipe(Effect.ignore),
               ),
             ),
         )

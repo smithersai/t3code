@@ -318,8 +318,10 @@ export const refineUnknownRemoteProvider = effect (
 ): UnknownRemoteVerdict!! =>
   try withSpan(
     (effect (): UnknownRemoteVerdict!! => {
-      const results = try Effect.forEach(input.specs, (spec) =>
-        refineWithSpec({ ...input, spec }) |> Effect.result(%))
+      const results = try Effect.forEach(
+        input.specs,
+        (spec) => refineWithSpec({ ...input, spec }) |> Effect.result(%),
+      )
       // An earlier integration that could not answer might have claimed this host.
       let settled = true
       for (const result of results) {

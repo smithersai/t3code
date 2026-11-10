@@ -228,30 +228,31 @@ export function deriveProviderThread(input: {
   )
 }
 
-const randomId = <Id, Input>(input: {
-  readonly kind: IdAllocatorV2Kind
-  readonly prefix: string
-  readonly parts: ReadonlyArray<string | number>
-  readonly make: (value: string) => Id!!
-}) =>
-(allocationInput: Input): Id!IdAllocatorV2Error =>
-  effect {
-    const uuid = try randomUuidV4
-    const value = try Effect.orDie(Effect.try({
-      try: () => joinId(input.prefix, ...input.parts, uuid),
-      catch: (cause) => cause,
-    }))
-    return try input.make(value)
-  }
-  |> Effect.mapError(
-    %,
-    (cause) =>
-      new IdAllocatorV2AllocationError({
-        kind: input.kind,
-        input: allocationInput,
-        cause,
-      }),
-  )
+const randomId =
+  <Id, Input>(input: {
+    readonly kind: IdAllocatorV2Kind
+    readonly prefix: string
+    readonly parts: ReadonlyArray<string | number>
+    readonly make: (value: string) => Id!!
+  }) =>
+  (allocationInput: Input): Id!IdAllocatorV2Error =>
+    effect {
+      const uuid = try randomUuidV4
+      const value = try Effect.orDie(Effect.try({
+        try: () => joinId(input.prefix, ...input.parts, uuid),
+        catch: (cause) => cause,
+      }))
+      return try input.make(value)
+    }
+    |> Effect.mapError(
+      %,
+      (cause) =>
+        new IdAllocatorV2AllocationError({
+          kind: input.kind,
+          input: allocationInput,
+          cause,
+        }),
+    )
 
 export const derive: IdAllocatorV2Derive = {
   providerSession: (input) =>

@@ -349,18 +349,19 @@ export const makeAcpClientTerminals = effect (
         }
       }
 
-      const logged = <Request, Response>(
-        operation: string,
-        handler: (request: Request) => Response!EffectAcpErrors.AcpRequestError,
-      ): infer _ =>
-      effect (request: Request) =>
-        handler(request) catch effect (error) => {
-          try logWarning("ACP client terminal operation failed", {
-            operation,
-            detail: error.message,
-          })
-          throw error
-        }
+      const logged =
+        <Request, Response>(
+          operation: string,
+          handler: (request: Request) => Response!EffectAcpErrors.AcpRequestError,
+        ): infer _ =>
+        effect (request: Request) =>
+          handler(request) catch effect (error) => {
+            try logWarning("ACP client terminal operation failed", {
+              operation,
+              detail: error.message,
+            })
+            throw error
+          }
 
       return {
         create: logged("terminal/create", create),

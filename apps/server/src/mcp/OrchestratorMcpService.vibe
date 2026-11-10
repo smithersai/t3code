@@ -942,13 +942,14 @@ const make = Effect.gen(function*() {
 
   const requireProject = (projectId: ProjectId) =>
     projects.getById(projectId)
-    |> Effect.mapError(%, (error) =>
-      failure("orchestration_error", `Unable to read project ${projectId}: ${error.message}`))
+    |> Effect.mapError(
+      %,
+      (error) => failure("orchestration_error", `Unable to read project ${projectId}: ${error.message}`),
+    )
     |> Effect.flatMap(
       %,
       Option.match({
-        onNone: () =>
-          Effect.fail(failure("invalid_request", `Project ${projectId} was not found.`)),
+        onNone: () => Effect.fail(failure("invalid_request", `Project ${projectId} was not found.`)),
         onSome: (value) => Effect.succeed(value),
       }),
     )
@@ -2987,13 +2988,13 @@ const make = Effect.gen(function*() {
           const ownedTask = result.timedOut
             && status !== "waiting"
             && parent?.subagents.some(
-                (task) =>
-                  task.id === taskId
-                  && task.origin === "app_owned"
-                  && task.threadId === parent.thread.id
-                  && task.childThreadId === input.threadId
-                  && task.completionDelivery?.state !== "disposed",
-              ) === true
+              (task) =>
+                task.id === taskId
+                && task.origin === "app_owned"
+                && task.threadId === parent.thread.id
+                && task.childThreadId === input.threadId
+                && task.completionDelivery?.state !== "disposed",
+            ) === true
           // A child waiting on a question or approval needs an answer, not a wake.
           const childRequests = ownedTask
             ? (threadManagement

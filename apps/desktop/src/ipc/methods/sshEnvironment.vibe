@@ -88,22 +88,23 @@ export class DesktopSshEnvironmentRequestError extends Data.TaggedError(
   }
 }
 
-const withLoopbackSshApi = <A, R>(
-  operation: DesktopSshEnvironmentRequestOperation,
-  use: (httpBaseUrl: string) => A!RemoteEnvironmentAuthError!R,
-) =>
-(httpBaseUrl: string): A!DesktopSshEnvironmentRequestError!R =>
-  resolveLoopbackSshHttpBaseUrl(httpBaseUrl)
-  |> Effect.flatMap(%, use)
-  |> Effect.mapError(
-    %,
-    (cause) =>
-      new DesktopSshEnvironmentRequestError({
-        operation,
-        cause,
-        sshHttpStatus: readSshHttpStatus(cause),
-      }),
-  )
+const withLoopbackSshApi =
+  <A, R>(
+    operation: DesktopSshEnvironmentRequestOperation,
+    use: (httpBaseUrl: string) => A!RemoteEnvironmentAuthError!R,
+  ) =>
+  (httpBaseUrl: string): A!DesktopSshEnvironmentRequestError!R =>
+    resolveLoopbackSshHttpBaseUrl(httpBaseUrl)
+    |> Effect.flatMap(%, use)
+    |> Effect.mapError(
+      %,
+      (cause) =>
+        new DesktopSshEnvironmentRequestError({
+          operation,
+          cause,
+          sshHttpStatus: readSshHttpStatus(cause),
+        }),
+    )
 
 export const discoverSshHosts = DesktopIpc.makeIpcMethod({
   channel: IpcChannels.DISCOVER_SSH_HOSTS_CHANNEL,
@@ -145,11 +146,15 @@ export const ensureSshEnvironment = DesktopIpc.makeIpcMethod({
       effect {
         const sshEnvironment = try DesktopSshEnvironment.DesktopSshEnvironment
         return try (sshEnvironment.ensureEnvironment(target, options)
-          |> Effect.catchIf(%, DesktopSshEnvironment.isDesktopSshPasswordPromptCancellation, (error) =>
-            Effect.succeed({
-              type: DesktopSshPasswordPromptCancelledType,
-              message: error.message,
-            })))
+          |> Effect.catchIf(
+            %,
+            DesktopSshEnvironment.isDesktopSshPasswordPromptCancellation,
+            (error) =>
+              Effect.succeed({
+                type: DesktopSshPasswordPromptCancelledType,
+                message: error.message,
+              }),
+          ))
       },
       "desktop.ipc.sshEnvironment.ensureEnvironment",
     ),
@@ -195,11 +200,14 @@ export const bootstrapSshBearerSession = DesktopIpc.makeIpcMethod({
   }) =>
     try withSpan(
       effect {
-        return try withLoopbackSshApi("bootstrap-bearer-session", (resolvedHttpBaseUrl) =>
-          bootstrapRemoteBearerSession({
-            httpBaseUrl: resolvedHttpBaseUrl,
-            credential,
-          }))(httpBaseUrl)
+        return try withLoopbackSshApi(
+          "bootstrap-bearer-session",
+          (resolvedHttpBaseUrl) =>
+            bootstrapRemoteBearerSession({
+              httpBaseUrl: resolvedHttpBaseUrl,
+              credential,
+            }),
+        )(httpBaseUrl)
       },
       "desktop.ipc.sshEnvironment.bootstrapBearerSession",
     ),

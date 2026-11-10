@@ -992,8 +992,11 @@ export const make = Effect.gen(function* PortDiscoveryMake() {
         try Effect.forEach(notifications, ([listener, servers]) => listener(servers), {
           discard: true,
         })
-      } |> Effect.catchCause(%, (cause: Cause.Cause<never>) =>
-        Effect.logWarning("preview port scan failed", Cause.pretty(cause))),
+      }
+        |> Effect.catchCause(
+          %,
+          (cause: Cause.Cause<never>) => Effect.logWarning("preview port scan failed", Cause.pretty(cause)),
+        ),
       "PortDiscovery.pollTick",
     )
 

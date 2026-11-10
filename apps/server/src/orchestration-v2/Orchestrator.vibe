@@ -1506,9 +1506,9 @@ const makeOrchestrator = Effect.fn("orchestrationV2.Orchestrator.layer")(functio
         .map((run) => run.id)
       const startedAhead = newerRunIds.length > 0
         && (yield* projectionStore.getThreadRecords(threadId, ["turnItems"], {
-            turnItemTypes: ["user_message", "notification"],
-            turnItemRunIds: newerRunIds,
-          })).turnItems.length > 0
+          turnItemTypes: ["user_message", "notification"],
+          turnItemRunIds: newerRunIds,
+        })).turnItems.length > 0
       const ordinal = startedAhead ? nextRunOrdinal(projection) : queuedRun.ordinal
       const rootNodeId = queuedRun.rootNodeId
       const attemptId = queuedRun.activeAttemptId
@@ -4508,14 +4508,14 @@ const makeOrchestrator = Effect.fn("orchestrationV2.Orchestrator.layer")(functio
     const canResumeAcrossInstances = providerInstanceChanged
       && providerThread.nativeThreadRef !== null
       && (yield* providerSwitchService
-          .plan({
-            projection: {
-              ...input.projection,
-              thread: { ...input.projection.thread, modelSelection: targetRun.modelSelection },
-            },
-            targetModelSelection: input.modelSelection,
-          })
-          .pipe(mapDispatchError(input.command))).transition.type === "restart_and_resume"
+        .plan({
+          projection: {
+            ...input.projection,
+            thread: { ...input.projection.thread, modelSelection: targetRun.modelSelection },
+          },
+          targetModelSelection: input.modelSelection,
+        })
+        .pipe(mapDispatchError(input.command))).transition.type === "restart_and_resume"
     const requiresProviderThreadHandoff = (providerInstanceChanged && !canResumeAcrossInstances)
       || selectionTransition?.type === "create_with_handoff"
     const requiresProviderSessionRestart = canResumeAcrossInstances
@@ -5065,8 +5065,8 @@ const makeOrchestrator = Effect.fn("orchestrationV2.Orchestrator.layer")(functio
       !isNativeMaintenanceCommand(command)
       && ((command.titleSeed !== undefined
         && (yield* projectionStore
-            .getMessageCount(command.threadId)
-            .pipe(mapDispatchError(command))) === 0)
+          .getMessageCount(command.threadId)
+          .pipe(mapDispatchError(command))) === 0)
         || (command.createdBy === "user" && onlyMaintenanceHistory))
     ) {
       const now = yield* DateTime.now
@@ -5733,20 +5733,20 @@ const makeOrchestrator = Effect.fn("orchestrationV2.Orchestrator.layer")(functio
     const canResumeAcrossInstances = isProviderSwitch
       && activeProviderThread.nativeThreadRef !== null
       && (yield* providerSwitchService
-          .plan({
-            projection: {
-              ...projection,
-              thread: {
-                ...projection.thread,
-                modelSelection: {
-                  ...projection.thread.modelSelection,
-                  instanceId: activeProviderThread.providerInstanceId,
-                },
+        .plan({
+          projection: {
+            ...projection,
+            thread: {
+              ...projection.thread,
+              modelSelection: {
+                ...projection.thread.modelSelection,
+                instanceId: activeProviderThread.providerInstanceId,
               },
             },
-            targetModelSelection: modelSelection,
-          })
-          .pipe(mapDispatchError(command))).transition.type === "restart_and_resume"
+          },
+          targetModelSelection: modelSelection,
+        })
+        .pipe(mapDispatchError(command))).transition.type === "restart_and_resume"
 
     if (
       pendingForkTransfer === undefined
@@ -10513,12 +10513,12 @@ const makeOrchestrator = Effect.fn("orchestrationV2.Orchestrator.layer")(functio
       : projection.providerThreads.find((candidate) => candidate.id === run?.providerThreadId)
     const hasBackgroundWork = run?.id === projection.runs.findLast((candidate) => candidate.status !== "queued")?.id
       && derivePendingBackgroundWork({
-          latestRun: run,
-          providerThreads: projection.providerThreads,
-          turnItems: projection.turnItems,
-          activeProviderThreadId: projection.thread.activeProviderThreadId,
-          runs: projection.runs,
-        }).length > 0
+        latestRun: run,
+        providerThreads: projection.providerThreads,
+        turnItems: projection.turnItems,
+        activeProviderThreadId: projection.thread.activeProviderThreadId,
+        runs: projection.runs,
+      }).length > 0
     // A failed start has no provider turn. Background work still belongs
     // to the provider thread, so Stop reaches its latest accepted turn.
     const providerTurn = projection.providerTurns.findLast(

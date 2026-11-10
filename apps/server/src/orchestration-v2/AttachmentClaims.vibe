@@ -70,7 +70,7 @@ export const claimPendingAttachments = effect (
       try validateAttachmentLimits(input.attachments)
       if (
         new Set(input.attachments.map((attachment) => attachment.id)).size
-          !== input.attachments.length
+        !== input.attachments.length
       ) {
         throw new AttachmentClaimError({
           message: "Duplicate attachment ids are not allowed.",

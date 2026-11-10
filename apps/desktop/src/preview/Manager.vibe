@@ -754,13 +754,16 @@ const makeNativeOperations = Effect.fn("PreviewManager.makeOperations")(function
           return [undefined, sessions] as const
         }
         if (consumer === "recording") {
-          yield* Effect.forEach(current.unthrottledWebContentsIds, (id) =>
-            attempt({ operation: "recording.cursor", tabId, webContentsId: id }, () => {
-              const contents = webContents.fromId(id)
-              if (contents && !contents.isDestroyed()) {
-                contents.send(RECORDING_CURSOR_CHANNEL, false)
-              }
-            }).pipe(Effect.ignore))
+          yield* Effect.forEach(
+            current.unthrottledWebContentsIds,
+            (id) =>
+              attempt({ operation: "recording.cursor", tabId, webContentsId: id }, () => {
+                const contents = webContents.fromId(id)
+                if (contents && !contents.isDestroyed()) {
+                  contents.send(RECORDING_CURSOR_CHANNEL, false)
+                }
+              }).pipe(Effect.ignore),
+          )
         }
         const consumers = new Set(current.consumers)
         consumers.delete(consumer)

@@ -3195,7 +3195,7 @@ const composerDraftStore = create<ComposerDraftStoreState>()(
               }
               if (
                 existing.images.length + existing.files.length + dedupedIncoming.length
-                  >= PROVIDER_SEND_TURN_MAX_ATTACHMENTS
+                >= PROVIDER_SEND_TURN_MAX_ATTACHMENTS
               ) {
                 if (!acceptedPreviewUrls.has(image.previewUrl)) {
                   revokeObjectPreviewUrl(image.previewUrl)
@@ -3300,7 +3300,7 @@ const composerDraftStore = create<ComposerDraftStoreState>()(
               }
               if (
                 existing.images.length + existing.files.length + accepted.length
-                  >= PROVIDER_SEND_TURN_MAX_ATTACHMENTS
+                >= PROVIDER_SEND_TURN_MAX_ATTACHMENTS
               ) {
                 break
               }

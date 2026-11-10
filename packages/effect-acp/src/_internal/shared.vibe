@@ -13,8 +13,11 @@ export const callRpc = <A>(
 ): A!AcpError.AcpError =>
   do {
     const catchProgram = effect
-      |> Effect.catchIf(%, isError, (error) =>
-        Effect.fail(AcpError.AcpRequestError.fromProtocolError(error, { method })))
+      |> Effect.catchIf(
+        %,
+        isError,
+        (error) => Effect.fail(AcpError.AcpRequestError.fromProtocolError(error, { method })),
+      )
     effect {
       return catchProgram catch effect (cause) => match (cause) {
         when { _tag: "RpcClientError" }: throw (cause.reason._tag === "RpcClientDefect" && isAcpError(cause.reason.cause)

@@ -43,7 +43,7 @@ function isRedundantWindowButtonDescription(node: SnapShotAccessibilityNode): bo
   if (node.role !== "button" || !node.name || !node.description) return false
   return (
     normalizedAccessibilityLabel(node.description)
-      === `${normalizedAccessibilityLabel(node.name)} the window`
+    === `${normalizedAccessibilityLabel(node.name)} the window`
   )
 }
 

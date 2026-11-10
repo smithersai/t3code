@@ -184,23 +184,24 @@ function isAlreadyExists(error: PlatformError.PlatformError): boolean {
   return error.reason._tag === "AlreadyExists"
 }
 
-const wrapInstallFailure = (
-  reason: RelayClientInstallError["reason"],
-  message: string,
-): (<E, R>(
-  effect: void!E!R,
-) => void!RelayClientInstallError!R) =>
-(effect) =>
-  effect
-  |> Effect.mapError(
-    %,
-    (cause) =>
-      new RelayClientInstallError({
-        reason,
-        message,
-        cause,
-      }),
-  )
+const wrapInstallFailure =
+  (
+    reason: RelayClientInstallError["reason"],
+    message: string,
+  ): (<E, R>(
+    effect: void!E!R,
+  ) => void!RelayClientInstallError!R) =>
+  (effect) =>
+    effect
+    |> Effect.mapError(
+      %,
+      (cause) =>
+        new RelayClientInstallError({
+          reason,
+          message,
+          cause,
+        }),
+    )
 
 export const makeCloudflaredRelayClient = effect (
   options: CloudflaredRelayClientOptions,

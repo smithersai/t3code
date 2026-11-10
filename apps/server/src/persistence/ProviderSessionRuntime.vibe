@@ -129,8 +129,7 @@ export const make = Effect.gen(function*() {
   // Runtime payloads may be stale; only recordImportedTranscript can change source records.
   const upsertRuntimeRow = SqlSchema.void({
     Request: ProviderSessionRuntimeDbRowSchema,
-    execute: (runtime) =>
-      sql`
+    execute: (runtime) => sql`
         INSERT INTO provider_session_runtime (
           thread_id,
           provider_name,
@@ -191,8 +190,7 @@ export const make = Effect.gen(function*() {
 
   const insertRuntimeRow = SqlSchema.void({
     Request: ProviderSessionRuntimeDbRowSchema,
-    execute: (runtime) =>
-      sql`
+    execute: (runtime) => sql`
         INSERT INTO provider_session_runtime (
           thread_id,
           provider_name,
@@ -225,8 +223,7 @@ export const make = Effect.gen(function*() {
 
   const recordImportedTranscriptRow = SqlSchema.void({
     Request: RecordImportedTranscriptRequestSchema,
-    execute: ({ threadId, source }) =>
-      sql`
+    execute: ({ threadId, source }) => sql`
         WITH current_runtime AS (
           SELECT CASE
             WHEN json_valid(runtime_payload_json) THEN CASE
@@ -273,8 +270,7 @@ export const make = Effect.gen(function*() {
   const getRuntimeRowByThreadId = SqlSchema.findOneOption({
     Request: GetRuntimeRequestSchema,
     Result: ProviderSessionRuntimeRawDbRowSchema,
-    execute: ({ threadId }) =>
-      sql`
+    execute: ({ threadId }) => sql`
         SELECT
           thread_id AS "threadId",
           provider_name AS "providerName",
@@ -293,8 +289,7 @@ export const make = Effect.gen(function*() {
   const listRuntimeRows = SqlSchema.findAll({
     Request: Schema.Struct({ excludeStopped: Schema.Boolean }),
     Result: ProviderSessionRuntimeRawDbRowSchema,
-    execute: ({ excludeStopped }) =>
-      sql`
+    execute: ({ excludeStopped }) => sql`
         SELECT
           thread_id AS "threadId",
           provider_name AS "providerName",
@@ -313,8 +308,7 @@ export const make = Effect.gen(function*() {
 
   const deleteRuntimeByThreadId = SqlSchema.void({
     Request: DeleteRuntimeRequestSchema,
-    execute: ({ threadId }) =>
-      sql`
+    execute: ({ threadId }) => sql`
         DELETE FROM provider_session_runtime
         WHERE thread_id = ${threadId}
       `,

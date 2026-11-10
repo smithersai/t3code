@@ -136,14 +136,17 @@ export const makeGrokTextGeneration = effect (
                   onSome: (value) => Effect.succeed(value),
                 }),
               )
-              |> Effect.mapError(%, (cause: EffectAcpErrors.AcpError | TextGenerationError) =>
-                isTextGenerationError(cause)
-                  ? cause
-                  : new TextGenerationError({
-                    operation,
-                    detail: "Grok ACP request failed.",
-                    cause,
-                  })))
+              |> Effect.mapError(
+                %,
+                (cause: EffectAcpErrors.AcpError | TextGenerationError) =>
+                  isTextGenerationError(cause)
+                    ? cause
+                    : new TextGenerationError({
+                      operation,
+                      detail: "Grok ACP request failed.",
+                      cause,
+                    }),
+              ))
 
             const trimmed = (try Ref.get(outputRef)).trim()
             if (!trimmed) {

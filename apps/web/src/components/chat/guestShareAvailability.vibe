@@ -12,6 +12,6 @@ export const canShareWithGuestAtom = Atom.family((environmentId: EnvironmentId) 
     (get) =>
       get(serverEnvironment.createGuestShare.permissionAtom(environmentId))
       && get(environmentPresentations.serverConfigsAtom).get(environmentId)?.settings
-          .guestSharingEnabled === true,
+        .guestSharingEnabled === true,
   ).pipe(Atom.withLabel(`guest-share:available:${environmentId}`))
 )

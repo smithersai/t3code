@@ -142,10 +142,10 @@ export const make = effect {
           const decoded = decodeFcmError(body)
           const unregistered = Option.isSome(decoded)
             && decoded.value.error.details?.some(
-                (detail) =>
-                  detail["@type"] === "type.googleapis.com/google.firebase.fcm.v1.FcmError"
-                  && detail.errorCode === "UNREGISTERED",
-              ) === true
+              (detail) =>
+                detail["@type"] === "type.googleapis.com/google.firebase.fcm.v1.FcmError"
+                && detail.errorCode === "UNREGISTERED",
+            ) === true
           if (unregistered) return { unregistered: true }
           throw new FcmClientError({ operation: "send", status: response.status })
         })(),

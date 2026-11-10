@@ -389,12 +389,16 @@ export const pullRequestEnvironment = createPullRequestEnvironmentAtoms(connecti
   checks: ({ environmentId, input }, checks, registry) =>
     Effect.map(Clock.currentTimeMillis, (observedAt) => {
       if (checks === null) return
-      recordObservation(registry, pullRequestSummaryKey(environmentId, input), (current) =>
-        observePullRequestChecks(current, {
-          checksState: pullRequestChecksState(checks.checks),
-          readAt: checks.observedAt,
-          observedAt,
-        }))
+      recordObservation(
+        registry,
+        pullRequestSummaryKey(environmentId, input),
+        (current) =>
+          observePullRequestChecks(current, {
+            checksState: pullRequestChecksState(checks.checks),
+            readAt: checks.observedAt,
+            observedAt,
+          }),
+      )
     }),
   // Covers runs started elsewhere (another client, an agent) as well as this client's own.
   reviewGuide: ({ environmentId, input }, guide) =>

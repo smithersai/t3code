@@ -470,12 +470,13 @@ function withRateLimitBackoff(
         )
       ),
     )
-  const wrap = <Args extends ReadonlyArray<unknown>, A>(
-    operation: string,
-    call: (...args: Args) => A!PullRequestProviderError,
-    allowPaused = false,
-  ) =>
-  (...args: Args) => protect(operation, call(...args), allowPaused)
+  const wrap =
+    <Args extends ReadonlyArray<unknown>, A>(
+      operation: string,
+      call: (...args: Args) => A!PullRequestProviderError,
+      allowPaused = false,
+    ) =>
+    (...args: Args) => protect(operation, call(...args), allowPaused)
   const interactive = <Args extends ReadonlyArray<unknown>, A>(
     operation: string,
     call: (...args: Args) => A!PullRequestProviderError,
@@ -3440,24 +3441,25 @@ export const make = Effect.gen(function*() {
         .pipe(Effect.andThen(SubscriptionRef.set(pullRequestRefreshes, listingsEpoch)))
     })
 
-  const invalidatedByMutation = <I extends PullRequestRef>(
-    method: (input: I) => void!PullRequestError,
-  ): ((input: I) => void!PullRequestError) =>
-  (input) =>
-    Effect.gen(function*() {
-      const ref = yield* canonicalRef(input)
-      yield* readCache.invalidate(refScope(ref)).pipe(
-        Effect.andThen(method(input)),
-        Effect.ensuring(readCache.invalidate(refScope(ref))),
-        Effect.tap(() =>
-          Effect.sync(() => {
-            bumpRefEpoch(ref)
-            listingsEpoch = ++epochCounter
-          })
-        ),
-      )
-      yield* SubscriptionRef.set(pullRequestRefreshes, listingsEpoch)
-    })
+  const invalidatedByMutation =
+    <I extends PullRequestRef>(
+      method: (input: I) => void!PullRequestError,
+    ): ((input: I) => void!PullRequestError) =>
+    (input) =>
+      Effect.gen(function*() {
+        const ref = yield* canonicalRef(input)
+        yield* readCache.invalidate(refScope(ref)).pipe(
+          Effect.andThen(method(input)),
+          Effect.ensuring(readCache.invalidate(refScope(ref))),
+          Effect.tap(() =>
+            Effect.sync(() => {
+              bumpRefEpoch(ref)
+              listingsEpoch = ++epochCounter
+            })
+          ),
+        )
+        yield* SubscriptionRef.set(pullRequestRefreshes, listingsEpoch)
+      })
   const runActionAndInvalidate: PullRequestService["Service"]["runAction"] = Effect.fn(
     "PullRequestService.runActionAndInvalidate",
   )(function*(input) {
@@ -3488,20 +3490,21 @@ export const make = Effect.gen(function*() {
     }
   })
 
-  const credentialCached = <I extends PullRequestRef, Args extends ReadonlyArray<unknown>, A, E>(
-    read: (input: I, ...args: Args) => A!E,
-  ) =>
-  (input: I, ...args: Args) =>
-    Effect.gen(function*() {
-      const ref = yield* canonicalRef(input)
-      const credential = yield* routingCredential
-      return yield* read(
-        credential === null
-          ? ref
-          : { ...ref, [credentialNamespace]: credential.credentialFingerprint },
-        ...args,
-      )
-    })
+  const credentialCached =
+    <I extends PullRequestRef, Args extends ReadonlyArray<unknown>, A, E>(
+      read: (input: I, ...args: Args) => A!E,
+    ) =>
+    (input: I, ...args: Args) =>
+      Effect.gen(function*() {
+        const ref = yield* canonicalRef(input)
+        const credential = yield* routingCredential
+        return yield* read(
+          credential === null
+            ? ref
+            : { ...ref, [credentialNamespace]: credential.credentialFingerprint },
+          ...args,
+        )
+      })
 
   // Cache small filename lists even when patches exceed limits, avoiding diff refetches on file expansion.
   const diffFiles = (() => {

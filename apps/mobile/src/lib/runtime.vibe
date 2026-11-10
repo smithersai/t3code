@@ -1,24 +1,23 @@
-import { makeHttpClientLayerOnPlatform } from "./runtime.platform.ts";
-import * as Layer from "effect/Layer";
-import * as ManagedRuntime from "effect/ManagedRuntime";
-import * as Socket from "effect/socket/Socket";
+import { makeHttpClientLayerOnPlatform } from "./runtime.platform.ts"
+import * as Layer from "effect/Layer"
+import * as ManagedRuntime from "effect/ManagedRuntime"
+import * as Socket from "effect/socket/Socket"
 
+import * as Dpop from "../features/cloud/dpop"
+import * as ManagedRelayLayer from "../features/cloud/managedRelayLayer.vibe"
+import { resolveCloudPublicConfig } from "../features/cloud/publicConfig.vibe"
+import * as Tracing from "../features/observability/tracing"
+import * as Persistence from "../persistence/layer.vibe"
+import { disposeOnFoundationReplace, type FoundationHotModule } from "./foundation-fast-refresh"
+import { whenProtectedDataAvailable } from "./protectedData"
 
-import * as Dpop from "../features/cloud/dpop";
-import * as ManagedRelayLayer from "../features/cloud/managedRelayLayer.vibe";
-import { resolveCloudPublicConfig } from "../features/cloud/publicConfig.vibe";
-import * as Tracing from "../features/observability/tracing";
-import * as Persistence from "../persistence/layer.vibe";
-import { disposeOnFoundationReplace, type FoundationHotModule } from "./foundation-fast-refresh";
-import { whenProtectedDataAvailable } from "./protectedData";
-
-declare const module: { readonly hot?: FoundationHotModule } | undefined;
+declare const module: { readonly hot?: FoundationHotModule } | undefined
 
 function configuredRelayUrl(): string {
-  return resolveCloudPublicConfig().relay.url ?? "http://relay.invalid";
+  return resolveCloudPublicConfig().relay.url ?? "http://relay.invalid"
 }
 
-const layerHttpClient = makeHttpClientLayerOnPlatform();
+const layerHttpClient = makeHttpClientLayerOnPlatform()
 
 type RuntimeLayerSource =
   | ReturnType<typeof ManagedRelayLayer.layer>
@@ -26,7 +25,7 @@ type RuntimeLayerSource =
   | typeof Dpop.layer
   | typeof layerHttpClient
   | typeof Persistence.layer
-  | typeof Tracing.layer;
+  | typeof Tracing.layer
 
 const layerRuntime = Layer.merge(
   ManagedRelayLayer.layer(configuredRelayUrl()),
@@ -38,19 +37,19 @@ const layerRuntime = Layer.merge(
   Layer.provideMerge(Persistence.layer),
   // These layers read the keychain and the database while they build, and a
   // failed build is kept for the life of the process.
-  Layer.provide(Layer.effectDiscard(Effect.orDie(tryPromise({ try: whenProtectedDataAvailable, catch: (cause) => cause })))),
-);
+  Layer.provide(
+    Layer.effectDiscard(Effect.orDie(tryPromise({ try: whenProtectedDataAvailable, catch: (cause) => cause }))),
+  ),
+)
 
 export const runtime: ManagedRuntime.ManagedRuntime<
   Layer.Success<RuntimeLayerSource>,
   Layer.Error<RuntimeLayerSource>
-> = ManagedRuntime.make(layerRuntime);
+> = ManagedRuntime.make(layerRuntime)
 
 export const layer: Layer.Layer<
   Layer.Success<RuntimeLayerSource>,
   Layer.Error<RuntimeLayerSource>
-> = Layer.effectContext(runtime.contextEffect);
+> = Layer.effectContext(runtime.contextEffect)
 
-disposeOnFoundationReplace(typeof module === "undefined" ? undefined : module.hot, () =>
-  runtime.dispose(),
-);
+disposeOnFoundationReplace(typeof module === "undefined" ? undefined : module.hot, () => runtime.dispose())

@@ -122,8 +122,8 @@ pre{flex:1;min-height:60px;margin:0;overflow:auto;background:var(--code);border:
 <div class="actions">${offer.action}${actionLink("copy", "Copy details")}${actionLink("quit", "Quit")}</div>
 <pre>${escapeHtml(output.length > 0 ? output : "The server wrote no output.")}</pre>
 <p class="muted">Version ${escapeHtml(input.appVersion)}. T3 Code tries again in the background. Logs: ${
-    escapeHtml(input.logDir)
-  }</p>
+  escapeHtml(input.logDir)
+}</p>
 </body></html>`
 }
 

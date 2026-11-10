@@ -109,8 +109,7 @@ export const make = Effect.gen(function*() {
       includeDeleted: Schema.Boolean,
     }),
     Result: ProjectDbRow,
-    execute: (request) =>
-      sql`
+    execute: (request) => sql`
       SELECT
         project_id AS "projectId",
         title,
@@ -142,8 +141,7 @@ export const make = Effect.gen(function*() {
   const upsertRow = (row: ProjectRow) =>
     encodeRow(row).pipe(
       Effect.flatMap(
-        (encoded) =>
-          sql`
+        (encoded) => sql`
           INSERT INTO projection_projects (
             project_id,
             title,

@@ -68,7 +68,7 @@ export const readWorkflowAgentTranscript = effect (
         })
       }
       const file = try readContainedWorkflowFile({
-        path: (try readPathJoin(input.transcriptDir, `agent-${input.agentId}.jsonl`)),
+        path: try readPathJoin(input.transcriptDir, `agent-${input.agentId}.jsonl`),
         extension: ".jsonl",
         byteCap: TRANSCRIPT_READ_BYTE_CAP,
         fromOffset: input.cursor,

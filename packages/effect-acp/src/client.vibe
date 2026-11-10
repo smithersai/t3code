@@ -1282,11 +1282,14 @@ export const make = effect (
         }),
         handleMcpNotification: Effect.fn("AcpClient.handleMcpNotification")(function(handler) {
           return Effect.sync(() => {
-            extNotificationHandlers.set(CLIENT_METHODS.mcp_message, (params) =>
-              decodeMessageMcpNotification(params).pipe(
-                Effect.mapError(() => AcpError.AcpRequestError.invalidParams()),
-                Effect.flatMap(handler),
-              ))
+            extNotificationHandlers.set(
+              CLIENT_METHODS.mcp_message,
+              (params) =>
+                decodeMessageMcpNotification(params).pipe(
+                  Effect.mapError(() => AcpError.AcpRequestError.invalidParams()),
+                  Effect.flatMap(handler),
+                ),
+            )
           })
         }),
         handleReadTextFile: Effect.fn("AcpClient.handleReadTextFile")(function(handler) {

@@ -277,14 +277,17 @@ export const makeManagedServerProvider = effect <
               ) |> Effect.as(%, true),
               Queue.take(refreshIntervalChanges) |> Effect.as(%, false),
             )
-            |> Effect.flatMap(%, (intervalElapsed) =>
-              intervalElapsed && Duration.toMillis(Duration.fromInputUnsafe(refreshInterval)) > 0
-                ? (shouldRefreshOnInterval
-                  |> Effect.flatMap(
-                    %,
-                    (shouldRefresh) => shouldRefresh ? (refreshSnapshot() |> Effect.asVoid(%)) : Effect.void,
-                  ))
-                : Effect.void))
+            |> Effect.flatMap(
+              %,
+              (intervalElapsed) =>
+                intervalElapsed && Duration.toMillis(Duration.fromInputUnsafe(refreshInterval)) > 0
+                  ? (shouldRefreshOnInterval
+                    |> Effect.flatMap(
+                      %,
+                      (shouldRefresh) => shouldRefresh ? (refreshSnapshot() |> Effect.asVoid(%)) : Effect.void,
+                    ))
+                  : Effect.void,
+            ))
           |> Effect.ignoreCause({ log: true })(%),
       ) |> Effect.forkScoped(%))
 

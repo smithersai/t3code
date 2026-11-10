@@ -277,7 +277,7 @@ export const layer: Layer.Layer<
               cwd: input.scope.cwd,
               checkpointRef,
             }) catch effect (e) => match (e) {
-              when { _tag: "VcsUnsupportedOperationError" }: (undefined as void);
+              when { _tag: "VcsUnsupportedOperationError" }: undefined as void;
               default: throw e;
             }
         },

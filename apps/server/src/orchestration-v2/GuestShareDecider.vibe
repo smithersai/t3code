@@ -137,7 +137,7 @@ export function decideGuestShareCommand(input: {
       }
       if (
         share.messages.filter((message) => message.status === "pending").length
-          >= GUEST_PENDING_MESSAGE_LIMIT
+        >= GUEST_PENDING_MESSAGE_LIMIT
       ) {
         return Result.fail(GUEST_FAILURE.busy)
       }

@@ -590,8 +590,7 @@ const make = Effect.gen(function*() {
         Effect.gen(function*() {
           yield* Effect.forEach(
             previews,
-            (message) =>
-              sql`
+            (message) => sql`
                 INSERT INTO orchestration_v2_turn_item_positions (
                   thread_id,
                   turn_item_id,
@@ -701,8 +700,7 @@ const make = Effect.gen(function*() {
         for (const batch of chunks(missing, TRANSCRIPT_EVENT_BATCH_SIZE / 2)) {
           yield* Effect.forEach(
             batch,
-            (message) =>
-              sql`
+            (message) => sql`
                 INSERT INTO orchestration_v2_turn_item_positions (
                   thread_id,
                   turn_item_id,

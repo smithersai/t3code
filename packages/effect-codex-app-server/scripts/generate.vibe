@@ -751,22 +751,34 @@ const generateFiles = effect () =>
               resolveResponseTypeName(entry.method, entry.paramsType, generatedSchemaNames),
             ),
         ),
-        renderTypeInterface("ClientNotificationParamsByMethod", clientNotificationEntries, (entry) =>
-          renderSchemaTypeReference(
-            resolveSchemaTypeName(entry.paramsType ?? "undefined", generatedSchemaNames),
-          )),
+        renderTypeInterface(
+          "ClientNotificationParamsByMethod",
+          clientNotificationEntries,
+          (entry) =>
+            renderSchemaTypeReference(
+              resolveSchemaTypeName(entry.paramsType ?? "undefined", generatedSchemaNames),
+            ),
+        ),
         renderTypeInterface("ServerRequestParamsByMethod", serverRequestEntries, (entry) =>
           renderSchemaTypeReference(
             resolveSchemaTypeName(entry.paramsType ?? "undefined", generatedSchemaNames),
           )),
-        renderTypeInterface("ServerRequestResponsesByMethod", serverRequestEntries, (entry) =>
-          renderSchemaTypeReference(
-            resolveResponseTypeName(entry.method, entry.paramsType, generatedSchemaNames),
-          )),
-        renderTypeInterface("ServerNotificationParamsByMethod", serverNotificationEntries, (entry) =>
-          renderSchemaTypeReference(
-            resolveSchemaTypeName(entry.paramsType ?? "undefined", generatedSchemaNames),
-          )),
+        renderTypeInterface(
+          "ServerRequestResponsesByMethod",
+          serverRequestEntries,
+          (entry) =>
+            renderSchemaTypeReference(
+              resolveResponseTypeName(entry.method, entry.paramsType, generatedSchemaNames),
+            ),
+        ),
+        renderTypeInterface(
+          "ServerNotificationParamsByMethod",
+          serverNotificationEntries,
+          (entry) =>
+            renderSchemaTypeReference(
+              resolveSchemaTypeName(entry.paramsType ?? "undefined", generatedSchemaNames),
+            ),
+        ),
         renderSchemaMap(
           "CLIENT_REQUEST_PARAMS",
           clientRequestEntries,
@@ -775,32 +787,27 @@ const generateFiles = effect () =>
         renderSchemaMap(
           "CLIENT_REQUEST_RESPONSES",
           clientRequestEntries,
-          (entry) =>
-            resolveResponseTypeName(entry.method, entry.paramsType, generatedSchemaNames),
+          (entry) => resolveResponseTypeName(entry.method, entry.paramsType, generatedSchemaNames),
         ),
         renderSchemaMap(
           "CLIENT_NOTIFICATION_PARAMS",
           clientNotificationEntries,
-          (entry) =>
-            resolveSchemaTypeName(entry.paramsType ?? "undefined", generatedSchemaNames),
+          (entry) => resolveSchemaTypeName(entry.paramsType ?? "undefined", generatedSchemaNames),
         ),
         renderSchemaMap(
           "SERVER_REQUEST_PARAMS",
           serverRequestEntries,
-          (entry) =>
-            resolveSchemaTypeName(entry.paramsType ?? "undefined", generatedSchemaNames),
+          (entry) => resolveSchemaTypeName(entry.paramsType ?? "undefined", generatedSchemaNames),
         ),
         renderSchemaMap(
           "SERVER_REQUEST_RESPONSES",
           serverRequestEntries,
-          (entry) =>
-            resolveResponseTypeName(entry.method, entry.paramsType, generatedSchemaNames),
+          (entry) => resolveResponseTypeName(entry.method, entry.paramsType, generatedSchemaNames),
         ),
         renderSchemaMap(
           "SERVER_NOTIFICATION_PARAMS",
           serverNotificationEntries,
-          (entry) =>
-            resolveSchemaTypeName(entry.paramsType ?? "undefined", generatedSchemaNames),
+          (entry) => resolveSchemaTypeName(entry.paramsType ?? "undefined", generatedSchemaNames),
         ),
       ].join("\n")
 

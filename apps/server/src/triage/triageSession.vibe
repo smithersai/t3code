@@ -69,7 +69,7 @@ export const writeTriageSession = Effect.fn("triage.writeTriageSession")(functio
       generatedAt: DateTime.formatIso(now),
       entry: input.entry,
       os: `${yield* HostProcess.Platform} ${yield* HostProcess.Architecture} (${(yield* readOSRelease)})`,
-      nodeVersion: (yield* readProcessVersion),
+      nodeVersion: yield* readProcessVersion,
       server: input.server,
       sourceClone: input.sourceClone,
       paths: {

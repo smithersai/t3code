@@ -119,8 +119,10 @@ const decodeWireMessage = (
   line: string,
 ): unknown!CodexError.CodexAppServerProtocolParseError =>
   decodeJsonString(line)
-  |> Effect.mapError(%, (cause) =>
-    CodexError.CodexAppServerProtocolParseError.fromSchemaError("decode-wire-message", cause))
+  |> Effect.mapError(
+    %,
+    (cause) => CodexError.CodexAppServerProtocolParseError.fromSchemaError("decode-wire-message", cause),
+  )
 
 const normalizeIncomingError = (
   error: unknown,
@@ -180,10 +182,13 @@ export const makeCodexAppServerPatchedProtocol = effect (
 
       const failAllPending = (error: CodexError.CodexAppServerError) =>
         Ref.get(pending)
-        |> Effect.flatMap(%, (current) =>
-          Effect.forEach([...current.values()], ({ deferred }) => Deferred.fail(deferred, error), {
-            discard: true,
-          }))
+        |> Effect.flatMap(
+          %,
+          (current) =>
+            Effect.forEach([...current.values()], ({ deferred }) => Deferred.fail(deferred, error), {
+              discard: true,
+            }),
+        )
         |> Effect.andThen(%, Ref.set(pending, new Map()))
 
       const handleTermination = (classify: () => CodexError.CodexAppServerError!!) =>
@@ -291,8 +296,10 @@ export const makeCodexAppServerPatchedProtocol = effect (
           const handler = options.onRequest
           if (!handler) return Effect.void
 
-          return Ref.modify(activeRequestHandlers, (count) =>
-            count >= MAX_BUFFERED_RAW_MESSAGES ? [false, count] : [true, count + 1])
+          return Ref.modify(
+            activeRequestHandlers,
+            (count) => count >= MAX_BUFFERED_RAW_MESSAGES ? [false, count] : [true, count + 1],
+          )
             |> Effect.flatMap(%, (accepted) => {
               if (!accepted) {
                 return respondError(
@@ -314,8 +321,7 @@ export const makeCodexAppServerPatchedProtocol = effect (
                           request.method,
                         ),
                       ),
-                    onSuccess: (result) =>
-                      respond(request.id, result),
+                    onSuccess: (result) => respond(request.id, result),
                   })
                   |> Effect.ensuring(
                     %,

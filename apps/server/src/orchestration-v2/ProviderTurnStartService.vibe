@@ -1431,10 +1431,13 @@ export const layer: Layer.Layer<
                   |> Effect.tapError(%, (error) =>
                     refusedBeforePrompt(error)
                       ? (delivery.unsent
-                        |> Effect.catchCause(%, () =>
-                          Effect.logWarning("Failed to restore unsent context handoffs", {
-                            runId: run.id,
-                          })))
+                        |> Effect.catchCause(
+                          %,
+                          () =>
+                            Effect.logWarning("Failed to restore unsent context handoffs", {
+                              runId: run.id,
+                            }),
+                        ))
                       : Effect.void))
                 // After provider acceptance, failed delivery bookkeeping must not stop live ingestion.
                 try (delivery.delivered

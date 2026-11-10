@@ -680,10 +680,12 @@ export const isSourceInstalled = effect (
   try withSpan(
     (effect (): boolean!never!FileSystem.FileSystem => {
       const profiles = try listSourceProfiles(definition, context)
-      const found = try Effect.forEach(profiles, (profile) =>
-        resolveCookieDatabase(definition, context, profile.directory)
-        |> Effect.map(%, (database) =>
-          database !== undefined))
+      const found = try Effect.forEach(
+        profiles,
+        (profile) =>
+          resolveCookieDatabase(definition, context, profile.directory)
+          |> Effect.map(%, (database) => database !== undefined),
+      )
       return found.some(Boolean)
     })(),
     "BrowserImportSources.isSourceInstalled",

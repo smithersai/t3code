@@ -90,8 +90,10 @@ export const makeClaudeTextGeneration = Effect.fn("makeClaudeTextGeneration")(fu
       () => "",
       (acc, chunk) => acc + chunk,
     )
-    |> Effect.mapError(%, (cause) =>
-      normalizeCliError("claude", operation, cause, "Failed to collect process output"))
+    |> Effect.mapError(
+      %,
+      (cause) => normalizeCliError("claude", operation, cause, "Failed to collect process output"),
+    )
 
   const encodeJsonForOperation = (
     operation: TextGenerationOperations.Operation,

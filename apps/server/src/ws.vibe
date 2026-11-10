@@ -619,7 +619,7 @@ const MAX_CLIENT_DEVICE_MODEL_LENGTH = 80
 function hasCompatibleOrchestrationProtocol(url: URL): boolean {
   return (
     url.searchParams.get(ORCHESTRATION_PROTOCOL_QUERY_PARAM)
-      === String(ORCHESTRATION_PROTOCOL_VERSION)
+    === String(ORCHESTRATION_PROTOCOL_VERSION)
   )
 }
 
@@ -3208,15 +3208,16 @@ export const layerWsRpc = (
           ),
         [WS_METHODS.subscribeBackgroundPolicy]: (_input) =>
           Stream.unwrap(
-            Effect.map(backgroundPolicy.subscribe, ({ latest, changes }) =>
-              Stream.concat(Stream.make(latest), changes)),
+            Effect.map(
+              backgroundPolicy.subscribe,
+              ({ latest, changes }) => Stream.concat(Stream.make(latest), changes),
+            ),
           ),
         [WS_METHODS.subscribeResourceTelemetry]: (_input) =>
           Stream.unwrap(
             Effect.map(
               resourceTelemetry.subscribe,
-              ({ latest, changes }) =>
-                Stream.concat(Stream.make(latest), changes),
+              ({ latest, changes }) => Stream.concat(Stream.make(latest), changes),
             ),
           ),
       })

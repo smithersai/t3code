@@ -335,8 +335,10 @@ const maskTree = (tree: string, dotted: RegExp) =>
       const attributes = name + (node?.[2]?.length ?? 0)
       const end = attributes + (node?.[3]?.length ?? 0)
       const kept = (from: number, to: number) => to <= name || (from >= attributes && to <= end)
-      return line.replace(dotted, (match: string, offset: number) =>
-        kept(offset, offset + match.length) ? match : MASKED_VALUE)
+      return line.replace(
+        dotted,
+        (match: string, offset: number) => kept(offset, offset + match.length) ? match : MASKED_VALUE,
+      )
     })
     .join("\n")
 
@@ -829,8 +831,7 @@ export const parseNetError = (errorText: string) => {
   return { description, code: NET_ERROR_CODES[description] ?? -2 }
 }
 
-export const recordingEncoderScript = (frameRate: BrowserRecordingFrameRate) =>
-  `(() => {
+export const recordingEncoderScript = (frameRate: BrowserRecordingFrameRate) => `(() => {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   const chunks = [];

@@ -292,15 +292,16 @@ const hasUsableLinuxDirectoryHandler = effect (
             stderr: "ignore",
           }),
         )
-        |> Effect.flatMap(%, (handle) =>
-          Effect.all([handle.stdout.pipe(Stream.decodeText(), Stream.mkString), handle.exitCode], {
-            concurrency: "unbounded",
-          }))
-        |> Effect.map(%, ([stdout, exitCode]) =>
-          exitCode === 0 && stdout.trim().length > 0)
+        |> Effect.flatMap(
+          %,
+          (handle) =>
+            Effect.all([handle.stdout.pipe(Stream.decodeText(), Stream.mkString), handle.exitCode], {
+              concurrency: "unbounded",
+            }),
+        )
+        |> Effect.map(%, ([stdout, exitCode]) => exitCode === 0 && stdout.trim().length > 0)
         |> Effect.scoped(%)
-        |> Effect.timeout(%, LINUX_DIRECTORY_HANDLER_PROBE_TIMEOUT)) catch () =>
-          false
+        |> Effect.timeout(%, LINUX_DIRECTORY_HANDLER_PROBE_TIMEOUT)) catch () => false
     })(),
     "externalLauncher.hasUsableLinuxDirectoryHandler",
   )

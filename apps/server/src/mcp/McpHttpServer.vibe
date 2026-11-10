@@ -793,7 +793,7 @@ const hasAction = (
   args: unknown,
 ) =>
   actions[tool]?.has(String((args as { readonly action?: unknown } | null | undefined)?.action))
-    === true
+  === true
 
 const isInputTargetHandoff = (tool: string, args: unknown) => hasAction(INPUT_TARGET_ACTIONS, tool, args)
 

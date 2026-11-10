@@ -154,7 +154,7 @@ const registerPairingConnection = effect (input: PairingConnectionInput) =>
       try registry.setCompatibility(registration.target.environmentId, null)
       registry
         .setEnabled(registration.target.environmentId, true) catch effect (e) => match (e) {
-          when { _tag: "EnvironmentNotRegisteredError" }: (undefined as void);
+          when { _tag: "EnvironmentNotRegisteredError" }: undefined as void;
           default: throw e;
         }
       return registration.target.environmentId

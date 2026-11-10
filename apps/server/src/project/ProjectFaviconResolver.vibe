@@ -275,14 +275,15 @@ export const make = effect {
           }
         }
 
-        const wellKnown = try firstInOrder(FAVICON_CANDIDATES, (candidate) =>
-          findExistingFile(projectCwd, [candidate], "workspace"))
+        const wellKnown = try firstInOrder(
+          FAVICON_CANDIDATES,
+          (candidate) => findExistingFile(projectCwd, [candidate], "workspace"),
+        )
         if (wellKnown) {
           return wellKnown
         }
 
-        return try firstInOrder(ICON_SOURCE_FILES, (sourceFile) =>
-          findIconFromSource(projectCwd, sourceFile))
+        return try firstInOrder(ICON_SOURCE_FILES, (sourceFile) => findIconFromSource(projectCwd, sourceFile))
       })(),
       "ProjectFaviconResolver.resolvePathUncached",
     )

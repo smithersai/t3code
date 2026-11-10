@@ -258,12 +258,15 @@ export const layer = Layer.effectDiscard(
                   try clearRetryAttempt(retryKey)
                 }
               }
-                |> Effect.catchCause(%, (retryCause) =>
-                  Effect.logWarning("orchestration-v2.provider-continuation.retry-check-failed", {
-                    threadId: request.threadId,
-                    providerThreadId: request.providerThreadId,
-                    cause: retryCause,
-                  }) |> Effect.andThen(%, requests.offer(request)))
+                |> Effect.catchCause(
+                  %,
+                  (retryCause) =>
+                    Effect.logWarning("orchestration-v2.provider-continuation.retry-check-failed", {
+                      threadId: request.threadId,
+                      providerThreadId: request.providerThreadId,
+                      cause: retryCause,
+                    }) |> Effect.andThen(%, requests.offer(request)),
+                )
                 |> Effect.forkScoped(%))
             }
           }),

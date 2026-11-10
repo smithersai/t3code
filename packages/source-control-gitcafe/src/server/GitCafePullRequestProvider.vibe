@@ -418,10 +418,10 @@ export const make = effect {
             User,
           )
             |> Effect.asSome(%)) catch effect (error) => match (error) {
-              when { _tag: "PullRequestProviderError" }:
-                try (error.reason === "unauthenticated" || error.reason === "rate-limited"
-                  ? Effect.fail(error)
-                  : Effect.succeedNone);
+              when { _tag: "PullRequestProviderError" }: try (error.reason === "unauthenticated"
+                  || error.reason === "rate-limited"
+                ? Effect.fail(error)
+                : Effect.succeedNone);
             }
           const actorId = Option.isSome(user)
             ? user.value.actorId
@@ -806,10 +806,10 @@ export const make = effect {
               Principal,
             )
               |> Effect.asSome(%)) catch effect (error) => match (error) {
-                when { _tag: "PullRequestProviderError" }:
-                  try (error.reason === "unauthenticated" || error.reason === "rate-limited"
-                    ? Effect.fail(error)
-                    : Effect.succeedNone);
+                when { _tag: "PullRequestProviderError" }: try (error.reason === "unauthenticated"
+                    || error.reason === "rate-limited"
+                  ? Effect.fail(error)
+                  : Effect.succeedNone);
               }
             if (Option.isSome(principal)) {
               if (principal.value.handle.toLowerCase() !== input.viewer.toLowerCase()) {

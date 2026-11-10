@@ -132,14 +132,15 @@ export const make = effect {
 
   const readDiskState = (cwd: string, repository: VcsRepositoryIdentity) =>
     Effect.all({
-      gitEntries: Effect.forEach(foldersBelowRoot(cwd, repository.rootPath), (folder) =>
-        fileSystem.exists(path.join(folder, ".git"))),
+      gitEntries: Effect.forEach(
+        foldersBelowRoot(cwd, repository.rootPath),
+        (folder) => fileSystem.exists(path.join(folder, ".git")),
+      ),
       repositoryOnDisk: Effect.forEach(
         repository.metadataPath === null
           ? [cwd]
           : [cwd, path.resolve(cwd, repository.metadataPath)],
-        (target) =>
-          fileSystem.exists(target),
+        (target) => fileSystem.exists(target),
       ) |> Effect.map(%, (results) => results.every(Boolean)),
     }) |> Effect.orElseSucceed(%, () => null)
 

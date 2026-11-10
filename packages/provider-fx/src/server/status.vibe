@@ -256,8 +256,10 @@ export const checkFxProviderStatus = effect (
         |> Effect.map(%, Option.map((output) => output.stdout))
         |> Effect.orElseSucceed(%, () => Option.none<string>())
       const status = Option.flatMap(try read(["status", "--json"]), decodeFxStatus)
-      const listed = Option.map(Option.flatMap(try read(["models", "--json"]), decodeFxModels), (models) =>
-        models.ids?.flatMap((id) => nonEmptyTrimmed(id) ?? []) ?? [])
+      const listed = Option.map(
+        Option.flatMap(try read(["models", "--json"]), decodeFxModels),
+        (models) => models.ids?.flatMap((id) => nonEmptyTrimmed(id) ?? []) ?? [],
+      )
       const auth = fxAuth(Option.getOrUndefined(status)?.auth)
       const defaultModel = nonEmptyTrimmed(Option.getOrUndefined(status)?.model)
       const probe = auth.status === "unauthenticated"

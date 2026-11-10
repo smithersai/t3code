@@ -55,20 +55,21 @@ export type PiDriverEnv =
   | ProviderLatestVersions.ProviderLatestVersions
   | Path.Path
 
-const withInstanceIdentity = (input: {
-  readonly instanceId: ProviderInstance["instanceId"]
-  readonly displayName: string | undefined
-  readonly accentColor: string | undefined
-  readonly continuationGroupKey: string
-}) =>
-(snapshot: ServerProviderDraft): ServerProvider => ({
-  ...snapshot,
-  instanceId: input.instanceId,
-  driver: DRIVER_KIND,
-  ...(input.displayName ? { displayName: input.displayName } : {}),
-  ...(input.accentColor ? { accentColor: input.accentColor } : {}),
-  continuation: { groupKey: input.continuationGroupKey },
-})
+const withInstanceIdentity =
+  (input: {
+    readonly instanceId: ProviderInstance["instanceId"]
+    readonly displayName: string | undefined
+    readonly accentColor: string | undefined
+    readonly continuationGroupKey: string
+  }) =>
+  (snapshot: ServerProviderDraft): ServerProvider => ({
+    ...snapshot,
+    instanceId: input.instanceId,
+    driver: DRIVER_KIND,
+    ...(input.displayName ? { displayName: input.displayName } : {}),
+    ...(input.accentColor ? { accentColor: input.accentColor } : {}),
+    continuation: { groupKey: input.continuationGroupKey },
+  })
 
 export const PiDriver: ProviderDriver<PiSettings, PiDriverEnv, Path.Path> = {
   driverKind: DRIVER_KIND,

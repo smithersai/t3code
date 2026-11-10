@@ -611,7 +611,7 @@ export const make = Effect.fn("resourceTelemetry.nativeTelemetryClient.make")(fu
             yield* writeCommand(handle, {
               version: RESOURCE_MONITOR_PROTOCOL_VERSION,
               type: "configure",
-              rootPid: (yield* readProcessPid),
+              rootPid: yield* readProcessPid,
               sampleIntervalMs: control.sampleIntervalMs,
               externalProcesses: [...(yield* Ref.get(externalProcesses))],
             })

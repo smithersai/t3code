@@ -194,7 +194,7 @@ export async function rewindToMessage(input: {
     const draft = store.getComposerDraft(draftTarget)
     if (
       (draft?.images.length ?? 0) + (draft?.files.length ?? 0) + files.length
-        > PROVIDER_SEND_TURN_MAX_ATTACHMENTS
+      > PROVIDER_SEND_TURN_MAX_ATTACHMENTS
     ) {
       throw new Error("Make room for this message's attachments in the composer before rewinding.")
     }

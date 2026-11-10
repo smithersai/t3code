@@ -1,18 +1,18 @@
-import * as Layer from "effect/Layer";
+import * as Layer from "effect/Layer"
 
-import * as PullRequestCacheStore from "../connection/pull-request-cache-store.vibe";
-import * as EnvironmentCacheStore from "../connection/environment-cache-store.vibe";
-import * as MobileDatabase from "./mobile-database.vibe";
-import * as MobilePreferences from "./mobile-preferences.vibe";
-import * as MobileSecureStorage from "./mobile-secure-storage.vibe";
-import * as MobileStorage from "./mobile-storage.vibe";
+import * as PullRequestCacheStore from "../connection/pull-request-cache-store.vibe"
+import * as EnvironmentCacheStore from "../connection/environment-cache-store.vibe"
+import * as MobileDatabase from "./mobile-database.vibe"
+import * as MobilePreferences from "./mobile-preferences.vibe"
+import * as MobileSecureStorage from "./mobile-secure-storage.vibe"
+import * as MobileStorage from "./mobile-storage.vibe"
 
-const layerBase = Layer.merge(MobileDatabase.layer, MobileSecureStorage.layer);
+const layerBase = Layer.merge(MobileDatabase.layer, MobileSecureStorage.layer)
 const layerDependent = Layer.mergeAll(
   MobilePreferences.layer,
   MobileStorage.layer,
   EnvironmentCacheStore.layer,
   PullRequestCacheStore.layer,
-).pipe(Layer.provide(layerBase));
+).pipe(Layer.provide(layerBase))
 
-export const layer = Layer.merge(layerBase, layerDependent);
+export const layer = Layer.merge(layerBase, layerDependent)

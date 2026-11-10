@@ -409,8 +409,10 @@ export const make = effect {
       const finished = Option.isSome(activeAction) && activeAction.value === action
       return [finished, finished ? Option.none() : activeAction] as const
     })
-    |> Effect.flatMap(%, (finished) =>
-      finished ? (PubSub.publish(finishedUpdateActions, action) |> Effect.asVoid(%)) : Effect.void)
+    |> Effect.flatMap(
+      %,
+      (finished) => finished ? (PubSub.publish(finishedUpdateActions, action) |> Effect.asVoid(%)) : Effect.void,
+    )
 
   const applyAutoUpdaterChannel = effect (
     channel: DesktopUpdateChannel,
@@ -633,10 +635,13 @@ export const make = effect {
   ) =>
     try withSpan(
       effect {
-        const ownsRecovery = try Ref.modify(activeUpdateActionRef, (activeAction) =>
-          Option.isSome(activeAction) && activeAction.value === "install"
-            ? ([true, Option.some<UpdateAction>("install-recovery")] as const)
-            : ([false, activeAction] as const))
+        const ownsRecovery = try Ref.modify(
+          activeUpdateActionRef,
+          (activeAction) =>
+            Option.isSome(activeAction) && activeAction.value === "install"
+              ? ([true, Option.some<UpdateAction>("install-recovery")] as const)
+              : ([false, activeAction] as const),
+        )
         if (!ownsRecovery) {
           return
         }
@@ -646,9 +651,7 @@ export const make = effect {
         try removeInstallRecord
         try (effect {
           const runningInstances = try Ref.getAndSet(installRunningBackendsRef, [])
-          const instances = (try pool.list).filter((instance) =>
-            runningInstances.includes(instance)
-          )
+          const instances = (try pool.list).filter((instance) => runningInstances.includes(instance))
           const restartExit = try (Effect.forEach(instances, (instance) => instance.start, {
             concurrency: "unbounded",
             discard: true,
@@ -719,13 +722,14 @@ export const make = effect {
           // Stop pooled backends before quitAndInstall can outrun their scope finalizers.
           const instances = try pool.list
           // stop clears desiredRunning, so retain the recovery set beforehand.
-          const runningInstances = try Effect.filter(instances, (instance) =>
-            instance.snapshot |> Effect.map(%, (snapshot) => snapshot.desiredRunning))
+          const runningInstances = try Effect.filter(
+            instances,
+            (instance) => instance.snapshot |> Effect.map(%, (snapshot) => snapshot.desiredRunning),
+          )
           try Ref.set(installRunningBackendsRef, runningInstances)
           try Effect.forEach(
             instances,
-            (instance) =>
-              instance.stop({ timeout: Duration.seconds(5) }),
+            (instance) => instance.stop({ timeout: Duration.seconds(5) }),
             { concurrency: "unbounded" },
           )
           try electronUpdater.quitAndInstall({

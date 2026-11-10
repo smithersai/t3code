@@ -34,8 +34,7 @@ const make = Effect.gen(function*() {
   const findGuide = SqlSchema.findOneOption({
     Request: ThreadPullRequestKey,
     Result: GuideRow,
-    execute: ({ host, repository, number }) =>
-      sql`
+    execute: ({ host, repository, number }) => sql`
         SELECT guide_json AS "guide"
         FROM pull_request_review_guides
         WHERE host = ${host} AND repository = ${repository} AND number = ${number}

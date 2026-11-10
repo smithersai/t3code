@@ -38,8 +38,7 @@ import { loadOlderSettledThreadsPage } from "./ShellStream.vibe"
 
 // When the user last wrote in the thread aliased `threads`, as the clients
 // rank recency; agent notices in the user role do not count.
-const latestUserMessageAt = (sql: SqlClient.SqlClient) =>
-  sql`(
+const latestUserMessageAt = (sql: SqlClient.SqlClient) => sql`(
   SELECT messages.updated_at
   FROM orchestration_v2_projection_messages AS messages
   WHERE messages.thread_id = threads.thread_id
@@ -162,8 +161,7 @@ export function buildSearchSnippet(text: string, matchStart: number): string {
 export const messageHitsQuery = (
   sql: SqlClient.SqlClient,
   { match, substrings, projectId, excludedThreadIds }: typeof SearchRequest.Encoded,
-) =>
-  sql`
+) => sql`
     WITH eligible AS MATERIALIZED (
       SELECT threads.thread_id, threads.project_id
       FROM orchestration_v2_projection_threads AS threads
@@ -178,8 +176,8 @@ export const messageHitsQuery = (
           IS NOT 'subagent'
     )
     ${
-    match === null
-      ? sql`
+      match === null
+        ? sql`
           SELECT
             messages.rowid AS "messageRowid",
             messages.message_id AS "messageId",
@@ -196,7 +194,7 @@ export const messageHitsQuery = (
               SELECT coalesce(max(rowid), 0) FROM orchestration_v2_projection_messages
             ) - ${MESSAGE_SCAN_LIMIT}
         `
-      : sql`
+        : sql`
           SELECT
             orchestration_v2_message_search.rowid AS "messageRowid",
             messages.message_id AS "messageId",
@@ -217,7 +215,7 @@ export const messageHitsQuery = (
               LIMIT 1 OFFSET ${MESSAGE_CANDIDATE_LIMIT - 1}
             ), 0)
         `
-  }
+    }
       -- Answers to an agent's question show inside its question card, where
       -- neither find nor a jump can reach them.
       AND messages.message_id NOT LIKE 'async-answer:%'
@@ -307,8 +305,7 @@ export const make = Effect.gen(function*() {
   const threadOpens = SqlSchema.findAll({
     Request: Schema.Struct({ threadIds: TokenList }),
     Result: ThreadOpensRow,
-    execute: ({ threadIds }) =>
-      sql`
+    execute: ({ threadIds }) => sql`
       SELECT
         threads.thread_id AS "threadId",
         json_extract(threads.payload_json, '$.opens') AS opens,
@@ -321,8 +318,7 @@ export const make = Effect.gen(function*() {
   const titleCandidates = SqlSchema.findAll({
     Request: Schema.Struct({ projectId: Schema.NullOr(ProjectId) }),
     Result: TitleCandidateRow,
-    execute: ({ projectId }) =>
-      sql`
+    execute: ({ projectId }) => sql`
       SELECT
         threads.payload_json AS thread,
         projects.title AS "projectTitle",
@@ -345,8 +341,7 @@ export const make = Effect.gen(function*() {
       projectIds: Schema.NullOr(TokenList),
     }),
     Result: OlderSettledTitleRow,
-    execute: ({ before, projectIds }) =>
-      sql`
+    execute: ({ before, projectIds }) => sql`
       SELECT
         threads.thread_id AS id,
         json_extract(threads.payload_json, '$.title') AS title,
@@ -380,8 +375,7 @@ export const make = Effect.gen(function*() {
       projectIds: Schema.NullOr(TokenList),
     }),
     Result: Schema.Struct({ id: ThreadId }),
-    execute: ({ before, threadIds, projectIds }) =>
-      sql`
+    execute: ({ before, threadIds, projectIds }) => sql`
       SELECT threads.thread_id AS id
       FROM orchestration_v2_projection_threads AS threads
       WHERE threads.thread_id IN (SELECT value FROM json_each(${threadIds}))

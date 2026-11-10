@@ -111,18 +111,21 @@ export const make = effect {
       ),
     getChangeRequest: effect (input) =>
       try withSpan(
-        Effect.mapError(Effect.map(azure.getPullRequest(input), toChangeRequest), (error) =>
-          new SourceControlProviderError({
-            provider: SourceControlProviderKind.make("azure-devops"),
-            operation: "getChangeRequest",
-            command: error.command,
-            cwd: input.cwd,
-            reference: SourceControlProvider.transportSafeSourceControlErrorValue(
-              input.reference,
-            ),
-            detail: error.detail,
-            cause: error,
-          })),
+        Effect.mapError(
+          Effect.map(azure.getPullRequest(input), toChangeRequest),
+          (error) =>
+            new SourceControlProviderError({
+              provider: SourceControlProviderKind.make("azure-devops"),
+              operation: "getChangeRequest",
+              command: error.command,
+              cwd: input.cwd,
+              reference: SourceControlProvider.transportSafeSourceControlErrorValue(
+                input.reference,
+              ),
+              detail: error.detail,
+              cause: error,
+            }),
+        ),
         "AzureDevOpsSourceControlProvider.getChangeRequest",
       ),
     createChangeRequest: effect (input) =>

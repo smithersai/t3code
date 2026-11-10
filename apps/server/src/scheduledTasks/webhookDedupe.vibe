@@ -79,8 +79,8 @@ export const acceptWebhookDedupe = Effect.fn("ScheduledTaskService.acceptWebhook
   if (pending.length > 0) {
     yield* sql`UPDATE scheduled_task_webhook_pending SET request_json = ${requestJson},
       delivery_ids_json = json_insert(delivery_ids_json, '$[#]', ${deliveryId}) WHERE delivery_id = ${
-      pending[0]!.delivery_id
-    }`
+        pending[0]!.delivery_id
+      }`
     yield* replaceDeliveryRequest(pending[0]!.delivery_id)
     return logCoalesced ? ("coalesced" as const) : ("coalesced_unlogged" as const)
   }
@@ -89,8 +89,8 @@ export const acceptWebhookDedupe = Effect.fn("ScheduledTaskService.acceptWebhook
     WHERE task_id = ${task.id} AND coalesce_key = ${coalesceKey} AND state = 'pending' AND due_at <= ${now}`
   yield* sql`INSERT INTO scheduled_task_webhook_pending (delivery_id, task_id, coalesce_key, due_at, task_json, request_json, delivery_ids_json)
     VALUES (${deliveryId}, ${task.id}, ${coalesceKey}, ${
-    now + (dedupe.coalesceWindowSeconds ?? 120) * 1000
-  }, ${yield* encodePendingTask(task)}, ${requestJson}, json_array(${deliveryId}))`
+      now + (dedupe.coalesceWindowSeconds ?? 120) * 1000
+    }, ${yield* encodePendingTask(task)}, ${requestJson}, json_array(${deliveryId}))`
   return "pending" as const
 })
 

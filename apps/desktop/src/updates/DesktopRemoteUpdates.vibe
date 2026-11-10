@@ -86,8 +86,10 @@ export const listen:
         })
 
       const clearActiveRequest = (requestId: string) =>
-        Ref.update(activeRequestIdRef, (active) =>
-          Option.isSome(active) && active.value === requestId ? Option.none() : active)
+        Ref.update(
+          activeRequestIdRef,
+          (active) => Option.isSome(active) && active.value === requestId ? Option.none() : active,
+        )
 
       try (Effect.scoped(
         effect {
@@ -121,8 +123,7 @@ export const listen:
                   {
                     ...control,
                     cancelledBeforeStart: control.cancelledBeforeStart.filter(
-                      (requestId) =>
-                        requestId !== request.requestId,
+                      (requestId) => requestId !== request.requestId,
                     ),
                   },
                 ] as const
@@ -177,8 +178,7 @@ export const listen:
                 (effect (): boolean!never!Scope.Scope => {
                   const next = try Effect.orDie(
                     Effect.try({
-                      try: () =>
-                        nextRemoteDesktopUpdateStep(state, attempts, disabledReason),
+                      try: () => nextRemoteDesktopUpdateStep(state, attempts, disabledReason),
                       catch: (e) => e,
                     }),
                   )
@@ -199,7 +199,9 @@ export const listen:
                       attempts = { ...attempts, downloads: attempts.downloads + 1 }
                       try (updates.download
                         |> Effect.flatMap(%, (result) => {
-                          if (result.accepted) return Effect.void
+                          if (result.accepted) {
+                            return Effect.void
+                          }
                           attempts = { ...attempts, downloads: attempts.downloads - 1 }
                           return retryLater(state)
                         })
@@ -259,7 +261,9 @@ export const listen:
 
             try Effect.raceFirst(
               effect {
-                if (try step(latest)) return
+                if (try step(latest)) {
+                  return
+                }
                 try Stream.merge(changes, Stream.fromQueue(retries)).pipe(
                   Stream.mapEffect(step),
                   Stream.takeUntil((done) => done),

@@ -733,9 +733,9 @@ export const layer = Layer.effect(
         if (
           webhook !== undefined
           && (yield* sql`SELECT 1 FROM scheduled_task_webhook_pending WHERE delivery_id = ${webhook.deliveryId} AND state = 'completed'`
-              .pipe(
-                NodeSqliteClient.readOnly,
-              )).length > 0
+            .pipe(
+              NodeSqliteClient.readOnly,
+            )).length > 0
         ) {
           return { task: { ...active, lastRunStatus: "succeeded" as const }, threadId: null }
         }
@@ -1408,12 +1408,12 @@ export const layer = Layer.effect(
                 WHERE task_id = ${input.taskId} AND ${rowBucket} = ${retentionBucket}
                 ORDER BY received_at DESC, rowid DESC
                 LIMIT ${
-              retentionBucket === "main"
-                ? WEBHOOK_DELIVERY_RETENTION
-                : retentionBucket === "filtered"
-                ? WEBHOOK_FILTERED_DELIVERY_RETENTION
-                : WEBHOOK_DEDUPE_DELIVERY_RETENTION
-            }
+                  retentionBucket === "main"
+                    ? WEBHOOK_DELIVERY_RETENTION
+                    : retentionBucket === "filtered"
+                    ? WEBHOOK_FILTERED_DELIVERY_RETENTION
+                    : WEBHOOK_DEDUPE_DELIVERY_RETENTION
+                }
               )
           `
           }),
@@ -1506,8 +1506,8 @@ export const layer = Layer.effect(
         yield* releaseReplay(deliveryId)
         yield* sql`DELETE FROM scheduled_task_webhook_relay_deliveries WHERE relay_delivery_id IN (
           SELECT substr(value, ${
-          "delivery:relay:".length + 1
-        }) FROM scheduled_task_webhook_pending, json_each(delivery_ids_json)
+            "delivery:relay:".length + 1
+          }) FROM scheduled_task_webhook_pending, json_each(delivery_ids_json)
           WHERE delivery_id = ${deliveryId} AND value LIKE 'delivery:relay:%'
         )`.pipe(Effect.mapError(dedupeError))
         if (deliveryId.startsWith("delivery:relay:")) {
@@ -1798,7 +1798,7 @@ export const layer = Layer.effect(
           if (
             schedule.dedupe === undefined
             && (runWindow?.accepted.filter((entry) => DateTime.toEpochMillis(now) - entry.at < 60_000)
-                .length ?? 0) >= WEBHOOK_RATE_LIMIT_PER_MINUTE
+              .length ?? 0) >= WEBHOOK_RATE_LIMIT_PER_MINUTE
           ) {
             if ((yield* takeRateSlot(task.id, DateTime.toEpochMillis(now))) === "first_rejected") {
               yield* log("rate_limited")
@@ -1817,7 +1817,7 @@ export const layer = Layer.effect(
               WHERE task_id = ${task.id} AND state IN ('pending', 'dispatching', 'running')`
             if (
               (row?.count ?? 0) + ((yield* Ref.get(webhookQueued)).get(queueKey) ?? 0)
-                >= WEBHOOK_MAX_QUEUED_PER_TASK
+              >= WEBHOOK_MAX_QUEUED_PER_TASK
             ) {
               return yield* Effect.fail("queue_full" as const)
             }

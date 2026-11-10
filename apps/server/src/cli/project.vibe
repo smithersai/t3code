@@ -346,11 +346,14 @@ const tryResolveLiveProjectExecutionMode = effect (
         return Option.none<{ readonly origin: string }>()
       }
 
-      const attempt = withProjectCliSessionToken(environmentAuth, (token) =>
-        fetchLiveOrchestrationSnapshot(runtimeState.value.origin, token)
-        |> Effect.as(%, {
-          origin: runtimeState.value.origin,
-        }))
+      const attempt = withProjectCliSessionToken(
+        environmentAuth,
+        (token) =>
+          fetchLiveOrchestrationSnapshot(runtimeState.value.origin, token)
+          |> Effect.as(%, {
+            origin: runtimeState.value.origin,
+          }),
+      )
 
       const attempted = try Effect.result(attempt)
       if (attempted._tag === "Success") {

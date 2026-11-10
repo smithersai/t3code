@@ -210,10 +210,13 @@ export const makeDeviceHubOperations = (options: {
           ? (postShutdown(`${vendorPrefix("ios")}/grid/api/shutdown`, { udid: device.id })
             |> Effect.catch(%, (cause) =>
               list
-              |> Effect.flatMap(%, ({ devices }) =>
-                devices.find((candidate) => candidate.id === device.id)?.booted === false
-                  ? Effect.logInfo("iOS simulator was already shut down", { deviceId: device.id })
-                  : Effect.fail(cause))))
+              |> Effect.flatMap(
+                %,
+                ({ devices }) =>
+                  devices.find((candidate) => candidate.id === device.id)?.booted === false
+                    ? Effect.logInfo("iOS simulator was already shut down", { deviceId: device.id })
+                    : Effect.fail(cause),
+              )))
           : postShutdown("/api/devices/shutdown", { platform: device.platform, id: device.id }))
       })(),
       "DeviceHubOperations.shutdown",

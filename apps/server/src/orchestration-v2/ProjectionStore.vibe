@@ -1964,8 +1964,7 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
   Effect.gen(function*() {
     const sql = yield* SqlClient.SqlClient
 
-    const keepRecordedRunField = (payload: Statement.Fragment, path: string) =>
-      sql`
+    const keepRecordedRunField = (payload: Statement.Fragment, path: string) => sql`
       CASE
         WHEN json_type(excluded.payload_json, ${path}) IS NULL
           AND json_type(orchestration_v2_projection_runs.payload_json, ${path}) IS NOT NULL
@@ -2104,11 +2103,11 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
                 requested_at = excluded.requested_at,
                 completed_at = excluded.completed_at,
                 payload_json = ${
-                keepRecordedRunField(
-                  keepRecordedRunField(sql`excluded.payload_json`, "$.delegatedCompletion"),
-                  "$.restartCancelledBackgroundWork",
-                )
-              }
+                  keepRecordedRunField(
+                    keepRecordedRunField(sql`excluded.payload_json`, "$.delegatedCompletion"),
+                    "$.restartCancelledBackgroundWork",
+                  )
+                }
             `
               break
             }
@@ -2880,8 +2879,7 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
         readonly anchorItemId?: TurnItemId | undefined
         readonly requiredRunId?: RunId | undefined
       },
-    ) =>
-      sql`
+    ) => sql`
                 WITH eligible AS NOT MATERIALIZED (
                   SELECT item.rowid AS item_rowid, item.payload_json, item.ordinal, item.turn_item_id,
                     item.run_id, item.node_id, item.type
@@ -3099,23 +3097,23 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
                 FROM orchestration_v2_projection_turn_items
                 WHERE thread_id = ${threadId}
                   ${
-            filter?.turnItemTypes === undefined
-              ? sql``
-              : sql`AND type IN (SELECT value FROM json_each(${encodeIdList(filter.turnItemTypes)}))`
-          }
+                    filter?.turnItemTypes === undefined
+                      ? sql``
+                      : sql`AND type IN (SELECT value FROM json_each(${encodeIdList(filter.turnItemTypes)}))`
+                  }
                   ${
-            filter?.turnItemStatuses === undefined
-              ? sql``
-              : sql`AND status IN (SELECT value FROM json_each(${encodeIdList(filter.turnItemStatuses)}))`
-          }
+                    filter?.turnItemStatuses === undefined
+                      ? sql``
+                      : sql`AND status IN (SELECT value FROM json_each(${encodeIdList(filter.turnItemStatuses)}))`
+                  }
                   ${filter?.turnItemRunId === undefined ? sql`` : sql`AND run_id = ${filter.turnItemRunId}`}
                   ${
-            filter?.turnItemRunIds === undefined
-              ? sql``
-              : sql`AND (run_id IN (SELECT value FROM json_each(${
-                encodeIdList(filter.turnItemRunIds.filter((id): id is RunId => id !== null))
-              })) OR (${filter.turnItemRunIds.includes(null) ? 1 : 0} = 1 AND run_id IS NULL))`
-          }
+                    filter?.turnItemRunIds === undefined
+                      ? sql``
+                      : sql`AND (run_id IN (SELECT value FROM json_each(${
+                        encodeIdList(filter.turnItemRunIds.filter((id): id is RunId => id !== null))
+                      })) OR (${filter.turnItemRunIds.includes(null) ? 1 : 0} = 1 AND run_id IS NULL))`
+                  }
                 ORDER BY ordinal ASC, turn_item_id ASC
               `
           : yield* sql<PayloadRow>`
@@ -3269,10 +3267,10 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
             FROM orchestration_v2_projection_runs
             WHERE thread_id = ${threadId}
               ${
-              filter?.runIds === undefined
-                ? sql``
-                : sql`AND run_id IN (SELECT value FROM json_each(${encodeIdList(filter.runIds)}))`
-            }
+                filter?.runIds === undefined
+                  ? sql``
+                  : sql`AND run_id IN (SELECT value FROM json_each(${encodeIdList(filter.runIds)}))`
+              }
             ORDER BY ordinal ASC
           `
             : sql<PayloadRow>`
@@ -3318,8 +3316,8 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
             FROM orchestration_v2_projection_nodes AS node
             WHERE node.thread_id = ${threadId}
               ${
-              filter?.omitSettledLeafNodes === true
-                ? sql`AND NOT (
+                filter?.omitSettledLeafNodes === true
+                  ? sql`AND NOT (
                       node.kind IN ('tool_call', 'assistant_message', 'reasoning')
                       AND node.status IN ('completed', 'interrupted', 'failed', 'cancelled', 'rolled_back')
                       AND node.run_id IS NOT NULL
@@ -3329,8 +3327,8 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
                           AND run.status IN ('preparing', 'queued', 'starting', 'running', 'waiting')
                       )
                     )`
-                : sql``
-            }
+                  : sql``
+              }
             ORDER BY COALESCE(node.started_at, ''), node.node_id ASC
               `
             : sql<PayloadRow & { readonly position: number }>`
@@ -3353,10 +3351,10 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
             FROM orchestration_v2_projection_subagents
             WHERE thread_id = ${threadId}
               ${
-              filter?.subagentIds === undefined
-                ? sql``
-                : sql`AND subagent_id IN (SELECT value FROM json_each(${encodeIdList(filter.subagentIds)}))`
-            }
+                filter?.subagentIds === undefined
+                  ? sql``
+                  : sql`AND subagent_id IN (SELECT value FROM json_each(${encodeIdList(filter.subagentIds)}))`
+              }
             ORDER BY COALESCE(started_at, ''), subagent_id ASC
           `
             : sql<PayloadRow>`
@@ -3462,20 +3460,20 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
                 SELECT payload_json FROM orchestration_v2_projection_messages
                 WHERE thread_id = ${threadId}
                   ${
-              filter?.messageIds === undefined
-                ? sql``
-                : sql`AND message_id IN (SELECT value FROM json_each(${encodeIdList(filter.messageIds)}))`
-            }
+                    filter?.messageIds === undefined
+                      ? sql``
+                      : sql`AND message_id IN (SELECT value FROM json_each(${encodeIdList(filter.messageIds)}))`
+                  }
                   ${
-              filter?.messageRoles === undefined
-                ? sql``
-                : sql`AND role IN (SELECT value FROM json_each(${encodeIdList(filter.messageRoles)}))`
-            }
+                    filter?.messageRoles === undefined
+                      ? sql``
+                      : sql`AND role IN (SELECT value FROM json_each(${encodeIdList(filter.messageRoles)}))`
+                  }
                   ${
-              filter?.messageRunIds === undefined
-                ? sql``
-                : sql`AND run_id IN (SELECT value FROM json_each(${encodeIdList(filter.messageRunIds)}))`
-            }
+                    filter?.messageRunIds === undefined
+                      ? sql``
+                      : sql`AND run_id IN (SELECT value FROM json_each(${encodeIdList(filter.messageRunIds)}))`
+                  }
                 ORDER BY created_at ASC, message_id ASC
               `
             : sql<PayloadRow>`
@@ -3815,15 +3813,15 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
           && seenThreadIds.size === 0
           && sourceWindow !== undefined
           && activeLocalTurnItems(projection).filter((row) => isThreadHistoryUserTurn(row.item))
-              .length >= Math.max(window.userTurnLimit, THREAD_HISTORY_PAGE_POLICY.maxUserTurns)
+            .length >= Math.max(window.userTurnLimit, THREAD_HISTORY_PAGE_POLICY.maxUserTurns)
         ) {
           const counted = yield* sql<{ readonly inherited_rows: number | null }>`
             ${
-            retainedWindowRows(forkedFrom.threadId, {
-              ...sourceWindow,
-              rowLimit: sourceWindow.suppressLocal ? 0 : sourceWindow.rowLimit,
-            })
-          }
+              retainedWindowRows(forkedFrom.threadId, {
+                ...sourceWindow,
+                rowLimit: sourceWindow.suppressLocal ? 0 : sourceWindow.rowLimit,
+              })
+            }
             SELECT CASE
               WHEN json_extract(source.payload_json, '$.forkedFrom.type') = 'run' THEN NULL
               WHEN NOT EXISTS (
@@ -3935,13 +3933,13 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
                 AND json_extract(t.payload_json, '$.limitRecovery.resetAt') IS json_extract(item.payload_json, '$.failure.resetAt')
                 AND json_extract(t.payload_json, '$.limitRecovery.autoResume') = 1
                 AND julianday(json_extract(item.payload_json, '$.failure.resetAt')) <= julianday(${
-          DateTime.formatIso(options.now)
-        })
+                  DateTime.formatIso(options.now)
+                })
                 AND (
                   json_extract(t.payload_json, '$.snoozedUntil') IS NULL
                   OR julianday(json_extract(t.payload_json, '$.snoozedUntil')) <= julianday(${
-          DateTime.formatIso(options.now)
-        })
+                    DateTime.formatIso(options.now)
+                  })
                 )
               )
               OR (
@@ -3952,10 +3950,10 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
                 AND (
                   ${booleanInt(options.autoResume)}
                   OR (${
-          booleanInt(options.snooze)
-        } AND julianday(json_extract(item.payload_json, '$.failure.resetAt')) > julianday(${
-          DateTime.formatIso(options.now)
-        }))
+                    booleanInt(options.snooze)
+                  } AND julianday(json_extract(item.payload_json, '$.failure.resetAt')) > julianday(${
+                    DateTime.formatIso(options.now)
+                  }))
                 )
               )
             )
@@ -4338,12 +4336,12 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
             const checkpointScopes = yield* sql<PayloadRow>`
               SELECT payload_json FROM orchestration_v2_projection_checkpoint_scopes
               WHERE thread_id = ${threadId} AND scope_id IN ${
-              sql.in(
-                nodes.flatMap((
-                  node,
-                ) => (node.checkpointScopeId === null ? [] : [node.checkpointScopeId])),
-              )
-            } ORDER BY ordinal_within_parent ASC, scope_id ASC
+                sql.in(
+                  nodes.flatMap((
+                    node,
+                  ) => (node.checkpointScopeId === null ? [] : [node.checkpointScopeId])),
+                )
+              } ORDER BY ordinal_within_parent ASC, scope_id ASC
             `.pipe(Effect.flatMap(decodeRows(decodeCheckpointScopePayload, threadId)))
             const contextHandoffs = yield* sql<PayloadRow>`
               SELECT payload_json FROM orchestration_v2_projection_context_handoffs
@@ -4817,11 +4815,11 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
             const nodeRows = yield* sql<PayloadRow>`
           SELECT payload_json FROM orchestration_v2_projection_nodes
           WHERE thread_id = ${threadId} AND ${
-              sql.in(
-                "node_id",
-                runtimeRequests.map((request) => request.nodeId),
-              )
-            }
+            sql.in(
+              "node_id",
+              runtimeRequests.map((request) => request.nodeId),
+            )
+          }
         `
             const itemRows = yield* sql<PayloadRow>`
           SELECT payload_json FROM orchestration_v2_projection_turn_items
@@ -5258,11 +5256,11 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
             const [nodeRows, turnRows] = yield* Effect.all([
               sql<PayloadRow>`SELECT payload_json FROM orchestration_v2_projection_nodes
             WHERE thread_id = ${threadId} AND ${
-                sql.in(
-                  "node_id",
-                  runsToRollback.map((run) => run.rootNodeId),
-                )
-              }
+              sql.in(
+                "node_id",
+                runsToRollback.map((run) => run.rootNodeId),
+              )
+            }
             ORDER BY node_id ASC`,
               sql<PayloadRow>`SELECT payload_json FROM orchestration_v2_projection_provider_turns
             WHERE thread_id = ${threadId} AND (
@@ -5818,8 +5816,7 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
         worktreePath,
         threadIds,
       }: ShellSnapshotOptions = {},
-    ) =>
-      sql<ShellThreadRow>`
+    ) => sql<ShellThreadRow>`
             SELECT
               t.thread_id,
               t.payload_json,
@@ -5998,30 +5995,30 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
               LIMIT 1
             ) AND blocked.status = 'failed'
             WHERE t.deleted_at IS NULL${threadId === undefined ? sql`` : sql` AND t.thread_id = ${threadId}`}${
-        projectId === undefined ? sql`` : sql` AND t.project_id = ${projectId}`
-      }${
-        location === "active"
-          ? sql` AND json_extract(t.payload_json, '$.archivedAt') IS NULL`
-          : location === "archive"
-          ? sql` AND json_extract(t.payload_json, '$.archivedAt') IS NOT NULL`
-          : sql``
-      }${
-        unsettledOnly
-          ? sql` AND json_extract(t.payload_json, '$.settledAt') IS NULL AND json_extract(t.payload_json, '$.settledOverride') IS NOT 'settled'`
-          : sql``
-      }${
-        familyOf === undefined
-          ? sql``
-          : sql` AND json_extract(t.payload_json, '$.lineage.rootThreadId') = (
+              projectId === undefined ? sql`` : sql` AND t.project_id = ${projectId}`
+            }${
+              location === "active"
+                ? sql` AND json_extract(t.payload_json, '$.archivedAt') IS NULL`
+                : location === "archive"
+                ? sql` AND json_extract(t.payload_json, '$.archivedAt') IS NOT NULL`
+                : sql``
+            }${
+              unsettledOnly
+                ? sql` AND json_extract(t.payload_json, '$.settledAt') IS NULL AND json_extract(t.payload_json, '$.settledOverride') IS NOT 'settled'`
+                : sql``
+            }${
+              familyOf === undefined
+                ? sql``
+                : sql` AND json_extract(t.payload_json, '$.lineage.rootThreadId') = (
                     SELECT json_extract(member.payload_json, '$.lineage.rootThreadId')
                     FROM orchestration_v2_projection_threads member
                     WHERE member.thread_id = ${familyOf}
                   )`
-      }${
-        worktreePath === undefined
-          ? sql``
-          : sql` AND json_extract(t.payload_json, '$.worktreePath') = ${worktreePath}`
-      }${threadIds === undefined ? sql`` : sql` AND t.thread_id IN ${sql.in(threadIds)}`}
+            }${
+              worktreePath === undefined
+                ? sql``
+                : sql` AND json_extract(t.payload_json, '$.worktreePath') = ${worktreePath}`
+            }${threadIds === undefined ? sql`` : sql` AND t.thread_id IN ${sql.in(threadIds)}`}
             ORDER BY t.updated_at ASC, t.thread_id ASC
           `
 
@@ -6037,8 +6034,7 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
             WHERE thread_id IN ${sql.in(threadIds)}
           `
 
-    const selectShellRunItemCounts = (threadIds: ReadonlyArray<ThreadId>) =>
-      sql<ShellRunItemCountRow>`
+    const selectShellRunItemCounts = (threadIds: ReadonlyArray<ThreadId>) => sql<ShellRunItemCountRow>`
         SELECT thread_id, run_id, COUNT(*) AS item_count
         FROM orchestration_v2_projection_turn_items
         WHERE run_id IS NOT NULL AND thread_id IN ${sql.in(threadIds)}
@@ -6046,8 +6042,7 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
       `
 
     // Count all selected threads in one index walk; fork sources still need per-run counts.
-    const selectShellItemCounts = (threadIds: ReadonlyArray<ThreadId>) =>
-      sql<ShellItemCountRow>`
+    const selectShellItemCounts = (threadIds: ReadonlyArray<ThreadId>) => sql<ShellItemCountRow>`
         SELECT counts.thread_id,
           SUM(CASE WHEN counts.run_id IS NULL OR r.status <> 'rolled_back'
             THEN counts.item_count ELSE 0 END) AS item_count,
@@ -6079,8 +6074,7 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
     const selectShellPendingTurnItemRows = (
       threadIds?: ReadonlyArray<ThreadId>,
       activeRunIds: ReadonlyArray<string> = [],
-    ) =>
-      sql<ShellPendingTurnItemRow>`
+    ) => sql<ShellPendingTurnItemRow>`
       SELECT i.thread_id, i.payload_json, p.provider_instance_id AS owning_provider_instance_id
       FROM orchestration_v2_projection_turn_items i
       LEFT JOIN orchestration_v2_projection_provider_threads p
@@ -6354,10 +6348,10 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
         FROM orchestration_v2_projection_threads
         WHERE deleted_at IS NULL
           ${
-        options?.includeArchived === true
-          ? sql``
-          : sql`AND json_extract(payload_json, '$.archivedAt') IS NULL`
-      }
+            options?.includeArchived === true
+              ? sql``
+              : sql`AND json_extract(payload_json, '$.archivedAt') IS NULL`
+          }
           AND json_extract(payload_json, '$.worktreePath') IS NOT NULL
       `.pipe(
         Effect.map((rows) =>
@@ -6702,8 +6696,8 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
           AND json_extract(t.payload_json, '$.lineage.relationshipToParent') IS NOT 'subagent'
           AND json_extract(t.payload_json, '$.settledOverride') = 'settled'
           AND json_extract(t.payload_json, '$.settledAt') IS NOT NULL${
-        projectIds === undefined ? sql`` : sql` AND t.project_id IN ${sql.in(projectIds)}`
-      }
+            projectIds === undefined ? sql`` : sql` AND t.project_id IN ${sql.in(projectIds)}`
+          }
       `
       const belowCursor = before.threadId === undefined
         ? sql`older.settled_at < ${before.settledAt}`
@@ -6818,10 +6812,11 @@ export const layer: Layer.Layer<ProjectionStoreV2, never, SqlClient.SqlClient> =
         )
         .pipe(Effect.mapError((cause) => new ProjectionStoreReadError({ threadId, cause })))
 
-    const readOnReader = <Args extends ReadonlyArray<unknown>, A, E, R>(
-      method: (...args: Args) => A!E!R,
-    ) =>
-    (...args: Args): A!E!R => method(...args).pipe(NodeSqliteClient.readOnly)
+    const readOnReader =
+      <Args extends ReadonlyArray<unknown>, A, E, R>(
+        method: (...args: Args) => A!E!R,
+      ) =>
+      (...args: Args): A!E!R => method(...args).pipe(NodeSqliteClient.readOnly)
 
     return {
       apply,

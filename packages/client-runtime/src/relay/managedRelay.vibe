@@ -636,21 +636,25 @@ export const make = effect (
           authorize(input)
           |> Effect.flatMap(%, (authorization) =>
             request(authorization)
-            |> Effect.catchIf(%, isRejectedDpopAccessToken, (error) =>
-              invalidateAccessToken(authorization.accessToken)
-              |> Effect.tap(%, (invalidated) =>
-                Effect.annotateCurrentSpan({
-                  "relay.token_cache.invalidated": invalidated,
-                  "relay.token_cache.invalidation_reason": "invalid_bearer",
-                  "relay.token_cache.retry_after_invalidation": refreshRejectedToken,
-                }))
-              |> Effect.tap(%, (invalidated) =>
-                invalidated && refreshRejectedToken
-                  ? Effect.logWarning(
-                    "Relay rejected a cached DPoP access token; refreshing it once.",
-                  )
-                  : Effect.void)
-              |> Effect.andThen(%, refreshRejectedToken ? attempt(false) : Effect.fail(error))))
+            |> Effect.catchIf(
+              %,
+              isRejectedDpopAccessToken,
+              (error) =>
+                invalidateAccessToken(authorization.accessToken)
+                |> Effect.tap(%, (invalidated) =>
+                  Effect.annotateCurrentSpan({
+                    "relay.token_cache.invalidated": invalidated,
+                    "relay.token_cache.invalidation_reason": "invalid_bearer",
+                    "relay.token_cache.retry_after_invalidation": refreshRejectedToken,
+                  }))
+                |> Effect.tap(%, (invalidated) =>
+                  invalidated && refreshRejectedToken
+                    ? Effect.logWarning(
+                      "Relay rejected a cached DPoP access token; refreshing it once.",
+                    )
+                    : Effect.void)
+                |> Effect.andThen(%, refreshRejectedToken ? attempt(false) : Effect.fail(error)),
+            ))
         return attempt(true)
       }
 

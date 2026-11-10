@@ -196,8 +196,7 @@ export const mcpToolPresentation = effect (
         const argumentAppName =
           (try Effect.orDie(Effect.try({ try: () => normalizedDisplayName(args?.appName), catch: (e) => e })))
             ?? (try Effect.orDie(Effect.try({
-              try: () =>
-                normalizedDisplayName(args?.application),
+              try: () => normalizedDisplayName(args?.application),
               catch: (e) => e,
             })))
             ?? (try Effect.orDie(

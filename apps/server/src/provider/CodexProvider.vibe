@@ -166,7 +166,7 @@ export function mapCodexModelCapabilities(
 ): ModelCapabilities {
   const reasoningOptions = model.supportedReasoningEfforts.map(({ reasoningEffort }) =>
     reasoningEffort
-        === (codexDefaultReasoningEffortOverride(model.model) ?? model.defaultReasoningEffort)
+      === (codexDefaultReasoningEffortOverride(model.model) ?? model.defaultReasoningEffort)
       ? {
         id: reasoningEffort,
         label: reasoningEffortLabel(reasoningEffort),

@@ -467,11 +467,14 @@ export const runBackendProcess = effect (
           |> Stream.runForEach(%, (line) =>
             decodeDesktopTelemetryControlLine(line)
             |> Effect.flatMap(%, handleControl)
-            |> Effect.catchCause(%, (cause) =>
-              logBackendProcessWarning("ignored invalid desktop telemetry control message", {
-                fd: controlFd,
-                cause: Cause.pretty(cause),
-              })))
+            |> Effect.catchCause(
+              %,
+              (cause) =>
+                logBackendProcessWarning("ignored invalid desktop telemetry control message", {
+                  fd: controlFd,
+                  cause: Cause.pretty(cause),
+                }),
+            ))
           |> Effect.catchCause(%, (cause) =>
             logBackendProcessWarning("desktop telemetry control stream stopped", {
               fd: controlFd,

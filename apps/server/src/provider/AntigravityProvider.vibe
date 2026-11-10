@@ -415,20 +415,21 @@ export const makeAntigravityProvider = Effect.fn("makeAntigravityProvider")(func
       effect {
         if (skills) {
           discoveredSkills.set(cwd, skills)
-          try SubscriptionRef.update(metadata, (state) =>
-            state.draft.workspaceSnapshots?.some((entry) =>
-                entry.cwd === cwd
-              )
-              ? {
-                ...state,
-                draft: {
-                  ...state.draft,
-                  workspaceSnapshots: state.draft.workspaceSnapshots.map((entry) =>
-                    entry.cwd === cwd ? { ...entry, skills } : entry
-                  ),
-                },
-              }
-              : state)
+          try SubscriptionRef.update(
+            metadata,
+            (state) =>
+              state.draft.workspaceSnapshots?.some((entry) => entry.cwd === cwd)
+                ? {
+                  ...state,
+                  draft: {
+                    ...state.draft,
+                    workspaceSnapshots: state.draft.workspaceSnapshots.map((entry) =>
+                      entry.cwd === cwd ? { ...entry, skills } : entry
+                    ),
+                  },
+                }
+                : state,
+          )
         }
         const snapshot = try getSnapshot
         const workspace = snapshot.workspaceSnapshots?.find((entry) => entry.cwd === cwd)

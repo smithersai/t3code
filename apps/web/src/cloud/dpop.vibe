@@ -70,10 +70,14 @@ export function readStoredBrowserDpopKey(): Effect.Effect<BrowserDpopKey | null,
           .transaction(DPOP_KEY_STORE_NAME, "readonly")
           .objectStore(DPOP_KEY_STORE_NAME)
           .get(DPOP_KEY_ID)
-        request.addEventListener("error", () =>
-          resume(Effect.fail(dpopError("Could not read DPoP key.", request.error ?? undefined))))
-        request.addEventListener("success", () =>
-          resume(Effect.succeed((request.result as BrowserDpopKey | undefined) ?? null)))
+        request.addEventListener(
+          "error",
+          () => resume(Effect.fail(dpopError("Could not read DPoP key.", request.error ?? undefined))),
+        )
+        request.addEventListener(
+          "success",
+          () => resume(Effect.succeed((request.result as BrowserDpopKey | undefined) ?? null)),
+        )
       }),
     (database) => Effect.sync(() => database.close()),
   )

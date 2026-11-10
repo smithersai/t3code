@@ -54,8 +54,10 @@ export const composerPullRequests = createPullRequestEnvironmentAtoms(connection
         )
       }
       if (target.input.cursors === undefined) {
-        registry.update(pullRequestListPagesFamily(pullRequestListPagesKey(target)), (previous) =>
-          pullRequestListHead(previous, value))
+        registry.update(
+          pullRequestListPagesFamily(pullRequestListPagesKey(target)),
+          (previous) => pullRequestListHead(previous, value),
+        )
       }
     }),
   listStats: (target, value, registry) =>

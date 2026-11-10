@@ -508,27 +508,28 @@ function runInEnvironment<A, E, R>(
  * registry re-run a mounted query right away and only mark an idle one stale, which then
  * refreshes on its next read.
  */
-const refreshOnSignalWhileRead = <V>(signal: Atom.Atom<unknown>, isFinal: (value: V) => boolean) =>
-<A extends V>(
-  self: Atom.Atom<A>,
-): Atom.Atom<A> => {
-  // The signal value each registry's data was read under. Held outside the node because the
-  // registry can sweep this node while `self` keeps the data, and the rebuilt node must still
-  // see a change it missed.
-  const readUnder = new WeakMap<AtomRegistry.AtomRegistry, unknown>()
-  return Atom.transform(
-    self,
-    (get) => {
-      const current = get(signal)
-      get.subscribe(self, (value) => get.setSelf(value))
-      const changed = readUnder.has(get.registry) && !Object.is(readUnder.get(get.registry), current)
-      readUnder.set(get.registry, current)
-      if (changed && !isFinal(get.once(self))) get.refresh(self)
-      return get.once(self)
-    },
-    { initialValueTarget: self },
-  )
-}
+const refreshOnSignalWhileRead =
+  <V>(signal: Atom.Atom<unknown>, isFinal: (value: V) => boolean) =>
+  <A extends V>(
+    self: Atom.Atom<A>,
+  ): Atom.Atom<A> => {
+    // The signal value each registry's data was read under. Held outside the node because the
+    // registry can sweep this node while `self` keeps the data, and the rebuilt node must still
+    // see a change it missed.
+    const readUnder = new WeakMap<AtomRegistry.AtomRegistry, unknown>()
+    return Atom.transform(
+      self,
+      (get) => {
+        const current = get(signal)
+        get.subscribe(self, (value) => get.setSelf(value))
+        const changed = readUnder.has(get.registry) && !Object.is(readUnder.get(get.registry), current)
+        readUnder.set(get.registry, current)
+        if (changed && !isFinal(get.once(self))) get.refresh(self)
+        return get.once(self)
+      },
+      { initialValueTarget: self },
+    )
+  }
 
 const refreshEveryUntilFinal =
   <V>(intervalMs: number, isFinal: (value: V) => boolean) => <A extends V>(self: Atom.Atom<A>): Atom.Atom<A> =>

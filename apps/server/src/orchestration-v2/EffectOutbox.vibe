@@ -309,13 +309,12 @@ export const layer: Layer.Layer<EffectOutboxV2, never, SqlClient.SqlClient> = La
     const claimableCandidatePredicate = (
       availableBefore?: string,
       excludeRestartContinuations = false,
-    ) =>
-      sql`
+    ) => sql`
         ${
-        availableBefore === undefined
-          ? sql`1 = 1`
-          : sql`candidate.available_at <= ${availableBefore}`
-      }
+          availableBefore === undefined
+            ? sql`1 = 1`
+            : sql`candidate.available_at <= ${availableBefore}`
+        }
         AND candidate.status = 'pending'
         AND NOT EXISTS (
           SELECT 1
@@ -327,10 +326,10 @@ export const layer: Layer.Layer<EffectOutboxV2, never, SqlClient.SqlClient> = La
                 active.status = 'pending'
                 AND active.rowid < candidate.rowid
                 AND ${
-        excludeRestartContinuations
-          ? sql`active.effect_type != 'provider-runtime.continue'`
-          : sql`1 = 1`
-      }
+                  excludeRestartContinuations
+                    ? sql`active.effect_type != 'provider-runtime.continue'`
+                    : sql`1 = 1`
+                }
               )
             )
             AND (
@@ -367,8 +366,7 @@ export const layer: Layer.Layer<EffectOutboxV2, never, SqlClient.SqlClient> = La
             const nowIso = DateTime.formatIso(now)
             try Effect.forEach(
               effects,
-              (effect) =>
-                sql`
+              (effect) => sql`
               INSERT INTO orchestration_v2_effect_outbox (
                 effect_id,
                 command_id,
@@ -547,8 +545,8 @@ export const layer: Layer.Layer<EffectOutboxV2, never, SqlClient.SqlClient> = La
               FROM orchestration_v2_effect_outbox AS candidate
               WHERE ${claimableCandidatePredicate(nowIso, excludeRestartContinuations)}
                 AND ${
-            excludeRestartContinuations ? sql`candidate.effect_type != 'provider-runtime.continue'` : sql`1 = 1`
-          }
+                  excludeRestartContinuations ? sql`candidate.effect_type != 'provider-runtime.continue'` : sql`1 = 1`
+                }
               ORDER BY candidate.available_at ASC, candidate.created_at ASC, candidate.effect_id ASC
               LIMIT 1
             )

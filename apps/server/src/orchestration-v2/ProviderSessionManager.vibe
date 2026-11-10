@@ -1504,10 +1504,14 @@ export const layerWithOptions = (
             Effect.andThen(unloadIdleThread({ providerSessionId, threadId, generation })),
             Effect.forkIn(layerScope),
           )
-          const previous = yield* updateIdleThreadUnload(providerSessionId, threadId, (current) =>
-            current?.generation === pending.generation
-              ? { ...current, generation, fiber }
-              : current)
+          const previous = yield* updateIdleThreadUnload(
+            providerSessionId,
+            threadId,
+            (current) =>
+              current?.generation === pending.generation
+                ? { ...current, generation, fiber }
+                : current,
+          )
           yield* cancelIdleFiber(
             previous?.generation === pending.generation ? previous.fiber : fiber,
           )
@@ -1542,9 +1546,7 @@ export const layerWithOptions = (
                 ? false
                 : yield* entry.runtime
                   .hasPendingBackgroundWorkForThread(pending.providerThread)
-                  .pipe(Effect.catchCause(() =>
-                    Effect.succeed(false)
-                  ))
+                  .pipe(Effect.catchCause(() => Effect.succeed(false)))
               if (hasPendingWork) {
                 return "deferred" as const
               }
@@ -1615,8 +1617,7 @@ export const layerWithOptions = (
           >,
         ): Effect.fn.Return<ProviderAdapter.ProviderAdapterV2EventSubscription> {
           const queue = yield* Queue.unbounded<ProviderSessionEventSignal, Cause.Done>()
-          const subscriberId = yield* Ref.getAndUpdate(nextSubscriberId, (value) =>
-            value + 1)
+          const subscriberId = yield* Ref.getAndUpdate(nextSubscriberId, (value) => value + 1)
           yield* Ref.update(subscribers, (current) => {
             const updated = new Map(current)
             updated.set(subscriberId, queue)

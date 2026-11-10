@@ -284,11 +284,12 @@ export const make = effect {
       "GitWorkflowService.detectGitRepositoryForCommand",
     )
 
-  const routeGitManager = <Input extends { readonly cwd: string }, Output>(
-    operation: string,
-    run: (input: Input) => Output!GitManagerServiceError,
-  ) =>
-  (input: Input) => ensureGit(operation, input.cwd) |> Effect.andThen(%, run(input))
+  const routeGitManager =
+    <Input extends { readonly cwd: string }, Output>(
+      operation: string,
+      run: (input: Input) => Output!GitManagerServiceError,
+    ) =>
+    (input: Input) => ensureGit(operation, input.cwd) |> Effect.andThen(%, run(input))
 
   return GitWorkflowService.of({
     isRepository: Effect.fn("GitWorkflowService.isRepository")(function(cwd) {

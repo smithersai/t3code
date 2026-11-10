@@ -107,7 +107,7 @@ export const make = effect {
         onNone: () => true,
         onSome: (dateTime) =>
           now.epochMilliseconds - dateTime.epochMilliseconds
-            >= SOURCE_JOB_CLAIM_LEASE_MINUTES * 60 * 1_000,
+          >= SOURCE_JOB_CLAIM_LEASE_MINUTES * 60 * 1_000,
       }
       const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers
       match ($optionSubject) {

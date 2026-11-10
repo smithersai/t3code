@@ -101,12 +101,13 @@ export const makeProviderInstallation = Effect.fn("makeProviderInstallation")(fu
       "ProviderInstallation.requireInstance",
     )
 
-  const failure = (instanceId: ProviderInstanceId) =>
-  (
-    error:
-      | AntigravityInstallation.AntigravityInstallationError
-      | CodexInstallation.CodexInstallationError,
-  ) => new ProviderSetupError({ instanceId, operation: error.operation, detail: error.detail })
+  const failure =
+    (instanceId: ProviderInstanceId) =>
+    (
+      error:
+        | AntigravityInstallation.AntigravityInstallationError
+        | CodexInstallation.CodexInstallationError,
+    ) => new ProviderSetupError({ instanceId, operation: error.operation, detail: error.detail })
 
   const start = effect (input: ProviderSetupInput) =>
     try withSpan(

@@ -257,7 +257,7 @@ const makeSshBroker = effect () =>
             })
             if (
               pullRequestRoutingConnectionKey(entry)
-                !== pullRequestRoutingConnectionKey({ ...entry, profile: Option.some(preparedProfile) })
+              !== pullRequestRoutingConnectionKey({ ...entry, profile: Option.some(preparedProfile) })
             ) {
               const permissions = try PullRequestRoutingPermissions
               try permissions.forget(target.environmentId)

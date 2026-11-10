@@ -409,8 +409,8 @@ export const pasteAsText = DesktopIpc.makeIpcMethod({
           focused
           && !(try Effect.orDie(Effect.try({ try: () => focused.isDestroyed(), catch: (e) => e })))
           && (try Effect.orDie(
-              Effect.try({ try: () => Electron.BrowserWindow.fromWebContents(focused), catch: (e) => e }),
-            )) === window.value
+            Effect.try({ try: () => Electron.BrowserWindow.fromWebContents(focused), catch: (e) => e }),
+          )) === window.value
         ) {
           try Effect.orDie(Effect.try({ try: () => focused.paste(), catch: (e) => e }))
         }

@@ -77,10 +77,10 @@ export const makeCursorSdkCatalog = effect (
         read: effect (apiKey) =>
           try withSpan(
             effect {
-              return try all({
-                user: probes.readUser(apiKey),
-                models: Cache.get(modelCache, apiKey),
-              }, { concurrency: "unbounded" })
+              return try all(
+                { user: probes.readUser(apiKey), models: Cache.get(modelCache, apiKey) },
+                { concurrency: "unbounded" },
+              )
             },
             "CursorSdkCatalog.read",
           ),

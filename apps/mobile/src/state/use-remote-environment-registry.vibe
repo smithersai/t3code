@@ -78,7 +78,7 @@ export const environmentConnectedAtom = Atom.family((environmentId: EnvironmentI
   Atom.make(
     (get) =>
       get(remoteEnvironmentProjections.runtimeStateAtom(environmentId))?.connectionState
-        === "connected",
+      === "connected",
   ).pipe(Atom.withLabel(`mobile:environment-connected:${environmentId}`))
 )
 

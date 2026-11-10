@@ -930,14 +930,17 @@ export const make = effect {
     use,
   ) =>
     captureVerifiedCredential(input)
-    |> Effect.flatMap(%, ({ host, token, accountId, viewer, credentialFingerprint }) =>
-      use({ accountId, viewer, credentialFingerprint })
-      |> Effect.provideService(%, SourceControlRateLimit.CredentialScope, credentialFingerprint)
-      |> Effect.provideService(%, GitHubRequestPolicy.PinnedGitHubCredential, {
-        host,
-        token,
-        credentialFingerprint,
-      }))
+    |> Effect.flatMap(
+      %,
+      ({ host, token, accountId, viewer, credentialFingerprint }) =>
+        use({ accountId, viewer, credentialFingerprint })
+        |> Effect.provideService(%, SourceControlRateLimit.CredentialScope, credentialFingerprint)
+        |> Effect.provideService(%, GitHubRequestPolicy.PinnedGitHubCredential, {
+          host,
+          token,
+          credentialFingerprint,
+        }),
+    )
   const getRoutingIdentity: GitHubPullRequestApi["Service"]["getRoutingIdentity"] = (input) =>
     captureVerifiedCredential(input)
     |> Effect.map(%, ({ accountId, viewer }) => ({ accountId, viewer }))
@@ -945,30 +948,31 @@ export const make = effect {
   const readError = (cwd: string, operation: string, cause: unknown) =>
     new GitHubPullRequestReadError({ cwd, operation, cause })
 
-  const graphql = (input: {
-    readonly cwd: string
-    readonly host: string
-    readonly operation: string
-    readonly allowReserve?: boolean | undefined
-  }) =>
-  <A, E, R>(
-    effect: A!E!R,
-  ): A!(| Exclude<E, GraphQLClientError.GraphQLClientError>
-    | GitHubRequestPolicy.GitHubApiNotFoundError
-    | GitHubRequestPolicy.GitHubApiResponseError
-    | GitHubPullRequestReadError)!Exclude<R, GitHubGraphQlClient.GitHubGraphQlTarget> =>
-    effect.pipe(
-      GitHubGraphQlClient.call({
-        host: input.host,
-        operation: input.operation,
-        ...(input.allowReserve === true ? { allowReserve: true } : {}),
-      }),
-      Effect.mapError((error) =>
-        isGraphQlClientError(error)
-          ? readError(input.cwd, input.operation, error)
-          : (error as Exclude<typeof error, GraphQLClientError.GraphQLClientError>)
-      ),
-    )
+  const graphql =
+    (input: {
+      readonly cwd: string
+      readonly host: string
+      readonly operation: string
+      readonly allowReserve?: boolean | undefined
+    }) =>
+    <A, E, R>(
+      effect: A!E!R,
+    ): A!(| Exclude<E, GraphQLClientError.GraphQLClientError>
+      | GitHubRequestPolicy.GitHubApiNotFoundError
+      | GitHubRequestPolicy.GitHubApiResponseError
+      | GitHubPullRequestReadError)!Exclude<R, GitHubGraphQlClient.GitHubGraphQlTarget> =>
+      effect.pipe(
+        GitHubGraphQlClient.call({
+          host: input.host,
+          operation: input.operation,
+          ...(input.allowReserve === true ? { allowReserve: true } : {}),
+        }),
+        Effect.mapError((error) =>
+          isGraphQlClientError(error)
+            ? readError(input.cwd, input.operation, error)
+            : (error as Exclude<typeof error, GraphQLClientError.GraphQLClientError>)
+        ),
+      )
 
   const found =
     (input: { readonly host: string; readonly operation: string }) =>
@@ -1253,16 +1257,19 @@ export const make = effect {
               maxResponseBytes: DIFF_FILE_MAX_OUTPUT_BYTES,
               timeout: DIFF_TIMEOUT,
             })
-          |> Effect.flatMap(%, (response) =>
-            response.truncated || response.body.includes("\0") || response.invalidUtf8
-              ? Effect.fail(
-                new GitHubDiffFileContentsUnavailableError({
-                  cwd: input.cwd,
-                  path: filePath,
-                  reason: response.truncated ? "oversized" : "binary",
-                }),
-              )
-              : Effect.succeed(response.body))
+          |> Effect.flatMap(
+            %,
+            (response) =>
+              response.truncated || response.body.includes("\0") || response.invalidUtf8
+                ? Effect.fail(
+                  new GitHubDiffFileContentsUnavailableError({
+                    cwd: input.cwd,
+                    path: filePath,
+                    reason: response.truncated ? "oversized" : "binary",
+                  }),
+                )
+                : Effect.succeed(response.body),
+          )
 
         const [oldContents, newContents] = try Effect.all(
           [
@@ -1588,12 +1595,12 @@ export const make = effect {
           })
         }
         return toPullRequestSummary(pullRequest)
-      } |> ((effect, input) =>
-        effect |> ((effect) =>
-          batchedRead({ ...input, operation: "getPullRequestSummary" }, effect))(%))(
-          %,
-          input,
-        ),
+      }
+        |> ((effect, input) =>
+          effect |> ((effect) => batchedRead({ ...input, operation: "getPullRequestSummary" }, effect))(%))(
+            %,
+            input,
+          ),
       "GitHubPullRequestApi.getPullRequestSummary",
     )
 
@@ -1854,11 +1861,12 @@ export const make = effect {
             { concurrency: "unbounded" },
           )
           return stats.flat()
-        } |> ((effect, input) =>
-          effect |> ((effect) => batchedRead({ ...input, operation: "listPullRequestStats" }, effect))(%))(
-            %,
-            input,
-          ),
+        }
+          |> ((effect, input) =>
+            effect |> ((effect) => batchedRead({ ...input, operation: "listPullRequestStats" }, effect))(%))(
+              %,
+              input,
+            ),
         "GitHubPullRequestApi.listPullRequestStats",
       ),
 

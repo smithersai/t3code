@@ -343,14 +343,15 @@ export const makeThreadFind = Effect.fn("makeThreadFind")(function*(
           payloads.push(...(try load(threadId, candidates.slice(start, start + 128))))
         }
         return { payloads, cwd, sequence, cacheKey, sourceThreadIds }
-      } |> ((effect) => sql.withTransaction(effect).pipe(NodeSqliteClient.readOnly))(%) |> ((effect, input) =>
-        effect.pipe(
-          Effect.mapError((cause) =>
-            isSnapshotError(cause)
-              ? cause
-              : new ProjectionStoreReadError({ threadId: input.threadId, cause })
-          ),
-        ))(%, input),
+      } |> ((effect) => sql.withTransaction(effect).pipe(NodeSqliteClient.readOnly))(%)
+        |> ((effect, input) =>
+          effect.pipe(
+            Effect.mapError((cause) =>
+              isSnapshotError(cause)
+                ? cause
+                : new ProjectionStoreReadError({ threadId: input.threadId, cause })
+            ),
+          ))(%, input),
       "ThreadFind.snapshot",
     )
   const searchThreadStream = (input: OrchestrationV2SearchThreadInput) =>

@@ -239,8 +239,10 @@ const readTailscaleOutput = effect (
           // Spawning can also fail as a defect rather than a typed error - a
           // non-directory entry on PATH makes node throw ENOTDIR synchronously.
           // `mapError` never sees that, so it would escape as an uncaught error.
-          |> Effect.catchDefect(%, (cause) =>
-            Effect.fail(new TailscaleCommandSpawnError({ ...commandContext, cause }))))
+          |> Effect.catchDefect(
+            %,
+            (cause) => Effect.fail(new TailscaleCommandSpawnError({ ...commandContext, cause })),
+          ))
         const [stdout, stderr, exitCode] = try (Effect.all(
           [
             collectStdout(child.stdout),
@@ -249,8 +251,7 @@ const readTailscaleOutput = effect (
           ],
           { concurrency: "unbounded" },
         )
-          |> Effect.mapError(%, (cause) =>
-            new TailscaleCommandOutputError({ ...commandContext, cause })))
+          |> Effect.mapError(%, (cause) => new TailscaleCommandOutputError({ ...commandContext, cause })))
         if (exitCode !== 0) {
           throw new TailscaleCommandExitError({
             ...commandContext,
@@ -384,8 +385,10 @@ const runTailscaleCommand = effect (
       return (effect {
         const child = try (spawner.spawn(ChildProcess.make(executable, args))
           |> Effect.mapError(%, (cause) => new TailscaleCommandSpawnError({ ...commandContext, cause }))
-          |> Effect.catchDefect(%, (cause) =>
-            Effect.fail(new TailscaleCommandSpawnError({ ...commandContext, cause }))))
+          |> Effect.catchDefect(
+            %,
+            (cause) => Effect.fail(new TailscaleCommandSpawnError({ ...commandContext, cause })),
+          ))
         const [stderr, exitCode] = Effect.all(
           [collectStderr(child.stderr), child.exitCode.pipe(Effect.map(Number))],
           { concurrency: "unbounded" },

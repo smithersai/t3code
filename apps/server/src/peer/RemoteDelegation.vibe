@@ -565,11 +565,15 @@ const make = Effect.gen(function*() {
             try (stopThere(scope, remote, key)
               // Its thread there now runs above what this side may touch, say
               // because the parent here was lowered since; no retry changes that.
-              |> Effect.catchIf(%, isModeRefusal, (error) =>
-                Effect.logWarning("A linked environment refused to stop a delegated task", {
-                  taskId,
-                  reason: error.message,
-                })))
+              |> Effect.catchIf(
+                %,
+                isModeRefusal,
+                (error) =>
+                  Effect.logWarning("A linked environment refused to stop a delegated task", {
+                    taskId,
+                    reason: error.message,
+                  }),
+              ))
             try complete(
               parentThreadId,
               taskId,
@@ -598,8 +602,7 @@ const make = Effect.gen(function*() {
           |> Stream.runHead(%)
           |> Effect.flatMap(
             %,
-            (ended) =>
-              Option.isSome(ended) ? Effect.succeed({ endedHere: true } as const) : Effect.never,
+            (ended) => Option.isSome(ended) ? Effect.succeed({ endedHere: true } as const) : Effect.never,
           )
         const waited = try (forwarding
           .waitForThread(scope, remote.environmentId, {
@@ -782,17 +785,19 @@ const make = Effect.gen(function*() {
         // A finished task's follower has ended, so a Stop here that owes its
         // thread there a stop starts it again. Started before the scan below;
         // a Stop that slips between the two stays owed for the next start.
-        try (Stream.runForEach(threads.streamDomainEvents, (event) =>
-          event.type === "subagent.updated" && event.payload.remoteChild?.stoppedThere === false
-            ? (followOne(event.threadId, event.payload.id) |> Effect.forkIn(%, followers))
-            : Effect.void)
+        try (Stream.runForEach(
+          threads.streamDomainEvents,
+          (event) =>
+            event.type === "subagent.updated" && event.payload.remoteChild?.stoppedThere === false
+              ? (followOne(event.threadId, event.payload.id) |> Effect.forkIn(%, followers))
+              : Effect.void,
+        )
           |> Effect.ignoreCause({ log: true })(%)
           |> Effect.forkIn(%, followers, { startImmediately: true }))
         const open = try projections.getOpenRemoteDelegatedTasks
         try Effect.forEach(
           open,
-          ({ parentThreadId, taskId }) =>
-            followOne(parentThreadId, taskId),
+          ({ parentThreadId, taskId }) => followOne(parentThreadId, taskId),
           {
             concurrency: "unbounded",
             discard: true,

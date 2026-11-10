@@ -133,11 +133,11 @@ export function useComposerMenuItems({
     : null
   const recentHasExactPullRequest = settledPullRequestNumber !== null
     && pullRequestLookup.data?.entries.some(
-        (entry) =>
-          entry.projectId === pullRequestProjectId
-          && entry.repository.trim().toLowerCase() === pullRequestRepository?.trim().toLowerCase()
-          && entry.number === settledPullRequestNumber,
-      ) === true
+      (entry) =>
+        entry.projectId === pullRequestProjectId
+        && entry.repository.trim().toLowerCase() === pullRequestRepository?.trim().toLowerCase()
+        && entry.number === settledPullRequestNumber,
+    ) === true
   const exactPullRequestLookup = useEnvironmentQuery(
     settledPullRequestNumber === null
       || pullRequestProjectId === null

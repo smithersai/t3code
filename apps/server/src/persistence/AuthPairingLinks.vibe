@@ -127,8 +127,7 @@ export const make = Effect.gen(function*() {
 
   const createPairingLinkRow = SqlSchema.void({
     Request: CreateAuthPairingLinkInput,
-    execute: (input) =>
-      sql`
+    execute: (input) => sql`
         INSERT INTO auth_pairing_links (
           id,
           credential,
@@ -161,8 +160,7 @@ export const make = Effect.gen(function*() {
   const consumeAvailablePairingLinkRow = SqlSchema.findOneOption({
     Request: ConsumeAuthPairingLinkInput,
     Result: AuthPairingLinkRawDbRow,
-    execute: ({ credential, proofKeyThumbprint, requestedScopes, consumedAt, now }) =>
-      sql`
+    execute: ({ credential, proofKeyThumbprint, requestedScopes, consumedAt, now }) => sql`
         UPDATE auth_pairing_links
         SET consumed_at = ${consumedAt}
         WHERE credential = ${credential}
@@ -198,8 +196,7 @@ export const make = Effect.gen(function*() {
   const listActivePairingLinkRows = SqlSchema.findAll({
     Request: ListActiveAuthPairingLinksInput,
     Result: AuthPairingLinkRawDbRow,
-    execute: ({ now }) =>
-      sql`
+    execute: ({ now }) => sql`
         SELECT
           id AS "id",
           credential AS "credential",
@@ -223,8 +220,7 @@ export const make = Effect.gen(function*() {
   const revokePairingLinkRow = SqlSchema.findAll({
     Request: RevokeAuthPairingLinkInput,
     Result: Schema.Struct({ id: Schema.String }),
-    execute: ({ id, revokedAt }) =>
-      sql`
+    execute: ({ id, revokedAt }) => sql`
         UPDATE auth_pairing_links
         SET revoked_at = ${revokedAt}
         WHERE id = ${id}
@@ -237,8 +233,7 @@ export const make = Effect.gen(function*() {
   const getPairingLinkRowByCredential = SqlSchema.findOneOption({
     Request: GetAuthPairingLinkByCredentialInput,
     Result: AuthPairingLinkRawDbRow,
-    execute: ({ credential }) =>
-      sql`
+    execute: ({ credential }) => sql`
         SELECT
           id AS "id",
           credential AS "credential",

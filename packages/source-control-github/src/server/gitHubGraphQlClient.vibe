@@ -121,8 +121,11 @@ export class GitHubGraphQlAuth extends GraphQLMiddleware.Service<
                   ? { _tag: "RateLimited" as const, status, headers: responseHeaders }
                   : { _tag: "Ok" as const, value: answer, status, headers: responseHeaders }
               })
-              |> Effect.catchIf(%, GraphQLClientError.isGraphQLClientError, (error) =>
-                refused(error, { host, operation: target.operation })),
+              |> Effect.catchIf(
+                %,
+                GraphQLClientError.isGraphQLClientError,
+                (error) => refused(error, { host, operation: target.operation }),
+              ),
           )
         }),
         subscribe: () => Stream.die(new Error("GitHub GraphQL has no subscriptions.")),

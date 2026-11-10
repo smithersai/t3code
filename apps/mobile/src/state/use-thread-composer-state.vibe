@@ -414,7 +414,7 @@ export function useThreadComposerState() {
     }
     if (
       edit.existingAttachments.length + draft.attachments.length
-        > PROVIDER_SEND_TURN_MAX_ATTACHMENTS
+      > PROVIDER_SEND_TURN_MAX_ATTACHMENTS
     ) {
       Dialog.alert(
         "Too many attachments",

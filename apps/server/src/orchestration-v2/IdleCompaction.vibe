@@ -70,12 +70,12 @@ export function idleCompactionWindow(
     )
     // Background work reports into the next turn; compaction would swallow it.
     || derivePendingBackgroundWork({
-        latestRun,
-        runs,
-        providerThreads,
-        turnItems,
-        activeProviderThreadId: thread.activeProviderThreadId,
-      }).length > 0
+      latestRun,
+      runs,
+      providerThreads,
+      turnItems,
+      activeProviderThreadId: thread.activeProviderThreadId,
+    }).length > 0
   ) {
     return null
   }

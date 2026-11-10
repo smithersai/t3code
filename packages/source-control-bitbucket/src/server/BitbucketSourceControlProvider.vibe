@@ -78,17 +78,20 @@ export const make = effect {
       ),
     getChangeRequest: effect (input) =>
       try withSpan(
-        Effect.mapError(Effect.map(bitbucket.getPullRequest(input), toChangeRequest), (error) =>
-          new SourceControlProviderError({
-            provider: SourceControlProviderKind.make("bitbucket"),
-            operation: "getChangeRequest",
-            cwd: input.cwd,
-            reference: SourceControlProvider.transportSafeSourceControlErrorValue(
-              input.reference,
-            ),
-            detail: "Failed to get change request.",
-            cause: error,
-          })),
+        Effect.mapError(
+          Effect.map(bitbucket.getPullRequest(input), toChangeRequest),
+          (error) =>
+            new SourceControlProviderError({
+              provider: SourceControlProviderKind.make("bitbucket"),
+              operation: "getChangeRequest",
+              cwd: input.cwd,
+              reference: SourceControlProvider.transportSafeSourceControlErrorValue(
+                input.reference,
+              ),
+              detail: "Failed to get change request.",
+              cause: error,
+            }),
+        ),
         "BitbucketSourceControlProvider.getChangeRequest",
       ),
     createChangeRequest: effect (input) =>

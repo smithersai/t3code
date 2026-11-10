@@ -371,8 +371,7 @@ export const make = effect {
                   remoteStartedAt: input.kind === "live_activity_start"
                     ? input.deliveredAt
                     : try Effect.orDie(Effect.try({
-                      try: () =>
-                        sql`coalesce(
+                      try: () => sql`coalesce(
                       ${relayLiveActivities.remoteStartedAt},
                       excluded.remote_started_at
                     )`,
@@ -427,8 +426,7 @@ export const make = effect {
               target: [relayLiveActivities.userId, relayLiveActivities.deviceId],
               set: {
                 remoteStartQueuedAt: try Effect.orDie(Effect.try({
-                  try: () =>
-                    sql`coalesce(
+                  try: () => sql`coalesce(
               ${relayLiveActivities.remoteStartQueuedAt},
               excluded.remote_start_queued_at
             )`,

@@ -1,105 +1,113 @@
-import { readCurrentDesktopOnPlatform, readSessionDesktopOnPlatform } from "./DesktopApp.platform.ts";
-import * as Cause from "effect/Cause";
-import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+import { readCurrentDesktopOnPlatform, readSessionDesktopOnPlatform } from "./DesktopApp.platform.ts"
+import * as Cause from "effect/Cause"
+import * as Effect from "effect/Effect"
+import * as Schema from "effect/Schema"
 
-import * as NetService from "@t3tools/shared/Net";
-import * as Crypto from "@t3tools/shared/Crypto";
-import * as ElectronApp from "../electron/ElectronApp.vibe";
-import * as ElectronDialog from "../electron/ElectronDialog.vibe";
-import * as ElectronProtocol from "../electron/ElectronProtocol.vibe";
-import * as ElectronSafeStorage from "../electron/ElectronSafeStorage.vibe";
-import { installDesktopIpcHandlers } from "../ipc/DesktopIpcHandlers.vibe";
-import * as DesktopAppActivation from "./DesktopAppActivation.vibe";
-import * as DesktopAppIdentity from "./DesktopAppIdentity.vibe";
-import * as DesktopClerk from "./DesktopClerk.vibe";
-import * as DesktopApplicationMenu from "../window/DesktopApplicationMenu.vibe";
-import * as DesktopWindow from "../window/DesktopWindow.vibe";
-import * as PreviewPasskeys from "../preview/Passkeys.vibe";
-import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe";
-import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
-import * as DesktopLegacyLocalStorage from "./DesktopLegacyLocalStorage.vibe";
-import * as DesktopLifecycle from "./DesktopLifecycle.vibe";
-import * as DesktopLinuxUrlHandler from "./DesktopLinuxUrlHandler.vibe";
-import * as DesktopObservability from "./DesktopObservability.vibe";
-import * as DesktopPreReadyPlatform from "./DesktopPreReadyPlatform.vibe";
-import * as DesktopShutdown from "./DesktopShutdown.vibe";
-import * as DesktopServerExposure from "../backend/DesktopServerExposure.vibe";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
-import * as DesktopShellEnvironment from "../shell/DesktopShellEnvironment.vibe";
-import * as DesktopStartupRecovery from "./DesktopStartupRecovery.vibe";
-import * as DesktopState from "./DesktopState.vibe";
-import * as DesktopRemoteUpdates from "../updates/DesktopRemoteUpdates.vibe";
-import * as DesktopUpdates from "../updates/DesktopUpdates.vibe";
-import * as DesktopSnapShot from "../snapShot/DesktopSnapShot.vibe";
-import * as DesktopWslBackend from "../wsl/DesktopWslBackend.vibe";
-import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.vibe";
-import * as HostProcess from "@t3tools/shared/HostProcess";
+import * as NetService from "@t3tools/shared/Net"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as ElectronApp from "../electron/ElectronApp.vibe"
+import * as ElectronDialog from "../electron/ElectronDialog.vibe"
+import * as ElectronProtocol from "../electron/ElectronProtocol.vibe"
+import * as ElectronSafeStorage from "../electron/ElectronSafeStorage.vibe"
+import { installDesktopIpcHandlers } from "../ipc/DesktopIpcHandlers.vibe"
+import * as DesktopAppActivation from "./DesktopAppActivation.vibe"
+import * as DesktopAppIdentity from "./DesktopAppIdentity.vibe"
+import * as DesktopClerk from "./DesktopClerk.vibe"
+import * as DesktopApplicationMenu from "../window/DesktopApplicationMenu.vibe"
+import * as DesktopWindow from "../window/DesktopWindow.vibe"
+import * as PreviewPasskeys from "../preview/Passkeys.vibe"
+import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe"
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe"
+import * as DesktopLegacyLocalStorage from "./DesktopLegacyLocalStorage.vibe"
+import * as DesktopLifecycle from "./DesktopLifecycle.vibe"
+import * as DesktopLinuxUrlHandler from "./DesktopLinuxUrlHandler.vibe"
+import * as DesktopObservability from "./DesktopObservability.vibe"
+import * as DesktopPreReadyPlatform from "./DesktopPreReadyPlatform.vibe"
+import * as DesktopShutdown from "./DesktopShutdown.vibe"
+import * as DesktopServerExposure from "../backend/DesktopServerExposure.vibe"
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe"
+import * as DesktopShellEnvironment from "../shell/DesktopShellEnvironment.vibe"
+import * as DesktopStartupRecovery from "./DesktopStartupRecovery.vibe"
+import * as DesktopState from "./DesktopState.vibe"
+import * as DesktopRemoteUpdates from "../updates/DesktopRemoteUpdates.vibe"
+import * as DesktopUpdates from "../updates/DesktopUpdates.vibe"
+import * as DesktopSnapShot from "../snapShot/DesktopSnapShot.vibe"
+import * as DesktopWslBackend from "../wsl/DesktopWslBackend.vibe"
+import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.vibe"
+import * as HostProcess from "@t3tools/shared/HostProcess"
 
-const DEFAULT_DESKTOP_BACKEND_PORT = 3773;
-const MAX_TCP_PORT = 65_535;
-const DESKTOP_BACKEND_PORT_PROBE_HOSTS = ["127.0.0.1", "0.0.0.0", "::"] as const;
+const DEFAULT_DESKTOP_BACKEND_PORT = 3773
+const MAX_TCP_PORT = 65_535
+const DESKTOP_BACKEND_PORT_PROBE_HOSTS = ["127.0.0.1", "0.0.0.0", "::"] as const
 
 const makeDesktopRunId = Crypto.Crypto
   |> Effect.flatMap(%, (crypto) => crypto.randomUUIDv4())
-  |> Effect.map(%, (value) => value.replaceAll("-", "").slice(0, 12));
+  |> Effect.map(%, (value) => value.replaceAll("-", "").slice(0, 12))
 
 export schema error DesktopBackendPortUnavailableError {
   readonly startPort: Schema.Int
   readonly maxPort: Schema.Int
   readonly hosts: ReadonlyArray<string>
   override get message(): string {
-    return `No desktop backend port is available on hosts ${this.hosts.join(", ")} between ${this.startPort} and ${this.maxPort}.`;
+    return `No desktop backend port is available on hosts ${
+      this.hosts.join(", ")
+    } between ${this.startPort} and ${this.maxPort}.`
   }
 }
 
 export schema error DesktopDevelopmentBackendPortRequiredError {
   override get message(): string {
-    return "T3CODE_PORT is required in desktop development.";
+    return "T3CODE_PORT is required in desktop development."
   }
 }
 
-const { logInfo: logBootstrapInfo, logWarning: logBootstrapWarning } =
-  DesktopObservability.makeComponentLogger("desktop-bootstrap");
+const { logInfo: logBootstrapInfo, logWarning: logBootstrapWarning } = DesktopObservability.makeComponentLogger(
+  "desktop-bootstrap",
+)
 
-const { logInfo: logStartupInfo, logError: logStartupError } =
-  DesktopObservability.makeComponentLogger("desktop-startup");
+const { logInfo: logStartupInfo, logError: logStartupError } = DesktopObservability.makeComponentLogger(
+  "desktop-startup",
+)
 
 const resolveDesktopBackendPort = effect (
   configuredPort: Option.Option<number>,
-) => try withSpan(effect {
-  if (Option.isSome(configuredPort)) {
-    return {
-      port: configuredPort.value,
-      selectedByScan: false,
-    } as const;
-  }
-
-  const net = try NetService.NetService;
-  for (let port = DEFAULT_DESKTOP_BACKEND_PORT; port <= MAX_TCP_PORT; port += 1) {
-    let availableOnEveryHost = true;
-
-    for (const host of DESKTOP_BACKEND_PORT_PROBE_HOSTS) {
-      if (!(try net.canListenOnHost(port, host))) {
-        availableOnEveryHost = false;
-        break;
+) =>
+  try withSpan(
+    effect {
+      if (Option.isSome(configuredPort)) {
+        return {
+          port: configuredPort.value,
+          selectedByScan: false,
+        } as const
       }
-    }
 
-    if (availableOnEveryHost) {
-      return {
-        port,
-        selectedByScan: true,
-      } as const;
-    }
-  }
+      const net = try NetService.NetService
+      for (let port = DEFAULT_DESKTOP_BACKEND_PORT; port <= MAX_TCP_PORT; port += 1) {
+        let availableOnEveryHost = true
 
-  throw new DesktopBackendPortUnavailableError({
-    startPort: DEFAULT_DESKTOP_BACKEND_PORT,
-    maxPort: MAX_TCP_PORT,
-    hosts: DESKTOP_BACKEND_PORT_PROBE_HOSTS,
-  });
-}, "resolveDesktopBackendPort");
+        for (const host of DESKTOP_BACKEND_PORT_PROBE_HOSTS) {
+          if (!(try net.canListenOnHost(port, host))) {
+            availableOnEveryHost = false
+            break
+          }
+        }
+
+        if (availableOnEveryHost) {
+          return {
+            port,
+            selectedByScan: true,
+          } as const
+        }
+      }
+
+      throw new DesktopBackendPortUnavailableError({
+        startPort: DEFAULT_DESKTOP_BACKEND_PORT,
+        maxPort: MAX_TCP_PORT,
+        hosts: DESKTOP_BACKEND_PORT_PROBE_HOSTS,
+      })
+    },
+    "resolveDesktopBackendPort",
+  )
 
 const handleFatalStartupError = effect (
   stage: string,
@@ -107,92 +115,99 @@ const handleFatalStartupError = effect (
 ): void!never!(| DesktopShutdown.DesktopShutdown
   | DesktopState.DesktopState
   | ElectronApp.ElectronApp
-  | ElectronDialog.ElectronDialog) => try withSpan((effect (): void!never!(| DesktopShutdown.DesktopShutdown
-  | DesktopState.DesktopState
-  | ElectronApp.ElectronApp
-  | ElectronDialog.ElectronDialog) => {
-  const shutdown = try DesktopShutdown.DesktopShutdown;
-  const state = try DesktopState.DesktopState;
-  const electronApp = try ElectronApp.ElectronApp;
-  const electronDialog = try ElectronDialog.ElectronDialog;
-  const message = error instanceof Error ? error.message : String(error);
-  const detail =
-    error instanceof Error && typeof error.stack === "string" ? `\n${error.stack}` : "";
-  try logStartupError("fatal startup error", {
-    stage,
-    message,
-    ...(detail.length > 0 ? { detail } : {}),
-  });
-  const wasQuitting = try Ref.getAndSet(state.quitting, true);
-  if (!wasQuitting) {
-    try electronDialog.showErrorBox(
-      "T3 Code failed to start",
-      `Stage: ${stage}\n${message}${detail}`,
-    );
-  }
-  try shutdown.request;
-  try electronApp.quit;
-})(), "desktop.startup.handleFatalStartupError");
+  | ElectronDialog.ElectronDialog) =>
+  try withSpan(
+    (effect (): void!never!(| DesktopShutdown.DesktopShutdown
+    | DesktopState.DesktopState
+    | ElectronApp.ElectronApp
+    | ElectronDialog.ElectronDialog) => {
+      const shutdown = try DesktopShutdown.DesktopShutdown
+      const state = try DesktopState.DesktopState
+      const electronApp = try ElectronApp.ElectronApp
+      const electronDialog = try ElectronDialog.ElectronDialog
+      const message = error instanceof Error ? error.message : String(error)
+      const detail = error instanceof Error && typeof error.stack === "string" ? `\n${error.stack}` : ""
+      try logStartupError("fatal startup error", {
+        stage,
+        message,
+        ...(detail.length > 0 ? { detail } : {}),
+      })
+      const wasQuitting = try Ref.getAndSet(state.quitting, true)
+      if (!wasQuitting) {
+        try electronDialog.showErrorBox(
+          "T3 Code failed to start",
+          `Stage: ${stage}\n${message}${detail}`,
+        )
+      }
+      try shutdown.request
+      try electronApp.quit
+    })(),
+    "desktop.startup.handleFatalStartupError",
+  )
 
 const fatalStartupCause = <E>(stage: string, cause: Cause.Cause<E>) =>
-  handleFatalStartupError(stage, Cause.pretty(cause)) |> Effect.andThen(%, Effect.failCause(cause));
+  handleFatalStartupError(stage, Cause.pretty(cause)) |> Effect.andThen(%, Effect.failCause(cause))
 
-const stopAllPoolInstances = effect (): void!!DesktopBackendPool.DesktopBackendPool => try withSpan((effect (): void!!DesktopBackendPool.DesktopBackendPool => {
-  const pool = try DesktopBackendPool.DesktopBackendPool;
-  const instances = try pool.list;
-  try Effect.forEach(
-    instances,
-    (instance) => instance.stop({ timeout: Duration.seconds(5) }),
-    { concurrency: "unbounded" },
-  );
-})(), "desktop.app.stopAllPoolInstances");
+const stopAllPoolInstances = effect (): void!!DesktopBackendPool.DesktopBackendPool =>
+  try withSpan(
+    (effect (): void!!DesktopBackendPool.DesktopBackendPool => {
+      const pool = try DesktopBackendPool.DesktopBackendPool
+      const instances = try pool.list
+      try Effect.forEach(
+        instances,
+        (instance) => instance.stop({ timeout: Duration.seconds(5) }),
+        { concurrency: "unbounded" },
+      )
+    })(),
+    "desktop.app.stopAllPoolInstances",
+  )
 
 const bootstrap = effect {
-  const state = try DesktopState.DesktopState;
-  const environment = try DesktopEnvironment.DesktopEnvironment;
-  const desktopSettings = try DesktopAppSettings.DesktopAppSettings;
-  const desktopWindow = try DesktopWindow.DesktopWindow;
-  const snapShot = try DesktopSnapShot.DesktopSnapShot;
-  const appActivation = try DesktopAppActivation.DesktopAppActivation;
-  try logBootstrapInfo("bootstrap start");
+  const state = try DesktopState.DesktopState
+  const environment = try DesktopEnvironment.DesktopEnvironment
+  const desktopSettings = try DesktopAppSettings.DesktopAppSettings
+  const desktopWindow = try DesktopWindow.DesktopWindow
+  const snapShot = try DesktopSnapShot.DesktopSnapShot
+  const appActivation = try DesktopAppActivation.DesktopAppActivation
+  try logBootstrapInfo("bootstrap start")
 
-  const settings = try desktopSettings.get;
-  const electronProtocol = try ElectronProtocol.ElectronProtocol;
+  const settings = try desktopSettings.get
+  const electronProtocol = try ElectronProtocol.ElectronProtocol
   try electronProtocol.registerDesktopProtocol({
     scheme: ElectronProtocol.getDesktopScheme(environment.isDevelopment),
     ...(environment.isDevelopment
       ? { targetOrigin: Option.getOrThrow(environment.devServerUrl) }
       : { assetDirectory: environment.clientAssetsDir }),
     clerkFrontendApiHostname: DesktopClerk.desktopClerkFrontendApiHostname,
-  });
-  try installDesktopIpcHandlers();
-  try logBootstrapInfo("bootstrap ipc handlers registered");
+  })
+  try installDesktopIpcHandlers()
+  try logBootstrapInfo("bootstrap ipc handlers registered")
   // Before any window: the preload merges these items before the app reads storage.
   try (try DesktopLegacyLocalStorage.DesktopLegacyLocalStorage).load(
     try (try DesktopAppIdentity.DesktopAppIdentity).resolveUserDataPath,
-  );
+  )
 
-  try snapShot.initialize;
+  try snapShot.initialize
 
   if (!settings.localEnvironmentEnabled) {
-    try logBootstrapInfo("bootstrap skipping local environment (disabled in settings)");
+    try logBootstrapInfo("bootstrap skipping local environment (disabled in settings)")
     if (!(try Ref.get(state.quitting))) {
-      try desktopWindow.createMainIfBackendReady;
+      try desktopWindow.createMainIfBackendReady
     }
-    return;
+    return
   }
 
-  const pool = try DesktopBackendPool.DesktopBackendPool;
-  const primaryBackend = try pool.primary;
-  const serverExposure = try DesktopServerExposure.DesktopServerExposure;
-  const wslBackend = try DesktopWslBackend.DesktopWslBackend;
+  const pool = try DesktopBackendPool.DesktopBackendPool
+  const primaryBackend = try pool.primary
+  const serverExposure = try DesktopServerExposure.DesktopServerExposure
+  const wslBackend = try DesktopWslBackend.DesktopWslBackend
 
   if (environment.isDevelopment && Option.isNone(environment.configuredBackendPort)) {
-    throw new DesktopDevelopmentBackendPortRequiredError();
+    throw new DesktopDevelopmentBackendPortRequiredError()
   }
 
-  const backendPortSelection = try resolveDesktopBackendPort(environment.configuredBackendPort);
-  const backendPort = backendPortSelection.port;
+  const backendPortSelection = try resolveDesktopBackendPort(environment.configuredBackendPort)
+  const backendPort = backendPortSelection.port
   try logBootstrapInfo(
     backendPortSelection.selectedByScan
       ? "selected backend port via sequential scan"
@@ -201,145 +216,144 @@ const bootstrap = effect {
       port: backendPort,
       ...(backendPortSelection.selectedByScan ? { startPort: DEFAULT_DESKTOP_BACKEND_PORT } : {}),
     },
-  );
+  )
 
   if (settings.serverExposureMode !== environment.defaultDesktopSettings.serverExposureMode) {
     try logBootstrapInfo("bootstrap restoring persisted server exposure mode", {
       mode: settings.serverExposureMode,
-    });
+    })
   }
-  const serverExposureState = try serverExposure.configureFromSettings({ port: backendPort });
-  const backendConfig = try serverExposure.backendConfig;
+  const serverExposureState = try serverExposure.configureFromSettings({ port: backendPort })
+  const backendConfig = try serverExposure.backendConfig
   try logBootstrapInfo("bootstrap resolved backend endpoint", {
     baseUrl: backendConfig.httpBaseUrl.href,
-  });
+  })
   if (serverExposureState.endpointUrl) {
     try logBootstrapInfo("bootstrap enabled network access", {
       endpointUrl: serverExposureState.endpointUrl,
-    });
+    })
   } else if (
-    settings.serverExposureMode === "network-accessible" &&
-    serverExposureState.mode === "local-only"
+    settings.serverExposureMode === "network-accessible"
+    && serverExposureState.mode === "local-only"
   ) {
     try logBootstrapWarning(
       "bootstrap fell back to local-only because no advertised network host was available",
-    );
+    )
   }
 
   if (!(try Ref.get(state.quitting))) {
     if (settings.wslOnly === true && settings.wslBackendEnabled === true) {
-      try desktopWindow.showConnectingSplash;
+      try desktopWindow.showConnectingSplash
     }
-    try primaryBackend.start;
-    try logBootstrapInfo("bootstrap backend start requested");
-    (appActivation.start
-      |> Effect.tap(%, () => logBootstrapInfo("desktop app control socket ready"))) catch effect (error) => try logStartupError("desktop app control socket unavailable", { error });
-    try Effect.forkScoped(wslBackend.reconcile);
+    try primaryBackend.start
+    try logBootstrapInfo("bootstrap backend start requested")
+    ;(appActivation.start
+      |> Effect.tap(%, () => logBootstrapInfo("desktop app control socket ready"))) catch effect (error) =>
+        try logStartupError("desktop app control socket unavailable", { error })
+    try Effect.forkScoped(wslBackend.reconcile)
   }
-} |> Effect.withSpan(%, "desktop.bootstrap");
+} |> Effect.withSpan(%, "desktop.bootstrap")
 
 effect function readEarlyLinuxElectronOptions() {
-  const homeDirectory = try HostProcess.HomeDirectory;
+  const homeDirectory = try HostProcess.HomeDirectory
   return try Effect.orDie(Effect.try({
     try: () => DesktopPreReadyPlatform.resolveEarlyLinuxElectronOptionsFromProcess(homeDirectory),
     catch: (cause) => cause,
-  }));
+  }))
 }
 
 const startup = (effect {
-  const appIdentity = try DesktopAppIdentity.DesktopAppIdentity;
-  const applicationMenu = try DesktopApplicationMenu.DesktopApplicationMenu;
-  const electronApp = try ElectronApp.ElectronApp;
-  const lifecycle = try DesktopLifecycle.DesktopLifecycle;
-  const linuxUrlHandler = try DesktopLinuxUrlHandler.DesktopLinuxUrlHandler;
-  const clerk = try DesktopClerk.DesktopClerk;
-  const shellEnvironment = try DesktopShellEnvironment.DesktopShellEnvironment;
-  const desktopSettings = try DesktopAppSettings.DesktopAppSettings;
-  const preReadyElectronOptions = try DesktopPreReadyPlatform.DesktopPreReadyElectronOptions;
-  const safeStorage = try ElectronSafeStorage.ElectronSafeStorage;
-  const updates = try DesktopUpdates.DesktopUpdates;
-  const environment = try DesktopEnvironment.DesktopEnvironment;
-  const previewPasskeys = try PreviewPasskeys.PreviewPasskeys;
+  const appIdentity = try DesktopAppIdentity.DesktopAppIdentity
+  const applicationMenu = try DesktopApplicationMenu.DesktopApplicationMenu
+  const electronApp = try ElectronApp.ElectronApp
+  const lifecycle = try DesktopLifecycle.DesktopLifecycle
+  const linuxUrlHandler = try DesktopLinuxUrlHandler.DesktopLinuxUrlHandler
+  const clerk = try DesktopClerk.DesktopClerk
+  const shellEnvironment = try DesktopShellEnvironment.DesktopShellEnvironment
+  const desktopSettings = try DesktopAppSettings.DesktopAppSettings
+  const preReadyElectronOptions = try DesktopPreReadyPlatform.DesktopPreReadyElectronOptions
+  const safeStorage = try ElectronSafeStorage.ElectronSafeStorage
+  const updates = try DesktopUpdates.DesktopUpdates
+  const environment = try DesktopEnvironment.DesktopEnvironment
+  const previewPasskeys = try PreviewPasskeys.PreviewPasskeys
 
-  try shellEnvironment.installIntoProcess;
-  const hasCommandLinePasswordStore =
-    preReadyElectronOptions.linuxPasswordStoreCommandLine !== null;
-  const linuxElectronOptions =
-    environment.platform === "linux" && !hasCommandLinePasswordStore
-      ? (try readEarlyLinuxElectronOptions())
-      : preReadyElectronOptions.linux;
+  try shellEnvironment.installIntoProcess
+  const hasCommandLinePasswordStore = preReadyElectronOptions.linuxPasswordStoreCommandLine !== null
+  const linuxElectronOptions = environment.platform === "linux" && !hasCommandLinePasswordStore
+    ? (try readEarlyLinuxElectronOptions())
+    : preReadyElectronOptions.linux
   if (linuxElectronOptions !== null && !hasCommandLinePasswordStore) {
     if (
-      linuxElectronOptions.passwordStore !== null ||
-      preReadyElectronOptions.linux?.passwordStore !== null
+      linuxElectronOptions.passwordStore !== null
+      || preReadyElectronOptions.linux?.passwordStore !== null
     ) {
-      try electronApp.removeCommandLineSwitch("password-store");
+      try electronApp.removeCommandLineSwitch("password-store")
     }
     if (linuxElectronOptions.passwordStore !== null) {
       try electronApp.appendCommandLineSwitch(
         "password-store",
         linuxElectronOptions.passwordStore,
-      );
+      )
     }
   }
-  const userDataPath = try appIdentity.resolveUserDataPath;
-  try electronApp.setPath("userData", userDataPath);
-  try logStartupInfo("runtime logging configured", { logDir: environment.logDir });
-  try desktopSettings.load;
+  const userDataPath = try appIdentity.resolveUserDataPath
+  try electronApp.setPath("userData", userDataPath)
+  try logStartupInfo("runtime logging configured", { logDir: environment.logDir })
+  try desktopSettings.load
 
   if (linuxElectronOptions !== null) {
     try logStartupInfo("linux password store configured", {
       passwordStore: hasCommandLinePasswordStore
         ? "command-line"
         : (linuxElectronOptions.passwordStore ?? "electron-default"),
-      xdgCurrentDesktop: (try Effect.orDie(Effect.try({ try: readCurrentDesktopOnPlatform, catch: (cause) => cause }))),
-      xdgSessionDesktop: (try Effect.orDie(Effect.try({ try: readSessionDesktopOnPlatform, catch: (cause) => cause }))),
-    });
+      xdgCurrentDesktop: try Effect.orDie(Effect.try({ try: readCurrentDesktopOnPlatform, catch: (cause) => cause })),
+      xdgSessionDesktop: try Effect.orDie(Effect.try({ try: readSessionDesktopOnPlatform, catch: (cause) => cause })),
+    })
   }
 
-  try appIdentity.configure;
-  try lifecycle.register;
-  try clerk.configure;
+  try appIdentity.configure
+  try lifecycle.register
+  try clerk.configure
 
   try (electronApp.whenReady
     |> Effect.withSpan(%, "desktop.electron.whenReady")
-    |> Effect.catchCause(%, (cause) => fatalStartupCause("whenReady", cause)));
-  try logStartupInfo("app ready");
+    |> Effect.catchCause(%, (cause) => fatalStartupCause("whenReady", cause)))
+  try logStartupInfo("app ready")
   if (environment.platform === "linux") {
-    const selectedBackend = try safeStorage.selectedStorageBackend;
+    const selectedBackend = try safeStorage.selectedStorageBackend
     try logStartupInfo("safe storage ready", {
       backend: Option.getOrElse(selectedBackend, () => "unknown"),
-    });
+    })
   }
-  try appIdentity.configure;
-  try previewPasskeys.configure;
-  try applicationMenu.configure;
-  try updates.configure;
-  try DesktopRemoteUpdates.listen;
-  try DesktopStartupRecovery.listen;
-  try linuxUrlHandler.register;
-  try (bootstrap |> Effect.catchCause(%, (cause) => fatalStartupCause("bootstrap", cause)));
-}) |> Effect.withSpan(%, "desktop.startup");
+  try appIdentity.configure
+  try previewPasskeys.configure
+  try applicationMenu.configure
+  try updates.configure
+  try DesktopRemoteUpdates.listen
+  try DesktopStartupRecovery.listen
+  try linuxUrlHandler.register
+  try (bootstrap |> Effect.catchCause(%, (cause) => fatalStartupCause("bootstrap", cause)))
+}) |> Effect.withSpan(%, "desktop.startup")
 
 const scopedProgram = Effect.scoped(
   effect {
-    const runId = try makeDesktopRunId;
-    try Effect.annotateLogsScoped({ scope: "desktop", runId });
-    try Effect.annotateCurrentSpan({ scope: "desktop", runId });
+    const runId = try makeDesktopRunId
+    try Effect.annotateLogsScoped({ scope: "desktop", runId })
+    try Effect.annotateCurrentSpan({ scope: "desktop", runId })
 
-    const shutdown = try DesktopShutdown.DesktopShutdown;
-    const rendererHistory = try DesktopRendererHistory.DesktopRendererHistory;
+    const shutdown = try DesktopShutdown.DesktopShutdown
+    const rendererHistory = try DesktopRendererHistory.DesktopRendererHistory
 
     try Effect.addFinalizer(() =>
       // Quit can outrun layer finalizers; stop pooled backends here so they receive SIGTERM before OS teardown.
       stopAllPoolInstances()
-        |> Effect.ensuring(%, rendererHistory.shutdown)
-        |> Effect.ensuring(%, shutdown.markComplete),
-    );
+      |> Effect.ensuring(%, rendererHistory.shutdown)
+      |> Effect.ensuring(%, shutdown.markComplete)
+    )
 
-    try startup;
-    try shutdown.awaitRequest;
+    try startup
+    try shutdown.awaitRequest
   },
-);
+)
 
-export const program = scopedProgram |> Effect.withSpan(%, "desktop.app");
+export const program = scopedProgram |> Effect.withSpan(%, "desktop.app")

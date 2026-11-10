@@ -256,8 +256,7 @@ export const deliverDue = effect <R>(
   `
       const target = try readTarget
 
-      const readPage = (afterSeq: number, skip: ReadonlySet<string>) =>
-        sql<HeldHookRow>`
+      const readPage = (afterSeq: number, skip: ReadonlySet<string>) => sql<HeldHookRow>`
       SELECT seq, id, received_at, method, raw_hook_id, raw_token, hook_key, query, headers, body
       FROM held_hooks
       WHERE seq > ${afterSeq}

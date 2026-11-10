@@ -317,7 +317,7 @@ const layerCapabilities = Layer.effectContext(
     })
     const cloudSession = ClientCapabilities.CloudSession.of({
       identity: Effect.sync(() => Option.fromNullishOr(appAtomRegistry.get(managedRelaySessionAtom))),
-      clerkToken: (effect {
+      clerkToken: effect {
         const session = appAtomRegistry.get(managedRelaySessionAtom)
         if (session === null) {
           throw new ConnectionBlockedError({
@@ -341,7 +341,7 @@ const layerCapabilities = Layer.effectContext(
           })
         }
         return token
-      }),
+      },
     })
     const identity = ClientCapabilities.RelayDeviceIdentity.of({
       deviceId: Effect.succeedNone,
@@ -448,7 +448,7 @@ const loadSecondaryConnectionRegistration = Effect.fn(
     httpBaseUrl,
     credential: entry.bootstrapToken,
     scopes: AuthStandardClientScopes,
-    clientMetadata: (try Effect.orDie(Effect.try({ try: () => currentClientMetadata(), catch: (cause) => cause }))),
+    clientMetadata: try Effect.orDie(Effect.try({ try: () => currentClientMetadata(), catch: (cause) => cause })),
   }).pipe(Effect.mapError(mapRemoteEnvironmentError))
   // Desktop operations need the pool backend id to reach the owning instance; RPC uses the environment id.
   const connectionId = try Effect.orDie(Effect.try({
@@ -786,7 +786,7 @@ const layerRpcRequestObserver = Layer.succeed(
   EnvironmentRpcRequestObserver,
   EnvironmentRpcRequestObserver.of({
     // Every RPC passes through this observer; the request owns its span.
-    observe: (effect function({ environmentId, environmentLabel, method }) {
+    observe: effect function({ environmentId, environmentLabel, method }) {
       return try Effect.sync(() => {
         nextObservedRpcRequestId += 1
         const requestId = `${environmentId}:${nextObservedRpcRequestId}`
@@ -795,7 +795,7 @@ const layerRpcRequestObserver = Layer.succeed(
           acknowledgeRpcRequest(requestId)
         })
       })
-    }),
+    },
   }),
 )
 

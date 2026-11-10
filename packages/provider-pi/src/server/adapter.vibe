@@ -2357,7 +2357,7 @@ module platform {
               }
               if (
                 state.providerThread.nativeThreadRef?.nativeId
-                  !== turnInput.providerThread.nativeThreadRef?.nativeId
+                !== turnInput.providerThread.nativeThreadRef?.nativeId
               ) {
                 return yield* protocolError("Pi turn requested for a different native session")
               }
