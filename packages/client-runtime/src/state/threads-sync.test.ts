@@ -54,7 +54,7 @@ import {
   makeEnvironmentThreadState,
   type EnvironmentThreadState,
   type ThreadSnapshotLoadResult,
-} from "./threads.ts";
+} from "./threads.vibe";
 import * as ThreadSnapshotLoader from "./threadSnapshotHttp.vibe";
 
 const TARGET = new PrimaryConnectionTarget({

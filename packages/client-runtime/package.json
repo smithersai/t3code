@@ -763,8 +763,8 @@
       "default": "./.vibelang/js/src/state/terminal.js"
     },
     "./state/threads": {
-      "types": "./src/state/threads.ts",
-      "vibelang-source": "./src/state/threads.ts",
+      "types": "./src/state/threads.d.vibe.ts",
+      "vibelang-source": "./src/state/threads.vibe",
       "default": "./.vibelang/js/src/state/threads.js"
     },
     "./state/subagent-display": {

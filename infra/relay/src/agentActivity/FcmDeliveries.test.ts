@@ -17,7 +17,7 @@ import * as AgentActivityRows from "./AgentActivityRows.vibe";
 import * as LiveActivities from "./LiveActivities.vibe";
 import * as FcmDeliveryQueueSender from "./FcmDeliveryQueueSender.vibe";
 import * as FcmClient from "./FcmClient.vibe";
-import * as FcmDeliveries from "./FcmDeliveries.ts";
+import * as FcmDeliveries from "./FcmDeliveries.vibe";
 import { androidActivityData, fitFcmData } from "./fcmPayloads.ts";
 import { makeAggregateState } from "./agentActivityAggregate.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

@@ -23,7 +23,7 @@ import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.vibe";
 import * as AgentActivityRows from "./AgentActivityRows.vibe";
 import * as ApnsDeliveries from "./ApnsDeliveries.vibe";
 import * as ApnsClient from "./ApnsClient.vibe";
-import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
+import * as ApnsProviderTokens from "./ApnsProviderTokens.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 const config = RelayConfiguration.RelayConfiguration.of({

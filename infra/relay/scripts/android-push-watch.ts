@@ -29,7 +29,7 @@ import { androidActivityData, fitFcmData } from "../src/agentActivity/fcmPayload
 import * as WebCrypto from "../src/WebCrypto.vibe";
 import * as FcmAssertionSigner from "../src/agentActivity/FcmAssertionSigner.vibe";
 import * as FcmClient from "../src/agentActivity/FcmClient.vibe";
-import * as FcmDeliveries from "../src/agentActivity/FcmDeliveries.ts";
+import * as FcmDeliveries from "../src/agentActivity/FcmDeliveries.vibe";
 import { makeAggregateState } from "../src/agentActivity/agentActivityAggregate.vibe";
 
 const Device = Schema.Struct({

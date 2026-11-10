@@ -7,7 +7,7 @@ import * as HttpClient from "effect/http/HttpClient"
 import { ApnsEnvironment, type ApnsCredentials } from "../Config.vibe"
 import type { ApnsLiveActivityAlert, ApnsNotificationPayload } from "./apnsDeliveryJobs.vibe"
 import type { ApnsJwtEncodingError, ApnsJwtSigningError } from "./apnsJwt.vibe"
-import * as ApnsProviderTokens from "./ApnsProviderTokens.ts"
+import * as ApnsProviderTokens from "./ApnsProviderTokens.vibe"
 
 export { ApnsJwtEncodingError, ApnsJwtSigningError } from "./apnsJwt.vibe"
 

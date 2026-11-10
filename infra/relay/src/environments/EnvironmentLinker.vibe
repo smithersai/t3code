@@ -13,7 +13,7 @@ import * as DpopProofs from "../auth/DpopProofs.vibe"
 import * as RelayTokens from "../auth/RelayTokens.vibe"
 import * as EnvironmentCredentials from "./EnvironmentCredentials.vibe"
 import * as EnvironmentLinks from "./EnvironmentLinks.vibe"
-import * as ManagedEndpointProvider from "./ManagedEndpointProvider.ts"
+import * as ManagedEndpointProvider from "./ManagedEndpointProvider.vibe"
 import * as RelayConfiguration from "../Config.vibe"
 
 export schema error EnvironmentLinkProofExpired {

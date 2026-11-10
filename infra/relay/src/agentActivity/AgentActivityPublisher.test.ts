@@ -7,7 +7,7 @@ import * as AgentActivityRows from "./AgentActivityRows.vibe";
 import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
 import * as LiveActivities from "./LiveActivities.vibe";
 import * as AgentActivityPublisher from "./AgentActivityPublisher.vibe";
-import * as FcmDeliveries from "./FcmDeliveries.ts";
+import * as FcmDeliveries from "./FcmDeliveries.vibe";
 import * as ApnsDeliveries from "./ApnsDeliveries.vibe";
 
 const layerPublisher = AgentActivityPublisher.layer.pipe(

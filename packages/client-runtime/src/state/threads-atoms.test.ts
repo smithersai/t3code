@@ -35,7 +35,7 @@ import type { RpcSession } from "../rpc/session.vibe";
 import { createEnvironmentThreadDetailAtoms } from "./threadDetail.vibe";
 import { v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.ts";
 import * as ThreadHistoryController from "./threadHistoryController.vibe";
-import { createEnvironmentThreadStateAtoms, type EnvironmentThreadState } from "./threads.ts";
+import { createEnvironmentThreadStateAtoms, type EnvironmentThreadState } from "./threads.vibe";
 import * as ThreadSnapshotLoader from "./threadSnapshotHttp.vibe";
 
 const TARGET = new PrimaryConnectionTarget({

@@ -7,7 +7,7 @@ import * as TestClock from "effect/testing/TestClock";
 
 import * as RelayConfiguration from "../Config.vibe";
 import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.vibe";
-import * as ManagedEndpointProvider from "./ManagedEndpointProvider.ts";
+import * as ManagedEndpointProvider from "./ManagedEndpointProvider.vibe";
 import * as ManagedEndpointReaper from "./ManagedEndpointReaper.vibe";
 
 const NOW = "2026-08-25T12:00:00.000Z";

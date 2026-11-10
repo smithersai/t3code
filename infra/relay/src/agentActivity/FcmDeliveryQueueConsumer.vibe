@@ -1,7 +1,7 @@
 import type * as Cloudflare from "@alchemy.run/cloudflare"
 import * as Effect from "effect/Effect"
 
-import * as FcmDeliveries from "./FcmDeliveries.ts"
+import * as FcmDeliveries from "./FcmDeliveries.vibe"
 
 export const processMessage = effect (
   message: Cloudflare.Queues.Message<unknown>,

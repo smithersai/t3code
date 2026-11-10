@@ -5,7 +5,7 @@ import * as Layer from "effect/Layer"
 import * as RelayConfiguration from "../Config.vibe"
 import { MANAGED_ENDPOINT_ZONE_OWNER_STAGE, managedEndpointTunnelNamePrefix } from "../deploymentConfig.vibe"
 import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.vibe"
-import * as ManagedEndpointProvider from "./ManagedEndpointProvider.ts"
+import * as ManagedEndpointProvider from "./ManagedEndpointProvider.vibe"
 
 export const MANAGED_ENDPOINT_GRACE_PERIOD_MINUTES = 5
 // Never-connected tunnels may still be pairing; allow an hour.

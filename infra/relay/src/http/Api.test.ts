@@ -62,7 +62,7 @@ import * as HeldHooks from "../hooks/HeldHooks.vibe";
 import * as HookInbox from "../hooks/HookInbox.vibe";
 import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
 import * as ManagedEndpointAllocations from "../environments/ManagedEndpointAllocations.vibe";
-import * as ManagedEndpointProvider from "../environments/ManagedEndpointProvider.ts";
+import * as ManagedEndpointProvider from "../environments/ManagedEndpointProvider.vibe";
 import * as AgentActivityPublisher from "../agentActivity/AgentActivityPublisher.vibe";
 import * as EnvironmentPublishSignatures from "../environments/EnvironmentPublishSignatures.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

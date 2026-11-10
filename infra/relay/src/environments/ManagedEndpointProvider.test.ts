@@ -12,7 +12,7 @@ import * as Redacted from "effect/Redacted";
 import * as RelayConfiguration from "../Config.vibe";
 import * as CloudflareApiPause from "./CloudflareApiPause.vibe";
 import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.vibe";
-import * as ManagedEndpointProvider from "./ManagedEndpointProvider.ts";
+import * as ManagedEndpointProvider from "./ManagedEndpointProvider.vibe";
 import * as ManagedTunnelLimits from "./ManagedTunnelLimits.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

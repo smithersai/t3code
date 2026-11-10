@@ -14,7 +14,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import type { ApnsCredentials } from "../Config.vibe";
 import * as ApnsClient from "./ApnsClient.vibe";
 import { sanitizeApnsNotificationPayload } from "./agentActivityPayloads.vibe";
-import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
+import * as ApnsProviderTokens from "./ApnsProviderTokens.vibe";
 
 const layerTest = ApnsClient.layer.pipe(
   Layer.provide(ApnsProviderTokens.layer),

@@ -17,7 +17,7 @@ import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
 import * as LiveActivities from "./LiveActivities.vibe";
 import * as RelayConfiguration from "../Config.vibe";
 import * as AgentActivityPublisher from "./AgentActivityPublisher.vibe";
-import * as FcmDeliveries from "./FcmDeliveries.ts";
+import * as FcmDeliveries from "./FcmDeliveries.vibe";
 
 const layerPublisher = AgentActivityPublisher.layer.pipe(
   Layer.provide(
@@ -29,7 +29,7 @@ const layerPublisher = AgentActivityPublisher.layer.pipe(
 );
 import * as ApnsDeliveries from "./ApnsDeliveries.vibe";
 import * as ApnsClient from "./ApnsClient.vibe";
-import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
+import * as ApnsProviderTokens from "./ApnsProviderTokens.vibe";
 import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.vibe";
 import * as MobileRegistrations from "./MobileRegistrations.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

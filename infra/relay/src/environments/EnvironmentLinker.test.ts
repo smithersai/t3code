@@ -19,7 +19,7 @@ import * as EnvironmentCredentials from "./EnvironmentCredentials.vibe";
 import * as EnvironmentLinks from "./EnvironmentLinks.vibe";
 import * as RelayConfiguration from "../Config.vibe";
 import * as EnvironmentLinker from "./EnvironmentLinker.vibe";
-import * as ManagedEndpointProvider from "./ManagedEndpointProvider.ts";
+import * as ManagedEndpointProvider from "./ManagedEndpointProvider.vibe";
 
 const relayKeyPair = NodeCrypto.generateKeyPairSync("ed25519", {
   privateKeyEncoding: { format: "pem", type: "pkcs8" },
