@@ -383,7 +383,10 @@ export function isThreadListV2ListItem(value: {
   );
 }
 
-/** Compare rebuilt items by content so minute ticks and partition runs do not re-render every mounted row. */
+/**
+ * Compare rebuilt items by content so minute ticks and partition runs do not re-render every mounted row.
+ * @throws {never}
+ */
 export function threadListV2ListItemsAreEqual(
   previous: ThreadListV2ListItem,
   item: ThreadListV2ListItem,

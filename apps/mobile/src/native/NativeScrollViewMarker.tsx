@@ -40,6 +40,7 @@ export function NativeScrollViewMarker(props: ComponentProps<typeof ScrollViewMa
   return ScrollEdgeBleed ? <ScrollEdgeBleed style={props.style}>{marker}</ScrollEdgeBleed> : marker;
 }
 
+/** @throws {never} */
 export function NativeScrollView(props: ComponentProps<typeof ScrollView>) {
   const scrollView = <ScrollView {...props} />;
   return Platform.OS === "ios" ? (

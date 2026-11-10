@@ -44,6 +44,7 @@ export type EnvironmentPullRequestListEntry = PullRequestListEntry & {
   readonly environmentId: EnvironmentId;
 };
 
+/** @throws {never} */
 export const scopedPullRequestListKey = (entry: EnvironmentPullRequestListEntry) =>
   `${entry.environmentId}:${pullRequestListKey(entry)}`;
 
@@ -144,6 +145,7 @@ export function withShownPullRequestStats(
   return changed ? next : entries;
 }
 
+/** @throws {never} */
 export function pullRequestListRowsAreEqual(
   previous: EnvironmentPullRequestListEntry,
   next: EnvironmentPullRequestListEntry,
