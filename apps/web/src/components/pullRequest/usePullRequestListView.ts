@@ -207,6 +207,7 @@ export function usePullRequestQueryFilters(search: PullRequestsSearch, typedQuer
   const hasLocalFilters = Object.keys(localFilters).length > 0;
   return {
     sentQuery,
+    /** @throws {never} */
     submitQuery: (query: string) => setSentQuery(query.trim()),
     querySettled: typedQuery === sentQuery,
     typedParsed,

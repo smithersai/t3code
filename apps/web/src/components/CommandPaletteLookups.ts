@@ -53,6 +53,7 @@ export function useProjectLookups() {
   return { projectCwdById, projectByKey, projectTitleById };
 }
 
+/** @throws {never} */
 export const selectCommandPaletteClientSettings = (settings: ClientSettings) => ({
   sidebarProjectGroupingMode: settings.sidebarProjectGroupingMode,
   sidebarProjectGroupingOverrides: settings.sidebarProjectGroupingOverrides,

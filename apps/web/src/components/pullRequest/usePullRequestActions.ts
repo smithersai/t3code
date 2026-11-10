@@ -179,6 +179,7 @@ export function usePullRequestCloseBatch(onClosed: (entry: EnvironmentPullReques
   const runAction = useAtomCommand(pullRequestEnvironment.runAction, { reportFailure: false });
   const pending = useRef(new Set<string>());
   const [closingKeys, setClosingKeys] = useState<ReadonlySet<string>>(() => new Set());
+  /** @throws {never} */
   const close = async (entries: readonly EnvironmentPullRequestEntry[]) => {
     const batch = entries.filter((entry) => {
       const key = pullRequestEntryKey(entry);

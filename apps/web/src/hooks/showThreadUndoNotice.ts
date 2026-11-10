@@ -114,6 +114,7 @@ function refreshNotice() {
 
 ThreadUndo.subscribe(refreshNotice);
 
+/** @throws {never} */
 export function undoLatestThreadAction(): boolean {
   const notice = useThreadUndoNotice.getState().notice;
   if (!notice) return false;

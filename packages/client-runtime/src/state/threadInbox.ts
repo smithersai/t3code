@@ -162,12 +162,14 @@ export function createInboxReturnTracker() {
     );
   };
   return {
+    /** @throws {never} */
     subscribe(listener: () => void) {
       listeners.add(listener);
       return () => {
         listeners.delete(listener);
       };
     },
+    /** @throws {never} */
     getSnapshot: () => version,
     observe(threads: readonly TrackedInboxThread[] | null): {
       readonly isWorking: (thread: WorkingThreadInput & ThreadKeyInput) => boolean;
@@ -239,6 +241,7 @@ export function createInboxReturnTracker() {
     },
     isWorking: (thread: WorkingThreadInput & ThreadKeyInput) =>
       states.get(keyOf(thread))?.working ?? isThreadWorking(thread),
+    /** @throws {never} */
     returnedAt: (thread: ThreadKeyInput) => returns.get(keyOf(thread)),
   };
 }

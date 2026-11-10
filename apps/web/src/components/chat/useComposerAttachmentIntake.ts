@@ -114,6 +114,7 @@ export function useComposerAttachmentIntake(input: {
     names: new Set(),
   });
 
+  /** @throws {never} */
   const addComposerAttachments = async (
     files: File[],
     options?: {

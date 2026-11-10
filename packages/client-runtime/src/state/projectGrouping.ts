@@ -20,6 +20,7 @@ export interface ProjectGroupingSettings {
 
 export type ProjectGroupingMode = SidebarProjectGroupingMode;
 
+/** @throws {never} */
 export function selectProjectGroupingSettings(settings: ClientSettings): ProjectGroupingSettings {
   return {
     sidebarProjectGroupingMode: settings.sidebarProjectGroupingMode,
