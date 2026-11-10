@@ -71,8 +71,9 @@ export default defineConfig({
             async transform(code, id) {
               if (
                 !normalizePath(id).startsWith(sourceRoot) ||
-                !/\.(?:tsx?|vibex?)$/.test(id) ||
-                /\.test\.(?:tsx?|vibex?)$/.test(id)
+                // vibelang-vite serves a .vibex module as X.vibex.jsx, its compiled JSX.
+                !/\.(?:tsx?|vibe|vibex(?:\.jsx)?)$/.test(id) ||
+                /\.test\.(?:tsx?|vibe|vibex(?:\.jsx)?)$/.test(id)
               ) {
                 return;
               }
