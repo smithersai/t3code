@@ -228,16 +228,16 @@ minimumReleaseAgeExclude:
   - "@pierre/highlights@0.2.0"
   - "@pierre/theming@1.0.2"
   - agent-device@0.21.32
-  - "@smthrs/cli-win32-arm64@0.0.13"
-  - "@smthrs/cli-win32-x64@0.0.13"
-  - vibelang-darwin-arm64@0.0.13
-  - vibelang-darwin-x64@0.0.13
-  - vibelang-linux-arm64@0.0.13
-  - vibelang-linux-x64@0.0.13
-  - vibelang-runtime@0.0.13
-  - vibelang-unplugin@0.0.13
-  - vibelang-vite@0.0.13
-  - vibelang@0.0.13
+  - "@smthrs/cli-win32-arm64@0.0.14-pre.6279f9f9fbfc"
+  - "@smthrs/cli-win32-x64@0.0.14-pre.6279f9f9fbfc"
+  - vibelang-darwin-arm64@0.0.14-pre.6279f9f9fbfc
+  - vibelang-darwin-x64@0.0.14-pre.6279f9f9fbfc
+  - vibelang-linux-arm64@0.0.14-pre.6279f9f9fbfc
+  - vibelang-linux-x64@0.0.14-pre.6279f9f9fbfc
+  - vibelang-runtime@0.0.14-pre.6279f9f9fbfc
+  - vibelang-unplugin@0.0.14-pre.6279f9f9fbfc
+  - vibelang-vite@0.0.14-pre.6279f9f9fbfc
+  - vibelang@0.0.14-pre.6279f9f9fbfc
 
 overrides:
   # Pin every patched package, including transitive dependencies, so lockfile-free
@@ -353,16 +353,16 @@ overrides:
   "@effect/openapi-generator": 4.1.1
   "@effect/sql-sqlite-do": 4.1.1
 
-  vibelang: "file:.vibelang-toolchain/npm-0013/vibelang-0.0.13.tgz"
-  vibelang-runtime: "file:.vibelang-toolchain/npm-0013/vibelang-runtime-0.0.13.tgz"
-  vibelang-vite: "file:.vibelang-toolchain/npm-0013/vibelang-vite-0.0.13.tgz"
-  vibelang-unplugin: "file:.vibelang-toolchain/npm-0013/vibelang-unplugin-0.0.13.tgz"
-  "vibelang-darwin-arm64": "file:.vibelang-toolchain/npm-0013/vibelang-darwin-arm64-0.0.13.tgz"
-  "vibelang-darwin-x64": "file:.vibelang-toolchain/npm-0013/vibelang-darwin-x64-0.0.13.tgz"
-  "vibelang-linux-arm64": "file:.vibelang-toolchain/npm-0013/vibelang-linux-arm64-0.0.13.tgz"
-  "vibelang-linux-x64": "file:.vibelang-toolchain/npm-0013/vibelang-linux-x64-0.0.13.tgz"
-  "@smthrs/cli-win32-arm64": "file:.vibelang-toolchain/npm-0013/smthrs-cli-win32-arm64-0.0.13.tgz"
-  "@smthrs/cli-win32-x64": "file:.vibelang-toolchain/npm-0013/smthrs-cli-win32-x64-0.0.13.tgz"
+  vibelang: "file:.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-0.0.14-pre.6279f9f9fbfc.tgz"
+  vibelang-runtime: "file:.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-runtime-0.0.14-pre.6279f9f9fbfc.tgz"
+  vibelang-vite: "file:.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-vite-0.0.14-pre.6279f9f9fbfc.tgz"
+  vibelang-unplugin: "file:.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-unplugin-0.0.14-pre.6279f9f9fbfc.tgz"
+  "vibelang-darwin-arm64": "file:.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-darwin-arm64-0.0.14-pre.6279f9f9fbfc.tgz"
+  "vibelang-darwin-x64": "file:.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-darwin-x64-0.0.14-pre.6279f9f9fbfc.tgz"
+  "vibelang-linux-arm64": "file:.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-linux-arm64-0.0.14-pre.6279f9f9fbfc.tgz"
+  "vibelang-linux-x64": "file:.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-linux-x64-0.0.14-pre.6279f9f9fbfc.tgz"
+  "@smthrs/cli-win32-arm64": "file:.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/smthrs-cli-win32-arm64-0.0.14-pre.6279f9f9fbfc.tgz"
+  "@smthrs/cli-win32-x64": "file:.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/smthrs-cli-win32-x64-0.0.14-pre.6279f9f9fbfc.tgz"
 packageExtensions:
   "@clerk/expo@*":
     dependencies:

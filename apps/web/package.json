@@ -82,7 +82,7 @@
     "unbash": "^5.0.0",
     "unified": "catalog:",
     "use-sync-external-store": "^1.6.0",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/npm-0013/vibelang-runtime-0.0.13.tgz",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-runtime-0.0.14-pre.6279f9f9fbfc.tgz",
     "zustand": "^5.0.11"
   },
   "devDependencies": {
@@ -106,8 +106,8 @@
     "oxc-transform-react": "~0.152.0",
     "playwright": "1.60.0",
     "tailwindcss": "^4.0.0",
-    "vibelang": "file:../../.vibelang-toolchain/npm-0013/vibelang-0.0.13.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/npm-0013/vibelang-vite-0.0.13.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-0.0.14-pre.6279f9f9fbfc.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-vite-0.0.14-pre.6279f9f9fbfc.tgz",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   }

@@ -57,6 +57,8 @@ node_modules/
 *.d.vibex.ts
 *.vibe.*.d.ts
 *.vibex.*.d.ts
+# Sidecar ownership receipts stay local (the compiler uses them to prune its own outputs).
+.vibelang-sidecar-*.owner
 
 # Loader records are built after declaration generation.
 **/.vibelang/js/.loader/

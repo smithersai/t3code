@@ -15,13 +15,13 @@
   "dependencies": {
     "@t3tools/shared": "workspace:*",
     "effect": "catalog:",
-    "vibelang-runtime": "file:../../.vibelang-toolchain/npm-0013/vibelang-runtime-0.0.13.tgz"
+    "vibelang-runtime": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-runtime-0.0.14-pre.6279f9f9fbfc.tgz"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
-    "vibelang": "file:../../.vibelang-toolchain/npm-0013/vibelang-0.0.13.tgz",
-    "vibelang-vite": "file:../../.vibelang-toolchain/npm-0013/vibelang-vite-0.0.13.tgz",
+    "vibelang": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-0.0.14-pre.6279f9f9fbfc.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-vite-0.0.14-pre.6279f9f9fbfc.tgz",
     "vite-plus": "catalog:"
   }
 }
