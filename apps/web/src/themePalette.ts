@@ -84,10 +84,12 @@ export function getThemePreviewAppearance(): ThemeAppearance | null {
   return themePreviewAppearance;
 }
 
+/** @throws {never} */
 export function getThemePreviewSidebarArtwork(): boolean | null {
   return themePreviewAppearance === null ? null : false;
 }
 
+/** @throws {never} */
 export function subscribeToThemePreview(listener: () => void): () => void {
   themePreviewListeners.add(listener);
   return () => themePreviewListeners.delete(listener);

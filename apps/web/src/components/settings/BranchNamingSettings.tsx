@@ -11,7 +11,7 @@ import {
   useScopedSettings,
   useScopedSettingsMixed,
   useUpdateScopedSettings,
-} from "./useScopedSettings.ts";
+} from "./useScopedSettings.vibe";
 
 const MODES = {
   static: "Static prefix",

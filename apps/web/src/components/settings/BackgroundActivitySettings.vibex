@@ -1,10 +1,10 @@
-import { useScopedSettingsWriteAllowed } from "./useScopedSettings.ts"
+import { useScopedSettingsWriteAllowed } from "./useScopedSettings.vibe"
 import { SettingsIcon } from "lucide-react"
 import { useState } from "react"
 import { type BackgroundActivityProfile } from "@t3tools/contracts"
 import { DEFAULT_UNIFIED_SETTINGS } from "@t3tools/contracts/settings"
 import { resolveServerBackgroundActivitySettings } from "@t3tools/shared/backgroundActivitySettings"
-import { useScopedSettings, useScopedSettingsMixed, useUpdateScopedSettings } from "./useScopedSettings.ts"
+import { useScopedSettings, useScopedSettingsMixed, useUpdateScopedSettings } from "./useScopedSettings.vibe"
 import { useSettingsScope } from "./SettingsScopeContext"
 import { Button } from "../ui/button"
 import {

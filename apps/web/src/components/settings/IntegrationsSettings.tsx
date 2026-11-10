@@ -1,6 +1,6 @@
 import { DeviceHostUpdates } from "../device/DeviceHostUpdates";
 import { DeviceToolVersions } from "../device/DeviceToolVersions";
-import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings.ts";
+import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings.vibe";
 import { ScopedSwitch } from "./ScopedSwitch";
 import { DeviceHostsSettings } from "./DeviceHostsSettings.vibex";
 import { EasDeviceHostsSettings } from "./EasDeviceHostsSettings.vibex";

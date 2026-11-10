@@ -8,7 +8,7 @@ import {
   useScopedSettings,
   useScopedSettingsMixed,
   useUpdateScopedSettings,
-} from "./useScopedSettings.ts";
+} from "./useScopedSettings.vibe";
 
 export function ThreadTitleInstructionsSettings() {
   const settings = useScopedSettings();

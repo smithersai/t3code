@@ -8,7 +8,7 @@ import { ScopedSwitch } from "./ScopedSwitch";
 import { SettingsPageContainer, SettingsRow, SettingsSection } from "./settingsLayout";
 import { searchableSetting } from "./settingsSearch";
 import { LegacyFeaturesSection } from "./SettingsPanels";
-import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings.ts";
+import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings.vibe";
 
 /** Features still settling in, and legacy behavior kept for people who rely on it. */
 export function LabsSettingsPanel() {

@@ -43,7 +43,7 @@ import {
   useScopedSettingsMixed,
   useScopedSettingSource,
   useUpdateScopedSettings,
-} from "./useScopedSettings.ts";
+} from "./useScopedSettings.vibe";
 
 const WORKTREE_SUBMODULES_OPTIONS = ["recursive", "top-level", "none"] as const;
 function isWorktreeSubmodules(value: string | null): value is WorktreeSubmodules {
