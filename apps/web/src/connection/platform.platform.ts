@@ -79,6 +79,7 @@ export function readNavigatorMaxTouchPoints() {
   return navigator.maxTouchPoints;
 }
 
+/** @throws {never} */
 export function readWindowDesktopBridge() {
   return window.desktopBridge;
 }

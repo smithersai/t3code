@@ -689,20 +689,28 @@ export const make = Effect.gen(function*() {
           { concurrency: 2 },
         )
 
-        const aggregator = new UsageAggregator({
-          timeZone: input.timeZone,
-          sinceDay: input.sinceDay,
-          untilDay: input.untilDay,
-          resolution: input.resolution ?? "day",
-          ...hourlyWindow,
-          rates,
-          priceOverrides: try Effect.orDie(
-            Effect.try({ try: () => createOverrideRateTable(settings.usagePriceOverrides), catch: (e) => e }),
-          ),
-          modelAliases: try Effect.orDie(
-            Effect.try({ try: () => resolveModelAliases(settings.usageModelAliases), catch: (e) => e }),
-          ),
-        })
+        const priceOverrides = try Effect.orDie(
+          Effect.try({ try: () => createOverrideRateTable(settings.usagePriceOverrides), catch: (e) => e }),
+        )
+        const modelAliases = try Effect.orDie(
+          Effect.try({ try: () => resolveModelAliases(settings.usageModelAliases), catch: (e) => e }),
+        )
+        const aggregator = try Effect.orDie(
+          Effect.try({
+            try: () =>
+              new UsageAggregator({
+                timeZone: input.timeZone,
+                sinceDay: input.sinceDay,
+                untilDay: input.untilDay,
+                resolution: input.resolution ?? "day",
+                ...hourlyWindow,
+                rates,
+                priceOverrides,
+                modelAliases,
+              }),
+            catch: (e) => e,
+          }),
+        )
 
         const sources: UsageSource[] = []
 
