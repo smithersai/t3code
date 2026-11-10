@@ -79,6 +79,7 @@ function githubHeadingSlug(text: string): string {
 /**
  * Like the sanitizer's ids, they carry the `user-content-` prefix so they cannot clobber app
  * element ids; fragment lookup strips it.
+ * @throws {never}
  */
 export function rehypeHeadingIds() {
   return (tree: HeadingHastNode) => {
