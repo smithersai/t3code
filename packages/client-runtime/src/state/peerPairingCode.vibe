@@ -7,7 +7,7 @@ import { type AuthMcpClientAccess, mcpClientScopes } from "@t3tools/contracts"
 import type * as HttpClient from "effect/http/HttpClient"
 import type { Atom } from "effect/reactivity"
 
-import * as RemoteEnvironmentAuthorization from "../authorization/service.ts"
+import * as RemoteEnvironmentAuthorization from "../authorization/service.vibe"
 import type { PreparedConnection } from "../connection/model.vibe"
 import type { EnvironmentRegistry } from "../connection/registry.vibe"
 import * as EnvironmentSupervisor from "../connection/supervisor.vibe"

@@ -11,7 +11,7 @@ import * as Ref from "effect/Ref";
 
 import * as ConnectionResolver from "./resolver.vibe";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
-import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
+import * as RemoteEnvironmentAuthorization from "../authorization/service.vibe";
 import {
   BearerConnectionCredential,
   type ConnectionCatalogEntry,

@@ -10,7 +10,7 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
+import * as RemoteEnvironmentAuthorization from "../authorization/service.vibe";
 import * as TokenStore from "../authorization/tokenStore.vibe";
 import * as ClientCapabilities from "../platform/capabilities.vibe";
 import * as ManagedRelay from "../relay/managedRelay.vibe";

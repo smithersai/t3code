@@ -10,7 +10,7 @@ import * as ConnectionOnboarding from "./onboarding.vibe"
 import { connectionRoutes, hasRelayRoute } from "./routes.vibe"
 import * as PlatformConnectionSource from "../platform/source.vibe"
 import * as RelayEnvironmentDiscovery from "../relay/discovery.vibe"
-import * as RemoteEnvironmentAuthorization from "../authorization/service.ts"
+import * as RemoteEnvironmentAuthorization from "../authorization/service.vibe"
 import * as RpcSession from "../rpc/session.vibe"
 
 export const watchDiscoveredCompatibility = effect () =>

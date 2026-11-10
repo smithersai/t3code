@@ -6,10 +6,10 @@ import * as Schema from "effect/Schema"
 import * as HttpClient from "effect/http/HttpClient"
 import { ApnsEnvironment, type ApnsCredentials } from "../Config.vibe"
 import type { ApnsLiveActivityAlert, ApnsNotificationPayload } from "./apnsDeliveryJobs.vibe"
-import type { ApnsJwtEncodingError, ApnsJwtSigningError } from "./apnsJwt.ts"
+import type { ApnsJwtEncodingError, ApnsJwtSigningError } from "./apnsJwt.vibe"
 import * as ApnsProviderTokens from "./ApnsProviderTokens.ts"
 
-export { ApnsJwtEncodingError, ApnsJwtSigningError } from "./apnsJwt.ts"
+export { ApnsJwtEncodingError, ApnsJwtSigningError } from "./apnsJwt.vibe"
 
 const LIVE_ACTIVITY_NAME = "AgentActivity"
 // Bound sending and reading separately so neither stage can hold a batch open.

@@ -10,7 +10,7 @@ import {
   type ClientOwnerParams,
   readClientOwnerParams,
 } from "#vibelang/emitted/src/authorization/remote"
-import * as RemoteEnvironmentAuthorization from "../authorization/service.ts"
+import * as RemoteEnvironmentAuthorization from "../authorization/service.vibe"
 import * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities"
 import {
   BearerConnectionCredential,

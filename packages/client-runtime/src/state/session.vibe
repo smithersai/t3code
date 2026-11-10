@@ -4,7 +4,7 @@ import * as Option from "effect/Option"
 import { HttpClient } from "effect/http"
 import { AsyncResult, Atom } from "effect/reactivity"
 
-import * as RemoteEnvironmentAuthorization from "../authorization/service.ts"
+import * as RemoteEnvironmentAuthorization from "../authorization/service.vibe"
 import * as EnvironmentRegistry from "../connection/registry.vibe"
 import type { PreparedConnection } from "../connection/model.vibe"
 import * as EnvironmentSupervisor from "../connection/supervisor.vibe"

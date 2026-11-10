@@ -59,8 +59,8 @@
       }
     },
     "./server/instanceEnvironment": {
-      "types": "./src/server/instanceEnvironment.ts",
-      "import": "./src/server/instanceEnvironment.ts"
+      "types": "./src/server/instanceEnvironment.d.vibe.ts",
+      "import": "./src/server/instanceEnvironment.vibe"
     },
     "./server/instanceIdentity": {
       "types": "./src/server/instanceIdentity.ts",

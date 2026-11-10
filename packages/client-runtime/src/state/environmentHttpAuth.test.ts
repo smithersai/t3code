@@ -22,7 +22,7 @@ import * as Schema from "effect/Schema";
 import * as TestClock from "effect/testing/TestClock";
 import type { HttpClient } from "effect/http";
 
-import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
+import * as RemoteEnvironmentAuthorization from "../authorization/service.vibe";
 import {
   ConnectionTransientError,
   RelayConnectionTarget,

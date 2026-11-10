@@ -5,7 +5,7 @@ import * as Layer from "effect/Layer"
 import * as Option from "effect/Option"
 import { HttpClient } from "effect/http"
 
-import * as RemoteEnvironmentAuthorization from "../authorization/service.ts"
+import * as RemoteEnvironmentAuthorization from "../authorization/service.vibe"
 import type { PreparedConnection } from "../connection/model.vibe"
 import * as ManagedRelay from "../relay/managedRelay.vibe"
 import { executeAuthenticatedEnvironmentHttpRequest, withOrchestrationProtocolHeader } from "./environmentHttpAuth.ts"

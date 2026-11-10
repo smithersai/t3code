@@ -7,7 +7,7 @@ import {
   makeApnsJwt,
   type ApnsJwtError,
   type ApnsJwtSigningInput,
-} from "./apnsJwt.ts";
+} from "./apnsJwt.vibe";
 
 // Reuse JWTs within their 60-minute validity; frequent refreshes trigger APNs TooManyProviderTokenUpdates.
 export const APNS_JWT_REUSE_SECONDS = 45 * 60;

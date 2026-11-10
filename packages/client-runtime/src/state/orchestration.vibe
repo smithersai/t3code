@@ -17,7 +17,7 @@ import {
 } from "./runtime.vibe"
 import type { EnvironmentRegistry } from "../connection/registry.vibe"
 import * as EnvironmentSupervisor from "../connection/supervisor.vibe"
-import * as RemoteEnvironmentAuthorization from "../authorization/service.ts"
+import * as RemoteEnvironmentAuthorization from "../authorization/service.vibe"
 import * as ManagedRelayDpopSigner from "#vibelang/emitted/src/relay/managedRelay"
 import { EnvironmentRpcUnavailableError } from "#vibelang/emitted/src/rpc/client"
 import { fetchEnvironmentThreadTranscript } from "#vibelang/emitted/src/state/threadTranscriptHttp"
