@@ -24,7 +24,7 @@ import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManag
 import * as ThreadLaunch from "./orchestration-v2/ThreadLaunchService.vibe";
 import * as ThreadManagement from "./orchestration-v2/ThreadManagementService.vibe";
 import * as ExternalLauncher from "./process/externalLauncher.vibe";
-import * as ProjectService from "./project/ProjectService.ts";
+import * as ProjectService from "./project/ProjectService.vibe";
 import * as AgentAwarenessRelay from "./relay/AgentAwarenessRelay.vibe";
 import { ServerActivation } from "./serverActivation.vibe";
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.vibe";

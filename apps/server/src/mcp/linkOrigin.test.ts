@@ -30,7 +30,7 @@ import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.v
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as ProviderRegistry from "../provider/ProviderRegistry.vibe";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
 import * as ServerSettings from "../serverSettings.vibe";

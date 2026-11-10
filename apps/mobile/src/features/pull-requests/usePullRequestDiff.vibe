@@ -2,7 +2,7 @@ import type { ChangeRequestTerminology } from "@t3tools/client-runtime/source-co
 import { EnvironmentId, ProjectId, type PullRequestListEntry } from "@t3tools/contracts"
 import { useAtomRefresh } from "@effect/atom-react"
 import { useCallback, useMemo, useState } from "react"
-import { composerPullRequests } from "../../state/pull-requests.ts"
+import { composerPullRequests } from "../../state/pull-requests.vibe"
 import { useEnvironmentQuery } from "../../state/query.vibe"
 import { usePullToRefresh } from "../../state/use-pull-to-refresh.vibe"
 import {

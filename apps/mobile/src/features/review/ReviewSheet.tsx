@@ -34,7 +34,7 @@ import { environmentCatalog } from "../../connection/catalog";
 import { useEnvironmentPresentation } from "../../state/presentation.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
-import { useThreadDraftForThread } from "../../state/use-thread-composer-state.ts";
+import { useThreadDraftForThread } from "../../state/use-thread-composer-state.vibe";
 import { EnvironmentConnectionNotice } from "../connection/EnvironmentConnectionNotice";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import {
@@ -56,7 +56,7 @@ import { useReviewDiffPrewarming } from "./useReviewDiffPrewarming";
 import { useReviewFileVisibility } from "./reviewFileVisibility";
 import { useReviewSections } from "./useReviewSections.vibe";
 import { useNativeReviewDiffBridge } from "./useNativeReviewDiffBridge";
-import { useReviewCommentSelectionController } from "./useReviewCommentSelectionController.ts";
+import { useReviewCommentSelectionController } from "./useReviewCommentSelectionController.vibe";
 import { resolveReviewAvailability } from "./reviewAvailability";
 import { resolveSelectedReviewFileId } from "./reviewPaneSelection";
 import { buildReviewSectionMenu } from "./review-section-menu";

@@ -84,7 +84,7 @@ vi.mock("./server", async () => {
     environmentServerConfigsAtom: Atom.make(new Map([["secondary", state.config]])),
   };
 });
-vi.mock("./threads.ts", async () => {
+vi.mock("./threads.vibe", async () => {
   const { Atom, AsyncResult } = await import("effect/reactivity");
   state.threadShells = Atom.make<ReadonlyArray<unknown>>([state.thread]).pipe(Atom.keepAlive);
   return {

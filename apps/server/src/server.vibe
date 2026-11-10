@@ -42,7 +42,7 @@ import * as PullRequestReviewGuideService from "./pullRequest/PullRequestReviewG
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.vibe"
 import * as AnalyticsService from "./telemetry/AnalyticsService.vibe"
 import * as DelegatedTaskAnalytics from "./telemetry/DelegatedTaskAnalytics.vibe"
-import * as ProviderEventIngestor from "./orchestration-v2/ProviderEventIngestor.ts"
+import * as ProviderEventIngestor from "./orchestration-v2/ProviderEventIngestor.vibe"
 import * as ModelManifest from "./provider/ModelManifest.vibe"
 import * as ResetCreditCoordinator from "./provider/resetCreditCoordinator.vibe"
 import * as EventNdjsonLogger from "./provider/EventNdjsonLogger.vibe"

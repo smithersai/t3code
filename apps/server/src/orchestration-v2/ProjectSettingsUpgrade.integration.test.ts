@@ -19,7 +19,7 @@ import * as McpSessionRegistryTestkit from "../mcp/McpSessionRegistry.testkit.ts
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import { runMigrations } from "../persistence/Migrations.vibe";
 import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.vibe";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.vibe";
 import * as ServerSettings from "../serverSettings.vibe";
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";

@@ -19,7 +19,7 @@ import * as Layer from "effect/Layer";
 import * as Ref from "effect/Ref";
 
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
-import * as EventSink from "./EventSink.ts";
+import * as EventSink from "./EventSink.vibe";
 import * as Orchestrator from "./Orchestrator.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import * as ProjectionStore from "./ProjectionStore.vibe";

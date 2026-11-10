@@ -18,7 +18,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
 import * as GitWorkflow from "../git/GitWorkflowService.vibe";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 
 export const layer = Layer.merge(
   Layer.mock(GitWorkflow.GitWorkflowService)({

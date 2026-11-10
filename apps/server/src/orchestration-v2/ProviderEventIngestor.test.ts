@@ -40,11 +40,11 @@ import { toolOutputImages } from "@t3tools/shared/toolOutput";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ServerConfig from "../config.vibe";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
-import * as EventSink from "./EventSink.ts";
+import * as EventSink from "./EventSink.vibe";
 import * as EventStore from "./EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProjectionStore from "./ProjectionStore.vibe";
-import * as ProviderEventIngestor from "./ProviderEventIngestor.ts";
+import * as ProviderEventIngestor from "./ProviderEventIngestor.vibe";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
 import {

@@ -23,7 +23,7 @@ import * as Stream from "effect/Stream";
 import { McpSchema, McpServer, Tool, Toolkit } from "effect/ai";
 import { HttpBody, HttpClient, HttpClientRequest, HttpRouter } from "effect/http";
 
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as PullRequestReviewGuideService from "../pullRequest/PullRequestReviewGuideService.vibe";
 import * as ServerConfig from "../config.vibe";
 import * as ServerSettings from "../serverSettings.vibe";

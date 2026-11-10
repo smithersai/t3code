@@ -7,7 +7,7 @@ import { findStackRoute } from "../../lib/appLinking"
 import { rootNavigationRef } from "../../lib/rootNavigation"
 import { scopedThreadKey } from "../../lib/scopedEntities"
 import { appAtomRegistry } from "../../state/atom-registry.vibe"
-import { environmentThreadShells, environmentThreads } from "../../state/threads.ts"
+import { environmentThreadShells, environmentThreads } from "../../state/threads.vibe"
 import { applyLinkedPromptToThreadDraft } from "./prompt-link-actions"
 import { promptLinkNotice, promptLinkSearchFromParams, stepPendingPromptLink } from "./prompt-link-model"
 

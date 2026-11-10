@@ -6,7 +6,7 @@ import {
   DEFAULT_BROWSER_PROFILE_ID,
   INCOGNITO_BROWSER_PROFILE_ID,
 } from "@t3tools/contracts"
-import * as PreviewManager from "../../preview/Manager.ts"
+import * as PreviewManager from "../../preview/Manager.vibe"
 import { PREVIEW_WEBVIEW_PREFERENCES } from "../../preview/WebviewPreferences.ts"
 import * as IpcChannels from "../channels.ts"
 import * as DesktopIpc from "../DesktopIpc.vibe"

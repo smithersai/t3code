@@ -25,7 +25,7 @@ import {
   type PullRequestTestThread,
   v2PullRequestThread,
 } from "../../../orchestration-v2/testkit/pullRequestFixtures.ts";
-import * as ProjectService from "../../../project/ProjectService.ts";
+import * as ProjectService from "../../../project/ProjectService.vibe";
 import * as PullRequestReviewGuideService from "../../../pullRequest/PullRequestReviewGuideService.vibe";
 import * as McpInvocationContext from "../../McpInvocationContext.vibe";
 import * as McpToolAccess from "../../McpToolAccess.vibe";

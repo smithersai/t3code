@@ -1,7 +1,7 @@
 import { type ProjectMutation } from "@t3tools/contracts"
 import * as Effect from "effect/Effect"
 
-import { type ProjectService } from "./ProjectService.ts"
+import { type ProjectService } from "./ProjectService.vibe"
 
 type ProjectMutations = Pick<ProjectService["Service"], "create" | "delete" | "update">
 

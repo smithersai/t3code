@@ -21,7 +21,7 @@ import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { mobilePreferencesAtom, updateMobilePreferencesAtom } from "../../state/preferences.vibe";
 import { environmentProjects } from "../../state/projects";
 import { enqueueThreadOutboxMessage } from "../../state/thread-outbox";
-import { environmentThreadShells } from "../../state/threads.ts";
+import { environmentThreadShells } from "../../state/threads.vibe";
 import { holdEditingQueuedMessage } from "../../state/use-thread-outbox.vibe";
 import { workspaceConnections } from "../../state/workspace.vibe";
 import { resolveThemeAppearance } from "../settings/appearance/AppearancePreferencesProvider";

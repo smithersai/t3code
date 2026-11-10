@@ -70,7 +70,7 @@ import * as BrowserImport from "./preview/BrowserImport/BrowserImport.vibe";
 import * as LinuxBrowserSecret from "./preview/BrowserImport/LinuxBrowserSecret.vibe";
 import * as BrowserSession from "./preview/BrowserSession.vibe";
 import * as DesktopBrowserHost from "./preview/DesktopBrowserHost.vibe";
-import * as PreviewManager from "./preview/Manager.ts";
+import * as PreviewManager from "./preview/Manager.vibe";
 import * as PreviewPasskeys from "./preview/Passkeys.vibe";
 import * as DesktopWindow from "./window/DesktopWindow.vibe";
 import * as DesktopWslBackend from "./wsl/DesktopWslBackend.vibe";

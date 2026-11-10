@@ -14,7 +14,7 @@ import * as Statement from "effect/sql/Statement";
 
 import * as SqlitePersistence from "../../persistence/Sqlite.vibe";
 import { listLinkedPullRequestThreads } from "../../pullRequest/linkedThreads.vibe";
-import * as EventSink from "../EventSink.ts";
+import * as EventSink from "../EventSink.vibe";
 import * as EventStore from "../EventStore.vibe";
 import * as LegacyV1ThreadImporter from "./LegacyV1ThreadImporter.vibe";
 import * as ProjectionMaintenance from "../ProjectionMaintenance.vibe";

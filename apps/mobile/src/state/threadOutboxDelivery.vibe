@@ -62,7 +62,7 @@ module platform {
     type ThreadOutboxCommandStage,
     type ThreadOutboxFailureAction,
   } from "./thread-outbox-model.vibe"
-  import { environmentThreadShells, threadEnvironment, threadFamilies } from "./threads.ts"
+  import { environmentThreadShells, threadEnvironment, threadFamilies } from "./threads.vibe"
   import {
     appendComposerDraftAttachments,
     composerDraftsAtom,

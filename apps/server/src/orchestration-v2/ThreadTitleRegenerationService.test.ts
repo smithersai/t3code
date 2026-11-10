@@ -22,7 +22,7 @@ import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
 import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";
-import * as EventSink from "./EventSink.ts";
+import * as EventSink from "./EventSink.vibe";
 import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
 import * as ThreadManagement from "./ThreadManagementService.vibe";
 import * as ThreadTitleRegeneration from "./ThreadTitleRegenerationService.vibe";

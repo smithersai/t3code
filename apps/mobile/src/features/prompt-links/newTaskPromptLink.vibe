@@ -26,9 +26,9 @@ import { rootNavigationRef } from "../../lib/rootNavigation"
 import { scopedThreadKey } from "../../lib/scopedEntities"
 import { appAtomRegistry } from "../../state/atom-registry.vibe"
 import { environmentProjects, projectEnvironment } from "../../state/projects"
-import { composerPullRequests } from "../../state/pull-requests.ts"
+import { composerPullRequests } from "../../state/pull-requests.vibe"
 import { environmentServerConfigsAtom } from "../../state/server"
-import { environmentThreadShells } from "../../state/threads.ts"
+import { environmentThreadShells } from "../../state/threads.vibe"
 import {
   createNewTaskDraft,
   setComposerDraftText,

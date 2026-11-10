@@ -23,7 +23,7 @@ import {
   environmentThreadShells,
   startOpeningEnvironmentThread,
   threadEnvironment,
-} from "../../state/threads.ts";
+} from "../../state/threads.vibe";
 import {
   rememberedSettingsPage,
   workspaceSelectionsIn,

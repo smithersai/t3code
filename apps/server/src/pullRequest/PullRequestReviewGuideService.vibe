@@ -28,7 +28,7 @@ import { sourceControlDefinitions } from "../sourceControl/sourceControlDefiniti
 
 import * as ServerConfig from "../config.vibe"
 import * as PullRequestReviewGuides from "../persistence/PullRequestReviewGuides.vibe"
-import * as ProjectService from "../project/ProjectService.ts"
+import * as ProjectService from "../project/ProjectService.vibe"
 import * as ProviderRegistry from "../provider/ProviderRegistry.vibe"
 import * as ServerSettings from "../serverSettings.vibe"
 import * as TextGeneration from "../textGeneration/TextGeneration.vibe"

@@ -11,7 +11,7 @@ import { expect, it } from "vite-plus/test";
 
 import * as EffectWorker from "./EffectWorker.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";
-import * as EventSink from "./EventSink.ts";
+import * as EventSink from "./EventSink.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProjectionStore from "./ProjectionStore.vibe";
 import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.vibe";

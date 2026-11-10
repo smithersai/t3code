@@ -152,7 +152,7 @@ import {
   environmentThreadDetails,
   environmentThreadShells,
   threadEnvironment,
-} from "../../state/threads.ts";
+} from "../../state/threads.vibe";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { threadStreamHaptics } from "./threadStreamHaptics.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";

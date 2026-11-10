@@ -28,7 +28,7 @@ import * as ServerSettings from "../serverSettings.vibe";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as ProjectionStore from "./ProjectionStore.vibe";
-import * as EventSink from "./EventSink.ts";
+import * as EventSink from "./EventSink.vibe";
 import * as EventStore from "./EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.vibe";

@@ -1,5 +1,5 @@
 import { PreviewCaptureFailure } from "@t3tools/contracts"
-import type { PreviewManagerError } from "./Manager.ts"
+import type { PreviewManagerError } from "./Manager.vibe"
 
 /** Classify before Electron replaces a rejected IPC Error with its message. */
 export function normalizeCaptureFailure(

@@ -34,7 +34,7 @@ import * as ServerSettings from "../serverSettings.vibe";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
 import { checkpointWorkspace } from "@t3tools/provider-testing/replayWorkspace";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as ProviderRegistry from "../provider/ProviderRegistry.vibe";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
 import * as SecretRequests from "../secrets/SecretRequests.vibe";

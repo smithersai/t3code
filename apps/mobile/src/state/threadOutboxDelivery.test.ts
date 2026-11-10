@@ -90,7 +90,7 @@ vi.mock("./server", async () => {
 
 vi.mock("./git", () => ({ gitEnvironment: {} }));
 
-vi.mock("./threads.ts", async () => {
+vi.mock("./threads.vibe", async () => {
   const { Atom } = await import("effect/reactivity");
   harness.threadProjection = Atom.make<{
     readonly projection: { readonly messages: ReadonlyArray<{ readonly id: string }> };

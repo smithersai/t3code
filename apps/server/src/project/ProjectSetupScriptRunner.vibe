@@ -20,7 +20,7 @@ import * as Schema from "effect/Schema"
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe"
 import * as ServerSettings from "../serverSettings.vibe"
 import * as TerminalManager from "../terminal/Manager.vibe"
-import * as ProjectService from "./ProjectService.ts"
+import * as ProjectService from "./ProjectService.vibe"
 
 export interface ProjectSetupScriptRunnerResultNoScript {
   readonly status: "no-script"

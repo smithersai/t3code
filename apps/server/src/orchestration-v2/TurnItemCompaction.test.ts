@@ -25,7 +25,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 import * as Statement from "effect/sql/Statement";
 
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import * as EventSink from "./EventSink.ts";
+import * as EventSink from "./EventSink.vibe";
 import * as EventStore from "./EventStore.vibe";
 import * as ProjectionMaintenance from "./ProjectionMaintenance.vibe";
 import * as ProjectionStore from "./ProjectionStore.vibe";

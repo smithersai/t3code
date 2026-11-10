@@ -81,10 +81,10 @@ import { useSelectedThreadGitActions } from "../../state/use-selected-thread-git
 import { useSelectedThreadGitState } from "../../state/use-selected-thread-git-state";
 import { useSelectedThreadRequests } from "../../state/use-selected-thread-requests.vibe";
 import { useSelectedThreadWorktree } from "../../state/use-selected-thread-worktree.vibe";
-import { useThreadComposerState } from "../../state/use-thread-composer-state.ts";
+import { useThreadComposerState } from "../../state/use-thread-composer-state.vibe";
 import { resolveMergeBackTargetThreadId } from "@t3tools/client-runtime/state/thread-relationships";
 import { resolveLatestMergeBackRun } from "@t3tools/client-runtime/state/thread-workflows";
-import { threadEnvironment, useThreadFamily } from "../../state/threads.ts";
+import { threadEnvironment, useThreadFamily } from "../../state/threads.vibe";
 import { EMPTY_ENVIRONMENT_THREAD_STATE } from "@t3tools/client-runtime/state/threads";
 import { useProjects } from "../../state/entities.vibe";
 import { projectThreadContentPresentation } from "./threadContentPresentation";

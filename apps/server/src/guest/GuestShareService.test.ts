@@ -39,7 +39,7 @@ import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexA
 import * as CommandOutputHub from "../orchestration-v2/CommandOutputHub.vibe";
 import * as EffectOutbox from "../orchestration-v2/EffectOutbox.vibe";
 import * as EffectWorker from "../orchestration-v2/EffectWorker.vibe";
-import * as EventSink from "../orchestration-v2/EventSink.ts";
+import * as EventSink from "../orchestration-v2/EventSink.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";

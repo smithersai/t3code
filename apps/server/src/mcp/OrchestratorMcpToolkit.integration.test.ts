@@ -40,7 +40,7 @@ import {
   materializeReplayTranscriptWorkspace,
 } from "@t3tools/provider-testing/replayTranscript";
 import * as ProviderRegistryMock from "../provider/testUtils/providerRegistryMock.ts";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
 import * as SecretRequests from "../secrets/SecretRequests.vibe";
 import * as RemoteDelegation from "../peer/RemoteDelegation.vibe";

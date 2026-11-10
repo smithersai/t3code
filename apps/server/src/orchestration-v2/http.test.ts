@@ -34,7 +34,7 @@ import * as ServerSettings from "../serverSettings.vibe";
 import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.vibe";
 import { ProjectEnrichmentService } from "../project/ProjectEnrichmentService.vibe";
 import * as OrchestrationHttp from "./http.vibe";
-import { EventSinkV2 } from "./EventSink.ts";
+import { EventSinkV2 } from "./EventSink.vibe";
 import * as ProjectStore from "./ProjectStore.vibe";
 import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import * as ThreadManagementService from "./ThreadManagementService.vibe";

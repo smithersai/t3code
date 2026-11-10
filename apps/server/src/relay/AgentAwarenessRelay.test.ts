@@ -36,7 +36,7 @@ import {
 import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as AgentAwarenessRelay from "./AgentAwarenessRelay.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

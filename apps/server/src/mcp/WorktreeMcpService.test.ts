@@ -28,7 +28,7 @@ import {
   OrchestratorProjectionError,
 } from "../orchestration-v2/Orchestrator.vibe";
 import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.vibe";
 import * as ServerSettings from "../serverSettings.vibe";
 import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.vibe";

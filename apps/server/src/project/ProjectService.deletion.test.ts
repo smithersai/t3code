@@ -18,7 +18,7 @@ import * as SqlClient from "effect/sql/SqlClient";
 
 import * as ServerConfig from "../config.vibe";
 import { OrchestrationEffectRequestV2 } from "../orchestration-v2/EffectOutbox.vibe";
-import * as EventSink from "../orchestration-v2/EventSink.ts";
+import * as EventSink from "../orchestration-v2/EventSink.vibe";
 import * as EventStore from "../orchestration-v2/EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.vibe";
@@ -32,7 +32,7 @@ import * as ServerSettings from "../serverSettings.vibe";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as ProjectEnrichmentService from "./ProjectEnrichmentService.vibe";
 import * as ProjectFaviconResolver from "./ProjectFaviconResolver.vibe";
-import * as ProjectService from "./ProjectService.ts";
+import * as ProjectService from "./ProjectService.vibe";
 import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.vibe";
 
 const layerEventPersistence = EventSink.layer.pipe(

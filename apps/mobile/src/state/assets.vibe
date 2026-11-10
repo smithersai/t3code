@@ -14,7 +14,7 @@ import { useCallback } from "react"
 
 import { environmentCatalog } from "../connection/catalog"
 import { connectionAtomRuntime } from "../connection/runtime.vibe"
-import { projectFaviconDatabaseCache } from "../lib/projectFaviconDatabaseCache.ts"
+import { projectFaviconDatabaseCache } from "../lib/projectFaviconDatabaseCache.vibe"
 import { type AssetUrlState, deriveAssetUrlState } from "./asset-url-state"
 import { appAtomRegistry } from "./atom-registry.vibe"
 import { environmentProjectCloneListAtom } from "./projectClones.vibe"

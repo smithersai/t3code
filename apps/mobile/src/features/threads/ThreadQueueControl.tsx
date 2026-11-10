@@ -34,7 +34,7 @@ import { useEnvironmentQuery } from "../../state/query.vibe";
 import { serverEnvironment } from "../../state/server";
 import { assetImageSource } from "../../lib/assetImageSource";
 import { beginQueuedRunEdit, useQueuedRunEdit } from "../../state/queued-run-edit.vibe";
-import { environmentThreadDetails, threadEnvironment } from "../../state/threads.ts";
+import { environmentThreadDetails, threadEnvironment } from "../../state/threads.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useAdaptiveWorkspaceLayout } from "../layout/AdaptiveWorkspaceLayout";
 import {

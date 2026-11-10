@@ -50,7 +50,7 @@ import {
 } from "../../state/entities.vibe";
 import { useThreadSearch } from "../../state/queries.vibe";
 import { requestThreadMessageJump } from "../threads/threadMessageJump";
-import { threadEnvironment } from "../../state/threads.ts";
+import { threadEnvironment } from "../../state/threads.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { serverEnvironment } from "../../state/server";
 import { useWorkspaceEnvironments } from "../../state/workspace.vibe";

@@ -38,7 +38,7 @@ vi.mock("@effect/atom-react", () => ({
 vi.mock("../../../state/server", () => ({
   serverEnvironment: { settingsValueAtom: () => "settings" },
 }));
-vi.mock("../../../state/pull-requests.ts", () => ({
+vi.mock("../../../state/pull-requests.vibe", () => ({
   composerPullRequests: {
     reviewGuide: (target: { number: number; environmentId: string }) =>
       target.environmentId === "environment" && target.number === 1 ? 1 : 2,

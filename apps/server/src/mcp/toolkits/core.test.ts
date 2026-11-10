@@ -41,7 +41,7 @@ import * as GitVcsDriver from "../../vcs/GitVcsDriver.vibe";
 import * as ThreadManagement from "../../orchestration-v2/ThreadManagementService.vibe";
 import * as ThreadSearch from "../../orchestration-v2/ThreadSearch.vibe";
 import * as PreviewBrowser from "../../preview/PreviewBrowser.vibe";
-import * as ProjectService from "../../project/ProjectService.ts";
+import * as ProjectService from "../../project/ProjectService.vibe";
 import * as ProviderRegistry from "../../provider/ProviderRegistry.vibe";
 import * as SecretRequests from "../../secrets/SecretRequests.vibe";
 import * as RemoteDelegation from "../../peer/RemoteDelegation.vibe";

@@ -31,7 +31,7 @@ import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ClaudeAdapterV2 from "./Adapters/ClaudeAdapterV2.vibe";
 import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
 import * as EffectWorker from "./EffectWorker.vibe";
-import * as EventSink from "./EventSink.ts";
+import * as EventSink from "./EventSink.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.vibe";

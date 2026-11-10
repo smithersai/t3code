@@ -1,6 +1,6 @@
 import { OrchestratorMcpFailure } from "@t3tools/contracts"
 import * as GitWorkflow from "../../../git/GitWorkflowService.vibe"
-import * as Project from "../../../project/ProjectService.ts"
+import * as Project from "../../../project/ProjectService.vibe"
 import { readThread, unavailable } from "../../threadAccess.vibe"
 
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"

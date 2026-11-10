@@ -38,7 +38,7 @@ import { resolveCodexRollbackTurnCount } from "./Adapters/CodexAdapterV2.vibe";
 import * as CheckpointService from "./CheckpointService.vibe";
 import * as CheckpointRollbackService from "./CheckpointRollbackService.vibe";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
-import * as EventSink from "./EventSink.ts";
+import * as EventSink from "./EventSink.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProjectionStore from "./ProjectionStore.vibe";
 import * as ProjectStore from "./ProjectStore.vibe";

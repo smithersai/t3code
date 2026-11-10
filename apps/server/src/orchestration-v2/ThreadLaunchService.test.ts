@@ -43,7 +43,7 @@ import * as TestClock from "effect/testing/TestClock";
 import * as GitWorkflow from "../git/GitWorkflowService.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as ProjectStore from "./ProjectStore.vibe";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.vibe";
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as ProviderRegistryMock from "../provider/testUtils/providerRegistryMock.ts";

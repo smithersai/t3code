@@ -8,7 +8,7 @@ import {
 } from "@t3tools/client-runtime/state/item-support"
 import type { EnvironmentId, ThreadId, TurnItemId } from "@t3tools/contracts"
 
-import { environmentThreadDetails } from "./threads.ts"
+import { environmentThreadDetails } from "./threads.vibe"
 
 interface ItemSupportTarget {
   readonly environmentId: EnvironmentId

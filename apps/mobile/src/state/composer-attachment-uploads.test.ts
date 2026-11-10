@@ -107,7 +107,7 @@ vi.mock("./server", async () => {
   return { serverEnvironment: { configValueAtom: Atom.family(() => Atom.make(null)) } };
 });
 vi.mock("./git", () => ({ gitEnvironment: {} }));
-vi.mock("./threads.ts", () => ({ threadEnvironment: {} }));
+vi.mock("./threads.vibe", () => ({ threadEnvironment: {} }));
 vi.mock("./use-atom-command", () => ({ useAtomCommand: () => async () => undefined }));
 vi.mock("./session", async () => {
   const { Atom } = await import("effect/reactivity");

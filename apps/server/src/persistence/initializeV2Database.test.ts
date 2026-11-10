@@ -18,7 +18,7 @@ import { runMigrations } from "./Migrations.vibe";
 import { initializeV2Database } from "./initializeV2Database.vibe";
 import * as EventStore from "../orchestration-v2/EventStore.vibe";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
-import * as EventSink from "../orchestration-v2/EventSink.ts";
+import * as EventSink from "../orchestration-v2/EventSink.vibe";
 import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.vibe";
 
 it.effect(

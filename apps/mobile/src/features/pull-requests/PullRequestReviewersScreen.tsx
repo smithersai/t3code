@@ -24,7 +24,7 @@ import { Button } from "../../components/ui/Button";
 import { SymbolView } from "../../components/ui/AppSymbol";
 import { NativeStackScreenOptions } from "../../native/StackHeader";
 import { useNativeLayoutMetrics } from "../../native/native-layout-metrics";
-import { composerPullRequests } from "../../state/pull-requests.ts";
+import { composerPullRequests } from "../../state/pull-requests.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import {

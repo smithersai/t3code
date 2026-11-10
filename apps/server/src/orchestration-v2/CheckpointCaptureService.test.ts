@@ -26,7 +26,7 @@ import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
 import { VcsProcessTimeoutError } from "@t3tools/contracts";
 import * as CheckpointService from "./CheckpointService.vibe";
 import * as CheckpointCaptureService from "./CheckpointCaptureService.vibe";
-import * as EventSink from "./EventSink.ts";
+import * as EventSink from "./EventSink.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProjectionStore from "./ProjectionStore.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

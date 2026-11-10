@@ -6,7 +6,7 @@ import {
   activateCloudRelayAccount,
   cloudAccountService,
   deactivateCloudRelayAccount,
-} from "./cloudAccountService.ts";
+} from "./cloudAccountService.vibe";
 import { setAgentAwarenessRelayTokenProvider } from "../agent-awareness/remoteRegistration";
 import { requestConnectOnboarding } from "./connectOnboarding";
 import { restoreCloudComposerDrafts } from "../../state/use-composer-drafts.vibe";

@@ -27,7 +27,7 @@ import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.vib
 import * as ElectronWindow from "../electron/ElectronWindow.vibe";
 import * as BrowserSession from "./BrowserSession.vibe";
 import * as DesktopBrowserHost from "./DesktopBrowserHost.vibe";
-import * as PreviewManager from "./Manager.ts";
+import * as PreviewManager from "./Manager.vibe";
 import * as PreviewPasskeys from "./Passkeys.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 

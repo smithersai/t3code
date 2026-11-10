@@ -23,7 +23,7 @@ import * as ThreadLaunch from "../../../orchestration-v2/ThreadLaunchService.vib
 import * as ThreadManagement from "../../../orchestration-v2/ThreadManagementService.vibe";
 import * as ServerConfig from "../../../config.vibe";
 import * as ServerSettings from "../../../serverSettings.vibe";
-import * as Project from "../../../project/ProjectService.ts";
+import * as Project from "../../../project/ProjectService.vibe";
 import * as ManagedProjectFolders from "../../../project/ManagedProjectFolders.vibe";
 import * as PeerForwarding from "../../../peer/PeerForwarding.vibe";
 import * as GitVcsDriver from "../../../vcs/GitVcsDriver.vibe";

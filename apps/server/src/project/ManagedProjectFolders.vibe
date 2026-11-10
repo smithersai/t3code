@@ -19,7 +19,7 @@ import * as Schema from "effect/Schema"
 import * as ServerConfig from "../config.vibe"
 import * as GitWorkflow from "../git/GitWorkflowService.vibe"
 import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe"
-import * as ProjectService from "./ProjectService.ts"
+import * as ProjectService from "./ProjectService.vibe"
 
 export schema error ScratchUnavailableError {
   override get message(): string {

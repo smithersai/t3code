@@ -38,7 +38,7 @@ import Migration0048 from "../../persistence/Migrations/048_ProjectionThreadBran
 import Migration0049 from "../../persistence/Migrations/049_ProjectionThreadsActiveOrderKey.vibe";
 import { CodexProviderCapabilitiesV2 } from "../Adapters/CodexAdapterV2.vibe";
 import * as EffectWorker from "../EffectWorker.vibe";
-import * as EventSink from "../EventSink.ts";
+import * as EventSink from "../EventSink.vibe";
 import * as EventStore from "../EventStore.vibe";
 import * as LegacyV1ThreadImporter from "./LegacyV1ThreadImporter.vibe";
 import * as Orchestrator from "../Orchestrator.vibe";

@@ -31,7 +31,7 @@ import {
 } from "@t3tools/client-runtime/state/thread-requests"
 import { AuthOrchestrationOperateScope } from "@t3tools/contracts"
 
-import { environmentThreadDetails, threadEnvironment } from "../state/threads.ts"
+import { environmentThreadDetails, threadEnvironment } from "../state/threads.vibe"
 import {
   buildPendingUserInputAnswers,
   setPendingUserInputCustomAnswer,

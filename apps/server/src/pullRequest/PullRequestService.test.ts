@@ -22,7 +22,7 @@ import type { ServerSettings } from "@t3tools/contracts";
 import * as ServerSettingsService from "../serverSettings.vibe";
 import { PullRequestOperationError } from "@t3tools/contracts";
 
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as PullRequestFilesViewed from "../persistence/PullRequestFilesViewed.vibe";
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";

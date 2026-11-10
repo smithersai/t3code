@@ -20,7 +20,7 @@ import * as CheckpointRollbackService from "./CheckpointRollbackService.vibe";
 import { isCheckpointRestoreIsolated } from "./CheckpointRestoreSafety.vibe";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import { CheckpointServiceV2 } from "./CheckpointService.vibe";
-import { EventSinkV2 } from "./EventSink.ts";
+import { EventSinkV2 } from "./EventSink.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import {
   ProjectionStoreV2,

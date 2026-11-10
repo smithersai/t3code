@@ -36,7 +36,7 @@ import * as McpHttpServer from "../mcp/McpHttpServer.vibe";
 import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
 import * as McpToolAccess from "../mcp/McpToolAccess.vibe";
 import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.vibe";
-import * as EventSink from "../orchestration-v2/EventSink.ts";
+import * as EventSink from "../orchestration-v2/EventSink.vibe";
 import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
@@ -45,7 +45,7 @@ import * as ProviderContinuationRequests from "@t3tools/provider-core/server/Pro
 import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as ProviderRegistry from "../provider/ProviderRegistry.vibe";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
 import * as SecretRequests from "../secrets/SecretRequests.vibe";

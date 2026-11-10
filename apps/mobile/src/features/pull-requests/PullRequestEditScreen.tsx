@@ -10,7 +10,7 @@ import { AsyncResult } from "effect/reactivity";
 import { useRef, useState } from "react";
 import { AppText as Text, AppTextInput as TextInput } from "../../components/ui/AppText";
 import { Button } from "../../components/ui/Button";
-import { composerPullRequests } from "../../state/pull-requests.ts";
+import { composerPullRequests } from "../../state/pull-requests.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { PullRequestSheetContent } from "./PullRequestSheetContent";

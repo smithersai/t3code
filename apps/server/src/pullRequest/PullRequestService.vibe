@@ -77,7 +77,7 @@ import {
 import { resolveProjectSettings } from "@t3tools/shared/projectSettings"
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts"
 
-import * as ProjectService from "../project/ProjectService.ts"
+import * as ProjectService from "../project/ProjectService.vibe"
 import * as ServerSettings from "../serverSettings.vibe"
 import * as PullRequestFilesViewed from "../persistence/PullRequestFilesViewed.vibe"
 import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe"

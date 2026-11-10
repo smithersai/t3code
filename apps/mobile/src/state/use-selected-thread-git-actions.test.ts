@@ -59,7 +59,7 @@ vi.mock("./use-vcs-action-state.vibe", () => ({
     state.results.push(result),
 }));
 vi.mock("../lib/uuid", () => ({ uuidv4: () => "action" }));
-vi.mock("./threads.ts", () => ({
+vi.mock("./threads.vibe", () => ({
   threadEnvironment: {
     updateMetadata: async ({
       environmentId,

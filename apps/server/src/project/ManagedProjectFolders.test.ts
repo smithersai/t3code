@@ -24,7 +24,7 @@ import * as VcsProcess from "../vcs/VcsProcess.vibe";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as ProjectEnrichmentService from "./ProjectEnrichmentService.vibe";
 import * as ProjectFaviconResolver from "./ProjectFaviconResolver.vibe";
-import * as ProjectService from "./ProjectService.ts";
+import * as ProjectService from "./ProjectService.vibe";
 import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.vibe";
 import * as ManagedProjectFolders from "./ManagedProjectFolders.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";

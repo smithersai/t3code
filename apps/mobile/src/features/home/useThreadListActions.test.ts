@@ -113,7 +113,7 @@ vi.mock("../../state/thread-order", () => ({
     };
   },
 }));
-vi.mock("../../state/threads.ts", () => ({
+vi.mock("../../state/threads.vibe", () => ({
   environmentThreadShells: {
     threadShellsAtom: "thread-shells",
     navigationThreadShellsAtom: "thread-shells",

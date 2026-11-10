@@ -46,7 +46,7 @@ import {
 import { RootStack, rootPathnameFromState, workspaceLocationFromState } from "./Stack";
 import { appAtomRegistry } from "./state/atom-registry.vibe";
 import { subscribeComposerDraftModelReconciliation } from "./state/use-composer-drafts.vibe";
-import { environmentThreadShells } from "./state/threads.ts";
+import { environmentThreadShells } from "./state/threads.vibe";
 import { environmentShell } from "./state/shell.vibe";
 import { OverlayPortalHost } from "./components/ui/OverlayPortal";
 import { shouldHandleAppLink, restoreDraftLinkState } from "./lib/appLinking";

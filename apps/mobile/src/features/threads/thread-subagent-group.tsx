@@ -16,7 +16,7 @@ import { ProviderIcon } from "../../components/ProviderIcon";
 import { cn } from "../../lib/cn";
 import type { ThreadFeedActivity } from "../../lib/threadActivity.vibe";
 import { serverEnvironment } from "../../state/server";
-import { environmentThreadDetails } from "../../state/threads.ts";
+import { environmentThreadDetails } from "../../state/threads.vibe";
 import { subagentCardElapsed } from "./subagent-card-presentation.vibe";
 import { useEnvironments } from "../../state/environments.vibe";
 import { useServerConfigs } from "../../state/entities.vibe";

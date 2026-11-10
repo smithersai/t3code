@@ -19,7 +19,7 @@ import { pullRequestComposerContext } from "../../lib/composerContext.vibe"
 import { scopedThreadKey } from "../../lib/scopedEntities"
 import { uuidv4 } from "../../lib/uuid"
 import { useEnvironmentServerConfig } from "../../state/entities.vibe"
-import { composerPullRequests } from "../../state/pull-requests.ts"
+import { composerPullRequests } from "../../state/pull-requests.vibe"
 import { useEnvironmentQuery } from "../../state/query.vibe"
 import { useEnvironmentScope } from "../../state/session.vibe"
 import {

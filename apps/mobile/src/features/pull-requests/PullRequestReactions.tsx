@@ -20,7 +20,7 @@ import { AppText as Text } from "../../components/ui/AppText";
 import * as Dialog from "../../components/ui/Dialog";
 import { Menu } from "../../components/ui/Menu";
 import { cn } from "../../lib/cn";
-import { composerPullRequests } from "../../state/pull-requests.ts";
+import { composerPullRequests } from "../../state/pull-requests.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";

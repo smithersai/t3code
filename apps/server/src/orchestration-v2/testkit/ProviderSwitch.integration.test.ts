@@ -46,7 +46,7 @@ import {
   canReuseCodexContextUsage,
 } from "../Adapters/CodexAdapterV2.vibe";
 import { AcpProviderCapabilitiesV2 } from "@t3tools/provider-acp/server/adapter";
-import * as EventSink from "../EventSink.ts";
+import * as EventSink from "../EventSink.vibe";
 import * as EventStore from "../EventStore.vibe";
 import * as LegacyV1ThreadImporter from "../legacy/LegacyV1ThreadImporter.vibe";
 import * as Orchestrator from "../Orchestrator.vibe";

@@ -116,7 +116,7 @@ import * as OrchestrationEventStore from "./persistence/OrchestrationEventStore.
 import * as SqlitePersistence from "./persistence/Sqlite.vibe";
 import * as ExternalLauncher from "./process/externalLauncher.vibe";
 import * as ProjectEnrichment from "./project/ProjectEnrichmentService.vibe";
-import * as ProjectService from "./project/ProjectService.ts";
+import * as ProjectService from "./project/ProjectService.vibe";
 import {
   layerWsRpc,
   subscribeOrchestrationV2Shell,

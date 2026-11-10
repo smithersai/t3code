@@ -12,7 +12,7 @@ import { RowPressable } from "../../components/ui/RowPressable";
 import { CustomSnoozeSheet } from "./CustomSnoozeSheet";
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { threadArrangementOpenAtom } from "../../state/thread-order.vibe";
-import { threadEnvironment } from "../../state/threads.ts";
+import { threadEnvironment } from "../../state/threads.vibe";
 import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { useVisibleSecondClock } from "./use-visible-second-clock";
 import type { ThreadMoveDestination } from "./threadOrder";

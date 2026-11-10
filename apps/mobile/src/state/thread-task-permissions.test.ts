@@ -107,7 +107,7 @@ vi.mock("./use-thread-detail", () => ({
   useSelectedThreadPendingRequests: () => state.pendingRequests,
 }));
 vi.mock("./use-atom-command", () => ({ useAtomCommand: <A>(command: A) => command }));
-vi.mock("./threads.ts", async () => {
+vi.mock("./threads.vibe", async () => {
   const { Atom } = await import("effect/reactivity");
   return {
     environmentThreadDetails: {
@@ -174,7 +174,7 @@ vi.mock("../lib/commandMetadata", () => ({
 vi.mock("../lib/copyTextWithHaptic", () => ({ copyTextWithHaptic: vi.fn() }));
 vi.mock("./use-remote-environment-registry", () => ({ setPendingConnectionError: vi.fn() }));
 
-import { useThreadComposerState } from "./use-thread-composer-state.ts";
+import { useThreadComposerState } from "./use-thread-composer-state.vibe";
 import { useSelectedThreadRequests } from "./use-selected-thread-requests";
 
 beforeEach(() => {

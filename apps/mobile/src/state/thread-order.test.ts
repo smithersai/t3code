@@ -12,13 +12,13 @@ import {
   pendingThreadOrderAtom,
 } from "./thread-order";
 import { environmentServerConfigsAtom } from "./server";
-import { environmentThreadShells } from "./threads.ts";
+import { environmentThreadShells } from "./threads.vibe";
 
 vi.mock("./atom-registry", async () => {
   const { AtomRegistry } = await import("effect/reactivity");
   return { appAtomRegistry: AtomRegistry.make() };
 });
-vi.mock("./threads.ts", async () => {
+vi.mock("./threads.vibe", async () => {
   const { Atom } = await import("effect/reactivity");
   return {
     environmentThreadShells: { navigationThreadShellsAtom: Atom.make([]).pipe(Atom.keepAlive) },

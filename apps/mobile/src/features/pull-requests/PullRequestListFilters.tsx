@@ -7,7 +7,7 @@ import { Platform, ScrollView } from "react-native";
 import type { MenuProps } from "../../components/ui/Menu.types";
 import { ListFilterMenu } from "../workspace/ListFilterMenu";
 import { environmentProjects } from "../../state/projects";
-import { environmentThreadShells } from "../../state/threads.ts";
+import { environmentThreadShells } from "../../state/threads.vibe";
 import { useMobileProjectGroupingSettings } from "../../state/project-grouping.vibe";
 import { buildHomeProjectScopes, sortHomeProjectScopes } from "../home/homeThreadList.vibe";
 import { DEFAULT_PR_LIST_CONTROLS, type PullRequestListControls } from "./pullRequestList";

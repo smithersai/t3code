@@ -29,7 +29,7 @@ import * as Option from "effect/Option"
 import * as Schema from "effect/Schema"
 import * as SqlClient from "effect/sql/SqlClient"
 
-import * as EventSink from "../EventSink.ts"
+import * as EventSink from "../EventSink.vibe"
 import { randomUuidV4 } from "@t3tools/provider-core/server/randomUuid"
 
 const IMPORT_EVENT_PREFIX = "migration:v1"

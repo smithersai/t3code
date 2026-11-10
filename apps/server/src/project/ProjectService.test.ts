@@ -19,7 +19,7 @@ import {
   orchestrationCommandDuration,
   orchestrationCommandsTotal,
 } from "../observability/Metrics.vibe";
-import * as EventSink from "../orchestration-v2/EventSink.ts";
+import * as EventSink from "../orchestration-v2/EventSink.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.vibe";
 import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
@@ -31,7 +31,7 @@ import * as ServerSettings from "../serverSettings.vibe";
 import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
 import * as ProjectEnrichmentService from "./ProjectEnrichmentService.vibe";
 import * as ProjectFaviconResolver from "./ProjectFaviconResolver.vibe";
-import * as ProjectService from "./ProjectService.ts";
+import * as ProjectService from "./ProjectService.vibe";
 import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.vibe";
 
 const layerWorkspacePaths = Layer.succeed(WorkspacePaths.WorkspacePaths, {

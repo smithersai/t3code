@@ -23,7 +23,7 @@ import {
   WINDOW_FULLSCREEN_STATE_CHANNEL,
 } from "../ipc/channels.ts"
 import { PASSKEY_BRIDGE_ARGUMENT } from "../preview/GuestProtocol.ts"
-import * as PreviewManager from "../preview/Manager.ts"
+import * as PreviewManager from "../preview/Manager.vibe"
 import * as PreviewPasskeys from "../preview/Passkeys.vibe"
 import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe"
 import * as DesktopClientSettings from "../settings/DesktopClientSettings.vibe"

@@ -104,7 +104,7 @@ import { ContextHandoffServiceV2 } from "./ContextHandoffService.vibe"
 import { notificationTurnItem } from "@t3tools/provider-core/server/notification"
 import { cancelledBeforeStart, isRestartContinuationSource, runOutcome } from "./RestartBackgroundNote.ts"
 import { isBufferedProviderNotification, isUndeliveredMailboxSteer } from "./NotificationMailbox.ts"
-import { EventSinkV2 } from "./EventSink.ts"
+import { EventSinkV2 } from "./EventSink.vibe"
 import {
   decideGuestMessageSend,
   guestShareAfterCancelledSend,

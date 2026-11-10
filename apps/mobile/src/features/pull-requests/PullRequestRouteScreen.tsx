@@ -80,7 +80,7 @@ import { usePullRequestConnected } from "./usePullRequestConnected";
 import { usePullRequestLiveChecks } from "./usePullRequestLiveChecks";
 import { pullRequestLabelColor } from "./pullRequestList";
 import { PullRequestReactions } from "./PullRequestReactions";
-import { composerPullRequests } from "../../state/pull-requests.ts";
+import { composerPullRequests } from "../../state/pull-requests.vibe";
 import { useEnvironmentQuery } from "../../state/query.vibe";
 import { usePullToRefresh } from "../../state/use-pull-to-refresh.vibe";
 import {

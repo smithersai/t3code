@@ -23,7 +23,7 @@ import * as Queue from "effect/Queue"
 import * as Schema from "effect/Schema"
 import * as Stream from "effect/Stream"
 
-import * as EventSink from "./EventSink.ts"
+import * as EventSink from "./EventSink.vibe"
 import * as ProjectionStore from "./ProjectionStore.vibe"
 
 /** Output bypasses orchestration events; expanded rows receive tails, coalesced appends, then persisted output. */

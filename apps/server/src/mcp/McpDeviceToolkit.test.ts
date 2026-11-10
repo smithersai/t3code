@@ -13,7 +13,7 @@ import { McpSchema, McpServer } from "effect/ai";
 
 import * as ServerConfig from "../config.vibe";
 import * as DeviceService from "../device/DeviceService.vibe";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as McpHttpServer from "./McpHttpServer.vibe";
 import * as McpInvocationContext from "./McpInvocationContext.vibe";
 import * as McpToolAccessTestkit from "./McpToolAccess.testkit.ts";

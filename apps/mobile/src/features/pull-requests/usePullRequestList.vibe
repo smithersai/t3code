@@ -8,7 +8,7 @@ import {
   pullRequestListPagesFamily,
   pullRequestListPagesKey,
   pullRequestListStatsFamily,
-} from "../../state/pull-requests.ts"
+} from "../../state/pull-requests.vibe"
 import {
   appendPullRequestListPage,
   mergeEnvironmentPullRequestPages,

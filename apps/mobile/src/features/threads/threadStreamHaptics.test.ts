@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vite-plus/test";
 
 vi.mock("expo-haptics", () => ({ selectionAsync: vi.fn() }));
-vi.mock("../../state/threads.ts", () => ({ environmentThreadDetails: {} }));
+vi.mock("../../state/threads.vibe", () => ({ environmentThreadDetails: {} }));
 
 import { shouldTickStreamHaptic } from "./threadStreamHaptics";
 

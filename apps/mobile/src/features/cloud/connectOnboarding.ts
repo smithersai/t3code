@@ -39,6 +39,7 @@ export function requestConnectOnboarding(accountId: string): void {
   pending = request;
 }
 
+/** @throws {never} */
 export function clearConnectOnboardingRequest(): void {
   if (pending === null) return;
   clearTimeout(pending.timer);

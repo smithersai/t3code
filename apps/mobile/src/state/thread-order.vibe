@@ -5,7 +5,7 @@ import { reconcilePendingThreadOrder, type PendingThreadOrder } from "../feature
 import { getThreadListV2OrderedSection, nextSnoozeWakeAfter } from "../features/threads/threadListV2"
 import { appAtomRegistry } from "./atom-registry.vibe"
 import { environmentServerConfigsAtom } from "./server"
-import { environmentThreadShells } from "./threads.ts"
+import { environmentThreadShells } from "./threads.vibe"
 import { queuedThreadKeysAtom } from "./use-thread-outbox.vibe"
 
 export const threadArrangementOpenAtom = Atom.make(false).pipe(Atom.keepAlive)

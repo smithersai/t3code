@@ -34,7 +34,7 @@ import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
 import * as DelegatedTaskQuestionReactor from "./DelegatedTaskQuestionReactor.vibe";
 import * as EffectOutbox from "./EffectOutbox.vibe";
-import * as EventSink from "./EventSink.ts";
+import * as EventSink from "./EventSink.vibe";
 import * as Orchestrator from "./Orchestrator.vibe";
 import * as ProjectionStore from "./ProjectionStore.vibe";
 import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";

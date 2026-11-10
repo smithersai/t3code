@@ -20,7 +20,7 @@ vi.mock("../../components/ui/Button", () => ({
     </button>
   ),
 }));
-vi.mock("../../state/threads.ts", () => ({ threadEnvironment: { updateMetadata: {} } }));
+vi.mock("../../state/threads.vibe", () => ({ threadEnvironment: { updateMetadata: {} } }));
 vi.mock("../../state/use-atom-command", () => ({ useAtomCommand: () => vi.fn() }));
 
 import { UsageLimitRecoveryCard } from "./UsageLimitRecoveryCard";

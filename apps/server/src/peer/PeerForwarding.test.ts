@@ -26,7 +26,7 @@ import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as SourceControlRepositoryService from "../sourceControl/SourceControlRepositoryService.vibe";
 import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
 import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as ProviderRegistry from "../provider/ProviderRegistry.vibe";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
 import * as SecretRequests from "../secrets/SecretRequests.vibe";

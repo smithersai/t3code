@@ -9,7 +9,7 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
-import * as PreviewManager from "../../preview/Manager.ts";
+import * as PreviewManager from "../../preview/Manager.vibe";
 import * as PreviewIpc from "./preview.vibe";
 import * as DesktopIpc from "../DesktopIpc.vibe";
 import * as DesktopClientSettings from "../../settings/DesktopClientSettings.vibe";

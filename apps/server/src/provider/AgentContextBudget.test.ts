@@ -29,7 +29,7 @@ import { RemoteDelegation } from "../peer/RemoteDelegation.vibe";
 import { PreviewManager } from "../preview/Manager.vibe";
 import { PreviewBrowser } from "../preview/PreviewBrowser.vibe";
 import { ManagedProjectFolders } from "../project/ManagedProjectFolders.vibe";
-import { ProjectService } from "../project/ProjectService.ts";
+import { ProjectService } from "../project/ProjectService.vibe";
 import { ProjectSetupScriptRunner } from "../project/ProjectSetupScriptRunner.vibe";
 import { PullRequestReviewGuideService } from "../pullRequest/PullRequestReviewGuideService.vibe";
 import { ScheduledTaskService } from "../scheduledTasks/ScheduledTaskService.vibe";

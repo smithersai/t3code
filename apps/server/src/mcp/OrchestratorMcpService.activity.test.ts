@@ -17,7 +17,7 @@ import { expect, it } from "vite-plus/test";
 
 import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
 import * as ProviderRegistry from "../provider/ProviderRegistry.vibe";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
 import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
 import * as ServerSettings from "../serverSettings.vibe";
 import * as SecretRequests from "../secrets/SecretRequests.vibe";

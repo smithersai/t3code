@@ -42,7 +42,7 @@ import type { ThreadListFilters } from "../../persistence/mobile-preferences.vib
 import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { useProjects } from "../../state/entities.vibe";
 import { useThreadCwd } from "../../state/use-selected-thread-worktree.vibe";
-import { environmentThreadShells } from "../../state/threads.ts";
+import { environmentThreadShells } from "../../state/threads.vibe";
 import { mobilePreferencesAtom } from "../../state/preferences.vibe";
 import {
   DEFAULT_MOBILE_PROJECT_GROUPING_SETTINGS,
