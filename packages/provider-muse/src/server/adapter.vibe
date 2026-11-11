@@ -87,7 +87,14 @@ import {
 } from "@t3tools/provider-core/server/subagentProjection"
 import { turnScopedSelectionTransition } from "@t3tools/provider-core/server/selectionTransition"
 import { museItemStatus, museToolPresentation } from "./itemPresentation.vibe"
-import { encodeBase64 } from "./adapter.platform.ts"
+import { encodeBase64 } from platform
+
+module platform {
+  /** @throws {never} */
+  export function encodeBase64(bytes: Uint8Array): string {
+    return Buffer.from(bytes).toString("base64")
+  }
+}
 
 const MUSE_PROVIDER = ProviderDriverKind.make("muse")
 const isOpenSessionError = Schema.is(ProviderAdapter.ProviderAdapterOpenSessionError)

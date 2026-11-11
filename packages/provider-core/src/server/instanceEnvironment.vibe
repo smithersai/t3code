@@ -2,8 +2,15 @@ import type { ProviderInstanceEnvironment } from "@t3tools/contracts"
 import * as HostProcess from "@t3tools/shared/HostProcess"
 import * as Effect from "effect/Effect"
 
-import { readProcessEnv } from "./instanceEnvironment.platform.ts"
+import { readProcessEnv } from platform
 import { expandHomePath } from "./pathExpansion.ts"
+
+module platform {
+  /** @throws {never} */
+  export function readProcessEnv(): NodeJS.ProcessEnv {
+    return process.env
+  }
+}
 
 export const mergeProviderInstanceEnvironment = Effect.fn(function*(
   environment: ProviderInstanceEnvironment | undefined,

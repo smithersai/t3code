@@ -80,7 +80,15 @@ import { turnScopedSelectionTransition } from "@t3tools/provider-core/server/sel
 import { OPENCODE_PROVIDER, openCodePermissionRequestKind } from "../adapter.vibe"
 import { openCodeToolTurnItem } from "../toolItems.ts"
 
-import { fileUrlHref } from "./adapter.platform.ts"
+import { fileUrlHref } from platform
+
+module platform {
+  import * as NodeURL from "node:url"
+
+  export function fileUrlHref(path: string): string {
+    return NodeURL.pathToFileURL(path).href
+  }
+}
 
 const OpenCode2ProviderCapabilities = {
   sessions: {

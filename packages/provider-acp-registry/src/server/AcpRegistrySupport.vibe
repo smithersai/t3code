@@ -43,7 +43,13 @@ import { collectUint8StreamText } from "@t3tools/provider-core/server/collectStr
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost"
 import type * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime"
 
-import { readProcessId } from "./AcpRegistrySupport.platform.ts"
+import { readProcessId } from platform
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessId = Effect.sync(() => process.pid)
+}
 
 const ACP_REGISTRY_URL = "https://cdn.agentclientprotocol.com/registry/v1/latest/registry.json"
 

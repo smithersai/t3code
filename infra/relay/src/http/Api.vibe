@@ -76,7 +76,18 @@ import * as MobileRegistrations from "../agentActivity/MobileRegistrations.vibe"
 import { withSpanAttributes } from "../observability.vibe"
 import { isRelayHookPath, redactRelayHookUrl } from "../hooks/HookForwarder.vibe"
 import * as RelayDb from "../db.vibe"
-import { isWebRequest, makeWebRequest } from "./Api.platform.ts"
+import { isWebRequest, makeWebRequest } from platform
+
+module platform {
+  /** @throws {never} */
+  export function isWebRequest(source: unknown): source is Request {
+    return source instanceof Request
+  }
+
+  export function makeWebRequest(input: string, init?: RequestInit): Request {
+    return new Request(input, init)
+  }
+}
 
 // Delegated IDs exceed the router's default 100-character limit; match the environment server.
 export const RELAY_HTTP_ROUTER_CONFIG = {

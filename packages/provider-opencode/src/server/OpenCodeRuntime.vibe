@@ -40,7 +40,26 @@ import * as HostProcess from "@t3tools/shared/HostProcess"
 import { compareSemverVersions, parseSemver } from "@t3tools/shared/semver"
 import { resolveSpawnCommand } from "@t3tools/shared/shell"
 
-import { encodeUtf8Base64, fileUrlHref, readProcessEnv } from "./OpenCodeRuntime.platform.ts"
+import { encodeUtf8Base64, fileUrlHref, readProcessEnv } from platform
+
+module platform {
+  import * as NodeURL from "node:url"
+
+  /** @throws {never} */
+  export function readProcessEnv(): NodeJS.ProcessEnv {
+    return process.env
+  }
+
+  export function fileUrlHref(path: string): string {
+    return NodeURL.pathToFileURL(path).href
+  }
+
+  /** @throws {never} */
+  export function encodeUtf8Base64(text: string): string {
+    return Buffer.from(text, "utf8").toString("base64")
+  }
+}
+
 const encodeUnknownJsonStringExit = Schema.encodeUnknownExit(Schema.fromJsonString(Schema.Unknown))
 const OPENCODE_EMPTY_CONFIG_CONTENT = "{}"
 

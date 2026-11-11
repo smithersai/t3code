@@ -1,7 +1,14 @@
-import { $platform } from "./SafariCookies.platform.js"
+import { $platform } from platform
 import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
 import * as PlatformError from "effect/PlatformError"
+
+module platform {
+  // Generated platform helpers for this VibeLang module.
+  export function $platform(arg0: Uint8Array<ArrayBufferLike>) {
+    return Buffer.from(arg0)
+  }
+}
 
 module throwing {
   import * as Schema from "effect/Schema"

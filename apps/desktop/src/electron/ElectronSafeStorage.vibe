@@ -1,4 +1,4 @@
-import { $platform } from "./ElectronSafeStorage.platform.js"
+import { $platform } from platform
 import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as Option from "effect/Option"
@@ -6,6 +6,13 @@ import * as Schema from "effect/Schema"
 
 import * as Electron from "electron"
 import * as HostProcess from "@t3tools/shared/HostProcess"
+
+module platform {
+  // Generated platform helpers for this VibeLang module.
+  export function $platform(arg0: Uint8Array<ArrayBufferLike>) {
+    return Buffer.from(arg0)
+  }
+}
 
 const electronSafeStorageErrorFields = {
   cause: Schema.Defect(),

@@ -1,4 +1,4 @@
-import { readCurrentDesktopOnPlatform, readSessionDesktopOnPlatform } from "./DesktopApp.platform.ts"
+import { readCurrentDesktopOnPlatform, readSessionDesktopOnPlatform } from platform
 import * as Cause from "effect/Cause"
 import * as Effect from "effect/Effect"
 import * as Schema from "effect/Schema"
@@ -35,6 +35,12 @@ import * as DesktopSnapShot from "../snapShot/DesktopSnapShot.vibe"
 import * as DesktopWslBackend from "../wsl/DesktopWslBackend.vibe"
 import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.vibe"
 import * as HostProcess from "@t3tools/shared/HostProcess"
+
+module platform {
+  export const readCurrentDesktopOnPlatform = () => process.env.XDG_CURRENT_DESKTOP ?? null
+
+  export const readSessionDesktopOnPlatform = () => process.env.XDG_SESSION_DESKTOP ?? null
+}
 
 const DEFAULT_DESKTOP_BACKEND_PORT = 3773
 const MAX_TCP_PORT = 65_535

@@ -4,9 +4,20 @@ import { Atom } from "effect/reactivity"
 
 import { parseThreadKey, threadKey } from "#vibelang/emitted/src/state/entities"
 import { type AtomCommand, runAtomCommand } from "./runtime.vibe"
-import * as ThreadVisitsPlatform from "./threadVisits.platform.ts"
+import * as ThreadVisitsPlatform from platform
 import { claimThreadOpen } from "#vibelang/emitted/src/state/threadSearch"
 import type { VisitThreadInput } from "./threadCommands.vibe"
+
+module platform {
+  // @effect-diagnostics globalTimers:off - The tracker runs in atom subscriptions, outside an Effect runtime.
+
+  /** @throws {never} */
+  export const startTimeout = (callback: () => void, ms: number): ReturnType<typeof setTimeout> =>
+    setTimeout(callback, ms)
+
+  /** @throws {never} */
+  export const cancelTimeout = (handle: ReturnType<typeof setTimeout>): void => clearTimeout(handle)
+}
 
 // During an active turn the thread's updatedAt advances several times per
 // second, and every server-side visit is a full command dispatch plus a

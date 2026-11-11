@@ -64,7 +64,21 @@ import {
 import { isPreviewAnnotationPayload } from "./PickedElementPayload.ts"
 import { captureFavicon, safeHttpOrigin, selectFaviconCandidates } from "./FaviconCapture.ts"
 import { DEFAULT_RECORDING_INPUT_OPTIONS, type RecordingInputOptions } from "./RecordingInput.ts"
-import { crc32, pngBlob } from "./Manager.platform.ts"
+import { crc32, pngBlob } from platform
+
+module platform {
+  import * as NodeZlib from "node:zlib"
+
+  /** @throws {never} */
+  export function crc32(data: Uint8Array): number {
+    return NodeZlib.crc32(data)
+  }
+
+  /** @throws {never} */
+  export function pngBlob(bytes: Uint8Array<ArrayBuffer>): Blob {
+    return new Blob([bytes], { type: "image/png" })
+  }
+}
 
 export type PreviewNavStatus =
   | { kind: "Idle" }

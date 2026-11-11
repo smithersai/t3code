@@ -14,7 +14,17 @@ import { relayResourceNameForStage } from "./deploymentConfig.vibe"
 import { MobileMonitoring } from "./mobileTelemetry/monitoring.vibe"
 import { RelayMonitoring } from "./monitoring.vibe"
 
-import { sha256Hex } from "./observability.platform.ts"
+import { sha256Hex } from platform
+
+module platform {
+  // @effect-diagnostics nodeBuiltinImport:off - one sha256 inside a synchronous Output.map.
+  import * as NodeCrypto from "node:crypto"
+
+  /** @throws {never} */
+  export function sha256Hex(text: string): string {
+    return NodeCrypto.createHash("sha256").update(text).digest("hex")
+  }
+}
 
 const relayRecentSpansQuery = (dataset: string) =>
   [

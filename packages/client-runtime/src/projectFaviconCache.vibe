@@ -5,10 +5,15 @@ import {
   getProjectFaviconResourceKey,
   isProjectFaviconFallbackUrl,
 } from "@t3tools/shared/projectFavicon"
-import * as ProjectFaviconCachePlatform from "./projectFaviconCache.platform.ts"
+import * as ProjectFaviconCachePlatform from platform
 import * as Base64 from "effect/encoding/Base64"
 import * as Option from "effect/Option"
 import * as Schema from "effect/Schema"
+
+module platform {
+  /** @throws {never} */
+  export const readGlobalFetch = (): typeof fetch => globalThis.fetch
+}
 
 export const PROJECT_FAVICON_THUMBNAIL_SIZE = 96
 export const PROJECT_FAVICON_MAX_DATA_URL_LENGTH = 32 * 1024

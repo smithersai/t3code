@@ -27,7 +27,19 @@ import { MANAGED_ENDPOINT_KEY_PATTERN } from "../deploymentConfig.vibe"
 import * as HeldHooks from "./HeldHooks.vibe"
 import * as HookInbox from "./HookInbox.vibe"
 import { sendUpstream, TUNNEL_OFFLINE_STATUS } from "./upstream.vibe"
-import { digestSha256, isWebRequest } from "./HookForwarder.platform.ts"
+import { digestSha256, isWebRequest } from platform
+
+module platform {
+  /** @throws {never} */
+  export function digestSha256(data: BufferSource): Promise<ArrayBuffer> {
+    return crypto.subtle.digest("SHA-256", data)
+  }
+
+  /** @throws {never} */
+  export function isWebRequest(source: unknown): source is Request {
+    return source instanceof Request
+  }
+}
 
 export const RELAY_HOOK_PATH_PREFIX = "/v1/hooks/"
 export const RELAY_HOOK_MAX_BODY_BYTES = 1_048_576

@@ -370,7 +370,7 @@ export default defineConfig({
         rules: { "t3code/no-rpc-permission-bypass": "off" },
       },
       {
-        files: ["packages/shared/src/HostProcess.platform.ts"],
+        files: ["packages/shared/src/HostProcess.vibe"],
         rules: { "t3code/no-global-process-runtime": "off" },
       },
       {
