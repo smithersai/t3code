@@ -8,7 +8,7 @@ import { it as effectIt } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 
-import { RotatingFileSink, makeAsyncRotatingFileSink } from "./logging.ts";
+import { RotatingFileSink, makeAsyncRotatingFileSink } from "./logging.vibe";
 
 const tempDirectories: string[] = [];
 

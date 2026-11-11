@@ -142,10 +142,10 @@
       }
     },
     "./logging": {
-      "types": "./src/logging.ts",
+      "types": "./src/logging.d.vibe.ts",
       "import": {
-        "types": "./src/logging.ts",
-        "vibelang-source": "./src/logging.ts",
+        "types": "./src/logging.d.vibe.ts",
+        "vibelang-source": "./src/logging.vibe",
         "default": "./.vibelang/js/src/logging.js"
       }
     },

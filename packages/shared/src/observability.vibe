@@ -13,7 +13,7 @@ import * as SchemaTransformation from "effect/SchemaTransformation"
 import * as Tracer from "effect/Tracer"
 import { OtlpResource, OtlpTracer, OtlpSerialization } from "effect/observability"
 
-import { makeAsyncRotatingFileSink } from "./logging.ts"
+import { makeAsyncRotatingFileSink } from "./logging.vibe"
 import * as ObservabilityPlatform from "./observability.platform.ts"
 
 export schema OtlpProtocol = "http/json" | "http/protobuf"
