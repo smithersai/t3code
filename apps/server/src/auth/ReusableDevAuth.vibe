@@ -1,9 +1,28 @@
-import { sha256Digest, timingSafeEqualSha256 } from "./ReusableDevAuth.platform.ts"
+import { sha256Digest, timingSafeEqualSha256 } from platform
 import { AuthSessionId } from "@t3tools/contracts"
 import * as DateTime from "effect/DateTime"
 import * as Redacted from "effect/Redacted"
 
 import type { ServerConfig } from "../config.vibe"
+
+module platform {
+  // The platform code of ReusableDevAuth.vibe, which a .vibe file does not import as a value (EK4402).
+  // @effect-diagnostics-next-line nodeBuiltinImport:off -- Effect's Crypto has no timingSafeEqual.
+  import * as NodeCrypto from "node:crypto"
+
+  /** @throws {never} */
+  export function sha256Digest(input: string): Buffer {
+    return NodeCrypto.createHash("sha256").update(input).digest()
+  }
+
+  /** @throws {never} */
+  export function timingSafeEqualSha256(hash: Buffer, credential: string): boolean {
+    return NodeCrypto.timingSafeEqual(
+      hash,
+      NodeCrypto.createHash("sha256").update(credential).digest(),
+    )
+  }
+}
 
 export const REUSABLE_DEV_SESSION_PREFIX = "dev-auth-"
 // The database schema requires an expiry for a configured token with no normal session TTL.

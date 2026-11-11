@@ -48,9 +48,16 @@ import { codexUsageReader } from "./codexUsage.vibe"
 import * as CodexInstallation from "../CodexInstallation.vibe"
 import * as CodexManagedTokenBroker from "../CodexManagedTokenBroker.vibe"
 import * as ServerSecretStore from "../../auth/ServerSecretStore.vibe"
-import { readProcessCwd } from "./CodexDriver.platform.ts"
+import { readProcessCwd } from platform
 import * as ServerEnvironment from "../../environment/ServerEnvironment.vibe"
 import * as HostProcess from "@t3tools/shared/HostProcess"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessCwd = Effect.sync(() => process.cwd())
+}
+
 const decodeCodexSettings = Schema.decodeSync(CodexSettings)
 
 const DRIVER_KIND = ProviderDriverKind.make("codex")

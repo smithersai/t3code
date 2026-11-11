@@ -11,7 +11,23 @@ import * as Fiber from "effect/Fiber"
 import * as Option from "effect/Option"
 import * as Stream from "effect/Stream"
 
-import { HEADER_END, bufferView, concatBuffers } from "./mjpegStillFrame.platform.ts"
+module platform {
+  // The platform code of mjpegStillFrame.vibe, which a .vibe file does not use directly (EK4402).
+
+  export const HEADER_END = Buffer.from("\r\n\r\n")
+
+  /** @throws {never} */
+  export function bufferView(chunk: Uint8Array): Buffer {
+    return Buffer.from(chunk.buffer, chunk.byteOffset, chunk.byteLength)
+  }
+
+  /** @throws {never} */
+  export function concatBuffers(list: ReadonlyArray<Uint8Array>): Buffer {
+    return Buffer.concat(list)
+  }
+}
+
+import { HEADER_END, bufferView, concatBuffers } from platform
 
 const STILL_FRAME_DELAY = Duration.millis(100)
 

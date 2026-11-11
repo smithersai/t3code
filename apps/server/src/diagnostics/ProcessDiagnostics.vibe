@@ -12,7 +12,24 @@ import * as Option from "effect/Option"
 import * as Schema from "effect/Schema"
 
 import * as ResourceTelemetry from "../resourceTelemetry/ResourceTelemetry.vibe"
-import { killProcess, readServerPid, serverPid } from "./ProcessDiagnostics.platform.ts"
+
+module platform {
+  import type { ServerProcessSignal } from "@t3tools/contracts"
+  import * as Effect from "effect/Effect"
+
+  /** @throws {never} */
+  export function serverPid(): number {
+    return process.pid
+  }
+
+  export const readServerPid = Effect.sync(() => process.pid)
+
+  export function killProcess(pid: number, signal: ServerProcessSignal): void {
+    process.kill(pid, signal)
+  }
+}
+
+import { killProcess, readServerPid, serverPid } from platform
 
 export class ProcessSignalFailed extends Schema.TaggedError<ProcessSignalFailed>()(
   "ProcessSignalFailed",

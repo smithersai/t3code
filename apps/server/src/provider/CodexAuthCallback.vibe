@@ -5,7 +5,23 @@ import * as Effect from "effect/Effect"
 import * as Fiber from "effect/Fiber"
 import * as Stream from "effect/Stream"
 
-import { codexAuthCallbackDestination } from "./CodexAuthCallback.destination.ts"
+module destination {
+  import type { CodexAuthCallbackInput } from "@t3tools/contracts"
+  import { codexAuthorizationRequest } from "@t3tools/shared/codexAuthHandoff"
+  import { providerAuthReturnUrl } from "@t3tools/shared/providerAuthReturnUrl"
+  import { isLoopbackHost } from "@t3tools/shared/preview"
+
+  export function codexAuthCallbackDestination(input: CodexAuthCallbackInput) {
+    codexAuthorizationRequest(input.authorizationUrl)
+    const destination = providerAuthReturnUrl(input.returnUrl)
+    if (!destination || !isLoopbackHost(new URL(destination).hostname)) {
+      throw new Error("The local sign-in receiver needs a local T3 Code return address.")
+    }
+    return destination
+  }
+}
+
+import { codexAuthCallbackDestination } from destination
 
 export function subscribeCodexAuthCallback(input: CodexAuthCallbackInput) {
   const failure = (error: unknown) =>

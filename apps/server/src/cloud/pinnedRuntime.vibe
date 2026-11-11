@@ -24,7 +24,18 @@ import * as HostProcess from "@t3tools/shared/HostProcess"
 
 import * as ProcessRunner from "../processRunner.vibe"
 import { isExactServiceVersion, parseServiceState, SERVICE_STATE_FILE } from "./serviceProtocol.ts"
-import { digestSha256, readProcessEnv } from "./pinnedRuntime.platform.ts"
+
+module platform {
+  // The platform code of pinnedRuntime.vibe, which VibeLang code does not use directly (EK4402).
+  import * as Effect from "effect/Effect"
+
+  export const readProcessEnv = Effect.sync(() => process.env)
+
+  export const digestSha256 = (data: Parameters<typeof crypto.subtle.digest>[1]) =>
+    crypto.subtle.digest("SHA-256", data)
+}
+
+import { digestSha256, readProcessEnv } from platform
 
 const PINNED_RUNTIME_DIR = "runtime"
 const PINNED_RUNTIME_INSTALL_TIMEOUT = Duration.minutes(10)

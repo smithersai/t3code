@@ -1,4 +1,4 @@
-import { currentWorkingDirectory, utf8ByteLength } from "./Orchestrator.platform.ts"
+import { currentWorkingDirectory, utf8ByteLength } from platform
 import type {
   GuestShareId,
   OrchestrationV2SearchThreadInput,
@@ -154,6 +154,17 @@ import { forkableSourceRunStatusError, isForkableSourceRunStatus, ThreadForkServ
 import { planThreadDeletion } from "./ThreadDeletion.vibe"
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter"
 import * as ServerSettings from "../serverSettings.vibe"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  /** @throws {never} */
+  export function utf8ByteLength(value: string): number {
+    return Buffer.byteLength(value)
+  }
+
+  export const currentWorkingDirectory = Effect.sync(() => process.cwd())
+}
 
 const isMessageQuestionAnswer = Schema.is(
   Schema.Union([TrimmedNonEmptyString, Schema.NonEmptyArray(TrimmedNonEmptyString)]),

@@ -15,7 +15,7 @@ import {
   decodeUtf8,
   type CollectedUint8StreamText,
 } from "@t3tools/provider-core/server/collectStreamText"
-import { concatBytes, utf8ByteLength } from "./processRunner.platform.ts"
+import { concatBytes, utf8ByteLength } from platform
 
 export interface ProcessRunInput {
   readonly command: string
@@ -151,6 +151,18 @@ const FORCE_KILL_AFTER = "1 second"
 const DEFAULT_MAX_OUTPUT_BYTES = 8 * 1024 * 1024
 
 export { isWindowsCommandNotFound } from "@t3tools/provider-core/server/snapshotProbe"
+
+module platform {
+  /** @throws {never} */
+  export function concatBytes(chunks: ReadonlyArray<Uint8Array>, totalLength: number) {
+    return Buffer.concat(chunks, totalLength)
+  }
+
+  /** @throws {never} */
+  export function utf8ByteLength(value: string): number {
+    return Buffer.byteLength(value)
+  }
+}
 
 const collectText = Effect.fnUntraced(function*(input: {
   readonly command: string

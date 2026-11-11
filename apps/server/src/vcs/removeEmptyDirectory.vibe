@@ -1,7 +1,16 @@
-import { removeDirectory } from "./removeEmptyDirectory.platform.ts"
+import { removeDirectory } from platform
 // @effect-diagnostics nodeBuiltinImport:off - Effect's FileSystem has no rmdir.
 
 import * as Effect from "effect/Effect"
+
+module platform {
+  // @effect-diagnostics nodeBuiltinImport:off - Effect's FileSystem has no rmdir.
+  import * as NodeFSP from "node:fs/promises"
+
+  export function removeDirectory(path: string): Promise<void> {
+    return NodeFSP.rmdir(path)
+  }
+}
 
 /**
  * Removes `path` only while it is an empty directory. Succeeds with false when

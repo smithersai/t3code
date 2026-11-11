@@ -16,12 +16,29 @@ import * as AcpErrors from "effect-acp/errors"
 import { collectUint8StreamText } from "@t3tools/provider-core/server/collectStreamText"
 import type * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime"
 import { antigravityUserSkillDirectories, resolveAntigravityUserHome } from "./Drivers/AntigravitySkills.vibe"
-import {
-  concatLineChunks,
-  linkSkillDirectory,
-  readProcessEnv,
-  readProcessEnvNow,
-} from "./antigravityAuthSupport.platform.ts"
+
+module platform {
+  // @effect-diagnostics-next-line nodeBuiltinImport:off - Effect's symlink has no type argument, and Windows needs a junction to link without elevation.
+  import * as NodeFSP from "node:fs/promises"
+  import * as Effect from "effect/Effect"
+
+  export const readProcessEnv = Effect.sync(() => process.env)
+
+  /** @throws {never} */
+  export function readProcessEnvNow(): NodeJS.ProcessEnv {
+    return process.env
+  }
+
+  export const linkSkillDirectory = (target: string, link: string, type: "junction" | "dir") =>
+    NodeFSP.symlink(target, link, type)
+
+  /** @throws {never} */
+  export function concatLineChunks(chunks: ReadonlyArray<Uint8Array>, totalLength: number): Buffer {
+    return Buffer.concat(chunks, totalLength)
+  }
+}
+
+import { concatLineChunks, linkSkillDirectory, readProcessEnv, readProcessEnvNow } from platform
 
 export const ANTIGRAVITY_AUTH_STDOUT_PREFIX = "Open the following link to authenticate the ACP server: "
 export const ANTIGRAVITY_AUTH_BROWSER_MARKER = "__T3_ANTIGRAVITY_AUTH_URL__"

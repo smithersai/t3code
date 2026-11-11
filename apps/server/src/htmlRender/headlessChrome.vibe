@@ -11,8 +11,16 @@ import * as Stream from "effect/Stream"
 import * as ChildProcess from "effect/process/ChildProcess"
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner"
 
-import { pageBody } from "./headlessChrome.platform.ts"
+import { pageBody } from platform
 import { publicProxy } from "./publicProxy.vibe"
+
+module platform {
+  // Pages reach 25 MiB; use Node's encoder.
+  /** @throws {never} */
+  export function pageBody(html: string) {
+    return Buffer.from(Buffer.from(html, "utf8").toString("base64"), "latin1")
+  }
+}
 
 export class HtmlRenderBrowserError extends Schema.TaggedError<HtmlRenderBrowserError>()(
   "HtmlRenderBrowserError",

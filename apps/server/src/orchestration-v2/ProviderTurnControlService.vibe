@@ -1,4 +1,4 @@
-import { yieldToRuntime } from "./ProviderTurnControlService.platform.ts"
+import { yieldToRuntime } from platform
 import { projectComposerContextForProvider } from "@t3tools/shared/composerContextReferences"
 import {
   MessageId,
@@ -20,6 +20,21 @@ import * as Schema from "effect/Schema"
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter"
 import * as ProjectionStore from "./ProjectionStore.vibe"
 import * as ProviderSessionManager from "./ProviderSessionManager.vibe"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const yieldToRuntime = Effect.yieldNow.pipe(
+    Effect.andThen(
+      Effect.promise(
+        () =>
+          new Promise<void>((resolve) => {
+            setImmediate(resolve)
+          }),
+      ),
+    ),
+  )
+}
 
 export class ProviderTurnControlError extends Schema.TaggedError<ProviderTurnControlError>()(
   "ProviderTurnControlError",

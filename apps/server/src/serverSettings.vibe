@@ -54,12 +54,19 @@ import * as ServerSecretStore from "./auth/ServerSecretStore.vibe"
 import { readSecretFieldValues, sourceControlHostSecretName } from "./sourceControl/sourceControlHostSecrets.ts"
 
 import { mapSettingsSecrets, SECRET_REDACTED, type SettingsSecret } from "./settingsSecrets.ts"
-import { encodeBase64UrlUtf8 } from "./serverSettings.platform.ts"
+import { encodeBase64UrlUtf8 } from platform
 
 export {
   resolveReviewGuideModelSelection,
   resolveSourceControlWriterModelSelection,
 } from "@t3tools/shared/serverSettings"
+
+module platform {
+  /** @throws {never} */
+  export function encodeBase64UrlUtf8(value: string): string {
+    return Buffer.from(value, "utf8").toString("base64url")
+  }
+}
 
 const encodeServerSettings = Schema.encodeEffect(ServerSettings)
 const encodeServerSettingsJson = Schema.encodeUnknownEffect(fromJsonStringPretty(ServerSettings))

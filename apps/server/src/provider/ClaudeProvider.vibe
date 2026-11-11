@@ -36,7 +36,7 @@ import {
   type ServerProviderDraft,
 } from "@t3tools/provider-core/server/snapshotProbe"
 import { resolveClaudeSdkExecutablePath } from "./Drivers/ClaudeExecutable.vibe"
-import { readProcessEnv, waitForAbortSignal } from "./ClaudeProvider.platform.ts"
+import { readProcessEnv, waitForAbortSignal } from platform
 import { hasClaudeManagedMcpConfig, makeClaudeEnvironment } from "./Drivers/ClaudeHome.vibe"
 import { discoverClaudeSkills } from "./Drivers/ClaudeSkills.vibe"
 import type { ProviderWorkspaceSnapshot } from "@t3tools/provider-core/server/driver"
@@ -53,6 +53,21 @@ import {
   resolveClaudeModelsForVersion,
   resolveClaudeUpdateRequiredModels,
 } from "./ClaudeModelCatalog.vibe"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessEnv = Effect.sync(() => process.env)
+
+  export function waitForAbortSignal(signal: AbortSignal): Promise<void> {
+    if (signal.aborted) {
+      return Promise.resolve()
+    }
+    return new Promise((resolve) => {
+      signal.addEventListener("abort", () => resolve(), { once: true })
+    })
+  }
+}
 
 const DEFAULT_CLAUDE_MODEL_CAPABILITIES: ModelCapabilities = createModelCapabilities({
   optionDescriptors: [],

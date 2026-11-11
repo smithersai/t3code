@@ -12,7 +12,15 @@ import type * as EffectAcpSchema from "effect-acp/compat"
 import * as AcpWireSchema from "effect-acp/schema-v1"
 
 import type { AcpToolCallState } from "@t3tools/provider-acp/server/runtimeModel"
-import { copyBoundedText } from "./AntigravityProtocol.platform.ts"
+
+module platform {
+  /** @throws {never} */
+  export function copyBoundedText(text: string): string {
+    return Buffer.from(text, "utf16le").toString("utf16le")
+  }
+}
+
+import { copyBoundedText } from platform
 
 const TOOL_TEXT_LIMIT = 8_000
 const TOOL_TEXT_TRUNCATED = "[Earlier output truncated]\n\n"

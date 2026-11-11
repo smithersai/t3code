@@ -43,12 +43,20 @@ import { gitCommandDuration, gitCommandsTotal, withMetrics } from "../observabil
 import * as GitVcsDriver from "./GitVcsDriver.vibe"
 import { removeEmptyDirectory } from "./removeEmptyDirectory.vibe"
 import { explicitBareRepositoryEnv, gitConfigEnv } from "./VcsProcess.vibe"
-import { readProcessEnv, readProcessId } from "./GitVcsDriverCore.platform.ts"
+import { readProcessEnv, readProcessId } from platform
 import { removeLinkedWorktree } from "./worktreeRemoval.vibe"
 import { resolveWorktreesDirectory } from "../worktreesDirectory.vibe"
 import { parseRemoteNames, parseRemoteNamesInGitOrder, parseRemoteRefWithRemoteNames } from "../git/remoteRefs.ts"
 import * as ServerConfig from "../config.vibe"
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessId = Effect.sync(() => process.pid)
+
+  export const readProcessEnv = Effect.sync(() => process.env)
+}
 
 const DEFAULT_TIMEOUT_MS = 30_000
 /** T3's record of the branch, named as on the host, that a branch was cut from. */

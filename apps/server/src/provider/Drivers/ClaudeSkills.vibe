@@ -1,4 +1,4 @@
-import { readProcessEnv } from "./ClaudeSkills.platform.ts"
+import { readProcessEnv } from platform
 import type { ClaudeSettings, ServerProviderSkill } from "@t3tools/contracts"
 import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
@@ -12,6 +12,12 @@ import { SKILL_MENTION_PATTERN } from "@t3tools/shared/composerInlineTokens"
 import { parse as parseYamlDocument } from "yaml"
 
 import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessEnv = Effect.sync(() => process.env)
+}
 
 type ClaudeSkillScope = "user" | "project"
 

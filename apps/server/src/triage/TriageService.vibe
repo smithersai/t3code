@@ -1,4 +1,4 @@
-import { readProcessPid } from "./TriageService.platform.ts"
+import { readProcessPid } from platform
 import {
   type AuthClientPresentationMetadata,
   ServerPrepareTriageError,
@@ -16,6 +16,12 @@ import * as ServerConfig from "../config.vibe"
 import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe"
 import { buildTriageAppPrompt, type TriageSourceClone } from "./triagePrompt.ts"
 import { triageSourceCacheDir, writeTriageSession } from "./triageSession.vibe"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessPid = Effect.sync(() => process.pid)
+}
 
 const T3CODE_REPOSITORY_URL = "https://github.com/pingdotgg/t3code"
 

@@ -50,9 +50,22 @@ import * as ServerEnvironment from "../environment/ServerEnvironment.vibe"
 import * as ExternalLauncher from "../process/externalLauncher.vibe"
 import { readPersistedServerRuntimeState } from "../serverRuntimeState.vibe"
 import { projectLocationFlags, resolveCliAuthConfig } from "./config.vibe"
-import { markProcessFailed, readAlertColorEnabled } from "./connect.platform.ts"
+import { markProcessFailed, readAlertColorEnabled } from platform
 import { resolveCliCommand } from "./invocation.vibe"
 import * as CliService from "./service.vibe"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  /** @throws {never} */
+  export function readAlertColorEnabled(): boolean {
+    return process.stdout.isTTY === true && !process.env.NO_COLOR
+  }
+
+  export const markProcessFailed = Effect.sync(() => {
+    process.exitCode = 1
+  })
+}
 
 const jsonFlag = Flag.Boolean("json").pipe(
   Flag.withDescription("Emit JSON instead of human-readable output."),

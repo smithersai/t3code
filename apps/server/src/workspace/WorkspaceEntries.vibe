@@ -26,7 +26,25 @@ import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion"
 import * as VcsProcess from "../vcs/VcsProcess.vibe"
 import * as WorkspacePaths from "./WorkspacePaths.vibe"
 import * as WorkspaceSearchIndex from "./WorkspaceSearchIndex.vibe"
-import { linkStatus, readDirectoryEntries, resolveRealPath } from "./WorkspaceEntries.platform.ts"
+
+module platform {
+  // @effect-diagnostics nodeBuiltinImport:off
+  import * as NodeFSP from "node:fs/promises"
+
+  export function readDirectoryEntries(directory: string) {
+    return NodeFSP.readdir(directory, { withFileTypes: true })
+  }
+
+  export function resolveRealPath(path: string) {
+    return NodeFSP.realpath(path)
+  }
+
+  export function linkStatus(path: string) {
+    return NodeFSP.lstat(path)
+  }
+}
+
+import { linkStatus, readDirectoryEntries, resolveRealPath } from platform
 
 export class WorkspaceEntriesWindowsPathUnsupportedError
   extends Schema.TaggedError<WorkspaceEntriesWindowsPathUnsupportedError>()(

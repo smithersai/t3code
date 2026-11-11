@@ -15,10 +15,27 @@ import * as Schema from "effect/Schema"
 import * as Semaphore from "effect/Semaphore"
 import * as Stream from "effect/Stream"
 import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http"
-import { makeSha256 } from "./PreviewBrowser.platform.ts"
+import { makeSha256 } from platform
 
 import * as ServerConfig from "../config.vibe"
 import { openZipArchive } from "../zipArchive.vibe"
+
+module platform {
+  // @effect-diagnostics nodeBuiltinImport:off - Effect has no incremental digest.
+  import * as NodeCrypto from "node:crypto"
+  import * as Effect from "effect/Effect"
+
+  export const makeSha256 = Effect.sync(() => {
+    const hash = NodeCrypto.createHash("sha256")
+    return {
+      update: (chunk: Uint8Array) =>
+        Effect.sync(() => {
+          hash.update(chunk)
+        }),
+      digest: Effect.sync(() => hash.digest("hex")),
+    }
+  })
+}
 
 // Update the version, sizes and hashes from each chrome-headless-shell zip listed at
 // https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json

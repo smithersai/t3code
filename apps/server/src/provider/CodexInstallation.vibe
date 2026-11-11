@@ -24,7 +24,16 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process"
 import * as ServerConfig from "../config.vibe"
 import * as ModelManifest from "./ModelManifest.vibe"
 import { resolveProviderCompatibility } from "./providerCompatibility.vibe"
-import { makeSha256Hash } from "./CodexInstallation.platform.ts"
+
+module platform {
+  // @effect-diagnostics nodeBuiltinImport:off - Effect has no incremental digest.
+  import * as NodeCrypto from "node:crypto"
+  import * as Effect from "effect/Effect"
+
+  export const makeSha256Hash = Effect.sync(() => NodeCrypto.createHash("sha256"))
+}
+
+import { makeSha256Hash } from platform
 
 const DRIVER = ProviderDriverKind.make("codex")
 const STAGING_STALE_AFTER_MS = 24 * 60 * 60_000

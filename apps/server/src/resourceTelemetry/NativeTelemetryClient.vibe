@@ -1,4 +1,4 @@
-import { readProcessPid } from "./NativeTelemetryClient.platform.ts"
+import { readProcessPid } from platform
 import type {
   HostPowerSnapshot,
   ResourceMonitorCapabilities,
@@ -39,6 +39,12 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process"
 import * as ResourceMonitorBinary from "./ResourceMonitorBinary.vibe"
 import * as ServerConfig from "../config.vibe"
 import { subscribeBeforeSnapshotWithoutMutex } from "../utils/subscribeBeforeSnapshot.vibe"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessPid = Effect.sync(() => process.pid)
+}
 
 const SAMPLE_INTERVAL_MS = 1_000
 // The sidecar treats 0 as "sample only on request".

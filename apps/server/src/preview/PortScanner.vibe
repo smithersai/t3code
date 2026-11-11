@@ -1,4 +1,4 @@
-import { readProcessPid } from "./PortScanner.platform.ts"
+import { readProcessPid } from platform
 import {
   CONFIGURED_LOCAL_SERVER_URLS_MAX_ITEMS,
   PREVIEW_URL_MAX_LENGTH,
@@ -26,6 +26,12 @@ import * as Semaphore from "effect/Semaphore"
 import { FetchHttpClient, HttpClient } from "effect/http"
 
 import * as ProcessRunner from "../processRunner.vibe"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessPid = Effect.sync(() => process.pid)
+}
 
 export class PortDiscovery extends Context.Service<
   PortDiscovery,

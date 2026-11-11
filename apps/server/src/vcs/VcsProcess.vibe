@@ -24,7 +24,14 @@ import type { SourceControlProcessInput } from "@t3tools/source-control-core/ser
 
 import { gitCommandDuration, gitCommandsTotal, withMetrics } from "../observability/Metrics.vibe"
 import * as ProcessRunner from "../processRunner.vibe"
-import { readProcessEnv } from "./VcsProcess.platform.ts"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessEnv = Effect.sync(() => process.env)
+}
+
+import { readProcessEnv } from platform
 
 export interface VcsProcessInput {
   readonly operation: string

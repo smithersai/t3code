@@ -14,7 +14,15 @@ import * as Predicate from "effect/Predicate"
 
 import { resolveAttachmentRelativePath } from "../attachmentPaths.ts"
 import { createAttachmentId } from "../attachmentStore.ts"
-import { decodeBase64Utf8 } from "./McpAppSnapshot.platform.ts"
+
+module platform {
+  /** @throws {never} */
+  export function decodeBase64Utf8(blob: string): string {
+    return Buffer.from(blob, "base64").toString("utf8")
+  }
+}
+
+import { decodeBase64Utf8 } from platform
 
 const encoder = new TextEncoder()
 

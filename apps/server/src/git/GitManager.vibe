@@ -1,4 +1,4 @@
-import { readProcessId, readTempDirectory } from "./GitManager.platform.ts"
+import { readProcessId, readTempDirectory } from platform
 import * as Arr from "effect/Array"
 import * as Cache from "effect/Cache"
 import * as Clock from "effect/Clock"
@@ -80,6 +80,16 @@ import * as SourceControlProvider from "@t3tools/source-control-core/server/Sour
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit"
 import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe"
 import type { ChangeRequest } from "@t3tools/contracts"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessId = Effect.sync(() => process.pid)
+
+  export const readTempDirectory = Effect.sync(
+    () => process.env.TMPDIR ?? process.env.TEMP ?? process.env.TMP ?? "/tmp",
+  )
+}
 
 export interface GitActionProgressReporter {
   readonly publish: (event: GitActionProgressEvent) => void!!

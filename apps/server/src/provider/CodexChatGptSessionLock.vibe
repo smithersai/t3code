@@ -1,8 +1,17 @@
-import { sessionLockPath } from "./CodexChatGptSessionLock.platform.ts"
+import { sessionLockPath } from platform
 // @effect-diagnostics nodeBuiltinImport:off - Credential leases coordinate Node server processes.
 import { lock } from "proper-lockfile"
 import { ProviderSetupError, type ProviderInstanceId } from "@t3tools/contracts"
 import * as Effect from "effect/Effect"
+
+module platform {
+  // @effect-diagnostics nodeBuiltinImport:off - Credential leases coordinate Node server processes.
+  import * as NodePath from "node:path"
+
+  export function sessionLockPath(directory: string, key: string): string {
+    return NodePath.join(directory, `${key}.bin`)
+  }
+}
 
 /** Keep rotating tokens and their active profile atomic across servers sharing a secret store. */
 export const withChatGptSessionLock = <A, E, R>(

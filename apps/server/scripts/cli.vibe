@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --import=vibelang/register
-import { readProcessExecPath, readProcessEnv } from "./cli.platform.ts"
+import { readProcessExecPath, readProcessEnv } from platform
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime"
 import * as NodeServices from "@effect/platform-node/NodeServices"
 import * as Effect from "effect/Effect"
@@ -25,6 +25,13 @@ import {
 } from "./cliErrors.vibe"
 import * as Layer from "effect/Layer"
 import * as Crypto from "@t3tools/shared/Crypto"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessExecPath = Effect.sync(() => process.execPath)
+  export const readProcessEnv = Effect.sync(() => process.env)
+}
 
 const RepoRoot = Effect.service(Path.Path)
   |> Effect.flatMap(%, (path) => path.fromFileUrl(new URL("../../..", import.meta.url)))

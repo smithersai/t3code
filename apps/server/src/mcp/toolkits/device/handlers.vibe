@@ -19,7 +19,15 @@ import { threadWorkspaceRoot } from "../../../project/threadWorkspaceRoot.vibe"
 import * as McpInvocationContext from "../../McpInvocationContext.vibe"
 import * as McpToolAccess from "../../McpToolAccess.vibe"
 import { DeviceScreenshotToolkit, DeviceStandardToolkit, DeviceToolkit } from "./tools.vibe"
-import { bytesToBase64 } from "./handlers.platform.ts"
+
+module platform {
+  /** @throws {never} */
+  export function bytesToBase64(bytes: Uint8Array): string {
+    return Buffer.from(bytes).toString("base64")
+  }
+}
+
+import { bytesToBase64 } from platform
 
 function agentDeviceTargetArgs(device: DeviceSummary): ReadonlyArray<string> {
   return device.platform === "ios"

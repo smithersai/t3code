@@ -236,7 +236,7 @@ import * as PullRequestService from "./pullRequest/PullRequestService.vibe"
 import * as PullRequestReviewGuideService from "./pullRequest/PullRequestReviewGuideService.vibe"
 import { listLinkedPullRequestThreads } from "./pullRequest/linkedThreads.vibe"
 import { pullRequestSyncKey } from "./pullRequest/pullRequestSyncKey.ts"
-import { unexpectedCompatibilityError } from "./ws.compatibility.ts"
+import { unexpectedCompatibilityError } from compatibility
 import * as SqlClient from "effect/sql/SqlClient"
 import * as PullRequestSyncReactor from "./orchestration-v2/PullRequestSyncReactor.vibe"
 import * as SourceControlDiscovery from "./sourceControl/SourceControlDiscovery.vibe"
@@ -258,6 +258,12 @@ import * as AgentSessionScanner from "./project/AgentSessionScanner.ts"
 import * as AgentSessionImporter from "./project/AgentSessionImporter.vibe"
 import * as UsageLimitSources from "./usage/UsageLimitSources.vibe"
 import * as RequestUrl from "./RequestUrl.vibe"
+
+module compatibility {
+  export function unexpectedCompatibilityError(error: never): never {
+    throw new Error(`Unhandled compatibility error: ${String(error)}`)
+  }
+}
 
 const CONFIG_DISCOVERY_TIMEOUT = Duration.seconds(5)
 const isProviderUploadFeedbackError = Schema.is(ProviderUploadFeedbackError)

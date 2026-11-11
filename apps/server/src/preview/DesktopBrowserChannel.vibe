@@ -21,7 +21,26 @@ import * as Ndjson from "effect/encoding/Ndjson"
 
 import * as ServerConfig from "../config.vibe"
 import { writeAllToFileDescriptor } from "../resourceTelemetry/DesktopTelemetryReceiver.vibe"
-import { makeRelaySecret, openInputSocket, utf8LineBytes } from "./DesktopBrowserChannel.platform.ts"
+
+module platform {
+  // @effect-diagnostics nodeBuiltinImport:off - Bridges Playwright's WebSocket transport to the desktop's fds.
+  import * as NodeCrypto from "node:crypto"
+  import * as NodeNet from "node:net"
+
+  import * as Effect from "effect/Effect"
+
+  /** @throws {never} */
+  export function utf8LineBytes(line: string): Buffer {
+    return Buffer.from(`${line}\n`)
+  }
+
+  export const openInputSocket = (fd: number) =>
+    Effect.sync(() => new NodeNet.Socket({ fd, readable: true, writable: false }))
+
+  export const makeRelaySecret = Effect.sync(() => NodeCrypto.randomBytes(24).toString("base64url"))
+}
+
+import { makeRelaySecret, openInputSocket, utf8LineBytes } from platform
 
 const decodeEvent = Schema.decodeUnknownEffect(DesktopBrowserEvent)
 const encodeCommand = Schema.encodeEffect(Schema.fromJsonString(DesktopBrowserCommand))

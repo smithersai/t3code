@@ -6,7 +6,15 @@ import type * as PlatformError from "effect/PlatformError"
 import * as Schema from "effect/Schema"
 import * as Stream from "effect/Stream"
 import { parse as parseYamlDocument } from "yaml"
-import { concatSkillChunks } from "./AntigravitySkills.platform.ts"
+
+module platform {
+  /** @throws {never} */
+  export function concatSkillChunks(chunks: ReadonlyArray<Uint8Array>): Buffer {
+    return Buffer.concat(chunks)
+  }
+}
+
+import { concatSkillChunks } from platform
 
 /** Match Python os.path.expanduser: USERPROFILE, then HOMEDRIVE+HOMEPATH on Windows; HOME elsewhere. */
 export function resolveAntigravityUserHome(

@@ -25,7 +25,20 @@ import {
 } from "./Errors.vibe"
 import * as CheckpointStore from "./CheckpointStore.vibe"
 import { isGitImport, parseTurnDiffFilesFromNumstat, type TurnDiffFileSummary } from "./Diffs.ts"
-import { utf8ByteLength, utf8BytesPrefix } from "./CheckpointDiffQuery.platform.ts"
+
+module platform {
+  /** @throws {never} */
+  export function utf8ByteLength(text: string): number {
+    return Buffer.byteLength(text)
+  }
+
+  /** @throws {never} */
+  export function utf8BytesPrefix(text: string, end: number): Uint8Array {
+    return Buffer.from(text).subarray(0, end)
+  }
+}
+
+import { utf8ByteLength, utf8BytesPrefix } from platform
 
 // Windows limits a command line to 32,767 characters. Leave room for the rest of git's arguments.
 const MAX_PATHSPEC_CHARS = 24_000

@@ -35,7 +35,20 @@ import * as ServerConfig from "../config.vibe"
 import * as HeadlessChrome from "./headlessChrome.vibe"
 import * as PreviewBrowser from "../preview/PreviewBrowser.vibe"
 import * as PreviewBrowserHost from "../preview/PreviewBrowserHost.vibe"
-import { bytesToBase64, utf8ByteLength } from "./HtmlRender.platform.ts"
+
+module platform {
+  /** @throws {never} */
+  export function utf8ByteLength(text: string): number {
+    return Buffer.byteLength(text)
+  }
+
+  /** @throws {never} */
+  export function bytesToBase64(bytes: Uint8Array): string {
+    return Buffer.from(bytes).toString("base64")
+  }
+}
+
+import { bytesToBase64, utf8ByteLength } from platform
 
 const MIB = 1024 * 1024
 const MAX_IMAGE_BYTES = 10 * MIB

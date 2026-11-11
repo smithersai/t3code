@@ -1,4 +1,4 @@
-import { readOSHostname } from "./UsageService.platform.ts"
+import { readOSHostname } from platform
 
 import {
   type ProviderInstanceConfig,
@@ -49,6 +49,13 @@ import {
   type CachedFile,
   type ScanCache,
 } from "./usageScanCache.vibe"
+
+module platform {
+  import * as NodeOS from "node:os"
+  import * as Effect from "effect/Effect"
+
+  export const readOSHostname = Effect.sync(() => NodeOS.hostname())
+}
 
 const LITELLM_RATES_URL = "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json"
 const LITELLM_RATES_API_URL =

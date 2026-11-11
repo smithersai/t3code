@@ -1,9 +1,25 @@
-import { snapshotLegacyDatabase } from "./initializeV2Database.platform.ts"
+import { snapshotLegacyDatabase } from platform
 
 import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
 import * as Path from "effect/Path"
 import * as Schema from "effect/Schema"
+
+module platform {
+  import * as NodeSqlite from "node:sqlite"
+
+  export async function snapshotLegacyDatabase(
+    sourcePath: string,
+    snapshotPath: string,
+  ): Promise<void> {
+    const database = new NodeSqlite.DatabaseSync(sourcePath, { readOnly: true })
+    try {
+      await NodeSqlite.backup(database, snapshotPath)
+    } finally {
+      database.close()
+    }
+  }
+}
 
 const V2DatabaseImportErrorCauseField: Schema.Defect = Schema.Defect()
 export schema error V2DatabaseImportError {

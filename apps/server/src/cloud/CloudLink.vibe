@@ -110,7 +110,16 @@ import {
   requestAbsoluteUrl,
 } from "./linkChecks.ts"
 import { desktopUpdateRestartPending, pendingUpdateHandoffExists } from "./updateHandoff.vibe"
-import { createPublicKey } from "./CloudLink.platform.ts"
+
+module platform {
+  // The platform code of CloudLink.vibe, which a .vibe file does not import as a value (EK4402).
+  // @effect-diagnostics-next-line nodeBuiltinImport:off -- Effect's Crypto has no createPublicKey.
+  import * as NodeCrypto from "node:crypto"
+
+  export const createPublicKey = (pem: string) => NodeCrypto.createPublicKey(pem)
+}
+
+import { createPublicKey } from platform
 
 const CLOUD_MINT_NONCE_PREFIX = "cloud-mint-nonce-"
 const CLOUD_MINT_JTI_PREFIX = "cloud-mint-jti-"

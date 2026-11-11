@@ -9,7 +9,23 @@ import * as NetAddress from "effect/net/NetAddress"
 
 import * as ServerConfig from "./config.vibe"
 import * as EnvironmentAuth from "./auth/EnvironmentAuth.vibe"
-import { isIPv4, readNetworkInterfaces } from "./startupAccess.platform.ts"
+
+module platform {
+  import * as NodeNet from "node:net"
+  import * as NodeOS from "node:os"
+
+  /** @throws {never} */
+  export function isIPv4(input: string): boolean {
+    return NodeNet.isIPv4(input)
+  }
+
+  /** @throws {never} */
+  export function readNetworkInterfaces(): ReturnType<typeof NodeOS.networkInterfaces> {
+    return NodeOS.networkInterfaces()
+  }
+}
+
+import { isIPv4, readNetworkInterfaces } from platform
 
 export interface HeadlessServeAccessInfo {
   readonly connectionString: string

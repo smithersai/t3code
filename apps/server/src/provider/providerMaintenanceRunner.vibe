@@ -20,7 +20,7 @@ import * as Schema from "effect/Schema"
 import * as Stream from "effect/Stream"
 import { HttpClient } from "effect/http"
 import { ChildProcess, ChildProcessSpawner } from "effect/process"
-import { stripControlCharacters } from "./providerMaintenanceRunner.platform.ts"
+import { stripControlCharacters } from platform
 
 import * as ModelManifest from "./ModelManifest.vibe"
 import { resolveProviderCompatibility } from "./providerCompatibility.vibe"
@@ -37,6 +37,16 @@ import {
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions"
 import type { ProviderMaintenanceCapabilities } from "@t3tools/provider-core/server/maintenanceResolver"
 import { collectUint8StreamText } from "@t3tools/provider-core/server/collectStreamText"
+
+module platform {
+  import * as NodeUtil from "node:util"
+
+  /** @throws {never} */
+  export function stripControlCharacters(line: string): string {
+    return NodeUtil.stripVTControlCharacters(line)
+  }
+}
+
 const isServerProviderUpdateError = Schema.is(ServerProviderUpdateError)
 
 const UPDATE_TIMEOUT_MS = 5 * 60_000

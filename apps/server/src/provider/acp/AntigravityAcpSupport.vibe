@@ -21,7 +21,20 @@ import { resolveAttachmentPath } from "../../attachmentStore.ts"
 import { makeAntigravityStderrHandler, makeAntigravityStdoutTransform } from "../antigravityAuthSupport.vibe"
 import * as AcpSessionRuntime from "@t3tools/provider-acp/server/AcpSessionRuntime"
 import { normalizeAntigravitySessionUpdate } from "./AntigravityProtocol.vibe"
-import { concatAttachmentChunks, encodeAttachmentBase64 } from "./AntigravityAcpSupport.platform.ts"
+
+module platform {
+  /** @throws {never} */
+  export function concatAttachmentChunks(chunks: ReadonlyArray<Uint8Array>): Buffer {
+    return Buffer.concat(chunks)
+  }
+
+  /** @throws {never} */
+  export function encodeAttachmentBase64(bytes: Uint8Array): string {
+    return Buffer.from(bytes).toString("base64")
+  }
+}
+
+import { concatAttachmentChunks, encodeAttachmentBase64 } from platform
 
 export interface AntigravityAcpRuntimeInput extends
   Omit<

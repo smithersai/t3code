@@ -35,7 +35,16 @@ import { isProcessAlive, readPersistedServerRuntimeState } from "../serverRuntim
 import { projectLocationFlags, resolveCliAuthConfig } from "./config.vibe"
 import { createUpdateProgress } from "./updateProgress.ts"
 import * as CliService from "./service.vibe"
-import { readProcessId, readStdioIsTerminal } from "./update.platform.ts"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessId = Effect.sync(() => process.pid)
+
+  export const readStdioIsTerminal = Effect.sync(() => Boolean(process.stdin.isTTY && process.stdout.isTTY))
+}
+
+import { readProcessId, readStdioIsTerminal } from platform
 
 export class CliUpdateError extends Schema.TaggedError<CliUpdateError>()("CliUpdateError", {
   reason: Schema.String,

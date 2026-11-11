@@ -41,7 +41,17 @@ import {
   timingSafeEqualBase64Url,
 } from "./utils.vibe"
 import * as RequestUrl from "../RequestUrl.vibe"
-import { bytesToBase64Url } from "./McpOAuth.platform.ts"
+
+module platform {
+  // The platform code of McpOAuth.vibe, which VibeLang code does not use directly (EK4402).
+
+  /** @throws {never} */
+  export function bytesToBase64Url(bytes: Uint8Array): string {
+    return Buffer.from(bytes).toString("base64url")
+  }
+}
+
+import { bytesToBase64Url } from platform
 
 // Request-derived origins support loopback, Tailscale and tunnels.
 // Signed client metadata keeps unauthenticated registration stateless.

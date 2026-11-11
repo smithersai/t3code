@@ -25,7 +25,33 @@ import * as Ndjson from "effect/encoding/Ndjson"
 import * as ServerConfig from "../config.vibe"
 import * as ServerSettings from "../serverSettings.vibe"
 import { subscribeBeforeSnapshotWithoutMutex } from "../utils/subscribeBeforeSnapshot.vibe"
-import { createInputSocket, utf8LineBytes, writeToFileDescriptor } from "./DesktopTelemetryReceiver.platform.ts"
+
+module platform {
+  // @effect-diagnostics nodeBuiltinImport:off
+  import * as NodeFS from "node:fs"
+  import * as NodeNet from "node:net"
+
+  export function writeToFileDescriptor(
+    fd: number,
+    payload: Buffer,
+    offset: number,
+    length: number,
+    callback: (error: NodeJS.ErrnoException | null, bytesWritten: number) => void,
+  ): void {
+    NodeFS.write(fd, payload, offset, length, null, callback)
+  }
+
+  /** @throws {never} */
+  export function utf8LineBytes(line: string): Buffer {
+    return Buffer.from(`${line}\n`)
+  }
+
+  export function createInputSocket(fd: number): NodeNet.Socket {
+    return new NodeNet.Socket({ fd, readable: true, writable: false })
+  }
+}
+
+import { createInputSocket, utf8LineBytes, writeToFileDescriptor } from platform
 
 const INITIAL_SAMPLE_DEADLINE_MS = 90_000
 const MIN_SNAPSHOT_STALE_AFTER_MS = 90_000

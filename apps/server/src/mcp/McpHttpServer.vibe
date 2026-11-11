@@ -69,7 +69,20 @@ import { DeviceScreenshotTool, DeviceScreenshotToolkit, DeviceStandardToolkit } 
 import * as HtmlHandlers from "./toolkits/html/handlers.vibe"
 import { HtmlPreviewTool, HtmlPreviewToolkit, HtmlRenderToolkit } from "./toolkits/html/tools.vibe"
 import * as RequestUrl from "../RequestUrl.vibe"
-import { base64ToBytes, utf8ByteLength } from "./McpHttpServer.platform.ts"
+
+module platform {
+  /** @throws {never} */
+  export function utf8ByteLength(text: string): number {
+    return Buffer.byteLength(text, "utf8")
+  }
+
+  /** @throws {never} */
+  export function base64ToBytes(data: string): Uint8Array {
+    return new Uint8Array(Buffer.from(data, "base64"))
+  }
+}
+
+import { base64ToBytes, utf8ByteLength } from platform
 
 const mcpResourceMetadataUrl = (request: HttpServerRequest.HttpServerRequest) =>
   RequestUrl.toURL(request).pipe(

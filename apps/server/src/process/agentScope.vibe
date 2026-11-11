@@ -8,7 +8,25 @@ import * as Path from "effect/Path"
 
 import * as ServerConfig from "../config.vibe"
 import * as ProcessRunner from "../processRunner.vibe"
-import { makeRandomUuid, readTotalMemory, sha256Hex } from "./agentScope.platform.ts"
+
+module platform {
+  // @effect-diagnostics nodeBuiltinImport:off -- unit names and RAM size come from the host.
+  import * as NodeCrypto from "node:crypto"
+  import * as NodeOS from "node:os"
+
+  import * as Effect from "effect/Effect"
+
+  /** @throws {never} */
+  export function sha256Hex(text: string): string {
+    return NodeCrypto.createHash("sha256").update(text).digest("hex")
+  }
+
+  export const readTotalMemory = Effect.sync(() => NodeOS.totalmem())
+
+  export const makeRandomUuid = Effect.sync(() => NodeCrypto.randomUUID())
+}
+
+import { makeRandomUuid, readTotalMemory, sha256Hex } from platform
 
 const AGENT_SLICE = "app-t3code-agents.slice"
 

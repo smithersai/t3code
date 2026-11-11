@@ -59,7 +59,17 @@ import { sourceControlDefinitions } from "../sourceControl/sourceControlDefiniti
 import { extractIcnsPng } from "./icns.ts"
 import { openMediaFile, readMediaFileHeader, type OpenMediaFile } from "./MediaFile.vibe"
 import * as HostProcess from "@t3tools/shared/HostProcess"
-import { base64ToBytes } from "./AssetAccess.platform.ts"
+
+module platform {
+  // The platform code of AssetAccess.vibe, which VibeLang code does not use directly (EK4402).
+
+  /** @throws {never} */
+  export function base64ToBytes(value: string) {
+    return Buffer.from(value, "base64")
+  }
+}
+
+import { base64ToBytes } from platform
 
 export const ASSET_ROUTE_PREFIX = "/api/assets"
 

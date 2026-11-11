@@ -28,7 +28,14 @@ import * as ThreadTitleRegenerationService from "./ThreadTitleRegenerationServic
 import * as ThreadManagementService from "./ThreadManagementService.vibe"
 import * as ServerSettings from "../serverSettings.vibe"
 import { continueRestartedRun } from "./RestartContinuation.vibe"
-import { readProcessId } from "./EffectWorker.platform.ts"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessId = Effect.sync(() => process.pid)
+}
+
+import { readProcessId } from platform
 
 export class OrchestrationEffectExecutionError extends Schema.TaggedError<OrchestrationEffectExecutionError>()(
   "OrchestrationEffectExecutionError",

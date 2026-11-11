@@ -4,7 +4,17 @@ import * as FileSystem from "effect/FileSystem"
 import * as Option from "effect/Option"
 import * as Path from "effect/Path"
 
-import { readProcessUid } from "./ClaudeTaskOutputTail.platform.ts"
+module platform {
+  /**
+   * The current process uid, or undefined where the platform has none (Windows).
+   * @throws {never}
+   */
+  export function readProcessUid(): number | undefined {
+    return process.getuid?.()
+  }
+}
+
+import { readProcessUid } from platform
 
 /** The SDK withholds stdout until tool results; tail task_started files for live output.
  * The private Claude layout can change; failures omit live output and retain the final result. */

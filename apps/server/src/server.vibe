@@ -6,7 +6,7 @@ import * as StorageCleanup from "./storageCleanup.vibe"
 import * as PullRequestSyncReactor from "./orchestration-v2/PullRequestSyncReactor.vibe"
 import * as PullRequestWatchReactor from "./orchestration-v2/PullRequestWatchReactor.vibe"
 import * as DelegatedTaskQuestionReactor from "./orchestration-v2/DelegatedTaskQuestionReactor.vibe"
-import { createNodeHttpServer } from "./server.platform.ts"
+import { createNodeHttpServer } from platform
 
 import * as NodeHttpServer from "@effect/platform-node/NodeHttpServer"
 import * as NodeServices from "@effect/platform-node/NodeServices"
@@ -190,6 +190,17 @@ import * as NetService from "@t3tools/shared/Net"
 import * as RelayClient from "@t3tools/shared/relayClient"
 import { disableTailscaleServe, ensureTailscaleServe } from "@t3tools/tailscale"
 import * as ServerActivation from "./serverActivation.vibe"
+
+module platform {
+  // Effect wraps this raw Node HTTP server after its startup and write-error guards attach.
+  // @effect-diagnostics nodeBuiltinImport:off
+  import * as NodeHttp from "node:http"
+
+  /** @throws {never} */
+  export function createNodeHttpServer(): NodeHttp.Server {
+    return NodeHttp.createServer()
+  }
+}
 
 // Escaped MCP handoff provenance can exceed find-my-way's 100-character segment default.
 const HTTP_ROUTER_CONFIG = {

@@ -1,4 +1,4 @@
-import { readCpu, totalMemory, availableMemory } from "./HostResources.platform.ts"
+import { readCpu, totalMemory, availableMemory } from platform
 import type { HostResourcesSnapshot } from "@t3tools/contracts"
 import * as HostProcess from "@t3tools/shared/HostProcess"
 import * as Cache from "effect/Cache"
@@ -8,6 +8,26 @@ import * as Effect from "effect/Effect"
 import * as FileSystem from "effect/FileSystem"
 import * as Layer from "effect/Layer"
 import { ChildProcess, ChildProcessSpawner } from "effect/process"
+
+module platform {
+  import * as NodeOS from "node:os"
+  import * as Effect from "effect/Effect"
+
+  export const readCpu = Effect.sync(() => {
+    const cpus = NodeOS.cpus()
+    const cpu = cpus.reduce(
+      (sum, { times }) => ({
+        idle: sum.idle + times.idle,
+        total: sum.total + times.user + times.nice + times.sys + times.idle + times.irq,
+      }),
+      { idle: 0, total: 0 },
+    )
+    return { ...cpu, count: cpus.length }
+  })
+
+  export const totalMemory = Effect.sync(() => NodeOS.totalmem())
+  export const availableMemory = Effect.sync(() => NodeOS.freemem())
+}
 
 export service HostResources: { readonly read: HostResourcesSnapshot!! } {
   static readonly key = "t3/resourceTelemetry/HostResources"

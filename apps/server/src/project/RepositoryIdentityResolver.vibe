@@ -1,4 +1,4 @@
-import { readProcessEnv } from "./RepositoryIdentityResolver.platform.ts"
+import { readProcessEnv } from platform
 import type { RepositoryIdentity, SourceControlProviderError } from "@t3tools/contracts"
 import { repositoryPathFromRemoteUrl } from "@t3tools/source-control-core/server/SourceControlProvider"
 import * as Context from "effect/Context"
@@ -10,6 +10,12 @@ import * as ProcessRunner from "../processRunner.vibe"
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts"
 import { explicitBareRepositoryEnv } from "../vcs/VcsProcess.vibe"
 import * as HostProcess from "@t3tools/shared/HostProcess"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessEnv = Effect.sync(() => process.env)
+}
 
 const DEFAULT_REPOSITORY_IDENTITY_CACHE_CAPACITY = 512
 // Minute-by-minute sweeps need cached hits; clone, publish and PR discovery force refresh.

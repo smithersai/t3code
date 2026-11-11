@@ -46,7 +46,14 @@ import {
 } from "../startupAccess.vibe"
 import { authScopesFlag } from "./authScopes.vibe"
 import { baseDirFlag, DurationFromString } from "./config.vibe"
-import { readProcessCwd } from "./pair.platform.ts"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessCwd = Effect.sync(() => process.cwd())
+}
+
+import { readProcessCwd } from platform
 
 const WELL_KNOWN_ENVIRONMENT_PATH = "/.well-known/t3/environment"
 const PAIR_PROBE_TIMEOUT = Duration.millis(2_500)

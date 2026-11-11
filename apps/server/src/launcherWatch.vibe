@@ -1,7 +1,18 @@
 import * as Duration from "effect/Duration"
 import * as Effect from "effect/Effect"
 import * as HostProcess from "@t3tools/shared/HostProcess"
-import { readParentPid, startupParentPid } from "./launcherWatch.platform.ts"
+
+module platform {
+  // Capture before config and bootstrap reads to detect launcher loss during startup.
+  export const startupParentPid = process.ppid
+
+  /** @throws {never} */
+  export function readParentPid(): number {
+    return process.ppid
+  }
+}
+
+import { readParentPid, startupParentPid } from platform
 
 const DEFAULT_POLL_INTERVAL = Duration.seconds(2)
 

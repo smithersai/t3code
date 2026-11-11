@@ -61,7 +61,20 @@ import {
 } from "./webhookDedupe.vibe"
 import { describeFailedWebhookFilter, findFailedWebhookFilter } from "./webhookFilter.ts"
 import { constantTimeEquals, verifyWebhookSignature } from "./webhookVerification.ts"
-import { bytesToBase64Url, bytesToHex } from "./ScheduledTaskService.platform.ts"
+
+module platform {
+  /** @throws {never} */
+  export function bytesToBase64Url(bytes: Uint8Array): string {
+    return Buffer.from(bytes).toString("base64url")
+  }
+
+  /** @throws {never} */
+  export function bytesToHex(bytes: Uint8Array): string {
+    return Buffer.from(bytes).toString("hex")
+  }
+}
+
+import { bytesToBase64Url, bytesToHex } from platform
 
 export const WEBHOOK_ROUTE_PREFIX = "/api/hooks"
 const isScheduledTaskError = Schema.is(ScheduledTaskError)

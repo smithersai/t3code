@@ -27,7 +27,23 @@ import * as ServerSecretStore from "../auth/ServerSecretStore.vibe"
 import * as ExternalLauncher from "../process/externalLauncher.vibe"
 import { cloudCliOAuthConfig, hostedAppUrlConfig, type CloudCliOAuthConfig } from "./publicConfig.vibe"
 import { renderLoopbackAuthorizationCompleteHtml } from "./cliAuthHtml.ts"
-import { loopbackCallbackServerLayer } from "./CliTokenManager.platform.ts"
+
+module platform {
+  // The platform code of CliTokenManager.vibe, which a .vibe file does not import as a value (EK4402).
+  // @effect-diagnostics nodeBuiltinImport:off - The CLI loopback OAuth callback is a Node HTTP boundary.
+  import * as NodeHttp from "node:http"
+
+  import * as NodeHttpServer from "@effect/platform-node/NodeHttpServer"
+
+  export const loopbackCallbackServerLayer = (port: number) =>
+    NodeHttpServer.layer(NodeHttp.createServer, {
+      host: "127.0.0.1",
+      port,
+      disablePreemptiveShutdown: true,
+    })
+}
+
+import { loopbackCallbackServerLayer } from platform
 
 const CLOUD_CLI_OAUTH_TOKEN_SECRET = "cloud-cli-oauth-token"
 const CLOUD_CLI_OAUTH_CALLBACK_TIMEOUT = Duration.minutes(10)

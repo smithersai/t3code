@@ -32,7 +32,14 @@ import {
   type ResourceTelemetryHistoryWithLegacyBuckets,
 } from "./ResourceTelemetryHistory.vibe"
 import { subscribeBeforeSnapshot } from "../utils/subscribeBeforeSnapshot.vibe"
-import { readServerPid } from "./ResourceTelemetry.platform.ts"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readServerPid = Effect.sync(() => process.pid)
+}
+
+import { readServerPid } from platform
 
 export class ResourceTelemetryRefreshFailed extends Schema.TaggedError<ResourceTelemetryRefreshFailed>()(
   "ResourceTelemetryRefreshFailed",

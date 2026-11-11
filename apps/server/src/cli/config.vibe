@@ -22,7 +22,16 @@ import { resolveServiceLauncherMode } from "../cloud/serviceLauncherClient.vibe"
 import * as ServerConfig from "../config.vibe"
 import { expandHomePath, resolveBaseDir } from "../os-jank.vibe"
 import { isProcessAlive, readPersistedServerRuntimeState } from "../serverRuntimeState.vibe"
-import { readProcessCwd, readProcessId } from "./config.platform.ts"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessCwd = Effect.sync(() => process.cwd())
+
+  export const readProcessId = Effect.sync(() => process.pid)
+}
+
+import { readProcessCwd, readProcessId } from platform
 
 const modeFlag = Flag.Literals("mode", ServerConfig.RuntimeMode.literals).pipe(
   Flag.withDescription("Runtime mode. `desktop` keeps loopback defaults unless overridden."),

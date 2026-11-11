@@ -45,7 +45,30 @@ import {
   deviceToolVersions,
   DEVICE_HUB_VERSION,
 } from "./DeviceToolchain.vibe"
-import { isProcessAlive, terminateProcess } from "./LocalDeviceHost.platform.ts"
+
+module platform {
+  // The platform code of LocalDeviceHost.vibe, which VibeLang code does not use directly (EK4402).
+  import * as Effect from "effect/Effect"
+
+  export const isProcessAlive = (pid: number) =>
+    Effect.sync(() => {
+      try {
+        process.kill(pid, 0)
+        return true
+      } catch {
+        return false
+      }
+    })
+
+  export const terminateProcess = (pid: number) =>
+    Effect.sync(() => {
+      try {
+        process.kill(pid, "SIGTERM")
+      } catch {}
+    })
+}
+
+import { isProcessAlive, terminateProcess } from platform
 
 const HUB_READY_TIMEOUT_MS = 30_000
 const DAEMON_READY_TIMEOUT_MS = 30_000

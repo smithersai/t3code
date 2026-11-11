@@ -24,7 +24,19 @@ import { normalizeCliError, toJsonSchemaObject } from "@t3tools/provider-core/se
 import { codexModelFamily, getModelSelectionStringOptionValue } from "@t3tools/shared/model"
 import { getCodexServiceTierOptionValue } from "../codexModelOptions.ts"
 import * as HostProcess from "@t3tools/shared/HostProcess"
-import { currentProcessId, readProcessEnvironment } from "./CodexTextGeneration.platform.ts"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessEnvironment = Effect.sync((): NodeJS.ProcessEnv => process.env)
+
+  /** @throws {never} */
+  export function currentProcessId(): number {
+    return process.pid
+  }
+}
+
+import { currentProcessId, readProcessEnvironment } from platform
 
 const CODEX_TIMEOUT_MS = 180_000
 const CODEX_MCP_LIST_TIMEOUT_MS = 10_000

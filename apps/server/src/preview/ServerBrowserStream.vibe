@@ -19,7 +19,20 @@ import { assetResponseHeaders } from "../http.vibe"
 import * as PreviewBrowserHost from "./PreviewBrowserHost.vibe"
 import * as ServerBrowser from "./ServerBrowser.ts"
 import * as RequestUrl from "../RequestUrl.vibe"
-import { bytesToBuffer, utf8ByteLength } from "./ServerBrowserStream.platform.ts"
+
+module platform {
+  /** @throws {never} */
+  export function utf8ByteLength(text: string): number {
+    return Buffer.byteLength(text)
+  }
+
+  /** @throws {never} */
+  export function bytesToBuffer(bytes: Uint8Array): Buffer {
+    return Buffer.from(bytes)
+  }
+}
+
+import { bytesToBuffer, utf8ByteLength } from platform
 
 const PREVIEW_STREAM_ROUTE_PREFIX = "/api/preview-stream"
 /** Matches `PREVIEW_STREAM_TAB_GONE_CODE` in the client. */

@@ -31,7 +31,7 @@ import { PREFERRED_DEFAULT_CODEX_MODELS, ServerSettingsError } from "@t3tools/co
 import { codexModelFamily, createModelCapabilities, formatCodexModelName } from "@t3tools/shared/model"
 import { resolveSpawnCommand } from "@t3tools/shared/shell"
 import { codexAppServerArgs, resolveCodexLaunchArgs } from "./codexLaunchArgs.ts"
-import { readProcessCwd, readProcessEnv } from "./CodexProvider.platform.ts"
+import { readProcessCwd, readProcessEnv } from platform
 import {
   buildServerProvider,
   COMPACT_SLASH_COMMAND,
@@ -47,6 +47,15 @@ import {
   type CodexResetCreditsSummary,
 } from "./codexUsageLimits.vibe"
 import * as HostProcess from "@t3tools/shared/HostProcess"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessEnv = Effect.sync(() => process.env)
+
+  export const readProcessCwd = Effect.sync(() => process.cwd())
+}
+
 import packageJson from "../../package.json" with { type: "json" }
 const isCodexAppServerSpawnError = Schema.is(CodexErrors.CodexAppServerSpawnError)
 const RATE_LIMITS_PROBE_TIMEOUT_MS = 3_000

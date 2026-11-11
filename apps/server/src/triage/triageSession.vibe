@@ -1,4 +1,4 @@
-import { readOSRelease, readProcessVersion } from "./triageSession.platform.ts"
+import { readOSRelease, readProcessVersion } from platform
 // @effect-diagnostics nodeBuiltinImport:off
 
 import { TRIAGE_PROMPT_FILE_NAME } from "@t3tools/contracts"
@@ -13,6 +13,15 @@ import * as BootService from "../cloud/bootService.vibe"
 import type * as ServerConfig from "../config.vibe"
 import { isProcessAlive, readPersistedServerRuntimeState } from "../serverRuntimeState.vibe"
 import { buildTriageContext, buildTriageSeedPrompt, type TriageEntry, type TriageSourceClone } from "./triagePrompt.ts"
+
+module platform {
+  // @effect-diagnostics nodeBuiltinImport:off
+  import * as NodeOS from "node:os"
+  import * as Effect from "effect/Effect"
+
+  export const readOSRelease = Effect.sync(() => NodeOS.release())
+  export const readProcessVersion = Effect.sync(() => process.version)
+}
 
 export const describeServerProcess = effect (
   serverRuntimeStatePath: string,
