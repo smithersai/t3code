@@ -11,7 +11,7 @@ import * as Effect from "effect/Effect";
 import * as Schedule from "effect/Schedule";
 import * as Schema from "effect/Schema";
 import { FetchHttpClient, HttpClient, HttpClientRequest } from "effect/http";
-import { proxyConfig } from "../shared/proxy.ts";
+import { proxyConfig } from "../shared/proxy.vibe";
 import { cases, type Case } from "./cases.ts";
 import { grade, testRange, type Comment } from "./grade.ts";
 

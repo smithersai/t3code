@@ -50,7 +50,7 @@ import {
   CLAUDE_PROVIDER,
   makeClaudeQueryOptions,
 } from "../../apps/server/src/orchestration-v2/Adapters/ClaudeAdapterV2.vibe";
-import { proxyConfig } from "../shared/proxy.ts";
+import { proxyConfig } from "../shared/proxy.vibe";
 import { changeRequestsCreatedBy } from "../../apps/server/src/orchestration-v2/PullRequestSyncReactor.vibe";
 /** Agent models by id, with the display name a harness gives them. */
 const MODELS = {
