@@ -1,4 +1,4 @@
-import { runClaudeHistoryWorker } from "../claudeHistoryWorker.ts"
+import { runClaudeHistoryWorker } from "../claudeHistoryWorker.vibe"
 
 /** Single-executable builds lack Node, so they use this subcommand instead of claudeHistoryWorker.mjs. */
 export const claudeHistoryCommand = Command.make("__claude-history", {
