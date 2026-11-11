@@ -157,8 +157,8 @@ const config = {
 
 export default {
   ...config,
-  compilers: { vibe: vibelang },
-  ignore: [...[config.ignore ?? []].flat(), "**/*.d.vibe.ts", ".vibelang/**"],
+  compilers: { vibe: vibelang, vibex: vibelang },
+  ignore: [...[config.ignore ?? []].flat(), "**/*.d.vibe.ts", "**/*.d.vibex.ts", ".vibelang/**"],
   ignoreDependencies: [
     ...[config.ignoreDependencies ?? []].flat(),
     "vibelang",
