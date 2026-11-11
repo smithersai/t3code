@@ -19,7 +19,7 @@ import {
   museVerbatimPath,
   museWorkspaceRoot,
   type MuseSdkHost,
-} from "./sdk.ts";
+} from "./sdk.vibe";
 
 vi.mock("@muse-code/sdk", () => ({ spawnMspConnection: vi.fn() }));
 

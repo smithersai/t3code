@@ -5,7 +5,7 @@ import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as Schema from "effect/Schema"
 
-import * as CursorSdk from "./CursorSdk.ts"
+import * as CursorSdk from "./CursorSdk.vibe"
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers"
 
 export const CURSOR_AGENT_SDK_PROTOCOL = "cursor-agent-sdk.local" as const

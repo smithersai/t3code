@@ -48,13 +48,13 @@ import * as AntigravityUsage from "../provider/Drivers/AntigravityUsage.vibe";
 import * as ProviderHostLive from "../provider/ProviderHostLive.vibe";
 import { totalTokens, type UsageRecord } from "@t3tools/provider-core/server/usage";
 import * as UsageService from "./UsageService.vibe";
-import * as MuseSdk from "../../../../packages/provider-muse/src/server/sdk.ts";
+import * as MuseSdk from "../../../../packages/provider-muse/src/server/sdk.vibe";
 import { MuseUsageHome } from "@t3tools/provider-muse/server";
 import { encodeScanCache, SCAN_CACHE_FILE_NAME } from "./usageScanCache.vibe";
 import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("node:fs/promises", { spy: true });
-vi.mock("../../../../packages/provider-muse/src/server/sdk.ts", async (importOriginal) => ({
+vi.mock("../../../../packages/provider-muse/src/server/sdk.vibe", async (importOriginal) => ({
   ...(await importOriginal<typeof MuseSdk>()),
   createMuseSdkHostEffect: vi.fn(() =>
     Effect.try(() => {

@@ -134,10 +134,9 @@
       }
     },
     "./server/CursorSdk": {
-      "types": "./src/server/CursorSdk.ts",
+      "types": "./src/server/CursorSdk.d.vibe.ts",
       "import": {
-        "types": "./src/server/CursorSdk.ts",
-        "vibelang-source": "./src/server/CursorSdk.ts",
+        "vibelang-source": "./src/server/CursorSdk.vibe",
         "default": "./.vibelang/js/src/server/CursorSdk.js"
       }
     }

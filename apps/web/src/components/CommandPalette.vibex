@@ -92,7 +92,7 @@ import { readEnvironmentScope, useEnvironmentScope } from "../state/session.vibe
 import { sourceControlEnvironment } from "../state/sourceControl"
 import { useAtomCommand } from "../state/use-atom-command.vibe"
 import { useAtomQueryRunner } from "../state/use-atom-query-runner.vibe"
-import { useScratchProject } from "../hooks/useScratchProject.ts"
+import { useScratchProject } from "../hooks/useScratchProject.vibe"
 import { useStartTriage } from "../hooks/useStartTriage"
 import { pickTriageEnvironment } from "../lib/triageTarget"
 import { useNewProject } from "../hooks/useNewProject"

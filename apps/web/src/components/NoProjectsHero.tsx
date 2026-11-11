@@ -2,7 +2,7 @@ import { MessageSquareDashedIcon, PlusIcon } from "lucide-react";
 
 import { openCommandPalette } from "../commandPaletteBus";
 import { isElectron } from "../env";
-import { useScratchProject } from "../hooks/useScratchProject.ts";
+import { useScratchProject } from "../hooks/useScratchProject.vibe";
 import { usePrimaryEnvironmentId } from "../state/environments.vibe";
 import { Button } from "./ui/button";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "./ui/empty";

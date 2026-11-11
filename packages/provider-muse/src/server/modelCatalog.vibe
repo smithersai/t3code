@@ -4,7 +4,7 @@ import { MuseSettings } from "../settings.vibe"
 import { createModelCapabilities, getProviderOptionDescriptors } from "@t3tools/shared/model"
 import * as Effect from "effect/Effect"
 import * as Schema from "effect/Schema"
-import { createMuseSdkHost, createMuseSdkHostEffect, type MuseSdkHost } from "./sdk.ts"
+import { createMuseSdkHost, createMuseSdkHostEffect, type MuseSdkHost } from "./sdk.vibe"
 
 type MuseReasoningEffort = NonNullable<SendUserTurnOptions<never>["reasoningEffort"]>
 

@@ -9,7 +9,7 @@ import * as Fiber from "effect/Fiber";
 import * as Schema from "effect/Schema";
 import { vi } from "vite-plus/test";
 
-import type { MuseSdkHost } from "./sdk.ts";
+import type { MuseSdkHost } from "./sdk.vibe";
 import { museModelCapabilities } from "./modelCatalog.vibe";
 import { makeMuseTextGeneration } from "./textGeneration.vibe";
 

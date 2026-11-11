@@ -1,0 +1,30 @@
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+
+import { Agent, createAgentPlatform, SqliteLocalAgentStore } from "./sdk.ts"
+import { armShellSpawnGuard, disarmShellSpawnGuard } from "./CursorSdk.platform.ts"
+
+/** Keeps the shell spawn guard armed while in-process agents run. */
+export class CursorSdk extends Context.Service<
+  CursorSdk,
+  {
+    readonly Agent: typeof Agent
+    readonly createAgentPlatform: typeof createAgentPlatform
+    readonly SqliteLocalAgentStore: typeof SqliteLocalAgentStore
+  }
+>()("@t3tools/provider-cursor/server/CursorSdk") {}
+
+/** Provide once per process: a second guard would defer to the first and swallow real rejections. */
+export const layer = Layer.effect(
+  CursorSdk,
+  Effect.acquireRelease(
+    Effect.sync(() => {
+      armShellSpawnGuard()
+    }),
+    () =>
+      Effect.sync(() => {
+        disarmShellSpawnGuard()
+      }),
+  ).pipe(Effect.as(CursorSdk.of({ Agent, createAgentPlatform, SqliteLocalAgentStore }))),
+)

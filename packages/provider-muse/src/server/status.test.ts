@@ -7,7 +7,7 @@ import * as Schema from "effect/Schema";
 import { vi } from "vite-plus/test";
 
 import { writeFakeCli } from "@t3tools/provider-testing/fakeCli";
-import type { MuseSdkHost } from "./sdk.ts";
+import type { MuseSdkHost } from "./sdk.vibe";
 import { COMPACT_SLASH_COMMAND } from "@t3tools/provider-core/server/snapshotProbe";
 import { checkMuseProviderStatus } from "./status.vibe";
 

@@ -10,7 +10,7 @@ import { createModelSelection } from "@t3tools/shared/model";
 import { beforeEach, vi } from "vite-plus/test";
 
 import { makeCursorTextGeneration } from "./textGeneration.vibe";
-import * as CursorSdk from "./CursorSdk.ts";
+import * as CursorSdk from "./CursorSdk.vibe";
 
 const cursorSdkMock = vi.hoisted(() => ({
   create: vi.fn<(options: unknown) => Promise<unknown>>(),

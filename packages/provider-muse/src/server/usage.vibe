@@ -11,7 +11,7 @@ import {
 } from "@t3tools/provider-core/server/usage"
 import * as HostProcess from "@t3tools/shared/HostProcess"
 import type { MuseSettings } from "../settings.vibe"
-import { makeMuseEnvironment } from "./sdk.ts"
+import { makeMuseEnvironment } from "./sdk.vibe"
 import * as MuseUsageHome from "./MuseUsageHome.vibe"
 
 const Entry = Schema.Struct({

@@ -36,7 +36,7 @@ import * as TestClock from "effect/testing/TestClock";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import type { MuseItem, MuseSubscriptionUsage } from "./protocol.vibe";
-import type { MuseSdkHost, MuseSdkHostOptions } from "./sdk.ts";
+import type { MuseSdkHost, MuseSdkHostOptions } from "./sdk.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 import type * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";

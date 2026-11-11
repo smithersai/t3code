@@ -1,10 +1,4 @@
 // @effect-diagnostics nodeBuiltinImport:off globalConsole:off -- The guard runs in Node's unhandled-rejection callback, outside an Effect runtime. stderr must match Node's default unhandled-rejection print.
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-
-import { Agent, createAgentPlatform, SqliteLocalAgentStore } from "./sdk.ts";
-
 // The SDK leaves a shell-error promise unhandled, which would exit the server.
 const CURSOR_SHELL_SPAWN_MARKERS = [
   "dump_zsh_state",
@@ -56,26 +50,12 @@ function onUnhandledRejection(reason: unknown): void {
   process.exit(1);
 }
 
-/** Keeps the shell spawn guard armed while in-process agents run. */
-export class CursorSdk extends Context.Service<
-  CursorSdk,
-  {
-    readonly Agent: typeof Agent;
-    readonly createAgentPlatform: typeof createAgentPlatform;
-    readonly SqliteLocalAgentStore: typeof SqliteLocalAgentStore;
-  }
->()("@t3tools/provider-cursor/server/CursorSdk") {}
+/** @throws {never} */
+export function armShellSpawnGuard(): void {
+  process.on("unhandledRejection", onUnhandledRejection);
+}
 
-/** Provide once per process: a second guard would defer to the first and swallow real rejections. */
-export const layer = Layer.effect(
-  CursorSdk,
-  Effect.acquireRelease(
-    Effect.sync(() => {
-      process.on("unhandledRejection", onUnhandledRejection);
-    }),
-    () =>
-      Effect.sync(() => {
-        process.off("unhandledRejection", onUnhandledRejection);
-      }),
-  ).pipe(Effect.as(CursorSdk.of({ Agent, createAgentPlatform, SqliteLocalAgentStore }))),
-);
+/** @throws {never} */
+export function disarmShellSpawnGuard(): void {
+  process.off("unhandledRejection", onUnhandledRejection);
+}

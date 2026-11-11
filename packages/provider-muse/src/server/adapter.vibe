@@ -69,7 +69,7 @@ import {
   museWorkspaceRoot,
   type createMuseSdkHost,
   type MuseSdkHost,
-} from "./sdk.ts"
+} from "./sdk.vibe"
 import type * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers"
 import {
   providerMessageTextWithAttachmentPaths,

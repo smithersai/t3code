@@ -14,7 +14,7 @@ import * as FileSystem from "effect/FileSystem"
 import * as Option from "effect/Option"
 import * as Schema from "effect/Schema"
 
-import { createMuseSdkHost, createMuseSdkHostEffect, type MuseSdkHost } from "./sdk.ts"
+import { createMuseSdkHost, createMuseSdkHostEffect, type MuseSdkHost } from "./sdk.vibe"
 import { museModelCapabilities, resolveMuseReasoningEffort } from "./modelCatalog.vibe"
 import type { ProviderTextGeneration } from "@t3tools/provider-core/server/textGeneration"
 import { investigationUnsupported } from "@t3tools/provider-core/server/textGenerationOperations"

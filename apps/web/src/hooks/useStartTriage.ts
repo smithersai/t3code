@@ -14,7 +14,7 @@ import { serverEnvironment } from "~/state/server";
 import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { writeTextToClipboard } from "./useCopyToClipboard";
 import { useNewThreadHandler } from "./useHandleNewThread";
-import { useScratchProject } from "./useScratchProject.ts";
+import { useScratchProject } from "./useScratchProject.vibe";
 
 export const TRIAGE_CLI_COMMAND = "npx t3 triage";
 

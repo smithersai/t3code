@@ -30,7 +30,7 @@ import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEve
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import { CursorDriver } from "./driver.vibe";
 import * as CursorAgentSdk from "./CursorAgentSdk.vibe";
-import * as CursorSdk from "./CursorSdk.ts";
+import * as CursorSdk from "./CursorSdk.vibe";
 import * as CursorKeychain from "./CursorKeychain.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";

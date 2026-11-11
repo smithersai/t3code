@@ -11,11 +11,11 @@ import * as Schema from "effect/Schema";
 import { it } from "@effect/vitest";
 import { describe, expect, vi } from "vite-plus/test";
 import { MuseSettings } from "../settings.vibe";
-import * as MuseSdk from "./sdk.ts";
+import * as MuseSdk from "./sdk.vibe";
 import * as MuseUsageHome from "./MuseUsageHome.vibe";
 import { museUsageFormat, museUsageReader } from "./usage.vibe";
 
-vi.mock("./sdk.ts", { spy: true });
+vi.mock("./sdk.vibe", { spy: true });
 
 const entry = () => ({
   schema_version: 1,
