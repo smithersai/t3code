@@ -565,15 +565,7 @@ jobs:
           mkdir -p verify
           unpacked=$(ls -d "${TMPDIR:-/tmp}"/t3code-desktop-${{ inputs.platform }}-stage-*/app/dist/"$UNPACKED_DIR")
           tar -C "$(dirname "$unpacked")" -cf verify/unpacked.tar "$(basename "$unpacked")"
-          esbuild=scripts/node_modules/.bin/esbuild
-          banner="import{createRequire as __cr}from'node:module';const require=__cr(import.meta.url);"
-          # build-desktop-artifact.ts's own import.meta.main guard must not run
-          # its CLI inside the verify bundle.
-          "$esbuild" scripts/verify-windows-desktop-artifact.ts --bundle --platform=node --format=esm \
-            --target=node24 --define:import.meta.main=false --banner:js="$banner" \
-            --outfile=verify/verify-windows-desktop-artifact.mjs
-          "$esbuild" scripts/smoke-cli-archive.ts --bundle --platform=node --format=esm \
-            --target=node24 --banner:js="$banner" --outfile=verify/smoke-cli-archive.mjs
+          node scripts/bundle-verify-inputs.mjs
 
       - name: Upload verification inputs
         if: inputs.verify_runner != ''
