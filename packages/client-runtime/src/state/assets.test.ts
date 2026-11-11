@@ -4,7 +4,7 @@ import * as Cause from "effect/Cause";
 import * as Option from "effect/Option";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
-import { createProjectFaviconUrlAtomFamily } from "./assets.ts";
+import { createProjectFaviconUrlAtomFamily } from "./assets.vibe";
 
 describe("project favicon URL cache", () => {
   it("does not reuse another environment, workspace, or selected icon's cached URL", () => {

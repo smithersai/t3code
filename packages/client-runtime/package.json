@@ -535,8 +535,8 @@
       "default": "./.vibelang/js/src/state/auth.js"
     },
     "./state/assets": {
-      "types": "./src/state/assets.ts",
-      "vibelang-source": "./src/state/assets.ts",
+      "types": "./src/state/assets.d.vibe.ts",
+      "vibelang-source": "./src/state/assets.vibe",
       "default": "./.vibelang/js/src/state/assets.js"
     },
     "./state/attachments": {
