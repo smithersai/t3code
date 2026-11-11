@@ -17,7 +17,7 @@ import * as Socket from "effect/socket/Socket"
 import { authenticateMediaRequest } from "../auth/http.vibe"
 import { assetResponseHeaders } from "../http.vibe"
 import * as PreviewBrowserHost from "./PreviewBrowserHost.vibe"
-import * as ServerBrowser from "./ServerBrowser.ts"
+import * as ServerBrowser from "./ServerBrowser.vibe"
 import * as RequestUrl from "../RequestUrl.vibe"
 
 module platform {

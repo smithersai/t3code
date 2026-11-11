@@ -48,7 +48,7 @@ module platform {
   import { captureMacWindowSnapshot, type MacSnapShotSource } from "./MacSnapShot.ts"
   import type { LinuxCaptureFeedback, LinuxWindowMetadata } from "./LinuxSnapShot.vibe"
   import { niriSocketPath } from "./NiriSnapShot.vibe"
-  import { CaptureShortcutConfig, niriCaptureConfigPath } from "./CaptureShortcutConfig.ts"
+  import { CaptureShortcutConfig, niriCaptureConfigPath } from "./CaptureShortcutConfig.vibe"
   import type { PortalCaptureShortcut } from "./PortalCaptureShortcut.vibe"
   import { isGnomeCaptureSession, niriCaptureBinding, portalShortcutTrigger } from "./linuxCaptureSession.ts"
   import {

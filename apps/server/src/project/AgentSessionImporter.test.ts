@@ -31,7 +31,7 @@ import {
 import * as ProviderSessionRuntime from "../persistence/ProviderSessionRuntime.vibe";
 import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as AgentSessionImporter from "./AgentSessionImporter.vibe";
-import * as AgentSessionScanner from "./AgentSessionScanner.ts";
+import * as AgentSessionScanner from "./AgentSessionScanner.vibe";
 import * as ProjectService from "./ProjectService.vibe";
 
 const projectId = ProjectId.make("agent-session-import-project");

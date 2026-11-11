@@ -22,7 +22,7 @@ import { HttpRouter, HttpServer } from "effect/http";
 
 import * as EnvironmentAuth from "../auth/EnvironmentAuth.vibe";
 import * as PreviewBrowserHost from "./PreviewBrowserHost.vibe";
-import * as ServerBrowser from "./ServerBrowser.ts";
+import * as ServerBrowser from "./ServerBrowser.vibe";
 import { routeLayer } from "./ServerBrowserStream.vibe";
 
 const platformLayer = NodeHttpPlatform.layer.pipe(Layer.provideMerge(NodeServices.layer));

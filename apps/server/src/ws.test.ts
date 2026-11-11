@@ -30,11 +30,11 @@ import { RpcGroup, RpcMessage, RpcServer } from "effect/rpc";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import * as PreviewAutomationBroker from "./mcp/PreviewAutomationBroker.vibe";
-import * as ServerBrowser from "./preview/ServerBrowser.ts";
+import * as ServerBrowser from "./preview/ServerBrowser.vibe";
 import * as AcpRegistryRuntimeCoordinator from "@t3tools/provider-acp-registry/server/AcpRegistryRuntimeCoordinator";
 import * as AcpRegistrySupport from "@t3tools/provider-acp-registry/server/AcpRegistrySupport";
 import * as AgentSessionImporter from "./project/AgentSessionImporter.vibe";
-import * as AgentSessionScanner from "./project/AgentSessionScanner.ts";
+import * as AgentSessionScanner from "./project/AgentSessionScanner.vibe";
 import * as AnalyticsService from "./telemetry/AnalyticsService.vibe";
 import * as AntigravityInstallation from "./provider/AntigravityInstallation.vibe";
 import * as BackgroundPolicy from "./background/BackgroundPolicy.vibe";

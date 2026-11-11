@@ -108,7 +108,7 @@ import {
   managedEndpointRuntimeConfigsMatch,
   parseManagedEndpointLocalOrigin,
   requestAbsoluteUrl,
-} from "./linkChecks.ts"
+} from "./linkChecks.vibe"
 import { desktopUpdateRestartPending, pendingUpdateHandoffExists } from "./updateHandoff.vibe"
 
 module platform {

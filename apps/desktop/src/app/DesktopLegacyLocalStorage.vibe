@@ -6,7 +6,7 @@ import * as Option from "effect/Option"
 import * as Path from "effect/Path"
 
 import * as ElectronProtocol from "../electron/ElectronProtocol.vibe"
-import { readChromiumLocalStorage } from "./chromiumLocalStorage.ts"
+import { readChromiumLocalStorage } from "./chromiumLocalStorage.vibe"
 import * as DesktopEnvironment from "./DesktopEnvironment.vibe"
 
 /** Reads the V1 profile without opening it in Chromium, even while V1 runs. */

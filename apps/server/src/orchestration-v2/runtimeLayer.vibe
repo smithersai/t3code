@@ -12,7 +12,7 @@ import * as ProviderSessionRuntime from "../persistence/ProviderSessionRuntime.v
 import * as TextGeneration from "../textGeneration/TextGeneration.vibe"
 import * as ProviderAuthService from "../provider/ProviderAuthService.vibe"
 import * as AgentSessionImporter from "../project/AgentSessionImporter.vibe"
-import * as AgentSessionScanner from "../project/AgentSessionScanner.ts"
+import * as AgentSessionScanner from "../project/AgentSessionScanner.vibe"
 import * as ProjectService from "../project/ProjectService.vibe"
 import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.vibe"
 import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe"
