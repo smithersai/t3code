@@ -11,6 +11,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
+import { deferred } from "vibelang-unplugin/deferred";
 import * as Etag from "effect/http/Etag";
 import * as HttpMiddleware from "effect/http/HttpMiddleware";
 import * as HttpPlatform from "effect/http/HttpPlatform";
@@ -119,6 +120,8 @@ export const layer = Api.make(
   RelayDeploymentConfig.pipe(
     Effect.map(({ relayPublicDomain }) => ({
       main: import.meta.filename,
+      // The Worker imports .vibe modules, so its bundle needs the VibeLang plugin.
+      build: { input: { plugins: [deferred("rolldown")] } },
       compatibility: {
         date: "2026-05-22",
         flags: ["nodejs_compat"],

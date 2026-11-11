@@ -13,6 +13,7 @@ import * as NativeClients from "./NativeClients.vibe";
 import * as Savings from "./Savings.vibe";
 import type { ProtocolBindings } from "./protocolTypes.ts";
 import * as Resources from "./resources.vibe";
+import { deferred } from "vibelang-unplugin/deferred";
 
 export class Worker extends Cloudflare.Worker<Worker, {}>()("Cache") {}
 
@@ -21,6 +22,8 @@ export const layer = Worker.make(
     Effect.map((name) => ({
       name,
       main: import.meta.filename,
+      // The Worker imports .vibe modules, so its bundle needs the VibeLang plugin.
+      build: { input: { plugins: [deferred("rolldown")] } },
       compatibility: { date: "2026-09-11", flags: ["nodejs_compat"] },
     })),
   ),
