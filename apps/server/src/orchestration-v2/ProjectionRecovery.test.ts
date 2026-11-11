@@ -23,16 +23,16 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as EventSink from "./EventSink.ts";
-import * as EventStore from "./EventStore.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
+import * as EffectOutbox from "./EffectOutbox.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as EventSink from "./EventSink.vibe";
+import * as EventStore from "./EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.ts";
-import { restartContinuationRun } from "./RestartContinuation.ts";
+import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.vibe";
+import { restartContinuationRun } from "./RestartContinuation.vibe";
 
 const layerTest = Layer.mergeAll(ProjectionStore.layer, EffectOutbox.layer).pipe(
   Layer.provideMerge(SqlitePersistence.layerMemory),

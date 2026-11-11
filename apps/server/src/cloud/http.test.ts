@@ -24,18 +24,19 @@ import * as NetAddress from "effect/net/NetAddress";
 import { decodeJwt, importSPKI, jwtVerify } from "jose";
 import { RELAY_LINK_PROOF_TYP } from "@t3tools/shared/relayJwt";
 
-import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
-import * as AuthHttp from "../auth/http.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as ServerConfig from "../config.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.ts";
-import * as CliTokenManager from "./CliTokenManager.ts";
-import * as CloudLink from "./CloudLink.ts";
-import * as ConnectHttp from "./http.ts";
-import * as ConnectReachability from "./ConnectReachability.ts";
-import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
+import * as EnvironmentAuth from "../auth/EnvironmentAuth.vibe";
+import * as AuthHttp from "../auth/http.vibe";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.vibe";
+import * as CliTokenManager from "./CliTokenManager.vibe";
+import * as CloudLink from "./CloudLink.vibe";
+import * as ConnectHttp from "./http.vibe";
+import * as ConnectReachability from "./ConnectReachability.vibe";
+import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const DESKTOP_BOOTSTRAP_TOKEN = "test-desktop-bootstrap-token";
 const NON_LOOPBACK_ORIGIN = "http://172.24.162.233:3773";
@@ -106,7 +107,7 @@ const layerLinkProofRoutes = HttpApiBuilder.layer(LinkProofTestApi).pipe(
   Layer.provideMerge(ServerSecretStore.layer),
   Layer.provide(layerConfig),
   Layer.provideMerge(HttpPlatform.layer.pipe(Layer.provideMerge(Etag.layerWeak))),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 const withLinkProofClient = async (

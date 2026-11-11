@@ -1,0 +1,723 @@
+import {
+  CommandId,
+  DEFAULT_MODEL,
+  DEFAULT_PROVIDER_INTERACTION_MODE,
+  DEFAULT_SERVER_SETTINGS,
+  type ModelSelection,
+  type Project,
+  ProjectId,
+  ProviderInstanceId,
+  ThreadId,
+} from "@t3tools/contracts"
+import { resolveProjectSettings } from "@t3tools/shared/projectSettings"
+import * as Cause from "effect/Cause"
+import * as Console from "effect/Console"
+import * as Context from "effect/Context"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as DateTime from "effect/DateTime"
+import * as Deferred from "effect/Deferred"
+import * as Effect from "effect/Effect"
+import * as Exit from "effect/Exit"
+import * as Fiber from "effect/Fiber"
+import * as Layer from "effect/Layer"
+import * as Path from "effect/Path"
+import * as Queue from "effect/Queue"
+import * as Ref from "effect/Ref"
+import * as Schema from "effect/Schema"
+
+import * as ServerConfig from "./config.vibe"
+import * as ServiceLauncherClient from "./cloud/serviceLauncherClient.vibe"
+import { flushCompileCache } from "./compileCache.vibe"
+import * as Keybindings from "./keybindings.vibe"
+import * as ExternalLauncher from "./process/externalLauncher.vibe"
+import * as EffectWorker from "./orchestration-v2/EffectWorker.vibe"
+import * as LegacyV1ThreadImporter from "./orchestration-v2/legacy/LegacyV1ThreadImporter.vibe"
+import * as Orchestrator from "./orchestration-v2/Orchestrator.vibe"
+import * as ProviderRuntimeRecovery from "./orchestration-v2/ProviderRuntimeRecoveryService.vibe"
+import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.vibe"
+import * as ThreadLaunch from "./orchestration-v2/ThreadLaunchService.vibe"
+import * as ThreadManagement from "./orchestration-v2/ThreadManagementService.vibe"
+import * as ProjectService from "./project/ProjectService.vibe"
+import * as GitVcsDriver from "./vcs/GitVcsDriver.vibe"
+import * as ProjectStore from "./orchestration-v2/ProjectStore.vibe"
+import * as AgentAwarenessRelay from "./relay/AgentAwarenessRelay.vibe"
+import * as ServerLifecycleEvents from "./serverLifecycleEvents.vibe"
+import * as ServerSettings from "./serverSettings.vibe"
+import { forkParked, forkParkedFiber } from "./serverActivation.vibe"
+import * as AnalyticsService from "./telemetry/AnalyticsService.vibe"
+import { getServerOwners } from "./telemetry/Identify.vibe"
+import * as ServerEnvironment from "./environment/ServerEnvironment.vibe"
+import * as EnvironmentAuth from "./auth/EnvironmentAuth.vibe"
+import {
+  formatHeadlessServeOutput,
+  formatHostForUrl,
+  isWildcardHost,
+  issueHeadlessServeAccessInfo,
+} from "./startupAccess.vibe"
+
+const ServerRuntimeStartupErrorHostField: Schema.NullOr<Schema.String> = Schema.NullOr(Schema.String)
+const ServerRuntimeStartupErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error ServerRuntimeStartupError {
+  readonly mode: ServerConfig.RuntimeMode
+  host: ServerRuntimeStartupErrorHostField
+  readonly port: number
+  cause: ServerRuntimeStartupErrorCauseField
+  override get message(): string {
+    return "Server runtime startup failed before command readiness."
+  }
+}
+
+export service ServerRuntimeStartup: {
+  readonly awaitCommandReady: void!ServerRuntimeStartupError;
+  readonly markHttpListening: void!!;
+  readonly enqueueCommand: <A, E>(
+    effect: A!E,
+  ) => A!(E | ServerRuntimeStartupError);
+} {
+  static readonly key = "t3/serverRuntimeStartup"
+}
+
+interface QueuedCommand {
+  readonly run: void!!
+}
+
+type CommandReadinessState = "pending" | "ready" | ServerRuntimeStartupError
+
+interface CommandGate {
+  readonly awaitCommandReady: void!ServerRuntimeStartupError
+  readonly signalCommandReady: void!!
+  readonly failCommandReady: (error: ServerRuntimeStartupError) => void!!
+  readonly enqueueCommand: <A, E>(
+    effect: A!E,
+  ) => A!(E | ServerRuntimeStartupError)
+}
+
+const settleQueuedCommand = <A, E>(deferred: Deferred.Deferred<A, E>, exit: Exit.Exit<A, E>) =>
+  Exit.isSuccess(exit)
+    ? Deferred.succeed(deferred, exit.value)
+    : Deferred.failCause(deferred, exit.cause)
+
+export const makeCommandGate = effect {
+  const commandReady = try Deferred.make<void, ServerRuntimeStartupError>()
+  const commandQueue = try Queue.unbounded<QueuedCommand>()
+  const commandReadinessState = try Ref.make<CommandReadinessState>("pending")
+
+  const commandWorker = Effect.forever(
+    Queue.take(commandQueue) |> Effect.flatMap(%, (command) => command.run),
+  )
+  try Effect.forkScoped(commandWorker)
+
+  const enqueueCommand = effect <A, E>(
+    effect: A!E!never,
+  ): A!(E | ServerRuntimeStartupError)! =>
+    try withSpan(
+      (effect (): A!(E | ServerRuntimeStartupError)! => {
+        const readinessState = try Ref.get(commandReadinessState)
+        if (readinessState === "ready") {
+          return try effect
+        }
+        if (readinessState !== "pending") {
+          throw readinessState
+        }
+
+        const result = try Deferred.make<A, E | ServerRuntimeStartupError>()
+        try Queue.offer(commandQueue, {
+          run: Deferred.await(commandReady)
+            |> Effect.flatMap(%, () => effect)
+            |> Effect.exit(%)
+            |> Effect.flatMap(%, (exit) => settleQueuedCommand(result, exit)),
+        })
+        return try Deferred.await(result)
+      })(),
+      "serverRuntimeStartup.enqueueCommand",
+    )
+
+  return {
+    awaitCommandReady: Deferred.await(commandReady),
+    signalCommandReady: effect {
+      try Ref.set(commandReadinessState, "ready")
+      try (Deferred.succeed(commandReady, undefined) |> Effect.orDie(%))
+    },
+    failCommandReady: effect (error): void!never!never =>
+      try withSpan(
+        (effect (): void!never!never => {
+          try Ref.set(commandReadinessState, error)
+          try (Deferred.fail(commandReady, error) |> Effect.orDie(%))
+        })(),
+        "serverRuntimeStartup.failCommandReady",
+      ),
+    enqueueCommand,
+  } satisfies CommandGate
+}
+
+const recordStartupHeartbeat = effect {
+  const analytics = try AnalyticsService.AnalyticsService
+  const projects = try ProjectService.ProjectService
+  const threads = try ThreadManagement.ThreadManagementService
+
+  const { threadCount, projectCount } = try (Effect.all({
+    projects: projects.snapshot,
+    threads: threads.getShellSnapshot(),
+  })
+    |> Effect.map(%, ({ projects: projectSnapshot, threads: shellSnapshot }) => ({
+      projectCount: projectSnapshot.projects.length,
+      threadCount: shellSnapshot.threads.length + shellSnapshot.archivedThreads.length,
+    }))
+    |> Effect.catch(%, (cause) =>
+      Effect.logWarning("failed to gather V2 startup counts for telemetry", {
+        cause,
+      })
+      |> Effect.as(%, {
+        threadCount: 0,
+        projectCount: 0,
+      })))
+
+  try analytics.record("server.boot.heartbeat", {
+    threadCount,
+    projectCount,
+  })
+  try analytics.recordOwners(try getServerOwners, "server")
+}
+
+const getAutoBootstrapThreadModelSelection = (): ModelSelection => ({
+  instanceId: ProviderInstanceId.make("codex"),
+  model: DEFAULT_MODEL,
+})
+
+interface AutoBootstrapWelcomeTargets {
+  readonly bootstrapProjectId?: ProjectId
+  readonly bootstrapThreadId?: ThreadId
+}
+
+export const autoPullProjects = effect (
+  projects: ReadonlyArray<Pick<Project, "id" | "workspaceRoot" | "autoPull">>,
+  settings = DEFAULT_SERVER_SETTINGS,
+) =>
+  try withSpan(
+    effect {
+      const git = try GitVcsDriver.GitVcsDriver
+      const workspaceRoots = [
+        ...new Set(
+          projects
+            .filter((project) => resolveProjectSettings(settings, project.id).settings.defaultAutoPull)
+            .map((project) => project.workspaceRoot),
+        ),
+      ]
+
+      try Effect.forEach(
+        workspaceRoots,
+        (cwd) =>
+          effect {
+            const status = try git.statusDetails(cwd)
+            if (
+              !status.isRepo
+              || !status.isDefaultBranch
+              || !status.hasUpstream
+              || status.hasWorkingTreeChanges
+              || status.aheadCount > 0
+            ) {
+              try Effect.logDebug("Skipped automatic project pull", {
+                cwd,
+                reason: !status.isRepo
+                  ? "not-a-repository"
+                  : !status.isDefaultBranch
+                  ? "not-on-default-branch"
+                  : !status.hasUpstream
+                  ? "no-upstream"
+                  : status.hasWorkingTreeChanges
+                  ? "working-tree-changes"
+                  : "local-commits",
+              })
+              return
+            }
+
+            if (status.behindCount <= 0) return
+
+            const result = try git.pullCurrentBranch(cwd)
+            try Effect.logDebug("Automatic project pull completed", {
+              cwd,
+              status: result.status,
+              refName: result.refName,
+            })
+          }
+          |> Effect.catch(%, (cause) =>
+            Effect.logWarning("Automatic project pull failed", {
+              cwd,
+              cause,
+            })),
+        { concurrency: 4, discard: true },
+      )
+    },
+    "autoPullProjects",
+  )
+
+const resolveWelcomeBase = effect {
+  const serverConfig = try ServerConfig.ServerConfig
+  const segments = serverConfig.cwd.split(/[/\\]/).filter(Boolean)
+  const projectName = segments[segments.length - 1] ?? "project"
+
+  return {
+    cwd: serverConfig.cwd,
+    projectName,
+  } as const
+}
+
+const resolveAutoBootstrapWelcomeTargets = effect {
+  const crypto = try Crypto.Crypto
+  const randomUUID = crypto.randomUUIDv4()
+  const serverConfig = try ServerConfig.ServerConfig
+  const projects = try ProjectService.ProjectService
+  const threads = try ThreadManagement.ThreadManagementService
+  const threadLaunch = try ThreadLaunch.ThreadLaunchService
+  const path = try Path.Path
+
+  let bootstrapProjectId: ProjectId | undefined
+  let bootstrapThreadId: ThreadId | undefined
+
+  if (serverConfig.autoBootstrapProjectFromCwd) {
+    const threadModelSelection = getAutoBootstrapThreadModelSelection()
+    const { project } = try projects.bootstrap({
+      commandId: CommandId.make(try randomUUID),
+      projectId: ProjectId.make(try randomUUID),
+      title: path.basename(serverConfig.cwd) || "project",
+      workspaceRoot: serverConfig.cwd,
+    })
+    const shell = try threads.getShellSnapshot()
+    const existingThread = shell.threads.find(
+      (thread) => thread.projectId === project.id && thread.lineage.relationshipToParent !== "subagent",
+    )
+    if (existingThread === undefined) {
+      const serverSettings = try ServerSettings.ServerSettingsService
+      const settings = try serverSettings.getSettings
+      const launched = try (threadLaunch
+        .launch({
+          commandId: CommandId.make(try randomUUID),
+          projectId: project.id,
+          title: "New thread",
+          modelSelection: (try Effect.orDie(Effect.try({
+            try: () => resolveProjectSettings(settings, project.id, project),
+            catch: (e) => e,
+          }))).settings.defaultModelSelection
+            ?? threadModelSelection,
+          interactionMode: DEFAULT_PROVIDER_INTERACTION_MODE,
+          runtimeMode: (try Effect.orDie(Effect.try({
+            try: () => resolveProjectSettings(settings, project.id, project),
+            catch: (e) => e,
+          }))).settings
+            .defaultRuntimeMode,
+          workspaceStrategy: { type: "root" },
+          createdBy: "system",
+          creationSource: "server",
+        })
+        // The bootstrap thread is optional; its launch must not prevent opening the app.
+        |> Effect.catchTags(%, {
+          ThreadManagementProviderInstanceDisabledError: (error) =>
+            Effect.logInfo("Skipped bootstrap thread because its provider instance is disabled", {
+              projectId: project.id,
+              instanceId: error.instanceId,
+            }) |> Effect.as(%, undefined),
+          ThreadLaunchError: (error) =>
+            Effect.logWarning("Failed to launch bootstrap thread", {
+              projectId: project.id,
+              operation: error.operation,
+            }) |> Effect.as(%, undefined),
+        }))
+      bootstrapProjectId = project.id
+      bootstrapThreadId = launched?.threadId
+    } else {
+      bootstrapProjectId = project.id
+      bootstrapThreadId = existingThread.id
+    }
+  }
+
+  return {
+    ...(bootstrapProjectId ? { bootstrapProjectId } : {}),
+    ...(bootstrapThreadId ? { bootstrapThreadId } : {}),
+  } satisfies AutoBootstrapWelcomeTargets
+}
+
+const resolveStartupBrowserTarget = effect {
+  const serverConfig = try ServerConfig.ServerConfig
+  const serverAuth = try EnvironmentAuth.EnvironmentAuth
+  const localUrl = `http://localhost:${serverConfig.port}`
+  const bindUrl = try Effect.orDie(Effect.try({
+    try: () =>
+      serverConfig.host && !isWildcardHost(serverConfig.host)
+        ? `http://${formatHostForUrl(serverConfig.host)}:${serverConfig.port}`
+        : localUrl,
+    catch: (e) => e,
+  }))
+  const baseTarget = serverConfig.devUrl?.toString() ?? bindUrl
+  return serverConfig.mode === "desktop"
+    ? baseTarget
+    : try serverAuth.issueStartupPairingUrl(baseTarget)
+}
+
+/** Prints the one-time admin pairing URL to stdout only; logger records reach trace files and collectors. */
+export const announceStartupPairingUrl = (pairingUrl: string) =>
+  Effect.logInfo("Authentication required. Open T3 Code using the pairing URL.").pipe(
+    Effect.andThen(Console.log(`  pairingUrl: ${pairingUrl}`)),
+  )
+
+// Pairing tokens belong only in announceStartupPairingUrl's stdout output.
+export const logBrowserAutoOpenUnavailable = Effect.logInfo("browser auto-open unavailable", {
+  hint: "Open the pairing URL above in your browser.",
+})
+
+export const maybeOpenBrowser = effect (
+  target: string,
+) =>
+  try withSpan(
+    effect {
+      const serverConfig = try ServerConfig.ServerConfig
+      if (serverConfig.noBrowser) {
+        return
+      }
+      const externalLauncher = try ExternalLauncher.ExternalLauncher
+
+      try (externalLauncher.launchBrowser(target)
+        // The target carries the pairing token, and a failed launch records its
+        // command line on the span, so this call stays out of traces.
+        |> Effect.withTracerEnabled(false)(%)
+        |> Effect.catch(%, () => logBrowserAutoOpenUnavailable))
+    },
+    "serverRuntimeStartup.maybeOpenBrowser",
+  )
+
+const runStartupPhase = <A, E, R>(phase: string, effect: A!E!R) =>
+  effect.pipe(
+    // Use span attributes; annotations would follow long-lived forked fibers for the server's lifetime.
+    withSpan(`server.startup.${phase}`, { attributes: { "startup.phase": phase } }),
+  )
+
+interface StartupOptions {
+  readonly activate?: void!!
+  readonly awaitAuxiliaryParked?: void!!
+  readonly abort?: (error: ServerRuntimeStartupError) => void!!
+}
+
+export const startEffectWorkerWithRelay = effect <WorkerContext, RelayContext>(
+  input: {
+    readonly runWorker: void!never!WorkerContext
+    readonly startRelay: void!never!RelayContext
+    readonly workerFiberRef: Ref.Ref<Fiber.Fiber<void, never> | null>
+  },
+): void!never!(RelayContext | WorkerContext | import("effect/Scope").Scope) =>
+  try withSpan(
+    effect {
+      const workerFiber = try forkParkedFiber(input.runWorker)
+      try Ref.set(input.workerFiberRef, workerFiber)
+      try (input.startRelay
+        |> Effect.onExit(%, (exit) => {
+          if (Exit.isSuccess(exit)) {
+            return Effect.void
+          }
+          return Ref.getAndSet(input.workerFiberRef, null)
+            |> Effect.flatMap(%, (ownedWorkerFiber) =>
+              ownedWorkerFiber === null
+                ? Effect.void
+                : (Fiber.interrupt(ownedWorkerFiber) |> Effect.asVoid(%)))
+        }))
+    },
+    "ServerRuntimeStartup.startEffectWorkerWithRelay",
+  )
+
+const runOrderedV2StartupPhases = effect <
+  Import,
+  Recovery,
+  Bootstrap,
+  ImportError,
+  RecoveryError,
+  DelegationError,
+  WorkerError,
+  BootstrapError,
+  ImportContext,
+  RecoveryContext,
+  DelegationContext,
+  WorkerContext,
+  BootstrapContext,
+>(
+  input: {
+    readonly importLegacyShells: Import!ImportError!ImportContext
+    readonly recover: Recovery!RecoveryError!RecoveryContext
+    readonly recoverDelegatedTasks: void!DelegationError!DelegationContext
+    readonly startEffectWorker: void!WorkerError!WorkerContext
+    readonly autoBootstrap: Bootstrap!BootstrapError!BootstrapContext
+  },
+): { readonly recovery: Recovery; readonly bootstrap: Bootstrap; }!(BootstrapError | DelegationError | ImportError | RecoveryError | WorkerError)!(BootstrapContext | DelegationContext | ImportContext | RecoveryContext | WorkerContext) =>
+  try withSpan(
+    effect {
+      try input.importLegacyShells
+      const recovery = try input.recover
+      try input.recoverDelegatedTasks
+      try input.startEffectWorker
+      const bootstrap = try input.autoBootstrap
+      return { recovery, bootstrap } as const
+    },
+    "serverRuntimeStartup.runOrderedV2StartupPhases",
+  )
+
+const make = effect (options?: StartupOptions | undefined) =>
+  try withSpan(
+    effect {
+      const serverConfig = try ServerConfig.ServerConfig
+      const keybindings = try Keybindings.Keybindings
+      const legacyV1ThreadImporter = try LegacyV1ThreadImporter.LegacyV1ThreadImporter
+      const providerRuntimeRecovery = try ProviderRuntimeRecovery.ProviderRuntimeRecoveryService
+      const orchestrator = try Orchestrator.OrchestratorV2
+      const providerSessions = try ProviderSessionManager.ProviderSessionManagerV2
+      const agentAwarenessRelay = try AgentAwarenessRelay.AgentAwarenessRelay
+      const lifecycleEvents = try ServerLifecycleEvents.ServerLifecycleEvents
+      const serverSettings = try ServerSettings.ServerSettingsService
+      const serverEnvironment = try ServerEnvironment.ServerEnvironment
+      const crypto = try Crypto.Crypto
+      const launcher = try ServiceLauncherClient.ServiceLauncherClient
+
+      const commandGate = try makeCommandGate
+      const httpListening = try Deferred.make<void>()
+      const effectWorkerFiber = try Ref.make<Fiber.Fiber<void, never> | null>(null)
+
+      try Effect.addFinalizer(() =>
+        effect {
+          try commandGate.failCommandReady(
+            new ServerRuntimeStartupError({
+              mode: serverConfig.mode,
+              host: serverConfig.host ?? null,
+              port: serverConfig.port,
+              cause: "Server runtime is shutting down.",
+            }),
+          )
+          const workerFiber = try Ref.getAndSet(effectWorkerFiber, null)
+          if (workerFiber !== null) {
+            try (Fiber.interrupt(workerFiber) |> Effect.ignore(%))
+          }
+          try (providerRuntimeRecovery.prepareForShutdown
+            |> Effect.ensuring(%, providerSessions.shutdown))
+          const reconciliation = try providerRuntimeRecovery.reconcile("shutdown")
+          try Effect.logInfo("V2 orchestration shutdown reconciliation completed", reconciliation)
+        }
+        |> Effect.catchCause(%, (cause) =>
+          Effect.logWarning("V2 orchestration shutdown reconciliation failed", {
+            cause: Cause.pretty(cause),
+          }))
+      )
+
+      const startup = (() => {
+        const pipe$program = effect {
+          try Effect.logDebug("startup phase: starting keybindings runtime")
+          try runStartupPhase(
+            "keybindings.start",
+            keybindings.start
+              |> Effect.catch(%, (error) =>
+                Effect.logWarning("failed to start keybindings runtime", {
+                  path: error.configPath,
+                  detail: error.detail,
+                  cause: error.cause,
+                })),
+          )
+
+          try Effect.logDebug("startup phase: starting server settings runtime")
+          try runStartupPhase(
+            "settings.start",
+            serverSettings.start
+              |> Effect.catch(%, (error) =>
+                Effect.logWarning("failed to start server settings runtime", {
+                  path: error.settingsPath,
+                  operation: error.operation,
+                  providerInstanceId: error.providerInstanceId,
+                  environmentVariable: error.environmentVariable,
+                  cause: error.cause,
+                })),
+          )
+
+          const welcomeBase = try resolveWelcomeBase
+          const environment = try serverEnvironment.getDescriptor
+          const legacyMigrationThreadCount = try legacyV1ThreadImporter.pendingThreadCount
+          if (legacyMigrationThreadCount > 0) {
+            try lifecycleEvents.publish({
+              version: 1,
+              type: "legacyThreadMigration",
+              payload: {
+                status: "running",
+                totalThreadCount: legacyMigrationThreadCount,
+              },
+            })
+          }
+          const { recovery, bootstrap: bootstrapTargets } = try runOrderedV2StartupPhases({
+            importLegacyShells: runStartupPhase(
+              "orchestration-v2.legacy-v1.import-shells",
+              legacyV1ThreadImporter.reconcileShells
+                |> Effect.tap(%, (summary) =>
+                  summary.importedThreadCount === 0
+                    ? Effect.void
+                    : Effect.logInfo("Imported legacy v1 thread shells", summary)),
+            ),
+            recover: runStartupPhase("orchestration-v2.recovery", providerRuntimeRecovery.recover),
+            recoverDelegatedTasks: runStartupPhase(
+              "orchestration-v2.delegated-tasks.recover",
+              orchestrator.recoverDelegatedTasks,
+            ),
+            startEffectWorker: runStartupPhase(
+              "orchestration-v2.effect-worker.start",
+              startEffectWorkerWithRelay({
+                runWorker: EffectWorker.runDaemon,
+                startRelay: agentAwarenessRelay.start(),
+                workerFiberRef: effectWorkerFiber,
+              }),
+            ),
+            autoBootstrap: (serverConfig.autoBootstrapProjectFromCwd
+              ? runStartupPhase(
+                "welcome.autobootstrap",
+                resolveAutoBootstrapWelcomeTargets |> Effect.provideService(%, Crypto.Crypto, crypto),
+              )
+              : Effect.succeed({})) |> Effect.map(%, (targets): AutoBootstrapWelcomeTargets => targets),
+          })
+          try Effect.logInfo("V2 orchestration recovery completed", recovery)
+          // Runs after activation: the status check fetches every enabled project's
+          // remote, and awaiting it here held command readiness for that long.
+          try (runStartupPhase(
+            "projects.auto-pull",
+            effect {
+              const projects = try (try ProjectStore.ProjectStoreV2).listShells()
+              const settings = try serverSettings.getSettings
+              try autoPullProjects(projects, settings)
+            },
+          )
+            |> Effect.catch(%, (cause) => Effect.logWarning("Failed to load projects for automatic pull", { cause }))
+            |> forkParked(%))
+
+          const importPendingTranscripts = legacyV1ThreadImporter.importPendingTranscripts
+            |> Effect.tap(%, (summary) =>
+              summary.importedThreadCount === 0
+                ? Effect.void
+                : Effect.logInfo("Hydrated legacy v1 thread transcripts", summary))
+          try ((
+            legacyMigrationThreadCount > 0
+              ? (importPendingTranscripts
+                |> Effect.tap(%, () =>
+                  lifecycleEvents.publish({
+                    version: 1,
+                    type: "legacyThreadMigration",
+                    payload: {
+                      status: "complete",
+                      totalThreadCount: legacyMigrationThreadCount,
+                    },
+                  })))
+              : importPendingTranscripts
+          ) |> forkParked(%))
+
+          try forkParked(
+            effect {
+              try Effect.logDebug("startup phase: recording startup heartbeat")
+              try (recordStartupHeartbeat
+                |> Effect.withSpan(%, "server.startup.heartbeat.record", {
+                  attributes: { "startup.phase": "heartbeat.record" },
+                })
+                |> Effect.ignoreCause({ log: true })(%))
+              if (serverConfig.startupPresentation === "headless") {
+                try Effect.logDebug("startup phase: headless access info")
+                const accessInfo = try issueHeadlessServeAccessInfo()
+                try runStartupPhase(
+                  "headless.output",
+                  Console.log(
+                    try Effect.orDie(
+                      Effect.try({ try: () => formatHeadlessServeOutput(accessInfo), catch: (e) => e }),
+                    ),
+                  ),
+                )
+              } else {
+                try Effect.logDebug("startup phase: browser open check")
+                const startupBrowserTarget = try resolveStartupBrowserTarget
+                if (serverConfig.mode !== "desktop") {
+                  try announceStartupPairingUrl(startupBrowserTarget)
+                }
+                try runStartupPhase("browser.open", maybeOpenBrowser(startupBrowserTarget))
+              }
+            },
+          )
+
+          try Effect.logDebug("startup phase: waiting for http listener")
+          try runStartupPhase("http.wait", Deferred.await(httpListening))
+          try runStartupPhase("auxiliary-roots.parked", options?.awaitAuxiliaryParked ?? Effect.void)
+
+          const updateOutcome = try launcher.prepareTrial
+
+          try Effect.logDebug("startup phase: publishing welcome event", {
+            environmentId: environment.environmentId,
+            cwd: welcomeBase.cwd,
+            projectName: welcomeBase.projectName,
+            bootstrapProjectId: bootstrapTargets.bootstrapProjectId,
+            bootstrapThreadId: bootstrapTargets.bootstrapThreadId,
+          })
+          try runStartupPhase(
+            "welcome.publish",
+            lifecycleEvents.publish({
+              version: 1,
+              type: "welcome",
+              payload: {
+                environment,
+                ...welcomeBase,
+                ...bootstrapTargets,
+              },
+            }),
+          )
+
+          try (options?.activate ?? Effect.void)
+          try Effect.logDebug("Accepting commands")
+          try commandGate.signalCommandReady
+          try Effect.logDebug("startup phase: publishing ready event")
+          try runStartupPhase(
+            "ready.publish",
+            lifecycleEvents.publish({
+              version: 1,
+              type: "ready",
+              payload: {
+                at: DateTime.formatIso(try DateTime.now),
+                environment,
+                ...(updateOutcome === undefined ? {} : { updateOutcome }),
+              },
+            }),
+          )
+          try Effect.logDebug("startup phase: complete")
+          try flushCompileCache
+        }
+        const pipe$stage0 = withSpan("server.startup", {
+          kind: "server",
+          root: true,
+          attributes: {
+            "server.mode": serverConfig.mode,
+            "server.port": serverConfig.port,
+            "server.host": serverConfig.host ?? "default",
+          },
+        })
+        return pipe$program |> pipe$stage0(%)
+      })()
+
+      try Effect.forkScoped(
+        Effect.exit(startup)
+          |> Effect.flatMap(%, (startupExit) => {
+            if (Exit.isSuccess(startupExit)) return Effect.void
+            const error = new ServerRuntimeStartupError({
+              mode: serverConfig.mode,
+              host: serverConfig.host ?? null,
+              port: serverConfig.port,
+              cause: startupExit.cause,
+            })
+            return Effect.logError("server runtime startup failed", {
+              cause: Cause.pretty(startupExit.cause),
+            })
+              |> Effect.andThen(%, commandGate.failCommandReady(error))
+              |> Effect.andThen(%, options?.abort?.(error) ?? Effect.void)
+          }),
+      )
+
+      return {
+        awaitCommandReady: commandGate.awaitCommandReady,
+        markHttpListening: Deferred.succeed(httpListening, undefined),
+        enqueueCommand: commandGate.enqueueCommand,
+      } satisfies ServerRuntimeStartup["Service"]
+    },
+    "serverRuntimeStartup.make",
+  )
+
+export const layerWithOptions = (options?: StartupOptions) => Layer.effect(ServerRuntimeStartup, make(options))

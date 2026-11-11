@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { getRenderablePatch, resolveFileDiffPath } from "~/lib/diffRendering";
 import { pullRequestEnvironment } from "~/state/pullRequests";
-import { useEnvironmentQuery } from "~/state/query";
+import { useEnvironmentQuery } from "../../../state/query.vibe";
 
 import { pullRequestReviewKey } from "../pullRequestReviewStore";
 

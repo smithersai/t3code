@@ -90,7 +90,7 @@ vi.mock("./server", async () => {
 
 vi.mock("./git", () => ({ gitEnvironment: {} }));
 
-vi.mock("./threads", async () => {
+vi.mock("./threads.vibe", async () => {
   const { Atom } = await import("effect/reactivity");
   harness.threadProjection = Atom.make<{
     readonly projection: { readonly messages: ReadonlyArray<{ readonly id: string }> };
@@ -142,7 +142,7 @@ import { appAtomRegistry } from "./atom-registry";
 import { pendingThreadCreationOutcomesAtom } from "./pending-thread-creation";
 import { clearThreadComposerError, threadComposerErrorsAtom } from "./thread-composer-error";
 import type { QueuedThreadMessage } from "./thread-outbox-model";
-import * as composerDrafts from "./use-composer-drafts";
+import * as composerDrafts from "./use-composer-drafts.vibe";
 import { recoverFailedThreadDraft } from "./recover-failed-thread-draft";
 import { editingQueuedMessageIdsAtom } from "./use-thread-outbox";
 import {

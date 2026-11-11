@@ -54,12 +54,12 @@ vi.mock("./use-remote-environment-registry", () => ({
   environmentConnectedAtom: () => null,
   setPendingConnectionError: () => {},
 }));
-vi.mock("./use-vcs-action-state", () => ({
+vi.mock("./use-vcs-action-state.vibe", () => ({
   showGitActionResult: (result: { type: string; description?: string }) =>
     state.results.push(result),
 }));
 vi.mock("../lib/uuid", () => ({ uuidv4: () => "action" }));
-vi.mock("./threads", () => ({
+vi.mock("./threads.vibe", () => ({
   threadEnvironment: {
     updateMetadata: async ({
       environmentId,

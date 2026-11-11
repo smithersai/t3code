@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 import { replaceComposerContextReferences } from "@t3tools/shared/composerContextReferences";
 
-import type { ReviewRenderableLineRow } from "./reviewModel";
+import type { ReviewRenderableLineRow } from "./reviewModel.vibe";
 
 export interface ReviewCommentTarget {
   readonly sectionId: string;
@@ -83,7 +83,10 @@ export function getReviewCommentSelection(): ReviewCommentSelection {
 
 let lastReviewSheetId = 0;
 
-/** A fresh id per mounted review sheet, so reopening the sheet starts without a selection. */
+/**
+ * A fresh id per mounted review sheet, so reopening the sheet starts without a selection.
+ * @throws {never}
+ */
 export function nextReviewSheetId(): number {
   lastReviewSheetId += 1;
   return lastReviewSheetId;

@@ -1,0 +1,194 @@
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Layer from "effect/Layer"
+import * as Path from "effect/Path"
+import * as Schema from "effect/Schema"
+
+import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+
+export schema error WorkspaceRootNotExistsError {
+  workspaceRoot: string
+  normalizedWorkspaceRoot: string
+  override get message(): string {
+    return `Workspace root does not exist: ${this.normalizedWorkspaceRoot}`
+  }
+}
+
+const WorkspaceRootCreateFailedErrorCauseField = Schema.Defect()
+export schema error WorkspaceRootCreateFailedError {
+  workspaceRoot: string
+  normalizedWorkspaceRoot: string
+  cause: WorkspaceRootCreateFailedErrorCauseField
+  override get message(): string {
+    return `Failed to create workspace root: ${this.normalizedWorkspaceRoot}`
+  }
+}
+
+const WorkspaceRootStatFailedErrorCauseField = Schema.Defect()
+export schema error WorkspaceRootStatFailedError {
+  workspaceRoot: string
+  normalizedWorkspaceRoot: string
+  phase: "validate-existing" | "verify-created"
+  cause: WorkspaceRootStatFailedErrorCauseField
+  override get message(): string {
+    return `Failed to stat workspace root '${this.normalizedWorkspaceRoot}' during '${this.phase}'.`
+  }
+}
+
+export schema error WorkspaceRootNotDirectoryError {
+  workspaceRoot: string
+  normalizedWorkspaceRoot: string
+  override get message(): string {
+    return `Workspace root is not a directory: ${this.normalizedWorkspaceRoot}`
+  }
+}
+
+export schema error WorkspacePathOutsideRootError {
+  workspaceRoot: string
+  relativePath: string
+  override get message(): string {
+    return `Workspace file path must be relative to the project root: ${this.relativePath}`
+  }
+}
+
+export schema WorkspacePathsError =
+  | WorkspaceRootNotExistsError
+  | WorkspaceRootCreateFailedError
+  | WorkspaceRootStatFailedError
+  | WorkspaceRootNotDirectoryError
+  | WorkspacePathOutsideRootError
+
+export service WorkspacePaths {
+  static readonly key = "t3/workspace/WorkspacePaths"
+  normalizeWorkspaceRoot: (
+    workspaceRoot: string,
+    options?: { readonly createIfMissing?: boolean },
+  ) => string!(| WorkspaceRootNotExistsError
+    | WorkspaceRootCreateFailedError
+    | WorkspaceRootStatFailedError
+    | WorkspaceRootNotDirectoryError)
+  resolveRelativePathWithinRoot: (input: {
+    workspaceRoot: string
+    relativePath: string
+  }) => { absolutePath: string; relativePath: string }!WorkspacePathOutsideRootError
+}
+
+function toPosixRelativePath(input: string): string {
+  return input.replaceAll("\\", "/")
+}
+
+const make = effect {
+  const fileSystem = try FileSystem.FileSystem
+  const path = try Path.Path
+
+  const statWorkspaceRoot = effect (
+    workspaceRoot: string,
+    normalizedWorkspaceRoot: string,
+    phase: "validate-existing" | "verify-created",
+  ) =>
+    try withSpan(
+      effect {
+        return try (fileSystem.stat(normalizedWorkspaceRoot)
+          |> Effect.matchEffect(%, {
+            onFailure: (cause) =>
+              cause.reason._tag === "NotFound"
+                ? Effect.succeed(null)
+                : Effect.fail(
+                  new WorkspaceRootStatFailedError({
+                    workspaceRoot,
+                    normalizedWorkspaceRoot,
+                    phase,
+                    cause,
+                  }),
+                ),
+            onSuccess: Effect.succeed,
+          }))
+      },
+      "WorkspacePaths.statWorkspaceRoot",
+    )
+
+  const normalizeWorkspaceRoot: WorkspacePaths["Service"]["normalizeWorkspaceRoot"] = effect (workspaceRoot, options) =>
+    try withSpan(
+      effect {
+        const home = try HostProcess.HomeDirectory
+        const normalizedWorkspaceRoot = path.resolve(
+          try Effect.orDie(
+            Effect.try({ try: () => expandHomePath(workspaceRoot.trim(), home), catch: (error) => error }),
+          ),
+        )
+        let workspaceStat = try statWorkspaceRoot(
+          workspaceRoot,
+          normalizedWorkspaceRoot,
+          "validate-existing",
+        )
+        if (!workspaceStat && options?.createIfMissing) {
+          fileSystem.makeDirectory(normalizedWorkspaceRoot, { recursive: true }) catch effect (cause) => {
+            throw new WorkspaceRootCreateFailedError({
+              workspaceRoot,
+              normalizedWorkspaceRoot,
+              cause,
+            })
+          }
+          workspaceStat = try statWorkspaceRoot(
+            workspaceRoot,
+            normalizedWorkspaceRoot,
+            "verify-created",
+          )
+        }
+        if (!workspaceStat) {
+          throw new WorkspaceRootNotExistsError({
+            workspaceRoot,
+            normalizedWorkspaceRoot,
+          })
+        }
+        if (workspaceStat.type !== "Directory") {
+          throw new WorkspaceRootNotDirectoryError({
+            workspaceRoot,
+            normalizedWorkspaceRoot,
+          })
+        }
+        return normalizedWorkspaceRoot
+      },
+      "WorkspacePaths.normalizeWorkspaceRoot",
+    )
+
+  const resolveRelativePathWithinRoot: WorkspacePaths["Service"]["resolveRelativePathWithinRoot"] = effect (input) =>
+    try withSpan(
+      effect {
+        const normalizedInputPath = input.relativePath.trim()
+        if (path.isAbsolute(normalizedInputPath)) {
+          throw new WorkspacePathOutsideRootError({
+            workspaceRoot: input.workspaceRoot,
+            relativePath: input.relativePath,
+          })
+        }
+
+        const absolutePath = path.resolve(input.workspaceRoot, normalizedInputPath)
+        const relativeToRoot = toPosixRelativePath(path.relative(input.workspaceRoot, absolutePath))
+        if (
+          relativeToRoot.length === 0
+          || relativeToRoot === "."
+          || relativeToRoot.startsWith("../")
+          || relativeToRoot === ".."
+          || path.isAbsolute(relativeToRoot)
+        ) {
+          throw new WorkspacePathOutsideRootError({
+            workspaceRoot: input.workspaceRoot,
+            relativePath: input.relativePath,
+          })
+        }
+
+        return {
+          absolutePath,
+          relativePath: relativeToRoot,
+        }
+      },
+      "WorkspacePaths.resolveRelativePathWithinRoot",
+    )
+
+  return WorkspacePaths.of({ normalizeWorkspaceRoot, resolveRelativePathWithinRoot })
+}
+
+export const layer = Layer.effect(WorkspacePaths, make)

@@ -5,8 +5,8 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import { runMigrations } from "../persistence/Migrations.ts";
-import * as McpAppModelContext from "./McpAppModelContext.ts";
+import { runMigrations } from "../persistence/Migrations.vibe";
+import * as McpAppModelContext from "./McpAppModelContext.vibe";
 
 const database = NodeSqliteClient.layer({ filename: ":memory:" });
 const layer = it.layer(

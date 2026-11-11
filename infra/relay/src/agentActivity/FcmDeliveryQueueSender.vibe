@@ -1,0 +1,13 @@
+import type * as Cloudflare from "@alchemy.run/cloudflare"
+import * as Context from "effect/Context"
+import type * as Effect from "effect/Effect"
+
+import type * as FcmDeliveries from "./FcmDeliveries.vibe"
+
+export service FcmDeliveryQueueSender: {
+  readonly send: (
+    body: FcmDeliveries.FcmDeliveryJob,
+  ) => void!Cloudflare.Queues.SendError;
+} {
+  static readonly key = "t3code-relay/agentActivity/FcmDeliveryQueueSender"
+}

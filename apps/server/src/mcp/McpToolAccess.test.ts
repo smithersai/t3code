@@ -15,12 +15,12 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import { McpSchema, McpServer, Tool, Toolkit } from "effect/ai";
 
-import { OrchestratorProjectionError } from "../orchestration-v2/Orchestrator.ts";
-import * as PeerForwarding from "../peer/PeerForwarding.ts";
-import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
-import * as McpHttpServer from "./McpHttpServer.ts";
-import * as McpInvocationContext from "./McpInvocationContext.ts";
-import * as McpToolAccess from "./McpToolAccess.ts";
+import { OrchestratorProjectionError } from "../orchestration-v2/Orchestrator.vibe";
+import * as PeerForwarding from "../peer/PeerForwarding.vibe";
+import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
+import * as McpHttpServer from "./McpHttpServer.vibe";
+import * as McpInvocationContext from "./McpInvocationContext.vibe";
+import * as McpToolAccess from "./McpToolAccess.vibe";
 import { liveThreadShell } from "./McpToolAccess.testkit.ts";
 
 const supervisedThreadId = ThreadId.make("thread:supervised");
@@ -192,6 +192,7 @@ export const refusedAtCompileTime = () => {
 
 const probeServer = (threads: Layer.Layer<ThreadManagement.ThreadManagementService>) =>
   McpHttpServer.toolkitRegistration(ProbeToolkit, layerProbeHandlers).pipe(
+    Layer.provide(McpHttpServer.layerCallerInvocation),
     Layer.provideMerge(McpServer.McpServer.layer),
     Layer.provideMerge(threads),
   );
@@ -392,6 +393,7 @@ const linkedProbeServer = McpHttpServer.toolkitRegistration(
     writes_environment: McpToolAccess.writesEnvironment(ranHere),
   }),
 ).pipe(
+  Layer.provide(McpHttpServer.layerCallerInvocation),
   Layer.provideMerge(McpServer.McpServer.layer),
   Layer.provideMerge(
     Layer.mock(ThreadManagement.ThreadManagementService)({

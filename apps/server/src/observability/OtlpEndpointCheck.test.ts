@@ -18,8 +18,8 @@ import {
 } from "effect/http";
 import { describe } from "vite-plus/test";
 
-import * as ServerConfig from "../config.ts";
-import * as OtlpEndpointCheck from "./OtlpEndpointCheck.ts";
+import * as ServerConfig from "../config.vibe";
+import * as OtlpEndpointCheck from "./OtlpEndpointCheck.vibe";
 
 interface PostedRequest {
   readonly url: string;

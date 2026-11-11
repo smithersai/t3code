@@ -1,15 +1,14 @@
-import * as DocumentText from "../provider/DocumentText.ts";
-import * as Scheduler from "../scheduling/Scheduler.ts";
-import * as WorktreeSetupTracker from "../project/WorktreeSetupTracker.ts";
-import * as ProjectCloneTracker from "../project/ProjectCloneTracker.ts";
-import * as TerminalManager from "../terminal/Manager.ts";
+import * as DocumentText from "../provider/DocumentText.vibe";
+import * as Scheduler from "../scheduling/Scheduler.vibe";
+import * as WorktreeSetupTracker from "../project/WorktreeSetupTracker.vibe";
+import * as ProjectCloneTracker from "../project/ProjectCloneTracker.vibe";
+import * as TerminalManager from "../terminal/Manager.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as FileSystem from "effect/FileSystem";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import { createPendingAttachmentId, resolveAttachmentPath } from "../attachmentStore.ts";
-import * as ThreadMessageIntake from "./ThreadMessageIntake.ts";
+import * as ThreadMessageIntake from "./ThreadMessageIntake.vibe";
 import { assert, it, vi } from "@effect/vitest";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import {
   ChatAttachmentId,
   ComposerContextId,
@@ -41,30 +40,31 @@ import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as GitWorkflow from "../git/GitWorkflowService.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ProjectStore from "./ProjectStore.ts";
-import * as ProjectService from "../project/ProjectService.ts";
-import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";
-import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
+import * as GitWorkflow from "../git/GitWorkflowService.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as ProjectStore from "./ProjectStore.vibe";
+import * as ProjectService from "../project/ProjectService.vibe";
+import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.vibe";
+import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
 import * as ProviderRegistryMock from "../provider/testUtils/providerRegistryMock.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as ScheduledTasks from "../scheduledTasks/ScheduledTaskService.ts";
-import * as SecretRequests from "../secrets/SecretRequests.ts";
-import * as TextGeneration from "../textGeneration/TextGeneration.ts";
-import { ClaudeProviderCapabilitiesV2 } from "./Adapters/ClaudeAdapterV2.ts";
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as CommandReceiptStore from "./CommandReceiptStore.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as ScheduledTasks from "../scheduledTasks/ScheduledTaskService.vibe";
+import * as SecretRequests from "../secrets/SecretRequests.vibe";
+import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
+import { ClaudeProviderCapabilitiesV2 } from "./Adapters/ClaudeAdapterV2.vibe";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
+import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
+import * as EffectOutbox from "./EffectOutbox.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";
-import * as ThreadLaunch from "./ThreadLaunchService.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as ThreadManagement from "./ThreadManagementService.ts";
-import * as ThreadTitleRegeneration from "./ThreadTitleRegenerationService.ts";
+import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
+import * as ThreadLaunch from "./ThreadLaunchService.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
+import * as ThreadManagement from "./ThreadManagementService.vibe";
+import * as ThreadTitleRegeneration from "./ThreadTitleRegenerationService.vibe";
 import * as ProviderReplayHarness from "./testkit/ProviderReplayHarness.ts";
-import * as RemoteDelegation from "../peer/RemoteDelegation.ts";
+import * as RemoteDelegation from "../peer/RemoteDelegation.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const projectId = ProjectId.make("project:launch-test");
 const otherProjectId = ProjectId.make("project:launch-other");
@@ -320,7 +320,7 @@ it.effect.each(
       Layer.provide(
         Layer.mergeAll(
           harness.layer,
-          NodeCrypto.layer,
+          Crypto.layerWebCrypto,
           Scheduler.layer,
           Layer.mock(SecretRequests.SecretRequests)({}),
           Layer.mock(RemoteDelegation.RemoteDelegation)({}),
@@ -386,7 +386,7 @@ it.effect(
       Layer.provide(
         Layer.mergeAll(
           harness.layer,
-          NodeCrypto.layer,
+          Crypto.layerWebCrypto,
           Scheduler.layer,
           Layer.mock(SecretRequests.SecretRequests)({}),
         ),
@@ -423,7 +423,7 @@ it.effect("runs a thread-bound automation on the provider the thread uses now", 
     Layer.provide(
       Layer.mergeAll(
         harness.layer,
-        NodeCrypto.layer,
+        Crypto.layerWebCrypto,
         Scheduler.layer,
         Layer.mock(SecretRequests.SecretRequests)({}),
       ),
@@ -886,7 +886,7 @@ function scratchHarness() {
     Layer.provide(
       Layer.mergeAll(
         harness.layer,
-        NodeCrypto.layer,
+        Crypto.layerWebCrypto,
         Scheduler.layer,
         Layer.mock(SecretRequests.SecretRequests)({}),
       ),
@@ -1104,7 +1104,7 @@ it.effect.each(["stable", "upstream/release"])(
       Effect.provide(
         GitVcsDriver.layer.pipe(
           Layer.provide(ServerConfig.layerTest(process.cwd(), { prefix: "launch-remote-git-" })),
-          Layer.provideMerge(NodeServices.layer),
+          Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         ),
       ),
     ),
@@ -1826,7 +1826,11 @@ it.effect("creates a strong provider-thread mapping for an imported native sessi
 it.effect("shared intake preserves durable attachment bytes after a lost launch result", () => {
   const harness = makeHarness();
   const layerFiles = ServerConfig.layerTest(process.cwd(), { prefix: "t3-message-intake-" }).pipe(
-    Layer.provideMerge(DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer))),
+    Layer.provideMerge(
+      DocumentText.layer.pipe(
+        Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+      ),
+    ),
   );
   return Effect.gen(function* () {
     const config = yield* ServerConfig.ServerConfig;
@@ -2243,7 +2247,11 @@ it.effect.each([
 it.effect("replays an accepted send after the project disables the instance", () => {
   const harness = makeHarness();
   const layerFiles = ServerConfig.layerTest(process.cwd(), { prefix: "t3-send-retry-" }).pipe(
-    Layer.provideMerge(DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer))),
+    Layer.provideMerge(
+      DocumentText.layer.pipe(
+        Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+      ),
+    ),
   );
   return Effect.gen(function* () {
     const launches = yield* ThreadLaunch.ThreadLaunchService;

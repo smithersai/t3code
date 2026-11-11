@@ -3,7 +3,7 @@ import * as NodeAssert from "node:assert/strict";
 import * as RegExpUtils from "effect/RegExp";
 import { describe, it } from "vite-plus/test";
 
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe";
 
 function actionFor(
   runtimeMode: Parameters<typeof OpenCodeRuntime.buildOpenCodePermissionRules>[0],

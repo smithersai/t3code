@@ -76,6 +76,7 @@ function readTraceId(error: unknown): string | undefined {
   }
 }
 
+/** @throws {never} */
 export function safeErrorLogAttributes(error: unknown): SafeErrorLogAttributes {
   const errorTag = readErrorTag(error);
   const traceId = readTraceId(error);

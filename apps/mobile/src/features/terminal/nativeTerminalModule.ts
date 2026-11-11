@@ -2,7 +2,7 @@ import type { ComponentType, Ref } from "react";
 import type { NativeSyntheticEvent, ViewProps } from "react-native";
 import { requireNativeView, requireOptionalNativeModule } from "expo";
 
-import { NativeViewResolutionError } from "../../native/nativeViewResolutionError";
+import { NativeViewResolutionError } from "../../native/nativeViewResolutionError.vibe";
 
 const NATIVE_TERMINAL_MODULE_NAME = "T3TerminalSurface";
 

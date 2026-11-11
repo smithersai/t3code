@@ -1,5 +1,6 @@
 import { CommandId, EventId, ProviderSessionId, ThreadId } from "@t3tools/contracts";
 import { assert, it } from "@effect/vitest";
+import * as Arr from "effect/Array";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -7,8 +8,8 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as OrchestrationEventStore from "./OrchestrationEventStore.ts";
-import * as SqlitePersistence from "./Sqlite.ts";
+import * as OrchestrationEventStore from "./OrchestrationEventStore.vibe";
+import * as SqlitePersistence from "./Sqlite.vibe";
 
 const layerEventStore = OrchestrationEventStore.layer.pipe(
   Layer.provideMerge(SqlitePersistence.layerMemory),
@@ -53,7 +54,7 @@ function eventRow(
 }
 
 const seedEvents = Effect.fn("test.seedSequenceEvents")(function* (
-  rows: ReadonlyArray<ReturnType<typeof eventRow>>,
+  rows: Arr.NonEmptyReadonlyArray<ReturnType<typeof eventRow>>,
 ) {
   const sql = yield* SqlClient.SqlClient;
   return yield* sql<{
@@ -117,7 +118,7 @@ it.effect(
     Effect.gen(function* () {
       const store = yield* OrchestrationEventStore.OrchestrationEventStore;
       const rows = yield* seedEvents(
-        Array.from({ length: 1_560 }, (_, index) => {
+        Arr.makeBy(1_560, (index) => {
           const kind = index % 3 === 1 ? "project" : "thread";
           return eventRow(
             index,

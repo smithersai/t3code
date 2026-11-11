@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, expect, it, vi } from "vite-plus/test";
 import { MacPermissionHelper } from "./MacPermissionHelper.ts";
-import type { SettingsWindow } from "./MacSettingsWindow.ts";
+import type { SettingsWindow } from "./MacSettingsWindow.vibe";
 
 const mocks = vi.hoisted(() => ({
   granted: false,
@@ -76,8 +76,8 @@ vi.mock("electron", async () => {
     shell: { showItemInFolder: mocks.showItemInFolder },
   };
 });
-vi.mock("./MacSettingsWindow.ts", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("./MacSettingsWindow.ts")>();
+vi.mock("./MacSettingsWindow.vibe", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("./MacSettingsWindow.vibe")>();
   return {
     ...actual,
     watchMacSettingsWindow: (

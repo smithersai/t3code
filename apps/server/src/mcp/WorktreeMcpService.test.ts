@@ -20,20 +20,21 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
-import * as GitWorkflowService from "../git/GitWorkflowService.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as ServerConfig from "../config.ts";
+import * as GitWorkflowService from "../git/GitWorkflowService.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
+import * as ServerConfig from "../config.vibe";
 import {
   OrchestratorDispatchError,
   OrchestratorProjectionError,
-} from "../orchestration-v2/Orchestrator.ts";
-import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
-import * as ProjectService from "../project/ProjectService.ts";
-import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.ts";
-import type * as McpInvocationContext from "./McpInvocationContext.ts";
-import * as WorktreeMcpService from "./WorktreeMcpService.ts";
+} from "../orchestration-v2/Orchestrator.vibe";
+import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
+import * as ProjectService from "../project/ProjectService.vibe";
+import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.vibe";
+import type * as McpInvocationContext from "./McpInvocationContext.vibe";
+import * as WorktreeMcpService from "./WorktreeMcpService.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const environmentId = EnvironmentId.make("environment-worktree-test");
 const threadId = ThreadId.make("thread-worktree-test");
@@ -318,7 +319,7 @@ const makeHarness = (options: HarnessOptions = {}) => {
         Layer.mock(VcsStatusBroadcaster.VcsStatusBroadcaster)({
           refreshStatus,
         } satisfies Partial<VcsStatusBroadcaster.VcsStatusBroadcaster["Service"]>),
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
       ),
     ),
   );
@@ -445,7 +446,7 @@ describe("t3_worktree_handoff", () => {
       Effect.provide(
         GitVcsDriver.layer.pipe(
           Layer.provide(ServerConfig.layerTest(process.cwd(), { prefix: "handoff-remote-git-" })),
-          Layer.provideMerge(NodeServices.layer),
+          Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         ),
       ),
     ),

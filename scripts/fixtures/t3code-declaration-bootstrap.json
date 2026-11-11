@@ -1,0 +1,6 @@
+{
+  "examples": [
+    [false, "unicode-λ", 42],
+    [true, "with space", 1]
+  ]
+}

@@ -6,7 +6,7 @@ import {
   restoreEarlyLinuxDeviceScaleFactor,
   resolveEarlyLinuxPasswordStorePreference,
   resolveLinuxDisableFeaturesSwitch,
-} from "./DesktopEarlyElectronStartup.ts";
+} from "./DesktopEarlyElectronStartup.vibe";
 
 describe("DesktopEarlyElectronStartup", () => {
   const joinPath = NodePath.posix.join;

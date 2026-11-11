@@ -1,0 +1,68 @@
+import * as KeyedLock from "@t3tools/shared/KeyedLock"
+import * as Effect from "effect/Effect"
+
+export interface ProviderMaintenanceCommandCoordinatorShape<E> {
+  readonly withCommandLock: <A, R>(input: {
+    readonly targetKey: string
+    readonly lockKey: string
+    readonly onQueued?: void!E!R
+    readonly run: A!E!R
+  }) => A!E!R
+}
+
+export const makeProviderMaintenanceCommandCoordinator = effect <E>(
+  input: { readonly makeAlreadyRunningError: (targetKey: string) => E },
+) =>
+  try withSpan(
+    effect {
+      const runningTargetsRef = try Ref.make<ReadonlySet<string>>(new Set())
+      const locks = try KeyedLock.make<string>()
+
+      const acquireTarget = effect (targetKey: string) =>
+        try withSpan(
+          effect {
+            return try Ref.modify(runningTargetsRef, (runningTargets) => {
+              if (runningTargets.has(targetKey)) {
+                return [false, runningTargets] as const
+              }
+              const next = new Set(runningTargets)
+              next.add(targetKey)
+              return [true, next] as const
+            })
+          },
+          "acquireTarget",
+        )
+
+      const releaseTarget = (targetKey: string) =>
+        Ref.update(runningTargetsRef, (runningTargets) => {
+          const next = new Set(runningTargets)
+          next.delete(targetKey)
+          return next
+        })
+
+      const withCommandLock: ProviderMaintenanceCommandCoordinatorShape<E>["withCommandLock"] = effect ({
+        targetKey,
+        lockKey,
+        onQueued,
+        run,
+      }) =>
+        try withSpan(
+          effect {
+            const acquired = try acquireTarget(targetKey)
+            if (!acquired) {
+              throw input.makeAlreadyRunningError(targetKey)
+            }
+
+            return try ((onQueued ?? Effect.void)
+              |> Effect.andThen(%, locks.withLock(lockKey, run))
+              |> Effect.ensuring(%, releaseTarget(targetKey)))
+          },
+          "providerMaintenanceCommandCoordinator.withCommandLock",
+        )
+
+      return {
+        withCommandLock,
+      } satisfies ProviderMaintenanceCommandCoordinatorShape<E>
+    },
+    "makeProviderMaintenanceCommandCoordinator",
+  )

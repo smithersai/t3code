@@ -1,0 +1,86 @@
+// @effect-diagnostics anyUnknownInErrorContext:off layerMergeAllWithDependencies:off - Alchemy provider helpers expose framework-owned any requirements.
+import * as Alchemy from "alchemy"
+import * as Output from "alchemy/Output"
+import * as Axiom from "@alchemy.run/axiom"
+import * as Cloudflare from "@alchemy.run/cloudflare"
+import * as Drizzle from "@alchemy.run/drizzle"
+import * as Effect from "effect/Effect"
+import * as Planetscale from "@alchemy.run/planetscale"
+
+import { PublishClientConfig, tokenDigest } from "./src/clientConfig.vibe"
+import * as RelayDb from "./src/db.vibe"
+import { MobileSourceMapsUploadCredentials, RelayObservability } from "./src/observability.vibe"
+import { isPreviewStage } from "./src/previewStages.ts"
+import { PreviewTunnelSweep, PreviewTunnelSweepProvider } from "./src/previewTunnelSweep.vibe"
+import { ManagedEndpointZone, RelayApiZone, RelayDeploymentConfig } from "./src/zone.vibe"
+import * as RelayWorker from "./src/worker.ts"
+
+export default Alchemy.Stack(
+  "T3CodeRelay",
+  {
+    providers: Layer.mergeAll(
+      Axiom.providers(),
+      Cloudflare.providers(),
+      Drizzle.providers(),
+      Planetscale.providers(),
+      PreviewTunnelSweepProvider(),
+    ),
+    state: Cloudflare.state(),
+  },
+  effect {
+    const { stage } = try Alchemy.Stack
+    const db = try RelayDb.PlanetscaleDatabase
+    const hyperdrive = try RelayDb.RelayHyperdrive
+    const managedEndpointZone = try (ManagedEndpointZone |> Effect.orDie(%))
+    const relayApiZone = try (RelayApiZone |> Effect.orDie(%))
+    const observability = try RelayObservability
+    const mobileSourceMapsUploadCredentials = try MobileSourceMapsUploadCredentials
+    const api = try RelayWorker.Api
+    if (try Effect.orDie(Effect.try({ try: () => isPreviewStage(stage), catch: (e) => e }))) {
+      const { managedEndpointZoneName } = try RelayDeploymentConfig
+      try PreviewTunnelSweep("PreviewTunnelSweep", {
+        stage,
+        tunnelZoneName: managedEndpointZoneName,
+        workerName: api.workerName,
+      })
+    }
+    try PublishClientConfig({
+      url: api.url,
+      mobileTracingUrl: observability.traces.otelTracesEndpoint,
+      mobileTracingDataset: observability.traces.name,
+      mobileTracingToken: observability.mobileIngestToken.token,
+      clientTracingUrl: observability.traces.otelTracesEndpoint,
+      clientTracingDataset: observability.traces.name,
+      clientTracingToken: observability.clientIngestToken.token,
+      tokenDigest: try Effect.orDie(Effect.try({
+        try: () =>
+          Output.map(
+            Output.all(observability.mobileIngestToken.token, observability.clientIngestToken.token),
+            tokenDigest,
+          ),
+        catch: (e) => e,
+      })),
+    })
+
+    return {
+      databaseName: db.database.name,
+      databaseBranchName: db.branch?.name ?? "main",
+      hyperdriveName: hyperdrive.name,
+      workerName: api.workerName,
+      url: api.url,
+      relayApiZoneId: relayApiZone.zoneId,
+      managedEndpointZoneId: managedEndpointZone.zoneId,
+      mobileTracingUrl: observability.traces.otelTracesEndpoint,
+      mobileTracingDataset: observability.traces.name,
+      mobileTracingToken: observability.mobileIngestToken.token,
+      clientTracingUrl: observability.traces.otelTracesEndpoint,
+      clientTracingDataset: observability.traces.name,
+      clientTracingToken: observability.clientIngestToken.token,
+      mobileLogsDataset: observability.mobileLogs.name,
+      mobileMetricsDataset: observability.mobileMetrics.name,
+      mobileSourceMapsBucket: observability.mobileSourceMaps.bucketName,
+      // The MOBILE_SOURCEMAPS_R2 secret for GitHub Actions and EAS Build.
+      mobileSourceMapsUploadCredentials,
+    }
+  } |> Effect.provide(%, RelayWorker.layer),
+)

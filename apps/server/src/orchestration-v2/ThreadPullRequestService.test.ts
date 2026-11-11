@@ -9,7 +9,7 @@ import {
   type OrchestrationV2ServerCommand,
 } from "@t3tools/contracts";
 import { describe, expect, it } from "@effect/vitest";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
@@ -20,14 +20,14 @@ import * as Queue from "effect/Queue";
 import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
-import * as GitManager from "../git/GitManager.ts";
-import * as ProjectStore from "./ProjectStore.ts";
-import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.ts";
-import * as PullRequestService from "../pullRequest/PullRequestService.ts";
-import * as ServerActivation from "../serverActivation.ts";
-import * as Orchestrator from "./Orchestrator.ts";
-import * as ThreadPullRequestService from "./ThreadPullRequestService.ts";
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
+import * as GitManager from "../git/GitManager.vibe";
+import * as ProjectStore from "./ProjectStore.vibe";
+import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
+import * as PullRequestService from "../pullRequest/PullRequestService.vibe";
+import * as ServerActivation from "../serverActivation.vibe";
+import * as Orchestrator from "./Orchestrator.vibe";
+import * as ThreadPullRequestService from "./ThreadPullRequestService.vibe";
 
 describe("ThreadPullRequestServiceV2 project guard", () => {
   it("rejects a pull-request result when the project root changes before dispatch", () => {

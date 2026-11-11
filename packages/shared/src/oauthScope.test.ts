@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { encodeOAuthScope, parseAllowedOAuthScope, parseOAuthScope } from "./oauthScope.ts";
+import { encodeOAuthScope, parseAllowedOAuthScope, parseOAuthScope } from "./oauthScope.vibe";
 
 describe("OAuth scopes", () => {
   it("parses an RFC 6749 space-delimited scope set without duplicating permissions", () => {

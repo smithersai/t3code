@@ -3,7 +3,7 @@ import { it as effectIt } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import { describe, expect, it } from "vite-plus/test";
 
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe";
 
 describe("resolveOpenCodeServerPassword", () => {
   it("uses the settings password when local settings and environment differ", () => {

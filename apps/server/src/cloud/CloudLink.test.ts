@@ -9,21 +9,22 @@ import { HttpClient, HttpServer } from "effect/http";
 import * as NetAddress from "effect/net/NetAddress";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 
-import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as ServerConfig from "../config.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.ts";
-import * as CliTokenManager from "./CliTokenManager.ts";
-import * as CloudLink from "./CloudLink.ts";
-import * as ConnectReachability from "./ConnectReachability.ts";
-import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
+import * as EnvironmentAuth from "../auth/EnvironmentAuth.vibe";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
+import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.vibe";
+import * as CliTokenManager from "./CliTokenManager.vibe";
+import * as CloudLink from "./CloudLink.vibe";
+import * as ConnectReachability from "./ConnectReachability.vibe";
+import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
 import {
   HOLD_WEBHOOKS_WHILE_OFFLINE_SECRET,
   PUBLISH_AGENT_ACTIVITY_SECRET,
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_URL_SECRET,
-} from "./config.ts";
+} from "./config.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const encode = (value: string) => new TextEncoder().encode(value);
 
@@ -108,7 +109,7 @@ const withService = <A, E>(
         HttpClient.HttpClient,
         HttpClient.make(() => Effect.die("unused")),
       ),
-      NodeServices.layer,
+      Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
     );
     return yield* Effect.gen(function* () {
       const link = yield* CloudLink.CloudLink;

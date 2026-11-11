@@ -1,0 +1,46 @@
+module platform {
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  /** @throws {never} */
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+}
+
+module unwrap {
+  import { PreviewCaptureFailure, type PreviewCaptureFailureEncoded } from "@t3tools/contracts"
+  import * as Option from "effect/Option"
+  import * as Schema from "effect/Schema"
+
+  const decodeCaptureFailure = Schema.decodeUnknownOption(PreviewCaptureFailure)
+
+  // Decode here because contextBridge strips custom properties from rejected Errors.
+  export function unwrapPreviewCaptureResult<A>(result: A | PreviewCaptureFailureEncoded): A {
+    const failure = decodeCaptureFailure(result)
+    if (Option.isSome(failure)) throw failure.value
+    return result as A
+  }
+}
+
+import { unwrapPreviewCaptureResult } from unwrap
+import * as Platform from platform
+
+const nativePreviewBridge = Platform.readTypeOfWindow() === "undefined"
+  ? null
+  : (Platform.readWindowDesktopBridge()?.preview ?? null)
+
+export const previewBridge = nativePreviewBridge
+  ? {
+    ...nativePreviewBridge,
+    captureScreenshot: async (tabId: string) =>
+      unwrapPreviewCaptureResult(await nativePreviewBridge.captureScreenshot(tabId)),
+    recording: {
+      ...nativePreviewBridge.recording,
+      startScreencast: async (tabId: string) =>
+        unwrapPreviewCaptureResult(await nativePreviewBridge.recording.startScreencast(tabId)),
+    },
+  }
+  : null

@@ -6,8 +6,8 @@ import {
   TerminalError,
   TerminalOpenInput,
   TerminalProviderEnvironmentError,
-} from "./terminal.ts";
-import { ProviderInstanceId } from "./providerInstance.ts";
+} from "./terminal.vibe";
+import { ProviderInstanceId } from "./providerInstance.vibe";
 
 const encodeTerminalError = Schema.encodeUnknownSync(TerminalError);
 const decodeTerminalError = Schema.decodeUnknownSync(TerminalError);

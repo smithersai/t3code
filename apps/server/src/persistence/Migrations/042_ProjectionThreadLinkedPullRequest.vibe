@@ -1,0 +1,15 @@
+import * as SqlClient from "effect/sql/SqlClient"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+  const columns = try sql<{ readonly name: string }>`
+    PRAGMA table_info(projection_threads)
+  `
+
+  if (!columns.some((column) => column.name === "linked_pull_request_json")) {
+    try sql`
+      ALTER TABLE projection_threads
+      ADD COLUMN linked_pull_request_json TEXT
+    `
+  }
+}

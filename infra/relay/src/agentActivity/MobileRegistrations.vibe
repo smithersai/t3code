@@ -1,0 +1,122 @@
+import type {
+  RelayAgentActivitySnapshotResponse,
+  RelayDeviceRegistrationRequest,
+  RelayLiveActivityRegistrationRequest,
+} from "@t3tools/contracts/relay"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+
+import * as AgentActivityRows from "./AgentActivityRows.vibe"
+import * as Devices from "./Devices.vibe"
+import * as LiveActivities from "./LiveActivities.vibe"
+import * as AgentActivityPublisher from "./AgentActivityPublisher.vibe"
+
+export type MobileRegistrationError =
+  | Devices.DeviceRegistrationPersistenceError
+  | Devices.DeviceUnregistrationPersistenceError
+  | LiveActivities.LiveActivityRegistrationPersistenceError
+  | AgentActivityRows.AgentActivityRowListPersistenceError
+
+export service MobileRegistrations: {
+  readonly registerDevice: (input: {
+    readonly userId: string;
+    readonly payload: RelayDeviceRegistrationRequest;
+  }) => { readonly ok: true }!MobileRegistrationError;
+  readonly registerLiveActivity: (input: {
+    readonly userId: string;
+    readonly payload: RelayLiveActivityRegistrationRequest;
+  }) => { readonly ok: true }!MobileRegistrationError;
+  readonly unregisterDevice: (input: {
+    readonly userId: string;
+    readonly deviceId: string;
+  }) => { readonly ok: true }!MobileRegistrationError;
+  readonly getAgentActivitySnapshot: (input: {
+    readonly userId: string;
+  }) => RelayAgentActivitySnapshotResponse!MobileRegistrationError;
+} {
+  static readonly key = "t3code-relay/agentActivity/MobileRegistrations"
+}
+
+export const make = effect {
+  const rows = try AgentActivityRows.AgentActivityRows
+  const devices = try Devices.Devices
+  const liveActivities = try LiveActivities.LiveActivities
+  const publisher = try AgentActivityPublisher.AgentActivityPublisher
+
+  return MobileRegistrations.of({
+    registerDevice: effect (input): { readonly ok: true; }!MobileRegistrationError!never =>
+      try withSpan(
+        (effect (): { readonly ok: true; }!MobileRegistrationError!never => {
+          try Effect.annotateCurrentSpan({
+            "relay.mobile.device_id": input.payload.deviceId,
+            "relay.mobile.platform": input.payload.platform,
+          })
+          try devices.register({ userId: input.userId, registration: input.payload })
+          try (publisher
+            .replayForLiveActivityRegistration({
+              userId: input.userId,
+              deviceId: input.payload.deviceId,
+            })
+            |> Effect.tapError(%, (error) =>
+              Effect.logWarning("device registration activity replay failed", {
+                errorTag: error._tag,
+              }))
+            |> Effect.ignore(%))
+          return { ok: true as const }
+        })(),
+        "relay.mobile_registrations.register_device",
+      ),
+    registerLiveActivity: effect (input): { readonly ok: true; }!MobileRegistrationError!never =>
+      try withSpan(
+        (effect (): { readonly ok: true; }!MobileRegistrationError!never => {
+          try Effect.annotateCurrentSpan({
+            "relay.mobile.device_id": input.payload.deviceId,
+          })
+          try liveActivities.register({ userId: input.userId, registration: input.payload })
+          try (publisher
+            .replayForLiveActivityRegistration({
+              userId: input.userId,
+              deviceId: input.payload.deviceId,
+            })
+            |> Effect.tapError(%, (error) =>
+              Effect.logWarning("live activity registration replay failed", {
+                errorTag: error._tag,
+              }))
+            |> Effect.ignore(%))
+          return { ok: true as const }
+        })(),
+        "relay.mobile_registrations.register_live_activity",
+      ),
+    getAgentActivitySnapshot: effect (
+      input,
+    ): { readonly aggregate: { readonly title: string; readonly subtitle: string; readonly activeCount: number; readonly updatedAt: string; readonly activities: readonly { readonly environmentId: string & import("effect/Brand").Brand<"EnvironmentId">; readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; readonly projectTitle: string; readonly threadTitle: string; readonly modelTitle: string; readonly phase: "completed" | "failed" | "running" | "stale" | "starting" | "waiting_for_approval" | "waiting_for_input"; readonly status: string; readonly updatedAt: string; readonly deepLink: string; }[]; } | null; }!MobileRegistrationError!never =>
+      try withSpan(
+        (effect (): { readonly aggregate: { readonly title: string; readonly subtitle: string; readonly activeCount: number; readonly updatedAt: string; readonly activities: readonly { readonly environmentId: string & import("effect/Brand").Brand<"EnvironmentId">; readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; readonly projectTitle: string; readonly threadTitle: string; readonly modelTitle: string; readonly phase: "completed" | "failed" | "running" | "stale" | "starting" | "waiting_for_approval" | "waiting_for_input"; readonly status: string; readonly updatedAt: string; readonly deepLink: string; }[]; } | null; }!MobileRegistrationError!never => {
+          const activeStates = try rows.listForUser({ userId: input.userId })
+          const now = try DateTime.now
+          return {
+            aggregate: AgentActivityPublisher.makeAggregateState({
+              activeStates,
+              terminalState: null,
+              nowMs: now.epochMilliseconds,
+            }),
+          }
+        })(),
+        "relay.mobile_registrations.get_agent_activity_snapshot",
+      ),
+    unregisterDevice: effect (input): { readonly ok: true; }!MobileRegistrationError!never =>
+      try withSpan(
+        (effect (): { readonly ok: true; }!MobileRegistrationError!never => {
+          try Effect.annotateCurrentSpan({
+            "relay.mobile.device_id": input.deviceId,
+          })
+          try devices.unregister(input)
+          return { ok: true as const }
+        })(),
+        "relay.mobile_registrations.unregister_device",
+      ),
+  })
+}
+
+export const layer = Layer.effect(MobileRegistrations, make)

@@ -20,10 +20,10 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as ServerConfig from "../config.ts";
-import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as AgentSessionScanner from "./AgentSessionScanner.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as AgentSessionScanner from "./AgentSessionScanner.vibe";
 
 const makeProjectShell = (workspaceRoot: string): OrchestrationProjectShell => ({
   id: ProjectId.make("project-1"),

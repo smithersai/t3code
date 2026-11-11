@@ -1,0 +1,208 @@
+import type { ServerProviderUsageWindow } from "@t3tools/contracts"
+import type { CursorSettings } from "../settings.vibe"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+import { CURSOR_USAGE_WINDOWS } from "@t3tools/shared/usageLimits"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Path from "effect/Path"
+import * as Schema from "effect/Schema"
+import * as HttpClient from "effect/http/HttpClient"
+import { clampPercent, makeUnavailableUsageLimits, makeUsageLimits } from "@t3tools/provider-core/server/usageLimits"
+import * as CursorKeychain from "./CursorKeychain.vibe"
+
+module platform {
+  /** @throws {never} */
+  export function $process_env() {
+    return process.env
+  }
+}
+
+import { $process_env } from platform
+
+const CursorCredentials = Schema.Struct({ accessToken: Schema.optional(Schema.String) })
+const DEFAULT_CURSOR_API_ENDPOINT = "https://api2.cursor.sh"
+const decodeCredentials = Schema.decodeEffect(Schema.fromJsonString(CursorCredentials))
+const CursorUsageResponse = Schema.Struct({
+  billingCycleEnd: Schema.optional(Schema.Union([Schema.String, Schema.Number])),
+  planUsage: Schema.optional(
+    Schema.Struct({
+      totalPercentUsed: Schema.optional(Schema.Number),
+      autoPercentUsed: Schema.optional(Schema.Number),
+      apiPercentUsed: Schema.optional(Schema.Number),
+    }),
+  ),
+})
+/** Cursor's dashboard percentages include bonus usage; spend / limit does not. */
+export function cursorUsageResponseToLimits(
+  response: typeof CursorUsageResponse.Type,
+  checkedAt: string,
+) {
+  const reset = DateTime.make(Number(response.billingCycleEnd))
+  const resetsAt = Number(response.billingCycleEnd) > 0 && Option.isSome(reset)
+    ? DateTime.formatIso(reset.value)
+    : undefined
+  const windows: ServerProviderUsageWindow[] = []
+  if (response.planUsage) {
+    for (const { id, label } of CURSOR_USAGE_WINDOWS) {
+      const usedPercent = response.planUsage[id]
+      if (usedPercent === undefined || !Number.isFinite(usedPercent)) continue
+      windows.push({
+        id,
+        kind: "monthly",
+        label,
+        usedPercent: clampPercent(usedPercent),
+        ...(resetsAt ? { resetsAt } : {}),
+      })
+    }
+  }
+  return windows.length > 0
+    ? makeUsageLimits({ checkedAt, windows })
+    : makeUnavailableUsageLimits({ checkedAt, reason: "unsupported" })
+}
+export const readCursorUsageLimits = effect (
+  settings: Pick<
+    {
+      readonly enabled: boolean
+      readonly binaryPath?: string
+      readonly apiEndpoint?: string
+      readonly customModels: readonly (string | {
+        readonly slug: string
+        readonly name?: string | undefined
+        readonly capabilities?: {
+          readonly optionDescriptors?:
+            | readonly ({
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "select"
+              readonly options: readonly {
+                readonly id: string
+                readonly label: string
+                readonly description?: string | undefined
+                readonly isDefault?: boolean | undefined
+              }[]
+              readonly currentValue?: string | undefined
+              readonly promptInjectedValues?: readonly string[] | undefined
+            } | {
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "boolean"
+              readonly currentValue?: boolean | undefined
+            })[]
+            | undefined
+        } | undefined
+      })[]
+    },
+    "apiEndpoint"
+  >,
+  environment: NodeJS.ProcessEnv | undefined = undefined,
+  allowKeychain = false,
+) =>
+  try withSpan(
+    effect {
+      const resolvedEnvironment = environment === undefined ? $process_env() : environment
+      const checkedAt = DateTime.formatIso(try DateTime.now)
+      return try (effect {
+        const fs = try FileSystem.FileSystem
+        const path = try Path.Path
+        const platform = try HostProcess.Platform
+        const endpoint = (
+          settings.apiEndpoint?.trim()
+          || resolvedEnvironment.CURSOR_API_ENDPOINT?.trim()
+          || DEFAULT_CURSOR_API_ENDPOINT
+        ).replace(/\/$/, "")
+        let token = resolvedEnvironment.CURSOR_AUTH_TOKEN?.trim()
+        // An explicit API key can name a different account from the stored login.
+        if (!token && resolvedEnvironment.CURSOR_API_KEY?.trim()) {
+          return try Effect.orDie(
+            Effect.try({
+              try: () => makeUnavailableUsageLimits({ checkedAt, reason: "unsupported" }),
+              catch: (e) => e,
+            }),
+          )
+        }
+        const credentialStore = resolvedEnvironment.AGENT_CLI_CREDENTIAL_STORE
+        if (!token && credentialStore === "memory") {
+          return try Effect.orDie(Effect.try({
+            try: () =>
+              makeUnavailableUsageLimits({
+                checkedAt,
+                reason: "unsupported",
+                message: "Cursor usage requires a CLI login or CURSOR_AUTH_TOKEN.",
+              }),
+            catch: (e) => e,
+          }))
+        }
+        if (!token && platform === "darwin" && credentialStore !== "file") {
+          if (!allowKeychain) {
+            return try Effect.orDie(Effect.try({
+              try: () =>
+                makeUnavailableUsageLimits({
+                  checkedAt,
+                  reason: "unsupported",
+                  message: "Enable Cursor account usage in T3 Code to read its Keychain login.",
+                }),
+              catch: (e) => e,
+            }))
+          }
+          if (endpoint !== DEFAULT_CURSOR_API_ENDPOINT) {
+            return try Effect.orDie(Effect.try({
+              try: () =>
+                makeUnavailableUsageLimits({
+                  checkedAt,
+                  reason: "unsupported",
+                  message: "Cursor account usage requires the default Cursor endpoint when using Keychain.",
+                }),
+              catch: (e) => e,
+            }))
+          }
+          const keychain = try CursorKeychain.CursorKeychain
+          token = (try keychain.accessToken)?.trim()
+        } else if (!token) {
+          const home = (platform === "win32" ? resolvedEnvironment.USERPROFILE : resolvedEnvironment.HOME)
+            || (try HostProcess.HomeDirectory)
+          const directory = platform === "win32"
+            ? path.join(resolvedEnvironment.APPDATA || path.join(home, "AppData", "Roaming"), "Cursor")
+            : platform === "darwin"
+            ? path.join(home, ".cursor")
+            : path.join(resolvedEnvironment.XDG_CONFIG_HOME || path.join(home, ".config"), "cursor")
+          const credentials = try (fs.readFileString(path.join(directory, "auth.json"))
+            |> Effect.catchTags(%, {
+              PlatformError: (error) => error.reason._tag === "NotFound" ? Effect.succeed("{}") : Effect.fail(error),
+            })
+            |> Effect.flatMap(%, decodeCredentials))
+          token = credentials.accessToken?.trim()
+        }
+        if (!token) {
+          return try Effect.orDie(Effect.try({
+            try: () => makeUnavailableUsageLimits({ checkedAt, reason: "unsupported" }),
+            catch: (e) => e,
+          }))
+        }
+        const client = try HttpClient.HttpClient
+        const response = try client.execute(
+          HttpClientRequest.post(`${endpoint}/aiserver.v1.DashboardService/GetCurrentPeriodUsage`).pipe(
+            HttpClientRequest.bearerToken(token),
+            HttpClientRequest.setHeaders({
+              "connect-protocol-version": "1",
+              "x-cursor-client-type": "cli",
+            }),
+            HttpClientRequest.bodyJsonUnsafe({}),
+          ),
+        )
+        const body = try HttpClientResponse.schemaBodyJson(CursorUsageResponse)(
+          try HttpClientResponse.filterStatusOk(response),
+        )
+        return cursorUsageResponseToLimits(body, checkedAt)
+      }
+        |> Effect.timeout(%, "10 seconds")
+        |> Effect.orElseSucceed(%, () =>
+          makeUnavailableUsageLimits({
+            checkedAt,
+            reason: "probeFailed",
+            message: "Cursor could not read usage limits.",
+          })))
+    },
+    "readCursorUsageLimits",
+  )

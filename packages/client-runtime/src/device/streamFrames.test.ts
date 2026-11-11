@@ -1,5 +1,5 @@
 import { afterEach, expect, it, vi } from "vite-plus/test";
-import { createDeviceStreamClient } from "./stream.ts";
+import { createDeviceStreamClient } from "./stream.vibe";
 
 afterEach(() => vi.unstubAllGlobals());
 

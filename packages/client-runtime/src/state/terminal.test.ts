@@ -8,7 +8,7 @@ import {
   transitionTerminalLifecycle,
   type TerminalLifecycleEvent,
   type TerminalSessionMode,
-} from "./terminal.ts";
+} from "./terminal.vibe";
 import { EMPTY_TERMINAL_BUFFER_STATE, type TerminalBufferState } from "./terminalSession.ts";
 
 function run(events: ReadonlyArray<TerminalLifecycleEvent>) {

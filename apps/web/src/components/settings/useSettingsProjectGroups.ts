@@ -1,6 +1,6 @@
 import { useClientSettings } from "../../hooks/useSettings";
 import { buildSidebarProjectSnapshots } from "../../sidebarProjectGrouping";
-import { useEnvironments, usePrimaryEnvironmentId } from "../../state/environments";
+import { useEnvironments, usePrimaryEnvironmentId } from "../../state/environments.vibe";
 import { useProjects } from "../../state/entities";
 
 export function useSettingsProjectGroups() {

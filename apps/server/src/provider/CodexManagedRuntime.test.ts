@@ -3,7 +3,7 @@ import * as NodeURL from "node:url";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as Stream from "effect/Stream";
 import { ChildProcess, ChildProcessSpawner } from "effect/process";
-import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.ts";
+import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it } from "@effect/vitest";
 import { CodexSettings, EnvironmentId, ProviderInstanceId } from "@t3tools/contracts";
@@ -15,13 +15,14 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import { HttpClient, HttpClientResponse } from "effect/http";
-import * as ServerConfig from "../config.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as CodexInstallation from "./CodexInstallation.ts";
-import { makeCodexManagedRuntime } from "./CodexManagedRuntime.ts";
-import * as ProviderCredentialStore from "./ProviderCredentialStore.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
+import * as CodexInstallation from "./CodexInstallation.vibe";
+import { makeCodexManagedRuntime } from "./CodexManagedRuntime.vibe";
+import * as ProviderCredentialStore from "./ProviderCredentialStore.vibe";
 import { codexAppServerArgs } from "./codexLaunchArgs.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const encodeJson = Schema.encodeEffect(Schema.fromJsonString(Schema.Unknown));
 const decodeSettings = Schema.decodeSync(CodexSettings);
@@ -271,7 +272,7 @@ it.live.each(
       Effect.provide(
         ServerConfig.layerTest(process.cwd(), {
           prefix: "t3-managed-runtime-",
-        }).pipe(Layer.provideMerge(NodeServices.layer)),
+        }).pipe(Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
       ),
     ),
 );

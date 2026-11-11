@@ -5,9 +5,9 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 
-import * as BrowserSession from "../BrowserSession.ts";
-import * as BrowserImport from "./BrowserImport.ts";
-import { BROWSER_IMPORT_SOURCES, sourcePathContext } from "./Sources.ts";
+import * as BrowserSession from "../BrowserSession.vibe";
+import * as BrowserImport from "./BrowserImport.vibe";
+import { BROWSER_IMPORT_SOURCES, sourcePathContext } from "./Sources.vibe";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
 
 const helium = BROWSER_IMPORT_SOURCES.find((source) => source.id === "helium")!;

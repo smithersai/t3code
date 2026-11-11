@@ -1,6 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "moduleSuffixes": ["", ".d.vibe"],
+    "rewriteRelativeImportExtensions": true,
     "composite": true,
     "types": ["node", "electron"],
     "lib": ["ESNext", "DOM", "esnext.disposable"]

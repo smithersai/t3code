@@ -12,7 +12,7 @@ import { appAtomRegistry } from "./atom-registry";
 import { pendingThreadCreationOutcomesAtom } from "./pending-thread-creation";
 import { threadOutboxManager } from "./thread-outbox";
 import type { QueuedThreadMessage } from "./thread-outbox-model";
-import { startOpeningEnvironmentThread } from "./threads";
+import { startOpeningEnvironmentThread } from "./threads.vibe";
 
 const loads = vi.hoisted(() => [] as string[]);
 

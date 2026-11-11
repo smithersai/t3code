@@ -1,0 +1,71 @@
+import { OrchestratorMcpFailure, type ServerSettings } from "@t3tools/contracts"
+import * as Effect from "effect/Effect"
+import * as Environment from "../../../environment/ServerEnvironment.vibe"
+import * as ThreadCommandExecutor from "../../../orchestration-v2/ThreadCommandExecutor.vibe"
+import * as Settings from "../../../serverSettings.vibe"
+import * as McpInvocationContext from "../../McpInvocationContext.vibe"
+import * as McpToolAccess from "../../McpToolAccess.vibe"
+import { readCaller, unavailable } from "../../threadAccess.vibe"
+import { EnvironmentToolkit } from "./tools.vibe"
+
+export function preferences(settings: ServerSettings) {
+  const {
+    defaultThreadEnvMode,
+    newWorktreesStartFromOrigin,
+    enableProviderUpdateChecks,
+    backgroundActivity,
+    sourceControlWritingStyle,
+  } = settings
+  const characters = Array.from(sourceControlWritingStyle.customInstructions)
+  return {
+    defaultThreadEnvMode,
+    newWorktreesStartFromOrigin,
+    enableProviderUpdateChecks,
+    backgroundActivity: { profile: backgroundActivity.profile },
+    sourceControlWritingStyle: {
+      ...sourceControlWritingStyle,
+      customInstructions: characters.slice(0, 4000).join(""),
+      truncated: characters.length > 4000,
+    },
+  }
+}
+const access = effect {
+  const context = try readCaller()
+  const environment = try Environment.ServerEnvironment
+  const descriptor = try environment.getDescriptor
+  if (descriptor.environmentId !== context.scope.environmentId) {
+    throw new OrchestratorMcpFailure({
+      code: "capability_denied",
+      message: "This credential belongs to another environment.",
+    })
+  }
+  return { ...context, descriptor, settings: try Settings.ServerSettingsService }
+}
+export const layer = McpToolAccess.toLayer(EnvironmentToolkit, {
+  t3_environment_read: McpToolAccess.reads(effect () => {
+    const { descriptor, settings } = try access
+    const current = try (settings.getSettings |> Effect.mapError(%, unavailable))
+    return {
+      environmentId: descriptor.environmentId,
+      label: descriptor.label,
+      serverVersion: descriptor.serverVersion,
+      platform: descriptor.platform,
+      preferences: preferences(current),
+    }
+  }),
+  t3_environment_preferences_update: McpToolAccess.writesEnvironment(effect (patch, check) => {
+    const scope = try McpInvocationContext.McpInvocationContext
+    const executor = try ThreadCommandExecutor.ThreadCommandExecutor
+    const update = effect {
+      // The turn may have ended, or the thread's modes changed, while this waited for the lock.
+      try check
+      const { settings } = try access
+      return preferences(
+        try (settings.updateSettings(patch) |> Effect.mapError(%, unavailable)),
+      )
+    }
+    return try (scope.thread === undefined
+      ? update
+      : executor.withLock(scope.thread.threadId, update))
+  }),
+})

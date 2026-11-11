@@ -17,13 +17,13 @@ import {
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as EffectWorker from "./EffectWorker.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
-import * as EventSink from "./EventSink.ts";
+import * as EffectWorker from "./EffectWorker.vibe";
+import * as EffectOutbox from "./EffectOutbox.vibe";
+import * as EventSink from "./EventSink.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 
 it.effect("expires orphaned runtime requests before command readiness", () => {
   const threadId = ThreadId.make("thread_recovery_requests");

@@ -1,0 +1,38 @@
+import * as Layer from "effect/Layer"
+import * as NodeCrypto from "@effect/platform-node/NodeCrypto"
+import * as Schema from "effect/Schema"
+import * as Config from "effect/Config"
+import * as FileSystem from "effect/FileSystem"
+import * as WriterRegistry from "./WriterRegistry.vibe"
+
+const encodeWriters = Schema.encodeEffect(
+  Schema.fromJsonString(Schema.Record(Schema.String, Schema.String)),
+)
+
+// An absent registry must fail deployment rather than revoke every existing writer.
+export const WriterSecrets = ConfigProvider.layerAdd(
+  effect {
+    const configured = try Config.Redacted("DEVELOPER_KEYS").pipe(Config.option)
+    const readers = try Config.Redacted("READER_KEYS").pipe(Config.option)
+    const fs = try FileSystem.FileSystem
+    const readerKeys = Option.isSome(readers)
+      ? {}
+      : {
+        READER_KEYS: try fs.readFileString(
+          `${try Config.String("HOME")}/.config/t3-task-cache/readers.json`,
+        ),
+      }
+    if (Option.isSome(configured)) return ConfigProvider.fromUnknown(readerKeys)
+    return ConfigProvider.fromUnknown({
+      ...readerKeys,
+      DEVELOPER_KEYS: try encodeWriters(
+        try effect {
+          provide WriterRegistry.layer.pipe(Layer.provide(NodeCrypto.layer)) {
+            return try (WriterRegistry.WriterRegistry
+              |> Effect.flatMap(%, (registry) => registry.read()))
+          }
+        },
+      ),
+    })
+  },
+)

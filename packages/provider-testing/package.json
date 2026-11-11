@@ -8,33 +8,42 @@
       "import": "./src/fakeCli.ts"
     },
     "./replayGate": {
-      "types": "./src/replayGate.ts",
-      "import": "./src/replayGate.ts"
+      "types": "./src/replayGate.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/replayGate.vibe",
+        "default": "./.vibelang/js/src/replayGate.js"
+      }
     },
     "./replayTranscript": {
-      "types": "./src/replayTranscript.ts",
-      "import": "./src/replayTranscript.ts"
+      "types": "./src/replayTranscript.vibe",
+      "import": "./src/replayTranscript.vibe"
     },
     "./replayWorkspace": {
-      "types": "./src/replayWorkspace.ts",
-      "import": "./src/replayWorkspace.ts"
+      "types": "./src/replayWorkspace.vibe",
+      "import": "./src/replayWorkspace.vibe"
     },
     "./TestProviderHost": {
-      "types": "./src/TestProviderHost.ts",
-      "import": "./src/TestProviderHost.ts"
+      "types": "./src/TestProviderHost.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/TestProviderHost.vibe",
+        "default": "./.vibelang/js/src/TestProviderHost.js"
+      }
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "vibelang --noEmit"
   },
   "dependencies": {
     "@effect/platform-node": "catalog:",
     "@t3tools/contracts": "workspace:*",
     "@t3tools/provider-core": "workspace:*",
     "@t3tools/shared": "workspace:*",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-runtime-0.0.14-pre.6279f9f9fbfc.tgz"
   },
   "devDependencies": {
-    "@types/node": "catalog:"
+    "@types/node": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-0.0.14-pre.6279f9f9fbfc.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-vite-0.0.14-pre.6279f9f9fbfc.tgz"
   }
 }

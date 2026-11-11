@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as Path from "effect/Path";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
-import { mergeProviderInstanceEnvironment } from "./instanceEnvironment.ts";
+import { mergeProviderInstanceEnvironment } from "./instanceEnvironment.vibe";
 
 describe("mergeProviderInstanceEnvironment", () => {
   it.effect.each([

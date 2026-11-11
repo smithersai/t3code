@@ -5,14 +5,15 @@ import * as Layer from "effect/Layer";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as FileSystem from "effect/FileSystem";
 
-import * as ServerConfig from "../config.ts";
-import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as GitManager from "./GitManager.ts";
-import * as GitWorkflowService from "./GitWorkflowService.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
+import * as ServerConfig from "../config.vibe";
+import * as VcsProcess from "../vcs/VcsProcess.vibe";
+import * as GitManager from "./GitManager.vibe";
+import * as GitWorkflowService from "./GitWorkflowService.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
-it.layer(NodeServices.layer)("GitWorkflowService", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("GitWorkflowService", (it) => {
   it.effect("finds a name among the refs of every namespace", () =>
     Effect.gen(function* () {
       const fileSystem = yield* FileSystem.FileSystem;
@@ -47,10 +48,10 @@ it.layer(NodeServices.layer)("GitWorkflowService", (it) => {
           Layer.provideMerge(VcsProcess.layer),
           Layer.provideMerge(
             ServerConfig.layerTest(process.cwd(), { prefix: "t3-ref-named-" }).pipe(
-              Layer.provide(NodeServices.layer),
+              Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
             ),
           ),
-          Layer.provideMerge(NodeServices.layer),
+          Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         ),
       ),
     ),

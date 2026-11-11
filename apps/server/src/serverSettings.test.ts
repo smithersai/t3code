@@ -23,13 +23,14 @@ import * as PlatformError from "effect/PlatformError";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
-import * as ServerSecretStore from "./auth/ServerSecretStore.ts";
+import * as ServerSecretStore from "./auth/ServerSecretStore.vibe";
 import { sourceControlHostSecretName } from "./sourceControl/sourceControlHostSecrets.ts";
-import * as ServerConfig from "./config.ts";
-import * as SqlitePersistence from "./persistence/Sqlite.ts";
+import * as ServerConfig from "./config.vibe";
+import * as SqlitePersistence from "./persistence/Sqlite.vibe";
 import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite";
-import * as ServerSettingsModule from "./serverSettings.ts";
-import { resolveProviderInstanceTerminalEnvironment } from "./terminal/Manager.ts";
+import * as ServerSettingsModule from "./serverSettings.vibe";
+import { resolveProviderInstanceTerminalEnvironment } from "./terminal/Manager.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const decodeServerSettings = Schema.decodeUnknownEffect(ServerSettings);
 const decodeServerSettingsJson = Schema.decodeUnknownEffect(Schema.fromJsonString(ServerSettings));
@@ -93,7 +94,7 @@ const recordProviderUsage = (provider: string, instanceId: string | null = provi
     `;
   });
 
-it.layer(NodeServices.layer)("server settings", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("server settings", (it) => {
   it.effect("serializes concurrent model preference edits without cancelling duplicate adds", () =>
     Effect.gen(function* () {
       const service = yield* ServerSettingsModule.ServerSettingsService;

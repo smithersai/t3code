@@ -1,0 +1,62 @@
+import type { NotificationResponse } from "expo-notifications"
+import * as Schema from "effect/Schema"
+
+const NotificationNavigationErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error NotificationNavigationError {
+  readonly operation: "read" | "route" | "clear"
+  readonly notificationId?: string
+  cause: NotificationNavigationErrorCauseField
+  override get message(): string {
+    return `Failed to ${this.operation} the last notification response.`
+  }
+}
+
+export async function consumeLastAgentNotificationResponse(input: {
+  readonly getLastResponse: () => Promise<NotificationResponse | null>
+  readonly clearLastResponse: () => Promise<void>
+  readonly handleResponse: (response: NotificationResponse) => void
+}): Promise<void> {
+  let response: NotificationResponse | null
+  try {
+    response = await input.getLastResponse()
+  } catch (cause) {
+    reportError(new NotificationNavigationError({ operation: "read", cause }))
+    return
+  }
+
+  if (!response) {
+    return
+  }
+
+  try {
+    input.handleResponse(response)
+  } catch (cause) {
+    reportError(
+      new NotificationNavigationError({
+        operation: "route",
+        notificationId: response.notification.request.identifier,
+        cause,
+      }),
+    )
+    return
+  }
+
+  try {
+    await input.clearLastResponse()
+  } catch (cause) {
+    reportError(
+      new NotificationNavigationError({
+        operation: "clear",
+        notificationId: response.notification.request.identifier,
+        cause,
+      }),
+    )
+  }
+}
+
+module host {
+  export function reportError(...values: unknown[]): void {
+    console.error(...values)
+  }
+}
+import { reportError } from host

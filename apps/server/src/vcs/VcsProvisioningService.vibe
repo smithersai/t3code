@@ -1,0 +1,53 @@
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+
+import { type VcsDriverKind, type VcsError, type VcsInitInput, VcsUnsupportedOperationError } from "@t3tools/contracts"
+import * as VcsDriverRegistry from "./VcsDriverRegistry.vibe"
+
+export service VcsProvisioningService: {
+  readonly initRepository: (input: VcsInitInput) => void!VcsError;
+} {
+  static readonly key = "t3/vcs/VcsProvisioningService"
+}
+
+function resolveRequestedKind(
+  kind: VcsDriverKind | undefined,
+): VcsDriverKind!VcsUnsupportedOperationError {
+  if (kind === undefined) {
+    return Effect.succeed("git")
+  }
+  if (kind === "unknown") {
+    return Effect.fail(
+      new VcsUnsupportedOperationError({
+        operation: "VcsProvisioningService.resolveRequestedKind",
+        kind,
+        detail: "A concrete VCS driver kind is required for repository provisioning.",
+      }),
+    )
+  }
+  return Effect.succeed(kind)
+}
+
+/** @public */
+export const make = effect {
+  const registry = try VcsDriverRegistry.VcsDriverRegistry
+
+  const initRepository: VcsProvisioningService["Service"]["initRepository"] = effect (
+    input,
+  ): void!(import("@t3tools/contracts").VcsProcessExitError | import("@t3tools/contracts").VcsProcessMissingExitCodeError | import("@t3tools/contracts").VcsProcessOutputLimitError | import("@t3tools/contracts").VcsProcessOutputReadError | import("@t3tools/contracts").VcsProcessSpawnError | import("@t3tools/contracts").VcsProcessStdinWriteError | import("@t3tools/contracts").VcsProcessTimeoutError | import("@t3tools/contracts").VcsRepositoryDetectionError | VcsUnsupportedOperationError)!never =>
+    try withSpan(
+      (effect (): void!(import("@t3tools/contracts").VcsProcessExitError | import("@t3tools/contracts").VcsProcessMissingExitCodeError | import("@t3tools/contracts").VcsProcessOutputLimitError | import("@t3tools/contracts").VcsProcessOutputReadError | import("@t3tools/contracts").VcsProcessSpawnError | import("@t3tools/contracts").VcsProcessStdinWriteError | import("@t3tools/contracts").VcsProcessTimeoutError | import("@t3tools/contracts").VcsRepositoryDetectionError | VcsUnsupportedOperationError)!never => {
+        const kind = try resolveRequestedKind(input.kind)
+        const driver = try registry.get(kind)
+        return try driver.initRepository(input)
+      })(),
+      "VcsProvisioningService.initRepository",
+    )
+
+  return VcsProvisioningService.of({
+    initRepository,
+  })
+}
+
+export const layer = Layer.effect(VcsProvisioningService, make)

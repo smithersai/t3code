@@ -6,7 +6,7 @@ import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as Stream from "effect/Stream";
 import * as NodeHttp from "node:http";
-import { subscribeCodexAuthCallback } from "./CodexAuthCallback.ts";
+import { subscribeCodexAuthCallback } from "./CodexAuthCallback.vibe";
 
 async function input() {
   const server = NodeHttp.createServer();

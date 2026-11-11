@@ -18,7 +18,7 @@ import * as Schema from "effect/Schema";
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { ProviderAdapterDriverCreateError } from "@t3tools/provider-core/server/adapterDriver";
-import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import type { OrchestratorV2ProviderReplayHarness } from "../testkit/ProviderReplayHarness.ts";
 import { CursorAdapterV2Driver } from "@t3tools/provider-cursor/server";
 import * as CursorAgentSdk from "@t3tools/provider-cursor/server/CursorAgentSdk";
@@ -29,7 +29,7 @@ import {
   makeCursorAgentOptions,
 } from "@t3tools/provider-cursor/testing";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import type { RuntimePolicyV2Override } from "../RuntimePolicy.ts";
+import type { RuntimePolicyV2Override } from "../RuntimePolicy.vibe";
 
 const CursorAgentSdkReplayTranscript = Schema.Struct({
   provider: Schema.Literal(CursorAgentSdk.CURSOR_PROVIDER),

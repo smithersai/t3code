@@ -7,7 +7,7 @@ import {
   ChatAttachment,
   PROVIDER_SEND_TURN_MAX_FILE_BYTES,
   SnapShotAccessibility,
-} from "./chatAttachment.ts";
+} from "./chatAttachment.vibe";
 
 const decodeAttachment = Schema.decodeUnknownEffect(ChatAttachment);
 const decodeSnapShotAccessibility = Schema.decodeUnknownEffect(SnapShotAccessibility);

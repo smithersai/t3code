@@ -1,0 +1,41 @@
+import type { ThreadId } from "@t3tools/contracts"
+import * as Effect from "effect/Effect"
+import type * as Option from "effect/Option"
+
+import type { RemoteEnvironmentAuthorization } from "../authorization/service.vibe"
+import type { PreparedConnection } from "../connection/model.vibe"
+import type { ManagedRelayDpopSigner } from "../relay/managedRelay.vibe"
+import { executeAuthenticatedEnvironmentHttpRequest, withOrchestrationProtocolHeader } from "./environmentHttpAuth.ts"
+
+export const fetchEnvironmentThreadTranscript = effect (
+  input: {
+    readonly prepared: PreparedConnection
+    readonly threadId: ThreadId
+    readonly signer: Option.Option<ManagedRelayDpopSigner["Service"]>
+    readonly remoteAuthorization?: Option.Option<RemoteEnvironmentAuthorization["Service"]>
+  },
+) =>
+  try withSpan(
+    effect {
+      return try executeAuthenticatedEnvironmentHttpRequest({
+        ...input,
+        group: "orchestration",
+        method: "GET",
+        url: (urls) => urls.threadTranscript({ params: { threadId: input.threadId } }),
+        timeoutMs: 60_000,
+        request: effect ({ client, headers }) => {
+          const program = try Effect.orDie(Effect.try({
+            try: () => (
+              client.threadTranscript({
+                params: { threadId: input.threadId },
+                headers: withOrchestrationProtocolHeader(headers),
+              })
+            ),
+            catch: (cause) => cause,
+          }))
+          return try program
+        },
+      })
+    },
+    "clientRuntime.state.fetchEnvironmentThreadTranscript",
+  )

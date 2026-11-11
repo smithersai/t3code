@@ -17,18 +17,18 @@ vi.mock("electron", () => ({
   BrowserWindow: { fromWebContents: ownerWindow },
 }));
 
-import * as DesktopBackendConfiguration from "../../backend/DesktopBackendConfiguration.ts";
-import * as DesktopBackendManager from "../../backend/DesktopBackendManager.ts";
-import * as DesktopBackendPool from "../../backend/DesktopBackendPool.ts";
-import * as DesktopAppSettings from "../../settings/DesktopAppSettings.ts";
-import * as ElectronDialog from "../../electron/ElectronDialog.ts";
-import * as ElectronWindow from "../../electron/ElectronWindow.ts";
+import * as DesktopBackendConfiguration from "../../backend/DesktopBackendConfiguration.vibe";
+import * as DesktopBackendManager from "../../backend/DesktopBackendManager.vibe";
+import * as DesktopBackendPool from "../../backend/DesktopBackendPool.vibe";
+import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe";
+import * as ElectronDialog from "../../electron/ElectronDialog.vibe";
+import * as ElectronWindow from "../../electron/ElectronWindow.vibe";
 import {
   getLocalEnvironmentBootstraps,
   getRelayTelemetryEnabled,
   pickProjectFavicon,
   probeRemoteEditors,
-} from "./window.ts";
+} from "./window.vibe";
 
 const readyWslConfig: DesktopBackendManager.DesktopBackendStartConfig = {
   executablePath: "wsl.exe",

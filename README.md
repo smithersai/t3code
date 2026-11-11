@@ -140,3 +140,9 @@ Read [CONTRIBUTING.md](./CONTRIBUTING.md) before reporting a bug or opening a PR
 Have a feature request? Start an [Ideas discussion](https://github.com/pingdotgg/t3code/discussions/categories/ideas).
 
 Need support? Join the [Discord](https://discord.gg/jn4EGJjrvv).
+
+### Temporary VibeLang release packages
+
+This branch uses the verified VibeLang 0.0.13 release tarballs while npm publication completes. Before installing dependencies, place the release tarballs in the ignored `.vibelang-toolchain/npm-0013/` directory. The four SDK packages and their platform binaries are pinned through local `file:` dependencies. The tarballs are intentionally excluded from version control. Once the release is available on npm, these pins will move to exact `0.0.13` versions.
+
+Dependency preparation generates the formatter process descriptor from the installed VibeLang binary with `vibelang --write-dprint-plugin`. This keeps the formatter process local while dependencies use release tarballs. Run `pnpm run prepare` after updating those dependencies.

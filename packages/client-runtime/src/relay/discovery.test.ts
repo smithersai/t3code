@@ -13,12 +13,12 @@ import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
-import * as ManagedRelay from "./managedRelay.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
-import * as Connectivity from "../connection/connectivity.ts";
-import { ConnectionBlockedError, type NetworkStatus } from "../connection/model.ts";
-import * as ConnectionWakeups from "../connection/wakeups.ts";
-import * as RelayEnvironmentDiscovery from "./discovery.ts";
+import * as ManagedRelay from "./managedRelay.vibe";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
+import * as Connectivity from "../connection/connectivity.vibe";
+import { ConnectionBlockedError, type NetworkStatus } from "../connection/model.vibe";
+import * as ConnectionWakeups from "../connection/wakeups.vibe";
+import * as RelayEnvironmentDiscovery from "./discovery.vibe";
 import { NETWORK_BLOCKING_HINT } from "../errors/network.ts";
 
 const environments = [

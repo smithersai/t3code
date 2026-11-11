@@ -35,25 +35,26 @@ import * as TestClock from "effect/testing/TestClock";
 import * as SqlClient from "effect/sql/SqlClient";
 import { HttpClient, HttpClientError, HttpClientRequest, HttpClientResponse } from "effect/http";
 
-import * as ServerConfig from "../config.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as Sqlite from "../persistence/Sqlite.ts";
-import * as CodexUsageHistory from "./CodexUsageHistory.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as Sqlite from "../persistence/Sqlite.vibe";
+import * as CodexUsageHistory from "./CodexUsageHistory.vibe";
 import * as CursorAccountReader from "@t3tools/provider-cursor/server/CursorAccountReader";
 import * as CursorKeychain from "@t3tools/provider-cursor/server/CursorKeychain";
 import * as CursorUsageAccounts from "@t3tools/provider-cursor/server/CursorUsageAccounts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
-import * as AntigravityUsage from "../provider/Drivers/AntigravityUsage.ts";
-import * as ProviderHostLive from "../provider/ProviderHostLive.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
+import * as AntigravityUsage from "../provider/Drivers/AntigravityUsage.vibe";
+import * as ProviderHostLive from "../provider/ProviderHostLive.vibe";
 import { totalTokens, type UsageRecord } from "@t3tools/provider-core/server/usage";
-import * as UsageService from "./UsageService.ts";
-import * as MuseSdk from "../../../../packages/provider-muse/src/server/sdk.ts";
+import * as UsageService from "./UsageService.vibe";
+import * as MuseSdk from "../../../../packages/provider-muse/src/server/sdk.vibe";
 import { MuseUsageHome } from "@t3tools/provider-muse/server";
-import { encodeScanCache, SCAN_CACHE_FILE_NAME } from "./usageScanCache.ts";
+import { encodeScanCache, SCAN_CACHE_FILE_NAME } from "./usageScanCache.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("node:fs/promises", { spy: true });
-vi.mock("../../../../packages/provider-muse/src/server/sdk.ts", async (importOriginal) => ({
+vi.mock("../../../../packages/provider-muse/src/server/sdk.vibe", async (importOriginal) => ({
   ...(await importOriginal<typeof MuseSdk>()),
   createMuseSdkHostEffect: vi.fn(() =>
     Effect.try(() => {
@@ -155,7 +156,7 @@ const layerService = (input: {
     Layer.provideMerge(
       ServerConfig.layerTest(process.cwd(), NodePath.join(input.home, input.prefix)),
     ),
-    Layer.provideMerge(NodeServices.layer),
+    Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Layer.provideMerge(Layer.succeed(HostProcess.Platform, input.platform ?? "linux")),
     Layer.provideMerge(ServerSettings.layerTest(input.settings)),
     Layer.provideMerge(
@@ -2453,6 +2454,7 @@ describe("UsageService", () => {
 
   it.live("reports saved usage of a removed directory only for windows it reaches", () =>
     Effect.gen(function* () {
+      using _now = vi.spyOn(Date, "now").mockReturnValue(CURSOR_NOW);
       const { transcript, settings, home } = yield* setup;
       yield* Effect.promise(async () => {
         await NodeFSP.writeFile(transcript, claudeLine(1, 5));

@@ -1,0 +1,6 @@
+// The platform code of CursorKeychain.vibe, which a .vibe file does not import as a value (EK4402).
+
+// Remote clients cannot answer macOS prompts; time out reads but retain the in-flight request for reuse.
+import * as NodeModule from "node:module";
+
+export const requireForKeyring = NodeModule.createRequire(import.meta.url);

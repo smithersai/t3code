@@ -9,9 +9,10 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
 
-import * as ServerConfig from "../config.ts";
-import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.ts";
-import * as DesktopAppUpdate from "./DesktopAppUpdate.ts";
+import * as ServerConfig from "../config.vibe";
+import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.vibe";
+import * as DesktopAppUpdate from "./DesktopAppUpdate.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 function makeState(overrides: Partial<DesktopUpdateState> = {}): DesktopUpdateState {
   return {
@@ -104,7 +105,7 @@ const makeHarness = Effect.fn("test.make_desktop_app_update_harness")(function* 
   return { service };
 });
 
-it.layer(NodeServices.layer)("desktop app update", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("desktop app update", (it) => {
   it.effect("collapses state reports into progress stages and succeeds on installing", () =>
     Effect.gen(function* () {
       const { service } = yield* makeHarness({

@@ -10,7 +10,7 @@ import type { ConnectionTarget } from "@t3tools/client-runtime/connection";
 
 import { isDesktopLocalConnectionTarget } from "~/connection/desktopLocal";
 import { isElectron } from "~/env";
-import { readPreparedConnection } from "~/state/session";
+import { readPreparedConnection } from "../state/session.vibe";
 
 export {
   normalizeHostname,

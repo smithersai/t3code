@@ -27,7 +27,7 @@ import {
   isPendingUserInputOptionSelected,
   type PendingUserInput,
   type PendingUserInputDraftAnswer,
-} from "../../lib/threadActivity";
+} from "../../lib/threadActivity.vibe";
 
 export interface PendingUserInputCardProps {
   readonly canOperateThread: boolean;

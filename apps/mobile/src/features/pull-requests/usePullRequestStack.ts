@@ -2,11 +2,11 @@ import { threadPullRequestLinkMode } from "@t3tools/client-runtime/thread-pull-r
 import type { PullRequestDetail } from "@t3tools/contracts";
 import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";
 import { useMemo } from "react";
-import { useEnvironmentServerConfig, useNavigationThreadShells } from "../../state/entities";
-import { pullRequestStackAtom } from "../../state/pull-requests";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentServerConfig, useNavigationThreadShells } from "../../state/entities.vibe";
+import { pullRequestStackAtom } from "../../state/pull-requests.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { savedPullRequestStack } from "./pullRequestStack";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 
 export function usePullRequestStack(params: PullRequestParams, pr: PullRequestDetail | null) {
   const target = pullRequestTarget(params);

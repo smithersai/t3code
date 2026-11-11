@@ -1,0 +1,112 @@
+import {
+  CommandId,
+  IDLE_COMPACTION_TEXT,
+  MessageId,
+  resolveIdleCompaction,
+  resolveProjectProviderInstanceEnabled,
+  type RunId,
+  type ThreadId,
+} from "@t3tools/contracts"
+import * as DateTime from "effect/DateTime"
+import * as Duration from "effect/Duration"
+import * as Effect from "effect/Effect"
+import * as FiberMap from "effect/FiberMap"
+import * as Stream from "effect/Stream"
+
+import { forkParked } from "../serverActivation.vibe"
+import * as ServerSettings from "../serverSettings.vibe"
+import { idleCompactionWindow } from "./IdleCompaction.vibe"
+import * as Orchestrator from "./Orchestrator.vibe"
+import * as ProjectionStore from "./ProjectionStore.vibe"
+
+/**
+ * Beta: when a run completes on a Claude instance set to compact before the
+ * cache expires, waits until shortly before its prompt cache expires and sends
+ * `/compact` as a visible T3 Code turn. Timers live in
+ * memory, so a server restart skips compactions that were still waiting.
+ */
+export const make = effect {
+  const orchestrator = try Orchestrator.OrchestratorV2
+  const projections = try ProjectionStore.ProjectionStoreV2
+  const settings = try ServerSettings.ServerSettingsService
+
+  const compactWhenDue = effect (threadId: ThreadId, runId: RunId) =>
+    try withSpan(
+      effect {
+        // Loops once after the wait: the thread may have moved on.
+        while (true) {
+          const current = try settings.getSettings
+          const records = try projections.getThreadRecords(
+            threadId,
+            [
+              "runs",
+              "messages",
+              "providerThreads",
+              "providerTurns",
+              "runtimeRequests",
+              "turnItems",
+              "contextTransfers",
+            ],
+            { messageRunIds: [runId], turnItemStatuses: ["pending", "running", "waiting"] },
+          )
+          if (
+            resolveIdleCompaction(current, records.thread.providerInstanceId)
+              !== "beforeCacheExpires"
+            || !resolveProjectProviderInstanceEnabled(
+              current,
+              records.thread.projectId,
+              records.thread.providerInstanceId,
+            )
+          ) {
+            return
+          }
+          const nowMs = DateTime.toEpochMillis(try DateTime.now)
+          const window = idleCompactionWindow(records, nowMs)
+          if (window?.runId !== runId) return
+          if (nowMs < window.startMs) {
+            try Effect.sleep(Duration.millis(window.startMs - nowMs))
+            continue
+          }
+          try orchestrator.dispatch({
+            type: "message.dispatch",
+            // One compaction per completed run, even across duplicate events.
+            commandId: CommandId.make(`server:idle-compact:${threadId}:${runId}`),
+            messageId: MessageId.make(`idle-compact:${threadId}:${runId}`),
+            threadId,
+            text: IDLE_COMPACTION_TEXT,
+            attachments: [],
+            createdBy: "agent",
+            creationSource: "server",
+            idleCompaction: "beforeCacheExpires",
+            dispatchMode: { type: "start_immediately" },
+          })
+          return
+        }
+      } |> ((effect, threadId) =>
+        effect
+        |> Effect.catch(%, (cause) => Effect.logWarning("idle compaction skipped", { threadId, cause })))(
+          %,
+          threadId,
+        ),
+      "IdleCompactionService.compactWhenDue",
+    )
+
+  const start = effect () =>
+    try withSpan(
+      effect {
+        // Keyed by thread: a newer completed run replaces the waiting timer.
+        const timers = try FiberMap.make<ThreadId>()
+        try forkParked(
+          Stream.runForEach(
+            orchestrator.streamDomainEvents,
+            (event) =>
+              event.type === "run.updated" && event.payload.status === "completed"
+                ? FiberMap.run(timers, event.threadId, compactWhenDue(event.threadId, event.payload.id))
+                : Effect.void,
+          ),
+        )
+      },
+      "IdleCompactionService.start",
+    )
+  return { start }
+}

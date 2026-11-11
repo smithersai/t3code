@@ -7,8 +7,8 @@ import {
   getCloneDirectoryName,
   getDefaultCloneUrl,
   normalizePastedCloneUrl,
-} from "./projects.ts";
-import type { EnvironmentProject } from "../state/models.ts";
+} from "./projects.vibe";
+import type { EnvironmentProject } from "../state/models.vibe";
 
 describe("add project shared logic", () => {
   it("routes owner/repository shorthand to GitHub over HTTPS", () => {

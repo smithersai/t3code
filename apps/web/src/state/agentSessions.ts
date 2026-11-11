@@ -4,7 +4,7 @@ import {
   createEnvironmentRpcQueryAtomFamily,
 } from "@t3tools/client-runtime/state/runtime";
 
-import { connectionAtomRuntime } from "../connection/runtime";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
 
 export const agentSessionScan = createEnvironmentRpcQueryAtomFamily(connectionAtomRuntime, {
   label: "environment-data:agent-sessions:scan",

@@ -1,0 +1,177 @@
+import * as FileSystem from "effect/FileSystem"
+import { ChatAttachmentId, getProviderAttachmentLimitError, type ChatAttachment } from "@t3tools/contracts"
+import * as Effect from "effect/Effect"
+import * as Schema from "effect/Schema"
+import { isSvgAttachment } from "@t3tools/shared/image"
+
+import {
+  parseThreadSegmentFromAttachmentId,
+  PENDING_ATTACHMENT_THREAD_SEGMENT,
+  planAttachmentClaim,
+  resolveAttachmentPath,
+} from "../attachmentStore.ts"
+import * as ServerConfig from "../config.vibe"
+import * as DocumentText from "../provider/DocumentText.vibe"
+
+export class AttachmentClaimError extends Schema.TaggedError<AttachmentClaimError>()(
+  "AttachmentClaimError",
+  {
+    message: Schema.String,
+    cause: Schema.optional(Schema.Defect()),
+  },
+) {}
+
+export const validateAttachmentLimits = effect (attachments: ReadonlyArray<ChatAttachment>) =>
+  try withSpan(
+    effect {
+      const error = getProviderAttachmentLimitError(attachments)
+      if (error) throw new AttachmentClaimError({ message: error })
+    },
+    "AttachmentClaims.validateAttachmentLimits",
+  )
+
+export interface ClaimedAttachments {
+  readonly attachments: ReadonlyArray<ChatAttachment>
+  readonly claimedPaths: ReadonlyArray<string>
+}
+
+export function attachmentIsPendingUpload(attachment: ChatAttachment): boolean {
+  return parseThreadSegmentFromAttachmentId(attachment.id) === PENDING_ATTACHMENT_THREAD_SEGMENT
+}
+
+/** Remove partial claims only before dispatch, or after proving they were not accepted. */
+export const releaseClaimedAttachments = effect (claimedPaths: readonly string[]) =>
+  try withSpan(
+    effect {
+      if (claimedPaths.length === 0) return
+      const fileSystem = try FileSystem.FileSystem
+      try (Effect.forEach(
+        claimedPaths,
+        (path) =>
+          fileSystem
+            .remove(path)
+          |> Effect.ignore(%)
+          |> Effect.andThen(%, fileSystem.remove(`${path}.txt`, { force: true }) |> Effect.ignore(%)),
+        {
+          concurrency: 1,
+          discard: true,
+        },
+      ) |> Effect.uninterruptible(%))
+    },
+    "AttachmentClaims.releaseClaimedAttachments",
+  )
+
+/** Copies preserve the pending retry source after failed bootstrap; the pending sweep reclaims it. */
+export const claimPendingAttachments = effect (
+  input: { readonly threadId: string; readonly attachments: ReadonlyArray<ChatAttachment> },
+) =>
+  try withSpan(
+    effect {
+      try validateAttachmentLimits(input.attachments)
+      if (
+        new Set(input.attachments.map((attachment) => attachment.id)).size
+        !== input.attachments.length
+      ) {
+        throw new AttachmentClaimError({
+          message: "Duplicate attachment ids are not allowed.",
+        })
+      }
+      if (!input.attachments.some(attachmentIsPendingUpload)) {
+        return { attachments: input.attachments, claimedPaths: [] } satisfies ClaimedAttachments
+      }
+      const serverConfig = try ServerConfig.ServerConfig
+      const fileSystem = try FileSystem.FileSystem
+      const claimedPaths: string[] = []
+      const documents = try DocumentText.DocumentText
+      const attachments = try (Effect.forEach(
+        input.attachments,
+        effect (attachment) => {
+          if (!attachmentIsPendingUpload(attachment)) {
+            return attachment
+          }
+          const claim = try Effect.orDie(Effect.try({
+            try: () =>
+              planAttachmentClaim({
+                attachmentsDir: serverConfig.attachmentsDir,
+                threadId: input.threadId,
+                attachmentId: attachment.id,
+              }),
+            catch: (e) => e,
+          }))
+          if (!claim.ok) {
+            throw new AttachmentClaimError({
+              message: `Attachment '${attachment.name}' cannot be sent: ${claim.reason}.`,
+            })
+          }
+          const info = try (fileSystem.stat(claim.currentPath)
+            |> Effect.mapError(
+              %,
+              (cause) =>
+                new AttachmentClaimError({
+                  message: `Attachment '${attachment.name}' cannot be sent: attachment not found.`,
+                  cause,
+                }),
+            ))
+          if (Number(info.size) !== attachment.sizeBytes) {
+            throw new AttachmentClaimError({
+              message: `Attachment '${attachment.name}' cannot be sent: stored size does not match.`,
+            })
+          }
+          const normalized: ChatAttachment = {
+            ...attachment,
+            id: ChatAttachmentId.make(claim.finalId),
+            name: attachment.type === "file"
+                && (try Effect.orDie(Effect.try({ try: () => isSvgAttachment(attachment), catch: (e) => e })))
+                && !/\.svg$/i.test(attachment.name)
+              ? `${attachment.name}.svg`
+              : attachment.name,
+            mimeType: attachment.mimeType.toLowerCase(),
+          }
+          const expectedPath = try Effect.orDie(Effect.try({
+            try: () =>
+              resolveAttachmentPath({
+                attachmentsDir: serverConfig.attachmentsDir,
+                attachment: normalized,
+              }),
+            catch: (e) => e,
+          }))
+          if (expectedPath !== claim.finalPath) {
+            throw new AttachmentClaimError({
+              message: `Attachment '${attachment.name}' cannot be sent: attachment type does not match the upload.`,
+            })
+          }
+          // Copies isolate edits from the retry source. Keep the uncancellable copy and rollback registration
+          // uninterruptible so cleanup always sees completed writes.
+          try (fileSystem.copyFile(claim.currentPath, claim.finalPath)
+            |> Effect.mapError(
+              %,
+              (cause) =>
+                new AttachmentClaimError({
+                  message: `Failed to claim attachment '${attachment.name}' for this thread.`,
+                  cause,
+                }),
+            )
+            |> Effect.andThen(%, Effect.sync(() => claimedPaths.push(claim.finalPath)))
+            |> Effect.uninterruptible(%))
+          const sidecar = `${claim.currentPath}.txt`
+          if (try (fileSystem.exists(sidecar) |> Effect.orElseSucceed(%, () => false))) {
+            try (fileSystem.copyFile(sidecar, `${claim.finalPath}.txt`)
+              |> Effect.andThen(%, Effect.sync(() => claimedPaths.push(`${claim.finalPath}.txt`)))
+              |> Effect.onError(
+                %,
+                () => fileSystem.remove(`${claim.finalPath}.txt`, { force: true }) |> Effect.ignore(%),
+              )
+              |> Effect.uninterruptible(%)
+              |> Effect.ignore(%))
+          } else {
+            const extracted = try documents.ensure(claim.finalPath)
+            if (extracted) claimedPaths.push(extracted)
+          }
+          return normalized
+        },
+        { concurrency: 1 },
+      ) |> Effect.onError(%, () => releaseClaimedAttachments(claimedPaths)))
+      return { attachments, claimedPaths } satisfies ClaimedAttachments
+    },
+    "AttachmentClaims.claimPendingAttachments",
+  )

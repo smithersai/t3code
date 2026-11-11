@@ -3,13 +3,13 @@ import { EnvironmentId, type ServerConfig } from "@t3tools/contracts";
 import * as Option from "effect/Option";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
-import type { ConnectionCatalogEntry } from "../connection/catalog.ts";
-import { AVAILABLE_CONNECTION_STATE, PrimaryConnectionTarget } from "../connection/model.ts";
+import type { ConnectionCatalogEntry } from "../connection/catalog.vibe";
+import { AVAILABLE_CONNECTION_STATE, PrimaryConnectionTarget } from "../connection/model.vibe";
 import {
   createEnvironmentPresentationAtoms,
   createEnvironmentSummaryAtoms,
-} from "./presentation.ts";
-import type { EnvironmentCatalogState } from "./connections.ts";
+} from "./presentation.vibe";
+import type { EnvironmentCatalogState } from "./connections.vibe";
 
 const FIRST = EnvironmentId.make("first");
 const SECOND = EnvironmentId.make("second");

@@ -1,0 +1,246 @@
+import {
+  McpAppRequestError,
+  type McpAppCallToolInput,
+  type McpAppCallToolResult,
+  type McpAppReadResourceInput,
+  type McpAppReadResourceResult,
+  type McpAppToolInfo,
+  type McpAppToolInfoInput,
+  type McpAppUpdateModelContextInput,
+  type OrchestrationV2AppThread,
+  type ThreadId,
+  type TurnItemId,
+} from "@t3tools/contracts"
+import { mcpAppToolCallableByApp, type McpAppReference } from "@t3tools/shared/mcpApp"
+import { mcpAppFromToolItem } from "@t3tools/shared/toolOutput"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe"
+import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter"
+import * as ProviderSessionManager from "../orchestration-v2/ProviderSessionManager.vibe"
+import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe"
+import * as McpAppModelContext from "./McpAppModelContext.vibe"
+
+/** Reports stopped sessions without starting them; app views must not spend provider turns. */
+export service McpAppRequests: {
+  readonly callTool: (
+    input: McpAppCallToolInput,
+  ) => McpAppCallToolResult!McpAppRequestError;
+  readonly toolInfo: (
+    input: McpAppToolInfoInput,
+  ) => McpAppToolInfo!McpAppRequestError;
+  readonly readResource: (
+    input: McpAppReadResourceInput,
+  ) => McpAppReadResourceResult!McpAppRequestError;
+  readonly updateModelContext: (
+    input: McpAppUpdateModelContextInput,
+  ) => void!McpAppRequestError;
+} {
+  static readonly key = "t3/mcpApps/McpAppRequests"
+}
+
+const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown))
+const utf8 = new TextEncoder()
+
+const readOnlyHint = (tool: ProviderAdapter.ProviderAdapterV2McpTool) =>
+  Predicate.isObject(tool.annotations) && tool.annotations.readOnlyHint === true
+
+const toolTitle = (tool: ProviderAdapter.ProviderAdapterV2McpTool) =>
+  Predicate.isObject(tool.annotations) && typeof tool.annotations.title === "string"
+    ? tool.annotations.title
+    : undefined
+
+const make = effect {
+  const orchestrator = try Orchestrator.OrchestratorV2
+  const threadManagement = try ThreadManagementService.ThreadManagementService
+  const providerSessions = try ProviderSessionManager.ProviderSessionManagerV2
+  const modelContext = try McpAppModelContext.McpAppModelContext
+
+  const fail = (threadId: ThreadId, reason: McpAppRequestError["reason"], cause?: unknown) =>
+    new McpAppRequestError({ threadId, reason, ...(cause === undefined ? {} : { cause }) })
+
+  const resolveApp = effect (input: { readonly threadId: ThreadId; readonly itemId: TurnItemId }) =>
+    try withSpan(
+      effect {
+        const item = orchestrator
+          .getTurnItem({ threadId: input.threadId, itemId: input.itemId }) catch effect (cause) => {
+            throw fail(input.threadId, "request-failed", cause)
+          }
+        const app: McpAppReference | undefined = item?.type === "dynamic_tool" ? mcpAppFromToolItem(item) : undefined
+        if (item === null || app === undefined || item.providerThreadId === null) {
+          throw fail(input.threadId, "not-an-app")
+        }
+        return { app, providerThreadId: item.providerThreadId }
+      },
+      "McpAppRequests.resolveApp",
+    )
+
+  const resolve = effect (input: { readonly threadId: ThreadId; readonly itemId: TurnItemId }) =>
+    try withSpan(
+      effect {
+        const { app, providerThreadId } = try resolveApp(input)
+        const projection = threadManagement
+          .getThreadRecords(input.threadId, ["providerThreads"]) catch effect (cause) => {
+            throw fail(input.threadId, "request-failed", cause)
+          }
+        const providerThread = projection.providerThreads.find(
+          (candidate) => candidate.id === providerThreadId,
+        )
+        if (providerThread?.providerSessionId == null) {
+          throw fail(input.threadId, "session-stopped")
+        }
+        const runtime = Option.getOrUndefined(
+          providerSessions
+            .get(providerThread.providerSessionId) catch effect (cause) => {
+              throw fail(input.threadId, "request-failed", cause)
+            },
+        )
+        if (runtime === undefined) throw fail(input.threadId, "session-stopped")
+        const mcpApps: ProviderAdapter.ProviderAdapterV2McpApps | undefined = runtime.mcpApps
+        if (mcpApps === undefined) throw fail(input.threadId, "provider-unsupported")
+        return { app, providerThread, mcpApps }
+      },
+      "McpAppRequests.resolve",
+    )
+
+  const findTool = effect (
+    threadId: ThreadId,
+    resolved: Effect.Success<ReturnType<typeof resolve>>,
+    name: string,
+  ) =>
+    try withSpan(
+      effect {
+        const tools = resolved.mcpApps
+          .listTools({ providerThread: resolved.providerThread, server: resolved.app.server }) catch effect (cause) => {
+            throw fail(threadId, "request-failed", cause)
+          }
+        return tools.find((tool) => tool.name === name)
+      },
+      "McpAppRequests.findTool",
+    )
+
+  const toolInfo = effect (input: McpAppToolInfoInput) =>
+    try withSpan(
+      effect {
+        const resolved = try resolve(input)
+        const tool = try findTool(input.threadId, resolved, input.name)
+        const title = tool === undefined ? undefined : toolTitle(tool)
+        return {
+          callable: tool !== undefined && mcpAppToolCallableByApp(tool._meta),
+          readOnly: tool !== undefined && readOnlyHint(tool),
+          ...(title === undefined ? {} : { title }),
+          ...(tool === undefined ? {} : { tool }),
+        } satisfies McpAppToolInfo
+      },
+      "McpAppRequests.toolInfo",
+    )
+
+  const callTool = effect (input: McpAppCallToolInput) =>
+    try withSpan(
+      effect {
+        const resolved = try resolve(input)
+        // Enforce hidden-tool restrictions server-side; client checks cannot enforce the spec.
+        const tool = try findTool(input.threadId, resolved, input.name)
+        if (tool === undefined || !mcpAppToolCallableByApp(tool._meta)) {
+          throw fail(input.threadId, "tool-not-callable")
+        }
+        return resolved.mcpApps
+          .callTool({
+            providerThread: resolved.providerThread,
+            server: resolved.app.server,
+            tool: input.name,
+            arguments: input.arguments,
+          }) catch effect (cause) => {
+            throw fail(input.threadId, "request-failed", cause)
+          }
+      },
+      "McpAppRequests.callTool",
+    )
+
+  const readResource = effect (
+    input: McpAppReadResourceInput,
+  ) =>
+    try withSpan(
+      effect {
+        const resolved = try resolve(input)
+        return resolved.mcpApps
+          .readResource({
+            providerThread: resolved.providerThread,
+            server: resolved.app.server,
+            uri: input.uri,
+          }) catch effect (cause) => {
+            throw fail(input.threadId, "request-failed", cause)
+          }
+      },
+      "McpAppRequests.readResource",
+    )
+
+  const descendsFrom = effect (
+    threadId: ThreadId,
+    ancestorId: ThreadId,
+  ) =>
+    try withSpan(
+      effect {
+        const seen = new Set<ThreadId>()
+        let current: ThreadId | null = threadId
+        while (current !== null && !seen.has(current)) {
+          if (current === ancestorId) return true
+          seen.add(current)
+          const records: { readonly thread: OrchestrationV2AppThread } = try (threadManagement
+            .getThreadRecords(current, []) |> Effect.mapError(%, (cause) => fail(threadId, "request-failed", cause)))
+          const { lineage } = records.thread
+          current = lineage.relationshipToParent === "fork" ? lineage.parentThreadId : null
+        }
+        return false
+      },
+      "McpAppRequests.descendsFrom",
+    )
+
+  const updateModelContext = effect (
+    input: McpAppUpdateModelContextInput,
+  ) =>
+    try withSpan(
+      effect {
+        const { app } = try resolveApp(input)
+        // Context belongs only to the app's thread or its descendants.
+        if (!(try descendsFrom(input.conversationThreadId, input.threadId))) {
+          throw fail(input.threadId, "not-an-app")
+        }
+        const texts: Array<string> = []
+        for (const block of input.content ?? []) {
+          if (!Predicate.isObject(block) || block.type !== "text" || typeof block.text !== "string") {
+            throw fail(input.threadId, "unsupported-content")
+          }
+          texts.push(block.text)
+        }
+        if (input.structuredContent !== undefined) {
+          texts.push(encodeJson(input.structuredContent))
+        }
+        const text = texts.join("\n")
+        if (utf8.encode(text).byteLength > McpAppModelContext.MCP_APP_MODEL_CONTEXT_MAX_BYTES) {
+          throw fail(
+            input.threadId,
+            "request-failed",
+            new Error("Model context is too large."),
+          )
+        }
+        modelContext
+          .set({
+            threadId: input.conversationThreadId,
+            itemId: input.itemId,
+            server: app.server,
+            tool: app.tool,
+            text,
+          }) catch effect (cause) => {
+            throw fail(input.threadId, "request-failed", cause)
+          }
+      },
+      "McpAppRequests.updateModelContext",
+    )
+
+  return McpAppRequests.of({ callTool, toolInfo, readResource, updateModelContext })
+}
+
+export const layer = Layer.effect(McpAppRequests, make)

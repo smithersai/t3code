@@ -10,7 +10,7 @@ import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 import { expect } from "vite-plus/test";
 
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import { processProbeSource } from "../testUtils/processProbe.ts";
 import {
   SYNTHETIC_CLAUDE_CAPABLE_MODEL,
@@ -18,9 +18,9 @@ import {
   SYNTHETIC_CLAUDE_MODEL_CATALOG,
   SYNTHETIC_CLAUDE_STANDARD_MODEL,
 } from "../provider/ClaudeModelCatalog.testFixtures.ts";
-import * as TextGeneration from "./TextGeneration.ts";
+import * as TextGeneration from "./TextGeneration.vibe";
 import { sanitizeThreadTitle } from "@t3tools/provider-core/server/textGenerationUtils";
-import { makeClaudeTextGeneration } from "./ClaudeTextGeneration.ts";
+import { makeClaudeTextGeneration } from "./ClaudeTextGeneration.vibe";
 import { writeFakeCli } from "@t3tools/provider-testing/fakeCli";
 const decodeClaudeSettings = Schema.decodeSync(ClaudeSettings);
 

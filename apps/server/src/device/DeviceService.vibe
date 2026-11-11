@@ -1,0 +1,1228 @@
+import {
+  type DeviceActionInput,
+  type DeviceCloseInput,
+  type DeviceConfigureInput,
+  type DeviceDetail,
+  type DeviceDetailInput,
+  type DeviceError,
+  type DeviceHostId,
+  type DeviceId,
+  DeviceHostUnavailableError,
+  DeviceNotFoundError,
+  DeviceOperationError,
+  type DeviceOpenInput,
+  type DevicePlatform,
+  DevicePlatformUnavailableError,
+  type DeviceServiceState,
+  type DeviceSession,
+  type DeviceShutdownInput,
+  type DeviceSummary,
+  type DeviceEasAccount,
+  DeviceEasAccountError,
+  type DeviceEasAccountInput,
+  type DeviceHostConfig,
+  type EasDeviceHostConfig,
+  type SshDeviceHostConfig,
+  type DeviceHostSummary,
+  LOCAL_DEVICE_HOST_ID,
+  LOCAL_DEVICE_HOST_LABEL,
+  type ThreadId,
+} from "@t3tools/contracts"
+import { SshCommandError } from "@t3tools/ssh/errors"
+import * as FileSystem from "effect/FileSystem"
+import { resolveNodeExecutable, nodeRuntimeUnavailableMessage } from "@t3tools/shared/nodeRuntime"
+import * as Path from "effect/Path"
+import { ensureAgentDevice, ensureDeviceHub } from "./DeviceToolchain.vibe"
+import * as ServerConfig from "../config.vibe"
+import { agentDeviceConfigPath, agentDeviceSession, writeAgentDeviceConfig } from "./AgentDeviceTarget.vibe"
+import * as Context from "effect/Context"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as PubSub from "effect/PubSub"
+import * as Scope from "effect/Scope"
+import * as Stream from "effect/Stream"
+import * as HttpClient from "effect/http/HttpClient"
+
+import * as ServerSettings from "../serverSettings.vibe"
+import { isLocalSshDeviceHost, remoteSshDeviceHosts } from "./localSshDeviceHost.vibe"
+
+import { readDeviceDetail, runDeviceAction } from "./DeviceActions.vibe"
+import * as ProcessRunner from "../processRunner.vibe"
+import * as DeviceHost from "./DeviceHost.vibe"
+import * as SshDeviceHost from "./SshDeviceHost.vibe"
+import * as EasDeviceHost from "./EasDeviceHost.vibe"
+import { makeExpoApi, resolveExpoCredential } from "./ExpoApi.vibe"
+import * as LocalDeviceHost from "./LocalDeviceHost.vibe"
+
+export const DEVICE_HUB_ROUTE_PREFIX = "/api/device-hub"
+
+const sshProbeFailureMessage = (error: DeviceHost.DeviceHostError): string => {
+  const cause = error.cause
+  if (
+    !(cause instanceof SshCommandError)
+    || cause.exitCode === null
+    || cause.exitCode < 1
+    || cause.exitCode > 254
+  ) {
+    return "Could not connect to this host over SSH."
+  }
+
+  // Only the known bootstrap diagnostic is safe to expose as Node guidance.
+  if (
+    cause.exitCode === 1
+    && cause.stderr
+      .split(/\r?\n/u)
+      .some((line) => line.trim() === "Node is missing from the non-interactive SSH PATH")
+  ) {
+    return "Connected over SSH, but Node is not on this host's PATH for non-interactive SSH commands."
+  }
+
+  return `Connected over SSH, but the device host check failed (exit code ${cause.exitCode}).`
+}
+
+export interface DeviceScreenshot {
+  readonly device: DeviceSummary
+  readonly png: Uint8Array
+}
+
+export interface DeviceReadiness extends DeviceHost.DeviceHostReady {
+  readonly hostId: DeviceHostId
+}
+
+export interface DeviceAgentReadiness extends DeviceReadiness {
+  /** Null when each device has its own daemon; see `DeviceOperations.agentEndpoint`. */
+  readonly agentDevice: DeviceHost.AgentDeviceEndpoint | null
+}
+
+export class DeviceService extends Context.Service<
+  DeviceService,
+  {
+    readonly agentCli: string!DeviceError
+    readonly testHost: (
+      config: SshDeviceHostConfig,
+    ) => DeviceHostSummary!DeviceError
+    /** Who an Expo credential signs in as and which EAS projects it can run sessions under. */
+    readonly easAccount: (
+      input: DeviceEasAccountInput,
+    ) => DeviceEasAccount!DeviceEasAccountError
+    /**
+     * The agent-device flags that reach the device: its config and session,
+     * and the id agent-device selects it by, which can differ from its id here.
+     */
+    readonly agentTarget: (input: {
+      threadId: ThreadId
+      hostId: DeviceHostId
+      deviceId: DeviceId
+    }) => { readonly agentDeviceId: string; readonly args: ReadonlyArray<string> }!DeviceError
+    readonly state: DeviceServiceState!!
+    readonly subscribe: PubSub.Subscription<DeviceServiceState>!never!Scope.Scope
+    readonly configure: (
+      input: DeviceConfigureInput,
+    ) => DeviceServiceState!DeviceError
+    readonly list: DeviceServiceState!DeviceError
+    readonly updateTool: (tool: "hub" | "agent") => DeviceServiceState!DeviceError
+    readonly inspect: DeviceServiceState!!
+    readonly retryHost: (hostId: DeviceHostId) => DeviceServiceState!DeviceError
+    readonly open: (
+      input: DeviceOpenInput,
+      context?: DeviceHost.DeviceOpenContext,
+    ) => DeviceSession!DeviceError
+    readonly close: (input: DeviceCloseInput) => void!DeviceError
+    readonly shutdown: (input: DeviceShutdownInput) => void!DeviceError
+    readonly detail: (input: DeviceDetailInput) => DeviceDetail!DeviceError
+    readonly action: (input: DeviceActionInput) => DeviceDetail!DeviceError
+    readonly screenshot: (input: {
+      readonly hostId?: DeviceHostId | undefined
+      readonly deviceId: DeviceId
+    }) => DeviceScreenshot!DeviceError
+    readonly readiness: (hostId?: DeviceHostId) => DeviceReadiness!DeviceError
+    readonly readinessIfSupported: (
+      hostId?: DeviceHostId,
+    ) => (DeviceReadiness | null)!DeviceError
+    readonly agentReadinessIfSupported: (
+      hostId?: DeviceHostId,
+    ) => (DeviceAgentReadiness | null)!DeviceError
+    readonly currentReadiness: (hostId?: DeviceHostId) => (DeviceReadiness | null)!!
+    readonly sessionsForThread: (threadId: ThreadId) => ReadonlyArray<DeviceSession>!!
+  }
+>()("t3/device/DeviceService") {}
+
+interface ServiceState {
+  readonly state: DeviceServiceState
+}
+
+export const makeWithHosts = effect (
+  hosts: ReadonlyMap<DeviceHostId, DeviceHost.DeviceHost["Service"]>,
+  testHost: ((config: SshDeviceHostConfig) => DeviceHostSummary!DeviceError) | undefined = (host) =>
+    Effect.fail(
+      new DeviceHostUnavailableError({
+        hostId: host.id,
+        hostLabel: host.label,
+        reason: "SSH probing is unavailable in this device service.",
+      }),
+    ),
+  configureAgent:
+    | ((hostId: DeviceHostId, endpoint: DeviceHost.AgentDaemonEndpoint, deviceId?: DeviceId) => string!DeviceError)
+    | undefined = (hostId) =>
+      Effect.fail(
+        new DeviceHostUnavailableError({
+          hostId,
+          reason: "Agent configuration is unavailable in this device service.",
+        }),
+      ),
+  installTool?: ((tool: "hub" | "agent") => unknown!DeviceError) | undefined,
+) =>
+  try withSpan(
+    effect {
+      const settings = try ServerSettings.ServerSettingsService
+      const crypto = try Crypto.Crypto
+      const lifecycleLock = try Semaphore.make(1)
+      const readDeviceSettings = settings.getSettings
+        |> Effect.map(%, (value) => ({
+          enabled: value.enableDeviceSupport,
+          agentAccessEnabled: value.enableAgentDeviceAccess,
+          onboardingCompleted: value.deviceOnboardingCompleted,
+        }))
+        |> Effect.mapError(
+          %,
+          (cause) => new DeviceOperationError({ operation: "settings", reason: "settings_failed", cause }),
+        )
+      const initialSettings = try readDeviceSettings
+
+      const statePubSub = try PubSub.unbounded<DeviceServiceState>()
+      const initialHosts = try Effect.forEach(hosts.values(), (host) => host.summary)
+      let publishedHosts = new Map(hosts)
+      const stateRef = try SynchronizedRef.make<ServiceState>({
+        state: {
+          supportsHostRetry: true,
+          supportsToolUpdate: installTool !== undefined,
+          supportsToolInspection: true,
+          supportsEasHosts: true,
+          hosts: initialHosts,
+          hostStatus: initialSettings.enabled ? "idle" : "disabled",
+          hostStatuses: {},
+          devices: [],
+          sessions: [],
+          onboardingCompleted: initialSettings.onboardingCompleted,
+          agentAccessEnabled: initialSettings.agentAccessEnabled,
+          hubBasePath: DEVICE_HUB_ROUTE_PREFIX,
+          revision: 0,
+        },
+      })
+
+      const publish = (update: (state: DeviceServiceState) => DeviceServiceState) =>
+        SynchronizedRef.updateAndGetEffect(stateRef, ({ state }) => {
+          const next = { ...update(state), revision: state.revision + 1 }
+          return PubSub.publish(statePubSub, next) |> Effect.as(%, { state: next })
+        }) |> Effect.map(%, ({ state }) => state)
+
+      const resolveHost = effect (
+        hostId: string | undefined,
+      ) =>
+        try withSpan(
+          effect {
+            const id = hostId ?? LOCAL_DEVICE_HOST_ID
+            const host = hosts.get(id)
+            if (!host) {
+              throw new DeviceHostUnavailableError({ hostId: id, reason: "Unknown host." })
+            }
+            return host
+          },
+          "DeviceService.resolveHost",
+        )
+
+      const setHostStatus = effect (
+        hostId: DeviceHostId,
+        status: DeviceServiceState["hostStatuses"][string],
+      ) =>
+        try (!hosts.has(hostId)
+          ? (SynchronizedRef.get(stateRef) |> Effect.map(%, ({ state }) => state))
+          : publish((state) => ({
+            ...state,
+            ...(hostId === LOCAL_DEVICE_HOST_ID
+              ? { hostStatus: status.status, hostStatusDetail: status.detail }
+              : {}),
+            hostStatuses: {
+              ...state.hostStatuses,
+              [hostId]: {
+                ...(state.hostStatuses[hostId]?.androidDiscoveryIncomplete
+                  ? { androidDiscoveryIncomplete: true }
+                  : {}),
+                ...status,
+              },
+            },
+          })))
+
+      const readiness: DeviceService["Service"]["readiness"] = effect (hostId) =>
+        try withSpan(
+          effect {
+            const host = try resolveHost(hostId)
+            if (!(try readDeviceSettings).enabled) {
+              throw new DeviceHostUnavailableError({
+                hostId: host.id,
+                hostLabel: host.label,
+                reason:
+                  "Device support is off. Enable it in the Device panel before installing or starting device tools.",
+              })
+            }
+            const ready = (host
+              .ensureReady((status, detail) => setHostStatus(host.id, { status, detail }) |> Effect.asVoid(%))
+              |> Effect.tapError(%, (error) =>
+                setHostStatus(host.id, {
+                  status: "failed",
+                  detail: error._tag === "DeviceHostError" && error.step === "probe"
+                    ? sshProbeFailureMessage(error)
+                    : error.message,
+                }))) catch effect (error) => {
+                throw new DeviceHostUnavailableError({
+                  hostId: host.id,
+                  hostLabel: host.label,
+                  reason: error._tag === "NodeRuntimeUnavailableError"
+                    ? nodeRuntimeUnavailableMessage("Local device support")
+                    : error.step === "probe"
+                    ? sshProbeFailureMessage(error)
+                    : `Device support failed during ${error.step}.`,
+                  cause: error,
+                })
+              }
+            if (hosts.get(host.id) !== host) {
+              throw new DeviceHostUnavailableError({
+                hostId: host.id,
+                hostLabel: host.label,
+                reason: "Host configuration changed. Retry the operation.",
+              })
+            }
+            const { state } = try SynchronizedRef.get(stateRef)
+            if (state.hostStatuses[host.id]?.status !== "ready") {
+              try setHostStatus(host.id, { status: "ready" })
+            }
+            return { hostId: host.id, ...ready }
+          } |> lifecycleLock.withPermit(%),
+          "DeviceService.readiness",
+        )
+
+      const readinessIfSupported: DeviceService["Service"]["readinessIfSupported"] = effect (
+        hostId,
+      ): (DeviceReadiness | null)!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never =>
+        try withSpan(
+          (effect (): (DeviceReadiness | null)!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never => {
+            if (!(try readDeviceSettings).enabled) return null
+            const host = try resolveHost(hostId)
+            const summary = try host.summary
+            if (summary.kind === "local" && !summary.platforms.some((platform) => platform.available)) {
+              return null
+            }
+            return try readiness(host.id)
+          })(),
+          "DeviceService.readinessIfSupported",
+        )
+
+      const agentReadinessIfSupported: DeviceService["Service"]["agentReadinessIfSupported"] = effect (hostId) =>
+        try withSpan(
+          effect {
+            const deviceSettings = try readDeviceSettings
+            if (!deviceSettings.enabled || !deviceSettings.agentAccessEnabled) return null
+            const host = try resolveHost(hostId)
+            const summary = try host.summary
+            if (summary.kind === "local" && !summary.platforms.some((platform) => platform.available)) {
+              return null
+            }
+            const ready = (host
+              .ensureAgentReady((phase, detail) =>
+                setHostStatus(host.id, { status: phase, detail }) |> Effect.asVoid(%)
+              )
+              |> Effect.tapError(%, (error) =>
+                setHostStatus(host.id, {
+                  status: "failed",
+                  detail: error._tag === "DeviceHostError" && error.step === "probe"
+                    ? sshProbeFailureMessage(error)
+                    : error.message,
+                }))) catch effect (error) => {
+                throw new DeviceHostUnavailableError({
+                  hostId: host.id,
+                  hostLabel: host.label,
+                  reason: error._tag === "NodeRuntimeUnavailableError"
+                    ? nodeRuntimeUnavailableMessage("Local device support")
+                    : error._tag === "DeviceHostTimeoutError"
+                    ? `Agent tools did not start within ${error.timeoutMs} ms.`
+                    : error._tag === "AgentDeviceStartError"
+                    ? error.message
+                    : error.step === "probe"
+                    ? sshProbeFailureMessage(error)
+                    : `Device support failed during ${error.step}.`,
+                  cause: error,
+                })
+              }
+            const hostSummaries = try Effect.forEach(hosts.values(), (candidate) => candidate.summary)
+            try publish((state) => ({ ...state, hosts: hostSummaries }))
+            try setHostStatus(host.id, { status: "ready" })
+            return { hostId: host.id, ...ready }
+          } |> lifecycleLock.withPermit(%),
+          "DeviceService.agentReadinessIfSupported",
+        )
+
+      const currentReadiness: DeviceService["Service"]["currentReadiness"] = (hostId) =>
+        resolveHost(hostId)
+        |> Effect.flatMap(
+          %,
+          (host) => host.current |> Effect.map(%, (ready) => (ready ? { hostId: host.id, ...ready } : null)),
+        )
+        |> Effect.orElseSucceed(%, () => null)
+
+      const fetchDevices = effect (ready: DeviceReadiness) =>
+        try withSpan(
+          effect {
+            const { devices, detail, androidDiscoveryIncomplete } = try ready.devices.list
+            return {
+              devices: devices.map((device): DeviceSummary => ({ ...device, hostId: ready.hostId })),
+              detail,
+              androidDiscoveryIncomplete,
+            }
+          },
+          "DeviceService.fetchDevices",
+        )
+
+      const refresh = effect (ready: DeviceReadiness) =>
+        try withSpan(
+          effect {
+            const host = hosts.get(ready.hostId)
+            // A session opened while the listing ran is on a device the listing could
+            // not have seen yet; only sessions from before it can be pruned by it.
+            const sessionKey = (session: DeviceSession) =>
+              `${session.hostId}\u0000${session.deviceId}\u0000${session.threadId}\u0000${session.openedAt}`
+            const before = new Set((try SynchronizedRef.get(stateRef)).state.sessions.map(sessionKey))
+            const { devices, detail, androidDiscoveryIncomplete } = try fetchDevices(ready)
+            const hostSummaries = try Effect.forEach(hosts.values(), (host) => host.summary)
+            return try lifecycleLock.withPermit(
+              effect {
+                if (!(try readDeviceSettings).enabled || !host || hosts.get(ready.hostId) !== host) {
+                  return (try SynchronizedRef.get(stateRef)).state
+                }
+                return try publish((state) => ({
+                  ...state,
+                  hosts: hostSummaries,
+                  ...(ready.hostId === LOCAL_DEVICE_HOST_ID ? { hostStatusDetail: detail } : {}),
+                  devices: [
+                    ...state.devices.filter((device) => device.hostId !== ready.hostId),
+                    ...devices,
+                  ],
+                  // A host that ends devices itself (EAS stops sessions at their limits)
+                  // leaves sessions on devices it no longer lists with nothing to stream.
+                  // Other hosts can miss a device for one listing, so theirs stay.
+                  sessions: ready.devices.endsDevices
+                    ? state.sessions.filter(
+                      (session) =>
+                        session.hostId !== ready.hostId
+                        || !before.has(sessionKey(session))
+                        || devices.some((device) => device.id === session.deviceId),
+                    )
+                    : state.sessions,
+                  hostStatuses: {
+                    ...state.hostStatuses,
+                    [ready.hostId]: {
+                      status: "ready",
+                      ...(detail ? { detail } : {}),
+                      ...(androidDiscoveryIncomplete ? { androidDiscoveryIncomplete } : {}),
+                    },
+                  },
+                }))
+              },
+            )
+          },
+          "DeviceService.refresh",
+        )
+
+      const list: DeviceService["Service"]["list"] = effect {
+        if (!(try readDeviceSettings).enabled) return (try SynchronizedRef.get(stateRef)).state
+        try Effect.forEach(
+          hosts.values(),
+          (host) =>
+            do {
+              const catchProgram = effect {
+                const ready = try readinessIfSupported(host.id)
+                if (ready) try refresh(ready)
+              }
+              effect {
+                return catchProgram catch effect (error) =>
+                  try setHostStatus(host.id, {
+                    status: "failed",
+                    detail: error._tag === "DeviceHostUnavailableError" ? error.reason : error.message,
+                  })
+              }
+            },
+          { concurrency: 4 },
+        )
+        return (try SynchronizedRef.get(stateRef)).state
+      } |> withSpan(%, "DeviceService.list")
+
+      const inspect = effect {
+        try Effect.forEach(
+          hosts.values(),
+          effect (host) => {
+            const result = try ((host.inspect ?? host.summary) |> Effect.result(%))
+            if (hosts.get(host.id) !== host) return
+            if (result._tag === "Failure") {
+              try publish((state) => ({
+                ...state,
+                hosts: state.hosts.map((value) =>
+                  value.id === host.id
+                    ? {
+                      ...value,
+                      toolInspectionError:
+                        "Cannot check versions. Reconnect the host and check again. Installed tools have not been changed.",
+                    }
+                    : value
+                ),
+              }))
+              return
+            }
+            try publish((state) => ({
+              ...state,
+              hosts: state.hosts.map((value) => (value.id === host.id ? result.success : value)),
+            }))
+          },
+          { concurrency: 4 },
+        )
+        return (try SynchronizedRef.get(stateRef)).state
+      }
+
+      const retryHost: DeviceService["Service"]["retryHost"] = effect (
+        hostId,
+      ): { readonly supportsHostRetry?: boolean | undefined; readonly supportsToolUpdate?: boolean | undefined; readonly supportsToolInspection?: boolean | undefined; readonly supportsEasHosts?: boolean | undefined; readonly hostStatus: "disabled" | "failed" | "idle" | "installing" | "ready" | "starting"; readonly hostStatusDetail?: string | undefined; readonly hostStatuses: { readonly [x: string]: { readonly status: "disabled" | "failed" | "idle" | "installing" | "ready" | "starting"; readonly detail?: string | undefined; readonly androidDiscoveryIncomplete?: boolean | undefined; }; }; readonly devices: readonly { readonly hostId: string; readonly id: string; readonly platform: "android" | "ios"; readonly name: string; readonly version: string; readonly booted: boolean; readonly physical: boolean; }[]; readonly sessions: readonly { readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; readonly hostId: string; readonly deviceId: string; readonly platform: "android" | "ios"; readonly openedAt: string; }[]; readonly bootingDevices?: readonly { readonly hostId: string; readonly id: string; readonly platform: "android" | "ios"; readonly name: string; readonly version: string; readonly booted: boolean; readonly physical: boolean; readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; }[] | undefined; readonly onboardingCompleted: boolean; readonly agentAccessEnabled: boolean; readonly hubBasePath: string; readonly revision: number; readonly hosts: readonly ({ readonly id: string; readonly label: string; readonly platforms: readonly { readonly platform: "android" | "ios"; readonly available: boolean; readonly reason?: string | undefined; }[]; readonly tools?: { readonly hub: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; readonly agent: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; } | undefined; readonly toolInspectionError?: string | undefined; readonly hubInstalled: boolean; readonly agentDeviceInstalled: boolean; readonly kind: "local" | "ssh"; } | { readonly id: string; readonly label: string; readonly platforms: readonly { readonly platform: "android" | "ios"; readonly available: boolean; readonly reason?: string | undefined; }[]; readonly tools?: { readonly hub: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; readonly agent: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; } | undefined; readonly toolInspectionError?: string | undefined; readonly hubInstalled: boolean; readonly agentDeviceInstalled: boolean; readonly kind: "eas"; })[]; }!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never =>
+        try withSpan(
+          (effect (): { readonly supportsHostRetry?: boolean | undefined; readonly supportsToolUpdate?: boolean | undefined; readonly supportsToolInspection?: boolean | undefined; readonly supportsEasHosts?: boolean | undefined; readonly hostStatus: "disabled" | "failed" | "idle" | "installing" | "ready" | "starting"; readonly hostStatusDetail?: string | undefined; readonly hostStatuses: { readonly [x: string]: { readonly status: "disabled" | "failed" | "idle" | "installing" | "ready" | "starting"; readonly detail?: string | undefined; readonly androidDiscoveryIncomplete?: boolean | undefined; }; }; readonly devices: readonly { readonly hostId: string; readonly id: string; readonly platform: "android" | "ios"; readonly name: string; readonly version: string; readonly booted: boolean; readonly physical: boolean; }[]; readonly sessions: readonly { readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; readonly hostId: string; readonly deviceId: string; readonly platform: "android" | "ios"; readonly openedAt: string; }[]; readonly bootingDevices?: readonly { readonly hostId: string; readonly id: string; readonly platform: "android" | "ios"; readonly name: string; readonly version: string; readonly booted: boolean; readonly physical: boolean; readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; }[] | undefined; readonly onboardingCompleted: boolean; readonly agentAccessEnabled: boolean; readonly hubBasePath: string; readonly revision: number; readonly hosts: readonly ({ readonly id: string; readonly label: string; readonly platforms: readonly { readonly platform: "android" | "ios"; readonly available: boolean; readonly reason?: string | undefined; }[]; readonly tools?: { readonly hub: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; readonly agent: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; } | undefined; readonly toolInspectionError?: string | undefined; readonly hubInstalled: boolean; readonly agentDeviceInstalled: boolean; readonly kind: "local" | "ssh"; } | { readonly id: string; readonly label: string; readonly platforms: readonly { readonly platform: "android" | "ios"; readonly available: boolean; readonly reason?: string | undefined; }[]; readonly tools?: { readonly hub: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; readonly agent: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; } | undefined; readonly toolInspectionError?: string | undefined; readonly hubInstalled: boolean; readonly agentDeviceInstalled: boolean; readonly kind: "eas"; })[]; }!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never => {
+            try resolveHost(hostId)
+            if (!(try readDeviceSettings).enabled) return (try SynchronizedRef.get(stateRef)).state
+            ;(effect {
+              const ready = (try agentReadinessIfSupported(hostId)) ?? (try readinessIfSupported(hostId))
+              if (ready) try refresh(ready)
+            }) catch effect (error) =>
+              try setHostStatus(hostId, {
+                status: "failed",
+                detail: error._tag === "DeviceHostUnavailableError" ? error.reason : error.message,
+              })
+            return (try SynchronizedRef.get(stateRef)).state
+          })(),
+          "DeviceService.retryHost",
+        )
+
+      const configure: DeviceService["Service"]["configure"] = effect (
+        input,
+      ): { readonly supportsHostRetry?: boolean | undefined; readonly supportsToolUpdate?: boolean | undefined; readonly supportsToolInspection?: boolean | undefined; readonly supportsEasHosts?: boolean | undefined; readonly hostStatus: "disabled" | "failed" | "idle" | "installing" | "ready" | "starting"; readonly hostStatusDetail?: string | undefined; readonly hostStatuses: { readonly [x: string]: { readonly status: "disabled" | "failed" | "idle" | "installing" | "ready" | "starting"; readonly detail?: string | undefined; readonly androidDiscoveryIncomplete?: boolean | undefined; }; }; readonly devices: readonly { readonly hostId: string; readonly id: string; readonly platform: "android" | "ios"; readonly name: string; readonly version: string; readonly booted: boolean; readonly physical: boolean; }[]; readonly sessions: readonly { readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; readonly hostId: string; readonly deviceId: string; readonly platform: "android" | "ios"; readonly openedAt: string; }[]; readonly bootingDevices?: readonly { readonly hostId: string; readonly id: string; readonly platform: "android" | "ios"; readonly name: string; readonly version: string; readonly booted: boolean; readonly physical: boolean; readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; }[] | undefined; readonly onboardingCompleted: boolean; readonly agentAccessEnabled: boolean; readonly hubBasePath: string; readonly revision: number; readonly hosts: readonly ({ readonly id: string; readonly label: string; readonly platforms: readonly { readonly platform: "android" | "ios"; readonly available: boolean; readonly reason?: string | undefined; }[]; readonly tools?: { readonly hub: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; readonly agent: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; } | undefined; readonly toolInspectionError?: string | undefined; readonly hubInstalled: boolean; readonly agentDeviceInstalled: boolean; readonly kind: "local" | "ssh"; } | { readonly id: string; readonly label: string; readonly platforms: readonly { readonly platform: "android" | "ios"; readonly available: boolean; readonly reason?: string | undefined; }[]; readonly tools?: { readonly hub: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; readonly agent: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; } | undefined; readonly toolInspectionError?: string | undefined; readonly hubInstalled: boolean; readonly agentDeviceInstalled: boolean; readonly kind: "eas"; })[]; }!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never =>
+        try withSpan(
+          (effect (): { readonly supportsHostRetry?: boolean | undefined; readonly supportsToolUpdate?: boolean | undefined; readonly supportsToolInspection?: boolean | undefined; readonly supportsEasHosts?: boolean | undefined; readonly hostStatus: "disabled" | "failed" | "idle" | "installing" | "ready" | "starting"; readonly hostStatusDetail?: string | undefined; readonly hostStatuses: { readonly [x: string]: { readonly status: "disabled" | "failed" | "idle" | "installing" | "ready" | "starting"; readonly detail?: string | undefined; readonly androidDiscoveryIncomplete?: boolean | undefined; }; }; readonly devices: readonly { readonly hostId: string; readonly id: string; readonly platform: "android" | "ios"; readonly name: string; readonly version: string; readonly booted: boolean; readonly physical: boolean; }[]; readonly sessions: readonly { readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; readonly hostId: string; readonly deviceId: string; readonly platform: "android" | "ios"; readonly openedAt: string; }[]; readonly bootingDevices?: readonly { readonly hostId: string; readonly id: string; readonly platform: "android" | "ios"; readonly name: string; readonly version: string; readonly booted: boolean; readonly physical: boolean; readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; }[] | undefined; readonly onboardingCompleted: boolean; readonly agentAccessEnabled: boolean; readonly hubBasePath: string; readonly revision: number; readonly hosts: readonly ({ readonly id: string; readonly label: string; readonly platforms: readonly { readonly platform: "android" | "ios"; readonly available: boolean; readonly reason?: string | undefined; }[]; readonly tools?: { readonly hub: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; readonly agent: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; } | undefined; readonly toolInspectionError?: string | undefined; readonly hubInstalled: boolean; readonly agentDeviceInstalled: boolean; readonly kind: "local" | "ssh"; } | { readonly id: string; readonly label: string; readonly platforms: readonly { readonly platform: "android" | "ios"; readonly available: boolean; readonly reason?: string | undefined; }[]; readonly tools?: { readonly hub: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; readonly agent: { readonly requiredVersion: string; readonly installedVersions: readonly string[]; readonly runningVersion: string | null; }; } | undefined; readonly toolInspectionError?: string | undefined; readonly hubInstalled: boolean; readonly agentDeviceInstalled: boolean; readonly kind: "eas"; })[]; }!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never => {
+            const currentSettings = try readDeviceSettings
+            const nextEnabled = input.enabled ?? currentSettings.enabled
+            const nextAgentAccess = input.agentAccessEnabled ?? currentSettings.agentAccessEnabled
+            try lifecycleLock.withPermit(
+              effect {
+                settings
+                  .updateSettings({
+                    ...(input.enabled === undefined ? {} : { enableDeviceSupport: input.enabled }),
+                    ...(input.agentAccessEnabled === undefined
+                      ? {}
+                      : { enableAgentDeviceAccess: input.agentAccessEnabled }),
+                    ...(input.onboardingCompleted === undefined
+                      ? {}
+                      : { deviceOnboardingCompleted: input.onboardingCompleted }),
+                  }) catch effect (cause) => {
+                    throw new DeviceOperationError({
+                      operation: "configure",
+                      reason: "settings_failed",
+                      cause,
+                    })
+                  }
+                if (!nextEnabled) {
+                  try Effect.forEach(hosts.values(), (host) => host.stop, { discard: true })
+                } else if (input.agentAccessEnabled === false) {
+                  try Effect.forEach(hosts.values(), (host) => host.stopAgent, { discard: true })
+                }
+                try publish((state) => ({
+                  ...state,
+                  hostStatus: nextEnabled ? "idle" : "disabled",
+                  hostStatusDetail: undefined,
+                  hostStatuses: {},
+                  devices: nextEnabled ? state.devices : [],
+                  sessions: nextEnabled ? state.sessions : [],
+                  bootingDevices: nextEnabled ? state.bootingDevices : [],
+                  agentAccessEnabled: nextAgentAccess,
+                  onboardingCompleted: input.onboardingCompleted ?? state.onboardingCompleted,
+                }))
+              },
+            )
+            if (nextEnabled && nextAgentAccess && input.agentAccessEnabled === true) {
+              try agentReadinessIfSupported()
+            }
+            return try list
+          })(),
+          "DeviceService.configure",
+        )
+
+      const findDevice = (
+        state: DeviceServiceState,
+        hostId: DeviceHostId,
+        deviceId: DeviceId,
+      ): DeviceSummary | undefined => state.devices.find((device) => device.hostId === hostId && device.id === deviceId)
+
+      const ensurePlatform = effect (
+        host: DeviceHost.DeviceHost["Service"],
+        platform: "android" | "ios",
+      ) =>
+        try withSpan(
+          effect {
+            const availability = try host.platformAvailability(platform)
+            if (!availability.available) {
+              throw new DevicePlatformUnavailableError({
+                hostId: host.id,
+                platform,
+                reason: availability.reason ?? "Platform toolchain missing.",
+              })
+            }
+          },
+          "DeviceService.ensurePlatform",
+        )
+
+      const open: DeviceService["Service"]["open"] = effect (
+        input,
+        context,
+      ): { readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; readonly hostId: string; readonly deviceId: string; readonly platform: "android" | "ios"; readonly openedAt: string; }!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never =>
+        try withSpan(
+          (effect (): { readonly threadId: string & import("effect/Brand").Brand<"ThreadId">; readonly hostId: string; readonly deviceId: string; readonly platform: "android" | "ios"; readonly openedAt: string; }!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never => {
+            const host = try resolveHost(input.hostId)
+            try ensurePlatform(host, input.platform)
+            const ready = try readiness(host.id)
+            let state = try refresh(ready)
+            let device = findDevice(state, host.id, input.deviceId)
+            if (!device) {
+              throw new DeviceNotFoundError({ hostId: host.id, deviceId: input.deviceId })
+            }
+            if (device.platform === "android" && !device.physical) {
+              // Resolve the override on the device host the way its hub does.
+              const encoders = try ready.run(ready.nodePath, [
+                "-e",
+                `const { spawnSync } = require("node:child_process");
+  const result = spawnSync(process.env.SERVE_EMU_FFMPEG?.trim() || "ffmpeg", ["-hide_banner", "-encoders"], {
+    stdio: "inherit", timeout: 10000, killSignal: "SIGKILL",
+  });
+  process.exitCode = result.error ? 1 : (result.status ?? 1);`,
+              ])
+              if (encoders.code !== 0) {
+                throw new DevicePlatformUnavailableError({
+                  hostId: host.id,
+                  platform: "android",
+                  reason:
+                    "Android emulator video needs working ffmpeg with the libx264 encoder. Install it on the device host's PATH or set SERVE_EMU_FFMPEG there, then retry opening the emulator. After changing PATH or SERVE_EMU_FFMPEG, turn device support off and on for SSH hosts, or restart the local environment server.",
+                })
+              }
+              if (!/^\s*V\S*[ \t]+libx264(?:[ \t]|$)/m.test(`${encoders.stdout}\n${encoders.stderr}`)) {
+                throw new DevicePlatformUnavailableError({
+                  hostId: host.id,
+                  platform: "android",
+                  reason:
+                    "Android emulator video needs the libx264 encoder. Install an ffmpeg build that includes libx264 on the device host, then retry opening the emulator. After changing PATH or SERVE_EMU_FFMPEG, turn device support off and on for SSH hosts, or restart the local environment server.",
+                })
+              }
+            }
+            if (!device.booted && input.boot !== false) {
+              const booting = { ...device, threadId: input.threadId }
+              try publish((current) => ({
+                ...current,
+                bootingDevices: [
+                  ...(current.bootingDevices ?? []).filter(
+                    (entry) => entry.hostId !== booting.hostId || entry.id !== booting.id,
+                  ),
+                  booting,
+                ],
+              }))
+              const bootedId = try (ready.devices.boot(device, context)
+                |> Effect.ensuring(
+                  %,
+                  publish((current) => ({
+                    ...current,
+                    bootingDevices: (current.bootingDevices ?? []).filter(
+                      (entry) => entry.hostId !== booting.hostId || entry.id !== booting.id,
+                    ),
+                  })),
+                ))
+              state = try refresh(ready)
+              device = findDevice(state, host.id, bootedId) ?? findDevice(state, host.id, device.id)
+              if (!device) {
+                throw new DeviceNotFoundError({ hostId: host.id, deviceId: bootedId })
+              }
+            } else if (device.booted) {
+              try ready.devices.attach(device)
+            }
+            if (hosts.get(host.id) !== host) {
+              throw new DeviceHostUnavailableError({
+                hostId: host.id,
+                hostLabel: host.label,
+                reason: "Host configuration changed. Retry the operation.",
+              })
+            }
+            const openedAt = DateTime.formatIso(try DateTime.now)
+            const session: DeviceSession = {
+              threadId: input.threadId,
+              hostId: host.id,
+              deviceId: device.id,
+              platform: device.platform,
+              openedAt,
+            }
+            try lifecycleLock.withPermit(
+              effect {
+                if (!(try readDeviceSettings).enabled) {
+                  throw new DeviceHostUnavailableError({
+                    hostId: host.id,
+                    hostLabel: host.label,
+                    reason: "Device support was turned off while the device was opening.",
+                  })
+                }
+                try publish((current) => ({
+                  ...current,
+                  sessions: [
+                    ...current.sessions.filter(
+                      (existing) =>
+                        !(
+                          existing.threadId === session.threadId
+                          && existing.hostId === session.hostId
+                          && existing.deviceId === session.deviceId
+                        ),
+                    ),
+                    session,
+                  ],
+                }))
+              },
+            )
+            return session
+          })(),
+          "DeviceService.open",
+        )
+
+      const shutdownDevice = effect (
+        hostId: string,
+        deviceId: string,
+        platform: "android" | "ios",
+      ) =>
+        try withSpan(
+          effect {
+            const ready = try readiness(hostId)
+            try ready.devices.shutdown({ id: deviceId, platform })
+            try publish((state) => ({
+              ...state,
+              devices: state.devices.map((device) =>
+                device.hostId === ready.hostId && device.id === deviceId
+                  ? { ...device, booted: false }
+                  : device
+              ),
+              sessions: state.sessions.filter(
+                (session) => !(session.hostId === ready.hostId && session.deviceId === deviceId),
+              ),
+            }))
+            // Snapshot saves can stall discovery; refresh failure must not fail an accepted shutdown.
+            refresh(ready) catch effect (cause) =>
+              try Effect.logWarning("Device discovery unavailable after shutdown", { cause })
+          },
+          "DeviceService.shutdownDevice",
+        )
+
+      const close: DeviceService["Service"]["close"] = effect (
+        input,
+      ): void!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never =>
+        try withSpan(
+          (effect (): void!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never => {
+            const { state } = try SynchronizedRef.get(stateRef)
+            const closing = state.sessions.filter(
+              (session) =>
+                session.threadId === input.threadId
+                && (input.hostId === undefined || session.hostId === input.hostId)
+                && (input.deviceId === undefined || session.deviceId === input.deviceId),
+            )
+            if (closing.length === 0) return
+            try publish((current) => ({
+              ...current,
+              sessions: current.sessions.filter((session) => !closing.includes(session)),
+            }))
+            if (input.shutdown) {
+              try Effect.forEach(
+                closing,
+                (session) => shutdownDevice(session.hostId, session.deviceId, session.platform),
+                { discard: true },
+              )
+            }
+          })(),
+          "DeviceService.close",
+        )
+
+      const shutdown: DeviceService["Service"]["shutdown"] = effect (
+        input,
+      ): void!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never =>
+        try withSpan(
+          (effect (): void!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never => {
+            const host = try resolveHost(input.hostId)
+            try shutdownDevice(host.id, input.deviceId, input.platform)
+            try publish((current) => ({
+              ...current,
+              sessions: current.sessions.filter(
+                (session) => !(session.hostId === host.id && session.deviceId === input.deviceId),
+              ),
+            }))
+          })(),
+          "DeviceService.shutdown",
+        )
+
+      const screenshot: DeviceService["Service"]["screenshot"] = effect (
+        input,
+      ): DeviceScreenshot!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never =>
+        try withSpan(
+          (effect (): DeviceScreenshot!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never => {
+            const { ready, device } = try resolveDevice(input.hostId, input.deviceId)
+            return { device, png: try ready.devices.screenshot(device) }
+          })(),
+          "DeviceService.screenshot",
+        )
+
+      const resolveDevice = effect (
+        hostId: string | undefined,
+        deviceId: string,
+      ) =>
+        try withSpan(
+          effect {
+            const host = try resolveHost(hostId)
+            const ready = try readiness(host.id)
+            const { state } = try SynchronizedRef.get(stateRef)
+            const device = findDevice(state, host.id, deviceId) ?? findDevice(try refresh(ready), host.id, deviceId)
+            if (!device) throw new DeviceNotFoundError({ hostId: host.id, deviceId })
+            return { ready, device }
+          },
+          "DeviceService.resolveDevice",
+        )
+
+      const detail: DeviceService["Service"]["detail"] = effect (
+        input,
+      ): { readonly hostId: string; readonly deviceId: string; readonly settings: { readonly appearance?: "dark" | "light" | undefined; readonly textSize?: "default" | "extra-large" | "large" | "small" | undefined; readonly reduceMotion?: boolean | undefined; readonly increaseContrast?: boolean | undefined; readonly reduceTransparency?: boolean | undefined; readonly showBorders?: boolean | undefined; readonly voiceOver?: boolean | undefined; readonly liquidGlass?: "clear" | "tinted" | undefined; readonly colorFilter?: "blue-yellow" | "grayscale" | "green-red" | "none" | "red-green" | undefined; readonly networkEnabled?: boolean | undefined; readonly location?: { readonly latitude: number; readonly longitude: number; } | null | undefined; }; readonly foregroundApp: { readonly id: string; readonly name?: string | undefined; readonly version?: string | undefined; } | null; readonly readAt: string; }!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never =>
+        try withSpan(
+          (effect (): { readonly hostId: string; readonly deviceId: string; readonly settings: { readonly appearance?: "dark" | "light" | undefined; readonly textSize?: "default" | "extra-large" | "large" | "small" | undefined; readonly reduceMotion?: boolean | undefined; readonly increaseContrast?: boolean | undefined; readonly reduceTransparency?: boolean | undefined; readonly showBorders?: boolean | undefined; readonly voiceOver?: boolean | undefined; readonly liquidGlass?: "clear" | "tinted" | undefined; readonly colorFilter?: "blue-yellow" | "grayscale" | "green-red" | "none" | "red-green" | undefined; readonly networkEnabled?: boolean | undefined; readonly location?: { readonly latitude: number; readonly longitude: number; } | null | undefined; }; readonly foregroundApp: { readonly id: string; readonly name?: string | undefined; readonly version?: string | undefined; } | null; readonly readAt: string; }!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never => {
+            const { ready, device } = try resolveDevice(input.hostId, input.deviceId)
+            const read = try readDeviceDetail(ready, device.platform, device.id)
+            return {
+              hostId: ready.hostId,
+              deviceId: device.id,
+              settings: read.settings,
+              foregroundApp: read.foregroundApp,
+              readAt: DateTime.formatIso(try DateTime.now),
+            }
+          })(),
+          "DeviceService.detail",
+        )
+
+      const action: DeviceService["Service"]["action"] = effect (
+        input,
+      ): { readonly hostId: string; readonly deviceId: string; readonly settings: { readonly appearance?: "dark" | "light" | undefined; readonly textSize?: "default" | "extra-large" | "large" | "small" | undefined; readonly reduceMotion?: boolean | undefined; readonly increaseContrast?: boolean | undefined; readonly reduceTransparency?: boolean | undefined; readonly showBorders?: boolean | undefined; readonly voiceOver?: boolean | undefined; readonly liquidGlass?: "clear" | "tinted" | undefined; readonly colorFilter?: "blue-yellow" | "grayscale" | "green-red" | "none" | "red-green" | undefined; readonly networkEnabled?: boolean | undefined; readonly location?: { readonly latitude: number; readonly longitude: number; } | null | undefined; }; readonly foregroundApp: { readonly id: string; readonly name?: string | undefined; readonly version?: string | undefined; } | null; readonly readAt: string; }!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never =>
+        try withSpan(
+          (effect (): { readonly hostId: string; readonly deviceId: string; readonly settings: { readonly appearance?: "dark" | "light" | undefined; readonly textSize?: "default" | "extra-large" | "large" | "small" | undefined; readonly reduceMotion?: boolean | undefined; readonly increaseContrast?: boolean | undefined; readonly reduceTransparency?: boolean | undefined; readonly showBorders?: boolean | undefined; readonly voiceOver?: boolean | undefined; readonly liquidGlass?: "clear" | "tinted" | undefined; readonly colorFilter?: "blue-yellow" | "grayscale" | "green-red" | "none" | "red-green" | undefined; readonly networkEnabled?: boolean | undefined; readonly location?: { readonly latitude: number; readonly longitude: number; } | null | undefined; }; readonly foregroundApp: { readonly id: string; readonly name?: string | undefined; readonly version?: string | undefined; } | null; readonly readAt: string; }!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never => {
+            const { ready, device } = try resolveDevice(input.hostId, input.deviceId)
+            try runDeviceAction(ready, device.platform, input)
+            return try detail({ hostId: ready.hostId, deviceId: device.id })
+          })(),
+          "DeviceService.action",
+        )
+
+      const sessionsForThread: DeviceService["Service"]["sessionsForThread"] = (threadId) =>
+        SynchronizedRef.get(stateRef)
+        |> Effect.map(%, ({ state }) => state.sessions.filter((session) => session.threadId === threadId))
+
+      return {
+        ...DeviceService.of({
+          testHost,
+          updateTool: Effect.fn("DeviceService.updateTool")(function(tool) {
+            return lifecycleLock.withPermit(
+              effect {
+                if (!installTool) {
+                  throw new DeviceOperationError({
+                    operation: "update device tool",
+                    reason: "request_failed",
+                    cause: new Error("Tool installation is unavailable in this device service."),
+                  })
+                }
+                try installTool(tool)
+                return try inspect
+              },
+            )
+          }),
+          retryHost,
+          inspect,
+          easAccount: Effect.fn("DeviceService.easAccount")(function() {
+            return Effect.fail(
+              new DeviceEasAccountError({
+                reason: "EAS accounts are unavailable in this device service.",
+              }),
+            )
+          }),
+          agentCli: Effect.fail(
+            new DeviceHostUnavailableError({
+              hostId: LOCAL_DEVICE_HOST_ID,
+              reason: "Agent CLI installation is unavailable in this device service.",
+            }),
+          ),
+          agentTarget: effect (
+            input,
+          ): { readonly agentDeviceId: string; readonly args: ReadonlyArray<string>; }!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never =>
+            try withSpan(
+              (effect (): { readonly agentDeviceId: string; readonly args: ReadonlyArray<string>; }!(import("@t3tools/contracts").DeviceActionUnavailableError | import("@t3tools/contracts").DeviceBootError | DeviceHostUnavailableError | DeviceNotFoundError | DeviceOperationError | DevicePlatformUnavailableError)!never => {
+                const host = try resolveHost(input.hostId)
+                const ready = try agentReadinessIfSupported(input.hostId)
+                if (!ready) {
+                  throw new DeviceHostUnavailableError({
+                    hostId: host.id,
+                    hostLabel: host.label,
+                    reason:
+                      "Agent device access requires enabled device support, agent access, and an available simulator platform on this host.",
+                  })
+                }
+                const { configPath, agentDeviceId } = try lifecycleLock.withPermit(
+                  effect {
+                    if (hosts.get(host.id) !== host) {
+                      throw new DeviceHostUnavailableError({
+                        hostId: host.id,
+                        hostLabel: host.label,
+                        reason: "Host configuration changed. Retry the operation.",
+                      })
+                    }
+                    if (ready.devices.agentEndpoint) {
+                      const endpoint = try ready.devices.agentEndpoint(input.deviceId)
+                      return {
+                        configPath: try configureAgent(input.hostId, endpoint, input.deviceId),
+                        agentDeviceId: endpoint.agentDeviceId,
+                      }
+                    }
+                    if (!ready.agentDevice) {
+                      throw new DeviceHostUnavailableError({
+                        hostId: host.id,
+                        hostLabel: host.label,
+                        reason: "This host has no agent-device daemon.",
+                      })
+                    }
+                    return {
+                      configPath: try configureAgent(input.hostId, ready.agentDevice),
+                      agentDeviceId: input.deviceId,
+                    }
+                  },
+                )
+                const session = try effect {
+                  provide Crypto.Crypto = crypto {
+                    return try agentDeviceSession(
+                      input.threadId,
+                      input.hostId,
+                      input.deviceId,
+                    )
+                  }
+                }
+                return { agentDeviceId, args: ["--config", configPath, "--session", session] }
+              })(),
+              "DeviceService.agentTarget",
+            ),
+          state: SynchronizedRef.get(stateRef) |> Effect.map(%, ({ state }) => state),
+          subscribe: PubSub.subscribe(statePubSub),
+          configure,
+          list,
+          open,
+          close,
+          shutdown,
+          detail,
+          action,
+          screenshot,
+          readiness,
+          readinessIfSupported,
+          agentReadinessIfSupported,
+          currentReadiness,
+          sessionsForThread,
+        }),
+        setHostStatus,
+        withLifecycleLock: lifecycleLock.withPermit,
+        refreshHosts: effect {
+          const summaries = try Effect.forEach(hosts.values(), (host) => host.summary)
+          const unchanged = (id: DeviceHostId) => hosts.has(id) && hosts.get(id) === publishedHosts.get(id)
+          try publish((state) => ({
+            ...state,
+            hosts: summaries,
+            hostStatuses: Object.fromEntries(
+              Object.entries(state.hostStatuses).filter(([id]) => unchanged(id)),
+            ),
+            devices: state.devices.filter((device) => unchanged(device.hostId)),
+            sessions: state.sessions.filter((session) => unchanged(session.hostId)),
+          }))
+          publishedHosts = new Map(hosts)
+        },
+      }
+    },
+    "DeviceService.makeWithHosts",
+  )
+
+/** @public */
+/** @public */
+export const make = effect {
+  const localHost = try DeviceHost.DeviceHost
+  const config = try ServerConfig.ServerConfig
+  const fs = try FileSystem.FileSystem
+  const path = try Path.Path
+  const runner = try ProcessRunner.ProcessRunner
+  const settings = try ServerSettings.ServerSettingsService
+  const scope = try Scope.Scope
+  const hosts = new Map<DeviceHostId, DeviceHost.DeviceHost["Service"]>([
+    [localHost.id, localHost],
+  ])
+  const crypto = try Crypto.Crypto
+  const configPath = (hostId: DeviceHostId, deviceId?: DeviceId) =>
+    agentDeviceConfigPath(config.stateDir, hostId, path, deviceId)
+    |> Effect.provideService(%, Crypto.Crypto, crypto)
+  const configureAgent = effect (
+    hostId: string,
+    endpoint: DeviceHost.AgentDaemonEndpoint,
+    deviceId?: string | undefined,
+  ) =>
+    try withSpan(
+      effect {
+        const file = try configPath(hostId, deviceId)
+        try writeAgentDeviceConfig(file, endpoint)
+        return file
+      } |> Effect.provideService(%, FileSystem.FileSystem, fs) |> Effect.provideService(%, Path.Path, path)
+        |> Effect.mapError(%, (cause) =>
+          new DeviceOperationError({
+            operation: "configure agent",
+            reason: "settings_failed",
+            cause,
+          })),
+      "DeviceService.configureAgent",
+    )
+  const probeContext = try Effect.context<Effect.Services<ReturnType<typeof SshDeviceHost.probe>>>()
+  const localTargetContext = try Effect.context<Effect.Services<ReturnType<typeof isLocalSshDeviceHost>>>()
+  const service = try makeWithHosts(
+    hosts,
+    (host) =>
+      effect {
+        if (
+          (try effect {
+            provide localTargetContext {
+              return try isLocalSshDeviceHost(host)
+            }
+          })
+        ) {
+          return try localHost.summary
+        }
+        return try effect {
+          provide probeContext {
+            return try SshDeviceHost.probe(host)
+          }
+        }
+      }
+      |> Effect.mapError(
+        %,
+        (error) =>
+          new DeviceOperationError({
+            operation: "probe host",
+            reason: "request_failed",
+            cause: error,
+          }),
+      ),
+    configureAgent,
+    (tool) =>
+      (tool === "hub" ? ensureDeviceHub(config.baseDir) : ensureAgentDevice(config.baseDir))
+      |> Effect.provideService(%, FileSystem.FileSystem, fs)
+      |> Effect.provideService(%, Path.Path, path)
+      |> Effect.provideService(%, ProcessRunner.ProcessRunner, runner)
+      |> Effect.mapError(
+        %,
+        (cause) =>
+          new DeviceOperationError({
+            operation: "update device tool",
+            reason: "command_failed",
+            // Only the exit code goes into the shown message; npm's stderr can carry registry credentials.
+            ...(cause.exitCode !== undefined ? { exitCode: cause.exitCode } : {}),
+            cause,
+          }),
+      ),
+  )
+  const hostContext = try Effect.context<Effect.Services<ReturnType<typeof SshDeviceHost.make>>>()
+  const easContext = try Effect.context<Effect.Services<ReturnType<typeof EasDeviceHost.make>>>()
+  const configured = new Map<string, { config: DeviceHostConfig; scope: Scope.Closeable }>()
+  const unchanged = (current: DeviceHostConfig, previous: DeviceHostConfig) =>
+    current.kind === "ssh" && previous.kind === "ssh"
+      ? current.label === previous.label
+        && current.target === previous.target
+        && current.port === previous.port
+        && current.identityFile === previous.identityFile
+      : JSON.stringify(current) === JSON.stringify(previous)
+  const reconcile = effect (
+    configuredHosts: readonly DeviceHostConfig[],
+  ) =>
+    try withSpan(
+      effect {
+        const next = try effect {
+          provide localTargetContext {
+            return try remoteSshDeviceHosts(configuredHosts)
+          }
+        }
+        const removed = try service.withLifecycleLock(
+          effect {
+            const removed: Array<{ id: string; scope: Scope.Closeable }> = []
+            for (const [id, previous] of configured) {
+              if (next.some((host) => host.id === id && unchanged(host, previous.config))) continue
+              hosts.delete(id)
+              configured.delete(id)
+              removed.push({ id, scope: previous.scope })
+            }
+            if (removed.length > 0) try service.refreshHosts
+            return removed
+          },
+        )
+        // Stop old writers before deleting config files or publishing replacements, without blocking healthy hosts.
+        try Effect.forEach(
+          removed,
+          ({ id, scope }) =>
+            effect {
+              try Scope.close(scope, Exit.void)
+              try (fs.remove(try configPath(id), { force: true }) |> Effect.ignore(%))
+            },
+          { concurrency: 4, discard: true },
+        )
+        try service.withLifecycleLock(
+          effect {
+            let added = false
+            for (const host of next) {
+              if (configured.has(host.id)) continue
+              added = true
+              const hostScope = try Scope.fork(scope)
+              if (host.kind === "eas") {
+                // Closing this scope stops the host's running sessions, so a changed
+                // limit or token never leaves a billed session behind.
+                const instance = try effect {
+                  provide easContext {
+                    return try effect {
+                      provide Scope.Scope = hostScope {
+                        return try EasDeviceHost.make(host)
+                      }
+                    }
+                  }
+                }
+                hosts.set(host.id, instance)
+                configured.set(host.id, { config: host, scope: hostScope })
+                continue
+              }
+              const instance = try effect {
+                provide hostContext {
+                  return try effect {
+                    provide Scope.Scope = hostScope {
+                      return try SshDeviceHost.make(
+                        host,
+                        (ready) =>
+                          (ready.agentDevice
+                            ? (configureAgent(host.id, ready.agentDevice) |> Effect.asVoid(%))
+                            : Effect.void)
+                          |> Effect.mapError(
+                            %,
+                            (error) =>
+                              new DeviceHost.DeviceHostError({
+                                hostId: host.id,
+                                step: "configuring agent access",
+                                cause: error,
+                              }),
+                          ),
+                        (status, detail) =>
+                          service
+                            .setHostStatus(host.id, { status, ...(detail ? { detail } : {}) }) |> Effect.asVoid(%),
+                      )
+                    }
+                  }
+                }
+              }
+              hosts.set(host.id, instance)
+              configured.set(host.id, { config: host, scope: hostScope })
+            }
+            // Refresh again after removed scopes closed so a late status write from an old host cannot linger.
+            if (added || removed.length > 0) try service.refreshHosts
+          },
+        )
+      },
+      "DeviceService.reconcile",
+    )
+  const changes = try settings.subscribeChanges
+  // Settings keep EAS hosts apart from SSH hosts; an id both lists use stays the SSH host's.
+  const configuredHosts = (value: {
+    readonly deviceHosts: ReadonlyArray<SshDeviceHostConfig>
+    readonly easDeviceHosts: ReadonlyArray<EasDeviceHostConfig>
+  }): ReadonlyArray<DeviceHostConfig> => [
+    ...value.deviceHosts,
+    ...value.easDeviceHosts.filter((host) => !value.deviceHosts.some((ssh) => ssh.id === host.id)),
+  ]
+  try reconcile(configuredHosts(try settings.getSettings))
+  try (changes
+    |> Stream.runForEach(%, (value) => reconcile(configuredHosts(value)))
+    |> Effect.forkIn(%, scope))
+  try Effect.addFinalizer(() =>
+    Effect.forEach(configured.values(), (value) => Scope.close(value.scope, Exit.void), {
+      discard: true,
+      concurrency: 4,
+    })
+  )
+  const easAccount: DeviceService["Service"]["easAccount"] = effect (input) =>
+    try withSpan(
+      effect {
+        const saved = input.hostId === undefined
+          ? ""
+          : ((try settings.getSettings).easDeviceHosts.find((host) => host.id === input.hostId)
+            ?.accessToken ?? "")
+        const credential = try resolveExpoCredential(input.accessToken ?? saved)
+        const viewer = try makeExpoApi(try HttpClient.HttpClient, credential).viewer
+        return { signedInAs: viewer.name, credentialSource: credential.source, apps: viewer.apps }
+      } |> Effect.provide(%, easContext)
+        // Only bounded text reaches the browser: the credential errors' own
+        // guidance, or a category for what Expo answered, never Expo's text.
+        |> Effect.mapError(%, (cause) =>
+          new DeviceEasAccountError({
+            reason: cause._tag === "ExpoApiError"
+              ? cause.status === 401 || cause.status === 403
+                ? `Expo rejected the credential (HTTP ${cause.status}).`
+                : cause.rejected
+                ? "Expo refused the account check."
+                : "Could not complete the Expo account check."
+              : cause.message,
+          })),
+      "DeviceService.easAccount",
+    )
+
+  return {
+    ...service,
+    easAccount,
+    agentCli: resolveNodeExecutable("Device automation")
+      |> Effect.andThen(%, ensureAgentDevice(config.baseDir))
+      |> Effect.provideService(%, FileSystem.FileSystem, fs)
+      |> Effect.provideService(%, Path.Path, path)
+      |> Effect.provideService(%, ProcessRunner.ProcessRunner, runner)
+      |> Effect.map(%, (tool) => tool.entryPath)
+      |> Effect.mapError(%, (error) =>
+        error._tag === "NodeRuntimeUnavailableError"
+          ? new DeviceHostUnavailableError({
+            hostId: LOCAL_DEVICE_HOST_ID,
+            hostLabel: LOCAL_DEVICE_HOST_LABEL,
+            reason: nodeRuntimeUnavailableMessage("Device automation"),
+            cause: error,
+          })
+          : new DeviceOperationError({
+            operation: "install agent CLI",
+            reason: "command_failed",
+            cause: error,
+          })),
+  }
+}
+
+export const layer = Layer.effect(DeviceService, make).pipe(Layer.provide(LocalDeviceHost.layer))
+
+export const stateStream = (service: DeviceService["Service"]): Stream.Stream<DeviceServiceState> =>
+  Stream.unwrap(
+    effect {
+      // Subscribe before reading so no change is lost.
+      const subscription = try service.subscribe
+      const initial = try service.state
+      return Stream.concat(Stream.make(initial), Stream.fromSubscription(subscription))
+    },
+  ).pipe(Stream.scoped)

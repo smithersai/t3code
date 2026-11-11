@@ -19,18 +19,18 @@ import {
   useRightPanelStore,
 } from "../../rightPanelStore";
 import { setActivePreviewTab } from "../../previewStateStore";
-import { BrowserSettingsReadError } from "../../browser/openFileInPreview";
+import { BrowserSettingsReadError } from "../../browser/openFileInPreview.vibe";
 import { addBrowserSurface } from "../preview/addBrowserSurface";
 import { focusActivePanelTerminal, focusTerminal } from "../../lib/terminalFocus";
 import { subscribePreviewAction } from "../preview/previewActionBus";
 import { floatDeviceSurface } from "../preview/agentOpenedPreviews";
 import { browserMiniPlayerSource, usePreviewMiniPlayerStore } from "../../previewMiniPlayerStore";
-import type { threadPullRequestPanelTarget } from "../pullRequest/pullRequestDetail.logic";
-import type { useDeviceState } from "../../state/device";
+import type { threadPullRequestPanelTarget } from "../pullRequest/pullRequestDetail.logic.vibe";
+import type { useDeviceState } from "../../state/device.vibe";
 import { stackedThreadToast, toastManager } from "../ui/toast";
-import { openDeviceSetupDialog } from "./ChatOverlayHosts";
+import { openDeviceSetupDialog } from "./ChatOverlayHosts.vibex";
 import { previewEnvironment } from "../../state/preview";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import type { ChatShortcutCommands } from "./useChatShortcuts";
 interface RightPanelActionsInput {
   readonly activeThreadRef: ScopedThreadRef | null;

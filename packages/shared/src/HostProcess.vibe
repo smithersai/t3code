@@ -1,0 +1,141 @@
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+
+import * as HostProcessPlatform from platform
+
+module platform {
+  import * as Effect from "effect/Effect"
+  import * as NodeDns from "node:dns"
+  import * as NodeOS from "node:os"
+  import * as NodeSea from "node:sea"
+
+  /** @throws {never} */
+  export const readPlatform = (): NodeJS.Platform => process.platform
+
+  /** @throws {never} */
+  export const readArchitecture = (): NodeJS.Architecture => process.arch
+
+  export const readHostname = (): string => NodeOS.hostname()
+
+  export const readUserInfoUsername = (): string => NodeOS.userInfo().username
+
+  export const readHomeDirectory = (): string => NodeOS.homedir()
+
+  /** @throws {never} */
+  export const readEnvironment = (): NodeJS.ProcessEnv => process.env
+
+  export const readWorkingDirectory = (): string => process.cwd()
+
+  /** @throws {never} */
+  export const readExecutablePath = (): string => process.execPath
+
+  /** @throws {never} */
+  export const readArguments = (): ReadonlyArray<string> => process.argv
+
+  /** @throws {never} */
+  export const readInvokedAs = (): string => process.argv0
+
+  /** @throws {never} */
+  export const readIsExecutable = (): boolean => NodeSea.isSea()
+
+  /** @throws {never} */
+  export const readUserId = (): number | undefined => process.getuid?.()
+
+  export const readNetworkInterfaces = Effect.sync(() => NodeOS.networkInterfaces())
+
+  export const lookupHostnameAddresses = () => NodeDns.promises.lookup(NodeOS.hostname(), { all: true })
+}
+
+export const Platform = Context.Reference<NodeJS.Platform>("@t3tools/shared/HostProcess/Platform", {
+  defaultValue: () => HostProcessPlatform.readPlatform(),
+})
+
+export const Architecture = Context.Reference<NodeJS.Architecture>(
+  "@t3tools/shared/HostProcess/Architecture",
+  {
+    defaultValue: () => HostProcessPlatform.readArchitecture(),
+  },
+)
+
+export const Hostname = Context.Reference<string>("@t3tools/shared/HostProcess/Hostname", {
+  defaultValue: () => HostProcessPlatform.readHostname(),
+})
+
+export const Username = Context.Reference<string | null>("@t3tools/shared/HostProcess/Username", {
+  defaultValue: () => {
+    try {
+      return HostProcessPlatform.readUserInfoUsername().trim() || null
+    } catch {
+      return null
+    }
+  },
+})
+
+export const HomeDirectory = Context.Reference<string>(
+  "@t3tools/shared/HostProcess/HomeDirectory",
+  {
+    defaultValue: () => HostProcessPlatform.readHomeDirectory(),
+  },
+)
+
+export const Environment = Context.Reference<NodeJS.ProcessEnv>(
+  "@t3tools/shared/HostProcess/Environment",
+  {
+    defaultValue: () => HostProcessPlatform.readEnvironment(),
+  },
+)
+
+export const WorkingDirectory = Context.Reference<string>(
+  "@t3tools/shared/HostProcess/WorkingDirectory",
+  {
+    defaultValue: () => HostProcessPlatform.readWorkingDirectory(),
+  },
+)
+
+export const ExecutablePath = Context.Reference<string>(
+  "@t3tools/shared/HostProcess/ExecutablePath",
+  {
+    defaultValue: () => HostProcessPlatform.readExecutablePath(),
+  },
+)
+
+export const Arguments = Context.Reference<ReadonlyArray<string>>(
+  "@t3tools/shared/HostProcess/Arguments",
+  {
+    defaultValue: () => HostProcessPlatform.readArguments(),
+  },
+)
+
+/** Original shell command spelling; argv[0] and execPath instead identify the resolved binary. */
+export const InvokedAs = Context.Reference<string>("@t3tools/shared/HostProcess/InvokedAs", {
+  defaultValue: () => HostProcessPlatform.readInvokedAs(),
+})
+
+export const IsExecutable = Context.Reference<boolean>("@t3tools/shared/HostProcess/IsExecutable", {
+  defaultValue: () => HostProcessPlatform.readIsExecutable(),
+})
+
+/** Includes hostname-resolved addresses absent from interfaces, such as Debian's 127.0.1.1 used by Firefox locks. */
+export const Addresses = Context.Reference<ReadonlySet<string>!!>(
+  "@t3tools/shared/HostProcess/Addresses",
+  {
+    // The enclosing operation owns the span for this inline handler.
+    defaultValue: Effect.fnUntraced(function*() {
+      const networkInterfaces = yield* HostProcessPlatform.readNetworkInterfaces
+      const interfaces = Object.values(networkInterfaces)
+        .flat()
+        .flatMap((entry) => (entry ? [entry.address] : []))
+      const resolved = yield* Effect.tryPromise(() => HostProcessPlatform.lookupHostnameAddresses()).pipe(
+        Effect.map((entries) => entries.map((entry) => entry.address)),
+        Effect.orElseSucceed(() => [] as ReadonlyArray<string>),
+      )
+      return new Set([...interfaces, ...resolved])
+    }),
+  },
+)
+
+export const UserId = Context.Reference<number | undefined>("@t3tools/shared/HostProcess/UserId", {
+  defaultValue: () => HostProcessPlatform.readUserId(),
+})
+
+export const isWindows = Effect.map(Platform, (platform) => platform === "win32")

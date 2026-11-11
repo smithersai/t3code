@@ -2,34 +2,90 @@
   "name": "@t3tools/provider-acp-registry",
   "private": true,
   "type": "module",
+  "imports": {
+    "#vibelang/emitted/src/settings": {
+      "types": "./src/settings.d.vibe.ts",
+      "vibelang-source": "./src/settings.vibe",
+      "default": "./.vibelang/js/src/settings.js"
+    },
+    "#vibelang/emitted/src/server/driver": {
+      "types": "./src/server/driver.d.vibe.ts",
+      "vibelang-source": "./src/server/driver.vibe",
+      "default": "./.vibelang/js/src/server/driver.js"
+    },
+    "#vibelang/emitted/src/server/AcpRegistryRuntimeCoordinator": {
+      "types": "./src/server/AcpRegistryRuntimeCoordinator.d.vibe.ts",
+      "vibelang-source": "./src/server/AcpRegistryRuntimeCoordinator.vibe",
+      "default": "./.vibelang/js/src/server/AcpRegistryRuntimeCoordinator.js"
+    },
+    "#vibelang/emitted/src/server/claudeAcp": {
+      "types": "./src/server/claudeAcp.d.vibe.ts",
+      "vibelang-source": "./src/server/claudeAcp.vibe",
+      "default": "./.vibelang/js/src/server/claudeAcp.js"
+    },
+    "#vibelang/emitted/src/server/droidAcp": {
+      "types": "./src/server/droidAcp.d.vibe.ts",
+      "vibelang-source": "./src/server/droidAcp.vibe",
+      "default": "./.vibelang/js/src/server/droidAcp.js"
+    },
+    "#vibelang/emitted/src/server/copilotAcp": {
+      "types": "./src/server/copilotAcp.d.vibe.ts",
+      "vibelang-source": "./src/server/copilotAcp.vibe",
+      "default": "./.vibelang/js/src/server/copilotAcp.js"
+    },
+    "#vibelang/emitted/src/server/probe": {
+      "types": "./src/server/probe.d.vibe.ts",
+      "vibelang-source": "./src/server/probe.vibe",
+      "default": "./.vibelang/js/src/server/probe.js"
+    }
+  },
   "exports": {
     "./client": {
       "types": "./src/client.ts",
-      "import": "./src/client.ts"
+      "import": {
+        "types": "./src/client.ts",
+        "vibelang-source": "./src/client.ts",
+        "default": "./.vibelang/js/src/client.js"
+      }
     },
     "./settings": {
-      "types": "./src/settings.ts",
-      "import": "./src/settings.ts"
+      "types": "./src/settings.vibe",
+      "import": "./src/settings.vibe"
     },
     "./server": {
       "types": "./src/server.ts",
-      "import": "./src/server.ts"
+      "import": {
+        "types": "./src/server.ts",
+        "vibelang-source": "./src/server.ts",
+        "default": "./.vibelang/js/src/server.js"
+      }
     },
     "./testing": {
       "types": "./src/testing.ts",
-      "import": "./src/testing.ts"
+      "import": {
+        "types": "./src/testing.ts",
+        "vibelang-source": "./src/testing.ts",
+        "default": "./.vibelang/js/src/testing.js"
+      }
     },
     "./server/AcpRegistrySupport": {
-      "types": "./src/server/AcpRegistrySupport.ts",
-      "import": "./src/server/AcpRegistrySupport.ts"
+      "types": "./src/server/AcpRegistrySupport.d.vibe.ts",
+      "import": {
+        "types": "./src/server/AcpRegistrySupport.d.vibe.ts",
+        "vibelang-source": "./src/server/AcpRegistrySupport.vibe",
+        "default": "./.vibelang/js/src/server/AcpRegistrySupport.js"
+      }
     },
     "./server/AcpRegistryRuntimeCoordinator": {
-      "types": "./src/server/AcpRegistryRuntimeCoordinator.ts",
-      "import": "./src/server/AcpRegistryRuntimeCoordinator.ts"
+      "types": "./src/server/AcpRegistryRuntimeCoordinator.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/AcpRegistryRuntimeCoordinator.vibe",
+        "default": "./.vibelang/js/src/server/AcpRegistryRuntimeCoordinator.js"
+      }
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vibelang --noEmit",
     "test": "vp test run --config ../../vite.config.ts --dir ."
   },
   "dependencies": {
@@ -38,7 +94,8 @@
     "@t3tools/provider-acp": "workspace:*",
     "@t3tools/provider-core": "workspace:*",
     "@t3tools/shared": "workspace:*",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-runtime-0.0.14-pre.6279f9f9fbfc.tgz"
   },
   "devDependencies": {
     "@effect/platform-node": "catalog:",
@@ -46,6 +103,8 @@
     "@t3tools/provider-testing": "workspace:*",
     "@types/node": "catalog:",
     "effect-acp": "workspace:*",
+    "vibelang": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-0.0.14-pre.6279f9f9fbfc.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-vite-0.0.14-pre.6279f9f9fbfc.tgz",
     "vite-plus": "catalog:"
   }
 }

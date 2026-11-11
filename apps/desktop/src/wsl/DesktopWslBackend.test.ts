@@ -6,16 +6,16 @@ import * as Option from "effect/Option";
 
 import * as NetService from "@t3tools/shared/Net";
 
-import * as DesktopBackendConfiguration from "../backend/DesktopBackendConfiguration.ts";
-import * as DesktopBackendPool from "../backend/DesktopBackendPool.ts";
+import * as DesktopBackendConfiguration from "../backend/DesktopBackendConfiguration.vibe";
+import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe";
 import type {
   DesktopBackendSnapshot,
   DesktopBackendStartConfig,
-} from "../backend/DesktopBackendManager.ts";
-import * as DesktopServerExposure from "../backend/DesktopServerExposure.ts";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
-import * as DesktopWslEnvironment from "./DesktopWslEnvironment.ts";
-import * as DesktopWslBackend from "./DesktopWslBackend.ts";
+} from "../backend/DesktopBackendManager.vibe";
+import * as DesktopServerExposure from "../backend/DesktopServerExposure.vibe";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
+import * as DesktopWslEnvironment from "./DesktopWslEnvironment.vibe";
+import * as DesktopWslBackend from "./DesktopWslBackend.vibe";
 
 function makeStubInstance(input: {
   readonly id: DesktopBackendPool.BackendInstanceId;

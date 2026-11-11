@@ -16,7 +16,7 @@ import {
   normalizeAntigravityToolCall,
   sanitizeAntigravityToolPayload,
   selectAntigravityPermissionOptionId,
-} from "./AntigravityProtocol.ts";
+} from "./AntigravityProtocol.vibe";
 import {
   mergeToolCallState,
   parseSessionUpdateEvent,

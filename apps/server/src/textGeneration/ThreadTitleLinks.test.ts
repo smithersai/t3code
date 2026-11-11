@@ -4,8 +4,8 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import * as Layer from "effect/Layer";
 import { SourceControlProviderError } from "@t3tools/contracts";
-import { resolveThreadTitleLinks } from "./ThreadTitleLinks.ts";
-import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
+import { resolveThreadTitleLinks } from "./ThreadTitleLinks.vibe";
+import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";
 
 const layerRegistry = Layer.mock(SourceControlProviderRegistry.SourceControlProviderRegistry);
 const encodeSubject = Schema.encodeSync(

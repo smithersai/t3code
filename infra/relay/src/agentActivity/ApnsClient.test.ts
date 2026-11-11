@@ -11,10 +11,10 @@ import * as Redacted from "effect/Redacted";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 
-import type { ApnsCredentials } from "../Config.ts";
-import * as ApnsClient from "./ApnsClient.ts";
-import { sanitizeApnsNotificationPayload } from "./agentActivityPayloads.ts";
-import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
+import type { ApnsCredentials } from "../Config.vibe";
+import * as ApnsClient from "./ApnsClient.vibe";
+import { sanitizeApnsNotificationPayload } from "./agentActivityPayloads.vibe";
+import * as ApnsProviderTokens from "./ApnsProviderTokens.vibe";
 
 const layerTest = ApnsClient.layer.pipe(
   Layer.provide(ApnsProviderTokens.layer),

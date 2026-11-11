@@ -1,0 +1,180 @@
+import * as Schema from "effect/Schema"
+import { PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.vibe"
+import { VcsDriverKind } from "./vcs.vibe"
+
+/** Accept unknown hosts so clients can fall back to generic presentation. */
+export const SourceControlProviderKind = TrimmedNonEmptyString.check(
+  Schema.isMaxLength(64),
+  Schema.isPattern(/^[a-z][a-z0-9-]*$/),
+).pipe(Schema.brand("SourceControlProviderKind"))
+export type SourceControlProviderKind = typeof SourceControlProviderKind.Type
+
+export schema SourceControlProviderInfo {
+  readonly kind: SourceControlProviderKind
+  readonly name: TrimmedNonEmptyString
+  readonly baseUrl: string
+}
+
+export schema ChangeRequestState = "open" | "closed" | "merged"
+
+export const ChangeRequest = Schema.Struct({
+  provider: SourceControlProviderKind,
+  number: PositiveInt,
+  title: TrimmedNonEmptyString,
+  url: Schema.String,
+  baseRefName: TrimmedNonEmptyString,
+  headRefName: TrimmedNonEmptyString,
+  headSha: Schema.optional(TrimmedNonEmptyString),
+  state: ChangeRequestState,
+  isDraft: Schema.optional(Schema.Boolean),
+  closedAt: Schema.optional(Schema.NullOr(Schema.String)),
+  mergedAt: Schema.optional(Schema.NullOr(Schema.String)),
+  updatedAt: Schema.Option(Schema.DateTimeUtc),
+  isCrossRepository: Schema.optional(Schema.Boolean),
+  headRepositoryNameWithOwner: Schema.optional(Schema.NullOr(TrimmedNonEmptyString)),
+  headRepositoryOwnerLogin: Schema.optional(Schema.NullOr(TrimmedNonEmptyString)),
+})
+export type ChangeRequest = typeof ChangeRequest.Type
+
+export schema SourceControlRepositoryCloneUrls {
+  readonly nameWithOwner: TrimmedNonEmptyString
+  readonly url: TrimmedNonEmptyString
+  readonly sshUrl: TrimmedNonEmptyString
+}
+
+export schema SourceControlRepositoryVisibility = "private" | "public"
+
+export schema SourceControlCloneProtocol = "auto" | "ssh" | "https"
+
+export schema SourceControlRepositoryInfo {
+  readonly provider: SourceControlProviderKind
+  readonly nameWithOwner: TrimmedNonEmptyString
+  readonly url: TrimmedNonEmptyString
+  readonly sshUrl: TrimmedNonEmptyString
+}
+
+export schema SourceControlRepositoryLookupInput {
+  readonly provider: SourceControlProviderKind
+  readonly repository: TrimmedNonEmptyString
+  readonly cwd?: TrimmedNonEmptyString | undefined
+}
+
+export schema SourceControlCloneRepositoryInput {
+  readonly provider?: SourceControlProviderKind | undefined
+  readonly repository?: TrimmedNonEmptyString | undefined
+  readonly remoteUrl?: TrimmedNonEmptyString | undefined
+  readonly destinationPath: TrimmedNonEmptyString
+  readonly protocol?: SourceControlCloneProtocol | undefined
+}
+
+export const SourceControlCloneRepositoryResult = Schema.Struct({
+  cwd: TrimmedNonEmptyString,
+  remoteUrl: TrimmedNonEmptyString,
+  repository: Schema.NullOr(SourceControlRepositoryInfo),
+})
+export type SourceControlCloneRepositoryResult = typeof SourceControlCloneRepositoryResult.Type
+
+export schema SourceControlPublishRepositoryInput {
+  readonly cwd: TrimmedNonEmptyString
+  readonly provider: SourceControlProviderKind
+  readonly repository: TrimmedNonEmptyString
+  readonly visibility: SourceControlRepositoryVisibility
+  readonly remoteName?: TrimmedNonEmptyString | undefined
+  readonly protocol?: SourceControlCloneProtocol | undefined
+}
+
+export schema SourceControlPublishStatus = "pushed" | "remote_added"
+
+export schema SourceControlPublishRepositoryResult {
+  readonly repository: SourceControlRepositoryInfo
+  readonly remoteName: TrimmedNonEmptyString
+  readonly remoteUrl: TrimmedNonEmptyString
+  readonly branch: TrimmedNonEmptyString
+  readonly upstreamBranch?: TrimmedNonEmptyString | undefined
+  readonly status: SourceControlPublishStatus
+}
+
+export schema SourceControlDiscoveryStatus = "available" | "missing"
+
+export schema SourceControlProviderAuthStatus = "authenticated" | "unauthenticated" | "unknown"
+
+export const SourceControlProviderAuth = Schema.Struct({
+  status: SourceControlProviderAuthStatus,
+  account: Schema.Option(TrimmedNonEmptyString),
+  host: Schema.Option(TrimmedNonEmptyString),
+  detail: Schema.Option(TrimmedNonEmptyString),
+  accounts: Schema.optionalKey(
+    Schema.Array(
+      Schema.Struct({
+        host: TrimmedNonEmptyString,
+        account: TrimmedNonEmptyString,
+        active: Schema.Boolean,
+        authenticated: Schema.Boolean,
+        error: Schema.optionalKey(TrimmedNonEmptyString),
+        /** Set when the login comes from a token variable such as `GH_TOKEN`, which wins over Settings. */
+        environmentVariable: Schema.optionalKey(TrimmedNonEmptyString),
+      }),
+    ),
+  ),
+})
+export type SourceControlProviderAuth = typeof SourceControlProviderAuth.Type
+
+const SourceControlDiscoverySharedFields = {
+  label: TrimmedNonEmptyString,
+  executable: Schema.optional(TrimmedNonEmptyString),
+  status: SourceControlDiscoveryStatus,
+  version: Schema.Option(TrimmedNonEmptyString),
+  installHint: TrimmedNonEmptyString,
+  detail: Schema.Option(TrimmedNonEmptyString),
+} as const
+
+export const VcsDiscoveryItem = Schema.Struct({
+  kind: VcsDriverKind,
+  implemented: Schema.Boolean,
+  ...SourceControlDiscoverySharedFields,
+})
+export type VcsDiscoveryItem = typeof VcsDiscoveryItem.Type
+
+export const SourceControlProviderDiscoveryItem = Schema.Struct({
+  kind: SourceControlProviderKind,
+  ...SourceControlDiscoverySharedFields,
+  auth: SourceControlProviderAuth,
+})
+export type SourceControlProviderDiscoveryItem = typeof SourceControlProviderDiscoveryItem.Type
+
+export schema SourceControlDiscoveryResult {
+  readonly versionControlSystems: ReadonlyArray<VcsDiscoveryItem>
+  readonly sourceControlProviders: ReadonlyArray<SourceControlProviderDiscoveryItem>
+}
+
+export class SourceControlProviderError extends Schema.TaggedError<SourceControlProviderError>()(
+  "SourceControlProviderError",
+  {
+    provider: SourceControlProviderKind,
+    operation: Schema.String,
+    cwd: Schema.String,
+    command: Schema.optional(Schema.String),
+    repository: Schema.optional(Schema.String),
+    reference: Schema.optional(Schema.String),
+    detail: Schema.String,
+    cause: Schema.optional(Schema.Defect()),
+  },
+) {
+  override get message(): string {
+    return `Source control provider ${this.provider} failed in ${this.operation}: ${this.detail}`
+  }
+}
+
+export class SourceControlRepositoryError extends Schema.TaggedError<SourceControlRepositoryError>()(
+  "SourceControlRepositoryError",
+  {
+    provider: SourceControlProviderKind,
+    operation: Schema.String,
+    detail: Schema.String,
+    cause: Schema.optional(Schema.Defect()),
+  },
+) {
+  override get message(): string {
+    return `Source control repository operation ${this.operation} failed for ${this.provider}: ${this.detail}`
+  }
+}

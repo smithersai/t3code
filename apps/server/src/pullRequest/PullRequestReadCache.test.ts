@@ -8,7 +8,9 @@ import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as FileSystem from "effect/FileSystem";
 import * as KeyValueStore from "effect/persistence/KeyValueStore";
-import * as PullRequestReadCache from "./PullRequestReadCache.ts";
+import * as PullRequestReadCache from "./PullRequestReadCache.vibe";
+import * as Layer from "effect/Layer";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 NodeV8.setFlagsFromString("--expose-gc");
 const collectGarbage = NodeVM.runInNewContext("gc") as () => void;
@@ -16,7 +18,7 @@ const collectGarbage = NodeVM.runInNewContext("gc") as () => void;
 const cacheLayer = (directory: string) =>
   PullRequestReadCache.make.pipe(Effect.provide(KeyValueStore.layerFileSystem(directory)));
 
-it.layer(NodeServices.layer)("PR filesystem cache", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("PR filesystem cache", (it) => {
   it.effect("clears in-flight reads before a new service can reuse them", () =>
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;

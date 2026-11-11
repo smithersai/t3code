@@ -1,7 +1,10 @@
 // @effect-diagnostics globalTimers:off - Shelf placement timers run in web and native clients, outside an Effect runtime.
-import { threadRuntimeIsActive, type EnvironmentThreadShell } from "./models.ts";
+import {
+  threadRuntimeIsActive,
+  type EnvironmentThreadShell,
+} from "#vibelang/emitted/src/state/models";
 import { toSortableTimestamp } from "./threadSort.ts";
-import { effectiveSnoozed } from "./threadSettled.ts";
+import { effectiveSnoozed } from "#vibelang/emitted/src/state/threadSettled";
 
 type WorkingThreadInput = Pick<
   EnvironmentThreadShell,
@@ -159,12 +162,14 @@ export function createInboxReturnTracker() {
     );
   };
   return {
+    /** @throws {never} */
     subscribe(listener: () => void) {
       listeners.add(listener);
       return () => {
         listeners.delete(listener);
       };
     },
+    /** @throws {never} */
     getSnapshot: () => version,
     observe(threads: readonly TrackedInboxThread[] | null): {
       readonly isWorking: (thread: WorkingThreadInput & ThreadKeyInput) => boolean;
@@ -236,6 +241,7 @@ export function createInboxReturnTracker() {
     },
     isWorking: (thread: WorkingThreadInput & ThreadKeyInput) =>
       states.get(keyOf(thread))?.working ?? isThreadWorking(thread),
+    /** @throws {never} */
     returnedAt: (thread: ThreadKeyInput) => returns.get(keyOf(thread)),
   };
 }

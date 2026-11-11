@@ -1,4 +1,4 @@
-import * as MacPermissions from "../permissions/MacPermissions.ts";
+import * as MacPermissions from "../permissions/MacPermissions.vibe";
 import { assert, it } from "@effect/vitest";
 import {
   DEFAULT_CLIENT_SETTINGS,
@@ -6,7 +6,7 @@ import {
   type ClientSettings,
   type DesktopSnapShotEvent,
 } from "@t3tools/contracts";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as FileSystem from "effect/FileSystem";
@@ -17,7 +17,7 @@ import * as PlatformError from "effect/PlatformError";
 import * as Schema from "effect/Schema";
 import * as TestClock from "effect/testing/TestClock";
 import type * as Electron from "electron";
-import type { PortalShortcutState } from "./PortalCaptureShortcut.ts";
+import type { PortalShortcutState } from "./PortalCaptureShortcut.vibe";
 import { beforeEach, vi } from "vite-plus/test";
 
 beforeEach(() => {
@@ -117,7 +117,7 @@ const {
   getSourcesMock: vi.fn(),
   macCaptureMock: vi.fn(),
   linuxCaptureMock: vi.fn<
-    () => Promise<import("./LinuxSnapShot.ts").LinuxWindowSnapshot | undefined>
+    () => Promise<import("./LinuxSnapShot.vibe").LinuxWindowSnapshot | undefined>
   >(async () => undefined),
   linuxBackendMock: vi.fn(async () => "picker"),
   niriShortcutStopMock: vi.fn(),
@@ -174,7 +174,7 @@ vi.mock("./SnapShotAccessibilityProcess.ts", () => ({
     close: accessibilityProcessCloseMock,
   }),
 }));
-vi.mock("./ActiveWindow.ts", () => ({ activeWindow: activeWindowMock }));
+vi.mock("./ActiveWindow.vibe", () => ({ activeWindow: activeWindowMock }));
 vi.mock("./RegionSnapShot.ts", async (original) => ({
   ...(await original<typeof import("./RegionSnapShot.ts")>()),
   makeRegionSnapShotPool: () => ({
@@ -188,7 +188,7 @@ vi.mock("./WindowsCaptureFeedback.ts", () => ({
   showWindowsCaptureOverlay: (window: Electron.BaseWindow) => window.showInactive(),
 }));
 vi.mock("./MacSnapShot.ts", () => ({ captureMacWindowSnapshot: macCaptureMock }));
-vi.mock("./LinuxSnapShot.ts", () => ({
+vi.mock("./LinuxSnapShot.vibe", () => ({
   captureLinuxWindow: linuxCaptureMock,
   getLinuxCaptureSupport: async () => ({
     linuxBackend: await linuxBackendMock(),
@@ -199,8 +199,8 @@ vi.mock("./NiriCaptureShortcut.ts", async (original) => ({
   ...(await original<typeof import("./NiriCaptureShortcut.ts")>()),
   startNiriCaptureShortcut: niriShortcutMock,
 }));
-vi.mock("./PortalCaptureShortcut.ts", async (original) => ({
-  ...(await original<typeof import("./PortalCaptureShortcut.ts")>()),
+vi.mock("./PortalCaptureShortcut.vibe", async (original) => ({
+  ...(await original<typeof import("./PortalCaptureShortcut.vibe")>()),
   PortalCaptureShortcut: class {
     state: PortalShortcutState = nextPortalState.value ?? {
       shortcutRegistered: true,
@@ -422,10 +422,10 @@ vi.mock("electron", () => {
   };
 });
 
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as DesktopClientSettings from "../settings/DesktopClientSettings.ts";
-import * as DesktopWindow from "../window/DesktopWindow.ts";
-import * as DesktopSnapShot from "./DesktopSnapShot.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
+import * as DesktopClientSettings from "../settings/DesktopClientSettings.vibe";
+import * as DesktopWindow from "../window/DesktopWindow.vibe";
+import * as DesktopSnapShot from "./DesktopSnapShot.vibe";
 import * as SnapShotAccessibility from "./SnapShotAccessibility.ts";
 
 const accessibilityApp = {
@@ -462,8 +462,8 @@ accessibilityProcessReadMock.mockImplementation((request) => ({
     request.imageSize,
   ),
 }));
-vi.mock("./GnomeCaptureSetup.ts", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("./GnomeCaptureSetup.ts")>()),
+vi.mock("./GnomeCaptureSetup.vibe", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("./GnomeCaptureSetup.vibe")>()),
   GnomeCaptureSetup: class {
     state = async () => ({ status: "enabled" as const, message: "Extension running" });
     perform = async () => undefined;
@@ -475,7 +475,7 @@ const decodePendingMetadata = Schema.decodeUnknownEffect(
   Schema.fromJsonString(DesktopPendingSnapShot),
 );
 
-import { SnapShotTransition, snapShotAnimationDisplayBounds } from "./SnapShotTransition.ts";
+import { SnapShotTransition, snapShotAnimationDisplayBounds } from "./SnapShotTransition.vibe";
 const layerTest = (
   platform: NodeJS.Platform,
   fileSystemOverrides: Parameters<typeof FileSystem.layerNoop>[0] = {},

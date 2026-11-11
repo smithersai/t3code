@@ -1,7 +1,7 @@
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as CodexInstallation from "./CodexInstallation.ts";
-import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as CodexInstallation from "./CodexInstallation.vibe";
+import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.vibe";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as ClaudeSdk from "@anthropic-ai/claude-agent-sdk";
 import { describe, expect, it } from "@effect/vitest";
 import { vi } from "vite-plus/test";
@@ -26,18 +26,19 @@ import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 import { HttpClient, HttpClientResponse } from "effect/http";
 
-import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
-import * as ServerConfig from "../config.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import { ClaudeDriver, type ClaudeDriverEnv } from "./Drivers/ClaudeDriver.ts";
-import { CodexDriver, type CodexDriverEnv } from "./Drivers/CodexDriver.ts";
-import * as ModelManifest from "./ModelManifest.ts";
-import * as ResetCreditCoordinator from "./resetCreditCoordinator.ts";
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import { ClaudeDriver, type ClaudeDriverEnv } from "./Drivers/ClaudeDriver.vibe";
+import { CodexDriver, type CodexDriverEnv } from "./Drivers/CodexDriver.vibe";
+import * as ModelManifest from "./ModelManifest.vibe";
+import * as ResetCreditCoordinator from "./resetCreditCoordinator.vibe";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
-import { makeProviderInstanceRegistry } from "./ProviderInstanceRegistry.ts";
-import * as ProviderOrchestrationAdapterInfrastructure from "./ProviderOrchestrationAdapterInfrastructure.ts";
-import * as PortScanner from "../preview/PortScanner.ts";
-import * as ProviderHostLive from "./ProviderHostLive.ts";
+import { makeProviderInstanceRegistry } from "./ProviderInstanceRegistry.vibe";
+import * as ProviderOrchestrationAdapterInfrastructure from "./ProviderOrchestrationAdapterInfrastructure.vibe";
+import * as PortScanner from "../preview/PortScanner.vibe";
+import * as ProviderHostLive from "./ProviderHostLive.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("@anthropic-ai/claude-agent-sdk", { spy: true });
 
@@ -161,7 +162,7 @@ describe("ProviderInstanceRegistry — multi-instance codex slice", () => {
         endpoint: Effect.succeed("unused-private-pipe"),
       }),
     ),
-    Layer.provideMerge(NodeServices.layer),
+    Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Layer.provideMerge(
       Layer.mock(CodexInstallation.CodexInstallation)({
         managedDirectory: "unused-managed-installation",

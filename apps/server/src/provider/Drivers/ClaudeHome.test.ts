@@ -10,7 +10,7 @@ import {
   makeClaudeContinuationGroupKey,
   makeClaudeEnvironment,
   resolveClaudeHomePath,
-} from "./ClaudeHome.ts";
+} from "./ClaudeHome.vibe";
 
 it.layer(NodeServices.layer)("ClaudeHome", (it) => {
   describe("Claude home resolution", () => {

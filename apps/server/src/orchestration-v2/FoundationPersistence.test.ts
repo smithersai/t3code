@@ -27,6 +27,7 @@ import {
   TurnItemId,
 } from "@t3tools/contracts";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
+import * as Arr from "effect/Array";
 import * as Clock from "effect/Clock";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";
@@ -48,23 +49,23 @@ import * as Statement from "effect/sql/Statement";
 
 import { vi } from "vite-plus/test";
 
-import * as ServerConfig from "../config.ts";
-import * as DatabaseStorage from "../persistence/DatabaseStorage.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import { LIVE_STREAM_MAX_ITEMS, LiveStreamBufferError } from "./LiveStreamBudget.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as CommandReceiptStore from "./CommandReceiptStore.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
-import * as EffectWorker from "./EffectWorker.ts";
-import * as EventSink from "./EventSink.ts";
-import * as EventStore from "./EventStore.ts";
+import * as ServerConfig from "../config.vibe";
+import * as DatabaseStorage from "../persistence/DatabaseStorage.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import { LIVE_STREAM_MAX_ITEMS, LiveStreamBufferError } from "./LiveStreamBudget.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
+import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
+import * as EffectOutbox from "./EffectOutbox.vibe";
+import * as EffectWorker from "./EffectWorker.vibe";
+import * as EventSink from "./EventSink.vibe";
+import * as EventStore from "./EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ProjectionMaintenance from "./ProjectionMaintenance.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProjectStore from "./ProjectStore.ts";
-import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.ts";
-import * as TurnItemPositionStore from "./TurnItemPositionStore.ts";
+import * as ProjectionMaintenance from "./ProjectionMaintenance.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as ProjectStore from "./ProjectStore.vibe";
+import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.vibe";
+import * as TurnItemPositionStore from "./TurnItemPositionStore.vibe";
 
 const isLiveStreamBufferError = Schema.is(LiveStreamBufferError);
 const encodeJson = Schema.encodeEffect(Schema.fromJsonString(Schema.Unknown));
@@ -1352,9 +1353,7 @@ it.layer(layerTest)("orchestration V2 foundation persistence", (it) => {
         rows.push(eventRow(++ordinal, { commandId: exactPageCommandId }));
       }
       const inserted = yield* Effect.forEach(
-        Array.from({ length: Math.ceil(rows.length / 400) }, (_, chunk) =>
-          rows.slice(chunk * 400, (chunk + 1) * 400),
-        ),
+        Arr.chunksOf(rows, 400),
         (chunk) =>
           sql<{
             readonly sequence: number;

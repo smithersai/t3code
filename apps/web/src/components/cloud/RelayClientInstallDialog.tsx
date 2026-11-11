@@ -7,7 +7,7 @@ import {
   readRelayClientInstallDialogState,
   respondToRelayClientInstallConfirmation,
   subscribeRelayClientInstallDialog,
-} from "../../cloud/relayClientInstallDialog";
+} from "../../cloud/relayClientInstallDialog.vibe";
 import { Button } from "../ui/button";
 import {
   Dialog,

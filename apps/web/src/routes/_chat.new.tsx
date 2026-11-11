@@ -1,6 +1,6 @@
 import { parseNewThreadLink } from "@t3tools/shared/promptLinks";
 import { createFileRoute, useLocation } from "@tanstack/react-router";
-import { NewThreadLinkView } from "../components/promptLinks/NewThreadLinkView";
+import { NewThreadLinkView } from "../components/promptLinks/NewThreadLinkView.vibex";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "../components/ui/empty";
 import { SidebarInset } from "../components/ui/sidebar";
 

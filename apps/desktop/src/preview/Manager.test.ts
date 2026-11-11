@@ -1,5 +1,4 @@
 import { it as effectIt } from "@effect/vitest";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import type {
   DesktopPreviewRecordingInputEvent,
   PreviewAnnotationPayload,
@@ -23,13 +22,14 @@ import type * as Scope from "effect/Scope";
 import { TestClock } from "effect/testing";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.ts";
-import * as ElectronWindow from "../electron/ElectronWindow.ts";
-import * as BrowserSession from "./BrowserSession.ts";
-import * as DesktopBrowserHost from "./DesktopBrowserHost.ts";
-import * as PreviewManager from "./Manager.ts";
-import * as PreviewPasskeys from "./Passkeys.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
+import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.vibe";
+import * as ElectronWindow from "../electron/ElectronWindow.vibe";
+import * as BrowserSession from "./BrowserSession.vibe";
+import * as DesktopBrowserHost from "./DesktopBrowserHost.vibe";
+import * as PreviewManager from "./Manager.vibe";
+import * as PreviewPasskeys from "./Passkeys.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 describe("fitPictureInPictureContentSize", () => {
   it("does not collapse toward the minimum size when orientation changes repeatedly", () => {
@@ -225,7 +225,7 @@ const managerLayer = (platform: NodeJS.Platform = "darwin") =>
     Layer.provideMerge(layerEnvironment),
     Layer.provideMerge(layerFileSystem),
     Layer.provideMerge(Path.layer),
-    Layer.provideMerge(NodeCrypto.layer),
+    Layer.provideMerge(Crypto.layerWebCrypto),
     Layer.provideMerge(Layer.succeed(HostProcess.Platform, platform)),
   );
 

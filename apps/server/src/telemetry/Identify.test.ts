@@ -1,6 +1,6 @@
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it } from "@effect/vitest";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Hex from "effect/encoding/Hex";
 import * as FileSystem from "effect/FileSystem";
@@ -10,10 +10,10 @@ import * as Path from "effect/Path";
 import * as PlatformError from "effect/PlatformError";
 import * as References from "effect/References";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import { CLOUD_LINKED_USER_ID } from "../cloud/config.ts";
-import * as ServerConfig from "../config.ts";
-import * as Identify from "./Identify.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import { CLOUD_LINKED_USER_ID } from "../cloud/config.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as Identify from "./Identify.vibe";
 
 interface CapturedLog {
   readonly message: unknown;
@@ -69,7 +69,7 @@ const writeHomeFile = Effect.fn("test.writeHomeFile")(function* (
   return filePath;
 });
 
-it.layer(NodeServices.layer)("telemetry identity", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("telemetry identity", (it) => {
   it.effect("keeps the old distinct_id rule and a fixed install id as logins change", () =>
     Effect.gen(function* () {
       const config = yield* ServerConfig.ServerConfig;

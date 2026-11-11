@@ -10,7 +10,7 @@ import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http";
 import {
   DesktopSshEnvironmentRequestError,
   fetchSshEnvironmentDescriptor,
-} from "./sshEnvironment.ts";
+} from "./sshEnvironment.vibe";
 
 function jsonResponse(request: HttpClientRequest.HttpClientRequest, body: unknown, status = 200) {
   return HttpClientResponse.fromWeb(

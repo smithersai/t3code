@@ -2,8 +2,7 @@ import type {
   RelayAgentActivityState,
   RelayDeviceRegistrationRequest,
 } from "@t3tools/contracts/relay";
-import type { SignedApnsDeliveryJob } from "./apnsDeliveryJobs.ts";
-import * as NodeCryptoLayer from "@effect/platform-node/NodeCrypto";
+import type { SignedApnsDeliveryJob } from "./apnsDeliveryJobs.vibe";
 import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -11,14 +10,14 @@ import * as Logger from "effect/Logger";
 import * as Redacted from "effect/Redacted";
 import { FetchHttpClient } from "effect/http";
 
-import * as Devices from "./Devices.ts";
-import * as AgentActivityRows from "./AgentActivityRows.ts";
-import * as DeliveryAttempts from "./DeliveryAttempts.ts";
-import * as EnvironmentLinks from "../environments/EnvironmentLinks.ts";
-import * as LiveActivities from "./LiveActivities.ts";
-import * as RelayConfiguration from "../Config.ts";
-import * as AgentActivityPublisher from "./AgentActivityPublisher.ts";
-import * as FcmDeliveries from "./FcmDeliveries.ts";
+import * as Devices from "./Devices.vibe";
+import * as AgentActivityRows from "./AgentActivityRows.vibe";
+import * as DeliveryAttempts from "./DeliveryAttempts.vibe";
+import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
+import * as LiveActivities from "./LiveActivities.vibe";
+import * as RelayConfiguration from "../Config.vibe";
+import * as AgentActivityPublisher from "./AgentActivityPublisher.vibe";
+import * as FcmDeliveries from "./FcmDeliveries.vibe";
 
 const layerPublisher = AgentActivityPublisher.layer.pipe(
   Layer.provide(
@@ -28,11 +27,12 @@ const layerPublisher = AgentActivityPublisher.layer.pipe(
     }),
   ),
 );
-import * as ApnsDeliveries from "./ApnsDeliveries.ts";
-import * as ApnsClient from "./ApnsClient.ts";
-import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
-import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.ts";
-import * as MobileRegistrations from "./MobileRegistrations.ts";
+import * as ApnsDeliveries from "./ApnsDeliveries.vibe";
+import * as ApnsClient from "./ApnsClient.vibe";
+import * as ApnsProviderTokens from "./ApnsProviderTokens.vibe";
+import * as ApnsDeliveryQueue from "./ApnsDeliveryQueue.vibe";
+import * as MobileRegistrations from "./MobileRegistrations.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const device: RelayDeviceRegistrationRequest = {
   deviceId: "device-1" as RelayDeviceRegistrationRequest["deviceId"],
@@ -166,7 +166,7 @@ function layerRegistrationReplay(input: {
         Layer.provide(ApnsClient.layer.pipe(Layer.provide(ApnsProviderTokens.layer))),
       ),
     ),
-    Layer.provide(ApnsDeliveryQueue.layer.pipe(Layer.provide(NodeCryptoLayer.layer))),
+    Layer.provide(ApnsDeliveryQueue.layer.pipe(Layer.provide(Crypto.layerWebCrypto))),
     Layer.provide(
       Layer.mergeAll(
         Layer.succeed(Devices.Devices, input.devices),

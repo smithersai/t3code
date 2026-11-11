@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { agentDeviceQuickStart, pngDimensions } from "./handlers.ts";
+import { agentDeviceQuickStart, pngDimensions } from "./handlers.vibe";
 
 const device = {
   hostId: "local",

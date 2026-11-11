@@ -37,22 +37,23 @@ import * as SqlError from "effect/sql/SqlError";
 import * as Stream from "effect/Stream";
 
 import { toolOutputImages } from "@t3tools/shared/toolOutput";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ServerConfig from "../config.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as EventSink from "./EventSink.ts";
-import * as EventStore from "./EventStore.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
+import * as EventSink from "./EventSink.vibe";
+import * as EventStore from "./EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProviderEventIngestor from "./ProviderEventIngestor.ts";
-import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as ProviderEventIngestor from "./ProviderEventIngestor.vibe";
+import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
 import {
   makeProviderEventRoutingState,
   type ProviderEventRouteIdentity,
   routeProviderEvent,
   selectInheritedBackgroundTurnItems,
-} from "./RunExecutionService.ts";
+} from "./RunExecutionService.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerTestDatabase = SqlitePersistence.layerMemory;
 const layerTestStores = Layer.merge(EventStore.layer, ProjectionStore.layer).pipe(
@@ -65,7 +66,7 @@ const layerTestEventSink = EventSink.layer.pipe(
 
 const layerGit = GitVcsDriver.layer.pipe(
   Layer.provide(ServerConfig.layerTest(process.cwd(), { prefix: "ingestor-git-" })),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 const makeLayerTest = <E>(ingestorEventSink: Layer.Layer<EventSink.EventSinkV2, E>) =>

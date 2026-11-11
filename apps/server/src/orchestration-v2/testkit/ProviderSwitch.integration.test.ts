@@ -33,28 +33,28 @@ import * as Stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as SqlitePersistence from "../../persistence/Sqlite.ts";
-import { CommandPolicyCapabilityUnsupportedError } from "../CommandPolicy.ts";
+import * as SqlitePersistence from "../../persistence/Sqlite.vibe";
+import { CommandPolicyCapabilityUnsupportedError } from "../CommandPolicy.vibe";
 import {
   ClaudeAgentSdkQueryRunnerError,
   ClaudeAppendSystemPromptFileError,
   ClaudeBackgroundWorkBlocksQueryReplacementError,
   ClaudeProviderCapabilitiesV2,
-} from "../Adapters/ClaudeAdapterV2.ts";
+} from "../Adapters/ClaudeAdapterV2.vibe";
 import {
   CodexProviderCapabilitiesV2,
   canReuseCodexContextUsage,
-} from "../Adapters/CodexAdapterV2.ts";
+} from "../Adapters/CodexAdapterV2.vibe";
 import { AcpProviderCapabilitiesV2 } from "@t3tools/provider-acp/server/adapter";
-import * as EventSink from "../EventSink.ts";
-import * as EventStore from "../EventStore.ts";
-import * as LegacyV1ThreadImporter from "../legacy/LegacyV1ThreadImporter.ts";
-import * as Orchestrator from "../Orchestrator.ts";
-import * as EffectWorker from "../EffectWorker.ts";
-import * as EffectOutbox from "../EffectOutbox.ts";
-import * as ProjectionMaintenance from "../ProjectionMaintenance.ts";
-import * as ProjectionStore from "../ProjectionStore.ts";
-import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.ts";
+import * as EventSink from "../EventSink.vibe";
+import * as EventStore from "../EventStore.vibe";
+import * as LegacyV1ThreadImporter from "../legacy/LegacyV1ThreadImporter.vibe";
+import * as Orchestrator from "../Orchestrator.vibe";
+import * as EffectWorker from "../EffectWorker.vibe";
+import * as EffectOutbox from "../EffectOutbox.vibe";
+import * as ProjectionMaintenance from "../ProjectionMaintenance.vibe";
+import * as ProjectionStore from "../ProjectionStore.vibe";
+import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
 import {
   CLAUDE_MODEL_SELECTION,

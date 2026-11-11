@@ -20,9 +20,9 @@ import { ChildProcessSpawner } from "effect/process";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { SpawnExecutableResolution } from "@t3tools/shared/shell";
 
-import * as ProviderRegistry from "./ProviderRegistry.ts";
-import * as ModelManifest from "./ModelManifest.ts";
-import * as ProviderMaintenanceRunner from "./providerMaintenanceRunner.ts";
+import * as ProviderRegistry from "./ProviderRegistry.vibe";
+import * as ModelManifest from "./ModelManifest.vibe";
+import * as ProviderMaintenanceRunner from "./providerMaintenanceRunner.vibe";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import {
   enrichProviderSnapshotWithVersionAdvisory,

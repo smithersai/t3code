@@ -1,15 +1,15 @@
 import type { EnvironmentId } from "@t3tools/contracts";
 
-import { appAtomRegistry } from "./atom-registry";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import { threadOutboxManager } from "./thread-outbox";
-import type { QueuedThreadMessage } from "./thread-outbox-model";
+import type { QueuedThreadMessage } from "./thread-outbox-model.vibe";
 import {
   clearComposerDraft,
   composerDraftsAtom,
   flushComposerDrafts,
   scheduleUnusedComposerAttachmentCleanup,
   waitForComposerDraftsLoaded,
-} from "./use-composer-drafts";
+} from "./use-composer-drafts.vibe";
 
 async function cleanUpRemovedMessages(
   removedMessages: ReadonlyArray<QueuedThreadMessage>,

@@ -7,9 +7,9 @@ import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
 import { vi } from "vite-plus/test";
 import { Observations } from "../vendor/vite-plus-remote-cache-cloudflare/src/observations.ts";
-import * as Admission from "./Admission.ts";
-import * as Cache from "./Cache.ts";
-import * as Savings from "./Savings.ts";
+import * as Admission from "./Admission.vibe";
+import * as Cache from "./Cache.vibe";
+import * as Savings from "./Savings.vibe";
 
 vi.mock("../vendor/vite-plus-remote-cache-cloudflare/src/database.ts", () => ({
   getScope: async () => ({}),

@@ -12,9 +12,9 @@ import { HttpClient, HttpClientResponse, HttpServer, type HttpClientRequest } fr
 import * as NetAddress from "effect/net/NetAddress";
 
 import { EnvironmentId } from "@t3tools/contracts";
-import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as ServerConfigModule from "../config.ts";
+import * as EnvironmentAuth from "../auth/EnvironmentAuth.vibe";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as ServerConfigModule from "../config.vibe";
 import { writeServiceState } from "../serviceLauncher.ts";
 import {
   SERVICE_LAUNCHER_PROTOCOL,
@@ -22,10 +22,10 @@ import {
   SERVICE_STOP_MARKER_FILE,
   type ServiceUpdateRecord,
 } from "./serviceProtocol.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.ts";
-import { CLOUD_CLI_DESIRED_LINK_SECRET } from "./CliState.ts";
-import * as CliTokenManager from "./CliTokenManager.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
+import * as AgentAwarenessRelay from "../relay/AgentAwarenessRelay.vibe";
+import { CLOUD_CLI_DESIRED_LINK_SECRET } from "./CliState.vibe";
+import * as CliTokenManager from "./CliTokenManager.vibe";
 import { RelayManagedEndpointRecoveryRegistrationRequest } from "@t3tools/contracts/relay";
 import {
   CLOUD_ENDPOINT_CONFIRMED_ORIGIN,
@@ -36,13 +36,14 @@ import {
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_ISSUER_SECRET,
   RELAY_URL_SECRET,
-} from "./config.ts";
-import * as CloudLink from "./CloudLink.ts";
-import * as ConnectReachability from "./ConnectReachability.ts";
-import { consumeCloudReplayGuards } from "./CloudLink.ts";
-import { pendingServiceUpdateExists } from "./updateHandoff.ts";
-import { managedTunnelStartupAction } from "./managedTunnelStartup.ts";
-import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.ts";
+} from "./config.vibe";
+import * as CloudLink from "./CloudLink.vibe";
+import * as ConnectReachability from "./ConnectReachability.vibe";
+import { consumeCloudReplayGuards } from "./CloudLink.vibe";
+import { pendingServiceUpdateExists } from "./updateHandoff.vibe";
+import { managedTunnelStartupAction } from "./managedTunnelStartup.vibe";
+import * as ManagedEndpointRuntime from "./ManagedEndpointRuntime.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const storeFailure = (tag: "AlreadyExists" | "PermissionDenied") =>
   new ServerSecretStore.SecretStorePersistError({
@@ -235,7 +236,7 @@ describe("releaseManagedTunnelOnShutdown", () => {
 
         Effect.provide(
           ServerConfigModule.layerTest("/", { prefix: "t3-http-release-test-" }).pipe(
-            Layer.provideMerge(NodeServices.layer),
+            Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
           ),
         ),
         Effect.scoped,

@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
-import { awaitLauncherLoss } from "./launcherWatch.ts";
+import { awaitLauncherLoss } from "./launcherWatch.vibe";
 
 const launcherPid = 4100;
 // Orphans are adopted by init or a subreaper, so the new parent is not always 1.

@@ -22,17 +22,17 @@ import { useAppearancePreferences } from "../../settings/appearance/AppearancePr
 import { NativeStackScreenOptions } from "../../../native/StackHeader";
 import { PullRequestCardGroup, PullRequestCardRow } from "../PullRequestControls";
 import { PullRequestMarkdown, PullRequestMarkdownRepository } from "../PullRequestMarkdown";
-import { usePullRequestDiff, type PullRequestParams } from "../usePullRequestDiff";
+import { usePullRequestDiff, type PullRequestParams } from "../usePullRequestDiff.vibe";
 import { ReviewGuideExcerpt } from "./ReviewGuideExcerpt";
 import { reviewGuideState } from "./reviewGuideState";
 import { GuideNotice } from "./GuideNotice";
 import Animated from "react-native-reanimated";
 import { PR_ROW_ENTER, PR_ROW_EXIT, PR_ROW_LAYOUT } from "../pullRequestAnimations";
-import { useEnvironmentQuery } from "../../../state/query";
-import { composerPullRequests } from "../../../state/pull-requests";
-import { usePullRequestPermissions } from "../usePullRequestPermissions";
-import { pullRequestTarget } from "../usePullRequestDiff";
-import { useReviewGuide } from "./useReviewGuide";
+import { useEnvironmentQuery } from "../../../state/query.vibe";
+import { composerPullRequests } from "../../../state/pull-requests.vibe";
+import { usePullRequestPermissions } from "../usePullRequestPermissions.vibe";
+import { pullRequestTarget } from "../usePullRequestDiff.vibe";
+import { useReviewGuide } from "./useReviewGuide.vibe";
 
 export type GuideStopParams = PullRequestParams & {
   readonly position: number;

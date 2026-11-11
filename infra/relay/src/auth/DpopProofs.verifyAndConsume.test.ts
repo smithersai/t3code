@@ -11,9 +11,9 @@ import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as RelayDb from "../db.ts";
+import * as RelayDb from "../db.vibe";
 import { relayDpopProofs } from "../persistence/schema.ts";
-import * as DpopProofs from "./DpopProofs.ts";
+import * as DpopProofs from "./DpopProofs.vibe";
 
 interface DpopProofInsertValues {
   readonly thumbprint: string;

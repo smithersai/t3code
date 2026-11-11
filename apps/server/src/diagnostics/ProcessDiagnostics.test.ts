@@ -9,11 +9,11 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
 
-import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.ts";
-import * as NativeTelemetryClient from "../resourceTelemetry/NativeTelemetryClient.ts";
-import * as ResourceAttribution from "../resourceTelemetry/ResourceAttribution.ts";
-import * as ResourceTelemetry from "../resourceTelemetry/ResourceTelemetry.ts";
-import * as ProcessDiagnostics from "./ProcessDiagnostics.ts";
+import * as DesktopTelemetryReceiver from "../resourceTelemetry/DesktopTelemetryReceiver.vibe";
+import * as NativeTelemetryClient from "../resourceTelemetry/NativeTelemetryClient.vibe";
+import * as ResourceAttribution from "../resourceTelemetry/ResourceAttribution.vibe";
+import * as ResourceTelemetry from "../resourceTelemetry/ResourceTelemetry.vibe";
+import * as ProcessDiagnostics from "./ProcessDiagnostics.vibe";
 
 // ProcessDiagnostics treats process.pid as the server, so the fixture PID is an
 // offset from it. A fixed PID collides whenever the test worker is assigned it.

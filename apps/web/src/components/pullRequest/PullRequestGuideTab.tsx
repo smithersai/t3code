@@ -2,7 +2,7 @@ import type { EnvironmentId, PullRequestRef, PullRequestReviewGuideStop } from "
 import { SparklesIcon, TriangleAlertIcon } from "lucide-react";
 import { useEffect, useEffectEvent } from "react";
 
-import type { ReviewCommentContext } from "~/reviewCommentContext";
+import type { ReviewCommentContext } from "../../reviewCommentContext.vibe";
 
 import { Alert, AlertAction, AlertDescription } from "../ui/alert";
 import { Button } from "../ui/button";
@@ -10,7 +10,7 @@ import { Spinner } from "../ui/spinner";
 import type { ExcerptCommenting } from "./guide/GuideExcerpt";
 import { GuideProseContext } from "./guide/GuideProse";
 import { GuideTour } from "./guide/GuideTour";
-import { useReviewGuideWriter } from "./guide/useReviewGuideWriter";
+import { useReviewGuideWriter } from "./guide/useReviewGuideWriter.vibe";
 import {
   nextPendingReviewCommentId,
   pullRequestReviewKey,

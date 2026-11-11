@@ -9,7 +9,7 @@ import { afterEach, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import { vi } from "vite-plus/test";
 
-import * as WorkspaceSearchIndex from "./WorkspaceSearchIndex.ts";
+import * as WorkspaceSearchIndex from "./WorkspaceSearchIndex.vibe";
 
 afterEach(() => {
   vi.restoreAllMocks();

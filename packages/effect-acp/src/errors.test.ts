@@ -3,8 +3,8 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import * as RpcClientError from "effect/rpc/RpcClientError";
 
-import { callRpc } from "./_internal/shared.ts";
-import * as AcpError from "./errors.ts";
+import { callRpc } from "./_internal/shared.vibe";
+import * as AcpError from "./errors.vibe";
 
 const decodeNestedNumberPayload = Schema.decodeUnknownEffect(
   Schema.Struct({ profile: Schema.Struct({ token: Schema.Number }) }),

@@ -1,6 +1,6 @@
 import { PROVIDER_SEND_TURN_MAX_ATTACHMENTS } from "@t3tools/contracts";
 import { scopedThreadKey } from "../lib/scopedEntities";
-import { appAtomRegistry } from "./atom-registry";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import {
   confirmThreadOutboxMessageQueued,
   threadOutboxRevision,
@@ -14,13 +14,13 @@ import {
   undoComposerDraftMerge,
   updateComposerDraftSettings,
   waitForComposerDraftsLoaded,
-} from "./use-composer-drafts";
+} from "./use-composer-drafts.vibe";
 import {
   dispatchingQueuedMessageIdAtom,
   editingQueuedMessageIdsAtom,
   holdEditingQueuedMessage,
   releaseEditingQueuedMessage,
-} from "./use-thread-outbox";
+} from "./use-thread-outbox.vibe";
 
 /** Take delivery ownership before any await; the durable draft then takes ownership of the files. */
 export async function editPendingThreadMessage(message: QueuedThreadMessage): Promise<boolean> {

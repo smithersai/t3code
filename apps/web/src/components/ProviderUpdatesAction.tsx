@@ -2,9 +2,9 @@ import { PROVIDER_DISPLAY_NAMES } from "@t3tools/contracts";
 import { settlePromise } from "@t3tools/client-runtime/state/runtime";
 import { useRef, useState } from "react";
 
-import { useEnvironmentProviders, useEnvironments } from "~/state/environments";
+import { useEnvironmentProviders, useEnvironments } from "../state/environments.vibe";
 import { serverEnvironment } from "~/state/server";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import {
   canOneClickUpdateProviderCandidate,
   collectProviderUpdateCandidates,

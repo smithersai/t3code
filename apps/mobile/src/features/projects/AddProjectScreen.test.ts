@@ -171,7 +171,7 @@ vi.mock("../../state/projects", () => ({
   },
 }));
 
-vi.mock("../../state/use-composer-drafts", () => ({
+vi.mock("../../state/use-composer-drafts.vibe", () => ({
   waitForComposerDraftsLoaded: async () => {},
   createNewTaskDraft: () => "prompt-draft",
   setComposerDraftText: () => {},

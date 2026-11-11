@@ -9,18 +9,18 @@ import * as FileSystem from "effect/FileSystem";
 import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
 
-import * as LocalDeviceHost from "./LocalDeviceHost.ts";
+import * as LocalDeviceHost from "./LocalDeviceHost.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import { HttpClient, HttpClientResponse } from "effect/http";
 import * as NetService from "@t3tools/shared/Net";
-import * as ServerConfig from "../config.ts";
-import * as ProcessRunner from "../processRunner.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ProcessRunner from "../processRunner.vibe";
 import {
   AGENT_DEVICE_VERSION,
   DEVICE_HUB_VERSION,
   agentDeviceStateDir,
-} from "./DeviceToolchain.ts";
+} from "./DeviceToolchain.vibe";
 
 const processOutput = (code: number, stdout = "", stderr = "", timedOut = false) => ({
   code: ChildProcessSpawner.ExitCode(code),

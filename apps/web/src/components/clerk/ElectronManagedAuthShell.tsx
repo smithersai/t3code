@@ -2,7 +2,7 @@ import { passkeys } from "@clerk/electron/passkeys";
 import { ClerkProvider } from "@clerk/electron/react";
 import type { ReactNode } from "react";
 
-import { ManagedRelayAuthProvider } from "../../cloud/managedAuth";
+import { ManagedRelayAuthProvider } from "../../cloud/managedAuth.vibex";
 import { clerkAppearance } from "./clerkAppearance";
 
 /** Load only lazily inside desktop; clerk-js is statically bundled and would otherwise enter every

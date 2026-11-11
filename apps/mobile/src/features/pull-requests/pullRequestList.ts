@@ -9,10 +9,10 @@ import {
   type PullRequestListResult,
   type PullRequestListStatsInput,
 } from "@t3tools/contracts";
-import type { PullRequestListControls } from "../../persistence/mobile-preferences";
+import type { PullRequestListControls } from "../../persistence/mobile-preferences.vibe";
 
 export const PR_LIST_PAGE_SIZE = 30;
-export type { PullRequestListControls } from "../../persistence/mobile-preferences";
+export type { PullRequestListControls } from "../../persistence/mobile-preferences.vibe";
 export const DEFAULT_PR_LIST_CONTROLS: PullRequestListControls = {
   state: "open",
   involvement: "all",
@@ -44,6 +44,7 @@ export type EnvironmentPullRequestListEntry = PullRequestListEntry & {
   readonly environmentId: EnvironmentId;
 };
 
+/** @throws {never} */
 export const scopedPullRequestListKey = (entry: EnvironmentPullRequestListEntry) =>
   `${entry.environmentId}:${pullRequestListKey(entry)}`;
 
@@ -144,6 +145,7 @@ export function withShownPullRequestStats(
   return changed ? next : entries;
 }
 
+/** @throws {never} */
 export function pullRequestListRowsAreEqual(
   previous: EnvironmentPullRequestListEntry,
   next: EnvironmentPullRequestListEntry,

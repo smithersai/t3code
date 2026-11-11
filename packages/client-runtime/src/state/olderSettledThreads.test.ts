@@ -27,12 +27,12 @@ import {
   PrimaryConnectionTarget,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "../connection/model.ts";
-import * as EnvironmentRegistry from "../connection/registry.ts";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+} from "../connection/model.vibe";
+import * as EnvironmentRegistry from "../connection/registry.vibe";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
-import type * as RpcSession from "../rpc/session.ts";
-import { EMPTY_SHELL_STATE, type EnvironmentShellState } from "./shell.ts";
+import type * as RpcSession from "../rpc/session.vibe";
+import { EMPTY_SHELL_STATE, type EnvironmentShellState } from "./shell.vibe";
 import {
   createOlderSettledThreadAtoms,
   isListedSettledThread,
@@ -42,7 +42,7 @@ import {
   wantedOlderSettledPages,
   type OlderSettled,
   type OlderSettledPages,
-} from "./olderSettledThreads.ts";
+} from "./olderSettledThreads.vibe";
 
 const DAY = 24 * 60 * 60 * 1000;
 const environmentId = EnvironmentId.make("env-a");

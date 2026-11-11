@@ -4,203 +4,295 @@
   "type": "module",
   "exports": {
     "./client": {
-      "types": "./src/client.ts",
-      "import": "./src/client.ts"
+      "types": "./src/client.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/client.vibe",
+        "default": "./.vibelang/js/src/client.js"
+      }
     },
     "./modelShortName": {
       "types": "./src/modelShortName.ts",
-      "import": "./src/modelShortName.ts"
+      "import": {
+        "types": "./src/modelShortName.ts",
+        "vibelang-source": "./src/modelShortName.ts",
+        "default": "./.vibelang/js/src/modelShortName.js"
+      }
     },
     "./server/adapterDriver": {
-      "types": "./src/server/adapterDriver.ts",
-      "import": "./src/server/adapterDriver.ts"
+      "types": "./src/server/adapterDriver.vibe",
+      "import": "./src/server/adapterDriver.vibe"
     },
     "./server/attachmentPrompt": {
-      "types": "./src/server/attachmentPrompt.ts",
-      "import": "./src/server/attachmentPrompt.ts"
+      "types": "./src/server/attachmentPrompt.vibe",
+      "import": "./src/server/attachmentPrompt.vibe"
     },
     "./server/auth": {
-      "types": "./src/server/auth.ts",
-      "import": "./src/server/auth.ts"
+      "types": "./src/server/auth.d.vibe.ts",
+      "import": "./src/server/auth.vibe"
     },
     "./server/collectStreamText": {
-      "types": "./src/server/collectStreamText.ts",
-      "import": "./src/server/collectStreamText.ts"
+      "types": "./src/server/collectStreamText.vibe",
+      "import": "./src/server/collectStreamText.vibe"
     },
     "./server/driver": {
-      "types": "./src/server/driver.ts",
-      "import": "./src/server/driver.ts"
+      "types": "./src/server/driver.d.vibe.ts",
+      "import": "./src/server/driver.vibe"
     },
     "./server/errors": {
-      "types": "./src/server/errors.ts",
-      "import": "./src/server/errors.ts"
+      "types": "./src/server/errors.vibe",
+      "import": "./src/server/errors.vibe"
     },
     "./server/failure": {
-      "types": "./src/server/failure.ts",
-      "import": "./src/server/failure.ts"
+      "types": "./src/server/failure.d.vibe.ts",
+      "import": "./src/server/failure.vibe"
     },
     "./server/handoffBudget": {
-      "types": "./src/server/handoffBudget.ts",
-      "import": "./src/server/handoffBudget.ts"
+      "types": "./src/server/handoffBudget.vibe",
+      "import": "./src/server/handoffBudget.vibe"
     },
     "./server/IdAllocator": {
-      "types": "./src/server/IdAllocator.ts",
-      "import": "./src/server/IdAllocator.ts"
+      "types": "./src/server/IdAllocator.d.vibe.ts",
+      "import": {
+        "types": "./src/server/IdAllocator.d.vibe.ts",
+        "vibelang-source": "./src/server/IdAllocator.vibe",
+        "default": "./.vibelang/js/src/server/IdAllocator.js"
+      }
     },
     "./server/instanceEnvironment": {
-      "types": "./src/server/instanceEnvironment.ts",
-      "import": "./src/server/instanceEnvironment.ts"
+      "types": "./src/server/instanceEnvironment.d.vibe.ts",
+      "import": "./src/server/instanceEnvironment.vibe"
     },
     "./server/instanceIdentity": {
       "types": "./src/server/instanceIdentity.ts",
-      "import": "./src/server/instanceIdentity.ts"
+      "import": {
+        "types": "./src/server/instanceIdentity.ts",
+        "vibelang-source": "./src/server/instanceIdentity.ts",
+        "default": "./.vibelang/js/src/server/instanceIdentity.js"
+      }
     },
     "./server/maintenance": {
-      "types": "./src/server/maintenance.ts",
-      "import": "./src/server/maintenance.ts"
+      "types": "./src/server/maintenance.d.vibe.ts",
+      "import": "./src/server/maintenance.vibe"
     },
     "./server/maintenanceResolver": {
-      "types": "./src/server/maintenanceResolver.ts",
-      "import": "./src/server/maintenanceResolver.ts"
+      "types": "./src/server/maintenanceResolver.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/maintenanceResolver.vibe",
+        "default": "./.vibelang/js/src/server/maintenanceResolver.js"
+      }
     },
     "./server/managedProvider": {
-      "types": "./src/server/managedProvider.ts",
-      "import": "./src/server/managedProvider.ts"
+      "types": "./src/server/managedProvider.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/managedProvider.vibe",
+        "default": "./.vibelang/js/src/server/managedProvider.js"
+      }
     },
     "./server/McpProviderSessions": {
-      "types": "./src/server/McpProviderSessions.ts",
-      "import": "./src/server/McpProviderSessions.ts"
+      "types": "./src/server/McpProviderSessions.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/McpProviderSessions.vibe",
+        "default": "./.vibelang/js/src/server/McpProviderSessions.js"
+      }
     },
     "./server/mcpSession": {
       "types": "./src/server/mcpSession.ts",
-      "import": "./src/server/mcpSession.ts"
+      "import": {
+        "types": "./src/server/mcpSession.ts",
+        "vibelang-source": "./src/server/mcpSession.ts",
+        "default": "./.vibelang/js/src/server/mcpSession.js"
+      }
     },
     "./server/mcpToolPresentation": {
       "types": "./src/server/mcpToolPresentation.ts",
-      "import": "./src/server/mcpToolPresentation.ts"
+      "import": {
+        "types": "./src/server/mcpToolPresentation.ts",
+        "vibelang-source": "./src/server/mcpToolPresentation.ts",
+        "default": "./.vibelang/js/src/server/mcpToolPresentation.js"
+      }
     },
     "./server/ModelCatalog": {
-      "types": "./src/server/ModelCatalog.ts",
-      "import": "./src/server/ModelCatalog.ts"
+      "types": "./src/server/ModelCatalog.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/ModelCatalog.vibe",
+        "default": "./.vibelang/js/src/server/ModelCatalog.js"
+      }
     },
     "./server/nativeProtocolLogging": {
       "types": "./src/server/nativeProtocolLogging.ts",
-      "import": "./src/server/nativeProtocolLogging.ts"
+      "import": {
+        "types": "./src/server/nativeProtocolLogging.ts",
+        "vibelang-source": "./src/server/nativeProtocolLogging.ts",
+        "default": "./.vibelang/js/src/server/nativeProtocolLogging.js"
+      }
     },
     "./server/notification": {
       "types": "./src/server/notification.ts",
-      "import": "./src/server/notification.ts"
+      "import": {
+        "types": "./src/server/notification.ts",
+        "vibelang-source": "./src/server/notification.ts",
+        "default": "./.vibelang/js/src/server/notification.js"
+      }
     },
     "./server/orchestrationInstructions": {
       "types": "./src/server/orchestrationInstructions.ts",
-      "import": "./src/server/orchestrationInstructions.ts"
+      "import": {
+        "types": "./src/server/orchestrationInstructions.ts",
+        "vibelang-source": "./src/server/orchestrationInstructions.ts",
+        "default": "./.vibelang/js/src/server/orchestrationInstructions.js"
+      }
     },
     "./server/pathExpansion": {
       "types": "./src/server/pathExpansion.ts",
-      "import": "./src/server/pathExpansion.ts"
+      "import": {
+        "types": "./src/server/pathExpansion.ts",
+        "vibelang-source": "./src/server/pathExpansion.ts",
+        "default": "./.vibelang/js/src/server/pathExpansion.js"
+      }
     },
     "./server/processGroup": {
       "types": "./src/server/processGroup.ts",
-      "import": "./src/server/processGroup.ts"
+      "import": {
+        "types": "./src/server/processGroup.ts",
+        "vibelang-source": "./src/server/processGroup.ts",
+        "default": "./.vibelang/js/src/server/processGroup.js"
+      }
     },
     "./server/ProviderAdapter": {
-      "types": "./src/server/ProviderAdapter.ts",
-      "import": "./src/server/ProviderAdapter.ts"
+      "types": "./src/server/ProviderAdapter.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/ProviderAdapter.vibe",
+        "default": "./.vibelang/js/src/server/ProviderAdapter.js"
+      }
     },
     "./server/providerAuthFlow": {
-      "types": "./src/server/providerAuthFlow.ts",
-      "import": "./src/server/providerAuthFlow.ts"
+      "types": "./src/server/providerAuthFlow.vibe",
+      "import": "./src/server/providerAuthFlow.vibe"
     },
     "./server/ProviderContinuationRequests": {
-      "types": "./src/server/ProviderContinuationRequests.ts",
-      "import": "./src/server/ProviderContinuationRequests.ts"
+      "types": "./src/server/ProviderContinuationRequests.vibe",
+      "import": "./src/server/ProviderContinuationRequests.vibe"
     },
     "./server/ProviderEventLoggers": {
-      "types": "./src/server/ProviderEventLoggers.ts",
-      "import": "./src/server/ProviderEventLoggers.ts"
+      "types": "./src/server/ProviderEventLoggers.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/ProviderEventLoggers.vibe",
+        "default": "./.vibelang/js/src/server/ProviderEventLoggers.js"
+      }
     },
     "./server/ProviderHost": {
-      "types": "./src/server/ProviderHost.ts",
-      "import": "./src/server/ProviderHost.ts"
+      "types": "./src/server/ProviderHost.vibe",
+      "import": "./src/server/ProviderHost.vibe"
     },
     "./server/ProviderLatestVersions": {
-      "types": "./src/server/ProviderLatestVersions.ts",
-      "import": "./src/server/ProviderLatestVersions.ts"
+      "types": "./src/server/ProviderLatestVersions.vibe",
+      "import": "./src/server/ProviderLatestVersions.vibe"
     },
     "./server/randomUuid": {
-      "types": "./src/server/randomUuid.ts",
-      "import": "./src/server/randomUuid.ts"
+      "types": "./src/server/randomUuid.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/randomUuid.vibe",
+        "default": "./.vibelang/js/src/server/randomUuid.js"
+      }
     },
     "./server/runtimeInstructions": {
       "types": "./src/server/runtimeInstructions.ts",
-      "import": "./src/server/runtimeInstructions.ts"
+      "import": {
+        "types": "./src/server/runtimeInstructions.ts",
+        "vibelang-source": "./src/server/runtimeInstructions.ts",
+        "default": "./.vibelang/js/src/server/runtimeInstructions.js"
+      }
     },
     "./server/selectionTransition": {
       "types": "./src/server/selectionTransition.ts",
-      "import": "./src/server/selectionTransition.ts"
+      "import": {
+        "types": "./src/server/selectionTransition.ts",
+        "vibelang-source": "./src/server/selectionTransition.ts",
+        "default": "./.vibelang/js/src/server/selectionTransition.js"
+      }
     },
     "./server/snapshot": {
-      "types": "./src/server/snapshot.ts",
-      "import": "./src/server/snapshot.ts"
+      "types": "./src/server/snapshot.d.vibe.ts",
+      "import": "./src/server/snapshot.vibe"
     },
     "./server/snapshotProbe": {
-      "types": "./src/server/snapshotProbe.ts",
-      "import": "./src/server/snapshotProbe.ts"
+      "types": "./src/server/snapshotProbe.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/snapshotProbe.vibe",
+        "default": "./.vibelang/js/src/server/snapshotProbe.js"
+      }
     },
     "./server/snapshotSettings": {
-      "types": "./src/server/snapshotSettings.ts",
-      "import": "./src/server/snapshotSettings.ts"
+      "types": "./src/server/snapshotSettings.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/snapshotSettings.vibe",
+        "default": "./.vibelang/js/src/server/snapshotSettings.js"
+      }
     },
     "./server/subagentProjection": {
-      "types": "./src/server/subagentProjection.ts",
-      "import": "./src/server/subagentProjection.ts"
+      "types": "./src/server/subagentProjection.vibe",
+      "import": "./src/server/subagentProjection.vibe"
     },
     "./server/textGeneration": {
-      "types": "./src/server/textGeneration.ts",
-      "import": "./src/server/textGeneration.ts"
+      "types": "./src/server/textGeneration.d.vibe.ts",
+      "import": "./src/server/textGeneration.vibe"
     },
     "./server/textGenerationOperations": {
-      "types": "./src/server/textGenerationOperations.ts",
-      "import": "./src/server/textGenerationOperations.ts"
+      "types": "./src/server/textGenerationOperations.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/server/textGenerationOperations.vibe",
+        "default": "./.vibelang/js/src/server/textGenerationOperations.js"
+      }
     },
     "./server/textGenerationPolicy": {
-      "types": "./src/server/textGenerationPolicy.ts",
-      "import": "./src/server/textGenerationPolicy.ts"
+      "types": "./src/server/textGenerationPolicy.vibe",
+      "import": "./src/server/textGenerationPolicy.vibe"
     },
     "./server/textGenerationPrompts": {
-      "types": "./src/server/textGenerationPrompts.ts",
-      "import": "./src/server/textGenerationPrompts.ts"
+      "types": "./src/server/textGenerationPrompts.vibe",
+      "import": "./src/server/textGenerationPrompts.vibe"
     },
     "./server/textGenerationUtils": {
-      "types": "./src/server/textGenerationUtils.ts",
-      "import": "./src/server/textGenerationUtils.ts"
+      "types": "./src/server/textGenerationUtils.vibe",
+      "import": "./src/server/textGenerationUtils.vibe"
     },
     "./server/threadTitleContext": {
       "types": "./src/server/threadTitleContext.ts",
-      "import": "./src/server/threadTitleContext.ts"
+      "import": {
+        "types": "./src/server/threadTitleContext.ts",
+        "vibelang-source": "./src/server/threadTitleContext.ts",
+        "default": "./.vibelang/js/src/server/threadTitleContext.js"
+      }
     },
     "./server/usage": {
-      "types": "./src/server/usage.ts",
-      "import": "./src/server/usage.ts"
+      "types": "./src/server/usage.d.vibe.ts",
+      "import": "./src/server/usage.vibe"
     },
     "./server/usageLimits": {
       "types": "./src/server/usageLimits.ts",
-      "import": "./src/server/usageLimits.ts"
+      "import": {
+        "types": "./src/server/usageLimits.ts",
+        "vibelang-source": "./src/server/usageLimits.ts",
+        "default": "./.vibelang/js/src/server/usageLimits.js"
+      }
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vibelang --noEmit",
     "test": "vp test run --config ../../vite.config.ts --dir ."
   },
   "dependencies": {
     "@t3tools/contracts": "workspace:*",
     "@t3tools/shared": "workspace:*",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-runtime-0.0.14-pre.6279f9f9fbfc.tgz"
   },
   "devDependencies": {
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-0.0.14-pre.6279f9f9fbfc.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-vite-0.0.14-pre.6279f9f9fbfc.tgz",
     "vite-plus": "catalog:"
   }
 }

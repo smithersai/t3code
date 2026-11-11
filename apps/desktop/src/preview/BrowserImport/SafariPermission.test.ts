@@ -4,7 +4,7 @@ import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as PlatformError from "effect/PlatformError";
-import { safariPermissionCheck } from "./SafariPermission.ts";
+import { safariPermissionCheck } from "./SafariPermission.vibe";
 
 it.effect("detects Safari access becoming available without reading or importing cookies", () =>
   Effect.gen(function* () {

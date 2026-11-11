@@ -13,7 +13,7 @@ import {
   isWorkflowScriptMessage,
   projectedSubagentsToRuntime,
   resolveWorkflowOpening,
-} from "./subagentRuntime.ts";
+} from "./subagentRuntime.vibe";
 
 const at = (iso: string) => DateTime.makeUnsafe(iso);
 

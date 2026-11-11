@@ -8,18 +8,18 @@ import * as Stream from "effect/Stream";
 import { HttpClient } from "effect/http";
 import { ChildProcessSpawner } from "effect/process";
 
-import * as DesktopObservability from "../app/DesktopObservability.ts";
-import * as DesktopState from "../app/DesktopState.ts";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
-import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.ts";
-import * as DesktopBrowserHost from "../preview/DesktopBrowserHost.ts";
-import * as ElectronDialog from "../electron/ElectronDialog.ts";
-import * as ElectronApp from "../electron/ElectronApp.ts";
-import * as DesktopWindow from "../window/DesktopWindow.ts";
-import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.ts";
-import * as DesktopBackendConfiguration from "./DesktopBackendConfiguration.ts";
-import * as DesktopBackendPool from "./DesktopBackendPool.ts";
-import type { DesktopBackendStartConfig } from "./DesktopBackendManager.ts";
+import * as DesktopObservability from "../app/DesktopObservability.vibe";
+import * as DesktopState from "../app/DesktopState.vibe";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
+import * as DesktopTelemetryPublisher from "../telemetry/DesktopTelemetryPublisher.vibe";
+import * as DesktopBrowserHost from "../preview/DesktopBrowserHost.vibe";
+import * as ElectronDialog from "../electron/ElectronDialog.vibe";
+import * as ElectronApp from "../electron/ElectronApp.vibe";
+import * as DesktopWindow from "../window/DesktopWindow.vibe";
+import * as DesktopWslEnvironment from "../wsl/DesktopWslEnvironment.vibe";
+import * as DesktopBackendConfiguration from "./DesktopBackendConfiguration.vibe";
+import * as DesktopBackendPool from "./DesktopBackendPool.vibe";
+import type { DesktopBackendStartConfig } from "./DesktopBackendManager.vibe";
 
 function layerPool(labelRef: Ref.Ref<string>): Layer.Layer<DesktopBackendPool.DesktopBackendPool> {
   return DesktopBackendPool.layer.pipe(

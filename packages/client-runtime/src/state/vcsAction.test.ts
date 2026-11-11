@@ -24,13 +24,13 @@ import {
   PrimaryConnectionTarget,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "../connection/model.ts";
-import * as EnvironmentRegistry from "../connection/registry.ts";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import * as Persistence from "../platform/persistence.ts";
+} from "../connection/model.vibe";
+import * as EnvironmentRegistry from "../connection/registry.vibe";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
+import * as Persistence from "../platform/persistence.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
-import type { RpcSession } from "../rpc/session.ts";
-import type { AtomCommandResult } from "./runtime.ts";
+import type { RpcSession } from "../rpc/session.vibe";
+import type { AtomCommandResult } from "./runtime.vibe";
 import {
   applyVcsActionProgressEvent,
   beginVcsActionState,
@@ -43,8 +43,8 @@ import {
   VcsActionMissingTerminalEventError,
   VcsActionRemoteFailureError,
   VcsActionTargetKeyParseError,
-} from "./vcsAction.ts";
-import { vcsRefsCacheStateAtom } from "./vcsRefInvalidation.ts";
+} from "./vcsAction.vibe";
+import { vcsRefsCacheStateAtom } from "./vcsRefInvalidation.vibe";
 
 const actionId = "action-123";
 const action = "commit_push" as const;
@@ -577,7 +577,7 @@ describe("vcsActionState", () => {
   );
 });
 
-vi.mock("./session.ts", () => ({
+vi.mock("./session.vibe", () => ({
   createEnvironmentSessionAtoms: () => ({ sessionStateAtom: grantedSessions }),
 }));
 const grantedSessions = Atom.family((_id: EnvironmentId) =>

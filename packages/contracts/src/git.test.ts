@@ -5,7 +5,7 @@ import {
   GitCommandError,
   GitPreparePullRequestThreadResult,
   GitRunStackedActionInput,
-} from "./git.ts";
+} from "./git.vibe";
 
 const decodeGitCommandError = Schema.decodeUnknownSync(Schema.toCodecJson(GitCommandError));
 const decodePreparePullRequestThreadResult = Schema.decodeUnknownSync(

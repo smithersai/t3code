@@ -3,7 +3,7 @@ import * as NodeFSP from "node:fs/promises";
 import * as NodePath from "node:path";
 import * as NodeOS from "node:os";
 import { afterEach, beforeEach, expect, it as test, vi } from "vite-plus/test";
-import { CaptureShortcutConfig } from "./CaptureShortcutConfig.ts";
+import { CaptureShortcutConfig } from "./CaptureShortcutConfig.vibe";
 import { captureConfigBinding } from "./captureConfigEdit.ts";
 
 // oxlint-disable-next-line t3code/no-global-process-runtime -- Test collection checks the host before starting these Linux-native filesystem tests.

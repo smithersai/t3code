@@ -1,9 +1,9 @@
-export * as ClientCapabilities from "./capabilities.ts";
-export * as Persistence from "./persistence.ts";
+export * as ClientCapabilities from "#vibelang/emitted/src/platform/capabilities";
+export * as Persistence from "#vibelang/emitted/src/platform/persistence";
 // Flat so consumers' inferred types can name it.
-export { ConnectionPersistenceError } from "./persistence.ts";
-export * from "./orchestrationCache.ts";
-export * from "./shellCacheEncoding.ts";
-export * from "./threadCacheEncoding.ts";
-export * as PlatformConnectionSource from "./source.ts";
-export * from "./storageDocument.ts";
+export { ConnectionPersistenceError } from "#vibelang/emitted/src/platform/persistence";
+export * from "#vibelang/emitted/src/platform/orchestrationCache";
+export * from "#vibelang/emitted/src/platform/shellCacheEncoding";
+export * from "#vibelang/emitted/src/platform/threadCacheEncoding";
+export * as PlatformConnectionSource from "#vibelang/emitted/src/platform/source";
+export * from "#vibelang/emitted/src/platform/storageDocument";

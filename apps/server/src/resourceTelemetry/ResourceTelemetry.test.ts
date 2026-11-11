@@ -14,10 +14,10 @@ import * as PubSub from "effect/PubSub";
 import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 
-import * as DesktopTelemetryReceiver from "./DesktopTelemetryReceiver.ts";
-import * as NativeTelemetryClient from "./NativeTelemetryClient.ts";
-import * as ResourceAttribution from "./ResourceAttribution.ts";
-import * as ResourceTelemetry from "./ResourceTelemetry.ts";
+import * as DesktopTelemetryReceiver from "./DesktopTelemetryReceiver.vibe";
+import * as NativeTelemetryClient from "./NativeTelemetryClient.vibe";
+import * as ResourceAttribution from "./ResourceAttribution.vibe";
+import * as ResourceTelemetry from "./ResourceTelemetry.vibe";
 
 // ResourceTelemetry classifies process.pid as the server, so fixture PIDs are
 // offsets from it. Fixed PIDs collide whenever the test worker is assigned one.

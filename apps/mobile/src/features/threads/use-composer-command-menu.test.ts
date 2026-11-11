@@ -7,7 +7,7 @@ vi.mock("../../state/queries", () => ({
   useComposerPathSearch: () => ({ entries: [], isPending: false }),
   useComposerPullRequestSearch: () => ({ entries: [], isPending: false, error: null }),
 }));
-vi.mock("../../state/use-composer-drafts", () => ({
+vi.mock("../../state/use-composer-drafts.vibe", () => ({
   getComposerDraftSnapshot: vi.fn(),
   setComposerDraftContext: vi.fn(),
   useComposerDraftSelection: vi.fn(),

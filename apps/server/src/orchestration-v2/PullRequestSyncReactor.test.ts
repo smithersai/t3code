@@ -22,7 +22,7 @@ import {
 } from "@t3tools/contracts";
 import { assert, describe, it } from "@effect/vitest";
 import * as Clock from "effect/Clock";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
@@ -31,12 +31,12 @@ import * as Queue from "effect/Queue";
 import * as Ref from "effect/Ref";
 import { TestClock } from "effect/testing";
 
-import * as GitManager from "../git/GitManager.ts";
-import * as PullRequestService from "../pullRequest/PullRequestService.ts";
-import * as ServerActivation from "../serverActivation.ts";
-import * as Orchestrator from "./Orchestrator.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as PullRequestSyncReactor from "./PullRequestSyncReactor.ts";
+import * as GitManager from "../git/GitManager.vibe";
+import * as PullRequestService from "../pullRequest/PullRequestService.vibe";
+import * as ServerActivation from "../serverActivation.vibe";
+import * as Orchestrator from "./Orchestrator.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as PullRequestSyncReactor from "./PullRequestSyncReactor.vibe";
 import type { PullRequestTestThread } from "./testkit/pullRequestFixtures.ts";
 
 const NOW = "2026-08-28T12:00:00.000Z";

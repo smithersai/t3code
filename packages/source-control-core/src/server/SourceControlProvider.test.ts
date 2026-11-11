@@ -1,6 +1,6 @@
 import { assert, it } from "@effect/vitest";
 
-import { transportSafeSourceControlErrorValue } from "./SourceControlProvider.ts";
+import { transportSafeSourceControlErrorValue } from "./SourceControlProvider.vibe";
 
 it("removes URL credentials, query parameters, and fragments from error transport values", () => {
   assert.strictEqual(

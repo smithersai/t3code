@@ -4,7 +4,7 @@ import {
   isAtomCommandInterrupted,
   squashAtomCommandFailure,
   type AtomCommandResult,
-} from "./runtime.ts";
+} from "./runtime.vibe";
 
 type CodexFeedbackSubmissionDetails = {
   readonly id: MessageId;

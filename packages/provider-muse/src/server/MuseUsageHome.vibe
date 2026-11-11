@@ -1,0 +1,57 @@
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+
+import { createMuseSdkHostEffect } from "./sdk.vibe"
+
+export service MuseUsageHome: {
+  readonly resolve: (input: {
+    readonly binaryPath: string;
+    readonly environment: NodeJS.ProcessEnv;
+  }) => (string | undefined)!!;
+} {
+  static readonly key = "@t3tools/provider-muse/server/MuseUsageHome"
+}
+
+const make = Effect.gen(function*() {
+  const cache = yield* Cache.makeWith(
+    effect (
+      input: { readonly binaryPath: string; readonly environment: NodeJS.ProcessEnv },
+    ): (string | undefined)!import("effect/Cause").UnknownError!never =>
+      try withSpan(
+        (effect (): (string | undefined)!import("effect/Cause").UnknownError!never => {
+          return try Effect.scoped(
+            effect {
+              const host = try Effect.acquireRelease(
+                createMuseSdkHostEffect({ ...input, readOnly: true, startupTimeoutMs: 5_000 }),
+                (host) => Effect.tryPromise(() => host.close()) |> Effect.ignore(%),
+                { interruptible: true },
+              )
+              return host.initializeResult.museHome
+            },
+          )
+        })(),
+        "MuseUsageHome.initialize",
+      ),
+    {
+      capacity: 32,
+      // Retry unavailable installations, but keep resolved homes across scans.
+      timeToLive: (exit) => Exit.isSuccess(exit) && exit.value ? Duration.infinity : Duration.seconds(30),
+    },
+  )
+  const resolve: MuseUsageHome["Service"]["resolve"] = Effect.fn("MuseUsageHome.resolve")(
+    function*({ binaryPath, environment }) {
+      // Cache keys compare structurally. Omitted and undefined variables both
+      // disappear from the child process environment and must share an entry.
+      return yield* Cache.get(cache, {
+        binaryPath,
+        environment: Object.fromEntries(
+          Object.entries(environment).filter(([, value]) => value !== undefined),
+        ),
+      }) |> Effect.orElseSucceed(%, () => undefined)
+    },
+  )
+  return MuseUsageHome.of({ resolve })
+})
+
+export const layer = Layer.effect(MuseUsageHome, make)

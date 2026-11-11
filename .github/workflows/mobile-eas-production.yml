@@ -370,6 +370,6 @@ jobs:
         run: |
           for dir in dist dist-*; do
             if [ -f "$dir/eas-update-metadata.json" ]; then
-              node scripts/upload-sourcemaps.mts ota "$dir"
+              node --import vibelang/register scripts/upload-sourcemaps.mts ota "$dir"
             fi
           done

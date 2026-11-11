@@ -1,0 +1,241 @@
+import { PullRequestOperationError, PullRequestUnavailableError } from "@t3tools/contracts"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Layer from "effect/Layer"
+import * as Path from "effect/Path"
+import * as KeyValueStore from "effect/persistence/KeyValueStore"
+import * as ServerConfig from "../config.vibe"
+import { detachStackFrame } from "../git/detachStackFrame.vibe"
+import { forkParked } from "../serverActivation.vibe"
+
+const CONCURRENT_READS = 512
+// Entry filenames have the store-id prefix; the scope revisions file does not.
+const STORE_ID = "pr-v2"
+const ENTRY_FILE_NAME = new RegExp(`^${STORE_ID}[0-9a-f]{64}$`)
+/**
+ * A file untouched for a day is long expired; the day only leaves slack for
+ * clock changes.
+ */
+const ENTRY_FILE_MAX_AGE = Duration.days(1)
+type ReadError = PullRequestOperationError | PullRequestUnavailableError
+const revisionCodec = Schema.fromJsonString(
+  Schema.Record(
+    Schema.String,
+    Schema.Struct({ revision: Schema.String, expiresAt: Schema.Finite }),
+  ),
+)
+class Read extends Persistable.Class<{
+  payload: { key: string; revision: string; lookup: string!ReadError }
+}>()("PullRequestRead", {
+  primaryKey: ({ key }) => key,
+  success: Schema.Struct({
+    payload: Schema.String,
+    expiresAt: Schema.Finite,
+    revision: Schema.optionalKey(Schema.String),
+  }),
+  error: Schema.Union([PullRequestOperationError, PullRequestUnavailableError]),
+}) {
+  matchesRevision(revision: string | undefined): boolean {
+    const stored = revision?.split(":") ?? []
+    return this.revision
+      .split(":")
+      .every((value, index) => value === "" || value === stored[index])
+  }
+
+  [Equal.symbol](that: unknown): boolean {
+    return that instanceof Read && that.key === this.key && that.revision === this.revision
+  }
+  [Hash.symbol](): number {
+    return Hash.string(`${this.key}:${this.revision}`)
+  }
+}
+
+export service PullRequestReadCache: {
+  readonly get: (
+    key: string,
+    lookup: string!ReadError,
+    scopes?: ReadonlyArray<string>,
+  ) => string!ReadError;
+  readonly invalidate: (scope: string) => void!!;
+} {
+  static readonly key = "t3/pullRequest/PullRequestReadCache"
+}
+
+export const make = effect {
+  const backing = try KeyValueStore.KeyValueStore
+  const crypto = try Crypto.Crypto
+  const clock = try Clock.Clock
+  let enabled = true
+  const lock = try Semaphore.make(CONCURRENT_READS)
+  const digest = (key: string) => crypto.digest("SHA-256", new TextEncoder().encode(key)) |> Effect.map(%, Hex.encode)
+  const revisions = try Cache.makeWith(
+    () =>
+      backing
+        .get("revisions") |> Effect.flatMap(%, (raw) => Schema.decodeEffect(revisionCodec)(raw ?? "{}")),
+    {
+      capacity: 1,
+      timeToLive: (exit) => (Exit.isSuccess(exit) ? Duration.infinity : Duration.zero),
+    },
+  )
+  const timeToLive: Persistable.TimeToLiveFn<Read> = (exit) =>
+    Exit.isSuccess(exit)
+      ? Duration.millis(Math.max(0, exit.value.expiresAt - clock.currentTimeMillisUnsafe()))
+      : Duration.zero
+  const cache = try effect {
+    provide Persistence.layerKvs {
+      return try PersistedCache.make(
+        (request: Read) =>
+          request.lookup
+          |> Effect.map(%, (payload) => ({
+            payload,
+            expiresAt: clock.currentTimeMillisUnsafe() + 60_000,
+            revision: request.revision,
+          })),
+        {
+          storeId: STORE_ID,
+          timeToLive,
+          inMemoryTTL: timeToLive,
+          inMemoryCapacity: CONCURRENT_READS,
+        },
+      )
+    }
+  }
+  const refreshes = try Cache.makeWith(
+    effect (
+      request: Read,
+    ): { readonly payload: string; readonly expiresAt: number; readonly revision?: string; }!(Persistence.PersistenceError | PullRequestOperationError | PullRequestUnavailableError | Schema.SchemaError)!never =>
+      try withSpan(
+        (effect (): { readonly payload: string; readonly expiresAt: number; readonly revision?: string; }!(Persistence.PersistenceError | PullRequestOperationError | PullRequestUnavailableError | Schema.SchemaError)!never => {
+          const stored = try cache.get(request)
+          if (request.matchesRevision(stored.revision)) return stored
+          try cache.invalidate(request)
+          return try cache.get(request)
+        })(),
+        "PullRequestReadCache.refresh",
+      ),
+    { capacity: CONCURRENT_READS, timeToLive: () => Duration.zero },
+  )
+  // A cache entry keeps the fiber that filled it, whose lazy stack frames would keep the caller's
+  // data (e.g. a whole sync sweep) alive until eviction.
+  return PullRequestReadCache.of({
+    get: effect (key, lookup, scopes = []) =>
+      try withSpan(
+        effect {
+          if (!enabled) return try lookup
+          const read = try Effect.cached(lookup)
+          return try ((do {
+            const catchProgram = effect {
+              const current = try Cache.get(revisions, undefined)
+              const now = clock.currentTimeMillisUnsafe()
+              const revision = scopes
+                .map((scope) => {
+                  const value = current[scope]
+                  return value !== undefined && value.expiresAt > now ? value.revision : ""
+                })
+                .join(":")
+              const request = new Read({ key: try digest(key), revision, lookup: read })
+              const stored = try cache.get(request)
+              return (
+                request.matchesRevision(stored.revision) ? stored : try Cache.get(refreshes, request)
+              ).payload
+            }
+            effect {
+              return catchProgram catch effect (e) => match (e) {
+                when { _tag: "PlatformError" }: try read;
+                when { _tag: "KeyValueStoreError" }: try read;
+                when { _tag: "PersistenceError" }: try read;
+                when { _tag: "SchemaError" }: try read;
+                default: throw e;
+              }
+            }
+          })
+            |> lock.withPermits(1)(%))
+        } |> detachStackFrame(%),
+        "PullRequestReadCache.get",
+      ),
+    invalidate: effect (scope) =>
+      try withSpan(
+        effect {
+          const now = clock.currentTimeMillisUnsafe()
+          const current = try Cache.get(revisions, undefined)
+          const next = Object.fromEntries(
+            Object.entries(current).filter(([, value]) => value.expiresAt > now),
+          )
+          next[scope] = { revision: try crypto.randomUUIDv4(), expiresAt: now + 60_000 }
+          const encoded = try Schema.encodeEffect(revisionCodec)(next)
+          try backing.set("revisions", encoded)
+          try Cache.set(revisions, undefined, next)
+        } |> Effect.catch(%, () => {
+          enabled = false
+          return Effect.logWarning("PR cache disabled after clearing failed")
+        }) |> Effect.uninterruptible(%) |> lock.withPermits(CONCURRENT_READS)(%) |> detachStackFrame(%),
+        "PullRequestReadCache.invalidate",
+      ),
+  })
+}
+
+/**
+ * The persisted cache drops an expired entry only when it is read again, so
+ * files for PRs nobody reopens would otherwise stay forever.
+ */
+const pruneExpiredEntryFiles = effect (
+  directory: string,
+) =>
+  try withSpan(
+    effect {
+      const fileSystem = try FileSystem.FileSystem
+      const path = try Path.Path
+      const cutoff = (try Clock.currentTimeMillis) - Duration.toMillis(ENTRY_FILE_MAX_AGE)
+      const entries = (try fileSystem.readDirectory(directory)).filter((name) => ENTRY_FILE_NAME.test(name))
+      const [, failures] = try Effect.partition(entries, (name) => {
+        const entryPath = path.join(directory, name)
+        return fileSystem.stat(entryPath)
+          |> Effect.flatMap(%, (info) =>
+            Option.exists(info.mtime, (mtime) => mtime.getTime() < cutoff)
+              ? fileSystem.remove(entryPath)
+              : Effect.void)
+          |> Effect.catchReason(%, "PlatformError", "NotFound", () => Effect.void)
+      })
+      if (failures.length > 0) {
+        try Effect.logWarning("Failed to prune some PR cache files", {
+          failed: failures.length,
+          cause: failures[0],
+        })
+      }
+    },
+    "PullRequestReadCache.pruneExpiredEntryFiles",
+  )
+
+export const layer = Layer.unwrap(
+  effect {
+    const config = try ServerConfig.ServerConfig
+    const path = try Path.Path
+    const directory = path.join(config.providerStatusCacheDir, "pull-requests")
+    return Layer.effect(PullRequestReadCache, make).pipe(
+      Layer.provide(
+        // Memoize cleanup acquisition with the store; Layer.tap runs per consumer.
+        Layer.effectDiscard(
+          forkParked(
+            (() => {
+              const pipe$program = pruneExpiredEntryFiles(directory)
+              const pipe$stage0 = Effect.catch((cause) =>
+                Effect.logWarning("Failed to prune PR cache files", { cause })
+              )
+              const pipe$stage1 = Effect.repeat(Schedule.spaced(Duration.hours(1)))
+              return pipe$program |> pipe$stage0(%) |> pipe$stage1(%)
+            })(),
+          ),
+        ).pipe(
+          Layer.provideMerge(KeyValueStore.layerFileSystem(directory)),
+          Layer.catch(() =>
+            Layer.effectDiscard(
+              Effect.logWarning("PR cache directory unavailable; using memory cache"),
+            ).pipe(Layer.provideMerge(KeyValueStore.layerMemory))
+          ),
+        ),
+      ),
+    )
+  },
+)

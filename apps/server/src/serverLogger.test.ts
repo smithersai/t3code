@@ -19,14 +19,14 @@ import * as TestConsole from "effect/testing/TestConsole";
 import { DEFAULT_SIGNAL_EXPORT } from "@t3tools/shared/observability";
 import * as OtelEnvironment from "@t3tools/shared/otelEnvironment";
 
-import * as ServerConfig from "./config.ts";
-import * as ExternalLauncher from "./process/externalLauncher.ts";
-import * as ServerLogger from "./serverLogger.ts";
+import * as ServerConfig from "./config.vibe";
+import * as ExternalLauncher from "./process/externalLauncher.vibe";
+import * as ServerLogger from "./serverLogger.vibe";
 import {
   announceStartupPairingUrl,
   logBrowserAutoOpenUnavailable,
   maybeOpenBrowser,
-} from "./serverRuntimeStartup.ts";
+} from "./serverRuntimeStartup.vibe";
 
 interface ExportedRequest {
   readonly url: string;

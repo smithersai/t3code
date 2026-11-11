@@ -10,8 +10,8 @@ import * as Path from "effect/Path";
 import * as PlatformError from "effect/PlatformError";
 import * as TestClock from "effect/testing/TestClock";
 
-import { writeFileStringAtomically } from "./atomicWrite.ts";
-import * as HostProcess from "./HostProcess.ts";
+import { writeFileStringAtomically } from "./atomicWrite.vibe";
+import * as HostProcess from "./HostProcess.vibe";
 
 it.layer(NodeServices.layer)("writeFileStringAtomically", (it) => {
   it.effect("keeps a symlinked file linked and rewrites its destination", () =>

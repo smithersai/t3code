@@ -85,7 +85,11 @@ export const EMPTY_TERMINAL_SESSION_STATE = Object.freeze<TerminalSessionState>(
 
 let terminalAttachGeneration = 0;
 
-/** A reinstalled attach stream must not reuse an old renderer's output cursor. */
+/**
+ * A reinstalled attach stream must not reuse an old renderer's output cursor.
+ *
+ * @throws {never}
+ */
 export function nextTerminalAttachSeedState(): TerminalBufferState {
   return {
     ...EMPTY_TERMINAL_BUFFER_STATE,
@@ -133,6 +137,7 @@ export function combineTerminalSessionState(
   };
 }
 
+/** @throws {never} */
 export function applyTerminalAttachStreamEvent(
   current: TerminalBufferState,
   event: TerminalAttachStreamEvent,
@@ -191,6 +196,7 @@ export function applyTerminalAttachStreamEvent(
   }
 }
 
+/** @throws {never} */
 export function applyTerminalMetadataStreamEvent(
   current: ReadonlyArray<TerminalSummary>,
   event: TerminalMetadataStreamEvent,

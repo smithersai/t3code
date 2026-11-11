@@ -1,0 +1,20 @@
+import * as Schema from "effect/Schema"
+
+const ProviderInstanceNotFoundErrorCauseField = Schema.Defect()
+export schema error ProviderInstanceNotFoundError {
+  instanceId: string
+  cause?: ProviderInstanceNotFoundErrorCauseField
+  override get message(): string {
+    return `No provider instance bound to id '${this.instanceId}'`
+  }
+}
+
+export { ProviderDriverError } from "@t3tools/provider-core/server/errors"
+
+export schema error ProviderWorkspaceMissingError {
+  threadId: string
+  cwd: string
+  override get message(): string {
+    return `This thread's workspace folder no longer exists or is not a directory: ${this.cwd}. Restore the folder at this path before retrying.`
+  }
+}

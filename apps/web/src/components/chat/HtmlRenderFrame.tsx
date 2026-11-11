@@ -8,8 +8,8 @@ import {
 import { Maximize2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { useAssetUrlRefresh } from "~/assets/assetUrls";
-import { useLongLivedAssetUrl } from "~/assets/longLivedAssetUrls";
+import { useAssetUrlRefresh } from "../../assets/assetUrls.vibe";
+import { useLongLivedAssetUrl } from "../../assets/longLivedAssetUrls.vibe";
 
 import { HtmlRenderDocument } from "../files/BrowserDocumentFrame";
 import { Button } from "../ui/button";

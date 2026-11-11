@@ -6,5 +6,5 @@ export {
   museWorkspaceRoot,
   type MuseSdkHost,
   type MuseSdkHostOptions,
-} from "./server/sdk.ts";
-export { parseMuseVersion } from "./server/maintenance.ts";
+} from "./server/sdk.vibe";
+export { parseMuseVersion } from "./server/maintenance.vibe";

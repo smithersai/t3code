@@ -1,4 +1,4 @@
-import type { WorkspaceSelections } from "../../persistence/mobile-preferences";
+import type { WorkspaceSelections } from "../../persistence/mobile-preferences.vibe";
 import {
   SETTINGS_PAGE_TARGETS,
   type SettingsPageTarget,

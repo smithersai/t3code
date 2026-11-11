@@ -41,7 +41,7 @@ import {
   type LegendListRef,
   type MaintainScrollAtEndOptions,
 } from "@legendapp/list/react";
-import { type TimelineEntry } from "../../session-logic";
+import { type TimelineEntry } from "../../session-logic.vibe";
 import type { CodexArtifactTemplate } from "@t3tools/shared/codexArtifactTemplates";
 import { type ChatFileAttachment, type TurnDiffSummary } from "../../types";
 import { ArrowRightIcon, BotIcon, CircleAlertIcon, Minimize2Icon } from "lucide-react";
@@ -59,7 +59,7 @@ import { AssistantSelectionToolbar } from "./AssistantSelectionToolbar";
 import type { AssistantCitationSourceAnchor } from "~/lib/assistantTextSelection";
 import { type AssistantCitationRequest } from "./AssistantCitationSource";
 import { useAssistantCitationTarget } from "./useAssistantCitationTarget";
-import { resolveCitationPhase, type CitedHistory } from "./citationProcedure";
+import { resolveCitationPhase, type CitedHistory } from "./citationProcedure.vibe";
 import {
   resolveTimelineIsAtEnd,
   resolveTimelineMinimapHasPersistentGutter,
@@ -71,7 +71,7 @@ import {
   worktreeSetupAgentStarted,
   type MessagesTimelineRow,
   type TimelineLatestRun,
-} from "./MessagesTimeline.logic";
+} from "./MessagesTimeline.logic.vibe";
 import { type ThreadFindMatch } from "./threadFind";
 import { useThreadFindNavigation } from "./useThreadFindNavigation";
 import { TooltipScrollDismissArea } from "../ui/tooltip";
@@ -80,7 +80,7 @@ import { useOpenPrLink } from "~/lib/openPullRequestLink";
 import { useMediaQuery } from "~/hooks/useMediaQuery";
 import { cn } from "~/lib/utils";
 import { type TimestampFormat } from "@t3tools/contracts/settings";
-import { type HandoffTimelineRun } from "./V2LifecycleRow";
+import { type HandoffTimelineRun } from "./V2LifecycleRow.vibex";
 import { TimelineSystemDivider } from "./TimelineSystemDivider";
 
 import { forwardWheelToTimeline } from "./timelineMinimapWheel";
@@ -92,7 +92,7 @@ import {
   TimelineRowActivityCtx,
   type WorkGroupViewState,
   type TimelineRow,
-} from "./timelineRowContext";
+} from "./timelineRowContext.vibe";
 import { TimelineRowTimestamp, ActivityShimmerOverlay } from "./TimelineRowParts";
 import {
   WorkGroupSection,
@@ -109,7 +109,7 @@ import {
   HtmlRenderTimelineRow,
   McpAppTimelineRow,
 } from "./TimelineAssistantRows";
-import { V2EventTimelineRow } from "./TimelineV2EventRow";
+import { V2EventTimelineRow } from "./TimelineV2EventRow.vibex";
 import { startTimelinePositionRestore } from "./useTimelinePositionRestore";
 import {
   attachTimelineViewport,

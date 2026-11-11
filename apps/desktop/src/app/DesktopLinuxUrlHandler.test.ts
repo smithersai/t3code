@@ -11,9 +11,9 @@ import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
-import * as DesktopAssets from "./DesktopAssets.ts";
-import * as DesktopLinuxUrlHandler from "./DesktopLinuxUrlHandler.ts";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
+import * as DesktopAssets from "./DesktopAssets.vibe";
+import * as DesktopLinuxUrlHandler from "./DesktopLinuxUrlHandler.vibe";
 
 interface RecordedRegistration {
   readonly directories: string[];

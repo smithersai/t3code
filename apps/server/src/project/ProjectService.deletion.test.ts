@@ -16,24 +16,24 @@ import * as Schema from "effect/Schema";
 import { TestClock } from "effect/testing";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as ServerConfig from "../config.ts";
-import { OrchestrationEffectRequestV2 } from "../orchestration-v2/EffectOutbox.ts";
-import * as EventSink from "../orchestration-v2/EventSink.ts";
-import * as EventStore from "../orchestration-v2/EventStore.ts";
+import * as ServerConfig from "../config.vibe";
+import { OrchestrationEffectRequestV2 } from "../orchestration-v2/EffectOutbox.vibe";
+import * as EventSink from "../orchestration-v2/EventSink.vibe";
+import * as EventStore from "../orchestration-v2/EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.ts";
-import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.ts";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
-import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
-import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.ts";
-import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
-import * as ProjectEnrichmentService from "./ProjectEnrichmentService.ts";
-import * as ProjectFaviconResolver from "./ProjectFaviconResolver.ts";
-import * as ProjectService from "./ProjectService.ts";
-import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.ts";
+import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.vibe";
+import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.vibe";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
+import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe";
+import * as ThreadCommandExecutor from "../orchestration-v2/ThreadCommandExecutor.vibe";
+import { planThreadDeletion } from "../orchestration-v2/ThreadDeletion.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
+import * as ProjectEnrichmentService from "./ProjectEnrichmentService.vibe";
+import * as ProjectFaviconResolver from "./ProjectFaviconResolver.vibe";
+import * as ProjectService from "./ProjectService.vibe";
+import * as RepositoryIdentityResolver from "./RepositoryIdentityResolver.vibe";
 
 const layerEventPersistence = EventSink.layer.pipe(
   Layer.provideMerge(Layer.merge(EventStore.layer, ProjectionStore.layer)),

@@ -8,9 +8,10 @@ import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as ServerConfig from "../config.ts";
-import { pruneExpiredReplayMarkers, REPLAY_MARKER_MAX_AGE } from "./replayMarkers.ts";
-import * as ServerSecretStore from "./ServerSecretStore.ts";
+import * as ServerConfig from "../config.vibe";
+import { pruneExpiredReplayMarkers, REPLAY_MARKER_MAX_AGE } from "./replayMarkers.vibe";
+import * as ServerSecretStore from "./ServerSecretStore.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const REAL_SECRET_NAMES = [
   "server-signing-key",
@@ -33,7 +34,7 @@ const REAL_SECRET_NAMES = [
   "usage-limit-source-aHVi",
 ];
 
-it.layer(NodeServices.layer)("replayMarkers", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("replayMarkers", (it) => {
   it.effect("prunes only replay markers older than the max age", () =>
     Effect.gen(function* () {
       const secretStore = yield* ServerSecretStore.ServerSecretStore;

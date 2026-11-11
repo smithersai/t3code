@@ -1,6 +1,6 @@
 import { assert, it } from "@effect/vitest";
 
-import { applyPreferredCodexDefaultModel, mapCodexModelCapabilities } from "./CodexProvider.ts";
+import { applyPreferredCodexDefaultModel, mapCodexModelCapabilities } from "./CodexProvider.vibe";
 
 it("maps current Codex model capability fields", () => {
   const capabilities = mapCodexModelCapabilities({

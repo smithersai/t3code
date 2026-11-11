@@ -1,0 +1,64 @@
+import { ManagedRelay } from "@t3tools/client-runtime/relay"
+import { RelayMobileClientId } from "@t3tools/contracts/relay"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Layer from "effect/Layer"
+
+import { createDpopProof, loadOrCreateDpopProofKeyPair } from "./dpop"
+import { managedRelayAccessTokenStore } from "./managedRelayTokenStore.vibe"
+
+const layerRelayDpopSigner = Layer.effect(
+  ManagedRelay.ManagedRelayDpopSigner,
+  effect {
+    const crypto = try Crypto.Crypto
+    const proofKeyCache = try Cache.makeWith(
+      () => loadOrCreateDpopProofKeyPair() |> Effect.provideService(%, Crypto.Crypto, crypto),
+      {
+        capacity: 1,
+        timeToLive: (exit) => (Exit.isSuccess(exit) ? Duration.infinity : Duration.zero),
+      },
+    )
+    const loadProofKey = Cache.get(proofKeyCache, undefined)
+    return ManagedRelay.ManagedRelayDpopSigner.of({
+      thumbprint: loadProofKey
+        |> Effect.map(%, (proofKey) => proofKey.thumbprint)
+        |> Effect.mapError(
+          %,
+          (error) =>
+            new ManagedRelay.ManagedRelayDpopKeyLoadError({
+              keyStore: "expo-secure-store",
+              cause: error,
+            }),
+        )
+        |> withSpan(%, "mobile.managedRelayDpopSigner.loadThumbprint"),
+      createProof: effect (input): string!ManagedRelay.ManagedRelayDpopProofCreationError =>
+        try withSpan(
+          (effect (): string!ManagedRelay.ManagedRelayDpopProofCreationError => {
+            const proofKey = loadProofKey catch effect (error) => {
+              throw new ManagedRelay.ManagedRelayDpopProofCreationError({
+                method: input.method,
+                url: input.url,
+                cause: error,
+              })
+            }
+            return (createDpopProof({ ...input, proofKey })
+              |> Effect.provideService(%, Crypto.Crypto, crypto)
+              |> Effect.map(%, (proof) => proof.proof)) catch effect (error) => {
+                throw new ManagedRelay.ManagedRelayDpopProofCreationError({
+                  method: input.method,
+                  url: input.url,
+                  cause: error,
+                })
+              }
+          })(),
+          "mobile.managedRelayDpopSigner.createProof",
+        ),
+    })
+  },
+)
+
+export const layer = (relayUrl: string) =>
+  ManagedRelay.layer({
+    relayUrl,
+    clientId: RelayMobileClientId,
+    accessTokenStore: managedRelayAccessTokenStore,
+  }).pipe(Layer.provideMerge(layerRelayDpopSigner))

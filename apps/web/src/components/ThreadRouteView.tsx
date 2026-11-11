@@ -8,14 +8,14 @@ import { SidebarInset } from "./ui/sidebar";
 import { useComposerDraftStore } from "../composerDraftStore";
 import { useSidebarPendingFileDropStore } from "../sidebarPendingFileDropStore";
 import { useEnvironmentThreadRefs, useQuietThreadShell } from "../state/entities";
-import { useEnvironmentShellStatus } from "../state/shell";
+import { useEnvironmentShellStatus } from "../state/shell.vibe";
 import { useEnvironmentThread } from "../state/threads";
 import {
   buildThreadRouteParams,
   isThreadRouteSnapshotAuthoritative,
   resolveThreadRouteRenderState,
   type ThreadRouteTarget,
-} from "../threadRoutes";
+} from "../threadRoutes.vibe";
 
 /**
  * Unkeyed so navigating between server threads reuses one ChatView. Rendered by the `_chat`

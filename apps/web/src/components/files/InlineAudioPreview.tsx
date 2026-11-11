@@ -1,7 +1,7 @@
 import type { AssetResource, EnvironmentId } from "@t3tools/contracts";
 import { useEffect, useRef, useState } from "react";
 
-import { useAssetUrlState } from "~/assets/assetUrls";
+import { useAssetUrlState } from "../../assets/assetUrls.vibe";
 
 import { AudioPreview } from "./AudioPreview";
 

@@ -6,14 +6,14 @@ import * as Layer from "effect/Layer";
 import * as SqlClient from "effect/sql/SqlClient";
 import { ProjectId } from "@t3tools/contracts";
 
-import * as ServerConfig from "../config.ts";
-import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
-import * as KnownWorkspaces from "../workspace/KnownWorkspaces.ts";
-import * as ReviewService from "./ReviewService.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
+import * as KnownWorkspaces from "../workspace/KnownWorkspaces.vibe";
+import * as ReviewService from "./ReviewService.vibe";
 
 function layer(input: {
   readonly workspaceRoot: string;

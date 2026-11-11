@@ -1,9 +1,9 @@
-import { requestGuarded, runStreamGuarded } from "../rpc/client.ts";
-import { EnvironmentSupervisor } from "../connection/supervisor.ts";
+import { requestGuarded, runStreamGuarded } from "../rpc/client.vibe";
+import { EnvironmentSupervisor } from "../connection/supervisor.vibe";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
-import type { RpcSession } from "../rpc/session.ts";
+import type { RpcSession } from "../rpc/session.vibe";
 import { describe, expect, it } from "@effect/vitest";
 import { vi } from "vite-plus/test";
 import {
@@ -27,13 +27,13 @@ import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as Layer from "effect/Layer";
 import { Atom, AtomRegistry, AsyncResult } from "effect/reactivity";
-import { EnvironmentRegistry } from "../connection/registry.ts";
-import { createCommandPermissions } from "./commandPermissions.ts";
-import { createEnvironmentRpcCommand } from "./runtime.ts";
-import { AVAILABLE_CONNECTION_STATE } from "../connection/model.ts";
-import { createPeerLinkEnvironmentAtoms } from "./peerLinks.ts";
+import { EnvironmentRegistry } from "../connection/registry.vibe";
+import { createCommandPermissions } from "./commandPermissions.vibe";
+import { createEnvironmentRpcCommand } from "./runtime.vibe";
+import { AVAILABLE_CONNECTION_STATE } from "../connection/model.vibe";
+import { createPeerLinkEnvironmentAtoms } from "./peerLinks.vibe";
 
-vi.mock("./session.ts", () => ({
+vi.mock("./session.vibe", () => ({
   createEnvironmentSessionAtoms: () => ({ sessionStateAtom: sessions }),
 }));
 const sessions = Atom.family((_id: EnvironmentId) =>

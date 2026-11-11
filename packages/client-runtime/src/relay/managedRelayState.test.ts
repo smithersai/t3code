@@ -11,7 +11,7 @@ import * as Logger from "effect/Logger";
 import { Atom, AtomRegistry } from "effect/reactivity";
 import { afterEach, vi } from "vite-plus/test";
 
-import * as ManagedRelay from "./managedRelay.ts";
+import * as ManagedRelay from "./managedRelay.vibe";
 import {
   createManagedRelayQueryManager,
   createManagedRelaySession,
@@ -19,7 +19,7 @@ import {
   ManagedRelaySessionError,
   managedRelaySessionAtom,
   setManagedRelaySession,
-} from "./managedRelayState.ts";
+} from "./managedRelayState.vibe";
 
 let registry = AtomRegistry.make();
 

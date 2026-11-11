@@ -27,14 +27,15 @@ import * as Stream from "effect/Stream";
 import * as SynchronizedRef from "effect/SynchronizedRef";
 import { expect, vi } from "vite-plus/test";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as ServerConfig from "../config.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ProcessRunner from "../processRunner.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as TerminalManager from "./Manager.ts";
-import { terminalOutputStream } from "./OutputProtocol.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as ProcessRunner from "../processRunner.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as TerminalManager from "./Manager.vibe";
+import { terminalOutputStream } from "./OutputProtocol.vibe";
 import * as PtyAdapter from "@t3tools/shared/PtyAdapter";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("effect/SynchronizedRef", async (importOriginal) => {
   const original = await importOriginal<typeof SynchronizedRef>();
@@ -412,7 +413,10 @@ it("bounds long partial lines and joins surrogate pairs across chunk boundaries"
 });
 
 it.layer(
-  Layer.merge(NodeServices.layer, ProcessRunner.layer.pipe(Layer.provide(NodeServices.layer))),
+  Layer.merge(
+    Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+    ProcessRunner.layer.pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
+  ),
   { excludeTestServices: true },
 )("TerminalManager", (it) => {
   it.effect("spawns lazily and reuses running terminal per thread", () =>

@@ -11,10 +11,10 @@ import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
+import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
 import { acpSelectionTransition } from "@t3tools/provider-core/server/selectionTransition";
-import * as ProviderSwitch from "./ProviderSwitchService.ts";
+import * as ProviderSwitch from "./ProviderSwitchService.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 
 const driver = ProviderDriverKind.make("codex");

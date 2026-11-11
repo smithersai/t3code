@@ -33,7 +33,7 @@ vi.mock("electron", () => ({
   },
 }));
 
-import { captureLinuxWindow, getLinuxCaptureSupport, readPortalPng } from "./LinuxSnapShot.ts";
+import { captureLinuxWindow, getLinuxCaptureSupport, readPortalPng } from "./LinuxSnapShot.vibe";
 
 const png = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10, 0]);
 const appId = "com.t3tools.T3Code";

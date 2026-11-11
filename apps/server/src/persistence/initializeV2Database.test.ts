@@ -12,14 +12,14 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as ServerConfig from "../config.ts";
-import * as SqlitePersistence from "./Sqlite.ts";
-import { runMigrations } from "./Migrations.ts";
-import { initializeV2Database } from "./initializeV2Database.ts";
-import * as EventStore from "../orchestration-v2/EventStore.ts";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
-import * as EventSink from "../orchestration-v2/EventSink.ts";
-import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.ts";
+import * as ServerConfig from "../config.vibe";
+import * as SqlitePersistence from "./Sqlite.vibe";
+import { runMigrations } from "./Migrations.vibe";
+import { initializeV2Database } from "./initializeV2Database.vibe";
+import * as EventStore from "../orchestration-v2/EventStore.vibe";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
+import * as EventSink from "../orchestration-v2/EventSink.vibe";
+import * as LegacyV1ThreadImporter from "../orchestration-v2/legacy/LegacyV1ThreadImporter.vibe";
 
 it.effect(
   "snapshots V1, imports transcripts lazily, and preserves both databases across switches",

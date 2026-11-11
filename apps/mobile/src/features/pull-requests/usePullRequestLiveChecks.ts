@@ -4,11 +4,11 @@ import {
   resolvePullRequestDetailChecks,
 } from "@t3tools/client-runtime/pull-request-checks";
 import type { PullRequestDetail } from "@t3tools/contracts";
-import { useEnvironmentServerConfig } from "../../state/entities";
-import { composerPullRequests } from "../../state/pull-requests";
-import { useEnvironmentQuery } from "../../state/query";
+import { useEnvironmentServerConfig } from "../../state/entities.vibe";
+import { composerPullRequests } from "../../state/pull-requests.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { usePullRequestConnected } from "./usePullRequestConnected";
-import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff";
+import { pullRequestTarget, type PullRequestParams } from "./usePullRequestDiff.vibe";
 
 /**
  * Re-reads only the checks while an open change request is on screen, so a running CI shows up

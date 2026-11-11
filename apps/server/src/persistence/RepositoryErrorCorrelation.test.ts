@@ -5,11 +5,11 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as AuthPairingLinks from "./AuthPairingLinks.ts";
-import * as AuthSessions from "./AuthSessions.ts";
-import * as PersistenceErrors from "./Errors.ts";
-import * as SqlitePersistence from "./Sqlite.ts";
-import * as ProviderSessionRuntime from "./ProviderSessionRuntime.ts";
+import * as AuthPairingLinks from "./AuthPairingLinks.vibe";
+import * as AuthSessions from "./AuthSessions.vibe";
+import * as PersistenceErrors from "./Errors.vibe";
+import * as SqlitePersistence from "./Sqlite.vibe";
+import * as ProviderSessionRuntime from "./ProviderSessionRuntime.vibe";
 
 const issuedAt = DateTime.makeUnsafe("2026-06-20T00:00:00.000Z");
 const expiresAt = DateTime.makeUnsafe("2027-06-20T00:00:00.000Z");

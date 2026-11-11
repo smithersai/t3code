@@ -1,4 +1,4 @@
-import { loadPreferences, updatePreferences } from "../../persistence/imperative";
+import { loadPreferences, updatePreferences } from "../../persistence/imperative.vibe";
 
 // Lives apart from connectOnboarding.ts so cloudAccountService.ts (which
 // imports the request signal) never pulls the persistence adapter into its

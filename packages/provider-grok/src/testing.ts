@@ -5,25 +5,28 @@ export {
   makeGrokAcpAdapterFlavor,
   makeGrokAdapterV2,
   type GrokAdapterV2Options,
-} from "./server/adapter.ts";
+} from "#vibelang/emitted/src/server/adapter";
 export {
   GROK_ACP_CANCEL_META,
   GROK_ACP_INITIALIZE_META,
   makeGrokAcpRuntime,
-} from "./server/acpSupport.ts";
+} from "#vibelang/emitted/src/server/acpSupport";
 export {
   buildGrokModelCapabilities,
   buildInitialGrokProviderSnapshot,
   checkGrokProviderStatus,
   grokSlashCommandsFromInitialize,
   parseGrokModelsCliOutput,
-} from "./server/status.ts";
-export { makeGrokTextGeneration } from "./server/textGeneration.ts";
-export { grokUsageResponseToLimits, readGrokAccount } from "./server/usageLimits.ts";
+} from "#vibelang/emitted/src/server/status";
+export { makeGrokTextGeneration } from "#vibelang/emitted/src/server/textGeneration";
+export {
+  grokUsageResponseToLimits,
+  readGrokAccount,
+} from "#vibelang/emitted/src/server/usageLimits";
 export {
   extractXAiAcpSubagentUpdate,
   makeXAiPromptCompletionRuntime,
   normalizeXAiAcpToolCallState,
   registerXAiBackgroundTaskTracking,
   xAiRateLimitedErrorCode,
-} from "./server/xaiAcpExtension.ts";
+} from "#vibelang/emitted/src/server/xaiAcpExtension";

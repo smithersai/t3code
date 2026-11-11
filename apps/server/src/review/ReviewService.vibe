@@ -1,0 +1,152 @@
+import * as Context from "effect/Context"
+import * as DateTime from "effect/DateTime"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Layer from "effect/Layer"
+import * as Path from "effect/Path"
+
+import {
+  VcsRepositoryDetectionError,
+  VcsUnsupportedOperationError,
+  type ReviewDiffFileContentsInput,
+  type ReviewDiffFileContentsResult,
+  type ReviewDiffPreviewError,
+  type ReviewDiffPreviewInput,
+  type ReviewDiffPreviewResult,
+} from "@t3tools/contracts"
+
+import * as ServerConfig from "../config.vibe"
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe"
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe"
+import * as KnownWorkspaces from "../workspace/KnownWorkspaces.vibe"
+
+export service ReviewService: {
+  readonly getDiffPreview: (
+    input: ReviewDiffPreviewInput,
+  ) => ReviewDiffPreviewResult!ReviewDiffPreviewError;
+  readonly getDiffFileContents: (
+    input: ReviewDiffFileContentsInput,
+  ) => ReviewDiffFileContentsResult!ReviewDiffPreviewError;
+} {
+  static readonly key = "t3/review/ReviewService"
+}
+
+/** @public */
+export const make = effect {
+  const config = try ServerConfig.ServerConfig
+  const fileSystem = try FileSystem.FileSystem
+  const path = try Path.Path
+  const vcsRegistry = try VcsDriverRegistry.VcsDriverRegistry
+  const git = try GitVcsDriver.GitVcsDriver
+  const knownWorkspaces = try KnownWorkspaces.KnownWorkspaces
+
+  const canonicalizePath = (value: string) => {
+    const resolvedPath = path.resolve(value)
+    return do {
+      const catchProgram = fileSystem.realPath(resolvedPath)
+      effect {
+        return catchProgram catch effect (cause) => match (cause) {
+          when { _tag: "PlatformError" }: try (cause.reason._tag === "NotFound"
+            ? Effect.succeed(resolvedPath)
+            : Effect.fail(
+              new VcsRepositoryDetectionError({
+                operation: "ReviewService.assertWorkspaceBoundCwd.canonicalizePath",
+                cwd: resolvedPath,
+                detail: "Failed to resolve a path while validating the review workspace.",
+                cause,
+              }),
+            ));
+        }
+      }
+    }
+  }
+
+  const assertWorkspaceBoundCwd = effect (
+    operation: "ReviewService.getDiffFileContents" | "ReviewService.getDiffPreview",
+    cwd: string,
+  ) =>
+    try withSpan(
+      effect {
+        const [candidate, workspaceRoot] = try Effect.all([
+          canonicalizePath(cwd),
+          canonicalizePath(config.cwd),
+        ])
+        if (
+          KnownWorkspaces.isWithinRoot(path, candidate, workspaceRoot)
+          || (try knownWorkspaces.contains(candidate))
+        ) {
+          return
+        }
+
+        throw new VcsRepositoryDetectionError({
+          operation,
+          cwd,
+          detail: operation === "ReviewService.getDiffPreview"
+            ? "Review diff preview cwd must stay within the configured workspace root."
+            : "Review diff file contents cwd must stay within the configured workspace root.",
+        })
+      },
+      "ReviewService.assertWorkspaceBoundCwd",
+    )
+
+  const getDiffPreview: ReviewService["Service"]["getDiffPreview"] = effect (
+    input,
+  ): { readonly cwd: string; readonly generatedAt: DateTime.Utc; readonly sources: readonly { readonly id: string; readonly kind: "branch-range" | "working-tree"; readonly title: string; readonly baseRef: string | null; readonly headRef: string | null; readonly diff: string; readonly diffHash: string; readonly truncated: boolean; readonly files?: readonly { readonly path: string; readonly previousPath: string | null; readonly additions: number; readonly deletions: number; }[]; }[]; }!(import("@t3tools/contracts").GitCommandError | import("@t3tools/contracts").VcsProcessExitError | import("@t3tools/contracts").VcsProcessMissingExitCodeError | import("@t3tools/contracts").VcsProcessOutputLimitError | import("@t3tools/contracts").VcsProcessOutputReadError | import("@t3tools/contracts").VcsProcessSpawnError | import("@t3tools/contracts").VcsProcessStdinWriteError | import("@t3tools/contracts").VcsProcessTimeoutError | VcsRepositoryDetectionError | VcsUnsupportedOperationError)!never =>
+    try withSpan(
+      (effect (): { readonly cwd: string; readonly generatedAt: DateTime.Utc; readonly sources: readonly { readonly id: string; readonly kind: "branch-range" | "working-tree"; readonly title: string; readonly baseRef: string | null; readonly headRef: string | null; readonly diff: string; readonly diffHash: string; readonly truncated: boolean; readonly files?: readonly { readonly path: string; readonly previousPath: string | null; readonly additions: number; readonly deletions: number; }[]; }[]; }!(import("@t3tools/contracts").GitCommandError | import("@t3tools/contracts").VcsProcessExitError | import("@t3tools/contracts").VcsProcessMissingExitCodeError | import("@t3tools/contracts").VcsProcessOutputLimitError | import("@t3tools/contracts").VcsProcessOutputReadError | import("@t3tools/contracts").VcsProcessSpawnError | import("@t3tools/contracts").VcsProcessStdinWriteError | import("@t3tools/contracts").VcsProcessTimeoutError | VcsRepositoryDetectionError | VcsUnsupportedOperationError)!never => {
+        try assertWorkspaceBoundCwd("ReviewService.getDiffPreview", input.cwd)
+
+        const handle = try vcsRegistry.detect({ cwd: input.cwd, requestedKind: "auto" })
+        if (!handle) {
+          return {
+            cwd: input.cwd,
+            generatedAt: try DateTime.now,
+            sources: [],
+          }
+        }
+
+        const getDriverDiffPreview = handle.driver.getDiffPreview
+        if (!getDriverDiffPreview) {
+          if (handle.kind === "git") {
+            return try git.getReviewDiffPreview(input)
+          }
+          throw new VcsUnsupportedOperationError({
+            operation: "ReviewService.getDiffPreview",
+            kind: handle.kind,
+            detail: `The ${handle.kind} VCS driver does not support review diff previews.`,
+          })
+        }
+
+        return try getDriverDiffPreview(input)
+      })(),
+      "ReviewService.getDiffPreview",
+    )
+
+  const getDiffFileContents: ReviewService["Service"]["getDiffFileContents"] = effect (
+    input,
+  ): { readonly oldContents: string; readonly newContents: string; }!(import("@t3tools/contracts").GitCommandError | import("@t3tools/contracts").VcsProcessExitError | import("@t3tools/contracts").VcsProcessMissingExitCodeError | import("@t3tools/contracts").VcsProcessOutputLimitError | import("@t3tools/contracts").VcsProcessOutputReadError | import("@t3tools/contracts").VcsProcessSpawnError | import("@t3tools/contracts").VcsProcessStdinWriteError | import("@t3tools/contracts").VcsProcessTimeoutError | VcsRepositoryDetectionError | VcsUnsupportedOperationError)!never =>
+    try withSpan(
+      (effect (): { readonly oldContents: string; readonly newContents: string; }!(import("@t3tools/contracts").GitCommandError | import("@t3tools/contracts").VcsProcessExitError | import("@t3tools/contracts").VcsProcessMissingExitCodeError | import("@t3tools/contracts").VcsProcessOutputLimitError | import("@t3tools/contracts").VcsProcessOutputReadError | import("@t3tools/contracts").VcsProcessSpawnError | import("@t3tools/contracts").VcsProcessStdinWriteError | import("@t3tools/contracts").VcsProcessTimeoutError | VcsRepositoryDetectionError | VcsUnsupportedOperationError)!never => {
+        try assertWorkspaceBoundCwd("ReviewService.getDiffFileContents", input.cwd)
+
+        const handle = try vcsRegistry.detect({ cwd: input.cwd, requestedKind: "auto" })
+        if (handle?.kind !== "git") {
+          throw new VcsUnsupportedOperationError({
+            operation: "ReviewService.getDiffFileContents",
+            kind: handle?.kind ?? "unknown",
+            detail: "Unchanged diff expansion currently requires a Git repository.",
+          })
+        }
+
+        return try git.getReviewDiffFileContents(input)
+      })(),
+      "ReviewService.getDiffFileContents",
+    )
+
+  return ReviewService.of({
+    getDiffPreview,
+    getDiffFileContents,
+  })
+}
+
+export const layer = Layer.effect(ReviewService, make)

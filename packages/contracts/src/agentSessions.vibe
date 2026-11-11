@@ -1,0 +1,79 @@
+import * as Schema from "effect/Schema"
+import { IsoDateTime, NonNegativeInt, ProjectId, TrimmedNonEmptyString } from "./baseSchemas.vibe"
+import { ProviderInstanceId } from "./providerInstance.vibe"
+
+export schema AgentSessionSource = "claudeAgent" | "codex"
+
+export const AgentSessionImportSource = Schema.Struct({
+  provider: AgentSessionSource,
+  providerInstanceId: ProviderInstanceId,
+  providerSessionId: TrimmedNonEmptyString,
+  filePath: TrimmedNonEmptyString,
+  size: NonNegativeInt,
+  mtimeMs: Schema.NullOr(Schema.Number),
+  device: Schema.Number,
+  // A decimal string keeps file IDs above 2^53 (common on NTFS) exact. Older
+  // records stored a number.
+  inode: Schema.NullOr(Schema.Union([Schema.String, Schema.Number])),
+  birthtimeMs: Schema.NullOr(Schema.Number),
+})
+export type AgentSessionImportSource = typeof AgentSessionImportSource.Type
+
+export schema AgentSessionScanInput {}
+
+export const AgentSessionProjectGit = Schema.Struct({
+  remoteKey: Schema.NullOr(Schema.String),
+  repository: Schema.NullOr(Schema.String),
+})
+export type AgentSessionProjectGit = typeof AgentSessionProjectGit.Type
+
+export const AgentSessionProjectCandidate = Schema.Struct({
+  path: TrimmedNonEmptyString,
+  title: TrimmedNonEmptyString,
+  projectId: Schema.optional(ProjectId),
+  sources: Schema.Array(AgentSessionSource),
+  threadCount: NonNegativeInt,
+  lastActiveAt: Schema.NullOr(IsoDateTime),
+  alreadyImported: Schema.Boolean,
+  git: Schema.optionalKey(Schema.NullOr(AgentSessionProjectGit)),
+})
+export type AgentSessionProjectCandidate = typeof AgentSessionProjectCandidate.Type
+
+export schema AgentSessionScanResult {
+  readonly candidates: ReadonlyArray<AgentSessionProjectCandidate>
+  readonly scannedAt: IsoDateTime
+  readonly truncated?: boolean | undefined
+}
+
+export schema AgentSessionImportInput {
+  readonly projectId: ProjectId
+  readonly expectedWorkspaceRoot?: TrimmedNonEmptyString | undefined
+}
+
+export schema error AgentSessionImportProjectNotFoundError {
+  readonly projectId: ProjectId
+  override get message(): string {
+    return `Project '${this.projectId}' does not exist.`
+  }
+}
+
+export schema error AgentSessionImportProjectChangedError {
+  readonly projectId: ProjectId
+  override get message(): string {
+    return `Project '${this.projectId}' changed directories. Scan for projects again before importing history.`
+  }
+}
+
+export schema AgentSessionImportResult {
+  readonly importedCount: NonNegativeInt
+  readonly skippedCount: NonNegativeInt
+}
+
+const AgentSessionScanErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error AgentSessionScanError {
+  readonly operation: "read-settings" | "read-projects"
+  cause: AgentSessionScanErrorCauseField
+  override get message(): string {
+    return `Failed to scan agent sessions during ${this.operation}.`
+  }
+}

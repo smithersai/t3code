@@ -1,4 +1,3 @@
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import { expect, it } from "@effect/vitest";
 import { DEFAULT_SERVER_SETTINGS, EnvironmentId, ProjectId } from "@t3tools/contracts";
 import { DEFAULT_SIGNAL_EXPORT } from "@t3tools/shared/observability";
@@ -11,29 +10,30 @@ import * as Path from "effect/Path";
 import { HttpServer } from "effect/http";
 import * as NetAddress from "effect/net/NetAddress";
 
-import * as EnvironmentAuth from "./auth/EnvironmentAuth.ts";
-import * as ServiceLauncherClient from "./cloud/serviceLauncherClient.ts";
-import * as ServerConfig from "./config.ts";
-import * as ServerEnvironment from "./environment/ServerEnvironment.ts";
-import * as Keybindings from "./keybindings.ts";
-import * as EffectWorker from "./orchestration-v2/EffectWorker.ts";
-import * as LegacyV1ThreadImporter from "./orchestration-v2/legacy/LegacyV1ThreadImporter.ts";
-import * as Orchestrator from "./orchestration-v2/Orchestrator.ts";
-import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
-import * as ProviderRuntimeRecovery from "./orchestration-v2/ProviderRuntimeRecoveryService.ts";
-import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.ts";
-import * as ThreadLaunch from "./orchestration-v2/ThreadLaunchService.ts";
-import * as ThreadManagement from "./orchestration-v2/ThreadManagementService.ts";
-import * as ExternalLauncher from "./process/externalLauncher.ts";
-import * as ProjectService from "./project/ProjectService.ts";
-import * as AgentAwarenessRelay from "./relay/AgentAwarenessRelay.ts";
-import { ServerActivation } from "./serverActivation.ts";
-import * as ServerLifecycleEvents from "./serverLifecycleEvents.ts";
-import * as ServerRuntimeStartup from "./serverRuntimeStartup.ts";
-import * as ServerSettings from "./serverSettings.ts";
-import * as ServerSecretStore from "./auth/ServerSecretStore.ts";
-import * as AnalyticsService from "./telemetry/AnalyticsService.ts";
-import * as GitVcsDriver from "./vcs/GitVcsDriver.ts";
+import * as EnvironmentAuth from "./auth/EnvironmentAuth.vibe";
+import * as ServiceLauncherClient from "./cloud/serviceLauncherClient.vibe";
+import * as ServerConfig from "./config.vibe";
+import * as ServerEnvironment from "./environment/ServerEnvironment.vibe";
+import * as Keybindings from "./keybindings.vibe";
+import * as EffectWorker from "./orchestration-v2/EffectWorker.vibe";
+import * as LegacyV1ThreadImporter from "./orchestration-v2/legacy/LegacyV1ThreadImporter.vibe";
+import * as Orchestrator from "./orchestration-v2/Orchestrator.vibe";
+import * as ProjectStore from "./orchestration-v2/ProjectStore.vibe";
+import * as ProviderRuntimeRecovery from "./orchestration-v2/ProviderRuntimeRecoveryService.vibe";
+import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.vibe";
+import * as ThreadLaunch from "./orchestration-v2/ThreadLaunchService.vibe";
+import * as ThreadManagement from "./orchestration-v2/ThreadManagementService.vibe";
+import * as ExternalLauncher from "./process/externalLauncher.vibe";
+import * as ProjectService from "./project/ProjectService.vibe";
+import * as AgentAwarenessRelay from "./relay/AgentAwarenessRelay.vibe";
+import { ServerActivation } from "./serverActivation.vibe";
+import * as ServerLifecycleEvents from "./serverLifecycleEvents.vibe";
+import * as ServerRuntimeStartup from "./serverRuntimeStartup.vibe";
+import * as ServerSettings from "./serverSettings.vibe";
+import * as ServerSecretStore from "./auth/ServerSecretStore.vibe";
+import * as AnalyticsService from "./telemetry/AnalyticsService.vibe";
+import * as GitVcsDriver from "./vcs/GitVcsDriver.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 it.effect("parks automatic pull until activation without delaying command readiness", () =>
   Effect.scoped(
@@ -168,7 +168,7 @@ it.effect("parks automatic pull until activation without delaying command readin
         // No provider logins or Connect link, so startup records no owners.
         FileSystem.layerNoop({}),
         Layer.mock(ServerSecretStore.ServerSecretStore)({ get: () => Effect.succeedNone }),
-        NodeCrypto.layer,
+        Crypto.layerWebCrypto,
         Layer.mock(EnvironmentAuth.EnvironmentAuth)({}),
         Layer.mock(ExternalLauncher.ExternalLauncher)({}),
         Layer.mock(HttpServer.HttpServer)({

@@ -7,8 +7,8 @@ import {
   deriveMessagesTimelineRowsWithState,
   type StableMessagesTimelineRowsState,
   type MessagesTimelineRow,
-} from "./MessagesTimeline.logic";
-import { type HandoffTimelineRun } from "./V2LifecycleRow";
+} from "./MessagesTimeline.logic.vibe";
+import { type HandoffTimelineRun } from "./V2LifecycleRow.vibex";
 
 const EMPTY_TIMELINE_RUNS: ReadonlyArray<HandoffTimelineRun> = [];
 

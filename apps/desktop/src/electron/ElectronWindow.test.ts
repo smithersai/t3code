@@ -55,7 +55,7 @@ vi.mock("electron", () => ({
   }),
 }));
 
-import * as ElectronWindow from "./ElectronWindow.ts";
+import * as ElectronWindow from "./ElectronWindow.vibe";
 
 const layerTestFor = (platform: NodeJS.Platform) =>
   ElectronWindow.layer.pipe(Layer.provide(Layer.succeed(HostProcess.Platform, platform)));

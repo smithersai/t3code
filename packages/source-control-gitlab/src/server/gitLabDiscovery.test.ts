@@ -9,7 +9,7 @@ import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import { ChildProcessSpawner } from "effect/process";
 
-import * as GitLabSourceControlProvider from "./GitLabSourceControlProvider.ts";
+import * as GitLabSourceControlProvider from "./GitLabSourceControlProvider.vibe";
 
 it("reads the account from glab output without status marks", () => {
   const auth = GitLabSourceControlProvider.discovery.parseAuth(

@@ -7,7 +7,7 @@ import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as HookInboxStore from "./HookInboxStore.ts";
+import * as HookInboxStore from "./HookInboxStore.vibe";
 
 const BASE_URL = "https://env.example.test/";
 

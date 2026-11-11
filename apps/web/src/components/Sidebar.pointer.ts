@@ -26,6 +26,7 @@ export class SidebarPointerSensor {
   private readonly document: Document;
   private readonly window: Window;
 
+  /** @throws {never} */
   constructor(private readonly props: Omit<SensorProps<Options>, "activeNode" | "context">) {
     this.pointer = props.event as PointerEvent;
     this.document = getOwnerDocument(this.pointer.target);

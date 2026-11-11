@@ -12,7 +12,7 @@ import {
   readSafariCookies,
   safariAccessDenied,
   SafariCookieReadError,
-} from "./SafariCookies.ts";
+} from "./SafariCookies.vibe";
 
 const APPLE_EPOCH_OFFSET_SECONDS = 978_307_200;
 

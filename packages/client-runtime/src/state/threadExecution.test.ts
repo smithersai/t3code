@@ -26,7 +26,7 @@ import {
   deriveThreadActivityRun,
   deriveThreadRuntime,
   threadRuntimeHasInterruptibleRun,
-} from "./threadExecution.ts";
+} from "./threadExecution.vibe";
 
 const now = DateTime.makeUnsafe("2026-07-28T10:00:00.000Z");
 

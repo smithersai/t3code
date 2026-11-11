@@ -1,7 +1,7 @@
 import * as Cause from "effect/Cause";
 import { describe, expect, it } from "vite-plus/test";
 
-import { findErrorTraceId } from "./errorTrace.ts";
+import { findErrorTraceId } from "./errorTrace.vibe";
 
 describe("findErrorTraceId", () => {
   it("terminates for cyclic causes", () => {

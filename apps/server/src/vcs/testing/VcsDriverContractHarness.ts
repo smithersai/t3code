@@ -9,7 +9,7 @@ import * as DateTime from "effect/DateTime";
 import * as Option from "effect/Option";
 
 import type { VcsDriverKind } from "@t3tools/contracts";
-import * as VcsDriver from "../VcsDriver.ts";
+import * as VcsDriver from "../VcsDriver.vibe";
 
 function normalizePathForComparison(value: string): string {
   return value.replaceAll("\\", "/");

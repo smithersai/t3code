@@ -4,7 +4,7 @@ import * as Schema from "effect/Schema";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 
-import * as TokenStore from "../authorization/tokenStore.ts";
+import * as TokenStore from "../authorization/tokenStore.vibe";
 import {
   BearerConnectionCredential,
   BearerConnectionProfile,
@@ -12,18 +12,18 @@ import {
   RelayConnectionRegistration,
   SshConnectionProfile,
   SshConnectionRegistration,
-} from "../connection/catalog.ts";
+} from "../connection/catalog.vibe";
 import {
   BearerConnectionTarget,
   ConnectionTransientError,
   PrimaryConnectionTarget,
   RelayConnectionTarget,
   SshConnectionTarget,
-} from "../connection/model.ts";
+} from "../connection/model.vibe";
 import {
   PullRequestRoutingPermissions,
   makePullRequestRoutingPermissions,
-} from "../connection/pullRequestRoutingPermissions.ts";
+} from "../connection/pullRequestRoutingPermissions.vibe";
 import {
   ConnectionCatalogDocument,
   EMPTY_CONNECTION_CATALOG_DOCUMENT,
@@ -33,7 +33,7 @@ import {
   registerConnectionInCatalog,
   removeConnectionFromCatalog,
   setConnectionEnabledInCatalog,
-} from "./storageDocument.ts";
+} from "./storageDocument.vibe";
 
 const decodeConnectionCatalogDocument = Schema.decodeUnknownEffect(ConnectionCatalogDocument);
 

@@ -6,18 +6,18 @@ import {
   BearerConnectionProfile,
   type ConnectionCatalogEntry,
   type ConnectionRoute,
-} from "./catalog.ts";
+} from "./catalog.vibe";
 import {
   BearerConnectionTarget,
   ConnectionTransientError,
   RelayConnectionTarget,
   type SupervisorConnectionState,
-} from "./model.ts";
+} from "./model.vibe";
 import {
   environmentMcpUrl,
   presentEnvironmentConnection,
   presentConnectionState,
-} from "./presentation.ts";
+} from "./presentation.vibe";
 
 const TARGET = new BearerConnectionTarget({
   environmentId: EnvironmentId.make("environment-1"),

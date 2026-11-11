@@ -1,0 +1,105 @@
+import { $platform } from platform
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Option from "effect/Option"
+import * as Schema from "effect/Schema"
+
+import * as Electron from "electron"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+
+module platform {
+  // Generated platform helpers for this VibeLang module.
+  export function $platform(arg0: Uint8Array<ArrayBufferLike>) {
+    return Buffer.from(arg0)
+  }
+}
+
+const electronSafeStorageErrorFields = {
+  cause: Schema.Defect(),
+}
+
+export class ElectronSafeStorageAvailabilityError extends Schema.TaggedError<ElectronSafeStorageAvailabilityError>()(
+  "ElectronSafeStorageAvailabilityError",
+  {
+    ...electronSafeStorageErrorFields,
+  },
+) {
+  override get message(): string {
+    return "Electron safe storage failed to check encryption availability."
+  }
+}
+
+export class ElectronSafeStorageEncryptError extends Schema.TaggedError<ElectronSafeStorageEncryptError>()(
+  "ElectronSafeStorageEncryptError",
+  {
+    ...electronSafeStorageErrorFields,
+  },
+) {
+  override get message(): string {
+    return "Electron safe storage failed to encrypt a string."
+  }
+}
+
+export class ElectronSafeStorageDecryptError extends Schema.TaggedError<ElectronSafeStorageDecryptError>()(
+  "ElectronSafeStorageDecryptError",
+  {
+    ...electronSafeStorageErrorFields,
+  },
+) {
+  override get message(): string {
+    return "Electron safe storage failed to decrypt a string."
+  }
+}
+
+export schema ElectronSafeStorageError =
+  | ElectronSafeStorageAvailabilityError
+  | ElectronSafeStorageEncryptError
+  | ElectronSafeStorageDecryptError
+
+export service ElectronSafeStorage {
+  static readonly key = "@t3tools/desktop/electron/ElectronSafeStorage"
+  isEncryptionAvailable: boolean!ElectronSafeStorageAvailabilityError
+  encryptString: (
+    value: string,
+  ) => Uint8Array!ElectronSafeStorageEncryptError
+  decryptString: (
+    value: Uint8Array,
+  ) => string!ElectronSafeStorageDecryptError
+  selectedStorageBackend: Option.Option<string>!!
+}
+
+/** @public */
+export const make = effect {
+  const platform = try HostProcess.Platform
+
+  return ElectronSafeStorage.of({
+    isEncryptionAvailable: Effect.try({
+      try: () => Electron.safeStorage.isEncryptionAvailable(),
+      catch: (cause) => new ElectronSafeStorageAvailabilityError({ cause }),
+    }),
+    encryptString: Effect.fn("ElectronSafeStorage.encryptString")(function(value) {
+      return Effect.try({
+        try: () => Electron.safeStorage.encryptString(value),
+        catch: (cause) => new ElectronSafeStorageEncryptError({ cause }),
+      })
+    }),
+    decryptString: Effect.fn("ElectronSafeStorage.decryptString")(function(value) {
+      return Effect.try({
+        try: () => Electron.safeStorage.decryptString($platform(value)),
+        catch: (cause) => new ElectronSafeStorageDecryptError({ cause }),
+      })
+    }),
+    selectedStorageBackend: Effect.sync(() => {
+      if (platform !== "linux") {
+        return Option.none()
+      }
+      try {
+        return Option.fromNullishOr(Electron.safeStorage.getSelectedStorageBackend())
+      } catch {
+        return Option.none()
+      }
+    }),
+  })
+}
+
+export const layer = Layer.effect(ElectronSafeStorage, make)

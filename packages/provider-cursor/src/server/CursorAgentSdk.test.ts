@@ -6,8 +6,8 @@ import * as Layer from "effect/Layer";
 import { vi } from "vite-plus/test";
 
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
-import * as CursorAgentSdk from "./CursorAgentSdk.ts";
-import * as CursorSdk from "./CursorSdk.ts";
+import * as CursorAgentSdk from "./CursorAgentSdk.vibe";
+import * as CursorSdk from "./CursorSdk.vibe";
 
 const cursorSdkMock = vi.hoisted(() => {
   const closeExecutionOrder: Array<string> = [];

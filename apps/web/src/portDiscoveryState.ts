@@ -8,7 +8,7 @@ import {
 import { isLoopbackHost } from "@t3tools/shared/preview";
 
 import { previewEnvironment } from "./state/preview";
-import { useEnvironmentQuery } from "./state/query";
+import { useEnvironmentQuery } from "./state/query.vibe";
 
 const EMPTY_PORTS: ReadonlyArray<DiscoveredLocalServer> = Object.freeze([]);
 

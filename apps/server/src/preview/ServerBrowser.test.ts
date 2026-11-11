@@ -27,16 +27,17 @@ import * as Stream from "effect/Stream";
 import type { BrowserContext, Page } from "playwright-core";
 import { beforeEach, expect, vi } from "vite-plus/test";
 
-import * as ServerConfig from "../config.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as Broker from "../mcp/PreviewAutomationBroker.ts";
-import * as DesktopChannel from "./DesktopBrowserChannel.ts";
-import * as Manager from "./Manager.ts";
-import * as PreviewAgentActivity from "./PreviewAgentActivity.ts";
-import * as ServerBrowser from "./ServerBrowser.ts";
-import * as PreviewBrowser from "./PreviewBrowser.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
+import * as Broker from "../mcp/PreviewAutomationBroker.vibe";
+import * as DesktopChannel from "./DesktopBrowserChannel.vibe";
+import * as Manager from "./Manager.vibe";
+import * as PreviewAgentActivity from "./PreviewAgentActivity.vibe";
+import * as ServerBrowser from "./ServerBrowser.vibe";
+import * as PreviewBrowser from "./PreviewBrowser.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
-vi.mock("./ServerBrowserContexts.ts", () => ({
+vi.mock("./ServerBrowserContexts.vibe", () => ({
   presentAsChrome: async () => {},
   ServerBrowserContexts: class {
     private readonly onClose: ((context: BrowserContext) => void) | undefined;
@@ -344,7 +345,7 @@ const dependencies = Layer.mergeAll(
   PreviewAgentActivity.layer,
 ).pipe(
   Layer.provideMerge(ServerConfig.layerTest(process.cwd(), { prefix: "t3-server-browser-" })),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 const layer = ServerBrowser.layer.pipe(Layer.provideMerge(dependencies));
 const ready = Effect.gen(function* () {

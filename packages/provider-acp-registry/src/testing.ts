@@ -4,13 +4,16 @@ export {
   acpRegistryPromptFailure,
   makeAcpRegistryAdapterV2,
   registerMistralVibeAcpExtensions,
-} from "./server/adapter.ts";
+} from "./server/adapter.vibe";
 export {
   extractDevinSubagentUpdate,
   normalizeDevinSessionUpdate,
   normalizeDevinToolCall,
 } from "./server/devinAcp.ts";
-export { extractCopilotSubagentUpdate, makeCopilotSubagentRouting } from "./server/copilotAcp.ts";
+export {
+  extractCopilotSubagentUpdate,
+  makeCopilotSubagentRouting,
+} from "#vibelang/emitted/src/server/copilotAcp";
 export {
   acpRegistryProbeFailure,
   acpRegistryProbeResult,
@@ -20,4 +23,4 @@ export {
   normalizeAcpRegistryCommands,
   type AcpRegistryAvailableCommands,
   type AcpRegistryLiveConfiguration,
-} from "./server/probe.ts";
+} from "#vibelang/emitted/src/server/probe";

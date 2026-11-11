@@ -3,7 +3,7 @@ import {
   fullAccessOverrideExplanation,
 } from "@t3tools/client-runtime/state/thread-requests";
 import { memo } from "react";
-import { type PendingApproval } from "../../session-logic";
+import { type PendingApproval } from "../../session-logic.vibe";
 import { InlineButton } from "../ui/button";
 import { Popover, PopoverPopup, PopoverTrigger } from "../ui/popover";
 import { composerFloatingLayerProps } from "./composerEventScope";

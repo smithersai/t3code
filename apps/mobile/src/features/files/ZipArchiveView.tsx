@@ -42,7 +42,7 @@ import {
   createComposerFileAttachment,
   removePersistedComposerAttachmentFile,
 } from "../../lib/composerImages";
-import { appendComposerDraftAttachments } from "../../state/use-composer-drafts";
+import { appendComposerDraftAttachments } from "../../state/use-composer-drafts.vibe";
 import { AttachmentDocumentBody, nativeViewerKind } from "./AttachmentDocumentBody";
 import { FilePreviewLoading } from "./FilePreviewFeedback";
 import {

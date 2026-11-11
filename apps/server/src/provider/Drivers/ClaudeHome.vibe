@@ -1,0 +1,264 @@
+import { readProcessEnv } from platform
+import type { ClaudeSettings } from "@t3tools/contracts"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Path from "effect/Path"
+import * as Schema from "effect/Schema"
+
+import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+
+module platform {
+  import * as Effect from "effect/Effect"
+
+  export const readProcessEnv = Effect.sync(() => process.env)
+}
+
+const quotePath = Schema.encodeSync(Schema.fromJsonString(Schema.String))
+
+export const resolveClaudeHomePath = effect (
+  config: Pick<
+    {
+      readonly enabled: boolean
+      readonly binaryPath: string
+      readonly homePath: string
+      readonly customModels: readonly (string | {
+        readonly slug: string
+        readonly name?: string | undefined
+        readonly capabilities?: {
+          readonly optionDescriptors?:
+            | readonly ({
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "select"
+              readonly options: readonly {
+                readonly id: string
+                readonly label: string
+                readonly description?: string | undefined
+                readonly isDefault?: boolean | undefined
+              }[]
+              readonly currentValue?: string | undefined
+              readonly promptInjectedValues?: readonly string[] | undefined
+            } | {
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "boolean"
+              readonly currentValue?: boolean | undefined
+            })[]
+            | undefined
+        } | undefined
+      })[]
+      readonly launchArgs: string
+      readonly autoCompactWindow: string
+      readonly idleCompaction: "beforeCacheExpires" | "default" | "off" | "onReturn"
+    },
+    "homePath"
+  >,
+  environment?: NodeJS.ProcessEnv | undefined,
+): string!never!Path.Path =>
+  try withSpan(
+    (effect (): string!never!Path.Path => {
+      const path = try Path.Path
+      const home = try HostProcess.HomeDirectory
+      const homePath = config.homePath.trim()
+      if (homePath.length > 0) {
+        return path.resolve(
+          try Effect.orDie(Effect.try({ try: () => expandHomePath(homePath, home), catch: (e) => e })),
+        )
+      }
+      // Inherited env vars are not shell-expanded, so a literal `~` stays literal.
+      const inherited = environment?.CLAUDE_CONFIG_DIR?.trim() ?? ""
+      if (inherited.length > 0) {
+        return path.resolve(inherited)
+      }
+      return path.resolve(path.join(home, ".claude"))
+    })(),
+    "resolveClaudeHomePath",
+  )
+
+export const makeClaudeEnvironment = effect (
+  config: Pick<
+    {
+      readonly enabled: boolean
+      readonly binaryPath: string
+      readonly homePath: string
+      readonly customModels: readonly (string | {
+        readonly slug: string
+        readonly name?: string | undefined
+        readonly capabilities?: {
+          readonly optionDescriptors?:
+            | readonly ({
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "select"
+              readonly options: readonly {
+                readonly id: string
+                readonly label: string
+                readonly description?: string | undefined
+                readonly isDefault?: boolean | undefined
+              }[]
+              readonly currentValue?: string | undefined
+              readonly promptInjectedValues?: readonly string[] | undefined
+            } | {
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "boolean"
+              readonly currentValue?: boolean | undefined
+            })[]
+            | undefined
+        } | undefined
+      })[]
+      readonly launchArgs: string
+      readonly autoCompactWindow: string
+      readonly idleCompaction: "beforeCacheExpires" | "default" | "off" | "onReturn"
+    },
+    "homePath"
+  >,
+  baseEnv?: NodeJS.ProcessEnv | undefined,
+): NodeJS.ProcessEnv!never!Path.Path =>
+  try withSpan(
+    (effect (): NodeJS.ProcessEnv!never!Path.Path => {
+      const resolvedBaseEnv = baseEnv ?? (try readProcessEnv)
+      const homePath = config.homePath.trim()
+      if (homePath.length === 0) return resolvedBaseEnv
+      const resolvedHomePath = try resolveClaudeHomePath(config)
+      return {
+        ...resolvedBaseEnv,
+        // Changing HOME hides macOS Keychain credentials; use CLAUDE_CONFIG_DIR to keep login access.
+        CLAUDE_CONFIG_DIR: resolvedHomePath,
+      }
+    })(),
+    "makeClaudeEnvironment",
+  )
+
+/** managed-mcp.json excludes other MCP config and forbids --strict-mcp-config; omit the flag when present. */
+export const hasClaudeManagedMcpConfig = effect () =>
+  try withSpan(
+    effect {
+      const fileSystem = try FileSystem.FileSystem
+      const platform = try HostProcess.Platform
+      const managedMcpConfigPath = platform === "darwin"
+        ? "/Library/Application Support/ClaudeCode/managed-mcp.json"
+        : platform === "win32"
+        ? "C:\\Program Files\\ClaudeCode\\managed-mcp.json"
+        : "/etc/claude-code/managed-mcp.json"
+      return fileSystem.exists(managedMcpConfigPath) catch () => false
+    },
+    "hasClaudeManagedMcpConfig",
+  )
+
+export const makeClaudeContinuationGroupKey = effect (
+  config: Pick<
+    {
+      readonly enabled: boolean
+      readonly binaryPath: string
+      readonly homePath: string
+      readonly customModels: readonly (string | {
+        readonly slug: string
+        readonly name?: string | undefined
+        readonly capabilities?: {
+          readonly optionDescriptors?:
+            | readonly ({
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "select"
+              readonly options: readonly {
+                readonly id: string
+                readonly label: string
+                readonly description?: string | undefined
+                readonly isDefault?: boolean | undefined
+              }[]
+              readonly currentValue?: string | undefined
+              readonly promptInjectedValues?: readonly string[] | undefined
+            } | {
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "boolean"
+              readonly currentValue?: boolean | undefined
+            })[]
+            | undefined
+        } | undefined
+      })[]
+      readonly launchArgs: string
+      readonly autoCompactWindow: string
+      readonly idleCompaction: "beforeCacheExpires" | "default" | "off" | "onReturn"
+    },
+    "homePath"
+  >,
+  environment?: NodeJS.ProcessEnv | undefined,
+): string!never!Path.Path =>
+  try withSpan(
+    (effect (): string!never!Path.Path => {
+      const resolvedHomePath = try resolveClaudeHomePath(config, environment)
+      return `claude:home:${resolvedHomePath}`
+    })(),
+    "makeClaudeContinuationGroupKey",
+  )
+
+export const makeClaudeCapabilitiesCacheKey = effect (
+  config: Pick<
+    {
+      readonly enabled: boolean
+      readonly binaryPath: string
+      readonly homePath: string
+      readonly customModels: readonly (string | {
+        readonly slug: string
+        readonly name?: string | undefined
+        readonly capabilities?: {
+          readonly optionDescriptors?:
+            | readonly ({
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "select"
+              readonly options: readonly {
+                readonly id: string
+                readonly label: string
+                readonly description?: string | undefined
+                readonly isDefault?: boolean | undefined
+              }[]
+              readonly currentValue?: string | undefined
+              readonly promptInjectedValues?: readonly string[] | undefined
+            } | {
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "boolean"
+              readonly currentValue?: boolean | undefined
+            })[]
+            | undefined
+        } | undefined
+      })[]
+      readonly launchArgs: string
+      readonly autoCompactWindow: string
+      readonly idleCompaction: "beforeCacheExpires" | "default" | "off" | "onReturn"
+    },
+    "binaryPath" | "homePath"
+  >,
+  cwd?: string | undefined,
+  environment?: NodeJS.ProcessEnv | undefined,
+): string!never!Path.Path =>
+  try withSpan(
+    (effect (): string!never!Path.Path => {
+      const resolvedHomePath = try resolveClaudeHomePath(config, environment)
+      return `${config.binaryPath}\0${resolvedHomePath}\0${cwd ?? ""}`
+    })(),
+    "makeClaudeCapabilitiesCacheKey",
+  )
+
+/** Separate spawn env from login commands to preserve literal paths, including relative inherited values. */
+export const claudeSignedOutMessage = (input: {
+  readonly configDir: string | undefined
+  readonly cwd: string
+}): string => {
+  const configuration = input.configDir !== undefined
+    ? ` from ${quotePath(input.cwd)}, with CLAUDE_CONFIG_DIR set to ${quotePath(input.configDir)}`
+    : ""
+  return `Claude could not authenticate. For subscription login, run \`claude auth login\` on this environment's machine${configuration}, then start a new thread. For API-key authentication, check this instance's configured credentials.`
+}

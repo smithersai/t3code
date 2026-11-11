@@ -1,6 +1,9 @@
 {
   "extends": "expo/tsconfig.base.json",
   "compilerOptions": {
+    "moduleSuffixes": ["", ".d.vibe"],
+    "allowArbitraryExtensions": true,
+    "rewriteRelativeImportExtensions": true,
     "allowImportingTsExtensions": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,

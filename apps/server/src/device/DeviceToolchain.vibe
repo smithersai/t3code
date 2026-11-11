@@ -1,0 +1,268 @@
+import type { DeviceToolVersions } from "@t3tools/contracts"
+// npm exposes entry files before extraction completes; their presence does not prove a usable tree.
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Path from "effect/Path"
+import * as Schema from "effect/Schema"
+
+import * as ProcessRunner from "../processRunner.vibe"
+import DEVICE_TOOL_VERSIONS from "./deviceToolVersions.json" with { type: "json" }
+
+const DEVICE_HUB_PACKAGE = "expo-device-hub"
+export const DEVICE_HUB_VERSION = DEVICE_TOOL_VERSIONS[DEVICE_HUB_PACKAGE]
+const AGENT_DEVICE_PACKAGE = "agent-device"
+export const AGENT_DEVICE_VERSION = DEVICE_TOOL_VERSIONS[AGENT_DEVICE_PACKAGE]
+
+const INSTALL_TIMEOUT = Duration.minutes(10)
+const installLock = Semaphore.makeUnsafe(1)
+
+export interface DeviceToolPaths {
+  readonly installDir: string
+  readonly entryPath: string
+  readonly sentinelPath: string
+}
+
+export interface DeviceToolchainPaths {
+  readonly hub: DeviceToolPaths
+  readonly agentDevice: DeviceToolPaths
+}
+
+export class DeviceToolchainInstallError extends Schema.TaggedError<DeviceToolchainInstallError>()(
+  "DeviceToolchainInstallError",
+  {
+    tool: Schema.String,
+    step: Schema.String,
+    exitCode: Schema.optional(Schema.Number),
+    cause: Schema.optional(Schema.Defect()),
+  },
+) {
+  override get message(): string {
+    const suffix = this.exitCode === undefined ? "" : ` (exit code ${this.exitCode})`
+    return `Installing ${this.tool} failed while ${this.step}${suffix}.`
+  }
+}
+
+interface ToolSpec {
+  readonly name: string
+  readonly version: string
+  readonly entry: ReadonlyArray<string>
+}
+
+const HUB_SPEC: ToolSpec = {
+  name: DEVICE_HUB_PACKAGE,
+  version: DEVICE_HUB_VERSION,
+  entry: ["dist", "server", "cli.mjs"],
+}
+
+const AGENT_DEVICE_SPEC: ToolSpec = {
+  name: AGENT_DEVICE_PACKAGE,
+  version: AGENT_DEVICE_VERSION,
+  entry: ["bin", "agent-device.mjs"],
+}
+
+const toolPaths = (path: Path.Path, baseDir: string, spec: ToolSpec): DeviceToolPaths => {
+  const installDir = path.join(baseDir, "tools", spec.name, spec.version)
+  return {
+    installDir,
+    entryPath: path.join(installDir, "node_modules", spec.name, ...spec.entry),
+    sentinelPath: path.join(installDir, ".install-complete"),
+  }
+}
+
+const deviceToolchainPaths = (path: Path.Path, baseDir: string): DeviceToolchainPaths => ({
+  hub: toolPaths(path, baseDir, HUB_SPEC),
+  agentDevice: toolPaths(path, baseDir, AGENT_DEVICE_SPEC),
+})
+
+export const agentDeviceStateDir = (path: Path.Path, stateDir: string): string =>
+  path.join(stateDir, "device", "agent-device")
+
+const isInstalled = effect (
+  fs: FileSystem.FileSystem,
+  paths: DeviceToolPaths,
+  version: string,
+) =>
+  try withSpan(
+    effect {
+      const [entryExists, sentinel] = Effect.all([
+        fs.exists(paths.entryPath),
+        fs.readFileString(paths.sentinelPath) |> Effect.option(%),
+      ]) catch () => [false, Option.none<string>()] as const
+      return entryExists && Option.isSome(sentinel) && sentinel.value.trim() === version
+    },
+    "DeviceToolchain.isInstalled",
+  )
+
+const installTool = effect (
+  spec: ToolSpec,
+  paths: DeviceToolPaths,
+) =>
+  try withSpan(
+    effect {
+      const fs = try FileSystem.FileSystem
+      const path = try Path.Path
+      const runner = try ProcessRunner.ProcessRunner
+      const fail = (step: string) => (cause: unknown) =>
+        new DeviceToolchainInstallError({ tool: spec.name, step, cause })
+
+      if (try isInstalled(fs, paths, spec.version)) return paths
+
+      const parentDir = path.dirname(paths.installDir)
+      try (fs
+        .remove(paths.installDir, { recursive: true, force: true })
+        |> Effect.mapError(%, fail("removing an incomplete install")))
+      try (fs
+        .makeDirectory(parentDir, { recursive: true }) |> Effect.mapError(%, fail("preparing the install directory")))
+      const stagingDir = try (fs
+        .makeTempDirectory({ directory: parentDir, prefix: ".staging-" })
+        |> Effect.mapError(%, fail("preparing the install directory")))
+
+      return try (effect {
+        const installArgs = [
+          "install",
+          "--prefix",
+          stagingDir,
+          "--no-fund",
+          "--no-audit",
+          `${spec.name}@${spec.version}`,
+        ]
+        const result = try ((do {
+          const catchProgram = runner
+            .run({ command: "npm", args: installArgs, timeout: INSTALL_TIMEOUT })
+          effect {
+            return catchProgram catch effect (error) => match (error) {
+              when { _tag: "ProcessSpawnError" }: try (error.cause instanceof PlatformError.PlatformError
+                  && error.cause.reason._tag === "NotFound"
+                ? runner.run({
+                  command: "pnpm",
+                  args: ["--package=npm@11", "dlx", "npm", ...installArgs],
+                  timeout: INSTALL_TIMEOUT,
+                })
+                : Effect.fail(error));
+              default: throw error;
+            }
+          }
+        })
+          |> Effect.mapError(%, fail("running npm install")))
+        if (result.code !== 0) {
+          throw new DeviceToolchainInstallError({
+            tool: spec.name,
+            step: "running npm install",
+            exitCode: Number(result.code),
+            cause: result,
+          })
+        }
+        const stagedEntry = path.join(stagingDir, "node_modules", spec.name, ...spec.entry)
+        if (!(fs.exists(stagedEntry) catch () => false)) {
+          throw new DeviceToolchainInstallError({
+            tool: spec.name,
+            step: "verifying the installed entry point",
+          })
+        }
+        try (fs
+          .writeFileString(path.join(stagingDir, ".install-complete"), `${spec.version}\n`)
+          |> Effect.mapError(%, fail("recording the completed install")))
+        fs
+          .rename(stagingDir, paths.installDir) catch effect (cause) =>
+            try (isInstalled(fs, paths, spec.version)
+              |> Effect.flatMap(
+                %,
+                (published) => published ? Effect.void : Effect.fail(fail("publishing the install")(cause)),
+              ))
+        return paths
+      }
+        |> Effect.ensuring(%, fs.remove(stagingDir, { recursive: true, force: true }) |> Effect.ignore(%)))
+    },
+    "DeviceToolchain.installTool",
+  )
+
+const ensureTool = effect (
+  baseDir: string,
+  spec: ToolSpec,
+  select: (paths: DeviceToolchainPaths) => DeviceToolPaths,
+) =>
+  try withSpan(
+    effect {
+      const path = try Path.Path
+      const paths = deviceToolchainPaths(path, baseDir)
+      return try installLock.withPermit(installTool(spec, select(paths)))
+    },
+    "DeviceToolchain.ensureTool",
+  )
+
+export const ensureDeviceHub = (baseDir: string) => ensureTool(baseDir, HUB_SPEC, (paths) => paths.hub)
+
+export const ensureAgentDevice = (baseDir: string) =>
+  ensureTool(baseDir, AGENT_DEVICE_SPEC, (paths) => paths.agentDevice)
+
+const isToolInstalled = effect (
+  baseDir: string,
+  spec: ToolSpec,
+  select: (paths: DeviceToolchainPaths) => DeviceToolPaths,
+) =>
+  try withSpan(
+    effect {
+      const fs = try FileSystem.FileSystem
+      const path = try Path.Path
+      const paths = deviceToolchainPaths(path, baseDir)
+      return try isInstalled(fs, select(paths), spec.version)
+    },
+    "DeviceToolchain.isToolInstalled",
+  )
+
+export const isDeviceHubInstalled = (baseDir: string) => isToolInstalled(baseDir, HUB_SPEC, (paths) => paths.hub)
+
+export const isAgentDeviceInstalled = (baseDir: string) =>
+  isToolInstalled(baseDir, AGENT_DEVICE_SPEC, (paths) => paths.agentDevice)
+
+export const deviceToolVersions = effect (
+  baseDir: string,
+  running: { hub?: string; agent?: string } | undefined = {},
+) =>
+  try withSpan(
+    effect {
+      const fs = try FileSystem.FileSystem
+      const path = try Path.Path
+      const inspect = effect (spec: ToolSpec) =>
+        try withSpan(
+          effect {
+            const directory = path.join(baseDir, "tools", spec.name)
+            const names = try (fs.readDirectory(directory)
+              |> Effect.catchIf(
+                %,
+                (error) => error.reason._tag === "NotFound",
+                () => Effect.succeed([]),
+              ))
+            const versions = try Effect.filter(
+              names,
+              (version) =>
+                /^[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-Z0-9.-]+)?$/.test(version)
+                  ? effect {
+                    const paths = toolPaths(path, baseDir, { ...spec, version })
+                    const sentinel = try (fs.readFileString(paths.sentinelPath)
+                      |> Effect.catchIf(
+                        %,
+                        (error) => error.reason._tag === "NotFound",
+                        () => Effect.succeed(null),
+                      ))
+                    return sentinel?.trim() === version && (try fs.exists(paths.entryPath))
+                  }
+                  : Effect.succeed(false),
+            )
+            return {
+              requiredVersion: spec.version,
+              installedVersions: versions.sort(),
+              runningVersion: (spec.name === DEVICE_HUB_PACKAGE ? running.hub : running.agent) ?? null,
+            }
+          },
+          "DeviceToolchain.inspect",
+        )
+      return (effect {
+        return {
+          hub: try inspect(HUB_SPEC),
+          agent: try inspect(AGENT_DEVICE_SPEC),
+        } satisfies DeviceToolVersions
+      }) catch () => undefined
+    },
+    "DeviceToolchain.versions",
+  )

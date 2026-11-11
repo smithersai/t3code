@@ -246,6 +246,7 @@ export function createCommandPaletteSearchState(query = ""): CommandPaletteSearc
   return { query, views: [] };
 }
 
+/** @throws {never} */
 export function reduceCommandPaletteSearchState(
   state: CommandPaletteSearchState,
   action:

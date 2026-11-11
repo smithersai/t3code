@@ -1,4 +1,3 @@
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import { assert, it } from "@effect/vitest";
 import {
   CheckpointId,
@@ -22,14 +21,15 @@ import * as Layer from "effect/Layer";
 import * as Ref from "effect/Ref";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as CheckpointStore from "../checkpointing/CheckpointStore.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
 import { VcsProcessTimeoutError } from "@t3tools/contracts";
-import * as CheckpointService from "./CheckpointService.ts";
-import * as CheckpointCaptureService from "./CheckpointCaptureService.ts";
-import * as EventSink from "./EventSink.ts";
+import * as CheckpointService from "./CheckpointService.vibe";
+import * as CheckpointCaptureService from "./CheckpointCaptureService.vibe";
+import * as EventSink from "./EventSink.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ProjectionStore from "./ProjectionStore.ts";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerProjectionStoreTest = Layer.mergeAll(
   ProjectionStore.layer.pipe(Layer.provideMerge(SqlitePersistence.layerMemory)),
@@ -274,7 +274,7 @@ it.layer(layerProjectionStoreTest)("CheckpointCaptureServiceV2", (it) => {
                     Layer.provide(
                       Layer.mergeAll(
                         IdAllocator.layer,
-                        NodeCrypto.layer,
+                        Crypto.layerWebCrypto,
                         Layer.mock(CheckpointStore.CheckpointStore)({
                           listAuthoredPaths: () => Effect.succeed(null),
                           isGitRepository: () => Effect.succeed(true),

@@ -4,39 +4,54 @@
   "type": "module",
   "exports": {
     "./auth": {
-      "types": "./src/auth.ts",
-      "import": "./src/auth.ts"
+      "types": "./src/auth.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/auth.vibe",
+        "default": "./.vibelang/js/src/auth.js"
+      }
     },
     "./command": {
-      "types": "./src/command.ts",
-      "import": "./src/command.ts"
+      "types": "./src/command.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/command.vibe",
+        "default": "./.vibelang/js/src/command.js"
+      }
     },
     "./config": {
-      "types": "./src/config.ts",
-      "import": "./src/config.ts"
+      "types": "./src/config.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/config.vibe",
+        "default": "./.vibelang/js/src/config.js"
+      }
     },
     "./errors": {
-      "types": "./src/errors.ts",
-      "import": "./src/errors.ts"
+      "types": "./src/errors.vibe",
+      "import": "./src/errors.vibe"
     },
     "./tunnel": {
-      "types": "./src/tunnel.ts",
-      "import": "./src/tunnel.ts"
+      "types": "./src/tunnel.d.vibe.ts",
+      "import": {
+        "vibelang-source": "./src/tunnel.vibe",
+        "default": "./.vibelang/js/src/tunnel.js"
+      }
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vibelang --noEmit",
     "test": "vp test run --config ../../vite.config.ts --dir ."
   },
   "dependencies": {
     "@t3tools/contracts": "workspace:*",
     "@t3tools/shared": "workspace:*",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-runtime-0.0.14-pre.6279f9f9fbfc.tgz"
   },
   "devDependencies": {
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-0.0.14-pre.6279f9f9fbfc.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-vite-0.0.14-pre.6279f9f9fbfc.tgz",
     "vite-plus": "catalog:"
   }
 }

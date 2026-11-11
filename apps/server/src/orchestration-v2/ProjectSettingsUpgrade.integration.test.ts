@@ -10,24 +10,25 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as CheckpointStore from "../checkpointing/CheckpointStore.ts";
-import * as ServerConfig from "../config.ts";
-import * as GitWorkflow from "../git/GitWorkflowService.ts";
+import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as GitWorkflow from "../git/GitWorkflowService.vibe";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 
 import * as McpSessionRegistryTestkit from "../mcp/McpSessionRegistry.testkit.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import { runMigrations } from "../persistence/Migrations.ts";
-import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
-import * as ProjectService from "../project/ProjectService.ts";
-import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
-import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
-import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts";
-import * as RuntimeLayer from "./runtimeLayer.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import { runMigrations } from "../persistence/Migrations.vibe";
+import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.vibe";
+import * as ProjectService from "../project/ProjectService.vibe";
+import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
+import * as VcsProcess from "../vcs/VcsProcess.vibe";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
+import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.vibe";
+import * as RuntimeLayer from "./runtimeLayer.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const projectId = ProjectId.make("project:upgrade");
 const icon = { kind: "emoji", emoji: "🦊" } as const;
@@ -116,7 +117,7 @@ const unusedEnrichment = {
 
 const layerRuntime = (dbPath: string) => {
   const layerPlatform = Layer.merge(
-    NodeServices.layer,
+    Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
     Layer.mock(SourceControlProviderRegistry.SourceControlProviderRegistry)({
       resolveLink: () => Effect.die("unused"),
     }),
@@ -190,5 +191,5 @@ it.live("keeps project settings through the V2 migrations and the first V2 boot"
         assert.equal(project._tag, "Some");
       }).pipe(Effect.provide(layerRuntime(dbPath)));
     }),
-  ).pipe(Effect.provide(NodeServices.layer)),
+  ).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );

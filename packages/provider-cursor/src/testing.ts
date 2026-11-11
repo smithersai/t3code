@@ -4,4 +4,4 @@ export {
   CursorProviderCapabilitiesV2,
   cursorSdkModelSelection,
   makeCursorAgentOptions,
-} from "./server/adapter.ts";
+} from "#vibelang/emitted/src/server/adapter";

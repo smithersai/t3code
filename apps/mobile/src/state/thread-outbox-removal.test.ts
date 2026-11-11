@@ -3,9 +3,11 @@ import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 
 const harness = vi.hoisted(() => ({
   cleanup: vi.fn(),
-  clearDraft: vi.fn<typeof import("./use-composer-drafts").clearComposerDraft>(),
-  flushDrafts: vi.fn<typeof import("./use-composer-drafts").flushComposerDrafts>(async () => {}),
-  waitForDrafts: vi.fn<typeof import("./use-composer-drafts").waitForComposerDraftsLoaded>(
+  clearDraft: vi.fn<typeof import("./use-composer-drafts.vibe").clearComposerDraft>(),
+  flushDrafts: vi.fn<typeof import("./use-composer-drafts.vibe").flushComposerDrafts>(
+    async () => {},
+  ),
+  waitForDrafts: vi.fn<typeof import("./use-composer-drafts.vibe").waitForComposerDraftsLoaded>(
     async () => {},
   ),
   manager: null as unknown as ReturnType<
@@ -27,8 +29,8 @@ vi.mock("./thread-outbox", async () => {
   return { threadOutboxManager: harness.manager };
 });
 
-vi.mock("./use-composer-drafts", async (importOriginal) => {
-  const original = await importOriginal<typeof import("./use-composer-drafts")>();
+vi.mock("./use-composer-drafts.vibe", async (importOriginal) => {
+  const original = await importOriginal<typeof import("./use-composer-drafts.vibe")>();
   return {
     ...original,
     clearComposerDraft: harness.clearDraft,
@@ -41,7 +43,7 @@ vi.mock("./use-composer-drafts", async (importOriginal) => {
 import { appAtomRegistry } from "./atom-registry";
 import { clearThreadOutboxEnvironment, removeThreadOutboxMessage } from "./thread-outbox-removal";
 import type { QueuedThreadMessage } from "./thread-outbox-model";
-import { composerDraftsAtom } from "./use-composer-drafts";
+import { composerDraftsAtom } from "./use-composer-drafts.vibe";
 
 function queuedMessage(input: {
   readonly environmentId: string;

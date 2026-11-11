@@ -6,8 +6,8 @@ import { VcsProcessExitError } from "@t3tools/contracts";
 
 import type * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
-import * as GitLabCli from "./GitLabCli.ts";
-import * as GitLabPullRequestCli from "./GitLabPullRequestCli.ts";
+import * as GitLabCli from "./GitLabCli.vibe";
+import * as GitLabPullRequestCli from "./GitLabPullRequestCli.vibe";
 
 const run = vi.fn<SourceControlHost.SourceControlHost["Service"]["process"]["run"]>();
 const layer = it.layer(

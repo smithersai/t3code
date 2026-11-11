@@ -8,7 +8,7 @@ import {
 } from "@t3tools/contracts";
 import type { ClientSettings } from "@t3tools/contracts/settings";
 
-import type { EnvironmentProject } from "./models.ts";
+import type { EnvironmentProject } from "./models.vibe";
 import { normalizeProjectPathForComparison } from "./projects.ts";
 
 const SCRATCH_PROJECT_SCOPE_KEY = "\0no-project";
@@ -20,6 +20,7 @@ export interface ProjectGroupingSettings {
 
 export type ProjectGroupingMode = SidebarProjectGroupingMode;
 
+/** @throws {never} */
 export function selectProjectGroupingSettings(settings: ClientSettings): ProjectGroupingSettings {
   return {
     sidebarProjectGroupingMode: settings.sidebarProjectGroupingMode,

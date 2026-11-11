@@ -27,7 +27,7 @@ import {
   prepareDesktopSshEnvironment,
   provisionDesktopSshEnvironment,
   secondaryRegistrationsToRetainAfterTopologyRead,
-} from "./platform.ts";
+} from "./platform.vibe";
 import { APP_VERSION } from "../branding.ts";
 
 const TARGET: DesktopSshEnvironmentTarget = {

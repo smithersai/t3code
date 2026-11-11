@@ -12,7 +12,7 @@ import {
   layer,
   observeBackgroundActivitySubscription,
   retainedBackgroundScopes,
-} from "./backgroundActivityReporter.ts";
+} from "./backgroundActivityReporter.vibe";
 
 describe("wasRecentlyInteracted", () => {
   it.effect("retains an observed subscription until its returned finalizer runs", () =>

@@ -12,7 +12,7 @@ import {
   RunId,
   ThreadId,
 } from "@t3tools/contracts";
-import { CursorSettings } from "../settings.ts";
+import { CursorSettings } from "../settings.vibe";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -33,8 +33,8 @@ import {
   makeCursorAgentOptions,
   makeCursorAdapterV2,
   nestedToolCallFromEnvelope,
-} from "./adapter.ts";
-import * as CursorAgentSdk from "./CursorAgentSdk.ts";
+} from "./adapter.vibe";
+import * as CursorAgentSdk from "./CursorAgentSdk.vibe";
 import { ConfigurationError } from "./sdk.ts";
 
 const decodeCursorSettings = Schema.decodeEffect(CursorSettings);

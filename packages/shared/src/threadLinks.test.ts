@@ -6,7 +6,7 @@ import {
   parseThreadLinkHref,
   relabelThreadLinks,
   resolveThreadLinkRef,
-} from "./threadLinks.ts";
+} from "./threadLinks.vibe";
 
 const ref = (environmentId: string, threadId = "chat-1") => ({
   environmentId: EnvironmentId.make(environmentId),

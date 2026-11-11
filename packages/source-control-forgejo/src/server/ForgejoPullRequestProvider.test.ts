@@ -3,8 +3,8 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 
-import * as ForgejoCli from "./ForgejoCli.ts";
-import * as ForgejoPullRequestProvider from "./ForgejoPullRequestProvider.ts";
+import * as ForgejoCli from "./ForgejoCli.vibe";
+import * as ForgejoPullRequestProvider from "./ForgejoPullRequestProvider.vibe";
 
 it.effect("reads file revisions from the pull request diff and refuses a truncated one", () =>
   Effect.gen(function* () {

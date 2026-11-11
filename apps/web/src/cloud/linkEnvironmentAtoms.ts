@@ -3,14 +3,14 @@ import {
   createRuntimeCommand,
 } from "@t3tools/client-runtime/state/runtime";
 
-import { connectionAtomRuntime } from "../connection/runtime";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
 import {
   linkPrimaryEnvironmentToCloud,
   type CloudLinkMode,
   type CloudLinkTarget,
   unlinkPrimaryEnvironmentFromCloud,
   updatePrimaryCloudPreferences,
-} from "./linkEnvironment";
+} from "./linkEnvironment.vibe";
 
 const cloudLinkScheduler = createAtomCommandScheduler();
 const cloudLinkConcurrency = {

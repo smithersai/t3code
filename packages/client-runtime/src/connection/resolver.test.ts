@@ -9,30 +9,30 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
 
-import * as ConnectionResolver from "./resolver.ts";
-import * as ClientCapabilities from "../platform/capabilities.ts";
-import * as RemoteEnvironmentAuthorization from "../authorization/service.ts";
+import * as ConnectionResolver from "./resolver.vibe";
+import * as ClientCapabilities from "../platform/capabilities.vibe";
+import * as RemoteEnvironmentAuthorization from "../authorization/service.vibe";
 import {
   BearerConnectionCredential,
   type ConnectionCatalogEntry,
   SshConnectionProfile,
   type ConnectionCredential,
   type ConnectionProfile,
-} from "./catalog.ts";
-import * as ConnectionCredentialStore from "./credentialStore.ts";
+} from "./catalog.vibe";
+import * as ConnectionCredentialStore from "./credentialStore.vibe";
 import {
   ConnectionTransientError,
   PrimaryConnectionTarget,
   SshConnectionTarget,
   type ConnectionTarget,
-} from "./model.ts";
-import * as ConnectionProfileStore from "./profileStore.ts";
+} from "./model.vibe";
+import * as ConnectionProfileStore from "./profileStore.vibe";
 import * as RpcHttp from "../rpc/http.ts";
 import {
   PullRequestRoutingPermissions,
   pullRequestRoutingConnectionKey,
   makePullRequestRoutingPermissions,
-} from "./pullRequestRoutingPermissions.ts";
+} from "./pullRequestRoutingPermissions.vibe";
 
 const ENVIRONMENT_ID = EnvironmentId.make("environment-1");
 const ENDPOINT = {

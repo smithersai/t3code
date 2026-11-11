@@ -1,0 +1,138 @@
+import * as Schema from "effect/Schema"
+import { TrimmedNonEmptyString } from "./baseSchemas.vibe"
+import { ApprovalRequestId, EventId, IsoDateTime, ProviderItemId, ThreadId, TurnId } from "./baseSchemas.vibe"
+import {
+  ChatAttachment,
+  getProviderAttachmentLimitError,
+  PROVIDER_SEND_TURN_MAX_INPUT_CHARS,
+} from "./chatAttachment.vibe"
+import { ModelSelection } from "./modelSelection.vibe"
+import {
+  ProviderApprovalDecision,
+  ProviderApprovalPolicy,
+  ProviderInteractionMode,
+  ProviderRequestKind,
+  ProviderSandboxMode,
+  ProviderUserInputAnswers,
+  RuntimeMode,
+  UserInputAttachments,
+} from "./providerPolicy.vibe"
+import { ProviderDriverKind, ProviderInstanceId } from "./providerInstance.vibe"
+
+const ProviderSessionStatus = Schema.Literals([
+  "connecting",
+  "ready",
+  "running",
+  "error",
+  "closed",
+])
+
+export schema ProviderSession {
+  readonly provider: ProviderDriverKind
+  readonly providerInstanceId?: ProviderInstanceId | undefined
+  readonly status: ProviderSessionStatus
+  readonly runtimeMode: RuntimeMode
+  readonly cwd?: TrimmedNonEmptyString | undefined
+  readonly model?: TrimmedNonEmptyString | undefined
+  readonly threadId: ThreadId
+  readonly resumeCursor?: Schema.Unknown | undefined
+  readonly activeTurnId?: TurnId | undefined
+  readonly createdAt: IsoDateTime
+  readonly updatedAt: IsoDateTime
+  readonly lastError?: TrimmedNonEmptyString | undefined
+}
+
+export schema ProviderSessionStartInput {
+  readonly threadId: ThreadId
+  readonly provider?: ProviderDriverKind | undefined
+  readonly providerInstanceId?: ProviderInstanceId | undefined
+  readonly cwd?: TrimmedNonEmptyString | undefined
+  readonly title?: TrimmedNonEmptyString | undefined
+  readonly modelSelection?: ModelSelection | undefined
+  readonly resumeCursor?: Schema.Unknown | undefined
+  readonly approvalPolicy?: ProviderApprovalPolicy | undefined
+  readonly sandboxMode?: ProviderSandboxMode | undefined
+  readonly runtimeMode: RuntimeMode
+}
+
+export const ProviderSendTurnInput = Schema.Struct({
+  threadId: ThreadId,
+  /** Internal recovery: permits empty turns only for adapters supporting promptless continuation. */
+  continuation: Schema.optional(Schema.Boolean),
+  input: Schema.optional(
+    TrimmedNonEmptyString.check(Schema.isMaxLength(PROVIDER_SEND_TURN_MAX_INPUT_CHARS)),
+  ),
+  attachments: Schema.optional(
+    Schema.Array(ChatAttachment).check(
+      Schema.makeFilter((attachments) => getProviderAttachmentLimitError(attachments) ?? true),
+    ),
+  ),
+  modelSelection: Schema.optional(ModelSelection),
+  interactionMode: Schema.optional(ProviderInteractionMode),
+})
+export type ProviderSendTurnInput = typeof ProviderSendTurnInput.Type
+
+export schema ProviderTurnStartResult {
+  readonly threadId: ThreadId
+  readonly turnId: TurnId
+  readonly resumeCursor?: Schema.Unknown | undefined
+}
+
+export schema ProviderInterruptTurnInput {
+  readonly threadId: ThreadId
+  readonly turnId?: TurnId | undefined
+}
+
+export schema ProviderStopSessionInput {
+  readonly threadId: ThreadId
+}
+
+export schema ProviderRespondToRequestInput {
+  readonly threadId: ThreadId
+  readonly requestId: ApprovalRequestId
+  readonly decision: ProviderApprovalDecision
+}
+
+export schema ProviderRespondToUserInputInput {
+  readonly threadId: ThreadId
+  readonly requestId: ApprovalRequestId
+  readonly answers: ProviderUserInputAnswers
+  readonly attachmentsByQuestionId?: UserInputAttachments | undefined
+}
+
+export schema ProviderUploadFeedbackInput {
+  readonly threadId: ThreadId
+  readonly reason?: TrimmedNonEmptyString | undefined
+}
+
+export schema ProviderUploadFeedbackResult {
+  readonly feedbackId: TrimmedNonEmptyString
+}
+
+const DefectField = Schema.Defect()
+export schema error ProviderUploadFeedbackError {
+  threadId: ThreadId
+  cause?: DefectField | undefined
+  override get message(): string {
+    return `Failed to upload feedback for thread ${this.threadId}.`
+  }
+}
+
+const ProviderEventKind = Schema.Literals(["session", "notification", "request", "error"])
+
+export schema ProviderEvent {
+  readonly id: EventId
+  readonly kind: ProviderEventKind
+  readonly provider: ProviderDriverKind
+  readonly providerInstanceId?: ProviderInstanceId | undefined
+  readonly threadId: ThreadId
+  readonly createdAt: IsoDateTime
+  readonly method: TrimmedNonEmptyString
+  readonly message?: TrimmedNonEmptyString | undefined
+  readonly turnId?: TurnId | undefined
+  readonly itemId?: ProviderItemId | undefined
+  readonly requestId?: ApprovalRequestId | undefined
+  readonly requestKind?: ProviderRequestKind | undefined
+  readonly textDelta?: string | undefined
+  readonly payload?: Schema.Unknown | undefined
+}

@@ -11,52 +11,52 @@ import type * as SqlClient from "effect/sql/SqlClient";
 import type { MigrationError } from "effect/sql/Migrator";
 import type { SqlError } from "effect/sql/SqlError";
 
-import * as CheckpointStore from "../../checkpointing/CheckpointStore.ts";
-import * as ServerConfig from "../../config.ts";
-import * as SqlitePersistence from "../../persistence/Sqlite.ts";
-import * as ServerSettings from "../../serverSettings.ts";
-import * as ThreadManagementService from "../ThreadManagementService.ts";
+import * as CheckpointStore from "../../checkpointing/CheckpointStore.vibe";
+import * as ServerConfig from "../../config.vibe";
+import * as SqlitePersistence from "../../persistence/Sqlite.vibe";
+import * as ServerSettings from "../../serverSettings.vibe";
+import * as ThreadManagementService from "../ThreadManagementService.vibe";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as McpSessionRegistryTestkit from "../../mcp/McpSessionRegistry.testkit.ts";
-import * as VcsDriverRegistry from "../../vcs/VcsDriverRegistry.ts";
-import * as GitVcsDriver from "../../vcs/GitVcsDriver.ts";
-import * as VcsProcess from "../../vcs/VcsProcess.ts";
-import * as CheckpointCaptureService from "../CheckpointCaptureService.ts";
-import * as CheckpointService from "../CheckpointService.ts";
-import * as CheckpointRollbackService from "../CheckpointRollbackService.ts";
-import * as CommandPolicy from "../CommandPolicy.ts";
-import * as CommandReceiptStore from "../CommandReceiptStore.ts";
-import * as ContextHandoffService from "../ContextHandoffService.ts";
-import * as EffectOutbox from "../EffectOutbox.ts";
-import * as EffectWorker from "../EffectWorker.ts";
-import * as EventSink from "../EventSink.ts";
-import * as EventStore from "../EventStore.ts";
+import * as VcsDriverRegistry from "../../vcs/VcsDriverRegistry.vibe";
+import * as GitVcsDriver from "../../vcs/GitVcsDriver.vibe";
+import * as VcsProcess from "../../vcs/VcsProcess.vibe";
+import * as CheckpointCaptureService from "../CheckpointCaptureService.vibe";
+import * as CheckpointService from "../CheckpointService.vibe";
+import * as CheckpointRollbackService from "../CheckpointRollbackService.vibe";
+import * as CommandPolicy from "../CommandPolicy.vibe";
+import * as CommandReceiptStore from "../CommandReceiptStore.vibe";
+import * as ContextHandoffService from "../ContextHandoffService.vibe";
+import * as EffectOutbox from "../EffectOutbox.vibe";
+import * as EffectWorker from "../EffectWorker.vibe";
+import * as EventSink from "../EventSink.vibe";
+import * as EventStore from "../EventStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as Orchestrator from "../Orchestrator.ts";
-import * as ProjectionStore from "../ProjectionStore.ts";
-import * as ProjectStore from "../ProjectStore.ts";
-import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.ts";
-import * as ProviderAuthService from "../../provider/ProviderAuthService.ts";
+import * as Orchestrator from "../Orchestrator.vibe";
+import * as ProjectionStore from "../ProjectionStore.vibe";
+import * as ProjectStore from "../ProjectStore.vibe";
+import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
+import * as ProviderAuthService from "../../provider/ProviderAuthService.vibe";
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
-import * as ProviderContinuationService from "../ProviderContinuationService.ts";
-import * as ProviderEventIngestor from "../ProviderEventIngestor.ts";
-import * as ProviderRuntimeRecoveryService from "../ProviderRuntimeRecoveryService.ts";
-import * as ProviderSessionManager from "../ProviderSessionManager.ts";
+import * as ProviderContinuationService from "../ProviderContinuationService.vibe";
+import * as ProviderEventIngestor from "../ProviderEventIngestor.vibe";
+import * as ProviderRuntimeRecoveryService from "../ProviderRuntimeRecoveryService.vibe";
+import * as ProviderSessionManager from "../ProviderSessionManager.vibe";
 import * as CommandOutputRecorder from "./CommandOutputRecorder.ts";
-import * as ProviderSwitchService from "../ProviderSwitchService.ts";
-import * as ProviderTurnControlService from "../ProviderTurnControlService.ts";
-import * as ProviderTurnStartService from "../ProviderTurnStartService.ts";
+import * as ProviderSwitchService from "../ProviderSwitchService.vibe";
+import * as ProviderTurnControlService from "../ProviderTurnControlService.vibe";
+import * as ProviderTurnStartService from "../ProviderTurnStartService.vibe";
 import * as ProviderTurnStartServiceTestkit from "../ProviderTurnStartService.testkit.ts";
-import * as McpAppModelContext from "../../mcpApps/McpAppModelContext.ts";
-import * as PreviewAgentActivity from "../../preview/PreviewAgentActivity.ts";
-import * as RunExecutionService from "../RunExecutionService.ts";
-import * as RunFinalizationService from "../RunFinalizationService.ts";
-import * as ThreadTitleRegenerationService from "../ThreadTitleRegenerationService.ts";
-import * as RuntimePolicy from "../RuntimePolicy.ts";
-import * as TurnItemPositionStore from "../TurnItemPositionStore.ts";
-import * as RuntimeRequestService from "../RuntimeRequestService.ts";
-import * as ThreadCommandExecutor from "../ThreadCommandExecutor.ts";
-import * as ThreadForkService from "../ThreadForkService.ts";
+import * as McpAppModelContext from "../../mcpApps/McpAppModelContext.vibe";
+import * as PreviewAgentActivity from "../../preview/PreviewAgentActivity.vibe";
+import * as RunExecutionService from "../RunExecutionService.vibe";
+import * as RunFinalizationService from "../RunFinalizationService.vibe";
+import * as ThreadTitleRegenerationService from "../ThreadTitleRegenerationService.vibe";
+import * as RuntimePolicy from "../RuntimePolicy.vibe";
+import * as TurnItemPositionStore from "../TurnItemPositionStore.vibe";
+import * as RuntimeRequestService from "../RuntimeRequestService.vibe";
+import * as ThreadCommandExecutor from "../ThreadCommandExecutor.vibe";
+import * as ThreadForkService from "../ThreadForkService.vibe";
 import {
   runOrchestratorV2Scenario,
   type OrchestratorV2ScenarioStepError,
@@ -67,6 +67,7 @@ import {
   makeProviderReplayGate,
   type ProviderReplayGate,
 } from "@t3tools/provider-testing/replayGate";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 export function makeReplayServerConfig(
   scenario: string,
@@ -283,7 +284,7 @@ export function layerWithRegistry<Error>(
   const layerServerConfig = Layer.effect(
     ServerConfig.ServerConfig,
     makeReplayServerConfig(scenario.name).pipe(Effect.orDie),
-  ).pipe(Layer.provide(NodeServices.layer));
+  ).pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
   const layerRuntime =
     scenario.runtimePolicyOverride === undefined
       ? RuntimePolicy.layer
@@ -326,7 +327,7 @@ export function layerWithRegistry<Error>(
         ThreadCommandExecutor.layer,
         GitVcsDriver.layer.pipe(
           Layer.provide(layerServerConfig),
-          Layer.provide(NodeServices.layer),
+          Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         ),
       ),
     ),
@@ -334,11 +335,11 @@ export function layerWithRegistry<Error>(
   const layerVcsDriverRegistry = VcsDriverRegistry.layer.pipe(
     Layer.provide(VcsProcess.layer),
     Layer.provide(layerServerConfig),
-    Layer.provide(NodeServices.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
   const layerCheckpointStore = CheckpointStore.layer.pipe(
     Layer.provide(layerVcsDriverRegistry),
-    Layer.provide(NodeServices.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
   const layerCheckpointServiceProvided = CheckpointService.layer.pipe(
     Layer.provide(Layer.mergeAll(layerCheckpointStore, IdAllocator.layer)),
@@ -516,7 +517,10 @@ export function layerWithRegistry<Error>(
     layerEventSinkProvided,
     layerContinuationWorkerProvided,
     layerCommandOutputHubProvided,
-  ).pipe(Layer.provide(ProviderTurnStartServiceTestkit.layer), Layer.provide(NodeServices.layer));
+  ).pipe(
+    Layer.provide(ProviderTurnStartServiceTestkit.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+  );
 
   if (options.runEffectWorker === false) {
     return layerReplayRuntime;

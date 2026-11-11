@@ -12,7 +12,7 @@ import {
   makeLiveStreamBudget,
   replayAndBufferLiveEvents,
   type RetainedLiveItem,
-} from "./LiveStreamBudget.ts";
+} from "./LiveStreamBudget.vibe";
 
 describe("LiveStreamBudget", () => {
   it.effect("closes the source without releasing a batch still waiting for an ACK", () =>

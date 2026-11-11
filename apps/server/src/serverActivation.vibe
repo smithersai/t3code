@@ -1,0 +1,32 @@
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import type * as Fiber from "effect/Fiber"
+import type * as Scope from "effect/Scope"
+
+export class ServerActivation extends Context.Reference<(void!!) | undefined>(
+  "t3/serverActivation",
+  { defaultValue: () => undefined },
+) {}
+
+export const forkParkedFiber = effect <A, E, R>(
+  effect: A!E!R,
+): Fiber.Fiber<A, E>!never!(R | Scope.Scope) =>
+  try withSpan(
+    (effect (): Fiber.Fiber<A, E>!never!(Scope.Scope | R) => {
+      const activation = try ServerActivation
+      if (activation === undefined) {
+        return try Effect.forkScoped(effect)
+      }
+      const parked = try Deferred.make<void>()
+      const fiber = try Effect.forkScoped(
+        Deferred.succeed(parked, undefined) |> Effect.andThen(%, activation) |> Effect.andThen(%, effect),
+      )
+      try Deferred.await(parked)
+      return fiber
+    })(),
+    "serverActivation.forkParkedFiber",
+  )
+
+export const forkParked = <A, E, R>(
+  effect: A!E!R,
+): void!never!(Scope.Scope | R) => forkParkedFiber(effect) |> Effect.asVoid(%)

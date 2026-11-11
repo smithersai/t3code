@@ -26,7 +26,7 @@ import {
   endRunlessRootTurns,
 } from "@t3tools/provider-core/server/subagentProjection";
 
-import { emptyProjection } from "./ProjectionStore.ts";
+import { emptyProjection } from "./ProjectionStore.vibe";
 
 const parentThreadId = ThreadId.make("thread:subagent-snoozed-parent");
 const childThreadId = ThreadId.make("thread:subagent-awake-child");

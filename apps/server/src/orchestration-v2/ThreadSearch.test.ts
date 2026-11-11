@@ -19,10 +19,10 @@ import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProjectStore from "./ProjectStore.ts";
-import * as ThreadSearch from "./ThreadSearch.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as ProjectStore from "./ProjectStore.vibe";
+import * as ThreadSearch from "./ThreadSearch.vibe";
 
 const layerTest = Layer.mergeAll(
   ThreadSearch.layer,

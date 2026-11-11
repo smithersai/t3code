@@ -13,16 +13,16 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Ref from "effect/Ref";
 
-import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
 import {
   type PullRequestTestThread,
   v2PullRequestThread,
 } from "../orchestration-v2/testkit/pullRequestFixtures.ts";
-import * as ProjectStore from "../orchestration-v2/ProjectStore.ts";
-import * as ProjectService from "../project/ProjectService.ts";
-import { refreshPushedPullRequests } from "./refreshPushedPullRequests.ts";
-import * as PullRequestService from "../pullRequest/PullRequestService.ts";
-import { createdPullRequestKey, linkCreatedPullRequest } from "./linkCreatedPullRequest.ts";
+import * as ProjectStore from "../orchestration-v2/ProjectStore.vibe";
+import * as ProjectService from "../project/ProjectService.vibe";
+import { refreshPushedPullRequests } from "./refreshPushedPullRequests.vibe";
+import * as PullRequestService from "../pullRequest/PullRequestService.vibe";
+import { createdPullRequestKey, linkCreatedPullRequest } from "./linkCreatedPullRequest.vibe";
 
 const PROJECT_ID = ProjectId.make("project-1");
 const THREAD_ID = ThreadId.make("thread-1");

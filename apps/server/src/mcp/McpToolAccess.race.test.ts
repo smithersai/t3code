@@ -14,19 +14,19 @@ import * as Ref from "effect/Ref";
 import * as Schema from "effect/Schema";
 import { McpSchema, McpServer, Tool, Toolkit } from "effect/ai";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import { DispatchModeLimit } from "../orchestration-v2/DispatchModeLimit.ts";
-import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.ts";
-import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.ts";
-import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
-import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.ts";
-import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import { DispatchModeLimit } from "../orchestration-v2/DispatchModeLimit.vibe";
+import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.vibe";
+import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
+import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
+import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
-import * as McpHttpServer from "./McpHttpServer.ts";
-import * as McpInvocationContext from "./McpInvocationContext.ts";
-import * as McpToolAccess from "./McpToolAccess.ts";
+import * as McpHttpServer from "./McpHttpServer.vibe";
+import * as McpInvocationContext from "./McpInvocationContext.vibe";
+import * as McpToolAccess from "./McpToolAccess.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 
 const instanceId = ProviderInstanceId.make("codex");
@@ -141,6 +141,7 @@ const renameRacingTheUser = (threadId: ThreadId, userRaises: boolean) =>
       Effect.provideService(McpSchema.McpServerClient, mcpClient),
       Effect.provide(
         McpHttpServer.toolkitRegistration(RenameToolkit, handlers).pipe(
+          Layer.provide(McpHttpServer.layerCallerInvocation),
           Layer.provideMerge(McpServer.McpServer.layer),
         ),
       ),

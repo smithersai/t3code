@@ -13,7 +13,7 @@ import { decodeAcpReplayTranscript, makeAcpReplayRuntime } from "./AcpAdapterV2.
 import * as NodePath from "node:path";
 
 import * as NodeServices from "@effect/platform-node/NodeServices";
-import * as DocumentText from "../../provider/DocumentText.ts";
+import * as DocumentText from "../../provider/DocumentText.vibe";
 import { assert, describe, it } from "@effect/vitest";
 import {
   CheckpointId,
@@ -87,22 +87,25 @@ import {
   type AcpAdapterV2SubagentUpdate,
 } from "@t3tools/provider-acp/server/adapter";
 
-import { appendUserInputAttachmentPaths } from "../../provider/userInputAttachments.ts";
+import { appendUserInputAttachmentPaths } from "../../provider/userInputAttachments.vibe";
 
 import { makeGrokAcpAdapterFlavor } from "@t3tools/provider-grok/testing";
 import {
   acpRegistryPromptFailure,
   registerMistralVibeAcpExtensions,
 } from "@t3tools/provider-acp-registry/testing";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const DEFAULT_GROK_SETTINGS = Schema.decodeSync(GrokSettings)({});
 const DROID_SETTINGS = Schema.decodeSync(AcpRegistrySettings)({ agentId: "factory-droid" });
 
-const layerHost = TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer));
+const layerHost = TestProviderHost.layer().pipe(
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+);
 
 const layerTest = Layer.mergeAll(
-  DocumentText.layer.pipe(Layer.provide(NodeServices.layer)),
-  NodeServices.layer,
+  DocumentText.layer.pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
+  Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
   IdAllocator.layer,
   McpProviderSessions.layer,
   layerHost,

@@ -1,7 +1,7 @@
 import { sanitizeNewRefName } from "@t3tools/shared/git";
 import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";
 import { resolveSendEnvMode } from "@t3tools/shared/projectSettings";
-import type { ComposerDraftWorkspaceSelection } from "../../state/use-composer-drafts";
+import type { ComposerDraftWorkspaceSelection } from "../../state/use-composer-drafts.vibe";
 
 type WorkspaceMode = "local" | "worktree";
 

@@ -7,7 +7,7 @@ import * as Queue from "effect/Queue";
 import * as Ref from "effect/Ref";
 import * as Scope from "effect/Scope";
 
-import * as KeyedLock from "./KeyedLock.ts";
+import * as KeyedLock from "./KeyedLock.vibe";
 
 describe("KeyedLock", () => {
   it.effect("runs one holder of a key at a time, waiters in the order they queued", () =>

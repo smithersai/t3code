@@ -27,18 +27,18 @@ import * as Etag from "effect/http/Etag";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as HttpApi from "effect/http-api/HttpApi";
 import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 
-import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.ts";
-import { ProjectEnrichmentService } from "../project/ProjectEnrichmentService.ts";
-import * as OrchestrationHttp from "./http.ts";
-import { EventSinkV2 } from "./EventSink.ts";
-import * as ProjectStore from "./ProjectStore.ts";
-import * as CommandReceiptStore from "./CommandReceiptStore.ts";
-import * as ThreadManagementService from "./ThreadManagementService.ts";
-import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";
+import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.vibe";
+import { ProjectEnrichmentService } from "../project/ProjectEnrichmentService.vibe";
+import * as OrchestrationHttp from "./http.vibe";
+import { EventSinkV2 } from "./EventSink.vibe";
+import * as ProjectStore from "./ProjectStore.vibe";
+import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
+import * as ThreadManagementService from "./ThreadManagementService.vibe";
+import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
 import * as ProviderReplayHarness from "./testkit/ProviderReplayHarness.ts";
 
 class TranscriptTestApi extends HttpApi.make("environment").add(

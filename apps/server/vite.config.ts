@@ -1,3 +1,4 @@
+import vibelangRolldown from "vibelang-unplugin/rolldown";
 import "vite-plus/test/config";
 import { defineConfig, mergeConfig } from "vite-plus";
 
@@ -12,6 +13,7 @@ import {
   isExternalCliDependency,
   shouldBundleCliDependency,
 } from "../../scripts/lib/cli-external-packages.ts";
+import vibelang from "vibelang-vite";
 
 export { shouldBundleCliDependency };
 
@@ -30,7 +32,7 @@ if (!TELEMETRY_CHANNELS.includes(telemetryChannel)) {
 
 // tsdown SEA needs one chunk (sourcemaps count) and Node >=25.7, so package separately.
 // TEMPORARY one-time Node fix. Remove when fixed: https://github.com/nodejs/node/issues/67048
-// "1" builds dist-exe/t3 here; "bundle" stops at bin.mjs for scripts/cli.ts to inject (linux-arm64).
+// "1" builds dist-exe/t3 here; "bundle" stops at bin.mjs for scripts/cli.vibe to inject (linux-arm64).
 const packMode = process.env.T3CODE_PACK_EXE;
 const packExecutable = packMode === "1" || packMode === "bundle";
 // TEMPORARY one-time Node fix. Remove when fixed: https://github.com/nodejs/node/issues/67048
@@ -72,16 +74,18 @@ const { run: _rootRunConfig, ...basePackageConfig } = baseConfig;
 export default mergeConfig(
   { ...basePackageConfig, test: baseTestConfig },
   defineConfig({
+    plugins: [vibelang({ register: true })],
     run: {
       tasks: {
         build: {
-          command: "node scripts/cli.ts build",
+          command: "node --import vibelang/register scripts/cli.vibe build",
           dependsOn: ["@t3tools/web#build"],
           cache: false,
         },
       },
     },
     pack: {
+      plugins: [vibelangRolldown()],
       // SEA embeds one entry; expose the history worker as a hidden subcommand.
       entry: packExecutable ? ["src/bin.ts"] : ["src/bin.ts", "src/claude-history-worker.ts"],
       outDir: packExecutable ? "dist-exe" : "dist",

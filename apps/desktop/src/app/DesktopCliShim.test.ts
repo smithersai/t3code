@@ -6,7 +6,7 @@ import * as NodePath from "node:path";
 
 import { afterEach, describe, expect, it } from "vite-plus/test";
 
-import { type CliShimTarget, renderCliShim } from "./DesktopCliShim.ts";
+import { type CliShimTarget, renderCliShim } from "./DesktopCliShim.vibe";
 
 const directories: Array<string> = [];
 afterEach(() => {

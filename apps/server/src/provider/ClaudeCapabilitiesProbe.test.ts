@@ -9,7 +9,7 @@ import * as Schema from "effect/Schema";
 import {
   buildClaudeCapabilitiesProbeQueryOptions,
   probeClaudeWorkspaceSnapshot,
-} from "./ClaudeProvider.ts";
+} from "./ClaudeProvider.vibe";
 
 vi.mock("@anthropic-ai/claude-agent-sdk", { spy: true });
 

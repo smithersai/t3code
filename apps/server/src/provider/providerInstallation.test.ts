@@ -12,13 +12,13 @@ import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 import * as Stream from "effect/Stream";
 
-import * as ServerSettings from "../serverSettings.ts";
-import * as CodexInstallation from "./CodexInstallation.ts";
-import * as AntigravityInstallation from "./AntigravityInstallation.ts";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as CodexInstallation from "./CodexInstallation.vibe";
+import * as AntigravityInstallation from "./AntigravityInstallation.vibe";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
-import { makeProviderInstallation } from "./providerInstallation.ts";
-import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.ts";
-import * as ProviderRegistry from "./ProviderRegistry.ts";
+import { makeProviderInstallation } from "./providerInstallation.vibe";
+import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.vibe";
+import * as ProviderRegistry from "./ProviderRegistry.vibe";
 
 const instanceId = ProviderInstanceId.make("antigravity");
 const driver = ProviderDriverKind.make("antigravity");

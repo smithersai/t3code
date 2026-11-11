@@ -12,7 +12,7 @@ import {
   type MouseEvent as ReactMouseEvent,
 } from "react";
 
-import { useAssetUrlRefresh, useAssetUrlState } from "../../assets/assetUrls";
+import { useAssetUrlRefresh, useAssetUrlState } from "../../assets/assetUrls.vibe";
 import { cn } from "../../lib/utils";
 import { useRightPanelStore } from "../../rightPanelStore";
 import { MediaActions, type MediaActionSource } from "../media/MediaActions";

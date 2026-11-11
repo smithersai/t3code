@@ -20,19 +20,19 @@ import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as EventSink from "../orchestration-v2/EventSink.ts";
-import * as EventStore from "../orchestration-v2/EventStore.ts";
-import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
+import * as EventSink from "../orchestration-v2/EventSink.vibe";
+import * as EventStore from "../orchestration-v2/EventStore.vibe";
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 import {
   CLAUDE_MODEL_SELECTION,
   CODEX_MODEL_SELECTION,
 } from "../orchestration-v2/testkit/fixtures/shared.ts";
-import * as ProviderSessionRuntime from "../persistence/ProviderSessionRuntime.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as AgentSessionImporter from "./AgentSessionImporter.ts";
-import * as AgentSessionScanner from "./AgentSessionScanner.ts";
-import * as ProjectService from "./ProjectService.ts";
+import * as ProviderSessionRuntime from "../persistence/ProviderSessionRuntime.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as AgentSessionImporter from "./AgentSessionImporter.vibe";
+import * as AgentSessionScanner from "./AgentSessionScanner.vibe";
+import * as ProjectService from "./ProjectService.vibe";
 
 const projectId = ProjectId.make("agent-session-import-project");
 const timestamp = "2026-09-01T10:00:00.000Z";

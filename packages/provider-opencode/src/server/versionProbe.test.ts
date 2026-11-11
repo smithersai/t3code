@@ -4,12 +4,12 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe";
 import {
   classifyOpenCodeCliVersion,
   makeOpenCodeRuntimeProbe,
   probeOpenCodeRuntime,
-} from "./versionProbe.ts";
+} from "./versionProbe.vibe";
 import {
   OPENCODE_1_RESPONSES,
   OPENCODE_2_RESPONSES,

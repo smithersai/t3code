@@ -7,8 +7,34 @@ import { describe, expect, it } from "vite-plus/test";
 const SOURCE_ROOT = __dirname;
 
 const PLATFORM_EXTENSION_ORDER = {
-  android: [".android.ts", ".android.tsx", ".native.ts", ".native.tsx", ".ts", ".tsx"],
-  ios: [".ios.ts", ".ios.tsx", ".native.ts", ".native.tsx", ".ts", ".tsx"],
+  android: [
+    ".android.ts",
+    ".android.vibe",
+    ".android.tsx",
+    ".android.vibex",
+    ".native.ts",
+    ".native.vibe",
+    ".native.tsx",
+    ".native.vibex",
+    ".ts",
+    ".vibe",
+    ".tsx",
+    ".vibex",
+  ],
+  ios: [
+    ".ios.ts",
+    ".ios.vibe",
+    ".ios.tsx",
+    ".ios.vibex",
+    ".native.ts",
+    ".native.vibe",
+    ".native.tsx",
+    ".native.vibex",
+    ".ts",
+    ".vibe",
+    ".tsx",
+    ".vibex",
+  ],
 } as const;
 
 type Platform = keyof typeof PLATFORM_EXTENSION_ORDER;
@@ -16,10 +42,12 @@ type Platform = keyof typeof PLATFORM_EXTENSION_ORDER;
 const PLATFORMS = Object.keys(PLATFORM_EXTENSION_ORDER) as ReadonlyArray<Platform>;
 
 const isGraphFile = (filePath: string): boolean =>
-  /\.tsx?$/.test(filePath) &&
+  /\.(?:tsx?|vibex?)$/.test(filePath) &&
   !filePath.includes(".test.") &&
   !filePath.includes("test-support") &&
-  !filePath.endsWith(".d.ts");
+  !filePath.endsWith(".d.ts") &&
+  !filePath.endsWith(".d.vibe.ts") &&
+  !filePath.endsWith(".d.vibex.ts");
 
 function isRelevantForPlatform(filePath: string, platform: Platform): boolean {
   const name = NodePath.basename(filePath);
@@ -50,15 +78,16 @@ function resolveRelative(
     return null;
   }
   const base = NodePath.resolve(NodePath.dirname(fromFile), specifier);
-  for (const ext of extensionOrder) {
-    for (const candidate of [base + ext, NodePath.join(base, `index${ext}`)]) {
-      try {
-        if (NodeFS.statSync(candidate).isFile()) {
-          const resolved = NodePath.resolve(candidate);
-          return resolved.startsWith(SOURCE_ROOT + NodePath.sep) ? resolved : null;
-        }
-      } catch {}
-    }
+  const candidates = /\.(?:tsx?|vibex?)$/.test(base)
+    ? [base]
+    : extensionOrder.flatMap((ext) => [base + ext, NodePath.join(base, `index${ext}`)]);
+  for (const candidate of candidates) {
+    try {
+      if (NodeFS.statSync(candidate).isFile()) {
+        const resolved = NodePath.resolve(candidate);
+        return resolved.startsWith(SOURCE_ROOT + NodePath.sep) ? resolved : null;
+      }
+    } catch {}
   }
   return null;
 }

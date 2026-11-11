@@ -6,9 +6,9 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 
-import * as GitHubCredentials from "./GitHubCredentials.ts";
-import * as GitHubRest from "./GitHubRest.ts";
-import * as GitHubSourceControlProvider from "./GitHubSourceControlProvider.ts";
+import * as GitHubCredentials from "./GitHubCredentials.vibe";
+import * as GitHubRest from "./GitHubRest.vibe";
+import * as GitHubSourceControlProvider from "./GitHubSourceControlProvider.vibe";
 
 const unknownContext = (baseUrl: string) => ({
   provider: { kind: SourceControlProviderKind.make("unknown"), name: "Unknown", baseUrl },
