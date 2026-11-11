@@ -10,7 +10,7 @@
   },
   "include": [
     "alchemy.run.ts",
-    "alchemy.run.vibe",
+    "alchemy.run.main.vibe",
     "scripts/**/*.ts",
     "scripts/**/*.vibe",
     "src/**/*.ts",
