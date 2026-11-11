@@ -6,7 +6,18 @@ import { Tooltip, TooltipPopup, TooltipTrigger } from "~/components/ui/tooltip"
 import { AndroidFoldError, setAndroidFold, type AndroidFoldPosture } from "./deviceFold"
 import { androidFoldReadAtom, androidFoldViewAtom, foldAngle, NOOP_ATOM } from "./deviceHubAtoms.vibe"
 import { DeviceDuoGlyph } from "./DeviceDuoGlyph"
-import * as Platform from "./DeviceAndroidFoldControls.platform"
+
+module platform {
+  export function callWindowSetTimeout(handler: () => void, timeout?: number) {
+    return window.setTimeout(handler, timeout)
+  }
+
+  export function callWindowClearTimeout(id: number | undefined) {
+    return window.clearTimeout(id)
+  }
+}
+
+import * as Platform from platform
 
 export function DeviceAndroidFoldControls(props: {
   readonly access: DeviceHubAccess

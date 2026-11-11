@@ -1,7 +1,13 @@
-import * as Platform from "./revisionedQuery.platform"
+import * as Platform from platform
 
 import * as Option from "effect/Option"
 import { Atom, type AtomRegistry } from "effect/reactivity"
+
+module platform {
+  export function callQueueMicrotask(...args: Parameters<typeof queueMicrotask>) {
+    return queueMicrotask(...args)
+  }
+}
 
 // Outside the nodes: a node is dropped once unmounted, and the next read must
 // still compare against the revision the query was last read under.

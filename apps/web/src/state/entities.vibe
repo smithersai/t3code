@@ -1,4 +1,4 @@
-import * as Platform from "./entities.platform"
+import * as Platform from platform
 
 import type * as DateTime from "effect/DateTime"
 import { useAtomValue } from "@effect/atom-react"
@@ -32,6 +32,16 @@ import { environmentServerConfigsAtom } from "./server"
 import { allEnvironmentProjectSnapshotsReadyAtom, allEnvironmentShellsBootstrappedAtom } from "./shell.vibe"
 import { environmentThreadDetails, environmentThreadShells } from "./threads"
 import { waitForAtomValue } from "./waitForAtomValue"
+
+module platform {
+  export function callSetTimeout(...args: Parameters<typeof setTimeout>) {
+    return setTimeout(...args)
+  }
+
+  export function callClearTimeout(...args: Parameters<typeof clearTimeout>) {
+    return clearTimeout(...args)
+  }
+}
 
 const EMPTY_THREAD_REFS: ReadonlyArray<ScopedThreadRef> = Object.freeze([])
 const EMPTY_VISIBLE_TURN_ITEMS: ReadonlyArray<OrchestrationV2ProjectedTurnItem> = Object.freeze([])

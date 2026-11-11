@@ -23,7 +23,18 @@ import { Input } from "../ui/input"
 import { RadioGroup } from "../ui/radio-group"
 import { Spinner } from "../ui/spinner"
 import { StandalonePage, StandalonePageHeader } from "../ui/standalone-page"
-import * as Platform from "./ConnectAgentSurface.platform"
+
+module platform {
+  export function readWindowLocationHref() {
+    return window.location.href
+  }
+
+  export function callWindowLocationReplace(url: string | URL) {
+    return window.location.replace(url)
+  }
+}
+
+import * as Platform from platform
 
 export const accessConfig: Record<
   AuthMcpClientAccess,

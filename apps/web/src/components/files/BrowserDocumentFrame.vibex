@@ -21,7 +21,7 @@ import { isMacPlatform, matchesKeybindingShortcut, normalizeEventKey } from "@t3
 import { lazy, Suspense, useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from "react"
 import { isElectron } from "~/env"
 import { FileSurfaceLoading } from "./fileSurfaceChrome"
-import * as Platform from "./BrowserDocumentFrame.platform"
+import * as Platform from platform
 
 import { useOpenLink } from "~/browser/useOpenLink"
 import { ExpandedImageDialog } from "~/components/chat/ExpandedImageDialog"
@@ -32,6 +32,70 @@ import { useOpenChangeRequestLink } from "~/lib/openPullRequestLink"
 import { readLocalApi } from "~/localApi"
 import { cn } from "~/lib/utils"
 import { primaryServerKeybindingsAtom, serverEnvironment } from "~/state/server"
+
+module platform {
+  export function readNavigatorPdfViewerEnabled() {
+    return navigator.pdfViewerEnabled
+  }
+
+  export function readNavigatorUserAgent() {
+    return navigator.userAgent
+  }
+
+  export function readNavigatorMaxTouchPoints() {
+    return navigator.maxTouchPoints
+  }
+
+  export function readNavigatorUserActivation() {
+    return navigator.userActivation
+  }
+
+  export function createKeyboardEvent(...args: ConstructorParameters<typeof KeyboardEvent>) {
+    return new KeyboardEvent(...args)
+  }
+
+  export function readNavigatorPlatform() {
+    return navigator.platform
+  }
+
+  export function callConsoleError(...args: Parameters<typeof console.error>) {
+    return console.error(...args)
+  }
+
+  export function readDocumentActiveElement() {
+    return document.activeElement
+  }
+
+  export function callWindowAddEventListener<K extends keyof WindowEventMap>(
+    type: K,
+    listener: (this: Window, ev: WindowEventMap[K]) => unknown,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+  export function callWindowAddEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+  export function callWindowAddEventListener(...args: Parameters<typeof window.addEventListener>) {
+    return window.addEventListener(...args)
+  }
+
+  export function callWindowRemoveEventListener<K extends keyof WindowEventMap>(
+    type: K,
+    listener: (this: Window, ev: WindowEventMap[K]) => unknown,
+    options?: boolean | EventListenerOptions,
+  ): void
+  export function callWindowRemoveEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | EventListenerOptions,
+  ): void
+  export function callWindowRemoveEventListener(
+    ...args: Parameters<typeof window.removeEventListener>
+  ) {
+    return window.removeEventListener(...args)
+  }
+}
 
 /**
  * The page reports the keys, and a page script can report any key it likes,

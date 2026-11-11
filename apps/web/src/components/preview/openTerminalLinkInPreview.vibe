@@ -1,4 +1,4 @@
-import * as Platform from "./openTerminalLinkInPreview.platform"
+import * as Platform from platform
 
 import type { ScopedThreadRef } from "@t3tools/contracts"
 import { isAtomCommandInterrupted } from "@t3tools/client-runtime/state/runtime"
@@ -15,6 +15,12 @@ import { isPreviewAvailableFor, previewRuntimeFor } from "../../browser/previewR
 import { recordVisitForThread } from "~/browserHistoryStore"
 import { applyPreviewServerSnapshot } from "~/previewStateStore"
 import { useRightPanelStore } from "~/rightPanelStore"
+
+module platform {
+  export function callConsoleError(...args: Parameters<typeof console.error>) {
+    return console.error(...args)
+  }
+}
 
 const terminalLinkErrorContext = {
   environmentId: Schema.String,

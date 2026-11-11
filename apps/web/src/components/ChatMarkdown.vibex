@@ -173,7 +173,7 @@ import { MarkdownFileLink } from "./chat/MarkdownFileLink"
 import { canUseMarkdownFileShellActions } from "./chat/MarkdownFileLink.logic"
 import { handleMarkdownFragmentClick, rehypeHeadingIds } from "./chat/markdownFragments"
 import { rehypeTextDirection } from "./chat/markdownTextDirection"
-import * as Platform from "./ChatMarkdown.platform"
+import * as Platform from platform
 import { hastHasText, hastPlainTextDeep, plainHastText } from "./chat/markdownHast.logic"
 import {
   extractCodeBlock,
@@ -184,6 +184,20 @@ import {
   nodeToPlainText,
 } from "./chat/MarkdownCodeBlock.logic"
 import { reportMarkdownActionFailure } from "./chat/markdownActionFailure"
+
+module platform {
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+
+  export function callWindowGetSelection() {
+    return window.getSelection()
+  }
+
+  export function isHTMLImageElement(value: unknown): value is HTMLImageElement {
+    return value instanceof HTMLImageElement
+  }
+}
 
 const isAssetNotFoundError = Schema.is(AssetWorkspaceAssetNotFoundError)
 

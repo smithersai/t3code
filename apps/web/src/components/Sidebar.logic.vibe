@@ -1,4 +1,4 @@
-import * as Platform from "./Sidebar.logic.platform"
+import * as Platform from platform
 
 import { resolveThreadWorkingStartedAt } from "@t3tools/client-runtime/state/models"
 import { isShownUnderParent } from "@t3tools/client-runtime/state/threads"
@@ -25,6 +25,28 @@ import { isLatestRunSettled } from "../session-logic.vibe"
 import { observeIntersection } from "../lib/observeIntersection"
 import { deadlineAfter, deadlineStore } from "@t3tools/client-runtime/clock"
 import { useDeadlinePassed } from "../hooks/useDeadline"
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfIntersectionObserver() {
+    return typeof IntersectionObserver
+  }
+
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function callWindowRemoveEventListener(
+    ...args: Parameters<typeof window.removeEventListener>
+  ) {
+    return window.removeEventListener(...args)
+  }
+
+  export function callWindowAddEventListener(...args: Parameters<typeof window.addEventListener>) {
+    return window.addEventListener(...args)
+  }
+}
 
 export function shouldNavigateAfterThreadPark(input: {
   readonly threadKey: string

@@ -7,7 +7,35 @@ import { resolveOfficialAcpRegistryIconUrl, officialAcpRegistryIconUrlForAgentId
 
 import { cn } from "../../lib/utils"
 import { ACPRegistryIcon } from "../Icons"
-import * as Platform from "./AcpRegistryIcon.platform"
+
+module platform {
+  export function createBlob(...args: ConstructorParameters<typeof Blob>) {
+    return new Blob(...args)
+  }
+
+  /** @throws {never} */
+  export function readTypeOfCaches() {
+    return typeof caches
+  }
+
+  export function callCachesOpen(cacheName: string) {
+    return caches.open(cacheName)
+  }
+
+  export function callFetch(...args: Parameters<typeof fetch>) {
+    return fetch(...args)
+  }
+
+  export function callUrlCreateObjectURL(object: Blob | MediaSource) {
+    return URL.createObjectURL(object)
+  }
+
+  export function callUrlRevokeObjectURL(url: string) {
+    return URL.revokeObjectURL(url)
+  }
+}
+
+import * as Platform from platform
 
 const ACP_REGISTRY_ICON_CACHE = "t3-acp-registry-icons-v1"
 const MAX_ICON_BYTES = 512 * 1_024

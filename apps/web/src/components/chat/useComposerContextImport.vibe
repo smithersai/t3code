@@ -1,4 +1,4 @@
-import * as Platform from "./useComposerContextImport.platform"
+import * as Platform from platform
 
 import { ConnectionBlockedError, ConnectionTransientError } from "@t3tools/client-runtime/connection"
 import { EnvironmentRpcUnavailableError } from "@t3tools/client-runtime/rpc"
@@ -51,6 +51,24 @@ import { useAtomCommand } from "../../state/use-atom-command.vibe"
 import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe"
 import { useStableCallback } from "../../hooks/useStableCallback"
 import { countPreparingComposerImages } from "./preparingComposerImages"
+
+module platform {
+  export function callFetch(...args: Parameters<typeof fetch>) {
+    return fetch(...args)
+  }
+
+  export function callAbortSignalTimeout(...args: Parameters<typeof AbortSignal.timeout>) {
+    return AbortSignal.timeout(...args)
+  }
+
+  export function createFile(...args: ConstructorParameters<typeof File>) {
+    return new File(...args)
+  }
+
+  export function callURLCreateObjectURL(...args: Parameters<typeof URL.createObjectURL>) {
+    return URL.createObjectURL(...args)
+  }
+}
 
 const isUnreachable = Schema.is(
   Schema.Union([ConnectionTransientError, ConnectionBlockedError, EnvironmentRpcUnavailableError]),

@@ -1,4 +1,4 @@
-import * as Platform from "./DiffPanel.platform"
+import * as Platform from platform
 import { RefreshIcon } from "~/components/ui/refresh-icon"
 import { useAtomValue } from "@effect/atom-react"
 import type { FileDiffContentsLoader, FileDiffMetadata } from "@pierre/diffs"
@@ -87,6 +87,24 @@ import { useReviewFilePatches } from "./diffs/useReviewFilePatches.vibe"
 import { DiffFileLoadingBoundary } from "./diffs/DiffFileLoadingBoundary"
 import { DiffFileStatus } from "./diffs/DiffFileStatus"
 import { useThreadRouteRef } from "../hooks/useThreadRouteTarget"
+
+module platform {
+  export function callConsoleWarn(...args: Parameters<typeof console.warn>) {
+    return console.warn(...args)
+  }
+
+  export function readHTMLAnchorElement() {
+    return HTMLAnchorElement
+  }
+
+  export function readHTMLButtonElement() {
+    return HTMLButtonElement
+  }
+
+  export function readHTMLElement() {
+    return HTMLElement
+  }
+}
 
 type DiffThemeType = "light" | "dark"
 const AUTOMATIC_BASE_REF = "__automatic_base_ref__"

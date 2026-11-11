@@ -14,9 +14,63 @@ import { useResizeDrag } from "~/hooks/useResizeDrag"
 import { useMediaQuery } from "~/hooks/useMediaQuery"
 import { setLocalStorageItem } from "~/hooks/useLocalStorage"
 import { resolveSidebarState } from "./sidebarState"
-import * as Platform from "./sidebar.platform"
-import { SidebarContext, type SidebarContextProps, useSidebar } from "./sidebar.context"
+import * as Platform from platform
+import { SidebarContext, type SidebarContextProps, useSidebar } from contextCode
 import * as Schema from "effect/Schema"
+
+module contextCode {
+  import * as React from "react"
+  import type { ResponsiveSidebarState } from "./sidebarState"
+
+  export type SidebarContextProps = {
+    state: ResponsiveSidebarState
+    open: boolean
+    setOpen: (open: boolean) => void
+    openMobile: boolean
+    mobileSheetMounted: boolean
+    setMobileSheetElement: (element: HTMLDivElement | null) => void
+    setOpenMobile: (open: boolean) => void
+    isMobile: boolean
+    toggleSidebar: () => void
+    /** Runs before the desktop sidebar collapses. */
+    onCollapse: (listener: () => void) => () => void
+  }
+
+  export const SidebarContext = React.createContext<SidebarContextProps | null>(null)
+
+  // Throws outside a SidebarProvider, as React context hooks do.
+  export function useSidebar() {
+    const context = React.use(SidebarContext)
+    if (!context) {
+      throw new Error("useSidebar must be used within a SidebarProvider.")
+    }
+
+    return context
+  }
+}
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function callWindowMatchMedia(query: string) {
+    return window.matchMedia(query)
+  }
+
+  export function callCookieStoreSet(options: CookieInit) {
+    return cookieStore.set(options)
+  }
+
+  export function readDocumentActiveElement() {
+    return document.activeElement
+  }
+
+  export function callConsoleError(...args: Parameters<typeof console.error>) {
+    return console.error(...args)
+  }
+}
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7

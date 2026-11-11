@@ -1,4 +1,4 @@
-import * as Platform from "./filesViewedStore.platform"
+import * as Platform from platform
 
 import { type AtomCommandResult, isAtomCommandInterrupted, runAtomCommand } from "@t3tools/client-runtime/state/runtime"
 import type { EnvironmentId, PullRequestFilesViewedResult, PullRequestRef } from "@t3tools/contracts"
@@ -16,6 +16,16 @@ import {
   toFileViewedStates,
   type FileViewedOverlay,
 } from "./pullRequestFilesViewed.logic"
+
+module platform {
+  export function callClearTimeout(...args: Parameters<typeof clearTimeout>) {
+    return clearTimeout(...args)
+  }
+
+  export function callSetTimeout(...args: Parameters<typeof setTimeout>) {
+    return setTimeout(...args)
+  }
+}
 
 export interface FilesViewedTarget {
   readonly environmentId: EnvironmentId

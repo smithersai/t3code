@@ -1,4 +1,4 @@
-import * as Platform from "./useLoadBalancedEnvironment.platform"
+import * as Platform from platform
 
 import { RegistryContext, useAtomValue } from "@effect/atom-react"
 import { chooseLoadBalancedEnvironment } from "@t3tools/client-runtime/load-balancing"
@@ -7,6 +7,16 @@ import { Atom } from "effect/reactivity"
 import { useContext } from "react"
 
 import { serverEnvironment } from "../state/server"
+
+module platform {
+  export function callSetTimeout(...args: Parameters<typeof setTimeout>) {
+    return setTimeout(...args)
+  }
+
+  export function callClearTimeout(...args: Parameters<typeof clearTimeout>) {
+    return clearTimeout(...args)
+  }
+}
 
 // Mirrors the freshness window in chooseLoadBalancedEnvironment.
 const HOST_RESOURCES_FRESH_MS = 15_000

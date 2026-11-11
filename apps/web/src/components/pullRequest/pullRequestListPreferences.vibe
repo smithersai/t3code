@@ -1,4 +1,4 @@
-import * as Platform from "./pullRequestListPreferences.platform"
+import * as Platform from platform
 
 import * as Schema from "effect/Schema"
 
@@ -9,6 +9,17 @@ import {
   PullRequestListFilters,
   PullRequestListState,
 } from "@t3tools/contracts"
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function readWindowLocalStorage() {
+    return window.localStorage
+  }
+}
 
 export const PullRequestListSort = Schema.Literals([
   "ready",

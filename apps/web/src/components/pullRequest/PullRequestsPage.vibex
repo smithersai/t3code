@@ -1,4 +1,4 @@
-import * as Platform from "./PullRequestsPage.platform"
+import * as Platform from platform
 import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients"
 import { applyPullRequestDraftFilterChange } from "@t3tools/client-runtime/pull-request-query"
 import { Spinner } from "~/components/ui/spinner"
@@ -112,6 +112,64 @@ import { useAtomCommand } from "../../state/use-atom-command.vibe"
 import { cn } from "~/lib/utils"
 import { primaryServerKeybindingsAtom } from "~/state/server"
 import { getSourceControlPresentationForKind } from "~/sourceControlPresentation"
+
+module platform {
+  export function callCSSEscape(...args: Parameters<typeof CSS.escape>) {
+    return CSS.escape(...args)
+  }
+
+  export function callDocumentAddEventListener<K extends keyof DocumentEventMap>(
+    type: K,
+    listener: (this: Document, ev: DocumentEventMap[K]) => unknown,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+  export function callDocumentAddEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+  export function callDocumentAddEventListener(
+    ...args: Parameters<typeof document.addEventListener>
+  ) {
+    return document.addEventListener(...args)
+  }
+
+  export function callDocumentRemoveEventListener<K extends keyof DocumentEventMap>(
+    type: K,
+    listener: (this: Document, ev: DocumentEventMap[K]) => unknown,
+    options?: boolean | EventListenerOptions,
+  ): void
+  export function callDocumentRemoveEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | EventListenerOptions,
+  ): void
+  export function callDocumentRemoveEventListener(
+    ...args: Parameters<typeof document.removeEventListener>
+  ) {
+    return document.removeEventListener(...args)
+  }
+
+  export function createIntersectionObserver(
+    ...args: ConstructorParameters<typeof IntersectionObserver>
+  ) {
+    return new IntersectionObserver(...args)
+  }
+
+  /** @throws {never} */
+  export function readTypeOfIntersectionObserver() {
+    return typeof IntersectionObserver
+  }
+
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function readWindowInnerWidth() {
+    return window.innerWidth
+  }
+}
 
 function getShortcutContext() {
   return {

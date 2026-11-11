@@ -58,7 +58,18 @@ import { serverEnvironment } from "~/state/server"
 import { OutdatedServerUpdateAction, ServerUpdateAction, ServerUpdateProgress } from "../ServerUpdateAction"
 import { CloudEnvironmentConnectRows } from "../cloud/CloudEnvironmentConnectList"
 import { useT3ConnectAuthPrompt } from "../clerk/useT3ConnectAuthPrompt"
-import * as Platform from "./SavedEnvironmentRows.platform"
+
+module platform {
+  export function callWindowSetInterval(handler: () => void, timeout?: number) {
+    return window.setInterval(handler, timeout)
+  }
+
+  export function callWindowClearInterval(id: number | undefined) {
+    return window.clearInterval(id)
+  }
+}
+
+import * as Platform from platform
 
 type SavedBackendListRowProps = {
   environment: EnvironmentPresentation

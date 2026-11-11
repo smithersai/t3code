@@ -87,11 +87,55 @@ import {
   toKindScopedComposerContextId,
 } from "@t3tools/shared/composerContextReferences"
 import { UnifiedSettings } from "@t3tools/contracts/settings"
-import { parsePersistedComposerState } from "./composerDraftStore.parse"
-import * as Platform from "./composerDraftStore.platform"
+import { parsePersistedComposerState } from parse
+import * as Platform from platform
 
 const isElementContextDetails = Schema.is(ElementContextDetails)
 import { ReviewCommentContextSchema, type ReviewCommentContext } from "./reviewCommentContext.vibe"
+
+module parse {
+  /**
+   * Reads the persisted composer drafts that zustand's storage wrote with `JSON.stringify`. Malformed
+   * storage throws, as `JSON.parse` does; zustand's rehydration catches it.
+   */
+  export function parsePersistedComposerState(raw: string): unknown {
+    return JSON.parse(raw)
+  }
+}
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfLocalStorage() {
+    return typeof localStorage
+  }
+
+  export function readLocalStorage() {
+    return localStorage
+  }
+
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  /** @throws {never} */
+  export function readTypeOfWindowAddEventListener() {
+    return typeof window.addEventListener
+  }
+
+  export function callWindowAddEventListener(...args: Parameters<typeof window.addEventListener>) {
+    return window.addEventListener(...args)
+  }
+
+  export function callURLRevokeObjectURL(...args: Parameters<typeof URL.revokeObjectURL>) {
+    return URL.revokeObjectURL(...args)
+  }
+
+  export function createFile(...args: ConstructorParameters<typeof File>) {
+    return new File(...args)
+  }
+}
+
 const isRuntimeMode = Schema.is(RuntimeMode)
 const isProviderDriverKind = Schema.is(ProviderDriverKind)
 const isReviewCommentContext = Schema.is(ReviewCommentContextSchema)

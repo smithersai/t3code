@@ -1,4 +1,4 @@
-import * as Platform from "./SettingsPanels.logic.platform"
+import * as Platform from platform
 
 import type {
   BackgroundActivityProfile,
@@ -19,6 +19,16 @@ import {
 } from "@t3tools/shared/backgroundActivitySettings"
 import * as Duration from "effect/Duration"
 import * as Equal from "effect/Equal"
+
+module platform {
+  export function callLocalStorageGetItem(...args: Parameters<typeof localStorage.getItem>) {
+    return localStorage.getItem(...args)
+  }
+
+  export function callLocalStorageSetItem(...args: Parameters<typeof localStorage.setItem>) {
+    return localStorage.setItem(...args)
+  }
+}
 
 export function isProjectGroupingEnabled(mode: SidebarProjectGroupingMode): boolean {
   return mode !== "separate"

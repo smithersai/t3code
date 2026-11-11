@@ -1,4 +1,4 @@
-import * as Platform from "./ScheduledTasksSettings.platform"
+import * as Platform from platform
 import { useAtomValue } from "@effect/atom-react"
 import { connectionStatusTitle } from "@t3tools/client-runtime/connection"
 import * as Option from "effect/Option"
@@ -113,6 +113,12 @@ import {
   SettingsSection,
   SETTINGS_PICKER_TRIGGER_CLASSNAME,
 } from "./settingsLayout"
+
+module platform {
+  export function callWindowConfirm(...args: Parameters<typeof window.confirm>) {
+    return window.confirm(...args)
+  }
+}
 
 const WEEKDAY_ORDER = [1, 2, 3, 4, 5, 6, 0] as const
 const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const

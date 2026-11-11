@@ -1,4 +1,4 @@
-import * as Platform from "./previewStateStore.platform"
+import * as Platform from platform
 
 import { useAtomValue } from "@effect/atom-react"
 import { scopedThreadKey } from "@t3tools/client-runtime/environment"
@@ -14,6 +14,25 @@ import { Atom } from "effect/reactivity"
 
 import { PREVIEW_RECENT_URL_LIMIT } from "./components/preview/previewConstants"
 import { appAtomRegistry } from "./rpc/atomRegistry.vibe"
+
+module platform {
+  export function callClearTimeout(...args: Parameters<typeof clearTimeout>) {
+    return clearTimeout(...args)
+  }
+
+  export function callSetTimeout(...args: Parameters<typeof setTimeout>) {
+    return setTimeout(...args)
+  }
+
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+}
 
 export interface DesktopPreviewOverlay {
   hasWebContents: boolean

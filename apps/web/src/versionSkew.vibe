@@ -1,4 +1,4 @@
-import * as Platform from "./versionSkew.platform"
+import * as Platform from platform
 
 import type { EnvironmentId, ServerConfig, ServerInstallation, ServerSelfUpdateCapability } from "@t3tools/contracts"
 import type { ServerUpdateState } from "@t3tools/client-runtime/state/server"
@@ -7,6 +7,12 @@ import * as Schema from "effect/Schema"
 
 import { APP_VERSION } from "./branding"
 import { getLocalStorageItem, setLocalStorageItem } from "./hooks/useLocalStorage"
+
+module platform {
+  export function callConsoleError(...args: Parameters<typeof console.error>) {
+    return console.error(...args)
+  }
+}
 
 export interface VersionMismatch {
   readonly clientVersion: string

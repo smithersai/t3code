@@ -1,4 +1,4 @@
-import * as Platform from "./promptStashStore.platform"
+import * as Platform from platform
 
 import { ComposerContextRecord, ForwardCompatibleArray } from "@t3tools/contracts"
 import * as Schema from "effect/Schema"
@@ -6,6 +6,21 @@ import { create } from "zustand"
 
 import { PersistedComposerFileAttachment, PersistedComposerImageAttachment } from "./composerDraftStore"
 import { createMemoryStorage, type StateStorage } from "./lib/storage"
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfLocalStorage() {
+    return typeof localStorage
+  }
+
+  export function readLocalStorage() {
+    return localStorage
+  }
+
+  export function callConsoleError(...args: Parameters<typeof console.error>) {
+    return console.error(...args)
+  }
+}
 
 export const PROMPT_STASH_STORAGE_KEY = "t3code:prompt-stash:v2"
 const LEGACY_PROMPT_STASH_STORAGE_KEY = "t3code:prompt-stash:v1"

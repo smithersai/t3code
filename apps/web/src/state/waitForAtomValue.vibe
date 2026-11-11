@@ -1,6 +1,16 @@
-import * as Platform from "./waitForAtomValue.platform"
+import * as Platform from platform
 
 import type { Atom, AtomRegistry } from "effect/reactivity"
+
+module platform {
+  export function callGlobalThisClearTimeout(...args: Parameters<typeof globalThis.clearTimeout>) {
+    return globalThis.clearTimeout(...args)
+  }
+
+  export function callGlobalThisSetTimeout(...args: Parameters<typeof globalThis.setTimeout>) {
+    return globalThis.setTimeout(...args)
+  }
+}
 
 export async function waitForAtomValue<A>(input: {
   readonly registry: AtomRegistry.AtomRegistry

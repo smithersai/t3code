@@ -1,4 +1,4 @@
-import * as Platform from "./attachmentUploadQueue.platform"
+import * as Platform from platform
 
 import {
   AuthOrchestrationOperateScope,
@@ -31,6 +31,12 @@ import { assetEnvironment } from "../state/assets.vibe"
 import { attachmentEnvironment } from "../state/attachments"
 import { readEnvironmentScope, readPreparedConnection } from "../state/session.vibe"
 import type { AttachmentUploadState, ReadyAttachmentUpload } from "./attachmentUploadState"
+
+module platform {
+  export function createXMLHttpRequest(...args: ConstructorParameters<typeof XMLHttpRequest>) {
+    return new XMLHttpRequest(...args)
+  }
+}
 
 const MAX_UPLOADS_PER_ENVIRONMENT = 3
 const UPLOAD_TIMEOUT_MS = 5 * 60_000

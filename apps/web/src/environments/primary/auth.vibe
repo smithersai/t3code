@@ -1,4 +1,4 @@
-import * as Platform from "./auth.platform"
+import * as Platform from platform
 
 import type {
   AuthBrowserSessionResult,
@@ -20,6 +20,38 @@ import { getPairingTokenFromUrl, stripPairingTokenFromUrl as stripPairingTokenUr
 
 import { PrimaryEnvironmentHttpClient } from "./httpClient"
 import { runPrimaryHttp } from "../../lib/runtime"
+
+module platform {
+  export function readWindowLocationHref() {
+    return window.location.href
+  }
+
+  export function callWindowHistoryReplaceState(
+    ...args: Parameters<typeof window.history.replaceState>
+  ) {
+    return window.history.replaceState(...args)
+  }
+
+  export function readDocumentTitle() {
+    return document.title
+  }
+
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+
+  export function callSetTimeout(...args: Parameters<typeof setTimeout>) {
+    return setTimeout(...args)
+  }
+
+  export function readDOMException() {
+    return DOMException
+  }
+
+  export function readWindowPathname() {
+    return window.location.pathname
+  }
+}
 
 const PrimaryEnvironmentRequestOperation = Schema.Literals([
   "fetch-session-state",

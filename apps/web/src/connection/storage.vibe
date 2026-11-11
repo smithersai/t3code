@@ -39,7 +39,41 @@ import * as Schema from "effect/Schema"
 import * as Semaphore from "effect/Semaphore"
 import * as Stream from "effect/Stream"
 import { projectFaviconCache } from "../assets/projectFaviconCache"
-import * as Platform from "./storage.platform"
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfIndexedDB() {
+    return typeof indexedDB
+  }
+
+  export function callIndexedDBOpen(...args: Parameters<typeof indexedDB.open>) {
+    return indexedDB.open(...args)
+  }
+
+  /** @throws {never} */
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+
+  /** @throws {never} */
+  export function readWindow() {
+    return window
+  }
+
+  export function createEvent(...args: ConstructorParameters<typeof Event>) {
+    return new Event(...args)
+  }
+
+  export function createMessageChannel(...args: ConstructorParameters<typeof MessageChannel>) {
+    return new MessageChannel(...args)
+  }
+
+  export function callIDBKeyRangeBound(...args: Parameters<typeof IDBKeyRange.bound>) {
+    return IDBKeyRange.bound(...args)
+  }
+}
+
+import * as Platform from platform
 
 const DATABASE_NAME = "t3code:connection-runtime"
 const DATABASE_VERSION = 4

@@ -17,7 +17,23 @@ import { Atom } from "effect/reactivity"
 
 import type { TurnItemSource } from "../chat/timelineRowContext.vibe"
 import { parseAtomFamilyKey } from "../../lib/atomFamilyKey"
-import * as Platform from "./guestTurnItemSource.platform"
+
+module platform {
+  export function callFetch(...args: Parameters<typeof fetch>) {
+    return fetch(...args)
+  }
+
+  export function createEventSource(...args: ConstructorParameters<typeof EventSource>) {
+    return new EventSource(...args)
+  }
+
+  /** @throws {never} */
+  export function readEventSourceCLOSED() {
+    return EventSource.CLOSED
+  }
+}
+
+import * as Platform from platform
 
 /** What an expanded guest row says when it cannot read the item. */
 class GuestItemReadError extends Data.TaggedError("GuestItemReadError")<{

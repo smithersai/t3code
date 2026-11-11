@@ -1,9 +1,15 @@
-import * as Platform from "./usagePagePreferences.platform"
+import * as Platform from platform
 
 import { UsageProviderKind } from "@t3tools/contracts"
 import * as Schema from "effect/Schema"
 
 import { getLocalStorageItem, setLocalStorageItem } from "../../hooks/useLocalStorage"
+
+module platform {
+  export function callConsoleError(...args: Parameters<typeof console.error>) {
+    return console.error(...args)
+  }
+}
 
 const STORAGE_KEY = "t3code:usage-page-preferences:v1"
 const UsagePagePreferencesSchema = Schema.Struct({

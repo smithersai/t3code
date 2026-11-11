@@ -1,4 +1,4 @@
-import * as Platform from "./settingsSearch.platform"
+import * as Platform from platform
 
 import { HOSTED_APP_CHANNEL } from "~/branding"
 import { isElectron } from "~/env"
@@ -13,6 +13,17 @@ import { TYPOGRAPHY_ADVANCED_STORAGE_KEY } from "../../appearanceFonts"
 import { writeLocalStorageValue } from "../../hooks/useLocalStorage"
 import { commandLabel } from "./KeybindingsSettings.logic"
 import type { ResolvedSettingsScope } from "./settingsScope"
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfNavigator() {
+    return typeof navigator
+  }
+
+  export function readNavigatorPlatform() {
+    return navigator.platform
+  }
+}
 
 export type SettingsPath =
   | "/settings/projects"

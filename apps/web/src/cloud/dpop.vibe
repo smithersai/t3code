@@ -1,4 +1,4 @@
-import * as Platform from "./dpop.platform"
+import * as Platform from platform
 
 import { computeDpopAccessTokenHash, computeDpopJwkThumbprint, DpopPublicJwk } from "@t3tools/shared/dpop"
 import * as Crypto from "@t3tools/shared/Crypto"
@@ -7,6 +7,40 @@ import * as Effect from "effect/Effect"
 import * as Layer from "effect/Layer"
 import * as Schema from "effect/Schema"
 import { importJWK, SignJWT, type JWK } from "jose"
+
+module platform {
+  export function callGlobalThisCryptoGetRandomValues<T extends ArrayBufferView<ArrayBuffer>>(
+    array: T,
+  ): T {
+    return globalThis.crypto.getRandomValues(array)
+  }
+
+  export function callGlobalThisCryptoSubtleDigest(
+    ...args: Parameters<typeof globalThis.crypto.subtle.digest>
+  ) {
+    return globalThis.crypto.subtle.digest(...args)
+  }
+
+  export function callIndexedDBOpen(...args: Parameters<typeof indexedDB.open>) {
+    return indexedDB.open(...args)
+  }
+
+  /** @throws {never} */
+  export function readTypeOfIndexedDB() {
+    return typeof indexedDB
+  }
+
+  export function generateDpopKey(): Promise<CryptoKeyPair> {
+    return crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, true, [
+      "sign",
+      "verify",
+    ]) as Promise<CryptoKeyPair>
+  }
+
+  export function exportDpopJwk(key: CryptoKey) {
+    return crypto.subtle.exportKey("jwk", key)
+  }
+}
 
 export interface BrowserDpopKey {
   readonly privateKey: CryptoKey

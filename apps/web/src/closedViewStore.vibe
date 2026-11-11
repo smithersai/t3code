@@ -1,4 +1,4 @@
-import * as Platform from "./closedViewStore.platform"
+import * as Platform from platform
 
 import { scopedThreadKey } from "@t3tools/client-runtime/environment"
 import {
@@ -14,6 +14,17 @@ import { createJSONStorage, persist } from "zustand/middleware"
 import { resolveStorage } from "./lib/storage"
 import { randomUUID } from "./lib/utils"
 import { type RightPanelSurface } from "./rightPanelStore"
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function readWindowLocalStorage() {
+    return window.localStorage
+  }
+}
 
 export type ClosedView =
   | {

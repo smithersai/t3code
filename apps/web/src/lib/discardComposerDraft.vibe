@@ -1,4 +1,4 @@
-import * as Platform from "./discardComposerDraft.platform"
+import * as Platform from platform
 
 import * as Cause from "effect/Cause"
 import { AsyncResult } from "effect/reactivity"
@@ -12,6 +12,12 @@ import {
 import { showThreadUndoNotice } from "../hooks/showThreadUndoNotice"
 import * as ThreadUndo from "../hooks/threadUndo"
 import { releaseDraftAttachments } from "./attachmentUploadQueue"
+
+module platform {
+  export function callURLCreateObjectURL(...args: Parameters<typeof URL.createObjectURL>) {
+    return URL.createObjectURL(...args)
+  }
+}
 
 export function discardComposerDraft(target: ComposerThreadTarget): void {
   const store = useComposerDraftStore.getState()

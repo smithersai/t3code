@@ -26,7 +26,19 @@ import {
 } from "./browserFaviconLogic"
 import { useComposerDraftStore } from "./composerDraftStore"
 import { createMemoryStorage, type StateStorage } from "./lib/storage"
-import * as Platform from "./browserFaviconStore.platform"
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function readWindowLocalStorage() {
+    return window.localStorage
+  }
+}
+
+import * as Platform from platform
 
 const BROWSER_FAVICON_STORAGE_KEY = "t3code:browser-favicons:v1"
 const MAX_PENDING_ORIGINS_PER_THREAD = 10

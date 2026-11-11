@@ -1,4 +1,4 @@
-import * as Platform from "./ProjectFaviconPickerDialog.platform"
+import * as Platform from platform
 import { useAtomValue } from "@effect/atom-react"
 import type { EnvironmentId } from "@t3tools/contracts"
 import { isWindowsAbsolutePath } from "@t3tools/shared/path"
@@ -16,6 +16,17 @@ import { useProjectFilePickerQuery } from "../files/projectFilesQueryState.vibe"
 import { CommandDialog, CommandDialogPopup, CommandFooterAction } from "../ui/command"
 import { toastManager } from "../ui/toast"
 import { ProjectFaviconThumbnail } from "./ProjectFaviconThumbnail"
+
+module platform {
+  export function readNavigatorPlatform() {
+    return navigator.platform
+  }
+
+  /** @throws {never} */
+  export function readTypeOfNavigator() {
+    return typeof navigator
+  }
+}
 
 function emptyMessage(query: string, error: string | null, isPending: boolean): string {
   if (error) return error

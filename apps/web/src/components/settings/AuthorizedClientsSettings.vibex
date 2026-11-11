@@ -65,7 +65,27 @@ import {
   isHostedAppPairingUrl,
   endpointShareHint,
 } from "./ConnectionsSettings.logic"
-import * as Platform from "./AuthorizedClientsSettings.platform"
+
+module platform {
+  export function readWindowLocationHostname() {
+    return window.location.hostname
+  }
+
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function readWindowIsSecureContext() {
+    return window.isSecureContext
+  }
+
+  export function readNavigatorClipboard() {
+    return navigator.clipboard
+  }
+}
+
+import * as Platform from platform
 
 function AccessScopeSummary({
   scopes,

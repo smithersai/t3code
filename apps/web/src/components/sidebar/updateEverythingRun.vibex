@@ -1,4 +1,4 @@
-import * as Platform from "./updateEverythingRun.platform"
+import * as Platform from platform
 import { useAtomValue } from "@effect/atom-react"
 import { EnvironmentId } from "@t3tools/contracts"
 import * as Option from "effect/Option"
@@ -20,6 +20,24 @@ import {
   type UpdateEverythingRun,
   type UpdateRunMachine,
 } from "./updateEverything.logic"
+
+module platform {
+  export function callClearTimeout(...args: Parameters<typeof clearTimeout>) {
+    return clearTimeout(...args)
+  }
+
+  export function callQueueMicrotask(...args: Parameters<typeof queueMicrotask>) {
+    return queueMicrotask(...args)
+  }
+
+  export function callSetTimeout(...args: Parameters<typeof setTimeout>) {
+    return setTimeout(...args)
+  }
+
+  export function readWindowLocalStorage() {
+    return window.localStorage
+  }
+}
 
 const updateEverythingRunAtom = Atom.make<UpdateEverythingRun | null>(null).pipe(
   Atom.keepAlive,

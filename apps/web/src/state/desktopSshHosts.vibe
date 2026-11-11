@@ -1,9 +1,20 @@
-import * as Platform from "./desktopSshHosts.platform"
+import * as Platform from platform
 
 import type { DesktopBridge, DesktopDiscoveredSshHost } from "@t3tools/contracts"
 import * as Effect from "effect/Effect"
 import * as Schema from "effect/Schema"
 import { Atom } from "effect/reactivity"
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+}
 
 type DesktopSshDiscoveryBridge = Pick<DesktopBridge, "discoverSshHosts">
 

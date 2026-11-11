@@ -124,7 +124,14 @@ import {
 } from "./AuthorizedClientsSettings"
 import { CloudLinkRow, CloudRemoteEnvironmentRows, SavedBackendListRow } from "./SavedEnvironmentRows"
 import { AddEnvironmentDialog } from "./AddEnvironmentDialog"
-import * as Platform from "./ConnectionsSettings.platform"
+
+module platform {
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+}
+
+import * as Platform from platform
 
 const DEFAULT_TAILSCALE_SERVE_PORT = 443
 const EMPTY_ADVERTISED_ENDPOINTS: ReadonlyArray<AdvertisedEndpoint> = []

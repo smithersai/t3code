@@ -39,7 +39,23 @@ import { projectGroupTitleNeedsUpdate } from "./ProjectSettingsPanel.logic"
 import { useSettingsProjectGroups } from "./useSettingsProjectGroups"
 import { readUnloadedThreadCount } from "../../state/olderSettledShelf.vibe"
 import { settingsScopeEnvironmentLabels } from "./settingsScopeAxis"
-import * as Platform from "./ProjectSettingsPanel.platform"
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function readNavigatorPlatform() {
+    return navigator.platform
+  }
+
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+}
+
+import * as Platform from platform
 
 const ProjectIconPickerDialog = lazy(() =>
   import("./ProjectIconPickerDialog").then((module) => ({

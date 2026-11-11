@@ -1,4 +1,4 @@
-import * as Platform from "./chatViewSend.platform"
+import * as Platform from platform
 
 import {
   CommandId,
@@ -41,6 +41,12 @@ import {
 } from "../ChatView.logic"
 import { readPreparedConnection } from "../../state/session.vibe"
 import { recallableComposerPrompt } from "./composerPromptHistory"
+
+module platform {
+  export function callURLCreateObjectURL(...args: Parameters<typeof URL.createObjectURL>) {
+    return URL.createObjectURL(...args)
+  }
+}
 
 // Kept per route so a send in flight, and the multiple-model selections, survive
 // ChatView remounting while the user navigates.

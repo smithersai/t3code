@@ -12,7 +12,14 @@ import { DEFAULT_COMPOSER_PLACEHOLDER } from "../../composerPlaceholder"
 import { resolveDiffThemeName, type DiffThemeName } from "../../lib/diffRendering"
 import { PREFERRED_HIGHLIGHTER } from "../../lib/syntaxHighlighting"
 import { GhosttyTerminalSurface } from "~/terminal/ghostty/surface"
-import * as Platform from "./SettingsFontPreviews.platform"
+
+module platform {
+  export function callDocumentCreateElement<K extends keyof HTMLElementTagNameMap>(tagName: K) {
+    return document.createElement(tagName)
+  }
+}
+
+import * as Platform from platform
 
 const PREVIEW_SKILLS: ReadonlyArray<ServerProviderSkill> = [
   { name: "frontend-design", path: ".agents/skills/frontend-design/SKILL.md", enabled: true },

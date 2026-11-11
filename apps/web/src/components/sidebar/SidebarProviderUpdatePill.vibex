@@ -1,4 +1,4 @@
-import * as Platform from "./SidebarProviderUpdatePill.platform"
+import * as Platform from platform
 import { Spinner } from "~/components/ui/spinner"
 import { useNavigate } from "@tanstack/react-router"
 import { useAtomValue } from "@effect/atom-react"
@@ -12,6 +12,16 @@ import {
   type ProviderUpdateSidebarPillView,
 } from "../ProviderUpdateLaunchNotification.logic"
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip"
+
+module platform {
+  export function callWindowClearTimeout(...args: Parameters<typeof window.clearTimeout>) {
+    return window.clearTimeout(...args)
+  }
+
+  export function callWindowSetTimeout(...args: Parameters<typeof window.setTimeout>) {
+    return window.setTimeout(...args)
+  }
+}
 
 // Matches the pill's `duration-180` class.
 const PROVIDER_UPDATE_PILL_EXIT_MS = 180

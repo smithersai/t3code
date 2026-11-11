@@ -37,7 +37,18 @@ import { projectContentSearch, projectEnvironment } from "./projects"
 import { useEnvironmentQuery } from "./query.vibe"
 import { vcsEnvironment } from "./vcs"
 import { parseAtomFamilyKey } from "../lib/atomFamilyKey"
-import * as Platform from "./queries.platform"
+
+module platform {
+  export function callWindowSetTimeout(...args: Parameters<typeof window.setTimeout>) {
+    return window.setTimeout(...args)
+  }
+
+  export function callWindowClearTimeout(...args: Parameters<typeof window.clearTimeout>) {
+    return window.clearTimeout(...args)
+  }
+}
+
+import * as Platform from platform
 
 const PROJECT_PATH_SEARCH_DEBOUNCE_MS = 120
 const COMPOSER_PATH_SEARCH_LIMIT = 80

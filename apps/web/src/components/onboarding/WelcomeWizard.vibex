@@ -89,7 +89,26 @@ import { Dialog } from "../ui/dialog"
 import { toastManager } from "../ui/toast"
 import { cn } from "../../lib/utils"
 import { formatRelativeTime } from "../../timestampFormat"
-import * as Platform from "./WelcomeWizard.platform"
+
+module platform {
+  export function callDocumentGetElementById(elementId: string) {
+    return document.getElementById(elementId)
+  }
+
+  export function readDocumentBody() {
+    return document.body
+  }
+
+  export function readDocumentActiveElement() {
+    return document.activeElement
+  }
+
+  export function callRequestAnimationFrame(callback: FrameRequestCallback) {
+    return requestAnimationFrame(callback)
+  }
+}
+
+import * as Platform from platform
 
 type WizardStep = "connection" | "agents" | "import"
 const NO_ENVIRONMENTS: readonly EnvironmentId[] = []

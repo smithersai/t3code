@@ -1,4 +1,4 @@
-import * as Platform from "./FileBrowserPanel.platform"
+import * as Platform from platform
 import { RefreshIcon } from "~/components/ui/refresh-icon"
 import type {
   ContextMenuItem as TreeContextMenuItem,
@@ -7,7 +7,7 @@ import type {
 import type { EnvironmentId, ProjectEntry } from "@t3tools/contracts"
 import { FileTree, useFileTree, useFileTreeSearch, useFileTreeSelector } from "@pierre/trees/react"
 import { settlePromise } from "@t3tools/client-runtime/state/runtime"
-import { throwUnlessSuccess } from "./FileBrowserPanel.throws"
+import { throwUnlessSuccess } from throws
 import { serializeComposerFileLink } from "@t3tools/shared/composerTrigger"
 import { ChevronsDownUp, ChevronsUpDown } from "lucide"
 import { useEffect, useRef, useState } from "react"
@@ -34,6 +34,26 @@ import { buildFileTreePathUpdates } from "./fileTreePathReconciliation"
 import { loadFileAncestors } from "./loadFileAncestors"
 import { useDirectoryEntries } from "./useDirectoryEntries.vibe"
 import { useProjectPathSearch } from "~/state/queries"
+
+module platform {
+  export function callPerformanceNow() {
+    return performance.now()
+  }
+
+  export function callQueueMicrotask(...args: Parameters<typeof queueMicrotask>) {
+    return queueMicrotask(...args)
+  }
+}
+
+module throws {
+  import type { AtomCommandResult } from "@t3tools/client-runtime/state/runtime"
+  import * as AsyncResult from "effect/reactivity/AsyncResult"
+  import * as Cause from "effect/Cause"
+
+  export function throwUnlessSuccess<A, E>(result: AtomCommandResult<A, E>): void {
+    if (!AsyncResult.isSuccess(result)) throw Cause.squash(result.cause)
+  }
+}
 
 interface FileBrowserPanelProps {
   environmentId: EnvironmentId

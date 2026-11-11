@@ -11,7 +11,7 @@ import { runAtomCommand } from "@t3tools/client-runtime/state/runtime"
 import { type ComponentProps, useState } from "react"
 
 import { primaryEnvironmentIdAtom } from "../state/primaryEnvironment.vibe"
-import * as Platform from "./ElectronBrowserHost.platform"
+import * as Platform from platform
 
 import { isElectron } from "~/env"
 import { useClientSettingsHydrated } from "~/hooks/useSettings"
@@ -28,6 +28,32 @@ import { HostedBrowserWebview } from "./HostedBrowserWebview"
 import { openUrlInPreview } from "./openFileInPreview.vibe"
 import { rendersServerTabNatively } from "./previewRuntime.vibe"
 import { previewRuntimeTabId } from "./previewRuntimeTabId"
+
+module platform {
+  export function callWindowRequestAnimationFrame(callback: FrameRequestCallback) {
+    return window.requestAnimationFrame(callback)
+  }
+
+  export function callWindowCancelAnimationFrame(handle: number) {
+    return window.cancelAnimationFrame(handle)
+  }
+
+  export function createMutationObserver(callback: MutationCallback) {
+    return new MutationObserver(callback)
+  }
+
+  export function readDocumentElement() {
+    return document.documentElement
+  }
+
+  export function readDocumentHead() {
+    return document.head
+  }
+
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+}
 
 /** Every session this window renders as a hosted webview, in a fixed (non-display) order. */
 function hostedBrowserSessions(

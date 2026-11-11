@@ -136,7 +136,40 @@ import {
 import { PullRequestGuideTab } from "./PullRequestGuideTab"
 import { guideRunKey, useGuideRunStore } from "./guide/guideRunStore"
 import { useReviewGuideWriter } from "./guide/useReviewGuideWriter.vibe"
-import * as Platform from "./PullRequestDetailPanel.platform"
+
+module platform {
+  export function callWindowAddEventListener<K extends keyof WindowEventMap>(
+    type: K,
+    listener: (this: Window, ev: WindowEventMap[K]) => unknown,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+  export function callWindowAddEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+  export function callWindowAddEventListener(...args: Parameters<typeof window.addEventListener>) {
+    return window.addEventListener(...args)
+  }
+
+  export function callWindowRemoveEventListener<K extends keyof WindowEventMap>(
+    type: K,
+    listener: (this: Window, ev: WindowEventMap[K]) => unknown,
+    options?: boolean | EventListenerOptions,
+  ): void
+  export function callWindowRemoveEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | EventListenerOptions,
+  ): void
+  export function callWindowRemoveEventListener(
+    ...args: Parameters<typeof window.removeEventListener>
+  ) {
+    return window.removeEventListener(...args)
+  }
+}
+
+import * as Platform from platform
 
 const actionFailureLabels = (term: string): Record<PullRequestAction, string> => ({
   merge: `Could not merge this ${term}`,

@@ -105,7 +105,14 @@ import {
   resolveRemoteOperateAccess,
   resolveSelectedProviderEnvironmentId,
 } from "./ProviderSettingsPanel.logic"
-import * as Platform from "./ProviderSettingsPanel.platform"
+
+module platform {
+  export function callConsoleWarn(...args: Parameters<typeof console.warn>) {
+    return console.warn(...args)
+  }
+}
+
+import * as Platform from platform
 
 function modelListChanges(current: ReadonlyArray<string>, next: ReadonlyArray<string>) {
   const currentSet = new Set(current)

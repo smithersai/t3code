@@ -15,8 +15,64 @@ import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe"
 import { stackedThreadToast, toastManager } from "../ui/toast"
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip"
 import { downloadMedia, readMediaPng } from "./mediaContent"
-import { allowsHostMedia, assertCanReadMedia as assertCanReadHostMedia } from "./MediaActions.hostAccess"
-import * as Platform from "./MediaActions.platform"
+
+module hostAccess {
+  import {
+    AuthFilesystemReadScope,
+    type EnvironmentId,
+    sessionGrantsScope,
+    type SessionGrantInput,
+  } from "@t3tools/contracts"
+  import * as Option from "effect/Option"
+  import { AsyncResult } from "effect/reactivity"
+
+  import { appAtomRegistry } from "../../rpc/atomRegistry.vibe"
+  import { environmentSession } from "../../state/session.vibe"
+
+  export function allowsHostMedia(session: SessionGrantInput | null) {
+    return session === null || sessionGrantsScope(session, AuthFilesystemReadScope)
+  }
+
+  function canReadHostMedia(environmentId: EnvironmentId | null): boolean {
+    if (environmentId === null) return true
+    const result = appAtomRegistry.get(environmentSession.sessionStateAtom(environmentId))
+    return result._tag !== "Failure" && allowsHostMedia(Option.getOrNull(AsyncResult.value(result)))
+  }
+
+  // Media actions throw this to stop before reading host files the session may not read.
+  export function assertCanReadMedia(hostEnvironmentId: EnvironmentId | null) {
+    if (!canReadHostMedia(hostEnvironmentId)) {
+      throw new Error("This connection cannot read host files.")
+    }
+  }
+}
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfNavigator() {
+    return typeof navigator
+  }
+
+  export function readNavigatorClipboard() {
+    return navigator.clipboard
+  }
+
+  export function callNavigatorClipboardWrite(data: ClipboardItems) {
+    return navigator.clipboard.write(data)
+  }
+
+  /** @throws {never} */
+  export function readTypeOfClipboardItem() {
+    return typeof ClipboardItem
+  }
+
+  export function createClipboardItem(...args: ConstructorParameters<typeof ClipboardItem>) {
+    return new ClipboardItem(...args)
+  }
+}
+
+import { allowsHostMedia, assertCanReadMedia as assertCanReadHostMedia } from hostAccess
+import * as Platform from platform
 
 export interface MediaActionSource {
   readonly kind: "image" | "video"

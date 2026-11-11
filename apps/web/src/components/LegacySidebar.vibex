@@ -22,7 +22,7 @@ import {
 } from "./ThreadStatusIndicators"
 import { EnvironmentMachineIcon } from "./EnvironmentMachineIcon"
 import { ProjectFavicon } from "./ProjectFavicon"
-import { ProjectPointerSensor } from "./LegacySidebar.pointer"
+import { ProjectPointerSensor } from pointer
 import { useAtomValue } from "@effect/atom-react"
 import { autoAnimate } from "@formkit/auto-animate"
 import React, { createContext, useEffect, useEffectEvent, memo, useContext, useRef, useState } from "react"
@@ -220,7 +220,81 @@ import {
 import { PullRequestGlyph } from "~/components/pullRequest/pullRequestIcons"
 import { useThreadRouteTarget } from "../hooks/useThreadRouteTarget"
 import { type SidebarRouteReveal, useActiveRowReveal } from "./sidebar/routeReveal"
-import * as Platform from "./LegacySidebar.platform"
+
+module platform {
+  export function callRequestAnimationFrame(callback: FrameRequestCallback) {
+    return requestAnimationFrame(callback)
+  }
+
+  export function readDocumentActiveElement() {
+    return document.activeElement
+  }
+
+  export function readNavigatorPlatform() {
+    return navigator.platform
+  }
+
+  export function callWindowSetTimeout(handler: () => void, timeout?: number) {
+    return window.setTimeout(handler, timeout)
+  }
+
+  export function callConsoleError(...args: Parameters<typeof console.error>) {
+    return console.error(...args)
+  }
+
+  export function isHTMLElement(value: unknown): value is HTMLElement {
+    return value instanceof HTMLElement
+  }
+
+  export function callWindowAddEventListener<K extends keyof WindowEventMap>(
+    type: K,
+    listener: (this: Window, ev: WindowEventMap[K]) => unknown,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+  export function callWindowAddEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | AddEventListenerOptions,
+  ): void
+  export function callWindowAddEventListener(...args: Parameters<typeof window.addEventListener>) {
+    return window.addEventListener(...args)
+  }
+
+  export function callWindowRemoveEventListener<K extends keyof WindowEventMap>(
+    type: K,
+    listener: (this: Window, ev: WindowEventMap[K]) => unknown,
+    options?: boolean | EventListenerOptions,
+  ): void
+  export function callWindowRemoveEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | EventListenerOptions,
+  ): void
+  export function callWindowRemoveEventListener(
+    ...args: Parameters<typeof window.removeEventListener>
+  ) {
+    return window.removeEventListener(...args)
+  }
+
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+}
+
+module pointer {
+  import { PointerSensor, type PointerSensorProps } from "@dnd-kit/core"
+
+  type ProjectPointerSensorClass = {
+    /** @throws {never} */
+    new(props: PointerSensorProps): PointerSensor
+    activators: typeof PointerSensor.activators
+  }
+
+  /** dnd-kit's PointerSensor. Its constructor stores props and attaches listeners. */
+  export const ProjectPointerSensor: ProjectPointerSensorClass = PointerSensor
+}
+
+import * as Platform from platform
 const SIDEBAR_SORT_LABELS: Record<SidebarProjectSortOrder, string> = {
   updated_at: "Last user message",
   created_at: "Created at",

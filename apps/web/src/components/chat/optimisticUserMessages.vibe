@@ -6,7 +6,28 @@ import type { SetStateAction } from "react"
 import type { ChatMessage } from "../../types"
 import { collectUserMessageBlobPreviewUrls } from "../ChatView.logic"
 import { parseAtomFamilyKey } from "../../lib/atomFamilyKey"
-import * as Platform from "./optimisticUserMessages.platform"
+
+module platform {
+  export function callURLRevokeObjectURL(...args: Parameters<typeof URL.revokeObjectURL>) {
+    return URL.revokeObjectURL(...args)
+  }
+
+  /** @throws {never} */
+  export function readGlobalThisLocationHref() {
+    return globalThis.location?.href
+  }
+
+  /** @throws {never} */
+  export function readTypeOfImage() {
+    return typeof Image
+  }
+
+  export function createImage(...args: ConstructorParameters<typeof Image>) {
+    return new Image(...args)
+  }
+}
+
+import * as Platform from platform
 
 /**
  * Messages shown before the server echoes them. An acknowledged message leaves `messages` in the

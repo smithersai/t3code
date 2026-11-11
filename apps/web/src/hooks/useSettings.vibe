@@ -58,7 +58,14 @@ import {
 } from "../state/session.vibe"
 import { environmentIdsKey } from "../state/environmentAtomList.vibe"
 import { appAtomRegistry } from "../rpc/atomRegistry.vibe"
-import { callConsoleError } from "./useSettings.platform"
+
+module platform {
+  export function callConsoleError(...args: Parameters<typeof console.error>) {
+    return console.error(...args)
+  }
+}
+
+import { callConsoleError } from platform
 
 const CLIENT_SETTINGS_PERSISTENCE_ERROR_SCOPE = "[CLIENT_SETTINGS]"
 

@@ -1,4 +1,4 @@
-import * as Platform from "./desktopUpdate.platform"
+import * as Platform from platform
 
 import { useAtomValue } from "@effect/atom-react"
 import type { DesktopBridge, DesktopUpdateState } from "@t3tools/contracts"
@@ -8,6 +8,17 @@ import * as Schema from "effect/Schema"
 import * as Stream from "effect/Stream"
 import * as AsyncResult from "effect/reactivity/AsyncResult"
 import { Atom } from "effect/reactivity"
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+}
 
 type DesktopUpdateBridge = Pick<DesktopBridge, "getUpdateState" | "onUpdateState">
 

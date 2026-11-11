@@ -3,37 +3,178 @@ import { makeQueuedRunEditStore, makeQueuedRunsAtom } from "@t3tools/client-runt
 import type { ThreadStructure } from "@t3tools/client-runtime/state/shell"
 import {
   PROVIDER_SEND_TURN_MAX_ATTACHMENTS,
-  type EnvironmentContextRecord,
   type EnvironmentId,
-  type PreviewAnnotationPayload,
   type RunId,
   type ScopedThreadRef,
-  type ThreadContextRecord,
   type ThreadId,
 } from "@t3tools/contracts"
 import { scopedThreadKey } from "@t3tools/client-runtime/environment"
 import { Atom } from "effect/reactivity"
 import type { RefObject } from "react"
 import { useAssetUrls } from "../../assets/assetUrls.vibe"
-import {
-  DraftId,
-  useComposerDraftStore,
-  type ComposerFileAttachment,
-  type ComposerImageAttachment,
-  type ComposerThreadTarget,
-} from "../../composerDraftStore"
+import { DraftId, useComposerDraftStore, type ComposerThreadTarget } from "../../composerDraftStore"
 import { useStableCallback } from "../../hooks/useStableCallback"
 import { releaseDraftAttachments } from "../../lib/attachmentUploadQueue"
-import type { TerminalContextDraft } from "../../lib/terminalContext"
-import type { ReviewCommentContext } from "../../reviewCommentContext.vibe"
 import { appAtomRegistry } from "../../rpc/atomRegistry.vibe"
 import { environmentThreadDetails, environmentThreadShells, threadEnvironment } from "../../state/threads"
 import { stackedThreadToast, toastManager } from "../ui/toast"
 import type { ChatComposerHandle } from "./ChatComposer"
 import { recoverQueuedMessageEdit } from "./queuedMessageEdit"
 import type { EditQueuedRunRequest } from "./QueuedRunsControl"
-import * as Platform from "./useQueuedRunEdit.platform"
-import { type EditingQueuedRun, submitQueuedRunEdit, useEditQueuedRunCommand } from "./useQueuedRunEdit.submit"
+
+module platform {
+  export function callWindowRequestAnimationFrame(
+    ...args: Parameters<typeof window.requestAnimationFrame>
+  ) {
+    return window.requestAnimationFrame(...args)
+  }
+}
+
+module submit {
+  import {
+    type ChatAttachment,
+    type EnvironmentContextRecord,
+    type EnvironmentId,
+    type MessageId,
+    type OrchestrationMessageContext,
+    type PreviewAnnotationPayload,
+    type RunId,
+    type ThreadContextRecord,
+    type ThreadId,
+  } from "@t3tools/contracts"
+  import { ATTACHMENT_ONLY_BOOTSTRAP_PROMPT } from "@t3tools/shared/composerContextReferences"
+  import type { ComposerFileAttachment, ComposerImageAttachment, ComposerThreadTarget } from "../../composerDraftStore"
+  import {
+    awaitAttachmentUploads,
+    getUploadedAttachments,
+    startAttachmentUpload,
+  } from "../../lib/attachmentUploadQueue"
+  import { buildMessageContext } from "../../lib/composerContextRecords"
+  import { readFileAsDataUrl } from "../../lib/imageCompression"
+  import type { TerminalContextDraft } from "../../lib/terminalContext"
+  import type { ReviewCommentContext } from "../../reviewCommentContext.vibe"
+  import { appAtomRegistry } from "../../rpc/atomRegistry.vibe"
+  import { environmentServerConfigsAtom } from "../../state/server"
+  import { threadEnvironment } from "../../state/threads"
+  import { useAtomCommand } from "../../state/use-atom-command.vibe"
+  import { fileAttachmentCapabilityBlockReason } from "./composerAttachmentFiles"
+  import { prepareQueuedEditAttachments } from "./queuedMessageEdit"
+
+  export interface QueuedRunEditContent {
+    readonly prompt: string
+    readonly images: ReadonlyArray<ComposerImageAttachment>
+    readonly files: ReadonlyArray<ComposerFileAttachment>
+    readonly terminalContexts: ReadonlyArray<TerminalContextDraft>
+    readonly reviewComments: ReadonlyArray<ReviewCommentContext>
+    readonly previewAnnotations: ReadonlyArray<PreviewAnnotationPayload>
+    readonly threadContexts: ReadonlyArray<ThreadContextRecord>
+    readonly environmentContexts: ReadonlyArray<EnvironmentContextRecord>
+  }
+
+  export interface EditingQueuedRun {
+    readonly threadId: ThreadId
+    readonly runId: RunId
+    readonly messageId: MessageId
+    readonly originalText: string
+    readonly existingAttachments: ReadonlyArray<ChatAttachment>
+    readonly context?: OrchestrationMessageContext | undefined
+  }
+
+  export async function submitQueuedRunEdit(input: {
+    readonly environmentId: EnvironmentId
+    readonly draftTarget: ComposerThreadTarget
+    readonly editing: EditingQueuedRun
+    readonly content: QueuedRunEditContent
+    readonly editQueuedRun: ReturnType<typeof useEditQueuedRunCommand>
+  }): Promise<string | null> {
+    const { environmentId, draftTarget, editing, content } = input
+    const editText = content.prompt.trim()
+    const newAttachments = [...content.images, ...content.files]
+    const uploadFiles = async (files: ReadonlyArray<ComposerFileAttachment>) => {
+      const validateFiles = () => {
+        const config = appAtomRegistry.get(environmentServerConfigsAtom).get(environmentId) ?? null
+        const reason = fileAttachmentCapabilityBlockReason({
+          files,
+          attachmentUploadsCapabilityKnown: config !== null,
+          supportsAttachmentUploads: config?.environment.capabilities.attachmentUploads === true,
+          maxFileAttachmentBytes: config?.environment.capabilities.fileAttachments?.maxUploadBytes ?? null,
+        })
+        if (reason !== null) throw new Error(reason)
+      }
+      validateFiles()
+      for (const file of files) startAttachmentUpload({ environmentId, image: file, draftTarget })
+      await awaitAttachmentUploads(files.map((file) => file.id))
+      validateFiles()
+      const uploaded = getUploadedAttachments({ environmentId, images: files })
+      if (uploaded === null) throw new Error("Retry or remove failed uploads before saving.")
+      return uploaded
+    }
+    try {
+      const uploads = await prepareQueuedEditAttachments({
+        existingAttachments: editing.existingAttachments,
+        images: content.images,
+        files: content.files,
+        readImage: readFileAsDataUrl,
+        uploadFiles,
+      })
+      const keptRecords = (editing.context?.records ?? []).filter(
+        (record) =>
+          !("attachmentId" in record)
+          || editing.existingAttachments.some((attachment) => attachment.id === record.attachmentId),
+      )
+      const newRecords = buildMessageContext({
+        terminalContexts: content.terminalContexts.filter(
+          (context) => context.text.trim().length > 0,
+        ),
+        reviewComments: content.reviewComments,
+        previewAnnotations: content.previewAnnotations,
+        threadContexts: content.threadContexts,
+        environmentContexts: content.environmentContexts,
+        attachments: newAttachments.map((attachment, index) => ({
+          attachment,
+          attachmentId: uploads[editing.existingAttachments.length + index]?.id ?? attachment.id,
+        })),
+      })?.records ?? []
+      const result = await input.editQueuedRun({
+        environmentId,
+        input: {
+          threadId: editing.threadId,
+          runId: editing.runId,
+          text: editText.length === 0 ? ATTACHMENT_ONLY_BOOTSTRAP_PROMPT : editText,
+          edit: {
+            messageId: editing.messageId,
+            attachments: uploads,
+            context: {
+              version: 1,
+              records: [
+                ...new Map(
+                  [...keptRecords, ...newRecords].map(
+                    (record) => [record.contextId, record] as const,
+                  ),
+                ).values(),
+              ],
+            },
+          },
+        },
+      })
+      return result._tag === "Failure" ? "Could not save the edited queued message." : null
+    } catch (error) {
+      return error instanceof Error ? error.message : "Could not save the edited queued message."
+    }
+  }
+
+  export function useEditQueuedRunCommand() {
+    return useAtomCommand(threadEnvironment.editQueuedRun, { reportFailure: false })
+  }
+}
+
+import * as Platform from platform
+import {
+  type EditingQueuedRun,
+  type QueuedRunEditContent,
+  submitQueuedRunEdit,
+  useEditQueuedRunCommand,
+} from submit
 
 // Keyed by the route thread, so an edit survives navigating away and back.
 const queuedRunEdits = makeQueuedRunEditStore<EditingQueuedRun>({
@@ -41,16 +182,7 @@ const queuedRunEdits = makeQueuedRunEditStore<EditingQueuedRun>({
   label: "web-queued-run-edits",
 })
 
-export interface QueuedRunEditContent {
-  readonly prompt: string
-  readonly images: ReadonlyArray<ComposerImageAttachment>
-  readonly files: ReadonlyArray<ComposerFileAttachment>
-  readonly terminalContexts: ReadonlyArray<TerminalContextDraft>
-  readonly reviewComments: ReadonlyArray<ReviewCommentContext>
-  readonly previewAnnotations: ReadonlyArray<PreviewAnnotationPayload>
-  readonly threadContexts: ReadonlyArray<ThreadContextRecord>
-  readonly environmentContexts: ReadonlyArray<EnvironmentContextRecord>
-}
+export { type QueuedRunEditContent } from submit
 
 function queuedEditDraftTarget(routeThreadRef: ScopedThreadRef, runId: RunId) {
   return DraftId.make(`queued-edit:${scopedThreadKey(routeThreadRef)}:${runId}`)

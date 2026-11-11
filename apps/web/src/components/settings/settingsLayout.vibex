@@ -1,4 +1,4 @@
-import * as Platform from "./settingsLayout.platform"
+import * as Platform from platform
 import { SettingsGroup } from "./SettingsGroup"
 import { AuthSettingsWriteScope } from "@t3tools/contracts"
 import { usePrimaryEnvironmentId, usePrimaryEnvironment } from "../../state/environments.vibe"
@@ -25,6 +25,28 @@ import {
 } from "./scopedSettings.vibe"
 import { useClearProjectOverrides, useClearScopedSettings } from "./useScopedSettings.vibe"
 import { SettingInheritance, type SettingInheritanceState, type SettingOverridingProject } from "./SettingInheritance"
+
+module platform {
+  export function callDocumentGetElementById(...args: Parameters<typeof document.getElementById>) {
+    return document.getElementById(...args)
+  }
+
+  export function callWindowMatchMedia(...args: Parameters<typeof window.matchMedia>) {
+    return window.matchMedia(...args)
+  }
+
+  export function createMutationObserver(...args: ConstructorParameters<typeof MutationObserver>) {
+    return new MutationObserver(...args)
+  }
+
+  export function readCSSTransition() {
+    return CSSTransition
+  }
+
+  export function readDocumentActiveElement() {
+    return document.activeElement
+  }
+}
 
 const EMPTY_SETTING_KEYS: readonly (keyof ServerSettings)[] = []
 

@@ -1,4 +1,4 @@
-import * as Platform from "./DesktopWebLinkCoordinator.platform"
+import * as Platform from platform
 import { scopeProjectRef, scopeThreadRef } from "@t3tools/client-runtime/environment"
 import { isAtomCommandInterrupted, squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime"
 import type { EnvironmentId, ScopedThreadRef } from "@t3tools/contracts"
@@ -31,6 +31,16 @@ import { allReachableShellsLiveAtom } from "../../state/shell.vibe"
 import { useAtomCommand } from "../../state/use-atom-command.vibe"
 import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe"
 import { stackedThreadToast, toastManager } from "../ui/toast"
+
+module platform {
+  export function callQueueMicrotask(...args: Parameters<typeof queueMicrotask>) {
+    return queueMicrotask(...args)
+  }
+
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+}
 
 /** A link handed over by the OS is a plain click: nothing about it asks for the browser. */
 const externalClick = {

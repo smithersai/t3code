@@ -1,4 +1,4 @@
-import * as Platform from "./useThreadActions.platform"
+import * as Platform from platform
 
 import {
   parseScopedThreadKey,
@@ -62,6 +62,12 @@ import { showThreadUndoNotice } from "./showThreadUndoNotice"
 import { useAtomCommand } from "../state/use-atom-command.vibe"
 import { useOrchestrationCommand } from "../state/use-orchestration-command.vibe"
 import { useAtomQueryRunner } from "../state/use-atom-query-runner.vibe"
+
+module platform {
+  export function callConsoleError(...args: Parameters<typeof console.error>) {
+    return console.error(...args)
+  }
+}
 
 export class ThreadArchiveBlockedError extends Schema.TaggedError<ThreadArchiveBlockedError>()(
   "ThreadArchiveBlockedError",

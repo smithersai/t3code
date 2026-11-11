@@ -1,4 +1,4 @@
-import * as Platform from "./ExpandedImageDialog.platform"
+import * as Platform from platform
 import { memo, useRef, useState, type ReactNode, type KeyboardEvent } from "react"
 import { flushSync } from "react-dom"
 import { ChevronLeftIcon, ChevronRightIcon, XIcon } from "lucide-react"
@@ -26,6 +26,20 @@ import { Atom } from "effect/reactivity"
 import { appAtomRegistry } from "../../rpc/atomRegistry.vibe"
 import { expandedImageKey } from "./ExpandedImagePreview"
 import { registerThreadOverlay } from "./threadOverlayRetention"
+
+module platform {
+  export function callURLRevokeObjectURL(...args: Parameters<typeof URL.revokeObjectURL>) {
+    return URL.revokeObjectURL(...args)
+  }
+
+  export function readDocumentActiveHTMLElement() {
+    return document.activeElement instanceof HTMLElement ? document.activeElement : null
+  }
+
+  export function readHTMLVideoElement() {
+    return HTMLVideoElement
+  }
+}
 
 interface ExpandedImageDialogProps {
   preview: ExpandedImagePreview

@@ -1,4 +1,4 @@
-import * as Platform from "./agentOpenedPreviews.platform"
+import * as Platform from platform
 
 import { parseScopedThreadKey, scopedThreadKey, scopeThreadRef } from "@t3tools/client-runtime/environment"
 import type {
@@ -24,6 +24,12 @@ import { appAtomRegistry } from "../../rpc/atomRegistry.vibe"
 import { deviceEnvironment } from "../../state/device.vibe"
 import { readEnvironmentSupportsServerBrowser } from "../../state/entities"
 import { environmentSummaries } from "../../state/presentation.vibe"
+
+module platform {
+  export function callWindowMatchMedia(...args: Parameters<typeof window.matchMedia>) {
+    return window.matchMedia(...args)
+  }
+}
 
 /**
  * Shows browsers an agent or another client revealed for a thread: floating

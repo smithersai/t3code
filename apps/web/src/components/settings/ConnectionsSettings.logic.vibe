@@ -21,7 +21,15 @@ import {
   type DesktopWslState,
 } from "@t3tools/contracts"
 import { getDesktopUpdateDownloadedVersion, resolveDesktopUpdateButtonAction } from "../desktopUpdate.logic"
-import * as Platform from "./ConnectionsSettings.logic.platform"
+
+module platform {
+  /** @throws {never} */
+  export function readWindowLocationHref() {
+    return window.location.href
+  }
+}
+
+import * as Platform from platform
 
 /** Keep terminal:read with terminal:operate to avoid creating unseen shells on every script run. */
 export function togglePairingScopeSelection(

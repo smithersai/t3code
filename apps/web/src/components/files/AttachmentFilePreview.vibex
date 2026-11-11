@@ -32,8 +32,48 @@ import {
   FileSurfaceLoading,
   FileSurfaceNotice,
 } from "./fileSurfaceChrome"
-import { FontFilePreview, MermaidFilePreview, OfficeFilePreview } from "./AttachmentFilePreview.lazy"
-import * as Platform from "./AttachmentFilePreview.platform"
+
+module lazyCode {
+  import { lazy } from "react"
+
+  // A component may throw while it renders, so lazy wrappers of named component exports stay in TypeScript.
+  export const OfficeFilePreview = lazy(() =>
+    import("./OfficeFilePreview").then((module) => ({ default: module.OfficeFilePreview }))
+  )
+
+  export const FontFilePreview = lazy(() =>
+    import("./FontFilePreview").then((module) => ({ default: module.FontFilePreview }))
+  )
+
+  export const MermaidFilePreview = lazy(() =>
+    import("./MermaidFilePreview").then((module) => ({ default: module.MermaidFilePreview }))
+  )
+}
+
+module platform {
+  export function callUrlCreateObjectURL(object: Blob | MediaSource) {
+    return URL.createObjectURL(object)
+  }
+
+  export function callUrlRevokeObjectURL(url: string) {
+    return URL.revokeObjectURL(url)
+  }
+
+  export function callFetch(...args: Parameters<typeof fetch>) {
+    return fetch(...args)
+  }
+
+  export function callSetTimeout(handler: () => void, timeout?: number) {
+    return setTimeout(handler, timeout)
+  }
+
+  export function callDocumentCreateElement<K extends keyof HTMLElementTagNameMap>(tagName: K) {
+    return document.createElement(tagName)
+  }
+}
+
+import { FontFilePreview, MermaidFilePreview, OfficeFilePreview } from lazyCode
+import * as Platform from platform
 
 const LargeTextViewer = lazy(() => import("./LargeTextViewer"))
 

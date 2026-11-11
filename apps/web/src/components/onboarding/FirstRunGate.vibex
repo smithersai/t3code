@@ -25,7 +25,22 @@ import { primaryServerConfigAtom, primaryServerWelcomeAtom } from "../../state/s
 import { environmentShell } from "../../state/shell.vibe"
 import { environmentThreadShells } from "../../state/threads"
 import { Button } from "../ui/button"
-import * as Platform from "./FirstRunGate.platform"
+
+module platform {
+  export function callWindowSetTimeout(handler: () => void, timeout?: number) {
+    return window.setTimeout(handler, timeout)
+  }
+
+  export function callWindowClearTimeout(id: number | undefined) {
+    return window.clearTimeout(id)
+  }
+
+  export function callWindowLocationReload() {
+    return window.location.reload()
+  }
+}
+
+import * as Platform from platform
 
 /** Pending blocks all rendering, including EventRouter welcome navigation. */
 

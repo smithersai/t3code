@@ -1,10 +1,22 @@
-import * as Platform from "./desktopSnapShot.platform"
+import * as Platform from platform
 
 import type { DesktopSnapShotState } from "@t3tools/contracts"
 import * as Option from "effect/Option"
 import { Atom, type AtomRegistry } from "effect/reactivity"
 
 import { getDesktopSnapShotBridge } from "../lib/desktopSnapShot"
+
+module platform {
+  export function callWindowAddEventListener(...args: Parameters<typeof window.addEventListener>) {
+    return window.addEventListener(...args)
+  }
+
+  export function callWindowRemoveEventListener(
+    ...args: Parameters<typeof window.removeEventListener>
+  ) {
+    return window.removeEventListener(...args)
+  }
+}
 
 export interface SnapShotSetupError {
   readonly title: string

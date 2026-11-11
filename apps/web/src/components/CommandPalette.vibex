@@ -1,4 +1,4 @@
-import * as Platform from "./CommandPalette.platform"
+import * as Platform from platform
 import { threadPullRequestLinkMode } from "@t3tools/client-runtime/thread-pull-request-compatibility"
 import { visibleThreadPullRequests } from "@t3tools/shared/threadPullRequests"
 
@@ -198,6 +198,25 @@ import { PullRequestGlyph } from "~/components/pullRequest/pullRequestIcons"
 import { readPullRequestListPreferences } from "~/components/pullRequest/pullRequestListPreferences"
 import { useThreadRouteTarget } from "../hooks/useThreadRouteTarget"
 import { threadRecentUse } from "@t3tools/shared/paletteSearch"
+
+module platform {
+  export function callConsoleError(...args: Parameters<typeof console.error>) {
+    return console.error(...args)
+  }
+
+  export function readNavigatorPlatform() {
+    return navigator.platform
+  }
+
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+}
 
 const EMPTY_BROWSE_ENTRIES: FilesystemBrowseResult["entries"] = []
 const ADD_PROJECT_ENTRY_GROUP = "add-project"

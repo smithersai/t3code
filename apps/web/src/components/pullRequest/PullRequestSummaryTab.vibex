@@ -1,4 +1,4 @@
-import * as Platform from "./PullRequestSummaryTab.platform"
+import * as Platform from platform
 import { capitalizeTerm, sourceControlClients } from "@t3tools/client-runtime/source-control-clients"
 import { useAtomCommand } from "../../state/use-atom-command.vibe"
 import type {
@@ -72,6 +72,12 @@ import { PullRequestMarkdownEditor } from "./PullRequestMarkdownEditor"
 import { PullRequestReactionBar } from "./PullRequestReactions"
 import { PullRequestConversationGhost } from "./PullRequestGhosts"
 import { sectionCollapseAnchorScrollTop } from "./pullRequestSummaryScroll.logic"
+
+module platform {
+  export function callConsoleError(...args: Parameters<typeof console.error>) {
+    return console.error(...args)
+  }
+}
 
 function reviewerKey(login: string): string {
   return login.toLowerCase()

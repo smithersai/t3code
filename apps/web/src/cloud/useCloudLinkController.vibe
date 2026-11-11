@@ -1,4 +1,4 @@
-import * as Platform from "./useCloudLinkController.platform"
+import * as Platform from platform
 
 import { useAtomValue } from "@effect/atom-react"
 import { useAuth } from "@clerk/react"
@@ -28,6 +28,16 @@ import {
 } from "./linkEnvironmentAtoms"
 import { readCachedPrimaryCloudLinkState, usePrimaryCloudLinkState } from "./primaryCloudLinkState.vibe"
 import { resolveRelayClerkTokenOptions } from "./publicConfig"
+
+module platform {
+  export function callConsoleError(...args: Parameters<typeof console.error>) {
+    return console.error(...args)
+  }
+
+  export function callNavigatorClipboardWriteText(text: string) {
+    return navigator.clipboard?.writeText(text)
+  }
+}
 
 export interface CloudLinkDesiredState {
   readonly managedTunnel: boolean

@@ -1,4 +1,4 @@
-import * as Platform from "./PullRequestCodeTab.platform"
+import * as Platform from platform
 import { capitalizeTerm, sourceControlClients } from "@t3tools/client-runtime/source-control-clients"
 import type { CodeViewItem, DiffLineAnnotation, SelectedLineRange } from "@pierre/diffs"
 import type { CodeViewAnnotationArgs, CodeViewDiffItem } from "@pierre/diffs/react"
@@ -108,6 +108,20 @@ import {
   usePullRequestReviewStore,
   type PendingReviewComment,
 } from "./pullRequestReviewStore"
+
+module platform {
+  export function readHTMLAnchorElement() {
+    return HTMLAnchorElement
+  }
+
+  export function readHTMLButtonElement() {
+    return HTMLButtonElement
+  }
+
+  export function readHTMLElement() {
+    return HTMLElement
+  }
+}
 
 interface ReviewAnnotationGroup {
   readonly threads: ReadonlyArray<PullRequestReviewThread>

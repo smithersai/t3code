@@ -21,7 +21,18 @@ import {
   postponeUpdateRestart,
   retryFailedUpdateRunServers,
 } from "./updateEverythingRun"
-import * as Platform from "./SidebarUpdateCapsule.platform"
+
+module platform {
+  export function callSetInterval(handler: () => void, timeout?: number) {
+    return setInterval(handler, timeout)
+  }
+
+  export function callClearInterval(id: ReturnType<typeof setInterval> | undefined) {
+    return clearInterval(id)
+  }
+}
+
+import * as Platform from platform
 
 function useNow(intervalMs: number | null): number {
   const step = intervalMs ?? 60_000

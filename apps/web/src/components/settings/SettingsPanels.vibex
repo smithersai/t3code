@@ -89,7 +89,27 @@ import { BackgroundActivitySettingsRow } from "./BackgroundActivitySettings"
 import { AdvancedSettings } from "./AdvancedSettings"
 import { PullRequestLinksOpenInAppSetting } from "./IntegrationsSettings"
 import { StorageCleanupSections } from "./StorageSettings"
-import * as Platform from "./SettingsPanels.platform"
+
+module platform {
+  /** @throws {never} */
+  export function readTypeOfWindow() {
+    return typeof window
+  }
+
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+
+  export function callWindowLocationAssign(url: string | URL) {
+    return window.location.assign(url)
+  }
+
+  export function readNavigatorPlatform() {
+    return navigator.platform
+  }
+}
+
+import * as Platform from platform
 
 const RESPONSE_STREAMING_MODE_LABELS: Record<ResponseStreamingMode, string> = {
   turn: "Wait for the full response",

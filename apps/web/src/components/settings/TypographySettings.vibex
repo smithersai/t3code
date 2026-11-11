@@ -33,7 +33,22 @@ import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "../
 import { Switch } from "../ui/switch"
 import { SettingResetButton, SettingsRow, SettingsSection, useSettingsSearchTargetId } from "./settingsLayout"
 import { isAdvancedTypographyTarget, revealSettingsSearchTarget, searchableSetting } from "./settingsSearch"
-import * as Platform from "./TypographySettings.platform"
+
+module platform {
+  export function readNavigatorPlatform() {
+    return navigator.platform
+  }
+
+  export function callWindowSetTimeout(handler: () => void, timeout?: number) {
+    return window.setTimeout(handler, timeout)
+  }
+
+  export function callWindowClearTimeout(id: number | undefined) {
+    return window.clearTimeout(id)
+  }
+}
+
+import * as Platform from platform
 
 function useFontDefaultFamilies() {
   const settings = useScopedSettings()

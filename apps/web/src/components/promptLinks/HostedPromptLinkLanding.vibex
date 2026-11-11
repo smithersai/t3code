@@ -1,4 +1,4 @@
-import * as Platform from "./HostedPromptLinkLanding.platform"
+import * as Platform from platform
 import {
   type LinkedPrompt,
   parseNewThreadLink,
@@ -19,6 +19,16 @@ import { Alert, AlertDescription, AlertTitle } from "../ui/alert"
 import { Button } from "../ui/button"
 import { Checkbox } from "../ui/checkbox"
 import { StandalonePage, StandalonePageHeader } from "../ui/standalone-page"
+
+module platform {
+  export function readNavigatorUserAgent() {
+    return navigator.userAgent
+  }
+
+  export function readWindowLocation() {
+    return window.location
+  }
+}
 
 const OPENER_STORAGE_KEY = "t3code:prompt-link-opener"
 const Opener = Schema.NullOr(Schema.Literals(["app", "browser"]))

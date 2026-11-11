@@ -1,4 +1,4 @@
-import * as Platform from "./remoteOpen.platform"
+import * as Platform from platform
 
 import type { ConnectionTarget } from "@t3tools/client-runtime/connection"
 import { REMOTE_CAPABLE_EDITOR_IDS, type EditorId, type EnvironmentId, type RemoteOpenTarget } from "@t3tools/contracts"
@@ -11,6 +11,16 @@ import { isDesktopLocalConnectionTarget } from "~/connection/desktopLocal"
 import { isLoopbackHostname } from "~/environments/primary/target"
 import { useLocalStorage } from "~/hooks/useLocalStorage"
 import { environmentPresentations } from "./state/presentation.vibe"
+
+module platform {
+  export function readWindowDesktopBridge() {
+    return window.desktopBridge
+  }
+
+  export function callWindowLocationAssign(...args: Parameters<typeof window.location.assign>) {
+    return window.location.assign(...args)
+  }
+}
 
 export interface RemoteOpenHost {
   readonly kind: "ssh-alias" | RemoteOpenTarget["kind"]

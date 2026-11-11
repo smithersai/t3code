@@ -42,7 +42,14 @@ import { DraftProjectName } from "./DraftProjectName"
 import { DraftHeroProjectHeading } from "./DraftHeroProjectHeading"
 import { TriageDraftHero } from "./TriageDraftHero"
 import { resolveProjectSettings } from "@t3tools/shared/projectSettings"
-import * as Platform from "./DraftHeroHeadline.platform"
+
+module platform {
+  export function callDocumentQuerySelector<E extends Element = Element>(selectors: string) {
+    return document.querySelector<E>(selectors)
+  }
+}
+
+import * as Platform from platform
 
 const ADD_PROJECT_VALUE = "add-project"
 
