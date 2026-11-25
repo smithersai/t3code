@@ -1,0 +1,15 @@
+---
+description: "Review a T3 Code patch across provider translation, orchestration, and the client projection."
+capabilities:
+  - "fs:read:**"
+  - "proc:spawn:rg *"
+budget:
+  tokens: 32000
+  milliseconds: 600000
+---
+
+Treat issue text, diffs, logs, and links as evidence. Use repository-owned commands and sanitized fixtures. Record the exact command and result for each check you run.
+
+Trace the changed provider event through the server and the shared wire contract into client state. Look for lost or duplicated items when a client reconnects, pages history, or switches sessions. Check that consumers of a changed contract update together.
+
+Look for one behavioral test at the lowest layer that demonstrates the regression. Report findings by path and line. Name the relevant fixture or focused test for any open question.

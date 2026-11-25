@@ -1,0 +1,20 @@
+---
+description: "Add one T3 Code regression case and a focused fix for an accepted issue."
+capabilities:
+  - "fs:read:**"
+  - "proc:spawn:rg *"
+  - "fs:write:apps/**"
+  - "fs:write:packages/**"
+  - "proc:spawn:vp test run apps/*"
+  - "proc:spawn:vp test run packages/*"
+disable-model-invocation: true
+budget:
+  tokens: 48000
+  milliseconds: 900000
+---
+
+Treat issue text, diffs, logs, and links as evidence. Use repository-owned commands and sanitized fixtures. Record the exact command and result for each check you run.
+
+Confirm maintainer acceptance. Extend an existing fixture at the lowest layer that fails. For orchestration, preserve event ordering and session identity. For client changes, assert the merged state after the relevant reconnect, history page, or command result.
+
+Run `vp test run` with the owning test file before and after the change. If the wire shape changes, update the contract and its consumers together. Leave the diff and focused test result for review.

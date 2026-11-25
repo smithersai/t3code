@@ -1,0 +1,88 @@
+{
+  "summary": "Reproduce T3 Code provider and session regressions and check orchestration across server, wire, and client state.",
+  "flows": [
+    {
+      "id": "issue/repro",
+      "description": "Reproduce a T3 Code orchestration, provider, or client-state regression at its owning layer.",
+      "summary": "Follow a session event across the provider, server, and client.",
+      "featured": true,
+      "kind": "mdx",
+      "path": ".smithers/flows/issue/repro/flow.mdx",
+      "capabilities": [
+        "fs:read:**",
+        "proc:spawn:rg *",
+        "proc:spawn:vp test run apps/*",
+        "proc:spawn:vp test run packages/*"
+      ],
+      "model": null,
+      "modelInvocable": true,
+      "flows": [],
+      "budget": {
+        "tokens": 32000,
+        "milliseconds": 600000
+      }
+    },
+    {
+      "id": "issue/poc",
+      "description": "Add one T3 Code regression case and a focused fix for an accepted issue.",
+      "summary": "Fix the lowest layer that misprojects an event or state transition.",
+      "featured": true,
+      "kind": "mdx",
+      "path": ".smithers/flows/issue/poc/flow.mdx",
+      "capabilities": [
+        "fs:read:**",
+        "proc:spawn:rg *",
+        "fs:write:apps/**",
+        "fs:write:packages/**",
+        "proc:spawn:vp test run apps/*",
+        "proc:spawn:vp test run packages/*"
+      ],
+      "model": null,
+      "modelInvocable": false,
+      "flows": [],
+      "budget": {
+        "tokens": 48000,
+        "milliseconds": 900000
+      }
+    },
+    {
+      "id": "pr-triage",
+      "description": "Review a T3 Code patch across provider translation, orchestration, and the client projection.",
+      "summary": "Check ordering, compatibility, and duplicate test coverage.",
+      "featured": true,
+      "kind": "mdx",
+      "path": ".smithers/flows/pr-triage/flow.mdx",
+      "capabilities": [
+        "fs:read:**",
+        "proc:spawn:rg *"
+      ],
+      "model": null,
+      "modelInvocable": true,
+      "flows": [],
+      "budget": {
+        "tokens": 32000,
+        "milliseconds": 600000
+      }
+    },
+    {
+      "id": "checks/wire",
+      "description": "Check T3 Code orchestration projections, wire contracts, and client history merge.",
+      "summary": "Run the focused Vite+ tests across the transport boundary.",
+      "featured": true,
+      "kind": "mdx",
+      "path": ".smithers/flows/checks/wire/flow.mdx",
+      "capabilities": [
+        "fs:read:**",
+        "proc:spawn:rg *",
+        "proc:spawn:vp test run apps/server/src/orchestration-v2/WireProjection.test.ts packages/contracts/src/orchestrationV2.test.ts packages/client-runtime/src/state/threadHistoryMerge.test.ts"
+      ],
+      "model": null,
+      "modelInvocable": true,
+      "flows": [],
+      "budget": {
+        "tokens": 32000,
+        "milliseconds": 600000
+      }
+    }
+  ]
+}

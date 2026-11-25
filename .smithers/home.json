@@ -1,0 +1,66 @@
+{
+  "sections": [
+    {
+      "audience": "maintainer",
+      "title": "Maintain T3 Code",
+      "blocks": [
+        {
+          "type": "issues"
+        },
+        {
+          "type": "flows",
+          "title": "Factory flows"
+        },
+        {
+          "type": "runs"
+        }
+      ]
+    },
+    {
+      "audience": "contributor",
+      "title": "Contribute",
+      "blocks": [
+        {
+          "type": "code",
+          "title": "From the repository root",
+          "language": "sh",
+          "code": "vp i\nvp run dev"
+        },
+        {
+          "type": "text",
+          "text": "Install Vite+ using the README. Use the pairing URL printed by the dev runner. Use local fixtures for provider, session, and transport bugs."
+        },
+        {
+          "type": "links",
+          "links": [
+            {
+              "label": "T3 Code development",
+              "url": "https://github.com/smithersai/t3code/blob/main/docs/operations/development.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audience": "everyone",
+      "blocks": [
+        {
+          "type": "hero",
+          "title": "T3 Code",
+          "tagline": "Control coding agents from web, desktop, and mobile.",
+          "text": "Smithers example fork of pingdotgg/t3code.",
+          "actions": [
+            {
+              "label": "Upstream repository",
+              "url": "https://github.com/pingdotgg/t3code"
+            },
+            {
+              "label": "Fork source",
+              "url": "https://github.com/smithersai/t3code"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

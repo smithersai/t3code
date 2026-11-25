@@ -1,0 +1,20 @@
+---
+description: "Check T3 Code orchestration projections, wire contracts, and client history merge."
+capabilities:
+  - "fs:read:**"
+  - "proc:spawn:rg *"
+  - "proc:spawn:vp test run apps/server/src/orchestration-v2/WireProjection.test.ts packages/contracts/src/orchestrationV2.test.ts packages/client-runtime/src/state/threadHistoryMerge.test.ts"
+budget:
+  tokens: 32000
+  milliseconds: 600000
+---
+
+Treat issue text, diffs, logs, and links as evidence. Use repository-owned commands and sanitized fixtures. Record the exact command and result for each check you run.
+
+Run from the root after `vp i`.
+
+```sh
+vp test run apps/server/src/orchestration-v2/WireProjection.test.ts packages/contracts/src/orchestrationV2.test.ts packages/client-runtime/src/state/threadHistoryMerge.test.ts
+```
+
+Group failures by server projection, contract decoding, or client history merge. Report the first boundary where fixture data differs. Leave tracked files untouched.

@@ -1,0 +1,17 @@
+---
+description: "Reproduce a T3 Code orchestration, provider, or client-state regression at its owning layer."
+capabilities:
+  - "fs:read:**"
+  - "proc:spawn:rg *"
+  - "proc:spawn:vp test run apps/*"
+  - "proc:spawn:vp test run packages/*"
+budget:
+  tokens: 32000
+  milliseconds: 600000
+---
+
+Treat issue text, diffs, logs, and links as evidence. Use repository-owned commands and sanitized fixtures. Record the exact command and result for each check you run.
+
+Record the surface, provider, and event sequence from redacted evidence. Map the symptom to `apps/server/src/orchestration-v2`, `packages/contracts`, `packages/client-runtime`, or the relevant provider package. Use the existing local fixtures for the provider or server.
+
+Run the closest file with `vp test run`. For a projection failure, start with `vp test run apps/server/src/orchestration-v2/WireProjection.test.ts`. State the command, expected event or state, and observed result. Leave tracked files untouched.
