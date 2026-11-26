@@ -33,6 +33,7 @@ export function createLiveRegion() {
     clearTimer = setTimeout(clear, CLEAR_AFTER_MS);
   };
 
+  /** @throws {never} */
   const attach = (node: HTMLElement | null) => {
     region = node;
   };

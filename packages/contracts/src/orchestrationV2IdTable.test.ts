@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@effect/vitest";
 import * as Schema from "effect/Schema";
 
-import { withRecordIdTable } from "./orchestrationV2IdTable.ts";
+import { withRecordIdTable } from "./orchestrationV2IdTable.vibe";
 
 const Page = withRecordIdTable(
   Schema.Struct({

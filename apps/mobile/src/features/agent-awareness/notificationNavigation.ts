@@ -3,7 +3,7 @@ import * as Notifications from "expo-notifications";
 import { setAndroidThreadOnScreen } from "./androidNotifications";
 import { foregroundNotificationBehavior } from "./foregroundNotificationBehavior";
 import { routeAgentNotificationResponseOnce, threadDeepLinkOnScreen } from "./notificationPayload";
-import { consumeLastAgentNotificationResponse } from "./notificationResponseConsumer";
+import { consumeLastAgentNotificationResponse } from "./notificationResponseConsumer.vibe";
 
 let deepLinkOnScreen: string | null = null;
 

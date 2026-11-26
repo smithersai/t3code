@@ -1,0 +1,15 @@
+import * as SqlClient from "effect/sql/SqlClient"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+  const columns = try sql<{ readonly name: string }>`
+    PRAGMA table_info(projection_threads)
+  `
+
+  if (!columns.some((column) => column.name === "pin_order_key")) {
+    try sql`
+      ALTER TABLE projection_threads
+      ADD COLUMN pin_order_key TEXT
+    `
+  }
+}

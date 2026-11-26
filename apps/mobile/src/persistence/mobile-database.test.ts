@@ -7,7 +7,7 @@ const openDatabaseAsync = vi.hoisted(() => vi.fn());
 
 vi.mock("expo-sqlite", () => ({ openDatabaseAsync }));
 
-import * as MobileDatabase from "./mobile-database";
+import * as MobileDatabase from "./mobile-database.vibe";
 
 describe("mobile database legacy cache migration", () => {
   it("maps legacy thread records to their SQLite identity", () => {

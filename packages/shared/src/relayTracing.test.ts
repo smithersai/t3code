@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Tracer from "effect/Tracer";
 
-import { RelayClientTracer, withLocalTracing, withRelayClientTracing } from "./relayTracing.ts";
+import { RelayClientTracer, withLocalTracing, withRelayClientTracing } from "./relayTracing.vibe";
 
 function collectingTracer(spans: Array<string>): Tracer.Tracer {
   return Tracer.make({

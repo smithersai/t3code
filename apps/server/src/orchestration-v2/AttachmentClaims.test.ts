@@ -1,4 +1,4 @@
-import * as DocumentText from "../provider/DocumentText.ts";
+import * as DocumentText from "../provider/DocumentText.vibe";
 // @effect-diagnostics nodeBuiltinImport:off
 import * as NodeFS from "node:fs";
 import * as NodePath from "node:path";
@@ -17,12 +17,12 @@ import {
   createPendingAttachmentId,
   parseThreadSegmentFromAttachmentId,
 } from "../attachmentStore.ts";
-import * as ServerConfig from "../config.ts";
+import * as ServerConfig from "../config.vibe";
 import {
   attachmentIsPendingUpload,
   claimPendingAttachments,
   releaseClaimedAttachments,
-} from "./AttachmentClaims.ts";
+} from "./AttachmentClaims.vibe";
 
 const layerTest = Layer.mergeAll(NodeServices.layer).pipe(
   Layer.provideMerge(ServerConfig.layerTest(process.cwd(), { prefix: "t3-attachment-claims-" })),

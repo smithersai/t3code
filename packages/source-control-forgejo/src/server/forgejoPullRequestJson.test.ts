@@ -1,7 +1,7 @@
 import { assert, describe, it } from "@effect/vitest";
 import * as Schema from "effect/Schema";
 
-import { ForgejoComment, forgejoComment } from "./forgejoPullRequestJson.ts";
+import { ForgejoComment, forgejoComment } from "./forgejoPullRequestJson.vibe";
 
 const decodeForgejoComment = Schema.decodeSync(ForgejoComment);
 

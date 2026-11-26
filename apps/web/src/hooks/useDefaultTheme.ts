@@ -1,5 +1,5 @@
-import { appAtomRegistry } from "../rpc/atomRegistry";
-import { primaryEnvironmentIdAtom } from "../state/primaryEnvironment";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
+import { primaryEnvironmentIdAtom } from "../state/primaryEnvironment.vibe";
 import { primaryServerSettingsAtom } from "../state/server";
 import { getThemeDefinition, singleAppearanceOf, subscribeToCustomThemes } from "../themePalette";
 import { setAppearanceMode, setTheme } from "./useTheme";

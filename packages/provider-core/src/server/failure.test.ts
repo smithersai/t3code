@@ -17,8 +17,8 @@ import {
   MAX_PROVIDER_FAILURE_MESSAGE_LENGTH,
   ContextHandoffBudgetError,
   ContextHandoffBackgroundWorkError,
-} from "./failure.ts";
-import * as IdAllocator from "./IdAllocator.ts";
+} from "./failure.vibe";
+import * as IdAllocator from "./IdAllocator.vibe";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 
 it("redacts credentials and URL secrets from provider failures", () => {

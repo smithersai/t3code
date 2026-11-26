@@ -17,7 +17,7 @@ import {
   PersistentThreadTerminalPanel,
   type PersistentThreadTerminalPanelProps,
 } from "../PersistentThreadTerminals";
-import { pullRequestPanelContext } from "../pullRequest/pullRequestDetail.logic";
+import { pullRequestPanelContext } from "../pullRequest/pullRequestDetail.logic.vibe";
 import { PullRequestDetailPanel } from "../pullRequest/PullRequestDetailPanel";
 import { PullRequestDetailGhost } from "../pullRequest/PullRequestGhosts";
 import { PullRequestsUnavailableState } from "../pullRequest/PullRequestsUnavailableState";
@@ -28,7 +28,7 @@ const PreviewPanel = lazy(() =>
 );
 const DiffPanel = lazy(() => import("../DiffPanel"));
 const DevicePanel = lazy(() =>
-  import("../device/DevicePanel").then((module) => ({ default: module.DevicePanel })),
+  import("../device/DevicePanel.vibex").then((module) => ({ default: module.DevicePanel })),
 );
 const FilePreviewPanel = lazy(() => import("../files/FilePreviewPanel"));
 

@@ -6,7 +6,7 @@ import {
   settingsHelperBounds,
   watchMacSettingsWindow,
   type SettingsWindow,
-} from "./MacSettingsWindow.ts";
+} from "./MacSettingsWindow.vibe";
 
 import { MAC_PERMISSION_TITLES, type MacPermission } from "./MacPermission.ts";
 

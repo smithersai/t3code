@@ -1,0 +1,57 @@
+import * as Migrator from "effect/sql/Migrator"
+import * as SqlClient from "effect/sql/SqlClient"
+
+import PullRequestFilesViewed from "./Migrations/053_PullRequestFilesViewed.vibe"
+import AutoSettleDisabledAt from "./Migrations/054_ProjectionThreadsAutoSettleDisabledAt.vibe"
+
+// Previews used V2 ids 53/54; preserve their schema and import progress while reserving main's ids.
+export const reconcileV2PreviewMigration = effect () =>
+  try withSpan(
+    effect {
+      const sql = try SqlClient.SqlClient
+      return try sql.withTransaction(
+        effect {
+          const tables = try sql`
+        SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'effect_sql_migrations'
+      `
+          if (tables.length === 0) return []
+          const history = try sql<{ readonly migration_id: number; readonly name: string }>`
+        SELECT migration_id, name FROM effect_sql_migrations WHERE migration_id >= 53
+      `
+          const legacy = history.find(
+            (row) => row.name === "OrchestrationV2" && (row.migration_id === 53 || row.migration_id === 54),
+          )
+          if (!legacy) return []
+          const valid = history.every(
+            (row) =>
+              row === legacy
+              || (legacy.migration_id === 54
+                && ((row.migration_id === 53 && row.name === "PullRequestFilesViewed")
+                  || (row.migration_id === 55 && row.name === "RemoveRedundantProjectionIndexes"))),
+          )
+          if (!valid) {
+            throw new Migrator.MigrationError({
+              kind: "BadState",
+              message: "Cannot upgrade V2 preview with unexpected later migrations.",
+            })
+          }
+          const executed: Array<readonly [number, string]> = []
+          if (legacy.migration_id === 53) {
+            try PullRequestFilesViewed
+            executed.push([53, "PullRequestFilesViewed"])
+          }
+          try AutoSettleDisabledAt
+          executed.push([54, "ProjectionThreadsAutoSettleDisabledAt"])
+          // Move the later entry first to avoid a primary-key collision.
+          try sql`UPDATE effect_sql_migrations SET migration_id = 56 WHERE migration_id = 55 AND name = 'RemoveRedundantProjectionIndexes'`
+          try sql`UPDATE effect_sql_migrations SET migration_id = 55 WHERE migration_id = ${legacy.migration_id} AND name = 'OrchestrationV2'`
+          if (legacy.migration_id === 53) {
+            try sql`INSERT INTO effect_sql_migrations (migration_id, name) VALUES (53, 'PullRequestFilesViewed')`
+          }
+          try sql`INSERT INTO effect_sql_migrations (migration_id, name) VALUES (54, 'ProjectionThreadsAutoSettleDisabledAt')`
+          return executed
+        },
+      )
+    },
+    "reconcileV2PreviewMigration",
+  )

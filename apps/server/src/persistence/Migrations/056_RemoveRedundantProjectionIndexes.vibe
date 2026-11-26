@@ -1,0 +1,11 @@
+import * as SqlClient from "effect/sql/SqlClient"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+
+  // Later indexes cover the same column prefixes; avoid maintaining duplicate B-trees.
+  try sql`DROP INDEX IF EXISTS idx_projection_threads_project_id`
+  try sql`DROP INDEX IF EXISTS idx_projection_thread_messages_thread_created`
+  try sql`DROP INDEX IF EXISTS idx_projection_thread_activities_thread_sequence`
+  try sql`DROP INDEX IF EXISTS idx_projection_turns_thread_requested`
+}

@@ -2,7 +2,7 @@ import { EnvironmentId } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as McpSessionRegistry from "./McpSessionRegistry.ts";
+import * as McpSessionRegistry from "./McpSessionRegistry.vibe";
 
 export const layer = Layer.succeed(
   McpSessionRegistry.McpSessionRegistry,

@@ -1,6 +1,6 @@
 import { EnvironmentId, MessageId, ThreadId } from "@t3tools/contracts";
 import { expect, it } from "vite-plus/test";
-import { serializeAssistantCitation } from "./assistantCitations.ts";
+import { serializeAssistantCitation } from "./assistantCitations.vibe";
 import { searchableMessageSegments } from "./threadFindText.ts";
 
 it("excludes review attachments rendered as context chips", () => {

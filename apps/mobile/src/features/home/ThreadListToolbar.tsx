@@ -16,7 +16,7 @@ import { Menu } from "../../components/ui/Menu";
 import { SearchField } from "../../components/ui/SearchField";
 import { useHardwareKeyboardCommand } from "../keyboard/hardwareKeyboardCommands";
 import { WorkspaceListToolbarRow } from "../workspace/WorkspaceListToolbarRow";
-import { useWorkspaceConnectionState } from "../../state/workspace";
+import { useWorkspaceConnectionState } from "../../state/workspace.vibe";
 import { useToolbarLayout } from "../../components/ui/useToolbarLayout";
 
 export function ThreadListToolbar(props: {

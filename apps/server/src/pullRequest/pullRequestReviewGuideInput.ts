@@ -24,6 +24,7 @@ function settledReviewSummary(activity: PullRequestActivity): string {
     .join("\n");
 }
 
+/** @throws {never} */
 export function reviewGuideInputFromPullRequest(
   detail: PullRequestDetail,
   activity: PullRequestActivity,

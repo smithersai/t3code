@@ -4,17 +4,17 @@ import * as Order from "effect/Order";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useMemo, useState } from "react";
 
-import { useSavedRemoteConnections } from "../../state/use-remote-environment-registry";
-import { useArchivedThreadListActions } from "../home/useThreadListActions";
+import { useSavedRemoteConnections } from "../../state/use-remote-environment-registry.vibe";
+import { useArchivedThreadListActions } from "../home/useThreadListActions.vibe";
 import {
   ArchivedThreadsScreen,
   type ArchivedThreadsHeaderEnvironment,
 } from "./ArchivedThreadsScreen";
-import { buildArchivedThreadGroups, type ArchivedThreadSortOrder } from "./archivedThreadList";
+import { buildArchivedThreadGroups, type ArchivedThreadSortOrder } from "./archivedThreadList.vibe";
 import {
   refreshArchivedThreadsForEnvironment,
   useArchivedThreadSnapshots,
-} from "./useArchivedThreadSnapshots";
+} from "./useArchivedThreadSnapshots.vibe";
 
 export function ArchivedThreadsRouteScreen() {
   const { savedConnectionsById } = useSavedRemoteConnections();

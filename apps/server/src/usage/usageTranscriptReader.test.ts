@@ -10,7 +10,7 @@ import type { TranscriptUsageFormat } from "@t3tools/provider-core/server/usage"
 import * as Schema from "effect/Schema";
 
 import { TEST_FORMATS } from "./usageTestFormats.ts";
-import { readTranscriptRecords, transcriptLineGate } from "./usageTranscriptReader.ts";
+import { readTranscriptRecords, transcriptLineGate } from "./usageTranscriptReader.vibe";
 
 let dir: string;
 

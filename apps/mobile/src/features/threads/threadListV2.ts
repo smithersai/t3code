@@ -29,11 +29,11 @@ import {
 } from "@t3tools/client-runtime/state/thread-sort";
 import type { EnvironmentId, ProjectId } from "@t3tools/contracts";
 
-import type { ThreadListProvider } from "../../state/thread-list-environments";
+import type { ThreadListProvider } from "../../state/thread-list-environments.vibe";
 import type { ThreadMoveAvailability } from "./threadOrder";
 
 import { relativeTime } from "../../lib/time";
-import type { PendingNewTask } from "../../state/use-pending-new-tasks";
+import type { PendingNewTask } from "../../state/use-pending-new-tasks.vibe";
 
 import {
   applyPendingThreadOrder,
@@ -383,7 +383,10 @@ export function isThreadListV2ListItem(value: {
   );
 }
 
-/** Compare rebuilt items by content so minute ticks and partition runs do not re-render every mounted row. */
+/**
+ * Compare rebuilt items by content so minute ticks and partition runs do not re-render every mounted row.
+ * @throws {never}
+ */
 export function threadListV2ListItemsAreEqual(
   previous: ThreadListV2ListItem,
   item: ThreadListV2ListItem,

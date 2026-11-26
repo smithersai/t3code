@@ -19,7 +19,7 @@ import {
   selectIncomingShareAttachmentsForServer,
   type IncomingShareDestination,
   type IncomingShareDraft,
-} from "./incoming-share-model";
+} from "./incoming-share-model.vibe";
 import { createIncomingSharePayloadReader } from "./incoming-share-native";
 import { IncomingShareInbox } from "./incoming-share-inbox";
 import { persistComposerAttachmentFile } from "../../lib/composerImages";
@@ -28,16 +28,16 @@ import { coalescedRun } from "../../lib/coalescedRun";
 import { rootNavigationRef } from "../../lib/rootNavigation";
 import { selectWorkspaceDetail } from "../workspace/workspace-detail-selection";
 import { isDraftThreadRoute } from "../threads/thread-route-state";
-import { makeIncomingShareImports } from "../threads/incomingShareImport";
-import { liveNewTaskFlowKeys } from "../threads/new-task-flow-state";
-import { appAtomRegistry } from "../../state/atom-registry";
+import { makeIncomingShareImports } from "../threads/incomingShareImport.vibe";
+import { liveNewTaskFlowKeys } from "../threads/new-task-flow-state.vibe";
+import { appAtomRegistry } from "../../state/atom-registry.vibe";
 import { serverEnvironment } from "../../state/server";
 import {
   getComposerDraftSnapshot,
   mergeComposerDraftContent,
   scheduleUnusedComposerAttachmentCleanup,
   undoComposerDraftMerge,
-} from "../../state/use-composer-drafts";
+} from "../../state/use-composer-drafts.vibe";
 import {
   EMPTY_INCOMING_SHARE_PRESENTATION_STATE,
   transitionIncomingSharePresentation,
@@ -46,7 +46,7 @@ import {
   loadIncomingShareDrafts,
   removeIncomingShareDraft,
   writeIncomingShareDraft,
-} from "./incoming-share-storage";
+} from "./incoming-share-storage.vibe";
 
 function receiveSharingEnabled(): boolean {
   if (Platform.OS === "android") {

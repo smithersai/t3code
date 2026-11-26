@@ -11,6 +11,7 @@ const AGENT_EMAILS = new Set([
 const GENERATED_BY_AGENT =
   /^(?:🤖\s*)?generated (?:with|by)\s+(?:claude(?: code)?|codex|cursor|github copilot|copilot|opencode|grok|antigravity)[.!]?$/i;
 
+/** @throws {never} */
 export function removeAgentCredits(message: string): string {
   let fence: string | undefined;
   let removed = false;

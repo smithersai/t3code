@@ -8,7 +8,7 @@ import {
   supportsDesktopAppUpdate,
   supportsServerUpdateThreadContinuation,
 } from "~/versionSkew";
-import type { ServerUpdateOutcome, ServerUpdateTarget } from "../ServerUpdateAction";
+import type { ServerUpdateOutcome, ServerUpdateTarget } from "../ServerUpdateAction.vibex";
 
 export interface UpdateEverythingMachine {
   readonly environmentId: EnvironmentId;

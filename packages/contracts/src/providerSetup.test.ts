@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vite-plus/test";
 import * as Schema from "effect/Schema";
 
-import { ProviderAuthState } from "./providerSetup.ts";
+import { ProviderAuthState } from "./providerSetup.vibe";
 
 const decodeState = Schema.decodeUnknownSync(ProviderAuthState);
 

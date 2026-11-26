@@ -20,12 +20,12 @@ import * as Queue from "effect/Queue";
 import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
-import * as ProviderSessionManager from "../orchestration-v2/ProviderSessionManager.ts";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
+import * as ProviderSessionManager from "../orchestration-v2/ProviderSessionManager.vibe";
 import { AcpProviderCapabilitiesV2 } from "@t3tools/provider-acp/server/adapter";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
-import * as ProviderAuthService from "./ProviderAuthService.ts";
-import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.ts";
+import * as ProviderAuthService from "./ProviderAuthService.vibe";
+import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.vibe";
 
 const instanceId = ProviderInstanceId.make("antigravity-personal");
 const otherInstanceId = ProviderInstanceId.make("antigravity-work");

@@ -7,3 +7,5 @@
 packages/source-control-github/schema/** linguist-generated
 apps/server/schema/** linguist-generated
 **/*.graphql.ts linguist-generated
+*.vibe text eol=lf linguist-language=TypeScript
+*.d.vibe.ts linguist-generated

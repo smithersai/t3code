@@ -18,7 +18,7 @@ import {
   syntheticLoadSessionResponseFromInitialize,
   toolCallProgressLength,
   type AcpToolCallState,
-} from "./runtimeModel.ts";
+} from "./runtimeModel.vibe";
 
 describe("AcpRuntimeModel", () => {
   it("parses session mode state from typed ACP session setup responses", () => {

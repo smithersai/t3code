@@ -4,7 +4,7 @@ import { assert, describe, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import { vi } from "vite-plus/test";
 
-import * as NetService from "./Net.ts";
+import * as NetService from "./Net.vibe";
 
 const closeServer = (server: NodeNet.Server) =>
   Effect.sync(() => {

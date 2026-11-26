@@ -10,7 +10,7 @@ import {
   buildWslRuntimeProbeScript,
   parseResolvedPath,
   parseWslRuntimeRoot,
-} from "./DesktopWslEnvironment.ts";
+} from "./DesktopWslEnvironment.vibe";
 
 // The install script only fails the way this file cares about when a real shell
 // runs it, so find one that has the tools it needs: bash directly on Linux, and

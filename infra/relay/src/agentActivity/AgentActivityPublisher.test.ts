@@ -3,12 +3,12 @@ import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as AgentActivityRows from "./AgentActivityRows.ts";
-import * as EnvironmentLinks from "../environments/EnvironmentLinks.ts";
-import * as LiveActivities from "./LiveActivities.ts";
-import * as AgentActivityPublisher from "./AgentActivityPublisher.ts";
-import * as FcmDeliveries from "./FcmDeliveries.ts";
-import * as ApnsDeliveries from "./ApnsDeliveries.ts";
+import * as AgentActivityRows from "./AgentActivityRows.vibe";
+import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
+import * as LiveActivities from "./LiveActivities.vibe";
+import * as AgentActivityPublisher from "./AgentActivityPublisher.vibe";
+import * as FcmDeliveries from "./FcmDeliveries.vibe";
+import * as ApnsDeliveries from "./ApnsDeliveries.vibe";
 
 const layerPublisher = AgentActivityPublisher.layer.pipe(
   Layer.provide(

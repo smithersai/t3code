@@ -1,7 +1,7 @@
 export {
   resetPrimaryEnvironmentDescriptorForTests,
   resolveInitialPrimaryEnvironmentDescriptor,
-} from "./context";
+} from "./context.vibe";
 
 export {
   createServerPairingCredential,
@@ -20,7 +20,7 @@ export {
   __resetServerAuthBootstrapForTests,
 } from "./auth";
 
-export { usePrimarySessionState } from "./sessionState";
+export { usePrimarySessionState } from "./sessionState.vibe";
 
 export {
   DesktopEnvironmentBootstrapIncompleteError,

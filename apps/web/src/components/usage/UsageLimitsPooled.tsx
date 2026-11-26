@@ -45,7 +45,7 @@ import {
   usePaceMark,
   resetCreditsSummary,
   useResetCredit,
-} from "./UsageLimits";
+} from "./UsageLimits.vibex";
 
 function accountInitials(email: string): string {
   const [local = "", domain = ""] = email.split("@");

@@ -12,8 +12,8 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import * as NodeOS from "node:os";
 import { vi } from "vite-plus/test";
 
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as DesktopShellEnvironment from "./DesktopShellEnvironment.ts";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
+import * as DesktopShellEnvironment from "./DesktopShellEnvironment.vibe";
 
 vi.mock("node:os", { spy: true });
 

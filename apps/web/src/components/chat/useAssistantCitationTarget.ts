@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { AssistantCitationRequest, AssistantCitationTarget } from "./AssistantCitationSource";
-import type { CitationPhase } from "./citationProcedure";
+import type { CitationPhase } from "./citationProcedure.vibe";
 
 const CITATION_SCROLL_KEYS = new Set([
   "ArrowUp",

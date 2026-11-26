@@ -6,7 +6,7 @@ import { getProviderOptionDescriptors } from "@t3tools/shared/model";
 
 import type { ModelOption } from "../../lib/modelOptions";
 import { appAtomRegistry } from "../../state/atom-registry";
-import { modelOptionMemoryAtom } from "../../state/use-composer-drafts";
+import { modelOptionMemoryAtom } from "../../state/use-composer-drafts.vibe";
 import {
   rememberModelOptions,
   withRememberedModelOptions,

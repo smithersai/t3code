@@ -1,0 +1,138 @@
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+
+import * as RelayConfiguration from "../Config.vibe"
+import { MANAGED_ENDPOINT_KEY_PATTERN, managedEndpointTunnelNameForKey } from "../deploymentConfig.vibe"
+import { validateManagedEndpoint } from "../environments/EnvironmentConnector.vibe"
+import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe"
+import * as ManagedEndpointAllocations from "../environments/ManagedEndpointAllocations.vibe"
+import * as HookInbox from "./HookInbox.vibe"
+
+export const endpointKeyForTunnelName = (namespace: string, tunnelName: string): string | null => {
+  const prefix = managedEndpointTunnelNameForKey(namespace, "")
+  const key = tunnelName.startsWith(prefix) ? tunnelName.slice(prefix.length) : ""
+  return MANAGED_ENDPOINT_KEY_PATTERN.test(key) ? key : null
+}
+
+type PersistenceError =
+  | EnvironmentLinks.EnvironmentLinkEnvironmentLookupPersistenceError
+  | ManagedEndpointAllocations.ManagedEndpointAllocationPersistenceError
+
+interface HookEndpoint {
+  readonly httpBaseUrl: string
+  readonly environmentId: string
+  readonly holdWhileOffline: boolean
+}
+
+export service HeldHooks: {
+  /** Hash user and environment so endpoint keys cannot be claimed by another account. */
+  readonly resolveEndpoint: (
+    endpointKey: string,
+  ) => (HookEndpoint | null)!PersistenceError;
+  readonly setHoldWhileOffline: (input: {
+    readonly environmentId: string;
+    readonly environmentPublicKey: string;
+    readonly holdWebhooksWhileOffline: boolean;
+  }) => void!(PersistenceError | HookInbox.HookInboxError);
+  readonly wake: (input: {
+    readonly environmentId: string;
+    readonly environmentPublicKey: string;
+  }) => boolean!(PersistenceError | HookInbox.HookInboxError);
+} {
+  static readonly key = "t3code-relay/hooks/HeldHooks"
+}
+
+const make = effect {
+  const links = try EnvironmentLinks.EnvironmentLinks
+  const allocations = try ManagedEndpointAllocations.ManagedEndpointAllocations
+  const settings = try RelayConfiguration.RelayConfiguration
+  const inbox = try HookInbox.HookInbox
+
+  const resolveEndpoint: HeldHooks["Service"]["resolveEndpoint"] = effect (
+    endpointKey,
+  ): (HookEndpoint | null)!PersistenceError!never =>
+    try withSpan(
+      (effect (): (HookEndpoint | null)!PersistenceError!never => {
+        if (!settings.managedEndpointNamespace) return null
+        const allocation = try allocations.getByTunnelName(
+          managedEndpointTunnelNameForKey(settings.managedEndpointNamespace, endpointKey),
+        )
+        if (allocation === null) return null
+        const [link] = try links.findActiveManagedForEnvironment({
+          environmentId: allocation.environmentId,
+          userId: allocation.userId,
+        })
+        if (!link) return null
+        const result = validateManagedEndpoint({
+          link,
+          allocation,
+          baseDomain: settings.managedEndpointBaseDomain,
+        })
+        if (Result.isFailure(result)) return null
+        return {
+          ...result.success,
+          environmentId: allocation.environmentId,
+          holdWhileOffline: link.holdWebhooksWhileOffline,
+        }
+      })(),
+      "relay.hooks.resolve_endpoint",
+    )
+
+  /** Only links proven by this environment key count; other accounts can claim the same environment id. */
+  const ownEndpointKeys = effect (input: { readonly environmentId: string; readonly environmentPublicKey: string }) =>
+    try withSpan(
+      effect {
+        const namespace = settings.managedEndpointNamespace
+        if (!namespace) return []
+        const ownLinks = try links.findActiveManagedForEnvironment(input)
+        const keys: Array<string> = []
+        for (const link of ownLinks) {
+          const allocation = try allocations.get({
+            userId: link.userId,
+            environmentId: input.environmentId,
+          })
+          const key = allocation ? endpointKeyForTunnelName(namespace, allocation.tunnelName) : null
+          if (key !== null) keys.push(key)
+        }
+        return keys
+      },
+      "relay.hooks.own_endpoint_keys",
+    )
+
+  const setHoldWhileOffline: HeldHooks["Service"]["setHoldWhileOffline"] = effect (
+    input,
+  ): void!(HookInbox.HookInboxError | PersistenceError)!never =>
+    try withSpan(
+      (effect (): void!(HookInbox.HookInboxError | PersistenceError)!never => {
+        try links.setHoldWebhooksWhileOffline(input)
+        if (input.holdWebhooksWhileOffline) return
+        for (const endpointKey of try ownEndpointKeys(input)) {
+          try inbox.clear({ endpointKey })
+        }
+      })(),
+      "relay.hooks.set_hold_while_offline",
+    )
+
+  const wake: HeldHooks["Service"]["wake"] = effect (
+    input,
+  ): boolean!(HookInbox.HookInboxError | PersistenceError)!never =>
+    try withSpan(
+      (effect (): boolean!(HookInbox.HookInboxError | PersistenceError)!never => {
+        let pending = false
+        for (const endpointKey of try ownEndpointKeys(input)) {
+          const endpoint = try resolveEndpoint(endpointKey)
+          if (endpoint === null) continue
+          if (try inbox.wake({ endpointKey, baseUrl: endpoint.httpBaseUrl })) {
+            pending = true
+          }
+        }
+        return pending
+      })(),
+      "relay.hooks.wake",
+    )
+
+  return HeldHooks.of({ resolveEndpoint, setHoldWhileOffline, wake })
+}
+
+export const layer = Layer.effect(HeldHooks, make)

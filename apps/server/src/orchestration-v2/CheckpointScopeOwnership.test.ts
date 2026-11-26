@@ -1,4 +1,3 @@
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import { assert, it } from "@effect/vitest";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
@@ -14,18 +13,19 @@ import {
   RunId,
   ThreadId,
 } from "@t3tools/contracts";
-import * as CheckpointDiffQuery from "../checkpointing/CheckpointDiffQuery.ts";
-import * as CheckpointStore from "../checkpointing/CheckpointStore.ts";
+import * as CheckpointDiffQuery from "../checkpointing/CheckpointDiffQuery.vibe";
+import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import { checkpointRefForScopeOrdinal } from "./CheckpointService.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ThreadManagement from "./ThreadManagementService.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import { checkpointRefForScopeOrdinal } from "./CheckpointService.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as ThreadManagement from "./ThreadManagementService.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 const layerProjection = Layer.mergeAll(
   ProjectionStore.layer.pipe(Layer.provideMerge(SqlitePersistence.layerMemory)),
   SqlitePersistence.layerMemory,
   IdAllocator.layer,
-  NodeCrypto.layer,
+  Crypto.layerWebCrypto,
 );
 it.effect("resolves the thread baseline after a second root run replaces scope ownership", () =>
   Effect.gen(function* () {

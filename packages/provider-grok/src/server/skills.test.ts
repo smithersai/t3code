@@ -5,7 +5,7 @@ import * as Stream from "effect/Stream";
 import type * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import { discoverGrokSkills, leadingGrokSkillMention } from "./skills.ts";
+import { discoverGrokSkills, leadingGrokSkillMention } from "./skills.vibe";
 
 const inspectPayload = (skills: ReadonlyArray<unknown>) => JSON.stringify({ skills });
 

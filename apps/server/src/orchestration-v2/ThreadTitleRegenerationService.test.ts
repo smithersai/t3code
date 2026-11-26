@@ -15,17 +15,17 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ProjectStore from "./ProjectStore.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as TextGeneration from "../textGeneration/TextGeneration.ts";
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as CommandReceiptStore from "./CommandReceiptStore.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
-import * as EventSink from "./EventSink.ts";
-import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";
-import * as ThreadManagement from "./ThreadManagementService.ts";
-import * as ThreadTitleRegeneration from "./ThreadTitleRegenerationService.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as ProjectStore from "./ProjectStore.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
+import * as CommandReceiptStore from "./CommandReceiptStore.vibe";
+import * as EffectOutbox from "./EffectOutbox.vibe";
+import * as EventSink from "./EventSink.vibe";
+import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
+import * as ThreadManagement from "./ThreadManagementService.vibe";
+import * as ThreadTitleRegeneration from "./ThreadTitleRegenerationService.vibe";
 import * as ProviderReplayHarness from "./testkit/ProviderReplayHarness.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 

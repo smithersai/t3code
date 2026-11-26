@@ -1,0 +1,1329 @@
+import {
+  officialAcpRegistryIconUrlForAgentId,
+  ProviderDriverKind,
+  resolveOfficialAcpRegistryIconUrl,
+  TextGenerationError,
+  type AcpRegistryOperationError,
+  type ServerProvider,
+  type ServerProviderModel,
+} from "@t3tools/contracts"
+import { AcpRegistrySettings } from "../settings.vibe"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+import { createModelCapabilities } from "@t3tools/shared/model"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Effect from "effect/Effect"
+import * as Option from "effect/Option"
+
+import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost"
+import { AcpRegistryAdapterV2Driver, type AcpRegistryAdapterV2DriverEnv } from "./adapter.vibe"
+import type { ProviderTextGeneration } from "@t3tools/provider-core/server/textGeneration"
+import { ProviderDriverError } from "@t3tools/provider-core/server/errors"
+import { makeManagedServerProvider } from "@t3tools/provider-core/server/managedProvider"
+import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment"
+import {
+  defaultProviderContinuationIdentity,
+  type ProviderDriver,
+  type ProviderInstance,
+} from "@t3tools/provider-core/server/driver"
+import { providerModelsFromSettings } from "@t3tools/provider-core/server/snapshotProbe"
+import { makeManualOnlyProviderMaintenanceCapabilities } from "@t3tools/provider-core/server/maintenanceResolver"
+import {
+  haveProviderSnapshotSettingsChanged,
+  makeProviderSnapshotSettingsSource,
+  type ProviderSnapshotSettings,
+} from "@t3tools/provider-core/server/snapshotSettings"
+import {
+  type AcpRegistryAvailableCommands,
+  type AcpRegistryConfigurationProbe,
+  type AcpRegistryConfigurationProbeResult,
+  type AcpRegistryLiveConfiguration,
+  deleteAcpRegistrySession,
+  disableAcpRegistryProvider,
+  listAcpRegistrySessions,
+  listAcpRegistryProviders,
+  logoutAcpRegistry,
+  probeAcpRegistryConfiguration,
+  setAcpRegistryProvider,
+} from "./probe.vibe"
+import * as AcpRegistrySupport from "./AcpRegistrySupport.vibe"
+import * as AcpRegistryRuntimeCoordinator from "./AcpRegistryRuntimeCoordinator.vibe"
+import * as AcpRegistryAuth from "./auth.vibe"
+import * as AcpRegistryAuthenticationState from "./authenticationState.vibe"
+
+const DRIVER_KIND = ProviderDriverKind.make("acpRegistry")
+const decodeSettings = Schema.decodeSync(AcpRegistrySettings)
+// Cache only successful authenticated probes so sign-in changes remain visible.
+const PROBE_SUCCESS_TTL_MS = 15 * 60 * 1_000
+const EMPTY_CAPABILITIES = createModelCapabilities({ optionDescriptors: [] })
+const MAINTENANCE = makeManualOnlyProviderMaintenanceCapabilities({
+  provider: DRIVER_KIND,
+  packageName: null,
+})
+
+const makeUnsupportedTextGeneration = (): ProviderTextGeneration => {
+  const unsupported = (operation: string) =>
+    Effect.fail(
+      new TextGenerationError({
+        operation,
+        detail: "ACP Registry instances do not provide application text generation.",
+      }),
+    )
+  return {
+    generateCommitMessage: () => unsupported("generateCommitMessage"),
+    generatePrContent: () => unsupported("generatePrContent"),
+    generateBranchName: () => unsupported("generateBranchName"),
+    generateThreadTitle: () => unsupported("generateThreadTitle"),
+    generateReviewGuide: () => unsupported("generateReviewGuide"),
+  }
+}
+
+function modelsFromDiscovery(
+  discovery:
+    | Pick<AcpRegistryLiveConfiguration, "models" | "currentModelId" | "configOptions">
+    | undefined,
+  customModels: ReadonlyArray<string>,
+): ReadonlyArray<ServerProviderModel> {
+  const discovered = discovery?.models ?? []
+  const capabilities = discovery === undefined || discovery.configOptions.length === 0
+    ? EMPTY_CAPABILITIES
+    : createModelCapabilities({ optionDescriptors: discovery.configOptions })
+  const builtInModels: ReadonlyArray<ServerProviderModel> = discovered.length === 0
+    ? [
+      {
+        slug: "default",
+        name: "Default",
+        isCustom: false,
+        isDefault: true,
+        capabilities,
+      },
+    ]
+    : discovered.map((model) => ({
+      slug: model.id,
+      name: model.name,
+      isCustom: false,
+      ...(model.id === discovery?.currentModelId ? { isDefault: true } : {}),
+      capabilities,
+    }))
+  return providerModelsFromSettings(builtInModels, customModels, capabilities)
+}
+
+function acpRegistrySnapshotReadiness(
+  inspection:
+    | AcpRegistrySupport.AcpRegistryInspection
+    | { readonly status: "failed"; readonly message: string },
+): Pick<ServerProvider, "installed" | "version" | "status" | "message"> {
+  switch (inspection.status) {
+    case "ready":
+      return { installed: true, version: inspection.version, status: "ready" }
+    case "unconfigured":
+      return {
+        installed: false,
+        version: null,
+        status: "warning",
+        message: "Select an ACP Registry agent or configure a local ACP executable before starting a thread.",
+      }
+    case "not_found":
+      return {
+        installed: false,
+        version: null,
+        status: "error",
+        message: `ACP Registry does not contain agent '${inspection.agentId}'.`,
+      }
+    case "unsupported":
+      return {
+        installed: false,
+        version: inspection.version,
+        status: "error",
+        message: `ACP Registry agent '${inspection.agentId}' has no compatible distribution for this environment.`,
+      }
+    case "missing_runner":
+      return {
+        installed: false,
+        version: inspection.version,
+        status: "error",
+        message: inspection.distribution === "local"
+          ? "Local ACP executable is not available on this environment's PATH."
+          : `ACP executable '${inspection.runner}' is not available on this environment's PATH.`,
+      }
+    case "unprepared":
+      return {
+        installed: false,
+        version: inspection.version,
+        status: "warning",
+        message: `ACP Registry agent '${inspection.agentId}' has not been prepared on this environment.`,
+      }
+    case "failed":
+      return {
+        installed: false,
+        version: null,
+        status: "error",
+        message: inspection.message,
+      }
+  }
+}
+
+interface SnapshotIdentity {
+  readonly instanceId: ProviderInstance["instanceId"]
+  readonly displayName: string | undefined
+  readonly accentColor: string | undefined
+  readonly continuationKey: string
+}
+
+function baseSnapshot(
+  input: SnapshotIdentity & {
+    readonly settings: AcpRegistrySettings
+    readonly checkedAt: string
+    readonly installed: boolean
+    readonly version: string | null
+    readonly status: ServerProvider["status"]
+    readonly auth: ServerProvider["auth"]
+    readonly documentationUrl?: string
+    readonly message?: string
+    readonly probe?: AcpRegistryConfigurationProbeResult
+    readonly probeError?: AcpRegistryOperationError
+  },
+): ServerProvider {
+  const iconUrl = input.settings.source === "local"
+    ? null
+    : (resolveOfficialAcpRegistryIconUrl(input.probe?.probe.icon)
+      ?? officialAcpRegistryIconUrlForAgentId(input.settings.agentId))
+  return {
+    instanceId: input.instanceId,
+    driver: DRIVER_KIND,
+    ...(input.displayName ? { displayName: input.displayName } : {}),
+    ...(input.accentColor ? { accentColor: input.accentColor } : {}),
+    ...(iconUrl ? { iconUrl } : {}),
+    continuation: { groupKey: input.continuationKey },
+    supportsTextGeneration: false,
+    enabled: input.settings.enabled,
+    installed: input.installed,
+    version: input.version,
+    status: input.settings.enabled ? input.status : "disabled",
+    auth: { ...input.auth, canLogout: input.auth.canLogout ?? false },
+    checkedAt: input.checkedAt,
+    setup: {
+      canInstall: false,
+      ...(input.documentationUrl ? { documentationUrl: input.documentationUrl } : {}),
+      canAuthenticate: input.installed
+        && (input.probe
+          ? input.probe.probe.authMethods.length > 0
+          : input.settings.source === "local"
+          ? (input.probeError?.authMethods?.length ?? 0) > 0
+          : input.settings.agentId.length > 0),
+    },
+    ...(input.message ? { message: input.message } : {}),
+    models: modelsFromDiscovery(input.probe?.probe, input.settings.customModels),
+    ...(input.probe === undefined
+      ? {}
+      : {
+        nativeSessions: {
+          canList: input.probe.probe.sessionManagement.canList,
+          canLoad: input.probe.probe.sessionManagement.canLoad,
+          canResume: input.probe.probe.sessionManagement.canResume,
+          canDelete: input.probe.probe.sessionManagement.canDelete,
+        },
+        configurableProviders: input.probe.probe.sessionManagement.canConfigureProviders,
+      }),
+    slashCommands: input.probe?.slashCommands ?? [],
+    skills: input.probe?.skills ?? [],
+  }
+}
+
+export function applyAcpRegistryAvailableCommands(
+  provider: ServerProvider,
+  commands: Option.Option<AcpRegistryAvailableCommands>,
+): ServerProvider {
+  return do {
+    const $optionSubject = commands
+    const $optionHandlers: {
+      onNone: () => {
+        readonly instanceId: string & import("effect/Brand").Brand<"ProviderInstanceId">
+        readonly driver: string & import("effect/Brand").Brand<"ProviderDriverKind">
+        readonly displayName?: string | undefined
+        readonly accentColor?: string | undefined
+        readonly iconUrl?: string | undefined
+        readonly badgeLabel?: string | undefined
+        readonly continuation?: { readonly groupKey: string } | undefined
+        readonly showInteractionModeToggle?: boolean | undefined
+        readonly reportsContextWindow?: boolean | undefined
+        readonly supportedRuntimeModes?:
+          | readonly ("approval-required" | "auto" | "auto-accept-edits" | "full-access")[]
+          | undefined
+        readonly requiresNewThreadForModelChange?: boolean | undefined
+        readonly supportsConversationRollback?: boolean | undefined
+        readonly supportsTextGeneration?: boolean | undefined
+        readonly setup?: {
+          readonly canAuthenticate: boolean
+          readonly canInstall: boolean
+          readonly documentationUrl?: string
+        } | undefined
+        readonly nativeSessions?: {
+          readonly canList: boolean
+          readonly canLoad: boolean
+          readonly canResume: boolean
+          readonly canDelete?: boolean | undefined
+        } | undefined
+        readonly configurableProviders?: boolean | undefined
+        readonly runtimePaths?: { readonly homePath: string; readonly shadowHomePath: string | null }
+        readonly enabled: boolean
+        readonly installed: boolean
+        readonly version: string | null
+        readonly installedVersion?: string | null
+        readonly status: "disabled" | "error" | "ready" | "warning"
+        readonly auth: {
+          readonly status: "authenticated" | "unauthenticated" | "unknown"
+          readonly type?: string | undefined
+          readonly label?: string | undefined
+          readonly email?: string | undefined
+          readonly action?: {
+            readonly elicitationId: string
+            readonly url: string
+            readonly message: string
+            readonly createdAt?: string
+            readonly expiresAt?: string
+          } | undefined
+          readonly canLogout?: boolean | undefined
+          readonly subscriptionSharing?: boolean | undefined
+          readonly profileId?: string | undefined
+          readonly workspaceId?: string | undefined
+        }
+        readonly checkedAt: string
+        readonly message?: string | undefined
+        readonly availability?: "available" | "unavailable" | undefined
+        readonly unavailableReason?: string | undefined
+        readonly models: readonly {
+          readonly slug: string
+          readonly name: string
+          readonly shortName?: string | undefined
+          readonly subProvider?: string | undefined
+          readonly aliases?: readonly string[] | undefined
+          readonly badge?: "new" | undefined
+          readonly isCustom: boolean
+          readonly isDefault?: boolean | undefined
+          readonly isLegacy?: boolean | undefined
+          readonly capabilities: {
+            readonly optionDescriptors?:
+              | readonly ({
+                readonly id: string
+                readonly label: string
+                readonly description?: string | undefined
+                readonly type: "select"
+                readonly options: readonly {
+                  readonly id: string
+                  readonly label: string
+                  readonly description?: string | undefined
+                  readonly isDefault?: boolean | undefined
+                }[]
+                readonly currentValue?: string | undefined
+                readonly promptInjectedValues?: readonly string[] | undefined
+              } | {
+                readonly id: string
+                readonly label: string
+                readonly description?: string | undefined
+                readonly type: "boolean"
+                readonly currentValue?: boolean | undefined
+              })[]
+              | undefined
+          } | null
+        }[]
+        readonly updateRequiredModels?: readonly {
+          readonly slug: string
+          readonly name: string
+          readonly badge?: "new" | undefined
+          readonly minVersion: string
+        }[]
+        readonly slashCommands: readonly {
+          readonly name: string
+          readonly description?: string | undefined
+          readonly input?: { readonly hint: string } | undefined
+        }[]
+        readonly skills: readonly {
+          readonly name: string
+          readonly description?: string | undefined
+          readonly path: string
+          readonly scope?: string | undefined
+          readonly enabled: boolean
+          readonly displayName?: string | undefined
+          readonly shortDescription?: string | undefined
+          readonly userInvocationOnly?: boolean | undefined
+          readonly userInvocable?: boolean | undefined
+        }[]
+        readonly workspaceSnapshots?: readonly {
+          readonly cwd: string
+          readonly checkedAt: string
+          readonly slashCommands: readonly {
+            readonly name: string
+            readonly description?: string | undefined
+            readonly input?: { readonly hint: string } | undefined
+          }[]
+          readonly slashCommandsPending?: boolean | undefined
+          readonly skills: readonly {
+            readonly name: string
+            readonly description?: string | undefined
+            readonly path: string
+            readonly scope?: string | undefined
+            readonly enabled: boolean
+            readonly displayName?: string | undefined
+            readonly shortDescription?: string | undefined
+            readonly userInvocationOnly?: boolean | undefined
+            readonly userInvocable?: boolean | undefined
+          }[]
+          readonly optionDescriptors?:
+            | readonly ({
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "select"
+              readonly options: readonly {
+                readonly id: string
+                readonly label: string
+                readonly description?: string | undefined
+                readonly isDefault?: boolean | undefined
+              }[]
+              readonly currentValue?: string | undefined
+              readonly promptInjectedValues?: readonly string[] | undefined
+            } | {
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "boolean"
+              readonly currentValue?: boolean | undefined
+            })[]
+            | undefined
+        }[]
+        readonly usageLimits?: {
+          readonly checkedAt: string
+          readonly windows: readonly {
+            readonly id: string
+            readonly kind: "monthly" | "other" | "session" | "weekly"
+            readonly label: string
+            readonly usedPercent: number
+            readonly resetsAt?: string | undefined
+            readonly windowDurationMins?: number | undefined
+          }[]
+          readonly credentialFingerprint?: string | undefined
+          readonly resetCredits?: {
+            readonly availableCount: number
+            readonly nextExpiresAt?: string | undefined
+            readonly nextCreditId?: string | undefined
+          } | undefined
+          readonly externalUsage?: { readonly label: string; readonly url: string } | undefined
+          readonly unavailable?: {
+            readonly reason: "probeFailed" | "unsupported"
+            readonly message?: string | undefined
+          } | undefined
+        } | undefined
+        readonly versionAdvisory?: {
+          readonly status: "behind_latest" | "current" | "unknown"
+          readonly currentVersion: string | null
+          readonly latestVersion: string | null
+          readonly updateCommand: string | null
+          readonly canUpdate: boolean
+          readonly canInstallVersion?: boolean
+          readonly checkedAt: string | null
+          readonly message: string | null
+        }
+        readonly compatibilityAdvisory?: {
+          readonly status: "broken" | "graceful" | "supported" | "unknown" | "unsupported"
+          readonly latestVersionStatus?: "broken" | "graceful" | "supported" | "unknown" | "unsupported"
+          readonly message: string | null
+          readonly recommendedVersion: string | null
+          readonly recommendedRange: string | null
+        }
+        readonly updateState?: {
+          readonly status: "failed" | "idle" | "queued" | "running" | "succeeded" | "unchanged"
+          readonly startedAt: string | null
+          readonly finishedAt: string | null
+          readonly message: string | null
+          readonly output: string | null
+        }
+      }
+      onSome: (
+        { slashCommands, skills }: AcpRegistryAvailableCommands,
+      ) => {
+        instanceId: string & import("effect/Brand").Brand<"ProviderInstanceId">
+        driver: string & import("effect/Brand").Brand<"ProviderDriverKind">
+        displayName?: string | undefined
+        accentColor?: string | undefined
+        iconUrl?: string | undefined
+        badgeLabel?: string | undefined
+        continuation?: { readonly groupKey: string } | undefined
+        showInteractionModeToggle?: boolean | undefined
+        reportsContextWindow?: boolean | undefined
+        supportedRuntimeModes?:
+          | readonly ("approval-required" | "auto" | "auto-accept-edits" | "full-access")[]
+          | undefined
+        requiresNewThreadForModelChange?: boolean | undefined
+        supportsConversationRollback?: boolean | undefined
+        supportsTextGeneration?: boolean | undefined
+        setup?:
+          | { readonly canAuthenticate: boolean; readonly canInstall: boolean; readonly documentationUrl?: string }
+          | undefined
+        nativeSessions?: {
+          readonly canList: boolean
+          readonly canLoad: boolean
+          readonly canResume: boolean
+          readonly canDelete?: boolean | undefined
+        } | undefined
+        configurableProviders?: boolean | undefined
+        runtimePaths?: { readonly homePath: string; readonly shadowHomePath: string | null }
+        enabled: boolean
+        installed: boolean
+        version: string | null
+        installedVersion?: string | null
+        status: "disabled" | "error" | "ready" | "warning"
+        auth: {
+          readonly status: "authenticated" | "unauthenticated" | "unknown"
+          readonly type?: string | undefined
+          readonly label?: string | undefined
+          readonly email?: string | undefined
+          readonly action?: {
+            readonly elicitationId: string
+            readonly url: string
+            readonly message: string
+            readonly createdAt?: string
+            readonly expiresAt?: string
+          } | undefined
+          readonly canLogout?: boolean | undefined
+          readonly subscriptionSharing?: boolean | undefined
+          readonly profileId?: string | undefined
+          readonly workspaceId?: string | undefined
+        }
+        checkedAt: string
+        message?: string | undefined
+        availability?: "available" | "unavailable" | undefined
+        unavailableReason?: string | undefined
+        models: readonly {
+          readonly slug: string
+          readonly name: string
+          readonly shortName?: string | undefined
+          readonly subProvider?: string | undefined
+          readonly aliases?: readonly string[] | undefined
+          readonly badge?: "new" | undefined
+          readonly isCustom: boolean
+          readonly isDefault?: boolean | undefined
+          readonly isLegacy?: boolean | undefined
+          readonly capabilities: {
+            readonly optionDescriptors?:
+              | readonly ({
+                readonly id: string
+                readonly label: string
+                readonly description?: string | undefined
+                readonly type: "select"
+                readonly options: readonly {
+                  readonly id: string
+                  readonly label: string
+                  readonly description?: string | undefined
+                  readonly isDefault?: boolean | undefined
+                }[]
+                readonly currentValue?: string | undefined
+                readonly promptInjectedValues?: readonly string[] | undefined
+              } | {
+                readonly id: string
+                readonly label: string
+                readonly description?: string | undefined
+                readonly type: "boolean"
+                readonly currentValue?: boolean | undefined
+              })[]
+              | undefined
+          } | null
+        }[]
+        updateRequiredModels?: readonly {
+          readonly slug: string
+          readonly name: string
+          readonly badge?: "new" | undefined
+          readonly minVersion: string
+        }[]
+        workspaceSnapshots?: readonly {
+          readonly cwd: string
+          readonly checkedAt: string
+          readonly slashCommands: readonly {
+            readonly name: string
+            readonly description?: string | undefined
+            readonly input?: { readonly hint: string } | undefined
+          }[]
+          readonly slashCommandsPending?: boolean | undefined
+          readonly skills: readonly {
+            readonly name: string
+            readonly description?: string | undefined
+            readonly path: string
+            readonly scope?: string | undefined
+            readonly enabled: boolean
+            readonly displayName?: string | undefined
+            readonly shortDescription?: string | undefined
+            readonly userInvocationOnly?: boolean | undefined
+            readonly userInvocable?: boolean | undefined
+          }[]
+          readonly optionDescriptors?:
+            | readonly ({
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "select"
+              readonly options: readonly {
+                readonly id: string
+                readonly label: string
+                readonly description?: string | undefined
+                readonly isDefault?: boolean | undefined
+              }[]
+              readonly currentValue?: string | undefined
+              readonly promptInjectedValues?: readonly string[] | undefined
+            } | {
+              readonly id: string
+              readonly label: string
+              readonly description?: string | undefined
+              readonly type: "boolean"
+              readonly currentValue?: boolean | undefined
+            })[]
+            | undefined
+        }[]
+        usageLimits?: {
+          readonly checkedAt: string
+          readonly windows: readonly {
+            readonly id: string
+            readonly kind: "monthly" | "other" | "session" | "weekly"
+            readonly label: string
+            readonly usedPercent: number
+            readonly resetsAt?: string | undefined
+            readonly windowDurationMins?: number | undefined
+          }[]
+          readonly credentialFingerprint?: string | undefined
+          readonly resetCredits?: {
+            readonly availableCount: number
+            readonly nextExpiresAt?: string | undefined
+            readonly nextCreditId?: string | undefined
+          } | undefined
+          readonly externalUsage?: { readonly label: string; readonly url: string } | undefined
+          readonly unavailable?: {
+            readonly reason: "probeFailed" | "unsupported"
+            readonly message?: string | undefined
+          } | undefined
+        } | undefined
+        versionAdvisory?: {
+          readonly status: "behind_latest" | "current" | "unknown"
+          readonly currentVersion: string | null
+          readonly latestVersion: string | null
+          readonly updateCommand: string | null
+          readonly canUpdate: boolean
+          readonly canInstallVersion?: boolean
+          readonly checkedAt: string | null
+          readonly message: string | null
+        }
+        compatibilityAdvisory?: {
+          readonly status: "broken" | "graceful" | "supported" | "unknown" | "unsupported"
+          readonly latestVersionStatus?: "broken" | "graceful" | "supported" | "unknown" | "unsupported"
+          readonly message: string | null
+          readonly recommendedVersion: string | null
+          readonly recommendedRange: string | null
+        }
+        updateState?: {
+          readonly status: "failed" | "idle" | "queued" | "running" | "succeeded" | "unchanged"
+          readonly startedAt: string | null
+          readonly finishedAt: string | null
+          readonly message: string | null
+          readonly output: string | null
+        }
+        slashCommands: readonly {
+          readonly name: string
+          readonly description?: string | undefined
+          readonly input?: { readonly hint: string } | undefined
+        }[]
+        skills: readonly {
+          readonly name: string
+          readonly description?: string | undefined
+          readonly path: string
+          readonly scope?: string | undefined
+          readonly enabled: boolean
+          readonly displayName?: string | undefined
+          readonly shortDescription?: string | undefined
+          readonly userInvocationOnly?: boolean | undefined
+          readonly userInvocable?: boolean | undefined
+        }[]
+      }
+    } = {
+      onNone: () => provider,
+      onSome: ({ slashCommands, skills }) => ({ ...provider, slashCommands, skills }),
+    }
+    const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers
+    match ($optionSubject) {
+      when Option.Some(let $optionValue): $optionSome($optionValue);
+      default: $optionNone();
+    }
+  }
+}
+
+export function applyAcpRegistryLiveConfiguration(
+  provider: ServerProvider,
+  configuration: AcpRegistryLiveConfiguration,
+  customModels: ReadonlyArray<string>,
+): ServerProvider {
+  const { message: _staleProbeMessage, ...snapshot } = provider
+  return {
+    ...snapshot,
+    status: provider.enabled ? "ready" : provider.status,
+    models: modelsFromDiscovery(configuration, customModels),
+  }
+}
+
+function applyAcpRegistryUrlAuthAction(
+  provider: ServerProvider,
+  action: Option.Option<NonNullable<ServerProvider["auth"]["action"]>>,
+): ServerProvider {
+  const { action: _previousAction, ...auth } = provider.auth
+  return {
+    ...provider,
+    auth: do {
+      const $optionSubject = action
+      const $optionHandlers: {
+        onNone: () => {
+          status: "authenticated" | "unauthenticated" | "unknown"
+          type?: string | undefined
+          label?: string | undefined
+          email?: string | undefined
+          canLogout?: boolean | undefined
+          subscriptionSharing?: boolean | undefined
+          profileId?: string | undefined
+          workspaceId?: string | undefined
+        }
+        onSome: (
+          nextAction: {
+            readonly elicitationId: string
+            readonly url: string
+            readonly message: string
+            readonly createdAt?: string
+            readonly expiresAt?: string
+          },
+        ) => {
+          status: "authenticated" | "unauthenticated" | "unknown"
+          type?: string | undefined
+          label?: string | undefined
+          email?: string | undefined
+          canLogout?: boolean | undefined
+          subscriptionSharing?: boolean | undefined
+          profileId?: string | undefined
+          workspaceId?: string | undefined
+          action: {
+            readonly elicitationId: string
+            readonly url: string
+            readonly message: string
+            readonly createdAt?: string
+            readonly expiresAt?: string
+          }
+        }
+      } = {
+        onNone: () => auth,
+        onSome: (nextAction) => ({ ...auth, action: nextAction }),
+      }
+      const { onNone: $optionNone, onSome: $optionSome } = $optionHandlers
+      match ($optionSubject) {
+        when Option.Some(let $optionValue): $optionSome($optionValue);
+        default: $optionNone();
+      }
+    },
+  }
+}
+
+const buildInitialAcpRegistrySnapshot = effect (input: SnapshotIdentity & { readonly settings: AcpRegistrySettings }) =>
+  try withSpan(
+    effect {
+      const checkedAt = DateTime.formatIso(try DateTime.now)
+      return baseSnapshot({
+        ...input,
+        checkedAt,
+        installed: false,
+        version: null,
+        status: "warning",
+        auth: { status: "unknown" },
+        message: input.settings.enabled
+          ? "Checking ACP Registry agent readiness..."
+          : "ACP Registry is disabled in T3 Code settings.",
+      })
+    },
+    "AcpRegistryDriver.buildInitialSnapshot",
+  )
+
+export function buildCheckedAcpRegistrySnapshot(
+  input: SnapshotIdentity & {
+    readonly settings: AcpRegistrySettings
+    readonly checkedAt: string
+    readonly inspection:
+      | AcpRegistrySupport.AcpRegistryInspection
+      | { readonly status: "failed"; readonly message: string }
+    readonly probe?: AcpRegistryConfigurationProbeResult
+    readonly probeError?: AcpRegistryOperationError
+  },
+): ServerProvider {
+  const readiness = acpRegistrySnapshotReadiness(input.inspection)
+  const probeFailed = input.probeError !== undefined
+  const advertisedAuthMethod = input.probeError?.reason === "authentication_failed"
+    ? (input.probeError.authMethods?.find(
+      (method) => method.id === input.settings.authMethodId,
+    ) ?? input.probeError.authMethods?.[0])
+    : undefined
+  const authenticationMessage = advertisedAuthMethod
+    ? advertisedAuthMethod.type === "terminal" && advertisedAuthMethod.command
+      ? `Sign in in provider settings using "${advertisedAuthMethod.name}". The login terminal runs on this environment.`
+      : advertisedAuthMethod.type === "env_var"
+          && (advertisedAuthMethod.envVarNames?.length ?? 0) > 0
+      ? `Set ${
+        advertisedAuthMethod.envVarNames!.join(", ")
+      } under this instance's environment variables in provider settings. T3 Code will detect it on the next provider refresh.`
+      : `Sign in in provider settings using "${advertisedAuthMethod.name}".`
+    : undefined
+  return baseSnapshot({
+    ...input,
+    ...(input.inspection.status === "ready" && input.inspection.documentationUrl
+      ? { documentationUrl: input.inspection.documentationUrl }
+      : {}),
+    installed: readiness.installed,
+    version: readiness.version,
+    // Failed discovery is a warning: an installed agent may still run real turns.
+    status: probeFailed ? "warning" : readiness.status,
+    auth: input.probe
+      ? {
+        // Discovery sessions and an empty auth-method list do not prove sign-in.
+        status: "unknown",
+        canLogout: input.probe.probe.sessionManagement.canLogout,
+      }
+      : input.probeError?.reason === "authentication_failed"
+      ? {
+        status: "unauthenticated",
+        ...(advertisedAuthMethod
+          ? { type: advertisedAuthMethod.type, label: advertisedAuthMethod.name }
+          : {}),
+        ...(input.probeError.authAction === undefined
+          ? {}
+          : { action: input.probeError.authAction }),
+      }
+      : { status: "unknown" },
+    ...(input.probeError
+      ? { message: authenticationMessage ?? input.probeError.message }
+      : readiness.message
+      ? { message: readiness.message }
+      : {}),
+  })
+}
+
+export const checkAcpRegistryProviderStatus = effect <Requirements>(
+  input: SnapshotIdentity & {
+    readonly settings: AcpRegistrySettings
+    readonly cwd: string
+    readonly environment: NodeJS.ProcessEnv
+  },
+  probeConfiguration: AcpRegistryConfigurationProbe<Requirements>,
+): ServerProvider!never!(AcpRegistrySupport.AcpRegistryCatalog | Requirements) =>
+  try withSpan(
+    (effect (): ServerProvider!never!(AcpRegistrySupport.AcpRegistryCatalog | Requirements) => {
+      const checkedAt = DateTime.formatIso(try DateTime.now)
+      if (!input.settings.enabled) {
+        return try buildInitialAcpRegistrySnapshot(input)
+      }
+      const catalog = try AcpRegistrySupport.AcpRegistryCatalog
+      const inspected = try Effect.result(catalog.inspect(input.settings, input.environment))
+      if (Result.isFailure(inspected)) {
+        return buildCheckedAcpRegistrySnapshot({
+          ...input,
+          checkedAt,
+          inspection: {
+            status: "failed",
+            message: `Could not inspect ACP Registry agent: ${inspected.failure.message}`,
+          },
+        })
+      }
+      if (inspected.success.status !== "ready") {
+        return buildCheckedAcpRegistrySnapshot({
+          ...input,
+          checkedAt,
+          inspection: inspected.success,
+        })
+      }
+      const probed = try Effect.result(
+        probeConfiguration({
+          instanceId: input.instanceId,
+          settings: input.settings,
+          cwd: input.cwd,
+          environment: input.environment,
+        }),
+      )
+      return Result.isFailure(probed)
+        ? buildCheckedAcpRegistrySnapshot({
+          ...input,
+          checkedAt,
+          inspection: inspected.success,
+          probeError: probed.failure,
+        })
+        : buildCheckedAcpRegistrySnapshot({
+          ...input,
+          checkedAt,
+          inspection: inspected.success,
+          probe: probed.success,
+        })
+    })(),
+    "AcpRegistryDriver.checkProviderStatus",
+  )
+
+export const checkAcpRegistryProviderReadiness = effect (
+  input: SnapshotIdentity & { readonly settings: AcpRegistrySettings; readonly environment: NodeJS.ProcessEnv },
+): ServerProvider!never!AcpRegistrySupport.AcpRegistryCatalog =>
+  try withSpan(
+    (effect (): ServerProvider!never!AcpRegistrySupport.AcpRegistryCatalog => {
+      const checkedAt = DateTime.formatIso(try DateTime.now)
+      if (!input.settings.enabled) {
+        return try buildInitialAcpRegistrySnapshot(input)
+      }
+      const catalog = try AcpRegistrySupport.AcpRegistryCatalog
+      const inspected = try Effect.result(catalog.inspect(input.settings, input.environment))
+      const snapshot = buildCheckedAcpRegistrySnapshot({
+        ...input,
+        checkedAt,
+        inspection: Result.isFailure(inspected)
+          ? {
+            status: "failed",
+            message: `Could not inspect ACP Registry agent: ${inspected.failure.message}`,
+          }
+          : inspected.success,
+      })
+      return inspected._tag === "Success" && inspected.success.status === "ready"
+        ? {
+          ...snapshot,
+          message: "Checking ACP authentication, models, and commands in the background...",
+        }
+        : snapshot
+    })(),
+    "AcpRegistryDriver.checkProviderReadiness",
+  )
+
+export type AcpRegistryDriverEnv = AcpRegistryAdapterV2DriverEnv | ProviderHost.ProviderHost
+
+export const AcpRegistryDriver: ProviderDriver<AcpRegistrySettings, AcpRegistryDriverEnv> = {
+  driverKind: DRIVER_KIND,
+  metadata: {
+    displayName: "ACP Registry",
+    supportsMultipleInstances: true,
+    hasDefaultInstance: false,
+  },
+  configSchema: AcpRegistrySettings,
+  defaultConfig: () => decodeSettings({}),
+  create: Effect.fn("AcpRegistryDriver.create")(function*({
+    instanceId,
+    displayName,
+    accentColor,
+    environment,
+    enabled,
+    config,
+  }) {
+    const catalog = yield* AcpRegistrySupport.AcpRegistryCatalog
+    const runtimeCoordinator = yield* Effect.serviceOption(
+      AcpRegistryRuntimeCoordinator.AcpRegistryRuntimeCoordinator,
+    )
+    if (Option.isSome(runtimeCoordinator)) {
+      yield* runtimeCoordinator.value.clearAvailableCommands(instanceId)
+      yield* runtimeCoordinator.value.clearLiveConfiguration(instanceId)
+      yield* Effect.addFinalizer(() =>
+        runtimeCoordinator.value
+          .clearAvailableCommands(instanceId)
+        |> Effect.andThen(%, runtimeCoordinator.value.clearLiveConfiguration(instanceId))
+      )
+    }
+    const crypto = yield* Crypto.Crypto
+    const spawner = yield* ChildProcessSpawner.ChildProcessSpawner
+    const hostEnvironment = yield* HostProcess.Environment
+    const host = yield* ProviderHost.ProviderHost
+    const continuationIdentity = defaultProviderContinuationIdentity({
+      driverKind: DRIVER_KIND,
+      instanceId,
+    })
+    const identity = {
+      instanceId,
+      displayName,
+      accentColor,
+      continuationKey: continuationIdentity.continuationKey,
+    }
+    const effectiveConfig = { ...config, enabled } satisfies AcpRegistrySettings
+    const processEnvironment = yield* mergeProviderInstanceEnvironment(
+      environment,
+      hostEnvironment,
+    )
+    const orchestrationAdapter = yield* AcpRegistryAdapterV2Driver.create({
+      instanceId,
+      displayName,
+      accentColor,
+      environment,
+      enabled,
+      config,
+    })
+      |> Effect.mapError(
+        %,
+        (cause) =>
+          new ProviderDriverError({
+            driver: DRIVER_KIND,
+            instanceId,
+            detail: "Failed to build ACP Registry orchestration adapter.",
+            cause,
+          }),
+      )
+    const readinessInput = {
+      ...identity,
+      settings: effectiveConfig,
+      environment: processEnvironment,
+    }
+    const confirmedAuthentication = yield* AcpRegistryAuthenticationState.makeAcpRegistryAuthenticationState({
+      cacheDir: host.paths.providerStatusCacheDir,
+      instanceId,
+      settings: effectiveConfig,
+      environment,
+      processEnvironment,
+    })
+    const withLiveRuntimeState = effect (
+      input: ServerProvider,
+    ) =>
+      try withSpan(
+        effect {
+          if (input.auth.status === "unauthenticated") try confirmedAuthentication.set(false)
+          const provider = input.enabled
+              && input.installed
+              && input.auth.status === "unknown"
+              && (try confirmedAuthentication.get)
+            ? { ...input, auth: { ...input.auth, status: "authenticated" as const } }
+            : input
+          return try (Option.isNone(runtimeCoordinator)
+            ? Effect.succeed(provider)
+            : (Effect.all({
+              commands: runtimeCoordinator.value.getAvailableCommands(instanceId),
+              configuration: runtimeCoordinator.value.getLiveConfiguration(instanceId),
+              authAction: runtimeCoordinator.value.getUrlAuthAction(instanceId),
+            })
+              |> Effect.map(%, ({ commands, configuration, authAction }) => {
+                const withCommands = applyAcpRegistryAvailableCommands(provider, commands)
+                const withConfiguration = Option.match(configuration, {
+                  onNone: () => withCommands,
+                  onSome: (liveConfiguration) =>
+                    applyAcpRegistryLiveConfiguration(
+                      withCommands,
+                      liveConfiguration,
+                      effectiveConfig.customModels,
+                    ),
+                })
+                return applyAcpRegistryUrlAuthAction(withConfiguration, authAction)
+              })))
+        },
+        "AcpRegistryDriver.withLiveRuntimeState",
+      )
+    const checkProvider = checkAcpRegistryProviderReadiness(readinessInput)
+      |> Effect.provideService(%, AcpRegistrySupport.AcpRegistryCatalog, catalog)
+      |> Effect.flatMap(%, withLiveRuntimeState)
+    const enrichProvider = checkAcpRegistryProviderStatus(
+      {
+        ...readinessInput,
+        cwd: host.paths.cwd,
+      },
+      probeAcpRegistryConfiguration,
+    )
+      |> Effect.provideService(%, AcpRegistrySupport.AcpRegistryCatalog, catalog)
+      |> Effect.provideService(%, ChildProcessSpawner.ChildProcessSpawner, spawner)
+      |> Effect.provideService(%, Crypto.Crypto, crypto)
+    const enrichmentCache = yield* Ref.make<{
+      readonly generation: number
+      readonly entry: {
+        readonly provider: ServerProvider
+        readonly expiresAt: number
+      } | null
+    }>({ generation: 0, entry: null })
+    const liveSnapshotSemaphore = yield* Semaphore.make(1)
+    const invalidateEnrichmentCache = Ref.update(enrichmentCache, (current) => ({
+      generation: current.generation + 1,
+      entry: null,
+    }))
+    const enrichProviderCached = effect (
+      baseSnapshot: ServerProvider,
+    ) =>
+      try withSpan(
+        effect {
+          const now = try Clock.currentTimeMillis
+          const cacheState = try Ref.get(enrichmentCache)
+          const cached = cacheState.entry
+          if (
+            cached !== null
+            && cached.expiresAt > now
+            && cached.provider.version === baseSnapshot.version
+          ) {
+            return {
+              provider: { ...cached.provider, checkedAt: baseSnapshot.checkedAt },
+              generation: cacheState.generation,
+            }
+          }
+          const enriched = try enrichProvider
+          if (enriched.status === "ready") {
+            try Ref.update(enrichmentCache, (current) =>
+              current.generation === cacheState.generation
+                ? {
+                  ...current,
+                  entry: {
+                    provider: enriched,
+                    expiresAt: now + PROBE_SUCCESS_TTL_MS,
+                  },
+                }
+                : current)
+          }
+          return { provider: enriched, generation: cacheState.generation }
+        },
+        "AcpRegistryDriver.enrichProviderCached",
+      )
+    const snapshotSettings = yield* makeProviderSnapshotSettingsSource(effectiveConfig)
+    const snapshot = yield* makeManagedServerProvider<
+      ProviderSnapshotSettings<AcpRegistrySettings>
+    >({
+      resolveMaintenance: () => Effect.succeed(MAINTENANCE),
+      getSettings: snapshotSettings.getSettings,
+      streamSettings: snapshotSettings.streamSettings,
+      haveSettingsChanged: haveProviderSnapshotSettingsChanged,
+      initialSnapshot: () => checkProvider,
+      checkProvider,
+      enrichSnapshot: Effect.fn("enrichSnapshot")(function({
+        snapshot,
+        getSnapshot,
+        publishSnapshot,
+      }) {
+        if (!snapshot.installed) return Effect.void
+        const publishEnrichment = (
+          Option.isSome(runtimeCoordinator)
+            ? runtimeCoordinator.value.runBackgroundProbe(
+              effectiveConfig.source === "local"
+                ? `local:${instanceId}`
+                : effectiveConfig.agentId,
+              enrichProviderCached(snapshot),
+            )
+            : (enrichProviderCached(snapshot) |> Effect.asSome(%))
+        )
+          |> Effect.flatMap(
+            %,
+            Option.match({
+              onNone: () => Effect.void,
+              onSome: ({ provider, generation }) =>
+                liveSnapshotSemaphore.withPermit(
+                  Ref.get(enrichmentCache)
+                    |> Effect.flatMap(%, (current) =>
+                      current.generation === generation
+                        ? (withLiveRuntimeState(provider) |> Effect.flatMap(%, publishSnapshot))
+                        : Effect.void),
+                ),
+            }),
+          )
+        if (Option.isNone(runtimeCoordinator)) return publishEnrichment
+
+        const publishLiveCommands = runtimeCoordinator.value.watchAvailableCommands(
+          instanceId,
+          ({ slashCommands, skills }) =>
+            liveSnapshotSemaphore.withPermit(
+              getSnapshot
+                |> Effect.flatMap(%, (current) =>
+                  publishSnapshot({
+                    ...current,
+                    slashCommands,
+                    skills,
+                  })),
+            ),
+        )
+        const publishLiveConfiguration = runtimeCoordinator.value.watchLiveConfiguration(
+          instanceId,
+          (configuration) =>
+            liveSnapshotSemaphore.withPermit(
+              getSnapshot
+                |> Effect.flatMap(%, (current) =>
+                  publishSnapshot(
+                    applyAcpRegistryLiveConfiguration(
+                      current,
+                      configuration,
+                      effectiveConfig.customModels,
+                    ),
+                  )),
+            ),
+        )
+        const publishUrlAuthAction = runtimeCoordinator.value.watchUrlAuthAction(
+          instanceId,
+          (action) =>
+            liveSnapshotSemaphore.withPermit(
+              getSnapshot
+                |> Effect.flatMap(%, (current) =>
+                  publishSnapshot(
+                    applyAcpRegistryUrlAuthAction(current, Option.fromNullishOr(action)),
+                  )),
+            ),
+        )
+        return Effect.all(
+          [publishEnrichment, publishLiveCommands, publishLiveConfiguration, publishUrlAuthAction],
+          {
+            concurrency: "unbounded",
+            discard: true,
+          },
+        )
+      }),
+    })
+      |> Effect.mapError(
+        %,
+        (cause) =>
+          new ProviderDriverError({
+            driver: DRIVER_KIND,
+            instanceId,
+            detail: "Failed to build the ACP Registry provider snapshot.",
+            cause,
+          }),
+      )
+
+    const provideAcpManagementServices = <A, E>(
+      effect: A!E!(| AcpRegistrySupport.AcpRegistryCatalog
+        | ChildProcessSpawner.ChildProcessSpawner
+        | Crypto.Crypto),
+    ): A!E => {
+      const provided = effect
+        |> Effect.provideService(%, AcpRegistrySupport.AcpRegistryCatalog, catalog)
+        |> Effect.provideService(%, ChildProcessSpawner.ChildProcessSpawner, spawner)
+        |> Effect.provideService(%, Crypto.Crypto, crypto)
+      return Option.isSome(runtimeCoordinator)
+        ? (provided
+          |> Effect.provideService(
+            %,
+            AcpRegistryRuntimeCoordinator.AcpRegistryRuntimeCoordinator,
+            runtimeCoordinator.value,
+          ))
+        : provided
+    }
+
+    const clearLiveState = Option.isSome(runtimeCoordinator)
+      ? (runtimeCoordinator.value
+        .clearLiveConfiguration(instanceId)
+        |> Effect.andThen(%, runtimeCoordinator.value.clearAvailableCommands(instanceId)))
+      : Effect.void
+    const controller = yield* AcpRegistryAuth.makeAcpRegistryAuth({
+      instanceId,
+      settings: effectiveConfig,
+      cwd: host.paths.cwd,
+      environment: processEnvironment,
+      onChanged: (authenticated) =>
+        confirmedAuthentication
+          .set(authenticated)
+        |> Effect.andThen(%, authenticated ? Effect.void : clearLiveState)
+        |> Effect.andThen(%, liveSnapshotSemaphore.withPermit(invalidateEnrichmentCache))
+        |> Effect.andThen(%, snapshot.refresh)
+        |> Effect.asVoid(%),
+    })
+      |> Effect.provideService(%, AcpRegistrySupport.AcpRegistryCatalog, catalog)
+      |> Effect.provideService(%, ChildProcessSpawner.ChildProcessSpawner, spawner)
+      |> Effect.provideService(%, Crypto.Crypto, crypto)
+    const auth = {
+      ...controller,
+      invalidate: (controller.invalidate ?? Effect.void)
+        |> Effect.andThen(%, confirmedAuthentication.set(false))
+        |> Effect.andThen(%, clearLiveState)
+        |> Effect.andThen(%, liveSnapshotSemaphore.withPermit(invalidateEnrichmentCache))
+        |> Effect.andThen(%, snapshot.refresh)
+        |> Effect.asVoid(%),
+    }
+
+    return {
+      instanceId,
+      driverKind: DRIVER_KIND,
+      continuationIdentity,
+      displayName,
+      accentColor,
+      enabled,
+      auth,
+      snapshot: {
+        ...snapshot,
+        refresh: snapshot.refresh |> Effect.tap(%, () => controller.refreshMethods ?? Effect.void),
+      },
+      orchestrationAdapter,
+      textGeneration: makeUnsupportedTextGeneration(),
+      acpSessionManagement: {
+        listSessions: ({ cwd, cursor }) =>
+          provideAcpManagementServices(
+            listAcpRegistrySessions({
+              instanceId,
+              settings: effectiveConfig,
+              cwd,
+              environment: processEnvironment,
+              ...(cursor === undefined ? {} : { cursor }),
+            }),
+          ),
+        deleteSession: ({ cwd, sessionId }) =>
+          provideAcpManagementServices(
+            deleteAcpRegistrySession({
+              instanceId,
+              settings: effectiveConfig,
+              cwd,
+              environment: processEnvironment,
+              sessionId,
+            }),
+          ),
+        listProviders: (cwd) =>
+          provideAcpManagementServices(
+            listAcpRegistryProviders({
+              instanceId,
+              settings: effectiveConfig,
+              cwd,
+              environment: processEnvironment,
+            }),
+          ),
+        setProvider: ({ cwd, providerId, apiType, baseUrl, headers }) =>
+          provideAcpManagementServices(
+            setAcpRegistryProvider({
+              instanceId,
+              settings: effectiveConfig,
+              cwd,
+              environment: processEnvironment,
+              providerId,
+              apiType,
+              baseUrl,
+              ...(headers === undefined ? {} : { headers }),
+            }),
+          ) |> Effect.tap(%, () => liveSnapshotSemaphore.withPermit(invalidateEnrichmentCache)),
+        disableProvider: ({ cwd, providerId }) =>
+          provideAcpManagementServices(
+            disableAcpRegistryProvider({
+              instanceId,
+              settings: effectiveConfig,
+              cwd,
+              environment: processEnvironment,
+              providerId,
+            }),
+          ) |> Effect.tap(%, () => liveSnapshotSemaphore.withPermit(invalidateEnrichmentCache)),
+        logout: (cwd) => {
+          const logout = logoutAcpRegistry({
+            instanceId,
+            settings: effectiveConfig,
+            cwd,
+            environment: processEnvironment,
+          })
+            |> Effect.provideService(%, AcpRegistrySupport.AcpRegistryCatalog, catalog)
+            |> Effect.provideService(%, ChildProcessSpawner.ChildProcessSpawner, spawner)
+            |> Effect.provideService(%, Crypto.Crypto, crypto)
+            |> Effect.tap(%, () => confirmedAuthentication.set(false))
+            |> Effect.tap(%, () =>
+              liveSnapshotSemaphore.withPermit(
+                invalidateEnrichmentCache
+                  |> Effect.andThen(
+                    %,
+                    Option.isSome(runtimeCoordinator)
+                      ? Effect.all(
+                        [
+                          runtimeCoordinator.value.clearAvailableCommands(instanceId),
+                          runtimeCoordinator.value.clearLiveConfiguration(instanceId),
+                        ],
+                        { concurrency: "unbounded", discard: true },
+                      )
+                      : Effect.void,
+                  ),
+              ))
+          return Option.isSome(runtimeCoordinator)
+            ? (logout
+              |> Effect.provideService(
+                %,
+                AcpRegistryRuntimeCoordinator.AcpRegistryRuntimeCoordinator,
+                runtimeCoordinator.value,
+              ))
+            : logout
+        },
+      },
+    } satisfies ProviderInstance
+  }),
+}

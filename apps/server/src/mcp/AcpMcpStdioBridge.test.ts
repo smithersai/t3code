@@ -6,7 +6,7 @@ import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 
-import { mcpToolSession, runAcpMcpStdioBridge } from "./AcpMcpStdioBridge.ts";
+import { mcpToolSession, runAcpMcpStdioBridge } from "./AcpMcpStdioBridge.vibe";
 
 function makeHarness(responder: (request: Request) => Promise<Response> | Response) {
   const input = new NodeStream.PassThrough();

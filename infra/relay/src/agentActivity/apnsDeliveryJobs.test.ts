@@ -5,7 +5,7 @@ import {
   makeApnsDeliveryJobPayload,
   signApnsDeliveryJob,
   verifySignedApnsDeliveryJob,
-} from "./apnsDeliveryJobs.ts";
+} from "./apnsDeliveryJobs.vibe";
 
 const secret = Redacted.make("queue-signing-secret");
 

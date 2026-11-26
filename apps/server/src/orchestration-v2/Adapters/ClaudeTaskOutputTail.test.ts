@@ -7,7 +7,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import * as Queue from "effect/Queue";
 
-import { tailClaudeTaskOutput } from "./ClaudeTaskOutputTail.ts";
+import { tailClaudeTaskOutput } from "./ClaudeTaskOutputTail.vibe";
 
 const SESSION_ID = "0c91bb28-9e89-4889-bd22-3de9880233d3";
 const TASK_ID = "bk6xreeye";

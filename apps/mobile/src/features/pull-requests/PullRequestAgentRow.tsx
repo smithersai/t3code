@@ -3,7 +3,7 @@ import { Menu } from "../../components/ui/Menu";
 import { PullRequestCardRow } from "./PullRequestControls";
 import type { PullRequestAgentTask } from "./pullRequestAgentTasks";
 import { usePullRequestAgentActions } from "./usePullRequestAgentActions";
-import type { PullRequestParams } from "./usePullRequestDiff";
+import type { PullRequestParams } from "./usePullRequestDiff.vibe";
 
 export function PullRequestAgentRow(props: {
   readonly pr: PullRequestDetail;

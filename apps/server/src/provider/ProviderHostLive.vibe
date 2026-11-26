@@ -1,0 +1,75 @@
+import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost"
+import { ProviderCredentialError } from "@t3tools/provider-core/server/errors"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Layer from "effect/Layer"
+
+import { resolveAttachmentPath } from "../attachmentStore.ts"
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe"
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe"
+import * as ServerConfig from "../config.vibe"
+import * as ServerSettings from "../serverSettings.vibe"
+import * as DocumentText from "./DocumentText.vibe"
+import * as ProviderCredentialStore from "./ProviderCredentialStore.vibe"
+
+export const layer = Layer.effect(
+  ProviderHost.ProviderHost,
+  effect {
+    const config = try ServerConfig.ServerConfig
+    const serverSettings = try ServerSettings.ServerSettingsService
+    const backgroundPolicy = try BackgroundPolicy.BackgroundPolicy
+    const secrets = try ServerSecretStore.ServerSecretStore
+    const crypto = try Crypto.Crypto
+    const fileSystem = try FileSystem.FileSystem
+    return ProviderHost.ProviderHost.of({
+      paths: {
+        cwd: config.cwd,
+        baseDir: config.baseDir,
+        stateDir: config.stateDir,
+        providerStatusCacheDir: config.providerStatusCacheDir,
+        attachmentsDir: config.attachmentsDir,
+      },
+      settings: {
+        get: serverSettings.getSettings,
+        withSnapshot: serverSettings.withSettingsSnapshot,
+        changes: serverSettings.streamChanges,
+        subscribe: serverSettings.subscribeChanges,
+      },
+      shouldRunBackgroundWork: backgroundPolicy.shouldRunScopeWork,
+      resolveAttachmentPath: (attachment) =>
+        resolveAttachmentPath({ attachmentsDir: config.attachmentsDir, attachment }),
+      // DocumentText owns the path-resolution span.
+      resolveExtractedTextPath: effect (path) =>
+        try effect {
+          provide FileSystem.FileSystem = fileSystem {
+            return try (effect {
+              return try DocumentText.resolveExtractedTextPath(path)
+            })
+          }
+        },
+      credentials: Effect.fn("ProviderHost.credentials")(function(namespace, bindingId) {
+        return ProviderCredentialStore.make(namespace, bindingId)
+          |> Effect.map(%, (store) => ({
+            binding: store.binding,
+            get: store.get
+              |> Effect.mapError(%, (cause) => new ProviderCredentialError({ operation: "get", cause })),
+            set: (credentials: Uint8Array) =>
+              store
+                .set(credentials)
+              |> Effect.mapError(
+                %,
+                (cause) => new ProviderCredentialError({ operation: "set", cause }),
+              ),
+            remove: store.remove
+              |> Effect.mapError(
+                %,
+                (cause) => new ProviderCredentialError({ operation: "remove", cause }),
+              ),
+          }))
+          |> Effect.provideService(%, ServerSecretStore.ServerSecretStore, secrets)
+          |> Effect.provideService(%, Crypto.Crypto, crypto)
+      }),
+    })
+  },
+)

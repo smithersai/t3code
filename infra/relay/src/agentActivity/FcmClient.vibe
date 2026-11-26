@@ -1,0 +1,157 @@
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Schema from "effect/Schema"
+import * as HttpClient from "effect/http/HttpClient"
+
+import * as RelayConfiguration from "../Config.vibe"
+import * as FcmAssertionSigner from "./FcmAssertionSigner.vibe"
+
+const FCM_HTTP_STAGE_TIMEOUT = "10 seconds"
+
+schema ServiceAccount {
+  readonly project_id: Schema.NonEmptyString
+  readonly client_email: Schema.NonEmptyString
+  readonly private_key: Schema.NonEmptyString
+}
+const decodeServiceAccount = Schema.decodeUnknownOption(Schema.fromJsonString(ServiceAccount))
+const decodeAccessToken = Schema.decodeUnknownEffect(
+  Schema.Struct({ access_token: Schema.NonEmptyString }),
+)
+const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown))
+const decodeFcmError = Schema.decodeUnknownOption(
+  Schema.Struct({
+    error: Schema.Struct({
+      status: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            "@type": Schema.optional(Schema.String),
+            errorCode: Schema.optional(Schema.String),
+          }),
+        ),
+      ),
+    }),
+  }),
+)
+
+export class FcmClientError extends Schema.TaggedError<FcmClientError>()("FcmClientError", {
+  operation: Schema.Literals(["configuration", "authorize", "send"]),
+  status: Schema.NullOr(Schema.Number),
+  cause: Schema.optional(Schema.Defect()),
+}) {
+  override get message() {
+    return `FCM ${this.operation} failed${this.status === null ? "" : ` (${this.status})`}.`
+  }
+}
+
+export service FcmClient: {
+  readonly send: (input: {
+    readonly token: string;
+    readonly packageName: string | null;
+    readonly data: Readonly<Record<string, string>>;
+    readonly alert: boolean;
+  }) => { readonly unregistered: boolean }!FcmClientError;
+} {
+  static readonly key = "t3code-relay/agentActivity/FcmClient"
+}
+
+export const make = effect {
+  const config = try RelayConfiguration.RelayConfiguration
+  const signer = try FcmAssertionSigner.FcmAssertionSigner
+  const client = try HttpClient.HttpClient
+  const account = config.fcmServiceAccount
+    ? decodeServiceAccount(Redacted.value(config.fcmServiceAccount))
+    : Option.none()
+  const authorize = effect {
+    if (Option.isNone(account)) {
+      throw new FcmClientError({ operation: "configuration", status: null })
+    }
+    const now = try DateTime.now
+    const assertion = signer
+      .sign({
+        privateKey: account.value.private_key,
+        clientEmail: account.value.client_email,
+        issuedAt: Math.floor(now.epochMilliseconds / 1000),
+      }) catch effect (cause) => {
+        throw new FcmClientError({ operation: "authorize", status: null, cause })
+      }
+    const response = (client
+      .execute(
+        HttpClientRequest.post("https://oauth2.googleapis.com/token")
+          |> HttpClientRequest.bodyUrlParams(%, {
+            grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+            assertion,
+          }),
+      )
+      |> Effect.timeout(%, FCM_HTTP_STAGE_TIMEOUT)) catch effect (cause) => {
+        throw new FcmClientError({ operation: "authorize", status: null, cause })
+      }
+    if (response.status !== 200) {
+      throw new FcmClientError({ operation: "authorize", status: response.status })
+    }
+    return (response.json
+      |> Effect.timeout(%, FCM_HTTP_STAGE_TIMEOUT)
+      |> Effect.flatMap(%, decodeAccessToken)
+      |> Effect.map(%, (body) => body.access_token)) catch effect (cause) => {
+        throw new FcmClientError({ operation: "authorize", status: response.status, cause })
+      }
+  }
+  const [accessToken, invalidateToken] = try Effect.cachedInvalidateWithTTL(
+    authorize,
+    "50 minutes",
+  )
+
+  return FcmClient.of({
+    send: effect (input): { readonly unregistered: boolean; }!FcmClientError!never =>
+      try withSpan(
+        (effect (): { readonly unregistered: boolean; }!FcmClientError!never => {
+          if (new TextEncoder().encode(encodeJson(input.data)).length > 4096) {
+            throw new FcmClientError({ operation: "send", status: null })
+          }
+          if (Option.isNone(account)) {
+            throw new FcmClientError({ operation: "configuration", status: null })
+          }
+          const token = try (accessToken |> Effect.tapError(%, () => invalidateToken))
+          const response = try (HttpClientRequest.post(
+            `https://fcm.googleapis.com/v1/projects/${encodeURIComponent(account.value.project_id)}/messages:send`,
+          ).pipe(
+            HttpClientRequest.bearerToken(token),
+            HttpClientRequest.bodyJson({
+              message: {
+                token: input.token,
+                data: input.data,
+                android: {
+                  priority: "HIGH",
+                  ttl: "300s",
+                  ...(!input.alert ? { collapse_key: "t3-agent-activity" } : {}),
+                  ...(input.packageName ? { restricted_package_name: input.packageName } : {}),
+                },
+              },
+            }),
+            Effect.flatMap(client.execute),
+            Effect.timeout(FCM_HTTP_STAGE_TIMEOUT),
+            Effect.mapError((cause) => new FcmClientError({ operation: "send", status: null, cause })),
+          ))
+          if (response.status >= 200 && response.status < 300) return { unregistered: false }
+          if (response.status === 401) try invalidateToken
+          const body = (response.json
+            |> Effect.timeout(%, FCM_HTTP_STAGE_TIMEOUT)) catch effect (cause) => {
+              throw new FcmClientError({ operation: "send", status: response.status, cause })
+            }
+          const decoded = decodeFcmError(body)
+          const unregistered = Option.isSome(decoded)
+            && decoded.value.error.details?.some(
+              (detail) =>
+                detail["@type"] === "type.googleapis.com/google.firebase.fcm.v1.FcmError"
+                && detail.errorCode === "UNREGISTERED",
+            ) === true
+          if (unregistered) return { unregistered: true }
+          throw new FcmClientError({ operation: "send", status: response.status })
+        })(),
+        "relay.fcm.send",
+      ),
+  })
+}
+
+export const layer = Layer.effect(FcmClient, make)

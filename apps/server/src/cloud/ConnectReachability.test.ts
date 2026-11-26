@@ -4,7 +4,7 @@ import * as NodeFS from "node:fs";
 import { T3_CONNECT_TROUBLESHOOTING_SECTIONS } from "@t3tools/contracts";
 import { describe, expect, it } from "@effect/vitest";
 
-import { classifyReachability, type ReachabilityFacts } from "./ConnectReachability.ts";
+import { classifyReachability, type ReachabilityFacts } from "./ConnectReachability.vibe";
 
 const checkedAt = "2026-10-19T00:00:00.000Z";
 const connected = { readyConnections: 4, hostname: "env.example.test", protocol: "quic" };

@@ -2,8 +2,8 @@ import { runAtomCommand } from "@t3tools/client-runtime/state/runtime";
 import { readCodexAuthDelivery } from "@t3tools/shared/codexAuthHandoff";
 
 import { toastManager } from "./components/ui/toast";
-import { appAtomRegistry } from "./rpc/atomRegistry";
-import { environmentPresentations } from "./state/presentation";
+import { appAtomRegistry } from "./rpc/atomRegistry.vibe";
+import { environmentPresentations } from "./state/presentation.vibe";
 import { serverEnvironment } from "./state/server";
 
 type ProviderAuthDelivery = NonNullable<ReturnType<typeof readCodexAuthDelivery>>;

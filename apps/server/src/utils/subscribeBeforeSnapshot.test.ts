@@ -11,7 +11,7 @@ import * as Stream from "effect/Stream";
 import {
   subscribeBeforeSnapshot,
   subscribeBeforeSnapshotWithoutMutex,
-} from "./subscribeBeforeSnapshot.ts";
+} from "./subscribeBeforeSnapshot.vibe";
 
 describe("subscribeBeforeSnapshot", () => {
   it.effect("atomically reads the initial snapshot before receiving later changes", () =>

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 
-import { retryManagedTunnelRegistration } from "./managedTunnelStartup.ts";
+import { retryManagedTunnelRegistration } from "./managedTunnelStartup.vibe";
 
 describe("retryManagedTunnelRegistration", () => {
   it.effect("does not fall back or retry when registration is permanently rejected", () =>

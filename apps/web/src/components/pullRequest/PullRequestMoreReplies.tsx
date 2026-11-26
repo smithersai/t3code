@@ -1,4 +1,4 @@
-import type { PullRequestReplyAvailability } from "./pullRequestDetail.logic";
+import type { PullRequestReplyAvailability } from "./pullRequestDetail.logic.vibe";
 
 export function PullRequestMoreReplies({
   moreReplies,

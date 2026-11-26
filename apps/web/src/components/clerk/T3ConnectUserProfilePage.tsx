@@ -11,8 +11,8 @@ import { useRef, useState } from "react";
 import {
   deregisterManagedRelayEnvironmentCommand,
   useManagedRelayEnvironments,
-} from "../../cloud/managedRelayState";
-import { useAtomCommand } from "../../state/use-atom-command";
+} from "../../cloud/managedRelayState.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Button } from "../ui/button";
 import { Collapsible, CollapsiblePanel, CollapsibleTrigger } from "../ui/collapsible";
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "../ui/empty";

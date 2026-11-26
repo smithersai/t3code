@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 
-import { resolveUserDataPath } from "./DesktopUserData.ts";
+import { resolveUserDataPath } from "./DesktopUserData.vibe";
 
 it.effect.each(["t3code", "T3 Code (Alpha)"])(
   "preserves Windows credential keys from %s without copying browser databases",

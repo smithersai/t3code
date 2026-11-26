@@ -1,3 +1,4 @@
+/** @throws {never} */
 export function parseRemoteNamesInGitOrder(stdout: string): ReadonlyArray<string> {
   const remoteNames: Array<string> = [];
   for (const line of stdout.split("\n")) {
@@ -9,6 +10,7 @@ export function parseRemoteNamesInGitOrder(stdout: string): ReadonlyArray<string
   return remoteNames;
 }
 
+/** @throws {never} */
 export function parseRemoteNames(stdout: string): ReadonlyArray<string> {
   return parseRemoteNamesInGitOrder(stdout).toSorted((a, b) => b.length - a.length);
 }

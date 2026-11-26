@@ -1,0 +1,78 @@
+import { ManagedRelay } from "@t3tools/client-runtime/relay"
+import { RelayWebClientId } from "@t3tools/contracts/relay"
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Layer from "effect/Layer"
+
+import {
+  createBrowserDpopProof,
+  generateBrowserDpopKey,
+  readStoredBrowserDpopKey,
+  writeStoredBrowserDpopKey,
+  type BrowserDpopKey,
+} from "./dpop"
+
+const layerRelayDpopSigner = Layer.effect(
+  ManagedRelay.ManagedRelayDpopSigner,
+  effect {
+    const crypto = try Crypto.Crypto
+    const keyLoadSemaphore = try Semaphore.make(1)
+    let loadedKey: BrowserDpopKey | null = null
+    const loadOrCreateBrowserDpopKey = keyLoadSemaphore.withPermit(
+      effect {
+        if (loadedKey) {
+          return loadedKey
+        }
+        const stored = try readStoredBrowserDpopKey()
+        if (stored) {
+          loadedKey = stored
+          return stored
+        }
+        const generated = try generateBrowserDpopKey
+        try writeStoredBrowserDpopKey(generated)
+        loadedKey = generated
+        return generated
+      },
+    )
+
+    return ManagedRelay.ManagedRelayDpopSigner.of({
+      thumbprint: loadOrCreateBrowserDpopKey
+        |> Effect.map(%, (proofKey) => proofKey.thumbprint)
+        |> Effect.mapError(
+          %,
+          (error) =>
+            new ManagedRelay.ManagedRelayDpopKeyLoadError({
+              keyStore: "indexed-db",
+              cause: error,
+            }),
+        )
+        |> withSpan(%, "web.managedRelayDpopSigner.loadThumbprint"),
+      createProof: effect (input): string!ManagedRelay.ManagedRelayDpopProofCreationError =>
+        try withSpan(
+          (effect (): string!ManagedRelay.ManagedRelayDpopProofCreationError => {
+            const proofKey = loadOrCreateBrowserDpopKey catch effect (error) => {
+              throw new ManagedRelay.ManagedRelayDpopProofCreationError({
+                method: input.method,
+                url: input.url,
+                cause: error,
+              })
+            }
+            return (createBrowserDpopProof({ ...input, proofKey })
+              |> Effect.provideService(%, Crypto.Crypto, crypto)
+              |> Effect.map(%, (proof) => proof.proof)) catch effect (error) => {
+                throw new ManagedRelay.ManagedRelayDpopProofCreationError({
+                  method: input.method,
+                  url: input.url,
+                  cause: error,
+                })
+              }
+          })(),
+          "web.managedRelayDpopSigner.createProof",
+        ),
+    })
+  },
+)
+
+export const layer = (relayUrl: string) =>
+  ManagedRelay.layer({ relayUrl, clientId: RelayWebClientId }).pipe(
+    Layer.provideMerge(layerRelayDpopSigner),
+  )

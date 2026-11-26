@@ -14,7 +14,7 @@ import {
   makeAcpClientTerminals,
   resolveEmbeddedTerminalContent,
   type AcpClientTerminals,
-} from "./clientTerminals.ts";
+} from "./clientTerminals.vibe";
 
 const withTerminals = <A, E>(use: (terminals: AcpClientTerminals) => Effect.Effect<A, E>) =>
   Effect.gen(function* () {

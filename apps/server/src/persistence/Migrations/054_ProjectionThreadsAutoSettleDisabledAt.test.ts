@@ -3,8 +3,8 @@ import * as Effect from "effect/Effect";
 import * as SqlClient from "effect/sql/SqlClient";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 
-import { runMigrations } from "../Migrations.ts";
-import migrateAutoSettleDisabledAt from "./054_ProjectionThreadsAutoSettleDisabledAt.ts";
+import { runMigrations } from "../Migrations.vibe";
+import migrateAutoSettleDisabledAt from "./054_ProjectionThreadsAutoSettleDisabledAt.vibe";
 
 it.layer(NodeSqliteClient.layer({ filename: ":memory:" }))(
   "054_ProjectionThreadsAutoSettleDisabledAt",

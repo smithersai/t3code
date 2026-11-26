@@ -1,5 +1,5 @@
-import { appAtomRegistry, subscribeAtomChanges } from "../rpc/atomRegistry";
-import { primaryEnvironmentIdAtom } from "../state/primaryEnvironment";
+import { appAtomRegistry, subscribeAtomChanges } from "../rpc/atomRegistry.vibe";
+import { primaryEnvironmentIdAtom } from "../state/primaryEnvironment.vibe";
 import { primaryServerConfigAtom, primaryServerConfigEventAtom } from "../state/server";
 import { KeybindingsConfigWarning } from "./KeybindingsConfigWarning";
 import { createKeybindingsUpdateToastController } from "./KeybindingsUpdateToast.logic";

@@ -3,7 +3,7 @@ import type { AuthSessionState } from "@t3tools/contracts";
 import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
 import React, { startTransition, useEffect, useEffectEvent, useRef, useState } from "react";
 
-import { connectPairing } from "../../connection/onboarding";
+import { connectPairing } from "../../connection/onboarding.vibe";
 import {
   peekPairingTokenFromUrl,
   stripPairingTokenFromUrl,
@@ -13,7 +13,7 @@ import { readHostedPairingRequest } from "../../hostedPairing";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { StandalonePage, StandalonePageHeader } from "../ui/standalone-page";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 export function PairingPendingSurface() {
   return (

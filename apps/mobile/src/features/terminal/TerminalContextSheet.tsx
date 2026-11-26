@@ -14,7 +14,7 @@ import { AppText as Text } from "../../components/ui/AppText";
 import { Sheet } from "../../components/ui/Sheet";
 import { Button } from "../../components/ui/Button";
 import { uuidv4 } from "../../lib/uuid";
-import { insertComposerDraftContext } from "../../state/use-composer-drafts";
+import { insertComposerDraftContext } from "../../state/use-composer-drafts.vibe";
 
 export function TerminalContextSheet(props: {
   text: string;

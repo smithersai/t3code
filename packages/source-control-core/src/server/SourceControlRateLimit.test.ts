@@ -3,7 +3,7 @@ import { assert, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as SourceControlRateLimit from "./SourceControlRateLimit.ts";
+import * as SourceControlRateLimit from "./SourceControlRateLimit.vibe";
 
 const github = { provider: SourceControlProviderKind.make("github"), host: "github.com" };
 

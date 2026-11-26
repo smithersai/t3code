@@ -28,7 +28,7 @@ import {
   fileBreadcrumbs,
   isListableHostFolder,
 } from "./filePath";
-import { useProjectEntriesQuery } from "./projectFilesQueryState";
+import { useProjectEntriesQuery } from "./projectFilesQueryState.vibe";
 
 interface FileBreadcrumbsProps {
   readonly cwd: string;

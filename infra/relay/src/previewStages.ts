@@ -1,7 +1,7 @@
 import {
   MANAGED_ENDPOINT_KEY_PATTERN,
   managedEndpointTunnelNamePrefix,
-} from "./deploymentConfig.ts";
+} from "./deploymentConfig.vibe";
 
 // Only pull-request stages may be torn down by the cleanup job. Anchoring the
 // pattern keeps `prod`, personal `dev_<user>` stages, and `pr-0` out of reach.

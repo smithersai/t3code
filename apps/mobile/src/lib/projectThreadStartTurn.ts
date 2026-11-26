@@ -14,7 +14,7 @@ import {
   threadTitleTextFromPrompt,
 } from "@t3tools/client-runtime/operations";
 
-import type { UploadedMobileAttachment } from "./attachmentUpload";
+import type { UploadedMobileAttachment } from "./attachmentUpload.vibe";
 
 export interface ProjectThreadStartTurnSpec {
   readonly projectId: ProjectId;

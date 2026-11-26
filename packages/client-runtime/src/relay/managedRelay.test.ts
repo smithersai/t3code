@@ -9,7 +9,7 @@ import * as Fiber from "effect/Fiber";
 import * as Layer from "effect/Layer";
 
 import { RELAY_GATEWAY_TIMEOUT_MESSAGE, relayRequestFailureDetail } from "./errorPresentation.ts";
-import * as ManagedRelay from "./managedRelay.ts";
+import * as ManagedRelay from "./managedRelay.vibe";
 import * as RpcHttp from "../rpc/http.ts";
 
 function layerManagedRelayTest(

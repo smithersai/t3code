@@ -21,12 +21,12 @@ import * as Clipboard from "expo-clipboard";
 import { useCallback, useMemo } from "react";
 
 import * as Dialog from "../../components/ui/Dialog";
-import { tryOpenExternalUrl } from "../../lib/openExternalUrl";
+import { tryOpenExternalUrl } from "../../lib/openExternalUrl.vibe";
 import type { MenuProps } from "../../components/ui/Menu.types";
 import type { EnvironmentRuntimeState } from "../../state/remote-runtime-types";
-import { useEnvironmentScope } from "../../state/session";
-import { threadEnvironment } from "../../state/threads";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useEnvironmentScope } from "../../state/session.vibe";
+import { threadEnvironment } from "../../state/threads.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 type MenuAction = MenuProps["actions"][number];
 

@@ -1,4 +1,4 @@
-import * as DocumentText from "../provider/DocumentText.ts";
+import * as DocumentText from "../provider/DocumentText.vibe";
 // @effect-diagnostics nodeBuiltinImport:off
 import * as NodeFS from "node:fs";
 import * as NodePath from "node:path";
@@ -26,14 +26,14 @@ import {
   createPendingAttachmentId,
   resolveAttachmentPath,
 } from "../attachmentStore.ts";
-import * as ServerConfig from "../config.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 import {
   OrchestratorCommandPreviouslyRejectedError,
   OrchestratorDispatchError,
-} from "./Orchestrator.ts";
-import * as ThreadManagementService from "./ThreadManagementService.ts";
-import { dispatchCommand } from "./ThreadMessageIntake.ts";
+} from "./Orchestrator.vibe";
+import * as ThreadManagementService from "./ThreadManagementService.vibe";
+import { dispatchCommand } from "./ThreadMessageIntake.vibe";
 
 const layerIntakeTest = ServerConfig.layerTest(process.cwd(), {
   prefix: "t3-question-intake-",

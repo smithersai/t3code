@@ -19,7 +19,7 @@ import {
   type BufferGeometry,
   type Texture,
 } from "three";
-import type { DeviceScreenSize } from "./stream.ts";
+import type { DeviceScreenSize } from "./stream.vibe";
 import { IOS_PHONE_SHAPE, type DeviceShapeProfile } from "./shapeProfile.ts";
 
 const SCREEN_HEIGHT = 2.2;

@@ -5,7 +5,7 @@ import { useSelectWorkspaceDetail } from "../workspace/useSelectWorkspaceDetail"
 import { AppText as Text } from "../../components/ui/AppText";
 import { PullRequestCardGroup, PullRequestCardRow } from "./PullRequestControls";
 import { pullRequestStatus } from "./pullRequestStatus";
-import type { PullRequestParams } from "./usePullRequestDiff";
+import type { PullRequestParams } from "./usePullRequestDiff.vibe";
 import type { PullRequestStackState } from "./usePullRequestStack";
 import { PullRequestGlyph } from "./pullRequestGlyphs";
 

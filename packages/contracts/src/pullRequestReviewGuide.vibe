@@ -1,0 +1,67 @@
+import * as Schema from "effect/Schema"
+
+import { IsoDateTime, PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.vibe"
+import { ModelSelection } from "./modelSelection.vibe"
+
+export schema PullRequestReviewGuideAttention {
+  readonly kind: "tradeoff" | "contract" | "product" | "risk" | "accessibility"
+  readonly note: TrimmedNonEmptyString
+}
+
+export schema PullRequestReviewGuideExcerpt {
+  readonly path: TrimmedNonEmptyString
+  readonly side: "new" | "old"
+  readonly start: PositiveInt
+  readonly end: PositiveInt
+  readonly caption: string
+}
+
+export schema PullRequestReviewGuideNote {
+  readonly path: TrimmedNonEmptyString
+  readonly line: PositiveInt
+  readonly title: TrimmedNonEmptyString
+  readonly body: string
+}
+
+export const PullRequestReviewGuideStop = Schema.Struct({
+  title: TrimmedNonEmptyString,
+  summary: Schema.String,
+  attention: Schema.NullOr(PullRequestReviewGuideAttention),
+  excerpts: Schema.Array(PullRequestReviewGuideExcerpt),
+  files: Schema.Array(
+    Schema.Struct({
+      path: TrimmedNonEmptyString,
+      note: Schema.optionalKey(Schema.String),
+    }),
+  ),
+  notes: Schema.Array(PullRequestReviewGuideNote),
+  questions: Schema.Array(TrimmedNonEmptyString),
+})
+export type PullRequestReviewGuideStop = typeof PullRequestReviewGuideStop.Type
+
+export schema PullRequestReviewGuide {
+  readonly headSha: TrimmedNonEmptyString
+  readonly generatedAt: IsoDateTime
+  readonly modelSelection: ModelSelection
+  readonly stops: ReadonlyArray<PullRequestReviewGuideStop>
+}
+
+export const PullRequestReviewGuideRun = Schema.Union([
+  Schema.TaggedStruct("Running", {
+    headSha: TrimmedNonEmptyString,
+    startedAt: IsoDateTime,
+  }),
+  Schema.TaggedStruct("Failed", {
+    headSha: TrimmedNonEmptyString,
+    failedAt: IsoDateTime,
+    detail: TrimmedNonEmptyString,
+  }),
+])
+export type PullRequestReviewGuideRun = typeof PullRequestReviewGuideRun.Type
+
+export const PullRequestReviewGuideResult = Schema.Struct({
+  guide: Schema.NullOr(PullRequestReviewGuide),
+  run: Schema.NullOr(PullRequestReviewGuideRun),
+  currentHeadSha: Schema.NullOr(TrimmedNonEmptyString),
+})
+export type PullRequestReviewGuideResult = typeof PullRequestReviewGuideResult.Type

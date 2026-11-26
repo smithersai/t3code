@@ -1,0 +1,157 @@
+import * as Path from "effect/Path"
+import * as Schema from "effect/Schema"
+
+import { expandHomePath } from "@t3tools/provider-core/server/pathExpansion"
+import {
+  parseTimestampMs,
+  tokenCount,
+  totalTokens,
+  type ProviderUsageReader,
+  type TranscriptUsageFormat,
+  type UsageRecord,
+} from "@t3tools/provider-core/server/usage"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+import type { PiSettings } from "../settings.vibe"
+
+schema PiScanState { mutable sessionId: string }
+schema Usage {
+  readonly input?: Schema.Unknown | undefined
+  readonly output?: Schema.Unknown | undefined
+  readonly cacheRead?: Schema.Unknown | undefined
+  readonly cacheWrite?: Schema.Unknown | undefined
+  readonly reasoning?: Schema.Unknown | undefined
+  readonly cost?: { readonly total: Schema.Unknown } | undefined
+}
+const Identity = { id: Schema.NonEmptyString, timestamp: Schema.String }
+const Model = { provider: Schema.NonEmptyString, model: Schema.NonEmptyString }
+const Entry = Schema.Union([
+  Schema.Struct({ type: Schema.Literal("session"), id: Schema.NonEmptyString }),
+  Schema.Struct({
+    ...Identity,
+    type: Schema.Literal("message"),
+    message: Schema.Union([
+      Schema.Struct({
+        ...Model,
+        role: Schema.Literal("assistant"),
+        responseModel: Schema.optional(Schema.NonEmptyString),
+        usage: Usage,
+      }),
+      Schema.Struct({ role: Schema.Literal("toolResult"), usage: Usage }),
+    ]),
+  }),
+  Schema.Struct({ ...Identity, ...Model, type: Schema.Literal("usage"), usage: Usage }),
+  Schema.Struct({
+    ...Identity,
+    type: Schema.Literals(["compaction", "branch_summary"]),
+    usage: Usage,
+  }),
+])
+const decodeEntry = Schema.decodeUnknownOption(Entry)
+
+function parseRecord(parsed: unknown, state: typeof PiScanState.Type): readonly UsageRecord[] {
+  const decoded = decodeEntry(parsed)
+  if (Option.isNone(decoded)) return []
+  const entry = decoded.value
+  if (entry.type === "session") {
+    state.sessionId = entry.id
+    return []
+  }
+  const timestampMs = parseTimestampMs(entry.timestamp)
+  if (timestampMs === null) return []
+  const source = entry.type === "message" ? entry.message : entry
+  const usage = source.usage
+  // Auxiliary tool/summary records lack model attribution; match Pi's breakdown.
+  const rateModel = "model" in source
+    ? "responseModel" in source
+      ? (source.responseModel ?? source.model)
+      : source.model
+    : undefined
+  const model = "provider" in source ? `${source.provider}/${rateModel}` : "Tools/summaries"
+  const outputTokens = tokenCount(usage.output)
+  const totals = {
+    // Pi's input/cache counters are already disjoint.
+    uncachedInputTokens: tokenCount(usage.input),
+    cachedInputTokens: tokenCount(usage.cacheRead),
+    cacheCreationTokens: tokenCount(usage.cacheWrite),
+    outputTokens,
+    reasoningTokens: Math.min(outputTokens, tokenCount(usage.reasoning)),
+  }
+  const cost = usage.cost?.total
+  // Omitted Pi rates default to zero; use shared estimates without positive transcript cost.
+  const reportedCostUsd = typeof cost === "number" && Number.isFinite(cost) && cost > 0 ? cost : null
+  if (totalTokens(totals) === 0 && reportedCostUsd === null) return []
+  return [
+    {
+      provider: "pi",
+      timestampMs,
+      model,
+      ...(rateModel === undefined ? {} : { rateModel }),
+      sessionId: state.sessionId,
+      totals,
+      reportedCostUsd,
+      speed: "standard",
+      // Forks preserve IDs/timestamps; short random IDs need timestamp/model to avoid cross-session collisions.
+      dedupeKey: JSON.stringify(["pi", entry.id, entry.timestamp, model]),
+    },
+  ]
+}
+
+export const piUsageFormat: TranscriptUsageFormat<typeof PiScanState.Type> = {
+  selectFields: {
+    type: true,
+    id: true,
+    timestamp: true,
+    provider: true,
+    model: true,
+    usage: true,
+    message: { role: true, provider: true, model: true, responseModel: true, usage: true },
+  },
+  usageMarkers: ["\"usage\"", "\"session\""],
+  parseLine: (line, state): infer _ => {
+    let parsed: unknown
+    try {
+      parsed = JSON.parse(line)
+    } catch {
+      return []
+    }
+    return parseRecord(parsed, state)
+  },
+  parseProjected: parseRecord,
+  state: { initial: (): infer _ => ({ sessionId: "" }), schema: PiScanState },
+}
+
+export const piUsageReader: ProviderUsageReader<PiSettings, Path.Path> = {
+  kind: "transcripts",
+  provider: "pi",
+  format: piUsageFormat,
+  directories: effect ({ environment }) =>
+    try withSpan(
+      effect {
+        const path = try Path.Path
+        const home = try HostProcess.HomeDirectory
+        const sessionDir = environment.PI_CODING_AGENT_SESSION_DIR?.trim()
+        if (sessionDir) {
+          return [{
+            dir: path.resolve(
+              try Effect.orDie(Effect.try({
+                try: () => expandHomePath(sessionDir, home),
+                catch: (e) => e,
+              })),
+            ),
+          }]
+        }
+        const agentDir = environment.PI_CODING_AGENT_DIR?.trim()
+        return [
+          {
+            dir: path.resolve(
+              agentDir
+                ? try Effect.orDie(Effect.try({ try: () => expandHomePath(agentDir, home), catch: (e) => e }))
+                : path.join(home, ".pi", "agent"),
+              "sessions",
+            ),
+          },
+        ]
+      },
+      "piUsageReader.directories",
+    ),
+}

@@ -14,7 +14,7 @@
     "start:preview": "APP_VARIANT=preview expo start",
     "start:prod": "APP_VARIANT=production expo start",
     "showcase": "APP_VARIANT=production EXPO_PUBLIC_SHOWCASE=1 expo start --dev-client --scheme t3code",
-    "screenshots": "node ../../scripts/mobile-showcase.ts",
+    "screenshots": "node --import vibelang/register ../../scripts/mobile-showcase.ts",
     "android": "EXPO_NO_GIT_STATUS=1 expo prebuild --clean --platform android && expo run:android",
     "android:dev": "APP_VARIANT=development EXPO_NO_GIT_STATUS=1 expo prebuild --clean --platform android && REACT_NATIVE_PACKAGER_HOSTNAME=localhost expo run:android",
     "android:preview": "APP_VARIANT=preview EXPO_NO_GIT_STATUS=1 expo prebuild --clean --platform android && expo run:android",
@@ -41,14 +41,14 @@
     "config:prod": "APP_VARIANT=production expo config",
     "profile:android:hermes": "mkdir -p profiles/review && react-native profile-hermes profiles/review",
     "sync:chip-icons": "node scripts/sync-context-chip-icons.mjs",
-    "sync:link-icons": "node scripts/sync-link-icons.ts",
+    "sync:link-icons": "node --import vibelang/register scripts/sync-link-icons.ts",
     "sync:pierre-icons": "node scripts/sync-pierre-file-icons.mjs",
-    "measure-renders": "node scripts/measure-renders.mts",
-    "generate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/generate-uniwind-themes.mts",
-    "generate:highlights": "node scripts/generate-highlights.mts",
-    "eas-build-on-success": "node scripts/upload-sourcemaps.mts build",
+    "measure-renders": "node --import vibelang/register scripts/measure-renders.mts",
+    "generate": "node --import vibelang/register --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/generate-uniwind-themes.mts",
+    "generate:highlights": "node --import vibelang/register scripts/generate-highlights.mts",
+    "eas-build-on-success": "node --import vibelang/register scripts/upload-sourcemaps.mts build",
     "test": "vp test run --project unit --project react",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "vibelang --noEmit"
   },
   "dependencies": {
     "@clerk/expo": "catalog:",
@@ -137,12 +137,14 @@
     "remark-parse": "catalog:",
     "tailwind-merge": "^3.5.0",
     "unified": "catalog:",
-    "uniwind": "1.13.0"
+    "uniwind": "1.13.0",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-runtime-0.0.14-pre.6279f9f9fbfc.tgz"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
+    "@expo/metro-config": "~58.0.14",
     "@pierre/trees": "1.0.0-beta.6",
     "@types/mdast": "^4.0.4",
     "@types/react": "catalog:",
@@ -151,7 +153,9 @@
     "babel-preset-expo": "~58.0.17",
     "jsdom": "^30.0.1",
     "tailwindcss": "^4.0.0",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-0.0.14-pre.6279f9f9fbfc.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-vite-0.0.14-pre.6279f9f9fbfc.tgz"
   },
   "enriched-markdown": {
     "enableMath": true,

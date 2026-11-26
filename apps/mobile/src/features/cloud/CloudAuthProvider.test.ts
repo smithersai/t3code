@@ -6,10 +6,10 @@ import {
   activateCloudRelayAccount,
   cloudAccountService,
   deactivateCloudRelayAccount,
-} from "./cloudAccountService";
+} from "./cloudAccountService.vibe";
 import { setAgentAwarenessRelayTokenProvider } from "../agent-awareness/remoteRegistration";
 import { requestConnectOnboarding } from "./connectOnboarding";
-import { restoreCloudComposerDrafts } from "../../state/use-composer-drafts";
+import { restoreCloudComposerDrafts } from "../../state/use-composer-drafts.vibe";
 
 vi.mock("@clerk/expo", () => ({
   ClerkProvider: vi.fn(),
@@ -20,7 +20,7 @@ vi.mock("@clerk/expo/token-cache", () => ({
   tokenCache: {},
 }));
 
-vi.mock("../../lib/runtime", () => ({
+vi.mock("../../lib/runtime.vibe", () => ({
   runtime: {
     runPromiseExit: vi.fn(),
   },
@@ -37,7 +37,7 @@ vi.mock("./connectOnboarding", () => ({
   clearConnectOnboardingRequest: vi.fn(),
   requestConnectOnboarding: vi.fn(),
 }));
-vi.mock("../../state/use-composer-drafts", () => ({
+vi.mock("../../state/use-composer-drafts.vibe", () => ({
   getComposerCloudAccountId: vi.fn(async () => null),
   restoreCloudComposerDrafts: vi.fn(async () => undefined),
 }));

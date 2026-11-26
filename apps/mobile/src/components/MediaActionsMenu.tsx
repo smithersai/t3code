@@ -2,7 +2,7 @@ import { MenuView } from "@react-native-menu/menu";
 import type { ReactElement } from "react";
 import { Platform, View, type PressableProps, type StyleProp, type ViewStyle } from "react-native";
 
-import type { useMediaActions } from "../state/mediaActions";
+import type { useMediaActions } from "../state/mediaActions.vibe";
 import { SymbolView } from "./ui/AppSymbol";
 import { Menu } from "./ui/Menu";
 

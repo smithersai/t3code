@@ -9,7 +9,7 @@ import {
   isUnknownUnionMember,
   TrimmedNonEmptyString,
   UnknownUnionMember,
-} from "./baseSchemas.ts";
+} from "./baseSchemas.vibe";
 
 const at = "2026-10-05T00:00:00.000Z";
 const Shape = Schema.Union([

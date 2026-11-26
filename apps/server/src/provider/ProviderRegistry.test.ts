@@ -1,8 +1,8 @@
 import { vi } from "vite-plus/test";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as CodexInstallation from "./CodexInstallation.ts";
-import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as CodexInstallation from "./CodexInstallation.vibe";
+import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.vibe";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { describe, it, assert, expect } from "@effect/vitest";
 import * as DateTime from "effect/DateTime";
@@ -38,36 +38,40 @@ import { deepMerge } from "@t3tools/shared/Struct";
 import { createModelCapabilities } from "@t3tools/shared/model";
 import { applyServerSettingsPatch } from "@t3tools/shared/serverSettings";
 
-import { checkCodexProviderStatus, type CodexAppServerProviderSnapshot } from "./CodexProvider.ts";
-import { checkClaudeProviderStatus } from "./ClaudeProvider.ts";
-import * as BackgroundPolicy from "../background/BackgroundPolicy.ts";
-import * as AntigravityInstallation from "./AntigravityInstallation.ts";
-import * as ModelManifest from "./ModelManifest.ts";
-import { applyProviderCompatibility } from "./providerCompatibility.ts";
-import * as ResetCreditCoordinator from "./resetCreditCoordinator.ts";
+import {
+  checkCodexProviderStatus,
+  type CodexAppServerProviderSnapshot,
+} from "./CodexProvider.vibe";
+import { checkClaudeProviderStatus } from "./ClaudeProvider.vibe";
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe";
+import * as AntigravityInstallation from "./AntigravityInstallation.vibe";
+import * as ModelManifest from "./ModelManifest.vibe";
+import { applyProviderCompatibility } from "./providerCompatibility.vibe";
+import * as ResetCreditCoordinator from "./resetCreditCoordinator.vibe";
 import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderLatestVersions";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as OpenCodeRuntime from "@t3tools/provider-opencode/server/OpenCodeRuntime";
 import * as OpenCodeServerLedger from "@t3tools/provider-opencode/server/OpenCodeServerLedger";
 import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEventLoggers";
-import * as ProviderInstanceRegistryHydration from "./ProviderInstanceRegistryHydration.ts";
-import * as PortScanner from "../preview/PortScanner.ts";
-import * as ServerConfig from "../config.ts";
-import * as ServerSettingsModule from "../serverSettings.ts";
+import * as ProviderInstanceRegistryHydration from "./ProviderInstanceRegistryHydration.vibe";
+import * as PortScanner from "../preview/PortScanner.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettingsModule from "../serverSettings.vibe";
 import {
   readProviderStatusCache,
   resolveProviderStatusCachePath,
   writeProviderStatusCache,
-} from "./providerStatusCache.ts";
+} from "./providerStatusCache.vibe";
 import { COMPACT_SLASH_COMMAND } from "@t3tools/provider-core/server/snapshotProbe";
 import type {
   ProviderInstance,
   ProviderWorkspaceSnapshot,
 } from "@t3tools/provider-core/server/driver";
-import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.ts";
-import * as ProviderRegistry from "./ProviderRegistry.ts";
+import * as ProviderInstanceRegistry from "./ProviderInstanceRegistry.vibe";
+import * as ProviderRegistry from "./ProviderRegistry.vibe";
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";
 import { makeManualOnlyProviderMaintenanceCapabilities } from "@t3tools/provider-core/server/maintenanceResolver";
+import * as Crypto from "@t3tools/shared/Crypto";
 vi.mock("@anthropic-ai/claude-agent-sdk", { spy: true });
 
 const decodeServerProvider = Schema.decodeSync(ServerProvider);
@@ -308,7 +312,7 @@ const awaitPersistedProvider = (
 
 const layerTestNodeServices = Layer.mergeAll(
   ProviderLatestVersions.layer,
-  NodeServices.layer,
+  Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
   Layer.mock(CodexManagedTokenBroker.CodexManagedTokenBroker)({
     endpoint: Effect.succeed("unused-private-pipe"),
   }),
@@ -955,7 +959,7 @@ it.layer(
             Effect.provide(
               ServerConfig.layerTest(process.cwd(), {
                 prefix: "t3-pi-model-cache-",
-              }).pipe(Layer.provideMerge(NodeServices.layer)),
+              }).pipe(Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
             ),
           ),
       );
@@ -1086,7 +1090,7 @@ it.layer(
           Effect.provide(
             ServerConfig.layerTest(process.cwd(), {
               prefix: "t3-codex-retired-model-cache-",
-            }).pipe(Layer.provideMerge(NodeServices.layer)),
+            }).pipe(Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
           ),
         ),
       );
@@ -1356,7 +1360,7 @@ it.layer(
                   prefix: "t3-provider-registry-shared-workspace-scan-",
                 }),
               ),
-              Layer.provideMerge(NodeServices.layer),
+              Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
             ),
           ).pipe(Scope.provide(scope));
 
@@ -1451,7 +1455,7 @@ it.layer(
                 prefix: "t3-provider-registry-unhealthy-workspace-",
               }),
             ),
-            Layer.provideMerge(NodeServices.layer),
+            Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
           ),
         ).pipe(Scope.provide(scope));
 
@@ -1571,7 +1575,7 @@ it.layer(
                 prefix: "t3-provider-registry-shared-refresh-",
               }),
             ),
-            Layer.provideMerge(NodeServices.layer),
+            Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
           ),
         ).pipe(Scope.provide(scope));
 
@@ -1678,7 +1682,7 @@ it.layer(
               }),
             ),
             Layer.provideMerge(layerBackgroundPolicyAlwaysRun),
-            Layer.provideMerge(NodeServices.layer),
+            Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
           ),
         ).pipe(Scope.provide(scope));
 
@@ -1805,7 +1809,7 @@ it.layer(
                   prefix: "t3-provider-registry-opencode-authoritative-persist-",
                 }),
               ),
-              Layer.provideMerge(NodeServices.layer),
+              Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
             ),
           ).pipe(Scope.provide(scope));
 
@@ -1909,7 +1913,7 @@ it.layer(
               }),
             ),
             Layer.provideMerge(layerBackgroundPolicyAlwaysRun),
-            Layer.provideMerge(NodeServices.layer),
+            Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
           ),
         ).pipe(Scope.provide(scope));
 
@@ -2002,7 +2006,7 @@ it.layer(
               return beforeSpawn.pipe(Effect.andThen(spawner.spawn(command)));
             }),
           ),
-          Layer.provideMerge(NodeServices.layer),
+          Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
           Layer.provideMerge(layerBackgroundPolicyAlwaysRun),
         );
         const runtimeServices = yield* Layer.build(layerProviderRegistry).pipe(
@@ -2107,7 +2111,7 @@ it.layer(
           Layer.provideMerge(
             OpenCodeRuntime.layer.pipe(Layer.provide(OpenCodeServerLedger.layerTest)),
           ),
-          Layer.provideMerge(NodeServices.layer),
+          Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
           Layer.provideMerge(layerBackgroundPolicyAlwaysRun),
         );
         const runtimeServices = yield* Layer.build(layerProviderRegistry).pipe(

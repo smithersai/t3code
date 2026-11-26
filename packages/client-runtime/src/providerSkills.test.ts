@@ -14,7 +14,7 @@ import {
   hasCompleteProviderWorkspaceSnapshot,
   resolveProviderSkillsForCwd,
   resolveProviderSlashCommandsForCwd,
-} from "./providerSkills.ts";
+} from "./providerSkills.vibe";
 
 const provider = {
   instanceId: ProviderInstanceId.make("codex"),

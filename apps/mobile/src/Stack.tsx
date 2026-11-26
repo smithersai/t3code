@@ -28,7 +28,7 @@ import {
   recordHomeFocus,
   recordHomeTransitionEnd,
   recordHomeTransitionStart,
-} from "./features/home/home-route-visibility";
+} from "./features/home/home-route-visibility.vibe";
 import { AndroidWorkspaceTabsProvider } from "./features/workspace/AndroidWorkspaceTabsProvider";
 import {
   PullRequestRouteScreen,
@@ -89,7 +89,7 @@ import {
   NewTaskThreadSettingsRouteScreen,
 } from "./features/threads/ThreadSettingsSheet";
 import { NewTaskFlowProvider } from "./features/threads/new-task-flow-provider";
-import { newTaskFlowKey } from "./features/threads/new-task-flow-state";
+import { newTaskFlowKey } from "./features/threads/new-task-flow-state.vibe";
 import { NewTaskRouteScreen } from "./features/threads/NewTaskRouteScreen";
 import { SettingsNavigationRouteScreen } from "./features/settings/SettingsNavigationRouteScreen";
 import { SettingsAppearanceRouteScreen } from "./features/settings/SettingsAppearanceRouteScreen";

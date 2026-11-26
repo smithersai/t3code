@@ -6,7 +6,7 @@ import {
   AcpRegistryManagedBinaryUninstallResult,
   officialAcpRegistryIconUrlForAgentId,
   resolveOfficialAcpRegistryIconUrl,
-} from "./acpRegistry.ts";
+} from "./acpRegistry.vibe";
 
 const decodeUninstallInput = Schema.decodeUnknownSync(AcpRegistryManagedBinaryUninstallInput);
 const decodeUninstallResult = Schema.decodeUnknownSync(AcpRegistryManagedBinaryUninstallResult);

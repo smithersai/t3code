@@ -1,0 +1,24 @@
+import { defineSourceControlDriver, withOwnServices } from "@t3tools/source-control-core/server/driver"
+
+import { definition } from "../shared/definition.vibe"
+
+import * as GitCafeApi from "./GitCafeApi.vibe"
+import * as GitCafeCredentials from "./GitCafeCredentials.vibe"
+import * as GitCafePullRequestProvider from "./GitCafePullRequestProvider.vibe"
+import * as GitCafeSourceControlProvider from "./GitCafeSourceControlProvider.vibe"
+
+const services = GitCafeApi.layer.pipe(Layer.provideMerge(GitCafeCredentials.layer))
+
+const makeInstance = effect {
+  return try Effect.all({
+    sourceControl: GitCafeSourceControlProvider.make,
+    discovery: GitCafeSourceControlProvider.makeDiscovery,
+    pullRequests: GitCafePullRequestProvider.make,
+  })
+}
+
+export const driver = defineSourceControlDriver({
+  kind: definition.kind,
+  definition,
+  make: withOwnServices(makeInstance, services),
+})

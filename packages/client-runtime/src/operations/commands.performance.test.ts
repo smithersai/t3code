@@ -11,7 +11,7 @@ import {
   type OrchestrationV2TurnItem,
 } from "@t3tools/contracts";
 import { describe, expect, it } from "@effect/vitest";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
@@ -23,12 +23,12 @@ import {
   AVAILABLE_CONNECTION_STATE,
   PrimaryConnectionTarget,
   type PreparedConnection,
-} from "../connection/model.ts";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
+} from "../connection/model.vibe";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
-import * as RpcSession from "../rpc/session.ts";
+import * as RpcSession from "../rpc/session.vibe";
 import { v2Now, v2Projection, v2ThreadId } from "../state/orchestrationV2TestFixtures.ts";
-import { startThreadTurn } from "./commands.ts";
+import { startThreadTurn } from "./commands.vibe";
 
 const ROW_COUNT = 600;
 const OUTPUT_BYTES_PER_ROW = 8_192;

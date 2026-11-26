@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 
-import { hasCloudPublicConfig } from "../cloud/publicConfig";
+import { hasCloudPublicConfig } from "../cloud/publicConfig.vibe";
 import { T3ConnectProfilePage } from "../cloud/T3ConnectProfilePage";
 
 const USER_PROFILE_CUSTOM_PAGES = [

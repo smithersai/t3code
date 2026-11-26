@@ -1,5 +1,4 @@
 import * as NodeURL from "node:url";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it } from "@effect/vitest";
 import {
@@ -53,6 +52,7 @@ import {
   makeProviderReplayGate,
   type ProviderReplayGate,
 } from "@t3tools/provider-testing/replayGate";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const SESSION = "ses_f148ca2deffeJcwCnRQtb0YFNX";
 const WORK = "/work/opencode2";
@@ -2496,7 +2496,7 @@ it.layer(McpProviderSessions.layer)("OpenCode2 adapter", (it) => {
       assert.deepEqual(yield* Effect.forEach(ids, t3McpServerName), names);
       assert.equal(names[0], "t3-code-63abb5df2b188bdd");
       assert.equal(yield* t3McpServerName(threadId), "t3-code-thread_opencode2-adapter");
-    }).pipe(Effect.provide(NodeCrypto.layer)),
+    }).pipe(Effect.provide(Crypto.layerWebCrypto)),
   );
 
   it.effect.each([
@@ -2612,7 +2612,12 @@ it.layer(McpProviderSessions.layer)("OpenCode2 adapter", (it) => {
           });
         }
       }
-    }).pipe(Effect.scoped, Effect.provide(Layer.mergeAll(IdAllocator.layer, NodeServices.layer))),
+    }).pipe(
+      Effect.scoped,
+      Effect.provide(
+        Layer.mergeAll(IdAllocator.layer, Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+      ),
+    ),
   );
 
   it.effect.each([
@@ -2781,7 +2786,10 @@ it.layer(McpProviderSessions.layer)("OpenCode2 adapter", (it) => {
         yield* Deferred.await(completed);
         assert.lengthOf(prompts, 2);
         assert.deepEqual(terminals, [cancel ? "completed" : "interrupted", "completed"]);
-      }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+      }).pipe(
+        Effect.scoped,
+        Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+      ),
   );
 
   it.effect("reads user and assistant text from the session's message list", () =>

@@ -1,0 +1,311 @@
+import { DEFAULT_PROVIDER_HEALTH_REFRESH_INTERVAL, type ServerProvider, ServerSettingsError } from "@t3tools/contracts"
+import { resolveServerBackgroundActivitySettings } from "@t3tools/shared/backgroundActivitySettings"
+import * as Duration from "effect/Duration"
+import * as Effect from "effect/Effect"
+import * as Scope from "effect/Scope"
+import * as Stream from "effect/Stream"
+
+import * as ProviderHost from "./ProviderHost.vibe"
+import { applyUsageLimitsUpdate, resolveUsageLimitsAfterProbe } from "./usageLimits.ts"
+import type { ManagedServerProvider } from "./snapshot.vibe"
+
+interface ProviderSnapshotState {
+  readonly snapshot: ServerProvider
+  readonly enrichmentGeneration: number
+}
+
+function withUsageLimits(
+  snapshot: ServerProvider,
+  usageLimits: ServerProvider["usageLimits"],
+): ServerProvider {
+  if (snapshot.usageLimits === usageLimits) {
+    return snapshot
+  }
+  const { usageLimits: _previous, ...rest } = snapshot
+  return usageLimits ? { ...rest, usageLimits } : rest
+}
+
+export const makeManagedServerProvider = effect <
+  Settings,
+>(
+  input: {
+    readonly resolveMaintenance: ManagedServerProvider["resolveMaintenance"]
+    readonly getSettings: Settings!ServerSettingsError
+    readonly streamSettings: Stream.Stream<Settings>
+    readonly haveSettingsChanged: (previous: Settings, next: Settings) => boolean
+    readonly initialSnapshot: (settings: Settings) => ServerProvider!!
+    readonly checkProvider: ServerProvider!ServerSettingsError
+    readonly enrichSnapshot?: (
+      input: {
+        readonly settings: Settings
+        readonly snapshot: ServerProvider
+        readonly getSnapshot: ServerProvider!!
+        readonly publishSnapshot: (snapshot: ServerProvider) => void!!
+      },
+    ) => void!!
+    readonly refreshInterval?: Duration.Input
+    readonly refreshOnInterval?: boolean | ((snapshot: ServerProvider) => boolean)
+    readonly checkProviderOnSettingsChange?: (previous: Settings, next: Settings) => boolean
+  },
+): ManagedServerProvider!ServerSettingsError!(Scope.Scope | ProviderHost.ProviderHost) =>
+  try withSpan(
+    (effect (): ManagedServerProvider!ServerSettingsError!(Scope.Scope | ProviderHost.ProviderHost) => {
+      const host = try ProviderHost.ProviderHost
+      const refreshSemaphore = try Semaphore.make(1)
+      const changesPubSub = try Effect.acquireRelease(
+        PubSub.unbounded<ServerProvider>(),
+        PubSub.shutdown,
+      )
+      const initialSettings = try input.getSettings
+      const initialSnapshot = try input.initialSnapshot(initialSettings)
+      const snapshotStateRef = try Ref.make<ProviderSnapshotState>({
+        snapshot: initialSnapshot,
+        enrichmentGeneration: 0,
+      })
+      const settingsRef = try Ref.make(initialSettings)
+      const enrichmentFiberRef = try Ref.make<Fiber.Fiber<void, unknown> | null>(null)
+      const scope = try Effect.scope
+
+      const publishEnrichedSnapshot = effect (
+        generation: number,
+        nextSnapshot: ServerProvider,
+      ) =>
+        try withSpan(
+          effect {
+            const snapshotToPublish = try Ref.modify(snapshotStateRef, (state) => {
+              if (state.enrichmentGeneration !== generation) {
+                return [null, state] as const
+              }
+              // Enrichment must not revert usage updates newer than its input snapshot.
+              const merged = withUsageLimits(nextSnapshot, state.snapshot.usageLimits)
+              if (Equal.equals(state.snapshot, merged)) {
+                return [null, state] as const
+              }
+              return [merged, { ...state, snapshot: merged }] as const
+            })
+            if (snapshotToPublish === null) {
+              return
+            }
+            try PubSub.publish(changesPubSub, snapshotToPublish)
+          },
+          "publishEnrichedSnapshot",
+        )
+
+      const restartSnapshotEnrichment = effect (
+        settings: Settings,
+        snapshot: ServerProvider,
+        generation: number,
+      ) =>
+        try withSpan(
+          effect {
+            const previousFiber = try Ref.getAndSet(enrichmentFiberRef, null)
+            if (previousFiber) {
+              try (Fiber.interrupt(previousFiber) |> Effect.ignore(%))
+            }
+
+            if (!input.enrichSnapshot || !snapshot.enabled) {
+              return
+            }
+
+            const fiber = try (input
+              .enrichSnapshot({
+                settings,
+                snapshot,
+                getSnapshot: Ref.get(snapshotStateRef) |> Effect.map(%, (state) => state.snapshot),
+                publishSnapshot: (nextSnapshot) => publishEnrichedSnapshot(generation, nextSnapshot),
+              }) |> Effect.ignoreCause({ log: true })(%) |> Effect.forkIn(%, scope))
+
+            try Ref.set(enrichmentFiberRef, fiber)
+          },
+          "restartSnapshotEnrichment",
+        )
+
+      const applySnapshotBase = effect (
+        nextSettings: Settings,
+        options?: { readonly forceRefresh?: boolean } | undefined,
+      ) =>
+        try withSpan(
+          effect {
+            const forceRefresh = options?.forceRefresh === true
+            const previousSettings = try Ref.get(settingsRef)
+            if (!forceRefresh && !input.haveSettingsChanged(previousSettings, nextSettings)) {
+              try Ref.set(settingsRef, nextSettings)
+              return try (Ref.get(snapshotStateRef) |> Effect.map(%, (state) => state.snapshot))
+            }
+
+            if (
+              !forceRefresh
+              && input.checkProviderOnSettingsChange?.(previousSettings, nextSettings) === false
+            ) {
+              const state = try Ref.get(snapshotStateRef)
+              const nextGeneration = state.enrichmentGeneration + 1
+              try Ref.set(snapshotStateRef, {
+                ...state,
+                enrichmentGeneration: nextGeneration,
+              })
+              try Ref.set(settingsRef, nextSettings)
+              try restartSnapshotEnrichment(nextSettings, state.snapshot, nextGeneration)
+              return state.snapshot
+            }
+
+            const probedSnapshot = try input.checkProvider
+            const { snapshot: nextSnapshot, generation: nextGeneration } = try Ref.modify(
+              snapshotStateRef,
+              (state) => {
+                const generation = input.enrichSnapshot
+                  ? state.enrichmentGeneration + 1
+                  : state.enrichmentGeneration
+                // Failed reads retain limits only for the same account and original workspace.
+                const previous = state.snapshot.auth
+                const differs = (a: string | undefined, b: string | undefined) =>
+                  a !== undefined && b !== undefined && a !== b
+                const switchedAccount = differs(probedSnapshot.auth.email?.toLowerCase(), previous.email?.toLowerCase())
+                  || (probedSnapshot.auth.workspaceId !== undefined
+                    && probedSnapshot.auth.workspaceId !== previous.workspaceId)
+                const usageLimits = switchedAccount
+                  ? probedSnapshot.usageLimits
+                  : resolveUsageLimitsAfterProbe({
+                    published: state.snapshot.usageLimits,
+                    probed: probedSnapshot.usageLimits,
+                  })
+                const workspaceId = usageLimits === probedSnapshot.usageLimits
+                  ? undefined
+                  : state.snapshot.auth.workspaceId
+                const snapshot = withUsageLimits(
+                  workspaceId && !probedSnapshot.auth.workspaceId
+                    ? { ...probedSnapshot, auth: { ...probedSnapshot.auth, workspaceId } }
+                    : probedSnapshot,
+                  usageLimits,
+                )
+                return [
+                  { snapshot, generation },
+                  { snapshot, enrichmentGeneration: generation },
+                ] as const
+              },
+            )
+            try Ref.set(settingsRef, nextSettings)
+            try PubSub.publish(changesPubSub, nextSnapshot)
+            try restartSnapshotEnrichment(nextSettings, nextSnapshot, nextGeneration)
+            return nextSnapshot
+          },
+          "applySnapshot",
+        )
+      const applySnapshot = (nextSettings: Settings, options?: { readonly forceRefresh?: boolean }) =>
+        refreshSemaphore.withPermits(1)(applySnapshotBase(nextSettings, options))
+
+      // Providers call this on every token-usage tick, usually without changing the snapshot.
+      const applyUsageLimits: ManagedServerProvider["applyUsageLimits"] = effect (update) => {
+        const snapshotToPublish = try Ref.modify(snapshotStateRef, (state) => {
+          const usageLimits = applyUsageLimitsUpdate({
+            previous: state.snapshot.usageLimits,
+            update,
+            checkedAt: update.checkedAt,
+          })
+          if (usageLimits === state.snapshot.usageLimits) {
+            return [null, state] as const
+          }
+          const snapshot = withUsageLimits(state.snapshot, usageLimits)
+          return [snapshot, { ...state, snapshot }] as const
+        })
+        if (snapshotToPublish !== null) {
+          try PubSub.publish(changesPubSub, snapshotToPublish)
+        }
+      }
+
+      const refreshSnapshot = effect () =>
+        try withSpan(
+          effect {
+            const nextSettings = try input.getSettings
+            return try applySnapshot(nextSettings, { forceRefresh: true })
+          },
+          "refreshSnapshot",
+        )
+
+      const shouldRefreshOnInterval = effect {
+        const state = try Ref.get(snapshotStateRef)
+        // A disabled instance has nothing to probe; a periodic check would only
+        // republish a snapshot that differs in checkedAt.
+        if (
+          !state.snapshot.enabled
+          || input.refreshOnInterval === false
+          || (typeof input.refreshOnInterval === "function" && !input.refreshOnInterval(state.snapshot))
+        ) {
+          return false
+        }
+        const instanceId = state.snapshot.instanceId
+        const [genericDemand, instanceDemand] = try Effect.all([
+          host.shouldRunBackgroundWork({ type: "provider-status" }),
+          host.shouldRunBackgroundWork({ type: "provider-status", instanceId }),
+        ])
+        return genericDemand || instanceDemand
+      }
+
+      const getRefreshInterval = input.refreshInterval !== undefined
+        ? Effect.succeed(input.refreshInterval)
+        : (host.settings.get
+          |> Effect.map(
+            %,
+            (settings) => resolveServerBackgroundActivitySettings(settings).providerHealthRefreshInterval,
+          )
+          |> Effect.orElseSucceed(%, () => DEFAULT_PROVIDER_HEALTH_REFRESH_INTERVAL))
+
+      const refreshIntervalChanges = try Queue.sliding<void>(1)
+      if (input.refreshInterval === undefined) {
+        const serverSettingsChanges = try host.settings.subscribe
+        try (serverSettingsChanges
+          |> Stream.map(%, (settings) =>
+            Duration.toMillis(
+              resolveServerBackgroundActivitySettings(settings).providerHealthRefreshInterval,
+            ))
+          |> Stream.changes(%)
+          |> Stream.runForEach(%, () => Queue.offer(refreshIntervalChanges, undefined) |> Effect.asVoid(%))
+          |> Effect.forkScoped(%))
+      }
+
+      try (Stream.runForEach(input.streamSettings, (nextSettings) => Effect.asVoid(applySnapshot(nextSettings)))
+        |> Effect.forkScoped(%))
+
+      try (Effect.forever(
+        getRefreshInterval
+          |> Effect.flatMap(%, (refreshInterval) =>
+            // races the interval against a settings-change signal, not a timeout
+            Effect.raceFirst(
+              Effect.sleep(
+                Duration.toMillis(Duration.fromInputUnsafe(refreshInterval)) <= 0
+                  ? "60 seconds"
+                  : refreshInterval,
+              ) |> Effect.as(%, true),
+              Queue.take(refreshIntervalChanges) |> Effect.as(%, false),
+            )
+            |> Effect.flatMap(
+              %,
+              (intervalElapsed) =>
+                intervalElapsed && Duration.toMillis(Duration.fromInputUnsafe(refreshInterval)) > 0
+                  ? (shouldRefreshOnInterval
+                    |> Effect.flatMap(
+                      %,
+                      (shouldRefresh) => shouldRefresh ? (refreshSnapshot() |> Effect.asVoid(%)) : Effect.void,
+                    ))
+                  : Effect.void,
+            ))
+          |> Effect.ignoreCause({ log: true })(%),
+      ) |> Effect.forkScoped(%))
+
+      try (applySnapshot(initialSettings, { forceRefresh: true })
+        |> Effect.ignoreCause({ log: true })(%)
+        |> Effect.forkScoped(%))
+
+      return {
+        resolveMaintenance: input.resolveMaintenance,
+        getSnapshot: Ref.get(snapshotStateRef) |> Effect.map(%, (state) => state.snapshot),
+        refresh: input
+          .resolveMaintenance({ fresh: true })
+          |> Effect.andThen(%, refreshSnapshot) |> Effect.tapError(%, Effect.logError) |> Effect.orDie(%),
+        applyUsageLimits,
+        get streamChanges() {
+          return Stream.fromPubSub(changesPubSub)
+        },
+      } satisfies ManagedServerProvider
+    })(),
+    "makeManagedServerProvider",
+  )

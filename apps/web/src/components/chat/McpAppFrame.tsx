@@ -22,7 +22,7 @@ import { Minimize2Icon } from "lucide-react";
 import { useEffect, useRef, useState, type FocusEvent, type ToggleEvent } from "react";
 import { flushSync } from "react-dom";
 
-import { useLongLivedAssetUrl } from "~/assets/longLivedAssetUrls";
+import { useLongLivedAssetUrl } from "../../assets/longLivedAssetUrls.vibe";
 import { APP_VERSION } from "~/branding";
 import { isConfirmDialogActive, requestConfirmDialog } from "~/confirmDialog";
 import { useHtmlRenderTheme } from "~/hooks/useHtmlRenderTheme";
@@ -30,10 +30,10 @@ import { useStableCallback } from "~/hooks/useStableCallback";
 import { Button } from "~/components/ui/button";
 import { isElectron } from "~/env";
 import { cn } from "~/lib/utils";
-import { useEnvironmentQuery } from "~/state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { useTurnItemDetail } from "~/state/queries";
 import { mcpAppEnvironment } from "~/state/mcpApps";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { observeResize } from "~/lib/observeResize";
 
 const commandFailure = (result: {

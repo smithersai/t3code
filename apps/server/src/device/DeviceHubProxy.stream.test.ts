@@ -1,5 +1,5 @@
 import { expect, it } from "@effect/vitest";
-import { NodeWS } from "@effect/platform-node/NodeSocket";
+import * as NodeWS from "@effect/platform-node/NodeWS";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -10,9 +10,10 @@ import {
   AuthSessionId,
   LOCAL_DEVICE_HOST_ID,
 } from "@t3tools/contracts";
-import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
-import * as DeviceService from "./DeviceService.ts";
-import * as DeviceHubProxy from "./DeviceHubProxy.ts";
+import * as EnvironmentAuth from "../auth/EnvironmentAuth.vibe";
+import * as DeviceService from "./DeviceService.vibe";
+import * as DeviceHubProxy from "./DeviceHubProxy.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 it.effect("preserves binary input and admission frames through the real socket proxy", () =>
   Effect.gen(function* () {
@@ -37,7 +38,7 @@ it.effect("preserves binary input and admission frames through the real socket p
     });
     const services = yield* Layer.build(
       HttpRouter.serve(DeviceHubProxy.layer, { disableListenLog: true }).pipe(
-        Layer.provideMerge(NodeHttpServer.layerTest),
+        Layer.provideMerge(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto)),
         Layer.provide(
           Layer.succeed(EnvironmentAuth.EnvironmentAuth, {
             authenticateWebSocketUpgrade: () =>

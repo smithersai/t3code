@@ -84,7 +84,7 @@ vi.mock("./server", async () => {
     environmentServerConfigsAtom: Atom.make(new Map([["secondary", state.config]])),
   };
 });
-vi.mock("./threads", async () => {
+vi.mock("./threads.vibe", async () => {
   const { Atom, AsyncResult } = await import("effect/reactivity");
   state.threadShells = Atom.make<ReadonlyArray<unknown>>([state.thread]).pipe(Atom.keepAlive);
   return {
@@ -139,7 +139,7 @@ vi.mock("./use-thread-outbox", async () => {
     threadOutboxShellStatusesAtom: Atom.make(new Map([["secondary", "live"]])),
   };
 });
-vi.mock("./use-composer-drafts", async () => {
+vi.mock("./use-composer-drafts.vibe", async () => {
   const { Atom } = await import("effect/reactivity");
   return {
     composerDraftsAtom: Atom.make({}),

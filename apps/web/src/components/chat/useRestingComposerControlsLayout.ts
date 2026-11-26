@@ -9,6 +9,7 @@ export function useRestingComposerControlsLayout(
 ) {
   const [controls, setControls] = useState<HTMLDivElement | null>(null);
   const controlsRef = useRef<HTMLDivElement>(null);
+  /** @throws {never} */
   const attachControls = (element: HTMLDivElement | null) => {
     controlsRef.current = element;
     setControls(element);

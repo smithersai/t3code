@@ -31,24 +31,25 @@ import {
   resolveAttachmentPathById,
   sweepStalePendingAttachments,
 } from "../attachmentStore.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import { CloudManagedEndpointRuntime } from "../cloud/ManagedEndpointRuntime.ts";
-import * as ServerConfig from "../config.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.ts";
-import * as CommandOutputHub from "../orchestration-v2/CommandOutputHub.ts";
-import * as EffectOutbox from "../orchestration-v2/EffectOutbox.ts";
-import * as EffectWorker from "../orchestration-v2/EffectWorker.ts";
-import * as EventSink from "../orchestration-v2/EventSink.ts";
-import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
-import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.ts";
-import * as ResourceCleanupService from "../orchestration-v2/ResourceCleanupService.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import { CloudManagedEndpointRuntime } from "../cloud/ManagedEndpointRuntime.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.vibe";
+import * as CommandOutputHub from "../orchestration-v2/CommandOutputHub.vibe";
+import * as EffectOutbox from "../orchestration-v2/EffectOutbox.vibe";
+import * as EffectWorker from "../orchestration-v2/EffectWorker.vibe";
+import * as EventSink from "../orchestration-v2/EventSink.vibe";
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
+import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
+import * as ResourceCleanupService from "../orchestration-v2/ResourceCleanupService.vibe";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
-import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as AnalyticsService from "../telemetry/AnalyticsService.ts";
-import * as GuestShareService from "./GuestShareService.ts";
+import * as ProviderRegistry from "../provider/ProviderRegistry.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as AnalyticsService from "../telemetry/AnalyticsService.vibe";
+import * as GuestShareService from "./GuestShareService.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const instanceId = ProviderInstanceId.make("codex");
 const adapter = {
@@ -104,7 +105,10 @@ const layerCleanup = Layer.effect(
         ),
     };
   }),
-).pipe(Layer.provide(layerConfig), Layer.provide(NodeServices.layer));
+).pipe(
+  Layer.provide(layerConfig),
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+);
 class RecordedAnalytics extends Context.Service<
   RecordedAnalytics,
   Ref.Ref<ReadonlyArray<Readonly<Record<string, unknown>>>>
@@ -137,7 +141,7 @@ const layerTest = GuestShareService.layer.pipe(
   Layer.provideMerge(layerAnalytics),
   Layer.provide(ServerSecretStore.layer),
   Layer.provideMerge(layerConfig),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 const threadId = ThreadId.make("thread:guest-share-service");

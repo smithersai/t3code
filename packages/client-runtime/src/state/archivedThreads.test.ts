@@ -6,7 +6,7 @@ import { expect, it } from "vite-plus/test";
 import {
   createArchivedThreadSnapshotsAtomFamily,
   makeArchivedThreadsEnvironmentKey,
-} from "./archivedThreads.ts";
+} from "./archivedThreads.vibe";
 
 it("does not expose an archived snapshot failure message", () => {
   const environmentId = EnvironmentId.make("env-sensitive");

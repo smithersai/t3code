@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@effect/vitest";
 
-import { museModelCapabilities, resolveMuseReasoningEffort } from "./modelCatalog.ts";
+import { museModelCapabilities, resolveMuseReasoningEffort } from "./modelCatalog.vibe";
 
 describe("Muse model catalog", () => {
   it("normalizes saved and implicit efforts against the selected model before dispatch", () => {

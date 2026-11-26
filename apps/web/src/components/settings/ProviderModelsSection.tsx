@@ -9,8 +9,8 @@ import { type CustomModelDefinition, normalizeCustomModelSlug } from "@t3tools/s
 
 import { useStableCallback } from "../../hooks/useStableCallback";
 import { cn } from "../../lib/utils";
-import { sortModelsForProviderInstance } from "../../modelOrdering";
-import { MAX_CUSTOM_MODEL_LENGTH } from "../../modelSelection";
+import { sortModelsForProviderInstance } from "../../modelOrdering.vibe";
+import { MAX_CUSTOM_MODEL_LENGTH } from "../../modelSelection.vibe";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";

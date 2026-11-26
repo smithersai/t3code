@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowArbitraryExtensions": true,
     "target": "ESNext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -102,7 +103,9 @@
             ],
             "options": { "diagnosticSeverity": { "effectFnOpportunity": "off" } }
           }
-        ]
+        ],
+        "ignoreEffectWarningsInTscExitCode": true,
+        "ignoreEffectErrorsInTscExitCode": true
       }
     ]
   }

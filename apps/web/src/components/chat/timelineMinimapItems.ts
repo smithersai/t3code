@@ -3,7 +3,7 @@ import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
 
-import type { MessagesTimelineRow } from "./MessagesTimeline.logic";
+import type { MessagesTimelineRow } from "./MessagesTimeline.logic.vibe";
 
 export interface TimelineMinimapItem {
   readonly id: string;

@@ -28,23 +28,23 @@ import * as Path from "effect/Path";
 import * as Option from "effect/Option";
 import * as Layer from "effect/Layer";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ServerConfig from "../config.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as GitWorkflow from "../git/GitWorkflowService.ts";
-import { withWorkspaceLease } from "../workspace/workspaceLease.ts";
-import { ProviderWorkspaceMissingError } from "../provider/Errors.ts";
-import { resolveCodexRollbackTurnCount } from "./Adapters/CodexAdapterV2.ts";
-import * as CheckpointService from "./CheckpointService.ts";
-import * as CheckpointRollbackService from "./CheckpointRollbackService.ts";
-import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
-import * as EventSink from "./EventSink.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as GitWorkflow from "../git/GitWorkflowService.vibe";
+import { withWorkspaceLease } from "../workspace/workspaceLease.vibe";
+import { ProviderWorkspaceMissingError } from "../provider/Errors.vibe";
+import { resolveCodexRollbackTurnCount } from "./Adapters/CodexAdapterV2.vibe";
+import * as CheckpointService from "./CheckpointService.vibe";
+import * as CheckpointRollbackService from "./CheckpointRollbackService.vibe";
+import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
+import * as EventSink from "./EventSink.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProjectStore from "./ProjectStore.ts";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as ProjectStore from "./ProjectStore.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import * as ProviderSessionManager from "./ProviderSessionManager.ts";
-import * as RuntimePolicy from "./RuntimePolicy.ts";
+import * as ProviderSessionManager from "./ProviderSessionManager.vibe";
+import * as RuntimePolicy from "./RuntimePolicy.vibe";
 
 const unrelatedProject = Option.some({
   workspaceRoot: "/nonexistent/t3-rollback-project",

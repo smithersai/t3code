@@ -1,0 +1,27 @@
+import { removeDirectory } from platform
+// @effect-diagnostics nodeBuiltinImport:off - Effect's FileSystem has no rmdir.
+
+import * as Effect from "effect/Effect"
+
+module platform {
+  // @effect-diagnostics nodeBuiltinImport:off - Effect's FileSystem has no rmdir.
+  import * as NodeFSP from "node:fs/promises"
+
+  export function removeDirectory(path: string): Promise<void> {
+    return NodeFSP.rmdir(path)
+  }
+}
+
+/**
+ * Removes `path` only while it is an empty directory. Succeeds with false when
+ * anything else is there, including files written after the caller looked.
+ * Other failures, such as a permission error, stay errors.
+ */
+export const removeEmptyDirectory = (path: string) =>
+  Effect.tryPromise(() => removeDirectory(path))
+  |> Effect.as(%, true)
+  |> Effect.catchIf(
+    %,
+    (error) => (error.cause as NodeJS.ErrnoException | undefined)?.code === "ENOTEMPTY",
+    () => Effect.succeed(false),
+  )

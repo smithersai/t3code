@@ -1,0 +1,21 @@
+import * as Effect from "effect/Effect"
+
+const leases = new Map<string, { semaphore: Semaphore.Semaphore; users: number }>()
+
+export const withWorkspaceLease = <A, E, R>(
+  cwd: string,
+  effect: A!E!R,
+): A!E!R =>
+  Effect.suspend(() => {
+    const lease = leases.get(cwd) ?? { semaphore: Semaphore.makeUnsafe(1), users: 0 }
+    leases.set(cwd, lease)
+    lease.users++
+    return lease.semaphore.withPermit(effect)
+      |> Effect.ensuring(
+        %,
+        effect {
+          lease.users--
+          if (lease.users === 0) leases.delete(cwd)
+        },
+      )
+  })

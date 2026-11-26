@@ -12,12 +12,12 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { reportAtomCommandResult, settlePromise } from "@t3tools/client-runtime/state/runtime";
 import { AppText as Text } from "../../components/ui/AppText";
-import { useRemoteConnections } from "../../state/use-remote-environment-registry";
+import { useRemoteConnections } from "../../state/use-remote-environment-registry.vibe";
 import { CloudEnvironmentRows } from "../connection/CloudEnvironmentRows";
 import { splitEnvironmentSections } from "../connection/environmentSections";
-import { useConnectionController } from "../connection/useConnectionController";
+import { useConnectionController } from "../connection/useConnectionController.vibe";
 import { optOutOfConnectOnboarding } from "./connectOnboardingOptOut";
-import { hasCloudPublicConfig } from "./publicConfig";
+import { hasCloudPublicConfig } from "./publicConfig.vibe";
 
 // Only reachable with cloud config: onboarding is requested after a T3 Connect
 // sign-in, and appLinking drops the deep link otherwise.

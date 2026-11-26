@@ -7,7 +7,7 @@ import { useState } from "react";
 import { StackActions, useNavigation } from "@react-navigation/native";
 import { RefreshControl, ScrollView, View } from "react-native";
 
-import { tryOpenExternalUrl } from "../../lib/openExternalUrl";
+import { tryOpenExternalUrl } from "../../lib/openExternalUrl.vibe";
 import { FONT_FAMILIES } from "../../lib/fontFamilies";
 import { resolveNativeMarkdownTypography } from "../../lib/appearancePreferences";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
@@ -25,7 +25,7 @@ import {
 import { AppText as Text } from "../../components/ui/AppText";
 import { VideoPreviewModal, type VideoPreviewSource } from "../../components/VideoPreviewModal";
 import { FilePreviewModal, type FilePreviewSource } from "../../components/FilePreviewModal";
-import { useMarkdownImageSource } from "../../native/useMarkdownImageSource";
+import { useMarkdownImageSource } from "../../native/useMarkdownImageSource.vibe";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 import {
   SelectableMarkdownText,

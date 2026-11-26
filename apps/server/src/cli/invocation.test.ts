@@ -10,7 +10,7 @@ import {
   resolveHostCliCommand,
   resolveRootCliCommand,
   resolveServerInstallation,
-} from "./invocation.ts";
+} from "./invocation.vibe";
 
 it.layer(NodeServices.layer)("root CLI commands", (it) => {
   const rootCommand = (input: {

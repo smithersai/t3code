@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vite-plus/test";
 import * as Schema from "effect/Schema";
 
-import { RelayDeviceRegistrationRequest } from "./relay.ts";
+import { RelayDeviceRegistrationRequest } from "./relay.vibe";
 
 const decodeDevice = Schema.decodeUnknownExit(RelayDeviceRegistrationRequest);
 const device = {

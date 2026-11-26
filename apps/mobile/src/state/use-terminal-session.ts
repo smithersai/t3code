@@ -15,9 +15,9 @@ import {
 } from "@t3tools/contracts";
 import { useMemo } from "react";
 
-import { useEnvironmentQuery } from "./query";
+import { useEnvironmentQuery } from "./query.vibe";
 import { terminalEnvironment } from "./terminal";
-import { useEnvironmentScope } from "./session";
+import { useEnvironmentScope } from "./session.vibe";
 
 type LegacyTerminalSessionState = TerminalSessionState & { readonly buffer: string };
 const EMPTY_LEGACY_TERMINAL_SESSION_STATE: LegacyTerminalSessionState = {

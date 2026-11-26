@@ -1,0 +1,139 @@
+import * as Config from "effect/Config"
+import * as Context from "effect/Context"
+import * as Digest from "effect/crypto/Digest"
+import * as SecureRandom from "effect/crypto/SecureRandom"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import type * as PlatformError from "effect/PlatformError"
+import * as Layer from "effect/Layer"
+import * as Schema from "effect/Schema"
+
+const Writers = Schema.fromJsonString(Schema.Record(Schema.String, Schema.String))
+const decodeWriters = Schema.decodeEffect(Writers)
+const encodeWriters = Schema.encodeEffect(Writers)
+
+const stateDirectory = Config.String("HOME")
+  |> Effect.map(%, (home) => `${home}/.config/t3-task-cache`)
+
+const Credential = Schema.fromJsonString(
+  Schema.Struct({ endpoint: Schema.String, name: Schema.String, token: Schema.String }),
+)
+schema error ManagementError {
+  readonly message: string
+}
+export const isWriterName = (name: string) =>
+  /^(?!writers$|credentials$|readers$|ci-reader$)[a-z0-9-]{1,64}$/.test(name)
+
+const encodeCredential = Schema.encodeEffect(Credential)
+
+export service WriterRegistry: {
+  readonly read: () => Effect.Effect<
+    Record<string, string>,
+    PlatformError.PlatformError | Schema.SchemaError
+  >;
+  readonly update: (
+    name: string,
+    revoke: boolean,
+    endpoint?: string,
+    initialize?: boolean,
+  ) => (string | undefined)!(PlatformError.PlatformError | Schema.SchemaError | ManagementError);
+} {
+  static readonly key = "@t3tools/task-cache/WriterRegistry"
+}
+
+const make = effect {
+  const fs = try FileSystem.FileSystem
+  const random = try SecureRandom.SecureRandom
+  const digest = try Digest.Digest
+  const state = try stateDirectory
+  const readWriters = effect () =>
+    try withSpan(
+      effect {
+        return try decodeWriters(try fs.readFileString(`${state}/writers.json`))
+      },
+      "TaskCache.readWriters",
+    )
+
+  const save = effect (
+    entries: readonly (readonly [string, string])[],
+  ) =>
+    try withSpan(
+      effect {
+        try fs.makeDirectory(state, { recursive: true, mode: 0o700 })
+        try Effect.scoped(
+          effect {
+            const directory = try fs.makeTempDirectoryScoped({
+              directory: state,
+              prefix: ".writer-",
+            })
+            for (const [name, value] of entries) {
+              try fs.writeFileString(`${directory}/${name}.json`, value + "\n", { mode: 0o600 })
+            }
+            // The registry is the authorization commit point and must publish last.
+            for (const [name] of entries) {
+              try fs.rename(`${directory}/${name}.json`, `${state}/${name}.json`)
+            }
+          },
+        )
+      },
+      "TaskCache.save",
+    )
+
+  const updateWriter = effect (
+    name: string,
+    revoke: boolean,
+    endpoint?: string | undefined,
+    initialize = false,
+  ) =>
+    try withSpan(
+      effect {
+        if (!isWriterName(name)) throw new ManagementError({ message: "Invalid writer name." })
+        if (!revoke && !endpoint) {
+          throw new ManagementError({ message: "A deployed cache endpoint is required." })
+        }
+        return try Effect.scoped(
+          effect {
+            try fs.makeDirectory(state, { recursive: true, mode: 0o700 })
+            // Exclusive creation coordinates separate management processes as well as fibers.
+            try Effect.acquireRelease(
+              fs.makeDirectory(`${state}/writers.lock`)
+                |> Effect.mapError(%, (error) =>
+                  error.reason._tag === "AlreadyExists"
+                    ? new ManagementError({
+                      message:
+                        "Writer registry is locked by another update. Retry after it completes; remove writers.lock only if that process has stopped.",
+                    })
+                    : error),
+              () => fs.remove(`${state}/writers.lock`, { recursive: true }) |> Effect.orDie(%),
+            )
+            const exists = try fs.exists(`${state}/writers.json`)
+            if (!exists && !initialize) {
+              throw new ManagementError({
+                message:
+                  "Writer registry is missing. Copy the existing private registry from its administrator; use --new-registry only when creating a new cache.",
+              })
+            }
+            const writers = { ...(exists || revoke ? try readWriters() : {}) }
+            const token = hex(try random.randomBytes(32))
+            if (revoke) delete writers[name]
+            else {
+              writers[name] = hex(try digest.digest(Digest.sha256, new TextEncoder().encode(token)))
+            }
+            const entries: Array<readonly [string, string]> = []
+            if (!revoke && endpoint) {
+              entries.push([name, try encodeCredential({ endpoint, name, token })])
+            }
+            entries.push(["writers", try encodeWriters(writers)])
+            try save(entries)
+            return revoke ? undefined : `${state}/${name}.json`
+          },
+        )
+      },
+      "TaskCache.updateWriter",
+    )
+  return WriterRegistry.of({ read: readWriters, update: updateWriter })
+}
+
+export const layer = Layer.effect(WriterRegistry, make)
+
+const hex = (bytes: Uint8Array) => Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("")

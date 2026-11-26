@@ -14,7 +14,7 @@ import * as Path from "effect/Path";
 import * as PlatformError from "effect/PlatformError";
 import * as Queue from "effect/Queue";
 import { HttpClient, HttpClientRequest, HttpRouter, HttpServerResponse } from "effect/http";
-import { openMediaFile } from "./assets/MediaFile.ts";
+import { openMediaFile } from "./assets/MediaFile.vibe";
 
 import {
   injectMcpAppCsp,
@@ -24,10 +24,10 @@ import {
 } from "@t3tools/shared/mcpApp";
 import { ORCHESTRATION_PROTOCOL_HEADER } from "@t3tools/contracts";
 
-import * as ServerConfig from "./config.ts";
+import * as ServerConfig from "./config.vibe";
 
-import { assetResponseHeaders, assetFileResponse, downloadContentDisposition } from "./http.ts";
-import * as ServerHttp from "./http.ts";
+import { assetResponseHeaders, assetFileResponse, downloadContentDisposition } from "./http.vibe";
+import * as ServerHttp from "./http.vibe";
 
 describe("MCP app asset responses", () => {
   it.effect(

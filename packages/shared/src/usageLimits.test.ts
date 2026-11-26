@@ -20,7 +20,7 @@ import {
   paceOf,
   paceRemainingPercent,
   usesChatGptSharing,
-} from "./usageLimits.ts";
+} from "./usageLimits.vibe";
 
 const now = Date.parse("2026-09-03T12:00:00.000Z");
 

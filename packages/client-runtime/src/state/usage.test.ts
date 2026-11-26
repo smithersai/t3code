@@ -11,13 +11,13 @@ import * as Effect from "effect/Effect";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 
-import type { EnvironmentPresentation } from "../connection/presentation.ts";
+import type { EnvironmentPresentation } from "../connection/presentation.vibe";
 import {
   cursorKeychainAccessEnvironments,
   needsCursorKeychainAccess,
   refreshUsage,
   refreshUsageLimits,
-} from "./usage.ts";
+} from "./usage.vibe";
 
 const input = {
   sinceDay: UsageDay.make("2026-09-05"),

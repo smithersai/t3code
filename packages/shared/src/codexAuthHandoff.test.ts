@@ -7,7 +7,7 @@ import {
   codexCallbackUrl,
   readCodexAuthDelivery,
   readCodexAuthHandoff,
-} from "./codexAuthHandoff.ts";
+} from "./codexAuthHandoff.vibe";
 
 const authorizationUrl = () => {
   const url = new URL("https://auth.openai.com/api/accounts/authorize");

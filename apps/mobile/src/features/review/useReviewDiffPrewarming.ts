@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 
-import { getCachedNativeReviewDiffData } from "./nativeReviewDiffAdapter";
-import type { ReviewSectionItem } from "./reviewModel";
+import { getCachedNativeReviewDiffData } from "./nativeReviewDiffAdapter.vibe";
+import type { ReviewSectionItem } from "./reviewModel.vibe";
 import {
   getCachedReviewParsedDiff,
   getReviewParsedDiffSourceCharacterCount,
   MAX_CACHED_REVIEW_DIFFS,
   MAX_CACHED_REVIEW_SOURCE_CHARACTERS,
-} from "./reviewState";
+} from "./reviewState.vibe";
 
 interface IdleDeadlineLike {
   readonly didTimeout: boolean;

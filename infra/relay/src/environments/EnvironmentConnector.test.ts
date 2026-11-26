@@ -1,6 +1,5 @@
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Effect's Crypto has no generateKeyPairSync or sign.
 import * as NodeCrypto from "node:crypto";
-import * as NodeCryptoLayer from "@effect/platform-node/NodeCrypto";
 
 import {
   RelayCloudEnvironmentHealthRequest,
@@ -23,10 +22,11 @@ import * as Schema from "effect/Schema";
 import * as Tracer from "effect/Tracer";
 import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http";
 
-import * as EnvironmentLinks from "./EnvironmentLinks.ts";
-import * as RelayConfiguration from "../Config.ts";
-import * as EnvironmentConnector from "./EnvironmentConnector.ts";
-import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.ts";
+import * as EnvironmentLinks from "./EnvironmentLinks.vibe";
+import * as RelayConfiguration from "../Config.vibe";
+import * as EnvironmentConnector from "./EnvironmentConnector.vibe";
+import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const cloudKeyPair = NodeCrypto.generateKeyPairSync("ed25519", {
   privateKeyEncoding: { format: "pem", type: "pkcs8" },
@@ -162,7 +162,7 @@ function layerConnectorTest(
   },
 ) {
   return EnvironmentConnector.layer.pipe(
-    Layer.provide(NodeCryptoLayer.layer),
+    Layer.provide(Crypto.layerWebCrypto),
     Layer.provide(Layer.succeed(EnvironmentLinks.EnvironmentLinks, options?.links ?? makeLinks())),
     Layer.provide(
       Layer.succeed(

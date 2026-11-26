@@ -13,7 +13,7 @@ import { tickTextContent } from "~/lib/tickTextContent";
 import { observeVisibleAnimation } from "../../lib/visibleAnimation";
 import { memo, use, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { LegendList, type LegendListRef } from "@legendapp/list/react";
-import { workEntryDisplayIndicatesToolFailure } from "../../session-logic";
+import { workEntryDisplayIndicatesToolFailure } from "../../session-logic.vibe";
 import ChatMarkdown from "../ChatMarkdown";
 import { Minimize2Icon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
@@ -24,7 +24,7 @@ import {
   shouldFollowWorkGroupAppend,
   workEntryIsVisibleInGroup,
   type MessagesTimelineRow,
-} from "./MessagesTimeline.logic";
+} from "./MessagesTimeline.logic.vibe";
 import { Popover, PopoverPopup, PopoverTrigger } from "../ui/popover";
 import { Spinner } from "../ui/spinner";
 import { WorktreeSetupCard } from "./WorktreeSetupCard";
@@ -36,7 +36,7 @@ import {
   WorkGroupViewCtx,
   type TimelineWorkEntry,
   type TimelineRow,
-} from "./timelineRowContext";
+} from "./timelineRowContext.vibe";
 import { TimelineRowTimestamp, ActivityShimmerOverlay } from "./TimelineRowParts";
 import {
   failedToolIconClassName,

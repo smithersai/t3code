@@ -31,7 +31,7 @@ import { act, fakeTimers, render } from "./render";
 // The socket is the only fake layer: client-runtime's driver hands every connection the
 // in-process session. A string path, since a typed import pulls client-runtime's sources
 // into this project, and imports inside, since the factory runs before this file's own.
-vi.mock("../../../packages/client-runtime/src/connection/driver.ts", async (importOriginal) => {
+vi.mock("../../../packages/client-runtime/src/connection/driver.vibe", async (importOriginal) => {
   const [actual, { fakeDriver }, Layer] = await Promise.all([
     importOriginal<{ readonly ConnectionDriver: Context.Key<unknown, FakeDriver> }>(),
     import("./fakeEnvironment"),

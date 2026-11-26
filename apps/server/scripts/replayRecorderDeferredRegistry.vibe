@@ -1,0 +1,51 @@
+import * as Deferred from "effect/Deferred"
+import * as Effect from "effect/Effect"
+
+export interface ReplayRecorderDeferredRegistry {
+  readonly getOrCreate: (key: string) => Deferred.Deferred<void>!!
+  readonly succeed: (key: string) => void!!
+}
+
+export const makeReplayRecorderDeferredRegistry = effect () =>
+  try withSpan(
+    effect {
+      const state = try SynchronizedRef.make(new Map<string, Deferred.Deferred<void>>())
+
+      const getOrCreate = effect (
+        key: string,
+      ) =>
+        try withSpan(
+          effect {
+            return try SynchronizedRef.modifyEffect(state, (deferreds) => {
+              const existing = deferreds.get(key)
+              if (existing !== undefined) {
+                return Effect.succeed([existing, deferreds] as const)
+              }
+
+              return Deferred.make<void>()
+                |> Effect.map(%, (deferred) => {
+                  const next = new Map(deferreds)
+                  next.set(key, deferred)
+                  return [deferred, next] as const
+                })
+            })
+          },
+          "ReplayRecorderDeferredRegistry.getOrCreate",
+        )
+
+      const succeed = effect (key: string) =>
+        try withSpan(
+          effect {
+            const deferred = try getOrCreate(key)
+            try Deferred.succeed(deferred, undefined)
+          },
+          "ReplayRecorderDeferredRegistry.succeed",
+        )
+
+      return {
+        getOrCreate,
+        succeed,
+      } satisfies ReplayRecorderDeferredRegistry
+    },
+    "makeReplayRecorderDeferredRegistry",
+  )

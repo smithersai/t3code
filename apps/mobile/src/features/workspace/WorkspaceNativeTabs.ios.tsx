@@ -2,7 +2,7 @@ import {
   WORKSPACE_TAB_LABELS,
   NAVIGATION_TAB_ICONS,
   useEnabledNavigationTabs,
-} from "./navigation-tabs";
+} from "./navigation-tabs.vibe";
 import { useCallback, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { View, useWindowDimensions, type NativeSyntheticEvent } from "react-native";
 import { Tabs, type TabSelectedEvent, type TabSelectionRejectedEvent } from "react-native-screens";

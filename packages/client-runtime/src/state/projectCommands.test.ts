@@ -11,7 +11,7 @@ import {
   WS_METHODS,
 } from "@t3tools/contracts";
 import { vi } from "vite-plus/test";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Deferred from "effect/Deferred";
 import * as Fiber from "effect/Fiber";
@@ -21,18 +21,18 @@ import * as Schema from "effect/Schema";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import * as Stream from "effect/Stream";
 import { Atom, AtomRegistry, AsyncResult } from "effect/reactivity";
-import { AVAILABLE_CONNECTION_STATE } from "../connection/model.ts";
+import { AVAILABLE_CONNECTION_STATE } from "../connection/model.vibe";
 
-import * as EnvironmentRegistry from "../connection/registry.ts";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import type { RpcSession } from "../rpc/session.ts";
-import type { EnvironmentProject } from "./models.ts";
-import { createProjectEnvironmentAtoms } from "./projectCommands.ts";
+import * as EnvironmentRegistry from "../connection/registry.vibe";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
+import type { RpcSession } from "../rpc/session.vibe";
+import type { EnvironmentProject } from "./models.vibe";
+import { createProjectEnvironmentAtoms } from "./projectCommands.vibe";
 
 const decodeReadFileInput = Schema.decodeUnknownSync(ProjectReadFileInput);
 const decodeReadFileResult = Schema.decodeUnknownSync(ProjectReadFileResult);
 const ENVIRONMENT_ID = EnvironmentId.make("environment-1");
-vi.mock("./session.ts", () => ({
+vi.mock("./session.vibe", () => ({
   createEnvironmentSessionAtoms: () => ({ sessionStateAtom: sessions }),
 }));
 const sessions = Atom.family((_id: EnvironmentId) =>

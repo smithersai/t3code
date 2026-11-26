@@ -4,8 +4,8 @@ import { piUsageFormat } from "@t3tools/provider-pi/server/usage";
 import { grokUsageFormat } from "@t3tools/provider-grok/server/usage";
 import { museUsageFormat } from "@t3tools/provider-muse/server/usage";
 
-import { claudeUsageFormat } from "../provider/Drivers/claudeUsage.ts";
-import { codexUsageFormat } from "../provider/Drivers/codexUsage.ts";
+import { claudeUsageFormat } from "../provider/Drivers/claudeUsage.vibe";
+import { codexUsageFormat } from "../provider/Drivers/codexUsage.vibe";
 
 export const TEST_FORMATS: Record<
   "claude" | "codex" | "grok" | "pi" | "muse",

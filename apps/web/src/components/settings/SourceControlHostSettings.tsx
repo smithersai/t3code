@@ -4,9 +4,9 @@ import { useState } from "react";
 
 import { useEnvironmentSettings } from "../../hooks/useSettings";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Button } from "../ui/button";
-import { ProviderSettingsForm } from "./ProviderSettingsForm";
+import { ProviderSettingsForm } from "./ProviderSettingsForm.vibex";
 
 export function SourceControlHostSettings({
   environmentId,

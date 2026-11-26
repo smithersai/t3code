@@ -22,8 +22,8 @@ import * as TestClock from "effect/testing/TestClock";
 
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
-import * as ProviderContinuationService from "./ProviderContinuationService.ts";
-import * as ThreadManagementService from "./ThreadManagementService.ts";
+import * as ProviderContinuationService from "./ProviderContinuationService.vibe";
+import * as ThreadManagementService from "./ThreadManagementService.vibe";
 
 const threadId = ThreadId.make("thread-provider-continuation");
 const providerThreadId = ProviderThreadId.make("provider-thread-continuation");

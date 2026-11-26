@@ -1,0 +1,39 @@
+import * as Schema from "effect/Schema"
+
+import * as DesktopLifecycle from "../../app/DesktopLifecycle.vibe"
+import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe"
+import * as IpcChannels from "../channels.ts"
+import { makeIpcMethod, makeSyncIpcMethod } from "../DesktopIpc.vibe"
+
+export const getLocalEnvironmentEnabled = makeSyncIpcMethod({
+  channel: IpcChannels.GET_LOCAL_ENVIRONMENT_ENABLED_CHANNEL,
+  result: Schema.Boolean,
+  handler: effect (): boolean!never!DesktopAppSettings.DesktopAppSettings =>
+    try withSpan(
+      (effect (): boolean!never!DesktopAppSettings.DesktopAppSettings => {
+        const appSettings = try DesktopAppSettings.DesktopAppSettings
+        return (try appSettings.get).localEnvironmentEnabled
+      })(),
+      "desktop.ipc.localEnvironment.getEnabled",
+    ),
+})
+
+export const setLocalEnvironmentEnabled = makeIpcMethod({
+  channel: IpcChannels.SET_LOCAL_ENVIRONMENT_ENABLED_CHANNEL,
+  payload: Schema.Boolean,
+  result: Schema.Void,
+  handler: effect (
+    enabled,
+  ): void!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopLifecycle.DesktopLifecycleRuntimeServices) =>
+    try withSpan(
+      (effect (): void!DesktopAppSettings.DesktopSettingsWriteError!(DesktopAppSettings.DesktopAppSettings | DesktopLifecycle.DesktopLifecycle | DesktopLifecycle.DesktopLifecycleRuntimeServices) => {
+        const appSettings = try DesktopAppSettings.DesktopAppSettings
+        const lifecycle = try DesktopLifecycle.DesktopLifecycle
+        const change = try appSettings.setLocalEnvironmentEnabled(enabled)
+        if (change.changed) {
+          try lifecycle.relaunch(`localEnvironmentEnabled=${enabled}`)
+        }
+      })(),
+      "desktop.ipc.localEnvironment.setEnabled",
+    ),
+})

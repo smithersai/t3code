@@ -1,5 +1,5 @@
-import { deviceToolMaintenanceScript } from "./deviceToolMaintenance.ts";
-import { AGENT_DEVICE_VERSION, DEVICE_HUB_VERSION } from "./DeviceToolchain.ts";
+import { deviceToolMaintenanceScript } from "./deviceToolMaintenance.vibe";
+import { AGENT_DEVICE_VERSION, DEVICE_HUB_VERSION } from "./DeviceToolchain.vibe";
 
 export const quoteRemoteArg = (value: string) => `'${value.replaceAll("'", "'\"'\"'")}'`;
 
@@ -18,6 +18,7 @@ if [ -n "$JAVA_HOME" ]; then export PATH="$JAVA_HOME/bin:$PATH"; fi
 `;
 
 /** Runs on the host and returns host-local paths. */
+/** @throws {never} */
 export const remoteDeviceScript = (
   owner: string,
   mode: "probe" | "start" | "agent-start" | "stop-agent" | "stop",

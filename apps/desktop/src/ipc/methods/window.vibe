@@ -1,0 +1,501 @@
+import {
+  ContextMenuItemSchema,
+  DesktopAppBrandingSchema,
+  DesktopEnvironmentBootstrapSchema,
+  DesktopThemeSchema,
+  EDITORS,
+  EditorId,
+  PickedThemeFileSchema,
+  PickFolderOptionsSchema,
+  PRIMARY_LOCAL_ENVIRONMENT_ID,
+  REMOTE_CAPABLE_EDITOR_IDS,
+  SystemSettingsPaneSchema,
+  type DesktopEnvironmentBootstrap,
+  type PickedThemeFile,
+} from "@t3tools/contracts"
+import { PROJECT_FAVICON_EXTENSIONS } from "@t3tools/shared/projectFavicon"
+import { resolveEditorCommand } from "@t3tools/shared/editor"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+import { isRelayTracingEnabled } from "@t3tools/shared/otelEnvironment"
+import * as FileSystem from "effect/FileSystem"
+import * as Path from "effect/Path"
+import * as Schema from "effect/Schema"
+
+import * as DesktopBackendConfiguration from "../../backend/DesktopBackendConfiguration.vibe"
+import * as DesktopBackendPool from "../../backend/DesktopBackendPool.vibe"
+import * as DesktopLocalEnvironmentAuth from "../../backend/DesktopLocalEnvironmentAuth.vibe"
+import * as DesktopEnvironment from "../../app/DesktopEnvironment.vibe"
+import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe"
+import * as DesktopWslBackend from "../../wsl/DesktopWslBackend.vibe"
+import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.vibe"
+import * as ElectronApp from "../../electron/ElectronApp.vibe"
+import * as ElectronDialog from "../../electron/ElectronDialog.vibe"
+import * as ElectronMenu from "../../electron/ElectronMenu.vibe"
+import * as ElectronShell from "../../electron/ElectronShell.vibe"
+import * as ElectronTheme from "../../electron/ElectronTheme.vibe"
+import * as ElectronWindow from "../../electron/ElectronWindow.vibe"
+import * as Electron from "electron"
+import * as MacPermissions from "../../permissions/MacPermissions.vibe"
+import { safariPermissionCheck } from "../../preview/BrowserImport/SafariPermission.vibe"
+import * as IpcChannels from "../channels.ts"
+import * as DesktopIpc from "../DesktopIpc.vibe"
+import {
+  extractDistroFromUncPath,
+  resolveWslPickFolderDefaultPath,
+  wslUncPathToLinuxPath,
+} from "../../wsl/wslPathParsing.ts"
+
+schema ContextMenuPosition {
+  readonly x: number
+  readonly y: number
+}
+
+const ContextMenuInput = Schema.Struct({
+  items: Schema.Array(ContextMenuItemSchema),
+  position: Schema.optionalKey(ContextMenuPosition),
+})
+
+function toWebSocketBaseUrl(httpBaseUrl: URL): string {
+  const url = new URL(httpBaseUrl.href)
+  url.protocol = url.protocol === "https:" ? "wss:" : "ws:"
+  return url.href
+}
+
+export const getAppBranding = DesktopIpc.makeSyncIpcMethod({
+  channel: IpcChannels.GET_APP_BRANDING_CHANNEL,
+  result: Schema.NullOr(DesktopAppBrandingSchema),
+  handler:
+    effect (): ({ readonly baseName: string; readonly stageLabel: "Alpha" | "Beta" | "Dev" | "Nightly"; readonly displayName: string; } | null)!never!DesktopEnvironment.DesktopEnvironment =>
+      try withSpan(
+        (effect (): ({ readonly baseName: string; readonly stageLabel: "Alpha" | "Beta" | "Dev" | "Nightly"; readonly displayName: string; } | null)!never!DesktopEnvironment.DesktopEnvironment => {
+          const environment = try DesktopEnvironment.DesktopEnvironment
+          return environment.branding
+        })(),
+        "desktop.ipc.window.getAppBranding",
+      ),
+})
+
+export const getRelayTelemetryEnabled = DesktopIpc.makeSyncIpcMethod({
+  channel: IpcChannels.GET_RELAY_TELEMETRY_ENABLED_CHANNEL,
+  result: Schema.Boolean,
+  handler: effect (): import("effect/Effect").Effect<boolean, never, never> =>
+    try withSpan(
+      (effect (): import("effect/Effect").Effect<boolean, never, never> => {
+        return isRelayTracingEnabled(try HostProcess.Environment)
+      })(),
+      "desktop.ipc.window.getRelayTelemetryEnabled",
+    ),
+})
+
+export const getSystemLocale = DesktopIpc.makeSyncIpcMethod({
+  channel: IpcChannels.GET_SYSTEM_LOCALE_CHANNEL,
+  result: Schema.String,
+  handler: effect (): string!never!ElectronApp.ElectronApp =>
+    try withSpan(
+      (effect (): string!never!ElectronApp.ElectronApp => {
+        const electronApp = try ElectronApp.ElectronApp
+        return try electronApp.systemLocale
+      })(),
+      "desktop.ipc.window.getSystemLocale",
+    ),
+})
+
+export const getWindowFullscreenState = DesktopIpc.makeSyncIpcMethod({
+  channel: IpcChannels.GET_WINDOW_FULLSCREEN_STATE_CHANNEL,
+  result: Schema.Boolean,
+  handler: effect (): boolean!never!ElectronWindow.ElectronWindow =>
+    try withSpan(
+      (effect (): boolean!never!ElectronWindow.ElectronWindow => {
+        const electronWindow = try ElectronWindow.ElectronWindow
+        const window = try electronWindow.currentMainOrFirst
+        return Option.isSome(window)
+          && (try Effect.orDie(Effect.try({ try: () => window.value.isFullScreen(), catch: (e) => e })))
+      })(),
+      "desktop.ipc.window.getWindowFullscreenState",
+    ),
+})
+
+export const getLocalEnvironmentBootstraps = DesktopIpc.makeSyncIpcMethod({
+  channel: IpcChannels.GET_LOCAL_ENVIRONMENT_BOOTSTRAPS_CHANNEL,
+  result: Schema.Array(DesktopEnvironmentBootstrapSchema),
+  handler:
+    effect (): readonly { readonly id: string; readonly label: string; readonly runningDistro?: string | null; readonly httpBaseUrl: string | null; readonly wsBaseUrl: string | null; readonly bootstrapToken?: string; }[]!import("effect/PlatformError").PlatformError!(DesktopBackendConfiguration.DesktopBackendConfiguration | DesktopBackendPool.DesktopBackendPool) =>
+      try withSpan(
+        (effect (): readonly { readonly id: string; readonly label: string; readonly runningDistro?: string | null; readonly httpBaseUrl: string | null; readonly wsBaseUrl: string | null; readonly bootstrapToken?: string; }[]!import("effect/PlatformError").PlatformError!(DesktopBackendConfiguration.DesktopBackendConfiguration | DesktopBackendPool.DesktopBackendPool) => {
+          const pool = try DesktopBackendPool.DesktopBackendPool
+          const configuration = try DesktopBackendConfiguration.DesktopBackendConfiguration
+          const instances = try pool.list
+          const bootstraps: DesktopEnvironmentBootstrap[] = []
+          for (const instance of instances) {
+            const isPrimary = instance.id === PRIMARY_LOCAL_ENVIRONMENT_ID
+            const config = try instance.currentConfig
+            const snapshot = try instance.snapshot
+            if (Option.isNone(config) || Option.isSome(config.value.preflightFailure)) {
+              const fatalPreflight = Option.isSome(config)
+                && Option.isSome(config.value.preflightFailure)
+                && config.value.preflightFailure.value.fatal
+              const stoppedPreflight = Option.isSome(config)
+                && Option.isSome(config.value.preflightFailure)
+                && (!snapshot.desiredRunning || !snapshot.restartScheduled)
+              if (isPrimary || fatalPreflight || stoppedPreflight) continue
+              bootstraps.push({
+                id: instance.id,
+                label: try instance.label,
+                runningDistro: null,
+                httpBaseUrl: null,
+                wsBaseUrl: null,
+              })
+              continue
+            }
+            const { bootstrap, httpBaseUrl } = config.value
+            const runningDistro = config.value.runningDistro ?? null
+            bootstraps.push({
+              id: instance.id,
+              label: runningDistro === null ? try instance.label : `WSL (${runningDistro})`,
+              runningDistro,
+              httpBaseUrl: httpBaseUrl.href,
+              wsBaseUrl: toWebSocketBaseUrl(httpBaseUrl),
+              // Use the current window's derived token; the launch config's token may be stale.
+              ...(bootstrap.desktopBootstrapSecret
+                ? { bootstrapToken: try configuration.currentBootstrapToken }
+                : bootstrap.desktopBootstrapToken
+                ? { bootstrapToken: bootstrap.desktopBootstrapToken }
+                : {}),
+            })
+          }
+          return bootstraps
+        })(),
+        "desktop.ipc.window.getLocalEnvironmentBootstraps",
+      ),
+})
+
+function extractWslDistroFromEnvironmentId(envId: string): string | null {
+  if (!envId.startsWith(DesktopWslBackend.WSL_INSTANCE_ID_PREFIX)) {
+    return null
+  }
+  const suffix = envId.slice(DesktopWslBackend.WSL_INSTANCE_ID_PREFIX.length)
+  return suffix === "default" || suffix.length === 0 ? null : suffix
+}
+
+export const getLocalEnvironmentBearerToken = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.GET_LOCAL_ENVIRONMENT_BEARER_TOKEN_CHANNEL,
+  payload: Schema.Void,
+  result: Schema.String,
+  handler:
+    effect (): string!(DesktopLocalEnvironmentAuth.DesktopLocalEnvironmentAuthBackendNotConfiguredError | DesktopLocalEnvironmentAuth.DesktopLocalEnvironmentAuthSessionBootstrapError)!DesktopLocalEnvironmentAuth.DesktopLocalEnvironmentAuth =>
+      try withSpan(
+        (effect (): string!(DesktopLocalEnvironmentAuth.DesktopLocalEnvironmentAuthBackendNotConfiguredError | DesktopLocalEnvironmentAuth.DesktopLocalEnvironmentAuthSessionBootstrapError)!DesktopLocalEnvironmentAuth.DesktopLocalEnvironmentAuth => {
+          const localAuth = try DesktopLocalEnvironmentAuth.DesktopLocalEnvironmentAuth
+          return try localAuth.getBearerToken
+        })(),
+        "desktop.ipc.window.getLocalEnvironmentBearerToken",
+      ),
+})
+
+export const pickFolder = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.PICK_FOLDER_CHANNEL,
+  payload: Schema.UndefinedOr(PickFolderOptionsSchema),
+  result: Schema.NullOr(Schema.String),
+  handler: Effect.fn("desktop.ipc.window.pickFolder")(function*(options) {
+    const dialog = yield* ElectronDialog.ElectronDialog
+    const electronWindow = yield* ElectronWindow.ElectronWindow
+    const environment = yield* DesktopEnvironment.DesktopEnvironment
+    const appSettings = yield* DesktopAppSettings.DesktopAppSettings
+    const wslEnvironment = yield* DesktopWslEnvironment.DesktopWslEnvironment
+    const settings = yield* appSettings.get
+    // A picked path only means something to a backend on this machine.
+    if (!settings.localEnvironmentEnabled) {
+      return null
+    }
+    const targetId = options?.targetEnvironmentId
+    const wslDistroFromTarget = targetId !== undefined && targetId.startsWith(DesktopWslBackend.WSL_INSTANCE_ID_PREFIX)
+      ? extractWslDistroFromEnvironmentId(targetId)
+      : null
+    const useWsl = targetId !== undefined
+      && targetId !== PRIMARY_LOCAL_ENVIRONMENT_ID
+      && targetId.startsWith(DesktopWslBackend.WSL_INSTANCE_ID_PREFIX)
+    // Match the orchestrator's persisted distro fallback for wsl:default.
+    const wslDistro = useWsl ? (wslDistroFromTarget ?? settings.wslDistro) : null
+    const defaultPath = useWsl
+      ? Option.fromNullishOr(
+        resolveWslPickFolderDefaultPath(
+          options,
+          { distro: wslDistro },
+          yield* wslEnvironment.listDistros,
+          Option.getOrNull(yield* wslEnvironment.getUserHome(wslDistro)),
+        ),
+      )
+      : environment.resolvePickFolderDefaultPath(options)
+    const selectedPath = yield* dialog.pickFolder({
+      owner: yield* electronWindow.focusedMainOrFirst,
+      defaultPath,
+    })
+    if (Option.isNone(selectedPath)) {
+      return null
+    }
+    if (!useWsl) {
+      return selectedPath.value
+    }
+
+    const linuxUncPath = wslUncPathToLinuxPath(selectedPath.value)
+    if (linuxUncPath !== null) {
+      return linuxUncPath
+    }
+
+    const converted = yield* wslEnvironment.windowsToWslPath(
+      extractDistroFromUncPath(selectedPath.value) ?? wslDistro,
+      selectedPath.value,
+    )
+    return Option.getOrElse(converted, () => selectedPath.value)
+  }),
+})
+
+export const pickProjectFavicon = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.PICK_PROJECT_FAVICON_CHANNEL,
+  payload: Schema.UndefinedOr(Schema.String),
+  result: Schema.NullOr(Schema.String),
+  handler: effect (
+    initialPath,
+  ): (string | null)!ElectronDialog.ElectronDialogPickFilesError!(DesktopAppSettings.DesktopAppSettings | ElectronDialog.ElectronDialog | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): (string | null)!ElectronDialog.ElectronDialogPickFilesError!(DesktopAppSettings.DesktopAppSettings | ElectronDialog.ElectronDialog | ElectronWindow.ElectronWindow) => {
+        const dialog = try ElectronDialog.ElectronDialog
+        const electronWindow = try ElectronWindow.ElectronWindow
+        const appSettings = try DesktopAppSettings.DesktopAppSettings
+        if (!(try appSettings.get).localEnvironmentEnabled) {
+          return null
+        }
+        const paths = try dialog.pickFiles({
+          owner: try electronWindow.focusedMainOrFirst,
+          defaultPath: Option.fromNullishOr(initialPath),
+          multiple: false,
+          filters: [
+            {
+              name: "Images",
+              extensions: PROJECT_FAVICON_EXTENSIONS.map((extension) => extension.slice(1)),
+            },
+          ],
+        })
+        return paths[0] ?? null
+      })(),
+      "desktop.ipc.window.pickProjectFavicon",
+    ),
+})
+
+export const setTheme = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.SET_THEME_CHANNEL,
+  payload: DesktopThemeSchema,
+  result: Schema.Void,
+  handler: effect (theme): void!ElectronTheme.ElectronThemeSetSourceError!ElectronTheme.ElectronTheme =>
+    try withSpan(
+      (effect (): void!ElectronTheme.ElectronThemeSetSourceError!ElectronTheme.ElectronTheme => {
+        const electronTheme = try ElectronTheme.ElectronTheme
+        try electronTheme.setSource(theme)
+      })(),
+      "desktop.ipc.window.setTheme",
+    ),
+})
+
+export const showContextMenu = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.CONTEXT_MENU_CHANNEL,
+  payload: ContextMenuInput,
+  result: Schema.NullOr(Schema.String),
+  handler: effect (input): (string | null)!never!(ElectronMenu.ElectronMenu | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): (string | null)!never!(ElectronMenu.ElectronMenu | ElectronWindow.ElectronWindow) => {
+        const electronMenu = try ElectronMenu.ElectronMenu
+        const electronWindow = try ElectronWindow.ElectronWindow
+        const window = try electronWindow.focusedMainOrFirst
+        if (Option.isNone(window)) {
+          return null
+        }
+
+        const selectedItemId = try electronMenu.showContextMenu({
+          window: window.value,
+          items: input.items,
+          position: Option.fromNullishOr(input.position),
+        })
+        return Option.getOrNull(selectedItemId)
+      })(),
+      "desktop.ipc.window.showContextMenu",
+    ),
+})
+
+export const openExternal = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.OPEN_EXTERNAL_CHANNEL,
+  payload: Schema.String,
+  result: Schema.Boolean,
+  handler: effect (url): boolean!never!ElectronShell.ElectronShell =>
+    try withSpan(
+      (effect (): boolean!never!ElectronShell.ElectronShell => {
+        const shell = try ElectronShell.ElectronShell
+        return try shell.openExternal(url)
+      })(),
+      "desktop.ipc.window.openExternal",
+    ),
+})
+
+export const openSystemSettings = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.OPEN_SYSTEM_SETTINGS_CHANNEL,
+  payload: SystemSettingsPaneSchema,
+  result: Schema.Boolean,
+  handler: effect (
+    pane,
+  ): boolean!never!(DesktopEnvironment.DesktopEnvironment | ElectronShell.ElectronShell | FileSystem.FileSystem | MacPermissions.MacPermissions | Path.Path) =>
+    try withSpan(
+      (effect (): boolean!never!(DesktopEnvironment.DesktopEnvironment | ElectronShell.ElectronShell | FileSystem.FileSystem | MacPermissions.MacPermissions | Path.Path) => {
+        const shell = try ElectronShell.ElectronShell
+        const environment = try DesktopEnvironment.DesktopEnvironment
+        if (environment.platform !== "darwin") return false
+        const owner = try Effect.orDie(Effect.try({
+          try: () => Electron.BrowserWindow.getFocusedWindow(),
+          catch: (e) => e,
+        }))
+        const opened = try shell.openSystemSettings(pane)
+        if (opened && environment.isPackaged) {
+          const permissions = try MacPermissions.MacPermissions
+          const isGranted = try safariPermissionCheck
+          try permissions.showHelper(pane, owner, isGranted)
+        }
+        return opened
+      })(),
+      "desktop.ipc.window.openSystemSettings",
+    ),
+})
+
+export const probeRemoteEditors = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.PROBE_REMOTE_EDITORS_CHANNEL,
+  payload: Schema.Undefined,
+  result: Schema.Array(EditorId),
+  handler:
+    effect (): readonly ("antigravity" | "aqua" | "clion" | "cursor" | "datagrip" | "dataspell" | "file-manager" | "goland" | "idea" | "kiro" | "phpstorm" | "pycharm" | "rider" | "rubymine" | "rustrover" | "trae" | "vscode" | "vscode-insiders" | "vscodium" | "webstorm" | "zed")[]!never!(FileSystem.FileSystem | Path.Path) =>
+      try withSpan(
+        (effect (): readonly ("antigravity" | "aqua" | "clion" | "cursor" | "datagrip" | "dataspell" | "file-manager" | "goland" | "idea" | "kiro" | "phpstorm" | "pycharm" | "rider" | "rubymine" | "rustrover" | "trae" | "vscode" | "vscode-insiders" | "vscodium" | "webstorm" | "zed")[]!never!(FileSystem.FileSystem | Path.Path) => {
+          const available: Array<EditorId> = []
+          const env = try HostProcess.Environment
+          for (const editorId of REMOTE_CAPABLE_EDITOR_IDS) {
+            const editor = EDITORS.find((editor) => editor.id === editorId)
+            if (editor && Option.isSome(try resolveEditorCommand(editor, env))) {
+              available.push(editorId)
+            }
+          }
+          return available
+        })(),
+        "desktop.ipc.window.probeRemoteEditors",
+      ),
+})
+
+export const pasteAsText = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.PASTE_AS_TEXT_CHANNEL,
+  payload: Schema.Undefined,
+  result: Schema.Void,
+  handler: effect (_input, event): void!never!ElectronWindow.ElectronWindow =>
+    try withSpan(
+      (effect (): void!never!ElectronWindow.ElectronWindow => {
+        const electronWindow = try ElectronWindow.ElectronWindow
+        const window = try electronWindow.main
+        if (
+          event === undefined
+          || Option.isNone(window)
+          || (try Effect.orDie(Effect.try({ try: () => window.value.isDestroyed(), catch: (e) => e })))
+          || window.value.webContents.id !== event.sender.id
+        ) {
+          return
+        }
+        const focused = try Effect.orDie(
+          Effect.try({ try: () => Electron.webContents.getFocusedWebContents(), catch: (e) => e }),
+        )
+        if (
+          focused
+          && !(try Effect.orDie(Effect.try({ try: () => focused.isDestroyed(), catch: (e) => e })))
+          && (try Effect.orDie(
+            Effect.try({ try: () => Electron.BrowserWindow.fromWebContents(focused), catch: (e) => e }),
+          )) === window.value
+        ) {
+          try Effect.orDie(Effect.try({ try: () => focused.paste(), catch: (e) => e }))
+        }
+      })(),
+      "desktop.ipc.window.pasteAsText",
+    ),
+})
+
+export const revealWindow = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.REVEAL_WINDOW_CHANNEL,
+  payload: Schema.Undefined,
+  result: Schema.Void,
+  handler: effect (_input, event): void!never!ElectronWindow.ElectronWindow =>
+    try withSpan(
+      (effect (): void!never!ElectronWindow.ElectronWindow => {
+        const electronWindow = try ElectronWindow.ElectronWindow
+        const window = try electronWindow.main
+        if (
+          event === undefined
+          || Option.isNone(window)
+          || window.value.webContents.id !== event.sender.id
+        ) {
+          return
+        }
+        try electronWindow.reveal(window.value)
+      })(),
+      "desktop.ipc.window.revealWindow",
+    ),
+})
+
+const PICKED_THEME_FILE_MAX_BYTES = 256 * 1024
+
+export const pickThemeFiles = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.PICK_THEME_FILES_CHANNEL,
+  payload: Schema.Undefined,
+  result: Schema.NullOr(Schema.Array(PickedThemeFileSchema)),
+  handler:
+    effect (): (readonly { readonly name: string; readonly size: number; readonly text: string; }[] | null)!ElectronDialog.ElectronDialogPickFilesError!(ElectronDialog.ElectronDialog | ElectronWindow.ElectronWindow | FileSystem.FileSystem | Path.Path) =>
+      try withSpan(
+        (effect (): (readonly { readonly name: string; readonly size: number; readonly text: string; }[] | null)!ElectronDialog.ElectronDialogPickFilesError!(ElectronDialog.ElectronDialog | ElectronWindow.ElectronWindow | FileSystem.FileSystem | Path.Path) => {
+          const dialog = try ElectronDialog.ElectronDialog
+          const electronWindow = try ElectronWindow.ElectronWindow
+          const fileSystem = try FileSystem.FileSystem
+          const path = try Path.Path
+          const extensionsDir = path.join(try HostProcess.HomeDirectory, ".vscode", "extensions")
+          const defaultPath = fileSystem
+            .exists(extensionsDir) catch () => false
+          const paths = try dialog.pickFiles({
+            owner: try electronWindow.focusedMainOrFirst,
+            defaultPath: defaultPath ? Option.some(extensionsDir) : Option.none(),
+            filters: [{ name: "JSON", extensions: ["json"] }],
+            multiple: true,
+          })
+          if (paths.length === 0) {
+            return null
+          }
+          return try Effect.forEach(paths, (filePath) => {
+            const name = path.basename(filePath)
+            return effect {
+              const info = try fileSystem.stat(filePath)
+              const size = Number(info.size)
+              if (size > PICKED_THEME_FILE_MAX_BYTES) {
+                return { name, size, text: "" } satisfies PickedThemeFile
+              }
+              const text = try fileSystem.readFileString(filePath)
+              return { name, size, text } satisfies PickedThemeFile
+            } |> Effect.orElseSucceed(%, (): PickedThemeFile => ({ name, size: 0, text: "" }))
+          })
+        })(),
+        "desktop.ipc.window.pickThemeFiles",
+      ),
+})
+
+export const checkSystemPermission = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.CHECK_SYSTEM_PERMISSION_CHANNEL,
+  payload: SystemSettingsPaneSchema,
+  result: Schema.Boolean,
+  handler: effect (): boolean!never!(DesktopEnvironment.DesktopEnvironment | FileSystem.FileSystem | Path.Path) =>
+    try withSpan(
+      (effect (): boolean!never!(DesktopEnvironment.DesktopEnvironment | FileSystem.FileSystem | Path.Path) => {
+        const environment = try DesktopEnvironment.DesktopEnvironment
+        if (environment.platform !== "darwin") return false
+        const check = try safariPermissionCheck
+        return try Effect.promise(check)
+      })(),
+      "desktop.ipc.window.checkSystemPermission",
+    ),
+})

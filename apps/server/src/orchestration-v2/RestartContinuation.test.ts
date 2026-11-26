@@ -18,15 +18,15 @@ import {
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServerSettings from "../serverSettings.ts";
-import { restartContinuationRun, continueRestartedRun } from "./RestartContinuation.ts";
-import * as ThreadManagementService from "./ThreadManagementService.ts";
-import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as EventSink from "./EventSink.ts";
+import * as ServerSettings from "../serverSettings.vibe";
+import { restartContinuationRun, continueRestartedRun } from "./RestartContinuation.vibe";
+import * as ThreadManagementService from "./ThreadManagementService.vibe";
+import * as ProviderRuntimeRecovery from "./ProviderRuntimeRecoveryService.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as EventSink from "./EventSink.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as EffectWorker from "./EffectWorker.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
+import * as EffectWorker from "./EffectWorker.vibe";
+import * as EffectOutbox from "./EffectOutbox.vibe";
 
 const threadId = ThreadId.make("thread:restart");
 const runId = RunId.make("run:restart");

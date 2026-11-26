@@ -4,7 +4,7 @@ import { useEffect, useEffectEvent, useRef, useState, type ReactNode } from "rea
 import { createPullRequestDiffFileContentsLoader } from "~/lib/diffFileContents";
 import { isEditableFocused } from "~/lib/editableFocus";
 import { pullRequestEnvironment } from "~/state/pullRequests";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../../state/use-atom-command.vibe";
 
 import { isCommandPaletteOpen } from "~/commandPaletteBus";
 

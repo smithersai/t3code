@@ -8,7 +8,7 @@ import {
   ThreadId,
 } from "@t3tools/contracts";
 
-import type { QueuedThreadMessage } from "../../state/thread-outbox-model";
+import type { QueuedThreadMessage } from "../../state/thread-outbox-model.vibe";
 
 export const SHOWCASE_PENDING_TASK_DEFINITIONS = [
   {

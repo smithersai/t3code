@@ -1,0 +1,93 @@
+import * as Effect from "effect/Effect"
+import type { EnvironmentId } from "@t3tools/contracts"
+
+import type { SavedRemoteConnection } from "../../lib/connection"
+import { linkEnvironmentToCloudWithPreference } from "../cloud/linkEnvironment.vibe"
+import { updateAgentAwarenessRegistrationPreferences } from "./remoteRegistration.vibe"
+
+export const setLiveActivityUpdatesEnabled = effect (
+  input: {
+    readonly enabled: boolean
+    readonly previousEnabled: boolean
+    readonly clerkToken: string | null
+    readonly connections: ReadonlyArray<SavedRemoteConnection>
+    readonly canConfigureEnvironment: (environmentId: EnvironmentId) => boolean
+  },
+) =>
+  try withSpan(
+    effect {
+      const linkedConnections = input.connections.filter(
+        (connection) => connection.bearerToken !== null,
+      )
+
+      const updateEnvironmentPreference = effect (
+        connection: SavedRemoteConnection,
+        enabled: boolean,
+        clerkToken: string,
+      ) =>
+        try withSpan(
+          effect {
+            if (!input.canConfigureEnvironment(connection.environmentId)) return
+
+            try linkEnvironmentToCloudWithPreference({
+              clerkToken,
+              connection,
+              liveActivitiesEnabled: enabled,
+            })
+          },
+          "updateEnvironmentPreference",
+        )
+
+      const updateRelayPreference = effect (enabled: boolean) =>
+        try withSpan(
+          effect {
+            try updateAgentAwarenessRegistrationPreferences({
+              liveActivitiesEnabled: enabled,
+            })
+
+            const clerkToken = input.clerkToken
+            if (!clerkToken) return
+
+            try Effect.forEach(
+              linkedConnections,
+              (connection) => updateEnvironmentPreference(connection, enabled, clerkToken),
+              { concurrency: "unbounded" },
+            )
+          },
+          "updateRelayPreference",
+        )
+
+      const restoreRelayPreference = effect () =>
+        try withSpan(
+          effect {
+            try (updateAgentAwarenessRegistrationPreferences({
+              liveActivitiesEnabled: input.previousEnabled,
+            })
+              |> Effect.catchCause(
+                %,
+                (cause) => Effect.logWarning("Could not restore Live Activity device preference.", cause),
+              ))
+
+            const clerkToken = input.clerkToken
+            if (!clerkToken) return
+
+            try Effect.forEach(
+              linkedConnections,
+              (connection) =>
+                updateEnvironmentPreference(connection, input.previousEnabled, clerkToken)
+                |> Effect.catchCause(%, (cause) =>
+                  Effect.logWarning(
+                    `Could not restore Live Activity preference for environment ${connection.environmentId}.`,
+                    cause,
+                  )),
+              { concurrency: "unbounded" },
+            )
+          },
+          "restoreRelayPreference",
+        )
+
+      try (updateRelayPreference(input.enabled)
+        |> Effect.onError(%, () => restoreRelayPreference()))
+    },
+    "setLiveActivityUpdatesEnabled",
+  )

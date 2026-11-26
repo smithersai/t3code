@@ -20,9 +20,9 @@ import * as HttpServerResponse from "effect/http/HttpServerResponse";
 import * as HttpApi from "effect/http-api/HttpApi";
 import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder";
 
-import { RELAY_HTTP_ROUTER_CONFIG } from "../http/Api.ts";
-import * as RelayHttpApi from "../http/Api.ts";
-import * as MobileTelemetry from "./MobileTelemetry.ts";
+import { RELAY_HTTP_ROUTER_CONFIG } from "../http/Api.vibe";
+import * as RelayHttpApi from "../http/Api.vibe";
+import * as MobileTelemetry from "./MobileTelemetry.vibe";
 
 const PROJECT_ID = "d763fcb8-d37c-41ea-a773-b54a0ab4a454";
 const UPDATE_ID = "0198e8a4-1111-7000-8000-000000000001";

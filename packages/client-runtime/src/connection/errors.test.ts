@@ -7,7 +7,7 @@ import { describe, expect, it } from "@effect/vitest";
 
 import { mapManagedRelayError, mapRemoteDpopEnvironmentError } from "./errors.ts";
 import { DPOP_UNKNOWN_HINT } from "../relay/errorPresentation.ts";
-import { ManagedRelayRequestFailedError } from "../relay/managedRelay.ts";
+import { ManagedRelayRequestFailedError } from "../relay/managedRelay.vibe";
 import { NETWORK_BLOCKING_HINT } from "../errors/network.ts";
 import { RemoteEnvironmentAuthFetchError, RemoteEnvironmentAuthTimeoutError } from "../rpc/http.ts";
 

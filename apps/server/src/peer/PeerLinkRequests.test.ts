@@ -1,5 +1,4 @@
 import { NodeHttpServer } from "@effect/platform-node";
-import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import {
   CommandId,
@@ -32,31 +31,31 @@ import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 import { McpSchema, McpServer, Tool, Toolkit } from "effect/ai";
 
-import * as ServerConfig from "../config.ts";
-import * as McpHttpServer from "../mcp/McpHttpServer.ts";
-import * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
-import * as McpToolAccess from "../mcp/McpToolAccess.ts";
-import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.ts";
-import * as EventSink from "../orchestration-v2/EventSink.ts";
-import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
+import * as ServerConfig from "../config.vibe";
+import * as McpHttpServer from "../mcp/McpHttpServer.vibe";
+import * as McpInvocationContext from "../mcp/McpInvocationContext.vibe";
+import * as McpToolAccess from "../mcp/McpToolAccess.vibe";
+import { CodexProviderCapabilitiesV2 } from "../orchestration-v2/Adapters/CodexAdapterV2.vibe";
+import * as EventSink from "../orchestration-v2/EventSink.vibe";
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "../orchestration-v2/ProviderAdapterRegistry.vibe";
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
-import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.ts";
+import * as ThreadManagement from "../orchestration-v2/ThreadManagementService.vibe";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as ProjectService from "../project/ProjectService.ts";
-import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
-import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
-import * as SecretRequests from "../secrets/SecretRequests.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.ts";
-import * as ThreadLaunch from "../orchestration-v2/ThreadLaunchService.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as PeerForwarding from "./PeerForwarding.ts";
-import * as PeerLinkRequests from "./PeerLinkRequests.ts";
-import * as PeerLinks from "./PeerLinks.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as ProjectService from "../project/ProjectService.vibe";
+import * as ProviderRegistry from "../provider/ProviderRegistry.vibe";
+import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
+import * as SecretRequests from "../secrets/SecretRequests.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
+import * as ThreadLaunch from "../orchestration-v2/ThreadLaunchService.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
+import * as PeerForwarding from "./PeerForwarding.vibe";
+import * as PeerLinkRequests from "./PeerLinkRequests.vibe";
+import * as PeerLinks from "./PeerLinks.vibe";
 import {
   descriptorOf,
   layerLinkingEnvironment,
@@ -64,7 +63,8 @@ import {
   servePeer,
   type ServedPeer,
 } from "./PeerLinks.testkit.ts";
-import * as RemoteDelegation from "./RemoteDelegation.ts";
+import * as RemoteDelegation from "./RemoteDelegation.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 // The laptop's agent asks the user to link the box. The laptop is its real
 // orchestrator and toolkit; the box is its real descriptor and MCP OAuth on a
@@ -152,12 +152,13 @@ const makeLaptop = Effect.gen(function* () {
     Layer.provideMerge(Layer.merge(layerOrchestrator, ServerSettings.layerTest())),
   );
   const layerHere = McpHttpServer.layerOrchestratorToolkit.pipe(
+    Layer.provide(McpHttpServer.layerCallerInvocation),
     Layer.provideMerge(McpServer.McpServer.layer),
     Layer.provideMerge(PeerLinkRequests.layer),
     Layer.provide(Layer.mock(PeerForwarding.PeerForwarding)({})),
     Layer.provide(Layer.mock(RemoteDelegation.RemoteDelegation)({})),
     Layer.provide(Layer.succeedContext(linking)),
-    Layer.provide(NodeCrypto.layer),
+    Layer.provide(Crypto.layerWebCrypto),
     Layer.provideMerge(layerThreads),
     Layer.provide(Layer.mock(ProviderRegistry.ProviderRegistry)({})),
     Layer.provide(Layer.mock(ProviderAdapterRegistry.ProviderAdapterRegistryV2)({})),
@@ -168,10 +169,10 @@ const makeLaptop = Effect.gen(function* () {
     Layer.provide(Layer.mock(GitVcsDriver.GitVcsDriver)({})),
     Layer.provide(
       ServerConfig.layerTest(process.cwd(), { prefix: "t3-peer-link-requests-" }).pipe(
-        Layer.provide(NodeServices.layer),
+        Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       ),
     ),
-    Layer.provide(NodeServices.layer),
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     Layer.fresh,
   );
   const here = yield* Layer.build(layerHere);
@@ -453,7 +454,7 @@ const withBoth = <A, E, R>(body: (a: Laptop, b: ServedPeer) => Effect.Effect<A, 
       const a = yield* makeLaptop;
       return yield* body(a, b);
     }),
-  ).pipe(Effect.provide(NodeHttpServer.layerTest));
+  ).pipe(Effect.provide(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto)));
 
 it.live("the agent asks without waiting, and the user links the box after its turn ended", () =>
   withBoth((a, b) =>
@@ -725,7 +726,9 @@ it.live("a slow machine holds up only its own card's answer", () =>
         // A machine that takes the descriptor request and answers when the test says.
         const reached = yield* Deferred.make<void>();
         const release = yield* Deferred.make<void>();
-        const slow = yield* Layer.build(Layer.fresh(NodeHttpServer.layerTest));
+        const slow = yield* Layer.build(
+          Layer.fresh(Layer.merge(NodeHttpServer.layerTest, Crypto.layerWebCrypto)),
+        );
         const server = Context.get(slow, HttpServer.HttpServer);
         yield* server.serve(
           Deferred.succeed(reached, undefined).pipe(

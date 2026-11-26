@@ -5,7 +5,7 @@ import * as Redacted from "effect/Redacted";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 
-import { sweepPreviewStage } from "./previewTunnelSweep.ts";
+import { sweepPreviewStage } from "./previewTunnelSweep.vibe";
 
 const KEY = "0123456789abcdef";
 const TUNNEL_NAME = `t3coderelay-managedendpoint-pr-42-${KEY}`;

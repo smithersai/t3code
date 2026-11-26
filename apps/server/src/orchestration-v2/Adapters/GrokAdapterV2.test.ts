@@ -31,14 +31,14 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import type * as EffectAcpSchema from "effect-acp/compat";
 
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
-import * as ProjectStore from "../ProjectStore.ts";
+import * as ProjectStore from "../ProjectStore.vibe";
 import { buildInitialGrokProviderSnapshot } from "@t3tools/provider-grok/testing";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
-import * as ProviderInstanceRegistry from "../../provider/ProviderInstanceRegistry.ts";
+import * as ProviderInstanceRegistry from "../../provider/ProviderInstanceRegistry.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import * as RuntimePolicy from "../RuntimePolicy.ts";
+import * as RuntimePolicy from "../RuntimePolicy.vibe";
 import { acpPermissionDisposition } from "@t3tools/provider-acp/server/clientPolicy";
 import { acpCompletedTurnShouldTerminalizeTool } from "@t3tools/provider-acp/server/adapter";
 import {
@@ -49,6 +49,7 @@ import {
 } from "@t3tools/provider-grok/testing";
 
 import { makeAcpReplayRuntime, type AcpReplayTranscript } from "./AcpAdapterV2.testkit.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const LAUNCH_TEST_GROK_SETTINGS = Schema.decodeSync(GrokSettings)({
   binaryPath: "grok-launch-test",
@@ -233,9 +234,11 @@ describe("Grok permission prompts", () => {
 });
 
 describe("Grok launch permission mode", () => {
-  const layerHost = TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer));
+  const layerHost = TestProviderHost.layer().pipe(
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+  );
   const layerTest = Layer.mergeAll(
-    NodeServices.layer,
+    Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
     IdAllocator.layer,
     McpProviderSessions.layer,
     layerHost,
@@ -245,7 +248,7 @@ describe("Grok launch permission mode", () => {
     Effect.gen(function* () {
       const launches: Array<ReadonlyArray<string>> = [];
       const childProcessSpawner = ChildProcessSpawner.make((command) => {
-        if (command._tag === "StandardCommand") launches.push(command.args);
+        if (command._tag === "StandardCommand") launches.push(command.args.map(String));
         return Effect.fail(
           PlatformError.systemError({
             _tag: "NotFound",
@@ -361,9 +364,11 @@ describe("Grok launch permission mode", () => {
 });
 
 describe("Grok native questions", () => {
-  const layerHost = TestProviderHost.layer().pipe(Layer.provide(NodeServices.layer));
+  const layerHost = TestProviderHost.layer().pipe(
+    Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+  );
   const layerTest = Layer.mergeAll(
-    NodeServices.layer,
+    Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
     IdAllocator.layer,
     McpProviderSessions.layer,
     layerHost,

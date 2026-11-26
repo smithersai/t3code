@@ -8,7 +8,7 @@ import {
 } from "@t3tools/client-runtime/state/provider-instance-display";
 import type { EnvironmentId, ProviderDriverKind } from "@t3tools/contracts";
 
-import type { ThreadListProvider } from "../../state/thread-list-environments";
+import type { ThreadListProvider } from "../../state/thread-list-environments.vibe";
 export interface ThreadRowProviderInstance {
   readonly driverKind: ProviderDriverKind;
   readonly displayName: string;

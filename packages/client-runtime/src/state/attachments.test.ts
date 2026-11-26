@@ -8,8 +8,8 @@ import {
 import * as Effect from "effect/Effect";
 import { AsyncResult, Atom, AtomRegistry } from "effect/reactivity";
 
-import type { AtomCommand } from "./runtime.ts";
-import { runAttachmentUploadCycle, verifyPersistedAttachmentUpload } from "./attachments.ts";
+import type { AtomCommand } from "./runtime.vibe";
+import { runAttachmentUploadCycle, verifyPersistedAttachmentUpload } from "./attachments.vibe";
 
 const environmentId = EnvironmentId.make("environment-1");
 const registry = {} as AtomRegistry.AtomRegistry;

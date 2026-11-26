@@ -1,6 +1,6 @@
 import type { RelayDeviceRegistrationRequest } from "@t3tools/contracts/relay";
 
-import type { Preferences } from "../../persistence/mobile-preferences";
+import type { Preferences } from "../../persistence/mobile-preferences.vibe";
 import { supportsAgentAwarenessPush } from "./capabilities";
 
 // Development builds use sandbox APNs; distribution builds use production APNs.

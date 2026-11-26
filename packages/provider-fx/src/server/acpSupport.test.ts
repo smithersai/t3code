@@ -3,7 +3,7 @@ import type * as EffectAcpSchema from "effect-acp/compat";
 
 import { ProviderAdapterV2RuntimePolicy } from "@t3tools/provider-core/server/ProviderAdapter";
 
-import { fxPermissionDisposition } from "./acpSupport.ts";
+import { fxPermissionDisposition } from "./acpSupport.vibe";
 
 const editRequest = {
   sessionId: "fx-session-01",

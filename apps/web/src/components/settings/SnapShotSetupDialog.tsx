@@ -7,7 +7,7 @@ import {
 } from "@t3tools/contracts";
 import { useState, type ReactNode } from "react";
 import { MacAccessibilityIcon, MacScreenRecordingIcon } from "../Icons";
-import { CaptureShortcutConfig } from "./CaptureShortcutConfig";
+import { CaptureShortcutConfig } from "./CaptureShortcutConfig.vibex";
 import { Button } from "../ui/button";
 import { Dialog, DialogDescription } from "../ui/dialog";
 import { WizardSteps, WizardPopup, WizardHeader, WizardPanel, WizardFooter } from "../ui/wizard";

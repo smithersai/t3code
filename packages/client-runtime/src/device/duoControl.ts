@@ -1,5 +1,5 @@
 // @effect-diagnostics globalTimers:off - The stream owns this browser control queue and its timeout.
-import type { DeviceScreenSize } from "./stream.ts";
+import type { DeviceScreenSize } from "./stream.vibe";
 
 export type DuoPose = "closed" | "book" | "open" | "laptop" | "tent";
 export type DuoOrientation =

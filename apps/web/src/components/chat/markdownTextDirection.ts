@@ -55,6 +55,7 @@ function isolateInlineCode(node: HastNode): void {
  * quote follow it, keeping markers and rules on one side. Inline code is left
  * out of the count and isolated left to right, so its punctuation stays put.
  */
+/** @throws {never} */
 export function rehypeTextDirection() {
   return (tree: HastNode) => {
     for (const block of tree.children ?? []) {

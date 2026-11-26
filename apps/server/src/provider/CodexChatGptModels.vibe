@@ -1,0 +1,79 @@
+import type { ServerProviderModel } from "@t3tools/contracts"
+import * as Effect from "effect/Effect"
+import * as Schema from "effect/Schema"
+import { HttpClient } from "effect/http"
+
+export schema error ChatGptCatalogError {
+  status: Schema.Int
+}
+
+schema Catalog {
+  models: ReadonlyArray<{
+    slug: Schema.NonEmptyString
+    display_name: Schema.NonEmptyString
+    visibility: string
+  }>
+}
+
+export const chatGptModels = effect (
+  accessToken: string,
+  nativeModels: readonly {
+    readonly slug: string
+    readonly name: string
+    readonly shortName?: string | undefined
+    readonly subProvider?: string | undefined
+    readonly aliases?: readonly string[] | undefined
+    readonly badge?: "new" | undefined
+    readonly isCustom: boolean
+    readonly isDefault?: boolean | undefined
+    readonly isLegacy?: boolean | undefined
+    readonly capabilities: {
+      readonly optionDescriptors?:
+        | readonly ({
+          readonly id: string
+          readonly label: string
+          readonly description?: string | undefined
+          readonly type: "select"
+          readonly options: readonly {
+            readonly id: string
+            readonly label: string
+            readonly description?: string | undefined
+            readonly isDefault?: boolean | undefined
+          }[]
+          readonly currentValue?: string | undefined
+          readonly promptInjectedValues?: readonly string[] | undefined
+        } | {
+          readonly id: string
+          readonly label: string
+          readonly description?: string | undefined
+          readonly type: "boolean"
+          readonly currentValue?: boolean | undefined
+        })[]
+        | undefined
+    } | null
+  }[],
+) =>
+  try withSpan(
+    effect {
+      const http = try HttpClient.HttpClient
+      const response = try http.execute(
+        HttpClientRequest.get("https://api.openai.com/v1/models")
+          |> HttpClientRequest.bearerToken(%, accessToken),
+      )
+      if (response.status !== 200) throw new ChatGptCatalogError({ status: response.status })
+      const catalog = try (response.json |> Effect.flatMap(%, Schema.decodeUnknownEffect(Catalog)))
+      return catalog.models
+        .filter((model) => model.visibility === "list")
+        .map(
+          (model) =>
+            ({
+              ...nativeModels.find((native) => native.slug === model.slug),
+              capabilities: nativeModels.find((native) => native.slug === model.slug)?.capabilities ?? null,
+              slug: model.slug,
+              name: model.display_name,
+              isCustom: false,
+            }) satisfies ServerProviderModel,
+        )
+    } |> Effect.timeout(%, "15 seconds"),
+    "chatGptModels",
+  )

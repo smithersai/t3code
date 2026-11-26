@@ -30,9 +30,10 @@ credential, or authorization behavior.
 
 ## Code Map
 
-- [`alchemy.run.ts`](./alchemy.run.ts) defines the deployed Alchemy stack.
+- [`alchemy.run.main.vibe`](./alchemy.run.main.vibe) defines the deployed Alchemy stack;
+  [`alchemy.run.ts`](./alchemy.run.ts) starts it for the Alchemy CLI.
 - [`src/worker.ts`](./src/worker.ts) wires Cloudflare bindings, runtime layers, queues, and HTTP APIs.
-- [`src/http/Api.ts`](./src/http/Api.ts) contains the relay HTTP handlers and authentication
+- [`src/http/Api.vibe`](./src/http/Api.vibe) contains the relay HTTP handlers and authentication
   boundaries.
 - [`src/environments`](./src/environments) contains environment linking, credentials, endpoint
   provisioning, and connection flows.
@@ -110,7 +111,7 @@ DNS-safe sanitization as Alchemy physical resource names, so `prod` uses
 `<stage>-<digest>.<RELAY_TUNNEL_ZONE_NAME>`. `RELAY_DOMAIN` remains available as an explicit API
 domain override.
 
-The stack's `PublishClientConfig` action ([`src/clientConfig.ts`](./src/clientConfig.ts)) writes the
+The stack's `PublishClientConfig` action ([`src/clientConfig.vibe`](./src/clientConfig.vibe)) writes the
 deployed relay URL and tracing configuration into the repository-root `.env`, so subsequent source
 builds point at the relay that was just deployed without copying values manually. It runs only when
 one of those outputs changed, and `T3CODE_RELAY_CLIENT_CONFIG_ENV` redirects it to another file.

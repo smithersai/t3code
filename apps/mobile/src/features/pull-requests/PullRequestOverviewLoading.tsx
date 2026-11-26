@@ -4,7 +4,7 @@ import type { PullRequestListEntry } from "@t3tools/contracts";
 import { View } from "react-native";
 import { PullRequestCardGroup, PullRequestCardRow } from "./PullRequestControls";
 import { PullRequestStackCard } from "./PullRequestStackCard";
-import type { PullRequestParams } from "./usePullRequestDiff";
+import type { PullRequestParams } from "./usePullRequestDiff.vibe";
 import type { PullRequestStackState } from "./usePullRequestStack";
 import { pullRequestListReviewStatus } from "./pullRequestList";
 import { PullRequestGlyph } from "./pullRequestGlyphs";

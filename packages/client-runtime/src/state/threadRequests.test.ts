@@ -24,7 +24,7 @@ import {
   type ApprovalResponder,
   type ThreadRequestsResolved,
   type ThreadPendingApproval,
-} from "./threadRequests.ts";
+} from "./threadRequests.vibe";
 
 const requestId = RuntimeRequestId.make("async-question");
 const nodeId = NodeId.make("async-question-node");

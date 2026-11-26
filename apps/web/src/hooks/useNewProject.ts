@@ -13,7 +13,7 @@ import { stackedThreadToast, toastManager } from "~/components/ui/toast";
 import { waitForProject } from "~/state/entities";
 import { projectEnvironment } from "~/state/projects";
 import { sourceControlEnvironment } from "~/state/sourceControl";
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { useNewThreadHandler } from "./useHandleNewThread";
 
 function errorMessage(error: unknown): string {

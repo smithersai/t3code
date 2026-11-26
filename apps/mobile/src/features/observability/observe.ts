@@ -47,7 +47,7 @@ if (!crashReportingAvailable) {
   // loads would drop the last session's native crash. Imported lazily so the persistence graph
   // never runs ahead of the imports `index.ts` orders first.
   const changedSinceLoad = () => latestConfiguration !== 0;
-  void import("../../persistence/imperative")
+  void import("../../persistence/imperative.vibe")
     .then(({ loadPreferences }) => loadPreferences())
     .then(
       (preferences) =>

@@ -3,8 +3,8 @@ import type { EnvironmentId } from "@t3tools/contracts";
 
 import { environmentCatalog } from "../connection/catalog";
 import { isAppActive, subscribeAppState } from "../lib/appState";
-import { appAtomRegistry } from "../state/atom-registry";
-import { environmentPresentations } from "../state/presentation";
+import { appAtomRegistry } from "../state/atom-registry.vibe";
+import { environmentPresentations } from "../state/presentation.vibe";
 import { serverEnvironment } from "../state/server";
 import { createWidgetRefresher, WIDGET_REFRESH_INTERVAL } from "./subscriptionUsageSnapshot";
 

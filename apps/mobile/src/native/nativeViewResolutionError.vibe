@@ -1,0 +1,10 @@
+import * as Schema from "effect/Schema"
+
+const NativeViewResolutionErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error NativeViewResolutionError {
+  readonly nativeModuleName: string
+  cause: NativeViewResolutionErrorCauseField
+  override get message(): string {
+    return `Failed to resolve native view ${this.nativeModuleName}.`
+  }
+}

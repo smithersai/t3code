@@ -22,7 +22,7 @@ import {
   toCanWrite,
   toReviewThreadPage,
   toViewerPermissions,
-} from "./gitHubPullRequestJson.ts";
+} from "./gitHubPullRequestJson.vibe";
 import { PullRequestWatchFingerprint } from "./pullRequestBatches.graphql.ts";
 import {
   LabelCandidates,

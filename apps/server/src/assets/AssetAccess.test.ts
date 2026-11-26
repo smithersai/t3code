@@ -24,21 +24,27 @@ import * as TestClock from "effect/testing/TestClock";
 import { HttpClientRequest, HttpClientResponse, HttpServerResponse } from "effect/http";
 import { vi } from "vite-plus/test";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as ServerConfig from "../config.ts";
-import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
-import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.ts";
-import * as T3ProjectFileLoader from "../project/T3ProjectFileLoader.ts";
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
-import { assetFileResponse } from "../http.ts";
-import { ASSET_ROUTE_PREFIX, issueAssetUrl, readMcpAppHtml, resolveAsset } from "./AssetAccess.ts";
-import * as NativeAppIconResolver from "./NativeAppIconResolver.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
+import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.vibe";
+import * as T3ProjectFileLoader from "../project/T3ProjectFileLoader.vibe";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
+import { assetFileResponse } from "../http.vibe";
+import {
+  ASSET_ROUTE_PREFIX,
+  issueAssetUrl,
+  readMcpAppHtml,
+  resolveAsset,
+} from "./AssetAccess.vibe";
+import * as NativeAppIconResolver from "./NativeAppIconResolver.vibe";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
 import { fakeSourceControlDriverInstance } from "@t3tools/source-control-testing/fakeSourceControlDriver";
-import * as BuiltInDrivers from "../sourceControl/builtInDrivers.ts";
+import * as BuiltInDrivers from "../sourceControl/builtInDrivers.vibe";
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts";
-import { sourceControlMediaResponse } from "./sourceControlMediaResponse.ts";
+import { sourceControlMediaResponse } from "./sourceControlMediaResponse.vibe";
 import * as HostProcess from "@t3tools/shared/HostProcess";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 vi.mock("node:fs/promises", async (importOriginal) => {
   const actual = await importOriginal<typeof NodeFSP>();
@@ -119,7 +125,7 @@ const layerTest = Layer.mergeAll(
   ),
   NativeAppIconResolver.layer.pipe(Layer.provide(layerConfig)),
   ServerSecretStore.layer.pipe(Layer.provide(layerConfig)),
-).pipe(Layer.provideMerge(NodeServices.layer));
+).pipe(Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
 
 describe("AssetAccess", () => {
   describe("readMcpAppHtml", () => {
@@ -135,7 +141,7 @@ describe("AssetAccess", () => {
         const bytes = yield* readMcpAppHtml(file);
         expect(bytes?.byteLength).toBe(limit);
         expect(bytes?.every((byte) => byte === 120)).toBe(true);
-      }).pipe(Effect.provide(NodeServices.layer)),
+      }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
     );
 
     it.effect("rejects snapshots one byte past the limit and much larger files", () =>
@@ -149,7 +155,7 @@ describe("AssetAccess", () => {
           yield* fileSystem.writeFile(file, new Uint8Array(size).fill(120));
           expect(yield* readMcpAppHtml(file)).toBeNull();
         }
-      }).pipe(Effect.provide(NodeServices.layer)),
+      }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
     );
 
     it.effect("preserves UTF-8 bytes across stream chunks and accepts empty snapshots", () =>
@@ -165,7 +171,7 @@ describe("AssetAccess", () => {
           expect(bytes?.byteLength).toBe(expected.byteLength);
           expect(bytes && new TextDecoder().decode(bytes)).toBe(html);
         }
-      }).pipe(Effect.provide(NodeServices.layer)),
+      }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
     );
 
     // regression: #17026 apply host color scheme to saved MCP apps
@@ -177,7 +183,7 @@ describe("AssetAccess", () => {
         const error = yield* readMcpAppHtml(path.join(directory, "missing.html")).pipe(Effect.flip);
         expect(error._tag).toBe("PlatformError");
         expect(error.reason._tag).toBe("NotFound");
-      }).pipe(Effect.provide(NodeServices.layer)),
+      }).pipe(Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
     );
   });
 

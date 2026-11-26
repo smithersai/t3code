@@ -18,7 +18,10 @@ const STAGE_PREFIXES: ReadonlyArray<readonly [RegExp, ProjectCloneStage]> = [
 
 const PERCENT = /:\s+(\d+)%\s+\((\d+)\/(\d+)\)(?:,\s*(.*?))?\s*(?:,\s*done\.)?\s*$/;
 
-/** Pass each bare-CR progress redraw as a separate line. */
+/**
+ * Pass each bare-CR progress redraw as a separate line.
+ * @throws {never}
+ */
 export function parseGitCloneProgressLine(line: string): GitCloneProgressLine | null {
   const trimmed = line.trim();
   const stageEntry = STAGE_PREFIXES.find(([pattern]) => pattern.test(trimmed));

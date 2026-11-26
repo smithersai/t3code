@@ -16,7 +16,7 @@ import {
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 
-import * as ThreadForkService from "./ThreadForkService.ts";
+import * as ThreadForkService from "./ThreadForkService.vibe";
 
 const sourceThreadId = ThreadId.make("thread:fork-snoozed-source");
 const targetThreadId = ThreadId.make("thread:fork-awake-target");

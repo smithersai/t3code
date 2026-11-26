@@ -5,10 +5,10 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as RelayConfiguration from "../Config.ts";
-import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.ts";
-import * as ManagedEndpointProvider from "./ManagedEndpointProvider.ts";
-import * as ManagedEndpointReaper from "./ManagedEndpointReaper.ts";
+import * as RelayConfiguration from "../Config.vibe";
+import * as ManagedEndpointAllocations from "./ManagedEndpointAllocations.vibe";
+import * as ManagedEndpointProvider from "./ManagedEndpointProvider.vibe";
+import * as ManagedEndpointReaper from "./ManagedEndpointReaper.vibe";
 
 const NOW = "2026-08-25T12:00:00.000Z";
 const NOW_MILLIS = DateTime.makeUnsafe(NOW).epochMilliseconds;

@@ -23,7 +23,7 @@ import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { TestClock } from "effect/testing";
 
-import * as Orchestrator from "../Orchestrator.ts";
+import * as Orchestrator from "../Orchestrator.vibe";
 import type { RecordedCommandOutput } from "./CommandOutputRecorder.ts";
 import type { ProviderReplayGate } from "@t3tools/provider-testing/replayGate";
 

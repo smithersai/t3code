@@ -72,7 +72,7 @@ vi.mock("react", () => ({
 vi.mock("expo-crypto", () => ({ randomUUID: () => "uuid" }));
 vi.mock("../lib/attachmentUpload", () => ({ prepareTurnAttachments: vi.fn() }));
 vi.mock("../lib/uuid", () => ({ uuidv4: () => "uuid" }));
-vi.mock("./queued-run-edit", () => ({
+vi.mock("./queued-run-edit.vibe", () => ({
   useQueuedRunEdit: () => null,
   getQueuedRunEdit: () => null,
 }));
@@ -107,7 +107,7 @@ vi.mock("./use-thread-detail", () => ({
   useSelectedThreadPendingRequests: () => state.pendingRequests,
 }));
 vi.mock("./use-atom-command", () => ({ useAtomCommand: <A>(command: A) => command }));
-vi.mock("./threads", async () => {
+vi.mock("./threads.vibe", async () => {
   const { Atom } = await import("effect/reactivity");
   return {
     environmentThreadDetails: {
@@ -135,7 +135,7 @@ vi.mock("./composer-attachment-uploads", async () => {
     composerAttachmentsStillUploading: () => false,
   };
 });
-vi.mock("./use-composer-drafts", async () => {
+vi.mock("./use-composer-drafts.vibe", async () => {
   const { Atom } = await import("effect/reactivity");
   return {
     composerDraftsAtom: Atom.make({}),
@@ -174,7 +174,7 @@ vi.mock("../lib/commandMetadata", () => ({
 vi.mock("../lib/copyTextWithHaptic", () => ({ copyTextWithHaptic: vi.fn() }));
 vi.mock("./use-remote-environment-registry", () => ({ setPendingConnectionError: vi.fn() }));
 
-import { useThreadComposerState } from "./use-thread-composer-state";
+import { useThreadComposerState } from "./use-thread-composer-state.vibe";
 import { useSelectedThreadRequests } from "./use-selected-thread-requests";
 
 beforeEach(() => {

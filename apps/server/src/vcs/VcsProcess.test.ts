@@ -15,8 +15,8 @@ import * as Schema from "effect/Schema";
 import { ChildProcessSpawner } from "effect/process";
 
 import { VcsProcessExitError, VcsProcessSpawnError } from "@t3tools/contracts";
-import * as ProcessRunner from "../processRunner.ts";
-import * as VcsProcess from "./VcsProcess.ts";
+import * as ProcessRunner from "../processRunner.vibe";
+import * as VcsProcess from "./VcsProcess.vibe";
 
 const encodeExitError = Schema.encodeEffect(Schema.fromJsonString(VcsProcessExitError));
 

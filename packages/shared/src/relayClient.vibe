@@ -1,0 +1,614 @@
+import type { RelayClientInstallProgressEvent, RelayClientInstallProgressStage } from "@t3tools/contracts"
+import * as Context from "effect/Context"
+import * as Crypto from "./Crypto.vibe"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Layer from "effect/Layer"
+import * as Path from "effect/Path"
+import { HttpClient } from "effect/http"
+import { ChildProcessSpawner } from "effect/process"
+import { isWindowsRenameLock } from "./atomicWrite.vibe"
+import * as HostProcess from "./HostProcess.vibe"
+
+export const CLOUDFLARED_VERSION = "2026.10.4"
+// Minimum for --output support; older connectors exit on that flag.
+export const CLOUDFLARED_MIN_VERSION = "2025.6.1"
+const CLOUDFLARED_PATH_ENV_NAME = "T3CODE_CLOUDFLARED_PATH"
+
+const CLOUDFLARED_DOWNLOAD_TIMEOUT = "10 minutes"
+
+export type RelayClientExecutableSource = "override" | "managed" | "path"
+
+export type RelayClientStatus =
+  | {
+    readonly status: "available"
+    readonly executablePath: string
+    readonly source: RelayClientExecutableSource
+    readonly version: string
+  }
+  | {
+    readonly status: "missing"
+    readonly version: string
+  }
+  | {
+    readonly status: "unsupported"
+    readonly platform: NodeJS.Platform
+    readonly arch: string
+    readonly version: string
+  }
+
+export type AvailableRelayClient = Extract<RelayClientStatus, { readonly status: "available" }>
+
+export error RelayClientInstallError {
+  reason:
+    | "download_failed"
+    | "invalid_checksum"
+    | "install_locked"
+    | "override_missing"
+    | "unsupported_platform"
+    | "validation_failed"
+    | "write_failed"
+  message: string
+  cause?: unknown
+}
+
+error CloudflaredCommandError {
+  command: string
+  exitCode: number
+}
+
+export interface CloudflaredReleaseAsset {
+  readonly url: string
+  readonly sha256: string
+  readonly archive: "binary" | "tgz"
+}
+
+const CLOUDFLARED_RELEASE_ASSETS: Readonly<
+  Partial<Record<`${NodeJS.Platform}-${string}`, CloudflaredReleaseAsset>>
+> = {
+  "darwin-arm64": {
+    url: "https://github.com/cloudflare/cloudflared/releases/download/2026.10.4/cloudflared-darwin-arm64.tgz",
+    sha256: "68b6bc4080ac1330234db2a9002d07f98b000537a1bd531a687b660d4160fa7f",
+    archive: "tgz",
+  },
+  "darwin-x64": {
+    url: "https://github.com/cloudflare/cloudflared/releases/download/2026.10.4/cloudflared-darwin-amd64.tgz",
+    sha256: "f11fbef4207d715892331917dafd437f032cf4b7137ed64dea3008338c1c613d",
+    archive: "tgz",
+  },
+  "linux-arm64": {
+    url: "https://github.com/cloudflare/cloudflared/releases/download/2026.10.4/cloudflared-linux-arm64",
+    sha256: "2b7203b4fb0ba28a0c1e12f8855ce2c25f76d266a8d5edafac5540b6812acff6",
+    archive: "binary",
+  },
+  "linux-x64": {
+    url: "https://github.com/cloudflare/cloudflared/releases/download/2026.10.4/cloudflared-linux-amd64",
+    sha256: "ae5e8add7884b0531d66bbca4570d1de491ff6da51e4ebe7eb160cdf241d9e42",
+    archive: "binary",
+  },
+  "win32-x64": {
+    url: "https://github.com/cloudflare/cloudflared/releases/download/2026.10.4/cloudflared-windows-amd64.exe",
+    sha256: "411b16d40c8d872243efeb52c550053d00af0a8a97fbb32e730fb8aba429eaa8",
+    archive: "binary",
+  },
+  // Cloudflare publishes no Windows ARM64 build; Windows 11 on ARM runs x64 under emulation.
+  "win32-arm64": {
+    url: "https://github.com/cloudflare/cloudflared/releases/download/2026.10.4/cloudflared-windows-amd64.exe",
+    sha256: "411b16d40c8d872243efeb52c550053d00af0a8a97fbb32e730fb8aba429eaa8",
+    archive: "binary",
+  },
+}
+
+const INSTALL_LOCK_RETRY_COUNT = 100
+const INSTALL_LOCK_RETRY_DELAY = "100 millis"
+const INSTALL_LOCK_STALE_MS = 5 * 60 * 1_000
+const VERSION_PROBE_TIMEOUT = "10 seconds"
+
+const ACTIVATE_RETRY_COUNT = 40
+const ACTIVATE_RETRY_DELAY = "250 millis"
+
+const trimmedString = (name: string) =>
+  Config.String(name).pipe(
+    Config.option,
+    Config.map(
+      Option.flatMap((value) => {
+        const trimmed = value.trim()
+        return trimmed.length > 0 ? Option.some(trimmed) : Option.none()
+      }),
+    ),
+  )
+
+const CloudflaredConfig = Config.all({
+  executableOverride: trimmedString(CLOUDFLARED_PATH_ENV_NAME),
+})
+
+export interface CloudflaredRelayClientOptions {
+  readonly baseDir: string
+  readonly releaseAsset?: CloudflaredReleaseAsset
+}
+
+export interface RelayClientShape {
+  readonly resolve: RelayClientStatus!!
+  readonly install: AvailableRelayClient!RelayClientInstallError
+  readonly installWithProgress: (
+    report: (event: RelayClientInstallProgressEvent) => void!!,
+  ) => AvailableRelayClient!RelayClientInstallError
+  /** Removes managed releases older than the pin, except the newest one. Call once the pin has connected. */
+  readonly pruneManagedVersions: void!!
+}
+
+export function isPinnedManagedRelayClient(client: AvailableRelayClient): boolean {
+  return client.source === "managed" && client.version === CLOUDFLARED_VERSION
+}
+
+export service RelayClient: RelayClientShape {
+  static readonly key = "@t3tools/shared/relayClient"
+}
+
+function executableFileName(platform: NodeJS.Platform): string {
+  return platform === "win32" ? "cloudflared.exe" : "cloudflared"
+}
+
+function resolveReleaseAsset(
+  platform: NodeJS.Platform,
+  arch: string,
+): CloudflaredReleaseAsset | null {
+  return CLOUDFLARED_RELEASE_ASSETS[`${platform}-${arch}`] ?? null
+}
+
+const VERSION_PATTERN = /\b(\d{4})\.(\d{1,2})\.(\d+)\b/u
+
+function parseVersion(value: string): readonly [number, number, number] | null {
+  const match = VERSION_PATTERN.exec(value)
+  return match ? [Number(match[1]), Number(match[2]), Number(match[3])] : null
+}
+
+export function compareCloudflaredVersions(left: string, right: string): number {
+  const a = parseVersion(left) ?? [0, 0, 0]
+  const b = parseVersion(right) ?? [0, 0, 0]
+  return a[0] - b[0] || a[1] - b[1] || a[2] - b[2]
+}
+
+export function parseCloudflaredVersionOutput(output: string): string | null {
+  const version = parseVersion(output)
+  return version ? version.join(".") : null
+}
+
+class VersionProbeKey extends Data.Class<{
+  readonly executablePath: string
+  readonly size: number
+  readonly mtimeMillis: number
+}> {}
+
+function isAlreadyExists(error: PlatformError.PlatformError): boolean {
+  return error.reason._tag === "AlreadyExists"
+}
+
+const wrapInstallFailure =
+  (
+    reason: RelayClientInstallError["reason"],
+    message: string,
+  ): (<E, R>(
+    effect: void!E!R,
+  ) => void!RelayClientInstallError!R) =>
+  (effect) =>
+    effect
+    |> Effect.mapError(
+      %,
+      (cause) =>
+        new RelayClientInstallError({
+          reason,
+          message,
+          cause,
+        }),
+    )
+
+export const makeCloudflaredRelayClient = effect (
+  options: CloudflaredRelayClientOptions,
+): RelayClientShape!never!(| ChildProcessSpawner.ChildProcessSpawner
+  | Crypto.Crypto
+  | FileSystem.FileSystem
+  | HttpClient.HttpClient
+  | Path.Path) =>
+  try withSpan(
+    (effect (): RelayClientShape!never!(| ChildProcessSpawner.ChildProcessSpawner
+    | Crypto.Crypto
+    | FileSystem.FileSystem
+    | HttpClient.HttpClient
+    | Path.Path) => {
+      const crypto = try Crypto.Crypto
+      const fileSystem = try FileSystem.FileSystem
+      const httpClient = try HttpClient.HttpClient
+      const path = try Path.Path
+      const spawner = try ChildProcessSpawner.ChildProcessSpawner
+      const installSemaphore = try Semaphore.make(1)
+      const platform = try HostProcess.Platform
+      const arch = try HostProcess.Architecture
+      const releaseAsset = options.releaseAsset ?? resolveReleaseAsset(platform, arch)
+      const loadCloudflaredConfig = effect {
+        return try CloudflaredConfig
+      } |> Effect.orDie(%)
+      const managedRoot = path.join(options.baseDir, "tools", "cloudflared")
+      const managedPathFor = (version: string) =>
+        path.join(managedRoot, version, `${platform}-${arch}`, executableFileName(platform))
+      const managedPath = managedPathFor(CLOUDFLARED_VERSION)
+
+      const isExecutableFile = effect (
+        executablePath: string,
+      ) =>
+        try withSpan(
+          effect {
+            const info = try (fileSystem.stat(executablePath) |> Effect.option(%))
+            if (Option.isNone(info) || info.value.type !== "File") return false
+            return platform === "win32" || (info.value.mode & 0o111) !== 0
+          },
+          "cloudflared.isExecutableFile",
+        )
+
+      // Cache successful version probes per file revision; do not let transient failures hide valid binaries.
+      const versionCache = try Cache.makeWith(
+        (key: VersionProbeKey) =>
+          spawner
+            .string(
+              ChildProcess.make(key.executablePath, ["version"], { stdin: "ignore", stderr: "ignore" }),
+            )
+          |> Effect.map(%, parseCloudflaredVersionOutput)
+          |> Effect.timeoutOption(%, VERSION_PROBE_TIMEOUT)
+          |> Effect.map(%, Option.getOrNull)
+          |> Effect.orElseSucceed(%, () => null),
+        {
+          capacity: 16,
+          timeToLive: (exit) => Exit.isSuccess(exit) && exit.value !== null ? Duration.infinity : Duration.zero,
+        },
+      )
+      const probeVersion = effect (executablePath: string) =>
+        try withSpan(
+          effect {
+            const info = try (fileSystem.stat(executablePath) |> Effect.option(%))
+            if (Option.isNone(info) || info.value.type !== "File") return null
+            if (platform !== "win32" && (info.value.mode & 0o111) === 0) return null
+            return try Cache.get(
+              versionCache,
+              new VersionProbeKey({
+                executablePath,
+                size: Number(info.value.size),
+                mtimeMillis: Option.getOrUndefined(info.value.mtime)?.getTime() ?? 0,
+              }),
+            )
+          },
+          "cloudflared.probeVersion",
+        )
+
+      const compatibleCandidate = effect (
+        executablePath: string,
+        source: RelayClientExecutableSource,
+        expectedVersion?: string | undefined,
+      ) =>
+        try withSpan(
+          effect {
+            const version = try probeVersion(executablePath)
+            if (version === null || compareCloudflaredVersions(version, CLOUDFLARED_MIN_VERSION) < 0) {
+              return null
+            }
+            if (expectedVersion !== undefined && version !== expectedVersion) {
+              try Effect.logWarning("Ignoring a managed relay client that reports another version", {
+                executablePath,
+                expectedVersion,
+                version,
+              })
+              return null
+            }
+            return { status: "available", executablePath, source, version } satisfies AvailableRelayClient
+          },
+          "cloudflared.compatibleCandidate",
+        )
+
+      // Newer managed folders may belong to another server; never use or prune them.
+      const olderManagedVersions = effect {
+        const entries = fileSystem
+          .readDirectory(managedRoot) catch () => []
+        return entries
+          .filter(
+            (entry) =>
+              parseVersion(entry) !== null
+              && compareCloudflaredVersions(entry, CLOUDFLARED_VERSION) < 0,
+          )
+          .sort((left, right) => compareCloudflaredVersions(right, left))
+      }
+
+      const resolvePathExecutable = effect {
+        // Read hydrated PATH directly; ConfigProvider may have cached it before fixPath.
+        const pathValue = (try HostProcess.Environment).PATH?.trim()
+        if (!pathValue) return null
+        const delimiter = platform === "win32" ? ";" : ":"
+        for (const directory of pathValue.split(delimiter)) {
+          const trimmed = directory.trim().replace(/^"|"$/gu, "")
+          if (trimmed.length === 0) continue
+          const candidate = path.join(trimmed, executableFileName(platform))
+          if (!(try isExecutableFile(candidate))) continue
+          const available = try compatibleCandidate(candidate, "path")
+          if (available) return available
+          try Effect.logWarning("Skipping an incompatible relay client on PATH", {
+            executablePath: candidate,
+            minimumVersion: CLOUDFLARED_MIN_VERSION,
+          })
+        }
+        return null
+      }
+
+      const missingStatus: RelayClientStatus = { status: "missing", version: CLOUDFLARED_VERSION }
+      const unsupportedStatus: RelayClientStatus = {
+        status: "unsupported",
+        platform,
+        arch,
+        version: CLOUDFLARED_VERSION,
+      }
+      const resolve: RelayClientShape["resolve"] = effect {
+        const config = try loadCloudflaredConfig
+        if (Option.isSome(config.executableOverride)) {
+          const override = try compatibleCandidate(config.executableOverride.value, "override")
+          if (override) return override
+          try Effect.logWarning(
+            `${CLOUDFLARED_PATH_ENV_NAME} must point to cloudflared ${CLOUDFLARED_MIN_VERSION} or newer`,
+            { executablePath: config.executableOverride.value },
+          )
+          return missingStatus
+        }
+        const pinned = try compatibleCandidate(managedPath, "managed")
+        if (pinned) return pinned
+        for (const version of try olderManagedVersions) {
+          const older = try compatibleCandidate(managedPathFor(version), "managed")
+          if (older) return older
+        }
+        const pathExecutable = try resolvePathExecutable
+        if (pathExecutable) return pathExecutable
+        return releaseAsset ? missingStatus : unsupportedStatus
+      } |> withSpan(%, "cloudflared.resolve")
+
+      const pruneManagedVersions: RelayClientShape["pruneManagedVersions"] = effect {
+        // Retain the newest older release for rollback or older servers that cannot redownload it.
+        for (const version of (try olderManagedVersions).slice(1)) {
+          // Windows cannot delete another server's running connector; retry next prune.
+          ;(fileSystem.remove(path.join(managedRoot, version), { recursive: true })
+            |> Effect.tap(%, () => Effect.logInfo("Removed an older managed relay client", { version }))) catch effect (cause) =>
+                try Effect.logDebug("Could not remove an older managed relay client", { version, cause })
+        }
+      } |> withSpan(%, "cloudflared.pruneManagedVersions")
+
+      const renameWhenUnlocked = (from: string, to: string) =>
+        fileSystem.rename(from, to).pipe(
+          Effect.retry({
+            times: ACTIVATE_RETRY_COUNT,
+            schedule: Schedule.spaced(ACTIVATE_RETRY_DELAY),
+            while: (error) => platform === "win32" && isWindowsRenameLock(error),
+          }),
+        )
+
+      const runCommand = effect (
+        command: string,
+        args: readonly string[],
+      ) =>
+        try withSpan(
+          effect {
+            const child = try spawner.spawn(
+              ChildProcess.make(command, args, {
+                shell: false,
+                stdout: "ignore",
+                stderr: "ignore",
+              }),
+            )
+            const exitCode = Number(try child.exitCode)
+            if (exitCode !== 0) {
+              throw new CloudflaredCommandError({ command, exitCode })
+            }
+          },
+          "cloudflared.runCommand",
+        )
+
+      const downloadAsset = effect (
+        asset: CloudflaredReleaseAsset,
+        report: (stage: RelayClientInstallProgressStage) => void!!,
+      ) =>
+        try withSpan(
+          effect {
+            try report("downloading")
+            const response = (httpClient.execute(HttpClientRequest.get(asset.url))
+              |> Effect.timeout(%, CLOUDFLARED_DOWNLOAD_TIMEOUT)
+              |> Effect.flatMap(%, HttpClientResponse.filterStatusOk)) catch effect (cause) => {
+                throw new RelayClientInstallError({
+                  reason: "download_failed",
+                  message: "Could not download the relay client.",
+                  cause,
+                })
+              }
+            const bytes = new Uint8Array(
+              (response.arrayBuffer
+                |> Effect.timeout(%, CLOUDFLARED_DOWNLOAD_TIMEOUT)) catch effect (cause) => {
+                  throw new RelayClientInstallError({
+                    reason: "download_failed",
+                    message: "Could not read the downloaded relay client binary.",
+                    cause,
+                  })
+                },
+            )
+            try report("verifying")
+            const checksum = crypto.digest("SHA-256", bytes) catch effect (cause) => {
+              throw new RelayClientInstallError({
+                reason: "validation_failed",
+                message: "Could not verify the downloaded relay client checksum.",
+                cause,
+              })
+            }
+            if (Hex.encode(checksum) !== asset.sha256) {
+              throw new RelayClientInstallError({
+                reason: "invalid_checksum",
+                message: "Downloaded relay client checksum did not match the pinned release.",
+              })
+            }
+            return bytes
+          },
+          "cloudflared.downloadAsset",
+        )
+
+      const acquireInstallLock = effect (
+        lockPath: string,
+      ) =>
+        try withSpan(
+          effect {
+            for (let attempt = 0; attempt < INSTALL_LOCK_RETRY_COUNT; attempt += 1) {
+              const acquired = try (Effect.acquireRelease(
+                fileSystem.writeFileString(lockPath, "", { flag: "wx" }),
+                () => fileSystem.remove(lockPath, { force: true }) |> Effect.ignore(%),
+              )
+                |> Effect.as(%, true)
+                |> Effect.catchIf(%, isAlreadyExists, () => Effect.succeed(false)))
+              if (acquired) return
+
+              const now = try Clock.currentTimeMillis
+              const lockInfo = try (fileSystem.stat(lockPath) |> Effect.option(%))
+              const mtime = Option.flatMap(lockInfo, (info) => info.mtime)
+              if (Option.isSome(mtime) && now - mtime.value.getTime() > INSTALL_LOCK_STALE_MS) {
+                try fileSystem.remove(lockPath, { force: true })
+                continue
+              }
+              try Effect.sleep(INSTALL_LOCK_RETRY_DELAY)
+            }
+            throw new RelayClientInstallError({
+              reason: "install_locked",
+              message: "Another relay client installation is still in progress.",
+            })
+          },
+          "cloudflared.acquireInstallLock",
+        )
+
+      const installUnlocked = effect (
+        report: (stage: RelayClientInstallProgressStage) => void!!,
+      ) =>
+        try withSpan(
+          effect {
+            try report("checking")
+            const config = try loadCloudflaredConfig
+            if (Option.isSome(config.executableOverride)) {
+              const override = try compatibleCandidate(config.executableOverride.value, "override")
+              if (override) return override
+              throw new RelayClientInstallError({
+                reason: "override_missing",
+                message: `${CLOUDFLARED_PATH_ENV_NAME} must point to cloudflared ${CLOUDFLARED_MIN_VERSION} or newer.`,
+              })
+            }
+            const existing = try compatibleCandidate(managedPath, "managed", CLOUDFLARED_VERSION)
+            if (existing) return existing
+            if (!releaseAsset) {
+              throw new RelayClientInstallError({
+                reason: "unsupported_platform",
+                message: `T3 Code does not provide a managed relay client binary for ${platform}-${arch}.`,
+              })
+            }
+
+            const managedDirectory = path.dirname(managedPath)
+            const lockPath = `${managedPath}.lock`
+            try (fileSystem
+              .makeDirectory(managedDirectory, { recursive: true })
+              .pipe(
+                wrapInstallFailure("write_failed", "Could not create the relay client tool directory."),
+              ))
+            try report("waiting_for_lock")
+            acquireInstallLock(lockPath) catch effect (cause) => match (cause) {
+              when { _tag: "PlatformError" }: throw new RelayClientInstallError({
+                reason: "write_failed",
+                message: "Could not acquire the relay client installation lock.",
+                cause,
+              });
+              default: throw cause;
+            }
+            return try (effect {
+              const afterLock = try compatibleCandidate(managedPath, "managed", CLOUDFLARED_VERSION)
+              if (afterLock) return afterLock
+
+              const tempDirectory = try fileSystem.makeTempDirectoryScoped({
+                directory: managedDirectory,
+                prefix: ".install-",
+              })
+              const archivePath = path.join(
+                tempDirectory,
+                releaseAsset.archive === "tgz" ? "cloudflared.tgz" : executableFileName(platform),
+              )
+              const download = try downloadAsset(releaseAsset, report)
+              try report("installing")
+              try (fileSystem
+                .writeFile(archivePath, download)
+                .pipe(wrapInstallFailure("write_failed", "Could not write the relay client download.")))
+
+              const executablePath = path.join(tempDirectory, executableFileName(platform))
+              if (releaseAsset.archive === "tgz") {
+                try (runCommand("tar", ["-xzf", archivePath, "-C", tempDirectory]).pipe(
+                  wrapInstallFailure("write_failed", "Could not extract the relay client."),
+                ))
+              }
+              if (platform !== "win32") {
+                try (fileSystem
+                  .chmod(executablePath, 0o755)
+                  .pipe(wrapInstallFailure("write_failed", "Could not make the relay client executable.")))
+              }
+              try report("validating")
+              // Verify the pin so mislabeled assets cannot cause repeated redownloads.
+              const installedVersion = try probeVersion(executablePath)
+              if (installedVersion !== CLOUDFLARED_VERSION) {
+                throw new RelayClientInstallError({
+                  reason: "validation_failed",
+                  message: installedVersion === null
+                    ? "The downloaded relay client binary did not run."
+                    : `The downloaded relay client reports version ${installedVersion}, not ${CLOUDFLARED_VERSION}.`,
+                })
+              }
+
+              const stagedPath = `${managedPath}.${try crypto.randomUUIDv4()}.tmp`
+              try report("activating")
+              try (renameWhenUnlocked(executablePath, stagedPath).pipe(
+                wrapInstallFailure("write_failed", "Could not stage the relay client."),
+              ))
+              try (renameWhenUnlocked(stagedPath, managedPath).pipe(
+                wrapInstallFailure("write_failed", "Could not activate the relay client."),
+                Effect.ensuring(fileSystem.remove(stagedPath, { force: true }) |> Effect.ignore(%)),
+              ))
+              return {
+                status: "available",
+                executablePath: managedPath,
+                source: "managed",
+                version: CLOUDFLARED_VERSION,
+              } satisfies AvailableRelayClient
+            }
+              |> Effect.scoped(%)
+              |> Effect.catchIf(
+                %,
+                (cause) => !(cause instanceof RelayClientInstallError),
+                (cause) =>
+                  Effect.fail(
+                    new RelayClientInstallError({
+                      reason: "write_failed",
+                      message: "Could not install the relay client.",
+                      cause,
+                    }),
+                  ),
+              ))
+          },
+          "cloudflared.installUnlocked",
+        )
+      const installWithProgress: RelayClientShape["installWithProgress"] = (report) =>
+        installSemaphore.withPermit(
+          installUnlocked((stage) =>
+            report({
+              type: "progress",
+              stage,
+            })
+          ) |> Effect.scoped(%),
+        )
+      const install = installWithProgress(() => Effect.void)
+
+      return RelayClient.of({ resolve, install, installWithProgress, pruneManagedVersions })
+    })(),
+    "cloudflared.make",
+  )
+
+export const layerCloudflared = (options: CloudflaredRelayClientOptions) =>
+  Layer.effect(RelayClient, makeCloudflaredRelayClient(options))

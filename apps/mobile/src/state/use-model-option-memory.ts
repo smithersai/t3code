@@ -1,10 +1,10 @@
 import type { ProviderOptionSelection } from "@t3tools/contracts";
-import { appAtomRegistry } from "./atom-registry";
+import { appAtomRegistry } from "./atom-registry.vibe";
 import {
   modelOptionMemoryAtom,
   schedulePersistComposerState,
   type ModelOptionMemoryState,
-} from "./use-composer-drafts";
+} from "./use-composer-drafts.vibe";
 
 function recordModelOptionsInState(
   state: ModelOptionMemoryState,

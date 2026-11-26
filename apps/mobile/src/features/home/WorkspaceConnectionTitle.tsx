@@ -12,7 +12,7 @@ import {
   getCompactBrandHeaderOptions,
 } from "../../components/CompactBrandTitle";
 import { useDeadlinePassed } from "../../lib/clock";
-import { useWorkspaceState } from "../../state/workspace";
+import { useWorkspaceState } from "../../state/workspace.vibe";
 import {
   workspaceConnectionStatusPresentation,
   type WorkspaceConnectionStatusPresentation,

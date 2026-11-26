@@ -25,13 +25,13 @@ import * as OtelEnvironment from "@t3tools/shared/otelEnvironment";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import packageJson from "../../package.json" with { type: "json" };
-import { ServiceLauncherHostProcess } from "../cloud/serviceLauncherClient.ts";
+import { ServiceLauncherHostProcess } from "../cloud/serviceLauncherClient.vibe";
 import {
   SERVICE_LAUNCHER_CONTEXT_ENV,
   SERVICE_LAUNCHER_PROTOCOL,
 } from "../cloud/serviceProtocol.ts";
-import { deriveServerPaths } from "../config.ts";
-import { resolveServerConfig } from "./config.ts";
+import { deriveServerPaths } from "../config.vibe";
+import { resolveServerConfig } from "./config.vibe";
 
 const deriveExplicitServerPaths = (baseDir: string, devUrl: URL | undefined) =>
   deriveServerPaths(baseDir, devUrl, { baseDirIsExplicit: true });

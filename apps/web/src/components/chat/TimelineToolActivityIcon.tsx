@@ -23,9 +23,9 @@ import {
   XIcon,
   ZapIcon,
 } from "lucide-react";
-import { useAssetUrlState } from "../../assets/assetUrls";
+import { useAssetUrlState } from "../../assets/assetUrls.vibe";
 import { cn } from "~/lib/utils";
-import { TimelineRowCtx } from "./timelineRowContext";
+import { TimelineRowCtx } from "./timelineRowContext.vibe";
 
 export const failedToolIconClassName = "text-tool-error-icon/40";
 

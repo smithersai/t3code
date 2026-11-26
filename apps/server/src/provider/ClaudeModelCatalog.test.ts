@@ -1,7 +1,7 @@
 import { assert, describe, it } from "@effect/vitest";
 import { ProviderDriverKind, ProviderInstanceId } from "@t3tools/contracts";
 
-import { resolveProviderCatalog, type ModelManifestData } from "./ModelManifest.ts";
+import { resolveProviderCatalog, type ModelManifestData } from "./ModelManifest.vibe";
 import {
   formatClaudeVersionUpgradeMessage,
   normalizeClaudeCatalogEffort,
@@ -13,7 +13,7 @@ import {
   resolveClaudeModelSlug,
   resolveClaudeUpdateRequiredModels,
   scopeClaudeModelCatalog,
-} from "./ClaudeModelCatalog.ts";
+} from "./ClaudeModelCatalog.vibe";
 
 const manifest = (): ModelManifestData => ({
   version: 1,

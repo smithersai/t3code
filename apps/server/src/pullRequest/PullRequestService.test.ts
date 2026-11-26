@@ -19,14 +19,14 @@ import type {
 } from "@t3tools/contracts";
 import { DEFAULT_SERVER_SETTINGS } from "@t3tools/contracts/settings";
 import type { ServerSettings } from "@t3tools/contracts";
-import * as ServerSettingsService from "../serverSettings.ts";
+import * as ServerSettingsService from "../serverSettings.vibe";
 import { PullRequestOperationError } from "@t3tools/contracts";
 
-import * as ProjectService from "../project/ProjectService.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as PullRequestFilesViewed from "../persistence/PullRequestFilesViewed.ts";
-import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.ts";
-import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as PullRequestFilesViewed from "../persistence/PullRequestFilesViewed.vibe";
+import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.vibe";
+import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";
 import type { SourceControlProvider } from "@t3tools/source-control-core/server/SourceControlProvider";
 import { isSshRemoteUrl } from "@t3tools/shared/sourceControl";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
@@ -36,9 +36,10 @@ import {
   type ProviderChangeRequest,
   type PullRequestProviderApi,
 } from "@t3tools/source-control-core/server/PullRequestProvider";
-import * as PullRequestProviderRegistry from "./PullRequestProviderRegistry.ts";
-import * as PullRequestService from "./PullRequestService.ts";
-import * as PullRequestReadCache from "./PullRequestReadCache.ts";
+import * as PullRequestProviderRegistry from "./PullRequestProviderRegistry.vibe";
+import * as PullRequestService from "./PullRequestService.vibe";
+import * as PullRequestReadCache from "./PullRequestReadCache.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 function project(input: {
   readonly id: string;
@@ -234,7 +235,7 @@ function makeService(input: {
         PullRequestFilesViewed.layer.pipe(Layer.provide(SqlitePersistence.layerMemory)),
         Layer.effect(PullRequestReadCache.PullRequestReadCache, PullRequestReadCache.make).pipe(
           Layer.provide(KeyValueStore.layerMemory),
-          Layer.provide(NodeServices.layer),
+          Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         ),
       ),
     ),

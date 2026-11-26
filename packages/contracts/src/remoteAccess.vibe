@@ -1,0 +1,43 @@
+import * as Schema from "effect/Schema"
+
+import { TrimmedNonEmptyString } from "./baseSchemas.vibe"
+
+export schema AdvertisedEndpointProviderKind = "core" | "private-network" | "tunnel" | "manual"
+
+export schema AdvertisedEndpointReachability = "loopback" | "lan" | "private-network" | "public"
+
+export schema AdvertisedEndpointHostedHttpsCompatibility =
+  | "compatible"
+  | "mixed-content-blocked"
+  | "requires-configuration"
+  | "unknown"
+
+export schema AdvertisedEndpointStatus = "available" | "unavailable" | "unknown"
+
+export schema AdvertisedEndpointSource = "desktop-core" | "desktop-addon" | "server" | "user"
+
+export schema AdvertisedEndpointProvider {
+  readonly id: TrimmedNonEmptyString
+  readonly label: TrimmedNonEmptyString
+  readonly kind: AdvertisedEndpointProviderKind
+  readonly isAddon: boolean
+}
+
+export schema AdvertisedEndpointCompatibility {
+  readonly hostedHttpsApp: AdvertisedEndpointHostedHttpsCompatibility
+  readonly desktopApp: "compatible" | "unknown"
+}
+
+export schema AdvertisedEndpoint {
+  readonly id: TrimmedNonEmptyString
+  readonly label: TrimmedNonEmptyString
+  readonly provider: AdvertisedEndpointProvider
+  readonly httpBaseUrl: TrimmedNonEmptyString
+  readonly wsBaseUrl: TrimmedNonEmptyString
+  readonly reachability: AdvertisedEndpointReachability
+  readonly compatibility: AdvertisedEndpointCompatibility
+  readonly source: AdvertisedEndpointSource
+  readonly status: AdvertisedEndpointStatus
+  readonly isDefault?: boolean | undefined
+  readonly description?: TrimmedNonEmptyString | undefined
+}

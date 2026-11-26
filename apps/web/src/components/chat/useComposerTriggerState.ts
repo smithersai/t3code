@@ -16,6 +16,7 @@ export function useComposerTriggerState(initialTrigger: () => ComposerTrigger | 
       : candidate;
   };
 
+  /** @throws {never} */
   const setTrigger = (candidate: ComposerTrigger | null) => {
     const activeTrigger = resolveTrigger(candidate);
     if (candidate === null || activeTrigger !== null) {
@@ -24,6 +25,7 @@ export function useComposerTriggerState(initialTrigger: () => ComposerTrigger | 
     setActiveTrigger(activeTrigger);
   };
 
+  /** @throws {never} */
   const dismissTrigger = (candidate: ComposerTrigger | null) => {
     dismissedTriggerRef.current = candidate;
     setActiveTrigger(null);

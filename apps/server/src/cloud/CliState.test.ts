@@ -4,9 +4,9 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as ServerConfig from "../config.ts";
-import * as CliState from "./CliState.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as CliState from "./CliState.vibe";
 import {
   CLOUD_ENDPOINT_CONFIRMED_ORIGIN,
   CLOUD_ENDPOINT_RUNTIME_CONFIG,
@@ -17,7 +17,8 @@ import {
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_ISSUER_SECRET,
   RELAY_URL_SECRET,
-} from "./config.ts";
+} from "./config.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const persistedCloudLinkSecrets = [
   CLOUD_LINKED_USER_ID,
@@ -39,7 +40,7 @@ const layerTest = () =>
     ),
   );
 
-it.layer(NodeServices.layer)("CliState", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("CliState", (it) => {
   it.effect("persists desired exposure and clears provisioned relay state", () =>
     Effect.gen(function* () {
       const secrets = yield* ServerSecretStore.ServerSecretStore;

@@ -1,0 +1,22 @@
+import * as SqlClient from "effect/sql/SqlClient"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+  const columns = try sql<{ readonly name: string }>`
+    PRAGMA table_info(projection_threads)
+  `
+
+  if (!columns.some((column) => column.name === "snoozed_until")) {
+    try sql`
+      ALTER TABLE projection_threads
+      ADD COLUMN snoozed_until TEXT
+    `
+  }
+
+  if (!columns.some((column) => column.name === "snoozed_at")) {
+    try sql`
+      ALTER TABLE projection_threads
+      ADD COLUMN snoozed_at TEXT
+    `
+  }
+}

@@ -10,7 +10,7 @@ import { useSyncExternalStore } from "react";
 
 import { readPreviewStreamAccess } from "~/state/previewStream";
 import { previewStateAtom, type ThreadPreviewState } from "~/previewStateStore";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
 
 interface WebKitVideo {
   webkitSetPresentationMode?: (mode: string) => void;

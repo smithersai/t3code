@@ -23,8 +23,8 @@ import * as Logger from "effect/Logger";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
-import * as MobileDatabase from "../persistence/mobile-database";
-import { make } from "./environment-cache-store";
+import * as MobileDatabase from "../persistence/mobile-database.vibe";
+import { make } from "./environment-cache-store.vibe";
 
 const ENVIRONMENT_ID = EnvironmentId.make("environment-1");
 const PROJECT_ID = ProjectId.make("project-1");

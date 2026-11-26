@@ -2,7 +2,7 @@ import { selectedNavigationTab, visibleNavigationTabs } from "./navigation-tab-o
 import { requireNativeView } from "expo";
 import type { NativeSyntheticEvent, ViewProps } from "react-native";
 import { useControlTheme } from "../../components/ui/useControlTheme";
-import { useNavigationTabOrder, useHiddenNavigationTabs } from "./navigation-tabs";
+import { useNavigationTabOrder, useHiddenNavigationTabs } from "./navigation-tabs.vibe";
 import { useWorkspaceTabs } from "./WorkspaceTabsContext";
 import { useSelectWorkspaceTab } from "./useSelectWorkspaceTab";
 

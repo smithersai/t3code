@@ -5,7 +5,7 @@ import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
 import { ChildProcessSpawner } from "effect/process";
 
-import * as PreviewBrowserHost from "./PreviewBrowserHost.ts";
+import * as PreviewBrowserHost from "./PreviewBrowserHost.vibe";
 
 // What `ldd` printed for the pinned headless shell in a bare debian:trixie-slim container.
 const LDD_IN_BARE_DEBIAN = `\tlinux-vdso.so.1 (0x00007ffd2d1f8000)

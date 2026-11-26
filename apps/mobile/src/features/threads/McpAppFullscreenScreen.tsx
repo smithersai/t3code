@@ -11,8 +11,8 @@ import { AppText as Text } from "../../components/ui/AppText";
 import { SymbolView } from "../../components/ui/AppSymbol";
 import { orchestrationEnvironment } from "../../state/orchestration";
 import { scopeThreadRef } from "@t3tools/client-runtime/environment";
-import { useThreadShell, useThreadShells } from "../../state/entities";
-import { useEnvironmentQuery } from "../../state/query";
+import { useThreadShell, useThreadShells } from "../../state/entities.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 import { ThreadMcpApp } from "./McpAppWebView";
 
 type McpAppFullscreenScreenProps = StaticScreenProps<{

@@ -12,12 +12,12 @@ import {
 } from "@t3tools/source-control-testing/fakeSourceControlDriver";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 
-import * as ServerConfig from "../config.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
-import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as SourceControlDiscovery from "./SourceControlDiscovery.ts";
-import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
+import * as VcsProcess from "../vcs/VcsProcess.vibe";
+import * as SourceControlDiscovery from "./SourceControlDiscovery.vibe";
+import * as SourceControlProviderRegistry from "./SourceControlProviderRegistry.vibe";
 
 const kind = SourceControlProviderKind.make;
 

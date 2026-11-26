@@ -2,7 +2,7 @@ import * as NodeAssert from "node:assert/strict";
 
 import { describe, it } from "vite-plus/test";
 
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe";
 
 describe("parseModelsCliOutput", () => {
   it("parses multiple models from multiple providers", () => {

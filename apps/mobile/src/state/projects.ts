@@ -2,8 +2,8 @@ import { createEnvironmentProjectAtoms } from "@t3tools/client-runtime/state/pro
 import { createProjectEnvironmentAtoms } from "@t3tools/client-runtime/state/projects";
 
 import { environmentCatalog } from "../connection/catalog";
-import { connectionAtomRuntime } from "../connection/runtime";
-import { environmentSnapshotAtom } from "./shell";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
+import { environmentSnapshotAtom } from "./shell.vibe";
 import { serverEnvironment } from "./server";
 
 export const environmentProjects = createEnvironmentProjectAtoms({

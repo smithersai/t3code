@@ -3,9 +3,9 @@ import {
   type ThreadGuestMessage,
   type ThreadGuestShare,
 } from "@t3tools/contracts";
-import type { ThreadFeedEntry } from "../../lib/threadActivity";
+import type { ThreadFeedEntry } from "../../lib/threadActivity.vibe";
 import { scopedThreadKey } from "../../lib/scopedEntities";
-import type { QueuedThreadMessage } from "../../state/thread-outbox-model";
+import type { QueuedThreadMessage } from "../../state/thread-outbox-model.vibe";
 
 /**
  * A guest's message waiting for the owner's Send or Dismiss. It is a feed row, not the list

@@ -1,7 +1,7 @@
 import { ProviderDriverKind } from "@t3tools/contracts";
 import { defineProviderClient } from "@t3tools/provider-core/client";
 
-import { AcpRegistrySettings } from "./settings.ts";
+import { AcpRegistrySettings } from "#vibelang/emitted/src/settings";
 
 export const acpRegistryClient = defineProviderClient({
   driverKind: ProviderDriverKind.make("acpRegistry"),

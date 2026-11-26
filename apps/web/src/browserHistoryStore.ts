@@ -20,7 +20,7 @@ import {
   readThreadPreviewState,
   type ThreadPreviewState,
 } from "~/previewStateStore";
-import { appAtomRegistry } from "~/rpc/atomRegistry";
+import { appAtomRegistry } from "./rpc/atomRegistry.vibe";
 import {
   readProject,
   readProjects,
@@ -28,8 +28,8 @@ import {
   useProjects,
   useQuietThreadShell,
 } from "~/state/entities";
-import { readPrimaryEnvironmentId, usePrimaryEnvironmentId } from "~/state/environments";
-import { readPreparedConnection } from "~/state/session";
+import { readPrimaryEnvironmentId, usePrimaryEnvironmentId } from "./state/environments.vibe";
+import { readPreparedConnection } from "./state/session.vibe";
 
 import { isLocalLoopbackHost, normalizeHostname } from "./browser/browserTargetResolver";
 import { useComposerDraftStore } from "./composerDraftStore";

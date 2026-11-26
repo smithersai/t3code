@@ -35,27 +35,27 @@ import {
   PrimaryConnectionTarget,
   type PreparedConnection,
   type SupervisorConnectionState,
-} from "../connection/model.ts";
-import * as ConnectionWakeups from "../connection/wakeups.ts";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import * as Persistence from "../platform/persistence.ts";
+} from "../connection/model.vibe";
+import * as ConnectionWakeups from "../connection/wakeups.vibe";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
+import * as Persistence from "../platform/persistence.vibe";
 import {
   ORCHESTRATION_THREAD_CACHE_SCHEMA_VERSION,
   StoredOrchestrationThreadSnapshot,
   decodeOrDiscardOrchestrationCache,
-} from "../platform/orchestrationCache.ts";
-import * as RpcSession from "../rpc/session.ts";
+} from "../platform/orchestrationCache.vibe";
+import * as RpcSession from "../rpc/session.vibe";
 import { v2Now, v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.ts";
-import { onThreadRequestsResolved, type ThreadRequestsResolved } from "./threadRequests.ts";
+import { onThreadRequestsResolved, type ThreadRequestsResolved } from "./threadRequests.vibe";
 import { EMPTY_THREAD_HISTORY_META } from "./threadHistoryMerge.ts";
-import * as ThreadHistoryController from "./threadHistoryController.ts";
+import * as ThreadHistoryController from "./threadHistoryController.vibe";
 import {
   EMPTY_ENVIRONMENT_THREAD_STATE,
   makeEnvironmentThreadState,
   type EnvironmentThreadState,
   type ThreadSnapshotLoadResult,
-} from "./threads.ts";
-import * as ThreadSnapshotLoader from "./threadSnapshotHttp.ts";
+} from "./threads.vibe";
+import * as ThreadSnapshotLoader from "./threadSnapshotHttp.vibe";
 
 const TARGET = new PrimaryConnectionTarget({
   environmentId: EnvironmentId.make("environment-1"),

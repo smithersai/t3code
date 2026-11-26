@@ -4,20 +4,20 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 
-import * as DesktopEnvironment from "../../app/DesktopEnvironment.ts";
-import * as DesktopLifecycle from "../../app/DesktopLifecycle.ts";
-import * as DesktopShutdown from "../../app/DesktopShutdown.ts";
-import * as DesktopState from "../../app/DesktopState.ts";
-import * as ElectronApp from "../../electron/ElectronApp.ts";
-import * as ElectronDialog from "../../electron/ElectronDialog.ts";
-import * as ElectronTheme from "../../electron/ElectronTheme.ts";
-import * as ElectronWindow from "../../electron/ElectronWindow.ts";
-import * as DesktopAppSettings from "../../settings/DesktopAppSettings.ts";
-import * as DesktopClientSettings from "../../settings/DesktopClientSettings.ts";
-import * as DesktopWindow from "../../window/DesktopWindow.ts";
-import * as DesktopWslBackend from "../../wsl/DesktopWslBackend.ts";
-import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.ts";
-import { setWslBackendEnabled, setWslDistro, setWslOnly } from "./wsl.ts";
+import * as DesktopEnvironment from "../../app/DesktopEnvironment.vibe";
+import * as DesktopLifecycle from "../../app/DesktopLifecycle.vibe";
+import * as DesktopShutdown from "../../app/DesktopShutdown.vibe";
+import * as DesktopState from "../../app/DesktopState.vibe";
+import * as ElectronApp from "../../electron/ElectronApp.vibe";
+import * as ElectronDialog from "../../electron/ElectronDialog.vibe";
+import * as ElectronTheme from "../../electron/ElectronTheme.vibe";
+import * as ElectronWindow from "../../electron/ElectronWindow.vibe";
+import * as DesktopAppSettings from "../../settings/DesktopAppSettings.vibe";
+import * as DesktopClientSettings from "../../settings/DesktopClientSettings.vibe";
+import * as DesktopWindow from "../../window/DesktopWindow.vibe";
+import * as DesktopWslBackend from "../../wsl/DesktopWslBackend.vibe";
+import * as DesktopWslEnvironment from "../../wsl/DesktopWslEnvironment.vibe";
+import { setWslBackendEnabled, setWslDistro, setWslOnly } from "./wsl.vibe";
 
 const decodeWslState = Schema.decodeUnknownEffect(DesktopWslStateSchema);
 

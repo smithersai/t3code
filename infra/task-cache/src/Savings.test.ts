@@ -4,7 +4,7 @@ import * as NodeFS from "node:fs";
 import * as Effect from "effect/Effect";
 import type * as Cloudflare from "@cloudflare/workers-types";
 import { expect, it } from "@effect/vitest";
-import * as Savings from "./Savings.ts";
+import * as Savings from "./Savings.vibe";
 import * as Layer from "effect/Layer";
 
 it.effect(

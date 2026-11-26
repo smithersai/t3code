@@ -8,7 +8,7 @@ import * as Schema from "effect/Schema";
 import { HttpClient, HttpClientResponse, UrlParams } from "effect/http";
 import { describe, expect, it } from "vite-plus/test";
 
-import * as ClaudeResetCredits from "./claudeResetCredits.ts";
+import * as ClaudeResetCredits from "./claudeResetCredits.vibe";
 
 const NOW = Date.parse("2026-09-22T12:00:00.000Z");
 const grant = (overrides: Record<string, unknown>) => ({

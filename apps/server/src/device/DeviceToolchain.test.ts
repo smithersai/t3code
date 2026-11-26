@@ -6,13 +6,13 @@ import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import * as ProcessRunner from "../processRunner.ts";
+import * as ProcessRunner from "../processRunner.vibe";
 import {
   deviceToolVersions,
   DEVICE_HUB_VERSION,
   ensureDeviceHub,
   isDeviceHubInstalled,
-} from "./DeviceToolchain.ts";
+} from "./DeviceToolchain.vibe";
 
 it.effect("failed installation cleans staging and exposes only a safe failure message", () =>
   Effect.gen(function* () {

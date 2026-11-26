@@ -1,18 +1,19 @@
 import * as Axiom from "@alchemy.run/axiom";
-import { Observability } from "./observability.ts";
+import { Observability } from "./observability.vibe";
 import * as Cloudflare from "@alchemy.run/cloudflare";
 import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as HttpServerResponse from "effect/http/HttpServerResponse";
-import * as Admission from "./Admission.ts";
-import * as Cache from "./Cache.ts";
-import * as Cleanup from "./Cleanup.ts";
-import * as NativeClients from "./NativeClients.ts";
-import * as Savings from "./Savings.ts";
+import * as Admission from "./Admission.vibe";
+import * as Cache from "./Cache.vibe";
+import * as Cleanup from "./Cleanup.vibe";
+import * as NativeClients from "./NativeClients.vibe";
+import * as Savings from "./Savings.vibe";
 import type { ProtocolBindings } from "./protocolTypes.ts";
-import * as Resources from "./resources.ts";
+import * as Resources from "./resources.vibe";
+import { deferred } from "vibelang-unplugin/deferred";
 
 export class Worker extends Cloudflare.Worker<Worker, {}>()("Cache") {}
 
@@ -21,6 +22,8 @@ export const layer = Worker.make(
     Effect.map((name) => ({
       name,
       main: import.meta.filename,
+      // The Worker imports .vibe modules, so its bundle needs the VibeLang plugin.
+      build: { input: { plugins: [deferred("rolldown")] } },
       compatibility: { date: "2026-09-11", flags: ["nodejs_compat"] },
     })),
   ),

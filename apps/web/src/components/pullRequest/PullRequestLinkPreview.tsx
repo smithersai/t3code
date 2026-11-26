@@ -13,8 +13,8 @@ import {
 
 import { RelativeTime } from "~/components/RelativeTime";
 import { pullRequestEnvironment } from "~/state/pullRequests";
-import { useAtomQueryRunner } from "~/state/use-atom-query-runner";
-import { useEnvironmentQuery } from "~/state/query";
+import { useAtomQueryRunner } from "../../state/use-atom-query-runner.vibe";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 
 import { PreviewCard, PreviewCardPopup, PreviewCardTrigger } from "../ui/preview-card";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";

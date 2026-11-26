@@ -25,13 +25,13 @@ import * as Stream from "effect/Stream";
 import { McpSchema, McpServer } from "effect/ai";
 
 import { CodexOrchestratorReplayHarness } from "../orchestration-v2/Adapters/CodexAdapterV2.testkit.ts";
-import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.ts";
-import * as Orchestrator from "../orchestration-v2/Orchestrator.ts";
-import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
+import * as CommandReceiptStore from "../orchestration-v2/CommandReceiptStore.vibe";
+import * as Orchestrator from "../orchestration-v2/Orchestrator.vibe";
+import * as ThreadLaunchService from "../orchestration-v2/ThreadLaunchService.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
+import * as ThreadManagementService from "../orchestration-v2/ThreadManagementService.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
 import { checkpointWorkspace } from "@t3tools/provider-testing/replayWorkspace";
 import * as ProviderReplayHarness from "../orchestration-v2/testkit/ProviderReplayHarness.ts";
@@ -40,16 +40,17 @@ import {
   materializeReplayTranscriptWorkspace,
 } from "@t3tools/provider-testing/replayTranscript";
 import * as ProviderRegistryMock from "../provider/testUtils/providerRegistryMock.ts";
-import * as ProjectService from "../project/ProjectService.ts";
-import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
-import * as SecretRequests from "../secrets/SecretRequests.ts";
-import * as RemoteDelegation from "../peer/RemoteDelegation.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as McpHttpServer from "./McpHttpServer.ts";
-import * as McpInvocationContext from "./McpInvocationContext.ts";
-import * as PeerForwarding from "../peer/PeerForwarding.ts";
-import * as PeerLinkRequests from "../peer/PeerLinkRequests.ts";
-import * as PeerLinks from "../peer/PeerLinks.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
+import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
+import * as SecretRequests from "../secrets/SecretRequests.vibe";
+import * as RemoteDelegation from "../peer/RemoteDelegation.vibe";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as McpHttpServer from "./McpHttpServer.vibe";
+import * as McpInvocationContext from "./McpInvocationContext.vibe";
+import * as PeerForwarding from "../peer/PeerForwarding.vibe";
+import * as PeerLinkRequests from "../peer/PeerLinkRequests.vibe";
+import * as PeerLinks from "../peer/PeerLinks.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerOrchestratorToolkit = McpHttpServer.layerOrchestratorToolkit.pipe(
   Layer.provide(Layer.mock(ThreadLaunchService.ThreadLaunchService)({})),
@@ -92,24 +93,25 @@ const delegatedTaskStatusTranscriptFile = new URL(
   import.meta.url,
 );
 
-const readDelegatedTaskStatusTranscript = Effect.fn("readDelegatedTaskStatusTranscript")(function* (
-  followupResult: string,
-) {
-  const fs = yield* FileSystem.FileSystem;
-  const text = yield* fs.readFileString(
-    decodeURIComponent(delegatedTaskStatusTranscriptFile.pathname),
-  );
-  const transcript = yield* decodeProviderReplayNdjson(
-    text.replaceAll(queuedFollowupResult, followupResult),
-  );
-  // The recording ends when the recorder closes the app-server while the parent
-  // turn is still open. This test keeps acting as that parent afterwards, and
-  // replaying the exit would kill the shared process and fail the parent run.
-  return {
-    ...transcript,
-    entries: transcript.entries.filter((entry) => entry.type !== "runtime_exit"),
-  };
-}, Effect.provide(NodeServices.layer));
+const readDelegatedTaskStatusTranscript = Effect.fn("readDelegatedTaskStatusTranscript")(
+  function* (followupResult: string) {
+    const fs = yield* FileSystem.FileSystem;
+    const text = yield* fs.readFileString(
+      decodeURIComponent(delegatedTaskStatusTranscriptFile.pathname),
+    );
+    const transcript = yield* decodeProviderReplayNdjson(
+      text.replaceAll(queuedFollowupResult, followupResult),
+    );
+    // The recording ends when the recorder closes the app-server while the parent
+    // turn is still open. This test keeps acting as that parent afterwards, and
+    // replaying the exit would kill the shared process and fail the parent run.
+    return {
+      ...transcript,
+      entries: transcript.entries.filter((entry) => entry.type !== "runtime_exit"),
+    };
+  },
+  Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+);
 
 function makeProviderSnapshot(input: {
   readonly instanceId: ProviderInstanceId;
@@ -229,6 +231,7 @@ describe("orchestrator MCP toolkit", () => {
           }),
         ]);
         const layerTest = layerOrchestratorToolkit.pipe(
+          Layer.provide(McpHttpServer.layerCallerInvocation),
           Layer.provideMerge(McpServer.McpServer.layer),
           Layer.provideMerge(layerOrchestration),
           Layer.provide(
@@ -250,7 +253,7 @@ describe("orchestrator MCP toolkit", () => {
             ),
           ),
           Layer.provide(Layer.mock(RemoteDelegation.RemoteDelegation)({})),
-          Layer.provide(NodeServices.layer),
+          Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
         );
 
         yield* Effect.gen(function* () {

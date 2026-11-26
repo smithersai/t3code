@@ -10,9 +10,9 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import { describe, expect, it } from "vite-plus/test";
 
-import * as ServerConfig from "../config.ts";
-import * as DirectEndpoints from "./DirectEndpoints.ts";
-import { resolveBoundEndpoints } from "./DirectEndpoints.ts";
+import * as ServerConfig from "../config.vibe";
+import * as DirectEndpoints from "./DirectEndpoints.vibe";
+import { resolveBoundEndpoints } from "./DirectEndpoints.vibe";
 
 const INTERFACES: ReturnType<typeof NodeOS.networkInterfaces> = {
   lo0: [

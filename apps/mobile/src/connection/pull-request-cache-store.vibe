@@ -1,0 +1,29 @@
+import { EnvironmentQueryStore } from "@t3tools/client-runtime/state/query-persistence"
+import * as Layer from "effect/Layer"
+
+import { MobileDatabase } from "../persistence/mobile-database.vibe"
+
+export const layer = Layer.effect(
+  EnvironmentQueryStore,
+  effect {
+    const database = try MobileDatabase
+    return {
+      load: (environmentId, key) =>
+        do {
+          const catchProgram = database
+            .loadCache(environmentId, "pull-request", `v1:${key}`)
+          effect {
+            return catchProgram catch effect () => try Effect.succeedNone
+          }
+        },
+      save: (environmentId, key, payload) =>
+        do {
+          const catchProgram = database
+            .saveCache(environmentId, "pull-request", `v1:${key}`, 1, payload)
+          effect {
+            return catchProgram catch effect () => try Effect.logWarning("Offline query database save failed")
+          }
+        },
+    } satisfies NonNullable<typeof EnvironmentQueryStore.Service>
+  },
+)

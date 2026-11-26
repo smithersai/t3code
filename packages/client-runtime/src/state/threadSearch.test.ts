@@ -18,7 +18,7 @@ import {
   threadSearchMatchKey,
   threadSearchSubject,
   visibleThreadSearch,
-} from "./threadSearch.ts";
+} from "./threadSearch.vibe";
 
 const envA = EnvironmentId.make("env-a");
 const envB = EnvironmentId.make("env-b");

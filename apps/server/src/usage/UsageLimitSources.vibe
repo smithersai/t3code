@@ -1,0 +1,184 @@
+import {
+  DEFAULT_PROVIDER_HEALTH_REFRESH_INTERVAL,
+  UsageLimitSourceError,
+  type UsageLimitSourceConsumeResetCreditInput,
+  type ProviderConsumeResetCreditResult,
+  type ServerSettings,
+  type UsageLimitSourceConfig,
+  type UsageLimitSourceId,
+  type UsageLimitSourceSnapshot,
+} from "@t3tools/contracts"
+import { resolveServerBackgroundActivitySettings } from "@t3tools/shared/backgroundActivitySettings"
+import * as Context from "effect/Context"
+import * as DateTime from "effect/DateTime"
+import * as Duration from "effect/Duration"
+import * as Effect from "effect/Effect"
+import * as Equal from "effect/Equal"
+import * as Layer from "effect/Layer"
+import * as PubSub from "effect/PubSub"
+import * as Ref from "effect/Ref"
+import * as Semaphore from "effect/Semaphore"
+import * as Stream from "effect/Stream"
+
+import * as BackgroundPolicy from "../background/BackgroundPolicy.vibe"
+import * as Settings from "../serverSettings.vibe"
+import { makeCliproxyApi } from "./cliproxyApi.vibe"
+
+export service UsageLimitSources: {
+  readonly current: ReadonlyArray<UsageLimitSourceSnapshot>!!;
+  readonly streamChanges: Stream.Stream<ReadonlyArray<UsageLimitSourceSnapshot>>;
+  readonly refresh: void!!;
+  readonly consumeResetCredit: (
+    input: UsageLimitSourceConsumeResetCreditInput,
+  ) => ProviderConsumeResetCreditResult!UsageLimitSourceError;
+} {
+  static readonly key = "t3/usage/UsageLimitSources"
+}
+
+function sourceLabel(id: string, config: UsageLimitSourceConfig): string {
+  if (config.label) return config.label
+  const fallback = id.trim() || "Usage limit source"
+  try {
+    return new URL(config.url).host || fallback
+  } catch {
+    return fallback
+  }
+}
+
+/** @public */
+export const make = effect {
+  const api = try makeCliproxyApi
+  const settingsService = try Settings.ServerSettingsService
+  const backgroundPolicy = try BackgroundPolicy.BackgroundPolicy
+  const stateRef = try Ref.make<ReadonlyArray<UsageLimitSourceSnapshot>>([])
+  const changes = try Effect.acquireRelease(
+    PubSub.unbounded<ReadonlyArray<UsageLimitSourceSnapshot>>(),
+    PubSub.shutdown,
+  )
+
+  const readSource = effect (
+    id: UsageLimitSourceId,
+    config: {
+      readonly kind: "cliproxy"
+      readonly label?: string | undefined
+      readonly url: string
+      readonly managementKey: string
+      readonly enabled: boolean
+    },
+  ) =>
+    try withSpan(
+      effect {
+        const checkedAt = DateTime.formatIso(try DateTime.now)
+        const base = { id, kind: config.kind, label: sourceLabel(id, config), checkedAt } as const
+        if (config.managementKey.length === 0) {
+          return { ...base, accounts: [], error: "No management key configured." }
+        }
+        const accounts = try (api.readAccounts(config) |> Effect.result(%))
+        if (accounts._tag === "Failure") {
+          try Effect.logDebug("usage limit source read failed", { id, cause: accounts.failure })
+          return { ...base, accounts: [], error: accounts.failure.detail }
+        }
+        return { ...base, accounts: accounts.success }
+      },
+      "UsageLimitSources.readSource",
+    )
+
+  const publish = effect (
+    next: ReadonlyArray<UsageLimitSourceSnapshot>,
+  ) =>
+    try withSpan(
+      effect {
+        const changed = try Ref.modify(
+          stateRef,
+          (previous) => Equal.equals(previous, next) ? [false, previous] : [true, next],
+        )
+        if (changed) try PubSub.publish(changes, next)
+      },
+      "UsageLimitSources.publish",
+    )
+
+  // Serialize refreshes so slow old-settings reads cannot resurrect removed sources after newer refreshes.
+  const refreshLock = try Semaphore.make(1)
+  const refresh = effect {
+    const settings = try (settingsService.getSettings
+      |> Effect.orElseSucceed(%, (): ServerSettings | null => null))
+    const entries = Object.entries(settings?.usageLimitSources ?? {}).filter(
+      ([, config]) => config.enabled,
+    )
+    const snapshots = try Effect.forEach(
+      entries,
+      ([id, config]) => readSource(id as UsageLimitSourceId, config),
+      { concurrency: 4 },
+    )
+    try publish(snapshots)
+  } |> refreshLock.withPermits(1)(%) |> Effect.ignoreCause({ log: true })(%)
+
+  // Shares the refresh lock so a stale in-flight read cannot overwrite a redemption.
+  const consumeResetCredit = effect (
+    input: UsageLimitSourceConsumeResetCreditInput,
+  ) =>
+    try withSpan(
+      effect {
+        const settings = settingsService.getSettings catch effect () => {
+          throw new UsageLimitSourceError({ detail: "Could not read hub settings." })
+        }
+        const config = settings.usageLimitSources[input.sourceId]
+        if (!config?.enabled || !config.managementKey) {
+          throw new UsageLimitSourceError({
+            detail: "The usage limit source is missing or disabled.",
+          })
+        }
+        const result = try api.consume(config, input.accountId, input.creditId)
+        const snapshot = try readSource(input.sourceId, config)
+        const previous = try Ref.get(stateRef)
+        try publish(previous.map((source) => (source.id === input.sourceId ? snapshot : source)))
+        return result
+      } |> refreshLock.withPermits(1)(%),
+      "UsageLimitSources.consumeResetCredit",
+    )
+
+  try (settingsService.streamChanges
+    |> Stream.map(%, (settings) => settings.usageLimitSources)
+    |> Stream.changes(%)
+    |> Stream.runForEach(%, () => refresh)
+    |> Effect.forkScoped(%))
+
+  const interval = settingsService.getSettings
+    |> Effect.map(
+      %,
+      (settings) => resolveServerBackgroundActivitySettings(settings).providerHealthRefreshInterval,
+    )
+    |> Effect.orElseSucceed(%, () => DEFAULT_PROVIDER_HEALTH_REFRESH_INTERVAL)
+  try (Effect.forever(
+    interval
+      |> Effect.flatMap(%, (wait) => Effect.sleep(Duration.isPositive(wait) ? wait : "60 seconds"))
+      |> Effect.andThen(%, interval)
+      |> Effect.flatMap(%, (current) =>
+        Duration.isPositive(current)
+          ? backgroundPolicy.shouldRunScopeWork({ type: "provider-status" })
+          : Effect.succeed(false))
+      |> Effect.flatMap(%, (shouldRun) => (shouldRun ? refresh : Effect.void))
+      |> Effect.ignoreCause({ log: true })(%),
+  ) |> Effect.forkScoped(%))
+
+  try (refresh |> Effect.forkScoped(%))
+
+  return {
+    current: Ref.get(stateRef),
+    consumeResetCredit,
+    refresh,
+    get streamChanges() {
+      return Stream.unwrap(
+        effect {
+          const subscription = try PubSub.subscribe(changes)
+          const snapshot = try Ref.get(stateRef)
+          return Stream.concat(Stream.make(snapshot), Stream.fromSubscription(subscription)).pipe(
+            Stream.changes,
+          )
+        },
+      )
+    },
+  } satisfies UsageLimitSources["Service"]
+}
+
+export const layer = Layer.effect(UsageLimitSources, make)

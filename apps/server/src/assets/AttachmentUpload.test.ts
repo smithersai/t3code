@@ -1,4 +1,4 @@
-import * as DocumentText from "../provider/DocumentText.ts";
+import * as DocumentText from "../provider/DocumentText.vibe";
 // @effect-diagnostics nodeBuiltinImport:off
 import * as NodeFS from "node:fs";
 import * as NodePath from "node:path";
@@ -15,24 +15,29 @@ import * as PlatformError from "effect/PlatformError";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import { base64UrlEncode, signPayload } from "../auth/utils.ts";
-import * as ServerConfig from "../config.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import { base64UrlEncode, signPayload } from "../auth/utils.vibe";
+import * as ServerConfig from "../config.vibe";
 import {
   claimPendingAttachments,
   releaseClaimedAttachments,
-} from "../orchestration-v2/AttachmentClaims.ts";
+} from "../orchestration-v2/AttachmentClaims.vibe";
 import {
   ATTACHMENT_UPLOAD_ROUTE_PREFIX,
   deletePendingAttachment,
   issueAttachmentUploadUrl,
   storeAttachmentUpload,
   validateAttachmentUploadToken,
-} from "./AttachmentUpload.ts";
+} from "./AttachmentUpload.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerTest = ServerSecretStore.layer.pipe(
   Layer.provideMerge(ServerConfig.layerTest(process.cwd(), { prefix: "t3-attachment-upload-" })),
-  Layer.provideMerge(DocumentText.layer.pipe(Layer.provideMerge(NodeServices.layer))),
+  Layer.provideMerge(
+    DocumentText.layer.pipe(
+      Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+    ),
+  ),
 );
 
 const uploadInput = {

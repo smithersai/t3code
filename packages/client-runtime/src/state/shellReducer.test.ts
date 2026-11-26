@@ -6,7 +6,7 @@ import {
   applyShellStreamEvent,
   mergeShellSnapshotProjects,
   reuseUnchangedThreadShells,
-} from "./shellReducer.ts";
+} from "./shellReducer.vibe";
 
 const repositoryIdentity = {
   canonicalKey: "github.com/example/repo",

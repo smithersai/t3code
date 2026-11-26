@@ -70,7 +70,7 @@ describe("file save sessions in React", () => {
     );
     finishWrite();
     getUnsavedFile.mockReturnValue(null);
-    await vi.runAllTimersAsync();
+    await vi.advanceTimersByTimeAsync(501);
 
     expect(runAtomCommand.mock.calls.map(([, , request]) => request)).toEqual([
       {

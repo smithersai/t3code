@@ -6,7 +6,7 @@ import {
   pendingDraftBranchNeedsRefs,
   resolvePendingDraftBranch,
 } from "./pending-new-tasks-model";
-import type { ComposerDraft, ComposerDraftWorkspaceSelection } from "./use-composer-drafts";
+import type { ComposerDraft, ComposerDraftWorkspaceSelection } from "./use-composer-drafts.vibe";
 
 const projectCwd = "/repo";
 const localDefault: PendingDraftProjectDefaults = {

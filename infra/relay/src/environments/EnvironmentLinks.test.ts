@@ -3,9 +3,9 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { PgDialect } from "drizzle-orm/pg-core";
 
-import * as RelayDb from "../db.ts";
+import * as RelayDb from "../db.vibe";
 import { relayEnvironmentLinks } from "../persistence/schema.ts";
-import * as EnvironmentLinks from "./EnvironmentLinks.ts";
+import * as EnvironmentLinks from "./EnvironmentLinks.vibe";
 
 describe("EnvironmentLinks", () => {
   it.effect("carries the webhook-hold opt-in over only from links with the same key", () => {

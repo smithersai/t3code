@@ -14,7 +14,7 @@ import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 import { Rpc, RpcGroup, RpcMessage, RpcSerialization, RpcServer } from "effect/rpc";
 
-import { terminalOutputStream, withTerminalOutputWindow } from "./OutputProtocol.ts";
+import { terminalOutputStream, withTerminalOutputWindow } from "./OutputProtocol.vibe";
 
 describe("terminal output window", () => {
   it.effect.each([

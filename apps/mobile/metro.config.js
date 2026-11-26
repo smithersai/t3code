@@ -114,11 +114,13 @@ async function prepareStreamScripts() {
   }
 }
 
-module.exports = Promise.all([generateMobileThirdPartyLicenses(), prepareStreamScripts()]).then(
-  () =>
+
+module.exports = require("vibelang/metro").withVibeLang(
+  Promise.all([generateMobileThirdPartyLicenses(), prepareStreamScripts()]).then(() =>
     withUniwindConfig(config, {
       cssEntryFile: "./global.css",
       extraThemes,
       polyfills: { rem: 14 },
     }),
+  ),
 );

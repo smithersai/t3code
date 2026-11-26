@@ -8,9 +8,9 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as CommandOutputHub from "../CommandOutputHub.ts";
-import type * as EventSink from "../EventSink.ts";
-import type * as ProjectionStore from "../ProjectionStore.ts";
+import * as CommandOutputHub from "../CommandOutputHub.vibe";
+import type * as EventSink from "../EventSink.vibe";
+import type * as ProjectionStore from "../ProjectionStore.vibe";
 
 export interface RecordedCommandOutput {
   readonly chunks: number;

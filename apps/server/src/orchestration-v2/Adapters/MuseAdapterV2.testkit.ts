@@ -22,7 +22,7 @@ import {
   type MuseSdkHostOptions,
 } from "@t3tools/provider-muse/testing";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import * as ProviderContinuationRequests from "@t3tools/provider-core/server/ProviderContinuationRequests";
 import type { OrchestratorV2ProviderReplayHarness } from "../testkit/ProviderReplayHarness.ts";
 import { materializeReplayTranscriptWorkspace } from "@t3tools/provider-testing/replayTranscript";

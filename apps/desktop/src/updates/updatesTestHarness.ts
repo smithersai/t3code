@@ -6,14 +6,15 @@ import * as PlatformError from "effect/PlatformError";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 
-import * as DesktopBackendPool from "../backend/DesktopBackendPool.ts";
-import * as DesktopConfig from "../app/DesktopConfig.ts";
-import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
-import * as ElectronUpdater from "../electron/ElectronUpdater.ts";
-import * as ElectronWindow from "../electron/ElectronWindow.ts";
-import * as DesktopAppSettings from "../settings/DesktopAppSettings.ts";
-import * as DesktopState from "../app/DesktopState.ts";
-import * as DesktopUpdates from "./DesktopUpdates.ts";
+import * as DesktopBackendPool from "../backend/DesktopBackendPool.vibe";
+import * as DesktopConfig from "../app/DesktopConfig.vibe";
+import * as DesktopEnvironment from "../app/DesktopEnvironment.vibe";
+import * as ElectronUpdater from "../electron/ElectronUpdater.vibe";
+import * as ElectronWindow from "../electron/ElectronWindow.vibe";
+import * as DesktopAppSettings from "../settings/DesktopAppSettings.vibe";
+import * as DesktopState from "../app/DesktopState.vibe";
+import * as DesktopUpdates from "./DesktopUpdates.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 export const flushCallbacks = Effect.yieldNow;
 
@@ -165,7 +166,7 @@ export function makeHarness(options: UpdatesHarnessOptions = {}) {
   }).pipe(
     Layer.provide(
       Layer.mergeAll(
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         DesktopConfig.layerTest({
           T3CODE_HOME: `/tmp/t3-desktop-updates-test-${process.pid}`,
           T3CODE_DESKTOP_MOCK_UPDATES: "true",
@@ -265,7 +266,7 @@ export function makeHarness(options: UpdatesHarnessOptions = {}) {
       }),
     ),
     Layer.provideMerge(layerEnvironment),
-    Layer.provideMerge(NodeServices.layer),
+    Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
   );
 
   return {

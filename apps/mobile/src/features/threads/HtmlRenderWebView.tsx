@@ -16,8 +16,8 @@ import { WebView, type WebViewMessageEvent } from "react-native-webview";
 import { SymbolView } from "../../components/ui/AppSymbol";
 import { AppText as Text } from "../../components/ui/AppText";
 import { mobileHtmlRenderTheme } from "../../lib/htmlRenderTheme";
-import { tryOpenExternalUrl } from "../../lib/openExternalUrl";
-import { useAssetUrlState, useRefreshAssetUrl } from "../../state/assets";
+import { tryOpenExternalUrl } from "../../lib/openExternalUrl.vibe";
+import { useAssetUrlState, useRefreshAssetUrl } from "../../state/assets.vibe";
 import { useAppearancePreferences } from "../settings/appearance/AppearancePreferencesProvider";
 
 const ROW_BOTTOM_MARGIN = 8;

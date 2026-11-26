@@ -3,7 +3,7 @@ import { Pressable, View } from "react-native";
 import ImageViewing from "react-native-image-viewing";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useMediaActions } from "../state/mediaActions";
+import { useMediaActions } from "../state/mediaActions.vibe";
 import { AppText } from "./ui/AppText";
 import { SymbolView } from "./ui/AppSymbol";
 import type { ResolvedFilePreviewSource } from "./FilePreviewModal.types";

@@ -19,10 +19,10 @@ import {
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import { applyToProjection, emptyProjection } from "./ProjectionStore.ts";
-import { planThreadDeletion } from "./ThreadDeletion.ts";
+import { applyToProjection, emptyProjection } from "./ProjectionStore.vibe";
+import { planThreadDeletion } from "./ThreadDeletion.vibe";
 
 const threadId = ThreadId.make("thread:delete-plan");
 const providerInstanceId = ProviderInstanceId.make("codex");

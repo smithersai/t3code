@@ -15,7 +15,7 @@ import {
   type Texture,
 } from "three";
 import type { DuoRestFrame } from "./duoSnap.ts";
-import type { DeviceScreenSize } from "./stream.ts";
+import type { DeviceScreenSize } from "./stream.vibe";
 
 export type DuoPanelId = 1 | 3;
 export type DuoHingeLeaf = "left" | "right";

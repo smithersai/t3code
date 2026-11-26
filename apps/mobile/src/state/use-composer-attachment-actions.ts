@@ -18,7 +18,7 @@ import {
   countComposerDraftAttachmentsAfterSelection,
   getComposerDraftSnapshot,
   type ComposerDraftInsertion,
-} from "./use-composer-drafts";
+} from "./use-composer-drafts.vibe";
 import { startComposerDraftOperation } from "./composerDraftOperations";
 
 export function useComposerAttachmentActions(props: {

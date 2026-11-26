@@ -12,13 +12,14 @@ import * as Redacted from "effect/Redacted";
 import * as TestClock from "effect/testing/TestClock";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as ServerConfig from "../config.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as SessionStore from "./SessionStore.ts";
-import * as ServerSecretStore from "./ServerSecretStore.ts";
-import { base64UrlDecodeUtf8, base64UrlEncode, signPayload } from "./utils.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as SessionStore from "./SessionStore.vibe";
+import * as ServerSecretStore from "./ServerSecretStore.vibe";
+import { base64UrlDecodeUtf8, base64UrlEncode, signPayload } from "./utils.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerServerConfig = (overrides?: Partial<ServerConfig.ServerConfig["Service"]>) =>
   Layer.effect(
@@ -82,7 +83,7 @@ const makeDiskSessionStoreLayer = Effect.fn("makeDiskSessionStoreLayer")(functio
   );
 });
 
-it.layer(NodeServices.layer)("SessionStore.layer", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("SessionStore.layer", (it) => {
   it.effect.each(["revoke", "revokeAllExcept", "replace"] as const)(
     "invalidates every connection for a session on %s and leaves other sessions active",
     (operation) =>

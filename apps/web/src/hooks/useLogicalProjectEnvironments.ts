@@ -7,13 +7,13 @@ import {
   resolveEnvironmentMachineKind,
 } from "@t3tools/contracts";
 
-import type { EnvironmentOption } from "../components/BranchToolbar.logic";
+import type { EnvironmentOption } from "../components/BranchToolbar.logic.vibe";
 import {
   deriveLogicalProjectKeyFromSettings,
   selectProjectGroupingSettings,
 } from "../logicalProject";
 import { useProjects } from "../state/entities";
-import { useEnvironments, usePrimaryEnvironmentId } from "../state/environments";
+import { useEnvironments, usePrimaryEnvironmentId } from "../state/environments.vibe";
 import { useClientSettings } from "./useSettings";
 
 export function useLogicalProjectEnvironments(

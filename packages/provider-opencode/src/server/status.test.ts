@@ -15,22 +15,23 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import { beforeEach } from "vite-plus/test";
 
-import { OpenCodeSettings } from "../settings.ts";
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
-import * as OpenCodeServerOwner from "./OpenCodeServerOwner.ts";
+import { OpenCodeSettings } from "../settings.vibe";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe";
+import * as OpenCodeServerOwner from "./OpenCodeServerOwner.vibe";
 import {
   checkOpenCodeProviderStatus,
   loadOpenCode2Workspace,
   type OpenCode2Model,
   type OpenCode2Workspace,
-} from "./status.ts";
-import { readOpenCodeGoUsageLimits } from "./usageLimits.ts";
-import { probeOpenCodeRuntime } from "./versionProbe.ts";
+} from "./status.vibe";
+import { readOpenCodeGoUsageLimits } from "./usageLimits.vibe";
+import { probeOpenCodeRuntime } from "./versionProbe.vibe";
 import {
   OPENCODE_1_RESPONSES,
   OPENCODE_2_RESPONSES,
   replayOpenCodeServer,
 } from "./probeResponses.fixture.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
 const decodeOpenCodeSettings = Schema.decodeSync(OpenCodeSettings);
 
 const DEFAULT_VERSION_STDOUT = "opencode 1.14.19\n";
@@ -73,7 +74,7 @@ it.effect("reads Go limits with the instance's XDG credentials and preserves res
           );
         }),
       ),
-      Effect.provide(NodeServices.layer),
+      Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     );
     NodeAssert.equal(limits.unavailable, undefined);
     NodeAssert.equal(
@@ -223,7 +224,7 @@ it.effect(
           consoleStatus === 500 ? undefined : fingerprints.get(requested.at(-1)!),
         );
       }
-    }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 it.effect("does not read local credentials for external or disabled OpenCode instances", () =>
@@ -243,7 +244,7 @@ it.effect("does not read local credentials for external or disabled OpenCode ins
           HttpClient.HttpClient,
           HttpClient.make(() => Effect.die("unexpected usage request")),
         ),
-        Effect.provide(NodeServices.layer),
+        Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       );
       NodeAssert.equal(limits.unavailable?.reason, "unsupported");
     }
@@ -276,7 +277,7 @@ it.effect("keeps Go entitlement absence distinct from failed or malformed usage 
             Effect.succeed(HttpClientResponse.fromWeb(request, Response.json({}, { status }))),
           ),
         ),
-        Effect.provide(NodeServices.layer),
+        Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       );
       NodeAssert.equal(limits.unavailable?.reason, reason);
       NodeAssert.equal(limits.credentialFingerprint, undefined);
@@ -421,7 +422,7 @@ beforeEach(() => {
 });
 
 const layerTest = Layer.succeed(OpenCodeRuntime.OpenCodeRuntime, OpenCodeRuntimeTestDouble).pipe(
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 const makeOpenCodeSettings = (overrides?: Partial<OpenCodeSettings>): OpenCodeSettings =>

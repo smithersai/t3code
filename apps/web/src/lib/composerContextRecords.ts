@@ -44,7 +44,7 @@ import {
   normalizeTerminalContextText,
   type TerminalContextDraft,
 } from "./terminalContext";
-import type { ReviewCommentContext } from "~/reviewCommentContext";
+import type { ReviewCommentContext } from "../reviewCommentContext.vibe";
 
 const PREVIEW_LABEL_MAX_CHARS = 48;
 

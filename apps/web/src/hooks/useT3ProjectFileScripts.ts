@@ -6,7 +6,7 @@ import {
 } from "@t3tools/contracts";
 import { parseT3ProjectFile } from "@t3tools/shared/t3ProjectFile";
 
-import { useProjectFileQuery } from "~/components/files/projectFilesQueryState";
+import { useProjectFileQuery } from "../components/files/projectFilesQueryState.vibe";
 
 const NO_SCRIPTS: ReadonlyArray<T3ProjectFileScript> = [];
 

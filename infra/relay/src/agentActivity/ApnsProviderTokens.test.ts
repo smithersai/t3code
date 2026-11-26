@@ -6,7 +6,7 @@ import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 
-import * as ApnsProviderTokens from "./ApnsProviderTokens.ts";
+import * as ApnsProviderTokens from "./ApnsProviderTokens.vibe";
 
 const { privateKey } = NodeCrypto.generateKeyPairSync("ec", {
   namedCurve: "prime256v1",

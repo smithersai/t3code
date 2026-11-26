@@ -1,5 +1,5 @@
 import type { SidebarProjectSnapshot } from "../../sidebarProjectGrouping";
-import type { EnvironmentPresentation } from "../../state/environments";
+import type { EnvironmentPresentation } from "../../state/environments.vibe";
 import type { ResolvedSettingsScope, SettingsScopeSearch } from "./settingsScope";
 
 type ScopeEnvironment = Pick<EnvironmentPresentation, "environmentId" | "label" | "displayUrl">;

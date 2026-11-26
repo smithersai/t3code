@@ -1,6 +1,6 @@
 import { assert, it } from "@effect/vitest";
 
-import { makeTraceSpanSummary } from "./trace.ts";
+import { makeTraceSpanSummary } from "./trace.vibe";
 
 const MINUTE_MS = 60_000;
 

@@ -4,23 +4,23 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as PullRequestService from "../pullRequest/PullRequestService.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.ts";
-import * as WorkspaceEntries from "../workspace/WorkspaceEntries.ts";
-import * as CheckpointCapture from "./CheckpointCaptureService.ts";
-import * as CheckpointRollback from "./CheckpointRollbackService.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
-import * as EffectWorker from "./EffectWorker.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProviderSessions from "./ProviderSessionManager.ts";
-import * as ProviderTurnControl from "./ProviderTurnControlService.ts";
-import * as ProviderTurnStart from "./ProviderTurnStartService.ts";
-import * as RunFinalization from "./RunFinalizationService.ts";
-import * as RuntimeRequests from "./RuntimeRequestService.ts";
-import * as ThreadManagement from "./ThreadManagementService.ts";
-import * as ThreadTitles from "./ThreadTitleRegenerationService.ts";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as PullRequestService from "../pullRequest/PullRequestService.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as VcsStatusBroadcaster from "../vcs/VcsStatusBroadcaster.vibe";
+import * as WorkspaceEntries from "../workspace/WorkspaceEntries.vibe";
+import * as CheckpointCapture from "./CheckpointCaptureService.vibe";
+import * as CheckpointRollback from "./CheckpointRollbackService.vibe";
+import * as EffectOutbox from "./EffectOutbox.vibe";
+import * as EffectWorker from "./EffectWorker.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as ProviderSessions from "./ProviderSessionManager.vibe";
+import * as ProviderTurnControl from "./ProviderTurnControlService.vibe";
+import * as ProviderTurnStart from "./ProviderTurnStartService.vibe";
+import * as RunFinalization from "./RunFinalizationService.vibe";
+import * as RuntimeRequests from "./RuntimeRequestService.vibe";
+import * as ThreadManagement from "./ThreadManagementService.vibe";
+import * as ThreadTitles from "./ThreadTitleRegenerationService.vibe";
 
 it.effect.each([
   ["starts the next turn after a post-capture Git status failure", false],

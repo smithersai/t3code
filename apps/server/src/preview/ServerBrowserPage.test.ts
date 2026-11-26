@@ -7,7 +7,7 @@ import {
 } from "playwright-core";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from "vite-plus/test";
 
-import * as ServerBrowserPage from "./ServerBrowserPage.ts";
+import * as ServerBrowserPage from "./ServerBrowserPage.vibe";
 
 describe("server browser element refs", () => {
   let browser: Browser;

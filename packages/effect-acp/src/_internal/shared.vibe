@@ -1,0 +1,119 @@
+import * as Effect from "effect/Effect"
+import * as Schema from "effect/Schema"
+import { RpcClientError } from "effect/rpc"
+
+import * as AcpSchema from "../_generated/schema.gen.ts"
+import * as AcpError from "../errors.vibe"
+const isError = Schema.is(AcpSchema.Error)
+const isAcpError = Schema.is(AcpError.AcpError)
+
+export const callRpc = <A>(
+  method: string,
+  effect: A!(RpcClientError.RpcClientError | AcpSchema.Error),
+): A!AcpError.AcpError =>
+  do {
+    const catchProgram = effect
+      |> Effect.catchIf(
+        %,
+        isError,
+        (error) => Effect.fail(AcpError.AcpRequestError.fromProtocolError(error, { method })),
+      )
+    effect {
+      return catchProgram catch effect (cause) => match (cause) {
+        when { _tag: "RpcClientError" }: throw (cause.reason._tag === "RpcClientDefect" && isAcpError(cause.reason.cause)
+          ? cause.reason.cause
+          : new AcpError.AcpTransportError({
+            operation: "call-rpc",
+            method,
+            cause,
+          }));
+        default: throw cause;
+      }
+    }
+  }
+
+export const isolateNotificationHandler = <E, R>(effect: void!E!R) =>
+  effect
+  |> Effect.catchCause(%, (cause) =>
+    Cause.hasDies(cause)
+      ? Effect.logError("ACP notification handler failed", cause)
+      : Effect.void)
+
+export const runHandler = effect <A, B, Args extends ReadonlyArray<unknown>>(
+  handler: ((payload: A, ...args: Args) => B!AcpError.AcpError) | undefined,
+  payload: A,
+  method: string,
+  ...args: Args
+) => {
+  if (!handler) {
+    throw AcpError.AcpRequestError.methodNotFound(method).toProtocolError()
+  }
+  return (handler(payload, ...args)
+    |> Effect.tapDefect(%, (defect) => Effect.logError(`ACP request handler failed for '${method}'`, defect))) catch effect (error) => {
+        throw AcpError.AcpRequestError.fromCoreHandlerError(error, method).toProtocolError()
+      }
+}
+
+export function decodeExtRequestRegistration<A, I>(
+  method: string,
+  payload: Schema.Codec<A, I>,
+  handler: (
+    payload: A,
+    context: { readonly requestId: string; readonly method: string },
+  ) => unknown!AcpError.AcpError,
+) {
+  return (
+    params: unknown,
+    context: { readonly requestId: string; readonly method: string },
+  ): unknown!AcpError.AcpError =>
+    Schema.decodeUnknownEffect(payload)(params)
+    |> Effect.mapError(%, (error) => AcpError.AcpRequestError.invalidExtensionPayload(method, error))
+    |> Effect.flatMap(%, (decoded) => handler(decoded, context))
+}
+
+export function decodeExtNotificationRegistration<A, I>(
+  method: string,
+  payload: Schema.Codec<A, I>,
+  handler: (payload: A) => void!AcpError.AcpError,
+) {
+  return (params: unknown): void!AcpError.AcpError =>
+    Schema.decodeUnknownEffect(payload)(params)
+    |> Effect.mapError(%, (error) =>
+      AcpError.AcpProtocolParseError.fromSchemaError(
+        "decode-notification-payload",
+        method,
+        error,
+      ))
+    |> Effect.flatMap(%, (decoded) => handler(decoded))
+}
+
+const encoder = new TextEncoder()
+
+const JsonRpcId = Schema.Union([Schema.Number, Schema.String])
+const JsonRpcHeaders = Schema.Array(Schema.Unknown)
+
+export const jsonRpcRequest = <A, I>(method: string, params: Schema.Codec<A, I>) =>
+  Schema.Struct({
+    jsonrpc: Schema.Literal("2.0"),
+    id: JsonRpcId,
+    method: Schema.Literal(method),
+    params,
+    headers: JsonRpcHeaders.pipe(Schema.withDecodingDefaultKey(Effect.succeed([]))),
+  })
+
+export const jsonRpcNotification = <A, I>(method: string, params: Schema.Codec<A, I>) =>
+  Schema.Struct({
+    jsonrpc: Schema.Literal("2.0"),
+    method: Schema.Literal(method),
+    params,
+  })
+
+export const jsonRpcResponse = <A, I>(result: Schema.Codec<A, I>) =>
+  Schema.Struct({
+    jsonrpc: Schema.Literal("2.0"),
+    id: JsonRpcId,
+    result,
+  })
+
+export const encodeJsonl = <A, I>(schema: Schema.Codec<A, I>, value: A) =>
+  Effect.map(Schema.encodeEffect(Schema.fromJsonString(schema))(value), (encoded) => encoder.encode(`${encoded}\n`))

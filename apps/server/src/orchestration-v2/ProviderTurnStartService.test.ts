@@ -31,24 +31,25 @@ import * as Path from "effect/Path";
 import * as PlatformError from "effect/PlatformError";
 import * as Schema from "effect/Schema";
 
-import * as ServerConfig from "../config.ts";
-import { withWorkspaceLease } from "../workspace/workspaceLease.ts";
-import * as GitWorkflow from "../git/GitWorkflowService.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
+import * as ServerConfig from "../config.vibe";
+import { withWorkspaceLease } from "../workspace/workspaceLease.vibe";
+import * as GitWorkflow from "../git/GitWorkflowService.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
 import { layerRealGit } from "./ProviderTurnStartService.testkit.ts";
-import * as ProjectService from "../project/ProjectService.ts";
-import * as ProviderAuthService from "../provider/ProviderAuthService.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as ContextHandoffService from "./ContextHandoffService.ts";
-import * as EventSink from "./EventSink.ts";
+import * as ProjectService from "../project/ProjectService.vibe";
+import * as ProviderAuthService from "../provider/ProviderAuthService.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as ContextHandoffService from "./ContextHandoffService.vibe";
+import * as EventSink from "./EventSink.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import * as ProviderSessionManager from "./ProviderSessionManager.ts";
-import * as ProviderTurnStart from "./ProviderTurnStartService.ts";
-import * as RunExecutionService from "./RunExecutionService.ts";
-import * as RuntimePolicy from "./RuntimePolicy.ts";
+import * as ProviderSessionManager from "./ProviderSessionManager.vibe";
+import * as ProviderTurnStart from "./ProviderTurnStartService.vibe";
+import * as RunExecutionService from "./RunExecutionService.vibe";
+import * as RuntimePolicy from "./RuntimePolicy.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const isDomainEvent = Schema.is(OrchestrationV2DomainEvent);
 
@@ -945,7 +946,7 @@ effectIt.effect(
         },
       ]);
       expect(JSON.stringify(harness.events)).not.toContain("private git diagnostic");
-    }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 effectIt.effect("recovers an abandoned failed turn before continuing its native conversation", () =>
@@ -1130,7 +1131,7 @@ effectIt.effect.each(["cleanup-first", "startup-first"])(
           runtimePolicy: expect.objectContaining({ cwd: worktreePath }),
         }),
       );
-    }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.scoped, Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))),
 );
 
 effectIt.effect("reads current startup state after waiting for the workspace lease", () =>

@@ -7,8 +7,8 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
-import * as RelayConfiguration from "../Config.ts";
-import * as RelayTokens from "./RelayTokens.ts";
+import * as RelayConfiguration from "../Config.vibe";
+import * as RelayTokens from "./RelayTokens.vibe";
 
 const keyPair = NodeCrypto.generateKeyPairSync("ed25519", {
   privateKeyEncoding: { format: "pem", type: "pkcs8" },

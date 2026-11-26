@@ -6,11 +6,11 @@ import {
   makeScanCacheWriter,
   type CachedFile,
   type ScanCache,
-} from "./usageScanCache.ts";
+} from "./usageScanCache.vibe";
 import type { UsageRecord } from "@t3tools/provider-core/server/usage";
 
 import { TEST_FORMAT_MAP } from "./usageTestFormats.ts";
-import { initialCodexScanState, parseCodexLine } from "../provider/Drivers/codexUsage.ts";
+import { initialCodexScanState, parseCodexLine } from "../provider/Drivers/codexUsage.vibe";
 
 function record(overrides: Partial<UsageRecord> = {}): UsageRecord {
   return {

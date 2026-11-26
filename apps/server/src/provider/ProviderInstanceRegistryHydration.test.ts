@@ -7,7 +7,7 @@ import {
 } from "@t3tools/contracts";
 import { describe, expect, it } from "vite-plus/test";
 
-import { deriveProviderInstanceConfigMap } from "./ProviderInstanceRegistryHydration.ts";
+import { deriveProviderInstanceConfigMap } from "./ProviderInstanceRegistryHydration.vibe";
 
 const projectId = ProjectId.make("project-a");
 const instanceId = ProviderInstanceId.make("codex_work");

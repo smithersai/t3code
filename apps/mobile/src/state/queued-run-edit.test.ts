@@ -18,9 +18,9 @@ import {
   removeQueuedRunEditAttachment,
   resolveQueuedEditPayload,
   type QueuedRunEdit,
-} from "./queued-run-edit";
+} from "./queued-run-edit.vibe";
 import { threadComposerErrorsAtom } from "./thread-composer-error";
-import { getComposerDraftSnapshot, setComposerDraftText } from "./use-composer-drafts";
+import { getComposerDraftSnapshot, setComposerDraftText } from "./use-composer-drafts.vibe";
 
 const image = (id: string): ChatAttachment => ({
   type: "image",

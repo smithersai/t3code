@@ -49,10 +49,10 @@ import {
   PiAdapterV2Driver,
   PI_PROVIDER,
   type PiAdapterV2Options,
-} from "./adapter.ts";
-import { makePiRpcConnection, type PiRpcRecord } from "./rpc.ts";
+} from "./adapter.vibe";
+import { makePiRpcConnection, type PiRpcRecord } from "./rpc.vibe";
 import { loadMcpBridge } from "./mcpBridge.testkit.ts";
-import { turnItemOutputText } from "../../../client-runtime/src/work-log/itemDetail.ts";
+import { turnItemOutputText } from "../../../client-runtime/src/work-log/itemDetail.vibe";
 
 const layerTest = Layer.mergeAll(
   NodeServices.layer,
@@ -312,8 +312,13 @@ const makeFakePi: Effect.Effect<FakePi> = Effect.gen(function* () {
     Effect.sync(() => {
       if (ChildProcess.isStandardCommand(command)) {
         lastSpawn = {
-          args: command.args,
-          env: command.options.env ?? {},
+          args: command.args.map(String),
+          env: Object.fromEntries(
+            Object.entries(command.options.env ?? {}).map(([key, value]) => [
+              key,
+              value === undefined ? undefined : String(value),
+            ]),
+          ),
         };
       }
       return ChildProcessSpawner.makeHandle({

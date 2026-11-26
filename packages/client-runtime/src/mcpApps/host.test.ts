@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { makeMcpAppHost, McpAppHostRefusal, type McpAppHostContext } from "./host.ts";
+import { makeMcpAppHost, McpAppHostRefusal, type McpAppHostContext } from "./host.vibe";
 
 const app = {
   attachmentId: "thread-1-app",

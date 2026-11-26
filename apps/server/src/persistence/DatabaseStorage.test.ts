@@ -8,12 +8,12 @@ import * as Path from "effect/Path";
 import * as TestClock from "effect/testing/TestClock";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as ServerConfig from "../config.ts";
-import * as EventStore from "../orchestration-v2/EventStore.ts";
-import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.ts";
-import * as ProjectionStore from "../orchestration-v2/ProjectionStore.ts";
-import * as DatabaseStorage from "./DatabaseStorage.ts";
-import * as Sqlite from "./Sqlite.ts";
+import * as ServerConfig from "../config.vibe";
+import * as EventStore from "../orchestration-v2/EventStore.vibe";
+import * as ProjectionMaintenance from "../orchestration-v2/ProjectionMaintenance.vibe";
+import * as ProjectionStore from "../orchestration-v2/ProjectionStore.vibe";
+import * as DatabaseStorage from "./DatabaseStorage.vibe";
+import * as Sqlite from "./Sqlite.vibe";
 
 const freePages = Effect.map(
   Effect.flatMap(

@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from "react";
 
 import { useAllEnvironmentShellsBootstrapped, useProjects } from "~/state/entities";
-import { useEnvironments } from "~/state/environments";
+import { useEnvironments } from "../../state/environments.vibe";
 import {
   applyPullRequestOverrides,
   findProjectForRepository,
@@ -207,6 +207,7 @@ export function usePullRequestQueryFilters(search: PullRequestsSearch, typedQuer
   const hasLocalFilters = Object.keys(localFilters).length > 0;
   return {
     sentQuery,
+    /** @throws {never} */
     submitQuery: (query: string) => setSentQuery(query.trim()),
     querySettled: typedQuery === sentQuery,
     typedParsed,

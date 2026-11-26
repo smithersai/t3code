@@ -1,0 +1,22 @@
+import { OrchestrationGetWorkflowScriptError } from "@t3tools/contracts"
+import * as Effect from "effect/Effect"
+import { readContainedWorkflowFile } from "./workflowFileRead.vibe"
+
+export const readWorkflowScript = effect (input: { readonly scriptPath: string }) =>
+  try withSpan(
+    effect {
+      const file = readContainedWorkflowFile({
+        path: input.scriptPath,
+        extension: ".js",
+        byteCap: 256 * 1024,
+      }) catch effect (error) => {
+        throw new OrchestrationGetWorkflowScriptError({
+          reason: error.reason === "wrong-extension" ? "not-js" : error.reason,
+          scriptPath: error.path,
+          cause: error,
+        })
+      }
+      return { scriptPath: file.path, contents: file.contents, truncated: file.truncated }
+    },
+    "orchestration.readWorkflowScript",
+  )

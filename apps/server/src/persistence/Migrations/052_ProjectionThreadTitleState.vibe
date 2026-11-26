@@ -1,0 +1,6 @@
+import * as SqlClient from "effect/sql/SqlClient"
+
+export default effect {
+  const sql = try SqlClient.SqlClient
+  try sql`ALTER TABLE projection_threads ADD COLUMN title_state_json TEXT`
+}

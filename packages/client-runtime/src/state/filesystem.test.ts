@@ -5,7 +5,7 @@ import {
   createBrowseNavigationCoordinator,
   getFilesystemBrowsePath,
   resolveFilesystemReadAccess,
-} from "./filesystem.ts";
+} from "./filesystem.vibe";
 
 const SPLIT_SCOPES_SERVER = { serverUpdateScope: "environment:maintain" } as const;
 

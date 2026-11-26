@@ -1,0 +1,43 @@
+import * as Effect from "effect/Effect"
+
+module platform {
+  export const $crypto_subtle_digest: typeof crypto.subtle.digest =
+    ((...args: Parameters<typeof crypto.subtle.digest>) => crypto.subtle.digest(...args)) as typeof crypto.subtle.digest
+}
+
+import { $crypto_subtle_digest } from platform
+
+const Keys = Schema.fromJsonString(Schema.Record(Schema.String, Schema.String))
+const decodeKeys = Schema.decodeEffect(Keys)
+export const developerIdentity = effect (
+  request: Request,
+  encodedKeys: string | undefined,
+) =>
+  try withSpan(
+    effect {
+      const authorization = request.headers.get("authorization")
+      if (!authorization?.toLowerCase().startsWith("basic ")) return undefined
+      if (!encodedKeys || authorization.length > 1024) return null
+
+      const decoded = try (Effect.try(() => atob(authorization.slice(6))) |> Effect.option(%))
+      if (decoded._tag === "None") return null
+      const keys = try (decodeKeys(encodedKeys) |> Effect.option(%))
+      if (keys._tag === "None") return null
+      const separator = decoded.value.indexOf(":")
+      const name = decoded.value.slice(0, separator)
+      const token = decoded.value.slice(separator + 1)
+      if (separator < 1 || !/^[a-z0-9-]{1,64}$/.test(name) || token.length < 32) return null
+      const expected = Object.hasOwn(keys.value, name) ? keys.value[name] : undefined
+      if (typeof expected !== "string" || !/^[a-f0-9]{64}$/.test(expected)) return null
+      const digest = new Uint8Array(
+        try Effect.promise(() => $crypto_subtle_digest("SHA-256", new TextEncoder().encode(token))),
+      )
+      const actual = Array.from(digest, (byte) => byte.toString(16).padStart(2, "0")).join("")
+      let difference = 0
+      for (let index = 0; index < actual.length; index++) {
+        difference |= actual.charCodeAt(index) ^ expected.charCodeAt(index)
+      }
+      return difference === 0 ? name : null
+    },
+    "TaskCache.developerIdentity",
+  )

@@ -12,7 +12,7 @@ import {
   hasCursorSkillMention,
   probeCursorSkills,
   rewriteCursorSkillMentions,
-} from "./skills.ts";
+} from "./skills.vibe";
 
 const runNode = <A, E>(
   effect: Effect.Effect<A, E, FileSystem.FileSystem | Path.Path | Scope.Scope>,

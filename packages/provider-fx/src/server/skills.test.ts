@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 
-import { discoverFxSkills } from "./skills.ts";
+import { discoverFxSkills } from "./skills.vibe";
 
 describe("discoverFxSkills", () => {
   // fx 0.0.13 scans workspace roots from the workspace up to HOME, then

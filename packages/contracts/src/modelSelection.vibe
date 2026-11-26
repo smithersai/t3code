@@ -1,0 +1,54 @@
+import * as Schema from "effect/Schema"
+
+import { TrimmedNonEmptyString } from "./baseSchemas.vibe"
+import { ProviderOptionSelections } from "./model.vibe"
+import { ProviderInstanceId } from "./providerInstance.vibe"
+
+const ModelSelectionWire = Schema.Struct({
+  instanceId: ProviderInstanceId,
+  model: TrimmedNonEmptyString,
+  options: Schema.optionalKey(ProviderOptionSelections),
+})
+
+schema ModelSelectionSource {
+  readonly provider?: Schema.Unknown | undefined
+  readonly instanceId?: Schema.Unknown | undefined
+  readonly model: Schema.Unknown
+  readonly options?: Schema.Unknown | undefined
+}
+
+export const ModelSelection = ModelSelectionSource.pipe(
+  Schema.decodeTo(
+    ModelSelectionWire,
+    SchemaTransformation.transformEffect({
+      decode: (raw) => {
+        const instanceIdSource = raw.instanceId !== undefined
+          ? raw.instanceId
+          : typeof raw.provider === "string"
+          ? raw.provider
+          : undefined
+        const base: Record<string, unknown> = {
+          instanceId: instanceIdSource,
+          model: raw.model,
+        }
+        if (raw.options !== undefined) base.options = raw.options
+        const result = base as typeof ModelSelectionWire.Encoded
+        return effect {
+          return result
+        }
+      },
+      encode: (value) => {
+        const base: Record<string, unknown> = {
+          instanceId: value.instanceId,
+          model: value.model,
+        }
+        if (value.options !== undefined) base.options = value.options
+        const result = base as typeof ModelSelectionSource.Encoded
+        return effect {
+          return result
+        }
+      },
+    }),
+  ),
+)
+export type ModelSelection = typeof ModelSelection.Type

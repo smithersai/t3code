@@ -10,7 +10,7 @@ import {
   normalizeDpopHtu,
   type DpopPublicJwk,
   verifyDpopProof,
-} from "./dpop.ts";
+} from "./dpop.vibe";
 
 function signDpopProof(input: {
   readonly method: string;

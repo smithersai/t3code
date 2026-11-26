@@ -10,7 +10,7 @@ import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as FileSystem from "effect/FileSystem";
-import { withChatGptSessionLock } from "./CodexChatGptSessionLock.ts";
+import { withChatGptSessionLock } from "./CodexChatGptSessionLock.vibe";
 
 const execFile = NodeUtil.promisify(NodeChildProcess.execFile);
 const lockModule = NodeModule.createRequire(import.meta.url).resolve("proper-lockfile");

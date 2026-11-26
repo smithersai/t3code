@@ -16,20 +16,20 @@ import * as HttpServerRequest from "effect/http/HttpServerRequest";
 import * as HttpApi from "effect/http-api/HttpApi";
 import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder";
 
-import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
-import * as AuthHttp from "../auth/http.ts";
-import * as McpOAuth from "../auth/McpOAuth.ts";
-import * as McpOAuthHttp from "../auth/mcpOAuthHttp.ts";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as ServerConfig from "../config.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as ServerHttp from "../http.ts";
-import * as McpHttpServer from "../mcp/McpHttpServer.ts";
-import * as McpSessionRegistry from "../mcp/McpSessionRegistry.ts";
-import * as Sqlite from "../persistence/Sqlite.ts";
-import * as PeerLinks from "./PeerLinks.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as PeerMcpClient from "./PeerMcpClient.ts";
+import * as EnvironmentAuth from "../auth/EnvironmentAuth.vibe";
+import * as AuthHttp from "../auth/http.vibe";
+import * as McpOAuth from "../auth/McpOAuth.vibe";
+import * as McpOAuthHttp from "../auth/mcpOAuthHttp.vibe";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
+import * as ServerHttp from "../http.vibe";
+import * as McpHttpServer from "../mcp/McpHttpServer.vibe";
+import * as McpSessionRegistry from "../mcp/McpSessionRegistry.vibe";
+import * as Sqlite from "../persistence/Sqlite.vibe";
+import * as PeerLinks from "./PeerLinks.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as PeerMcpClient from "./PeerMcpClient.vibe";
 
 class PeerTestApi extends HttpApi.make("environment")
   .add(EnvironmentHttpApi.groups.metadata)
@@ -102,7 +102,7 @@ export const servePeer = <E, R>(
         Layer.provide(AuthHttp.layerAuthenticatedAuth),
       ),
       tools.pipe(
-        Layer.provideMerge(McpHttpServer.layerMcpTransport),
+        McpHttpServer.withMcpTransport,
         Layer.provide(
           Layer.mock(McpSessionRegistry.McpSessionRegistry)({
             // @effect-diagnostics-next-line effectSucceedWithVoid:off - This optional result requires undefined, not the wider void type.

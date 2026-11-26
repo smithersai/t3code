@@ -1,23 +1,24 @@
 import { SourceControlProviderError, SourceControlProviderKind } from "@t3tools/contracts";
 import * as NodeServices from "@effect/platform-node/NodeServices";
-import * as ServerConfig from "../config.ts";
-import * as GitManager from "../git/GitManager.ts";
-import * as GitVcsDriver from "../vcs/GitVcsDriver.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
-import * as VcsProjectConfig from "../vcs/VcsProjectConfig.ts";
-import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as ServerSettings from "../serverSettings.ts";
-import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.ts";
-import * as ProviderRegistry from "../provider/ProviderRegistry.ts";
-import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
-import * as TextGeneration from "../textGeneration/TextGeneration.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProjectStore from "./ProjectStore.ts";
+import * as Crypto from "@t3tools/shared/Crypto";
+import * as ServerConfig from "../config.vibe";
+import * as GitManager from "../git/GitManager.vibe";
+import * as GitVcsDriver from "../vcs/GitVcsDriver.vibe";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
+import * as VcsProjectConfig from "../vcs/VcsProjectConfig.vibe";
+import * as VcsProcess from "../vcs/VcsProcess.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as ProjectSetupScriptRunner from "../project/ProjectSetupScriptRunner.vibe";
+import * as ProviderRegistry from "../provider/ProviderRegistry.vibe";
+import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";
+import * as TextGeneration from "../textGeneration/TextGeneration.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as ProjectStore from "./ProjectStore.vibe";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import * as GitWorkflow from "../git/GitWorkflowService.ts";
-import * as ProjectService from "../project/ProjectService.ts";
+import * as GitWorkflow from "../git/GitWorkflowService.vibe";
+import * as ProjectService from "../project/ProjectService.vibe";
 
 export const layer = Layer.merge(
   Layer.mock(GitWorkflow.GitWorkflowService)({
@@ -58,5 +59,5 @@ export const layerRealGit = GitWorkflow.layer.pipe(
   Layer.provideMerge(GitVcsDriver.layer),
   Layer.provideMerge(VcsProcess.layer),
   Layer.provideMerge(ServerConfig.layerTest(process.cwd(), { prefix: "t3-recreate-" })),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );

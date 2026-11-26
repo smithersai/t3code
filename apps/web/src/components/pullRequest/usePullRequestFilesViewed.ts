@@ -2,7 +2,7 @@ import type { EnvironmentId, PullRequestRef } from "@t3tools/contracts";
 import { useSyncExternalStore } from "react";
 
 import { pullRequestEnvironment } from "~/state/pullRequests";
-import { useEnvironmentQuery } from "~/state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 
 import { filesViewedScope } from "./filesViewedStore";
 import {

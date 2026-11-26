@@ -1,1 +1,1 @@
-vp staged
+vp staged && node node_modules/vibelang/bin/vibelang-format --check

@@ -12,7 +12,7 @@ import { useState } from "react";
 import { Pressable, View } from "react-native";
 
 import { AppText as Text } from "../../components/ui/AppText";
-import type { PendingApproval } from "../../lib/threadActivity";
+import type { PendingApproval } from "../../lib/threadActivity.vibe";
 
 export interface PendingApprovalCardProps {
   readonly canOperateThread: boolean;

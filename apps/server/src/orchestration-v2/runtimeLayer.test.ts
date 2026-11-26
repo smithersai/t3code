@@ -1,7 +1,7 @@
 import { SourceControlProviderKind } from "@t3tools/contracts";
-import { limitRecoveryCommand } from "./UsageLimitRecoveryWorker.ts";
+import { limitRecoveryCommand } from "./UsageLimitRecoveryWorker.vibe";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
-import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.ts";
+import * as SourceControlProviderRegistry from "../sourceControl/SourceControlProviderRegistry.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, it } from "@effect/vitest";
 import { vi } from "vite-plus/test";
@@ -43,51 +43,52 @@ import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as CheckpointStore from "../checkpointing/CheckpointStore.ts";
-import * as GitWorkflow from "../git/GitWorkflowService.ts";
-import * as ServerConfig from "../config.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.ts";
-import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
-import * as ProjectService from "../project/ProjectService.ts";
-import * as ServerSettings from "../serverSettings.ts";
+import * as CheckpointStore from "../checkpointing/CheckpointStore.vibe";
+import * as GitWorkflow from "../git/GitWorkflowService.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as OrchestrationEventStore from "../persistence/OrchestrationEventStore.vibe";
+import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.vibe";
+import * as ProjectService from "../project/ProjectService.vibe";
+import * as ServerSettings from "../serverSettings.vibe";
 import * as McpSessionRegistryTestkit from "../mcp/McpSessionRegistry.testkit.ts";
-import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.ts";
+import * as ProviderInstanceRegistry from "../provider/ProviderInstanceRegistry.vibe";
 import type { ProviderInstance } from "@t3tools/provider-core/server/driver";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
-import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
-import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.ts";
-import * as Orchestrator from "./Orchestrator.ts";
-import { ROLLBACK_FAILED_MESSAGE } from "./CheckpointRollbackService.ts";
-import * as EffectWorker from "./EffectWorker.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
-import * as EventSink from "./EventSink.ts";
-import * as ProviderRuntimeRecoveryService from "./ProviderRuntimeRecoveryService.ts";
-import * as ProjectionMaintenance from "./ProjectionMaintenance.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as PullRequestWatchReactor from "./PullRequestWatchReactor.ts";
-import { PULL_REQUEST_WATCH_WAKE_LIMIT } from "./pullRequestWatch.ts";
-import * as PullRequestService from "../pullRequest/PullRequestService.ts";
-import * as ProjectStore from "./ProjectStore.ts";
-import * as ProviderSessionManager from "./ProviderSessionManager.ts";
-import * as RuntimeLayer from "./runtimeLayer.ts";
-import { shellStreamItemFromThreadShell } from "./ShellStream.ts";
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as ThreadManagementService from "./ThreadManagementService.ts";
-import * as ManagedProjectFolders from "../project/ManagedProjectFolders.ts";
-import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.ts";
-import * as Scheduler from "../scheduling/Scheduler.ts";
-import * as SecretRequests from "../secrets/SecretRequests.ts";
-import * as PreviewManager from "../preview/Manager.ts";
-import * as TerminalManager from "../terminal/Manager.ts";
-import * as ResourceCleanupService from "./ResourceCleanupService.ts";
-import * as ThreadLaunchService from "./ThreadLaunchService.ts";
-import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
+import * as VcsProcess from "../vcs/VcsProcess.vibe";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.vibe";
+import * as LegacyV1ThreadImporter from "./legacy/LegacyV1ThreadImporter.vibe";
+import * as Orchestrator from "./Orchestrator.vibe";
+import { ROLLBACK_FAILED_MESSAGE } from "./CheckpointRollbackService.vibe";
+import * as EffectWorker from "./EffectWorker.vibe";
+import * as EffectOutbox from "./EffectOutbox.vibe";
+import * as EventSink from "./EventSink.vibe";
+import * as ProviderRuntimeRecoveryService from "./ProviderRuntimeRecoveryService.vibe";
+import * as ProjectionMaintenance from "./ProjectionMaintenance.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as PullRequestWatchReactor from "./PullRequestWatchReactor.vibe";
+import { PULL_REQUEST_WATCH_WAKE_LIMIT } from "./pullRequestWatch.vibe";
+import * as PullRequestService from "../pullRequest/PullRequestService.vibe";
+import * as ProjectStore from "./ProjectStore.vibe";
+import * as ProviderSessionManager from "./ProviderSessionManager.vibe";
+import * as RuntimeLayer from "./runtimeLayer.vibe";
+import { shellStreamItemFromThreadShell } from "./ShellStream.vibe";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
+import * as ThreadManagementService from "./ThreadManagementService.vibe";
+import * as ManagedProjectFolders from "../project/ManagedProjectFolders.vibe";
+import * as ScheduledTaskService from "../scheduledTasks/ScheduledTaskService.vibe";
+import * as Scheduler from "../scheduling/Scheduler.vibe";
+import * as SecretRequests from "../secrets/SecretRequests.vibe";
+import * as PreviewManager from "../preview/Manager.vibe";
+import * as TerminalManager from "../terminal/Manager.vibe";
+import * as ResourceCleanupService from "./ResourceCleanupService.vibe";
+import * as ThreadLaunchService from "./ThreadLaunchService.vibe";
+import * as ThreadCommandExecutor from "./ThreadCommandExecutor.vibe";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerPlatformTest = Layer.merge(
-  NodeServices.layer,
+  Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
   Layer.mock(SourceControlProviderRegistry.SourceControlProviderRegistry)({
     resolveLink: () => Effect.die("unused title link"),
   }),
@@ -826,7 +827,9 @@ it.layer(layerTest)("OrchestrationV2LayerLive", (it) => {
             (yield* outbox.listByCommandId(commandId)).map((effect) => effect.request.type),
             ["provider-thread.rollback"],
           );
-          const path = yield* Path.Path.pipe(Effect.provide(NodeServices.layer));
+          const path = yield* Path.Path.pipe(
+            Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+          );
           yield* orchestrator.dispatch({
             type: "thread.create",
             createdBy: "user",
@@ -2873,7 +2876,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
       const reactor = yield* PullRequestWatchReactor.make.pipe(
         Effect.provide(
           Layer.mergeAll(
-            NodeServices.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
             Layer.mock(PullRequestService.PullRequestService)({
               detail: () => Effect.die("host unreachable"),
               activity: () => Effect.die("host unreachable"),
@@ -2934,7 +2937,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
 
       let headSha = "ad70160aaa";
       const host = Layer.mergeAll(
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         Layer.mock(PullRequestService.PullRequestService)({
           detail: () =>
             Effect.sync(() => ({
@@ -3032,7 +3035,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
 
       let remainingStatus: "pending" | "success" = "pending";
       const host = Layer.mergeAll(
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         Layer.mock(PullRequestService.PullRequestService)({
           detail: () =>
             Effect.sync(() => ({
@@ -3176,7 +3179,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
         DateTime.add(DateTime.makeUnsafe(started.startedAt), { seconds: 1 }),
       );
       const host = Layer.mergeAll(
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         Layer.mock(PullRequestService.PullRequestService)({
           detail: () =>
             Effect.sync(() => ({
@@ -3274,7 +3277,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
       let headSha = "6074dd48ff";
       let checks: PullRequestDetail["checks"] = [];
       const host = Layer.mergeAll(
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         Layer.mock(PullRequestService.PullRequestService)({
           detail: () =>
             Effect.sync(() => ({
@@ -3377,7 +3380,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
       const headSha = "6074dd48ff";
       let checks: PullRequestDetail["checks"] = [];
       const host = Layer.mergeAll(
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         Layer.mock(PullRequestService.PullRequestService)({
           detail: () =>
             Effect.sync(() => ({
@@ -3607,7 +3610,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
       const reactor = yield* PullRequestWatchReactor.make.pipe(
         Effect.provide(
           Layer.mergeAll(
-            NodeServices.layer,
+            Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
             Layer.mock(PullRequestService.PullRequestService)({
               detail: () => Effect.succeed(detail),
               activity: () =>

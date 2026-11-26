@@ -2,8 +2,8 @@
 import * as NodeNet from "node:net";
 import * as Context from "effect/Context";
 import * as Scope from "effect/Scope";
-import * as ServerConfig from "../config.ts";
-import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.ts";
+import * as ServerConfig from "../config.vibe";
+import * as CodexManagedTokenBroker from "./CodexManagedTokenBroker.vibe";
 import * as NodeHttp from "node:http";
 import * as NodeCrypto from "node:crypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
@@ -15,14 +15,15 @@ import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
 import * as Fiber from "effect/Fiber";
 import * as Deferred from "effect/Deferred";
-import { subscribeChatGptHandoff } from "./CodexChatGptHandoff.ts";
+import { subscribeChatGptHandoff } from "./CodexChatGptHandoff.vibe";
 import { FetchHttpClient, HttpClient, HttpClientResponse } from "effect/http";
 import { exportJWK, generateKeyPair, SignJWT } from "jose";
-import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as ProviderCredentialStore from "./ProviderCredentialStore.ts";
-import * as AnalyticsService from "../telemetry/AnalyticsService.ts";
-import { makeCodexChatGptAuth } from "./CodexChatGptAuth.ts";
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
+import * as ProviderCredentialStore from "./ProviderCredentialStore.vibe";
+import * as AnalyticsService from "../telemetry/AnalyticsService.vibe";
+import { makeCodexChatGptAuth } from "./CodexChatGptAuth.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const assertSameCallback = (actual: string | null, expected: string | null) => {
   const left = new URL(actual!);
@@ -403,7 +404,9 @@ const makeHarness = makeHarnessFor(instanceId);
 const provision = <A, E, R>(effect: Effect.Effect<A, E, R>) =>
   effect.pipe(
     Effect.scoped,
-    Effect.provide(Layer.mergeAll(FetchHttpClient.layer, NodeServices.layer)),
+    Effect.provide(
+      Layer.mergeAll(FetchHttpClient.layer, Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+    ),
   );
 it.effect(
   "changing account registers a new user-owned client and then reuses that registration",
@@ -920,7 +923,12 @@ it.effect(
       assert.strictEqual(harness.exchanges.length, 2);
     }).pipe(
       Effect.scoped,
-      Effect.provide(Layer.mergeAll(NodeServices.layer, FetchHttpClient.layer)),
+      Effect.provide(
+        Layer.mergeAll(
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          FetchHttpClient.layer,
+        ),
+      ),
     ),
 );
 
@@ -957,7 +965,12 @@ it.effect(
       yield* harness.phase("succeeded");
     }).pipe(
       Effect.scoped,
-      Effect.provide(Layer.mergeAll(NodeServices.layer, FetchHttpClient.layer)),
+      Effect.provide(
+        Layer.mergeAll(
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          FetchHttpClient.layer,
+        ),
+      ),
     ),
 );
 
@@ -991,7 +1004,12 @@ it.effect("keeps simultaneous remote accounts and environments independent", () 
     yield* second.phase("succeeded");
     assert.strictEqual(Option.getOrThrow(yield* first.auth.read).subject, "user-test");
     assert.strictEqual(Option.getOrThrow(yield* second.auth.read).subject, "other-user");
-  }).pipe(Effect.scoped, Effect.provide(Layer.mergeAll(NodeServices.layer, FetchHttpClient.layer))),
+  }).pipe(
+    Effect.scoped,
+    Effect.provide(
+      Layer.mergeAll(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto), FetchHttpClient.layer),
+    ),
+  ),
 );
 
 it.effect(
@@ -1762,7 +1780,7 @@ const provideBroker = <A, E, R>(effect: Effect.Effect<A, E, R>) =>
     Effect.scoped,
     Effect.provide(
       ServerConfig.layerTest(process.cwd(), { prefix: "t3-renewal-test-" }).pipe(
-        Layer.provideMerge(NodeServices.layer),
+        Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
       ),
     ),
   );

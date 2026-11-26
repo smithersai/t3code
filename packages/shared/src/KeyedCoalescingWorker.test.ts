@@ -3,7 +3,7 @@ import { describe, expect } from "vite-plus/test";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 
-import { makeKeyedCoalescingWorker } from "./KeyedCoalescingWorker.ts";
+import { makeKeyedCoalescingWorker } from "./KeyedCoalescingWorker.vibe";
 
 describe("makeKeyedCoalescingWorker", () => {
   it.live("lets a queued key drain before a continuously updated key finishes", () =>

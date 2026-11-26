@@ -1,0 +1,333 @@
+import * as Crypto from "@t3tools/shared/Crypto"
+import * as Effect from "effect/Effect"
+import * as FileSystem from "effect/FileSystem"
+import * as Option from "effect/Option"
+import * as Path from "effect/Path"
+import * as Schema from "effect/Schema"
+
+import { writeFileStringAtomically } from "@t3tools/shared/atomicWrite"
+import * as HostProcess from "@t3tools/shared/HostProcess"
+import { hashTelemetryId } from "@t3tools/shared/telemetryId"
+import * as ServerSecretStore from "../auth/ServerSecretStore.vibe"
+import { CLOUD_LINKED_USER_ID } from "../cloud/config.vibe"
+import * as ServerConfig from "../config.vibe"
+
+/**
+ * Codex writes `tokens` only for ChatGPT logins and omits the key for API-key,
+ * agent-identity, and personal-access-token logins, so its absence is a
+ * supported install and not a malformed file. `account_id` is the ChatGPT
+ * workspace, which a whole Team shares; the `id_token` names the person.
+ */
+const CodexAuthJsonSchema = Schema.Struct({
+  tokens: Schema.optionalKey(
+    Schema.Struct({
+      account_id: Schema.String,
+      id_token: Schema.optionalKey(Schema.String),
+    }),
+  ),
+})
+
+/** `userID` is random per machine. `oauthAccount` is present only while Claude Code is logged in. */
+const ClaudeJsonSchema = Schema.Struct({
+  userID: Schema.optionalKey(Schema.String),
+  oauthAccount: Schema.optionalKey(
+    Schema.Struct({
+      accountUuid: Schema.optionalKey(Schema.String),
+    }),
+  ),
+})
+
+// `sub` names the login method (`google-oauth2|…`), so one person can have several.
+// `user_id` (`user-…`) is the OpenAI account and is the same for every login.
+const IdTokenClaims = Schema.Struct({
+  "https://api.openai.com/auth": Schema.Struct({ user_id: Schema.NonEmptyString }),
+})
+const decodeIdTokenClaims = Schema.decodeUnknownOption(Schema.fromJsonString(IdTokenClaims))
+
+/**
+ * Who an install belongs to, from strongest to weakest. `connect` is the T3
+ * Connect account. `openai` and `claude` are provider accounts. `device` is a
+ * client device that connected.
+ */
+export const TelemetryOwnerSource = Schema.Literals(["connect", "openai", "claude", "device"])
+export type TelemetryOwnerSource = typeof TelemetryOwnerSource.Type
+
+export interface TelemetryOwner {
+  readonly source: TelemetryOwnerSource
+  /** `hashTelemetryId` of the source's raw id. */
+  readonly ownerId: string
+}
+
+export schema TelemetryIdentitySource = "codex" | "claude" | "anonymous"
+
+const TelemetryIdentityReadErrorCauseField: Schema.Defect = Schema.Defect()
+schema error TelemetryIdentityReadError {
+  readonly source: TelemetryIdentitySource
+  readonly filePath: string
+  cause: TelemetryIdentityReadErrorCauseField
+  override get message(): string {
+    return `Failed to read ${this.source} telemetry identity at '${this.filePath}'.`
+  }
+}
+
+const TelemetryIdentityDecodeErrorCauseField: Schema.Defect = Schema.Defect()
+schema error TelemetryIdentityDecodeError {
+  readonly source: "codex" | "claude"
+  readonly filePath: string
+  cause: TelemetryIdentityDecodeErrorCauseField
+  override get message(): string {
+    return `Failed to decode ${this.source} telemetry identity at '${this.filePath}'.`
+  }
+}
+
+const TelemetryAnonymousIdGenerationErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error TelemetryAnonymousIdGenerationError {
+  readonly source: "anonymous"
+  readonly filePath: string
+  cause: TelemetryAnonymousIdGenerationErrorCauseField
+  override get message(): string {
+    return `Failed to generate anonymous telemetry identity for '${this.filePath}'.`
+  }
+}
+
+const TelemetryAnonymousIdPersistenceErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error TelemetryAnonymousIdPersistenceError {
+  readonly source: "anonymous"
+  readonly filePath: string
+  cause: TelemetryAnonymousIdPersistenceErrorCauseField
+  override get message(): string {
+    return `Failed to persist anonymous telemetry identity at '${this.filePath}'.`
+  }
+}
+
+type TelemetryIdentityError =
+  | TelemetryIdentityReadError
+  | TelemetryIdentityDecodeError
+  | TelemetryAnonymousIdGenerationError
+  | TelemetryAnonymousIdPersistenceError
+
+const decodeCodexAuthJson = Schema.decodeEffect(Schema.fromJsonString(CodexAuthJsonSchema))
+const decodeClaudeJson = Schema.decodeEffect(Schema.fromJsonString(ClaudeJsonSchema))
+
+function isNotFoundError(error: PlatformError.PlatformError): boolean {
+  return error.reason._tag === "NotFound"
+}
+
+const getTelemetryIdentityCauseAnnotations = (cause: unknown) => {
+  if (cause instanceof PlatformError.PlatformError) {
+    return {
+      causeKind: "platform",
+      platformReason: cause.reason._tag,
+    }
+  }
+  if (cause instanceof Schema.SchemaError) {
+    return { causeKind: "schema" }
+  }
+  return { causeKind: "other" }
+}
+
+const logTelemetryIdentityError = (error: TelemetryIdentityError) =>
+  Effect.logWarning(error.message)
+  |> Effect.annotateLogs({
+    errorTag: error._tag,
+    source: error.source,
+    ...("filePath" in error ? { filePath: error.filePath } : {}),
+    ...getTelemetryIdentityCauseAnnotations(error.cause),
+    ...(error.stack === undefined ? {} : { errorStack: error.stack }),
+  })(%)
+
+const readIdentityFile = (
+  fileSystem: FileSystem.FileSystem,
+  source: TelemetryIdentitySource,
+  filePath: string,
+) =>
+  do {
+    const catchProgram = fileSystem.readFileString(filePath)
+      |> Effect.asSome(%)
+    effect {
+      return catchProgram catch effect (cause) => match (cause) {
+        when { _tag: "PlatformError" }: try (isNotFoundError(cause)
+          ? Effect.succeed(Option.none<string>())
+          : Effect.fail(
+            new TelemetryIdentityReadError({
+              source,
+              filePath,
+              cause,
+            }),
+          ));
+      }
+    }
+  }
+
+/**
+ * The OpenAI account id in a ChatGPT id_token, read without verifying it:
+ * analytics needs only a stable id. Codex CLI and T3's own sign-in both use it.
+ */
+export const openAiUserId = (idToken: string) => {
+  const payload = Base64Url.decodeString(idToken.split(".")[1] ?? "")
+  return Result.isSuccess(payload)
+    ? Option.map(
+      decodeIdTokenClaims(payload.success),
+      (claims) => claims["https://api.openai.com/auth"].user_id,
+    )
+    : Option.none<string>()
+}
+
+const readJsonIdentityFile = effect <A>(
+  source: "claude" | "codex",
+  filePath: string,
+  decode: (encoded: string) => A!Schema.SchemaError,
+) =>
+  try withSpan(
+    effect {
+      const fileSystem = try FileSystem.FileSystem
+      const encoded = try readIdentityFile(fileSystem, source, filePath)
+      if (Option.isNone(encoded)) {
+        return Option.none<A>()
+      }
+      return (decode(encoded.value)
+        |> Effect.asSome(%)) catch effect (cause) => {
+          throw new TelemetryIdentityDecodeError({ source, filePath, cause })
+        }
+    },
+    "TelemetryIdentity.readJsonIdentityFile",
+  )
+
+// A missing or unreadable file only removes that owner; it never blocks the others.
+const skipOnError = <A, R>(
+  effect: Option.Option<A>!(TelemetryIdentityReadError | TelemetryIdentityDecodeError)!R,
+) =>
+  do {
+    const catchProgram = effect
+    effect {
+      return catchProgram catch effect (error) =>
+        try (logTelemetryIdentityError(error) |> Effect.as(%, Option.none<A>()))
+    }
+  }
+
+const upsertAnonymousId = effect {
+  const fileSystem = try FileSystem.FileSystem
+  const { anonymousIdPath } = try ServerConfig.ServerConfig
+
+  const existing = try readIdentityFile(fileSystem, "anonymous", anonymousIdPath)
+  if (Option.isSome(existing)) {
+    return existing.value
+  }
+
+  const anonymousId = (Crypto.Crypto
+    |> Effect.flatMap(%, (crypto) => crypto.randomUUIDv4())) catch effect (cause) => {
+      throw new TelemetryAnonymousIdGenerationError({
+        source: "anonymous",
+        filePath: anonymousIdPath,
+        cause,
+      })
+    }
+  writeFileStringAtomically({ filePath: anonymousIdPath, contents: anonymousId }) catch effect (cause) => {
+    throw new TelemetryAnonymousIdPersistenceError({
+      source: "anonymous",
+      filePath: anonymousIdPath,
+      cause,
+    })
+  }
+
+  return anonymousId
+}
+
+const readProviderLogins = effect (
+  homeDirectory: string,
+) =>
+  try withSpan(
+    effect {
+      const path = try Path.Path
+      const codexTokens = try (readJsonIdentityFile(
+        "codex",
+        path.join(homeDirectory, ".codex", "auth.json"),
+        decodeCodexAuthJson,
+      ).pipe(
+        skipOnError,
+        Effect.map(Option.flatMap((authJson) => Option.fromUndefinedOr(authJson.tokens))),
+      ))
+      const claudeJson = try (readJsonIdentityFile(
+        "claude",
+        path.join(homeDirectory, ".claude.json"),
+        decodeClaudeJson,
+      ) |> skipOnError(%))
+      return { codexTokens, claudeJson }
+    },
+    "TelemetryIdentity.readProviderLogins",
+  )
+
+/**
+ * `distinctId` preserves legacy priority: hashed Codex account_id, Claude userID, then anonymous id.
+ * It can change on login or be shared by a Codex Team; hashed `installId` stays stable per install.
+ * A null `distinctId` disables telemetry. Missing files and API-key-only Codex auth fall through;
+ * only unreadable or malformed files warn.
+ */
+export const getTelemetryIdentityForHome = effect (
+  homeDirectory: string,
+) =>
+  try withSpan(
+    effect {
+      const { codexTokens, claudeJson } = try readProviderLogins(homeDirectory)
+      const installId = (upsertAnonymousId
+        |> Effect.map(%, hashTelemetryId)) catch effect (error) =>
+          try (logTelemetryIdentityError(error) |> Effect.as(%, null))
+      const providerId = Option.orElse(
+        Option.map(codexTokens, (tokens) => tokens.account_id),
+        () => Option.flatMap(claudeJson, (json) => Option.fromUndefinedOr(json.userID)),
+      )
+      return {
+        distinctId: Option.isSome(providerId) ? hashTelemetryId(providerId.value) : installId,
+        installId,
+      }
+    },
+    "getTelemetryIdentityForHome",
+  )
+
+export const getTelemetryIdentity = Effect.flatMap(
+  HostProcess.HomeDirectory,
+  getTelemetryIdentityForHome,
+)
+
+/**
+ * Owners the server can read without a client: the linked T3 Connect account
+ * and the provider logins under `homeDirectory`. Clients add `connect` and
+ * `device` owners when they connect.
+ */
+export const getServerOwnersForHome = effect (
+  homeDirectory: string,
+) =>
+  try withSpan(
+    effect {
+      const secrets = try ServerSecretStore.ServerSecretStore
+      const connectUser = (secrets.get(CLOUD_LINKED_USER_ID)
+        |> Effect.map(%, Option.map((bytes) => new TextDecoder().decode(bytes)))) catch effect (cause) =>
+          try (Effect.logWarning("Failed to read the linked T3 Connect account for telemetry", {
+            errorTag: cause._tag,
+          }) |> Effect.as(%, Option.none<string>()))
+      const { codexTokens, claudeJson } = try readProviderLogins(homeDirectory)
+
+      const raw: ReadonlyArray<readonly [TelemetryOwnerSource, Option.Option<string>]> = [
+        ["connect", connectUser],
+        [
+          "openai",
+          Option.flatMap(
+            codexTokens,
+            (tokens) => Option.flatMap(Option.fromUndefinedOr(tokens.id_token), openAiUserId),
+          ),
+        ],
+        [
+          "claude",
+          Option.flatMap(claudeJson, (json) => Option.fromUndefinedOr(json.oauthAccount?.accountUuid)),
+        ],
+      ]
+      return raw.flatMap(([source, value]): ReadonlyArray<TelemetryOwner> =>
+        Option.isSome(value) && value.value.trim() !== ""
+          ? [{ source, ownerId: hashTelemetryId(value.value) }]
+          : []
+      )
+    },
+    "getServerOwnersForHome",
+  )
+
+export const getServerOwners = Effect.flatMap(HostProcess.HomeDirectory, getServerOwnersForHome)

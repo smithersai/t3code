@@ -3,11 +3,11 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
-import * as RelayConfiguration from "../Config.ts";
-import * as EnvironmentLinks from "../environments/EnvironmentLinks.ts";
-import * as ManagedEndpointAllocations from "../environments/ManagedEndpointAllocations.ts";
-import * as HeldHooks from "./HeldHooks.ts";
-import * as HookInbox from "./HookInbox.ts";
+import * as RelayConfiguration from "../Config.vibe";
+import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
+import * as ManagedEndpointAllocations from "../environments/ManagedEndpointAllocations.vibe";
+import * as HeldHooks from "./HeldHooks.vibe";
+import * as HookInbox from "./HookInbox.vibe";
 
 const settings = {
   managedEndpointBaseDomain: "example.test",

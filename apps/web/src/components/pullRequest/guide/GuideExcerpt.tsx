@@ -20,7 +20,7 @@ import {
   buildDiffReviewComment,
   resolveDiffReviewAnchor,
   type ReviewCommentContext,
-} from "~/reviewCommentContext";
+} from "../../../reviewCommentContext.vibe";
 
 import { DiffCommentAnnotation } from "../../diffs/DiffCommentAnnotation";
 import { DIFF_VIEW_UNSAFE_CSS } from "../../diffs/StyledDiffCodeView";

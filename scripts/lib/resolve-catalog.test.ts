@@ -1,6 +1,6 @@
 import { assert, describe, it } from "@effect/vitest";
 
-import { resolveCatalogDependencies } from "./resolve-catalog.ts";
+import { resolveCatalogDependencies } from "./resolve-catalog.vibe";
 
 const catalog = { effect: "4.0.0-rc.115", "@clerk/backend": "3.18.1", react: "19.2.0" };
 

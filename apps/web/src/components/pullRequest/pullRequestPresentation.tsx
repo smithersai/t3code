@@ -27,7 +27,7 @@ import { cn } from "~/lib/utils";
 import { Badge } from "../ui/badge";
 import { InlineButton } from "../ui/button";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
-import type { PullRequestReviewOutcome } from "./pullRequestDetail.logic";
+import type { PullRequestReviewOutcome } from "./pullRequestDetail.logic.vibe";
 import { pullRequestLabelColor } from "./pullRequestList.logic";
 import {
   PULL_REQUEST_STATE_PRESENTATION,

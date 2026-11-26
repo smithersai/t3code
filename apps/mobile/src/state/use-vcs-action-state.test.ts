@@ -11,7 +11,7 @@ vi.mock("expo-haptics", () => ({
 
 vi.mock("./vcs", () => ({ vcsActionManager: {} }));
 
-import { dismissGitActionResult, showGitActionResult } from "./use-vcs-action-state";
+import { dismissGitActionResult, showGitActionResult } from "./use-vcs-action-state.vibe";
 
 describe("showGitActionResult", () => {
   it("buzzes once per reported result with the matching feedback type", () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@effect/vitest";
 
-import { codexUsageFormat, initialCodexScanState, parseCodexLine } from "./codexUsage.ts";
+import { codexUsageFormat, initialCodexScanState, parseCodexLine } from "./codexUsage.vibe";
 
 describe("parseCodexLine", () => {
   const sessionMeta = JSON.stringify({

@@ -4,7 +4,7 @@ import {
   type SessionGrantInput,
 } from "@t3tools/contracts";
 
-import type { EnvironmentConnectionPhase } from "../connection/presentation.ts";
+import type { EnvironmentConnectionPhase } from "../connection/presentation.vibe";
 
 export function resolveUsageAccess(input: {
   readonly connectionPhase: EnvironmentConnectionPhase;

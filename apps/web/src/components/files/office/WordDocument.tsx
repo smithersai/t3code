@@ -31,7 +31,9 @@ export default function WordDocument(props: {
   // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- Own the document worker and cancel its layout and painting requests when the document changes or unmounts.
   useEffect(() => {
     const controller = new AbortController();
-    const worker = new Worker(new URL("./document.worker.ts", import.meta.url), { type: "module" });
+    const worker = new Worker(new URL("./document.worker.vibe", import.meta.url), {
+      type: "module",
+    });
     const engine = createWorkerClient<WordMethods>(worker);
     const fail = (error: unknown) => {
       if (!controller.signal.aborted) onError(error);

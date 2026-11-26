@@ -1,0 +1,21 @@
+import * as Effect from "effect/Effect"
+import * as Queue from "effect/Queue"
+
+// Do not debounce upstream: its consumer can retain an older snapshot during a save.
+export const runCachePersistence = effect <A, E, R>(
+  queue: Queue.Queue<A, never>,
+  persist: (value: A) => void!E!R,
+) =>
+  try withSpan(
+    effect {
+      let next = try Queue.take(queue)
+      try Effect.sleep("500 millis")
+      next = Option.getOrElse(try Queue.poll(queue), () => next)
+      while (true) {
+        try persist(next)
+        try Effect.sleep("10 seconds")
+        next = try Queue.take(queue)
+      }
+    },
+    "runCachePersistence",
+  )

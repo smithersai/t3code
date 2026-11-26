@@ -5,7 +5,7 @@ import * as NodePath from "node:path";
 import * as NodeEvents from "node:events";
 import type { Message, MessageBus } from "dbus-next";
 import { afterEach, beforeEach, expect, it, vi } from "vite-plus/test";
-import { GnomeCaptureSetup, installGnomeCaptureBundle } from "./GnomeCaptureSetup.ts";
+import { GnomeCaptureSetup, installGnomeCaptureBundle } from "./GnomeCaptureSetup.vibe";
 import { GNOME_CAPTURE_FILES, GNOME_CAPTURE_UUID } from "./gnomeCaptureBundle.ts";
 
 let dataHome: string;

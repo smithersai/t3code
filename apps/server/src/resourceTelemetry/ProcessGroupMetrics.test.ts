@@ -7,9 +7,9 @@ import * as References from "effect/References";
 import * as Ref from "effect/Ref";
 import * as TestClock from "effect/testing/TestClock";
 
-import * as ServerConfig from "../config.ts";
-import * as ProcessGroupMetrics from "./ProcessGroupMetrics.ts";
-import * as ResourceTelemetry from "./ResourceTelemetry.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ProcessGroupMetrics from "./ProcessGroupMetrics.vibe";
+import * as ResourceTelemetry from "./ResourceTelemetry.vibe";
 
 const { groupProcesses } = ProcessGroupMetrics;
 

@@ -9,7 +9,7 @@ import {
   extractJsonObject,
   formatSchemaError,
   fromLenientJson,
-} from "./schemaJson.ts";
+} from "./schemaJson.vibe";
 
 const decodeLenientJson = Schema.decodeUnknownSync(fromLenientJson(Schema.Unknown));
 

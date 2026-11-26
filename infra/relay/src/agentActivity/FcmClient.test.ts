@@ -9,11 +9,11 @@ import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 
-import * as RelayConfiguration from "../Config.ts";
-import * as FcmClient from "./FcmClient.ts";
+import * as RelayConfiguration from "../Config.vibe";
+import * as FcmClient from "./FcmClient.vibe";
 
-import * as WebCrypto from "../WebCrypto.ts";
-import * as FcmAssertionSigner from "./FcmAssertionSigner.ts";
+import * as WebCrypto from "../WebCrypto.vibe";
+import * as FcmAssertionSigner from "./FcmAssertionSigner.vibe";
 
 const { privateKey, publicKey } = NodeCrypto.generateKeyPairSync("rsa", {
   modulusLength: 2048,

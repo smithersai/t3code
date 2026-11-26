@@ -7,7 +7,7 @@ import {
   MAX_FILE_DIFF_EDITS,
   parseAzureDevOpsDiffCursor,
 } from "./azureDevOpsDiff.ts";
-import type { AzureDevOpsChangeEntry } from "./azureDevOpsPullRequestJson.ts";
+import type { AzureDevOpsChangeEntry } from "./azureDevOpsPullRequestJson.vibe";
 
 function change(overrides: Partial<AzureDevOpsChangeEntry> = {}): AzureDevOpsChangeEntry {
   return {

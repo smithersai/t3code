@@ -1,0 +1,87 @@
+import {
+  DesktopUpdateActionResultSchema,
+  DesktopUpdateChannelSchema,
+  DesktopUpdateCheckResultSchema,
+  DesktopUpdateStateSchema,
+} from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
+
+import * as DesktopUpdates from "../../updates/DesktopUpdates.vibe"
+import * as IpcChannels from "../channels.ts"
+import * as DesktopIpc from "../DesktopIpc.vibe"
+
+export const getUpdateState = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.UPDATE_GET_STATE_CHANNEL,
+  payload: Schema.Void,
+  result: DesktopUpdateStateSchema,
+  handler:
+    effect (): { readonly enabled: boolean; readonly status: "available" | "checking" | "disabled" | "downloaded" | "downloading" | "error" | "idle" | "up-to-date"; readonly channel: "latest" | "nightly"; readonly currentVersion: string; readonly hostArch: "arm64" | "other" | "x64"; readonly appArch: "arm64" | "other" | "x64"; readonly runningUnderArm64Translation: boolean; readonly availableVersion: string | null; readonly downloadedVersion: string | null; readonly releaseNotes: readonly { readonly version: string; readonly items: readonly string[]; readonly totalItems: number; }[]; readonly omittedReleaseCount: number; readonly downloadPercent: number | null; readonly checkedAt: string | null; readonly message: string | null; readonly errorContext: "check" | "download" | "install" | null; readonly canRetry: boolean; readonly notAppliedVersion?: string; }!never!DesktopUpdates.DesktopUpdates =>
+      try withSpan(
+        (effect (): { readonly enabled: boolean; readonly status: "available" | "checking" | "disabled" | "downloaded" | "downloading" | "error" | "idle" | "up-to-date"; readonly channel: "latest" | "nightly"; readonly currentVersion: string; readonly hostArch: "arm64" | "other" | "x64"; readonly appArch: "arm64" | "other" | "x64"; readonly runningUnderArm64Translation: boolean; readonly availableVersion: string | null; readonly downloadedVersion: string | null; readonly releaseNotes: readonly { readonly version: string; readonly items: readonly string[]; readonly totalItems: number; }[]; readonly omittedReleaseCount: number; readonly downloadPercent: number | null; readonly checkedAt: string | null; readonly message: string | null; readonly errorContext: "check" | "download" | "install" | null; readonly canRetry: boolean; readonly notAppliedVersion?: string; }!never!DesktopUpdates.DesktopUpdates => {
+          const updates = try DesktopUpdates.DesktopUpdates
+          return try updates.getState
+        })(),
+        "desktop.ipc.updates.getState",
+      ),
+})
+
+export const setUpdateChannel = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.UPDATE_SET_CHANNEL_CHANNEL,
+  payload: DesktopUpdateChannelSchema,
+  result: DesktopUpdateStateSchema,
+  handler: effect (
+    channel,
+  ): { readonly enabled: boolean; readonly status: "available" | "checking" | "disabled" | "downloaded" | "downloading" | "error" | "idle" | "up-to-date"; readonly channel: "latest" | "nightly"; readonly currentVersion: string; readonly hostArch: "arm64" | "other" | "x64"; readonly appArch: "arm64" | "other" | "x64"; readonly runningUnderArm64Translation: boolean; readonly availableVersion: string | null; readonly downloadedVersion: string | null; readonly releaseNotes: readonly { readonly version: string; readonly items: readonly string[]; readonly totalItems: number; }[]; readonly omittedReleaseCount: number; readonly downloadPercent: number | null; readonly checkedAt: string | null; readonly message: string | null; readonly errorContext: "check" | "download" | "install" | null; readonly canRetry: boolean; readonly notAppliedVersion?: string; }!(DesktopUpdates.DesktopUpdateActionInProgressError | DesktopUpdates.DesktopUpdateChannelPersistenceError)!DesktopUpdates.DesktopUpdates =>
+    try withSpan(
+      (effect (): { readonly enabled: boolean; readonly status: "available" | "checking" | "disabled" | "downloaded" | "downloading" | "error" | "idle" | "up-to-date"; readonly channel: "latest" | "nightly"; readonly currentVersion: string; readonly hostArch: "arm64" | "other" | "x64"; readonly appArch: "arm64" | "other" | "x64"; readonly runningUnderArm64Translation: boolean; readonly availableVersion: string | null; readonly downloadedVersion: string | null; readonly releaseNotes: readonly { readonly version: string; readonly items: readonly string[]; readonly totalItems: number; }[]; readonly omittedReleaseCount: number; readonly downloadPercent: number | null; readonly checkedAt: string | null; readonly message: string | null; readonly errorContext: "check" | "download" | "install" | null; readonly canRetry: boolean; readonly notAppliedVersion?: string; }!(DesktopUpdates.DesktopUpdateActionInProgressError | DesktopUpdates.DesktopUpdateChannelPersistenceError)!DesktopUpdates.DesktopUpdates => {
+        const updates = try DesktopUpdates.DesktopUpdates
+        return try updates.setChannel(channel)
+      })(),
+      "desktop.ipc.updates.setChannel",
+    ),
+})
+
+export const downloadUpdate = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.UPDATE_DOWNLOAD_CHANNEL,
+  payload: Schema.Void,
+  result: DesktopUpdateActionResultSchema,
+  handler:
+    effect (): { readonly accepted: boolean; readonly completed: boolean; readonly state: { readonly enabled: boolean; readonly status: "available" | "checking" | "disabled" | "downloaded" | "downloading" | "error" | "idle" | "up-to-date"; readonly channel: "latest" | "nightly"; readonly currentVersion: string; readonly hostArch: "arm64" | "other" | "x64"; readonly appArch: "arm64" | "other" | "x64"; readonly runningUnderArm64Translation: boolean; readonly availableVersion: string | null; readonly downloadedVersion: string | null; readonly releaseNotes: readonly { readonly version: string; readonly items: readonly string[]; readonly totalItems: number; }[]; readonly omittedReleaseCount: number; readonly downloadPercent: number | null; readonly checkedAt: string | null; readonly message: string | null; readonly errorContext: "check" | "download" | "install" | null; readonly canRetry: boolean; readonly notAppliedVersion?: string; }; }!never!DesktopUpdates.DesktopUpdates =>
+      try withSpan(
+        (effect (): { readonly accepted: boolean; readonly completed: boolean; readonly state: { readonly enabled: boolean; readonly status: "available" | "checking" | "disabled" | "downloaded" | "downloading" | "error" | "idle" | "up-to-date"; readonly channel: "latest" | "nightly"; readonly currentVersion: string; readonly hostArch: "arm64" | "other" | "x64"; readonly appArch: "arm64" | "other" | "x64"; readonly runningUnderArm64Translation: boolean; readonly availableVersion: string | null; readonly downloadedVersion: string | null; readonly releaseNotes: readonly { readonly version: string; readonly items: readonly string[]; readonly totalItems: number; }[]; readonly omittedReleaseCount: number; readonly downloadPercent: number | null; readonly checkedAt: string | null; readonly message: string | null; readonly errorContext: "check" | "download" | "install" | null; readonly canRetry: boolean; readonly notAppliedVersion?: string; }; }!never!DesktopUpdates.DesktopUpdates => {
+          const updates = try DesktopUpdates.DesktopUpdates
+          return try updates.download
+        })(),
+        "desktop.ipc.updates.download",
+      ),
+})
+
+export const installUpdate = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.UPDATE_INSTALL_CHANNEL,
+  payload: Schema.Void,
+  result: DesktopUpdateActionResultSchema,
+  handler:
+    effect (): { readonly accepted: boolean; readonly completed: boolean; readonly state: { readonly enabled: boolean; readonly status: "available" | "checking" | "disabled" | "downloaded" | "downloading" | "error" | "idle" | "up-to-date"; readonly channel: "latest" | "nightly"; readonly currentVersion: string; readonly hostArch: "arm64" | "other" | "x64"; readonly appArch: "arm64" | "other" | "x64"; readonly runningUnderArm64Translation: boolean; readonly availableVersion: string | null; readonly downloadedVersion: string | null; readonly releaseNotes: readonly { readonly version: string; readonly items: readonly string[]; readonly totalItems: number; }[]; readonly omittedReleaseCount: number; readonly downloadPercent: number | null; readonly checkedAt: string | null; readonly message: string | null; readonly errorContext: "check" | "download" | "install" | null; readonly canRetry: boolean; readonly notAppliedVersion?: string; }; }!never!DesktopUpdates.DesktopUpdates =>
+      try withSpan(
+        (effect (): { readonly accepted: boolean; readonly completed: boolean; readonly state: { readonly enabled: boolean; readonly status: "available" | "checking" | "disabled" | "downloaded" | "downloading" | "error" | "idle" | "up-to-date"; readonly channel: "latest" | "nightly"; readonly currentVersion: string; readonly hostArch: "arm64" | "other" | "x64"; readonly appArch: "arm64" | "other" | "x64"; readonly runningUnderArm64Translation: boolean; readonly availableVersion: string | null; readonly downloadedVersion: string | null; readonly releaseNotes: readonly { readonly version: string; readonly items: readonly string[]; readonly totalItems: number; }[]; readonly omittedReleaseCount: number; readonly downloadPercent: number | null; readonly checkedAt: string | null; readonly message: string | null; readonly errorContext: "check" | "download" | "install" | null; readonly canRetry: boolean; readonly notAppliedVersion?: string; }; }!never!DesktopUpdates.DesktopUpdates => {
+          const updates = try DesktopUpdates.DesktopUpdates
+          return try updates.install
+        })(),
+        "desktop.ipc.updates.install",
+      ),
+})
+
+export const checkForUpdate = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.UPDATE_CHECK_CHANNEL,
+  payload: Schema.Void,
+  result: DesktopUpdateCheckResultSchema,
+  handler:
+    effect (): { readonly checked: boolean; readonly state: { readonly enabled: boolean; readonly status: "available" | "checking" | "disabled" | "downloaded" | "downloading" | "error" | "idle" | "up-to-date"; readonly channel: "latest" | "nightly"; readonly currentVersion: string; readonly hostArch: "arm64" | "other" | "x64"; readonly appArch: "arm64" | "other" | "x64"; readonly runningUnderArm64Translation: boolean; readonly availableVersion: string | null; readonly downloadedVersion: string | null; readonly releaseNotes: readonly { readonly version: string; readonly items: readonly string[]; readonly totalItems: number; }[]; readonly omittedReleaseCount: number; readonly downloadPercent: number | null; readonly checkedAt: string | null; readonly message: string | null; readonly errorContext: "check" | "download" | "install" | null; readonly canRetry: boolean; readonly notAppliedVersion?: string; }; }!never!DesktopUpdates.DesktopUpdates =>
+      try withSpan(
+        (effect (): { readonly checked: boolean; readonly state: { readonly enabled: boolean; readonly status: "available" | "checking" | "disabled" | "downloaded" | "downloading" | "error" | "idle" | "up-to-date"; readonly channel: "latest" | "nightly"; readonly currentVersion: string; readonly hostArch: "arm64" | "other" | "x64"; readonly appArch: "arm64" | "other" | "x64"; readonly runningUnderArm64Translation: boolean; readonly availableVersion: string | null; readonly downloadedVersion: string | null; readonly releaseNotes: readonly { readonly version: string; readonly items: readonly string[]; readonly totalItems: number; }[]; readonly omittedReleaseCount: number; readonly downloadPercent: number | null; readonly checkedAt: string | null; readonly message: string | null; readonly errorContext: "check" | "download" | "install" | null; readonly canRetry: boolean; readonly notAppliedVersion?: string; }; }!never!DesktopUpdates.DesktopUpdates => {
+          const updates = try DesktopUpdates.DesktopUpdates
+          return try updates.check("web-ui")
+        })(),
+        "desktop.ipc.updates.check",
+      ),
+})

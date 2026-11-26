@@ -11,7 +11,7 @@ import { SheetHeader } from "../../components/ui/SheetHeader";
 import { Toolbar } from "../../components/ui/Toolbar";
 import { NativeStackScreenOptions } from "../../native/StackHeader";
 import { useOpenPullRequest } from "../../native/useOpenPullRequest";
-import { useThreadSelection } from "../../state/use-thread-selection";
+import { useThreadSelection } from "../../state/use-thread-selection.vibe";
 import { useAdaptiveWorkspaceLayout } from "../layout/AdaptiveWorkspaceLayout";
 import {
   LinkedPullRequestRow,

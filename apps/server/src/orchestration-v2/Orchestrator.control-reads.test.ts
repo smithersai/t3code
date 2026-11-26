@@ -29,15 +29,15 @@ import * as SqlClient from "effect/sql/SqlClient";
 import {
   orchestrationCommandDuration,
   orchestrationCommandsTotal,
-} from "../observability/Metrics.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.ts";
-import * as DelegatedTaskQuestionReactor from "./DelegatedTaskQuestionReactor.ts";
-import * as EffectOutbox from "./EffectOutbox.ts";
-import * as EventSink from "./EventSink.ts";
-import * as Orchestrator from "./Orchestrator.ts";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.ts";
+} from "../observability/Metrics.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import { CodexProviderCapabilitiesV2 } from "./Adapters/CodexAdapterV2.vibe";
+import * as DelegatedTaskQuestionReactor from "./DelegatedTaskQuestionReactor.vibe";
+import * as EffectOutbox from "./EffectOutbox.vibe";
+import * as EventSink from "./EventSink.vibe";
+import * as Orchestrator from "./Orchestrator.vibe";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as ProviderAdapterRegistry from "./ProviderAdapterRegistry.vibe";
 import * as ProviderReplayHarness from "./testkit/ProviderReplayHarness.ts";
 import type * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
 

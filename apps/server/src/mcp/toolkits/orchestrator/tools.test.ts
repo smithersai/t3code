@@ -3,7 +3,7 @@ import * as Exit from "effect/Exit";
 import * as Schema from "effect/Schema";
 import { Tool } from "effect/ai";
 
-import { OrchestratorToolkit } from "./tools.ts";
+import { OrchestratorToolkit } from "./tools.vibe";
 
 // Oversized page sizes clamp on decode, so the schema has no `maximum`; Codex also drops
 // bounds from its TypeScript view. The description is the only place a model sees a limit.

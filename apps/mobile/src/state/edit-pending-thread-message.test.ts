@@ -30,7 +30,7 @@ vi.mock("./thread-outbox", () => ({
   threadOutboxRevision: () => 1,
 }));
 vi.mock("./thread-outbox-removal", () => ({ removeThreadOutboxMessage: state.remove }));
-vi.mock("./use-composer-drafts", () => ({
+vi.mock("./use-composer-drafts.vibe", () => ({
   waitForComposerDraftsLoaded: async () => {},
   getComposerDraftSnapshot: () => state.draft,
   mergeComposerDraftContent: async (_key: string, message: QueuedThreadMessage) => {

@@ -1,7 +1,7 @@
 import { assert, describe, it } from "@effect/vitest";
 import type { ServerProviderModel } from "@t3tools/contracts";
 
-import * as ModelCatalog from "./ModelCatalog.ts";
+import * as ModelCatalog from "./ModelCatalog.vibe";
 
 const model = (overrides: Partial<ServerProviderModel>): ServerProviderModel => ({
   slug: "model-test",

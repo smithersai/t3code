@@ -37,19 +37,19 @@ import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 
-import * as ServerSettings from "../serverSettings.ts";
-import * as CheckpointService from "./CheckpointService.ts";
-import type { PendingOrchestrationEffectV2 } from "./EffectOutbox.ts";
-import * as EventSink from "./EventSink.ts";
+import * as ServerSettings from "../serverSettings.vibe";
+import * as CheckpointService from "./CheckpointService.vibe";
+import type { PendingOrchestrationEffectV2 } from "./EffectOutbox.vibe";
+import * as EventSink from "./EventSink.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import * as ProviderAdapter from "@t3tools/provider-core/server/ProviderAdapter";
-import * as ProjectionStore from "./ProjectionStore.ts";
-import * as ProviderEventIngestor from "./ProviderEventIngestor.ts";
-import * as McpAppModelContext from "../mcpApps/McpAppModelContext.ts";
-import * as PreviewAgentActivity from "../preview/PreviewAgentActivity.ts";
-import * as RunExecutionService from "./RunExecutionService.ts";
-import * as RunFinalizationService from "./RunFinalizationService.ts";
-import * as TurnItemPositionStore from "./TurnItemPositionStore.ts";
+import * as ProjectionStore from "./ProjectionStore.vibe";
+import * as ProviderEventIngestor from "./ProviderEventIngestor.vibe";
+import * as McpAppModelContext from "../mcpApps/McpAppModelContext.vibe";
+import * as PreviewAgentActivity from "../preview/PreviewAgentActivity.vibe";
+import * as RunExecutionService from "./RunExecutionService.vibe";
+import * as RunFinalizationService from "./RunFinalizationService.vibe";
+import * as TurnItemPositionStore from "./TurnItemPositionStore.vibe";
 
 const driver = ProviderDriverKind.make("codex");
 const rootAppThread = (id: ThreadId) =>

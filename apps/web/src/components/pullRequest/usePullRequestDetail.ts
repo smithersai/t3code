@@ -9,8 +9,8 @@ import { useState } from "react";
 
 import { usePullRequestChecksRefresh } from "~/hooks/usePullRequestChecksRefresh";
 import { useServerConfigs } from "~/state/entities";
-import { useEnvironmentQuery } from "~/state/query";
-import { useEnvironmentScope } from "~/state/session";
+import { useEnvironmentQuery } from "../../state/query.vibe";
+import { useEnvironmentScope } from "../../state/session.vibe";
 import {
   newestPullRequestSummary,
   pullRequestEnvironment,
@@ -20,7 +20,7 @@ import {
 import {
   readPullRequestDetailSnapshot,
   resolveDisplayedPullRequestDetail,
-} from "./pullRequestDetail.logic";
+} from "./pullRequestDetail.logic.vibe";
 
 export function pullRequestRefKey(reference: PullRequestRef) {
   return `${reference.projectId}:${reference.host ?? ""}:${reference.repository}#${reference.number}`;

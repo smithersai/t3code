@@ -1,5 +1,5 @@
 import { parseKeybindingShortcut } from "@t3tools/shared/keybindings";
-import { readKdlNodes, type KdlNode } from "./captureConfigKdl.ts";
+import { readKdlNodes, type KdlNode } from "./captureConfigKdl.vibe";
 import { niriCaptureBinding } from "./linuxCaptureSession.ts";
 
 export type CaptureConfigFormat = "niri" | "hyprland" | "hyprland-lua";

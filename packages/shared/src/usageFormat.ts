@@ -12,6 +12,7 @@ const CURRENCY = new Intl.NumberFormat("en-US", {
 
 const INTEGER = new Intl.NumberFormat("en-US");
 
+/** @throws {never} */
 export function formatUsd(value: number): string {
   return CURRENCY.format(value);
 }
@@ -20,6 +21,7 @@ export function formatCount(value: number): string {
   return INTEGER.format(Math.round(value));
 }
 
+/** @throws {never} */
 export function formatTokens(value: number): string {
   const abs = Math.abs(value);
   if (abs >= 1e12) return `${trim(value / 1e12)}T`;

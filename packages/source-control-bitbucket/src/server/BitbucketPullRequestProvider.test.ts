@@ -5,14 +5,14 @@ import * as Layer from "effect/Layer";
 import * as Result from "effect/Result";
 import * as SourceControlRateLimit from "@t3tools/source-control-core/server/SourceControlRateLimit";
 
-import * as BitbucketApi from "./BitbucketApi.ts";
-import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.ts";
-import { decodePullRequestJson } from "./bitbucketPullRequestJson.ts";
+import * as BitbucketApi from "./BitbucketApi.vibe";
+import * as BitbucketPullRequestApi from "./BitbucketPullRequestApi.vibe";
+import { decodePullRequestJson } from "./bitbucketPullRequestJson.vibe";
 import {
   bitbucketProviderFailure,
   bitbucketViewerPermissions,
   make,
-} from "./BitbucketPullRequestProvider.ts";
+} from "./BitbucketPullRequestProvider.vibe";
 
 it.effect.each([
   { state: "MERGED", mergedAt: "2025-06-16T23:40:46.222Z", closedAt: null },

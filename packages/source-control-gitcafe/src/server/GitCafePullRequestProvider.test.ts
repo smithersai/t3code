@@ -10,9 +10,9 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 
-import * as GitCafeApi from "./GitCafeApi.ts";
-import * as GitCafeCredentials from "./GitCafeCredentials.ts";
-import * as GitCafePullRequestProvider from "./GitCafePullRequestProvider.ts";
+import * as GitCafeApi from "./GitCafeApi.vibe";
+import * as GitCafeCredentials from "./GitCafeCredentials.vibe";
+import * as GitCafePullRequestProvider from "./GitCafePullRequestProvider.vibe";
 
 const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown));
 const decodeJson = Schema.decodeUnknownSync(Schema.fromJsonString(Schema.Unknown));

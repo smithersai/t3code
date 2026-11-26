@@ -3,7 +3,7 @@ import {
   AuthProvidersManageScope,
   AuthOrchestrationReadScope,
 } from "@t3tools/contracts";
-import { useEnvironmentScope, readEnvironmentScope } from "~/state/session";
+import { useEnvironmentScope, readEnvironmentScope } from "../../state/session.vibe";
 import type {
   AcpRegistryConfigurableProvider,
   AcpRegistrySession,
@@ -21,7 +21,7 @@ import { useState } from "react";
 
 import { ensureLocalApi } from "../../localApi";
 import { serverEnvironment } from "../../state/server";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "../ui/select";

@@ -3,7 +3,7 @@ import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as Exit from "effect/Exit";
-import * as Admission from "./Admission.ts";
+import * as Admission from "./Admission.vibe";
 
 it.effect("rejects excess uploads immediately and releases interrupted uploads", () =>
   Effect.gen(function* () {

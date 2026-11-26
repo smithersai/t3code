@@ -1,6 +1,6 @@
 // @effect-diagnostics globalFetch:off - This browser transport runs without an Effect runtime, like the live stream.
 import { withDeviceHubQuery } from "./hubAccess.ts";
-import type { DeviceStreamTarget } from "./stream.ts";
+import type { DeviceStreamTarget } from "./stream.vibe";
 
 export class DeviceScreenshotError extends Error {
   readonly status: number;

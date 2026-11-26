@@ -7,10 +7,10 @@ import { useNewThreadHandler } from "../../hooks/useHandleNewThread";
 import { findProjectByPath, inferProjectTitleFromPath } from "../../lib/projectPaths";
 import { newProjectId } from "../../lib/utils";
 import { readProjects, waitForProject } from "../../state/entities";
-import { usePrimaryEnvironment } from "../../state/environments";
+import { usePrimaryEnvironment } from "../../state/environments.vibe";
 import { projectEnvironment } from "../../state/projects";
-import { useEnvironmentShellHasSnapshot } from "../../state/shell";
-import { useAtomCommand } from "../../state/use-atom-command";
+import { useEnvironmentShellHasSnapshot } from "../../state/shell.vibe";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 
 export function DesktopAppActivationCoordinator() {
   const primaryEnvironment = usePrimaryEnvironment();

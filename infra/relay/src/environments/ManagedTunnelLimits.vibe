@@ -1,0 +1,118 @@
+import { and, count, eq, isNull, ne } from "drizzle-orm"
+import * as Context from "effect/Context"
+import * as Effect from "effect/Effect"
+import * as Layer from "effect/Layer"
+import * as Schema from "effect/Schema"
+
+import * as RelayDb from "../db.vibe"
+import {
+  relayEnvironmentLinks,
+  relayManagedEndpointAllocations,
+  relayManagedTunnelLimits,
+} from "../persistence/schema.ts"
+
+export const DEFAULT_MANAGED_TUNNEL_LIMIT = 3
+
+const ManagedTunnelLimitPersistenceErrorCauseField: Schema.Defect = Schema.Defect()
+export schema error ManagedTunnelLimitPersistenceError {
+  readonly operation: "load-limit" | "count-tunnels"
+  readonly userId: string
+  cause: ManagedTunnelLimitPersistenceErrorCauseField
+  override get message(): string {
+    return `Managed tunnel limit '${this.operation}' failed for user '${this.userId}'`
+  }
+}
+
+export schema error ManagedTunnelLimitExceeded {
+  readonly userId: string
+  readonly environmentId: string
+  readonly maxTunnels: number
+  readonly activeTunnels: number
+  override get message(): string {
+    return `Managed tunnel limit reached for user '${this.userId}': ${this.activeTunnels} of ${this.maxTunnels} tunnels in use`
+  }
+}
+
+export service ManagedTunnelLimits: {
+  readonly ensureCapacity: (input: {
+    readonly userId: string;
+    readonly environmentId: string;
+  }) => void!(ManagedTunnelLimitExceeded | ManagedTunnelLimitPersistenceError);
+} {
+  static readonly key = "t3code-relay/environments/ManagedTunnelLimits"
+}
+
+export const make = effect {
+  const db = try RelayDb.RelayDb
+
+  return ManagedTunnelLimits.of({
+    ensureCapacity: effect (input): void!(ManagedTunnelLimitExceeded | ManagedTunnelLimitPersistenceError)!never =>
+      try withSpan(
+        (effect (): void!(ManagedTunnelLimitExceeded | ManagedTunnelLimitPersistenceError)!never => {
+          const overrides = (try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .select({ maxTunnels: relayManagedTunnelLimits.maxTunnels })
+                .from(relayManagedTunnelLimits)
+                .where(eq(relayManagedTunnelLimits.userId, input.userId)),
+            catch: (e) => e,
+          })))
+            .limit(1) catch effect (cause) => {
+              throw new ManagedTunnelLimitPersistenceError({
+                operation: "load-limit",
+                userId: input.userId,
+                cause,
+              })
+            }
+          const maxTunnels = overrides[0]?.maxTunnels ?? DEFAULT_MANAGED_TUNNEL_LIMIT
+
+          // Exclude this environment so relinking remains idempotent at the account limit.
+          const counted = (try Effect.orDie(Effect.try({
+            try: () =>
+              db
+                .select({ activeTunnels: count() })
+                .from(relayManagedEndpointAllocations)
+                .innerJoin(
+                  relayEnvironmentLinks,
+                  and(
+                    eq(relayEnvironmentLinks.userId, relayManagedEndpointAllocations.userId),
+                    eq(relayEnvironmentLinks.environmentId, relayManagedEndpointAllocations.environmentId),
+                  ),
+                ),
+            catch: (e) => e,
+          })))
+            .where(
+              try Effect.orDie(Effect.try({
+                try: () =>
+                  and(
+                    eq(relayManagedEndpointAllocations.userId, input.userId),
+                    ne(relayManagedEndpointAllocations.environmentId, input.environmentId),
+                    isNull(relayEnvironmentLinks.revokedAt),
+                    eq(relayEnvironmentLinks.managedTunnelsEnabled, true),
+                  ),
+                catch: (e) => e,
+              })),
+            ) catch effect (cause) => {
+              throw new ManagedTunnelLimitPersistenceError({
+                operation: "count-tunnels",
+                userId: input.userId,
+                cause,
+              })
+            }
+          const activeTunnels = counted[0]?.activeTunnels ?? 0
+
+          if (activeTunnels >= maxTunnels) {
+            throw new ManagedTunnelLimitExceeded({
+              userId: input.userId,
+              environmentId: input.environmentId,
+              maxTunnels,
+              activeTunnels,
+            })
+          }
+        })(),
+        "relay.managed_tunnel_limits.ensure_capacity",
+      ),
+  })
+}
+
+export const layer = Layer.effect(ManagedTunnelLimits, make)

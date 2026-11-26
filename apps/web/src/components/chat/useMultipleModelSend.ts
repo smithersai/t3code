@@ -20,11 +20,11 @@ import {
 import type { ComposerHandleRef } from "../../composerHandleContext";
 import { releaseDraftAttachments } from "../../lib/attachmentUploadQueue";
 import type { buildMessageContext } from "../../lib/composerContextRecords";
-import { appAtomRegistry } from "../../rpc/atomRegistry";
+import { appAtomRegistry } from "../../rpc/atomRegistry.vibe";
 import { environmentServerConfigsAtom } from "../../state/server";
 import { threadEnvironment } from "../../state/threads";
-import { useOrchestrationCommand } from "../../state/use-orchestration-command";
-import { buildThreadRouteParams } from "../../threadRoutes";
+import { useOrchestrationCommand } from "../../state/use-orchestration-command.vibe";
+import { buildThreadRouteParams } from "../../threadRoutes.vibe";
 import { stackedThreadToast, toastManager } from "../ui/toast";
 import {
   boundAttachmentIds,

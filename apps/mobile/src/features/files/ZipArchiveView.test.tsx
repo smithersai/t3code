@@ -150,7 +150,7 @@ vi.mock("../settings/appearance/AppearancePreferencesProvider", () => ({
 import { ZipArchiveView } from "./ZipArchiveView";
 import { AttachmentFileScreen } from "./AttachmentFileScreen";
 import { appAtomRegistry } from "../../state/atom-registry";
-import { composerDraftsAtom } from "../../state/use-composer-drafts";
+import { composerDraftsAtom } from "../../state/use-composer-drafts.vibe";
 
 function setup() {
   vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);

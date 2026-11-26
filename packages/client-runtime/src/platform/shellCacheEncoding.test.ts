@@ -14,8 +14,8 @@ import * as Schema from "effect/Schema";
 import {
   ORCHESTRATION_CACHE_SCHEMA_VERSION,
   StoredOrchestrationShellSnapshot,
-} from "./orchestrationCache.ts";
-import { makeStoredShellSnapshotEncoder } from "./shellCacheEncoding.ts";
+} from "./orchestrationCache.vibe";
+import { makeStoredShellSnapshotEncoder } from "./shellCacheEncoding.vibe";
 
 const ENVIRONMENT_ID = EnvironmentId.make("environment-1");
 const PROJECT_ID = ProjectId.make("project-1");

@@ -16,9 +16,9 @@ import {
   collapseExpandedComposerCursor,
   composerSubmissionIntentForKey,
 } from "../../composer-logic";
-import { type PendingUserInput } from "../../session-logic";
+import { type PendingUserInput } from "../../session-logic.vibe";
 import { type PreviewAnnotationPayload } from "@t3tools/contracts";
-import { type ReviewCommentContext } from "../../reviewCommentContext";
+import { type ReviewCommentContext } from "../../reviewCommentContext.vibe";
 import { composerTargetKey } from "../../composerDraftStore";
 import { listContinuationForEnter, listIndentForTab } from "../../composer-list-continuation";
 import type { Dispatch, RefObject, SetStateAction } from "react";

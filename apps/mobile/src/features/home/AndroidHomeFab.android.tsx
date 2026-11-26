@@ -11,11 +11,11 @@ import {
   androidHomeFabPosition,
   type AndroidHomeFabLayout as SharedAndroidHomeFabLayout,
 } from "./AndroidHomeFab.shared";
-import { useWorkspaceState } from "../../state/workspace";
+import { useWorkspaceState } from "../../state/workspace.vibe";
 import { FabScrollContext } from "./FabScrollContext";
 import { updateFabScroll } from "./fab-scroll";
 import { useAndroidControlSizing } from "../../components/ui/useAndroidControlSizing";
-import { useEnabledNavigationTabs } from "../workspace/navigation-tabs";
+import { useEnabledNavigationTabs } from "../workspace/navigation-tabs.vibe";
 import { WorkspaceTabsContext, useWorkspaceTabs } from "../workspace/WorkspaceTabsContext";
 import { FLOATING_TABS, floatingTabsMetrics } from "../workspace/floating-workspace-tabs";
 import {

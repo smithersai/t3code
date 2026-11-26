@@ -1,4 +1,4 @@
-export * from "./errorTrace.ts";
-export * from "./orchestration.ts";
+export * from "#vibelang/emitted/src/errors/errorTrace";
+export * from "#vibelang/emitted/src/errors/orchestration";
 export * from "./safeLog.ts";
 export * from "./transport.ts";

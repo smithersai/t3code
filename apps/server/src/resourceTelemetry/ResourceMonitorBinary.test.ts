@@ -5,8 +5,8 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 
-import * as ServerConfig from "../config.ts";
-import * as ResourceMonitorBinary from "./ResourceMonitorBinary.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ResourceMonitorBinary from "./ResourceMonitorBinary.vibe";
 
 // NTFS lacks POSIX exec bits required by this Linux-mocked override check.
 const windowsHost = HostProcess.Platform.defaultValue() === "win32";

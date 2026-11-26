@@ -7,7 +7,7 @@ import * as Path from "effect/Path";
 import * as Scope from "effect/Scope";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import { snapshotCookieDatabase } from "./CookieDatabase.ts";
+import { snapshotCookieDatabase } from "./CookieDatabase.vibe";
 
 const runNode = <A, E>(
   effect: Effect.Effect<A, E, FileSystem.FileSystem | Path.Path | Scope.Scope>,

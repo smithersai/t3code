@@ -13,7 +13,7 @@ import {
 } from "./settingsLayout";
 import { searchableSetting } from "./settingsSearch";
 import { WorktreeCleanupSection, WorktreesDirectoryRow } from "./StorageSettings";
-import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings";
+import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings.vibe";
 
 function StartFromRemoteRow() {
   const settings = useScopedSettings();

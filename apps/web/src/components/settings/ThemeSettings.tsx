@@ -10,7 +10,7 @@ import {
   UploadIcon,
 } from "lucide-react";
 import { useState, type ReactElement } from "react";
-import { useEnvironmentThemeDefinitions } from "../../hooks/useEnvironmentTheme";
+import { useEnvironmentThemeDefinitions } from "../../hooks/useEnvironmentTheme.vibe";
 import { readThemeHalvesRaw } from "../../hooks/useTheme";
 import { cn } from "../../lib/utils";
 import {

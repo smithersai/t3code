@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as OtlpResource from "effect/observability/OtlpResource";
 
-import * as OtelEnvironment from "./otelEnvironment.ts";
+import * as OtelEnvironment from "./otelEnvironment.vibe";
 
 const load = (env: Record<string, string>) =>
   OtelEnvironment.load.pipe(Effect.provide(ConfigProvider.layer(ConfigProvider.fromEnv({ env }))));

@@ -22,7 +22,7 @@ import {
   MenuTrigger,
 } from "../ui/menu";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
-import type { resolvePullRequestPrimaryControl } from "./pullRequestDetail.logic";
+import type { resolvePullRequestPrimaryControl } from "./pullRequestDetail.logic.vibe";
 import { PullRequestGlyph } from "./pullRequestIcons";
 import type { resolvePullRequestState } from "./pullRequestPresentation";
 import type { PickableEnvironment } from "./pullRequestProjectAssignment.logic";

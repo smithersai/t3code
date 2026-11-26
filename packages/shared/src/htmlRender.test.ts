@@ -5,7 +5,7 @@ import {
   readHtmlRenderImageRequest,
   readHtmlRenderLinkRequest,
 } from "./htmlRender.ts";
-import { htmlRenderFromToolItem } from "./toolOutput.ts";
+import { htmlRenderFromToolItem } from "./toolOutput.vibe";
 
 const reference = { attachmentId: "thread-abc-123.html", title: "Chart", height: 420 };
 

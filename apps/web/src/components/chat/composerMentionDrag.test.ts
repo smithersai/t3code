@@ -4,7 +4,7 @@ import {
   COMPOSER_MENTION_DRAG_TYPE,
   type ComposerMentionDropHost,
   makeComposerMentionDragHandlers,
-} from "./composerMentionDrag.ts";
+} from "./composerMentionDrag.vibe";
 
 const makeDragEvent = (options?: {
   mention?: string;

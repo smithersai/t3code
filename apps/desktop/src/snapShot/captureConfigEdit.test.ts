@@ -5,7 +5,7 @@ import {
   niriConfigConflict,
   niriConfigIncludes,
 } from "./captureConfigEdit.ts";
-import { readKdlNodes } from "./captureConfigKdl.ts";
+import { readKdlNodes } from "./captureConfigKdl.vibe";
 
 const app = "com.t3tools.T3Code";
 const binding = captureConfigBinding("niri", app, "Ctrl+Shift+2");

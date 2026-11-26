@@ -5,7 +5,7 @@ import { afterEach, beforeEach, expect, it, vi } from "vite-plus/test";
 
 const spawn = vi.hoisted(() => vi.fn());
 vi.mock("node:child_process", () => ({ spawn }));
-import { startNativeCaptureFeedback } from "./NativeCaptureFeedback.ts";
+import { startNativeCaptureFeedback } from "./NativeCaptureFeedback.vibe";
 
 const options = {
   bounds: { x: -800, y: 0, width: 800, height: 600 },

@@ -3,8 +3,8 @@ import * as Effect from "effect/Effect";
 import * as PlatformError from "effect/PlatformError";
 import { ChildProcessSpawner } from "effect/process";
 
-import * as AcpError from "../errors.ts";
-import { makeTerminationError } from "./stdio.ts";
+import * as AcpError from "../errors.vibe";
+import { makeTerminationError } from "./stdio.vibe";
 
 describe("ACP child process termination", () => {
   it.effect("retains the process identifier and exact exit-status cause", () =>

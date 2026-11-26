@@ -1,5 +1,5 @@
 import { createAttachmentEnvironmentAtoms } from "@t3tools/client-runtime/state/attachments";
 
-import { connectionAtomRuntime } from "../connection/runtime";
+import { connectionAtomRuntime } from "../connection/runtime.vibe";
 
 export const attachmentEnvironment = createAttachmentEnvironmentAtoms(connectionAtomRuntime);

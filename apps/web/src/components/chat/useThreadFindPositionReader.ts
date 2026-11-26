@@ -1,11 +1,11 @@
 import { useLayoutEffect } from "react";
 import type { RunId } from "@t3tools/contracts";
-import type { TimelineEntry } from "../../session-logic";
+import type { TimelineEntry } from "../../session-logic.vibe";
 import {
   timelineTurnFoldRunIdsByEntryId,
   type MessagesTimelineRow,
   type TimelineLatestRun,
-} from "./MessagesTimeline.logic";
+} from "./MessagesTimeline.logic.vibe";
 import type { ThreadFindPositionReader } from "./threadFind";
 import { attachThreadFindTimeline } from "./threadFindStore";
 import { readThreadFindPosition } from "./threadFindPosition";

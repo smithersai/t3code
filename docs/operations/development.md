@@ -3,7 +3,15 @@
 ## First checkout
 
 Install `vp` using the [root README](../../README.md#install-vp). It provides the Node version
-pinned in `package.json` (Node 26), so no separate Node install is needed. From the repository root:
+pinned in `package.json` (Node 26), so no separate Node install is needed.
+
+The VibeLang dependencies reference SDK archives in `.vibelang-toolchain/`. Supply the files
+named by `package.json` and `pnpm-workspace.yaml` before installing. Installation generates
+the `*.d.vibe.ts` and `*.d.vibex.ts` declarations that package consumers need, then builds
+and validates loader caches for cold starts. These generated files stay untracked. Run
+`pnpm run build:declarations` to regenerate them after editing VibeLang sources.
+
+From the repository root:
 
 ```sh
 vp i

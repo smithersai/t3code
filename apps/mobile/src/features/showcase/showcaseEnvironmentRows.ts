@@ -1,6 +1,6 @@
 import { EnvironmentId } from "@t3tools/contracts";
 
-import type { RelayEnvironmentView } from "../connection/useConnectionController";
+import type { RelayEnvironmentView } from "../connection/useConnectionController.vibe";
 import type { ConnectedEnvironmentSummary } from "../../state/remote-runtime-types";
 
 const SHOWCASE_LOCAL_ENVIRONMENT_DISPLAY_URLS: Readonly<Record<string, string>> = {

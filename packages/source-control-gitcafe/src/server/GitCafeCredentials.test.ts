@@ -6,7 +6,7 @@ import * as HostProcess from "@t3tools/shared/HostProcess";
 import type * as SourceControlHost from "@t3tools/source-control-core/server/SourceControlHost";
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
 
-import * as GitCafeCredentials from "./GitCafeCredentials.ts";
+import * as GitCafeCredentials from "./GitCafeCredentials.vibe";
 
 const processOutput = TestSourceControlHost.processOutput;
 

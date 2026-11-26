@@ -1,7 +1,7 @@
 import { expect, it } from "@effect/vitest";
 import { Tool } from "effect/ai";
 
-import { PreviewToolkit } from "./tools.ts";
+import { PreviewToolkit } from "./tools.vibe";
 
 const schemaHasMultipleAllOfDescriptions = (schema: unknown): boolean => {
   if (!schema || typeof schema !== "object") return false;

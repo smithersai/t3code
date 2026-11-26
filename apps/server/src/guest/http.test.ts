@@ -3,7 +3,7 @@ import { assert, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import { HttpServerRequest } from "effect/http";
 
-import { readSubmission } from "./http.ts";
+import { readSubmission } from "./http.vibe";
 
 it.effect("keeps a JSON file a guest attaches as a file, not a form field", () =>
   Effect.gen(function* () {

@@ -4,8 +4,8 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import * as RelayDb from "../db.ts";
-import * as CloudflareApiPause from "./CloudflareApiPause.ts";
+import * as RelayDb from "../db.vibe";
+import * as CloudflareApiPause from "./CloudflareApiPause.vibe";
 
 const TransactionConnection = SqlClient.TransactionConnection(7);
 

@@ -1,7 +1,7 @@
 import { resolveHighlightLanguage } from "../../lib/highlightLanguage";
 import { highlightCode, type HighlightScheme } from "../../lib/highlights";
 import type { ReviewHighlightedToken } from "./reviewHighlightedToken.types";
-import type { ReviewRenderableLineRow } from "./reviewModel";
+import type { ReviewRenderableLineRow } from "./reviewModel.vibe";
 import { applyDiffRangesToTokens, computeWordAltDiffRanges } from "./reviewWordDiffs";
 
 function applyWordAltDiffHighlightsToSelectedLines(input: {

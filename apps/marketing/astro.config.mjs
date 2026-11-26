@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import vibelang from "vibelang-vite";
 
 // Astro loads env with an empty prefix, and under `vp run` Vite+'s loadEnv then reports every
 // variable to the task cache. Any env difference (TERM, VP_RAW_SUBCOMMAND, an agent's session
@@ -8,6 +9,7 @@ delete process.env.VP_RUN_NODE_CLIENT_PATH;
 
 export default defineConfig({
   site: "https://t3.codes",
+  vite: { plugins: [vibelang({ register: true })] },
   server: {
     port: Number(process.env.PORT ?? 4173),
   },

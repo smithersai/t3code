@@ -17,7 +17,7 @@ vi.mock("react-native", () => ({
   Platform: { OS: "ios" },
 }));
 
-vi.mock("../lib/runtime", async () => {
+vi.mock("../lib/runtime.vibe", async () => {
   const Layer = await import("effect/Layer");
   return {
     runtime: { runPromise: vi.fn() },
@@ -26,7 +26,7 @@ vi.mock("../lib/runtime", async () => {
 });
 
 import { createMobilePreferencesState } from "./preferences";
-import * as MobilePreferences from "../persistence/mobile-preferences";
+import * as MobilePreferences from "../persistence/mobile-preferences.vibe";
 
 function deferred<A>() {
   let resolve!: (value: A) => void;

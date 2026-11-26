@@ -11,7 +11,7 @@ import * as ChildProcess from "effect/process/ChildProcess";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 import { afterEach, describe, expect, vi } from "vite-plus/test";
 
-import * as RemoteOpenTargets from "./RemoteOpenTargets.ts";
+import * as RemoteOpenTargets from "./RemoteOpenTargets.vibe";
 
 afterEach(() => {
   vi.restoreAllMocks();

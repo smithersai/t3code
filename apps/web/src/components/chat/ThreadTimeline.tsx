@@ -1,7 +1,7 @@
 import type { ScopedThreadRef } from "@t3tools/contracts";
 import { type ComponentProps, useLayoutEffect } from "react";
 import { useIncrementalTimelineEntries } from "../../hooks/useIncrementalTimelineEntries";
-import type { TimelineEntriesInput, TimelineEntry } from "../../session-logic";
+import type { TimelineEntriesInput, TimelineEntry } from "../../session-logic.vibe";
 import { useThreadVisibleTurnItems } from "../../state/entities";
 import {
   peekRememberedThreadTimeline,

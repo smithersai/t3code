@@ -1,5 +1,5 @@
 import { ProviderInstanceId, TextGenerationError } from "@t3tools/contracts";
-import { OpenCodeSettings } from "../settings.ts";
+import { OpenCodeSettings } from "../settings.vibe";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { it } from "@effect/vitest";
 import * as Cause from "effect/Cause";
@@ -15,9 +15,9 @@ import * as NetService from "@t3tools/shared/Net";
 import { beforeEach, expect } from "vite-plus/test";
 
 import * as TestProviderHost from "@t3tools/provider-testing/TestProviderHost";
-import * as OpenCodeRuntime from "./OpenCodeRuntime.ts";
-import * as OpenCodeServerOwner from "./OpenCodeServerOwner.ts";
-import * as OpenCodeTextGeneration from "./textGeneration.ts";
+import * as OpenCodeRuntime from "./OpenCodeRuntime.vibe";
+import * as OpenCodeServerOwner from "./OpenCodeServerOwner.vibe";
+import * as OpenCodeTextGeneration from "./textGeneration.vibe";
 import type { ProviderTextGeneration } from "@t3tools/provider-core/server/textGeneration";
 
 const runtimeMock = {

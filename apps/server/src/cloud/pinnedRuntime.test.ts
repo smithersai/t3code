@@ -13,7 +13,7 @@ import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
 import * as HostProcess from "@t3tools/shared/HostProcess";
 
-import * as ProcessRunner from "../processRunner.ts";
+import * as ProcessRunner from "../processRunner.vibe";
 import {
   ensurePinnedRuntimeInstalled,
   pinnedRuntimeCommand,
@@ -21,7 +21,7 @@ import {
   PinnedRuntimeInstallError,
   type PinnedRuntimeProgress,
   prunePinnedRuntimes,
-} from "./pinnedRuntime.ts";
+} from "./pinnedRuntime.vibe";
 import { SERVICE_LAUNCHER_PROTOCOL } from "./serviceProtocol.ts";
 
 const version = "1.2.3";

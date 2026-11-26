@@ -33,7 +33,7 @@ import {
   withPathDirectoryListings,
   type WindowsShellEnvironmentReader,
   XcodeGitLocation,
-} from "./shell.ts";
+} from "./shell.vibe";
 
 const nativeProbe = vi.hoisted(() => ({
   execFile: vi.fn<typeof import("node:child_process").execFile>(),

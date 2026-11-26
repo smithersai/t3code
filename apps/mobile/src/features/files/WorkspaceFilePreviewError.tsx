@@ -5,8 +5,8 @@ import { View } from "react-native";
 import { EmptyState } from "../../components/ui/EmptyState";
 import { environmentCatalog } from "../../connection/catalog";
 import type { AssetUrlFailureReason } from "../../state/asset-url-state";
-import { useAtomCommand } from "../../state/use-atom-command";
-import { useEnvironmentPresentation } from "../../state/presentation";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
+import { useEnvironmentPresentation } from "../../state/presentation.vibe";
 import { EnvironmentConnectionNotice } from "../connection/EnvironmentConnectionNotice";
 
 export function WorkspaceFilePreviewError(props: {

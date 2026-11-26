@@ -1,4 +1,4 @@
-import { reportAtomCommandResult, settlePromise } from "../state/runtime.ts";
+import { reportAtomCommandResult, settlePromise } from "../state/runtime.vibe";
 
 /**
  * The slice of a Clerk instance the account service needs. Clerk emits on

@@ -12,10 +12,10 @@ import {
   decryptChromiumValue,
   readChromiumCookieDatabase,
   readChromiumCookies,
-} from "./ChromiumCookies.ts";
-import { ChromiumKeyError } from "./ChromiumKeys.ts";
-import { LinuxBrowserSecretPath } from "./LinuxBrowserSecret.ts";
-import { cookieScope } from "./CookieDatabase.ts";
+} from "./ChromiumCookies.vibe";
+import { ChromiumKeyError } from "./ChromiumKeys.vibe";
+import { LinuxBrowserSecretPath } from "./LinuxBrowserSecret.vibe";
+import { cookieScope } from "./CookieDatabase.vibe";
 
 const encryptChromium = (
   prefix: "v10" | "v11",

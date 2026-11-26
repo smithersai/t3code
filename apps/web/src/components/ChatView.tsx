@@ -12,7 +12,7 @@ import {
 import { usePullRequestDraftThread } from "./chat/usePullRequestDraftThread";
 import { useComposerSelection } from "./chat/useComposerSelection";
 import { useProjectCloneBanner } from "./chat/useProjectCloneBanner";
-import { useAttachmentPreviewHandoff } from "./chat/useAttachmentPreviewHandoff";
+import { useAttachmentPreviewHandoff } from "./chat/useAttachmentPreviewHandoff.vibe";
 import {
   applyOptimisticUserMessagesAction,
   createOptimisticBlobPreviews,
@@ -35,7 +35,7 @@ import { useQueuedRunEdit } from "./chat/useQueuedRunEdit";
 import { recallCheckoutIsRepo, rememberCheckoutIsRepo } from "./ChatView.logic";
 import { useLogicalProjectEnvironments } from "../hooks/useLogicalProjectEnvironments";
 import { useStableCallback } from "../hooks/useStableCallback";
-import { useProjectScriptEditing } from "./chat/useProjectScriptEditing";
+import { useProjectScriptEditing } from "./chat/useProjectScriptEditing.vibe";
 import { RightPanelSurfaceContent } from "./chat/RightPanelSurfaceContent";
 import { usePendingThreadRequests } from "./chat/usePendingThreadRequests";
 import { isScratchProject } from "@t3tools/client-runtime/state/projects";
@@ -111,7 +111,7 @@ import { useAtomValue } from "@effect/atom-react";
 import { type SetStateAction, use, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { BackgroundThreadContext } from "./chat/backgroundThread";
 import { useLocation, useNavigate } from "@tanstack/react-router";
-import { assistantCitationFromLocation } from "../lib/assistantCitationNavigation";
+import { assistantCitationFromLocation } from "../lib/assistantCitationNavigation.vibe";
 import type { AssistantCitationSourceAnchor } from "~/lib/assistantTextSelection";
 import { useStore } from "zustand";
 import { useShallow } from "zustand/react/shallow";
@@ -134,11 +134,11 @@ import {
   findRevertCheckpoint,
   hasActionableProposedPlan,
   isLatestRunSettled,
-} from "../session-logic";
+} from "../session-logic.vibe";
 import { type LegendListRef } from "@legendapp/list/react";
 import { useWorkspaceMutationRefresh } from "../hooks/useWorkspaceMutationRefresh";
 import { DEFAULT_INTERACTION_MODE, type ChatMessage } from "../types";
-import { buildThreadRouteParams } from "../threadRoutes";
+import { buildThreadRouteParams } from "../threadRoutes.vibe";
 import { useTheme } from "../hooks/useTheme";
 import { writeTextToClipboard } from "../hooks/useCopyToClipboard";
 import { subscribeSnapShotComposerFocus } from "../lib/desktopSnapShot";
@@ -160,7 +160,7 @@ import {
   useThreadPreviewCanvasSource,
 } from "./preview/ThreadPreviewMiniPlayer";
 import { createChatCanvasStore, resolveChatCanvasModel } from "./chat/canvasStore";
-import { usePreviewSession } from "./preview/usePreviewSession";
+import { usePreviewSession } from "./preview/usePreviewSession.vibe";
 import { getConfiguredPreviewUrls } from "./preview/previewEmptyStateLogic";
 
 import {
@@ -168,10 +168,10 @@ import {
   selectThreadPreviewMiniPlayer,
   usePreviewMiniPlayerStore,
 } from "../previewMiniPlayerStore";
-import { threadPullRequestPanelTarget } from "./pullRequest/pullRequestDetail.logic";
+import { threadPullRequestPanelTarget } from "./pullRequest/pullRequestDetail.logic.vibe";
 import { LinkPullRequestDialogHost } from "./pullRequest/LinkPullRequestDialog";
 import { GuestPendingMessages } from "./chat/GuestShareControls";
-import { useDeviceState } from "~/state/device";
+import { useDeviceState } from "../state/device.vibe";
 import { BranchToolbar, type BranchToolbarHandle } from "./BranchToolbar";
 import { makeWorkspaceFileDropHandlers } from "./chat/workspaceFileDrop";
 import { isEditableFocused } from "../lib/editableFocus";
@@ -180,7 +180,7 @@ import { shortcutLabelForCommand } from "../keybindings";
 import { cn } from "~/lib/utils";
 import { COLLAPSED_SIDEBAR_TITLEBAR_INSET_CLASS } from "~/workspaceTitlebar";
 import { stackedThreadToast, toastManager } from "./ui/toast";
-import { projectScriptIdFromCommand } from "~/projectScripts";
+import { projectScriptIdFromCommand } from "../projectScripts.vibe";
 import { newMessageId } from "~/lib/utils";
 import {
   applyProviderInstanceSettings,
@@ -219,9 +219,12 @@ import {
 import { type TerminalContextDraft } from "../lib/terminalContext";
 import { collectInlineContextIds } from "../lib/composerContextReferences";
 import { selectThreadTerminalUiState, useTerminalUiStateStore } from "../terminalUiStateStore";
-import { useKnownTerminalSessions, useThreadRunningTerminalIds } from "../state/terminalSessions";
-import { useEnvironmentQuery } from "../state/query";
-import { useEnvironmentScope } from "~/state/session";
+import {
+  useKnownTerminalSessions,
+  useThreadRunningTerminalIds,
+} from "../state/terminalSessions.vibe";
+import { useEnvironmentQuery } from "../state/query.vibe";
+import { useEnvironmentScope } from "../state/session.vibe";
 import {
   primaryServerAvailableEditorsAtom,
   primaryServerKeybindingsAtom,
@@ -236,7 +239,7 @@ import {
   useEnvironmentProviders,
   useEnvironments,
   usePrimaryEnvironment,
-} from "../state/environments";
+} from "../state/environments.vibe";
 import {
   resolveThreadDetailRef,
   useEnvironmentSupportsServerBrowser,
@@ -250,7 +253,7 @@ import {
   useQuietThreadShell,
   useThreadCheckpointSummaries,
 } from "../state/entities";
-import { useEnvironmentShellHasSnapshot } from "../state/shell";
+import { useEnvironmentShellHasSnapshot } from "../state/shell.vibe";
 import { ChatComposer, type ChatComposerHandle } from "./chat/ChatComposer";
 import { DraftHeroHeadline } from "./chat/DraftHeroHeadline";
 import { ExpandedImageDialogHost, openExpandedImagePreview } from "./chat/ExpandedImageDialog";
@@ -262,7 +265,7 @@ import {
   RevertConfirmHost,
 } from "./chat/ChatOverlayHosts";
 import type { AssistantCitationRequest } from "./chat/AssistantCitationSource";
-import { useCitedHistory } from "./chat/citationProcedure";
+import { useCitedHistory } from "./chat/citationProcedure.vibe";
 import type { MessagesTimelineHistoryControls } from "./chat/MessagesTimeline";
 import { ThreadTimeline } from "./chat/ThreadTimeline";
 import { ProviderSubagentBar } from "./chat/ProviderSubagentBar";
@@ -291,7 +294,7 @@ import {
   resolveLocalCheckoutBranchMismatch,
   shouldShowComposerContextStrip,
   shouldShowEnvironmentIndicator,
-} from "./BranchToolbar.logic";
+} from "./BranchToolbar.logic.vibe";
 import {
   getProviderStatusBannerKey,
   shouldShowProviderStatusBanner,
@@ -317,7 +320,7 @@ import {
 import {
   deriveLatestContextWindowSnapshot,
   latestProviderTurnTokenUsage,
-} from "../lib/contextWindow";
+} from "../lib/contextWindow.vibe";
 import {
   MOBILE_COMPOSER_VIEW_TRANSITION_NAME,
   MOBILE_DRAFT_HEADLINE_VIEW_TRANSITION_NAME,
@@ -341,12 +344,12 @@ import {
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import { useComposerHandleContext } from "../composerHandleContext";
 import { clampFileAttachmentUploadBytes } from "@t3tools/client-runtime/state/attachments";
-import { appAtomRegistry } from "../rpc/atomRegistry";
-import { assetEnvironment } from "../state/assets";
-import { readEnvironmentScope, readPreparedConnection } from "../state/session";
-import { useAtomCommand } from "../state/use-atom-command";
-import { useOrchestrationCommand } from "../state/use-orchestration-command";
-import { useAtomQueryRunner } from "../state/use-atom-query-runner";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
+import { assetEnvironment } from "../state/assets.vibe";
+import { readEnvironmentScope, readPreparedConnection } from "../state/session.vibe";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
+import { useOrchestrationCommand } from "../state/use-orchestration-command.vibe";
+import { useAtomQueryRunner } from "../state/use-atom-query-runner.vibe";
 import { observeResize } from "~/lib/observeResize";
 import { ThreadVisitWatermark } from "./chat/ThreadVisitWatermark";
 import { ChatTerminalDrawers } from "./chat/ChatTerminalDrawers";

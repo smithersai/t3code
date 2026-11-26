@@ -2,8 +2,8 @@ import { assert, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 
-import * as CodexError from "../errors.ts";
-import * as Shared from "./shared.ts";
+import * as CodexError from "../errors.vibe";
+import * as Shared from "./shared.vibe";
 
 const decodeNestedNumberPayload = Schema.decodeUnknownEffect(
   Schema.Struct({ profile: Schema.Struct({ token: Schema.Number }) }),

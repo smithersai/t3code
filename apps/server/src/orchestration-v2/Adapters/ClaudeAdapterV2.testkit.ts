@@ -17,7 +17,7 @@ import {
   type ProviderReplayTranscript,
 } from "@t3tools/contracts";
 import * as Cause from "effect/Cause";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
@@ -27,16 +27,16 @@ import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 
-import * as ServerConfig from "../../config.ts";
+import * as ServerConfig from "../../config.vibe";
 import {
   isWindowsClaudeLauncherShimPath,
   resolveClaudeSdkExecutablePath,
-} from "../../provider/Drivers/ClaudeExecutable.ts";
-import * as ClaudeAdapterV2 from "./ClaudeAdapterV2.ts";
-import { claudeTaskOutputRoot } from "./ClaudeTaskOutputTail.ts";
+} from "../../provider/Drivers/ClaudeExecutable.vibe";
+import * as ClaudeAdapterV2 from "./ClaudeAdapterV2.vibe";
+import { claudeTaskOutputRoot } from "./ClaudeTaskOutputTail.vibe";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { ProviderAdapterDriverCreateError } from "@t3tools/provider-core/server/adapterDriver";
-import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.ts";
+import * as ProviderAdapterRegistry from "../ProviderAdapterRegistry.vibe";
 import { randomUuidV4 } from "@t3tools/provider-core/server/randomUuid";
 import {
   makeReplayServerConfig,
@@ -1015,7 +1015,7 @@ function layerClaudeProviderAdapterRegistryReplay(
   const layerServerConfig = Layer.effect(
     ServerConfig.ServerConfig,
     makeReplayServerConfig(transcript.scenario).pipe(Effect.orDie),
-  ).pipe(Layer.provide(NodeServices.layer));
+  ).pipe(Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)));
   return Layer.unwrap(
     writeReplayTaskOutputFiles(transcript).pipe(
       Effect.orDie,
@@ -1030,14 +1030,14 @@ function layerClaudeProviderAdapterRegistryReplay(
           },
         }),
       ),
-      Effect.provide(NodeServices.layer),
+      Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
     ),
   ).pipe(
     Layer.provide(
       Layer.mergeAll(
         layerClaudeAgentSdkReplay(transcript, options),
         IdAllocator.layer,
-        NodeServices.layer,
+        Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
         layerServerConfig,
       ),
     ),
@@ -1603,7 +1603,7 @@ async function recordClaudeStreamingQuery(input: {
           Crypto.Crypto.pipe(
             Effect.flatMap((crypto) => crypto.randomUUIDv4()),
             Effect.filterOrFail(ClaudeAdapterV2.isClaudePromptUuid),
-            Effect.provide(NodeServices.layer),
+            Effect.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
           ),
         ),
       });

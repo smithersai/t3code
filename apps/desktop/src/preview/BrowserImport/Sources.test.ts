@@ -11,7 +11,7 @@ import * as Scope from "effect/Scope";
 import { ChildProcessSpawner } from "effect/process";
 import * as NodeSqlite from "node:sqlite";
 
-import type { BrowserImportPathContext } from "./Sources.ts";
+import type { BrowserImportPathContext } from "./Sources.vibe";
 import {
   BROWSER_IMPORT_SOURCES,
   chromiumProcessIsAlive,
@@ -23,7 +23,7 @@ import {
   listSourceProfiles,
   sourcePathContext,
   windowsChromiumCookiesAreHeld,
-} from "./Sources.ts";
+} from "./Sources.vibe";
 import { symlinksSupported } from "@t3tools/shared/testing/symlinks";
 
 const helium = BROWSER_IMPORT_SOURCES.find((source) => source.id === "helium")!;

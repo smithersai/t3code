@@ -9,7 +9,7 @@ import * as PlatformError from "effect/PlatformError";
 import * as References from "effect/References";
 import * as Stream from "effect/Stream";
 
-import * as TraceDiagnostics from "./TraceDiagnostics.ts";
+import * as TraceDiagnostics from "./TraceDiagnostics.vibe";
 
 function ns(ms: number): string {
   return String(BigInt(ms) * 1_000_000n);

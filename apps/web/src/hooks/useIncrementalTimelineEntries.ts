@@ -3,7 +3,7 @@ import {
   deriveTimelineEntriesFromVisibleTurnItemsWithState,
   type TimelineEntriesInput,
   type TimelineEntriesProjection,
-} from "../session-logic";
+} from "../session-logic.vibe";
 
 function sameInput(left: TimelineEntriesInput, right: TimelineEntriesInput): boolean {
   return (

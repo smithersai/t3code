@@ -4,7 +4,7 @@ import {
   ClerkPublishableKeyFrontendApiError,
   clerkFrontendApiHostnameFromPublishableKey,
   clerkFrontendApiUrlFromPublishableKey,
-} from "./relayAuth.ts";
+} from "./relayAuth.vibe";
 
 const clerkPublishableKey = (hostname: string): string => `pk_test_${btoa(`${hostname}$`)}`;
 

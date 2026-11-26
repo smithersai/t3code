@@ -14,7 +14,7 @@ import {
   resolveClaudeCatalogApiModelId,
   resolveClaudeCatalogEffort,
   type ClaudeModelCatalog,
-} from "./provider/ClaudeModelCatalog.ts";
+} from "./provider/ClaudeModelCatalog.vibe";
 
 export interface CompiledClaudeModelSelection {
   readonly apiModelId: string;

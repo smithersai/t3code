@@ -3,10 +3,10 @@ import type { RelayEnvironmentStatusResponse } from "@t3tools/contracts/relay";
 import * as Option from "effect/Option";
 import { describe, expect, it } from "vite-plus/test";
 
-import { BearerConnectionProfile } from "./connection/catalog.ts";
-import { BearerConnectionTarget, RelayConnectionTarget } from "./connection/model.ts";
-import type { EnvironmentPresentation } from "./connection/presentation.ts";
-import type { RelayDiscoveredEnvironment } from "./relay/discovery.ts";
+import { BearerConnectionProfile } from "./connection/catalog.vibe";
+import { BearerConnectionTarget, RelayConnectionTarget } from "./connection/model.vibe";
+import type { EnvironmentPresentation } from "./connection/presentation.vibe";
+import type { RelayDiscoveredEnvironment } from "./relay/discovery.vibe";
 import {
   linkableMachines,
   linkRequestAnswerInput,
@@ -14,7 +14,7 @@ import {
   linkRequestFailureMessage,
   linkRequestInitialMachine,
   rankMachinesByHint,
-} from "./linkRequest.ts";
+} from "./linkRequest.vibe";
 
 const item = {
   id: TurnItemId.make("turn-item:link-request:1"),

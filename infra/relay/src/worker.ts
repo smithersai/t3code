@@ -5,12 +5,13 @@ import * as Drizzle from "@alchemy.run/drizzle/Postgres";
 import * as Config from "effect/Config";
 import * as Cause from "effect/Cause";
 import * as DateTime from "effect/DateTime";
-import * as Crypto from "effect/Crypto";
+import * as Crypto from "@t3tools/shared/Crypto";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
+import { deferred } from "vibelang-unplugin/deferred";
 import * as Etag from "effect/http/Etag";
 import * as HttpMiddleware from "effect/http/HttpMiddleware";
 import * as HttpPlatform from "effect/http/HttpPlatform";
@@ -24,52 +25,52 @@ import {
   RELAY_HTTP_ROUTER_CONFIG,
   traceRelayHttpRequestWith,
   withoutCapturedParentSpan,
-} from "./http/Api.ts";
-import * as RelayHttpApi from "./http/Api.ts";
-import { ManagedEndpointZone, RelayApiZone, RelayDeploymentConfig } from "./zone.ts";
-import { RelayObservability } from "./observability.ts";
-import * as Observability from "./observability.ts";
-import * as DeliveryAttempts from "./agentActivity/DeliveryAttempts.ts";
-import * as AgentActivityRows from "./agentActivity/AgentActivityRows.ts";
-import * as Devices from "./agentActivity/Devices.ts";
-import * as DpopProofs from "./auth/DpopProofs.ts";
-import * as RelayTokens from "./auth/RelayTokens.ts";
-import * as EnvironmentCredentials from "./environments/EnvironmentCredentials.ts";
-import * as EnvironmentLinks from "./environments/EnvironmentLinks.ts";
-import * as ManagedEndpointAllocations from "./environments/ManagedEndpointAllocations.ts";
-import * as LiveActivities from "./agentActivity/LiveActivities.ts";
-import * as RelayDb from "./db.ts";
+} from "./http/Api.vibe";
+import * as RelayHttpApi from "./http/Api.vibe";
+import { ManagedEndpointZone, RelayApiZone, RelayDeploymentConfig } from "./zone.vibe";
+import { RelayObservability } from "./observability.vibe";
+import * as Observability from "./observability.vibe";
+import * as DeliveryAttempts from "./agentActivity/DeliveryAttempts.vibe";
+import * as AgentActivityRows from "./agentActivity/AgentActivityRows.vibe";
+import * as Devices from "./agentActivity/Devices.vibe";
+import * as DpopProofs from "./auth/DpopProofs.vibe";
+import * as RelayTokens from "./auth/RelayTokens.vibe";
+import * as EnvironmentCredentials from "./environments/EnvironmentCredentials.vibe";
+import * as EnvironmentLinks from "./environments/EnvironmentLinks.vibe";
+import * as ManagedEndpointAllocations from "./environments/ManagedEndpointAllocations.vibe";
+import * as LiveActivities from "./agentActivity/LiveActivities.vibe";
+import * as RelayDb from "./db.vibe";
 import {
   RelayApnsDeliveryDeadLetterQueue,
   RelayApnsDeliveryQueue,
   RelayFcmDeliveryQueue,
   RelayFcmDeliveryDeadLetterQueue,
 } from "./queues.ts";
-import * as WebCrypto from "./WebCrypto.ts";
-import * as FcmAssertionSigner from "./agentActivity/FcmAssertionSigner.ts";
-import * as FcmClient from "./agentActivity/FcmClient.ts";
-import * as FcmDeliveryQueueSender from "./agentActivity/FcmDeliveryQueueSender.ts";
-import * as FcmDeliveries from "./agentActivity/FcmDeliveries.ts";
-import * as FcmDeliveryQueueConsumer from "./agentActivity/FcmDeliveryQueueConsumer.ts";
-import * as RelayConfiguration from "./Config.ts";
-import * as AgentActivityPublisher from "./agentActivity/AgentActivityPublisher.ts";
-import * as ApnsClient from "./agentActivity/ApnsClient.ts";
-import * as ApnsProviderTokens from "./agentActivity/ApnsProviderTokens.ts";
-import * as ApnsDeliveryQueue from "./agentActivity/ApnsDeliveryQueue.ts";
-import * as ApnsDeliveries from "./agentActivity/ApnsDeliveries.ts";
-import * as CloudflareApiPause from "./environments/CloudflareApiPause.ts";
-import * as EnvironmentConnector from "./environments/EnvironmentConnector.ts";
-import * as EnvironmentLinker from "./environments/EnvironmentLinker.ts";
-import * as EnvironmentPublishSignatures from "./environments/EnvironmentPublishSignatures.ts";
-import * as ManagedEndpointProvider from "./environments/ManagedEndpointProvider.ts";
-import * as ManagedEndpointReaper from "./environments/ManagedEndpointReaper.ts";
-import * as ManagedTunnelLimits from "./environments/ManagedTunnelLimits.ts";
-import * as MobileRegistrations from "./agentActivity/MobileRegistrations.ts";
-import * as HookForwarder from "./hooks/HookForwarder.ts";
-import * as HeldHooks from "./hooks/HeldHooks.ts";
-import * as HookInbox from "./hooks/HookInbox.ts";
-import * as HookInboxObject from "./hooks/HookInboxObject.ts";
-import * as MobileTelemetry from "./mobileTelemetry/MobileTelemetry.ts";
+import * as WebCrypto from "./WebCrypto.vibe";
+import * as FcmAssertionSigner from "./agentActivity/FcmAssertionSigner.vibe";
+import * as FcmClient from "./agentActivity/FcmClient.vibe";
+import * as FcmDeliveryQueueSender from "./agentActivity/FcmDeliveryQueueSender.vibe";
+import * as FcmDeliveries from "./agentActivity/FcmDeliveries.vibe";
+import * as FcmDeliveryQueueConsumer from "./agentActivity/FcmDeliveryQueueConsumer.vibe";
+import * as RelayConfiguration from "./Config.vibe";
+import * as AgentActivityPublisher from "./agentActivity/AgentActivityPublisher.vibe";
+import * as ApnsClient from "./agentActivity/ApnsClient.vibe";
+import * as ApnsProviderTokens from "./agentActivity/ApnsProviderTokens.vibe";
+import * as ApnsDeliveryQueue from "./agentActivity/ApnsDeliveryQueue.vibe";
+import * as ApnsDeliveries from "./agentActivity/ApnsDeliveries.vibe";
+import * as CloudflareApiPause from "./environments/CloudflareApiPause.vibe";
+import * as EnvironmentConnector from "./environments/EnvironmentConnector.vibe";
+import * as EnvironmentLinker from "./environments/EnvironmentLinker.vibe";
+import * as EnvironmentPublishSignatures from "./environments/EnvironmentPublishSignatures.vibe";
+import * as ManagedEndpointProvider from "./environments/ManagedEndpointProvider.vibe";
+import * as ManagedEndpointReaper from "./environments/ManagedEndpointReaper.vibe";
+import * as ManagedTunnelLimits from "./environments/ManagedTunnelLimits.vibe";
+import * as MobileRegistrations from "./agentActivity/MobileRegistrations.vibe";
+import * as HookForwarder from "./hooks/HookForwarder.vibe";
+import * as HeldHooks from "./hooks/HeldHooks.vibe";
+import * as HookInbox from "./hooks/HookInbox.vibe";
+import * as HookInboxObject from "./hooks/HookInboxObject.vibe";
+import * as MobileTelemetry from "./mobileTelemetry/MobileTelemetry.vibe";
 
 const layerWebcrypto = Layer.succeed(
   Crypto.Crypto,
@@ -119,6 +120,8 @@ export const layer = Api.make(
   RelayDeploymentConfig.pipe(
     Effect.map(({ relayPublicDomain }) => ({
       main: import.meta.filename,
+      // The Worker imports .vibe modules, so its bundle needs the VibeLang plugin.
+      build: { input: { plugins: [deferred("rolldown")] } },
       compatibility: {
         date: "2026-05-22",
         flags: ["nodejs_compat"],

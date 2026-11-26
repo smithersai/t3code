@@ -4,17 +4,18 @@
   "type": "module",
   "scripts": {
     "test": "vp test run --config ../../vite.config.ts --dir .",
-    "typecheck": "tsc --noEmit",
-    "smoke": "node scripts/smoke.ts",
+    "typecheck": "vibelang --noEmit",
+    "smoke": "node --import vibelang/register scripts/smoke.ts",
     "deploy": "alchemy deploy --stage prod",
-    "writers": "node scripts/manage.ts"
+    "writers": "node --import vibelang/register scripts/manage.vibe"
   },
   "dependencies": {
     "@alchemy.run/axiom": "catalog:",
     "@alchemy.run/cloudflare": "catalog:",
     "alchemy": "catalog:",
     "effect": "catalog:",
-    "jose": "catalog:"
+    "jose": "catalog:",
+    "vibelang-runtime": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-runtime-0.0.14-pre.6279f9f9fbfc.tgz"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260601.1",
@@ -22,6 +23,8 @@
     "@effect/vitest": "catalog:",
     "@types/node": "catalog:",
     "typescript": "catalog:",
+    "vibelang": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-0.0.14-pre.6279f9f9fbfc.tgz",
+    "vibelang-vite": "file:../../.vibelang-toolchain/0.0.14-pre.6279f9f9fbfc/tarballs/vibelang-vite-0.0.14-pre.6279f9f9fbfc.tgz",
     "vite-plus": "catalog:"
   }
 }

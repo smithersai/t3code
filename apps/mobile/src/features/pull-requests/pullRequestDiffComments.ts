@@ -1,7 +1,7 @@
 import type { PullRequestReviewPosition, PullRequestReviewThread } from "@t3tools/contracts";
 import type { NativeReviewDiffRow } from "../diffs/nativeReviewDiffSurface";
-import type { NativeReviewDiffData } from "../review/nativeReviewDiffAdapter";
-import type { PendingReviewComment } from "./pullRequestReviewDrafts";
+import type { NativeReviewDiffData } from "../review/nativeReviewDiffAdapter.vibe";
+import type { PendingReviewComment } from "./pullRequestReviewDrafts.vibe";
 
 export function reviewPosition(row: NativeReviewDiffRow): PullRequestReviewPosition | null {
   if (row.kind !== "line") return null;

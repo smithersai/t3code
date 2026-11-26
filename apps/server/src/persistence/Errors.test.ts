@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import { PersistenceDecodeError, toPersistenceSqlError } from "./Errors.ts";
+import { PersistenceDecodeError, toPersistenceSqlError } from "./Errors.vibe";
 
 const decodeRuntimePayload = Schema.decodeUnknownEffect(
   Schema.Struct({

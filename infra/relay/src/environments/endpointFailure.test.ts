@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@effect/vitest";
 
-import { classifyEndpointResponse, classifyTransportFailure } from "./endpointFailure.ts";
+import { classifyEndpointResponse, classifyTransportFailure } from "./endpointFailure.vibe";
 
 describe("classifyEndpointResponse", () => {
   it.each([

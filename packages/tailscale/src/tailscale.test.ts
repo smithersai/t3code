@@ -17,7 +17,7 @@ import {
   TailscaleCommandExitError,
   TailscaleCommandSpawnError,
   TailscaleStatusParseError,
-} from "./tailscale.ts";
+} from "./tailscale.vibe";
 
 const encoder = new TextEncoder();
 

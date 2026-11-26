@@ -7,10 +7,10 @@ import {
 } from "@t3tools/shared/path";
 import { useContext } from "react";
 
-import { useEnvironmentScope } from "../state/session";
+import { useEnvironmentScope } from "../state/session.vibe";
 import { projectEnvironment } from "../state/projects";
-import { useEnvironmentQuery } from "../state/query";
-import { FileMetadataThreadContext } from "./FileMetadataThreadProvider";
+import { useEnvironmentQuery } from "../state/query.vibe";
+import { FileMetadataThreadContext } from "./FileMetadataThreadProvider.vibex";
 
 export function useFileMetadata(
   environmentId: EnvironmentId | null | undefined,

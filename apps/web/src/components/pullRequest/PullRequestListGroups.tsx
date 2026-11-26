@@ -14,7 +14,7 @@ import { PullRequestRow, type PullRequestRowTarget } from "./PullRequestRow";
 import {
   PullRequestSpeedModeProvider,
   type PullRequestSpeedActionResult,
-} from "./PullRequestSpeedActions";
+} from "./PullRequestSpeedActions.vibex";
 
 const GROUP_ICONS: Record<string, LucideIcon> = {
   authored: PenLineIcon,

@@ -9,7 +9,7 @@ import * as Option from "effect/Option";
 import type * as Path from "effect/Path";
 import type * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
-import { SCAN_CACHE_FILE_NAME } from "./usage/usageScanCache.ts";
+import { SCAN_CACHE_FILE_NAME } from "./usage/usageScanCache.vibe";
 import { TestClock } from "effect/testing";
 import * as SqlClient from "effect/sql/SqlClient";
 import {
@@ -18,18 +18,18 @@ import {
   type StorageCleanupSettings,
 } from "@t3tools/contracts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
-import * as ServerConfig from "./config.ts";
-import * as StorageCleanup from "./storageCleanup.ts";
-import * as GitVcsDriver from "./vcs/GitVcsDriver.ts";
-import * as GitManager from "./git/GitManager.ts";
-import * as Settings from "./serverSettings.ts";
-import * as ProjectionStore from "./orchestration-v2/ProjectionStore.ts";
-import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.ts";
-import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
-import * as Orchestrator from "./orchestration-v2/Orchestrator.ts";
-import * as TerminalManager from "./terminal/Manager.ts";
-import { CodexProviderCapabilitiesV2 } from "./orchestration-v2/Adapters/CodexAdapterV2.ts";
-import { ServerActivation } from "./serverActivation.ts";
+import * as ServerConfig from "./config.vibe";
+import * as StorageCleanup from "./storageCleanup.vibe";
+import * as GitVcsDriver from "./vcs/GitVcsDriver.vibe";
+import * as GitManager from "./git/GitManager.vibe";
+import * as Settings from "./serverSettings.vibe";
+import * as ProjectionStore from "./orchestration-v2/ProjectionStore.vibe";
+import * as ProviderSessionManager from "./orchestration-v2/ProviderSessionManager.vibe";
+import * as ProjectStore from "./orchestration-v2/ProjectStore.vibe";
+import * as Orchestrator from "./orchestration-v2/Orchestrator.vibe";
+import * as TerminalManager from "./terminal/Manager.vibe";
+import { CodexProviderCapabilitiesV2 } from "./orchestration-v2/Adapters/CodexAdapterV2.vibe";
+import { ServerActivation } from "./serverActivation.vibe";
 import { describe, expect, it } from "@effect/vitest";
 import {
   ProjectId,
@@ -45,7 +45,8 @@ import {
   storageCleanupActivityAt,
   storageCleanupPullRequestMerged,
   storageCleanupThreadIdle,
-} from "./storageCleanup.ts";
+} from "./storageCleanup.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const NOW_MS = Date.parse("2026-06-10T12:00:00.000Z");
 const DAY_MS = 24 * 60 * 60 * 1_000;
@@ -468,7 +469,7 @@ const pausedMeasurementFixture = (storageCleanup?: StorageCleanupSettings) =>
   });
 const cleanupTestLayer = GitVcsDriver.layer.pipe(
   Layer.provideMerge(ServerConfig.layerTest(process.cwd(), { prefix: "storage-cleanup-" })),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 const runCleanupTest = <A, E>(
   effect: Effect.Effect<

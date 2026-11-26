@@ -12,27 +12,30 @@ import * as PlatformError from "effect/PlatformError";
 import * as Scope from "effect/Scope";
 import { describe, expect } from "vite-plus/test";
 
-import { checkpointRefForThreadTurn } from "./Utils.ts";
+import { checkpointRefForThreadTurn } from "./Utils.vibe";
 import { parseTurnDiffFilesFromNumstat } from "./Diffs.ts";
-import * as CheckpointStore from "./CheckpointStore.ts";
-import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
-import * as VcsProcess from "../vcs/VcsProcess.ts";
-import * as ServerConfig from "../config.ts";
+import * as CheckpointStore from "./CheckpointStore.vibe";
+import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.vibe";
+import * as VcsProcess from "../vcs/VcsProcess.vibe";
+import * as ServerConfig from "../config.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const layerServerConfig = ServerConfig.ServerConfig.layerTest(process.cwd(), {
   prefix: "t3-checkpoint-store-test-",
 });
-const layerVcsProcessTest = VcsProcess.layer.pipe(Layer.provide(NodeServices.layer));
+const layerVcsProcessTest = VcsProcess.layer.pipe(
+  Layer.provide(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
+);
 const layerVcsDriverTest = VcsDriverRegistry.layer.pipe(Layer.provide(layerVcsProcessTest));
 const layerCheckpointStoreTest = CheckpointStore.layer.pipe(
   Layer.provideMerge(layerVcsDriverTest),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 const layerTest = layerCheckpointStoreTest.pipe(
   Layer.provideMerge(layerVcsProcessTest),
   Layer.provideMerge(layerVcsDriverTest),
   Layer.provideMerge(layerServerConfig),
-  Layer.provideMerge(NodeServices.layer),
+  Layer.provideMerge(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto)),
 );
 
 function makeTmpDir(

@@ -1,7 +1,7 @@
 import type { ProjectGroupingSettings } from "@t3tools/client-runtime/state/project-grouping";
 import type { SidebarProjectGroupingMode } from "@t3tools/contracts";
 
-import type { Preferences } from "../persistence/mobile-preferences";
+import type { Preferences } from "../persistence/mobile-preferences.vibe";
 
 export const DEFAULT_MOBILE_PROJECT_GROUPING_SETTINGS: ProjectGroupingSettings = {
   sidebarProjectGroupingMode: "repository",

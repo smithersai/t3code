@@ -13,7 +13,7 @@ vi.mock("./entities", () => ({
   useProject: (ref: { projectId: string } | null) =>
     ref === null ? null : (state.projects.get(ref.projectId) ?? null),
 }));
-vi.mock("./threads", async () => {
+vi.mock("./threads.vibe", async () => {
   const { some, none } = await import("effect/Option");
   return {
     useEnvironmentThread: (environmentId: unknown, threadId: unknown) => ({

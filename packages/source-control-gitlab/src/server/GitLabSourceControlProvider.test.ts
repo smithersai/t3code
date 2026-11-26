@@ -9,9 +9,9 @@ import * as Option from "effect/Option";
 import { ChildProcessSpawner } from "effect/process";
 
 import * as TestSourceControlHost from "@t3tools/source-control-testing/TestSourceControlHost";
-import * as GitLabCli from "./GitLabCli.ts";
+import * as GitLabCli from "./GitLabCli.vibe";
 import { parseGitLabAuthStatusHosts } from "./gitLabAuthStatus.ts";
-import * as GitLabSourceControlProvider from "./GitLabSourceControlProvider.ts";
+import * as GitLabSourceControlProvider from "./GitLabSourceControlProvider.vibe";
 import { definition } from "../shared/definition.ts";
 
 function makeProvider(gitlab: Partial<GitLabCli.GitLabCli["Service"]>) {

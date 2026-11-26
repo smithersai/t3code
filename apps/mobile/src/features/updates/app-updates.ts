@@ -389,7 +389,7 @@ async function defaultConfirmInstallNow(): Promise<boolean> {
 
 async function defaultFlushPendingWrites(): Promise<void> {
   const results = await Promise.allSettled([
-    import("../../state/use-composer-drafts").then((drafts) => drafts.flushComposerDrafts()),
+    import("../../state/use-composer-drafts.vibe").then((drafts) => drafts.flushComposerDrafts()),
     import("../../state/thread-outbox").then((outbox) => outbox.flushThreadOutbox()),
   ]);
   const failed = results.find(

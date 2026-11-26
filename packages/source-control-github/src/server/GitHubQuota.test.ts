@@ -1,7 +1,7 @@
 import { assert, describe, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 
-import * as GitHubQuota from "./GitHubQuota.ts";
+import * as GitHubQuota from "./GitHubQuota.vibe";
 import { CredentialScope } from "@t3tools/source-control-core/server/SourceControlRateLimit";
 
 const RESET = Date.parse("2099-08-13T14:00:00Z");

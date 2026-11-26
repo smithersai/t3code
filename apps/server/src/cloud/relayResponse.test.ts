@@ -8,7 +8,7 @@ import {
   relayRequestError,
   relayRetryAfterMillis,
   shouldRetryRelayRequest,
-} from "./relayResponse.ts";
+} from "./relayResponse.vibe";
 
 const response = (
   status: number,

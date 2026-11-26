@@ -7,14 +7,14 @@ import * as TestClock from "effect/testing/TestClock";
 
 import type * as Electron from "electron";
 
-import * as ElectronApp from "../electron/ElectronApp.ts";
-import * as ElectronTheme from "../electron/ElectronTheme.ts";
-import * as ElectronWindow from "../electron/ElectronWindow.ts";
-import * as DesktopEnvironment from "./DesktopEnvironment.ts";
-import * as DesktopLifecycle from "./DesktopLifecycle.ts";
-import * as DesktopShutdown from "./DesktopShutdown.ts";
-import * as DesktopState from "./DesktopState.ts";
-import * as DesktopWindow from "../window/DesktopWindow.ts";
+import * as ElectronApp from "../electron/ElectronApp.vibe";
+import * as ElectronTheme from "../electron/ElectronTheme.vibe";
+import * as ElectronWindow from "../electron/ElectronWindow.vibe";
+import * as DesktopEnvironment from "./DesktopEnvironment.vibe";
+import * as DesktopLifecycle from "./DesktopLifecycle.vibe";
+import * as DesktopShutdown from "./DesktopShutdown.vibe";
+import * as DesktopState from "./DesktopState.vibe";
+import * as DesktopWindow from "../window/DesktopWindow.vibe";
 
 function layerElectronApp(
   appListeners: Map<string, (...args: readonly unknown[]) => void>,

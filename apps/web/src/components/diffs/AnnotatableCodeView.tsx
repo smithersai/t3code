@@ -16,7 +16,7 @@ import {
   buildDiffReviewComment,
   restoreDiffReviewCommentRange,
   type ReviewCommentContext,
-} from "~/reviewCommentContext";
+} from "../../reviewCommentContext.vibe";
 
 import { nextFileCommentId } from "../files/fileCommentAnnotations";
 import { DiffCommentAnnotation } from "./DiffCommentAnnotation";

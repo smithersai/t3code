@@ -1,4 +1,4 @@
-import { useAtomCommand } from "~/state/use-atom-command";
+import { useAtomCommand } from "../../state/use-atom-command.vibe";
 import type {
   EnvironmentId,
   PullRequestReaction,

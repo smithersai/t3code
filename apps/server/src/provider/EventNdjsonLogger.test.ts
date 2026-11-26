@@ -20,7 +20,7 @@ import {
   makeEventNdjsonLogStore,
   type PendingRecord,
   writeBatchedMessages,
-} from "./EventNdjsonLogger.ts";
+} from "./EventNdjsonLogger.vibe";
 
 const encodeUnknownJson = Schema.encodeUnknownSync(Schema.fromJsonString(Schema.Unknown));
 const decodeUnknownJson = Schema.decodeUnknownSync(Schema.fromJsonString(Schema.Unknown));

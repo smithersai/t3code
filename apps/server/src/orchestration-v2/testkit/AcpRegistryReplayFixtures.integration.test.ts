@@ -15,8 +15,8 @@ import { TestClock } from "effect/testing";
 import * as IdAllocator from "@t3tools/provider-core/server/IdAllocator";
 import { checkpointWorkspace } from "@t3tools/provider-testing/replayWorkspace";
 import { AcpRegistryOrchestratorReplayHarness } from "../Adapters/AcpRegistryAdapterV2.testkit.ts";
-import * as EffectWorker from "../EffectWorker.ts";
-import * as Orchestrator from "../Orchestrator.ts";
+import * as EffectWorker from "../EffectWorker.vibe";
+import * as Orchestrator from "../Orchestrator.vibe";
 import { provideDeterministicTestRuntime } from "./DeterministicRuntime.ts";
 import { materializeFixtureInput, SIMPLE_PROMPT } from "./fixtures/shared.ts";
 import {

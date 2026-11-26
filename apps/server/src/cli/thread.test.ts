@@ -2,7 +2,7 @@ import { assert, it } from "@effect/vitest";
 import { RunId, ThreadId } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 
-import { type ThreadTools, waitForRun } from "./thread.ts";
+import { type ThreadTools, waitForRun } from "./thread.vibe";
 
 const threadId = ThreadId.make("thread-1");
 const runId = RunId.make("run-1");

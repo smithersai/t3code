@@ -3,11 +3,11 @@ import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime"
 import type { ScopedProjectRef } from "@t3tools/contracts";
 
 import { useComposerDraftStore } from "../composerDraftStore";
-import { resolveThreadRouteTarget } from "../threadRoutes";
+import { resolveThreadRouteTarget } from "../threadRoutes.vibe";
 import { releaseProjectDraftUploads } from "../lib/composerDraftUploads";
 import { waitForProjectRemoval } from "../state/entities";
 import { projectEnvironment } from "../state/projects";
-import { useAtomCommand } from "../state/use-atom-command";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { stackedThreadToast, toastManager } from "../components/ui/toast";
 
 export function useRemoveClonedProject() {

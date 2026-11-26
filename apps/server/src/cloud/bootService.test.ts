@@ -10,9 +10,9 @@ import * as Path from "effect/Path";
 import { HttpClient } from "effect/http";
 import * as ChildProcessSpawner from "effect/process/ChildProcessSpawner";
 
-import * as ProcessRunner from "../processRunner.ts";
-import * as BootService from "./bootService.ts";
-import { pinnedRuntimePaths } from "./pinnedRuntime.ts";
+import * as ProcessRunner from "../processRunner.vibe";
+import * as BootService from "./bootService.vibe";
+import { pinnedRuntimePaths } from "./pinnedRuntime.vibe";
 import {
   parseServiceState,
   SERVICE_ENV_FILE,

@@ -18,8 +18,8 @@ import {
   type RightPanelSurface,
 } from "../rightPanelStore";
 import { previewEnvironment } from "../state/preview";
-import { readEnvironmentScope, useEnvironmentScope } from "../state/session";
-import { useAtomCommand } from "../state/use-atom-command";
+import { readEnvironmentScope, useEnvironmentScope } from "../state/session.vibe";
+import { useAtomCommand } from "../state/use-atom-command.vibe";
 import { useTerminalUiStateStore } from "../terminalUiStateStore";
 import { useStableCallback } from "./useStableCallback";
 

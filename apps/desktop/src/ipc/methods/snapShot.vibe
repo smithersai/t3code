@@ -1,0 +1,320 @@
+import {
+  DesktopPendingSnapShot,
+  DesktopSnapShot as DesktopSnapShotSchema,
+  DesktopSnapShotAnimationDestination,
+  DesktopSnapShotId,
+  DesktopSnapShotShortcutAvailability,
+  DesktopSnapShotState,
+  DesktopSnapShotSetupAction,
+  SnapShotShortcut,
+  DesktopCaptureConfigRequest,
+  DesktopCaptureConfigPreview,
+  DesktopCaptureConfigApplied,
+} from "@t3tools/contracts"
+import * as Schema from "effect/Schema"
+import type * as Electron from "electron"
+
+import * as ElectronWindow from "../../electron/ElectronWindow.vibe"
+import * as ElectronDialog from "../../electron/ElectronDialog.vibe"
+import * as DesktopSnapShot from "../../snapShot/DesktopSnapShot.vibe"
+import * as IpcChannels from "../channels.ts"
+import * as DesktopIpc from "../DesktopIpc.vibe"
+
+schema error SnapShotIpcUnauthorizedSenderError {
+  override get message(): string {
+    return "Snapshot request was rejected."
+  }
+}
+
+const ensureTrustedSnapShotSender = effect (event: DesktopIpc.DesktopIpcInvokeEvent | undefined) =>
+  try withSpan(
+    effect {
+      const main = try (try ElectronWindow.ElectronWindow).main
+      if (
+        event === undefined
+        || Option.isNone(main)
+        || main.value.webContents.id !== event.sender.id
+      ) {
+        throw new SnapShotIpcUnauthorizedSenderError()
+      }
+      return main.value
+    },
+    "desktop.ipc.snapShot.ensureTrustedSender",
+  )
+
+function snapShotScreenFrame(
+  viewportFrame: DesktopSnapShotAnimationDestination["viewportFrame"],
+  contentBounds: Electron.Rectangle,
+  zoomFactor: number,
+): Electron.Rectangle {
+  return {
+    x: contentBounds.x + viewportFrame.x * zoomFactor,
+    y: contentBounds.y + viewportFrame.y * zoomFactor,
+    width: viewportFrame.width * zoomFactor,
+    height: viewportFrame.height * zoomFactor,
+  }
+}
+
+export function snapShotRelativeFrame(
+  frame: DesktopSnapShotAnimationDestination["viewportFrame"],
+  bounds: Electron.Rectangle,
+  zoom: number,
+): Electron.Rectangle | undefined {
+  if (bounds.width <= 0 || bounds.height <= 0) return undefined
+  return {
+    x: (frame.x * zoom) / bounds.width,
+    y: (frame.y * zoom) / bounds.height,
+    width: (frame.width * zoom) / bounds.width,
+    height: (frame.height * zoom) / bounds.height,
+  }
+}
+
+export const getSnapShotState = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.GET_SNAP_SHOT_STATE_CHANNEL,
+  payload: Schema.Void,
+  result: DesktopSnapShotState,
+  handler:
+    effect (): { readonly mode: "direct" | "portal" | "unavailable"; readonly windows?: boolean | undefined; readonly linuxDesktop?: "gnome" | "hyprland" | "kde" | "niri" | undefined; readonly linuxBackend?: "gnome-extension" | "hyprland" | "kde" | "niri" | "picker" | "screenshot-portal" | undefined; readonly linuxFeedbackAvailable?: boolean | undefined; readonly shortcut: { readonly key: string; readonly metaKey: boolean; readonly ctrlKey: boolean; readonly shiftKey: boolean; readonly altKey: boolean; readonly modKey: boolean; } | { readonly kind: "both-shift-keys"; } | { readonly kind: "modifier-pair"; readonly modifier: "alt" | "control" | "meta" | "shift"; }; readonly shortcutRegistered: boolean; readonly shortcutPending?: boolean | undefined; readonly shortcutCanRetry?: boolean | undefined; readonly shortcutLabel?: string | undefined; readonly shortcutMessage: string | null; readonly shortcutBinding?: string | undefined; readonly shortcutConfigPath?: string | undefined; readonly shortcutActionRegistered?: boolean | undefined; readonly gnomeExtension?: { readonly status: "disabled" | "enabled" | "error" | "extensions-disabled" | "not-installed" | "restart-required" | "unsupported" | "update-required"; readonly message: string; } | undefined; readonly kdeHelper?: { readonly status: "error" | "not-installed" | "ready" | "update-required"; readonly message: string; readonly feedbackAvailable?: boolean | undefined; } | undefined; readonly hyprlandHelper?: { readonly status: "error" | "not-installed" | "ready" | "update-required"; readonly message: string; readonly feedbackAvailable?: boolean | undefined; } | undefined; readonly macPermissions?: { readonly screenRecording: boolean; readonly accessibility: boolean; } | undefined; readonly shortcutVerified?: boolean | undefined; readonly message: string | null; }!never!DesktopSnapShot.DesktopSnapShot =>
+      try withSpan(
+        (effect (): { readonly mode: "direct" | "portal" | "unavailable"; readonly windows?: boolean | undefined; readonly linuxDesktop?: "gnome" | "hyprland" | "kde" | "niri" | undefined; readonly linuxBackend?: "gnome-extension" | "hyprland" | "kde" | "niri" | "picker" | "screenshot-portal" | undefined; readonly linuxFeedbackAvailable?: boolean | undefined; readonly shortcut: { readonly key: string; readonly metaKey: boolean; readonly ctrlKey: boolean; readonly shiftKey: boolean; readonly altKey: boolean; readonly modKey: boolean; } | { readonly kind: "both-shift-keys"; } | { readonly kind: "modifier-pair"; readonly modifier: "alt" | "control" | "meta" | "shift"; }; readonly shortcutRegistered: boolean; readonly shortcutPending?: boolean | undefined; readonly shortcutCanRetry?: boolean | undefined; readonly shortcutLabel?: string | undefined; readonly shortcutMessage: string | null; readonly shortcutBinding?: string | undefined; readonly shortcutConfigPath?: string | undefined; readonly shortcutActionRegistered?: boolean | undefined; readonly gnomeExtension?: { readonly status: "disabled" | "enabled" | "error" | "extensions-disabled" | "not-installed" | "restart-required" | "unsupported" | "update-required"; readonly message: string; } | undefined; readonly kdeHelper?: { readonly status: "error" | "not-installed" | "ready" | "update-required"; readonly message: string; readonly feedbackAvailable?: boolean | undefined; } | undefined; readonly hyprlandHelper?: { readonly status: "error" | "not-installed" | "ready" | "update-required"; readonly message: string; readonly feedbackAvailable?: boolean | undefined; } | undefined; readonly macPermissions?: { readonly screenRecording: boolean; readonly accessibility: boolean; } | undefined; readonly shortcutVerified?: boolean | undefined; readonly message: string | null; }!never!DesktopSnapShot.DesktopSnapShot => {
+          return try (try DesktopSnapShot.DesktopSnapShot).state
+        })(),
+        "desktop.ipc.snapShot.getState",
+      ),
+})
+
+export const requestSnapShotPermissions = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.REQUEST_SNAP_SHOT_PERMISSIONS_CHANNEL,
+  payload: Schema.Boolean,
+  result: Schema.Void,
+  handler: effect (
+    includeAccessibility,
+    event,
+  ): void!SnapShotIpcUnauthorizedSenderError!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): void!SnapShotIpcUnauthorizedSenderError!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) => {
+        try ensureTrustedSnapShotSender(event)
+        try (try DesktopSnapShot.DesktopSnapShot).requestPermissions(includeAccessibility)
+      })(),
+      "desktop.ipc.snapShot.requestPermissions",
+    ),
+})
+
+export const setupSnapShot = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.SETUP_SNAP_SHOT_CHANNEL,
+  payload: DesktopSnapShotSetupAction,
+  result: Schema.Void,
+  handler: effect (
+    action,
+    event,
+  ): void!(DesktopSnapShot.DesktopSnapShotSetupError | SnapShotIpcUnauthorizedSenderError)!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): void!(DesktopSnapShot.DesktopSnapShotSetupError | SnapShotIpcUnauthorizedSenderError)!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) => {
+        try ensureTrustedSnapShotSender(event)
+        try (try DesktopSnapShot.DesktopSnapShot).setup(action)
+      })(),
+      "desktop.ipc.snapShot.setup",
+    ),
+})
+
+export const previewSnapShotConfig = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.PREVIEW_SNAP_SHOT_CONFIG_CHANNEL,
+  payload: DesktopCaptureConfigRequest,
+  result: Schema.NullOr(DesktopCaptureConfigPreview),
+  handler: effect (
+    request,
+    event,
+  ): ({ readonly id: string; readonly path: string; readonly resolvedPath: string; readonly before: string; readonly after: string; readonly shortcut: string; readonly operation: "install" | "remove"; } | null)!(DesktopSnapShot.DesktopSnapShotSetupError | ElectronDialog.ElectronDialogPickFilesError | SnapShotIpcUnauthorizedSenderError)!(DesktopSnapShot.DesktopSnapShot | ElectronDialog.ElectronDialog | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): ({ readonly id: string; readonly path: string; readonly resolvedPath: string; readonly before: string; readonly after: string; readonly shortcut: string; readonly operation: "install" | "remove"; } | null)!(DesktopSnapShot.DesktopSnapShotSetupError | ElectronDialog.ElectronDialogPickFilesError | SnapShotIpcUnauthorizedSenderError)!(DesktopSnapShot.DesktopSnapShot | ElectronDialog.ElectronDialog | ElectronWindow.ElectronWindow) => {
+        const window = try ensureTrustedSnapShotSender(event)
+        const capture = try DesktopSnapShot.DesktopSnapShot
+        let selectedPath: string | undefined
+        if (request.chooseFile) {
+          const state = try capture.state
+          const paths = try (try ElectronDialog.ElectronDialog).pickFiles({
+            owner: Option.some(window),
+            defaultPath: Option.fromUndefinedOr(state.shortcutConfigPath),
+            filters: [
+              {
+                name: "Desktop config",
+                extensions: state.linuxBackend === "niri" ? ["kdl"] : ["conf", "lua"],
+              },
+            ],
+            multiple: false,
+          })
+          selectedPath = paths[0]
+          if (!selectedPath) return null
+        }
+        return try capture.previewConfig(request, selectedPath)
+      })(),
+      "desktop.ipc.snapShot.previewConfig",
+    ),
+})
+
+export const applySnapShotConfig = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.APPLY_SNAP_SHOT_CONFIG_CHANNEL,
+  payload: DesktopSnapShotId,
+  result: DesktopCaptureConfigApplied,
+  handler: effect (
+    id,
+    event,
+  ): { readonly backupPath: string | null; readonly warning: string | null; }!(DesktopSnapShot.DesktopSnapShotSetupError | SnapShotIpcUnauthorizedSenderError)!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): { readonly backupPath: string | null; readonly warning: string | null; }!(DesktopSnapShot.DesktopSnapShotSetupError | SnapShotIpcUnauthorizedSenderError)!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) => {
+        try ensureTrustedSnapShotSender(event)
+        return try (try DesktopSnapShot.DesktopSnapShot).applyConfig(id)
+      })(),
+      "desktop.ipc.snapShot.applyConfig",
+    ),
+})
+
+export const checkSnapShotShortcut = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.CHECK_SNAP_SHOT_SHORTCUT_CHANNEL,
+  payload: SnapShotShortcut,
+  result: DesktopSnapShotShortcutAvailability,
+  handler: effect (
+    shortcut,
+    event,
+  ): { readonly available: boolean; readonly message: string | null; }!SnapShotIpcUnauthorizedSenderError!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): { readonly available: boolean; readonly message: string | null; }!SnapShotIpcUnauthorizedSenderError!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) => {
+        try ensureTrustedSnapShotSender(event)
+        return try (try DesktopSnapShot.DesktopSnapShot).checkShortcut(shortcut)
+      })(),
+      "desktop.ipc.snapShot.checkShortcut",
+    ),
+})
+
+export const setSnapShotShortcutSuppressed = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.SET_SNAP_SHOT_SHORTCUT_SUPPRESSED_CHANNEL,
+  payload: Schema.Boolean,
+  result: Schema.Void,
+  handler: effect (
+    suppressed,
+    event,
+  ): void!SnapShotIpcUnauthorizedSenderError!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): void!SnapShotIpcUnauthorizedSenderError!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) => {
+        try ensureTrustedSnapShotSender(event)
+        try (try DesktopSnapShot.DesktopSnapShot).setShortcutSuppressed(suppressed)
+      })(),
+      "desktop.ipc.snapShot.setShortcutSuppressed",
+    ),
+})
+
+export const listPendingSnapShots = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.LIST_PENDING_SNAP_SHOTS_CHANNEL,
+  payload: Schema.Void,
+  result: Schema.Array(DesktopPendingSnapShot),
+  handler: effect (
+    _,
+    event,
+  ): readonly { readonly id: string; readonly name: string; readonly mimeType: "image/png"; readonly sizeBytes: number; readonly source: { readonly kind: "snap-shot"; readonly capturedAt: string; readonly appName: string; readonly windowTitle: string; readonly accessibleText?: string | undefined; readonly accessibility?: { readonly format: "flat-text"; readonly text: string; readonly truncated: boolean; } | { readonly format: "element-tree"; readonly coordinateSpace: "captured-image"; readonly imageSize: { readonly width: number; readonly height: number; }; readonly truncated: boolean; readonly root: import("@t3tools/contracts").SnapShotAccessibilityNode; } | undefined; readonly appIdentifier?: string | undefined; readonly appIconDataUrl?: string | undefined; }; }[]!(DesktopSnapShot.DesktopSnapShotError | SnapShotIpcUnauthorizedSenderError)!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): readonly { readonly id: string; readonly name: string; readonly mimeType: "image/png"; readonly sizeBytes: number; readonly source: { readonly kind: "snap-shot"; readonly capturedAt: string; readonly appName: string; readonly windowTitle: string; readonly accessibleText?: string | undefined; readonly accessibility?: { readonly format: "flat-text"; readonly text: string; readonly truncated: boolean; } | { readonly format: "element-tree"; readonly coordinateSpace: "captured-image"; readonly imageSize: { readonly width: number; readonly height: number; }; readonly truncated: boolean; readonly root: import("@t3tools/contracts").SnapShotAccessibilityNode; } | undefined; readonly appIdentifier?: string | undefined; readonly appIconDataUrl?: string | undefined; }; }[]!(DesktopSnapShot.DesktopSnapShotError | SnapShotIpcUnauthorizedSenderError)!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) => {
+        try ensureTrustedSnapShotSender(event)
+        return try (try DesktopSnapShot.DesktopSnapShot).listPending
+      })(),
+      "desktop.ipc.snapShot.listPending",
+    ),
+})
+
+export const readSnapShot = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.READ_SNAP_SHOT_CHANNEL,
+  payload: DesktopSnapShotId,
+  result: DesktopSnapShotSchema,
+  handler: effect (
+    id,
+    event,
+  ): { readonly id: string; readonly name: string; readonly mimeType: "image/png"; readonly sizeBytes: number; readonly source: { readonly kind: "snap-shot"; readonly capturedAt: string; readonly appName: string; readonly windowTitle: string; readonly accessibleText?: string | undefined; readonly accessibility?: { readonly format: "flat-text"; readonly text: string; readonly truncated: boolean; } | { readonly format: "element-tree"; readonly coordinateSpace: "captured-image"; readonly imageSize: { readonly width: number; readonly height: number; }; readonly truncated: boolean; readonly root: import("@t3tools/contracts").SnapShotAccessibilityNode; } | undefined; readonly appIdentifier?: string | undefined; readonly appIconDataUrl?: string | undefined; }; readonly dataUrl: string; }!(DesktopSnapShot.DesktopSnapShotError | SnapShotIpcUnauthorizedSenderError)!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): { readonly id: string; readonly name: string; readonly mimeType: "image/png"; readonly sizeBytes: number; readonly source: { readonly kind: "snap-shot"; readonly capturedAt: string; readonly appName: string; readonly windowTitle: string; readonly accessibleText?: string | undefined; readonly accessibility?: { readonly format: "flat-text"; readonly text: string; readonly truncated: boolean; } | { readonly format: "element-tree"; readonly coordinateSpace: "captured-image"; readonly imageSize: { readonly width: number; readonly height: number; }; readonly truncated: boolean; readonly root: import("@t3tools/contracts").SnapShotAccessibilityNode; } | undefined; readonly appIdentifier?: string | undefined; readonly appIconDataUrl?: string | undefined; }; readonly dataUrl: string; }!(DesktopSnapShot.DesktopSnapShotError | SnapShotIpcUnauthorizedSenderError)!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) => {
+        try ensureTrustedSnapShotSender(event)
+        return try (try DesktopSnapShot.DesktopSnapShot).read(id)
+      })(),
+      "desktop.ipc.snapShot.read",
+    ),
+})
+
+export const setSnapShotAnimationDestination = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.SET_SNAP_SHOT_ANIMATION_DESTINATION_CHANNEL,
+  payload: DesktopSnapShotAnimationDestination,
+  result: Schema.Void,
+  handler: effect (
+    destination,
+    event,
+  ): void!SnapShotIpcUnauthorizedSenderError!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): void!SnapShotIpcUnauthorizedSenderError!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) => {
+        const window = try ensureTrustedSnapShotSender(event)
+        if (
+          destination.viewportFrame.width <= 0
+          || destination.viewportFrame.height <= 0
+          || destination.borderWidth < 0
+          || destination.cornerRadius < 0
+        ) {
+          return
+        }
+        try (try DesktopSnapShot.DesktopSnapShot).setAnimationDestination(destination.id, {
+          relativeFrame: snapShotRelativeFrame(
+            destination.viewportFrame,
+            try Effect.orDie(Effect.try({ try: () => window.getContentBounds(), catch: (e) => e })),
+            try Effect.orDie(Effect.try({ try: () => window.webContents.getZoomFactor(), catch: (e) => e })),
+          ),
+          frame: snapShotScreenFrame(
+            destination.viewportFrame,
+            try Effect.orDie(Effect.try({ try: () => window.getContentBounds(), catch: (e) => e })),
+            try Effect.orDie(Effect.try({ try: () => window.webContents.getZoomFactor(), catch: (e) => e })),
+          ),
+          backgroundColor: destination.backgroundColor,
+          borderColor: destination.borderColor,
+          borderWidth: destination.borderWidth * (try Effect.orDie(Effect.try({
+            try: () => window.webContents.getZoomFactor(),
+            catch: (e) => e,
+          }))),
+          cornerRadius: destination.cornerRadius
+            * (try Effect.orDie(Effect.try({ try: () => window.webContents.getZoomFactor(), catch: (e) => e }))),
+          scaleFactor: try Effect.orDie(
+            Effect.try({ try: () => window.webContents.getZoomFactor(), catch: (e) => e }),
+          ),
+          details: destination.details,
+        })
+      })(),
+      "desktop.ipc.snapShot.setAnimationDestination",
+    ),
+})
+
+export const dismissSnapShotAnimation = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.DISMISS_SNAP_SHOT_ANIMATION_CHANNEL,
+  payload: DesktopSnapShotId,
+  result: Schema.Void,
+  handler: effect (
+    id,
+    event,
+  ): void!SnapShotIpcUnauthorizedSenderError!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): void!SnapShotIpcUnauthorizedSenderError!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) => {
+        try ensureTrustedSnapShotSender(event)
+        try (try DesktopSnapShot.DesktopSnapShot).dismissAnimation(id)
+      })(),
+      "desktop.ipc.snapShot.dismissAnimation",
+    ),
+})
+
+export const acknowledgeSnapShot = DesktopIpc.makeIpcMethod({
+  channel: IpcChannels.ACKNOWLEDGE_SNAP_SHOT_CHANNEL,
+  payload: DesktopSnapShotId,
+  result: Schema.Void,
+  handler: effect (
+    id,
+    event,
+  ): void!(DesktopSnapShot.DesktopSnapShotError | SnapShotIpcUnauthorizedSenderError)!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) =>
+    try withSpan(
+      (effect (): void!(DesktopSnapShot.DesktopSnapShotError | SnapShotIpcUnauthorizedSenderError)!(DesktopSnapShot.DesktopSnapShot | ElectronWindow.ElectronWindow) => {
+        try ensureTrustedSnapShotSender(event)
+        try (try DesktopSnapShot.DesktopSnapShot).acknowledge(id)
+      })(),
+      "desktop.ipc.snapShot.acknowledge",
+    ),
+})

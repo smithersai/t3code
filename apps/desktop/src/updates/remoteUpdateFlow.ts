@@ -96,7 +96,10 @@ export function nextRemoteDesktopUpdateStep(
   return { action: "check" };
 }
 
-/** Blank reasons fail encoding and drop the terminal report, forcing the server to time out. */
+/**
+ * Blank reasons fail encoding and drop the terminal report, forcing the server to time out.
+ * @throws {never}
+ */
 export function normalizeRemoteUpdateReason(reason: string | undefined): string | undefined {
   const trimmed = reason?.trim();
   return trimmed ? trimmed : undefined;

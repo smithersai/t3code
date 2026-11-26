@@ -3,7 +3,7 @@ import type { EnvironmentId, PullRequestChangeBreakdown, PullRequestRef } from "
 import { useState } from "react";
 
 import { pullRequestEnvironment } from "~/state/pullRequests";
-import { useEnvironmentQuery } from "~/state/query";
+import { useEnvironmentQuery } from "../../state/query.vibe";
 
 import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
 import { PullRequestDiffStat } from "./pullRequestPresentation";

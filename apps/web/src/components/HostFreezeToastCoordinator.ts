@@ -1,7 +1,7 @@
 import { hostFreezeNotice } from "@t3tools/client-runtime/connection";
 
-import { appAtomRegistry } from "../rpc/atomRegistry";
-import { environmentSummaries } from "../state/presentation";
+import { appAtomRegistry } from "../rpc/atomRegistry.vibe";
+import { environmentSummaries } from "../state/presentation.vibe";
 import { environmentServerConfigsAtom } from "../state/server";
 import { toastManager } from "./ui/toast";
 

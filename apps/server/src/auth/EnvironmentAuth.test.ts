@@ -14,13 +14,14 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
-import * as ServerConfig from "../config.ts";
-import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
-import * as SqlitePersistence from "../persistence/Sqlite.ts";
-import * as EnvironmentAuth from "./EnvironmentAuth.ts";
+import * as ServerConfig from "../config.vibe";
+import * as ServerEnvironment from "../environment/ServerEnvironment.vibe";
+import * as SqlitePersistence from "../persistence/Sqlite.vibe";
+import * as EnvironmentAuth from "./EnvironmentAuth.vibe";
 
-import * as ServerSecretStore from "./ServerSecretStore.ts";
-import * as SessionStore from "./SessionStore.ts";
+import * as ServerSecretStore from "./ServerSecretStore.vibe";
+import * as SessionStore from "./SessionStore.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const TEST_SERVER_PORT = 13_773;
 
@@ -107,7 +108,7 @@ const makeDpopKey = () => {
   };
 };
 
-it.layer(NodeServices.layer)("EnvironmentAuth.layer", (it) => {
+it.layer(Layer.merge(NodeServices.layer, Crypto.layerWebCrypto))("EnvironmentAuth.layer", (it) => {
   it.effect("uses the reusable dev cookie without overriding a normal scoped cookie", () =>
     Effect.gen(function* () {
       const serverAuth = yield* EnvironmentAuth.EnvironmentAuth;

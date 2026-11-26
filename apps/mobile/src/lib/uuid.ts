@@ -1,5 +1,6 @@
 import * as Crypto from "expo-crypto";
 
+/** @throws {never} */
 export const uuidv4 = () => Crypto.randomUUID();
 
 export const randomHex = (byteLength: number): string =>

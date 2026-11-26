@@ -1,6 +1,6 @@
 import type { ChangeRequestTerminology } from "@t3tools/client-runtime/source-control-clients";
 import type { PullRequestDiffResult } from "@t3tools/contracts";
-import { buildReviewParsedDiff, type ReviewParsedDiff } from "../review/reviewModel";
+import { buildReviewParsedDiff, type ReviewParsedDiff } from "../review/reviewModel.vibe";
 
 export interface PullRequestDiffPage {
   readonly cursor: string | null;

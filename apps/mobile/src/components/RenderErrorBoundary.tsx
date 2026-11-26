@@ -4,7 +4,7 @@ import { ScrollView, View } from "react-native";
 
 import { AppText as Text } from "./ui/AppText";
 import { Button } from "./ui/Button";
-import { copyTextWithHaptic } from "../lib/copyTextWithHaptic";
+import { copyTextWithHaptic } from "../lib/copyTextWithHaptic.vibe";
 
 interface RenderErrorBoundaryProps {
   readonly children: ReactNode;

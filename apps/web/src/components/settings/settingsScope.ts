@@ -4,7 +4,7 @@ import type {
   SidebarProjectGroupMember,
   SidebarProjectSnapshot,
 } from "../../sidebarProjectGrouping";
-import type { EnvironmentPresentation } from "../../state/environments";
+import type { EnvironmentPresentation } from "../../state/environments.vibe";
 
 export interface SettingsScopeSearch {
   project?: string | undefined;

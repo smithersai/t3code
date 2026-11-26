@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import type { ComposerFileAttachment, ComposerImageAttachment } from "../../composerDraftStore";
 import { fileContextReference, previewAnnotationContextId } from "../../lib/composerContextRecords";
 import type { TerminalContextDraft } from "../../lib/terminalContext";
-import type { ReviewCommentContext } from "../../reviewCommentContext";
+import type { ReviewCommentContext } from "../../reviewCommentContext.vibe";
 
 interface RetainedPreviewAnnotation {
   annotation: PreviewAnnotationPayload;

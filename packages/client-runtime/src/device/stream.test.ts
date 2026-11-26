@@ -6,7 +6,7 @@ import {
   avcCodecString,
   parseSemuPacket,
   scanAccessUnit,
-} from "./stream.ts";
+} from "./stream.vibe";
 
 const envelope = (tag: number, payload: number[]) => {
   const length = 1 + payload.length;

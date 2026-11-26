@@ -5,7 +5,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 
-import { findEasProjectId } from "./easProjectId.ts";
+import { findEasProjectId } from "./easProjectId.vibe";
 
 const ID_A = "d763fcb8-d37c-41ea-a773-b54a0ab4a454";
 const ID_B = "54d70eaf-b0a3-477a-a9cd-2cf81a5c84c9";

@@ -20,7 +20,7 @@ import {
   coalesceLiveUpdatedEvents,
   coalesceThreadLiveStream,
   makeThreadLiveEventCoalescer,
-} from "./ThreadLiveEventCoalescer.ts";
+} from "./ThreadLiveEventCoalescer.vibe";
 
 import { applyOrchestrationV2ProjectionEvent } from "../../../../packages/client-runtime/src/state/orchestrationV2Projection.ts";
 

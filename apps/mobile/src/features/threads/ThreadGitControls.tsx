@@ -19,14 +19,14 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";
 
-import { useEnvironmentScope } from "../../state/session";
+import { useEnvironmentScope } from "../../state/session.vibe";
 import { PullRequestGlyph } from "../pull-requests/pullRequestGlyphs";
 import {
   basename,
   getTerminalStatusLabel,
   projectScriptMenuIcon,
   type TerminalMenuSession,
-} from "../terminal/terminalMenu";
+} from "../terminal/terminalMenu.vibe";
 import { projectScriptMenuLabel } from "@t3tools/shared/projectScripts";
 
 function truncateMiddle(value: string, maxLength: number): string {

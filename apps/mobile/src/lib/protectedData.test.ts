@@ -36,7 +36,7 @@ vi.mock("react-native", () => ({
   },
 }));
 
-vi.mock("../persistence/layer", async () => {
+vi.mock("../persistence/layer.vibe", async () => {
   const Effect = await import("effect/Effect");
   const Layer = await import("effect/Layer");
   return { layer: Layer.effectDiscard(Effect.promise(mocks.readStorage)) };
@@ -59,7 +59,7 @@ vi.mock("@t3tools/client-runtime/rpc", async () => {
   return { layerRemoteHttpClient: () => Layer.empty };
 });
 
-let runtime: typeof import("./runtime").runtime | undefined;
+let runtime: typeof import("./runtime.vibe").runtime | undefined;
 
 beforeEach(() => {
   vi.resetModules();
@@ -94,7 +94,7 @@ describe("protected storage startup", () => {
       mocks.readStorage.mockImplementation(async () => {
         if (mocks.appState !== "active") throw new Error("User interaction is not allowed.");
       });
-      ({ runtime } = await import("./runtime"));
+      ({ runtime } = await import("./runtime.vibe"));
       const startup = runtime.runPromiseExit(Effect.succeed("ready"));
 
       // A missing gate finishes startup with a cached storage failure instead.

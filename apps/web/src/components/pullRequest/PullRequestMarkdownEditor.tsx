@@ -6,7 +6,7 @@ import {
 } from "@t3tools/contracts";
 
 import { cn } from "~/lib/utils";
-import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
+import { readEnvironmentScope, useEnvironmentScope } from "../../state/session.vibe";
 
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";

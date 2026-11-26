@@ -25,8 +25,8 @@ import {
   RPC_REQUIRED_SCOPES,
   requiredScopeForRpcMethod,
   requiredScopeForDeviceList,
-} from "./RpcAuthorization.ts";
-import * as RpcAuthorization from "./RpcAuthorization.ts";
+} from "./RpcAuthorization.vibe";
+import * as RpcAuthorization from "./RpcAuthorization.vibe";
 
 describe("RPC authorization scopes", () => {
   it("declares exactly one scope for every RPC in the server group", () => {

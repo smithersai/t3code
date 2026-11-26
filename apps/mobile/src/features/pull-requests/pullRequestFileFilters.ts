@@ -1,5 +1,5 @@
 import { classifyChangedFile } from "@t3tools/shared/changedFileKind";
-import type { ReviewParsedDiff } from "../review/reviewModel";
+import type { ReviewParsedDiff } from "../review/reviewModel.vibe";
 
 /** Test support such as fixtures and snapshots is hidden along with the tests. */
 export function isPullRequestTestFile(path: string): boolean {

@@ -7,7 +7,7 @@ import {
   WORKSPACE_TAB_LABELS,
   useNavigationTabOrder,
   useHiddenNavigationTabs,
-} from "../workspace/navigation-tabs";
+} from "../workspace/navigation-tabs.vibe";
 import { currentWorkspaceSelections } from "../workspace/workspace-selection-store";
 import { rememberedSettingsPage } from "../workspace/workspace-tab-navigation";
 import { useSelectWorkspaceTab } from "../workspace/useSelectWorkspaceTab";
@@ -23,9 +23,9 @@ import { useNativeColumnLayoutMetrics } from "../../native/native-layout-metrics
 import { deriveProjectGroupLabel } from "@t3tools/client-runtime/state/project-grouping";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { hasCloudPublicConfig } from "../cloud/publicConfig";
+import { hasCloudPublicConfig } from "../cloud/publicConfig.vibe";
 import { useAdaptiveWorkspaceLayout } from "../layout/adaptive-workspace-context";
-import { useSavedRemoteConnections } from "../../state/use-remote-environment-registry";
+import { useSavedRemoteConnections } from "../../state/use-remote-environment-registry.vibe";
 import { SettingsRow } from "./components/SettingsRow";
 import { SettingsSection, SettingsSidebarContext } from "./components/SettingsSection";
 import { SettingsScreen } from "./components/SettingsScreen";

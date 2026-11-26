@@ -1,6 +1,6 @@
 import { assert, describe, it } from "@effect/vitest";
 
-import * as EventLoopMonitor from "./EventLoopMonitor.ts";
+import * as EventLoopMonitor from "./EventLoopMonitor.vibe";
 
 const ms = (value: number) => value * 1e6;
 

@@ -8,6 +8,7 @@ function record(value: unknown): Record<string, unknown> | undefined {
     : undefined;
 }
 
+/** @throws {never} */
 export function normalizeDevinSessionUpdate(
   notification: AcpSchema.SessionNotification,
 ): AcpSchema.SessionNotification {
@@ -29,6 +30,7 @@ export function normalizeDevinSessionUpdate(
   return routed;
 }
 
+/** @throws {never} */
 export function normalizeDevinToolCall(tool: AcpToolCallState): AcpToolCallState {
   const name = record(tool.data.meta)?.["cognition.ai/inferenceToolName"];
   return typeof name === "string" && (!tool.title || tool.title === "Tool")
@@ -36,6 +38,7 @@ export function normalizeDevinToolCall(tool: AcpToolCallState): AcpToolCallState
     : tool;
 }
 
+/** @throws {never} */
 export function extractDevinSubagentUpdate(
   tool: AcpToolCallState,
 ): AcpAdapterV2SubagentUpdate | undefined {

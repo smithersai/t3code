@@ -2,7 +2,6 @@ import * as NodeHttpPlatform from "@effect/platform-node/NodeHttpPlatform";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Effect's Crypto has no generateKeyPairSync.
 import * as NodeCrypto from "node:crypto";
-import * as EffectNodeCrypto from "@effect/platform-node/NodeCrypto";
 import { describe, expect, it } from "@effect/vitest";
 import { RelayApi } from "@t3tools/contracts/relay";
 import * as Deferred from "effect/Deferred";
@@ -23,16 +22,17 @@ import * as HttpApiBuilder from "effect/http-api/HttpApiBuilder";
 import * as HttpServerRequest from "effect/http/HttpServerRequest";
 import * as HttpServerResponse from "effect/http/HttpServerResponse";
 
-import * as RelayConfiguration from "../Config.ts";
-import * as EnvironmentLinks from "../environments/EnvironmentLinks.ts";
-import * as ManagedEndpointAllocations from "../environments/ManagedEndpointAllocations.ts";
-import { RELAY_HTTP_ROUTER_CONFIG, traceRelayHttpRequestWith } from "../http/Api.ts";
-import * as RelayHttpApi from "../http/Api.ts";
-import * as HookForwarder from "./HookForwarder.ts";
+import * as RelayConfiguration from "../Config.vibe";
+import * as EnvironmentLinks from "../environments/EnvironmentLinks.vibe";
+import * as ManagedEndpointAllocations from "../environments/ManagedEndpointAllocations.vibe";
+import { RELAY_HTTP_ROUTER_CONFIG, traceRelayHttpRequestWith } from "../http/Api.vibe";
+import * as RelayHttpApi from "../http/Api.vibe";
+import * as HookForwarder from "./HookForwarder.vibe";
 import { RELAY_HOOK_DELIVERY_TYP, verifyRelayJwt } from "@t3tools/shared/relayJwt";
-import * as HeldHooks from "./HeldHooks.ts";
-import * as HookInbox from "./HookInbox.ts";
-import type { HeldHook } from "./HookInboxStore.ts";
+import * as HeldHooks from "./HeldHooks.vibe";
+import * as HookInbox from "./HookInbox.vibe";
+import type { HeldHook } from "./HookInboxStore.vibe";
+import * as Crypto from "@t3tools/shared/Crypto";
 
 const mintKeys = NodeCrypto.generateKeyPairSync("ed25519", {
   privateKeyEncoding: { format: "pem", type: "pkcs8" },
@@ -143,7 +143,7 @@ function makeHarness(options: Harness = {}) {
               return true;
             }),
         }),
-        EffectNodeCrypto.layer,
+        Crypto.layerWebCrypto,
         Layer.succeed(HookForwarder.HookRateLimiter, {
           allowHook: (key) =>
             Effect.sync(() => {
@@ -160,7 +160,11 @@ function makeHarness(options: Harness = {}) {
     Layer.mergeAll(
       HttpApiBuilder.layer(HttpApi.make("RelayApi").add(RelayApi.groups.hooks)).pipe(
         Layer.provide(HookForwarder.layerApi.pipe(Layer.provide(layerForwarder))),
-        Layer.provide([NodeServices.layer, NodeHttpPlatform.layer, Etag.layerWeak]),
+        Layer.provide([
+          Layer.merge(NodeServices.layer, Crypto.layerWebCrypto),
+          NodeHttpPlatform.layer,
+          Etag.layerWeak,
+        ]),
       ),
       RelayHttpApi.layerNotFoundRoute,
       RelayHttpApi.layerCors,

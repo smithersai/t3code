@@ -5,8 +5,8 @@ import {
 } from "@t3tools/contracts";
 
 import type { ComposerImageAttachment } from "~/composerDraftStore";
-import { usePreviewAvailable } from "~/browser/previewRuntime";
-import { useEnvironmentScope } from "~/state/session";
+import { usePreviewAvailable } from "../../browser/previewRuntime.vibe";
+import { useEnvironmentScope } from "../../state/session.vibe";
 
 import { PreviewPanelShell, type PreviewPanelMode } from "./PreviewPanelShell";
 import { PreviewView } from "./PreviewView";

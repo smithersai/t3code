@@ -18,7 +18,7 @@ import {
   useProjects,
   useThreadShells,
 } from "../state/entities";
-import { useEnvironments } from "../state/environments";
+import { useEnvironments } from "../state/environments.vibe";
 
 function ChatIndexRouteView() {
   const { authGateState } = Route.useRouteContext();

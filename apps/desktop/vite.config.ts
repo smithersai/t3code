@@ -1,8 +1,10 @@
+import vibelangRolldown from "vibelang-unplugin/rolldown";
 import "vite-plus/test/config";
 import { defaultInclude, defineConfig } from "vite-plus";
 
 import { isDesktopRuntimeExternalDependency } from "../../scripts/lib/desktop-external-packages.ts";
 import { loadRepoEnv } from "../../scripts/lib/public-config.ts";
+import vibelang from "vibelang-vite";
 
 const repoEnv = loadRepoEnv();
 
@@ -17,6 +19,7 @@ const publicConfigDefine = {
 };
 
 export default defineConfig({
+  plugins: [vibelang({ register: true })],
   run: {
     tasks: {
       build: {
@@ -50,6 +53,7 @@ export default defineConfig({
   },
   pack: [
     {
+      plugins: [vibelangRolldown()],
       format: "cjs",
       outDir: "dist-electron",
       dts: false,
@@ -67,6 +71,7 @@ export default defineConfig({
       ...(shouldLaunchElectronAfterPack ? { onSuccess: "node scripts/dev-electron.mjs" } : {}),
     },
     {
+      plugins: [vibelangRolldown()],
       format: "cjs",
       outDir: "dist-electron",
       dts: false,
@@ -87,6 +92,7 @@ export default defineConfig({
       },
     },
     {
+      plugins: [vibelangRolldown()],
       // boot.cjs requires the other two at runtime, so all three stay separate files.
       format: "cjs",
       outDir: "dist-electron",
@@ -100,6 +106,7 @@ export default defineConfig({
       },
     },
     {
+      plugins: [vibelangRolldown()],
       format: "cjs",
       outDir: "dist-electron",
       dts: false,
@@ -113,6 +120,7 @@ export default defineConfig({
       },
     },
     {
+      plugins: [vibelangRolldown()],
       format: "cjs",
       outDir: "dist-electron",
       dts: false,
@@ -124,6 +132,7 @@ export default defineConfig({
       },
     },
     {
+      plugins: [vibelangRolldown()],
       format: "cjs",
       outDir: "dist-electron",
       dts: false,
@@ -132,6 +141,7 @@ export default defineConfig({
       entry: ["src/preview-pip-preload.ts"],
     },
     {
+      plugins: [vibelangRolldown()],
       // Sandboxed preloads must be self-contained, without shared runtime chunks.
       format: "cjs",
       outDir: "dist-electron",

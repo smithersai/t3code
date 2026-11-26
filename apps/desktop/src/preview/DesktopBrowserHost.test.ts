@@ -9,7 +9,7 @@ import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 import * as NodeEvents from "node:events";
 
-import * as DesktopBrowserHost from "./DesktopBrowserHost.ts";
+import * as DesktopBrowserHost from "./DesktopBrowserHost.vibe";
 
 const decodeEvent = Schema.decodeUnknownSync(Schema.fromJsonString(DesktopBrowserEvent));
 const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown));

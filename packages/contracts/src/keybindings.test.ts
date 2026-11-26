@@ -2,7 +2,7 @@ import { assert, it } from "@effect/vitest";
 import * as Schema from "effect/Schema";
 import * as Effect from "effect/Effect";
 
-import { ResolvedKeybindingsConfig } from "./keybindings.ts";
+import { ResolvedKeybindingsConfig } from "./keybindings.vibe";
 
 const decode = <S extends Schema.Top>(
   schema: S,

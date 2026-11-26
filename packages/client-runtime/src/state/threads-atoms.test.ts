@@ -20,23 +20,23 @@ import * as Stream from "effect/Stream";
 import * as SubscriptionRef from "effect/SubscriptionRef";
 import { Atom, AtomRegistry } from "effect/reactivity";
 
-import type { ConnectionCatalogEntry } from "../connection/catalog.ts";
-import * as EnvironmentRegistry from "../connection/registry.ts";
+import type { ConnectionCatalogEntry } from "../connection/catalog.vibe";
+import * as EnvironmentRegistry from "../connection/registry.vibe";
 import {
   AVAILABLE_CONNECTION_STATE,
   PrimaryConnectionTarget,
   type NetworkStatus,
   type PreparedConnection,
-} from "../connection/model.ts";
-import * as EnvironmentSupervisor from "../connection/supervisor.ts";
-import * as Persistence from "../platform/persistence.ts";
+} from "../connection/model.vibe";
+import * as EnvironmentSupervisor from "../connection/supervisor.vibe";
+import * as Persistence from "../platform/persistence.vibe";
 import type { WsRpcProtocolClient } from "../rpc/protocol.ts";
-import type { RpcSession } from "../rpc/session.ts";
-import { createEnvironmentThreadDetailAtoms } from "./threadDetail.ts";
+import type { RpcSession } from "../rpc/session.vibe";
+import { createEnvironmentThreadDetailAtoms } from "./threadDetail.vibe";
 import { v2Projection, v2ThreadId } from "./orchestrationV2TestFixtures.ts";
-import * as ThreadHistoryController from "./threadHistoryController.ts";
-import { createEnvironmentThreadStateAtoms, type EnvironmentThreadState } from "./threads.ts";
-import * as ThreadSnapshotLoader from "./threadSnapshotHttp.ts";
+import * as ThreadHistoryController from "./threadHistoryController.vibe";
+import { createEnvironmentThreadStateAtoms, type EnvironmentThreadState } from "./threads.vibe";
+import * as ThreadSnapshotLoader from "./threadSnapshotHttp.vibe";
 
 const TARGET = new PrimaryConnectionTarget({
   environmentId: EnvironmentId.make("environment-1"),

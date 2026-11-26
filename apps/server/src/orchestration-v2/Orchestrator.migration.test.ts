@@ -1,6 +1,6 @@
 import { assert, it } from "@effect/vitest";
 
-import { shouldPrepareLegacyImportHandoff } from "./Orchestrator.ts";
+import { shouldPrepareLegacyImportHandoff } from "./Orchestrator.vibe";
 
 it("reissues imported context until a V2 run completes", () => {
   assert.isTrue(

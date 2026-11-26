@@ -4,14 +4,14 @@ import {
 } from "@t3tools/contracts/relay";
 import { describe, expect, it } from "@effect/vitest";
 
-import { presentConnectionDiagnosis } from "./diagnosis.ts";
+import { presentConnectionDiagnosis } from "./diagnosis.vibe";
 import { mapManagedRelayError, mapRemoteEnvironmentError } from "./errors.ts";
 import {
   AVAILABLE_CONNECTION_STATE,
   type ConnectionAttemptError,
   type SupervisorConnectionState,
-} from "./model.ts";
-import { ManagedRelayRequestFailedError } from "../relay/managedRelay.ts";
+} from "./model.vibe";
+import { ManagedRelayRequestFailedError } from "../relay/managedRelay.vibe";
 import { RemoteEnvironmentAuthFetchError } from "../rpc/http.ts";
 
 const backoff = (lastFailure: ConnectionAttemptError): SupervisorConnectionState => ({

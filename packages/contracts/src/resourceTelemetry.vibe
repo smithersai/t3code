@@ -1,0 +1,455 @@
+import * as Schema from "effect/Schema"
+
+import { NonNegativeInt, PositiveInt, TrimmedNonEmptyString } from "./baseSchemas.vibe"
+import { HostPowerSnapshot } from "./background.vibe"
+import { DesktopUpdateStateSchema } from "./ipc.vibe"
+
+export const RESOURCE_MONITOR_PROTOCOL_VERSION = 3 as const
+
+export const HostResourcesSnapshot = Schema.Struct({
+  sampledAt: NonNegativeInt,
+  cpuUtilization: Schema.NullOr(Schema.Number.check(Schema.isBetween({ minimum: 0, maximum: 1 }))),
+  cpuCount: NonNegativeInt,
+  availableMemoryBytes: NonNegativeInt,
+  totalMemoryBytes: NonNegativeInt,
+})
+export type HostResourcesSnapshot = typeof HostResourcesSnapshot.Type
+
+export schema ResourceTelemetryIoSemantics = "storage" | "logical" | "all-io" | "unavailable"
+
+export schema ResourceTelemetryProcessCategory =
+  | "server"
+  | "server-child"
+  | "provider-root"
+  | "terminal-root"
+  | "electron-main"
+  | "electron-renderer"
+  | "electron-gpu"
+  | "electron-utility"
+  | "resource-monitor"
+  | "unknown-t3"
+
+export schema ResourceTelemetrySourceStatus = "starting" | "healthy" | "degraded" | "unavailable" | "stopped"
+
+export schema ResourceTelemetryProcessIdentity {
+  readonly pid: PositiveInt
+  readonly startTimeMs: NonNegativeInt
+}
+
+export const ResourceMonitorExternalProcess = Schema.Struct({
+  pid: PositiveInt,
+  startTimeMs: Schema.optionalKey(NonNegativeInt),
+})
+export type ResourceMonitorExternalProcess = typeof ResourceMonitorExternalProcess.Type
+
+export schema ResourceMonitorCapabilities {
+  readonly cumulativeCpuTime: boolean
+  readonly currentCpuPercent: boolean
+  readonly residentMemory: boolean
+  readonly virtualMemory: boolean
+  readonly ioBytes: boolean
+  readonly processStartTime: boolean
+  readonly processTree: boolean
+}
+
+export schema ResourceMonitorProcessSample {
+  readonly pid: PositiveInt
+  readonly ppid: NonNegativeInt
+  readonly startTimeMs: NonNegativeInt
+  readonly runTimeMs: NonNegativeInt
+  readonly name: string
+  readonly command: string
+  readonly status: string
+  readonly cpuPercent: number
+  readonly cpuTimeMs: NonNegativeInt
+  readonly residentBytes: NonNegativeInt
+  readonly virtualBytes: NonNegativeInt
+  readonly ioReadBytes: NonNegativeInt
+  readonly ioWriteBytes: NonNegativeInt
+  readonly ioSemantics: "storage" | "all-io"
+}
+
+export const ResourceMonitorConfigureCommand = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("configure"),
+  rootPid: PositiveInt,
+  sampleIntervalMs: NonNegativeInt,
+  externalProcesses: Schema.Array(ResourceMonitorExternalProcess),
+})
+export type ResourceMonitorConfigureCommand = typeof ResourceMonitorConfigureCommand.Type
+
+export const ResourceMonitorSetExternalProcessesCommand = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("setExternalProcesses"),
+  processes: Schema.Array(ResourceMonitorExternalProcess),
+})
+export type ResourceMonitorSetExternalProcessesCommand = typeof ResourceMonitorSetExternalProcessesCommand.Type
+
+export const ResourceMonitorSampleNowCommand = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("sampleNow"),
+  requestId: TrimmedNonEmptyString,
+})
+export type ResourceMonitorSampleNowCommand = typeof ResourceMonitorSampleNowCommand.Type
+
+export const ResourceMonitorProcessTableCommand = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("processTable"),
+  requestId: TrimmedNonEmptyString,
+})
+export type ResourceMonitorProcessTableCommand = typeof ResourceMonitorProcessTableCommand.Type
+
+export const ResourceMonitorSetSampleIntervalCommand = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("setSampleInterval"),
+  sampleIntervalMs: NonNegativeInt,
+})
+export type ResourceMonitorSetSampleIntervalCommand = typeof ResourceMonitorSetSampleIntervalCommand.Type
+
+export const ResourceMonitorSetStreamingCommand = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("setStreaming"),
+  enabled: Schema.Boolean,
+})
+export type ResourceMonitorSetStreamingCommand = typeof ResourceMonitorSetStreamingCommand.Type
+
+export const ResourceMonitorReadHistoryCommand = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("readHistory"),
+  requestId: TrimmedNonEmptyString,
+  windowMs: NonNegativeInt,
+})
+export type ResourceMonitorReadHistoryCommand = typeof ResourceMonitorReadHistoryCommand.Type
+
+export const ResourceMonitorShutdownCommand = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("shutdown"),
+})
+export type ResourceMonitorShutdownCommand = typeof ResourceMonitorShutdownCommand.Type
+
+export schema ResourceMonitorCommand =
+  | ResourceMonitorConfigureCommand
+  | ResourceMonitorSetExternalProcessesCommand
+  | ResourceMonitorSetSampleIntervalCommand
+  | ResourceMonitorSetStreamingCommand
+  | ResourceMonitorSampleNowCommand
+  | ResourceMonitorProcessTableCommand
+  | ResourceMonitorReadHistoryCommand
+  | ResourceMonitorShutdownCommand
+
+export const ResourceMonitorHelloEvent = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("hello"),
+  sidecarVersion: TrimmedNonEmptyString,
+  sidecarPid: PositiveInt,
+  platform: TrimmedNonEmptyString,
+  arch: TrimmedNonEmptyString,
+  capabilities: ResourceMonitorCapabilities,
+})
+export type ResourceMonitorHelloEvent = typeof ResourceMonitorHelloEvent.Type
+
+export const ResourceMonitorSnapshotEvent = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("snapshot"),
+  sequence: NonNegativeInt,
+  sampledAtUnixMs: NonNegativeInt,
+  collectionDurationMicros: NonNegativeInt,
+  scannedProcessCount: NonNegativeInt,
+  retainedProcessCount: NonNegativeInt,
+  inaccessibleProcessCount: NonNegativeInt,
+  requestId: Schema.optionalKey(TrimmedNonEmptyString),
+  externalProcesses: Schema.optionalKey(Schema.Array(ResourceMonitorExternalProcess)),
+  processes: Schema.Array(ResourceMonitorProcessSample),
+})
+export type ResourceMonitorSnapshotEvent = typeof ResourceMonitorSnapshotEvent.Type
+
+export schema ResourceMonitorProcessTableEntry {
+  readonly pid: PositiveInt
+  readonly ppid: NonNegativeInt
+  readonly name: string
+}
+
+export const ResourceMonitorProcessTableEvent = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("processTable"),
+  requestId: TrimmedNonEmptyString,
+  processes: Schema.Array(ResourceMonitorProcessTableEntry),
+})
+export type ResourceMonitorProcessTableEvent = typeof ResourceMonitorProcessTableEvent.Type
+
+export const ResourceMonitorHistoryChunkEvent = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("historyChunk"),
+  requestId: TrimmedNonEmptyString,
+  done: Schema.Boolean,
+  snapshots: Schema.Array(ResourceMonitorSnapshotEvent),
+})
+export type ResourceMonitorHistoryChunkEvent = typeof ResourceMonitorHistoryChunkEvent.Type
+
+export const ResourceMonitorErrorEvent = Schema.Struct({
+  version: Schema.Literal(RESOURCE_MONITOR_PROTOCOL_VERSION),
+  type: Schema.Literal("error"),
+  code: TrimmedNonEmptyString,
+  message: TrimmedNonEmptyString,
+  recoverable: Schema.Boolean,
+})
+export type ResourceMonitorErrorEvent = typeof ResourceMonitorErrorEvent.Type
+
+export schema ResourceMonitorEvent =
+  | ResourceMonitorHelloEvent
+  | ResourceMonitorSnapshotEvent
+  | ResourceMonitorProcessTableEvent
+  | ResourceMonitorHistoryChunkEvent
+  | ResourceMonitorErrorEvent
+
+export schema DesktopElectronProcessType =
+  | "Browser"
+  | "Tab"
+  | "Utility"
+  | "Zygote"
+  | "Sandbox helper"
+  | "GPU"
+  | "Pepper Plugin"
+  | "Pepper Plugin Broker"
+  | "Unknown"
+
+export const DesktopElectronProcessMetric = Schema.Struct({
+  pid: PositiveInt,
+  creationTimeMs: NonNegativeInt,
+  type: DesktopElectronProcessType,
+  name: Schema.optionalKey(Schema.String),
+  serviceName: Schema.optionalKey(Schema.String),
+  cpuPercent: Schema.Number,
+  cumulativeCpuSeconds: Schema.optionalKey(Schema.Number),
+  idleWakeupsPerSecond: Schema.Number,
+  workingSetBytes: NonNegativeInt,
+  peakWorkingSetBytes: NonNegativeInt,
+})
+export type DesktopElectronProcessMetric = typeof DesktopElectronProcessMetric.Type
+
+const DesktopHostPowerSnapshot = Schema.Struct({
+  ...HostPowerSnapshot.fields,
+  updatedAt: Schema.DateTimeUtcFromString,
+})
+
+export const DesktopHostTelemetrySnapshot = Schema.Struct({
+  version: Schema.Literal(1),
+  type: Schema.Literal("desktopTelemetry"),
+  sequence: NonNegativeInt,
+  sampledAtUnixMs: NonNegativeInt,
+  electronPid: PositiveInt,
+  power: DesktopHostPowerSnapshot,
+  speedLimitPercent: Schema.OptionFromNullOr(Schema.Number),
+  electronProcesses: Schema.Array(DesktopElectronProcessMetric),
+})
+export type DesktopHostTelemetrySnapshot = typeof DesktopHostTelemetrySnapshot.Type
+
+export schema DesktopHostTelemetryHello {
+  readonly version: 1
+  readonly type: "desktopTelemetryHello"
+  readonly electronPid: PositiveInt
+}
+
+export schema DesktopUpdateRemoteOutcome = "ready-to-install" | "up-to-date" | "failed"
+
+export const DesktopUpdateStatusReport = Schema.Struct({
+  version: Schema.Literal(1),
+  type: Schema.Literal("desktopUpdateStatus"),
+  requestId: Schema.optionalKey(TrimmedNonEmptyString),
+  outcome: Schema.optionalKey(DesktopUpdateRemoteOutcome),
+  reason: Schema.optionalKey(TrimmedNonEmptyString),
+  state: DesktopUpdateStateSchema,
+})
+export type DesktopUpdateStatusReport = typeof DesktopUpdateStatusReport.Type
+
+export schema DesktopHostTelemetryMessage =
+  | DesktopHostTelemetryHello
+  | DesktopHostTelemetrySnapshot
+  | DesktopUpdateStatusReport
+
+export schema DesktopTelemetrySetDiagnosticsDemand {
+  readonly version: 1
+  readonly type: "setDiagnosticsDemand"
+  readonly enabled: boolean
+}
+
+export schema DesktopTelemetrySetHostPowerIntervals {
+  readonly version: 1
+  readonly type: "setHostPowerIntervals"
+  readonly activeIntervalMs: PositiveInt
+  readonly idleIntervalMs: PositiveInt
+}
+
+/** Runs check/download/quit-and-install without local confirmation; the remote RPC click supplies consent. */
+export schema DesktopTelemetryRequestDesktopUpdate {
+  readonly version: 1
+  readonly type: "requestDesktopUpdate"
+  readonly requestId: TrimmedNonEmptyString
+}
+
+export schema DesktopTelemetryCommitDesktopUpdate {
+  readonly version: 1
+  readonly type: "commitDesktopUpdate"
+  readonly requestId: TrimmedNonEmptyString
+}
+
+export schema DesktopTelemetryCancelDesktopUpdate {
+  readonly version: 1
+  readonly type: "cancelDesktopUpdate"
+  readonly requestId: TrimmedNonEmptyString
+}
+
+export schema DesktopTelemetryControlMessage =
+  | DesktopTelemetrySetDiagnosticsDemand
+  | DesktopTelemetrySetHostPowerIntervals
+  | DesktopTelemetryRequestDesktopUpdate
+  | DesktopTelemetryCommitDesktopUpdate
+  | DesktopTelemetryCancelDesktopUpdate
+
+export const ResourceTelemetryProcess = Schema.Struct({
+  identity: ResourceTelemetryProcessIdentity,
+  ppid: NonNegativeInt,
+  childPids: Schema.Array(PositiveInt),
+  depth: NonNegativeInt,
+  name: Schema.String,
+  command: Schema.String,
+  status: Schema.String,
+  category: ResourceTelemetryProcessCategory,
+  electronType: Schema.optionalKey(DesktopElectronProcessType),
+  electronServiceName: Schema.optionalKey(Schema.String),
+  cpuPercent: Schema.Number,
+  cpuTimeMs: NonNegativeInt,
+  residentBytes: NonNegativeInt,
+  peakResidentBytes: NonNegativeInt,
+  virtualBytes: NonNegativeInt,
+  ioReadBytes: NonNegativeInt,
+  ioWriteBytes: NonNegativeInt,
+  ioReadBytesPerSecond: Schema.Number,
+  ioWriteBytesPerSecond: Schema.Number,
+  ioSemantics: ResourceTelemetryIoSemantics,
+  idleWakeupsPerSecond: Schema.optionalKey(Schema.Number),
+  runTimeMs: NonNegativeInt,
+  firstSeenAt: Schema.DateTimeUtc,
+  lastSeenAt: Schema.DateTimeUtc,
+})
+export type ResourceTelemetryProcess = typeof ResourceTelemetryProcess.Type
+
+export schema ResourceTelemetryAggregate {
+  readonly processCount: NonNegativeInt
+  readonly currentCpuPercent: number
+  readonly cpuTimeMs: NonNegativeInt
+  readonly currentRssBytes: NonNegativeInt
+  readonly peakRssBytes: NonNegativeInt
+  readonly ioReadBytes: NonNegativeInt
+  readonly ioWriteBytes: NonNegativeInt
+  readonly ioReadBytesPerSecond: number
+  readonly ioWriteBytesPerSecond: number
+  readonly processStarts: NonNegativeInt
+  readonly processExits: NonNegativeInt
+}
+
+export schema ResourceTelemetryGroups {
+  readonly backend: ResourceTelemetryAggregate
+  readonly electron: ResourceTelemetryAggregate
+  readonly monitor: ResourceTelemetryAggregate
+  readonly allT3: ResourceTelemetryAggregate
+}
+
+export const ResourceTelemetrySourceHealth = Schema.Struct({
+  status: ResourceTelemetrySourceStatus,
+  lastSampleAt: Schema.Option(Schema.DateTimeUtc),
+  lastError: Schema.Option(TrimmedNonEmptyString),
+})
+export type ResourceTelemetrySourceHealth = typeof ResourceTelemetrySourceHealth.Type
+
+export const ResourceTelemetryHealth = Schema.Struct({
+  native: ResourceTelemetrySourceHealth,
+  desktop: ResourceTelemetrySourceHealth,
+  sidecarVersion: Schema.Option(TrimmedNonEmptyString),
+  sidecarPid: Schema.Option(PositiveInt),
+  restartCount: NonNegativeInt,
+  collectionDurationMicros: NonNegativeInt,
+  scannedProcessCount: NonNegativeInt,
+  retainedProcessCount: NonNegativeInt,
+  inaccessibleProcessCount: NonNegativeInt,
+})
+export type ResourceTelemetryHealth = typeof ResourceTelemetryHealth.Type
+
+export schema ResourceAttributionEntry {
+  readonly component: TrimmedNonEmptyString
+  readonly operation: TrimmedNonEmptyString
+  readonly logicalReadBytes: NonNegativeInt
+  readonly logicalWriteBytes: NonNegativeInt
+  readonly count: NonNegativeInt
+  readonly durationMs: NonNegativeInt
+}
+
+export schema ResourceAttributionSnapshot {
+  readonly readAt: Schema.DateTimeUtc
+  readonly entries: ReadonlyArray<ResourceAttributionEntry>
+}
+
+export const ResourceTelemetrySnapshot = Schema.Struct({
+  readAt: Schema.DateTimeUtc,
+  sampleIntervalMs: NonNegativeInt,
+  processes: Schema.Array(ResourceTelemetryProcess),
+  groups: ResourceTelemetryGroups,
+  power: HostPowerSnapshot,
+  speedLimitPercent: Schema.Option(Schema.Number),
+  attribution: ResourceAttributionSnapshot,
+  health: ResourceTelemetryHealth,
+})
+export type ResourceTelemetrySnapshot = typeof ResourceTelemetrySnapshot.Type
+
+export schema ResourceTelemetryHistoryInput {
+  readonly windowMs: NonNegativeInt
+  readonly bucketMs: NonNegativeInt
+}
+
+export schema ResourceTelemetryHistoryBucket {
+  readonly startedAt: Schema.DateTimeUtc
+  readonly endedAt: Schema.DateTimeUtc
+  readonly avgCpuPercent: number
+  readonly maxCpuPercent: number
+  readonly maxRssBytes: NonNegativeInt
+  readonly ioReadBytes: NonNegativeInt
+  readonly ioWriteBytes: NonNegativeInt
+  readonly maxProcessCount: NonNegativeInt
+}
+
+export schema ResourceTelemetryProcessSummary {
+  readonly identity: ResourceTelemetryProcessIdentity
+  readonly ppid: NonNegativeInt
+  readonly depth: NonNegativeInt
+  readonly name: string
+  readonly command: string
+  readonly category: ResourceTelemetryProcessCategory
+  readonly firstSeenAt: Schema.DateTimeUtc
+  readonly lastSeenAt: Schema.DateTimeUtc
+  readonly currentCpuPercent: number
+  readonly avgCpuPercent: number
+  readonly maxCpuPercent: number
+  readonly cpuTimeMs: NonNegativeInt
+  readonly currentRssBytes: NonNegativeInt
+  readonly peakRssBytes: NonNegativeInt
+  readonly ioReadBytes: NonNegativeInt
+  readonly ioWriteBytes: NonNegativeInt
+  readonly ioSemantics: ResourceTelemetryIoSemantics
+  readonly sampleCount: NonNegativeInt
+}
+
+export schema ResourceTelemetryHistory {
+  readonly readAt: Schema.DateTimeUtc
+  readonly windowMs: NonNegativeInt
+  readonly bucketMs: NonNegativeInt
+  readonly sampleIntervalMs: NonNegativeInt
+  readonly retainedSampleCount: NonNegativeInt
+  readonly buckets: ReadonlyArray<ResourceTelemetryHistoryBucket>
+  readonly topProcesses: ReadonlyArray<ResourceTelemetryProcessSummary>
+  readonly health: ResourceTelemetryHealth
+}
+
+export schema ResourceTelemetryRetryResult {
+  readonly accepted: boolean
+  readonly snapshot: ResourceTelemetrySnapshot
+}
