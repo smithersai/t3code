@@ -62,14 +62,14 @@ export schema WorkspacePathsError =
 
 export service WorkspacePaths {
   static readonly key = "t3/workspace/WorkspacePaths"
-  normalizeWorkspaceRoot: (
+  readonly normalizeWorkspaceRoot: (
     workspaceRoot: string,
     options?: { readonly createIfMissing?: boolean },
   ) => string!(| WorkspaceRootNotExistsError
     | WorkspaceRootCreateFailedError
     | WorkspaceRootStatFailedError
     | WorkspaceRootNotDirectoryError)
-  resolveRelativePathWithinRoot: (input: {
+  readonly resolveRelativePathWithinRoot: (input: {
     workspaceRoot: string
     relativePath: string
   }) => { absolutePath: string; relativePath: string }!WorkspacePathOutsideRootError

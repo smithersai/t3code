@@ -5,7 +5,7 @@ import * as Layer from "effect/Layer"
 
 export service BrowserTraceCollector {
   static readonly key = "t3/observability/BrowserTraceCollector"
-  record: (records: ReadonlyArray<TraceRecord>) => void!!
+  readonly record: (records: ReadonlyArray<TraceRecord>) => void!!
 }
 
 /** @public */

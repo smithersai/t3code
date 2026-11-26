@@ -58,14 +58,14 @@ export schema ElectronSafeStorageError =
 
 export service ElectronSafeStorage {
   static readonly key = "@t3tools/desktop/electron/ElectronSafeStorage"
-  isEncryptionAvailable: boolean!ElectronSafeStorageAvailabilityError
-  encryptString: (
+  readonly isEncryptionAvailable: boolean!ElectronSafeStorageAvailabilityError
+  readonly encryptString: (
     value: string,
   ) => Uint8Array!ElectronSafeStorageEncryptError
-  decryptString: (
+  readonly decryptString: (
     value: Uint8Array,
   ) => string!ElectronSafeStorageDecryptError
-  selectedStorageBackend: Option.Option<string>!!
+  readonly selectedStorageBackend: Option.Option<string>!!
 }
 
 /** @public */

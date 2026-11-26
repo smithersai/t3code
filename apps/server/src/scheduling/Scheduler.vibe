@@ -7,7 +7,7 @@ import { forkParked } from "../serverActivation.vibe"
 
 export service Scheduler {
   static readonly key = "t3/scheduling/Scheduler"
-  register: <E, R>(
+  readonly register: <E, R>(
     name: string,
     runDueWork: void!E!R,
   ) => void!never!(R | Scope.Scope)

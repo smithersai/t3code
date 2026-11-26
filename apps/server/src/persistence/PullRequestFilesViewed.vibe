@@ -10,11 +10,11 @@ import { SourceControlProviderKind } from "@t3tools/contracts"
 import { PersistenceDecodeError, PersistenceSqlError, type PullRequestFilesViewedRepositoryError } from "./Errors.vibe"
 
 export schema PullRequestFilesViewedScope {
-  provider: SourceControlProviderKind
-  host: string
-  repository: string
-  number: Schema.Int
-  viewer: string
+  readonly provider: SourceControlProviderKind
+  readonly host: string
+  readonly repository: string
+  readonly number: Schema.Int
+  readonly viewer: string
 }
 
 export const PullRequestFileViewedMark = Schema.Struct({
@@ -38,10 +38,10 @@ export interface PullRequestFilesViewedPage {
 
 export service PullRequestFilesViewedRepository {
   static readonly key = "t3/persistence/PullRequestFilesViewed/PullRequestFilesViewedRepository"
-  list: (
+  readonly list: (
     input: PullRequestFilesViewedScope,
   ) => PullRequestFilesViewedPage!PullRequestFilesViewedRepositoryError
-  set: (
+  readonly set: (
     input: SetPullRequestFilesViewedInput,
   ) => void!PullRequestFilesViewedRepositoryError
 }
