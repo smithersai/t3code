@@ -114,8 +114,6 @@ async function prepareStreamScripts() {
   }
 }
 
-config.resolver.sourceExts = [...new Set([...config.resolver.sourceExts, "vibe"])];
-config.transformer.babelTransformerPath = require.resolve("./vibe-transformer.cjs");
 
 module.exports = require("vibelang/metro").withVibeLang(
   Promise.all([generateMobileThirdPartyLicenses(), prepareStreamScripts()]).then(() =>
